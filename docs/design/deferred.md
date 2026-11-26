@@ -37,24 +37,6 @@ I deferred a native video device, a native sound path and a bit-block-transfer a
 
 **3.17.2** (moved from chapter 3) The mechanism that is decided is the shadowed registers and the one `ARM` write of 3.8.9; everything else in this section is a candidate.
 
-## I.6 Chapter 6: The kernel: modes, exceptions and memory management
-
-**6.9.2** (moved from chapter 6, the direct-mapping windows) I decided that the format of the direct-mapping windows is deferred (from my principle): `DMW0` and `DMW1` (system registers 4 and 5) stay stored-only registers in System v1, and their format is defined when a kernel needs a window, not before. The body keeps the decided half: the registers are stored and have no effect on translation. What follows is the sketch that the text carried, and it is not decided.
-
-A **direct-mapping window** (DMW: a range of virtual addresses that the hardware maps to a range of physical addresses by one addition, with no page table and no translation-buffer entry) lets the kernel reach all of physical memory (to write a page it has just allocated, a DMA descriptor or a page table) and the memory of devices, where walking tables is slow and uses buffer entries. The instruction-set text sketches two windows, `DMW0` and `DMW1`, each with a virtual base, a size and a memory type, kernel only, translating as `PA = VA − VirtualBase + PhysicalBase`. It gives three reasons: the kernel stops taking translation misses on its own text and data; physical memory is reachable without mapping it; and early boot becomes simple (`docs/pdp64-isa.md` section 8.3). The idea is LoongArch's `DMW` registers, a tidier descendant of MIPS's fixed `KSEG0` region (whose behaviour on the real machine is *unverified* here). My remark (2026-11-09) was "good thing we already had dmw in the design!": the kernel need not walk anything to reach petabytes of physical memory or a deep table.
-
-The architecture document says that the machine comes up with `DMW0` covering physical memory. That sentence is superseded for System v1: `MMUCTL` is zero at reset and every address is physical.
-
-*Lineage (moved from 6.9).* **Between:** MIPS had the fixed `KSEG0` region (*unverified*); LoongArch added the `DMW` registers (my referent). **pdp64:** MIPS's fixed region generalised to two windows; a kernel that wants more regions than two windows maps them with large pages. The cost is one comparator pair and one adder per window.
-
-*Impact (moved from 6.9).* The kernel stops taking translation misses on its own text and data, physical memory and a petabyte-scale device are reachable with no page table, and the first page table is easy to build, because the windows reach the memory it is built in. *Kernel:* physical memory is reachable by addition; the windows serve the copy of a page, a DMA buffer, a page-table page and early boot. *Hardware:* one comparator pair and one adder per window.
-
-The wide page-table entry (entry J.6.2) and the fetch after the write that enables translation (entry J.6.6) are two questions that a window would answer, and the deferral therefore bears on them.
-
-## I.9 Chapter 9: The instruction set
-
-**9.20 commentary** (moved from chapter 9) The direct-mapping windows that LoongArch uses to avoid translation-buffer misses on kernel text are deferred: `DMW0` and `DMW1` are stored and have no effect on translation, and their format is defined when a kernel needs a window (6.9.2, and the deferred matter of chapter 6 in appendix I).
-
 ## I.A Appendix A: Improvements beyond the PDP-11
 
 **A.4.2** (moved from appendix A) Return-address authentication is deferred.

@@ -22,7 +22,7 @@
 * [B.2.3 Double-width compare-and-swap and a random-number instruction (P8, P9)](proposed.md#b23-double-width-compare-and-swap-and-a-random-number-instruction-p8-p9)
 * [B.2.4 The interrupt controller and routing to cores (R1)](proposed.md#b24-the-interrupt-controller-and-routing-to-cores-r1)
 * [B.2.5 Inter-processor interrupts and starting other cores (R2, B2)](proposed.md#b25-inter-processor-interrupts-and-starting-other-cores-r2-b2)
-* [B.2.6 How coherence scales (R3)](proposed.md#b26-how-coherence-scales-r3) See also the open entry [J.9.11](open-items.md#j911).
+* [B.2.6 How coherence scales (R3)](proposed.md#b26-how-coherence-scales-r3) See also the open entry [J.9.8](open-items.md#j98).
 * [B.2.8 The device layout and the descriptor (R5)](proposed.md#b28-the-device-layout-and-the-descriptor-r5)
 * [B.2.10 Errors raised by devices and the bus (R7)](proposed.md#b210-errors-raised-by-devices-and-the-bus-r7)
 * [B.2.11 Virtualisation (R8)](proposed.md#b211-virtualisation-r8)

@@ -1,5 +1,36 @@
 # Should the pdp64 have flags at all? The no-flags experiment
 
+## Repeating the measurement: `tools/measure-flags.sh`
+
+The measurement below was first made by hand, in an experiment (sections 1 to 8, kept as the record of that run: its numbers are those of 2026-11-26 and of the compiler variant of `noflags-peep.patch`). The flags were then removed from the machine (commit d4362464), and the measurement is now one script that repeats it from a clean checkout; **the numbers the manual cites are those of the script**, in `results-final.txt` (read by `tools/mkmanual.py` through `@@MEASURE:key@@`; `tools/check-manual-src.py` and `mkmanual.py --check` fail if a cited key is missing) and, as tables, `results-final.md`.
+
+```
+tools/measure-flags.sh                         # the full run: about 30 seconds on 12 processors, writes results-final.txt and results-final.md here
+tools/measure-flags.sh --corpus-subset 40      # a quick run (about 40 files, every third program), about 25 seconds, written to /tmp
+tools/measure-flags.sh --jobs 4 --out /tmp/x   # options: --jobs N, --corpus-subset N, --out PREFIX, --keep (keep the scratch directory)
+```
+
+What it does:
+
+1. **Base side** (the flags still there): the pdp64 tools of commit `8d8d07f6` (the parent of d4362464) and pcc `82d5006b` (the last commit before 7e1bf616, which stopped emitting flag instructions), pcc built as the experiment built it (32 registers, `-DPDP64_REGS32`, run with `-m pdp64/32`). **Now side**: this repository's HEAD (as64, ld64, sim64) and pcc's HEAD (`../pcc`). Both sides are made from `git archive` into a scratch directory under `/tmp`; no working tree or its `build/` is read or written, and the scratch directory is removed at the end.
+2. The same corpus goes through both sides, the **same preprocessed text** to both compilers: the OpenBSD files of `scripts/measure.py` (libz, libc, `sys/crypto`, libm, the `usr.bin` programs and more: 1,104 files tried; pcc compiles about 625), `tests/c`, `tests/c-new` and `docs/encoding-work/bench/sc/src` of the base commit. Each file is assembled by that side's `as64` plain (`--no-relax`) and relaxed (the text size after `ld64` linked the object alone against stubs); static instructions and bytes are summed over the files **both** sides compile, and the mnemonics are counted by kind.
+3. The 36 programs that run (zlib, the cryptographic hashes, the libc sorts and strings, the eight `bench/sc` programs, 24 small tests) are linked with the same `scripts/run/crt.s` and `main.c` and run on each side's `sim64` with four timing presets (`scalar`, `dual`, `scalar-c`, `dual-c`: `tools/timing.py`); instructions executed, bytes fetched and cycles are summed, and **every program must print the same on both sides** (the result says how many do).
+4. Then `results-final.txt` (the pinned commits, tool versions, every number) and `results-final.md` (the tables) are written. Two runs give identical files (checked: three runs).
+
+It needs: `gcc` and `python3`, `git`, an `hbnf` binary to generate the assembler's parser (`HBNF` and `HBNF_TEMPLATES`; default `/tmp/hbnf-latest/hbnf`, else `/tmp/hbnf` with `../hbnf/templates`; `tools/build-hbnf.sh` builds one), the OpenBSD sources (`OPENBSD_SRC`, default `../openbsd-src`) and `../pcc` (`PCC`). The pins can be overridden with `BASE_PDP`, `BASE_PCC`, `NOW_PDP`, `NOW_PCC`; a result made with other pins says so.
+
+Two things to know when reading the result:
+
+* **The cycles are the weaker figures.** The two sides run on two different simulators (the timing model and the linked layout changed with the instruction set), so cycles are not compared on one machine as they were in the experiment. The script runs a control: the programs whose compiled code is the same text on both sides (12 of 36 at the time of writing) still differ by 1.8% (scalar) and 5.9% (dual) in cycles, which is the simulator and the layout, not the compiler. Instructions executed and bytes fetched do not have this effect.
+* **The stand-in headers.** The experiment's own directory of `<machine/...>` headers was not kept; the script uses the amd64 headers of the OpenBSD tree (little-endian LP64), and the corpus then is 624 files (the experiment had 622; the groups agree but sys/crypto, 24 against 23). The base compiler is the later pcc `82d5006b`, so totals differ a little from the experiment's tables below (165,978 instructions against 171,249).
+* The script measures the real flag-free compiler and machine, not the experiment's variant: it includes the floating-point compare-and-branch, `setCC`, the long forms of the unsigned compare-and-branch and the flag-free fallback, which the experiment estimated.
+
+Helpers: `scripts/measure.py` (corpus, programs, tables), `scripts/prog/`, `scripts/run/`, `scripts/inc2/`, `scripts/prelude.h` (inputs). The other scripts of `scripts/` are the experiment's own, with the paths of its machine.
+
+---
+
+# The no-flags experiment as first run (the record)
+
 Run on 2026-11-26 as the experiment of `docs/encoding-work/instruction-pass.md`, section C11: make the compiler form a compare-and-branch (`cbCC`) for **every** integer comparison, never emit an instruction that reads the flags, assemble the same corpus, count bytes and instructions, then run programs. The test written there: **under about 1% more bytes and fewer instructions executed: flags are a feature kept for heritage alone; several percent more bytes: they earn their place.** Nothing in the main tree, `../pcc`, `../llvm-pdp64` or the shared `build/` was touched: the work was done in a git worktree of HEAD (`as64`, `ld64`, `sim64`, `encdis` built there) and on a copy of `../pcc` (the 32-register `ccom`, `-m pdp64/32`, every optimisation on by default), all under `/tmp`. The plain-words page is `../../flags-experiment.md`.
 
 ## 1. Verdict (against the pass's own test)

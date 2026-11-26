@@ -28,12 +28,12 @@ The layout of a source file is the V7 assembler's, `as`; the lexical rules are C
 - **Registers.** `r0`..`r31`; `sp` is `r14`, `fp` is `r13`; `r7` is an ordinary register. `pc` and `dp` appear only as a base: `d(pc)`, `d(dp)`.
 - **Operand modes** (manual chapter 9, addressing modes): `rN`; `#expr`; `@expr`; `expr(rN)` and `(rN)`; `expr(rN)(rX*s)` with `s` 1, 2, 4 or 8; `expr(pc)`; `expr(dp)`;
   `(rN)+` and `(rN)+d`; `-(rN)` and `(rN)-d`; a bare expression is a PC-relative reference.
-- **Mnemonics** are lowercase (`movq`, `add`, `bne`). A multi-register instruction writes its destination last: `add src, rd`, `xnorpop ra, rb, rd`.
-  `cmp` is the exception, `cmp rd, src`, because the encoding computes `rd - src`.
+- **Mnemonics** are lowercase (`movq`, `add`, `cbne`). A multi-register instruction writes its destination last: `add src, rd`, `xnorpop ra, rb, rd`.
+  The compare-and-branch family is the exception: it names its operands in the order of the comparison, `cblt ra, rb, label` (see below). There is no `cmp` and no flag branch: the machine has no flags.
 - **Compare and branch.** `cbCC rd, #imm, label` compares `rd` with an immediate and branches on the condition: `cbeq r3, #5, label`. The mnemonics are the `cb` forms of the condition codes and the aliases of the branch group (manual chapter 9, compare-and-branch). With a register as the second operand, `cbCC ra, rb, label` compares two registers (`cbeq r1, r2, label`) and the assembler picks the length.
   `ror32 rs, #n, rd` rotates the low 32 bits right and sign-extends the result (manual chapter 9, rotates). A wide immediate is accepted (`cbeq r3, #255, label`); the assembler chooses the shortest form that holds the immediate and the distance, and refuses a combination no form holds (reaches: the generated tables).
 - **Literal pool: `=expr`.** An operand written with a leading `=` is syntactic sugar for a pooled constant and nothing more: `movq =0x123456789ABC, r1` puts the 64-bit value in the literal pool and loads it with
-  one PC-relative `movq`. It is accepted where a quad memory source is (`movq`, `push`, the ALU group with the register first for `cmp`: `cmp rd, =K`, and the floating-point ALU ops), and refused for sized moves, shifts, stores,
+  one PC-relative `movq`. It is accepted where a quad memory source is (`movq`, `push`, the ALU group and the floating-point ALU ops), and refused for sized moves, shifts, stores,
   `lea` and a relocatable symbol. `=` always pools, even a small value; use `#imm` for a constant that fits the signed 32-bit field. A bare `#K` that no form of the instruction holds is an error (use `=K` to load it from the literal pool; `movq #K, rd` holds any 64-bit constant):
   the assembler never pools silently. Entries are 8 bytes, 8-byte aligned, one per distinct value per pool, in order of first use, emitted into `.text` at the end of the section or at the directive `.pool` (flush now; code must
   jump over a mid-section pool). The `=` marks the sugar on the page, which is why it is allowed.
@@ -52,4 +52,4 @@ are instructions of the encoding: the assembler writes them as they are, in the 
 `__bug_table`: the address of the instruction and of the file-name string, each as a distance from its own field (relocation `R_PDP64_D32_PC`), the line and the flags, 16 bits each; Linux's
 `struct bug_entry` with relative pointers.  The file name is a string in `.data`, one for each name.  `.chk KIND, "file", LINE` before a check gives its place and kind (1 bounds, 2 null, 3 range,
 4 assertion; kept in bits 5 to 7 of the flags); without it the record has kind 0, the assembly source's name and the line of the instruction.  `.bugrec SITE, FILE, LINE, FLAGS` writes a record by
-hand.  `ld64` puts the table read-only after `.text` and defines `__start___bug_table` and `__stop___bug_table` for a program that names them.  Flags are not touched by any of these.
+hand.  `ld64` puts the table read-only after `.text` and defines `__start___bug_table` and `__stop___bug_table` for a program that names them.  None of these writes a register.

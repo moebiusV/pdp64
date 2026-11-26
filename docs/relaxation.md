@@ -98,9 +98,9 @@ prints the sites by category and the bytes they gained; `--dump-map` writes, per
 
 ## 4. The reaches
 
-The reach of each form is the signed field of its leaf in the grammar `spec/pdp64/pdp64.hbnf` times the unit; the generated tables (`spec/pdp64/tables.md`, the manual dictionary) list every form and its field, and this note does not repeat them, because the encoding may still change. A pc-relative field counts parcels (2 bytes) for calls and branches and bytes for memory operands.  The shape of the answer, which is what the linker relies on: `call`, `jmp`, `movcall`, `br`, `bCC`, `cbCC` and `sob` have 2-byte (some), 4-byte and 6-byte forms with growing reach, the 6-byte forms reaching +-2 GB; `lea sym`, `movq sym, rd` and the ALU `sym, rd` forms have 4-byte forms of short reach and a 6-byte form with a 32-bit pc-relative or absolute field; `cbCC` has no 2-byte external form.
+The reach of each form is the signed field of its leaf in the grammar `spec/pdp64/pdp64.hbnf` times the unit; the generated tables (`spec/pdp64/tables.md`, the manual dictionary) list every form and its field, and this note does not repeat them, because the encoding may still change. A pc-relative field counts parcels (2 bytes) for calls and branches and bytes for memory operands.  The shape of the answer, which is what the linker relies on: `call`, `br` (and `jmp label`, which is `br label`), `movcall`, `cbCC` and `sob` have 2-byte (some), 4-byte and 6-byte forms with growing reach, the 6-byte forms reaching +-2 GB; `lea sym`, `movq sym, rd` and the ALU `sym, rd` forms have 4-byte forms of short reach and a 6-byte form with a 32-bit pc-relative or absolute field; `cbCC` has no 2-byte external form.
 
-Historical table (2026-11-04, taken from the grammars of the r20 / pdp64/16 / pdp64/32 period, before the `cbCC` re-optimisation of `docs/encoding-work/cbreach.md`; superseded, kept for the arithmetic of section 7):
+Historical table (2026-11-04, taken from the grammars of the r20 / pdp64/16 / pdp64/32 period, before the `cbCC` re-optimisation of `docs/encoding-work/cbreach.md` and before the flags and the flag branches (`bCC`) were removed; superseded, kept for the arithmetic of section 7):
 
 | instruction | forms (bytes: field bits, reach each way) pdp64/16 | pdp64/32 |
 |---|---|---|
@@ -121,8 +121,8 @@ Historical table (2026-11-04, taken from the grammars of the r20 / pdp64/16 / pd
 * There is no 2-byte `call`, `jmp`, `lea` or pc-relative load.  The shortest external call is 4 bytes.
 * Indirect calls (`calli`, `jmpi` through a pointer, a call through a register) are one parcel plus a pointer in memory and are not touched; there is no PLT, no GOT and no shared object.
 * The absolute forms (`@sym`, `#sym`) are relaxed when their value fits a shorter signed field (they do not, at `.text` 0x10000, below 2 KiB).
-* (Unverified for the current encoding, where `cbCC` has a long form of its own; true of the earlier iterations.) A `cbCC` that the assembler had to expand (`cmp` + `bCC`, because the target was external, far, or the immediate wide) stays expanded: the linker does not turn two
-  instructions back into one.
+* A `cbCC` that the assembler had to expand (the opposite `cbCC` over a `br` to the target, because the target was external or beyond the reach of the six-byte form) stays expanded: the linker does not turn two
+  instructions back into one. (Unverified against `ld64` for the current encoding, where `cbCC` has long forms of its own; the machine has no flag branch, so no `cmp` + `bCC` pair exists.)
 * An object with `NOADJ_TEXT` is not adjusted.  Only `.text` is adjusted; `.data` and `.bss` do not hold instructions.
 * A label that is immediately before an `.align` that happened to need 0 bytes of padding is placed *after* the padding if the padding becomes longer (the
   label and the end of a zero-length padding are the same offset).  Where the padding is more than 0 the label stays before it.  Nothing in the compiler's output has a

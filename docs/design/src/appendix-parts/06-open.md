@@ -1,29 +1,5 @@
 <a id="j61"></a>
-### J.6.1 Discovering the implemented widths
-
-**Issue.** An implementation chooses its physical address width (from 40 to 64 bits) and its number of page-table levels (3, 4 or 5, giving virtual addresses of 39, 48 or 57 bits). My requirement is that this be "discoverable easily at runtime", so that one kernel binary adapts to the machine without a build option. How software learns the two numbers is not specified: no register or field reports them. System registers 0 to 12 are defined and 13 upward are reserved. A feature register is a read-only register whose fields describe the hardware; a probe is a write of a value followed by a read of what stuck.
-
-**Why it matters.** The kernel must choose the walk depth and the width of every page number it writes. User code that tags pointers with spare high bits needs to know which bits are free: the top bit of the virtual address, which decides the canonical test, is bit 38, 47 or 56 according to the levels (6.9.1). The hardware cost is a few flip-flops. The body of 6.6 and statement 2.3.5 each carry a pointer to this entry. The same question covers the feature and identification registers that the numbers from 13 up would hold.
-
-**Options.**
-
-1. *A read-only feature register read by `MFSR`* (number 13), with fields for the physical bits, the maximum levels and the set of levels supported. For: one instruction in one place, no side effect and no mode change, room for later feature bits, and a read is always safe. Against: one register number and a few gates; privileged only, so user code that needs the canonical bit must ask the kernel (or see option 5); the layout is fixed forever once code depends on it.
-2. *Probe by write and read back* (the register accepts any write and holds only a legal value). The kernel writes the level count it wants into a field of `MMUCTL` and reads back; an unsupported value leaves the old one. The physical width is found by writing all ones to a field that holds a page number and reading what stuck. For: no new register, no new instruction. Against: a write with a side effect (it changes the translation mode, needs `ISYNC`, can crash if translation is on); the probe code is longer than one `MFSR`; the width probe needs a writable field of the right width, which may not exist; a probe is a place for error.
-3. *Both: a read-only register for what exists, and a writable field to choose.* The register reports the maximum and the set supported, as a bit mask with one bit per level count; a field in `MMUCTL` selects the number in use, legal only if its bit is set. For: one read to learn, one write to choose; the kernel may run three levels on a five-level machine for compatibility or to save walk cost; a bad write is detectable. Against: a register and a field, the most state of any option; whether a machine must support all lower level counts becomes a rule (three levels on every machine is what my "System v1" form implies, so the mask would say 3 always, 4 and 5 optional).
-4. *The boot ROM states the widths in the boot-information block and the processor reports nothing.* For: the block already lists the memory ranges and the root-complex address, so the early kernel reads it with the rest; the processor is unchanged. Against: the facts do not come from the hardware itself, and a stale or wrong block gives wrong widths that cannot be detected; useless to a second-stage loader run by hand or a bare-metal program that has no block.
-5. *An unprivileged read-only register or instruction* (a counterpart of x86's CPUID, readable in user mode). For: a JIT compiler or a pointer-tagging runtime learns the canonical bit without a system call; the information is not secret. Against: a new user-visible instruction, or an exception to the rule that system registers are privileged (6.2.5); a virtualiser or sandbox cannot hide it; it lets a program fingerprint the machine.
-6. *A profile number instead of fields.* One read-only identification register says "profile 1 is 3 levels and 40 bits, profile 2 is 4 levels and 48 bits", and the manual defines each profile. For: a few well-tested combinations in place of the 3 by 25 that would have to be verified. Against: every new width forces a new profile; the freedom "40 to 64 anywhere" is lost; the kernel needs a table.
-
-**Precedents.** x86 reports physical bits in bits 7:0 and virtual bits in bits 15:8 of CPUID leaf 0x80000008, and a 57-bit virtual address by the LA57 bit of leaf 7 *(verified: QEMU `target/i386/cpu.c`)*; CPUID is readable in user mode *(unverified)*. AArch64 reports the physical range in the PARange field of `ID_AA64MMFR0`, bits 3:0 *(verified: QEMU `target/arm/cpu-features.h`)*. LoongArch reports PALEN and VALEN in fields of `CPUCFG1` *(verified: QEMU `target/loongarch/cpu.h`)*. RISC-V's `satp` register ignores a write of an unsupported mode *(verified: QEMU `target/riscv/tcg/csr.c`)*, and QEMU keeps a bit mask of supported modes and checks the write against it *(verified: `target/riscv/cpu.c`)*; x86 turns on five-level paging by setting `CR4.LA57` only where CPUID reports it *(the CPUID bit verified, the control bit unverified)*. Linux on RISC-V and ARM learns the memory mode from the device tree the loader passes *(unverified)*; the VAX restart parameter block and the Alpha hardware restart parameter block carry machine parameters *(named in the boot chapter's sources)*. RISC-V profiles (RVA20, RVA22, RVA23) define sets of mandatory extensions *(unverified)*.
-
-**My referents.** "as long as this info is discoverable easily at runtime" (chosen); "good thing we already had dmw in the design!" (chosen); of LoongArch, "looking at loongarch64, they are pragmatic; what can we learn from them and adopt" and "what other parts of the design are effected if we have 5 level tlb like loongso[n]" (both considered); "what is the largest physical ram supported right now by any cpu? how many table levels?" (considered).
-
-**My leaning.** Option 1 first: a read-only `MMUCFG` at system register 13 with the physical bits, a mask of supported level counts and the virtual bits. It needs no probe, so a bad value cannot arise, and the number 13 is already reserved. The writable selector of option 3 is added only if I want a kernel to run fewer levels than the maximum. Option 2 would be the choice if I want no new register, and option 5 as a user-readable copy if user code needs the canonical bit.
-
-**Where the body refers to it.** Sections 2.3.5 and 6.6.1.
-
-<a id="j62"></a>
-### J.6.2 The page-table entry for wide physical addresses
+### J.6.1 The page-table entry for wide physical addresses
 
 **Issue.** The page-table entry is 64 bits, with the physical page number in bits 12 to 39 (28 bits, a 40-bit physical address) and bits 10, 11 and 40 to 63 reserved and zero. I have decided that the physical address may be anywhere from 40 to 64 bits and that the old rule of using bit 39 to tell device space from memory is gone, because "if we are going to mmap petabytes, we need those bits". A 64-bit physical address needs a 52-bit page number, bits 12 to 63, and that leaves no bit above bit 11 for any flag. The question is where the page number sits, how wide it may be, and where spare flag bits go. 2^52 bytes is 4 PiB and 2^64 bytes is 16 EiB.
 
@@ -35,19 +11,18 @@
 2. *Cap the page number at 40 bits (a physical address of 52 bits), in place at bits 12 to 51, with bits 52 to 63 for flags and software.* For: twelve spare bits and 4 PiB of reach, which already covers "petabytes"; room for protection. Against: it contradicts "up to full 64 bit", which becomes "40 to 52 in page tables"; a device mapped above 2^52 cannot go through a page table (see option 5).
 3. *Move the page number down to bit 10, as RISC-V does.* The page number occupies bits 10 to 61 (52 bits) and bits 62 and 63 are free. For: a 64-bit address fits and two bits remain at the top. Against: the physical address is `(pte >> 10) << 12`, one more step in the walker and the kernel; every existing entry format is rewritten; only two spare bits, and a 64-bit device address still uses all of them; no gain in reach over option 2 if option 2's cap is accepted.
 4. *Keep the 64-bit entry, but the page-number width equals the implemented physical width.* Bits above the implemented width are reserved and must be zero, and the spare bits are defined only as "the bits above the physical width". For: a 40-bit machine keeps bits 40 to 63 for future flags, a 64-bit machine has none; one format with varying free space; a reserved-bit fault is a good detector. Against: the position of a flag depends on the implementation, so code that uses a spare bit works on 40-bit machines and not on 64-bit ones; the detection works only above the implemented width.
-5. *Page tables reach 52 bits (option 2), and everything above is reached by the direct-mapping windows* `DMW0` and `DMW1`, whose physical base is a full 64-bit field. A direct-mapping window (appendix I, 6.9.2) maps a range of virtual addresses to a range of physical addresses with no table walk. For: "good thing we already had dmw in the design!"; one window maps a petabyte-scale device or a very large memory without any entry, and the entries keep their spare bits. Against: only two windows; user processes cannot map above 2^52, because a window is kernel-only; the window format, which I have deferred (appendix I, 6.9.2), would have to be designed now, and the registers are at present stored without effect.
-6. *A 16-byte entry (128 bits).* For: no cramping; a full 64-bit address, memory type, protection key and 40 free bits. Against: 256 entries per 4 KB table, so 8 bits per level, and three levels cover only 36 bits and five levels 60; the whole 39, 48 and 57-bit decided design changes; twice the memory per walk step; larger translation-buffer entries.
+5. *A 16-byte entry (128 bits).* For: no cramping; a full 64-bit address, memory type, protection key and 40 free bits. Against: 256 entries per 4 KB table, so 8 bits per level, and three levels cover only 36 bits and five levels 60; the whole 39, 48 and 57-bit decided design changes; twice the memory per walk step; larger translation-buffer entries.
 
-**Precedents.** x86-64 addresses bits 51 to 12 in place, with the no-execute bit at 63 *(the mask verified in QEMU `target/i386/cpu.h`, the rest unverified)*, and puts protection keys in the upper bits *(unverified)*; reserved bits above the implemented physical width must be zero and fault *(unverified)*. AArch64's large-physical-address extension stops at 52 bits *(verified: QEMU `target/arm/ptw.c`, the table of sizes ends at 52)*, and output-address bits above the implemented range are reserved *(unverified)*. RISC-V puts the page number at bit 10, with up to 44 bits at 10 to 53, flag fields at 63 to 61 and bits 60 to 54 reserved *(verified: QEMU `target/riscv/cpu_bits.h`)*. LoongArch direct-mapping windows are named in the ISA text, and MIPS's KSEG0 is the older example *(MIPS behaviour unverified)*. IBM's z/Architecture has region and segment tables of another shape *(unverified)*; no common processor uses a 128-bit entry.
+**Precedents.** x86-64 addresses bits 51 to 12 in place, with the no-execute bit at 63 *(the mask verified in QEMU `target/i386/cpu.h`, the rest unverified)*, and puts protection keys in the upper bits *(unverified)*; reserved bits above the implemented physical width must be zero and fault *(unverified)*. AArch64's large-physical-address extension stops at 52 bits *(verified: QEMU `target/arm/ptw.c`, the table of sizes ends at 52)*, and output-address bits above the implemented range are reserved *(unverified)*. RISC-V puts the page number at bit 10, with up to 44 bits at 10 to 53, flag fields at 63 to 61 and bits 60 to 54 reserved *(verified: QEMU `target/riscv/cpu_bits.h`)*. IBM's z/Architecture has region and segment tables of another shape *(unverified)*; no common processor uses a 128-bit entry.
 
-**My referents.** "if we are going to mmap petabytes, we need those bits" (chosen); "good thing we already had dmw in the design!", and my question "what are dmw registers? part of pcie?" (chosen); "what other parts of the design are effected if we have 5 level tlb like loongso[n]" (considered).
+**My referents.** "if we are going to mmap petabytes, we need those bits" (chosen); "what other parts of the design are effected if we have 5 level tlb like loongso[n]" (considered).
 
-**My leaning.** Option 2 for page tables with option 5 for the rest: a 40-bit page number (a 52-bit physical address through page tables, 4 PiB) and the windows for anything above. A 64-bit page number consumes the whole entry, and every later need (protection, memory type, a no-execute bit separate from `X`) would force a new format, whereas 2^52 already covers "petabytes". If I insist that user processes map above 2^52, option 3 (page number shifted to bit 10, two spare bits) is the alternative.
+**My leaning.** Option 2: a 40-bit page number (a 52-bit physical address through page tables, 4 PiB). A 64-bit page number consumes the whole entry, and every later need (protection, memory type, a no-execute bit separate from `X`) would force a new format, whereas 2^52 already covers "petabytes". If I insist that user processes map above 2^52, option 3 (page number shifted to bit 10, two spare bits) is the alternative.
 
 **Where the body refers to it.** Sections 6.7.1 and A.6.1.
 
-<a id="j63"></a>
-### J.6.3 Interrupt delivery and vector numbers
+<a id="j62"></a>
+### J.6.2 Interrupt delivery and vector numbers
 
 **Issue.** How does a device's interrupt reach one of the cores, how many vectors are there, how are they numbered and prioritised, and how is an interrupt moved from one core to another? The old bus made this trivial: each slot had a number and the vector came from it. PCI Express devices have no slot in that sense, and I retired slot-derived vectors. The PCI Express answer is **MSI-X** (message-signalled interrupts: the device performs an ordinary memory write whose address and data say which core and which vector, and the write itself is the interrupt, with no wire). Every virtio device carries one MSI-X vector for a change of its configuration and one for each queue (2.6 and 2.7.4). What is missing is the unit on the processor side that receives the write and turns it into "core N takes vector V at level L". A second fact bounds the answer: the vector table has 512 entries, entries 32 to 255 are available to interrupts, 256 to 511 are `TRAP #n`, so only 224 vector numbers (32 to 255) can be used by interrupts.
 
@@ -70,17 +45,17 @@
 **Where the body refers to it.** Sections 2.6.1, 5.9.1, 5.9.4, 6.3.7, 7.10.4 and 7.10.5.
 
 
-<a id="j64"></a>
-### J.6.4 The register number and the layout of the kernel's root table (KTBR)
+<a id="j63"></a>
+### J.6.3 The register number and the layout of the kernel's root table (KTBR)
 
-**Issue.** I accepted the split of the address space by its top bit: the lower half is walked from `PTBR`, one table for each address space, and the upper half from a second register, `KTBR`, one table for the whole system. The system-register table (6.5.1) has no number for `KTBR`: numbers 0 to 12 are taken and 13 and up are reserved. Nothing says how the top-level tables of the two roots are laid out. With the split by the top bit, each root has 256 entries in use at the top level (the top level has 512 entries and the top bit picks the half), so a root could be a full page with half of it unused, or a half page. Nor is it settled whether the user half is the lower half in every case.
+**Issue.** I accepted the split of the address space by its top bit: the lower half is walked from `PTBR`, one table for each address space, and the upper half from a second register, `KTBR`, one table for the whole system. The system-register table (6.5.1) has no number for `KTBR`: numbers 0 to 3, 6 to 12, 16, 17 and 32 are taken and the others are unassigned. Nothing says how the top-level tables of the two roots are laid out. With the split by the top bit, each root has 256 entries in use at the top level (the top level has 512 entries and the top bit picks the half), so a root could be a full page with half of it unused, or a half page. Nor is it settled whether the user half is the lower half in every case.
 
 **Why it matters.** The kernel writes `KTBR` once and the walker reads it on every upper-half miss, so the number is fixed in the instruction stream of every kernel (`MTSR` takes an 8-bit constant), and the layout decides how a kernel builds its tables and whether a page can hold both roots. It also decides what a user process with two halves (a guest kernel, a library with its own privilege) could do.
 
 **Options.**
 
-1. *Number 13, the first free register.* For: no gap, and the numbers 0 to 12 stay as they are. Against: it takes the number that J.6.1 would use for a feature register, so one of them moves.
-2. *A number in a block kept for translation (for example 16 and up), leaving 13 to 15 for identification.* For: translation registers stay together, and identification keeps its own run. Against: a gap in the numbering, and the decision about the block is itself new.
+1. *Number 13, the first free register.* For: no gap, and the numbers 0 to 12 stay as they are. Against: it leaves 4 and 5 unused beside `PTBR`.
+2. *A number in a block kept for translation (for example 4, beside `PTBR`).* For: translation registers stay together. Against: a gap in the numbering, and the decision about the block is itself new.
 3. *Each root is a full page; `KTBR` holds the address of a 4 KB table whose upper 256 entries are used.* For: the same table shape as every level, so one walker routine serves both roots. Against: half a page of each root is unused; with one kernel root for the whole system the loss is small, with a root for each address space it is not.
 4. *`PTBR` and `KTBR` each point at a half-page of 256 entries.* For: no unused entries. Against: a table that is not page-sized is an exception to the rule that every table is one page (6.6), and a page cannot be given back whole.
 5. *One shared table with two roots indexed by the top bit* (what x86 kernels do when they share a table and split it by position in the top level). For: a single register, so the number question disappears. Against: the user half would see the kernel entries in the same table, which is what the split was made to avoid (the speculative read of kernel translations, 6.9.1); this is the arrangement my decision replaced.
@@ -90,13 +65,13 @@
 
 **My referents.** His acceptance of "all 8" of the edits of research round 7, of which the split is one.
 
-**My leaning.** Option 1 with option 3: `KTBR` as number 13 if J.6.1 puts its feature register elsewhere, otherwise the first number after the feature block, and each root a full page. It costs the least new rule; the unused half is small because there is one kernel root.
+**My leaning.** Option 1 with option 3: `KTBR` as number 13, and each root a full page. It costs the least new rule; the unused half is small because there is one kernel root.
 
 **Where the body refers to it.** Section 6.9.1.
 
 
-<a id="j65"></a>
-### J.6.5 The system-call register convention
+<a id="j64"></a>
+### J.6.4 The system-call register convention
 
 **Issue.** A system call is `TRAP #n` through vector 256 + n (6.10.2), and the call number and arguments "travel in registers by the ABI". Appendix D, the ABI, does not say which registers. In V7 the call number was fetched back from the user's `sys n` instruction and the arguments were read from the user's stack with `fuword`.
 
@@ -106,7 +81,7 @@
 
 1. *The number in the `TRAP` vector alone, and arguments in the first argument registers of the ordinary calling convention.* The vector number is the system-call number, so the kernel dispatches in hardware. For: no register carries the number, and the dispatch is a table lookup. Against: 256 numbers (`TRAPL` reaches them), which is a limit, and an operating system with more calls than that needs a second level.
 2. *The number in one register (the first argument register or a dedicated one), arguments in the following ones, and one vector (`TRAP #0`).* For: the form of Linux and of the BSDs on every architecture *(unverified)*; any number of calls; one entry point. Against: one register is spent on the number; the dispatcher reads it before using the table.
-3. *The number in the `TRAP` operand and arguments in the argument registers, results in the first result register, an error in the carry flag.* For: PDP-11 Unix reported an error in the carry bit after `sys` *(unverified)* and the BSDs on x86 kept it; the result and error need no second register. Against: ties the convention to the flags, which the entry clears (6.3.2) and the exit must set.
+3. *The number in the `TRAP` operand and arguments in the argument registers, results in the first result register, an error in a second result register.* For: PDP-11 Unix reported an error in the carry bit after `sys` *(unverified)* and the BSDs on x86 kept it; the second register carries the same one bit. Against: costs a register and a test after every call; the machine has no flags to hold the bit.
 4. *The number in a register and the arguments in memory at an address held in a register.* For: any number of arguments without a limit from the register file. Against: the kernel must read user memory with the guard open (6.10) before it can dispatch, which is the V7 cost the register form was meant to remove.
 5. *Follow the platform's ordinary calling convention exactly, so the stub is a function with one `TRAP`.* For: the compiler needs no special case; a wrapper of the C library is trivial. Against: the callee-saved registers and the argument registers are the ABI's to choose first (appendix D), so this option only moves the question.
 
@@ -119,33 +94,32 @@
 **Where the body refers to it.** Section 6.10.1.
 
 
-<a id="j66"></a>
-### J.6.6 Enabling translation safely
+<a id="j65"></a>
+### J.6.5 Enabling translation safely
 
-**Issue.** Translation is off at reset and `MMUCTL` bit 0 turns it on (6.8.2); the write takes effect after the next `ISYNC` (6.5.2). The instruction after the `ISYNC` is fetched through the new tables. The running code was fetched at a physical address, so it continues only if the new tables map it at the same address, or if something else (a window, a trampoline, a second mapping) covers it. The architecture does not say which.
+**Issue.** Translation is off at reset and `MMUCTL` bit 0 turns it on (6.8.2); the write takes effect after the next `ISYNC` (6.5.2). The instruction after the `ISYNC` is fetched through the new tables. The running code was fetched at a physical address, so it continues only if the new tables map it at the same address, or if something else (a trampoline, a second mapping) covers it. The architecture does not say which.
 
 **Why it matters.** Every kernel's first page of boot code has to do this. If the architecture does not say how it is safe, each port invents a trick, and a trick that depends on the implementation (the length of an instruction queue, say) is a bug.
 
 **Options.**
 
 1. *The kernel maps its own boot code at the address it is running at.* The kernel builds the tables so that the virtual address of the next instruction equals its physical address (an identity mapping of the boot code), enables translation, and jumps to the real address. For: no hardware help; it is what the first OS ports to RISC-V do. Against: the kernel must build an identity mapping before it can enable anything, and tear it down after.
-2. *A direct-mapping window covers physical memory at reset or at the write.* For: the kernel need not build anything first. Against: the format of the windows is deferred (appendix I, 6.9.2), and the ISA text's old rule that `DMW0` covers physical memory at reset was superseded, so this option needs the deferred decision made.
-3. *Translation enables in two steps: the write sets a bit that takes effect at the next `RTI`.* The kernel arranges `EPC` and `EPSW` so that the `RTI` jumps to the mapped address. For: one clean transition, in the same way the kernel already leaves for user mode. Against: a new rule for one bit, and `RTI` now has a second job.
-4. *The write takes effect immediately and the instruction after it is fetched physical, once.* For: no mapping needed for that single instruction, and the kernel puts a jump there. Against: it breaks the rule that `ISYNC` is the point at which a change takes effect (6.5.2), and an out-of-order core cannot promise it.
-5. *A bare mode: when translation is on, an address in the first page range is still taken as physical.* For: the early kernel keeps running where it is. Against: it recreates a fixed window the architecture otherwise refuses (the rule that no address bit means "device"), and the range is another number to choose (J.4.1).
-6. *The boot ROM enables translation with a ready-made identity table and hands over with translation on.* For: the kernel starts in a mapped world. Against: the reset state is then different from the decided one (translation off, 6.8.2), and the ROM carries a page table.
+2. *Translation enables in two steps: the write sets a bit that takes effect at the next `RTI`.* The kernel arranges `EPC` and `EPSW` so that the `RTI` jumps to the mapped address. For: one clean transition, in the same way the kernel already leaves for user mode. Against: a new rule for one bit, and `RTI` now has a second job.
+3. *The write takes effect immediately and the instruction after it is fetched physical, once.* For: no mapping needed for that single instruction, and the kernel puts a jump there. Against: it breaks the rule that `ISYNC` is the point at which a change takes effect (6.5.2), and an out-of-order core cannot promise it.
+4. *A bare mode: when translation is on, an address in the first page range is still taken as physical.* For: the early kernel keeps running where it is. Against: it recreates a fixed window the architecture otherwise refuses (the rule that no address bit means "device"), and the range is another number to choose (J.4.1).
+5. *The boot ROM enables translation with a ready-made identity table and hands over with translation on.* For: the kernel starts in a mapped world. Against: the reset state is then different from the decided one (translation off, 6.8.2), and the ROM carries a page table.
 
 **Precedents.** RISC-V's `satp` has a bare mode and kernels turn paging on after an identity mapping or a jump to a mapped trampoline *(satp modes verified in QEMU; the kernel practice unverified)*. AArch64 has `SCTLR.M`, and a kernel that turns the MMU on runs from an identity-mapped page *(unverified)*. The PDP-11 enabled the memory manager by a write to `SSR0` and the V7 boot code ran with the map loaded to identity (`mov $1,SSR0` in `mch_i.s`, verified; the identity map unverified). The VAX turned on mapping with `MAPEN` and a jump to a mapped address *(unverified)*.
 
-**My referents.** "good thing we already had dmw in the design!" (chosen; deferred).
+**My referents.** None recorded.
 
-**My leaning.** Option 1, since it needs no new rule and is what a kernel already does. If a window is later specified, option 2 makes the early kernel simpler and can be added without changing option 1.
+**My leaning.** Option 1, since it needs no new rule and is what a kernel already does.
 
 **Where the body refers to it.** Section 6.12.2.
 
 
-<a id="j67"></a>
-### J.6.7 Saving and restoring a thread's user `DP`
+<a id="j66"></a>
+### J.6.6 Saving and restoring a thread's user `DP`
 
 **Issue.** `DP` is the direct-page register, banked by mode (6.2.4). A user program's copy points to its thread's private data. At a thread switch the kernel must save the old thread's user `DP` and restore the new one's. `MTDP` and `MFDP` name only the copy of the current mode, and the system-register table (6.5.1) has no number for the user's `DP`, whereas `USP` and `SSP` have (numbers 6 and 7).
 
@@ -168,35 +142,8 @@
 **Where the body refers to it.** Section 6.11.
 
 
-<a id="j68"></a>
-### J.6.8 What a write to the translation registers flushes, and invalidating by address-space number
-
-**Decided (the assistant's, by my priorities of safety and security first and no new hardware, 6.8.4).** A write to `MMUCTL` that changes bit 0 flushes everything; a write to `PTBR` flushes the global entries and those of the current `ASID` unless the `ASID` changes too before the next `ISYNC`; a write to `ASID` flushes nothing that is promised (option 2 of the list below, with the stale-table case of `PTBR` closed); all take effect at the next `ISYNC`. The second part of the issue is decided too: `TLBIAS rN` invalidates by address-space number (option 4, 6.8.3). The text below is the question as it was before the decision.
-
-**Issue.** Two texts of the specification disagree. Section 6.8 (and the purpose of the address-space tags) says that a context switch is a write to `PTBR` and to `ASID` and an `ISYNC`, with the old process's entries staying in the buffer. The entry of `MFSR` in chapter 9 says that a write to `PTBR`, `ASID` or `MMUCTL` flushes the whole translation buffer. The reference executor does the latter (`docs/implementation-status.md`). A related gap: the architecture has `TLBI` (by address) and `TLBIA` (everything) but no invalidate by `ASID`, so a kernel that reuses a number, or that wraps the 16-bit counter, can only flush everything; the policy for a wrap is the kernel's.
-
-**Why it matters.** If a write flushes, tags save nothing and every context switch pays a refill of the buffer, which is what the tags were added to avoid. If it does not flush, the hardware must keep the stale entries of a retired address space until they are replaced, and an `ASID` reused by a new process must first be invalidated, or the old entries would answer for it.
-
-**Options.**
-
-1. *A write to `PTBR`, `ASID` or `MMUCTL` flushes nothing; the kernel invalidates when it reuses a number.* For: the tags work, and a switch costs two register writes. Against: a reused `ASID` needs a whole-buffer flush (`TLBIA`) or an invalidate-by-ASID instruction, and a mistake in the kernel's allocator shows up as a wrong translation.
-2. *A write to `MMUCTL` flushes everything, and a write to `PTBR` or `ASID` flushes nothing.* For: turning translation on or off is rare, so a flush there is cheap, and it removes stale state at the one moment when it matters. Against: one more rule to state, and an extra flush on a write that sets only a bit.
-3. *Every write flushes the entries of the old tag only.* For: the old process's entries cannot answer under a reused number. Against: it is a hardware search for the tag on a write, as costly as an invalidate by ASID; the entries that survive are the ones of other tags.
-4. *Add `TLBIASID rN`, an invalidate by address-space number, to option 1.* For: the cheap way to reuse one number without flushing the others; a wrap is then a loop over numbers or a `TLBIA`. Against: a new broadcast instruction (each core must search the tag), and the kernel needs the bookkeeping either way.
-5. *Flush all on every write to `PTBR` or `ASID`* (the text of chapter 9 today). For: the simplest hardware, with no tag matching in the invalidate path; the buffer is always consistent with the registers. Against: the tags are then dead weight (16 bits in every buffer entry), and every switch is a full refill.
-6. *The tag has the generation in it* (the high bits count the wraps). For: a wrap needs no flush because an old number never equals a new one. Against: a wider tag, and the generation is the kernel's policy, not the hardware's, so this is option 1 with the policy written in.
-
-**Precedents.** RISC-V's `satp` carries a 16-bit address-space number and the `sfence.vma` instruction can invalidate by it *(`SATP64_ASID` verified in the QEMU source; the instruction form unverified)*. x86 has a process-context tag (`CR4.PCIDE`, verified in the QEMU source) and an instruction `invpcid` that invalidates by it *(unverified)*. AArch64 has `TLBI ASIDE1` *(unverified)*. The PDP-11 loaded all page registers at each switch and had no buffer to flush.
-
-**My referents.** The ISA text takes the `ASID` and the `G` bit from the Commodore 128's memory-management unit (`docs/pdp64-isa.md` section 8.1); the purpose of the tag, a switch without a flush, is stated in 6.8.
-
-**My leaning.** Option 1, and the entry of `MFSR` in chapter 9 corrected to match; the invalidate by number of option 4 only if the first kernel finds that `TLBIA` at each wrap is too expensive.
-
-**Where the body refers to it.** Section 6.8.3. chapter 9 (the entry of `MFSR`).
-
-
-<a id="j69"></a>
-### J.6.9 Whether supervisor mode has a use
+<a id="j67"></a>
+### J.6.7 Whether supervisor mode has a use
 
 **Issue.** (Options 3 and 6 no longer apply: the hypervisor mode is a state bit outside the status word, 6.16.3.) The status word has a mode field of two bits with kernel 0, supervisor 1 and user 3, and the value 2 reserved (6.2.2). The stack pointer and `DP` are banked for supervisor mode as for the other two (6.2.4), and the system registers include `SSP`. No code uses the mode. The mode is decided; whether it has a use is not. 2.11BSD runs its network code in supervisor mode on the PDP-11 (`trap()` tests `SUPVMODE(ps)`, verified).
 
@@ -222,33 +169,8 @@
 **Where the body refers to it.** Section 6.2.6.
 
 
-<a id="j610"></a>
-### J.6.10 The vector of `TRAPCC`
-
-**Issue.** `TRAPCC.cc` (the word that enters the kernel when a condition holds) is a decided trap: it completes and `EPC` is the next instruction (6.13.8), and the body gives it the check vector, 16, which the study I approved names. What is not worked out is the number itself, which I did not discuss (I said: "the vector number is the proposal's"), and what `EVA` holds (the study says the address of the `TRAPCC`). The options below are the alternatives to the study's choice.
-
-**Why it matters.** The kernel's vector table needs the entry, a debugger and a signal layer need to know what the trap means, and a compiler that emits `TRAPCC` for a runtime check (an array bound, an arithmetic overflow) must name what the program sees.
-
-**Options.**
-
-1. *Vector 16, a vector of its own, with `EVA` the address of the `TRAPCC`.* For: the kernel tells a check from an illegal instruction at once; the vectors 0 to 31 are the processor's, and 16 is free. Against: a vector of the processor's block used up by an optional word of two members.
-2. *The vector is 256 + n of a `TRAP` number named by the instruction.* For: no processor vector is spent, and the operating system names the check. Against: `TRAPCC` has no operand (one parcel), so it cannot carry n.
-3. *The illegal-instruction vector (2).* For: nothing to add. Against: a check is not an error in the instruction; the kernel must decode to tell them apart.
-4. *The breakpoint vector (15).* For: the same shape (a deliberate trap by a program). Against: the debugger and a check share a vector.
-5. *One vector for each condition (fourteen vectors).* For: the handler learns the condition from the vector. Against: it uses fourteen of the thirty-two entries of the processor block, which leaves no room.
-6. *The vector chosen by a system register* (a `TRAPCC` vector register). For: the operating system picks. Against: one more register and a hidden dependence between an instruction and the register.
-
-**Precedents.** MIPS has `TEQ`, `TNE` and the other trap-on-condition instructions, which raise the trap exception with the condition in a code field *(unverified)*. PowerPC has `TW` and `TD` (trap word and doubleword on a condition) *(unverified)*. x86 has `INTO` (trap on overflow, its own vector 4) *(unverified)*; AArch64 has `BRK` with an immediate *(unverified)*; RISC-V has no trap-on-condition instruction *(unverified)*.
-
-**My referents.** Item 9 (`TRAPCC` with the fused `ADDV`, `SUBV` and `MULV` forms) and the decision that `TRAPCC` is a trap and not an abort; none recorded for the vector number or for `EVA`.
-
-**My leaning.** Option 1 as the study had it, and as the body states it; a decision of me fixes the number.
-
-**Where the body refers to it.** Sections 6.3 and 6.13.8.
-
-
-<a id="j611"></a>
-### J.6.11 Hardware breakpoints and watchdogs, performance counters, machine-check reporting
+<a id="j68"></a>
+### J.6.8 Hardware breakpoints and watchdogs, performance counters, machine-check reporting
 
 **Issue.** Three groups of kernel-visible facilities are not specified: debug registers (hardware breakpoints and watchpoints), performance counters, and what a machine check reports beyond the halt of 6.4.3. A watchdog (a timer that resets the machine if the kernel does not touch it) is the fourth. None has a system-register number: 13 and up are reserved.
 
@@ -269,8 +191,8 @@
 **Where the body refers to it.** Section A.10.1.
 
 
-<a id="j612"></a>
-### J.6.12 Recovering from a failed user copy
+<a id="j69"></a>
+### J.6.9 Recovering from a failed user copy
 
 **Issue.** A kernel copy routine opens the guard, copies and closes it (6.10.3). Before the copy `PROBER` checks that the page is readable, but the copy may still fault (a file mapped into the process may be truncated under it, or a page may have to be brought in). The page-fault handler can bring a missing page in and restart the instruction (6.4), so a fault that the kernel can repair is not a problem. A fault that it cannot repair (an unmapped address) has to turn into an `EFAULT` return from the copy routine. I accepted the fixup table with the `.U` qualifier (the body, 6.10.4), so how the handler finds the place to return to is decided for the `.U` moves. What is pending is the rest: the form for the atomics (once the operand placement of `ATOM` is fixed), the full specification of the fixup table, and the recovery of a copy that does not use a `.U` move (for example in a member without the qualifier, or a block copy).
 

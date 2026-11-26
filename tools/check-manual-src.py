@@ -2,7 +2,7 @@
 """Tests of the assembly mechanism of the manual (tools/manual/assemble.py) and of the computed numbers (tools/manual/bookrefs.py): the refusal of the old per-CPU markers,
 the number and link checks, the design notes assembled from fragments; the numbering of sections, statements and figures from the order of the text, the citations by name,
 the errors (an unknown name, a name defined twice, a marker in a file that has no number), and that inserting a section renumbers every citation."""
-import os, re, sys, tempfile
+import glob, os, re, sys, tempfile
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, 'tools', 'manual'))
 import assemble as A
@@ -116,3 +116,19 @@ rr = real.resolve_all(rf)
 assert not [fn for fn, x in rr.items() if BR.leftover(x)]
 assert all(re.match(r'^# (\d+|Appendix [A-E])\. ', x) for fn, x in rr.items() if fn[0] in '0a' and fn != '00-index.md' and real.chapter_label(fn)), 'a chapter heading'
 print('manual numbering: ok (%d names)' % len(real.defs))
+# the measured numbers: every @@MEASURE:key@@ of the sources and of the generated prose names a key of docs/encoding-work/bench/flags/results-final.txt (tools/measure-flags.sh)
+sys.path.insert(0, os.path.join(ROOT, 'tools'))
+import mkmanual as MK
+_keys = MK.measured()
+assert MK.resolve_measures('@@MEASURE:corpus.files_both@@', 't') == _keys['corpus.files_both']
+try:
+    MK.resolve_measures('@@MEASURE:no.such.key@@', 't')
+    raise AssertionError('accepted an unknown measurement key')
+except SystemExit:
+    pass
+_used = set()
+for _fn in sorted(glob.glob(os.path.join(ROOT, 'docs', 'manual-src', '*.md')) + glob.glob(os.path.join(ROOT, 'tools', 'manual', '*.py'))):
+    _used |= set(re.findall(r'@@MEASURE:([\w.-]+)@@', open(_fn).read()))
+_bad = sorted(k for k in _used if k not in _keys)
+assert not _bad, 'measurement keys that results-final.txt does not have: %s' % _bad
+print('manual measurements: ok (%d keys cited of %d)' % (len(_used), len(_keys)))

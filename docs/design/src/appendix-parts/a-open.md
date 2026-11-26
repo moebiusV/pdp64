@@ -9,13 +9,13 @@
 
 1. *Keep the canonical rule; colours live outside the pointer.* The colour of a granule is a table in memory, indexed by address, and a check compares the table entry against a colour register. For: the rule stands; no pointer bits spent. Against: a table lookup on every access that is checked; more memory traffic.
 2. *The colour travels in a fixed field of the spare bits, ignored by translation and checked by the hardware.* For: no table; the check is a compare. Against: every pointer use must mask (the hardware, as on ARM, can ignore the field in the address path); the canonical rule is restated; the field shrinks with each level of page table added.
-3. *The colour field depends on the translation width.* Three levels leave the 25-bit field, five levels fewer, and the width is read from a register (J.6.1). For: uses what each configuration has. Against: software that depends on the field must read the width first.
+3. *The colour field depends on the translation width.* Three levels leave the 25-bit field, five levels fewer, and the width is read from the `FEATURES` register (6.16.8). For: uses what each configuration has. Against: software that depends on the field must read the width first.
 4. *Choose the field with the page-table level, once: the smallest field that every configuration has.* For: one rule. Against: wastes the extra bits of the narrow configurations.
 
 **Precedents.** ARM's top-byte-ignore, pointer authentication and the memory tagging extension *(unverified: general knowledge)*; SPARC's application data integrity colours the pointer and the memory *(unverified)*; the study of item 3 of the retire-stage candidates, which considered the same bits for a capability bit *(verified: docs/retire-stage-candidates.md)*.
 
 **My referents.** "Do it, no delay" for granule colouring; the capability bit "asked whether it can be done with 64-bit pointers and flags outside the 64 usable bits".
 
-**My leaning.** Option 3, because the width is read anyway for the address space (J.6.1). This is my view, not a decision.
+**My leaning.** Option 3, because the width is read anyway for the address space (6.16.8). This is my view, not a decision.
 
 **Where the body refers to it.** Section A.5.2.

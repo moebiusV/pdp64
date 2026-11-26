@@ -44,52 +44,7 @@
 **Where the body refers to it.** Section 7.6.4.
 
 <a id="j73"></a>
-### J.7.3 The operands of the atomic instructions
-
-**Issue.** The atomic words (7.3.1) take three register fields in the grammar (four for `CAS`), with the address in a register and the size in the sub-opcode. The roles of the registers, the size encoding of `CAS` and any displacement are not fixed in the text. The statement as first written: the operands of the atomic words sit in three register fields (four for `CAS`), the roles are not fixed, and the study leans to fixing three register fields now, with the fourth reserved zero. 
-
-**Why it matters.** The placement decides how many instructions an atomic costs, how many bytes it takes, and what the lock and reference-count code of the kernel compiles to. `CAS` in the four-field form fills the last four-register slots of the encoding.
-
-**Options.**
-
-1. *Register only, address in a register, three fields.* `rd` receives the old value, `rs` is the operand, `ra` holds the address; `CAS` has the expected value in and the old value out in `rd`; the fourth field is reserved zero. For: densest; the simplest address path; a misaligned address is detected at one place. Against: one `LEA` (load effective address) when the address is a structure field at a nonzero offset.
-2. *Option 1 and a small scaled displacement in the spare field.* The address is `ra` plus `d` times the size, `d` from 0 to 15. For: removes the `LEA` for the first sixteen words of a structure, where lock owners and reference counts usually sit. Against: uses the spare field; one small adder in the atomic unit.
-3. *Full memory operand modes as for loads and stores.* For: indexed atomics. Against: a general address generator in the atomic unit and side effects (auto-increment) that complicate restart after a fault.
-4. *`CAS` with fixed registers, as x86.* For: frees two register fields. Against: a fixed register is a permanent constraint on the compiler in a 16-register machine.
-5. *Double-width `CAS` as a register pair.* For: lock-free lists with a tag. Against: not needed while a pointer has spare bits to hold a version count.
-
-**Precedents.** RISC-V's `AMO` words take three registers, address in `rs1` with no displacement *(unverified: from memory)*; ARM's large-system atomics take registers; x86 takes any memory operand with `LOCK` *(unverified)*. OpenBSD's mutex is one compare-and-swap on the owner word and its ticket lock one add *(verified in the local source)*.
-
-**My referents.** None named beyond the PDP-11 and VAX atomics (`DATIP`/`DATO`, interlocked queue instructions).
-
-**My leaning.** Option 1 now, with the spare field reserved, and a displacement taken only when the OpenBSD port is compiled and the `LEA` count in front of atomics is measured.
-
-**Where the body refers to it.** Section 7.4.6.
-
-<a id="j74"></a>
-### J.7.4 Atomics on uncached memory and on device memory
-
-**Issue.** The read-modify-write atomics are atomic with respect to every initiator, cores and devices alike (7.4.3). That is easy on cached memory, where the cache line is held exclusively. On a page of uncached memory or a device page the access goes to the bus, and a PCI Express transaction has atomic operations (`AtomicOp`) only on devices that choose to implement them. The mapping of the machine's atomics onto the bus is therefore not stated.
-
-**Why it matters.** The rings of every virtio device sit in memory that may be uncached; a program that issues `CAS` on such a word needs either a defined result or a defined fault. The software cannot be silent about it, and a silent non-atomic update is the worst outcome.
-
-**Options.**
-
-1. *Abort.* An atomic to a device or uncached page raises an access fault. For: easy to detect and cheap to build. Against: a driver cannot use an atomic on a shared uncached ring.
-2. *Performed at the memory controller (far atomics).* The operation travels to the memory and the result returns. For: constant cost under contention; works for uncached normal memory. Against: the memory side needs an arithmetic unit and a defined form for every word, and a clear rule for the interaction with reservations.
-3. *Forwarded as PCI Express atomic operations where the device advertises them, abort otherwise.* For: uses what the bus offers. Against: only compare-and-swap, swap and fetch-and-add exist on the bus; the other words would still abort.
-4. *Defined only for cached normal memory, undefined elsewhere.* For: nothing to build. Against: undefined behaviour in a place where a fault would be better.
-
-**Precedents.** PCI Express defines `AtomicOp` for fetch-and-add, swap and compare-and-swap *(unverified)*. AXI5 has atomic transactions performed near the memory *(unverified)*. The PDP-11's `DATIP`/`DATO` pair locked the Unibus for the read-modify-write *(verified in the repository's sources)*.
-
-**My referents.** None named.
-
-**My leaning.** Option 1 for device pages and option 2 or an abort for uncached normal memory, decided with the transport of the bus; a fault that is easy to detect is better than a silent non-atomic update.
-
-**Where the body refers to it.** Section 7.4.5.
-
-<a id="j75"></a>
-### J.7.5 The reservation granule and how software learns its size
+### J.7.3 The reservation granule and how software learns its size
 
 **Issue.** `LL` reserves a granule: a naturally aligned piece of memory of a size the implementation chooses, not smaller than 8 bytes (7.4.1). The text leaves the size to the implementation and says that a feature register is to report it (I list "granule discovery in the feature registers" as still to write). Nothing says which register, nor what software may assume before it reads it. The size matters to software because two lock words in one granule make an `SC` fail whenever the neighbour is written (false sharing of the reservation), and because a constrained `LL`/`SC` sequence (7.4.2) must not touch the granule between the two instructions.
 
@@ -110,8 +65,8 @@
 
 **Where the body refers to it.** Section 7.4.6.
 
-<a id="j76"></a>
-### J.7.6 How block operations order their accesses
+<a id="j74"></a>
+### J.7.4 How block operations order their accesses
 
 **Issue.** The block operations are `MCPY`, `MMOV` and `MSET`, which write memory, and `MCMP`, `MSCN`, `MSCNN` and `MVAL`, which only read it (9.11.3). Each keeps its progress in its registers (9.11.4) and an implementation may move more than a byte per step (9.11.5). One part of the ordering is decided: the accesses inside one block operation are unordered with respect to one another, and only the final contents of memory and the register progress are defined (7.5.8; the text was never written into the instruction-set document, and the decision list of the ledger does not carry it). Nothing is decided about the rest: (1) the order of the elements, and the meaning of overlap for `MMOV`; (2) how far an access may tear, per byte, per aligned word or per cache line; (3) whether another core may observe an intermediate state, and which; (4) what a program must execute to publish the result, given that `FENCE` orders only device accesses (7.5.7); (5) what a fault or an interrupt leaves in memory beyond the progress in the registers (the progress category of 6.4); (6) the effect on a reservation (7.4.1 clears it on any write) and on atomics that touch the same granule; (7) uncached and device memory, where the number and size of accesses are visible. The ledger lists the block instructions themselves as in the air (no standing decision beyond the progress in registers: "good" to a single move with no resume opcode).
 
@@ -123,10 +78,10 @@
 2. *Unordered inside and with respect to later accesses; a fence after the instruction publishes.* The engine runs in the background as a DMA device does, and `FENCE` is widened to all memory. For: the cheapest hardware and the most overlap. Against: breaks the rule of 7.5.1 for the code after a copy and brings back the barrier a kernel writer must remember; `FENCE` changes meaning (7.5.7).
 3. *Ordered as the loop of the instruction-set text, byte by byte.* For: nothing new to learn; the model is the PDP-11 loop. Against: contradicts the decided 7.5.8; a wide engine must hold back stores to keep the order seen by others.
 4. *Option 1, and every aligned 8-byte piece is single-copy atomic.* The head and the tail that are not aligned are byte accesses. For: a reader of copied pointers or counters never sees a torn word (7.5.3 and 7.5.6 already promise this for ordinary accesses); the engine moves aligned quads. Against: an engine that moves lines must still be able to split them; `MSET` of one byte into a word needs a byte access.
-5. *The block operation is atomic against other cores.* For: nothing to reason about. Against: an unbounded hold on memory against interrupts and the progress rule, and a latency no real-time claim survives (J.9.7).
+5. *The block operation is atomic against other cores.* For: nothing to reason about. Against: an unbounded hold on memory against interrupts and the progress rule, and a latency no real-time claim survives (J.9.5).
 6. *Device and uncached pages are accessed in element order, one access of the program's size per element, never combined or repeated.* Ordinary pages follow option 1, 2 or 4. For: a block write to a device register ring means what a loop would mean. Against: the behaviour depends on the memory type of the page, and the same instruction runs at two speeds.
 
-**Precedents.** x86 `REP MOVS` keeps its progress in registers and, in the fast-string forms, is allowed to order its stores differently from ordinary ones; Linux's `memcpy` uses `rep movsb` where the processor has the fast form (`arch/x86/lib/memcpy_64.S`, read; the rules in the Intel manual are unverified). ARM64 `FEAT_MOPS` splits a copy and a set into prologue, main and epilogue instructions (`cpyp`, `setp` in Linux's `arch/arm64/lib/memcpy.S` and `memset.S`, read), updates the registers as it goes and leaves the order and size of the accesses to the implementation (the architectural wording is unverified). The VAX `MOVC3` and `MOVC5` were interruptible, with the registers as state and a first-part-done bit in the status word (9.11 and J.9.7; the NetBSD VAX copy routines use `movc3`, `subr.S`, read; the memory ordering is moot on a machine that was one processor in most models). The PDP-11 had no block move: a loop of `MOV (R0)+,(R1)+` makes every word its own access in program order (inference). RISC-V's Zicboz zeroes a whole aligned block with one instruction (`ZICBOZ` in Linux's `hwcap.h`, read; its ordering rule is unverified) and proposals for memcpy and memset instructions exist (unverified). A DMA engine, a virtio device, moves its data in any order and publishes it by writing the used ring last, with the driver's barrier between the two (the rule of the virtio specification, unverified here).
+**Precedents.** x86 `REP MOVS` keeps its progress in registers and, in the fast-string forms, is allowed to order its stores differently from ordinary ones; Linux's `memcpy` uses `rep movsb` where the processor has the fast form (`arch/x86/lib/memcpy_64.S`, read; the rules in the Intel manual are unverified). ARM64 `FEAT_MOPS` splits a copy and a set into prologue, main and epilogue instructions (`cpyp`, `setp` in Linux's `arch/arm64/lib/memcpy.S` and `memset.S`, read), updates the registers as it goes and leaves the order and size of the accesses to the implementation (the architectural wording is unverified). The VAX `MOVC3` and `MOVC5` were interruptible, with the registers as state and a first-part-done bit in the status word (9.11 and J.9.5; the NetBSD VAX copy routines use `movc3`, `subr.S`, read; the memory ordering is moot on a machine that was one processor in most models). The PDP-11 had no block move: a loop of `MOV (R0)+,(R1)+` makes every word its own access in program order (inference). RISC-V's Zicboz zeroes a whole aligned block with one instruction (`ZICBOZ` in Linux's `hwcap.h`, read; its ordering rule is unverified) and proposals for memcpy and memset instructions exist (unverified). A DMA engine, a virtio device, moves its data in any order and publishes it by writing the used ring last, with the driver's barrier between the two (the rule of the virtio specification, unverified here).
 
 **My referents.** "rep movsb r1,r2,10;" and "how about mmov mcpy mset ? like ibm system z?" (I, 2026-10-20); "doesn't mcmp/mmov count?"; VAX `MOVC5` as the argument against hidden state (9.11).
 
@@ -134,8 +89,8 @@
 
 **Where the body refers to it.** Sections 7.5.8, 7.5.9 and 9.11.
 
-<a id="j77"></a>
-### J.7.7 Secure mode on every core, or one secure core
+<a id="j75"></a>
+### J.7.5 Secure mode on every core, or one secure core
 
 **Issue.** I decided on 2026-11-10: "at least one core that can be in 'secure' mode; if it doesn't take too many gates, let that be a mode for all the cores, but if it slows things down too much then return to a single secure core" (7.11.3). Two things are not decided: what counts as "too many gates" and "too much slowdown", and how the two are measured. Secure mode here is the whole of 7.11.3 to 7.11.5: constant-time instructions and cache fetches, private cache lines, no periodic tick, stop and preemption by an inter-processor interrupt, constant-time AES and SHA instructions, the private fixed-latency window, the locked translation buffer, no speculation, a fixed clock, and the clear at a domain switch. The status-word bit `DIT` (9.3.7) is already decided for every core; it makes the data-dependent timing of instructions, of the clock and of prefetch disappear while set, and leaves out the private window, the locked buffer, the absence of speculation and the clear.
 

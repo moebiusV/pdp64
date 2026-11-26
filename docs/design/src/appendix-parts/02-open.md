@@ -81,7 +81,7 @@
 2. *A PCI Express function on bus 0 whose windows hold the registers.* For: found by enumeration like everything else; no fixed address. Against: the function needs a driver, and the reset is then a write to a device that the reset itself disturbs.
 3. *A block at an address in the boot-information block.* For: free placement. Against: one more field to hand over.
 4. *Bits in a system register* (the numbers from 13 up are reserved). For: no address. Against: the register is per core, so the root complex's single flag lives in a per-core place; I did not choose it.
-5. *A block in the interrupt controller's page,* if J.6.3 gives that unit its own range. For: the registers of the machine's central units together. Against: ties two decisions together.
+5. *A block in the interrupt controller's page,* if J.6.2 gives that unit its own range. For: the registers of the machine's central units together. Against: ties two decisions together.
 
 **Precedents.** The x86 root complex registers (root control, root status) are in the configuration space of the root port *(unverified: general knowledge)*. The VAX adapter's registers (configuration and status) sit in its nexus window *(verified: 4.3BSD `ubareg.h`)*.
 

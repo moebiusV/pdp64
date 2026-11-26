@@ -38,7 +38,7 @@ Estimates, not measurements, at roughly ±40%. Given in 6-input LUTs; Cyclone V 
 | Block | LUTs | DSP | BRAM | Notes |
 |---|---|---|---|---|
 | register file, 32 × 64, 2R1W | ~500 | — | — | LUTRAM, duplicated for the second read port; the earlier estimate of ~250 was for 16 registers and is doubled here (unverified). **Not BRAM** — BRAM adds a cycle of latency on the critical path |
-| ALU, 64-bit, with flags | ~600 | — | — | adder on the carry chain |
+| ALU, 64-bit (no flags are kept) | ~600 | — | — | adder on the carry chain |
 | barrel shifter, 64-bit | ~450 | — | — | 6 stages of 64 muxes; second-largest combinational block |
 | address generation | ~150 | — | — | shared with the §5.1 stride adder |
 | multiplier, iterative | ~200 | 2–4 | — | see below |
@@ -54,7 +54,7 @@ Estimates, not measurements, at roughly ±40%. Given in 6-input LUTs; Cyclone V 
 | funnel shifter, 128→64 | ~350 | — | — | `DSHR`; shares the barrel shifter's mux tree (ISA §4.6.4) |
 | tag compare and dispatch | ~120 | — | — | `BTAG`, `JTAG`; three XORs and the existing branch path (ISA §6.3) |
 | indirect-transfer PC mux | ~80 | — | — | `XFER` — next PC from the load-return path (ISA §4.9) |
-| SMP: `MFCPUID`, `ICINV`, `TLBSYNC`, `WFE`/`SEV` | ~400 | — | — | ISA §17.2; excludes the coherence protocol below |
+| SMP: the `CPUID` system register, `ICINV`, `TLBSYNC`, `WFE`/`SEV` | ~400 | — | — | ISA §17.2; excludes the coherence protocol below |
 | block move sequencer | ~300 | — | — | three counters and a byte-lane select; `MBLK` |
 | TLB, 4-way set-associative, 64 entries | ~600 | — | 2 | see below |
 | page table walker | ~250 | — | — | small FSM |
@@ -104,14 +104,14 @@ Estimated `Fmax` for pdp64 *(E)*, from the structure of the critical path below 
 
 On these estimates only the UltraScale+ can meet the target, and only in the upper part of its range; the other two boards cannot, with the datapath described here. The estimates assume the single-issue core of this plan with the critical path named below; reaching the target on any board means shortening that path with pipeline stages, which is why the pipeline register boundaries of risk 2 (§11) are left in the RTL from phase 1.
 
-The critical path is expected to be **register read → address adder → TLB lookup → cache tag compare → way select**. The alternative candidate is ALU → flag generation → branch condition → next-PC mux.
+The critical path is expected to be **register read → address adder → TLB lookup → cache tag compare → way select**. The alternative candidate is register read → comparator in the branch unit (`CBCC`) → next-PC mux.
 
 Two structural facts help. The one-memory-operand rule (§3.4) means there is one AGU, not two, and no second operand path to multiplex. And the absence of deferred modes means address generation is a single adder pass, never load-then-add — which on FPGA is the difference between one cycle and a stall.
 
 Two things to do about the path when it binds:
 
 - **Virtually-indexed, physically-tagged L1.** With 4 KB pages and a way size no larger than 4 KB, index bits come entirely from the page offset, so TLB lookup and cache indexing run in parallel and there is no aliasing to police. This removes the TLB from the serial path and is the single highest-value microarchitectural decision on this list.
-- **Split branch resolution from the ALU.** Flags are cheap in transistors (§4.4 of the ISA) but they are a serialization point on FPGA, where a 64-bit carry chain is slow. A dedicated comparator for branch conditions, running in parallel with the ALU rather than downstream of it, buys a stage.
+- **Keep branch resolution apart from the ALU.** The machine has no flags (§4.3 of the ISA), so a branch is a compare-and-branch and there is no flag to wait for: the comparator of the branch unit runs in parallel with the ALU rather than downstream of it, which saves a stage on an FPGA, where a 64-bit carry chain is slow.
 
 Frequency is a target from phase 1, not an afterthought: the pipeline boundaries are kept in the RTL and the critical path above is watched in every timing report. The order of the phases does not change, and a correct machine at a lower clock still comes before a fast broken one, so the phase that first runs on the DE10-Nano (50 to 80 MHz estimated, below the target) is a correctness milestone, and the clock target is met on the board that can reach it. The earlier claim that 60 MHz is already some fifty times a PDP-11/70 had no derivation in this plan and is not repeated.
 
@@ -145,7 +145,7 @@ The failure mode this prevents is the one every hand-built ISA project hits: the
 
 Not yet derived from the grammars: the roles of the fields for each mnemonic, the default stride of post-increment/pre-decrement, and which shapes the escape groups take. These live in C and are shared with the emulator; the drift test guards the numbers but not these conventions. Moving an operand-role table into the mnemonic file is the recommended next step. RTL constants and a constrained random generator are not yet produced from the grammars; they remain plan items.
 
-The pdp64 encoding suits this approach: it is prefix-coded (parcel 0 starts with a variable-length prefix that fixes the instruction's length and form; instructions are 2, 4 or 6 bytes, `MOVQL` 10), so a generator emits the decode from the grammar without hand-written cases. A decode that is easy to generate is a decode that is easy to synthesize flat, which is the point of the "decode as wires" discipline. The generated decode tables are in `spec/pdp64/tables.md` and the manual's dictionary (`docs/manual/dictionary`).
+The pdp64 encoding suits this approach: it is prefix-coded (parcel 0 starts with a variable-length prefix that fixes the instruction's length and form; instructions are 2, 4 or 6 bytes, `MOVQ` of a 64-bit literal 10), so a generator emits the decode from the grammar without hand-written cases. A decode that is easy to generate is a decode that is easy to synthesize flat, which is the point of the "decode as wires" discipline. The generated decode tables are in `spec/pdp64/tables.md` and the manual's dictionary (`docs/manual/dictionary`).
 
 An excerpt of the source is not repeated here: the numbers live in `spec/pdp64-mnemonics.hbnf` and nowhere else, and they may still change after the open items are decided. Read the grammar, or the generated tables, not this document.
 
@@ -162,7 +162,7 @@ Each phase ends with a demonstrable artifact and a regression suite that later p
 | **0. Spec and tools** | machine-readable encoding (the hbnf grammars, §4), assembler, disassembler, ISS with trace output | assembler and disassembler round-trip every encodable instruction. Status: see [`implementation-status.md`](implementation-status.md); `sim64` has a `-t` trace option |
 | **1. Integer core** | non-pipelined core, BRAM memory, no MMU, no FP, no cache. Includes the bit-manipulation unit and the `TAGOP`/`JTAG` paths — both are pure combinational logic and belong with the ALU | 10⁶ random instruction sequences trace-match the ISS |
 | **2. Exceptions** | the full ISA §7 fault model, including the §7.5 progress category and the `MBLK` group | every row of the §7.3 fault matrix, injected at every instruction form, restarts exactly; every `MBLK` operation interrupted at every byte offset resumes correctly |
-| **3. MMU** | TLB, walker, ASID, `G` bit, `MT` attribute, `DMW` windows | a page-fault handler demand-pages a running program; an uncached mapping bypasses the D-cache |
+| **3. MMU** | TLB, walker, ASID, `G` bit, `MT` attribute | a page-fault handler demand-pages a running program; an uncached mapping bypasses the D-cache |
 | **4. Memory system** | I- and D-cache, system-bus (PCI Express) bridge to AXI, HPS DDR | phase 1–3 regressions pass against real memory; `MCPY` sustains the expected bandwidth |
 | **5. Floating point** | binary32, binary64, FMA | Berkeley TestFloat clean, including `mulAdd` |
 | **6. Software** | a kernel that boots | a V7-descended system reaches a shell |
@@ -205,7 +205,7 @@ The last item is the main argument for the SoC part: it converts verification fr
 Ranked by value per hour:
 
 1. **Trace comparison against the ISS.** Every architectural state change, every instruction. This finds nearly everything.
-2. **Constrained random generation from the spec.** Because §4 gives a machine-readable encoding, the generator is nearly free: emit random valid instructions, weighted toward the boundaries — displacement extremes, every addressing form, the length transitions (2, 4, 6 bytes; `MOVQL` 10), and `R7` as an ordinary register (it is not the PC).
+2. **Constrained random generation from the spec.** Because §4 gives a machine-readable encoding, the generator is nearly free: emit random valid instructions, weighted toward the boundaries — displacement extremes, every addressing form, the length transitions (2, 4, 6 bytes; `MOVQ` of a 64-bit literal 10), and `R7` as an ordinary register (it is not the PC).
 3. **Directed fault tests.** Enumerate the ISA §7.3 matrix. For every instruction form, fault the first fetch parcel, the second, the operand read at both page halves, and the RMW permission check. Assert exact restart. This is the suite that justifies the design and it is worth writing by hand.
 
    **The `MBLK` suite is separate and larger.** For each of `MCPY`, `MMOV`, `MSET`, `MCMP`, `MSCN`: interrupt the operation at every byte offset from 0 to twice the implementation's block size, and after each interrupt assert that the three registers describe exactly the remaining work and that resumption completes correctly. Then do the same with a page fault rather than an interrupt, at each page boundary the operation crosses. Then do `MMOV` with every overlap relationship — source below destination, above, exactly equal, partially overlapping by one byte and by one block. This is where the §7.5 exception will break if it breaks.
@@ -215,7 +215,7 @@ Ranked by value per hour:
    - the write of a read-modify-write cannot fault given that the read succeeded.
 
    These are the assumptions the whole restart argument rests on. Proving them is a day's work.
-5. **Tag interaction.** ISA §6.2 makes the alignment abort a load-bearing runtime invariant. Test that a mis-biased tagged dereference always aborts, at every tag value and every access size; that `BTAG`/`BNTAG` agree with `AND #7` plus `CMP` for all eight tags and all sixteen registers; and that a `JTAG` through a table of eight landing pads reaches the right one for each tag value.
+5. **Tag interaction.** ISA §6.2 and §6.3 make the explicit tag check (`BNTAG` before the access) the runtime's tag test, since a plain access works at any address. Test that a mis-biased tagged dereference reads the address it names and does not fault, at every tag value and every access size; that `BTAG`/`BNTAG` agree with `AND #7` plus a compare-and-branch for all eight tags and all sixteen registers; and that a `JTAG` through a table of eight landing pads reaches the right one for each tag value.
 6. **Berkeley TestFloat** for phase 5, including the `mulAdd` tests for FMA. Hand-written FP tests are not a substitute.
 7. **Memory-model litmus tests**, once a second core exists. ISA §17.1 declares sequential consistency, and SC is easy to violate by accident — a store buffer that forwards wrongly, a cache that reorders its fills. Run the standard SC litmus suites (the `litmus7`/`herd7` family) against two cores before any lock-based software is trusted. ISA open item 11 records this as unverified.
 8. **UTF-8 conformance.** Markus Kuhn's UTF-8 decoder stress test plus the Unicode consortium's conformance data. The validity cases of ISA §4.6.1 are the point of the instruction, so test them individually: each overlong form at each length, each surrogate boundary, U+10FFFF and U+110000, and every impossible leading byte.
@@ -224,9 +224,9 @@ Ranked by value per hour:
 
 ## 8. Where the ISA helps and where it hurts on FPGA
 
-**Helps.** One AGU. Single-pass address generation. Length known from the prefix of parcel 0, so the fetch buffer is a shallow shift register with no feedback (unverified for the prefix-coded encoding). No unaligned data path, the single largest block of logic that is absent. No partial-register writes, so no byte-enable muxing on the register file write port. Decode is generated from the grammar and is meant to synthesize flat (unverified: no RTL exists). The bit-manipulation functions are wiring and mux trees, which is what fabric is made of. The `MBLK` group needs no microstate register (ISA §7.5), so it adds counters rather than a save/restore path.
+**Helps.** One AGU. Single-pass address generation. Length known from the prefix of parcel 0, so the fetch buffer is a shallow shift register with no feedback (unverified for the prefix-coded encoding). (The first design had no unaligned data path; a plain access now works at any address, so the load return and the store path need the rotator and the two-access sequencer for an access that crosses a cache line or a page, with the rule that nothing of it changes if either part faults; the estimates above predate this and do not include it.) No partial-register writes, so no byte-enable muxing on the register file write port. Decode is generated from the grammar and is meant to synthesize flat (unverified: no RTL exists). The bit-manipulation functions are wiring and mux trees, which is what fabric is made of. The `MBLK` group needs no microstate register (ISA §7.5), so it adds counters rather than a save/restore path.
 
-**Hurts.** The 64-bit carry chain is slow on Cyclone V and gates `Fmax` more than it would in silicon. The barrel shifter is a large mux tree that does not map to anything special. Flags serialize branch resolution behind the ALU (§3), and `FCMP` serializes against them too; ISA §12.7 records this as open. The strided autoincrement of ISA §5.1 puts a second wide adder on the register writeback path, though it can share the AGU adder if the writeback is one cycle behind. And `MBLK` writes three registers per step, which either needs a second write port or forces the step to take as many cycles as it has registers to update — take the latter in phase 2 and revisit only if measurement demands it.
+**Hurts.** The 64-bit carry chain is slow on Cyclone V and gates `Fmax` more than it would in silicon. The barrel shifter is a large mux tree that does not map to anything special. There are no flags to serialize branch resolution behind the ALU (§3); `FCBCC` has its own comparator. The strided autoincrement of ISA §5.1 puts a second wide adder on the register writeback path, though it can share the AGU adder if the writeback is one cycle behind. And `MBLK` writes three registers per step, which either needs a second write port or forces the step to take as many cycles as it has registers to update — take the latter in phase 2 and revisit only if measurement demands it.
 
 Nothing here argues for changing the ISA; it determines where the pipeline registers go.
 
@@ -255,7 +255,7 @@ For one experienced engineer working seriously part-time. Wide error bars, and p
 | 0. Spec and tools | 5–9 weeks | larger encoding |
 | 1. Integer core | 9–14 weeks | the bit unit and tag ops |
 | 2. Exceptions | 6–11 weeks | the `MBLK` progress category and its test suite |
-| 3. MMU | 7–11 weeks | `MT` and `DMW` |
+| 3. MMU | 7–11 weeks | `MT` |
 | 4. Memory system | 4–8 weeks | |
 | 5. Floating point (integrating HardFloat) | 4–7 weeks | FMA and the classify/min/max set |
 | 6. Kernel bring-up | 8–16 weeks | |
@@ -271,7 +271,7 @@ Phase 6 is the widest because it is not really a hardware phase. It is a compile
 
 1. **The compiler backend.** A pcc back end for pdp64 exists and compiled C runs under `sim64`. On the 841-file fair corpus it produces 1.03 times amd64 and 1.04 times aarch64 in instructions and 0.97 and 0.89 times in bytes, with instruction lengths 2/4/6/8 bytes at 46.5/42.8/10.6/0.1 % (measured before errata 31 removed the 8-byte form; the maximum is now 6 bytes). That answers the measured-length-distribution question; the scaled-index displacement width (ISA open item 1) is still open. Phase 6 needs a production compiler. Nothing in phases 0–5 produces one, and no schedule line above covers writing it. The target (LLVM, a Facet backend, or a small self-hosted generator) changes the ISA's ABI document and bears on ISA open items 1 and 6, the scaled-index displacement width and the measured length distribution, which only a code generator can answer.
 2. **Timing closure on Cyclone V.** The target is 200 to 300 MHz (errata 99) and the estimate for this board is 50 to 80 MHz, so the target is not met here even on the estimate. If the design lands at 35 MHz rather than 60, the fix is architectural — pipeline stages — and pipelining a machine with memory operands and precise faults is not a small change. Mitigate by leaving pipeline register boundaries in the RTL from phase 1, even when unused.
-3. **Atomics on the system bus.** The bus is PCI Express (errata 120), whose own transactions replace the earlier bus design; how `CAS`, `LL`/`SC` and the `_DB` forms map onto PCI Express and AXI on the FPGA (a lock against a monitor, the earlier open item 4) is not decided in the ledger (unverified whether it is covered by J.2.4, the additions to PCI Express). It needs settling before phase 4, not during it. The `_DB` barrier-fused atomics raise the stakes, because they assert an ordering guarantee that has to mean something on the actual interconnect.
+3. **Atomics on the system bus.** The bus is PCI Express (errata 120), whose own transactions replace the earlier bus design; how `CAS`, `LL`/`SC` and the fetch-and-operate words map onto PCI Express and AXI on the FPGA (a lock against a monitor, the earlier open item 4) is not decided in the ledger (unverified whether it is covered by J.2.4, the additions to PCI Express). It needs settling before phase 4, not during it. The atomics are ordered as sequential consistency requires, so the guarantee has to mean something on the actual interconnect; an atomic on uncached or device memory is a fault, so the question is for the memory fabric of the cores, not for devices.
 4. **BRAM exhaustion at phase 7.** The caches, the TLB, the framebuffer, any blit-engine scratch and any audio voice state all want BRAM, and the DE10-Nano has about 5.5 Mb. Budget it before building the VIC, not after. §12 has the framebuffer numbers.
 5. **`MBLK` cache pollution.** ISA open item 8. A large `MCPY` will evict the entire D-cache for data that is never read again. On an 8 KB cache this shows up immediately. The architectural fix is a non-temporal variant or a streaming `MT` value; the non-fix is deciding by length in the implementation, which is a performance cliff with no architectural visibility. Decide in phase 4, when the cache exists and the effect is measurable.
 6. **Scope.** The specification covers a considerable amount of machine, including five instruction groups beyond the base set. The gate for phase 7 is that phase 6 boots, and that gate should be defended.
@@ -348,7 +348,7 @@ The estimates in §2 do not include the items below. All figures are estimates; 
 - **`FRINTDA`, `FCVTDQU`, `FCVTQUD`**: extra rounding and conversion cases in the FPU. No LUT figure.
 - **Canonical NaN results**: small extra logic on FP result paths. No LUT figure.
 - **`abs`, `min`, `max`**: assembler aliases (errata 98), not hardware instructions of their own; the earlier estimate of 150-250 LUTs no longer applies as a separate block.
-- **`set cc, rd`**: an instruction that turns the branch-condition logic into a register write. Not in §2; no LUT figure.
+- **`SETCC Ra, Rb, Rd`**: an instruction that turns the comparator of the branch unit into a register write. Not in §2; no LUT figure.
 - **Decode of the later additions**: the decoder structure of §2 ("mostly wires") is the thing to re-check against the prefix-coded grammar; no figure.
 - **Half precision (`binary16`)**: proposed, not decided. Conversion only is about 500-1,000 LUTs and full arithmetic about 2,000-3,500 LUTs. Neither is in the §2 table.
 - **Directed rounding for FP arithmetic**: undecided. Depending on the option chosen (a static rounding field, a mode register, or more opcodes) the FPU decode or the opcode map changes. No figure.

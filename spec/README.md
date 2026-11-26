@@ -1,6 +1,6 @@
 # spec/: the grammars and the tables of the encoding
 
-The pdp64 has one CPU: 32 registers (`r0`-`r31`) and a prefix-coded instruction encoding (the author, 2026-11-10, errata 122). Two earlier iterations of the design, an encoding with sixteen registers in which parcel 0 is `len:2 opc:6 reg:4 low:4` (pdp64/r20) and a prefix-coded one with sixteen registers (pdp64/16), were built and measured against it and superseded; their grammars, tools and tests are in the git tags `pre-single-cpu` and `pre-code-removal`, and the measured comparison is in `docs/encoding-work/`.
+The pdp64 has one CPU: 32 registers (`r0`-`r31`) and a prefix-coded instruction encoding (the author, 2026-11-10, errata 122). It is exclusively a 32-register machine: two earlier iterations of the design, an encoding with sixteen registers in which parcel 0 is `len:2 opc:6 reg:4 low:4` (pdp64/r20) and a prefix-coded one with sixteen registers (pdp64/16), were built and measured against it, superseded and removed, and no tool has an option that selects another machine. Their grammars, tools and tests are in the git tags `pre-single-cpu` and `pre-code-removal`, and the measured comparison is in `docs/encoding-work/`.
 
 The opcodes, prefixes and field positions may still change once the open items are decided and the encoding optimiser is run again; the grammars are then updated, and everything generated from them (the assembler tables, the tables of chapter 9 of the manual, the headers of the compiler) is regenerated. No document states these numbers in prose: they point to the generated tables.
 
@@ -125,7 +125,7 @@ code, that each leaf covers its 16n bits exactly once and that no first parcel d
 5. Anything that depends on a layout (a compiler back end, QEMU, a disassembler) is generated from the same tables or the same grammar; if it is not, that is the bug.
 
 The mnemonics are those of the original grammar (aliases included) plus the words only the new encodings have, which the rule `mn-ext` of `grammars.d/80-mn-ext.hbnf` lists (`mkenc.py` checks the list against the words the leaves use) as the group `mn-ext`
-of the grammar as64 reads (`spec/pdp64-asm.hbnf` over the parts that name `asm`): `maskeqz masknez bsel aeses aesesm aesds aesdsm aesks1 aesks2 aesim sha256* sha512* msha256 msha512 maesctr addv subv mulv`, the user-qualified moves `movq.u movq.d movq.ud ...`, and the fused `movcall popmret popret mov2`. They have no number in the original numbering of `pdp64-mnemonics.hbnf`.
+of the grammar as64 reads (`spec/pdp64-asm.hbnf` over the parts that name `asm`): `maskeqz masknez bsel aeses aesesm aesds aesdsm aesks1 aesks2 aesim sha256* sha512* msha256 msha512 maesctr addv subv mulv`, the user-qualified moves `movq.u ...` and `mcpy.ur mcpy.uw`, and the fused `movcall popmret popret mov2`. They have no number in the original numbering of `pdp64-mnemonics.hbnf`.
 
 ## The model in two paragraphs
 
@@ -143,14 +143,11 @@ of 32 bits or more and a relocation; the relocation types are those of `as64/rel
 
 * `(r)+` and `-(r)` without a stride write stride 0, which means the size of the access (8 outside the moves); `(r)+8` writes 8.
 * `pushm`, `popm`, `popmret` take a register mask; a mask is the low 32 bits of the number (so `#-16740608` is a mask of r31...).
-* `set cc, rd`: 4 bytes (`SETF`). `trap #n`, `spl #n`, `hint #n`: one parcel with an 8-bit number.
+* `setCC ra, rb, rd` and `setCC ra, #imm, rd` (an 8-bit signed immediate): 4 bytes. `trap #n`, `spl #n`, `hint #n`: one parcel with an 8-bit number.
 * ATOM: three register fields (`aadd`... `sc`; `cas` shares one register between the expected value and the old value) and, for `ll`, two; the memory address is `(Ra)`, and the destination is written last: `aadd rs, (ra), rd`, `ll (ra), rd`.
-* `cbCC` for which no form reaches (an external label, an operand pair no form holds) is assembled as `cmp` + `bCC`. **This writes the flags**, which `cbCC` does not (the compiler forms a `cbCC` only where the flags are dead), and it
-  executes two instructions for one. There are three lengths of `cbCC`: one parcel (compare with 0, a pc field of 4 to 7 bits), two (an immediate of 3 to 10 bits, or two registers, with a pc field of 8 to 14 bits) and three (a 16-bit immediate with a
-  12-bit pc field, an 8-bit immediate with a 20-bit pc field, two registers with a 24-bit pc field: a target up to 4 KB, 2 MB, 32 MB away). The pc field counts parcels. On the 841-file corpus of the compiler (`pcc-enc` abacdf17) 17 of
-  34,524 sites still need the pair (`docs/encoding-proposal.md`, section 12, which also says why a two-parcel `cbCC` could not carry them).
+* `cbCC` for which no form reaches (an external label, a target beyond 16 MB) is assembled as the opposite `cbCC` over a `br` to the target; neither writes anything (the machine has no flags), so the program is the same, longer by the `br`. The forms are two, four and six bytes: the compare of `eq` or `ne` with zero is two bytes, a small immediate or two registers four, and six bytes hold a 12-bit immediate (64 KB), a 16-bit immediate (4 KB) or two registers (16 MB), for all ten conditions alike (manual 9.10.5; the generated tables list every form and its reach). `fcbCC` is the floating-point twin, four bytes or six.
 * `movq #imm, rd` whose constant fits no shorter form is the ten-byte form (form `MOVQ64`, five parcels) with the 64-bit immediate.  One word names an operation and never its length: the assembler chooses the form from the operands (`jmp label` is `br label`), and `.encode N` forces a form of at least N parcels.
-* The 22 meaningless shapes the original assembler accepts (`clr/com/inc/dec/neg/tst/adc/sbc/asl/asr/jmp/call/pop/jmpi/calli #imm`, `movq/movl/movw/movb r,#imm`, `lea #imm,r`, `sob r,#imm`, ...) are refused.
+* The 22 meaningless shapes the original assembler accepts (`clr/com/inc/dec/neg/asl/asr/jmp/call/pop/jmpi/calli #imm`, `movq/movl/movw/movb r,#imm`, `lea #imm,r`, `sob r,#imm`, ...) are refused.
 * The assembler never fuses. The fused instructions are ordinary mnemonics with operands: `movcall rs, rd, label` (`movq rs,rd ; call label`, the target measured from the first parcel of the fused instruction),
   `popmret #mask`, `popret rd`, `mov2 ra, rb, rc, rd` (`movq ra,rb ; movq rc,rd`, all four in the hot-8 table). Choosing them is the compiler's job.
 * `extb/extzb/insb` have 6-bit position and width: a width of 64 is refused. The MESC words (`addm... bism`) exist only in the 3-parcel memory forms (the optimiser selected no narrower one: no use in the corpus).

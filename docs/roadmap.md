@@ -3,7 +3,7 @@
 
 [← pdp64 index](../README.md)
 
-Status: plan, updated 2026-11-10 to the current order of work. Decisions are in `docs/decisions-and-status.md` and the open items in `docs/design/open-items.md`; this document does not decide anything. Opcode numbers and encodings are not fixed until the open items that affect them are decided, so this plan does not state any; the generated tables (`spec/pdp64/tables.md`, the manual dictionary) do.
+Status: plan, updated 2026-11-10 to the current order of work, with the lines that later decisions made wrong corrected 2026-11-26 (the machine has no flags and no user-memory guard bit; the atomics are built). Decisions are in `docs/decisions-and-status.md` and the open items in `docs/design/open-items.md`; this document does not decide anything. Opcode numbers and encodings are not fixed until the open items that affect them are decided, so this plan does not state any; the generated tables (`spec/pdp64/tables.md`, the manual dictionary) do.
 
 Priority: the manual for the architecture is the primary deliverable; the assembler, linker, compiler back ends and emulators advance as needed to write and check it. The goal is what the project must have before it goes onto silicon: an assembler, a linker, an LLVM back end, an emulator, and a port of OpenBSD that you can ssh into. Sizes marked *(measured)* are line counts in the OpenBSD tree (`sys/arch/*`, lines of `.c`, `.S`, `.h`); everything marked *(estimate)* is a judgement; facts about OpenBSD's build requirements are *(not confirmed in the sources read)*.
 
@@ -30,7 +30,7 @@ The test counts in this table were measured in October 2026 on the old encodings
 |---|---|---|
 | Assembler (`as64`) | see `docs/implementation-status.md` (implementation facts are kept there, not in the manual); the LLVM assembler (`llvm-mc`) was checked against it | state of the atomics and other late instructions: see `docs/implementation-status.md` |
 | Linker (`ld64`) | links static programs; five relocation types | shared libraries and dynamic linking (OpenBSD's userland is position-independent by default and uses a run-time linker): a GOT and PLT, more relocation types, thread-local storage; or move to LLVM's linker `lld` |
-| Compiler back end | the pcc back end is complete for C (510 tests passed and code size was within 0.2% of `gcc -Os` when last measured; unverified today, the encoding is being changed); the LLVM back end has its machine-code layer (milestone 1: assembler, disassembler, object writer; 62 of 62 oracle programs agree, 6,304 of 6,304 instruction forms agree) | the rest of LLVM: instruction selection, calling convention, tied operands, flags model, frames, position-independent code, atomics, thread-local storage, then clang (the C front end for the target) and `lld` and the compiler runtime (`compiler-rt` builtins for 128-bit integers, soft float, atomics). This is the long pole. |
+| Compiler back end | the pcc back end is complete for C (510 tests passed and code size was within 0.2% of `gcc -Os` when last measured; unverified today, the encoding is being changed); the LLVM back end has its machine-code layer (milestone 1: assembler, disassembler, object writer; 62 of 62 oracle programs agree, 6,304 of 6,304 instruction forms agree) | the rest of LLVM: instruction selection, calling convention, tied operands, compare-and-branch selection (there are no flags), frames, position-independent code, atomics, thread-local storage, then clang (the C front end for the target) and `lld` and the compiler runtime (`compiler-rt` builtins for 128-bit integers, soft float, atomics). This is the long pole. |
 | Emulator | `sim64` (user programs, a kernel-mode option with exceptions and injected interrupts) and QEMU (a user-mode machine and a kernel-mode machine with an MMU walker, timer, console, interrupts; 43 `sim64` programs and 52 QEMU tests pass) | the machine model of the manual: PCI Express (Q64) with virtio devices (errata 95: virtio-blk disk, errata 101; network; entropy; console), an interrupt path for them (MSI and MSI-X), and a boot path (`-kernel` is enough to start with; the real route is block 0, errata 109) |
 | OpenBSD port | nothing written (the plan and its prerequisites are in the documents) | the kernel's machine-dependent code, the loader, the C library and run-time linker pieces, drivers for the devices above, and the userland build; sizes below |
 
@@ -54,7 +54,7 @@ What this suggests for the pdp64 *(estimate)*: the core machine-dependent code i
 
 ## The manual (a deliverable)
 
-The manual is the single manual of the architecture: hand-written chapters in `docs/manual-src`, generated into `docs/manual` by `tools/mkmanual.py` (the dictionary of instructions and the tables come from the grammars, so numbers cannot drift), and built into the book under `book/`. It describes the architecture as it is to be, not the state of the implementations (errata 120). `tools/mkmanual.py --check` fails if an instruction has no entry or an entry names an opcode the grammar does not. The decided, proposed (Appendix H), deferred (Appendix I) and open (Appendix J) material are kept apart. The manual is regenerated whenever the grammar changes (step 4 above).
+The manual is the single manual of the architecture: hand-written chapters in `docs/manual-src`, generated into `docs/manual` by `tools/mkmanual.py` (the dictionary of instructions and the tables come from the grammars, so numbers cannot drift), and built into the book under `book/`. It describes the architecture as it is to be, not the state of the implementations (errata 120). `tools/mkmanual.py --check` fails if an instruction has no entry or an entry names an opcode the grammar does not. The decided material is the manual; the proposed, deferred and open material is kept apart, in the design notes (`docs/design/`). The manual is regenerated whenever the grammar changes (step 4 above).
 
 ## The path to the finish line (proposed, with a testable exit for each step)
 
@@ -62,8 +62,8 @@ Design and documentation come first: the device designs, the open decisions, the
 
 | Step | Work | Exit test |
 |---|---|---|
-| R0 | Finish the toolchain gaps: `ATOM` (and the atomics decision P11: the monitor) in the grammar, `as64`, `sim64`, QEMU and LLVM; `MESC`; the `UA` guard; the `ABI` version field; the literal-pool rule if accepted (P18) | all `check-all` tests green with the new instructions; atomics tested under two cores in QEMU |
-| R1 | LLVM selection and the calling convention (tied operands, the flags model, frames, atomics lowering, position-independent code) | `llc` compiles the 510 C tests and they pass under `sim64`; size within a stated percentage of pcc |
+| R0 | Finish the toolchain gaps: the atomics (built in the grammar, `as64`, `sim64` and QEMU; LLVM remains); `MESC`; the `.U` moves; the `ABI` version field; the literal-pool rule if accepted (P18) | all `check-all` tests green with the new instructions; atomics tested under two cores in QEMU |
+| R1 | LLVM selection and the calling convention (tied operands, compare-and-branch selection, frames, atomics lowering, position-independent code) | `llc` compiles the 510 C tests and they pass under `sim64`; size within a stated percentage of pcc |
 | R2 | clang, `compiler-rt` builtins, `lld` (static first, then dynamic with a GOT and PLT) | clang builds a static `libc` subset and a test program, and the program runs |
 | R3 | The machine model for the OS: PCI Express enumeration (the bus chapter of the manual), virtio-blk disk, virtio network, entropy and a clock, using the existing virtio drivers in OpenBSD (virtio across the board, errata 95; there are no separate native devices) | the machine model boots a bare-metal test that reads a disk block, sends a packet and reads random bytes |
 | R4 | The kernel: machine-dependent code (traps, page tables, interrupts, start-up), the loader (boot.md), drivers for the model's devices | the cross-built kernel boots to single-user mode on the console |
@@ -78,13 +78,13 @@ Parallelism. R0, and the model side of R3, do not depend on LLVM; R4's start-up 
 | Open item or decision (see `docs/decisions-and-status.md` and `docs/design/open-items.md`; old labels from `decisions-pending.md`) | Gates |
 |---|---|
 | P11 atomics (decided: monitor) and the `ATOM` encodings | R0, and OpenBSD's kernel locks (R4) |
-| P2 `UA` guard (decided), P10 `MMUCTL` (decided) | R4 (kernel start-up and copy routines) |
+| P2 user-memory access (decided: the `.U` moves, no guard bit), P10 `MMUCTL` (decided) | R4 (kernel start-up and copy routines) |
 | P18 literal pool and execute-only | R1 (code generation) and the linker (R2) |
 | R1 interrupt controller, R2 starting other cores (single core is enough for the first ssh) | R4 (single core first) |
-| device model: decided, virtio over PCI Express (errata 79, 95, 101); the open details are in Appendix J | R3, R4 |
+| device model: decided, virtio over PCI Express (errata 79, 95, 101); the open details are in the open items of the design notes | R3, R4 |
 | P9 entropy | R6 (keys) |
 | P13 `long double` (decided: stays `double`, ABI version 2 for 128-bit) | R2 (`compiler-rt` and the C library) |
-| P3 `rdtime`, P4 feature registers, P5 `TLBIASID` | not on the critical path; useful early |
+| P3 `rdtime` (decided: the `TIME` system register), P4 feature registers (decided: `FEATURES`), P5 invalidate by address-space number (decided: `TLBIAS`) | not on the critical path; useful early |
 | the boot details (the boot chapter; errata 109) | R4 (loader) and R7 (silicon); QEMU's `-kernel` skips them until then |
 
 ## Measuring each design choice on the OpenBSD port
@@ -96,6 +96,6 @@ The emulators answer whether a feature works. Whether it is worth its cost is an
 * The LLVM back end is the schedule. If it proves harder than estimated, the plan has no fallback to the goal (the fallback, 32V with pcc, does not reach ssh). The mitigation is to start R1 early and to measure progress against the 510 tests.
 * The OpenBSD userland build may assume a native or an established cross build; bootstrapping a new architecture involves a cross-compiled first userland *(not confirmed in the sources read)*. The first step of R5 should be to read OpenBSD's cross-build procedure.
 * Entropy and time for `sshd` in the emulator: the emulator can feed a seed and a clock; the real boards need the entropy device (P9).
-* Virtio across the board is decided (errata 95): existing drivers get to ssh fastest. The risk is that the open PCI Express additions (Appendix J) change the device model late.
+* Virtio across the board is decided (errata 95): existing drivers get to ssh fastest. The risk is that the open PCI Express additions (the open items of the design notes) change the device model late.
 
 <!-- {% endraw %} -->

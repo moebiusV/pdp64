@@ -654,9 +654,9 @@ The numbers in this fragment are labels: they are those of chapter 7 before its 
 
 **7.8.1** (moved from chapter 7) The controller holds every core but core 0 in reset; a write to a per-core start register gives a core an entry address and an argument and releases it into kernel mode at priority 7, with its number in `r0`. The same proposal is statement 4.7.1 of the boot chapter (its fragment is the one to read for the start protocol, the pseudocode and the figure); it is entered here as well because chapter 7 stated it independently.
 
-**7.8.2** (the mechanism, moved from chapter 7) An inter-processor interrupt is a write to a per-core register in the interrupt controller; no APIC-like machinery is needed. (That one core can interrupt another is decided, 7.10.4 of the body; how interrupts reach a core is open: [J.6.3](open-items.md#j63).)
+**7.8.2** (the mechanism, moved from chapter 7) An inter-processor interrupt is a write to a per-core register in the interrupt controller; no APIC-like machinery is needed. (That one core can interrupt another is decided, 7.10.4 of the body; how interrupts reach a core is open: [J.6.2](open-items.md#j62).)
 
-**7.8.3** (moved from chapter 7) The routing of device interrupts to cores, and a shared second-level cache or a coherent interconnect, are device-side and unspecified. (The routing of interrupts is the open item [J.6.3](open-items.md#j63); the cache and the interconnect are implementation choices that the architecture does not fix.)
+**7.8.3** (moved from chapter 7) The routing of device interrupts to cores, and a shared second-level cache or a coherent interconnect, are device-side and unspecified. (The routing of interrupts is the open item [J.6.2](open-items.md#j62); the cache and the interconnect are implementation choices that the architecture does not fix.)
 
 *Commentary on 7.8.1 to 7.8.3 (moved from chapter 7).* **Precedent.** An x86 core wakes in 16-bit real mode and has to be walked through three modes by a trampoline (1,528 lines of start-up code and 1,258 of real-mode code in Linux); arm64 uses a firmware call in 124 lines or a spin table in 127; RISC-V 108 or 58; the VAX's console processor started the others. **Benefits.** A core can start in its normal mode at any address, so the whole protocol is one register write. **Modern comparables.** x86's INIT and START-UP interrupts, ARM's PSCI, RISC-V's hart-start call. **Impact.** *Kernel:* Starting a core is one register write, and a stuck core is reset by another. *Compiler:* None. *Hardware:* A start register and a reset-hold per core in the controller.
 
@@ -726,44 +726,18 @@ The chapter (8.4) shows the driver of an accelerator in pseudocode as an illustr
 
 **9.3.9** (moved from chapter 9) `R16` to `R31` in the ABI: the compiler saves `R24` to `R31` in the callee and treats `R16` to `R23` as clobbered by a call. The ABI documents call this split a draft; it is built into the compiler and the runtime of the six large programs. 
 
-**9.20.4** (moved from chapter 9) Under consideration: separate floating-point condition flags, software-visible translation-buffer manipulation (to pin an entry for a real-time kernel). The floating-point condition flags and the conditional select are open items now (J.9.9, J.9.1); the translation-buffer manipulation is only a proposal: an instruction that pins one translation so that a real-time kernel's interrupt path never takes a miss.
+**9.20.4** (moved from chapter 9) Under consideration: software-visible translation-buffer manipulation (to pin an entry for a real-time kernel). It is only a proposal: an instruction that pins one translation so that a real-time kernel's interrupt path never takes a miss. (The machine has no flags, floating-point compares are compare-and-branch words, and the expansion of the minimum and maximum words is an open item, J.9.1.)
 
 **9.2 commentary** (moved from chapter 9) Whether the extension instruction after some narrow operations costs enough to justify 32-bit forms of add and subtract is a proposal that the compiled corpus can answer; it is the proposal of appendix A.9. 
 
 **9.18 commentary** (moved from chapter 9) A bounds-checked `INDEX` instruction for Pascal and Ada is a possible addition. 
 
-**9.21.3** (moved from chapter 9) Not decided in the encodings: the combination `.ud` of the two load qualifiers, the stage 2 whole-buffer hash and cipher words (`MSHA256`, `MSHA512`, `MAESCTR`), and a profile-tuned variant of the encoding (not tried). In the compiler: the use of `MOVUW`, `MOVUL` and `MOVUQ`, division by 64-bit constants, loop-invariant motion and live-range splitting. 
+**9.21.3** (moved from chapter 9) Not decided in the encodings: the stage 2 whole-buffer hash and cipher words (`MSHA256`, `MSHA512`, `MAESCTR`), and a profile-tuned variant of the encoding (not tried). In the compiler: the use of `MOVUW`, `MOVUL` and `MOVUQ`, division by 64-bit constants, loop-invariant motion and live-range splitting. 
 
 
 ### The instruction entries held back from chapter 9 (moved from the dictionary of chapter 9)
 
-The entries below were in the instruction chapter, in the section named at the end of each entry. They describe instructions that the grammar of the encoding carries and that I have not decided: each is tagged . (The words I did decide are back in the chapter: `BSEL`, the deferred-fault and user-qualified moves, and the AES and SHA words.) The bit layouts are in the grammars `spec/pdp64-enc.hbnf` and `spec/pdp64-32/pdp64-32.hbnf`; the charts are not reproduced.
-
-#### MOVUSERD: User-qualified deferred-fault load
-
-**Mnemonics:** `MOVQ.UD`, `MOVL.UD`, `MOVW.UD`, `MOVB.UD`, `MOVZL.UD`, `MOVZW.UD`, `MOVZB.UD` (section 9.6 of the instruction chapter)
-
-**Syntax**
-
-```
-MOVQ.UD d(Rn), Rd
-MOVL.UD ..., MOVW.UD ..., MOVB.UD ...
-MOVZL.UD ..., MOVZW.UD ..., MOVZB.UD ...
-```
-
-**Operation**
-
-```
-Rd <- M[EA], the access being both user-qualified (MOVU) and deferred (MOVD)
-```
-
-**Flags** None written.
-
-**Exceptions** The faults of `MOVU` and `MOVD` together.
-
-The combination of the two qualifiers. The repository defines each qualifier alone (items 10 and 18 of `docs/study-proposals.md`) and gives the combination no text of its own: a kernel that reads a user word without wanting to fail on it (a probe of a user pointer) is the case the combination serves, and its meaning is the composition. Loads only, base and indexed operands.
-
-**Why it is here.** See `MOVD` and `MOVUSER`. The record gives no separate reason for the combination; it is listed because both qualifiers exist and a probe of a user pointer wants both.
+The entries below were in the instruction chapter, in the section named at the end of each entry. They describe instructions that the grammar of the encoding carries and that I have not decided: each is tagged . (The words I did decide are back in the chapter: `BSEL`, the user-qualified moves, and the AES and SHA words.) The bit layouts are in the grammars under `spec/`; the charts are not reproduced.
 
 #### MSHA: Hash whole blocks of memory
 
@@ -782,8 +756,6 @@ MSHA512 Rd, Rs, Rn
 hash the Rn bytes (whole blocks) at (Rs) into the state at (Rd)
 progress is held in Rd, Rs and Rn; an interrupt or a fault restarts the instruction where it stopped
 ```
-
-**Flags** None written.
 
 **Exceptions** Memory operand: page fault, protection fault, alignment fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
@@ -807,8 +779,6 @@ MAESCTR Rd, Rs, Rn, Rp
 AES counter mode over the Rn bytes at (Rs), written at (Rd); the key, the counter and the number of rounds are in the parameter block at (Rp)
 progress is held in the registers and the parameter block; an interrupt or a fault restarts the instruction where it stopped
 ```
-
-**Flags** None written.
 
 **Exceptions** As `MSHA`.
 

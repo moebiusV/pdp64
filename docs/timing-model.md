@@ -3,7 +3,7 @@
 [← sim64](sim64.md) · [pdp64 index](../README.md)
 
 A trace-driven, in-order timing model inside `sim64`. The program runs functionally as always; for every executed instruction the model is told its
-address, length, the registers and flags it read and wrote (in order), its memory accesses, and where control went next, and it computes how many cycles
+address, length, the registers it read and wrote (in order), its memory accesses, and where control went next, and it computes how many cycles
 a small in-order core would need. It exists to compare **implementations** (different widths and latencies, instruction bytes against the fetch width, the length decode) and
 **compiler options** (instruction counts and sizes) by estimated cycles, and to say when a program is **fetch-bound** (the core waits for instruction
 bytes) and when it is **execute-bound** (it waits for operands, loads, multiply/divide, branch resolution).
@@ -52,7 +52,7 @@ tm name=LABEL prog=image.x enc=pdp64 insns=... bytes=... cycles=... ipc=... bpc=
 * **Decode.** `iw` instructions and `decw` bytes per cycle (an instruction longer than `decw` takes several cycles). It happens `ldec` cycles after the bytes arrive: `ldec` is the **length-decode latency**
   (the length of an instruction is a table of its first parcel; the default is 1, `ldec=N` sets N; `ldec0` and `ldecp`, which gave the earlier iterations different defaults, are gone).
   Decode takes the bytes out of the buffer (this is what frees space for the fetch unit). Between decode and issue are `dl` cycles and a queue: decode may run at most `dq` instructions ahead of issue.
-* **Issue** is in order. An instruction issues when it has been decoded, its source registers (and flags) are ready, the registers it writes are free (a write after write waits for the older result),
+* **Issue** is in order. An instruction issues when it has been decoded, its source registers are ready, the registers it writes are free (a write after write waits for the older result),
   an issue slot is free (`iw` per cycle), memory ports are free (`mp` accesses per cycle; an instruction with more accesses than ports, `pushm`, `popm`, `popmret`, holds the stage for the extra cycles)
   and at most one branch per cycle. A divide waits for the (non-pipelined) divider.
 * **Execute latencies** (issue to use): ALU `alu` (1); a load `ld` (3) on a hit, `ld + dmiss` on a D-cache miss (`dc=1`; a second access to a line still being filled waits for the fill); a pure move or load result: `movq rs,rd` 1, a loaded value
@@ -61,7 +61,7 @@ tm name=LABEL prog=image.x enc=pdp64 insns=... bytes=... cycles=... ipc=... bpc=
   **A fused instruction is one decode and one issue slot**; the model walks its register and memory accesses in order, so a dependence inside it (the second half of `mov2` reads what the first wrote) adds the
   dependent latencies, and independent halves (`movcall`: the move and the call; `popret`: the pop and the return) overlap.
   `mcpy`, `mset`... are **count-based**: `blkb + ceil(bytes / blkw)` cycles, holding the pipeline (the D-cache sees the accessed lines, no miss penalty is charged). `trap`/`halt` hold it `sys` cycles.
-* **Branches.** Conditional branches (`bCC cbCC sob btag bntag`) are predicted by `pred`: `none` (always not taken), `static` (backward taken), `bimodal` (table of 2-bit counters, `bht` entries, first encounter static), `perfect`, `taken`.
+* **Branches.** Conditional branches (`cbCC fcbCC sob btag bntag`) are predicted by `pred`: `none` (always not taken), `static` (backward taken), `bimodal` (table of 2-bit counters, `bht` entries, first encounter static), `perfect`, `taken`.
   Direct `br`, `jmp`, `call` and `movcall` are always predicted correctly (the target is in the instruction). Indirect `jmp`, `calli`, `jmpi`, `jtag` use a table of the last target (`ibtb` entries);
   `ret`, `popret`, `popmret` a return stack of `ras` entries (`ras=0`: the indirect table). A correctly predicted taken transfer redirects the fetch unit `tkb` cycles after the branch is **decoded**
   (request of the target window in cycle *d + tkb*), or with no bubble if it hits the BTB (`btb` entries, direct mapped, filled by taken transfers): the next request follows the branch window's request. A misprediction
@@ -107,7 +107,7 @@ issue width 2 with and without a BTB (one iteration per cycle). (44 checks). Wha
 ## 6. How it is built
 
 `common/timing.c` is the model; `common/timing.h` the record of an instruction. The register accesses come from `build/pdp64exec_tm.c`, which `tools/mk-exec-tm.py` generates from the shared `common/pdp64exec.c` and `pdp64exec_enc.inc`
-(left unchanged for QEMU): every `r[..]`, flag and `dp` access is replaced by a call that logs it and returns the same value, so the semantics are identical (all of `tools/check-sim64.sh` runs through the generated copy). The classes
+(left unchanged for QEMU): every `r[..]` and `dp` access is replaced by a call that logs it and returns the same value, so the semantics are identical (all of `tools/check-sim64.sh` runs through the generated copy). The classes
 (ALU, move, multiply...) come from the mnemonic, and for the instructions run through `exec_fmt` from the decoded fields. The memory accesses are logged by the host hooks of `sim64`.
 
 ## 7. Assumptions and limits (errata-style)

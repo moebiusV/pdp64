@@ -26,7 +26,7 @@ Lineage: Unibus, Q-bus, PCI Express with additions. **The name Q64 is for the la
 
 ## 3. Addressing
 
-* *Decided* (manual 2.3.5; errata 97, 102): the physical address is **40 to 64 bits**, an implementation choosing its width in that range. **No bit of the physical address selects device space**: a device window is an ordinary range of physical addresses, found by enumeration. A window can be mapped anywhere except the first few pages, where the boot code and boot data are loaded. *Open*: how many pages those are, where the configuration space sits, how software discovers the implemented width (J.2.1, J.4.1, J.6.1), and the page-table entry for a wide address (J.6.2).
+* *Decided* (manual 2.3.5; errata 97, 102): the physical address is **40 to 64 bits**, an implementation choosing its width in that range. **No bit of the physical address selects device space**: a device window is an ordinary range of physical addresses, found by enumeration. A window can be mapped anywhere except the first few pages, where the boot code and boot data are loaded. *Open*: how many pages those are, where the configuration space sits, (J.2.1, J.4.1), and the page-table entry for a wide address (J.6.1); software reads the implemented width from the `FEATURES` system register.
 * *Decided* (manual 2.3.6; details to be determined): the windows of a device start on 4 KB page boundaries and are a whole number of pages, so that one device can be mapped to one protection domain.
 * *Decided* (manual 2.3.2): devices live in the ordinary address space; the processor has no input or output instructions.
 * The virtual address is 39, 48 or 57 bits (manual 6.6); the direct-mapping windows have no defined format yet (manual 6.9.2).
@@ -39,9 +39,9 @@ The processor is an initiator. A device is a target (its registers) and, if it m
 
 *Decided* (manual 2.8.1): exactly three things, and nothing else.
 
-1. A memory type per page: normal cached, normal uncached, device strongly ordered, device weakly ordered (manual 2.3.3 and 6.7). Per page, not per access, so the code doing the writing does not need to know.
+1. A memory type per page: normal cached (0), normal uncached (1), device weakly ordered (2), device strongly ordered (3), the larger the stricter (manual 2.3.3 and 6.7). Per page, not per access, so the code doing the writing does not need to know.
 2. An ordering instruction, `FENCE`, with a defined meaning against PCI Express: a driver can be sure a descriptor is visible before it writes the queue's notification address (the doorbell).
-3. Atomics that can reach device memory (what an atomic does on uncached and device memory is open: J.7.4).
+3. Atomics on ordinary memory, for queues shared with a device (an atomic on uncached or device memory takes the store protection fault: manual 7.4).
 
 ## 6. Coherence and the hand-off
 
@@ -61,7 +61,7 @@ The processor is an initiator. A device is a target (its registers) and, if it m
 
 ## 8. Atomics: settled
 
-The Unibus `DATIP`/`DATO` locked read-modify-write is a lock; the exclusive access of the FPGA memory fabric is a monitor. The question of which the architecture uses was settled: the atomics are defined on a **monitor** (a reservation that a write by any initiator clears), and the locked pair is not architectural (errata 45; manual 2.10 and 7.4). A device that writes memory shared with a core takes part by clearing reservations. What remains is the behaviour on uncached and device memory (J.7.4).
+The Unibus `DATIP`/`DATO` locked read-modify-write is a lock; the exclusive access of the FPGA memory fabric is a monitor. The question of which the architecture uses was settled: the atomics are defined on a **monitor** (a reservation that a write by any initiator clears), and the locked pair is not architectural (errata 45; manual 2.10 and 7.4). A device that writes memory shared with a core takes part by clearing reservations. An atomic on uncached or device memory takes the store protection fault (manual 7.4); a device's own atomics are the device's.
 
 ## 9. The device convention
 
@@ -71,7 +71,7 @@ The Unibus `DATIP`/`DATO` locked read-modify-write is a lock; the exclusive acce
 
 ## 10. Interrupts and the other cores
 
-*Decided* (manual 2.6): a device interrupts by a message-signalled write (MSI-X); the details (delivery to a core, vector count and numbering, moving an interrupt between cores) are pending (J.6.3). An inter-processor interrupt exists as a need (manual 7.10.4). *Open*: how a device interrupt and an inter-processor interrupt reach a core, the per-core registers and the boot protocol for secondary cores (J.6.3, J.4.6).
+*Decided* (manual 2.6): a device interrupts by a message-signalled write (MSI-X); the details (delivery to a core, vector count and numbering, moving an interrupt between cores) are pending (J.6.2). An inter-processor interrupt exists as a need (manual 7.10.4). *Open*: how a device interrupt and an inter-processor interrupt reach a core, the per-core registers and the boot protocol for secondary cores (J.6.2, J.4.6).
 
 ## 11. What it costs
 
@@ -98,21 +98,21 @@ What it costs: one used-ring write per chain (devices already write a completion
 |---|---|
 | The bus is PCI Express, with convenience and security additions | decided (2.3.1, 2.3.4) |
 | The additions themselves (root complex registers, overlays, helper registers) | open (J.2.4); the name Q64 returns with them |
-| Physical address 40 to 64 bits; no selecting bit; windows anywhere but the first pages | decided (errata 97, 102); details open (J.2.1, J.4.1, J.6.1, J.6.2) |
+| Physical address 40 to 64 bits; no selecting bit; windows anywhere but the first pages | decided (errata 97, 102); details open (J.2.1, J.4.1, J.6.1) |
 | Windows start on page boundaries | decided, details to be determined (2.3.6) |
-| Memory type per page; `FENCE`; atomics reach devices | decided (2.8.1); atomics on device memory open (J.7.4) |
+| Memory type per page; `FENCE`; atomics on ordinary memory | decided (2.8.1); an atomic on device memory is a fault (7.4) |
 | Atomics are monitor-based, not `DATIP`/`DATO` | decided (errata 45; 2.10) |
 | Coherence: snooping between CPUs, uncached and explicit with DMA | decided (2.5) |
 | `BUSFAULT` on a read of nothing; machine check on a lost posted write | decided (2.9) |
 | Enumeration by PCI Express; hot-plug alert and rescan | decided (2.4) |
 | Departed device: windows fault, work stays in memory | decided, details to be determined (2.4.5, 2.4.9) |
-| MSI-X | decided, details pending (2.6; J.6.3) |
+| MSI-X | decided, details pending (2.6; J.6.2) |
 | virtio devices, USB, disk virtio-blk, no eight-register devices | decided (errata 95, 101; register R359) |
 | IOMMU | part of the design; the table, the place, the reports of a refusal, the guest's level and the registers are decided, the details to be determined (2.11 of the manual) |
 | Which virtio features; console, timer, entropy | open (J.2.3, J.5.1, J.5.2) |
 | The bus controller of errata 49 | open (J.2.2) |
 | The root complex error registers | open (J.2.4) |
-| Interrupt controller, inter-processor interrupt, boot of secondary cores | open (J.6.3, J.4.6) |
+| Interrupt controller, inter-processor interrupt, boot of secondary cores | open (J.6.2, J.4.6) |
 
 ## Sources
 

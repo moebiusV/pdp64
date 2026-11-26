@@ -24,6 +24,29 @@ import memberprose as MP
 import isa_enc as ENCPROSE
 
 MANUAL = os.path.join(ROOT, 'docs', 'manual')             # the manual of the pdp64
+MEASURE_FILE = os.path.join(ROOT, 'docs', 'encoding-work', 'bench', 'flags', 'results-final.txt')   # written by tools/measure-flags.sh
+
+
+def measured():
+    """the numbers of the flags measurement, key = value lines of MEASURE_FILE (a number in the manual is never typed: @@MEASURE:key@@)"""
+    if not os.path.exists(MEASURE_FILE):
+        raise SystemExit('%s is missing: run tools/measure-flags.sh' % os.path.relpath(MEASURE_FILE, ROOT))
+    out = {}
+    for line in open(MEASURE_FILE):
+        if line.strip() and not line.startswith('#'):
+            k, _, v = line.partition(' = ')
+            out[k.strip()] = v.strip()
+    return out
+
+
+def resolve_measures(text, name):
+    """replace every @@MEASURE:key@@ by its value in the measurement file; a key that is not there is an error"""
+    m = measured() if '@@MEASURE:' in text else {}
+    def one(mt):
+        if mt.group(1) not in m:
+            raise SystemExit('%s: @@MEASURE:%s@@ is not a key of %s' % (name, mt.group(1), os.path.relpath(MEASURE_FILE, ROOT)))
+        return m[mt.group(1)]
+    return re.sub(r'@@MEASURE:([\w.-]+)@@', one, text)
 SRCDIR = os.path.join(ROOT, 'docs', 'manual-src')         # the hand-written text, once (docs/manual-src/README.md)
 DESIGN = os.path.join(ROOT, 'docs', 'design')             # the design notes (decisions pending, evolution, proposed, deferred, open items), outside the manual
 DESIGNSRC = os.path.join(DESIGN, 'src')                   # their sources: the five notes and appendix-parts/ (docs/design/README.md)
@@ -740,6 +763,9 @@ def build():
             DFIGS[fname + '.svg'] = draw()
     for d in (files, chapters, FIGS, DFIGS):             # the tokens of the generated text (the entries, the dictionary, the figures)
         for k in d:
+            d[k] = resolve_measures(d[k], k)
+            if '@@MEASURE' in d[k]:
+                raise SystemExit('%s: a @@MEASURE token that is not written correctly' % k)
             d[k] = BOOK.resolve(d[k], k)
             m = re.search(r'\{\{[#rcuan]\b.{0,40}', d[k])
             if m:

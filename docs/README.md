@@ -16,7 +16,9 @@ The pdp64's earlier iterations, r20 and pdp64/16, are in the git tags `pre-singl
 |---|---|---|
 | [`manual/`](manual/00-index.md) | current | the manual of the pdp64, generated from `manual-src/`; the body holds decided material (the proposals, deferred items, open items and the history are in [`design/`](design/README.md)); chapter 9 and the [dictionary](manual/dictionary/index.md) are the instruction reference |
 | [`manual-src/`](manual-src/README.md) | current | the hand-written source of the manual (generated pages are never edited) |
-| [`design/`](design/README.md) | current | the design notes outside the manual: open items, proposed, deferred, decisions pending, the evolution of the design (their sources are in `design/src/`) |
+| [`design/`](design/README.md) | current | the design notes outside the manual: open items, proposed, deferred, decisions pending, the evolution of the design (their sources are in `design/src/`; they become Volume II of the book when buildabook has volumes) |
+| [`annex/`](annex/README.md) | current | the sources of the annex, a second volume: for each decision, the patterns it enables and the failures it avoids, with the code before and after (not part of the manual; not yet built) |
+| [`principles.md`](principles.md) | current | the principles every decision is judged by, and their order |
 | [`decisions-and-status.md`](decisions-and-status.md) | current | the ledger: every decision, what is done, left to do, rejected, in the air; the briefing of the open questions |
 | [`decision-register.md`](decision-register.md) | current | the author's messages by number, append-only |
 | [`errata.md`](errata.md) | current (a log) | each decision and correction, numbered; newer entries win over older text |
@@ -31,6 +33,10 @@ The pdp64's earlier iterations, r20 and pdp64/16, are in the git tags `pre-singl
 | [`pdp64-isa.md`](pdp64-isa.md) | the narrative and rationale of the instruction set (priorities, rules, why each group has its shape, what was refused); the reference is chapter 9 of the manual |
 | [`pdp64-q64-bus.md`](pdp64-q64-bus.md) | internal design document on the bus: PCI Express and the additions under consideration; the manual does not use the name Q64 until they are decided; lists which items are decided |
 | [`abi.md`](abi.md) | the ABI, version 1 (the source text of manual appendix C) |
+| [`security-corpus.md`](security-corpus.md) | the index of the security corpus: every hole and information bleed, its probe program and whether the implementation has it |
+| [`sel4-on-the-pdp64.md`](sel4-on-the-pdp64.md) | what seL4 needs from a processor and what the pdp64 provides (a dated paper: the status columns are as of its date) |
+| [`../handoff.md`](../handoff.md) | the working notes: what exists, how to rebuild it, the order of work |
+| [`../spec/README.md`](../spec/README.md) | the grammars and how to change them |
 | [`asm-syntax.md`](asm-syntax.md) | the assembly language of `as64` (appendix D of the manual, grammar `../spec/pdp64-asm.hbnf`) |
 | [`relaxation.md`](relaxation.md) | linker relaxation: design, algorithm, checks (sections 6 and 7 are records of the measurements) |
 | [`sim64.md`](sim64.md) | the reference emulator |
@@ -55,6 +61,7 @@ Dated studies, proposals and research; each has a banner.
 | [`decisions-pending.md`](decisions-pending.md), [`smp-decisions.md`](smp-decisions.md), [`priority-lists.md`](priority-lists.md), [`retire-stage-candidates.md`](retire-stage-candidates.md) | question lists and priority lists to the author |
 | [`architecture-recommendations.md`](architecture-recommendations.md), [`security-proposals.md`](security-proposals.md), [`security-round2.md`](security-round2.md), [`study-proposals.md`](study-proposals.md), [`study-round2.md`](study-round2.md) | proposals and the author's replies |
 | [`fact-check-2026-10-22.md`](fact-check-2026-10-22.md) | outside claims compared with sources |
+| [`owner-questions.md`](owner-questions.md) | 2026-11-25: the questions the owner asked and the answers, kept as asked |
 | [`c64-devices-from-chat.md`](c64-devices-from-chat.md) | the C64-derived devices from the author's earlier chat (deferred) |
 | [`kernel-asm-survey.md`](kernel-asm-survey.md), [`kernel-pain-points.md`](kernel-pain-points.md), [`hardware-vulnerabilities.md`](hardware-vulnerabilities.md), [`openbsd-mitigations.md`](openbsd-mitigations.md), [`codegen-analysis.md`](codegen-analysis.md) | research reports |
 | [`encoding-proposal.md`](encoding-proposal.md), [`layout-fit-analysis.md`](layout-fit-analysis.md), [`layout-size-variants.md`](layout-size-variants.md), [`register-file-options.md`](register-file-options.md), [`dynamic-spill-estimate.md`](dynamic-spill-estimate.md), [`spill-experiment.md`](spill-experiment.md) | the encoding and register-file studies of 2026-11-03 and 04 |
