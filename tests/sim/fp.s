@@ -51,13 +51,13 @@ _start:
 	shl	#48, r5
 	cbne r4, r5, f10
 	movq	#3, r1
-	fcvtqd	r1, r2
+	fcvt	r1, r2.64
 	movq	#0x4008, r3
 	shl	#48, r3
 	cbne r2, r3, f11
 	movq	#0x400C, r1
 	shl	#48, r1
-	fcvtdq	r1, r2
+	fcvt	r1.64, r2
 	cbne r2, #3, f12
 	movq	#0x3FF8, r1
 	shl	#48, r1

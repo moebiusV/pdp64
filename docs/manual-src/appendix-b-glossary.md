@@ -18,8 +18,8 @@
 | **fused instruction** | `MOVCALL`, `POPRET`, `POPMRET` or `MOV2`: one instruction for a pair that the compiler finds adjacent ({{r:branches-and-control-flow}}) |
 | **relaxation** | the linker's choice, after the sections are laid out, of the shortest form that reaches for a call or an address; on by default ({{r:addressing-modes}}) |
 | **`CBCC`** | compare-and-branch on condition: compares a register with zero, an immediate or a second register and branches in one instruction, writing nothing; the integer conditional branch of a machine with no condition codes ({{r:branches-and-control-flow}}) |
-| **`FCBCC`** | the floating-point compare-and-branch: compares two binary64 (or, with the `32` forms, binary32) registers and branches, with the words `uo` and `or` for the unordered case ({{r:fcbcc-compares-two-registers}}) |
-| **`ROR32`** | rotate right by an immediate, 32-bit, sign-extended result |
+| **`FCBCC`** | the floating-point compare-and-branch: compares two binary64 (or, with the mark `.32` on both registers, binary32) registers and branches, with the words `uo` and `or` for the unordered case ({{r:fcbcc-compares-two-registers}}) |
+| **`ROR` with `.32`** | rotate right by an immediate, 32-bit, sign-extended result |
 | **`SOB`** | subtract one and branch, either direction ({{r:branches-and-control-flow}}) |
 | **`MCPY`, `MMOV`, `MSET`, `MCMP`, `MSCN`, `MSCNN`** | the block operations: copy, move (overlap-safe), fill, compare, scan for a byte, scan for the first byte not equal; progress is held in registers so a fault restarts for free ({{r:stack-and-block-operations}}) |
 | **`MVAL`** | block scan of valid UTF-8, one of the string instructions of the same family ({{r:bits-bytes-and-text}}) |

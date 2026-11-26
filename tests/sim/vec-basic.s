@@ -19,8 +19,8 @@ _start:
 	lea	want, r1
 	movq	#19, r2
 	movq	#1, r9
-1:	movl	(r0)+, r5
-	movl	(r1)+, r6
+1:	mov	(r0)+.32, r5
+	mov	(r1)+.32, r6
 	cbne	r5, r6, fail
 	sob	r2, 1b
 	; ---- 2. bytes widened to words, 255 - x, narrowed with saturation back to bytes (200 bytes)
@@ -38,10 +38,10 @@ _start:
 	lea	bdst, r0
 	movq	#200, r2
 	movq	#2, r9
-2:	movzb	(r1)+, r5
+2:	mov	(r1)+.u8, r5
 	movq	#255, r6
 	sub	r5, r6
-	movzb	(r0)+, r7
+	mov	(r0)+.u8, r7
 	cbne	r6, r7, fail
 	sob	r2, 2b
 	; ---- 3. the sum and the maximum of 21 words into registers
@@ -60,7 +60,7 @@ _start:
 	movq	#0, r5
 	lea	wsrc, r1
 	movq	#21, r2
-3:	movw	(r1)+, r7
+3:	mov	(r1)+.16, r7
 	add	r7, r5
 	cble r7, r6, 4f
 	movq	r7, r6

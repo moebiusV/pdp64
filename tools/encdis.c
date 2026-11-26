@@ -14,6 +14,37 @@
 #include <stdlib.h>
 #include <string.h>
 #include "pdp64enc.h"
+#include "x/pdp64-marks.h"
+/* the width marks (spec/grammars.d/61-asm-marks.hbnf): a word of the encoding that has a row is printed as its operation, and its marks follow the operands they belong to */
+static const struct markrow *row_of(const char *w)
+{
+	for (const struct markrow *r = mark_rows; r->word; r++) if (!strcmp(r->word, w)) return r;
+	return NULL;
+}
+static const char *shown(const char *w) { const struct markrow *r = row_of(w); return r ? r->op : w; }
+static void fmtc(char *out, const char *c)		/* one side of a conversion: the mark of a register (i is no mark) */
+{
+	if (!strcmp(c, "i")) out[0] = 0; else sprintf(out, ".%s", c);
+}
+static void marks_of(const struct einsn *in, char mk[6][8])
+{
+	const struct markrow *r = row_of(enc_mn_name(&enc_tab, in->mn));
+	memset(mk, 0, 6 * 8);
+	if (!r || !r->spec[0]) return;
+	const char *sp = r->spec;
+	if (sp[0] == 'm') {
+		int m = -1;
+		for (int k = 0; k < in->nops; k++) if (in->op[k].k == EK_B || in->op[k].k == EK_X || in->op[k].k == EK_PI || in->op[k].k == EK_PD || in->op[k].k == EK_PC || in->op[k].k == EK_A) m = k;
+		if (m < 0) m = 0;
+		sprintf(mk[m], sp[1] == 'u' ? ".u%s" : ".%s", sp + (sp[1] == 'u' ? 2 : 1));
+	} else if (sp[0] == 's') sprintf(mk[0], ".%s", sp + 1);
+	else if (sp[0] == 'f') { for (int k = 0; k < in->nops && k < 6; k++) if (in->op[k].k == EK_R) sprintf(mk[k], ".%s", sp + 1); }
+	else if (sp[0] == 'c') {
+		char a[8], b[8]; const char *c1 = strchr(sp + 2, ':');
+		snprintf(a, sizeof a, "%.*s", (int)(c1 - sp - 2), sp + 2); snprintf(b, sizeof b, "%s", c1 + 1);
+		fmtc(mk[0], a); fmtc(mk[1], b);
+	}
+}
 static void put(const struct eop *o, uint64_t pc)
 {
 	static const char *rn[] = { "r0","r1","r2","r3","r4","r5","r6","r7","r8","r9","r10","r11","r12","fp","sp","r15","r16","r17","r18","r19","r20","r21","r22","r23","r24","r25","r26","r27","r28","r29","r30","r31" };
@@ -59,6 +90,8 @@ static int dis_a(const struct etab *t, const uint16_t *par, int np, long a, cons
 	struct einsn in; int len = enc_decode(t, (uint16_t *)par, np, &in, NULL);
 	char text[400], *q = text;
 	const char *mn = len > 0 ? enc_mn_name(t, in.mn) : "";
+	char mk[6][8];
+	if (len > 0) marks_of(&in, mk);
 	if (len <= 0) { printf("\t.word\t0x%04x\n", par[0]); (*nword)++; return 1; }
 	/* what the assembler will make of it: the codec with no least length, then with the length that is there */
 	uint16_t p0[5], p1[5]; int n0 = enc_encode_n(t, &in, p0, NULL, NULL, 0), n1 = enc_encode_n(t, &in, p1, NULL, NULL, len);
@@ -68,12 +101,13 @@ static int dis_a(const struct etab *t, const uint16_t *par, int np, long a, cons
 		if (in.op[k].k == EK_PC) { long to = a + in.op[k].v; if (to < 0 || to >= size || (to & 1) || !isb[to / 2]) bad = 1; }
 	if (bad) {
 		printf("\t.word\t"); for (int k = 0; k < len; k++) printf(k ? ", 0x%04x" : "0x%04x", par[k]);
-		printf("\t; %s\n", mn); (*nword)++; return len;
+		printf("\t; %s\n", shown(mn)); (*nword)++; return len;
 	}
-	q += sprintf(q, "%s", mn);
+	q += sprintf(q, "%s", shown(mn));
 	for (int k = 0; k < in.nops; k++) {
 		const struct eop *o = &in.op[k];
 		q += sprintf(q, k ? ", " : " ");
+		if (0) {}
 		switch (o->k) {
 		case EK_R: q += sprintf(q, "%s", RN[o->r]); break;
 		case EK_V: q += sprintf(q, "%c%d", o->s ? 't' : 'v', o->r); break;
@@ -85,6 +119,7 @@ static int dis_a(const struct etab *t, const uint16_t *par, int np, long a, cons
 		case EK_PC: q += sprintf(q, "L%lx", (unsigned long)(a + o->v)); break;
 		case EK_A: q += sprintf(q, "@%lld", (long long)o->v); break;
 		}
+		if (k < 6) q += sprintf(q, "%s", mk[k]);
 	}
 	if (!same0) { printf("\t.encode\t%d\n", len); (*nforce)++; }
 	printf("\t%s\n", text);
@@ -177,8 +212,10 @@ int main(int argc, char **argv)
 			if (len <= 0) { printf(" %04x\t.illegal\n", par[0]); a += 2; continue; }
 			for (int k = 0; k < len; k++) printf(" %04x", par[k]);
 			for (int k = len; k < 5; k++) printf("     ");
-			printf("\t%s", enc_mn_name(t, in.mn));
-			for (int k = 0; k < in.nops; k++) { printf(k ? ", " : " "); put(&in.op[k], a); }
+			char mk[6][8];
+			marks_of(&in, mk);
+			printf("\t%s", shown(enc_mn_name(t, in.mn)));
+			for (int k = 0; k < in.nops; k++) { printf(k ? ", " : " "); put(&in.op[k], a); if (k < 6) printf("%s", mk[k]); }
 			printf("\n");
 			a += 2 * len;
 		}

@@ -22,7 +22,7 @@ caseloop:
 	movq	#4, r3
 tch:	movq	96(r12), r5
 	cbeq	r2, r5, tchs
-	movzb	(r2), r1
+	mov	(r2).u8, r1
 tchs:
 	movq	#0, r4
 	add	#4096, r2
@@ -143,7 +143,7 @@ nofault:
 	movq	120(r12), r3
 	movq	#0, r2
 	cbeq	r3, #0, sumdone
-sml:	movzb	(r1)+, r4
+sml:	mov	(r1)+.u8, r4
 	movq	r2, r5
 	shl	#5, r2
 	sub	r5, r2
@@ -158,7 +158,7 @@ sumdone:	movq	104(r12), r1
 alldone:	movq	#0, r0
 	halt
 
-mulq:	; r6 = r6 * r4 (small values)
+mulq:		; r6 = r6 * r4 (small values)
 	movq	r6, r7
 	movq	#0, r6
 	cbeq	r7, #0, mq_d
@@ -207,7 +207,7 @@ h_fl:	movq	r3, r5
 	movq	r3, r6
 	shr	#7, r6
 	add	r6, r5
-	movb	r5, (r3)+
+	mov	r5, (r3)+.8
 	sob	r4, h_fl
 	popm	#0x3fff
 	rti	#RTIMASK_ALL

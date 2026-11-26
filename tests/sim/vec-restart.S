@@ -41,11 +41,11 @@ prepdone:
 	movq	r1, expect
 	movq	256(r12), r1
 	cbeq	r1, #0, nopre
-	movzb	(r1), r2
+	mov	(r1).u8, r2
 nopre:
 	movq	504(r12), r1
 	cbeq	r1, #0, nopre2
-	movzb	(r1), r2
+	mov	(r1).u8, r2
 nopre2:
 	movq	#0, r1
 	movq	r1, hcount
@@ -196,9 +196,9 @@ ps1:
 	movq	376(r12), r2
 	movq	352(r12), r6
 	movq	#0, r7
-snl:	movzb	(r1)+, r4
-	movzb	(r2)+, r5
-	movzb	(r6)+, r0
+snl:	mov	(r1)+.u8, r4
+	mov	(r2)+.u8, r5
+	mov	(r6)+.u8, r0
 	cbhis	r7, r8, sn2
 	cbeq	r4, r5, snn
 	br	snbad
@@ -361,8 +361,8 @@ alldone:
 	halt
 
 memeq:	cbeq	r3, #0, me_ok
-me_l:	movzb	(r1)+, r0
-	movzb	(r2)+, r4
+me_l:	mov	(r1)+.u8, r0
+	mov	(r2)+.u8, r4
 	cbne	r0, r4, me_bad
 	sob	r3, me_l
 me_ok:	movq	#0, r0

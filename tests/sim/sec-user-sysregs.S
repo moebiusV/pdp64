@@ -555,11 +555,11 @@ Nw_asid:
 	movq	#68, r0
 	trap	#1
 1:
-	movl	tmplr, r2
+	mov	tmplr.32, r2
 	movq	=(4<<16), r3
 	bis	r3, r2
 	lea	ubuf, r4
-	movl	r2, (r4)
+	mov	r2, (r4).32
 	lea	Npr4, r13
 	movq	cnt, r10
 	movq	=0x5a5a5a5a5a5a, r2
@@ -577,11 +577,11 @@ Npr4:	movq	cnt, r11
 	movq	#70, r0
 	trap	#1
 1:
-	movl	tmplr, r2
+	mov	tmplr.32, r2
 	movq	=(5<<16), r3
 	bis	r3, r2
 	lea	ubuf, r4
-	movl	r2, (r4)
+	mov	r2, (r4).32
 	lea	Npr5, r13
 	movq	cnt, r10
 	movq	=0x5a5a5a5a5a5a, r2
@@ -599,11 +599,11 @@ Npr5:	movq	cnt, r11
 	movq	#72, r0
 	trap	#1
 1:
-	movl	tmplr, r2
+	mov	tmplr.32, r2
 	movq	=(13<<16), r3
 	bis	r3, r2
 	lea	ubuf, r4
-	movl	r2, (r4)
+	mov	r2, (r4).32
 	lea	Npr13, r13
 	movq	cnt, r10
 	movq	=0x5a5a5a5a5a5a, r2
@@ -621,11 +621,11 @@ Npr13:	movq	cnt, r11
 	movq	#74, r0
 	trap	#1
 1:
-	movl	tmplr, r2
+	mov	tmplr.32, r2
 	movq	=(14<<16), r3
 	bis	r3, r2
 	lea	ubuf, r4
-	movl	r2, (r4)
+	mov	r2, (r4).32
 	lea	Npr14, r13
 	movq	cnt, r10
 	movq	=0x5a5a5a5a5a5a, r2
@@ -643,11 +643,11 @@ Npr14:	movq	cnt, r11
 	movq	#76, r0
 	trap	#1
 1:
-	movl	tmplr, r2
+	mov	tmplr.32, r2
 	movq	=(63<<16), r3
 	bis	r3, r2
 	lea	ubuf, r4
-	movl	r2, (r4)
+	mov	r2, (r4).32
 	lea	Npr63, r13
 	movq	cnt, r10
 	movq	=0x5a5a5a5a5a5a, r2
@@ -665,11 +665,11 @@ Npr63:	movq	cnt, r11
 	movq	#78, r0
 	trap	#1
 1:
-	movl	tmplr, r2
+	mov	tmplr.32, r2
 	movq	=(127<<16), r3
 	bis	r3, r2
 	lea	ubuf, r4
-	movl	r2, (r4)
+	mov	r2, (r4).32
 	lea	Npr127, r13
 	movq	cnt, r10
 	movq	=0x5a5a5a5a5a5a, r2
@@ -687,11 +687,11 @@ Npr127:	movq	cnt, r11
 	movq	#80, r0
 	trap	#1
 1:
-	movl	tmplr, r2
+	mov	tmplr.32, r2
 	movq	=(128<<16), r3
 	bis	r3, r2
 	lea	ubuf, r4
-	movl	r2, (r4)
+	mov	r2, (r4).32
 	lea	Npr128, r13
 	movq	cnt, r10
 	movq	=0x5a5a5a5a5a5a, r2
@@ -709,11 +709,11 @@ Npr128:	movq	cnt, r11
 	movq	#82, r0
 	trap	#1
 1:
-	movl	tmplr, r2
+	mov	tmplr.32, r2
 	movq	=(147<<16), r3
 	bis	r3, r2
 	lea	ubuf, r4
-	movl	r2, (r4)
+	mov	r2, (r4).32
 	lea	Npr147, r13
 	movq	cnt, r10
 	movq	=0x5a5a5a5a5a5a, r2
@@ -731,11 +731,11 @@ Npr147:	movq	cnt, r11
 	movq	#84, r0
 	trap	#1
 1:
-	movl	tmplr, r2
+	mov	tmplr.32, r2
 	movq	=(148<<16), r3
 	bis	r3, r2
 	lea	ubuf, r4
-	movl	r2, (r4)
+	mov	r2, (r4).32
 	lea	Npr148, r13
 	movq	cnt, r10
 	movq	=0x5a5a5a5a5a5a, r2
@@ -753,11 +753,11 @@ Npr148:	movq	cnt, r11
 	movq	#86, r0
 	trap	#1
 1:
-	movl	tmplr, r2
+	mov	tmplr.32, r2
 	movq	=(200<<16), r3
 	bis	r3, r2
 	lea	ubuf, r4
-	movl	r2, (r4)
+	mov	r2, (r4).32
 	lea	Npr200, r13
 	movq	cnt, r10
 	movq	=0x5a5a5a5a5a5a, r2
@@ -775,11 +775,11 @@ Npr200:	movq	cnt, r11
 	movq	#88, r0
 	trap	#1
 1:
-	movl	tmplr, r2
+	mov	tmplr.32, r2
 	movq	=(255<<16), r3
 	bis	r3, r2
 	lea	ubuf, r4
-	movl	r2, (r4)
+	mov	r2, (r4).32
 	lea	Npr255, r13
 	movq	cnt, r10
 	movq	=0x5a5a5a5a5a5a, r2
@@ -797,11 +797,11 @@ Npr255:	movq	cnt, r11
 	movq	#90, r0
 	trap	#1
 1:
-	movl	tmplw, r2
+	mov	tmplw.32, r2
 	movq	=(2<<16), r3
 	bis	r3, r2
 	lea	ubuf, r4
-	movl	r2, (r4)
+	mov	r2, (r4).32
 	lea	Npw2, r13
 	movq	cnt, r10
 	movq	=0x5a5a5a5a5a5a, r2
@@ -819,11 +819,11 @@ Npw2:	movq	cnt, r11
 	movq	#92, r0
 	trap	#1
 1:
-	movl	tmplw, r2
+	mov	tmplw.32, r2
 	movq	=(3<<16), r3
 	bis	r3, r2
 	lea	ubuf, r4
-	movl	r2, (r4)
+	mov	r2, (r4).32
 	lea	Npw3, r13
 	movq	cnt, r10
 	movq	=0x5a5a5a5a5a5a, r2
@@ -841,11 +841,11 @@ Npw3:	movq	cnt, r11
 	movq	#94, r0
 	trap	#1
 1:
-	movl	tmplw, r2
+	mov	tmplw.32, r2
 	movq	=(12<<16), r3
 	bis	r3, r2
 	lea	ubuf, r4
-	movl	r2, (r4)
+	mov	r2, (r4).32
 	lea	Npw12, r13
 	movq	cnt, r10
 	movq	=0x5a5a5a5a5a5a, r2
@@ -863,11 +863,11 @@ Npw12:	movq	cnt, r11
 	movq	#96, r0
 	trap	#1
 1:
-	movl	tmplw, r2
+	mov	tmplw.32, r2
 	movq	=(4<<16), r3
 	bis	r3, r2
 	lea	ubuf, r4
-	movl	r2, (r4)
+	mov	r2, (r4).32
 	lea	Npw4, r13
 	movq	cnt, r10
 	movq	=0x5a5a5a5a5a5a, r2
@@ -885,11 +885,11 @@ Npw4:	movq	cnt, r11
 	movq	#98, r0
 	trap	#1
 1:
-	movl	tmplw, r2
+	mov	tmplw.32, r2
 	movq	=(5<<16), r3
 	bis	r3, r2
 	lea	ubuf, r4
-	movl	r2, (r4)
+	mov	r2, (r4).32
 	lea	Npw5, r13
 	movq	cnt, r10
 	movq	=0x5a5a5a5a5a5a, r2
@@ -907,11 +907,11 @@ Npw5:	movq	cnt, r11
 	movq	#100, r0
 	trap	#1
 1:
-	movl	tmplw, r2
+	mov	tmplw.32, r2
 	movq	=(13<<16), r3
 	bis	r3, r2
 	lea	ubuf, r4
-	movl	r2, (r4)
+	mov	r2, (r4).32
 	lea	Npw13, r13
 	movq	cnt, r10
 	movq	=0x5a5a5a5a5a5a, r2
@@ -929,11 +929,11 @@ Npw13:	movq	cnt, r11
 	movq	#102, r0
 	trap	#1
 1:
-	movl	tmplw, r2
+	mov	tmplw.32, r2
 	movq	=(14<<16), r3
 	bis	r3, r2
 	lea	ubuf, r4
-	movl	r2, (r4)
+	mov	r2, (r4).32
 	lea	Npw14, r13
 	movq	cnt, r10
 	movq	=0x5a5a5a5a5a5a, r2
@@ -951,11 +951,11 @@ Npw14:	movq	cnt, r11
 	movq	#104, r0
 	trap	#1
 1:
-	movl	tmplw, r2
+	mov	tmplw.32, r2
 	movq	=(63<<16), r3
 	bis	r3, r2
 	lea	ubuf, r4
-	movl	r2, (r4)
+	mov	r2, (r4).32
 	lea	Npw63, r13
 	movq	cnt, r10
 	movq	=0x5a5a5a5a5a5a, r2
@@ -973,11 +973,11 @@ Npw63:	movq	cnt, r11
 	movq	#106, r0
 	trap	#1
 1:
-	movl	tmplw, r2
+	mov	tmplw.32, r2
 	movq	=(127<<16), r3
 	bis	r3, r2
 	lea	ubuf, r4
-	movl	r2, (r4)
+	mov	r2, (r4).32
 	lea	Npw127, r13
 	movq	cnt, r10
 	movq	=0x5a5a5a5a5a5a, r2
@@ -995,11 +995,11 @@ Npw127:	movq	cnt, r11
 	movq	#108, r0
 	trap	#1
 1:
-	movl	tmplw, r2
+	mov	tmplw.32, r2
 	movq	=(128<<16), r3
 	bis	r3, r2
 	lea	ubuf, r4
-	movl	r2, (r4)
+	mov	r2, (r4).32
 	lea	Npw128, r13
 	movq	cnt, r10
 	movq	=0x5a5a5a5a5a5a, r2
@@ -1017,11 +1017,11 @@ Npw128:	movq	cnt, r11
 	movq	#110, r0
 	trap	#1
 1:
-	movl	tmplw, r2
+	mov	tmplw.32, r2
 	movq	=(147<<16), r3
 	bis	r3, r2
 	lea	ubuf, r4
-	movl	r2, (r4)
+	mov	r2, (r4).32
 	lea	Npw147, r13
 	movq	cnt, r10
 	movq	=0x5a5a5a5a5a5a, r2
@@ -1039,11 +1039,11 @@ Npw147:	movq	cnt, r11
 	movq	#112, r0
 	trap	#1
 1:
-	movl	tmplw, r2
+	mov	tmplw.32, r2
 	movq	=(148<<16), r3
 	bis	r3, r2
 	lea	ubuf, r4
-	movl	r2, (r4)
+	mov	r2, (r4).32
 	lea	Npw148, r13
 	movq	cnt, r10
 	movq	=0x5a5a5a5a5a5a, r2
@@ -1061,11 +1061,11 @@ Npw148:	movq	cnt, r11
 	movq	#114, r0
 	trap	#1
 1:
-	movl	tmplw, r2
+	mov	tmplw.32, r2
 	movq	=(200<<16), r3
 	bis	r3, r2
 	lea	ubuf, r4
-	movl	r2, (r4)
+	mov	r2, (r4).32
 	lea	Npw200, r13
 	movq	cnt, r10
 	movq	=0x5a5a5a5a5a5a, r2
@@ -1083,11 +1083,11 @@ Npw200:	movq	cnt, r11
 	movq	#116, r0
 	trap	#1
 1:
-	movl	tmplw, r2
+	mov	tmplw.32, r2
 	movq	=(255<<16), r3
 	bis	r3, r2
 	lea	ubuf, r4
-	movl	r2, (r4)
+	mov	r2, (r4).32
 	lea	Npw255, r13
 	movq	cnt, r10
 	movq	=0x5a5a5a5a5a5a, r2

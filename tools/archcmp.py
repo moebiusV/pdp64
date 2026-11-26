@@ -20,6 +20,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
 sys.path.insert(0, HERE)
 import pdp64size as P
+import marks
 from pdp64size import corpus, ROOT, ARCH, run, fair_files, preprocess
 
 OUT = os.environ.get('ARCHCMP_OUT', '/tmp/p64opt/archcmp')
@@ -861,7 +862,9 @@ def pparse(path):
         if sec != 'text' or cur is None:
             continue
         w = ln.split(None, 1)
-        cur[1].append(Ins(w[0], P.split_ops(w[1]) if len(w) > 1 else []))
+        _mn, _ops = w[0], P.split_ops(w[1]) if len(w) > 1 else []
+        _mn, _ops = marks.unspell(_mn, _ops)		# the analysis thinks in the words of the encoding; the source writes width marks
+        cur[1].append(Ins(_mn, _ops))
     return funcs
 
 

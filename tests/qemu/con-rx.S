@@ -14,7 +14,7 @@ _start:
 	and	#(1<<CONSOLE_CSR_READY), r3
 	cbeq	r3, #0, 1b
 	movq	CONSOLE_REG_RXDB(r13), r2
-	movb	r2, (r12)+
+	mov	r2, (r12)+.8
 	; interrupt driven: the handler stores the rest of the line; at priority 0 the level-4 request is taken
 	movq	#(1<<CONSOLE_CSR_IE), r2
 	movq	r2, CONSOLE_REG_RXCS(r13)
@@ -25,7 +25,7 @@ _start:
 	movq	r2, CONSOLE_REG_RXCS(r13)
 	; echo the buffer, polled
 	lea	buf, r1
-3:	movb	(r1)+, r2
+3:	mov	(r1)+.8, r2
 	cbeq r2, #0, 4f
 	call	putc
 	br	3b
@@ -43,11 +43,11 @@ putc:	movq	CONSOLE_REG_TXCS(r13), r3
 	movq	r2, CONSOLE_REG_TXDB(r13)
 	ret
 h_rx:	movq	CONSOLE_REG_RXDB(r13), r9
-	movb	r9, (r12)+
+	mov	r9, (r12)+.8
 	cbne r9, #10, 1f
 	movq	#1, r8
 1:	rti	#RTIMASK_ALL
-h_tx:	movb	(r10)+, r9
+h_tx:	mov	(r10)+.8, r9
 	cbne r9, #0, 1f
 	movq	#0, r9
 	movq	r9, CONSOLE_REG_TXCS(r13)

@@ -51,7 +51,7 @@ cB0:	movq	(r1)+, r4
 	movq	r2, 16(r1)
 	movq	r2, 24(r1)
 	movq	=0x800000, r6
-	movzb	(r6), r7
+	mov	(r6).u8, r7
 	lea	Bstart, r6
 	movq	r6, redirect
 	movq	#1, r6

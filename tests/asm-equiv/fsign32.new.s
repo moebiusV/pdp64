@@ -1,5 +1,5 @@
 	.text
-	fneg32 r1, r1
-	fneg32 r1, r2
-	fabs32 r3, r3
-	fabs32 r3, r4
+	fneg r1.32, r1
+	fneg r1.32, r2
+	fabs r3.32, r3
+	fabs r3.32, r4

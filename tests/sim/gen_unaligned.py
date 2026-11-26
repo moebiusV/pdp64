@@ -6,6 +6,9 @@ Every plain move (MOVQ, MOVL, MOVW, MOVB, MOVZL, MOVZW, MOVZB), in the base, ind
 with the bytes around it, and the add-to-memory form is checked on a quad that crosses a page.  A failed check n exits with n.
 
 usage: gen_unaligned.py OUTDIR"""
+import sys as _sys, os as _os
+_sys.path.insert(0, _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..', '..', 'tools'))
+import marks		# the words of the encoding written with width marks (tools/marks.py)
 import os, sys
 
 
@@ -73,5 +76,5 @@ def gen():
 
 
 if __name__ == '__main__':
-    open(os.path.join(sys.argv[1], 'unaligned.s'), 'w').write(gen())
+    open(os.path.join(sys.argv[1], 'unaligned.s'), 'w').write(marks.spell_text(gen()))
     print('gen_unaligned: unaligned.s')

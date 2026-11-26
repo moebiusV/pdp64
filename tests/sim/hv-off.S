@@ -7,8 +7,8 @@ _start:
 	lea	vtab, r1
 	mtsr	vbr, r1
 	lea	ubuf, r15
-	movzw	retw, r2
-	movw	r2, 4(r15)
+	mov	retw.u16, r2
+	mov	r2, 4(r15).16
 	mfsr	r2, cpuid
 	mfsr	r3, vbr
 	movq	=(0), r11
@@ -16,10 +16,10 @@ _start:
 	movq	#1, r0
 	halt
 1:
-	movl	tmplr, r2
+	mov	tmplr.32, r2
 	movq	=(128<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
@@ -38,10 +38,10 @@ _start:
 	movq	#4, r0
 	halt
 1:
-	movl	tmplw, r2
+	mov	tmplw.32, r2
 	movq	=(128<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
@@ -60,10 +60,10 @@ _start:
 	movq	#7, r0
 	halt
 1:
-	movl	tmplr, r2
+	mov	tmplr.32, r2
 	movq	=(129<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
@@ -82,10 +82,10 @@ _start:
 	movq	#10, r0
 	halt
 1:
-	movl	tmplw, r2
+	mov	tmplw.32, r2
 	movq	=(129<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
@@ -104,10 +104,10 @@ _start:
 	movq	#13, r0
 	halt
 1:
-	movl	tmplr, r2
+	mov	tmplr.32, r2
 	movq	=(130<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
@@ -126,10 +126,10 @@ _start:
 	movq	#16, r0
 	halt
 1:
-	movl	tmplw, r2
+	mov	tmplw.32, r2
 	movq	=(130<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
@@ -148,10 +148,10 @@ _start:
 	movq	#19, r0
 	halt
 1:
-	movl	tmplr, r2
+	mov	tmplr.32, r2
 	movq	=(131<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
@@ -170,10 +170,10 @@ _start:
 	movq	#22, r0
 	halt
 1:
-	movl	tmplw, r2
+	mov	tmplw.32, r2
 	movq	=(131<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
@@ -192,10 +192,10 @@ _start:
 	movq	#25, r0
 	halt
 1:
-	movl	tmplr, r2
+	mov	tmplr.32, r2
 	movq	=(132<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
@@ -214,10 +214,10 @@ _start:
 	movq	#28, r0
 	halt
 1:
-	movl	tmplw, r2
+	mov	tmplw.32, r2
 	movq	=(132<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
@@ -236,10 +236,10 @@ _start:
 	movq	#31, r0
 	halt
 1:
-	movl	tmplr, r2
+	mov	tmplr.32, r2
 	movq	=(133<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
@@ -258,10 +258,10 @@ _start:
 	movq	#34, r0
 	halt
 1:
-	movl	tmplw, r2
+	mov	tmplw.32, r2
 	movq	=(133<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
@@ -280,10 +280,10 @@ _start:
 	movq	#37, r0
 	halt
 1:
-	movl	tmplr, r2
+	mov	tmplr.32, r2
 	movq	=(134<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
@@ -302,10 +302,10 @@ _start:
 	movq	#40, r0
 	halt
 1:
-	movl	tmplw, r2
+	mov	tmplw.32, r2
 	movq	=(134<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
@@ -324,10 +324,10 @@ _start:
 	movq	#43, r0
 	halt
 1:
-	movl	tmplr, r2
+	mov	tmplr.32, r2
 	movq	=(135<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
@@ -346,10 +346,10 @@ _start:
 	movq	#46, r0
 	halt
 1:
-	movl	tmplw, r2
+	mov	tmplw.32, r2
 	movq	=(135<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
@@ -368,10 +368,10 @@ _start:
 	movq	#49, r0
 	halt
 1:
-	movl	tmplr, r2
+	mov	tmplr.32, r2
 	movq	=(136<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
@@ -390,10 +390,10 @@ _start:
 	movq	#52, r0
 	halt
 1:
-	movl	tmplw, r2
+	mov	tmplw.32, r2
 	movq	=(136<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
@@ -412,10 +412,10 @@ _start:
 	movq	#55, r0
 	halt
 1:
-	movl	tmplr, r2
+	mov	tmplr.32, r2
 	movq	=(137<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
@@ -434,10 +434,10 @@ _start:
 	movq	#58, r0
 	halt
 1:
-	movl	tmplw, r2
+	mov	tmplw.32, r2
 	movq	=(137<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
@@ -456,10 +456,10 @@ _start:
 	movq	#61, r0
 	halt
 1:
-	movl	tmplr, r2
+	mov	tmplr.32, r2
 	movq	=(138<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
@@ -478,10 +478,10 @@ _start:
 	movq	#64, r0
 	halt
 1:
-	movl	tmplw, r2
+	mov	tmplw.32, r2
 	movq	=(138<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
@@ -500,10 +500,10 @@ _start:
 	movq	#67, r0
 	halt
 1:
-	movl	tmplr, r2
+	mov	tmplr.32, r2
 	movq	=(139<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
@@ -522,10 +522,10 @@ _start:
 	movq	#70, r0
 	halt
 1:
-	movl	tmplw, r2
+	mov	tmplw.32, r2
 	movq	=(139<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
@@ -544,10 +544,10 @@ _start:
 	movq	#73, r0
 	halt
 1:
-	movl	tmplr, r2
+	mov	tmplr.32, r2
 	movq	=(140<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
@@ -566,10 +566,10 @@ _start:
 	movq	#76, r0
 	halt
 1:
-	movl	tmplw, r2
+	mov	tmplw.32, r2
 	movq	=(140<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
@@ -588,10 +588,10 @@ _start:
 	movq	#79, r0
 	halt
 1:
-	movl	tmplr, r2
+	mov	tmplr.32, r2
 	movq	=(141<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
@@ -610,10 +610,10 @@ _start:
 	movq	#82, r0
 	halt
 1:
-	movl	tmplw, r2
+	mov	tmplw.32, r2
 	movq	=(141<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
@@ -632,10 +632,10 @@ _start:
 	movq	#85, r0
 	halt
 1:
-	movl	tmplr, r2
+	mov	tmplr.32, r2
 	movq	=(142<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
@@ -654,10 +654,10 @@ _start:
 	movq	#88, r0
 	halt
 1:
-	movl	tmplw, r2
+	mov	tmplw.32, r2
 	movq	=(142<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
@@ -676,10 +676,10 @@ _start:
 	movq	#91, r0
 	halt
 1:
-	movl	tmplr, r2
+	mov	tmplr.32, r2
 	movq	=(143<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
@@ -698,10 +698,10 @@ _start:
 	movq	#94, r0
 	halt
 1:
-	movl	tmplw, r2
+	mov	tmplw.32, r2
 	movq	=(143<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
@@ -720,10 +720,10 @@ _start:
 	movq	#97, r0
 	halt
 1:
-	movl	tmplr, r2
+	mov	tmplr.32, r2
 	movq	=(144<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
@@ -742,10 +742,10 @@ _start:
 	movq	#100, r0
 	halt
 1:
-	movl	tmplw, r2
+	mov	tmplw.32, r2
 	movq	=(144<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
@@ -764,10 +764,10 @@ _start:
 	movq	#103, r0
 	halt
 1:
-	movl	tmplr, r2
+	mov	tmplr.32, r2
 	movq	=(145<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
@@ -786,10 +786,10 @@ _start:
 	movq	#106, r0
 	halt
 1:
-	movl	tmplw, r2
+	mov	tmplw.32, r2
 	movq	=(145<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
@@ -808,10 +808,10 @@ _start:
 	movq	#109, r0
 	halt
 1:
-	movl	tmplr, r2
+	mov	tmplr.32, r2
 	movq	=(146<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
@@ -830,10 +830,10 @@ _start:
 	movq	#112, r0
 	halt
 1:
-	movl	tmplw, r2
+	mov	tmplw.32, r2
 	movq	=(146<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
@@ -852,10 +852,10 @@ _start:
 	movq	#115, r0
 	halt
 1:
-	movl	tmplr, r2
+	mov	tmplr.32, r2
 	movq	=(147<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
@@ -874,10 +874,10 @@ _start:
 	movq	#118, r0
 	halt
 1:
-	movl	tmplw, r2
+	mov	tmplw.32, r2
 	movq	=(147<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
@@ -896,10 +896,10 @@ _start:
 	movq	#121, r0
 	halt
 1:
-	movl	tmplr, r2
+	mov	tmplr.32, r2
 	movq	=(13<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
@@ -918,10 +918,10 @@ _start:
 	movq	#124, r0
 	halt
 1:
-	movl	tmplw, r2
+	mov	tmplw.32, r2
 	movq	=(13<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
@@ -940,10 +940,10 @@ _start:
 	movq	#127, r0
 	halt
 1:
-	movl	tmplr, r2
+	mov	tmplr.32, r2
 	movq	=(148<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
@@ -962,10 +962,10 @@ _start:
 	movq	#130, r0
 	halt
 1:
-	movl	tmplw, r2
+	mov	tmplw.32, r2
 	movq	=(148<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
@@ -984,10 +984,10 @@ _start:
 	movq	#133, r0
 	halt
 1:
-	movl	tmplr, r2
+	mov	tmplr.32, r2
 	movq	=(255<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
@@ -1006,10 +1006,10 @@ _start:
 	movq	#136, r0
 	halt
 1:
-	movl	tmplw, r2
+	mov	tmplw.32, r2
 	movq	=(255<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf

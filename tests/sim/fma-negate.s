@@ -13306,7 +13306,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f2217
@@ -13319,7 +13319,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffff80000000, r6
 	cbne	r5, r6, f2219
@@ -13332,7 +13332,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f2221
@@ -13345,7 +13345,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f2223
@@ -13358,7 +13358,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f2225
@@ -13371,7 +13371,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f2227
@@ -13384,7 +13384,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
 	cbne	r5, r6, f2229
@@ -13397,7 +13397,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
 	cbne	r5, r6, f2231
@@ -13410,7 +13410,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
 	cbne	r5, r6, f2233
@@ -13423,7 +13423,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
 	cbne	r5, r6, f2235
@@ -13436,7 +13436,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
 	cbne	r5, r6, f2237
@@ -13449,7 +13449,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
 	cbne	r5, r6, f2239
@@ -13462,7 +13462,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f2241
@@ -13475,7 +13475,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f2243
@@ -13488,7 +13488,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
 	cbne	r5, r6, f2245
@@ -13501,7 +13501,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
 	cbne	r5, r6, f2247
@@ -13514,7 +13514,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
 	cbne	r5, r6, f2249
@@ -13527,7 +13527,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
 	cbne	r5, r6, f2251
@@ -13540,7 +13540,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40700000, r6
 	cbne	r5, r6, f2253
@@ -13553,7 +13553,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40700000, r6
 	cbne	r5, r6, f2255
@@ -13566,7 +13566,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
 	cbne	r5, r6, f2257
@@ -13579,7 +13579,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
 	cbne	r5, r6, f2259
@@ -13592,7 +13592,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffff80000000, r6
 	cbne	r5, r6, f2261
@@ -13605,7 +13605,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f2263
@@ -13618,7 +13618,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f2265
@@ -13631,7 +13631,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f2267
@@ -13644,7 +13644,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f2269
@@ -13657,7 +13657,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f2271
@@ -13670,7 +13670,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
 	cbne	r5, r6, f2273
@@ -13683,7 +13683,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
 	cbne	r5, r6, f2275
@@ -13696,7 +13696,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
 	cbne	r5, r6, f2277
@@ -13709,7 +13709,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
 	cbne	r5, r6, f2279
@@ -13722,7 +13722,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
 	cbne	r5, r6, f2281
@@ -13735,7 +13735,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
 	cbne	r5, r6, f2283
@@ -13748,7 +13748,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f2285
@@ -13761,7 +13761,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f2287
@@ -13774,7 +13774,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
 	cbne	r5, r6, f2289
@@ -13787,7 +13787,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
 	cbne	r5, r6, f2291
@@ -13800,7 +13800,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
 	cbne	r5, r6, f2293
@@ -13813,7 +13813,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
 	cbne	r5, r6, f2295
@@ -13826,7 +13826,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40700000, r6
 	cbne	r5, r6, f2297
@@ -13839,7 +13839,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40700000, r6
 	cbne	r5, r6, f2299
@@ -13852,7 +13852,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
 	cbne	r5, r6, f2301
@@ -13865,7 +13865,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
 	cbne	r5, r6, f2303
@@ -13878,7 +13878,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f2305
@@ -13891,7 +13891,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffff80000000, r6
 	cbne	r5, r6, f2307
@@ -13904,7 +13904,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f2309
@@ -13917,7 +13917,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f2311
@@ -13930,7 +13930,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f2313
@@ -13943,7 +13943,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f2315
@@ -13956,7 +13956,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
 	cbne	r5, r6, f2317
@@ -13969,7 +13969,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
 	cbne	r5, r6, f2319
@@ -13982,7 +13982,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
 	cbne	r5, r6, f2321
@@ -13995,7 +13995,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
 	cbne	r5, r6, f2323
@@ -14008,7 +14008,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
 	cbne	r5, r6, f2325
@@ -14021,7 +14021,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
 	cbne	r5, r6, f2327
@@ -14034,7 +14034,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f2329
@@ -14047,7 +14047,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f2331
@@ -14060,7 +14060,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
 	cbne	r5, r6, f2333
@@ -14073,7 +14073,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
 	cbne	r5, r6, f2335
@@ -14086,7 +14086,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
 	cbne	r5, r6, f2337
@@ -14099,7 +14099,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
 	cbne	r5, r6, f2339
@@ -14112,7 +14112,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40700000, r6
 	cbne	r5, r6, f2341
@@ -14125,7 +14125,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40700000, r6
 	cbne	r5, r6, f2343
@@ -14138,7 +14138,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
 	cbne	r5, r6, f2345
@@ -14151,7 +14151,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
 	cbne	r5, r6, f2347
@@ -14164,7 +14164,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffff80000000, r6
 	cbne	r5, r6, f2349
@@ -14177,7 +14177,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f2351
@@ -14190,7 +14190,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f2353
@@ -14203,7 +14203,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f2355
@@ -14216,7 +14216,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f2357
@@ -14229,7 +14229,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f2359
@@ -14242,7 +14242,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
 	cbne	r5, r6, f2361
@@ -14255,7 +14255,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
 	cbne	r5, r6, f2363
@@ -14268,7 +14268,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
 	cbne	r5, r6, f2365
@@ -14281,7 +14281,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
 	cbne	r5, r6, f2367
@@ -14294,7 +14294,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
 	cbne	r5, r6, f2369
@@ -14307,7 +14307,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
 	cbne	r5, r6, f2371
@@ -14320,7 +14320,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f2373
@@ -14333,7 +14333,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f2375
@@ -14346,7 +14346,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
 	cbne	r5, r6, f2377
@@ -14359,7 +14359,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
 	cbne	r5, r6, f2379
@@ -14372,7 +14372,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
 	cbne	r5, r6, f2381
@@ -14385,7 +14385,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
 	cbne	r5, r6, f2383
@@ -14398,7 +14398,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40700000, r6
 	cbne	r5, r6, f2385
@@ -14411,7 +14411,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40700000, r6
 	cbne	r5, r6, f2387
@@ -14424,7 +14424,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
 	cbne	r5, r6, f2389
@@ -14437,7 +14437,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
 	cbne	r5, r6, f2391
@@ -14450,7 +14450,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f2393
@@ -14463,7 +14463,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffff80000000, r6
 	cbne	r5, r6, f2395
@@ -14476,7 +14476,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f2397
@@ -14489,7 +14489,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f2399
@@ -14502,7 +14502,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f2401
@@ -14515,7 +14515,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f2403
@@ -14528,7 +14528,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
 	cbne	r5, r6, f2405
@@ -14541,7 +14541,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
 	cbne	r5, r6, f2407
@@ -14554,7 +14554,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
 	cbne	r5, r6, f2409
@@ -14567,7 +14567,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
 	cbne	r5, r6, f2411
@@ -14580,7 +14580,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
 	cbne	r5, r6, f2413
@@ -14593,7 +14593,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
 	cbne	r5, r6, f2415
@@ -14606,7 +14606,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f2417
@@ -14619,7 +14619,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f2419
@@ -14632,7 +14632,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
 	cbne	r5, r6, f2421
@@ -14645,7 +14645,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
 	cbne	r5, r6, f2423
@@ -14658,7 +14658,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
 	cbne	r5, r6, f2425
@@ -14671,7 +14671,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
 	cbne	r5, r6, f2427
@@ -14684,7 +14684,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40700000, r6
 	cbne	r5, r6, f2429
@@ -14697,7 +14697,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40700000, r6
 	cbne	r5, r6, f2431
@@ -14710,7 +14710,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
 	cbne	r5, r6, f2433
@@ -14723,7 +14723,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
 	cbne	r5, r6, f2435
@@ -14736,7 +14736,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffff80000000, r6
 	cbne	r5, r6, f2437
@@ -14749,7 +14749,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f2439
@@ -14762,7 +14762,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f2441
@@ -14775,7 +14775,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f2443
@@ -14788,7 +14788,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f2445
@@ -14801,7 +14801,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f2447
@@ -14814,7 +14814,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
 	cbne	r5, r6, f2449
@@ -14827,7 +14827,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
 	cbne	r5, r6, f2451
@@ -14840,7 +14840,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
 	cbne	r5, r6, f2453
@@ -14853,7 +14853,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
 	cbne	r5, r6, f2455
@@ -14866,7 +14866,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
 	cbne	r5, r6, f2457
@@ -14879,7 +14879,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
 	cbne	r5, r6, f2459
@@ -14892,7 +14892,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f2461
@@ -14905,7 +14905,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f2463
@@ -14918,7 +14918,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
 	cbne	r5, r6, f2465
@@ -14931,7 +14931,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
 	cbne	r5, r6, f2467
@@ -14944,7 +14944,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
 	cbne	r5, r6, f2469
@@ -14957,7 +14957,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
 	cbne	r5, r6, f2471
@@ -14970,7 +14970,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40700000, r6
 	cbne	r5, r6, f2473
@@ -14983,7 +14983,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40700000, r6
 	cbne	r5, r6, f2475
@@ -14996,7 +14996,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
 	cbne	r5, r6, f2477
@@ -15009,7 +15009,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
 	cbne	r5, r6, f2479
@@ -15022,7 +15022,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f2481
@@ -15035,7 +15035,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffff80000000, r6
 	cbne	r5, r6, f2483
@@ -15048,7 +15048,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f2485
@@ -15061,7 +15061,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f2487
@@ -15074,7 +15074,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f2489
@@ -15087,7 +15087,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f2491
@@ -15100,7 +15100,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
 	cbne	r5, r6, f2493
@@ -15113,7 +15113,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
 	cbne	r5, r6, f2495
@@ -15126,7 +15126,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
 	cbne	r5, r6, f2497
@@ -15139,7 +15139,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
 	cbne	r5, r6, f2499
@@ -15152,7 +15152,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
 	cbne	r5, r6, f2501
@@ -15165,7 +15165,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
 	cbne	r5, r6, f2503
@@ -15178,7 +15178,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f2505
@@ -15191,7 +15191,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f2507
@@ -15204,7 +15204,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
 	cbne	r5, r6, f2509
@@ -15217,7 +15217,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
 	cbne	r5, r6, f2511
@@ -15230,7 +15230,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
 	cbne	r5, r6, f2513
@@ -15243,7 +15243,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
 	cbne	r5, r6, f2515
@@ -15256,7 +15256,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40700000, r6
 	cbne	r5, r6, f2517
@@ -15269,7 +15269,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40700000, r6
 	cbne	r5, r6, f2519
@@ -15282,7 +15282,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
 	cbne	r5, r6, f2521
@@ -15295,7 +15295,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
 	cbne	r5, r6, f2523
@@ -15308,7 +15308,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffff80000000, r6
 	cbne	r5, r6, f2525
@@ -15321,7 +15321,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f2527
@@ -15334,7 +15334,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f2529
@@ -15347,7 +15347,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f2531
@@ -15360,7 +15360,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f2533
@@ -15373,7 +15373,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f2535
@@ -15386,7 +15386,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
 	cbne	r5, r6, f2537
@@ -15399,7 +15399,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
 	cbne	r5, r6, f2539
@@ -15412,7 +15412,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
 	cbne	r5, r6, f2541
@@ -15425,7 +15425,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
 	cbne	r5, r6, f2543
@@ -15438,7 +15438,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
 	cbne	r5, r6, f2545
@@ -15451,7 +15451,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
 	cbne	r5, r6, f2547
@@ -15464,7 +15464,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f2549
@@ -15477,7 +15477,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f2551
@@ -15490,7 +15490,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
 	cbne	r5, r6, f2553
@@ -15503,7 +15503,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
 	cbne	r5, r6, f2555
@@ -15516,7 +15516,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
 	cbne	r5, r6, f2557
@@ -15529,7 +15529,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
 	cbne	r5, r6, f2559
@@ -15542,7 +15542,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40700000, r6
 	cbne	r5, r6, f2561
@@ -15555,7 +15555,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40700000, r6
 	cbne	r5, r6, f2563
@@ -15568,7 +15568,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
 	cbne	r5, r6, f2565
@@ -15581,7 +15581,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
 	cbne	r5, r6, f2567
@@ -15594,7 +15594,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f2569
@@ -15607,7 +15607,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffff80000000, r6
 	cbne	r5, r6, f2571
@@ -15620,7 +15620,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f2573
@@ -15633,7 +15633,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f2575
@@ -15646,7 +15646,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f2577
@@ -15659,7 +15659,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f2579
@@ -15672,7 +15672,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
 	cbne	r5, r6, f2581
@@ -15685,7 +15685,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
 	cbne	r5, r6, f2583
@@ -15698,7 +15698,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
 	cbne	r5, r6, f2585
@@ -15711,7 +15711,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
 	cbne	r5, r6, f2587
@@ -15724,7 +15724,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
 	cbne	r5, r6, f2589
@@ -15737,7 +15737,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
 	cbne	r5, r6, f2591
@@ -15750,7 +15750,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f2593
@@ -15763,7 +15763,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f2595
@@ -15776,7 +15776,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
 	cbne	r5, r6, f2597
@@ -15789,7 +15789,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
 	cbne	r5, r6, f2599
@@ -15802,7 +15802,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
 	cbne	r5, r6, f2601
@@ -15815,7 +15815,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
 	cbne	r5, r6, f2603
@@ -15828,7 +15828,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40700000, r6
 	cbne	r5, r6, f2605
@@ -15841,7 +15841,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40700000, r6
 	cbne	r5, r6, f2607
@@ -15854,7 +15854,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
 	cbne	r5, r6, f2609
@@ -15867,7 +15867,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
 	cbne	r5, r6, f2611
@@ -15880,7 +15880,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffff80000000, r6
 	cbne	r5, r6, f2613
@@ -15893,7 +15893,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f2615
@@ -15906,7 +15906,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f2617
@@ -15919,7 +15919,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f2619
@@ -15932,7 +15932,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f2621
@@ -15945,7 +15945,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f2623
@@ -15958,7 +15958,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
 	cbne	r5, r6, f2625
@@ -15971,7 +15971,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
 	cbne	r5, r6, f2627
@@ -15984,7 +15984,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
 	cbne	r5, r6, f2629
@@ -15997,7 +15997,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
 	cbne	r5, r6, f2631
@@ -16010,7 +16010,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
 	cbne	r5, r6, f2633
@@ -16023,7 +16023,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
 	cbne	r5, r6, f2635
@@ -16036,7 +16036,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f2637
@@ -16049,7 +16049,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f2639
@@ -16062,7 +16062,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
 	cbne	r5, r6, f2641
@@ -16075,7 +16075,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
 	cbne	r5, r6, f2643
@@ -16088,7 +16088,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
 	cbne	r5, r6, f2645
@@ -16101,7 +16101,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
 	cbne	r5, r6, f2647
@@ -16114,7 +16114,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40700000, r6
 	cbne	r5, r6, f2649
@@ -16127,7 +16127,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40700000, r6
 	cbne	r5, r6, f2651
@@ -16140,7 +16140,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
 	cbne	r5, r6, f2653
@@ -16153,7 +16153,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
 	cbne	r5, r6, f2655
@@ -16166,7 +16166,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f2657
@@ -16179,7 +16179,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffff80000000, r6
 	cbne	r5, r6, f2659
@@ -16192,7 +16192,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f2661
@@ -16205,7 +16205,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f2663
@@ -16218,7 +16218,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f2665
@@ -16231,7 +16231,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f2667
@@ -16244,7 +16244,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
 	cbne	r5, r6, f2669
@@ -16257,7 +16257,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
 	cbne	r5, r6, f2671
@@ -16270,7 +16270,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
 	cbne	r5, r6, f2673
@@ -16283,7 +16283,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
 	cbne	r5, r6, f2675
@@ -16296,7 +16296,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
 	cbne	r5, r6, f2677
@@ -16309,7 +16309,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
 	cbne	r5, r6, f2679
@@ -16322,7 +16322,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f2681
@@ -16335,7 +16335,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f2683
@@ -16348,7 +16348,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
 	cbne	r5, r6, f2685
@@ -16361,7 +16361,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
 	cbne	r5, r6, f2687
@@ -16374,7 +16374,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
 	cbne	r5, r6, f2689
@@ -16387,7 +16387,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
 	cbne	r5, r6, f2691
@@ -16400,7 +16400,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40700000, r6
 	cbne	r5, r6, f2693
@@ -16413,7 +16413,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40700000, r6
 	cbne	r5, r6, f2695
@@ -16426,7 +16426,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
 	cbne	r5, r6, f2697
@@ -16439,7 +16439,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
 	cbne	r5, r6, f2699
@@ -16452,7 +16452,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffff80000000, r6
 	cbne	r5, r6, f2701
@@ -16465,7 +16465,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f2703
@@ -16478,7 +16478,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f2705
@@ -16491,7 +16491,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f2707
@@ -16504,7 +16504,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f2709
@@ -16517,7 +16517,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f2711
@@ -16530,7 +16530,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
 	cbne	r5, r6, f2713
@@ -16543,7 +16543,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
 	cbne	r5, r6, f2715
@@ -16556,7 +16556,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
 	cbne	r5, r6, f2717
@@ -16569,7 +16569,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
 	cbne	r5, r6, f2719
@@ -16582,7 +16582,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
 	cbne	r5, r6, f2721
@@ -16595,7 +16595,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
 	cbne	r5, r6, f2723
@@ -16608,7 +16608,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f2725
@@ -16621,7 +16621,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f2727
@@ -16634,7 +16634,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
 	cbne	r5, r6, f2729
@@ -16647,7 +16647,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
 	cbne	r5, r6, f2731
@@ -16660,7 +16660,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
 	cbne	r5, r6, f2733
@@ -16673,7 +16673,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
 	cbne	r5, r6, f2735
@@ -16686,7 +16686,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40700000, r6
 	cbne	r5, r6, f2737
@@ -16699,7 +16699,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40700000, r6
 	cbne	r5, r6, f2739
@@ -16712,7 +16712,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
 	cbne	r5, r6, f2741
@@ -16725,7 +16725,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
 	cbne	r5, r6, f2743
@@ -16738,7 +16738,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
 	cbne	r5, r6, f2745
@@ -16751,7 +16751,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f2747
@@ -16764,7 +16764,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
 	cbne	r5, r6, f2749
@@ -16777,7 +16777,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f2751
@@ -16790,7 +16790,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f2753
@@ -16803,7 +16803,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
 	cbne	r5, r6, f2755
@@ -16816,7 +16816,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40000000, r6
 	cbne	r5, r6, f2757
@@ -16829,7 +16829,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f2759
@@ -16842,7 +16842,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f2761
@@ -16855,7 +16855,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
 	cbne	r5, r6, f2763
@@ -16868,7 +16868,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
 	cbne	r5, r6, f2765
@@ -16881,7 +16881,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0800000, r6
 	cbne	r5, r6, f2767
@@ -16894,7 +16894,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf000000, r6
 	cbne	r5, r6, f2769
@@ -16907,7 +16907,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
 	cbne	r5, r6, f2771
@@ -16920,7 +16920,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f2773
@@ -16933,7 +16933,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0600000, r6
 	cbne	r5, r6, f2775
@@ -16946,7 +16946,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0300000, r6
 	cbne	r5, r6, f2777
@@ -16959,7 +16959,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0980000, r6
 	cbne	r5, r6, f2779
@@ -16972,7 +16972,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40980000, r6
 	cbne	r5, r6, f2781
@@ -16985,7 +16985,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40300000, r6
 	cbne	r5, r6, f2783
@@ -16998,7 +16998,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0d00000, r6
 	cbne	r5, r6, f2785
@@ -17011,7 +17011,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc1080000, r6
 	cbne	r5, r6, f2787
@@ -17024,7 +17024,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f2789
@@ -17037,7 +17037,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
 	cbne	r5, r6, f2791
@@ -17050,7 +17050,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f2793
@@ -17063,7 +17063,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
 	cbne	r5, r6, f2795
@@ -17076,7 +17076,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
 	cbne	r5, r6, f2797
@@ -17089,7 +17089,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f2799
@@ -17102,7 +17102,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f2801
@@ -17115,7 +17115,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40000000, r6
 	cbne	r5, r6, f2803
@@ -17128,7 +17128,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
 	cbne	r5, r6, f2805
@@ -17141,7 +17141,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f2807
@@ -17154,7 +17154,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0800000, r6
 	cbne	r5, r6, f2809
@@ -17167,7 +17167,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
 	cbne	r5, r6, f2811
@@ -17180,7 +17180,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
 	cbne	r5, r6, f2813
@@ -17193,7 +17193,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf000000, r6
 	cbne	r5, r6, f2815
@@ -17206,7 +17206,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0600000, r6
 	cbne	r5, r6, f2817
@@ -17219,7 +17219,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f2819
@@ -17232,7 +17232,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0980000, r6
 	cbne	r5, r6, f2821
@@ -17245,7 +17245,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0300000, r6
 	cbne	r5, r6, f2823
@@ -17258,7 +17258,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40300000, r6
 	cbne	r5, r6, f2825
@@ -17271,7 +17271,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40980000, r6
 	cbne	r5, r6, f2827
@@ -17284,7 +17284,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc1080000, r6
 	cbne	r5, r6, f2829
@@ -17297,7 +17297,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0d00000, r6
 	cbne	r5, r6, f2831
@@ -17310,7 +17310,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3fc00000, r6
 	cbne	r5, r6, f2833
@@ -17323,7 +17323,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f2835
@@ -17336,7 +17336,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3fc00000, r6
 	cbne	r5, r6, f2837
@@ -17349,7 +17349,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f2839
@@ -17362,7 +17362,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f000000, r6
 	cbne	r5, r6, f2841
@@ -17375,7 +17375,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
 	cbne	r5, r6, f2843
@@ -17388,7 +17388,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40200000, r6
 	cbne	r5, r6, f2845
@@ -17401,7 +17401,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf000000, r6
 	cbne	r5, r6, f2847
@@ -17414,7 +17414,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf000000, r6
 	cbne	r5, r6, f2849
@@ -17427,7 +17427,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0600000, r6
 	cbne	r5, r6, f2851
@@ -17440,7 +17440,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f2853
@@ -17453,7 +17453,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0900000, r6
 	cbne	r5, r6, f2855
@@ -17466,7 +17466,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f2857
@@ -17479,7 +17479,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
 	cbne	r5, r6, f2859
@@ -17492,7 +17492,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f2861
@@ -17505,7 +17505,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0800000, r6
 	cbne	r5, r6, f2863
@@ -17518,7 +17518,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0100000, r6
 	cbne	r5, r6, f2865
@@ -17531,7 +17531,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0a80000, r6
 	cbne	r5, r6, f2867
@@ -17544,7 +17544,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40a80000, r6
 	cbne	r5, r6, f2869
@@ -17557,7 +17557,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40100000, r6
 	cbne	r5, r6, f2871
@@ -17570,7 +17570,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0c00000, r6
 	cbne	r5, r6, f2873
@@ -17583,7 +17583,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc1100000, r6
 	cbne	r5, r6, f2875
@@ -17596,7 +17596,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffff80000000, r6
 	cbne	r5, r6, f2877
@@ -17609,7 +17609,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f2879
@@ -17622,7 +17622,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f2881
@@ -17635,7 +17635,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f2883
@@ -17648,7 +17648,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f2885
@@ -17661,7 +17661,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f2887
@@ -17674,7 +17674,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
 	cbne	r5, r6, f2889
@@ -17687,7 +17687,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
 	cbne	r5, r6, f2891
@@ -17700,7 +17700,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
 	cbne	r5, r6, f2893
@@ -17713,7 +17713,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
 	cbne	r5, r6, f2895
@@ -17726,7 +17726,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
 	cbne	r5, r6, f2897
@@ -17739,7 +17739,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
 	cbne	r5, r6, f2899
@@ -17752,7 +17752,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f2901
@@ -17765,7 +17765,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f2903
@@ -17778,7 +17778,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
 	cbne	r5, r6, f2905
@@ -17791,7 +17791,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
 	cbne	r5, r6, f2907
@@ -17804,7 +17804,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
 	cbne	r5, r6, f2909
@@ -17817,7 +17817,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
 	cbne	r5, r6, f2911
@@ -17830,7 +17830,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40700000, r6
 	cbne	r5, r6, f2913
@@ -17843,7 +17843,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40700000, r6
 	cbne	r5, r6, f2915
@@ -17856,7 +17856,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
 	cbne	r5, r6, f2917
@@ -17869,7 +17869,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
 	cbne	r5, r6, f2919
@@ -17882,7 +17882,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f2921
@@ -17895,7 +17895,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffff80000000, r6
 	cbne	r5, r6, f2923
@@ -17908,7 +17908,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f2925
@@ -17921,7 +17921,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f2927
@@ -17934,7 +17934,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f2929
@@ -17947,7 +17947,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f2931
@@ -17960,7 +17960,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
 	cbne	r5, r6, f2933
@@ -17973,7 +17973,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
 	cbne	r5, r6, f2935
@@ -17986,7 +17986,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
 	cbne	r5, r6, f2937
@@ -17999,7 +17999,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
 	cbne	r5, r6, f2939
@@ -18012,7 +18012,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
 	cbne	r5, r6, f2941
@@ -18025,7 +18025,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
 	cbne	r5, r6, f2943
@@ -18038,7 +18038,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f2945
@@ -18051,7 +18051,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f2947
@@ -18064,7 +18064,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
 	cbne	r5, r6, f2949
@@ -18077,7 +18077,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
 	cbne	r5, r6, f2951
@@ -18090,7 +18090,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
 	cbne	r5, r6, f2953
@@ -18103,7 +18103,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
 	cbne	r5, r6, f2955
@@ -18116,7 +18116,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40700000, r6
 	cbne	r5, r6, f2957
@@ -18129,7 +18129,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40700000, r6
 	cbne	r5, r6, f2959
@@ -18142,7 +18142,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
 	cbne	r5, r6, f2961
@@ -18155,7 +18155,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
 	cbne	r5, r6, f2963
@@ -18168,7 +18168,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f2965
@@ -18181,7 +18181,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
 	cbne	r5, r6, f2967
@@ -18194,7 +18194,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f2969
@@ -18207,7 +18207,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
 	cbne	r5, r6, f2971
@@ -18220,7 +18220,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
 	cbne	r5, r6, f2973
@@ -18233,7 +18233,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f2975
@@ -18246,7 +18246,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f2977
@@ -18259,7 +18259,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40000000, r6
 	cbne	r5, r6, f2979
@@ -18272,7 +18272,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
 	cbne	r5, r6, f2981
@@ -18285,7 +18285,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f2983
@@ -18298,7 +18298,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0800000, r6
 	cbne	r5, r6, f2985
@@ -18311,7 +18311,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
 	cbne	r5, r6, f2987
@@ -18324,7 +18324,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
 	cbne	r5, r6, f2989
@@ -18337,7 +18337,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf000000, r6
 	cbne	r5, r6, f2991
@@ -18350,7 +18350,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0600000, r6
 	cbne	r5, r6, f2993
@@ -18363,7 +18363,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f2995
@@ -18376,7 +18376,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0980000, r6
 	cbne	r5, r6, f2997
@@ -18389,7 +18389,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0300000, r6
 	cbne	r5, r6, f2999
@@ -18402,7 +18402,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40300000, r6
 	cbne	r5, r6, f3001
@@ -18415,7 +18415,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40980000, r6
 	cbne	r5, r6, f3003
@@ -18428,7 +18428,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc1080000, r6
 	cbne	r5, r6, f3005
@@ -18441,7 +18441,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0d00000, r6
 	cbne	r5, r6, f3007
@@ -18454,7 +18454,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
 	cbne	r5, r6, f3009
@@ -18467,7 +18467,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f3011
@@ -18480,7 +18480,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
 	cbne	r5, r6, f3013
@@ -18493,7 +18493,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f3015
@@ -18506,7 +18506,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f3017
@@ -18519,7 +18519,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
 	cbne	r5, r6, f3019
@@ -18532,7 +18532,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40000000, r6
 	cbne	r5, r6, f3021
@@ -18545,7 +18545,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f3023
@@ -18558,7 +18558,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f3025
@@ -18571,7 +18571,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
 	cbne	r5, r6, f3027
@@ -18584,7 +18584,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
 	cbne	r5, r6, f3029
@@ -18597,7 +18597,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0800000, r6
 	cbne	r5, r6, f3031
@@ -18610,7 +18610,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf000000, r6
 	cbne	r5, r6, f3033
@@ -18623,7 +18623,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
 	cbne	r5, r6, f3035
@@ -18636,7 +18636,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f3037
@@ -18649,7 +18649,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0600000, r6
 	cbne	r5, r6, f3039
@@ -18662,7 +18662,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0300000, r6
 	cbne	r5, r6, f3041
@@ -18675,7 +18675,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0980000, r6
 	cbne	r5, r6, f3043
@@ -18688,7 +18688,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40980000, r6
 	cbne	r5, r6, f3045
@@ -18701,7 +18701,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40300000, r6
 	cbne	r5, r6, f3047
@@ -18714,7 +18714,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0d00000, r6
 	cbne	r5, r6, f3049
@@ -18727,7 +18727,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc1080000, r6
 	cbne	r5, r6, f3051
@@ -18740,7 +18740,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f3053
@@ -18753,7 +18753,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3fc00000, r6
 	cbne	r5, r6, f3055
@@ -18766,7 +18766,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f3057
@@ -18779,7 +18779,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3fc00000, r6
 	cbne	r5, r6, f3059
@@ -18792,7 +18792,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
 	cbne	r5, r6, f3061
@@ -18805,7 +18805,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f000000, r6
 	cbne	r5, r6, f3063
@@ -18818,7 +18818,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf000000, r6
 	cbne	r5, r6, f3065
@@ -18831,7 +18831,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40200000, r6
 	cbne	r5, r6, f3067
@@ -18844,7 +18844,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0600000, r6
 	cbne	r5, r6, f3069
@@ -18857,7 +18857,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf000000, r6
 	cbne	r5, r6, f3071
@@ -18870,7 +18870,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0900000, r6
 	cbne	r5, r6, f3073
@@ -18883,7 +18883,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f3075
@@ -18896,7 +18896,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
 	cbne	r5, r6, f3077
@@ -18909,7 +18909,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f3079
@@ -18922,7 +18922,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0800000, r6
 	cbne	r5, r6, f3081
@@ -18935,7 +18935,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f3083
@@ -18948,7 +18948,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0a80000, r6
 	cbne	r5, r6, f3085
@@ -18961,7 +18961,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0100000, r6
 	cbne	r5, r6, f3087
@@ -18974,7 +18974,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40100000, r6
 	cbne	r5, r6, f3089
@@ -18987,7 +18987,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40a80000, r6
 	cbne	r5, r6, f3091
@@ -19000,7 +19000,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc1100000, r6
 	cbne	r5, r6, f3093
@@ -19013,7 +19013,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0c00000, r6
 	cbne	r5, r6, f3095
@@ -19026,7 +19026,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f3097
@@ -19039,7 +19039,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffff80000000, r6
 	cbne	r5, r6, f3099
@@ -19052,7 +19052,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f3101
@@ -19065,7 +19065,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f3103
@@ -19078,7 +19078,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f3105
@@ -19091,7 +19091,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f3107
@@ -19104,7 +19104,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
 	cbne	r5, r6, f3109
@@ -19117,7 +19117,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
 	cbne	r5, r6, f3111
@@ -19130,7 +19130,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
 	cbne	r5, r6, f3113
@@ -19143,7 +19143,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
 	cbne	r5, r6, f3115
@@ -19156,7 +19156,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
 	cbne	r5, r6, f3117
@@ -19169,7 +19169,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
 	cbne	r5, r6, f3119
@@ -19182,7 +19182,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f3121
@@ -19195,7 +19195,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f3123
@@ -19208,7 +19208,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
 	cbne	r5, r6, f3125
@@ -19221,7 +19221,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
 	cbne	r5, r6, f3127
@@ -19234,7 +19234,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
 	cbne	r5, r6, f3129
@@ -19247,7 +19247,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
 	cbne	r5, r6, f3131
@@ -19260,7 +19260,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40700000, r6
 	cbne	r5, r6, f3133
@@ -19273,7 +19273,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40700000, r6
 	cbne	r5, r6, f3135
@@ -19286,7 +19286,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
 	cbne	r5, r6, f3137
@@ -19299,7 +19299,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
 	cbne	r5, r6, f3139
@@ -19312,7 +19312,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffff80000000, r6
 	cbne	r5, r6, f3141
@@ -19325,7 +19325,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f3143
@@ -19338,7 +19338,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f3145
@@ -19351,7 +19351,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f3147
@@ -19364,7 +19364,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f3149
@@ -19377,7 +19377,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f3151
@@ -19390,7 +19390,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
 	cbne	r5, r6, f3153
@@ -19403,7 +19403,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
 	cbne	r5, r6, f3155
@@ -19416,7 +19416,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
 	cbne	r5, r6, f3157
@@ -19429,7 +19429,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
 	cbne	r5, r6, f3159
@@ -19442,7 +19442,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
 	cbne	r5, r6, f3161
@@ -19455,7 +19455,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
 	cbne	r5, r6, f3163
@@ -19468,7 +19468,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f3165
@@ -19481,7 +19481,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f3167
@@ -19494,7 +19494,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
 	cbne	r5, r6, f3169
@@ -19507,7 +19507,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
 	cbne	r5, r6, f3171
@@ -19520,7 +19520,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
 	cbne	r5, r6, f3173
@@ -19533,7 +19533,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
 	cbne	r5, r6, f3175
@@ -19546,7 +19546,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40700000, r6
 	cbne	r5, r6, f3177
@@ -19559,7 +19559,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40700000, r6
 	cbne	r5, r6, f3179
@@ -19572,7 +19572,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
 	cbne	r5, r6, f3181
@@ -19585,7 +19585,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
 	cbne	r5, r6, f3183
@@ -19598,7 +19598,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40000000, r6
 	cbne	r5, r6, f3185
@@ -19611,7 +19611,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
 	cbne	r5, r6, f3187
@@ -19624,7 +19624,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40000000, r6
 	cbne	r5, r6, f3189
@@ -19637,7 +19637,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
 	cbne	r5, r6, f3191
@@ -19650,7 +19650,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
 	cbne	r5, r6, f3193
@@ -19663,7 +19663,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
 	cbne	r5, r6, f3195
@@ -19676,7 +19676,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40400000, r6
 	cbne	r5, r6, f3197
@@ -19689,7 +19689,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f3199
@@ -19702,7 +19702,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f3201
@@ -19715,7 +19715,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0800000, r6
 	cbne	r5, r6, f3203
@@ -19728,7 +19728,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f3205
@@ -19741,7 +19741,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0a00000, r6
 	cbne	r5, r6, f3207
@@ -19754,7 +19754,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f000000, r6
 	cbne	r5, r6, f3209
@@ -19767,7 +19767,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0600000, r6
 	cbne	r5, r6, f3211
@@ -19780,7 +19780,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf000000, r6
 	cbne	r5, r6, f3213
@@ -19793,7 +19793,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0900000, r6
 	cbne	r5, r6, f3215
@@ -19806,7 +19806,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfe00000, r6
 	cbne	r5, r6, f3217
@@ -19819,7 +19819,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0b80000, r6
 	cbne	r5, r6, f3219
@@ -19832,7 +19832,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40b80000, r6
 	cbne	r5, r6, f3221
@@ -19845,7 +19845,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3fe00000, r6
 	cbne	r5, r6, f3223
@@ -19858,7 +19858,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0b00000, r6
 	cbne	r5, r6, f3225
@@ -19871,7 +19871,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc1180000, r6
 	cbne	r5, r6, f3227
@@ -19884,7 +19884,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
 	cbne	r5, r6, f3229
@@ -19897,7 +19897,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40000000, r6
 	cbne	r5, r6, f3231
@@ -19910,7 +19910,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
 	cbne	r5, r6, f3233
@@ -19923,7 +19923,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40000000, r6
 	cbne	r5, r6, f3235
@@ -19936,7 +19936,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
 	cbne	r5, r6, f3237
@@ -19949,7 +19949,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
 	cbne	r5, r6, f3239
@@ -19962,7 +19962,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f3241
@@ -19975,7 +19975,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40400000, r6
 	cbne	r5, r6, f3243
@@ -19988,7 +19988,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0800000, r6
 	cbne	r5, r6, f3245
@@ -20001,7 +20001,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f3247
@@ -20014,7 +20014,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0a00000, r6
 	cbne	r5, r6, f3249
@@ -20027,7 +20027,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f3251
@@ -20040,7 +20040,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0600000, r6
 	cbne	r5, r6, f3253
@@ -20053,7 +20053,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f000000, r6
 	cbne	r5, r6, f3255
@@ -20066,7 +20066,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0900000, r6
 	cbne	r5, r6, f3257
@@ -20079,7 +20079,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf000000, r6
 	cbne	r5, r6, f3259
@@ -20092,7 +20092,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0b80000, r6
 	cbne	r5, r6, f3261
@@ -20105,7 +20105,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfe00000, r6
 	cbne	r5, r6, f3263
@@ -20118,7 +20118,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3fe00000, r6
 	cbne	r5, r6, f3265
@@ -20131,7 +20131,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40b80000, r6
 	cbne	r5, r6, f3267
@@ -20144,7 +20144,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc1180000, r6
 	cbne	r5, r6, f3269
@@ -20157,7 +20157,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0b00000, r6
 	cbne	r5, r6, f3271
@@ -20170,7 +20170,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40400000, r6
 	cbne	r5, r6, f3273
@@ -20183,7 +20183,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
 	cbne	r5, r6, f3275
@@ -20196,7 +20196,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40400000, r6
 	cbne	r5, r6, f3277
@@ -20209,7 +20209,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
 	cbne	r5, r6, f3279
@@ -20222,7 +20222,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40000000, r6
 	cbne	r5, r6, f3281
@@ -20235,7 +20235,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0800000, r6
 	cbne	r5, r6, f3283
@@ -20248,7 +20248,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40800000, r6
 	cbne	r5, r6, f3285
@@ -20261,7 +20261,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
 	cbne	r5, r6, f3287
@@ -20274,7 +20274,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
 	cbne	r5, r6, f3289
@@ -20287,7 +20287,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0a00000, r6
 	cbne	r5, r6, f3291
@@ -20300,7 +20300,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f3293
@@ -20313,7 +20313,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0c00000, r6
 	cbne	r5, r6, f3295
@@ -20326,7 +20326,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3fc00000, r6
 	cbne	r5, r6, f3297
@@ -20339,7 +20339,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0900000, r6
 	cbne	r5, r6, f3299
@@ -20352,7 +20352,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f000000, r6
 	cbne	r5, r6, f3301
@@ -20365,7 +20365,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0b00000, r6
 	cbne	r5, r6, f3303
@@ -20378,7 +20378,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf400000, r6
 	cbne	r5, r6, f3305
@@ -20391,7 +20391,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0d80000, r6
 	cbne	r5, r6, f3307
@@ -20404,7 +20404,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40d80000, r6
 	cbne	r5, r6, f3309
@@ -20417,7 +20417,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f400000, r6
 	cbne	r5, r6, f3311
@@ -20430,7 +20430,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0900000, r6
 	cbne	r5, r6, f3313
@@ -20443,7 +20443,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc1280000, r6
 	cbne	r5, r6, f3315
@@ -20456,7 +20456,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f3317
@@ -20469,7 +20469,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffff80000000, r6
 	cbne	r5, r6, f3319
@@ -20482,7 +20482,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f3321
@@ -20495,7 +20495,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f3323
@@ -20508,7 +20508,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f3325
@@ -20521,7 +20521,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f3327
@@ -20534,7 +20534,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
 	cbne	r5, r6, f3329
@@ -20547,7 +20547,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
 	cbne	r5, r6, f3331
@@ -20560,7 +20560,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
 	cbne	r5, r6, f3333
@@ -20573,7 +20573,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
 	cbne	r5, r6, f3335
@@ -20586,7 +20586,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
 	cbne	r5, r6, f3337
@@ -20599,7 +20599,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
 	cbne	r5, r6, f3339
@@ -20612,7 +20612,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f3341
@@ -20625,7 +20625,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f3343
@@ -20638,7 +20638,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
 	cbne	r5, r6, f3345
@@ -20651,7 +20651,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
 	cbne	r5, r6, f3347
@@ -20664,7 +20664,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
 	cbne	r5, r6, f3349
@@ -20677,7 +20677,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
 	cbne	r5, r6, f3351
@@ -20690,7 +20690,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40700000, r6
 	cbne	r5, r6, f3353
@@ -20703,7 +20703,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40700000, r6
 	cbne	r5, r6, f3355
@@ -20716,7 +20716,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
 	cbne	r5, r6, f3357
@@ -20729,7 +20729,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
 	cbne	r5, r6, f3359
@@ -20742,7 +20742,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffff80000000, r6
 	cbne	r5, r6, f3361
@@ -20755,7 +20755,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f3363
@@ -20768,7 +20768,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f3365
@@ -20781,7 +20781,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f3367
@@ -20794,7 +20794,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f3369
@@ -20807,7 +20807,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f3371
@@ -20820,7 +20820,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
 	cbne	r5, r6, f3373
@@ -20833,7 +20833,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
 	cbne	r5, r6, f3375
@@ -20846,7 +20846,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
 	cbne	r5, r6, f3377
@@ -20859,7 +20859,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
 	cbne	r5, r6, f3379
@@ -20872,7 +20872,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
 	cbne	r5, r6, f3381
@@ -20885,7 +20885,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
 	cbne	r5, r6, f3383
@@ -20898,7 +20898,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f3385
@@ -20911,7 +20911,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f3387
@@ -20924,7 +20924,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
 	cbne	r5, r6, f3389
@@ -20937,7 +20937,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
 	cbne	r5, r6, f3391
@@ -20950,7 +20950,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
 	cbne	r5, r6, f3393
@@ -20963,7 +20963,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
 	cbne	r5, r6, f3395
@@ -20976,7 +20976,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40700000, r6
 	cbne	r5, r6, f3397
@@ -20989,7 +20989,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40700000, r6
 	cbne	r5, r6, f3399
@@ -21002,7 +21002,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
 	cbne	r5, r6, f3401
@@ -21015,7 +21015,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
 	cbne	r5, r6, f3403
@@ -21028,7 +21028,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40400000, r6
 	cbne	r5, r6, f3405
@@ -21041,7 +21041,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
 	cbne	r5, r6, f3407
@@ -21054,7 +21054,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40400000, r6
 	cbne	r5, r6, f3409
@@ -21067,7 +21067,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
 	cbne	r5, r6, f3411
@@ -21080,7 +21080,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40000000, r6
 	cbne	r5, r6, f3413
@@ -21093,7 +21093,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0800000, r6
 	cbne	r5, r6, f3415
@@ -21106,7 +21106,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40800000, r6
 	cbne	r5, r6, f3417
@@ -21119,7 +21119,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
 	cbne	r5, r6, f3419
@@ -21132,7 +21132,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
 	cbne	r5, r6, f3421
@@ -21145,7 +21145,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0a00000, r6
 	cbne	r5, r6, f3423
@@ -21158,7 +21158,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f3425
@@ -21171,7 +21171,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0c00000, r6
 	cbne	r5, r6, f3427
@@ -21184,7 +21184,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3fc00000, r6
 	cbne	r5, r6, f3429
@@ -21197,7 +21197,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0900000, r6
 	cbne	r5, r6, f3431
@@ -21210,7 +21210,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f000000, r6
 	cbne	r5, r6, f3433
@@ -21223,7 +21223,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0b00000, r6
 	cbne	r5, r6, f3435
@@ -21236,7 +21236,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf400000, r6
 	cbne	r5, r6, f3437
@@ -21249,7 +21249,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0d80000, r6
 	cbne	r5, r6, f3439
@@ -21262,7 +21262,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40d80000, r6
 	cbne	r5, r6, f3441
@@ -21275,7 +21275,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f400000, r6
 	cbne	r5, r6, f3443
@@ -21288,7 +21288,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0900000, r6
 	cbne	r5, r6, f3445
@@ -21301,7 +21301,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc1280000, r6
 	cbne	r5, r6, f3447
@@ -21314,7 +21314,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
 	cbne	r5, r6, f3449
@@ -21327,7 +21327,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40400000, r6
 	cbne	r5, r6, f3451
@@ -21340,7 +21340,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
 	cbne	r5, r6, f3453
@@ -21353,7 +21353,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40400000, r6
 	cbne	r5, r6, f3455
@@ -21366,7 +21366,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0800000, r6
 	cbne	r5, r6, f3457
@@ -21379,7 +21379,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40000000, r6
 	cbne	r5, r6, f3459
@@ -21392,7 +21392,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
 	cbne	r5, r6, f3461
@@ -21405,7 +21405,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40800000, r6
 	cbne	r5, r6, f3463
@@ -21418,7 +21418,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0a00000, r6
 	cbne	r5, r6, f3465
@@ -21431,7 +21431,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
 	cbne	r5, r6, f3467
@@ -21444,7 +21444,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0c00000, r6
 	cbne	r5, r6, f3469
@@ -21457,7 +21457,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f3471
@@ -21470,7 +21470,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0900000, r6
 	cbne	r5, r6, f3473
@@ -21483,7 +21483,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3fc00000, r6
 	cbne	r5, r6, f3475
@@ -21496,7 +21496,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0b00000, r6
 	cbne	r5, r6, f3477
@@ -21509,7 +21509,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f000000, r6
 	cbne	r5, r6, f3479
@@ -21522,7 +21522,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0d80000, r6
 	cbne	r5, r6, f3481
@@ -21535,7 +21535,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf400000, r6
 	cbne	r5, r6, f3483
@@ -21548,7 +21548,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f400000, r6
 	cbne	r5, r6, f3485
@@ -21561,7 +21561,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40d80000, r6
 	cbne	r5, r6, f3487
@@ -21574,7 +21574,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc1280000, r6
 	cbne	r5, r6, f3489
@@ -21587,7 +21587,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0900000, r6
 	cbne	r5, r6, f3491
@@ -21600,7 +21600,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40900000, r6
 	cbne	r5, r6, f3493
@@ -21613,7 +21613,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0900000, r6
 	cbne	r5, r6, f3495
@@ -21626,7 +21626,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40900000, r6
 	cbne	r5, r6, f3497
@@ -21639,7 +21639,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0900000, r6
 	cbne	r5, r6, f3499
@@ -21652,7 +21652,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40600000, r6
 	cbne	r5, r6, f3501
@@ -21665,7 +21665,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0b00000, r6
 	cbne	r5, r6, f3503
@@ -21678,7 +21678,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40b00000, r6
 	cbne	r5, r6, f3505
@@ -21691,7 +21691,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0600000, r6
 	cbne	r5, r6, f3507
@@ -21704,7 +21704,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40200000, r6
 	cbne	r5, r6, f3509
@@ -21717,7 +21717,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0d00000, r6
 	cbne	r5, r6, f3511
@@ -21730,7 +21730,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3fc00000, r6
 	cbne	r5, r6, f3513
@@ -21743,7 +21743,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
 	cbne	r5, r6, f3515
@@ -21756,7 +21756,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40400000, r6
 	cbne	r5, r6, f3517
@@ -21769,7 +21769,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0c00000, r6
 	cbne	r5, r6, f3519
@@ -21782,7 +21782,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40000000, r6
 	cbne	r5, r6, f3521
@@ -21795,7 +21795,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0e00000, r6
 	cbne	r5, r6, f3523
@@ -21808,7 +21808,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f400000, r6
 	cbne	r5, r6, f3525
@@ -21821,7 +21821,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc1040000, r6
 	cbne	r5, r6, f3527
@@ -21834,7 +21834,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x41040000, r6
 	cbne	r5, r6, f3529
@@ -21847,7 +21847,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf400000, r6
 	cbne	r5, r6, f3531
@@ -21860,7 +21860,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
 	cbne	r5, r6, f3533
@@ -21873,7 +21873,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc1400000, r6
 	cbne	r5, r6, f3535
@@ -21886,7 +21886,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f3537
@@ -21899,7 +21899,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffff80000000, r6
 	cbne	r5, r6, f3539
@@ -21912,7 +21912,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f3541
@@ -21925,7 +21925,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f3543
@@ -21938,7 +21938,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f3545
@@ -21951,7 +21951,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f3547
@@ -21964,7 +21964,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
 	cbne	r5, r6, f3549
@@ -21977,7 +21977,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
 	cbne	r5, r6, f3551
@@ -21990,7 +21990,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
 	cbne	r5, r6, f3553
@@ -22003,7 +22003,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
 	cbne	r5, r6, f3555
@@ -22016,7 +22016,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
 	cbne	r5, r6, f3557
@@ -22029,7 +22029,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
 	cbne	r5, r6, f3559
@@ -22042,7 +22042,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f3561
@@ -22055,7 +22055,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f3563
@@ -22068,7 +22068,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
 	cbne	r5, r6, f3565
@@ -22081,7 +22081,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
 	cbne	r5, r6, f3567
@@ -22094,7 +22094,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
 	cbne	r5, r6, f3569
@@ -22107,7 +22107,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
 	cbne	r5, r6, f3571
@@ -22120,7 +22120,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40700000, r6
 	cbne	r5, r6, f3573
@@ -22133,7 +22133,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40700000, r6
 	cbne	r5, r6, f3575
@@ -22146,7 +22146,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
 	cbne	r5, r6, f3577
@@ -22159,7 +22159,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
 	cbne	r5, r6, f3579
@@ -22172,7 +22172,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffff80000000, r6
 	cbne	r5, r6, f3581
@@ -22185,7 +22185,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f3583
@@ -22198,7 +22198,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f3585
@@ -22211,7 +22211,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f3587
@@ -22224,7 +22224,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f3589
@@ -22237,7 +22237,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f3591
@@ -22250,7 +22250,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
 	cbne	r5, r6, f3593
@@ -22263,7 +22263,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
 	cbne	r5, r6, f3595
@@ -22276,7 +22276,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
 	cbne	r5, r6, f3597
@@ -22289,7 +22289,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
 	cbne	r5, r6, f3599
@@ -22302,7 +22302,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
 	cbne	r5, r6, f3601
@@ -22315,7 +22315,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
 	cbne	r5, r6, f3603
@@ -22328,7 +22328,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f3605
@@ -22341,7 +22341,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f3607
@@ -22354,7 +22354,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
 	cbne	r5, r6, f3609
@@ -22367,7 +22367,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
 	cbne	r5, r6, f3611
@@ -22380,7 +22380,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
 	cbne	r5, r6, f3613
@@ -22393,7 +22393,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
 	cbne	r5, r6, f3615
@@ -22406,7 +22406,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40700000, r6
 	cbne	r5, r6, f3617
@@ -22419,7 +22419,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40700000, r6
 	cbne	r5, r6, f3619
@@ -22432,7 +22432,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
 	cbne	r5, r6, f3621
@@ -22445,7 +22445,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
 	cbne	r5, r6, f3623
@@ -22458,7 +22458,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3fc00000, r6
 	cbne	r5, r6, f3625
@@ -22471,7 +22471,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f3627
@@ -22484,7 +22484,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3fc00000, r6
 	cbne	r5, r6, f3629
@@ -22497,7 +22497,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f3631
@@ -22510,7 +22510,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f000000, r6
 	cbne	r5, r6, f3633
@@ -22523,7 +22523,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
 	cbne	r5, r6, f3635
@@ -22536,7 +22536,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40200000, r6
 	cbne	r5, r6, f3637
@@ -22549,7 +22549,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf000000, r6
 	cbne	r5, r6, f3639
@@ -22562,7 +22562,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf000000, r6
 	cbne	r5, r6, f3641
@@ -22575,7 +22575,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0600000, r6
 	cbne	r5, r6, f3643
@@ -22588,7 +22588,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f3645
@@ -22601,7 +22601,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0900000, r6
 	cbne	r5, r6, f3647
@@ -22614,7 +22614,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f3649
@@ -22627,7 +22627,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
 	cbne	r5, r6, f3651
@@ -22640,7 +22640,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f3653
@@ -22653,7 +22653,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0800000, r6
 	cbne	r5, r6, f3655
@@ -22666,7 +22666,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0100000, r6
 	cbne	r5, r6, f3657
@@ -22679,7 +22679,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0a80000, r6
 	cbne	r5, r6, f3659
@@ -22692,7 +22692,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40a80000, r6
 	cbne	r5, r6, f3661
@@ -22705,7 +22705,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40100000, r6
 	cbne	r5, r6, f3663
@@ -22718,7 +22718,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0c00000, r6
 	cbne	r5, r6, f3665
@@ -22731,7 +22731,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc1100000, r6
 	cbne	r5, r6, f3667
@@ -22744,7 +22744,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f3669
@@ -22757,7 +22757,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3fc00000, r6
 	cbne	r5, r6, f3671
@@ -22770,7 +22770,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f3673
@@ -22783,7 +22783,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3fc00000, r6
 	cbne	r5, r6, f3675
@@ -22796,7 +22796,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
 	cbne	r5, r6, f3677
@@ -22809,7 +22809,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f000000, r6
 	cbne	r5, r6, f3679
@@ -22822,7 +22822,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf000000, r6
 	cbne	r5, r6, f3681
@@ -22835,7 +22835,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40200000, r6
 	cbne	r5, r6, f3683
@@ -22848,7 +22848,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0600000, r6
 	cbne	r5, r6, f3685
@@ -22861,7 +22861,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf000000, r6
 	cbne	r5, r6, f3687
@@ -22874,7 +22874,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0900000, r6
 	cbne	r5, r6, f3689
@@ -22887,7 +22887,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f3691
@@ -22900,7 +22900,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
 	cbne	r5, r6, f3693
@@ -22913,7 +22913,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f3695
@@ -22926,7 +22926,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0800000, r6
 	cbne	r5, r6, f3697
@@ -22939,7 +22939,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f3699
@@ -22952,7 +22952,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0a80000, r6
 	cbne	r5, r6, f3701
@@ -22965,7 +22965,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0100000, r6
 	cbne	r5, r6, f3703
@@ -22978,7 +22978,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40100000, r6
 	cbne	r5, r6, f3705
@@ -22991,7 +22991,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40a80000, r6
 	cbne	r5, r6, f3707
@@ -23004,7 +23004,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc1100000, r6
 	cbne	r5, r6, f3709
@@ -23017,7 +23017,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0c00000, r6
 	cbne	r5, r6, f3711
@@ -23030,7 +23030,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40100000, r6
 	cbne	r5, r6, f3713
@@ -23043,7 +23043,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0100000, r6
 	cbne	r5, r6, f3715
@@ -23056,7 +23056,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40100000, r6
 	cbne	r5, r6, f3717
@@ -23069,7 +23069,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0100000, r6
 	cbne	r5, r6, f3719
@@ -23082,7 +23082,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3fa00000, r6
 	cbne	r5, r6, f3721
@@ -23095,7 +23095,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0500000, r6
 	cbne	r5, r6, f3723
@@ -23108,7 +23108,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40500000, r6
 	cbne	r5, r6, f3725
@@ -23121,7 +23121,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfa00000, r6
 	cbne	r5, r6, f3727
@@ -23134,7 +23134,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3e800000, r6
 	cbne	r5, r6, f3729
@@ -23147,7 +23147,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0880000, r6
 	cbne	r5, r6, f3731
@@ -23160,7 +23160,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf400000, r6
 	cbne	r5, r6, f3733
@@ -23173,7 +23173,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0a80000, r6
 	cbne	r5, r6, f3735
@@ -23186,7 +23186,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f400000, r6
 	cbne	r5, r6, f3737
@@ -23199,7 +23199,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
 	cbne	r5, r6, f3739
@@ -23212,7 +23212,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbe800000, r6
 	cbne	r5, r6, f3741
@@ -23225,7 +23225,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0980000, r6
 	cbne	r5, r6, f3743
@@ -23238,7 +23238,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f3745
@@ -23251,7 +23251,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0c00000, r6
 	cbne	r5, r6, f3747
@@ -23264,7 +23264,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40c00000, r6
 	cbne	r5, r6, f3749
@@ -23277,7 +23277,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3fc00000, r6
 	cbne	r5, r6, f3751
@@ -23290,7 +23290,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0a80000, r6
 	cbne	r5, r6, f3753
@@ -23303,7 +23303,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc11c0000, r6
 	cbne	r5, r6, f3755
@@ -23316,7 +23316,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f3757
@@ -23329,7 +23329,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffff80000000, r6
 	cbne	r5, r6, f3759
@@ -23342,7 +23342,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f3761
@@ -23355,7 +23355,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f3763
@@ -23368,7 +23368,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f3765
@@ -23381,7 +23381,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f3767
@@ -23394,7 +23394,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
 	cbne	r5, r6, f3769
@@ -23407,7 +23407,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
 	cbne	r5, r6, f3771
@@ -23420,7 +23420,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
 	cbne	r5, r6, f3773
@@ -23433,7 +23433,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
 	cbne	r5, r6, f3775
@@ -23446,7 +23446,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
 	cbne	r5, r6, f3777
@@ -23459,7 +23459,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
 	cbne	r5, r6, f3779
@@ -23472,7 +23472,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f3781
@@ -23485,7 +23485,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f3783
@@ -23498,7 +23498,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
 	cbne	r5, r6, f3785
@@ -23511,7 +23511,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
 	cbne	r5, r6, f3787
@@ -23524,7 +23524,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
 	cbne	r5, r6, f3789
@@ -23537,7 +23537,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
 	cbne	r5, r6, f3791
@@ -23550,7 +23550,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40700000, r6
 	cbne	r5, r6, f3793
@@ -23563,7 +23563,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40700000, r6
 	cbne	r5, r6, f3795
@@ -23576,7 +23576,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
 	cbne	r5, r6, f3797
@@ -23589,7 +23589,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
 	cbne	r5, r6, f3799
@@ -23602,7 +23602,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffff80000000, r6
 	cbne	r5, r6, f3801
@@ -23615,7 +23615,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f3803
@@ -23628,7 +23628,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f3805
@@ -23641,7 +23641,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f3807
@@ -23654,7 +23654,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f3809
@@ -23667,7 +23667,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f3811
@@ -23680,7 +23680,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
 	cbne	r5, r6, f3813
@@ -23693,7 +23693,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
 	cbne	r5, r6, f3815
@@ -23706,7 +23706,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
 	cbne	r5, r6, f3817
@@ -23719,7 +23719,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
 	cbne	r5, r6, f3819
@@ -23732,7 +23732,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
 	cbne	r5, r6, f3821
@@ -23745,7 +23745,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
 	cbne	r5, r6, f3823
@@ -23758,7 +23758,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f3825
@@ -23771,7 +23771,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f3827
@@ -23784,7 +23784,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
 	cbne	r5, r6, f3829
@@ -23797,7 +23797,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
 	cbne	r5, r6, f3831
@@ -23810,7 +23810,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
 	cbne	r5, r6, f3833
@@ -23823,7 +23823,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
 	cbne	r5, r6, f3835
@@ -23836,7 +23836,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40700000, r6
 	cbne	r5, r6, f3837
@@ -23849,7 +23849,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40700000, r6
 	cbne	r5, r6, f3839
@@ -23862,7 +23862,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
 	cbne	r5, r6, f3841
@@ -23875,7 +23875,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
 	cbne	r5, r6, f3843
@@ -23888,7 +23888,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40200000, r6
 	cbne	r5, r6, f3845
@@ -23901,7 +23901,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
 	cbne	r5, r6, f3847
@@ -23914,7 +23914,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40200000, r6
 	cbne	r5, r6, f3849
@@ -23927,7 +23927,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
 	cbne	r5, r6, f3851
@@ -23940,7 +23940,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3fc00000, r6
 	cbne	r5, r6, f3853
@@ -23953,7 +23953,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0600000, r6
 	cbne	r5, r6, f3855
@@ -23966,7 +23966,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40600000, r6
 	cbne	r5, r6, f3857
@@ -23979,7 +23979,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f3859
@@ -23992,7 +23992,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f000000, r6
 	cbne	r5, r6, f3861
@@ -24005,7 +24005,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0900000, r6
 	cbne	r5, r6, f3863
@@ -24018,7 +24018,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf000000, r6
 	cbne	r5, r6, f3865
@@ -24031,7 +24031,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0b00000, r6
 	cbne	r5, r6, f3867
@@ -24044,7 +24044,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
 	cbne	r5, r6, f3869
@@ -24057,7 +24057,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0800000, r6
 	cbne	r5, r6, f3871
@@ -24070,7 +24070,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f3873
@@ -24083,7 +24083,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0a00000, r6
 	cbne	r5, r6, f3875
@@ -24096,7 +24096,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfa00000, r6
 	cbne	r5, r6, f3877
@@ -24109,7 +24109,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0c80000, r6
 	cbne	r5, r6, f3879
@@ -24122,7 +24122,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40c80000, r6
 	cbne	r5, r6, f3881
@@ -24135,7 +24135,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3fa00000, r6
 	cbne	r5, r6, f3883
@@ -24148,7 +24148,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0a00000, r6
 	cbne	r5, r6, f3885
@@ -24161,7 +24161,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc1200000, r6
 	cbne	r5, r6, f3887
@@ -24174,7 +24174,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
 	cbne	r5, r6, f3889
@@ -24187,7 +24187,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40200000, r6
 	cbne	r5, r6, f3891
@@ -24200,7 +24200,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
 	cbne	r5, r6, f3893
@@ -24213,7 +24213,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40200000, r6
 	cbne	r5, r6, f3895
@@ -24226,7 +24226,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0600000, r6
 	cbne	r5, r6, f3897
@@ -24239,7 +24239,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3fc00000, r6
 	cbne	r5, r6, f3899
@@ -24252,7 +24252,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f3901
@@ -24265,7 +24265,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40600000, r6
 	cbne	r5, r6, f3903
@@ -24278,7 +24278,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0900000, r6
 	cbne	r5, r6, f3905
@@ -24291,7 +24291,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f000000, r6
 	cbne	r5, r6, f3907
@@ -24304,7 +24304,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0b00000, r6
 	cbne	r5, r6, f3909
@@ -24317,7 +24317,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf000000, r6
 	cbne	r5, r6, f3911
@@ -24330,7 +24330,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0800000, r6
 	cbne	r5, r6, f3913
@@ -24343,7 +24343,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
 	cbne	r5, r6, f3915
@@ -24356,7 +24356,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0a00000, r6
 	cbne	r5, r6, f3917
@@ -24369,7 +24369,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f3919
@@ -24382,7 +24382,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0c80000, r6
 	cbne	r5, r6, f3921
@@ -24395,7 +24395,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfa00000, r6
 	cbne	r5, r6, f3923
@@ -24408,7 +24408,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3fa00000, r6
 	cbne	r5, r6, f3925
@@ -24421,7 +24421,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40c80000, r6
 	cbne	r5, r6, f3927
@@ -24434,7 +24434,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc1200000, r6
 	cbne	r5, r6, f3929
@@ -24447,7 +24447,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0a00000, r6
 	cbne	r5, r6, f3931
@@ -24460,7 +24460,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40700000, r6
 	cbne	r5, r6, f3933
@@ -24473,7 +24473,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
 	cbne	r5, r6, f3935
@@ -24486,7 +24486,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40700000, r6
 	cbne	r5, r6, f3937
@@ -24499,7 +24499,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
 	cbne	r5, r6, f3939
@@ -24512,7 +24512,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40300000, r6
 	cbne	r5, r6, f3941
@@ -24525,7 +24525,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0980000, r6
 	cbne	r5, r6, f3943
@@ -24538,7 +24538,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40980000, r6
 	cbne	r5, r6, f3945
@@ -24551,7 +24551,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0300000, r6
 	cbne	r5, r6, f3947
@@ -24564,7 +24564,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3fe00000, r6
 	cbne	r5, r6, f3949
@@ -24577,7 +24577,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0b80000, r6
 	cbne	r5, r6, f3951
@@ -24590,7 +24590,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f400000, r6
 	cbne	r5, r6, f3953
@@ -24603,7 +24603,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0d80000, r6
 	cbne	r5, r6, f3955
@@ -24616,7 +24616,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40100000, r6
 	cbne	r5, r6, f3957
@@ -24629,7 +24629,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0a80000, r6
 	cbne	r5, r6, f3959
@@ -24642,7 +24642,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3fa00000, r6
 	cbne	r5, r6, f3961
@@ -24655,7 +24655,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0c80000, r6
 	cbne	r5, r6, f3963
@@ -24668,7 +24668,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f3965
@@ -24681,7 +24681,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
 	cbne	r5, r6, f3967
@@ -24694,7 +24694,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40f00000, r6
 	cbne	r5, r6, f3969
@@ -24707,7 +24707,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f3971
@@ -24720,7 +24720,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
 	cbne	r5, r6, f3973
@@ -24733,7 +24733,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc1340000, r6
 	cbne	r5, r6, f3975
@@ -24746,7 +24746,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f3977
@@ -24759,7 +24759,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffff80000000, r6
 	cbne	r5, r6, f3979
@@ -24772,7 +24772,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f3981
@@ -24785,7 +24785,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f3983
@@ -24798,7 +24798,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f3985
@@ -24811,7 +24811,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f3987
@@ -24824,7 +24824,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
 	cbne	r5, r6, f3989
@@ -24837,7 +24837,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
 	cbne	r5, r6, f3991
@@ -24850,7 +24850,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
 	cbne	r5, r6, f3993
@@ -24863,7 +24863,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
 	cbne	r5, r6, f3995
@@ -24876,7 +24876,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
 	cbne	r5, r6, f3997
@@ -24889,7 +24889,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
 	cbne	r5, r6, f3999
@@ -24902,7 +24902,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f4001
@@ -24915,7 +24915,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f4003
@@ -24928,7 +24928,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
 	cbne	r5, r6, f4005
@@ -24941,7 +24941,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
 	cbne	r5, r6, f4007
@@ -24954,7 +24954,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
 	cbne	r5, r6, f4009
@@ -24967,7 +24967,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
 	cbne	r5, r6, f4011
@@ -24980,7 +24980,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40700000, r6
 	cbne	r5, r6, f4013
@@ -24993,7 +24993,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40700000, r6
 	cbne	r5, r6, f4015
@@ -25006,7 +25006,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
 	cbne	r5, r6, f4017
@@ -25019,7 +25019,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
 	cbne	r5, r6, f4019
@@ -25032,7 +25032,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffff80000000, r6
 	cbne	r5, r6, f4021
@@ -25045,7 +25045,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f4023
@@ -25058,7 +25058,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f4025
@@ -25071,7 +25071,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f4027
@@ -25084,7 +25084,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f4029
@@ -25097,7 +25097,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
 	cbne	r5, r6, f4031
@@ -25110,7 +25110,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
 	cbne	r5, r6, f4033
@@ -25123,7 +25123,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
 	cbne	r5, r6, f4035
@@ -25136,7 +25136,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
 	cbne	r5, r6, f4037
@@ -25149,7 +25149,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
 	cbne	r5, r6, f4039
@@ -25162,7 +25162,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
 	cbne	r5, r6, f4041
@@ -25175,7 +25175,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
 	cbne	r5, r6, f4043
@@ -25188,7 +25188,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f4045
@@ -25201,7 +25201,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
 	cbne	r5, r6, f4047
@@ -25214,7 +25214,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
 	cbne	r5, r6, f4049
@@ -25227,7 +25227,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
 	cbne	r5, r6, f4051
@@ -25240,7 +25240,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
 	cbne	r5, r6, f4053
@@ -25253,7 +25253,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
 	cbne	r5, r6, f4055
@@ -25266,7 +25266,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40700000, r6
 	cbne	r5, r6, f4057
@@ -25279,7 +25279,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40700000, r6
 	cbne	r5, r6, f4059
@@ -25292,7 +25292,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
 	cbne	r5, r6, f4061
@@ -25305,7 +25305,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
 	cbne	r5, r6, f4063
@@ -25318,7 +25318,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40700000, r6
 	cbne	r5, r6, f4065
@@ -25331,7 +25331,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
 	cbne	r5, r6, f4067
@@ -25344,7 +25344,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40700000, r6
 	cbne	r5, r6, f4069
@@ -25357,7 +25357,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
 	cbne	r5, r6, f4071
@@ -25370,7 +25370,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40300000, r6
 	cbne	r5, r6, f4073
@@ -25383,7 +25383,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0980000, r6
 	cbne	r5, r6, f4075
@@ -25396,7 +25396,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40980000, r6
 	cbne	r5, r6, f4077
@@ -25409,7 +25409,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0300000, r6
 	cbne	r5, r6, f4079
@@ -25422,7 +25422,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3fe00000, r6
 	cbne	r5, r6, f4081
@@ -25435,7 +25435,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0b80000, r6
 	cbne	r5, r6, f4083
@@ -25448,7 +25448,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f400000, r6
 	cbne	r5, r6, f4085
@@ -25461,7 +25461,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0d80000, r6
 	cbne	r5, r6, f4087
@@ -25474,7 +25474,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40100000, r6
 	cbne	r5, r6, f4089
@@ -25487,7 +25487,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0a80000, r6
 	cbne	r5, r6, f4091
@@ -25500,7 +25500,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3fa00000, r6
 	cbne	r5, r6, f4093
@@ -25513,7 +25513,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0c80000, r6
 	cbne	r5, r6, f4095
@@ -25526,7 +25526,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f4097
@@ -25539,7 +25539,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
 	cbne	r5, r6, f4099
@@ -25552,7 +25552,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40f00000, r6
 	cbne	r5, r6, f4101
@@ -25565,7 +25565,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f4103
@@ -25578,7 +25578,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
 	cbne	r5, r6, f4105
@@ -25591,7 +25591,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc1340000, r6
 	cbne	r5, r6, f4107
@@ -25604,7 +25604,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
 	cbne	r5, r6, f4109
@@ -25617,7 +25617,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40700000, r6
 	cbne	r5, r6, f4111
@@ -25630,7 +25630,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
 	cbne	r5, r6, f4113
@@ -25643,7 +25643,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40700000, r6
 	cbne	r5, r6, f4115
@@ -25656,7 +25656,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0980000, r6
 	cbne	r5, r6, f4117
@@ -25669,7 +25669,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40300000, r6
 	cbne	r5, r6, f4119
@@ -25682,7 +25682,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0300000, r6
 	cbne	r5, r6, f4121
@@ -25695,7 +25695,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40980000, r6
 	cbne	r5, r6, f4123
@@ -25708,7 +25708,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0b80000, r6
 	cbne	r5, r6, f4125
@@ -25721,7 +25721,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3fe00000, r6
 	cbne	r5, r6, f4127
@@ -25734,7 +25734,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0d80000, r6
 	cbne	r5, r6, f4129
@@ -25747,7 +25747,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3f400000, r6
 	cbne	r5, r6, f4131
@@ -25760,7 +25760,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0a80000, r6
 	cbne	r5, r6, f4133
@@ -25773,7 +25773,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40100000, r6
 	cbne	r5, r6, f4135
@@ -25786,7 +25786,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0c80000, r6
 	cbne	r5, r6, f4137
@@ -25799,7 +25799,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3fa00000, r6
 	cbne	r5, r6, f4139
@@ -25812,7 +25812,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
 	cbne	r5, r6, f4141
@@ -25825,7 +25825,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f4143
@@ -25838,7 +25838,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f4145
@@ -25851,7 +25851,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40f00000, r6
 	cbne	r5, r6, f4147
@@ -25864,7 +25864,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc1340000, r6
 	cbne	r5, r6, f4149
@@ -25877,7 +25877,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
 	cbne	r5, r6, f4151
@@ -25890,7 +25890,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40b40000, r6
 	cbne	r5, r6, f4153
@@ -25903,7 +25903,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0b40000, r6
 	cbne	r5, r6, f4155
@@ -25916,7 +25916,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40b40000, r6
 	cbne	r5, r6, f4157
@@ -25929,7 +25929,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0b40000, r6
 	cbne	r5, r6, f4159
@@ -25942,7 +25942,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40940000, r6
 	cbne	r5, r6, f4161
@@ -25955,7 +25955,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0d40000, r6
 	cbne	r5, r6, f4163
@@ -25968,7 +25968,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40d40000, r6
 	cbne	r5, r6, f4165
@@ -25981,7 +25981,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0940000, r6
 	cbne	r5, r6, f4167
@@ -25994,7 +25994,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40680000, r6
 	cbne	r5, r6, f4169
@@ -26007,7 +26007,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0f40000, r6
 	cbne	r5, r6, f4171
@@ -26020,7 +26020,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40280000, r6
 	cbne	r5, r6, f4173
@@ -26033,7 +26033,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc10a0000, r6
 	cbne	r5, r6, f4175
@@ -26046,7 +26046,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40840000, r6
 	cbne	r5, r6, f4177
@@ -26059,7 +26059,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0e40000, r6
 	cbne	r5, r6, f4179
@@ -26072,7 +26072,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40480000, r6
 	cbne	r5, r6, f4181
@@ -26085,7 +26085,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc1020000, r6
 	cbne	r5, r6, f4183
@@ -26098,7 +26098,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x3ff00000, r6
 	cbne	r5, r6, f4185
@@ -26111,7 +26111,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc1160000, r6
 	cbne	r5, r6, f4187
@@ -26124,7 +26124,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x41160000, r6
 	cbne	r5, r6, f4189
@@ -26137,7 +26137,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbff00000, r6
 	cbne	r5, r6, f4191
@@ -26150,7 +26150,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbff00000, r6
 	cbne	r5, r6, f4193
@@ -26163,7 +26163,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc1520000, r6
 	cbne	r5, r6, f4195
@@ -26176,7 +26176,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f4197
@@ -26189,7 +26189,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
 	cbne	r5, r6, f4199
@@ -26202,7 +26202,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40f00000, r6
 	cbne	r5, r6, f4201
@@ -26215,7 +26215,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f4203
@@ -26228,7 +26228,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
 	cbne	r5, r6, f4205
@@ -26241,7 +26241,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f4207
@@ -26254,7 +26254,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x0, r6
 	cbne	r5, r6, f4209
@@ -26267,7 +26267,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40f00000, r6
 	cbne	r5, r6, f4211
@@ -26280,7 +26280,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7f800000, r6
 	cbne	r5, r6, f4213
@@ -26293,7 +26293,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffff800000, r6
 	cbne	r5, r6, f4215
@@ -26306,7 +26306,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7f800000, r6
 	cbne	r5, r6, f4217
@@ -26319,7 +26319,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffff800000, r6
 	cbne	r5, r6, f4219
@@ -26332,7 +26332,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffff800000, r6
 	cbne	r5, r6, f4221
@@ -26345,7 +26345,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7f800000, r6
 	cbne	r5, r6, f4223
@@ -26358,7 +26358,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf2b851e, r6
 	cbne	r5, r6, f4225
@@ -26371,7 +26371,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffbf3ae148, r6
 	cbne	r5, r6, f4227
@@ -26384,7 +26384,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x60ad78ec, r6
 	cbne	r5, r6, f4229
@@ -26397,7 +26397,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffe0ad78ec, r6
 	cbne	r5, r6, f4231
@@ -26410,7 +26410,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x40000010, r6
 	cbne	r5, r6, f4233
@@ -26423,7 +26423,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffab800000, r6
 	cbne	r5, r6, f4235
@@ -26436,7 +26436,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x2b800000, r6
 	cbne	r5, r6, f4237
@@ -26449,7 +26449,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffc0000010, r6
 	cbne	r5, r6, f4239
@@ -26462,7 +26462,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7f800000, r6
 	cbne	r5, r6, f4241
@@ -26475,7 +26475,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffff800000, r6
 	cbne	r5, r6, f4243
@@ -26488,7 +26488,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7f800000, r6
 	cbne	r5, r6, f4245
@@ -26501,7 +26501,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffff800000, r6
 	cbne	r5, r6, f4247
@@ -26514,7 +26514,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffff800000, r6
 	cbne	r5, r6, f4249
@@ -26527,7 +26527,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffff800000, r6
 	cbne	r5, r6, f4251
@@ -26540,7 +26540,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4253
@@ -26553,7 +26553,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4255
@@ -26566,7 +26566,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4257
@@ -26579,7 +26579,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4259
@@ -26592,7 +26592,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4261
@@ -26605,7 +26605,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffff800000, r6
 	cbne	r5, r6, f4263
@@ -26618,7 +26618,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffff800000, r6
 	cbne	r5, r6, f4265
@@ -26631,7 +26631,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7f800000, r6
 	cbne	r5, r6, f4267
@@ -26644,7 +26644,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffff800000, r6
 	cbne	r5, r6, f4269
@@ -26657,7 +26657,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7f800000, r6
 	cbne	r5, r6, f4271
@@ -26670,7 +26670,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7f800000, r6
 	cbne	r5, r6, f4273
@@ -26683,7 +26683,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7f800000, r6
 	cbne	r5, r6, f4275
@@ -26696,7 +26696,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4277
@@ -26709,7 +26709,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4279
@@ -26722,7 +26722,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4281
@@ -26735,7 +26735,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4283
@@ -26748,7 +26748,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4285
@@ -26761,7 +26761,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7f800000, r6
 	cbne	r5, r6, f4287
@@ -26774,7 +26774,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4289
@@ -26787,7 +26787,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4291
@@ -26800,7 +26800,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4293
@@ -26813,7 +26813,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4295
@@ -26826,7 +26826,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4297
@@ -26839,7 +26839,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4299
@@ -26852,7 +26852,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4301
@@ -26865,7 +26865,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4303
@@ -26878,7 +26878,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4305
@@ -26891,7 +26891,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4307
@@ -26904,7 +26904,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4309
@@ -26917,7 +26917,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4311
@@ -26930,7 +26930,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4313
@@ -26943,7 +26943,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4315
@@ -26956,7 +26956,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4317
@@ -26969,7 +26969,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4319
@@ -26982,7 +26982,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4321
@@ -26995,7 +26995,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4323
@@ -27008,7 +27008,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4325
@@ -27021,7 +27021,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4327
@@ -27034,7 +27034,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4329
@@ -27047,7 +27047,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4331
@@ -27060,7 +27060,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4333
@@ -27073,7 +27073,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4335
@@ -27086,7 +27086,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4337
@@ -27099,7 +27099,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4339
@@ -27112,7 +27112,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4341
@@ -27125,7 +27125,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4343
@@ -27138,7 +27138,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4345
@@ -27151,7 +27151,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4347
@@ -27164,7 +27164,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4349
@@ -27177,7 +27177,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4351
@@ -27190,7 +27190,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4353
@@ -27203,7 +27203,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4355
@@ -27216,7 +27216,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4357
@@ -27229,7 +27229,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4359
@@ -27242,7 +27242,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4361
@@ -27255,7 +27255,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4363
@@ -27268,7 +27268,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4365
@@ -27281,7 +27281,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4367
@@ -27294,7 +27294,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4369
@@ -27307,7 +27307,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4371
@@ -27320,7 +27320,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4373
@@ -27333,7 +27333,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4375
@@ -27346,7 +27346,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4377
@@ -27359,7 +27359,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4379
@@ -27372,7 +27372,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4381
@@ -27385,7 +27385,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4383
@@ -27398,7 +27398,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4385
@@ -27411,7 +27411,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffff800000, r6
 	cbne	r5, r6, f4387
@@ -27424,7 +27424,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4389
@@ -27437,7 +27437,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4391
@@ -27450,7 +27450,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffff800000, r6
 	cbne	r5, r6, f4393
@@ -27463,7 +27463,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffff800000, r6
 	cbne	r5, r6, f4395
@@ -27476,7 +27476,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7f800000, r6
 	cbne	r5, r6, f4397
@@ -27489,7 +27489,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4399
@@ -27502,7 +27502,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4401
@@ -27515,7 +27515,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4403
@@ -27528,7 +27528,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7f800000, r6
 	cbne	r5, r6, f4405
@@ -27541,7 +27541,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7f800000, r6
 	cbne	r5, r6, f4407
@@ -27554,7 +27554,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffff800000, r6
 	cbne	r5, r6, f4409
@@ -27567,7 +27567,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4411
@@ -27580,7 +27580,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4413
@@ -27593,7 +27593,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4415
@@ -27606,7 +27606,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffff800000, r6
 	cbne	r5, r6, f4417
@@ -27619,7 +27619,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0xffffffffff800000, r6
 	cbne	r5, r6, f4419
@@ -27632,7 +27632,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4421
@@ -27645,7 +27645,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7f800000, r6
 	cbne	r5, r6, f4423
@@ -27658,7 +27658,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4425
@@ -27671,7 +27671,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
 	cbne	r5, r6, f4427
@@ -27684,7 +27684,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fmadd32	r1, r2, r4, r5
+	fmadd	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7f800000, r6
 	cbne	r5, r6, f4429
@@ -27697,7 +27697,7 @@ _start:
 	xor	#-2147483648, r4
 	movq	#0, r9
 	fsflags	r9, r8
-	fnmsub32	r1, r2, r4, r5
+	fnmsub	r1.32, r2.32, r4.32, r5.32
 	fsflags	r9, r8
 	movq	=0x7f800000, r6
 	cbne	r5, r6, f4431

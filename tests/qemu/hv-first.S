@@ -128,7 +128,7 @@ hh:	cbeq	r10, #0, hbad		; the guest halted: it printed, wrote PTBR once, faulted
 	halt
 1:	lea	hvmsg, r1
 	movq	=MAP_CONSOLE, r22
-2:	movzb	(r1)+, r0
+2:	mov	(r1)+.u8, r0
 	cbeq	r0, #0, 3f
 	movq	r0, CONSOLE_REG_TXDB(r22)
 	br	2b
@@ -204,13 +204,13 @@ fillg:	movq	r2, (r1)+
 	movq	#(MODE_USER<<PSW_MODE|MODE_USER<<PSW_PREV), r1
 	mtsr	epsw, r1
 	rti	#RTIMASK_ALL
-puts:	movzb	(r1)+, r0		; r1: the string, to the console by hypercall (a routed TRAP: no vector of the guest is taken)
+puts:	mov	(r1)+.u8, r0 ; r1: the string, to the console by hypercall (a routed TRAP: no vector of the guest is taken)
 	cbeq	r0, #0, 3f
 	trap	#224
 	br	puts
 3:	ret
 g_sys:					; system call 1: write(r1 = user buffer, r2 = length); the user's page is read with .U moves; no exit happens here
-1:	movzb.u	(r1), r0
+1:	mov.u	(r1).u8, r0
 	add	#1, r1
 	trap	#224
 	sob	r2, 1b

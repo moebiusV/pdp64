@@ -1,2 +1,2 @@
 	.text
-	aaddl r2, r3, r1
+	aadd r2, r3.32, r1

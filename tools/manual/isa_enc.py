@@ -5,8 +5,7 @@ charts, generated from the grammars; what is written here is meaning only."""
 ATOMNOTE = ('The sub-opcodes and the semantics of this group are specified.')
 
 NOTES = {
-    'MOV': 'A register is always written in full: a narrow load sign-extends to 64 bits and there is no partial-register write anywhere. The register-to-register forms of the sized moves are the conversion set: `MOVB R1, R2` sign-extends the low byte of `R1` into `R2`.',
-    'MOVZ': 'There is no zero-extending 64-bit move (it would be `MOVQ`). The register-to-register forms are the zero-extending half of the conversion set.',
+    'MOV': 'A register is always written in full: a narrow load sign-extends to 64 bits and there is no partial-register write anywhere. The mark goes on the memory operand or on a source register, and a mark on a destination register is refused. `MOV R1.8, R2` sign-extends the low byte of `R1` into `R2` and `MOV R1.u8, R2` zero-extends it: these are the conversion set. There is no zero-extending 64-bit move. `MOV.U` is the same move with the memory operand checked as a user-mode access.',
     'LEA': '`LEA 0(PC), Rd` is how the program counter is read: it puts the address of the `LEA` itself in `Rd`. The base of every PC-relative displacement is the address of the first parcel of the instruction.',
     'ADDM': 'The forms with a memory destination are in the ordinary memory families of the encoding, with every addressing form.',
     'BR': 'The only branch that tests nothing: every conditional branch is a compare-and-branch, `SOB` or `BTAG`.',

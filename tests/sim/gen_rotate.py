@@ -4,6 +4,9 @@ the destination or not, registers above r15) gives the rotation of the model bel
 a rotate left by a register is the negated register), and the rotate that leaves a neighbour register alone.  A failed check n exits with n.
 
 usage: gen_rotate.py OUTDIR"""
+import sys as _sys, os as _os
+_sys.path.insert(0, _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..', '..', 'tools'))
+import marks		# the words of the encoding written with width marks (tools/marks.py)
 import os, sys
 M = (1 << 64) - 1
 def ror(v, n): n %= 64; return ((v >> n) | (v << (64 - n))) & M
@@ -43,5 +46,5 @@ a('movq\t#0, r0', 'trap\t#0')
 for i in range(1, n[0] + 1):
     o.append('f%d:\tmovq\t#%d, r0\n\ttrap\t#0' % (i, i))
 assert n[0] < 250
-open(os.path.join(sys.argv[1], 'rotate-map.s'), 'w').write('\n'.join(o) + '\n')
+open(os.path.join(sys.argv[1], 'rotate-map.s'), 'w').write(marks.spell_text('\n'.join(o)) + '\n')
 print('gen_rotate: rotate-map.s (%d checks)' % n[0])

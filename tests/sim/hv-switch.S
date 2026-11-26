@@ -15,9 +15,9 @@ fill1:	movq	r2, (r1)+
 	movq	#512, r3
 fill2:	movq	r2, (r1)+
 	sob	r3, fill2
-	lea	hstk_top, r14			; the hypervisor's stack
-	; --- 1. GENTER loads the status word from HEPSW and PC from HEPC; the guest's MFPS sees it; the exit (HALT is a trap) saves it in HEPSW and the next PC in HEPC; the hypervisor's own
-	; status word is kernel mode, previous mode the guest's current mode, priority 7
+	lea	hstk_top, r14						; the hypervisor's stack
+		; --- 1. GENTER loads the status word from HEPSW and PC from HEPC; the guest's MFPS sees it; the exit (HALT is a trap) saves it in HEPSW and the next PC in HEPC; the hypervisor's own
+		; status word is kernel mode, previous mode the guest's current mode, priority 7
 	movq	#0, r1
 	lea	g1, r2
 	mtsr	hepc, r2
@@ -65,7 +65,7 @@ back1:
 	movq	#6, r0
 	halt
 1:
-	; --- 2. an exit from a user-mode guest leaves its mode as the previous mode (SEV is not privileged and HTRAP resets with SEV set)
+		; --- 2. an exit from a user-mode guest leaves its mode as the previous mode (SEV is not privileged and HTRAP resets with SEV set)
 	lea	g2, r2
 	mtsr	hepc, r2
 	movq	=(0xf00), r2
@@ -94,7 +94,7 @@ back2:
 	movq	#9, r0
 	halt
 1:
-	; --- 2b. the guest's own exception (a system call, no hypercall routed) does not exit: its handler halts, and the guest's EPC, EPSW, ECAUSE are written, not the hypervisor's
+		; --- 2b. the guest's own exception (a system call, no hypercall routed) does not exit: its handler halts, and the guest's EPC, EPSW, ECAUSE are written, not the hypervisor's
 	lea	g2b, r2
 	mtsr	hepc, r2
 	movq	=(0xf00), r2
@@ -129,7 +129,7 @@ back2b:
 	movq	#13, r0
 	halt
 1:
-	; --- 3. the banks of R14 and DP: the guest in kernel mode has GKSP and GKDP, changes them, the exit shows the changes, the hypervisor's own R14 and DP are as they were
+		; --- 3. the banks of R14 and DP: the guest in kernel mode has GKSP and GKDP, changes them, the exit shows the changes, the hypervisor's own R14 and DP are as they were
 	movq	=0x1000, r2
 	mtsr	gksp, r2
 	movq	=0x2000, r2
@@ -215,7 +215,7 @@ back3:
 	movq	#23, r0
 	halt
 1:
-	; --- 3b. a guest in user mode: its R14 is USP and its DP is GUDP; its exception entry (trap #1, no hypercall routed) switches to the kernel bank, which holds what the guest left there
+		; --- 3b. a guest in user mode: its R14 is USP and its DP is GUDP; its exception entry (trap #1, no hypercall routed) switches to the kernel bank, which holds what the guest left there
 	lea	g3u, r2
 	mtsr	hepc, r2
 	movq	=(0xf00), r2
@@ -264,7 +264,7 @@ back3u:
 	movq	#29, r0
 	halt
 1:
-	; --- 3c. a guest in supervisor mode: SSP and GSDP (HALT is privileged there: the guest's own exception, then its handler halts)
+		; --- 3c. a guest in supervisor mode: SSP and GSDP (HALT is privileged there: the guest's own exception, then its handler halts)
 	lea	g3s, r2
 	mtsr	hepc, r2
 	movq	=((MODE_SUPERVISOR<<PSW_MODE)|(MODE_SUPERVISOR<<PSW_PREV)), r2
@@ -286,7 +286,7 @@ back3s:
 	movq	#31, r0
 	halt
 1:
-	; --- 4. a reserved mode (2) in either mode field of HEPSW: GENTER is an illegal instruction at H = 1 and changes nothing: the next instruction is the hypervisor's
+		; --- 4. a reserved mode (2) in either mode field of HEPSW: GENTER is an illegal instruction at H = 1 and changes nothing: the next instruction is the hypervisor's
 	lea	h_ill, r3
 	lea	htab+8*VECTOR_ILLEGAL, r2
 	movq	r3, (r2)
@@ -326,7 +326,7 @@ R4:
 	movq	#35, r0
 	halt
 1:
-	; --- 5. the naming of the vector accumulators (what VCLR sets) is cleared by an exit and by GENTER (6.14.9).  Control: with no world switch the naming makes the sums run.
+		; --- 5. the naming of the vector accumulators (what VCLR sets) is cleared by an exit and by GENTER (6.14.9).  Control: with no world switch the naming makes the sums run.
 	call	clear_dst
 	vclr.l	v0, #1
 	call	runs
@@ -335,7 +335,7 @@ R4:
 	movq	#36, r0
 	halt
 1:
-	; 5a. the guest names accumulators and halts (an exit): the hypervisor's block is an ordinary block
+		; 5a. the guest names accumulators and halts (an exit): the hypervisor's block is an ordinary block
 	call	clear_dst
 	lea	g5, r2
 	mtsr	hepc, r2
@@ -352,7 +352,7 @@ back5:	call	runs
 	movq	#37, r0
 	halt
 1:
-	; 5b. the hypervisor names accumulators and enters: GENTER cleared the naming, the guest's block is an ordinary block
+		; 5b. the hypervisor names accumulators and enters: GENTER cleared the naming, the guest's block is an ordinary block
 	call	clear_dst
 	vclr.l	v0, #1
 	lea	gstk_top, r2
@@ -393,8 +393,8 @@ expect_copy:
 	lea	src, r1
 	lea	dst, r2
 	movq	#32, r3
-1:	movzb	(r1)+, r4
-	movzb	(r2)+, r5
+1:	mov	(r1)+.u8, r4
+	mov	(r2)+.u8, r5
 	cbne	r4, r5, 2f
 	sob	r3, 1b
 	movq	#0, r0
@@ -403,7 +403,7 @@ expect_copy:
 	ret
 g4:
 	halt
-xh:	jmp	r20			; every exit: back to the hypervisor's continuation (the guest does not use r20)
+xh:	jmp	r20						; every exit: back to the hypervisor's continuation (the guest does not use r20)
 gh:	halt
 h_ill:	mfsr	r6, hcause
 	add	#1, r10

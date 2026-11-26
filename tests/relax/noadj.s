@@ -7,9 +7,9 @@ _start:	call	ext
 	lea	L1, r4
 	lea	L0, r5
 	sub	r5, r4
-	movzw	tab, r3
+	mov	tab.u16, r3
 	cbne r3, r4, fail
-	movzw	tab+2, r3
+	mov	tab+2.u16, r3
 	cbne r3, #0, fail
 	movq	#0, r0
 	trap	#0

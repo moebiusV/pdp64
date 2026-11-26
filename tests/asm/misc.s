@@ -1,6 +1,6 @@
 	.text
-	movq #0x123456789abcdef0,r1
-	ror32 r1,#5,r2
+	movq #0x123456789abcdef0, r1
+	ror r1.32, #5, r2
 	ror r1,#61,r2
 	clz r1,r2
 	div r1,r2,r3
@@ -16,10 +16,10 @@
 	popm #0x0100
 	sob r1,lb
 lb:	btag r1,#2,lb
-	movw 9(r3),r2
+	mov 9(r3).16, r2
 	addm r1,16(r2)
-	movq.u 8(r1),r2
-	movb.u (r3),r4
+	mov.u 8(r1), r2
+	mov.u (r3).8, r4
 	fadd r1,r2
 	fadd r2,r3
 	mul #6,r1

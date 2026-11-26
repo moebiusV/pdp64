@@ -22,8 +22,8 @@ slow:	bis	#1, r4			; the slow path repairs the tag
 	cbne r2, #40, f6
 	; the same mis-tagged pointer used without a check: no fault, a misaligned load that returns the bytes at that address
 	lea	cells+2, r4
-	movb	-1(r4), r2		; byte at cells+1: the second byte of the car
-	movb	0(r4), r5		; byte at cells+2: the third byte
+	mov	-1(r4).8, r2 ; byte at cells+1: the second byte of the car
+	mov	0(r4).8, r5 ; byte at cells+2: the third byte
 	movq	-1(r4), r3		; the quad at cells+1: a misaligned access, no fault
 	shl	#8, r3			; drop the top byte (the cdr's low byte); bytes 1..7 of the car are zero
 	cbne r3, #0, f7

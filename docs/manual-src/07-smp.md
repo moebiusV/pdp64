@@ -69,16 +69,16 @@ The counts of that day, side by side:
 
 | # | Operation | Words in the grammar | Group | Section |
 |---|---|---|---|---|
-| 1 | compare-and-swap | `CAS`, `CASL` | atomic (`ATOM`) | {{r:atomic-operations}} |
-| 2 | swap | `SWAP`, `SWAPL` | atomic | {{r:atomic-operations}} |
-| 3 | fetch-and-add | `AADD`, `AADDL` | atomic | {{r:atomic-operations}} |
-| 4 | fetch-and-and | `AAND`, `AANDL` | atomic | {{r:atomic-operations}} |
-| 5 | fetch-and-or | `ABIS`, `ABISL` | atomic | {{r:atomic-operations}} |
-| 6 | fetch-and-exclusive-or | `AXOR`, `AXORL` | atomic | {{r:atomic-operations}} |
-| 7 | fetch-and-maximum, signed and unsigned | `AMAX`, `AMAXL`, `AMAXU`, `AMAXUL` | atomic | {{r:atomic-operations}} |
-| 8 | fetch-and-minimum, signed and unsigned | `AMIN`, `AMINL`, `AMINU`, `AMINUL` | atomic | {{r:atomic-operations}} |
-| 9 | load-linked | `LL`, `LLL` | atomic | {{r:atomic-operations}} |
-| 10 | store-conditional | `SC`, `SCL` | atomic | {{r:atomic-operations}} |
+| 1 | compare-and-swap | `CAS`, `CAS` with `.32` | atomic (`ATOM`) | {{r:atomic-operations}} |
+| 2 | swap | `SWAP`, `SWAP` with `.32` | atomic | {{r:atomic-operations}} |
+| 3 | fetch-and-add | `AADD`, `AADD` with `.32` | atomic | {{r:atomic-operations}} |
+| 4 | fetch-and-and | `AAND`, `AAND` with `.32` | atomic | {{r:atomic-operations}} |
+| 5 | fetch-and-or | `ABIS`, `ABIS` with `.32` | atomic | {{r:atomic-operations}} |
+| 6 | fetch-and-exclusive-or | `AXOR`, `AXOR` with `.32` | atomic | {{r:atomic-operations}} |
+| 7 | fetch-and-maximum, signed and unsigned | `AMAX`, `AMAXU`, each also with `.32` | atomic | {{r:atomic-operations}} |
+| 8 | fetch-and-minimum, signed and unsigned | `AMIN`, `AMINU`, each also with `.32` | atomic | {{r:atomic-operations}} |
+| 9 | load-linked | `LL`, `LL` with `.32` | atomic | {{r:atomic-operations}} |
+| 10 | store-conditional | `SC`, `SC` with `.32` | atomic | {{r:atomic-operations}} |
 | 11 | device-access fence | `FENCE` | system (`SYS`) | {{r:fence-orders-device-accesses}} |
 | 12 | wait for event | `WFE` | system | {{r:waiting-signalling-and-interrupting-another}} |
 | 13 | send event | `SEV` | system | {{r:waiting-signalling-and-interrupting-another}} |
@@ -87,7 +87,7 @@ The counts of that day, side by side:
 | 16 | invalidate the instruction cache | `ICINV`, `ICINVA` | system | {{r:translation-and-instruction-cache-coherence}} |
 | 17 | read the core number | `MFSR` of `CPUID` | system | {{r:mfcpuid-returns-the-number}} |
 
-The ten atomics are 24 words: 12 for the 8-byte size (ten read-modify-write words, and `LL` and `SC`) and the same 12 for the 4-byte size, written with an `L` after the operation (`AADDL`, `CASL`, `LLL`, `SCL`); counting the signed and the unsigned maximum and minimum apart they would be twelve. The seven others are nine words, ten with the alias. Six words were added the day after the count (2026-10-22) and are not in it: `MFSR` and `MTSR`, the system-register moves, `PUSHX` and `POPX`, and `ISYNC` and `HINT`, which the discussion of {{r:write-to-the-page-table}} and {{r:wfe-sleeps-until-another-core}} uses. `ISYNC` and `HINT` belong with the twelve system operations that are not multiprocessor, which then number fourteen: like the landing pad or the trap, no second core needs them, and whether `HINT #1`, the spin-wait pause, belongs under the umbrella is a question of classification and not of count. A read of the system register `CPUID` (`MFSR`, {{r:system-registers-mfsr-and-mtsr}}) also gives the core number and is not counted: `MFSR` is the general register move.
+The ten atomics are 24 words of the encoding: 12 for the 8-byte size (ten read-modify-write words, and `LL` and `SC`) and the same 12 for the 4-byte size, written with the mark `.32` on the address (`aadd r1, (r2).32, r3`, `ll (r2).32, r3`); counting the signed and the unsigned maximum and minimum apart they would be twelve. The seven others are nine words, ten with the alias. Six words were added the day after the count (2026-10-22) and are not in it: `MFSR` and `MTSR`, the system-register moves, `PUSHX` and `POPX`, and `ISYNC` and `HINT`, which the discussion of {{r:write-to-the-page-table}} and {{r:wfe-sleeps-until-another-core}} uses. `ISYNC` and `HINT` belong with the twelve system operations that are not multiprocessor, which then number fourteen: like the landing pad or the trap, no second core needs them, and whether `HINT #1`, the spin-wait pause, belongs under the umbrella is a question of classification and not of count. A read of the system register `CPUID` (`MFSR`, {{r:system-registers-mfsr-and-mtsr}}) also gives the core number and is not counted: `MFSR` is the general register move.
 
 **{{#instructions-that-exist-for-multiple}}** The instructions that exist for multiple processors fall under one umbrella of seventeen operations: ten atomics and seven others (the table above, folded operations).
 
@@ -124,7 +124,7 @@ SC(a, v):        if the reservation is intact: *a = v ; return success   # store
 
 **{{#smp-device-that-writes-memory-shared}}** A device that writes memory shared with a core takes part by clearing reservations: a write by a device to a granule clears its reservation exactly as a core's write does. A device's own buffers are uncached memory, where `LL`, `SC` and every atomic take a precise fault ({{r:every-atomic-has-three-register}}), so no reservation is ever taken on a word that a device is writing as a buffer.
 
-**{{#every-atomic-has-three-register}}** Every atomic has three register fields, and, like every instruction of the machine that has a destination, is written with the destination last: `AADD Rs, (Ra), Rd`. The address is in `Ra`, with no offset, the old value of the memory word comes back in `Rd`, and `Rs` is the operand. `CAS Rs, (Ra), Rd` has the expected value in `Rd` and the new value in `Rs`, and puts the old value into `Rd`: the destination is the register that is both the expected value going in and the old value coming out, as the destination of `ADD` is both a source and the result, and it is written last. `LL (Ra), Rd` takes no operand, and `SC Rs, (Ra), Rd` returns 0 in `Rd` when it wrote and 1 when it did not. The size is 8 bytes for the bare name and 4 bytes for the name with an `L` after the operation (`AADDL`, `CASL`, `LLL`, `SCL`); a 4-byte word works on the low four bytes of its registers and returns the old value sign-extended, as a 4-byte load does.
+**{{#every-atomic-has-three-register}}** Every atomic has three register fields, and, like every instruction of the machine that has a destination, is written with the destination last: `AADD Rs, (Ra), Rd`. The address is in `Ra`, with no offset, the old value of the memory word comes back in `Rd`, and `Rs` is the operand. `CAS Rs, (Ra), Rd` has the expected value in `Rd` and the new value in `Rs`, and puts the old value into `Rd`: the destination is the register that is both the expected value going in and the old value coming out, as the destination of `ADD` is both a source and the result, and it is written last. `LL (Ra), Rd` takes no operand, and `SC Rs, (Ra), Rd` returns 0 in `Rd` when it wrote and 1 when it did not. The size is 8 bytes with no mark and 4 bytes with the mark `.32` on the address (`AADD Rs, (Ra).32, Rd`, `LL (Ra).32, Rd`); a 4-byte word works on the low four bytes of its registers and returns the old value sign-extended, as a 4-byte load does.
 
 **{{#atomic-word-must-be-naturally}}** The word must be naturally aligned for its size, and an atomic that is not takes the misalignment fault, with nothing changed and `EPC` at the instruction; no atomic is ever split over two words, two blocks or two pages, so none can take the bus for longer than one access.
 

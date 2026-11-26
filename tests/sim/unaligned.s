@@ -9,7 +9,7 @@ _start:
 	movq	#37, r3
 	mul	r3, r2
 	add	#11, r2
-	movb	r2, (r8)
+	mov	r2, (r8).8
 	add	#1, r8
 	add	#1, r1
 	cbne	r1, #8192, 1b
@@ -105,547 +105,547 @@ _start:
 	lea	buf+4099, r2
 	cbne	r8, r2, f23
 	lea	buf, r8
-	movl	0(r8), r2
+	mov	0(r8).32, r2
 	movq	=0x7a55300b, r6
 	cbne	r2, r6, f24
 	lea	buf, r8
-	movl	1(r8), r2
+	mov	1(r8).32, r2
 	movq	=0xffffffff9f7a5530, r6
 	cbne	r2, r6, f25
 	lea	buf, r8
-	movl	2(r8), r2
+	mov	2(r8).32, r2
 	movq	=0xffffffffc49f7a55, r6
 	cbne	r2, r6, f26
 	lea	buf, r8
-	movl	3(r8), r2
+	mov	3(r8).32, r2
 	movq	=0xffffffffe9c49f7a, r6
 	cbne	r2, r6, f27
 	lea	buf, r8
-	movl	4(r8), r2
+	mov	4(r8).32, r2
 	movq	=0xee9c49f, r6
 	cbne	r2, r6, f28
 	lea	buf, r8
-	movl	5(r8), r2
+	mov	5(r8).32, r2
 	movq	=0x330ee9c4, r6
 	cbne	r2, r6, f29
 	lea	buf, r8
-	movl	6(r8), r2
+	mov	6(r8).32, r2
 	movq	=0x58330ee9, r6
 	cbne	r2, r6, f30
 	lea	buf, r8
-	movl	7(r8), r2
+	mov	7(r8).32, r2
 	movq	=0x7d58330e, r6
 	cbne	r2, r6, f31
 	lea	buf, r8
-	movl	8(r8), r2
+	mov	8(r8).32, r2
 	movq	=0xffffffffa27d5833, r6
 	cbne	r2, r6, f32
 	lea	buf, r8
-	movl	4088(r8), r2
+	mov	4088(r8).32, r2
 	movq	=0x522d08e3, r6
 	cbne	r2, r6, f33
 	lea	buf, r8
-	movl	4089(r8), r2
+	mov	4089(r8).32, r2
 	movq	=0x77522d08, r6
 	cbne	r2, r6, f34
 	lea	buf, r8
-	movl	4090(r8), r2
+	mov	4090(r8).32, r2
 	movq	=0xffffffff9c77522d, r6
 	cbne	r2, r6, f35
 	lea	buf, r8
-	movl	4091(r8), r2
+	mov	4091(r8).32, r2
 	movq	=0xffffffffc19c7752, r6
 	cbne	r2, r6, f36
 	lea	buf, r8
-	movl	4092(r8), r2
+	mov	4092(r8).32, r2
 	movq	=0xffffffffe6c19c77, r6
 	cbne	r2, r6, f37
 	lea	buf, r8
-	movl	4093(r8), r2
+	mov	4093(r8).32, r2
 	movq	=0xbe6c19c, r6
 	cbne	r2, r6, f38
 	lea	buf, r8
-	movl	4094(r8), r2
+	mov	4094(r8).32, r2
 	movq	=0x300be6c1, r6
 	cbne	r2, r6, f39
 	lea	buf, r8
-	movl	4095(r8), r2
+	mov	4095(r8).32, r2
 	movq	=0x55300be6, r6
 	cbne	r2, r6, f40
 	lea	buf, r8
-	movl	4096(r8), r2
+	mov	4096(r8).32, r2
 	movq	=0x7a55300b, r6
 	cbne	r2, r6, f41
 	lea	buf, r8
-	movl	4093(r8), r2
+	mov	4093(r8).32, r2
 	movq	=0xbe6c19c, r6
 	cbne	r2, r6, f42
 	lea	buf, r8
-	movl	4095(r8), r2
+	mov	4095(r8).32, r2
 	movq	=0x55300be6, r6
 	cbne	r2, r6, f43
 	lea	buf, r8
 	movq	#4090, r9
-	movl	3(r8)(r9*1), r2
+	mov	3(r8)(r9*1).32, r2
 	movq	=0xbe6c19c, r6
 	cbne	r2, r6, f44
 	lea	buf+4093, r8
-	movl	(r8)+, r2
+	mov	(r8)+.32, r2
 	movq	=0xbe6c19c, r6
 	cbne	r2, r6, f45
 	lea	buf+4097, r2
 	cbne	r8, r2, f46
 	lea	buf, r8
-	movw	0(r8), r2
+	mov	0(r8).16, r2
 	movq	=0x300b, r6
 	cbne	r2, r6, f47
 	lea	buf, r8
-	movw	1(r8), r2
+	mov	1(r8).16, r2
 	movq	=0x5530, r6
 	cbne	r2, r6, f48
 	lea	buf, r8
-	movw	2(r8), r2
+	mov	2(r8).16, r2
 	movq	=0x7a55, r6
 	cbne	r2, r6, f49
 	lea	buf, r8
-	movw	3(r8), r2
+	mov	3(r8).16, r2
 	movq	=0xffffffffffff9f7a, r6
 	cbne	r2, r6, f50
 	lea	buf, r8
-	movw	4(r8), r2
+	mov	4(r8).16, r2
 	movq	=0xffffffffffffc49f, r6
 	cbne	r2, r6, f51
 	lea	buf, r8
-	movw	5(r8), r2
+	mov	5(r8).16, r2
 	movq	=0xffffffffffffe9c4, r6
 	cbne	r2, r6, f52
 	lea	buf, r8
-	movw	6(r8), r2
+	mov	6(r8).16, r2
 	movq	=0xee9, r6
 	cbne	r2, r6, f53
 	lea	buf, r8
-	movw	7(r8), r2
+	mov	7(r8).16, r2
 	movq	=0x330e, r6
 	cbne	r2, r6, f54
 	lea	buf, r8
-	movw	8(r8), r2
+	mov	8(r8).16, r2
 	movq	=0x5833, r6
 	cbne	r2, r6, f55
 	lea	buf, r8
-	movw	4088(r8), r2
+	mov	4088(r8).16, r2
 	movq	=0x8e3, r6
 	cbne	r2, r6, f56
 	lea	buf, r8
-	movw	4089(r8), r2
+	mov	4089(r8).16, r2
 	movq	=0x2d08, r6
 	cbne	r2, r6, f57
 	lea	buf, r8
-	movw	4090(r8), r2
+	mov	4090(r8).16, r2
 	movq	=0x522d, r6
 	cbne	r2, r6, f58
 	lea	buf, r8
-	movw	4091(r8), r2
+	mov	4091(r8).16, r2
 	movq	=0x7752, r6
 	cbne	r2, r6, f59
 	lea	buf, r8
-	movw	4092(r8), r2
+	mov	4092(r8).16, r2
 	movq	=0xffffffffffff9c77, r6
 	cbne	r2, r6, f60
 	lea	buf, r8
-	movw	4093(r8), r2
+	mov	4093(r8).16, r2
 	movq	=0xffffffffffffc19c, r6
 	cbne	r2, r6, f61
 	lea	buf, r8
-	movw	4094(r8), r2
+	mov	4094(r8).16, r2
 	movq	=0xffffffffffffe6c1, r6
 	cbne	r2, r6, f62
 	lea	buf, r8
-	movw	4095(r8), r2
+	mov	4095(r8).16, r2
 	movq	=0xbe6, r6
 	cbne	r2, r6, f63
 	lea	buf, r8
-	movw	4096(r8), r2
+	mov	4096(r8).16, r2
 	movq	=0x300b, r6
 	cbne	r2, r6, f64
 	lea	buf, r8
-	movw	4093(r8), r2
+	mov	4093(r8).16, r2
 	movq	=0xffffffffffffc19c, r6
 	cbne	r2, r6, f65
 	lea	buf, r8
-	movw	4095(r8), r2
+	mov	4095(r8).16, r2
 	movq	=0xbe6, r6
 	cbne	r2, r6, f66
 	lea	buf, r8
 	movq	#4091, r9
-	movw	3(r8)(r9*1), r2
+	mov	3(r8)(r9*1).16, r2
 	movq	=0xffffffffffffe6c1, r6
 	cbne	r2, r6, f67
 	lea	buf+4094, r8
-	movw	(r8)+, r2
+	mov	(r8)+.16, r2
 	movq	=0xffffffffffffe6c1, r6
 	cbne	r2, r6, f68
 	lea	buf+4096, r2
 	cbne	r8, r2, f69
 	lea	buf, r8
-	movb	0(r8), r2
+	mov	0(r8).8, r2
 	movq	=0xb, r6
 	cbne	r2, r6, f70
 	lea	buf, r8
-	movb	1(r8), r2
+	mov	1(r8).8, r2
 	movq	=0x30, r6
 	cbne	r2, r6, f71
 	lea	buf, r8
-	movb	2(r8), r2
+	mov	2(r8).8, r2
 	movq	=0x55, r6
 	cbne	r2, r6, f72
 	lea	buf, r8
-	movb	3(r8), r2
+	mov	3(r8).8, r2
 	movq	=0x7a, r6
 	cbne	r2, r6, f73
 	lea	buf, r8
-	movb	4(r8), r2
+	mov	4(r8).8, r2
 	movq	=0xffffffffffffff9f, r6
 	cbne	r2, r6, f74
 	lea	buf, r8
-	movb	5(r8), r2
+	mov	5(r8).8, r2
 	movq	=0xffffffffffffffc4, r6
 	cbne	r2, r6, f75
 	lea	buf, r8
-	movb	6(r8), r2
+	mov	6(r8).8, r2
 	movq	=0xffffffffffffffe9, r6
 	cbne	r2, r6, f76
 	lea	buf, r8
-	movb	7(r8), r2
+	mov	7(r8).8, r2
 	movq	=0xe, r6
 	cbne	r2, r6, f77
 	lea	buf, r8
-	movb	8(r8), r2
+	mov	8(r8).8, r2
 	movq	=0x33, r6
 	cbne	r2, r6, f78
 	lea	buf, r8
-	movb	4088(r8), r2
+	mov	4088(r8).8, r2
 	movq	=0xffffffffffffffe3, r6
 	cbne	r2, r6, f79
 	lea	buf, r8
-	movb	4089(r8), r2
+	mov	4089(r8).8, r2
 	movq	=0x8, r6
 	cbne	r2, r6, f80
 	lea	buf, r8
-	movb	4090(r8), r2
+	mov	4090(r8).8, r2
 	movq	=0x2d, r6
 	cbne	r2, r6, f81
 	lea	buf, r8
-	movb	4091(r8), r2
+	mov	4091(r8).8, r2
 	movq	=0x52, r6
 	cbne	r2, r6, f82
 	lea	buf, r8
-	movb	4092(r8), r2
+	mov	4092(r8).8, r2
 	movq	=0x77, r6
 	cbne	r2, r6, f83
 	lea	buf, r8
-	movb	4093(r8), r2
+	mov	4093(r8).8, r2
 	movq	=0xffffffffffffff9c, r6
 	cbne	r2, r6, f84
 	lea	buf, r8
-	movb	4094(r8), r2
+	mov	4094(r8).8, r2
 	movq	=0xffffffffffffffc1, r6
 	cbne	r2, r6, f85
 	lea	buf, r8
-	movb	4095(r8), r2
+	mov	4095(r8).8, r2
 	movq	=0xffffffffffffffe6, r6
 	cbne	r2, r6, f86
 	lea	buf, r8
-	movb	4096(r8), r2
+	mov	4096(r8).8, r2
 	movq	=0xb, r6
 	cbne	r2, r6, f87
 	lea	buf, r8
-	movb	4093(r8), r2
+	mov	4093(r8).8, r2
 	movq	=0xffffffffffffff9c, r6
 	cbne	r2, r6, f88
 	lea	buf, r8
-	movb	4095(r8), r2
+	mov	4095(r8).8, r2
 	movq	=0xffffffffffffffe6, r6
 	cbne	r2, r6, f89
 	lea	buf, r8
 	movq	#4092, r9
-	movb	3(r8)(r9*1), r2
+	mov	3(r8)(r9*1).8, r2
 	movq	=0xffffffffffffffe6, r6
 	cbne	r2, r6, f90
 	lea	buf+4095, r8
-	movb	(r8)+, r2
+	mov	(r8)+.8, r2
 	movq	=0xffffffffffffffe6, r6
 	cbne	r2, r6, f91
 	lea	buf+4096, r2
 	cbne	r8, r2, f92
 	lea	buf, r8
-	movzl	0(r8), r2
+	mov	0(r8).u32, r2
 	movq	=0x7a55300b, r6
 	cbne	r2, r6, f93
 	lea	buf, r8
-	movzl	1(r8), r2
+	mov	1(r8).u32, r2
 	movq	=0x9f7a5530, r6
 	cbne	r2, r6, f94
 	lea	buf, r8
-	movzl	2(r8), r2
+	mov	2(r8).u32, r2
 	movq	=0xc49f7a55, r6
 	cbne	r2, r6, f95
 	lea	buf, r8
-	movzl	3(r8), r2
+	mov	3(r8).u32, r2
 	movq	=0xe9c49f7a, r6
 	cbne	r2, r6, f96
 	lea	buf, r8
-	movzl	4(r8), r2
+	mov	4(r8).u32, r2
 	movq	=0xee9c49f, r6
 	cbne	r2, r6, f97
 	lea	buf, r8
-	movzl	5(r8), r2
+	mov	5(r8).u32, r2
 	movq	=0x330ee9c4, r6
 	cbne	r2, r6, f98
 	lea	buf, r8
-	movzl	6(r8), r2
+	mov	6(r8).u32, r2
 	movq	=0x58330ee9, r6
 	cbne	r2, r6, f99
 	lea	buf, r8
-	movzl	7(r8), r2
+	mov	7(r8).u32, r2
 	movq	=0x7d58330e, r6
 	cbne	r2, r6, f100
 	lea	buf, r8
-	movzl	8(r8), r2
+	mov	8(r8).u32, r2
 	movq	=0xa27d5833, r6
 	cbne	r2, r6, f101
 	lea	buf, r8
-	movzl	4088(r8), r2
+	mov	4088(r8).u32, r2
 	movq	=0x522d08e3, r6
 	cbne	r2, r6, f102
 	lea	buf, r8
-	movzl	4089(r8), r2
+	mov	4089(r8).u32, r2
 	movq	=0x77522d08, r6
 	cbne	r2, r6, f103
 	lea	buf, r8
-	movzl	4090(r8), r2
+	mov	4090(r8).u32, r2
 	movq	=0x9c77522d, r6
 	cbne	r2, r6, f104
 	lea	buf, r8
-	movzl	4091(r8), r2
+	mov	4091(r8).u32, r2
 	movq	=0xc19c7752, r6
 	cbne	r2, r6, f105
 	lea	buf, r8
-	movzl	4092(r8), r2
+	mov	4092(r8).u32, r2
 	movq	=0xe6c19c77, r6
 	cbne	r2, r6, f106
 	lea	buf, r8
-	movzl	4093(r8), r2
+	mov	4093(r8).u32, r2
 	movq	=0xbe6c19c, r6
 	cbne	r2, r6, f107
 	lea	buf, r8
-	movzl	4094(r8), r2
+	mov	4094(r8).u32, r2
 	movq	=0x300be6c1, r6
 	cbne	r2, r6, f108
 	lea	buf, r8
-	movzl	4095(r8), r2
+	mov	4095(r8).u32, r2
 	movq	=0x55300be6, r6
 	cbne	r2, r6, f109
 	lea	buf, r8
-	movzl	4096(r8), r2
+	mov	4096(r8).u32, r2
 	movq	=0x7a55300b, r6
 	cbne	r2, r6, f110
 	lea	buf, r8
-	movzl	4093(r8), r2
+	mov	4093(r8).u32, r2
 	movq	=0xbe6c19c, r6
 	cbne	r2, r6, f111
 	lea	buf, r8
-	movzl	4095(r8), r2
+	mov	4095(r8).u32, r2
 	movq	=0x55300be6, r6
 	cbne	r2, r6, f112
 	lea	buf, r8
 	movq	#4090, r9
-	movzl	3(r8)(r9*1), r2
+	mov	3(r8)(r9*1).u32, r2
 	movq	=0xbe6c19c, r6
 	cbne	r2, r6, f113
 	lea	buf+4093, r8
-	movzl	(r8)+, r2
+	mov	(r8)+.u32, r2
 	movq	=0xbe6c19c, r6
 	cbne	r2, r6, f114
 	lea	buf+4097, r2
 	cbne	r8, r2, f115
 	lea	buf, r8
-	movzw	0(r8), r2
+	mov	0(r8).u16, r2
 	movq	=0x300b, r6
 	cbne	r2, r6, f116
 	lea	buf, r8
-	movzw	1(r8), r2
+	mov	1(r8).u16, r2
 	movq	=0x5530, r6
 	cbne	r2, r6, f117
 	lea	buf, r8
-	movzw	2(r8), r2
+	mov	2(r8).u16, r2
 	movq	=0x7a55, r6
 	cbne	r2, r6, f118
 	lea	buf, r8
-	movzw	3(r8), r2
+	mov	3(r8).u16, r2
 	movq	=0x9f7a, r6
 	cbne	r2, r6, f119
 	lea	buf, r8
-	movzw	4(r8), r2
+	mov	4(r8).u16, r2
 	movq	=0xc49f, r6
 	cbne	r2, r6, f120
 	lea	buf, r8
-	movzw	5(r8), r2
+	mov	5(r8).u16, r2
 	movq	=0xe9c4, r6
 	cbne	r2, r6, f121
 	lea	buf, r8
-	movzw	6(r8), r2
+	mov	6(r8).u16, r2
 	movq	=0xee9, r6
 	cbne	r2, r6, f122
 	lea	buf, r8
-	movzw	7(r8), r2
+	mov	7(r8).u16, r2
 	movq	=0x330e, r6
 	cbne	r2, r6, f123
 	lea	buf, r8
-	movzw	8(r8), r2
+	mov	8(r8).u16, r2
 	movq	=0x5833, r6
 	cbne	r2, r6, f124
 	lea	buf, r8
-	movzw	4088(r8), r2
+	mov	4088(r8).u16, r2
 	movq	=0x8e3, r6
 	cbne	r2, r6, f125
 	lea	buf, r8
-	movzw	4089(r8), r2
+	mov	4089(r8).u16, r2
 	movq	=0x2d08, r6
 	cbne	r2, r6, f126
 	lea	buf, r8
-	movzw	4090(r8), r2
+	mov	4090(r8).u16, r2
 	movq	=0x522d, r6
 	cbne	r2, r6, f127
 	lea	buf, r8
-	movzw	4091(r8), r2
+	mov	4091(r8).u16, r2
 	movq	=0x7752, r6
 	cbne	r2, r6, f128
 	lea	buf, r8
-	movzw	4092(r8), r2
+	mov	4092(r8).u16, r2
 	movq	=0x9c77, r6
 	cbne	r2, r6, f129
 	lea	buf, r8
-	movzw	4093(r8), r2
+	mov	4093(r8).u16, r2
 	movq	=0xc19c, r6
 	cbne	r2, r6, f130
 	lea	buf, r8
-	movzw	4094(r8), r2
+	mov	4094(r8).u16, r2
 	movq	=0xe6c1, r6
 	cbne	r2, r6, f131
 	lea	buf, r8
-	movzw	4095(r8), r2
+	mov	4095(r8).u16, r2
 	movq	=0xbe6, r6
 	cbne	r2, r6, f132
 	lea	buf, r8
-	movzw	4096(r8), r2
+	mov	4096(r8).u16, r2
 	movq	=0x300b, r6
 	cbne	r2, r6, f133
 	lea	buf, r8
-	movzw	4093(r8), r2
+	mov	4093(r8).u16, r2
 	movq	=0xc19c, r6
 	cbne	r2, r6, f134
 	lea	buf, r8
-	movzw	4095(r8), r2
+	mov	4095(r8).u16, r2
 	movq	=0xbe6, r6
 	cbne	r2, r6, f135
 	lea	buf, r8
 	movq	#4091, r9
-	movzw	3(r8)(r9*1), r2
+	mov	3(r8)(r9*1).u16, r2
 	movq	=0xe6c1, r6
 	cbne	r2, r6, f136
 	lea	buf+4094, r8
-	movzw	(r8)+, r2
+	mov	(r8)+.u16, r2
 	movq	=0xe6c1, r6
 	cbne	r2, r6, f137
 	lea	buf+4096, r2
 	cbne	r8, r2, f138
 	lea	buf, r8
-	movzb	0(r8), r2
+	mov	0(r8).u8, r2
 	movq	=0xb, r6
 	cbne	r2, r6, f139
 	lea	buf, r8
-	movzb	1(r8), r2
+	mov	1(r8).u8, r2
 	movq	=0x30, r6
 	cbne	r2, r6, f140
 	lea	buf, r8
-	movzb	2(r8), r2
+	mov	2(r8).u8, r2
 	movq	=0x55, r6
 	cbne	r2, r6, f141
 	lea	buf, r8
-	movzb	3(r8), r2
+	mov	3(r8).u8, r2
 	movq	=0x7a, r6
 	cbne	r2, r6, f142
 	lea	buf, r8
-	movzb	4(r8), r2
+	mov	4(r8).u8, r2
 	movq	=0x9f, r6
 	cbne	r2, r6, f143
 	lea	buf, r8
-	movzb	5(r8), r2
+	mov	5(r8).u8, r2
 	movq	=0xc4, r6
 	cbne	r2, r6, f144
 	lea	buf, r8
-	movzb	6(r8), r2
+	mov	6(r8).u8, r2
 	movq	=0xe9, r6
 	cbne	r2, r6, f145
 	lea	buf, r8
-	movzb	7(r8), r2
+	mov	7(r8).u8, r2
 	movq	=0xe, r6
 	cbne	r2, r6, f146
 	lea	buf, r8
-	movzb	8(r8), r2
+	mov	8(r8).u8, r2
 	movq	=0x33, r6
 	cbne	r2, r6, f147
 	lea	buf, r8
-	movzb	4088(r8), r2
+	mov	4088(r8).u8, r2
 	movq	=0xe3, r6
 	cbne	r2, r6, f148
 	lea	buf, r8
-	movzb	4089(r8), r2
+	mov	4089(r8).u8, r2
 	movq	=0x8, r6
 	cbne	r2, r6, f149
 	lea	buf, r8
-	movzb	4090(r8), r2
+	mov	4090(r8).u8, r2
 	movq	=0x2d, r6
 	cbne	r2, r6, f150
 	lea	buf, r8
-	movzb	4091(r8), r2
+	mov	4091(r8).u8, r2
 	movq	=0x52, r6
 	cbne	r2, r6, f151
 	lea	buf, r8
-	movzb	4092(r8), r2
+	mov	4092(r8).u8, r2
 	movq	=0x77, r6
 	cbne	r2, r6, f152
 	lea	buf, r8
-	movzb	4093(r8), r2
+	mov	4093(r8).u8, r2
 	movq	=0x9c, r6
 	cbne	r2, r6, f153
 	lea	buf, r8
-	movzb	4094(r8), r2
+	mov	4094(r8).u8, r2
 	movq	=0xc1, r6
 	cbne	r2, r6, f154
 	lea	buf, r8
-	movzb	4095(r8), r2
+	mov	4095(r8).u8, r2
 	movq	=0xe6, r6
 	cbne	r2, r6, f155
 	lea	buf, r8
-	movzb	4096(r8), r2
+	mov	4096(r8).u8, r2
 	movq	=0xb, r6
 	cbne	r2, r6, f156
 	lea	buf, r8
-	movzb	4093(r8), r2
+	mov	4093(r8).u8, r2
 	movq	=0x9c, r6
 	cbne	r2, r6, f157
 	lea	buf, r8
-	movzb	4095(r8), r2
+	mov	4095(r8).u8, r2
 	movq	=0xe6, r6
 	cbne	r2, r6, f158
 	lea	buf, r8
 	movq	#4092, r9
-	movzb	3(r8)(r9*1), r2
+	mov	3(r8)(r9*1).u8, r2
 	movq	=0xe6, r6
 	cbne	r2, r6, f159
 	lea	buf+4095, r8
-	movzb	(r8)+, r2
+	mov	(r8)+.u8, r2
 	movq	=0xe6, r6
 	cbne	r2, r6, f160
 	lea	buf+4096, r2
@@ -653,1695 +653,1695 @@ _start:
 	lea	buf, r8
 	movq	=0x1122334455667788, r1
 	movq	r1, 1(r8)
-	movzb	0(r8), r2
+	mov	0(r8).u8, r2
 	movq	=0xb, r6
 	cbne	r2, r6, f162
-	movzb	1(r8), r2
+	mov	1(r8).u8, r2
 	movq	=0x88, r6
 	cbne	r2, r6, f163
-	movzb	2(r8), r2
+	mov	2(r8).u8, r2
 	movq	=0x77, r6
 	cbne	r2, r6, f164
-	movzb	3(r8), r2
+	mov	3(r8).u8, r2
 	movq	=0x66, r6
 	cbne	r2, r6, f165
-	movzb	4(r8), r2
+	mov	4(r8).u8, r2
 	movq	=0x55, r6
 	cbne	r2, r6, f166
-	movzb	5(r8), r2
+	mov	5(r8).u8, r2
 	movq	=0x44, r6
 	cbne	r2, r6, f167
-	movzb	6(r8), r2
+	mov	6(r8).u8, r2
 	movq	=0x33, r6
 	cbne	r2, r6, f168
-	movzb	7(r8), r2
+	mov	7(r8).u8, r2
 	movq	=0x22, r6
 	cbne	r2, r6, f169
-	movzb	8(r8), r2
+	mov	8(r8).u8, r2
 	movq	=0x11, r6
 	cbne	r2, r6, f170
-	movzb	9(r8), r2
+	mov	9(r8).u8, r2
 	movq	=0x58, r6
 	cbne	r2, r6, f171
 	movq	#48, r3
-	movb	r3, 1(r8)
+	mov	r3, 1(r8).8
 	movq	#85, r3
-	movb	r3, 2(r8)
+	mov	r3, 2(r8).8
 	movq	#122, r3
-	movb	r3, 3(r8)
+	mov	r3, 3(r8).8
 	movq	#-97, r3
-	movb	r3, 4(r8)
+	mov	r3, 4(r8).8
 	movq	#-60, r3
-	movb	r3, 5(r8)
+	mov	r3, 5(r8).8
 	movq	#-23, r3
-	movb	r3, 6(r8)
+	mov	r3, 6(r8).8
 	movq	#14, r3
-	movb	r3, 7(r8)
+	mov	r3, 7(r8).8
 	movq	#51, r3
-	movb	r3, 8(r8)
+	mov	r3, 8(r8).8
 	lea	buf, r8
 	movq	=0x1122334455667788, r1
 	movq	r1, 2(r8)
-	movzb	1(r8), r2
+	mov	1(r8).u8, r2
 	movq	=0x30, r6
 	cbne	r2, r6, f172
-	movzb	2(r8), r2
+	mov	2(r8).u8, r2
 	movq	=0x88, r6
 	cbne	r2, r6, f173
-	movzb	3(r8), r2
+	mov	3(r8).u8, r2
 	movq	=0x77, r6
 	cbne	r2, r6, f174
-	movzb	4(r8), r2
+	mov	4(r8).u8, r2
 	movq	=0x66, r6
 	cbne	r2, r6, f175
-	movzb	5(r8), r2
+	mov	5(r8).u8, r2
 	movq	=0x55, r6
 	cbne	r2, r6, f176
-	movzb	6(r8), r2
+	mov	6(r8).u8, r2
 	movq	=0x44, r6
 	cbne	r2, r6, f177
-	movzb	7(r8), r2
+	mov	7(r8).u8, r2
 	movq	=0x33, r6
 	cbne	r2, r6, f178
-	movzb	8(r8), r2
+	mov	8(r8).u8, r2
 	movq	=0x22, r6
 	cbne	r2, r6, f179
-	movzb	9(r8), r2
+	mov	9(r8).u8, r2
 	movq	=0x11, r6
 	cbne	r2, r6, f180
-	movzb	10(r8), r2
+	mov	10(r8).u8, r2
 	movq	=0x7d, r6
 	cbne	r2, r6, f181
 	movq	#85, r3
-	movb	r3, 2(r8)
+	mov	r3, 2(r8).8
 	movq	#122, r3
-	movb	r3, 3(r8)
+	mov	r3, 3(r8).8
 	movq	#-97, r3
-	movb	r3, 4(r8)
+	mov	r3, 4(r8).8
 	movq	#-60, r3
-	movb	r3, 5(r8)
+	mov	r3, 5(r8).8
 	movq	#-23, r3
-	movb	r3, 6(r8)
+	mov	r3, 6(r8).8
 	movq	#14, r3
-	movb	r3, 7(r8)
+	mov	r3, 7(r8).8
 	movq	#51, r3
-	movb	r3, 8(r8)
+	mov	r3, 8(r8).8
 	movq	#88, r3
-	movb	r3, 9(r8)
+	mov	r3, 9(r8).8
 	lea	buf, r8
 	movq	=0x1122334455667788, r1
 	movq	r1, 3(r8)
-	movzb	2(r8), r2
+	mov	2(r8).u8, r2
 	movq	=0x55, r6
 	cbne	r2, r6, f182
-	movzb	3(r8), r2
+	mov	3(r8).u8, r2
 	movq	=0x88, r6
 	cbne	r2, r6, f183
-	movzb	4(r8), r2
+	mov	4(r8).u8, r2
 	movq	=0x77, r6
 	cbne	r2, r6, f184
-	movzb	5(r8), r2
+	mov	5(r8).u8, r2
 	movq	=0x66, r6
 	cbne	r2, r6, f185
-	movzb	6(r8), r2
+	mov	6(r8).u8, r2
 	movq	=0x55, r6
 	cbne	r2, r6, f186
-	movzb	7(r8), r2
+	mov	7(r8).u8, r2
 	movq	=0x44, r6
 	cbne	r2, r6, f187
-	movzb	8(r8), r2
+	mov	8(r8).u8, r2
 	movq	=0x33, r6
 	cbne	r2, r6, f188
-	movzb	9(r8), r2
+	mov	9(r8).u8, r2
 	movq	=0x22, r6
 	cbne	r2, r6, f189
-	movzb	10(r8), r2
+	mov	10(r8).u8, r2
 	movq	=0x11, r6
 	cbne	r2, r6, f190
-	movzb	11(r8), r2
+	mov	11(r8).u8, r2
 	movq	=0xa2, r6
 	cbne	r2, r6, f191
 	movq	#122, r3
-	movb	r3, 3(r8)
+	mov	r3, 3(r8).8
 	movq	#-97, r3
-	movb	r3, 4(r8)
+	mov	r3, 4(r8).8
 	movq	#-60, r3
-	movb	r3, 5(r8)
+	mov	r3, 5(r8).8
 	movq	#-23, r3
-	movb	r3, 6(r8)
+	mov	r3, 6(r8).8
 	movq	#14, r3
-	movb	r3, 7(r8)
+	mov	r3, 7(r8).8
 	movq	#51, r3
-	movb	r3, 8(r8)
+	mov	r3, 8(r8).8
 	movq	#88, r3
-	movb	r3, 9(r8)
+	mov	r3, 9(r8).8
 	movq	#125, r3
-	movb	r3, 10(r8)
+	mov	r3, 10(r8).8
 	lea	buf, r8
 	movq	=0x1122334455667788, r1
 	movq	r1, 4(r8)
-	movzb	3(r8), r2
+	mov	3(r8).u8, r2
 	movq	=0x7a, r6
 	cbne	r2, r6, f192
-	movzb	4(r8), r2
+	mov	4(r8).u8, r2
 	movq	=0x88, r6
 	cbne	r2, r6, f193
-	movzb	5(r8), r2
+	mov	5(r8).u8, r2
 	movq	=0x77, r6
 	cbne	r2, r6, f194
-	movzb	6(r8), r2
+	mov	6(r8).u8, r2
 	movq	=0x66, r6
 	cbne	r2, r6, f195
-	movzb	7(r8), r2
+	mov	7(r8).u8, r2
 	movq	=0x55, r6
 	cbne	r2, r6, f196
-	movzb	8(r8), r2
+	mov	8(r8).u8, r2
 	movq	=0x44, r6
 	cbne	r2, r6, f197
-	movzb	9(r8), r2
+	mov	9(r8).u8, r2
 	movq	=0x33, r6
 	cbne	r2, r6, f198
-	movzb	10(r8), r2
+	mov	10(r8).u8, r2
 	movq	=0x22, r6
 	cbne	r2, r6, f199
-	movzb	11(r8), r2
+	mov	11(r8).u8, r2
 	movq	=0x11, r6
 	cbne	r2, r6, f200
-	movzb	12(r8), r2
+	mov	12(r8).u8, r2
 	movq	=0xc7, r6
 	cbne	r2, r6, f201
 	movq	#-97, r3
-	movb	r3, 4(r8)
+	mov	r3, 4(r8).8
 	movq	#-60, r3
-	movb	r3, 5(r8)
+	mov	r3, 5(r8).8
 	movq	#-23, r3
-	movb	r3, 6(r8)
+	mov	r3, 6(r8).8
 	movq	#14, r3
-	movb	r3, 7(r8)
+	mov	r3, 7(r8).8
 	movq	#51, r3
-	movb	r3, 8(r8)
+	mov	r3, 8(r8).8
 	movq	#88, r3
-	movb	r3, 9(r8)
+	mov	r3, 9(r8).8
 	movq	#125, r3
-	movb	r3, 10(r8)
+	mov	r3, 10(r8).8
 	movq	#-94, r3
-	movb	r3, 11(r8)
+	mov	r3, 11(r8).8
 	lea	buf, r8
 	movq	=0x1122334455667788, r1
 	movq	r1, 5(r8)
-	movzb	4(r8), r2
+	mov	4(r8).u8, r2
 	movq	=0x9f, r6
 	cbne	r2, r6, f202
-	movzb	5(r8), r2
+	mov	5(r8).u8, r2
 	movq	=0x88, r6
 	cbne	r2, r6, f203
-	movzb	6(r8), r2
+	mov	6(r8).u8, r2
 	movq	=0x77, r6
 	cbne	r2, r6, f204
-	movzb	7(r8), r2
+	mov	7(r8).u8, r2
 	movq	=0x66, r6
 	cbne	r2, r6, f205
-	movzb	8(r8), r2
+	mov	8(r8).u8, r2
 	movq	=0x55, r6
 	cbne	r2, r6, f206
-	movzb	9(r8), r2
+	mov	9(r8).u8, r2
 	movq	=0x44, r6
 	cbne	r2, r6, f207
-	movzb	10(r8), r2
+	mov	10(r8).u8, r2
 	movq	=0x33, r6
 	cbne	r2, r6, f208
-	movzb	11(r8), r2
+	mov	11(r8).u8, r2
 	movq	=0x22, r6
 	cbne	r2, r6, f209
-	movzb	12(r8), r2
+	mov	12(r8).u8, r2
 	movq	=0x11, r6
 	cbne	r2, r6, f210
-	movzb	13(r8), r2
+	mov	13(r8).u8, r2
 	movq	=0xec, r6
 	cbne	r2, r6, f211
 	movq	#-60, r3
-	movb	r3, 5(r8)
+	mov	r3, 5(r8).8
 	movq	#-23, r3
-	movb	r3, 6(r8)
+	mov	r3, 6(r8).8
 	movq	#14, r3
-	movb	r3, 7(r8)
+	mov	r3, 7(r8).8
 	movq	#51, r3
-	movb	r3, 8(r8)
+	mov	r3, 8(r8).8
 	movq	#88, r3
-	movb	r3, 9(r8)
+	mov	r3, 9(r8).8
 	movq	#125, r3
-	movb	r3, 10(r8)
+	mov	r3, 10(r8).8
 	movq	#-94, r3
-	movb	r3, 11(r8)
+	mov	r3, 11(r8).8
 	movq	#-57, r3
-	movb	r3, 12(r8)
+	mov	r3, 12(r8).8
 	lea	buf, r8
 	movq	=0x1122334455667788, r1
 	movq	r1, 6(r8)
-	movzb	5(r8), r2
+	mov	5(r8).u8, r2
 	movq	=0xc4, r6
 	cbne	r2, r6, f212
-	movzb	6(r8), r2
+	mov	6(r8).u8, r2
 	movq	=0x88, r6
 	cbne	r2, r6, f213
-	movzb	7(r8), r2
+	mov	7(r8).u8, r2
 	movq	=0x77, r6
 	cbne	r2, r6, f214
-	movzb	8(r8), r2
+	mov	8(r8).u8, r2
 	movq	=0x66, r6
 	cbne	r2, r6, f215
-	movzb	9(r8), r2
+	mov	9(r8).u8, r2
 	movq	=0x55, r6
 	cbne	r2, r6, f216
-	movzb	10(r8), r2
+	mov	10(r8).u8, r2
 	movq	=0x44, r6
 	cbne	r2, r6, f217
-	movzb	11(r8), r2
+	mov	11(r8).u8, r2
 	movq	=0x33, r6
 	cbne	r2, r6, f218
-	movzb	12(r8), r2
+	mov	12(r8).u8, r2
 	movq	=0x22, r6
 	cbne	r2, r6, f219
-	movzb	13(r8), r2
+	mov	13(r8).u8, r2
 	movq	=0x11, r6
 	cbne	r2, r6, f220
-	movzb	14(r8), r2
+	mov	14(r8).u8, r2
 	movq	=0x11, r6
 	cbne	r2, r6, f221
 	movq	#-23, r3
-	movb	r3, 6(r8)
+	mov	r3, 6(r8).8
 	movq	#14, r3
-	movb	r3, 7(r8)
+	mov	r3, 7(r8).8
 	movq	#51, r3
-	movb	r3, 8(r8)
+	mov	r3, 8(r8).8
 	movq	#88, r3
-	movb	r3, 9(r8)
+	mov	r3, 9(r8).8
 	movq	#125, r3
-	movb	r3, 10(r8)
+	mov	r3, 10(r8).8
 	movq	#-94, r3
-	movb	r3, 11(r8)
+	mov	r3, 11(r8).8
 	movq	#-57, r3
-	movb	r3, 12(r8)
+	mov	r3, 12(r8).8
 	movq	#-20, r3
-	movb	r3, 13(r8)
+	mov	r3, 13(r8).8
 	lea	buf, r8
 	movq	=0x1122334455667788, r1
 	movq	r1, 7(r8)
-	movzb	6(r8), r2
+	mov	6(r8).u8, r2
 	movq	=0xe9, r6
 	cbne	r2, r6, f222
-	movzb	7(r8), r2
+	mov	7(r8).u8, r2
 	movq	=0x88, r6
 	cbne	r2, r6, f223
-	movzb	8(r8), r2
+	mov	8(r8).u8, r2
 	movq	=0x77, r6
 	cbne	r2, r6, f224
-	movzb	9(r8), r2
+	mov	9(r8).u8, r2
 	movq	=0x66, r6
 	cbne	r2, r6, f225
-	movzb	10(r8), r2
+	mov	10(r8).u8, r2
 	movq	=0x55, r6
 	cbne	r2, r6, f226
-	movzb	11(r8), r2
+	mov	11(r8).u8, r2
 	movq	=0x44, r6
 	cbne	r2, r6, f227
-	movzb	12(r8), r2
+	mov	12(r8).u8, r2
 	movq	=0x33, r6
 	cbne	r2, r6, f228
-	movzb	13(r8), r2
+	mov	13(r8).u8, r2
 	movq	=0x22, r6
 	cbne	r2, r6, f229
-	movzb	14(r8), r2
+	mov	14(r8).u8, r2
 	movq	=0x11, r6
 	cbne	r2, r6, f230
-	movzb	15(r8), r2
+	mov	15(r8).u8, r2
 	movq	=0x36, r6
 	cbne	r2, r6, f231
 	movq	#14, r3
-	movb	r3, 7(r8)
+	mov	r3, 7(r8).8
 	movq	#51, r3
-	movb	r3, 8(r8)
+	mov	r3, 8(r8).8
 	movq	#88, r3
-	movb	r3, 9(r8)
+	mov	r3, 9(r8).8
 	movq	#125, r3
-	movb	r3, 10(r8)
+	mov	r3, 10(r8).8
 	movq	#-94, r3
-	movb	r3, 11(r8)
+	mov	r3, 11(r8).8
 	movq	#-57, r3
-	movb	r3, 12(r8)
+	mov	r3, 12(r8).8
 	movq	#-20, r3
-	movb	r3, 13(r8)
+	mov	r3, 13(r8).8
 	movq	#17, r3
-	movb	r3, 14(r8)
+	mov	r3, 14(r8).8
 	lea	buf, r8
 	movq	=0x1122334455667788, r1
 	movq	r1, 4089(r8)
-	movzb	4088(r8), r2
+	mov	4088(r8).u8, r2
 	movq	=0xe3, r6
 	cbne	r2, r6, f232
-	movzb	4089(r8), r2
+	mov	4089(r8).u8, r2
 	movq	=0x88, r6
 	cbne	r2, r6, f233
-	movzb	4090(r8), r2
+	mov	4090(r8).u8, r2
 	movq	=0x77, r6
 	cbne	r2, r6, f234
-	movzb	4091(r8), r2
+	mov	4091(r8).u8, r2
 	movq	=0x66, r6
 	cbne	r2, r6, f235
-	movzb	4092(r8), r2
+	mov	4092(r8).u8, r2
 	movq	=0x55, r6
 	cbne	r2, r6, f236
-	movzb	4093(r8), r2
+	mov	4093(r8).u8, r2
 	movq	=0x44, r6
 	cbne	r2, r6, f237
-	movzb	4094(r8), r2
+	mov	4094(r8).u8, r2
 	movq	=0x33, r6
 	cbne	r2, r6, f238
-	movzb	4095(r8), r2
+	mov	4095(r8).u8, r2
 	movq	=0x22, r6
 	cbne	r2, r6, f239
-	movzb	4096(r8), r2
+	mov	4096(r8).u8, r2
 	movq	=0x11, r6
 	cbne	r2, r6, f240
-	movzb	4097(r8), r2
+	mov	4097(r8).u8, r2
 	movq	=0x30, r6
 	cbne	r2, r6, f241
 	movq	#8, r3
-	movb	r3, 4089(r8)
+	mov	r3, 4089(r8).8
 	movq	#45, r3
-	movb	r3, 4090(r8)
+	mov	r3, 4090(r8).8
 	movq	#82, r3
-	movb	r3, 4091(r8)
+	mov	r3, 4091(r8).8
 	movq	#119, r3
-	movb	r3, 4092(r8)
+	mov	r3, 4092(r8).8
 	movq	#-100, r3
-	movb	r3, 4093(r8)
+	mov	r3, 4093(r8).8
 	movq	#-63, r3
-	movb	r3, 4094(r8)
+	mov	r3, 4094(r8).8
 	movq	#-26, r3
-	movb	r3, 4095(r8)
+	mov	r3, 4095(r8).8
 	movq	#11, r3
-	movb	r3, 4096(r8)
+	mov	r3, 4096(r8).8
 	lea	buf, r8
 	movq	=0x1122334455667788, r1
 	movq	r1, 4090(r8)
-	movzb	4089(r8), r2
+	mov	4089(r8).u8, r2
 	movq	=0x8, r6
 	cbne	r2, r6, f242
-	movzb	4090(r8), r2
+	mov	4090(r8).u8, r2
 	movq	=0x88, r6
 	cbne	r2, r6, f243
-	movzb	4091(r8), r2
+	mov	4091(r8).u8, r2
 	movq	=0x77, r6
 	cbne	r2, r6, f244
-	movzb	4092(r8), r2
+	mov	4092(r8).u8, r2
 	movq	=0x66, r6
 	cbne	r2, r6, f245
-	movzb	4093(r8), r2
+	mov	4093(r8).u8, r2
 	movq	=0x55, r6
 	cbne	r2, r6, f246
-	movzb	4094(r8), r2
+	mov	4094(r8).u8, r2
 	movq	=0x44, r6
 	cbne	r2, r6, f247
-	movzb	4095(r8), r2
+	mov	4095(r8).u8, r2
 	movq	=0x33, r6
 	cbne	r2, r6, f248
-	movzb	4096(r8), r2
+	mov	4096(r8).u8, r2
 	movq	=0x22, r6
 	cbne	r2, r6, f249
-	movzb	4097(r8), r2
+	mov	4097(r8).u8, r2
 	movq	=0x11, r6
 	cbne	r2, r6, f250
-	movzb	4098(r8), r2
+	mov	4098(r8).u8, r2
 	movq	=0x55, r6
 	cbne	r2, r6, f251
 	movq	#45, r3
-	movb	r3, 4090(r8)
+	mov	r3, 4090(r8).8
 	movq	#82, r3
-	movb	r3, 4091(r8)
+	mov	r3, 4091(r8).8
 	movq	#119, r3
-	movb	r3, 4092(r8)
+	mov	r3, 4092(r8).8
 	movq	#-100, r3
-	movb	r3, 4093(r8)
+	mov	r3, 4093(r8).8
 	movq	#-63, r3
-	movb	r3, 4094(r8)
+	mov	r3, 4094(r8).8
 	movq	#-26, r3
-	movb	r3, 4095(r8)
+	mov	r3, 4095(r8).8
 	movq	#11, r3
-	movb	r3, 4096(r8)
+	mov	r3, 4096(r8).8
 	movq	#48, r3
-	movb	r3, 4097(r8)
+	mov	r3, 4097(r8).8
 	lea	buf, r8
 	movq	=0x1122334455667788, r1
 	movq	r1, 4091(r8)
-	movzb	4090(r8), r2
+	mov	4090(r8).u8, r2
 	movq	=0x2d, r6
 	cbne	r2, r6, f252
-	movzb	4091(r8), r2
+	mov	4091(r8).u8, r2
 	movq	=0x88, r6
 	cbne	r2, r6, f253
-	movzb	4092(r8), r2
+	mov	4092(r8).u8, r2
 	movq	=0x77, r6
 	cbne	r2, r6, f254
-	movzb	4093(r8), r2
+	mov	4093(r8).u8, r2
 	movq	=0x66, r6
 	cbne	r2, r6, f255
-	movzb	4094(r8), r2
+	mov	4094(r8).u8, r2
 	movq	=0x55, r6
 	cbne	r2, r6, f256
-	movzb	4095(r8), r2
+	mov	4095(r8).u8, r2
 	movq	=0x44, r6
 	cbne	r2, r6, f257
-	movzb	4096(r8), r2
+	mov	4096(r8).u8, r2
 	movq	=0x33, r6
 	cbne	r2, r6, f258
-	movzb	4097(r8), r2
+	mov	4097(r8).u8, r2
 	movq	=0x22, r6
 	cbne	r2, r6, f259
-	movzb	4098(r8), r2
+	mov	4098(r8).u8, r2
 	movq	=0x11, r6
 	cbne	r2, r6, f260
-	movzb	4099(r8), r2
+	mov	4099(r8).u8, r2
 	movq	=0x7a, r6
 	cbne	r2, r6, f261
 	movq	#82, r3
-	movb	r3, 4091(r8)
+	mov	r3, 4091(r8).8
 	movq	#119, r3
-	movb	r3, 4092(r8)
+	mov	r3, 4092(r8).8
 	movq	#-100, r3
-	movb	r3, 4093(r8)
+	mov	r3, 4093(r8).8
 	movq	#-63, r3
-	movb	r3, 4094(r8)
+	mov	r3, 4094(r8).8
 	movq	#-26, r3
-	movb	r3, 4095(r8)
+	mov	r3, 4095(r8).8
 	movq	#11, r3
-	movb	r3, 4096(r8)
+	mov	r3, 4096(r8).8
 	movq	#48, r3
-	movb	r3, 4097(r8)
+	mov	r3, 4097(r8).8
 	movq	#85, r3
-	movb	r3, 4098(r8)
+	mov	r3, 4098(r8).8
 	lea	buf, r8
 	movq	=0x1122334455667788, r1
 	movq	r1, 4092(r8)
-	movzb	4091(r8), r2
+	mov	4091(r8).u8, r2
 	movq	=0x52, r6
 	cbne	r2, r6, f262
-	movzb	4092(r8), r2
+	mov	4092(r8).u8, r2
 	movq	=0x88, r6
 	cbne	r2, r6, f263
-	movzb	4093(r8), r2
+	mov	4093(r8).u8, r2
 	movq	=0x77, r6
 	cbne	r2, r6, f264
-	movzb	4094(r8), r2
+	mov	4094(r8).u8, r2
 	movq	=0x66, r6
 	cbne	r2, r6, f265
-	movzb	4095(r8), r2
+	mov	4095(r8).u8, r2
 	movq	=0x55, r6
 	cbne	r2, r6, f266
-	movzb	4096(r8), r2
+	mov	4096(r8).u8, r2
 	movq	=0x44, r6
 	cbne	r2, r6, f267
-	movzb	4097(r8), r2
+	mov	4097(r8).u8, r2
 	movq	=0x33, r6
 	cbne	r2, r6, f268
-	movzb	4098(r8), r2
+	mov	4098(r8).u8, r2
 	movq	=0x22, r6
 	cbne	r2, r6, f269
-	movzb	4099(r8), r2
+	mov	4099(r8).u8, r2
 	movq	=0x11, r6
 	cbne	r2, r6, f270
-	movzb	4100(r8), r2
+	mov	4100(r8).u8, r2
 	movq	=0x9f, r6
 	cbne	r2, r6, f271
 	movq	#119, r3
-	movb	r3, 4092(r8)
+	mov	r3, 4092(r8).8
 	movq	#-100, r3
-	movb	r3, 4093(r8)
+	mov	r3, 4093(r8).8
 	movq	#-63, r3
-	movb	r3, 4094(r8)
+	mov	r3, 4094(r8).8
 	movq	#-26, r3
-	movb	r3, 4095(r8)
+	mov	r3, 4095(r8).8
 	movq	#11, r3
-	movb	r3, 4096(r8)
+	mov	r3, 4096(r8).8
 	movq	#48, r3
-	movb	r3, 4097(r8)
+	mov	r3, 4097(r8).8
 	movq	#85, r3
-	movb	r3, 4098(r8)
+	mov	r3, 4098(r8).8
 	movq	#122, r3
-	movb	r3, 4099(r8)
+	mov	r3, 4099(r8).8
 	lea	buf, r8
 	movq	=0x1122334455667788, r1
 	movq	r1, 4093(r8)
-	movzb	4092(r8), r2
+	mov	4092(r8).u8, r2
 	movq	=0x77, r6
 	cbne	r2, r6, f272
-	movzb	4093(r8), r2
+	mov	4093(r8).u8, r2
 	movq	=0x88, r6
 	cbne	r2, r6, f273
-	movzb	4094(r8), r2
+	mov	4094(r8).u8, r2
 	movq	=0x77, r6
 	cbne	r2, r6, f274
-	movzb	4095(r8), r2
+	mov	4095(r8).u8, r2
 	movq	=0x66, r6
 	cbne	r2, r6, f275
-	movzb	4096(r8), r2
+	mov	4096(r8).u8, r2
 	movq	=0x55, r6
 	cbne	r2, r6, f276
-	movzb	4097(r8), r2
+	mov	4097(r8).u8, r2
 	movq	=0x44, r6
 	cbne	r2, r6, f277
-	movzb	4098(r8), r2
+	mov	4098(r8).u8, r2
 	movq	=0x33, r6
 	cbne	r2, r6, f278
-	movzb	4099(r8), r2
+	mov	4099(r8).u8, r2
 	movq	=0x22, r6
 	cbne	r2, r6, f279
-	movzb	4100(r8), r2
+	mov	4100(r8).u8, r2
 	movq	=0x11, r6
 	cbne	r2, r6, f280
-	movzb	4101(r8), r2
+	mov	4101(r8).u8, r2
 	movq	=0xc4, r6
 	cbne	r2, r6, f281
 	movq	#-100, r3
-	movb	r3, 4093(r8)
+	mov	r3, 4093(r8).8
 	movq	#-63, r3
-	movb	r3, 4094(r8)
+	mov	r3, 4094(r8).8
 	movq	#-26, r3
-	movb	r3, 4095(r8)
+	mov	r3, 4095(r8).8
 	movq	#11, r3
-	movb	r3, 4096(r8)
+	mov	r3, 4096(r8).8
 	movq	#48, r3
-	movb	r3, 4097(r8)
+	mov	r3, 4097(r8).8
 	movq	#85, r3
-	movb	r3, 4098(r8)
+	mov	r3, 4098(r8).8
 	movq	#122, r3
-	movb	r3, 4099(r8)
+	mov	r3, 4099(r8).8
 	movq	#-97, r3
-	movb	r3, 4100(r8)
+	mov	r3, 4100(r8).8
 	lea	buf, r8
 	movq	=0x1122334455667788, r1
 	movq	r1, 4094(r8)
-	movzb	4093(r8), r2
+	mov	4093(r8).u8, r2
 	movq	=0x9c, r6
 	cbne	r2, r6, f282
-	movzb	4094(r8), r2
+	mov	4094(r8).u8, r2
 	movq	=0x88, r6
 	cbne	r2, r6, f283
-	movzb	4095(r8), r2
+	mov	4095(r8).u8, r2
 	movq	=0x77, r6
 	cbne	r2, r6, f284
-	movzb	4096(r8), r2
+	mov	4096(r8).u8, r2
 	movq	=0x66, r6
 	cbne	r2, r6, f285
-	movzb	4097(r8), r2
+	mov	4097(r8).u8, r2
 	movq	=0x55, r6
 	cbne	r2, r6, f286
-	movzb	4098(r8), r2
+	mov	4098(r8).u8, r2
 	movq	=0x44, r6
 	cbne	r2, r6, f287
-	movzb	4099(r8), r2
+	mov	4099(r8).u8, r2
 	movq	=0x33, r6
 	cbne	r2, r6, f288
-	movzb	4100(r8), r2
+	mov	4100(r8).u8, r2
 	movq	=0x22, r6
 	cbne	r2, r6, f289
-	movzb	4101(r8), r2
+	mov	4101(r8).u8, r2
 	movq	=0x11, r6
 	cbne	r2, r6, f290
-	movzb	4102(r8), r2
+	mov	4102(r8).u8, r2
 	movq	=0xe9, r6
 	cbne	r2, r6, f291
 	movq	#-63, r3
-	movb	r3, 4094(r8)
+	mov	r3, 4094(r8).8
 	movq	#-26, r3
-	movb	r3, 4095(r8)
+	mov	r3, 4095(r8).8
 	movq	#11, r3
-	movb	r3, 4096(r8)
+	mov	r3, 4096(r8).8
 	movq	#48, r3
-	movb	r3, 4097(r8)
+	mov	r3, 4097(r8).8
 	movq	#85, r3
-	movb	r3, 4098(r8)
+	mov	r3, 4098(r8).8
 	movq	#122, r3
-	movb	r3, 4099(r8)
+	mov	r3, 4099(r8).8
 	movq	#-97, r3
-	movb	r3, 4100(r8)
+	mov	r3, 4100(r8).8
 	movq	#-60, r3
-	movb	r3, 4101(r8)
+	mov	r3, 4101(r8).8
 	lea	buf, r8
 	movq	=0x1122334455667788, r1
 	movq	r1, 4095(r8)
-	movzb	4094(r8), r2
+	mov	4094(r8).u8, r2
 	movq	=0xc1, r6
 	cbne	r2, r6, f292
-	movzb	4095(r8), r2
+	mov	4095(r8).u8, r2
 	movq	=0x88, r6
 	cbne	r2, r6, f293
-	movzb	4096(r8), r2
+	mov	4096(r8).u8, r2
 	movq	=0x77, r6
 	cbne	r2, r6, f294
-	movzb	4097(r8), r2
+	mov	4097(r8).u8, r2
 	movq	=0x66, r6
 	cbne	r2, r6, f295
-	movzb	4098(r8), r2
+	mov	4098(r8).u8, r2
 	movq	=0x55, r6
 	cbne	r2, r6, f296
-	movzb	4099(r8), r2
+	mov	4099(r8).u8, r2
 	movq	=0x44, r6
 	cbne	r2, r6, f297
-	movzb	4100(r8), r2
+	mov	4100(r8).u8, r2
 	movq	=0x33, r6
 	cbne	r2, r6, f298
-	movzb	4101(r8), r2
+	mov	4101(r8).u8, r2
 	movq	=0x22, r6
 	cbne	r2, r6, f299
-	movzb	4102(r8), r2
+	mov	4102(r8).u8, r2
 	movq	=0x11, r6
 	cbne	r2, r6, f300
-	movzb	4103(r8), r2
+	mov	4103(r8).u8, r2
 	movq	=0xe, r6
 	cbne	r2, r6, f301
 	movq	#-26, r3
-	movb	r3, 4095(r8)
+	mov	r3, 4095(r8).8
 	movq	#11, r3
-	movb	r3, 4096(r8)
+	mov	r3, 4096(r8).8
 	movq	#48, r3
-	movb	r3, 4097(r8)
+	mov	r3, 4097(r8).8
 	movq	#85, r3
-	movb	r3, 4098(r8)
+	mov	r3, 4098(r8).8
 	movq	#122, r3
-	movb	r3, 4099(r8)
+	mov	r3, 4099(r8).8
 	movq	#-97, r3
-	movb	r3, 4100(r8)
+	mov	r3, 4100(r8).8
 	movq	#-60, r3
-	movb	r3, 4101(r8)
+	mov	r3, 4101(r8).8
 	movq	#-23, r3
-	movb	r3, 4102(r8)
+	mov	r3, 4102(r8).8
 	lea	buf, r8
 	movq	=0x1122334455667788, r1
 	movq	r1, 4095(r8)
-	movzb	4094(r8), r2
+	mov	4094(r8).u8, r2
 	movq	=0xc1, r6
 	cbne	r2, r6, f302
-	movzb	4095(r8), r2
+	mov	4095(r8).u8, r2
 	movq	=0x88, r6
 	cbne	r2, r6, f303
-	movzb	4096(r8), r2
+	mov	4096(r8).u8, r2
 	movq	=0x77, r6
 	cbne	r2, r6, f304
-	movzb	4097(r8), r2
+	mov	4097(r8).u8, r2
 	movq	=0x66, r6
 	cbne	r2, r6, f305
-	movzb	4098(r8), r2
+	mov	4098(r8).u8, r2
 	movq	=0x55, r6
 	cbne	r2, r6, f306
-	movzb	4099(r8), r2
+	mov	4099(r8).u8, r2
 	movq	=0x44, r6
 	cbne	r2, r6, f307
-	movzb	4100(r8), r2
+	mov	4100(r8).u8, r2
 	movq	=0x33, r6
 	cbne	r2, r6, f308
-	movzb	4101(r8), r2
+	mov	4101(r8).u8, r2
 	movq	=0x22, r6
 	cbne	r2, r6, f309
-	movzb	4102(r8), r2
+	mov	4102(r8).u8, r2
 	movq	=0x11, r6
 	cbne	r2, r6, f310
-	movzb	4103(r8), r2
+	mov	4103(r8).u8, r2
 	movq	=0xe, r6
 	cbne	r2, r6, f311
 	movq	#-26, r3
-	movb	r3, 4095(r8)
+	mov	r3, 4095(r8).8
 	movq	#11, r3
-	movb	r3, 4096(r8)
+	mov	r3, 4096(r8).8
 	movq	#48, r3
-	movb	r3, 4097(r8)
+	mov	r3, 4097(r8).8
 	movq	#85, r3
-	movb	r3, 4098(r8)
+	mov	r3, 4098(r8).8
 	movq	#122, r3
-	movb	r3, 4099(r8)
+	mov	r3, 4099(r8).8
 	movq	#-97, r3
-	movb	r3, 4100(r8)
+	mov	r3, 4100(r8).8
 	movq	#-60, r3
-	movb	r3, 4101(r8)
+	mov	r3, 4101(r8).8
 	movq	#-23, r3
-	movb	r3, 4102(r8)
+	mov	r3, 4102(r8).8
 	lea	buf, r8
 	movq	=0x55667788, r1
-	movl	r1, 1(r8)
-	movzb	0(r8), r2
+	mov	r1, 1(r8).32
+	mov	0(r8).u8, r2
 	movq	=0xb, r6
 	cbne	r2, r6, f312
-	movzb	1(r8), r2
+	mov	1(r8).u8, r2
 	movq	=0x88, r6
 	cbne	r2, r6, f313
-	movzb	2(r8), r2
+	mov	2(r8).u8, r2
 	movq	=0x77, r6
 	cbne	r2, r6, f314
-	movzb	3(r8), r2
+	mov	3(r8).u8, r2
 	movq	=0x66, r6
 	cbne	r2, r6, f315
-	movzb	4(r8), r2
+	mov	4(r8).u8, r2
 	movq	=0x55, r6
 	cbne	r2, r6, f316
-	movzb	5(r8), r2
+	mov	5(r8).u8, r2
 	movq	=0xc4, r6
 	cbne	r2, r6, f317
 	movq	#48, r3
-	movb	r3, 1(r8)
+	mov	r3, 1(r8).8
 	movq	#85, r3
-	movb	r3, 2(r8)
+	mov	r3, 2(r8).8
 	movq	#122, r3
-	movb	r3, 3(r8)
+	mov	r3, 3(r8).8
 	movq	#-97, r3
-	movb	r3, 4(r8)
+	mov	r3, 4(r8).8
 	lea	buf, r8
 	movq	=0x55667788, r1
-	movl	r1, 2(r8)
-	movzb	1(r8), r2
+	mov	r1, 2(r8).32
+	mov	1(r8).u8, r2
 	movq	=0x30, r6
 	cbne	r2, r6, f318
-	movzb	2(r8), r2
+	mov	2(r8).u8, r2
 	movq	=0x88, r6
 	cbne	r2, r6, f319
-	movzb	3(r8), r2
+	mov	3(r8).u8, r2
 	movq	=0x77, r6
 	cbne	r2, r6, f320
-	movzb	4(r8), r2
+	mov	4(r8).u8, r2
 	movq	=0x66, r6
 	cbne	r2, r6, f321
-	movzb	5(r8), r2
+	mov	5(r8).u8, r2
 	movq	=0x55, r6
 	cbne	r2, r6, f322
-	movzb	6(r8), r2
+	mov	6(r8).u8, r2
 	movq	=0xe9, r6
 	cbne	r2, r6, f323
 	movq	#85, r3
-	movb	r3, 2(r8)
+	mov	r3, 2(r8).8
 	movq	#122, r3
-	movb	r3, 3(r8)
+	mov	r3, 3(r8).8
 	movq	#-97, r3
-	movb	r3, 4(r8)
+	mov	r3, 4(r8).8
 	movq	#-60, r3
-	movb	r3, 5(r8)
+	mov	r3, 5(r8).8
 	lea	buf, r8
 	movq	=0x55667788, r1
-	movl	r1, 3(r8)
-	movzb	2(r8), r2
+	mov	r1, 3(r8).32
+	mov	2(r8).u8, r2
 	movq	=0x55, r6
 	cbne	r2, r6, f324
-	movzb	3(r8), r2
+	mov	3(r8).u8, r2
 	movq	=0x88, r6
 	cbne	r2, r6, f325
-	movzb	4(r8), r2
+	mov	4(r8).u8, r2
 	movq	=0x77, r6
 	cbne	r2, r6, f326
-	movzb	5(r8), r2
+	mov	5(r8).u8, r2
 	movq	=0x66, r6
 	cbne	r2, r6, f327
-	movzb	6(r8), r2
+	mov	6(r8).u8, r2
 	movq	=0x55, r6
 	cbne	r2, r6, f328
-	movzb	7(r8), r2
+	mov	7(r8).u8, r2
 	movq	=0xe, r6
 	cbne	r2, r6, f329
 	movq	#122, r3
-	movb	r3, 3(r8)
+	mov	r3, 3(r8).8
 	movq	#-97, r3
-	movb	r3, 4(r8)
+	mov	r3, 4(r8).8
 	movq	#-60, r3
-	movb	r3, 5(r8)
+	mov	r3, 5(r8).8
 	movq	#-23, r3
-	movb	r3, 6(r8)
+	mov	r3, 6(r8).8
 	lea	buf, r8
 	movq	=0x55667788, r1
-	movl	r1, 4(r8)
-	movzb	3(r8), r2
+	mov	r1, 4(r8).32
+	mov	3(r8).u8, r2
 	movq	=0x7a, r6
 	cbne	r2, r6, f330
-	movzb	4(r8), r2
+	mov	4(r8).u8, r2
 	movq	=0x88, r6
 	cbne	r2, r6, f331
-	movzb	5(r8), r2
+	mov	5(r8).u8, r2
 	movq	=0x77, r6
 	cbne	r2, r6, f332
-	movzb	6(r8), r2
+	mov	6(r8).u8, r2
 	movq	=0x66, r6
 	cbne	r2, r6, f333
-	movzb	7(r8), r2
+	mov	7(r8).u8, r2
 	movq	=0x55, r6
 	cbne	r2, r6, f334
-	movzb	8(r8), r2
+	mov	8(r8).u8, r2
 	movq	=0x33, r6
 	cbne	r2, r6, f335
 	movq	#-97, r3
-	movb	r3, 4(r8)
+	mov	r3, 4(r8).8
 	movq	#-60, r3
-	movb	r3, 5(r8)
+	mov	r3, 5(r8).8
 	movq	#-23, r3
-	movb	r3, 6(r8)
+	mov	r3, 6(r8).8
 	movq	#14, r3
-	movb	r3, 7(r8)
+	mov	r3, 7(r8).8
 	lea	buf, r8
 	movq	=0x55667788, r1
-	movl	r1, 5(r8)
-	movzb	4(r8), r2
+	mov	r1, 5(r8).32
+	mov	4(r8).u8, r2
 	movq	=0x9f, r6
 	cbne	r2, r6, f336
-	movzb	5(r8), r2
+	mov	5(r8).u8, r2
 	movq	=0x88, r6
 	cbne	r2, r6, f337
-	movzb	6(r8), r2
+	mov	6(r8).u8, r2
 	movq	=0x77, r6
 	cbne	r2, r6, f338
-	movzb	7(r8), r2
+	mov	7(r8).u8, r2
 	movq	=0x66, r6
 	cbne	r2, r6, f339
-	movzb	8(r8), r2
+	mov	8(r8).u8, r2
 	movq	=0x55, r6
 	cbne	r2, r6, f340
-	movzb	9(r8), r2
+	mov	9(r8).u8, r2
 	movq	=0x58, r6
 	cbne	r2, r6, f341
 	movq	#-60, r3
-	movb	r3, 5(r8)
+	mov	r3, 5(r8).8
 	movq	#-23, r3
-	movb	r3, 6(r8)
+	mov	r3, 6(r8).8
 	movq	#14, r3
-	movb	r3, 7(r8)
+	mov	r3, 7(r8).8
 	movq	#51, r3
-	movb	r3, 8(r8)
+	mov	r3, 8(r8).8
 	lea	buf, r8
 	movq	=0x55667788, r1
-	movl	r1, 6(r8)
-	movzb	5(r8), r2
+	mov	r1, 6(r8).32
+	mov	5(r8).u8, r2
 	movq	=0xc4, r6
 	cbne	r2, r6, f342
-	movzb	6(r8), r2
+	mov	6(r8).u8, r2
 	movq	=0x88, r6
 	cbne	r2, r6, f343
-	movzb	7(r8), r2
+	mov	7(r8).u8, r2
 	movq	=0x77, r6
 	cbne	r2, r6, f344
-	movzb	8(r8), r2
+	mov	8(r8).u8, r2
 	movq	=0x66, r6
 	cbne	r2, r6, f345
-	movzb	9(r8), r2
+	mov	9(r8).u8, r2
 	movq	=0x55, r6
 	cbne	r2, r6, f346
-	movzb	10(r8), r2
+	mov	10(r8).u8, r2
 	movq	=0x7d, r6
 	cbne	r2, r6, f347
 	movq	#-23, r3
-	movb	r3, 6(r8)
+	mov	r3, 6(r8).8
 	movq	#14, r3
-	movb	r3, 7(r8)
+	mov	r3, 7(r8).8
 	movq	#51, r3
-	movb	r3, 8(r8)
+	mov	r3, 8(r8).8
 	movq	#88, r3
-	movb	r3, 9(r8)
+	mov	r3, 9(r8).8
 	lea	buf, r8
 	movq	=0x55667788, r1
-	movl	r1, 7(r8)
-	movzb	6(r8), r2
+	mov	r1, 7(r8).32
+	mov	6(r8).u8, r2
 	movq	=0xe9, r6
 	cbne	r2, r6, f348
-	movzb	7(r8), r2
+	mov	7(r8).u8, r2
 	movq	=0x88, r6
 	cbne	r2, r6, f349
-	movzb	8(r8), r2
+	mov	8(r8).u8, r2
 	movq	=0x77, r6
 	cbne	r2, r6, f350
-	movzb	9(r8), r2
+	mov	9(r8).u8, r2
 	movq	=0x66, r6
 	cbne	r2, r6, f351
-	movzb	10(r8), r2
+	mov	10(r8).u8, r2
 	movq	=0x55, r6
 	cbne	r2, r6, f352
-	movzb	11(r8), r2
+	mov	11(r8).u8, r2
 	movq	=0xa2, r6
 	cbne	r2, r6, f353
 	movq	#14, r3
-	movb	r3, 7(r8)
+	mov	r3, 7(r8).8
 	movq	#51, r3
-	movb	r3, 8(r8)
+	mov	r3, 8(r8).8
 	movq	#88, r3
-	movb	r3, 9(r8)
+	mov	r3, 9(r8).8
 	movq	#125, r3
-	movb	r3, 10(r8)
+	mov	r3, 10(r8).8
 	lea	buf, r8
 	movq	=0x55667788, r1
-	movl	r1, 4089(r8)
-	movzb	4088(r8), r2
+	mov	r1, 4089(r8).32
+	mov	4088(r8).u8, r2
 	movq	=0xe3, r6
 	cbne	r2, r6, f354
-	movzb	4089(r8), r2
+	mov	4089(r8).u8, r2
 	movq	=0x88, r6
 	cbne	r2, r6, f355
-	movzb	4090(r8), r2
+	mov	4090(r8).u8, r2
 	movq	=0x77, r6
 	cbne	r2, r6, f356
-	movzb	4091(r8), r2
+	mov	4091(r8).u8, r2
 	movq	=0x66, r6
 	cbne	r2, r6, f357
-	movzb	4092(r8), r2
+	mov	4092(r8).u8, r2
 	movq	=0x55, r6
 	cbne	r2, r6, f358
-	movzb	4093(r8), r2
+	mov	4093(r8).u8, r2
 	movq	=0x9c, r6
 	cbne	r2, r6, f359
 	movq	#8, r3
-	movb	r3, 4089(r8)
+	mov	r3, 4089(r8).8
 	movq	#45, r3
-	movb	r3, 4090(r8)
+	mov	r3, 4090(r8).8
 	movq	#82, r3
-	movb	r3, 4091(r8)
+	mov	r3, 4091(r8).8
 	movq	#119, r3
-	movb	r3, 4092(r8)
+	mov	r3, 4092(r8).8
 	lea	buf, r8
 	movq	=0x55667788, r1
-	movl	r1, 4090(r8)
-	movzb	4089(r8), r2
+	mov	r1, 4090(r8).32
+	mov	4089(r8).u8, r2
 	movq	=0x8, r6
 	cbne	r2, r6, f360
-	movzb	4090(r8), r2
+	mov	4090(r8).u8, r2
 	movq	=0x88, r6
 	cbne	r2, r6, f361
-	movzb	4091(r8), r2
+	mov	4091(r8).u8, r2
 	movq	=0x77, r6
 	cbne	r2, r6, f362
-	movzb	4092(r8), r2
+	mov	4092(r8).u8, r2
 	movq	=0x66, r6
 	cbne	r2, r6, f363
-	movzb	4093(r8), r2
+	mov	4093(r8).u8, r2
 	movq	=0x55, r6
 	cbne	r2, r6, f364
-	movzb	4094(r8), r2
+	mov	4094(r8).u8, r2
 	movq	=0xc1, r6
 	cbne	r2, r6, f365
 	movq	#45, r3
-	movb	r3, 4090(r8)
+	mov	r3, 4090(r8).8
 	movq	#82, r3
-	movb	r3, 4091(r8)
+	mov	r3, 4091(r8).8
 	movq	#119, r3
-	movb	r3, 4092(r8)
+	mov	r3, 4092(r8).8
 	movq	#-100, r3
-	movb	r3, 4093(r8)
+	mov	r3, 4093(r8).8
 	lea	buf, r8
 	movq	=0x55667788, r1
-	movl	r1, 4091(r8)
-	movzb	4090(r8), r2
+	mov	r1, 4091(r8).32
+	mov	4090(r8).u8, r2
 	movq	=0x2d, r6
 	cbne	r2, r6, f366
-	movzb	4091(r8), r2
+	mov	4091(r8).u8, r2
 	movq	=0x88, r6
 	cbne	r2, r6, f367
-	movzb	4092(r8), r2
+	mov	4092(r8).u8, r2
 	movq	=0x77, r6
 	cbne	r2, r6, f368
-	movzb	4093(r8), r2
+	mov	4093(r8).u8, r2
 	movq	=0x66, r6
 	cbne	r2, r6, f369
-	movzb	4094(r8), r2
+	mov	4094(r8).u8, r2
 	movq	=0x55, r6
 	cbne	r2, r6, f370
-	movzb	4095(r8), r2
+	mov	4095(r8).u8, r2
 	movq	=0xe6, r6
 	cbne	r2, r6, f371
 	movq	#82, r3
-	movb	r3, 4091(r8)
+	mov	r3, 4091(r8).8
 	movq	#119, r3
-	movb	r3, 4092(r8)
+	mov	r3, 4092(r8).8
 	movq	#-100, r3
-	movb	r3, 4093(r8)
+	mov	r3, 4093(r8).8
 	movq	#-63, r3
-	movb	r3, 4094(r8)
+	mov	r3, 4094(r8).8
 	lea	buf, r8
 	movq	=0x55667788, r1
-	movl	r1, 4092(r8)
-	movzb	4091(r8), r2
+	mov	r1, 4092(r8).32
+	mov	4091(r8).u8, r2
 	movq	=0x52, r6
 	cbne	r2, r6, f372
-	movzb	4092(r8), r2
+	mov	4092(r8).u8, r2
 	movq	=0x88, r6
 	cbne	r2, r6, f373
-	movzb	4093(r8), r2
+	mov	4093(r8).u8, r2
 	movq	=0x77, r6
 	cbne	r2, r6, f374
-	movzb	4094(r8), r2
+	mov	4094(r8).u8, r2
 	movq	=0x66, r6
 	cbne	r2, r6, f375
-	movzb	4095(r8), r2
+	mov	4095(r8).u8, r2
 	movq	=0x55, r6
 	cbne	r2, r6, f376
-	movzb	4096(r8), r2
+	mov	4096(r8).u8, r2
 	movq	=0xb, r6
 	cbne	r2, r6, f377
 	movq	#119, r3
-	movb	r3, 4092(r8)
+	mov	r3, 4092(r8).8
 	movq	#-100, r3
-	movb	r3, 4093(r8)
+	mov	r3, 4093(r8).8
 	movq	#-63, r3
-	movb	r3, 4094(r8)
+	mov	r3, 4094(r8).8
 	movq	#-26, r3
-	movb	r3, 4095(r8)
+	mov	r3, 4095(r8).8
 	lea	buf, r8
 	movq	=0x55667788, r1
-	movl	r1, 4093(r8)
-	movzb	4092(r8), r2
+	mov	r1, 4093(r8).32
+	mov	4092(r8).u8, r2
 	movq	=0x77, r6
 	cbne	r2, r6, f378
-	movzb	4093(r8), r2
+	mov	4093(r8).u8, r2
 	movq	=0x88, r6
 	cbne	r2, r6, f379
-	movzb	4094(r8), r2
+	mov	4094(r8).u8, r2
 	movq	=0x77, r6
 	cbne	r2, r6, f380
-	movzb	4095(r8), r2
+	mov	4095(r8).u8, r2
 	movq	=0x66, r6
 	cbne	r2, r6, f381
-	movzb	4096(r8), r2
+	mov	4096(r8).u8, r2
 	movq	=0x55, r6
 	cbne	r2, r6, f382
-	movzb	4097(r8), r2
+	mov	4097(r8).u8, r2
 	movq	=0x30, r6
 	cbne	r2, r6, f383
 	movq	#-100, r3
-	movb	r3, 4093(r8)
+	mov	r3, 4093(r8).8
 	movq	#-63, r3
-	movb	r3, 4094(r8)
+	mov	r3, 4094(r8).8
 	movq	#-26, r3
-	movb	r3, 4095(r8)
+	mov	r3, 4095(r8).8
 	movq	#11, r3
-	movb	r3, 4096(r8)
+	mov	r3, 4096(r8).8
 	lea	buf, r8
 	movq	=0x55667788, r1
-	movl	r1, 4094(r8)
-	movzb	4093(r8), r2
+	mov	r1, 4094(r8).32
+	mov	4093(r8).u8, r2
 	movq	=0x9c, r6
 	cbne	r2, r6, f384
-	movzb	4094(r8), r2
+	mov	4094(r8).u8, r2
 	movq	=0x88, r6
 	cbne	r2, r6, f385
-	movzb	4095(r8), r2
+	mov	4095(r8).u8, r2
 	movq	=0x77, r6
 	cbne	r2, r6, f386
-	movzb	4096(r8), r2
+	mov	4096(r8).u8, r2
 	movq	=0x66, r6
 	cbne	r2, r6, f387
-	movzb	4097(r8), r2
+	mov	4097(r8).u8, r2
 	movq	=0x55, r6
 	cbne	r2, r6, f388
-	movzb	4098(r8), r2
+	mov	4098(r8).u8, r2
 	movq	=0x55, r6
 	cbne	r2, r6, f389
 	movq	#-63, r3
-	movb	r3, 4094(r8)
+	mov	r3, 4094(r8).8
 	movq	#-26, r3
-	movb	r3, 4095(r8)
+	mov	r3, 4095(r8).8
 	movq	#11, r3
-	movb	r3, 4096(r8)
+	mov	r3, 4096(r8).8
 	movq	#48, r3
-	movb	r3, 4097(r8)
+	mov	r3, 4097(r8).8
 	lea	buf, r8
 	movq	=0x55667788, r1
-	movl	r1, 4095(r8)
-	movzb	4094(r8), r2
+	mov	r1, 4095(r8).32
+	mov	4094(r8).u8, r2
 	movq	=0xc1, r6
 	cbne	r2, r6, f390
-	movzb	4095(r8), r2
+	mov	4095(r8).u8, r2
 	movq	=0x88, r6
 	cbne	r2, r6, f391
-	movzb	4096(r8), r2
+	mov	4096(r8).u8, r2
 	movq	=0x77, r6
 	cbne	r2, r6, f392
-	movzb	4097(r8), r2
+	mov	4097(r8).u8, r2
 	movq	=0x66, r6
 	cbne	r2, r6, f393
-	movzb	4098(r8), r2
+	mov	4098(r8).u8, r2
 	movq	=0x55, r6
 	cbne	r2, r6, f394
-	movzb	4099(r8), r2
+	mov	4099(r8).u8, r2
 	movq	=0x7a, r6
 	cbne	r2, r6, f395
 	movq	#-26, r3
-	movb	r3, 4095(r8)
+	mov	r3, 4095(r8).8
 	movq	#11, r3
-	movb	r3, 4096(r8)
+	mov	r3, 4096(r8).8
 	movq	#48, r3
-	movb	r3, 4097(r8)
+	mov	r3, 4097(r8).8
 	movq	#85, r3
-	movb	r3, 4098(r8)
+	mov	r3, 4098(r8).8
 	lea	buf, r8
 	movq	=0x55667788, r1
-	movl	r1, 4095(r8)
-	movzb	4094(r8), r2
+	mov	r1, 4095(r8).32
+	mov	4094(r8).u8, r2
 	movq	=0xc1, r6
 	cbne	r2, r6, f396
-	movzb	4095(r8), r2
+	mov	4095(r8).u8, r2
 	movq	=0x88, r6
 	cbne	r2, r6, f397
-	movzb	4096(r8), r2
+	mov	4096(r8).u8, r2
 	movq	=0x77, r6
 	cbne	r2, r6, f398
-	movzb	4097(r8), r2
+	mov	4097(r8).u8, r2
 	movq	=0x66, r6
 	cbne	r2, r6, f399
-	movzb	4098(r8), r2
+	mov	4098(r8).u8, r2
 	movq	=0x55, r6
 	cbne	r2, r6, f400
-	movzb	4099(r8), r2
+	mov	4099(r8).u8, r2
 	movq	=0x7a, r6
 	cbne	r2, r6, f401
 	movq	#-26, r3
-	movb	r3, 4095(r8)
+	mov	r3, 4095(r8).8
 	movq	#11, r3
-	movb	r3, 4096(r8)
+	mov	r3, 4096(r8).8
 	movq	#48, r3
-	movb	r3, 4097(r8)
+	mov	r3, 4097(r8).8
 	movq	#85, r3
-	movb	r3, 4098(r8)
+	mov	r3, 4098(r8).8
 	lea	buf, r8
 	movq	=0x7788, r1
-	movw	r1, 1(r8)
-	movzb	0(r8), r2
+	mov	r1, 1(r8).16
+	mov	0(r8).u8, r2
 	movq	=0xb, r6
 	cbne	r2, r6, f402
-	movzb	1(r8), r2
+	mov	1(r8).u8, r2
 	movq	=0x88, r6
 	cbne	r2, r6, f403
-	movzb	2(r8), r2
+	mov	2(r8).u8, r2
 	movq	=0x77, r6
 	cbne	r2, r6, f404
-	movzb	3(r8), r2
+	mov	3(r8).u8, r2
 	movq	=0x7a, r6
 	cbne	r2, r6, f405
 	movq	#48, r3
-	movb	r3, 1(r8)
+	mov	r3, 1(r8).8
 	movq	#85, r3
-	movb	r3, 2(r8)
+	mov	r3, 2(r8).8
 	lea	buf, r8
 	movq	=0x7788, r1
-	movw	r1, 2(r8)
-	movzb	1(r8), r2
+	mov	r1, 2(r8).16
+	mov	1(r8).u8, r2
 	movq	=0x30, r6
 	cbne	r2, r6, f406
-	movzb	2(r8), r2
+	mov	2(r8).u8, r2
 	movq	=0x88, r6
 	cbne	r2, r6, f407
-	movzb	3(r8), r2
+	mov	3(r8).u8, r2
 	movq	=0x77, r6
 	cbne	r2, r6, f408
-	movzb	4(r8), r2
+	mov	4(r8).u8, r2
 	movq	=0x9f, r6
 	cbne	r2, r6, f409
 	movq	#85, r3
-	movb	r3, 2(r8)
+	mov	r3, 2(r8).8
 	movq	#122, r3
-	movb	r3, 3(r8)
+	mov	r3, 3(r8).8
 	lea	buf, r8
 	movq	=0x7788, r1
-	movw	r1, 3(r8)
-	movzb	2(r8), r2
+	mov	r1, 3(r8).16
+	mov	2(r8).u8, r2
 	movq	=0x55, r6
 	cbne	r2, r6, f410
-	movzb	3(r8), r2
+	mov	3(r8).u8, r2
 	movq	=0x88, r6
 	cbne	r2, r6, f411
-	movzb	4(r8), r2
+	mov	4(r8).u8, r2
 	movq	=0x77, r6
 	cbne	r2, r6, f412
-	movzb	5(r8), r2
+	mov	5(r8).u8, r2
 	movq	=0xc4, r6
 	cbne	r2, r6, f413
 	movq	#122, r3
-	movb	r3, 3(r8)
+	mov	r3, 3(r8).8
 	movq	#-97, r3
-	movb	r3, 4(r8)
+	mov	r3, 4(r8).8
 	lea	buf, r8
 	movq	=0x7788, r1
-	movw	r1, 4(r8)
-	movzb	3(r8), r2
+	mov	r1, 4(r8).16
+	mov	3(r8).u8, r2
 	movq	=0x7a, r6
 	cbne	r2, r6, f414
-	movzb	4(r8), r2
+	mov	4(r8).u8, r2
 	movq	=0x88, r6
 	cbne	r2, r6, f415
-	movzb	5(r8), r2
+	mov	5(r8).u8, r2
 	movq	=0x77, r6
 	cbne	r2, r6, f416
-	movzb	6(r8), r2
+	mov	6(r8).u8, r2
 	movq	=0xe9, r6
 	cbne	r2, r6, f417
 	movq	#-97, r3
-	movb	r3, 4(r8)
+	mov	r3, 4(r8).8
 	movq	#-60, r3
-	movb	r3, 5(r8)
+	mov	r3, 5(r8).8
 	lea	buf, r8
 	movq	=0x7788, r1
-	movw	r1, 5(r8)
-	movzb	4(r8), r2
+	mov	r1, 5(r8).16
+	mov	4(r8).u8, r2
 	movq	=0x9f, r6
 	cbne	r2, r6, f418
-	movzb	5(r8), r2
+	mov	5(r8).u8, r2
 	movq	=0x88, r6
 	cbne	r2, r6, f419
-	movzb	6(r8), r2
+	mov	6(r8).u8, r2
 	movq	=0x77, r6
 	cbne	r2, r6, f420
-	movzb	7(r8), r2
+	mov	7(r8).u8, r2
 	movq	=0xe, r6
 	cbne	r2, r6, f421
 	movq	#-60, r3
-	movb	r3, 5(r8)
+	mov	r3, 5(r8).8
 	movq	#-23, r3
-	movb	r3, 6(r8)
+	mov	r3, 6(r8).8
 	lea	buf, r8
 	movq	=0x7788, r1
-	movw	r1, 6(r8)
-	movzb	5(r8), r2
+	mov	r1, 6(r8).16
+	mov	5(r8).u8, r2
 	movq	=0xc4, r6
 	cbne	r2, r6, f422
-	movzb	6(r8), r2
+	mov	6(r8).u8, r2
 	movq	=0x88, r6
 	cbne	r2, r6, f423
-	movzb	7(r8), r2
+	mov	7(r8).u8, r2
 	movq	=0x77, r6
 	cbne	r2, r6, f424
-	movzb	8(r8), r2
+	mov	8(r8).u8, r2
 	movq	=0x33, r6
 	cbne	r2, r6, f425
 	movq	#-23, r3
-	movb	r3, 6(r8)
+	mov	r3, 6(r8).8
 	movq	#14, r3
-	movb	r3, 7(r8)
+	mov	r3, 7(r8).8
 	lea	buf, r8
 	movq	=0x7788, r1
-	movw	r1, 7(r8)
-	movzb	6(r8), r2
+	mov	r1, 7(r8).16
+	mov	6(r8).u8, r2
 	movq	=0xe9, r6
 	cbne	r2, r6, f426
-	movzb	7(r8), r2
+	mov	7(r8).u8, r2
 	movq	=0x88, r6
 	cbne	r2, r6, f427
-	movzb	8(r8), r2
+	mov	8(r8).u8, r2
 	movq	=0x77, r6
 	cbne	r2, r6, f428
-	movzb	9(r8), r2
+	mov	9(r8).u8, r2
 	movq	=0x58, r6
 	cbne	r2, r6, f429
 	movq	#14, r3
-	movb	r3, 7(r8)
+	mov	r3, 7(r8).8
 	movq	#51, r3
-	movb	r3, 8(r8)
+	mov	r3, 8(r8).8
 	lea	buf, r8
 	movq	=0x7788, r1
-	movw	r1, 4089(r8)
-	movzb	4088(r8), r2
+	mov	r1, 4089(r8).16
+	mov	4088(r8).u8, r2
 	movq	=0xe3, r6
 	cbne	r2, r6, f430
-	movzb	4089(r8), r2
+	mov	4089(r8).u8, r2
 	movq	=0x88, r6
 	cbne	r2, r6, f431
-	movzb	4090(r8), r2
+	mov	4090(r8).u8, r2
 	movq	=0x77, r6
 	cbne	r2, r6, f432
-	movzb	4091(r8), r2
+	mov	4091(r8).u8, r2
 	movq	=0x52, r6
 	cbne	r2, r6, f433
 	movq	#8, r3
-	movb	r3, 4089(r8)
+	mov	r3, 4089(r8).8
 	movq	#45, r3
-	movb	r3, 4090(r8)
+	mov	r3, 4090(r8).8
 	lea	buf, r8
 	movq	=0x7788, r1
-	movw	r1, 4090(r8)
-	movzb	4089(r8), r2
+	mov	r1, 4090(r8).16
+	mov	4089(r8).u8, r2
 	movq	=0x8, r6
 	cbne	r2, r6, f434
-	movzb	4090(r8), r2
+	mov	4090(r8).u8, r2
 	movq	=0x88, r6
 	cbne	r2, r6, f435
-	movzb	4091(r8), r2
+	mov	4091(r8).u8, r2
 	movq	=0x77, r6
 	cbne	r2, r6, f436
-	movzb	4092(r8), r2
+	mov	4092(r8).u8, r2
 	movq	=0x77, r6
 	cbne	r2, r6, f437
 	movq	#45, r3
-	movb	r3, 4090(r8)
+	mov	r3, 4090(r8).8
 	movq	#82, r3
-	movb	r3, 4091(r8)
+	mov	r3, 4091(r8).8
 	lea	buf, r8
 	movq	=0x7788, r1
-	movw	r1, 4091(r8)
-	movzb	4090(r8), r2
+	mov	r1, 4091(r8).16
+	mov	4090(r8).u8, r2
 	movq	=0x2d, r6
 	cbne	r2, r6, f438
-	movzb	4091(r8), r2
+	mov	4091(r8).u8, r2
 	movq	=0x88, r6
 	cbne	r2, r6, f439
-	movzb	4092(r8), r2
+	mov	4092(r8).u8, r2
 	movq	=0x77, r6
 	cbne	r2, r6, f440
-	movzb	4093(r8), r2
+	mov	4093(r8).u8, r2
 	movq	=0x9c, r6
 	cbne	r2, r6, f441
 	movq	#82, r3
-	movb	r3, 4091(r8)
+	mov	r3, 4091(r8).8
 	movq	#119, r3
-	movb	r3, 4092(r8)
+	mov	r3, 4092(r8).8
 	lea	buf, r8
 	movq	=0x7788, r1
-	movw	r1, 4092(r8)
-	movzb	4091(r8), r2
+	mov	r1, 4092(r8).16
+	mov	4091(r8).u8, r2
 	movq	=0x52, r6
 	cbne	r2, r6, f442
-	movzb	4092(r8), r2
+	mov	4092(r8).u8, r2
 	movq	=0x88, r6
 	cbne	r2, r6, f443
-	movzb	4093(r8), r2
+	mov	4093(r8).u8, r2
 	movq	=0x77, r6
 	cbne	r2, r6, f444
-	movzb	4094(r8), r2
+	mov	4094(r8).u8, r2
 	movq	=0xc1, r6
 	cbne	r2, r6, f445
 	movq	#119, r3
-	movb	r3, 4092(r8)
+	mov	r3, 4092(r8).8
 	movq	#-100, r3
-	movb	r3, 4093(r8)
+	mov	r3, 4093(r8).8
 	lea	buf, r8
 	movq	=0x7788, r1
-	movw	r1, 4093(r8)
-	movzb	4092(r8), r2
+	mov	r1, 4093(r8).16
+	mov	4092(r8).u8, r2
 	movq	=0x77, r6
 	cbne	r2, r6, f446
-	movzb	4093(r8), r2
+	mov	4093(r8).u8, r2
 	movq	=0x88, r6
 	cbne	r2, r6, f447
-	movzb	4094(r8), r2
+	mov	4094(r8).u8, r2
 	movq	=0x77, r6
 	cbne	r2, r6, f448
-	movzb	4095(r8), r2
+	mov	4095(r8).u8, r2
 	movq	=0xe6, r6
 	cbne	r2, r6, f449
 	movq	#-100, r3
-	movb	r3, 4093(r8)
+	mov	r3, 4093(r8).8
 	movq	#-63, r3
-	movb	r3, 4094(r8)
+	mov	r3, 4094(r8).8
 	lea	buf, r8
 	movq	=0x7788, r1
-	movw	r1, 4094(r8)
-	movzb	4093(r8), r2
+	mov	r1, 4094(r8).16
+	mov	4093(r8).u8, r2
 	movq	=0x9c, r6
 	cbne	r2, r6, f450
-	movzb	4094(r8), r2
+	mov	4094(r8).u8, r2
 	movq	=0x88, r6
 	cbne	r2, r6, f451
-	movzb	4095(r8), r2
+	mov	4095(r8).u8, r2
 	movq	=0x77, r6
 	cbne	r2, r6, f452
-	movzb	4096(r8), r2
+	mov	4096(r8).u8, r2
 	movq	=0xb, r6
 	cbne	r2, r6, f453
 	movq	#-63, r3
-	movb	r3, 4094(r8)
+	mov	r3, 4094(r8).8
 	movq	#-26, r3
-	movb	r3, 4095(r8)
+	mov	r3, 4095(r8).8
 	lea	buf, r8
 	movq	=0x7788, r1
-	movw	r1, 4095(r8)
-	movzb	4094(r8), r2
+	mov	r1, 4095(r8).16
+	mov	4094(r8).u8, r2
 	movq	=0xc1, r6
 	cbne	r2, r6, f454
-	movzb	4095(r8), r2
+	mov	4095(r8).u8, r2
 	movq	=0x88, r6
 	cbne	r2, r6, f455
-	movzb	4096(r8), r2
+	mov	4096(r8).u8, r2
 	movq	=0x77, r6
 	cbne	r2, r6, f456
-	movzb	4097(r8), r2
+	mov	4097(r8).u8, r2
 	movq	=0x30, r6
 	cbne	r2, r6, f457
 	movq	#-26, r3
-	movb	r3, 4095(r8)
+	mov	r3, 4095(r8).8
 	movq	#11, r3
-	movb	r3, 4096(r8)
+	mov	r3, 4096(r8).8
 	lea	buf, r8
 	movq	=0x7788, r1
-	movw	r1, 4095(r8)
-	movzb	4094(r8), r2
+	mov	r1, 4095(r8).16
+	mov	4094(r8).u8, r2
 	movq	=0xc1, r6
 	cbne	r2, r6, f458
-	movzb	4095(r8), r2
+	mov	4095(r8).u8, r2
 	movq	=0x88, r6
 	cbne	r2, r6, f459
-	movzb	4096(r8), r2
+	mov	4096(r8).u8, r2
 	movq	=0x77, r6
 	cbne	r2, r6, f460
-	movzb	4097(r8), r2
+	mov	4097(r8).u8, r2
 	movq	=0x30, r6
 	cbne	r2, r6, f461
 	movq	#-26, r3
-	movb	r3, 4095(r8)
+	mov	r3, 4095(r8).8
 	movq	#11, r3
-	movb	r3, 4096(r8)
+	mov	r3, 4096(r8).8
 	lea	buf, r8
 	movq	=0x88, r1
-	movb	r1, 1(r8)
-	movzb	0(r8), r2
+	mov	r1, 1(r8).8
+	mov	0(r8).u8, r2
 	movq	=0xb, r6
 	cbne	r2, r6, f462
-	movzb	1(r8), r2
+	mov	1(r8).u8, r2
 	movq	=0x88, r6
 	cbne	r2, r6, f463
-	movzb	2(r8), r2
+	mov	2(r8).u8, r2
 	movq	=0x55, r6
 	cbne	r2, r6, f464
 	movq	#48, r3
-	movb	r3, 1(r8)
+	mov	r3, 1(r8).8
 	lea	buf, r8
 	movq	=0x88, r1
-	movb	r1, 2(r8)
-	movzb	1(r8), r2
+	mov	r1, 2(r8).8
+	mov	1(r8).u8, r2
 	movq	=0x30, r6
 	cbne	r2, r6, f465
-	movzb	2(r8), r2
+	mov	2(r8).u8, r2
 	movq	=0x88, r6
 	cbne	r2, r6, f466
-	movzb	3(r8), r2
+	mov	3(r8).u8, r2
 	movq	=0x7a, r6
 	cbne	r2, r6, f467
 	movq	#85, r3
-	movb	r3, 2(r8)
+	mov	r3, 2(r8).8
 	lea	buf, r8
 	movq	=0x88, r1
-	movb	r1, 3(r8)
-	movzb	2(r8), r2
+	mov	r1, 3(r8).8
+	mov	2(r8).u8, r2
 	movq	=0x55, r6
 	cbne	r2, r6, f468
-	movzb	3(r8), r2
+	mov	3(r8).u8, r2
 	movq	=0x88, r6
 	cbne	r2, r6, f469
-	movzb	4(r8), r2
+	mov	4(r8).u8, r2
 	movq	=0x9f, r6
 	cbne	r2, r6, f470
 	movq	#122, r3
-	movb	r3, 3(r8)
+	mov	r3, 3(r8).8
 	lea	buf, r8
 	movq	=0x88, r1
-	movb	r1, 4(r8)
-	movzb	3(r8), r2
+	mov	r1, 4(r8).8
+	mov	3(r8).u8, r2
 	movq	=0x7a, r6
 	cbne	r2, r6, f471
-	movzb	4(r8), r2
+	mov	4(r8).u8, r2
 	movq	=0x88, r6
 	cbne	r2, r6, f472
-	movzb	5(r8), r2
+	mov	5(r8).u8, r2
 	movq	=0xc4, r6
 	cbne	r2, r6, f473
 	movq	#-97, r3
-	movb	r3, 4(r8)
+	mov	r3, 4(r8).8
 	lea	buf, r8
 	movq	=0x88, r1
-	movb	r1, 5(r8)
-	movzb	4(r8), r2
+	mov	r1, 5(r8).8
+	mov	4(r8).u8, r2
 	movq	=0x9f, r6
 	cbne	r2, r6, f474
-	movzb	5(r8), r2
+	mov	5(r8).u8, r2
 	movq	=0x88, r6
 	cbne	r2, r6, f475
-	movzb	6(r8), r2
+	mov	6(r8).u8, r2
 	movq	=0xe9, r6
 	cbne	r2, r6, f476
 	movq	#-60, r3
-	movb	r3, 5(r8)
+	mov	r3, 5(r8).8
 	lea	buf, r8
 	movq	=0x88, r1
-	movb	r1, 6(r8)
-	movzb	5(r8), r2
+	mov	r1, 6(r8).8
+	mov	5(r8).u8, r2
 	movq	=0xc4, r6
 	cbne	r2, r6, f477
-	movzb	6(r8), r2
+	mov	6(r8).u8, r2
 	movq	=0x88, r6
 	cbne	r2, r6, f478
-	movzb	7(r8), r2
+	mov	7(r8).u8, r2
 	movq	=0xe, r6
 	cbne	r2, r6, f479
 	movq	#-23, r3
-	movb	r3, 6(r8)
+	mov	r3, 6(r8).8
 	lea	buf, r8
 	movq	=0x88, r1
-	movb	r1, 7(r8)
-	movzb	6(r8), r2
+	mov	r1, 7(r8).8
+	mov	6(r8).u8, r2
 	movq	=0xe9, r6
 	cbne	r2, r6, f480
-	movzb	7(r8), r2
+	mov	7(r8).u8, r2
 	movq	=0x88, r6
 	cbne	r2, r6, f481
-	movzb	8(r8), r2
+	mov	8(r8).u8, r2
 	movq	=0x33, r6
 	cbne	r2, r6, f482
 	movq	#14, r3
-	movb	r3, 7(r8)
+	mov	r3, 7(r8).8
 	lea	buf, r8
 	movq	=0x88, r1
-	movb	r1, 4089(r8)
-	movzb	4088(r8), r2
+	mov	r1, 4089(r8).8
+	mov	4088(r8).u8, r2
 	movq	=0xe3, r6
 	cbne	r2, r6, f483
-	movzb	4089(r8), r2
+	mov	4089(r8).u8, r2
 	movq	=0x88, r6
 	cbne	r2, r6, f484
-	movzb	4090(r8), r2
+	mov	4090(r8).u8, r2
 	movq	=0x2d, r6
 	cbne	r2, r6, f485
 	movq	#8, r3
-	movb	r3, 4089(r8)
+	mov	r3, 4089(r8).8
 	lea	buf, r8
 	movq	=0x88, r1
-	movb	r1, 4090(r8)
-	movzb	4089(r8), r2
+	mov	r1, 4090(r8).8
+	mov	4089(r8).u8, r2
 	movq	=0x8, r6
 	cbne	r2, r6, f486
-	movzb	4090(r8), r2
+	mov	4090(r8).u8, r2
 	movq	=0x88, r6
 	cbne	r2, r6, f487
-	movzb	4091(r8), r2
+	mov	4091(r8).u8, r2
 	movq	=0x52, r6
 	cbne	r2, r6, f488
 	movq	#45, r3
-	movb	r3, 4090(r8)
+	mov	r3, 4090(r8).8
 	lea	buf, r8
 	movq	=0x88, r1
-	movb	r1, 4091(r8)
-	movzb	4090(r8), r2
+	mov	r1, 4091(r8).8
+	mov	4090(r8).u8, r2
 	movq	=0x2d, r6
 	cbne	r2, r6, f489
-	movzb	4091(r8), r2
+	mov	4091(r8).u8, r2
 	movq	=0x88, r6
 	cbne	r2, r6, f490
-	movzb	4092(r8), r2
+	mov	4092(r8).u8, r2
 	movq	=0x77, r6
 	cbne	r2, r6, f491
 	movq	#82, r3
-	movb	r3, 4091(r8)
+	mov	r3, 4091(r8).8
 	lea	buf, r8
 	movq	=0x88, r1
-	movb	r1, 4092(r8)
-	movzb	4091(r8), r2
+	mov	r1, 4092(r8).8
+	mov	4091(r8).u8, r2
 	movq	=0x52, r6
 	cbne	r2, r6, f492
-	movzb	4092(r8), r2
+	mov	4092(r8).u8, r2
 	movq	=0x88, r6
 	cbne	r2, r6, f493
-	movzb	4093(r8), r2
+	mov	4093(r8).u8, r2
 	movq	=0x9c, r6
 	cbne	r2, r6, f494
 	movq	#119, r3
-	movb	r3, 4092(r8)
+	mov	r3, 4092(r8).8
 	lea	buf, r8
 	movq	=0x88, r1
-	movb	r1, 4093(r8)
-	movzb	4092(r8), r2
+	mov	r1, 4093(r8).8
+	mov	4092(r8).u8, r2
 	movq	=0x77, r6
 	cbne	r2, r6, f495
-	movzb	4093(r8), r2
+	mov	4093(r8).u8, r2
 	movq	=0x88, r6
 	cbne	r2, r6, f496
-	movzb	4094(r8), r2
+	mov	4094(r8).u8, r2
 	movq	=0xc1, r6
 	cbne	r2, r6, f497
 	movq	#-100, r3
-	movb	r3, 4093(r8)
+	mov	r3, 4093(r8).8
 	lea	buf, r8
 	movq	=0x88, r1
-	movb	r1, 4094(r8)
-	movzb	4093(r8), r2
+	mov	r1, 4094(r8).8
+	mov	4093(r8).u8, r2
 	movq	=0x9c, r6
 	cbne	r2, r6, f498
-	movzb	4094(r8), r2
+	mov	4094(r8).u8, r2
 	movq	=0x88, r6
 	cbne	r2, r6, f499
-	movzb	4095(r8), r2
+	mov	4095(r8).u8, r2
 	movq	=0xe6, r6
 	cbne	r2, r6, f500
 	movq	#-63, r3
-	movb	r3, 4094(r8)
+	mov	r3, 4094(r8).8
 	lea	buf, r8
 	movq	=0x88, r1
-	movb	r1, 4095(r8)
-	movzb	4094(r8), r2
+	mov	r1, 4095(r8).8
+	mov	4094(r8).u8, r2
 	movq	=0xc1, r6
 	cbne	r2, r6, f501
-	movzb	4095(r8), r2
+	mov	4095(r8).u8, r2
 	movq	=0x88, r6
 	cbne	r2, r6, f502
-	movzb	4096(r8), r2
+	mov	4096(r8).u8, r2
 	movq	=0xb, r6
 	cbne	r2, r6, f503
 	movq	#-26, r3
-	movb	r3, 4095(r8)
+	mov	r3, 4095(r8).8
 	lea	buf, r8
 	movq	=0x88, r1
-	movb	r1, 4095(r8)
-	movzb	4094(r8), r2
+	mov	r1, 4095(r8).8
+	mov	4094(r8).u8, r2
 	movq	=0xc1, r6
 	cbne	r2, r6, f504
-	movzb	4095(r8), r2
+	mov	4095(r8).u8, r2
 	movq	=0x88, r6
 	cbne	r2, r6, f505
-	movzb	4096(r8), r2
+	mov	4096(r8).u8, r2
 	movq	=0xb, r6
 	cbne	r2, r6, f506
 	movq	#-26, r3
-	movb	r3, 4095(r8)
+	mov	r3, 4095(r8).8
 	lea	buf+4100, r8
 	movq	=0x0102030405060708, r1
 	movq	r1, -(r8)
 	lea	buf+4092, r5
 	cbne	r8, r5, f507
-	movzb	0(r8), r2
+	mov	0(r8).u8, r2
 	movq	=0x8, r6
 	cbne	r2, r6, f508
-	movzb	1(r8), r2
+	mov	1(r8).u8, r2
 	movq	=0x7, r6
 	cbne	r2, r6, f509
-	movzb	2(r8), r2
+	mov	2(r8).u8, r2
 	movq	=0x6, r6
 	cbne	r2, r6, f510
-	movzb	3(r8), r2
+	mov	3(r8).u8, r2
 	movq	=0x5, r6
 	cbne	r2, r6, f511
-	movzb	4(r8), r2
+	mov	4(r8).u8, r2
 	movq	=0x4, r6
 	cbne	r2, r6, f512
-	movzb	5(r8), r2
+	mov	5(r8).u8, r2
 	movq	=0x3, r6
 	cbne	r2, r6, f513
-	movzb	6(r8), r2
+	mov	6(r8).u8, r2
 	movq	=0x2, r6
 	cbne	r2, r6, f514
-	movzb	7(r8), r2
+	mov	7(r8).u8, r2
 	movq	=0x1, r6
 	cbne	r2, r6, f515
 	lea	buf+4093, r8

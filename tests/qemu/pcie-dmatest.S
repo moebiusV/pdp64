@@ -21,7 +21,7 @@ _start:
 2:	movq	r5, r6
 	shl	#15, r6
 	add	r13, r6
-	movzl	(r6), r1
+	mov	(r6).u32, r1
 	cbeq r1, r4, 1f
 	add	#1, r5
 	cblo r5, #32, 2b
@@ -33,28 +33,28 @@ _start:
 1:	movq	r6, r13			; r13: the function's configuration space
 	; (2) the base address register: the low dword reads back the size mask and the type bits (64-bit memory), the high dword all ones
 	movq	#-1, r1
-	movl	r1, 16(r13)
-	movzl	16(r13), r1
+	mov	r1, 16(r13).32
+	mov	16(r13).u32, r1
 	movq	=0xffffe004, r2
 	cbeq r1, r2, 1f
 	movq	#3, r0
 	halt
-1:	movl	r12, 20(r13)
-	movzl	20(r13), r1
+1:	mov	r12, 20(r13).32
+	mov	20(r13).u32, r1
 	cbeq r1, r12, 1f
 	movq	#4, r0
 	halt
 1:	movq	=MAP_PCIE_MMIO, r1	; the address: the low dword (the type bits stay), then the high dword
-	movl	r1, 16(r13)
+	mov	r1, 16(r13).32
 	shr	#32, r1
-	movl	r1, 20(r13)
+	mov	r1, 20(r13).32
 	movq	#6, r1			; memory space and bus master
-	movw	r1, 4(r13)
-	movzl	16(r13), r1
+	mov	r1, 4(r13).16
+	mov	16(r13).u32, r1
 	cbeq r1, #4, 1f
 	movq	#5, r0
 	halt
-1:	movzl	20(r13), r1
+1:	mov	20(r13).u32, r1
 	cbeq r1, #(MAP_PCIE_MMIO>>32), 1f
 	movq	#6, r0
 	halt

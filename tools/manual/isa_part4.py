@@ -64,13 +64,7 @@ else Rd <- t''', 'None written.', 'Aborts with the `CHECK` vector on signed over
       'The `CHECK` trap (vector 16), unless the value is in the half-open range.',
       notes='The two-bound check, for an index whose lower bound is not zero (the Pascal and Ada subscript, a slice, `for i in lo..hi`). Signed, half-open (`Rlo <= Rs < Rhi`, as pcc\'s `__builtin_chk2` means); the bounds are registers. The record in `__bug_table` is as for `CT`.',
       cf='docs/encoding-work/check-instructions.md.'),
-    # ---- user-qualified moves
-    X('MOVUSER', 'moves', ['movq.u', 'movl.u', 'movw.u', 'movb.u', 'movzl.u', 'movzw.u', 'movzb.u'], 'User-qualified load and store', ['MOVQ.U d(Rn), Rd', 'MOVQ.U Rs, d(Rn)', 'MOVL.U ..., MOVW.U ..., MOVB.U ...', 'MOVZL.U ..., MOVZW.U ..., MOVZB.U ...    ; loads only'],
-      '''the access of MOVQ, MOVL, MOVW, MOVB and MOVZ* with the operand checked as a user-mode access:
-the page must be present, have U = 1, and permit R (a load) or W (a store); a kernel page takes the protection abort''', NOFLAGS,
-      'The faults of the access, as a user-mode access. In user mode the encoding is a privileged-instruction abort.',
-      notes='Item 18 of `docs/study-proposals.md`: user access is an attribute of one memory operand, so it cannot outlive the instruction, cannot leak across an interrupt, and `RTI` re-executes the instruction with the attribute. I accepted four of the five leanings: a fixup table in place of `pcb_onfault`, the `.U` spelling, `ECAUSE` bit 15 to say that the access was user-qualified, and the atomics taking the user form once the operand placement of `ATOM` is fixed; the fifth, keeping a status bit and two instructions beside `.U`, is gone, because one mechanism that cannot be left open is enough. A kernel-mode data access to a user page that is not `.U` is always a protection fault.',
-      cf='{{r:user-memory-guard-and-system-calls}} (the user-memory guard), docs/study-proposals.md item 18.'),
+    # ---- user-qualified moves: the entry MOV
     X('MCPYU', 'block', ['mcpy.ur', 'mcpy.uw'], 'User-qualified block copy', ['MCPY.UR Rd, Rs, Rn      ; the bytes read are user memory (copy-in)', 'MCPY.UW Rd, Rs, Rn      ; the bytes written are user memory (copy-out)'],
       '''as MCPY, with the accesses of one side checked as user-mode accesses:
 MCPY.UR: each byte is read with the privilege of user mode (the page must be present, have U = 1 and permit R) and written as any kernel access is

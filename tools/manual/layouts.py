@@ -170,6 +170,20 @@ def shape_describe(s):
     return k
 
 
+def _shown(mn):
+    """a word of the encoding as the assembly language writes it: the operation and its marks (tools/marks.py reads the rows of spec/grammars.d/61-asm-marks.hbnf)"""
+    import marks
+    r = marks.rows().get(mn)
+    if not r or not r[1] and mn == r[0]: return '`%s`' % mn
+    spec = r[1]
+    if not spec: return '`%s`' % (r[0] if mn != 'movq' else mn)
+    tag = {'m': lambda x: x[1:] if x[0] != 'u' else 'u' + x[2:]}.get(spec[0], lambda x: x[1:])(spec) if spec[0] != 'c' else '%s to %s' % tuple(spec[2:].split(':'))
+    if spec[0] != 'c': return '`%s` with the mark `.%s`' % (r[0], tag)
+    a, b = spec[2:].split(':')
+    t = lambda x: 'no mark' if x == 'i' else '`.%s`' % x
+    return '`%s` with %s on the source and %s on the destination' % (r[0], t(a), t(b))
+
+
 class Enc:
     """The encoding: its charts, built from the grammar."""
 
@@ -244,7 +258,7 @@ class Enc:
             leg.append('`op%d` is `%s`: %s.' % (i + 1, sh, shape_describe(f['specs'][i])))
         if lf['subbits']:
             nb = len(lf['subbits'])
-            leg.append('`sub` (%d bit%s) selects the mnemonic: ' % (nb, '' if nb == 1 else 's') + ', '.join('`%s` %s' % (mn, format(j, '0%db' % nb)) for j, mn in enumerate(lf['mns'])) + '.')
+            leg.append('`sub` (%d bit%s) selects the mnemonic: ' % (nb, '' if nb == 1 else 's') + ', '.join('%s %s' % (_shown(mn), format(j, '0%db' % nb)) for j, mn in enumerate(lf['mns'])) + '.')
         elif any(x[3] == ('xsub',) for x in items):
             leg.append('`xsub` selects the mnemonic.')
         return dict(id=cid, kind='enc', rows=rows, legend=leg, form=f['name'], L=L, prefix=format(lf['prefix'], '0%db' % L), parcels=f['n'],

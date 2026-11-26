@@ -13,6 +13,9 @@ What it proves, at every strip (sim64 -S 16, 32, 64: vec-2d.strips) and on QEMU:
 The window pages are made present by touching them (the handler maps and fills them with the function fb(a) = (5a + (a >> 7)) & 255 of their address), except the one page that
 faults, which begins at the element of the faulting stream that the scenario names.
 usage: gen_vec_2d.py OUT.S"""
+import sys as _sys, os as _os
+_sys.path.insert(0, _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..', '..', 'tools'))
+import marks		# the words of the encoding written with width marks (tools/marks.py)
 import sys
 
 WIN = 0x800000
@@ -389,5 +392,5 @@ for i in range(512):
         w('\t.quad\t%d + (1<<PTE_V|1<<PTE_R|1<<PTE_W|1<<PTE_X|1<<PTE_A|1<<PTE_D)' % (i << 21))
 w('\t.align\t4096')
 w('wpt:\t.space\t%d' % (NW * 4096))
-open(sys.argv[1], 'w').write('\n'.join(O) + '\n')
+open(sys.argv[1], 'w').write(marks.spell_text('\n'.join(O)) + '\n')
 print('%d cases' % len(cases))

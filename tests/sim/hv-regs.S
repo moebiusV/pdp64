@@ -3,7 +3,7 @@
 	.text
 	.globl	_start
 _start:
-	; --- the reset values
+		; --- the reset values
 	mfsr	r2, htrap
 	movq	=((1<<HTRAP_WFE)|(1<<HTRAP_SEV)), r11
 	cbeq	r2, r11, 1f
@@ -203,7 +203,7 @@ _start:
 	lea	htab+8*VECTOR_ILLEGAL, r2
 	movq	r3, (r2)
 	movq	r14, r12			; the hypervisor's stack pointer, to be unchanged by the guest's banks below
-	; --- write and read back: the widths
+		; --- write and read back: the widths
 	movq	=0xff7fff, r2
 	mtsr	htrap, r2
 	mfsr	r3, htrap
@@ -396,7 +396,7 @@ _start:
 	movq	#56, r0
 	halt
 1:
-	; --- the aliases: GEVA and GECAUSE write what EVA and ECAUSE read (those are read only)
+		; --- the aliases: GEVA and GECAUSE write what EVA and ECAUSE read (those are read only)
 	mfsr	r3, eva
 	movq	=(0x1111222233334444), r11
 	cbeq	r3, r11, 1f
@@ -409,7 +409,7 @@ _start:
 	movq	#58, r0
 	halt
 1:
-	; --- the banks of the guest: independent of one another, of USP and SSP, and of the hypervisor's own R14 and DP
+		; --- the banks of the guest: independent of one another, of USP and SSP, and of the hypervisor's own R14 and DP
 	movq	=0xbbbb000000000005, r2
 	mtsr	usp, r2
 	movq	=0xbbbb000000000006, r2
@@ -483,16 +483,16 @@ _start:
 	movq	#0, r2
 	mtdp	r2
 	lea	htab, r1
-	mtsr	hvbr, r1			; the round trip wrote HVBR: back to the table
-	; --- the read-only registers refuse a write (illegal instruction at H = 1), the registers are unchanged
+	mtsr	hvbr, r1						; the round trip wrote HVBR: back to the table
+		; --- the read-only registers refuse a write (illegal instruction at H = 1), the registers are unchanged
 	lea	ubuf, r15
-	movzw	retw, r2
-	movw	r2, 4(r15)
+	mov	retw.u16, r2
+	mov	r2, 4(r15).16
 	movq	=0x7777, r2
-	movl	tmplw, r2
+	mov	tmplw.32, r2
 	movq	=(129<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
@@ -511,10 +511,10 @@ _start:
 	movq	#72, r0
 	halt
 1:
-	movl	tmplw, r2
+	mov	tmplw.32, r2
 	movq	=(132<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
@@ -533,10 +533,10 @@ _start:
 	movq	#75, r0
 	halt
 1:
-	movl	tmplw, r2
+	mov	tmplw.32, r2
 	movq	=(133<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
@@ -555,10 +555,10 @@ _start:
 	movq	#78, r0
 	halt
 1:
-	movl	tmplw, r2
+	mov	tmplw.32, r2
 	movq	=(134<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
@@ -577,10 +577,10 @@ _start:
 	movq	#81, r0
 	halt
 1:
-	movl	tmplw, r2
+	mov	tmplw.32, r2
 	movq	=(135<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
@@ -599,10 +599,10 @@ _start:
 	movq	#84, r0
 	halt
 1:
-	movl	tmplw, r2
+	mov	tmplw.32, r2
 	movq	=(12<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
@@ -621,10 +621,10 @@ _start:
 	movq	#87, r0
 	halt
 1:
-	movl	tmplw, r2
+	mov	tmplw.32, r2
 	movq	=(2<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
@@ -643,10 +643,10 @@ _start:
 	movq	#90, r0
 	halt
 1:
-	movl	tmplw, r2
+	mov	tmplw.32, r2
 	movq	=(3<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
@@ -685,13 +685,13 @@ _start:
 	movq	#96, r0
 	halt
 1:
-	; --- a one in a reserved bit of HTRAP is an illegal instruction, and nothing is written
+		; --- a one in a reserved bit of HTRAP is an illegal instruction, and nothing is written
 	movq	#3, r2
 	mtsr	htrap, r2
 	movq	=(3|(1<<15)), r2
 	movq	#0, r10
 	lea	R2, r4
-I1:	mtsr	htrap, r2			; bit 15 of HTRAP is reserved
+I1:	mtsr	htrap, r2						; bit 15 of HTRAP is reserved
 R2:
 	movq	=(1), r11
 	cbeq	r10, r11, 1f
@@ -722,7 +722,7 @@ R2:
 	movq	=(3|(1<<24)), r2
 	movq	#0, r10
 	lea	R4, r4
-I3:	mtsr	htrap, r2			; bit 24 of HTRAP is reserved
+I3:	mtsr	htrap, r2						; bit 24 of HTRAP is reserved
 R4:
 	movq	=(1), r11
 	cbeq	r10, r11, 1f
@@ -753,7 +753,7 @@ R4:
 	movq	=(3|(1<<40)), r2
 	movq	#0, r10
 	lea	R6, r4
-I5:	mtsr	htrap, r2			; bit 40 of HTRAP is reserved
+I5:	mtsr	htrap, r2						; bit 40 of HTRAP is reserved
 R6:
 	movq	=(1), r11
 	cbeq	r10, r11, 1f
@@ -784,7 +784,7 @@ R6:
 	movq	=(3|0x8000000000000000), r2
 	movq	#0, r10
 	lea	R8, r4
-I7:	mtsr	htrap, r2			; bit 63 of HTRAP is reserved
+I7:	mtsr	htrap, r2						; bit 63 of HTRAP is reserved
 R8:
 	movq	=(1), r11
 	cbeq	r10, r11, 1f
@@ -812,11 +812,11 @@ R8:
 	movq	#116, r0
 	halt
 1:
-	; --- an unassigned number is an illegal instruction at H = 1 as well (4, 5, 13 and 127 below the block, 148 and 255 above it); MFSR and MTSR
-	movl	tmplr, r2
+		; --- an unassigned number is an illegal instruction at H = 1 as well (4, 5, 13 and 127 below the block, 148 and 255 above it); MFSR and MTSR
+	mov	tmplr.32, r2
 	movq	=(4<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
@@ -835,10 +835,10 @@ R8:
 	movq	#119, r0
 	halt
 1:
-	movl	tmplw, r2
+	mov	tmplw.32, r2
 	movq	=(4<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
@@ -857,10 +857,10 @@ R8:
 	movq	#122, r0
 	halt
 1:
-	movl	tmplr, r2
+	mov	tmplr.32, r2
 	movq	=(5<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
@@ -879,10 +879,10 @@ R8:
 	movq	#125, r0
 	halt
 1:
-	movl	tmplw, r2
+	mov	tmplw.32, r2
 	movq	=(5<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
@@ -901,10 +901,10 @@ R8:
 	movq	#128, r0
 	halt
 1:
-	movl	tmplr, r2
+	mov	tmplr.32, r2
 	movq	=(13<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
@@ -923,10 +923,10 @@ R8:
 	movq	#131, r0
 	halt
 1:
-	movl	tmplw, r2
+	mov	tmplw.32, r2
 	movq	=(13<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
@@ -945,10 +945,10 @@ R8:
 	movq	#134, r0
 	halt
 1:
-	movl	tmplr, r2
+	mov	tmplr.32, r2
 	movq	=(127<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
@@ -967,10 +967,10 @@ R8:
 	movq	#137, r0
 	halt
 1:
-	movl	tmplw, r2
+	mov	tmplw.32, r2
 	movq	=(127<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
@@ -989,10 +989,10 @@ R8:
 	movq	#140, r0
 	halt
 1:
-	movl	tmplr, r2
+	mov	tmplr.32, r2
 	movq	=(148<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
@@ -1011,10 +1011,10 @@ R8:
 	movq	#143, r0
 	halt
 1:
-	movl	tmplw, r2
+	mov	tmplw.32, r2
 	movq	=(148<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
@@ -1033,10 +1033,10 @@ R8:
 	movq	#146, r0
 	halt
 1:
-	movl	tmplr, r2
+	mov	tmplr.32, r2
 	movq	=(255<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
@@ -1055,10 +1055,10 @@ R8:
 	movq	#149, r0
 	halt
 1:
-	movl	tmplw, r2
+	mov	tmplw.32, r2
 	movq	=(255<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
@@ -1077,7 +1077,7 @@ R8:
 	movq	#152, r0
 	halt
 1:
-	; --- the exception of the hypervisor itself writes HEPC, HEPSW, HEVA, HCAUSE and HEXITR (code 0) and not the guest's EPC, EPSW, EVA, ECAUSE
+		; --- the exception of the hypervisor itself writes HEPC, HEPSW, HEVA, HCAUSE and HEXITR (code 0) and not the guest's EPC, EPSW, EVA, ECAUSE
 	movq	=0x13572468, r2
 	mtsr	epc, r2
 	movq	=0x0ab0, r2
@@ -1086,10 +1086,10 @@ R8:
 	mtsr	geva, r2
 	movq	=0x99, r2
 	mtsr	gecause, r2
-	movl	tmplw, r2
+	mov	tmplw.32, r2
 	movq	=(129<<16), r3
 	bis	r3, r2
-	movl	r2, (r15)
+	mov	r2, (r15).32
 	movq	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
@@ -1151,7 +1151,7 @@ R8:
 	movq	#162, r0
 	halt
 1:
-	; --- PUSHX and POPX at H = 1 use HEPC and HEPSW, and the guest's EPC and EPSW are not touched
+		; --- PUSHX and POPX at H = 1 use HEPC and HEPSW, and the guest's EPC and EPSW are not touched
 	movq	=0x1111aaaa, r2
 	mtsr	hepc, r2
 	movq	=0x0550, r2

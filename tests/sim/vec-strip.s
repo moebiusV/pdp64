@@ -64,8 +64,8 @@ _start:
 	lea	E5, r2
 	movq	#4000, r4
 c5:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c5
 	movq	#6, r9
@@ -162,8 +162,8 @@ c5:
 	lea	E13, r2
 	movq	#4000, r4
 c13:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c13
 	movq	#14, r9
@@ -182,8 +182,8 @@ c13:
 	lea	E14, r2
 	movq	#4000, r4
 c14:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c14
 	movq	#15, r9
@@ -200,8 +200,8 @@ c14:
 	lea	E15, r2
 	movq	#666, r4
 c15:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c15
 	movq	#16, r9
@@ -218,8 +218,8 @@ c15:
 	lea	E16, r2
 	movq	#2000, r4
 c16:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c16
 	movq	#17, r9
@@ -234,8 +234,8 @@ c16:
 	lea	E17, r2
 	movq	#666, r4
 c17:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c17
 	movq	#18, r9
@@ -252,8 +252,8 @@ c17:
 	lea	E18, r2
 	movq	#1000, r4
 c18:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c18
 	movq	#19, r9
@@ -273,8 +273,8 @@ c18:
 	lea	E19, r2
 	movq	#4000, r4
 c19:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c19
 	movq	#20, r9
@@ -289,8 +289,8 @@ c19:
 	lea	E20, r2
 	movq	#1000, r4
 c20:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c20
 	movq	#21, r9
@@ -307,8 +307,8 @@ c20:
 	lea	E21, r2
 	movq	#4000, r4
 c21:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c21
 	movq	#22, r9
@@ -379,8 +379,8 @@ c21:
 	lea	E23, r2
 	movq	#256, r4
 c23:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c23
 	movq	#0, r0

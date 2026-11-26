@@ -19,7 +19,7 @@ _start:
 	lea	wsrc, r1
 	movq	#21, r2
 	movq	#0, r6
-1:	movzw	(r1)+, r3
+1:	mov	(r1)+.u16, r3
 	add	r3, r6
 	sob	r2, 1b
 	cbeq	r12, r6, ok

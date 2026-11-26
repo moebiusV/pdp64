@@ -7,34 +7,34 @@
 ; ---- enumeration: the first test function (device 2) gets its window at MAP_PCIE_MMIO, memory space and bus mastering on ----
 lib_pci_up:
 	movq	=(MAP_PCIE_ECAM+(2<<15)), r13
-	movzl	(r13), r1
+	mov	(r13).u32, r1
 	movq	=((DMATEST_ID_DEVICE<<16)|DMATEST_ID_VENDOR), r2
 	cbeq r1, r2, 1f
 	movq	#101, r0
 	halt
 1:	movq	=MAP_PCIE_MMIO, r1
-	movl	r1, 16(r13)
+	mov	r1, 16(r13).32
 	shr	#32, r1
-	movl	r1, 20(r13)
+	mov	r1, 20(r13).32
 	movq	#6, r1
-	movw	r1, 4(r13)
+	mov	r1, 4(r13).16
 	movq	=MAP_PCIE_MMIO, r12
 	movq	=MAP_IOMMU, r11
 	ret
 ; the second function (device 3): its window is 64 KiB above; r22 is its window
 lib_pci_up2:
 	movq	=(MAP_PCIE_ECAM+(3<<15)), r1
-	movzl	(r1), r2
+	mov	(r1).u32, r2
 	movq	=((DMATEST_ID_DEVICE<<16)|DMATEST_ID_VENDOR), r3
 	cbeq r2, r3, 1f
 	movq	#102, r0
 	halt
 1:	movq	=(MAP_PCIE_MMIO+0x10000), r2
-	movl	r2, 16(r1)
+	mov	r2, 16(r1).32
 	shr	#32, r2
-	movl	r2, 20(r1)
+	mov	r2, 20(r1).32
 	movq	#6, r2
-	movw	r2, 4(r1)
+	mov	r2, 4(r1).16
 	movq	=(MAP_PCIE_MMIO+0x10000), r22
 	ret
 lib_swap12:

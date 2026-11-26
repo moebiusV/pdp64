@@ -308,7 +308,7 @@ T3a:
 1:
 	mfsr	r22, hinsn
 	shr	#16, r22
-	movzw	g3li, r23
+	mov	g3li.u16, r23
 	cbeq	r22, r23, 1f
 	movq	#22, r0
 	halt
@@ -383,7 +383,7 @@ T3b:
 1:
 	mfsr	r22, hinsn
 	shr	#16, r22
-	movzw	g3si, r23
+	mov	g3si.u16, r23
 	cbeq	r22, r23, 1f
 	movq	#31, r0
 	halt
@@ -526,7 +526,7 @@ T4a:
 1:
 	mfsr	r22, hinsn
 	shr	#16, r22
-	movzw	g4ai, r23
+	mov	g4ai.u16, r23
 	cbeq	r22, r23, 1f
 	movq	#47, r0
 	halt
@@ -597,7 +597,7 @@ T4b:
 1:
 	mfsr	r22, hinsn
 	shr	#16, r22
-	movzw	g4ds, r23
+	mov	g4ds.u16, r23
 	cbeq	r22, r23, 1f
 	movq	#55, r0
 	halt
@@ -672,7 +672,7 @@ T4c:
 1:
 	mfsr	r22, hinsn
 	shr	#16, r22
-	movzw	g4ui, r23
+	mov	g4ui.u16, r23
 	cbeq	r22, r23, 1f
 	movq	#64, r0
 	halt
@@ -746,7 +746,7 @@ T5a:
 1:
 	mfsr	r22, hinsn
 	shr	#16, r22
-	movzw	g5i, r23
+	mov	g5i.u16, r23
 	cbeq	r22, r23, 1f
 	movq	#71, r0
 	halt
@@ -823,7 +823,7 @@ T6a:
 1:
 	mfsr	r22, hinsn
 	shr	#16, r22
-	movzw	g6, r23
+	mov	g6.u16, r23
 	cbeq	r22, r23, 1f
 	movq	#79, r0
 	halt
@@ -1012,7 +1012,7 @@ T7a:
 1:
 	mfsr	r22, hinsn
 	shr	#16, r22
-	movzw	g7ri, r23
+	mov	g7ri.u16, r23
 	cbeq	r22, r23, 1f
 	movq	#101, r0
 	halt
@@ -1061,7 +1061,7 @@ T7b:
 1:
 	mfsr	r22, hinsn
 	shr	#16, r22
-	movzw	g7wi, r23
+	mov	g7wi.u16, r23
 	cbeq	r22, r23, 1f
 	movq	#107, r0
 	halt

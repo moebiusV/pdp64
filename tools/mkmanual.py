@@ -134,6 +134,37 @@ def mnemonics():
 MN_BASE = mnemonics()                               # the words of spec/grammars.d
 MN = MN_BASE                                        # the words of the manual (build() sets it)
 CH = None                                           # its charts (class Charts)
+import marks as MK                                  # the rows of spec/grammars.d/61-asm-marks.hbnf: the words of the encoding that the assembly language writes with width marks
+MARKROWS = MK.rows()
+INTERNAL = set(MK.words()) - {'movq'}               # the words that are not words of the assembly language
+SURFACE = ('mov', 'mov.u', 'fcvt')                  # the words the operations are written with, for which the encoding has none
+
+
+def spec_tag(spec):
+    """the marks of a row, in words: `.8`, `.u16`, `.64 to .32`"""
+    if not spec: return 'no mark'
+    k = spec[0]
+    if k == 'm': return '`.%s`' % spec[1:] if spec[1] != 'u' else '`.u%s`' % spec[2:]
+    if k in 'sf': return '`.%s`' % spec[1:]
+    a, b = spec[2:].split(':')
+    t = lambda x: 'no mark' if x == 'i' else '`.%s`' % x
+    return 'source %s and destination %s' % (t(a), t(b))
+
+
+def wlabel(n):
+    """how a word of the encoding is shown in the headings of its layouts: the operation and its marks"""
+    r = MARKROWS.get(n)
+    if not r: return n.upper()
+    return '%s with %s' % (r[0].upper(), spec_tag(r[1])) if r[1] else r[0].upper() + (' (no mark)' if n == 'movq' else '')
+
+
+def disp_words(names):
+    """the words of the assembly language that stand for these words of the encoding, once each, in order"""
+    out = []
+    for n in names:
+        w = MARKROWS[n][0].upper() if n in MARKROWS else n.upper()
+        if w not in out: out.append(w)
+    return out
 EXECTEXT = open(EXEC).read()
 EXECENC = open(os.path.join(ROOT, 'common', 'pdp64exec_enc.inc')).read()
 ENC_IMPL = set(re.findall(r'\{ "([a-z0-9_.]+)", H_(?!UNIMPL)', EXECENC))       # the words the prefix-coded front end of the executor has a case for
@@ -315,15 +346,15 @@ def words_section(e, real):
     if len(real) == 1:
         for a in names:
             if MN[a]['alias_of']:
-                out += ['<a id="w-%s"></a>' % wslug(a), '**`%s`** is an alias of `%s`: the assembler writes it as that word.' % (a.upper(), MN[a]['alias_of'].upper()), '']
+                out += ['<a id="w-%s"></a>' % wslug(a), '**`%s`** is an alias of `%s`: the assembler writes it as that word.' % (wlabel(a), wlabel(MN[a]['alias_of'])), '']
         return out
     for n in names:
         out.append('<a id="w-%s"></a>' % wslug(n))
         if MN[n]['alias_of']:
-            out += ['#### %s' % n.upper(), '', 'An alias of [`%s`](#w-%s): the assembler writes it as that word.' % (MN[n]['alias_of'].upper(), wslug(MN[n]['alias_of'])), '']
+            out += ['#### %s' % wlabel(n), '', 'An alias of [`%s`](#w-%s): the assembler writes it as that word.' % (wlabel(MN[n]['alias_of']), wslug(MN[n]['alias_of'])), '']
             continue
-        syn = [l.split(';')[0].rstrip() for l in e['syntax'] if re.match(r'\s*%s\b' % re.escape(n.upper()), l)]
-        out += ['#### %s' % n.upper(), ''] + forms_block(n)
+        syn = [l.split(';')[0].rstrip() for l in e['syntax'] if re.match(r'\s*%s\b' % re.escape(n.upper()), l)] if n not in MARKROWS else []
+        out += ['#### %s' % wlabel(n), ''] + forms_block(n)
         if syn:
             out += ['```', uni('\n'.join(syn)), '```', '']
         out += ['Operation and exceptions as for the entry %s above; %d layout form%s, each a chart of its own (above).' % (e['id'], len(WORDCH[n]), '' if len(WORDCH[n]) == 1 else 's'), '']
@@ -333,14 +364,14 @@ def words_section(e, real):
 def render_entry(e):
     names = e['names']
     real = [n for n in names if not MN[n]['alias_of']]
-    heads = ', '.join('`%s`' % n.upper() for n in names if e.get('alias') or not MN[n]['alias_of'])
+    heads = ', '.join('`%s`' % w for w in disp_words([n for n in names if e.get('alias') or not MN[n]['alias_of']]))
     out = []
     if len(real) == 1 or e.get('alias'):
         out += ['<a id="w-%s"></a>' % wslug(n) for n in names]
     out += ['### %s: %s' % (e['id'], e['title']), '']
     if len(real) == 1 and not e.get('alias'):
         out += forms_block(real[0])
-    out.append('**Mnemonics:** ' + heads + (('  (aliases: ' + ', '.join('`%s`' % n.upper() for n in names if MN[n]['alias_of']) + ')') if not e.get('alias') and any(MN[n]['alias_of'] for n in names) else ''))
+    out.append('**Mnemonics:** ' + heads + (('  (aliases: ' + ', '.join('`%s`' % w for w in disp_words([n for n in names if MN[n]['alias_of']])) + ')') if not e.get('alias') and any(MN[n]['alias_of'] for n in names) else ''))
     out.append('')
     if e.get('alias'):
         out.append('**Alias** *(D)* ' + e['alias'])
@@ -478,18 +509,18 @@ def constants_page():
 
 
 HOME = {}
-for _i in 'MOV MOVZ LEA'.split(): HOME[_i] = ('09-isa.md', 'moves-conversions-and-address-formation')
+for _i in 'MOV LEA'.split(): HOME[_i] = ('09-isa.md', 'moves-conversions-and-address-formation')
 for _i in 'ADD SUB MUL MULH ADDM INC DEC NEG DIV MULHU ABS MINMAX SETCC'.split(): HOME[_i] = ('09-isa.md', 'integer-arithmetic')
 for _i in 'BIC BIS XOR AND SHIFT CLR COM ASL ASR'.split(): HOME[_i] = ('09-isa.md', 'logic-shifts-and-rotates')
-for _i in 'COUNT POPCNT BSWAP BITREV ROR ROR32 DSHR EXTB INSB XNORPOP CLMUL UTF8LEN UTF8DEC UTF8ENC'.split(): HOME[_i] = ('09-isa.md', 'bits-bytes-and-text')
+for _i in 'COUNT POPCNT BSWAP BITREV ROR DSHR EXTB INSB XNORPOP CLMUL UTF8LEN UTF8DEC UTF8ENC'.split(): HOME[_i] = ('09-isa.md', 'bits-bytes-and-text')
 for _i in 'BR SOB CBCC FCBCC BTAG JMP CALL JMPI JTAG'.split(): HOME[_i] = ('09-isa.md', 'branches-and-control-flow')
 for _i in 'PUSH POP PUSHM POPM MCPY MSET MCMP MSCN MVAL'.split(): HOME[_i] = ('09-isa.md', 'stack-and-block-operations')
-for _i in 'FADD FDIV FSINGLE FMADD FMADD32 FSIGN FMIN FCLASS FRINT FCVT FSFLAGS FCVTH'.split(): HOME[_i] = ('09-isa.md', 'floating-point')
+for _i in 'FADD FDIV FSINGLE FMADD FMADD32 FSIGN FMIN FCLASS FRINT FCVT FSFLAGS'.split(): HOME[_i] = ('09-isa.md', 'floating-point')
 for _i in 'CAS SWAP AADD AAND AMAX LLSC'.split(): HOME[_i] = ('09-isa.md', 'atomics-and-ordering')
 for _i in ('NOP RTI RET HALT BPT FENCE WFE SEV TLBA PUSHX ISYNC HINT GENTER MFSR MTPS SPL TRAP TLBI TLBIAS MTDP ICINV PROBE').split(): HOME[_i] = ('09-isa.md', 'isa-system-instructions-exceptions')
 
 
-for _i in 'MOV2 MOVUSER MCPYU'.split(): HOME[_i] = ('09-isa.md', 'moves-conversions-and-address-formation')
+for _i in 'MOV2 MCPYU'.split(): HOME[_i] = ('09-isa.md', 'moves-conversions-and-address-formation')
 for _i in 'MASK OVF'.split(): HOME[_i] = ('09-isa.md', 'integer-arithmetic')
 for _i in 'BSEL AESR AESK SHA256 SHA512'.split(): HOME[_i] = ('09-isa.md', 'bits-bytes-and-text')
 for _i in 'MOVCALL POPRET POPMRET'.split(): HOME[_i] = ('09-isa.md', 'branches-and-control-flow')
@@ -605,7 +636,7 @@ def by_encoding_page():
         refs = []
         for cid, ch in CH.byname.get(n, []):
             refs.append('[%s](#%s)' % (cid, cid))
-        L.append('* <a id="mn-%s"></a>`%s`: %s' % (re.sub(r'[^a-z0-9]', '-', n), n.upper(), ', '.join(refs)))
+        L.append('* <a id="mn-%s"></a>`%s`: %s' % (re.sub(r'[^a-z0-9]', '-', n), wlabel(n), ', '.join(refs)))
     L += ['', '*Generated by `tools/mkmanual.py`; do not edit.*', '']
     return '\n'.join(L).replace('](figures/', '](../figures/')
 
@@ -685,7 +716,7 @@ def build():
                 '| Entry | Mnemonics |', '|---|---|']
         for e in ents:
             if HOME[e['id']] == ('09-isa.md', home):
-                mn = ', '.join('`%s`' % n.upper().rstrip('_') for n in e['names'] if not MN[n]['alias_of'])
+                mn = ', '.join('`%s`' % w.rstrip('_') for w in disp_words([n for n in e['names'] if not MN[n]['alias_of']]))
                 rows.append('| [%s](09-isa.md#%s) | %s |' % (e['title'], anchor_for(e), mn))
         texts[fn] = embed(texts[fn], 'entries:' + sec, '\n'.join(rows))
     chapters = texts
@@ -694,14 +725,17 @@ def build():
         m = re.search(r'(?m)^## %s (.*)$' % re.escape(sec), texts[fn])
         return '../%s#%s' % (fn, slug('%s %s' % (sec, m.group(1))))
     # aliases
-    EXPANDS = {'fneg32': ' with the operand `#-2147483648` (after `MOVQ Rs, Rd` if the registers differ)', 'fabs32': ' with the operand `#0x7FFFFFFF` (after `MOVQ Rs, Rd` if the registers differ)', 'rol': ' with the count `#n` complemented to `#(64-n)` (a constant count only)'}
+    EXPANDS = {'rol': ' with the count `#n` complemented to `#(64-n)` (a constant count only)'}
     SEQ = {'abs': '`MOVQ Rs, R12`, `SAR #63, R12`, `MOVQ Rs, Rd` (left out when `Rd` is `Rs`), `XOR R12, Rd`, `SUB R12, Rd`',
            'min': '`SETLT Ra, Rb, R12`, `NEG R12`, `BSEL R12, Ra, Rb, Rd`', 'minu': '`SETLO Ra, Rb, R12`, `NEG R12`, `BSEL R12, Ra, Rb, Rd`',
            'max': '`SETGT Ra, Rb, R12`, `NEG R12`, `BSEL R12, Ra, Rb, Rd`', 'maxu': '`SETHI Ra, Rb, R12`, `NEG R12`, `BSEL R12, Ra, Rb, Rd`'}
     A = ['# Assembler aliases', '', '[← dictionary index](index.md)', '',
-         'A mnemonic that assembles to another instruction (`FNEG32` and `FABS32` to an instruction with an operand of their own, and a `MOVQ` before it when the registers differ; `ROL` to `ROR` with the count complemented) or to a short fixed sequence of instructions (`ABS`, `MIN`, `MINU`, `MAX` and `MAXU`, which write the scratch register `R12`). One mnemonic is one instruction (section {{r:idioms-restored-lost-and-replaced}}); the disassembler never prints an alias.', '',
+         'A mnemonic that assembles to another instruction (`FNEG` and `FABS` with the mark `.32` on the source register to an instruction with an operand of their own, and a `MOVQ` before it when the registers differ; `ROL` to `ROR` with the count complemented) or to a short fixed sequence of instructions (`ABS`, `MIN`, `MINU`, `MAX` and `MAXU`, which write the scratch register `R12`). One mnemonic is one instruction (section {{r:idioms-restored-lost-and-replaced}}); the disassembler never prints an alias.', '',
          '*Generated by `tools/mkmanual.py` from `spec/grammars.d`; do not edit.*', '', '| Written | Assembles to | Group |', '|---|---|---|']
+    A.append('| `FNEG` with `.32` on the source | `XOR` with the operand `#-2147483648` (after `MOVQ Rs, Rd` if the registers differ) | `alu` |')
+    A.append('| `FABS` with `.32` on the source | `AND` with the operand `#0x7FFFFFFF` (after `MOVQ Rs, Rd` if the registers differ) | `alu` |')
     for n, m in sorted(MN.items()):
+        if n in INTERNAL: continue
         if m['alias_of']:
             if n in SEQ: A.append('| `%s` | the sequence %s | `%s` |' % (n.upper(), SEQ[n], m['group'][3:]))
             else: A.append('| `%s` | `%s`%s | `%s` |' % (n.upper(), m['alias_of'].upper(), EXPANDS.get(n, ''), m['group'][3:]))
@@ -712,7 +746,8 @@ def build():
     by = ['# The mnemonics, alphabetically', '', '[← dictionary index](index.md)', '',
           '*Generated by `tools/mkmanual.py`; do not edit.*', '']
     by += ['| Mnemonic | Entry | Layouts | Group |', '|---|---|---|---|']
-    for n in sorted(MN):
+    surf = {op: next(w for w, (o, _) in MARKROWS.items() if o == op) for op in SURFACE}
+    for label, n in sorted([(n.upper(), n) for n in MN if n not in INTERNAL] + [(op.upper(), w) for op, w in surf.items()]):
         if n in D.HELD_NAMES:
             continue
         m = MN[n]
@@ -720,7 +755,7 @@ def build():
         eid = seen.get(n) or seen.get(tgt)
         e = byid[eid]
         fn, sec = HOME[eid][0], R(HOME[eid][1])
-        head = '`%s`%s | [%s](%s) (section %s)' % (n.upper(), (' (assembler alias, a sequence)' if n in SEQ else ' (alias of `%s`)' % tgt.upper()) if m['alias_of'] else '', eid, '../%s#%s' % (fn, anchor_for(e)), sec)
+        head = '`%s`%s | [%s](%s) (section %s)' % (label, (' (assembler alias, a sequence)' if n in SEQ else ' (alias of `%s`)' % tgt.upper()) if m['alias_of'] else '', eid, '../%s#%s' % (fn, anchor_for(e)), sec)
         nl = len(CH.byname.get(tgt, []))
         lay = '[%d](by-encoding.md#mn-%s), [entry](../%s#w-%s)' % (nl, re.sub(r'[^a-z0-9]', '-', tgt), HOME[eid][0], wslug(tgt))
         if n in SEQ: lay = '[entry](../%s#w-%s)' % (HOME[eid][0], wslug(n))
@@ -737,7 +772,7 @@ def build():
     for (fn, home), es in sorted(where.items(), key=lambda kv: [int(x) for x in R(kv[0][1]).split('.')] + [0]):
         sec = R(home)
         m = re.search(r'(?m)^## %s (.*)$' % re.escape(sec), texts[fn])
-        I.append('* [Section %s, %s](%s): %s' % (sec, m.group(1), sec_link(fn, sec), ', '.join('`%s`' % e['names'][0].upper() for e in es)))
+        I.append('* [Section %s, %s](%s): %s' % (sec, m.group(1), sec_link(fn, sec), ', '.join('`%s`' % disp_words(e['names'])[0] for e in es)))
     I.append('')
     I.append('## The tables')
     I.append('')
@@ -746,7 +781,8 @@ def build():
     I.append('* [The mnemonics, alphabetically](by-mnemonic.md)')
     I.append('* [The bit layouts of every opcode](by-encoding.md): a chart for each layout, generated from the grammar')
     I.append('')
-    vis = {n: m for n, m in MN.items() if n not in D.HELD_NAMES}
+    vis = {n: m for n, m in MN.items() if n not in D.HELD_NAMES and n not in INTERNAL}
+    vis.update({op: dict(alias_of=None, kind='mem') for op in SURFACE})
     n_real = sum(1 for m in vis.values() if not m['alias_of'])
     n_alias = sum(1 for m in vis.values() if m['alias_of'])
     n_ext = sum(1 for m in vis.values() if m['kind'] == 'ext')

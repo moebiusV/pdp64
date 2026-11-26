@@ -5,6 +5,8 @@ fit does the same thing.  For each instruction below, with the registers and the
 the whole state: registers, the status word and the memory the instruction can reach.  A difference is a place where one word would hide a difference; there should be none.
 usage: check_forms.py AS64 LD64 SIM64 WORKDIR"""
 import os, re, subprocess, sys
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'tools'))
+import marks			# the width marks (spec/grammars.d/61-asm-marks.hbnf): `movl (r10), r4` is written `mov (r10).32, r4`
 AS, LD, SIM, W = sys.argv[1:5]
 os.makedirs(W, exist_ok=True)
 REGS = [0x0123456789abcdef, 0xfedcba9876543210, 7, -3 & (2**64 - 1), 0x00000000ffffffff, 0x8000000000000000, 0x7fffffffffffffff, 100, 0x00ff00ff00ff00ff]
@@ -37,6 +39,13 @@ cases += ['add r3, sp', 'movq sp, r4', 'movq r4, sp', 'xor r4, r4', 'and #0xff, 
 cases += ['mulu r3, r4', 'fadd r3, r4', 'ror r1, #5, r2', 'clz r1, r2', 'popcnt r1, r2', 'bswap r1, r2', 'div r1, r2, r4', 'min r1, r2, r4']
 cases += ['cteq r5', 'ctne r5', 'cthi r1, #5', 'mfps r4', 'mtps r4', 'spl #3', 'nop', 'hint #1', 'trap #3']
 cases += ['movq =0x123456789abcdef0, r4', 'movq #0x123456789abcdef0, r4', 'push =0x123456789abcdef0', 'add =0x123456789abcdef0, r4']
+def _spell(c):
+    out = []
+    for l in c.split('\n'):
+        try: out.append(marks.spell_line(l))
+        except marks.NoSpelling: return None			# the sized move of a constant (movl #5, r4): a constant is not narrowed by a mark, so there is no such instruction to write
+    return '\n'.join(out)
+cases = [x for x in (_spell(c) for c in cases) if x]
 SKIP_RUN = {'mtps r4', 'spl #3', 'trap #3', 'hint #1'}
 
 HEAD = """	.text

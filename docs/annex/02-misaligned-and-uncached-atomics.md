@@ -14,7 +14,7 @@ The second half is the uncached case. A page can be marked as not cacheable (a f
 
 ```
         movl    $1, %eax
-        lock aaddl %eax, 1(%rdi)     # a 4-byte atomic at an odd address: accepted
+        lock addl %eax, 1(%rdi)     # a 4-byte atomic at an odd address: accepted
 ```
 
 *(Two instructions. The CPU accepts it, and on some parts locks the bus. The same C on RISC-V and Arm is compiled by clang into a call of a library routine, `__atomic_compare_exchange`, which is not atomic hardware at all.)*
@@ -24,12 +24,12 @@ The second half is the uncached case. A page can be marked as not cacheable (a f
 ```
         lea     buf+2, r3               ; a 4-byte word at an address that is 2 mod 4
         movq    #1, r2
-        aaddl   r2, (r3), r1            ; never runs half: the misalignment fault
+        aadd    r2, (r3).32, r1         ; never runs half: the misalignment fault
 ...
 hmis:   mfsr    r5, eva                 ; the address that was refused
 ```
 
-*(`aaddl` is four bytes. The program ends in the handler with `EVA` holding the refused address and nothing in memory touched.)*
+*(`aadd` with the mark `.32` is a four-byte atomic. The program ends in the handler with `EVA` holding the refused address and nothing in memory touched.)*
 
 ### What it enables
 

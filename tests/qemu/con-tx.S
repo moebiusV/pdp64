@@ -5,7 +5,7 @@
 _start:
 	movq	=MAP_CONSOLE, r13
 	lea	msg, r1
-1:	movb	(r1)+, r2
+1:	mov	(r1)+.8, r2
 	cbeq r2, #0, 3f
 2:	movq	CONSOLE_REG_TXCS(r13), r3
 	and	#(1<<CONSOLE_CSR_READY), r3

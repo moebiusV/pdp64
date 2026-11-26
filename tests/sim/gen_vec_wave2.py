@@ -5,6 +5,9 @@ independent model written here (the semantics of docs/encoding-work/vec-isa.md, 
 simulator).  The corners are put in by hand: NaN compares, -0.0, the sign boundary of the signed and unsigned compares, a float to integer conversion that overflows or is a NaN,
 an integer to float conversion that rounds (2^24 + 1).  The result of a test is compared byte for byte (or register for register); a failed test n exits with n.
 usage: gen_vec_wave2.py OUT.s"""
+import sys as _sys, os as _os
+_sys.path.insert(0, _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..', '..', 'tools'))
+import marks		# the words of the encoding written with width marks (tools/marks.py)
 import random, sys
 
 N = 77
@@ -245,5 +248,5 @@ for lab, content in data:
     else:
         for i in range(0, len(content), 24):
             out.append('\t.byte\t' + ', '.join(str(x) for x in content[i:i + 24]))
-open(sys.argv[1], 'w').write('\n'.join(out) + '\n')
+open(sys.argv[1], 'w').write(marks.spell_text('\n'.join(out)) + '\n')
 print('%d tests' % cnt[0])

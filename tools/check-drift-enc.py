@@ -15,7 +15,7 @@ import json, os, re, struct, subprocess, sys, tempfile
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.join(HERE, '..')
 sys.path.insert(0, HERE)
-import encgram
+import encgram, marks
 B = os.path.join(ROOT, os.environ.get('BUILD', 'build'))
 AS = os.path.join(B, 'as64')
 REWRITE = {'fneg32', 'fabs32', 'rol', 'abs', 'min', 'minu', 'max', 'maxu'}   # aliases that map onto an instruction with rewritten operands, not a plain rename
@@ -69,6 +69,7 @@ class Gen:
 
 
 def assemble(src, *flags):
+    src = '\n'.join(marks.spell_line(l) for l in src.split('\n'))		# the words of the encoding that the assembly language writes with marks (movb, aaddl, fadd32, fcvtds ...)
     with tempfile.TemporaryDirectory() as t:
         f = os.path.join(t, 'a.s'); o = os.path.join(t, 'a.o')
         open(f, 'w').write('\t.text\n' + src + '\n')

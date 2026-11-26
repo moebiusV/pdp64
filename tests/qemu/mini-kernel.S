@@ -65,7 +65,7 @@ h_write:					; write(r1 = buffer, r2 = length); the entry has set the priority t
 	movq	r2, r0
 	movq	=CONSOLE_VA, r3
 1:	cbeq r2, #0, 3f
-	movb.u	(r1), r4			; the user's byte: a .U load, the only way for the kernel to read a U page
+	mov.u	(r1).8, r4 ; the user's byte: a .U load, the only way for the kernel to read a U page
 	add	#1, r1
 2:	movq	CONSOLE_REG_TXCS(r3), r5
 	and	#(1<<CONSOLE_CSR_READY), r5

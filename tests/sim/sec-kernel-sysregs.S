@@ -16,11 +16,11 @@ kfill:	movq	r2, (r1)+
 	lea	h_fail, r2
 	movq	r2, 2056(r1)
 
-	movl	tmplr, r2
+	mov	tmplr.32, r2
 	movq	=(13<<16), r3
 	bis	r3, r2
 	lea	ubuf, r4
-	movl	r2, (r4)
+	mov	r2, (r4).32
 	lea	Npr13, r13
 	movq	cnt, r10
 	movq	=0x5a5a5a5a5a5a, r1
@@ -49,11 +49,11 @@ Npr13:	movq	cnt, r11
 	movq	#4, r0
 	halt
 1:
-	movl	tmplr, r2
+	mov	tmplr.32, r2
 	movq	=(14<<16), r3
 	bis	r3, r2
 	lea	ubuf, r4
-	movl	r2, (r4)
+	mov	r2, (r4).32
 	lea	Npr14, r13
 	movq	cnt, r10
 	movq	=0x5a5a5a5a5a5a, r1
@@ -82,11 +82,11 @@ Npr14:	movq	cnt, r11
 	movq	#8, r0
 	halt
 1:
-	movl	tmplr, r2
+	mov	tmplr.32, r2
 	movq	=(63<<16), r3
 	bis	r3, r2
 	lea	ubuf, r4
-	movl	r2, (r4)
+	mov	r2, (r4).32
 	lea	Npr63, r13
 	movq	cnt, r10
 	movq	=0x5a5a5a5a5a5a, r1
@@ -115,11 +115,11 @@ Npr63:	movq	cnt, r11
 	movq	#12, r0
 	halt
 1:
-	movl	tmplr, r2
+	mov	tmplr.32, r2
 	movq	=(127<<16), r3
 	bis	r3, r2
 	lea	ubuf, r4
-	movl	r2, (r4)
+	mov	r2, (r4).32
 	lea	Npr127, r13
 	movq	cnt, r10
 	movq	=0x5a5a5a5a5a5a, r1
@@ -148,11 +148,11 @@ Npr127:	movq	cnt, r11
 	movq	#16, r0
 	halt
 1:
-	movl	tmplr, r2
+	mov	tmplr.32, r2
 	movq	=(128<<16), r3
 	bis	r3, r2
 	lea	ubuf, r4
-	movl	r2, (r4)
+	mov	r2, (r4).32
 	lea	Npr128, r13
 	movq	cnt, r10
 	movq	=0x5a5a5a5a5a5a, r1
@@ -181,11 +181,11 @@ Npr128:	movq	cnt, r11
 	movq	#20, r0
 	halt
 1:
-	movl	tmplr, r2
+	mov	tmplr.32, r2
 	movq	=(129<<16), r3
 	bis	r3, r2
 	lea	ubuf, r4
-	movl	r2, (r4)
+	mov	r2, (r4).32
 	lea	Npr129, r13
 	movq	cnt, r10
 	movq	=0x5a5a5a5a5a5a, r1
@@ -214,11 +214,11 @@ Npr129:	movq	cnt, r11
 	movq	#24, r0
 	halt
 1:
-	movl	tmplr, r2
+	mov	tmplr.32, r2
 	movq	=(147<<16), r3
 	bis	r3, r2
 	lea	ubuf, r4
-	movl	r2, (r4)
+	mov	r2, (r4).32
 	lea	Npr147, r13
 	movq	cnt, r10
 	movq	=0x5a5a5a5a5a5a, r1
@@ -247,11 +247,11 @@ Npr147:	movq	cnt, r11
 	movq	#28, r0
 	halt
 1:
-	movl	tmplr, r2
+	mov	tmplr.32, r2
 	movq	=(148<<16), r3
 	bis	r3, r2
 	lea	ubuf, r4
-	movl	r2, (r4)
+	mov	r2, (r4).32
 	lea	Npr148, r13
 	movq	cnt, r10
 	movq	=0x5a5a5a5a5a5a, r1
@@ -280,11 +280,11 @@ Npr148:	movq	cnt, r11
 	movq	#32, r0
 	halt
 1:
-	movl	tmplr, r2
+	mov	tmplr.32, r2
 	movq	=(200<<16), r3
 	bis	r3, r2
 	lea	ubuf, r4
-	movl	r2, (r4)
+	mov	r2, (r4).32
 	lea	Npr200, r13
 	movq	cnt, r10
 	movq	=0x5a5a5a5a5a5a, r1
@@ -313,11 +313,11 @@ Npr200:	movq	cnt, r11
 	movq	#36, r0
 	halt
 1:
-	movl	tmplr, r2
+	mov	tmplr.32, r2
 	movq	=(255<<16), r3
 	bis	r3, r2
 	lea	ubuf, r4
-	movl	r2, (r4)
+	mov	r2, (r4).32
 	lea	Npr255, r13
 	movq	cnt, r10
 	movq	=0x5a5a5a5a5a5a, r1
@@ -346,11 +346,11 @@ Npr255:	movq	cnt, r11
 	movq	#40, r0
 	halt
 1:
-	movl	tmplw, r2
+	mov	tmplw.32, r2
 	movq	=(2<<16), r3
 	bis	r3, r2
 	lea	ubuf, r4
-	movl	r2, (r4)
+	mov	r2, (r4).32
 	lea	Npw2, r13
 	movq	cnt, r10
 	movq	=0x5a5a5a5a5a5a, r1
@@ -374,11 +374,11 @@ Npw2:	movq	cnt, r11
 	movq	#43, r0
 	halt
 1:
-	movl	tmplw, r2
+	mov	tmplw.32, r2
 	movq	=(3<<16), r3
 	bis	r3, r2
 	lea	ubuf, r4
-	movl	r2, (r4)
+	mov	r2, (r4).32
 	lea	Npw3, r13
 	movq	cnt, r10
 	movq	=0x5a5a5a5a5a5a, r1
@@ -402,11 +402,11 @@ Npw3:	movq	cnt, r11
 	movq	#46, r0
 	halt
 1:
-	movl	tmplw, r2
+	mov	tmplw.32, r2
 	movq	=(12<<16), r3
 	bis	r3, r2
 	lea	ubuf, r4
-	movl	r2, (r4)
+	mov	r2, (r4).32
 	lea	Npw12, r13
 	movq	cnt, r10
 	movq	=0x5a5a5a5a5a5a, r1
@@ -430,11 +430,11 @@ Npw12:	movq	cnt, r11
 	movq	#49, r0
 	halt
 1:
-	movl	tmplw, r2
+	mov	tmplw.32, r2
 	movq	=(13<<16), r3
 	bis	r3, r2
 	lea	ubuf, r4
-	movl	r2, (r4)
+	mov	r2, (r4).32
 	lea	Npw13, r13
 	movq	cnt, r10
 	movq	=0x5a5a5a5a5a5a, r1
@@ -458,11 +458,11 @@ Npw13:	movq	cnt, r11
 	movq	#52, r0
 	halt
 1:
-	movl	tmplw, r2
+	mov	tmplw.32, r2
 	movq	=(14<<16), r3
 	bis	r3, r2
 	lea	ubuf, r4
-	movl	r2, (r4)
+	mov	r2, (r4).32
 	lea	Npw14, r13
 	movq	cnt, r10
 	movq	=0x5a5a5a5a5a5a, r1
@@ -486,11 +486,11 @@ Npw14:	movq	cnt, r11
 	movq	#55, r0
 	halt
 1:
-	movl	tmplw, r2
+	mov	tmplw.32, r2
 	movq	=(63<<16), r3
 	bis	r3, r2
 	lea	ubuf, r4
-	movl	r2, (r4)
+	mov	r2, (r4).32
 	lea	Npw63, r13
 	movq	cnt, r10
 	movq	=0x5a5a5a5a5a5a, r1
@@ -514,11 +514,11 @@ Npw63:	movq	cnt, r11
 	movq	#58, r0
 	halt
 1:
-	movl	tmplw, r2
+	mov	tmplw.32, r2
 	movq	=(127<<16), r3
 	bis	r3, r2
 	lea	ubuf, r4
-	movl	r2, (r4)
+	mov	r2, (r4).32
 	lea	Npw127, r13
 	movq	cnt, r10
 	movq	=0x5a5a5a5a5a5a, r1
@@ -542,11 +542,11 @@ Npw127:	movq	cnt, r11
 	movq	#61, r0
 	halt
 1:
-	movl	tmplw, r2
+	mov	tmplw.32, r2
 	movq	=(128<<16), r3
 	bis	r3, r2
 	lea	ubuf, r4
-	movl	r2, (r4)
+	mov	r2, (r4).32
 	lea	Npw128, r13
 	movq	cnt, r10
 	movq	=0x5a5a5a5a5a5a, r1
@@ -570,11 +570,11 @@ Npw128:	movq	cnt, r11
 	movq	#64, r0
 	halt
 1:
-	movl	tmplw, r2
+	mov	tmplw.32, r2
 	movq	=(129<<16), r3
 	bis	r3, r2
 	lea	ubuf, r4
-	movl	r2, (r4)
+	mov	r2, (r4).32
 	lea	Npw129, r13
 	movq	cnt, r10
 	movq	=0x5a5a5a5a5a5a, r1
@@ -598,11 +598,11 @@ Npw129:	movq	cnt, r11
 	movq	#67, r0
 	halt
 1:
-	movl	tmplw, r2
+	mov	tmplw.32, r2
 	movq	=(147<<16), r3
 	bis	r3, r2
 	lea	ubuf, r4
-	movl	r2, (r4)
+	mov	r2, (r4).32
 	lea	Npw147, r13
 	movq	cnt, r10
 	movq	=0x5a5a5a5a5a5a, r1
@@ -626,11 +626,11 @@ Npw147:	movq	cnt, r11
 	movq	#70, r0
 	halt
 1:
-	movl	tmplw, r2
+	mov	tmplw.32, r2
 	movq	=(148<<16), r3
 	bis	r3, r2
 	lea	ubuf, r4
-	movl	r2, (r4)
+	mov	r2, (r4).32
 	lea	Npw148, r13
 	movq	cnt, r10
 	movq	=0x5a5a5a5a5a5a, r1
@@ -654,11 +654,11 @@ Npw148:	movq	cnt, r11
 	movq	#73, r0
 	halt
 1:
-	movl	tmplw, r2
+	mov	tmplw.32, r2
 	movq	=(200<<16), r3
 	bis	r3, r2
 	lea	ubuf, r4
-	movl	r2, (r4)
+	mov	r2, (r4).32
 	lea	Npw200, r13
 	movq	cnt, r10
 	movq	=0x5a5a5a5a5a5a, r1
@@ -682,11 +682,11 @@ Npw200:	movq	cnt, r11
 	movq	#76, r0
 	halt
 1:
-	movl	tmplw, r2
+	mov	tmplw.32, r2
 	movq	=(255<<16), r3
 	bis	r3, r2
 	lea	ubuf, r4
-	movl	r2, (r4)
+	mov	r2, (r4).32
 	lea	Npw255, r13
 	movq	cnt, r10
 	movq	=0x5a5a5a5a5a5a, r1

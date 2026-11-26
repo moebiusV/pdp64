@@ -43,7 +43,7 @@ _start:
 	vst.b	v0, (r0)+
 	vend
 	lea	vdst, r0
-	movb	(r0), r2
+	mov	(r0).8, r2
 	movq	#9, r3
 	cbne	r2, r3, fail
 	movq	#0, r0

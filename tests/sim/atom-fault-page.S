@@ -26,7 +26,7 @@ kfill:	movq	r2, (r1)+
 	mtsr	mmuctl, r1
 
 	lea	ustack_top, sp
-	; ---- case 1: swap on a page that is not present
+		; ---- case 1: swap on a page that is not present
 	movq	=(0x810040), r3
 	movq	#0, r4
 	movq	r4, cnt
@@ -36,46 +36,46 @@ p0:
 	swap	r2, (r3), r1
 	movq	cnt, r11
 	movq	=(1), r17
-	cbeq	r11, r17, 1f	; case 1: swap: one fault
+	cbeq	r11, r17, 1f		; case 1: swap: one fault
 	movq	#1, r0
 	halt
 1:
 	movq	last_cause, r11
 	movq	=(VECTOR_SFAULT), r17
-	cbeq	r11, r17, 1f	; case 1: swap: an atomic faults as a store
+	cbeq	r11, r17, 1f		; case 1: swap: an atomic faults as a store
 	movq	#1, r0
 	halt
 1:
 	movq	last_eva, r11
 	movq	=(0x810040), r12
-	cbeq	r11, r12, 1f	; case 1: swap: EVA is the address
+	cbeq	r11, r12, 1f		; case 1: swap: EVA is the address
 	movq	#1, r0
 	halt
 1:
 	lea	p0, r11
 	movq	last_epc, r12
-	cbeq	r12, r11, 1f	; case 1: swap: EPC is the instruction
+	cbeq	r12, r11, 1f		; case 1: swap: EPC is the instruction
 	movq	#1, r0
 	halt
 1:
 	movq	hr1, r11
 	movq	=(0x1111111111111111), r17
-	cbeq	r11, r17, 1f	; case 1: swap: at the fault Rd is as before
+	cbeq	r11, r17, 1f		; case 1: swap: at the fault Rd is as before
 	movq	#1, r0
 	halt
 1:
 	movq	=(0), r17
-	cbeq	r1, r17, 1f	; case 1: swap: after the restart Rd is the old value, zero
+	cbeq	r1, r17, 1f		; case 1: swap: after the restart Rd is the old value, zero
 	movq	#1, r0
 	halt
 1:
 	movq	(r3), r4
 	movq	=(5), r17
-	cbeq	r4, r17, 1f	; case 1: swap: the word is changed once
+	cbeq	r4, r17, 1f		; case 1: swap: the word is changed once
 	movq	#1, r0
 	halt
 1:
-	; ---- case 2: aadd on a page that is not present
+		; ---- case 2: aadd on a page that is not present
 	movq	=(0x811040), r3
 	movq	#0, r4
 	movq	r4, cnt
@@ -85,46 +85,46 @@ p1:
 	aadd	r2, (r3), r1
 	movq	cnt, r11
 	movq	=(1), r17
-	cbeq	r11, r17, 1f	; case 2: aadd: one fault
+	cbeq	r11, r17, 1f		; case 2: aadd: one fault
 	movq	#2, r0
 	halt
 1:
 	movq	last_cause, r11
 	movq	=(VECTOR_SFAULT), r17
-	cbeq	r11, r17, 1f	; case 2: aadd: an atomic faults as a store
+	cbeq	r11, r17, 1f		; case 2: aadd: an atomic faults as a store
 	movq	#2, r0
 	halt
 1:
 	movq	last_eva, r11
 	movq	=(0x811040), r12
-	cbeq	r11, r12, 1f	; case 2: aadd: EVA is the address
+	cbeq	r11, r12, 1f		; case 2: aadd: EVA is the address
 	movq	#2, r0
 	halt
 1:
 	lea	p1, r11
 	movq	last_epc, r12
-	cbeq	r12, r11, 1f	; case 2: aadd: EPC is the instruction
+	cbeq	r12, r11, 1f		; case 2: aadd: EPC is the instruction
 	movq	#2, r0
 	halt
 1:
 	movq	hr1, r11
 	movq	=(0x1111111111111111), r17
-	cbeq	r11, r17, 1f	; case 2: aadd: at the fault Rd is as before
+	cbeq	r11, r17, 1f		; case 2: aadd: at the fault Rd is as before
 	movq	#2, r0
 	halt
 1:
 	movq	=(0), r17
-	cbeq	r1, r17, 1f	; case 2: aadd: after the restart Rd is the old value, zero
+	cbeq	r1, r17, 1f		; case 2: aadd: after the restart Rd is the old value, zero
 	movq	#2, r0
 	halt
 1:
 	movq	(r3), r4
 	movq	=(5), r17
-	cbeq	r4, r17, 1f	; case 2: aadd: the word is changed once
+	cbeq	r4, r17, 1f		; case 2: aadd: the word is changed once
 	movq	#2, r0
 	halt
 1:
-	; ---- case 3: cas on a page that is not present
+		; ---- case 3: cas on a page that is not present
 	movq	=(0x812040), r3
 	movq	#0, r4
 	movq	r4, cnt
@@ -135,95 +135,95 @@ p2:
 	cas	r2, (r3), r1
 	movq	cnt, r11
 	movq	=(1), r17
-	cbeq	r11, r17, 1f	; case 3: cas: one fault
+	cbeq	r11, r17, 1f		; case 3: cas: one fault
 	movq	#3, r0
 	halt
 1:
 	movq	last_cause, r11
 	movq	=(VECTOR_SFAULT), r17
-	cbeq	r11, r17, 1f	; case 3: cas: an atomic faults as a store
+	cbeq	r11, r17, 1f		; case 3: cas: an atomic faults as a store
 	movq	#3, r0
 	halt
 1:
 	movq	last_eva, r11
 	movq	=(0x812040), r12
-	cbeq	r11, r12, 1f	; case 3: cas: EVA is the address
+	cbeq	r11, r12, 1f		; case 3: cas: EVA is the address
 	movq	#3, r0
 	halt
 1:
 	lea	p2, r11
 	movq	last_epc, r12
-	cbeq	r12, r11, 1f	; case 3: cas: EPC is the instruction
+	cbeq	r12, r11, 1f		; case 3: cas: EPC is the instruction
 	movq	#3, r0
 	halt
 1:
 	movq	hr1, r11
 	movq	=(0), r17
-	cbeq	r11, r17, 1f	; case 3: cas: at the fault Rd is as before
+	cbeq	r11, r17, 1f		; case 3: cas: at the fault Rd is as before
 	movq	#3, r0
 	halt
 1:
 	movq	=(0), r17
-	cbeq	r1, r17, 1f	; case 3: cas: after the restart the old value is 0
+	cbeq	r1, r17, 1f		; case 3: cas: after the restart the old value is 0
 	movq	#3, r0
 	halt
 1:
 	movq	(r3), r4
 	movq	=(5), r17
-	cbeq	r4, r17, 1f	; case 3: cas: the swap happened once
+	cbeq	r4, r17, 1f		; case 3: cas: the swap happened once
 	movq	#3, r0
 	halt
 1:
-	; ---- case 4: amaxul on a page that is not present
+		; ---- case 4: amaxu .32 on a page that is not present
 	movq	=(0x813040), r3
 	movq	#0, r4
 	movq	r4, cnt
 	movq	=(0x1111111111111111), r1
 	movq	#5, r2
 p3:
-	amaxul	r2, (r3), r1
+	amaxu	r2, (r3).32, r1
 	movq	cnt, r11
 	movq	=(1), r17
-	cbeq	r11, r17, 1f	; case 4: amaxul: one fault
+	cbeq	r11, r17, 1f		; case 4: amaxu .32: one fault
 	movq	#4, r0
 	halt
 1:
 	movq	last_cause, r11
 	movq	=(VECTOR_SFAULT), r17
-	cbeq	r11, r17, 1f	; case 4: amaxul: an atomic faults as a store
+	cbeq	r11, r17, 1f		; case 4: amaxu .32: an atomic faults as a store
 	movq	#4, r0
 	halt
 1:
 	movq	last_eva, r11
 	movq	=(0x813040), r12
-	cbeq	r11, r12, 1f	; case 4: amaxul: EVA is the address
+	cbeq	r11, r12, 1f		; case 4: amaxu .32: EVA is the address
 	movq	#4, r0
 	halt
 1:
 	lea	p3, r11
 	movq	last_epc, r12
-	cbeq	r12, r11, 1f	; case 4: amaxul: EPC is the instruction
+	cbeq	r12, r11, 1f		; case 4: amaxu .32: EPC is the instruction
 	movq	#4, r0
 	halt
 1:
 	movq	hr1, r11
 	movq	=(0x1111111111111111), r17
-	cbeq	r11, r17, 1f	; case 4: amaxul: at the fault Rd is as before
+	cbeq	r11, r17, 1f		; case 4: amaxu .32: at the fault Rd is as before
 	movq	#4, r0
 	halt
 1:
 	movq	=(0), r17
-	cbeq	r1, r17, 1f	; case 4: amaxul: after the restart Rd is the old value, zero
+	cbeq	r1, r17, 1f		; case 4: amaxu .32: after the restart Rd is the old value, zero
 	movq	#4, r0
 	halt
 1:
-	movl	(r3), r4
+	mov	(r3).32, r4
 	movq	=(5), r17
-	cbeq	r4, r17, 1f	; case 4: amaxul: the word is changed once
+	cbeq	r4, r17, 1f		; case 4: amaxu .32: the word is changed once
 	movq	#4, r0
 	halt
 1:
-	; ---- case 5: ll on a page that is not present
+		; ---- case 5: ll on a page that is not present
 	movq	=(0x814040), r3
 	movq	#0, r4
 	movq	r4, cnt
@@ -233,83 +233,83 @@ p4:
 	ll	(r3), r1
 	movq	cnt, r11
 	movq	=(1), r17
-	cbeq	r11, r17, 1f	; case 5: ll: one fault
+	cbeq	r11, r17, 1f		; case 5: ll: one fault
 	movq	#5, r0
 	halt
 1:
 	movq	last_cause, r11
 	movq	=(VECTOR_SFAULT), r17
-	cbeq	r11, r17, 1f	; case 5: ll: an atomic faults as a store (so does LL)
+	cbeq	r11, r17, 1f		; case 5: ll: an atomic faults as a store (so does LL)
 	movq	#5, r0
 	halt
 1:
 	movq	last_eva, r11
 	movq	=(0x814040), r12
-	cbeq	r11, r12, 1f	; case 5: ll: EVA is the address
+	cbeq	r11, r12, 1f		; case 5: ll: EVA is the address
 	movq	#5, r0
 	halt
 1:
 	lea	p4, r11
 	movq	last_epc, r12
-	cbeq	r12, r11, 1f	; case 5: ll: EPC is the instruction
+	cbeq	r12, r11, 1f		; case 5: ll: EPC is the instruction
 	movq	#5, r0
 	halt
 1:
 	movq	hr1, r11
 	movq	=(0x1111111111111111), r17
-	cbeq	r11, r17, 1f	; case 5: ll: at the fault Rd is as before
+	cbeq	r11, r17, 1f		; case 5: ll: at the fault Rd is as before
 	movq	#5, r0
 	halt
 1:
 	movq	=(0), r17
-	cbeq	r1, r17, 1f	; case 5: ll: after the restart Rd is the (zero) word
+	cbeq	r1, r17, 1f		; case 5: ll: after the restart Rd is the (zero) word
 	movq	#5, r0
 	halt
 1:
-	; ---- case 6: lll on a page that is not present
+		; ---- case 6: ll .32 on a page that is not present
 	movq	=(0x815040), r3
 	movq	#0, r4
 	movq	r4, cnt
 	movq	=(0x1111111111111111), r1
 	movq	#5, r2
 p5:
-	lll	(r3), r1
+	ll	(r3).32, r1
 	movq	cnt, r11
 	movq	=(1), r17
-	cbeq	r11, r17, 1f	; case 6: lll: one fault
+	cbeq	r11, r17, 1f		; case 6: ll .32: one fault
 	movq	#6, r0
 	halt
 1:
 	movq	last_cause, r11
 	movq	=(VECTOR_SFAULT), r17
-	cbeq	r11, r17, 1f	; case 6: lll: an atomic faults as a store (so does LL)
+	cbeq	r11, r17, 1f		; case 6: ll .32: an atomic faults as a store (so does LL)
 	movq	#6, r0
 	halt
 1:
 	movq	last_eva, r11
 	movq	=(0x815040), r12
-	cbeq	r11, r12, 1f	; case 6: lll: EVA is the address
+	cbeq	r11, r12, 1f		; case 6: ll .32: EVA is the address
 	movq	#6, r0
 	halt
 1:
 	lea	p5, r11
 	movq	last_epc, r12
-	cbeq	r12, r11, 1f	; case 6: lll: EPC is the instruction
+	cbeq	r12, r11, 1f		; case 6: ll .32: EPC is the instruction
 	movq	#6, r0
 	halt
 1:
 	movq	hr1, r11
 	movq	=(0x1111111111111111), r17
-	cbeq	r11, r17, 1f	; case 6: lll: at the fault Rd is as before
+	cbeq	r11, r17, 1f		; case 6: ll .32: at the fault Rd is as before
 	movq	#6, r0
 	halt
 1:
 	movq	=(0), r17
-	cbeq	r1, r17, 1f	; case 6: lll: after the restart Rd is the (zero) word
+	cbeq	r1, r17, 1f		; case 6: ll .32: after the restart Rd is the (zero) word
 	movq	#6, r0
 	halt
 1:
-	; ---- case 7: sc on a page that is not present
+		; ---- case 7: sc on a page that is not present
 	movq	=(0x816040), r3
 	movq	#0, r4
 	movq	r4, cnt
@@ -319,84 +319,84 @@ p6:
 	sc	r2, (r3), r1
 	movq	cnt, r11
 	movq	=(1), r17
-	cbeq	r11, r17, 1f	; case 7: sc: one fault
+	cbeq	r11, r17, 1f		; case 7: sc: one fault
 	movq	#7, r0
 	halt
 1:
 	movq	last_cause, r11
 	movq	=(VECTOR_SFAULT), r17
-	cbeq	r11, r17, 1f	; case 7: sc: an atomic faults as a store
+	cbeq	r11, r17, 1f		; case 7: sc: an atomic faults as a store
 	movq	#7, r0
 	halt
 1:
 	movq	last_eva, r11
 	movq	=(0x816040), r12
-	cbeq	r11, r12, 1f	; case 7: sc: EVA is the address
+	cbeq	r11, r12, 1f		; case 7: sc: EVA is the address
 	movq	#7, r0
 	halt
 1:
 	lea	p6, r11
 	movq	last_epc, r12
-	cbeq	r12, r11, 1f	; case 7: sc: EPC is the instruction
+	cbeq	r12, r11, 1f		; case 7: sc: EPC is the instruction
 	movq	#7, r0
 	halt
 1:
 	movq	hr1, r11
 	movq	=(0x1111111111111111), r17
-	cbeq	r11, r17, 1f	; case 7: sc: at the fault Rd is as before
+	cbeq	r11, r17, 1f		; case 7: sc: at the fault Rd is as before
 	movq	#7, r0
 	halt
 1:
-	cbne	r1, #0, 1f	; case 7: sc: after the restart the SC has no reservation and fails
+	cbne	r1, #0, 1f		; case 7: sc: after the restart the SC has no reservation and fails
 	movq	#7, r0
 	halt
 1:
-	; ---- case 8: abisl on a page that is not present
+		; ---- case 8: abis .32 on a page that is not present
 	movq	=(0x817040), r3
 	movq	#0, r4
 	movq	r4, cnt
 	movq	=(0x1111111111111111), r1
 	movq	#5, r2
 p7:
-	abisl	r2, (r3), r1
+	abis	r2, (r3).32, r1
 	movq	cnt, r11
 	movq	=(1), r17
-	cbeq	r11, r17, 1f	; case 8: abisl: one fault
+	cbeq	r11, r17, 1f		; case 8: abis .32: one fault
 	movq	#8, r0
 	halt
 1:
 	movq	last_cause, r11
 	movq	=(VECTOR_SFAULT), r17
-	cbeq	r11, r17, 1f	; case 8: abisl: an atomic faults as a store
+	cbeq	r11, r17, 1f		; case 8: abis .32: an atomic faults as a store
 	movq	#8, r0
 	halt
 1:
 	movq	last_eva, r11
 	movq	=(0x817040), r12
-	cbeq	r11, r12, 1f	; case 8: abisl: EVA is the address
+	cbeq	r11, r12, 1f		; case 8: abis .32: EVA is the address
 	movq	#8, r0
 	halt
 1:
 	lea	p7, r11
 	movq	last_epc, r12
-	cbeq	r12, r11, 1f	; case 8: abisl: EPC is the instruction
+	cbeq	r12, r11, 1f		; case 8: abis .32: EPC is the instruction
 	movq	#8, r0
 	halt
 1:
 	movq	hr1, r11
 	movq	=(0x1111111111111111), r17
-	cbeq	r11, r17, 1f	; case 8: abisl: at the fault Rd is as before
+	cbeq	r11, r17, 1f		; case 8: abis .32: at the fault Rd is as before
 	movq	#8, r0
 	halt
 1:
 	movq	=(0), r17
-	cbeq	r1, r17, 1f	; case 8: abisl: after the restart Rd is the old value, zero
+	cbeq	r1, r17, 1f		; case 8: abis .32: after the restart Rd is the old value, zero
 	movq	#8, r0
 	halt
 1:
-	movl	(r3), r4
+	mov	(r3).32, r4
 	movq	=(5), r17
-	cbeq	r4, r17, 1f	; case 8: abisl: the word is changed once
+	cbeq	r4, r17, 1f		; case 8: abis .32: the word is changed once
 	movq	#8, r0
 	halt
 1:

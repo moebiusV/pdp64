@@ -103,7 +103,7 @@ The widths and the reach of the immediates and displacements of each shape the f
 
 `op2` is `reg5`: register, 5 bits.
 
-`sub` (3 bits) selects the mnemonic: `movq` 000, `movl` 001, `add` 010, `sub` 011, `xor` 100, `and` 101, `bis` 110, `shl` 111.
+`sub` (3 bits) selects the mnemonic: `movq` 000, `mov` with the mark `.32` 001, `add` 010, `sub` 011, `xor` 100, `and` 101, `bis` 110, `shl` 111.
 
 Fields: `sub=p0[12:10]` `op1.r=p0[9:5]` `op2.r=p0[4:0]`
 
@@ -116,7 +116,7 @@ Fields: `sub=p0[12:10]` `op1.r=p0[9:5]` `op2.r=p0[4:0]`
 
 `op2` is `reg4`: register, 4 bits (an index into the hot-register table).
 
-`sub` (4 bits) selects the mnemonic: `movq` 0000, `movl` 0001, `movw` 0010, `movb` 0011, `movzl` 0100, `movzw` 0101, `movzb` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
+`sub` (4 bits) selects the mnemonic: `movq` 0000, `mov` with the mark `.32` 0001, `mov` with the mark `.16` 0010, `mov` with the mark `.8` 0011, `mov` with the mark `.u32` 0100, `mov` with the mark `.u16` 0101, `mov` with the mark `.u8` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
 
 Fields: `sub=p0[11:8]` `op1.r=p0[7:4]` `op2.r=p0[3:0]`
 
@@ -144,7 +144,7 @@ Fields: `op1.r=p0[11:9]` `op2.r=p0[8:6]` `op3.r=p0[5:3]` `op4.r=p0[2:0]`
 
 `op2` is `reg3`: register, 3 bits (an index into the hot-register table).
 
-`sub` (2 bits) selects the mnemonic: `movq` 00, `movl` 01, `movzb` 10, `lea` 11.
+`sub` (2 bits) selects the mnemonic: `movq` 00, `mov` with the mark `.32` 01, `mov` with the mark `.u8` 10, `lea` 11.
 
 Fields: `sub=p0[10:9]` `op1.d=p0[8:6]` `op1.base=p0[5:3]` `op2.r=p0[2:0]`
 
@@ -157,7 +157,7 @@ Fields: `sub=p0[10:9]` `op1.d=p0[8:6]` `op1.base=p0[5:3]` `op2.r=p0[2:0]`
 
 `op2` is `reg4`: register, 4 bits (an index into the hot-register table).
 
-`sub` (2 bits) selects the mnemonic: `movq` 00, `movl` 01, `movzb` 10, `lea` 11.
+`sub` (2 bits) selects the mnemonic: `movq` 00, `mov` with the mark `.32` 01, `mov` with the mark `.u8` 10, `lea` 11.
 
 Fields: `sub=p0[10:9]` `op1.d=p0[8:4]` `op2.r=p0[3:0]`
 
@@ -209,7 +209,7 @@ Fields: `sub=p0[9:8]` `op1.r=p0[7:4]` `op2.r=p0[3:0]`
 
 `op2` is `b3d3u-xsz`: memory at base register, 3 bits (an index into the hot-register table) + unsigned 3-bit displacement times the size of the access.
 
-`sub` (1 bit) selects the mnemonic: `movq` 0, `movl` 1.
+`sub` (1 bit) selects the mnemonic: `movq` 0, `mov` with the mark `.32` 1.
 
 Fields: `sub=p0[9]` `op2.d=p0[8:6]` `op1.r=p0[5:3]` `op2.base=p0[2:0]`
 
@@ -255,7 +255,7 @@ Fields: `op1.pcrel=p0[8:0]`
 
 `op2` is `spd4u-xsz`: memory at sp + unsigned 4-bit displacement times the size of the access.
 
-`sub` (1 bit) selects the mnemonic: `movq` 0, `movl` 1.
+`sub` (1 bit) selects the mnemonic: `movq` 0, `mov` with the mark `.32` 1.
 
 Fields: `sub=p0[8]` `op2.d=p0[7:4]` `op1.r=p0[3:0]`
 
@@ -343,7 +343,7 @@ Fields: `op1.imm=p0[7:0]`
 
 `op2` is `b3d1u-xsz`: memory at base register, 3 bits (an index into the hot-register table) + unsigned 1-bit displacement times the size of the access.
 
-`sub` (1 bit) selects the mnemonic: `movw` 0, `movb` 1.
+`sub` (1 bit) selects the mnemonic: `mov` with the mark `.16` 0, `mov` with the mark `.8` 1.
 
 Fields: `sub=p0[7]` `op2.d=p0[6]` `op1.r=p0[5:3]` `op2.base=p0[2:0]`
 
@@ -482,7 +482,7 @@ Fields: `sub=p0[0]`
 
 `op2` is `reg5`: register, 5 bits.
 
-`sub` (4 bits) selects the mnemonic: `movq` 0000, `movl` 0001, `movw` 0010, `movb` 0011, `movzl` 0100, `movzw` 0101, `movzb` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
+`sub` (4 bits) selects the mnemonic: `movq` 0000, `mov` with the mark `.32` 0001, `mov` with the mark `.16` 0010, `mov` with the mark `.8` 0011, `mov` with the mark `.u32` 0100, `mov` with the mark `.u16` 0101, `mov` with the mark `.u8` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
 
 Fields: `sub=p0[9:6]` `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` `op1.stride=p1[11:0]`
 
@@ -495,7 +495,7 @@ Fields: `sub=p0[9:6]` `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` 
 
 `op2` is `reg5`: register, 5 bits.
 
-`sub` (4 bits) selects the mnemonic: `movq` 0000, `movl` 0001, `movw` 0010, `movb` 0011, `movzl` 0100, `movzw` 0101, `movzb` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
+`sub` (4 bits) selects the mnemonic: `movq` 0000, `mov` with the mark `.32` 0001, `mov` with the mark `.16` 0010, `mov` with the mark `.8` 0011, `mov` with the mark `.u32` 0100, `mov` with the mark `.u16` 0101, `mov` with the mark `.u8` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
 
 Fields: `sub=p0[9:6]` `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` `op1.stride=p1[11:0]`
 
@@ -521,7 +521,7 @@ Fields: `op1.r=p0[9:5]` `op2.r=p0[4:0]` `op3.pcrel=p1[15:0]`
 
 `op2` is `reg5`: register, 5 bits.
 
-`sub` (2 bits) selects the mnemonic: `movq.u` 00, `movl.u` 01, `movw.u` 10, `movb.u` 11.
+`sub` (2 bits) selects the mnemonic: `mov.u` 00, `mov.u` with the mark `.32` 01, `mov.u` with the mark `.16` 10, `mov.u` with the mark `.8` 11.
 
 Fields: `sub=p0[8:7]` `op1.base-1=p0[6:5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:13]` `op1.index=p1[12:8]` `op1.scale=p1[7:6]` `op1.d=p1[5:0]`
 
@@ -534,7 +534,7 @@ Fields: `sub=p0[8:7]` `op1.base-1=p0[6:5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:13]
 
 `op2` is `x5-5d6s`: memory at base + (index << scale) + signed 6-bit displacement; base register, 5 bits, index register, 5 bits.
 
-`sub` (2 bits) selects the mnemonic: `movq.u` 00, `movl.u` 01, `movw.u` 10, `movb.u` 11.
+`sub` (2 bits) selects the mnemonic: `mov.u` 00, `mov.u` with the mark `.32` 01, `mov.u` with the mark `.16` 10, `mov.u` with the mark `.8` 11.
 
 Fields: `sub=p0[8:7]` `op1.r-1=p0[6:5]` `op2.index=p0[4:0]` `op1.r-2=p1[15:13]` `op2.base=p1[12:8]` `op2.scale=p1[7:6]` `op2.d=p1[5:0]`
 
@@ -547,7 +547,7 @@ Fields: `sub=p0[8:7]` `op1.r-1=p0[6:5]` `op2.index=p0[4:0]` `op1.r-2=p1[15:13]` 
 
 `op2` is `pi5-s12`: post-increment of a base register (register, 5 bits), 12-bit stride (0: the size of the access).
 
-`sub` (3 bits) selects the mnemonic: `movq` 000, `movl` 001, `movw` 010, `movb` 011, `addm` 100, `subm` 101, `bicm` 110, `bism` 111.
+`sub` (3 bits) selects the mnemonic: `movq` 000, `mov` with the mark `.32` 001, `mov` with the mark `.16` 010, `mov` with the mark `.8` 011, `addm` 100, `subm` 101, `bicm` 110, `bism` 111.
 
 Fields: `sub=p0[8:6]` `op1.r-1=p0[5]` `op2.base=p0[4:0]` `op1.r-2=p1[15:12]` `op2.stride=p1[11:0]`
 
@@ -560,7 +560,7 @@ Fields: `sub=p0[8:6]` `op1.r-1=p0[5]` `op2.base=p0[4:0]` `op1.r-2=p1[15:12]` `op
 
 `op2` is `pd5-s12`: pre-decrement of a base register (register, 5 bits), 12-bit stride (0: the size of the access).
 
-`sub` (3 bits) selects the mnemonic: `movq` 000, `movl` 001, `movw` 010, `movb` 011, `addm` 100, `subm` 101, `bicm` 110, `bism` 111.
+`sub` (3 bits) selects the mnemonic: `movq` 000, `mov` with the mark `.32` 001, `mov` with the mark `.16` 010, `mov` with the mark `.8` 011, `addm` 100, `subm` 101, `bicm` 110, `bism` 111.
 
 Fields: `sub=p0[8:6]` `op1.r-1=p0[5]` `op2.base=p0[4:0]` `op1.r-2=p1[15:12]` `op2.stride=p1[11:0]`
 
@@ -601,7 +601,7 @@ Fields: `xsub-1=p0[7:5]` `op4.r=p0[4:0]` `xsub-2=p1[15]` `op1.r=p1[14:10]` `op2.
 
 `op2` is `reg5`: register, 5 bits.
 
-`sub` (2 bits) selects the mnemonic: `movq.u` 00, `movl.u` 01, `movw.u` 10, `movb.u` 11.
+`sub` (2 bits) selects the mnemonic: `mov.u` 00, `mov.u` with the mark `.32` 01, `mov.u` with the mark `.16` 10, `mov.u` with the mark `.8` 11.
 
 Fields: `sub=p0[7:6]` `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` `op1.d=p1[11:0]`
 
@@ -614,7 +614,7 @@ Fields: `sub=p0[7:6]` `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` 
 
 `op2` is `b5d12s-x1`: memory at base register, 5 bits + signed 12-bit displacement times 1, -2048 to 2047 bytes.
 
-`sub` (2 bits) selects the mnemonic: `movq.u` 00, `movl.u` 01, `movw.u` 10, `movb.u` 11.
+`sub` (2 bits) selects the mnemonic: `mov.u` 00, `mov.u` with the mark `.32` 01, `mov.u` with the mark `.16` 10, `mov.u` with the mark `.8` 11.
 
 Fields: `sub=p0[7:6]` `op1.r-1=p0[5]` `op2.base=p0[4:0]` `op1.r-2=p1[15:12]` `op2.d=p1[11:0]`
 
@@ -627,7 +627,7 @@ Fields: `sub=p0[7:6]` `op1.r-1=p0[5]` `op2.base=p0[4:0]` `op1.r-2=p1[15:12]` `op
 
 `op2` is `reg5`: register, 5 bits.
 
-`sub` (1 bit) selects the mnemonic: `movzl.u` 0, `movzw.u` 1.
+`sub` (1 bit) selects the mnemonic: `mov.u` with the mark `.u32` 0, `mov.u` with the mark `.u16` 1.
 
 Fields: `sub=p0[7]` `op1.base-1=p0[6:5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:13]` `op1.index=p1[12:8]` `op1.scale=p1[7:6]` `op1.d=p1[5:0]`
 
@@ -666,7 +666,7 @@ Fields: `sub=p0[7:6]` `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` 
 
 `op2` is `reg5`: register, 5 bits.
 
-`sub` (1 bit) selects the mnemonic: `movzl.u` 0, `movzw.u` 1.
+`sub` (1 bit) selects the mnemonic: `mov.u` with the mark `.u32` 0, `mov.u` with the mark `.u16` 1.
 
 Fields: `sub=p0[6]` `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` `op1.d=p1[11:0]`
 
@@ -716,7 +716,7 @@ Fields: `sub=p0[6]` `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` `o
 
 `op2` is `reg5`: register, 5 bits.
 
-`sub` (2 bits) selects the mnemonic: `movq` 00, `movl` 01, `movzb` 10, `lea` 11.
+`sub` (2 bits) selects the mnemonic: `movq` 00, `mov` with the mark `.32` 01, `mov` with the mark `.u8` 10, `lea` 11.
 
 Fields: `sub=p0[6:5]` `op2.r=p0[4:0]` `op1.base=p1[15:12]` `op1.d=p1[11:0]`
 
@@ -729,7 +729,7 @@ Fields: `sub=p0[6:5]` `op2.r=p0[4:0]` `op1.base=p1[15:12]` `op1.d=p1[11:0]`
 
 `op2` is `reg5`: register, 5 bits.
 
-`sub` (2 bits) selects the mnemonic: `movw` 00, `movb` 01, `movzl` 10, `movzw` 11.
+`sub` (2 bits) selects the mnemonic: `mov` with the mark `.16` 00, `mov` with the mark `.8` 01, `mov` with the mark `.u32` 10, `mov` with the mark `.u16` 11.
 
 Fields: `sub=p0[6:5]` `op2.r=p0[4:0]` `op1.base=p1[15:12]` `op1.d=p1[11:0]`
 
@@ -742,7 +742,7 @@ Fields: `sub=p0[6:5]` `op2.r=p0[4:0]` `op1.base=p1[15:12]` `op1.d=p1[11:0]`
 
 `op2` is `reg5`: register, 5 bits.
 
-`sub` (2 bits) selects the mnemonic: `movq` 00, `movl` 01, `movzb` 10, `lea` 11.
+`sub` (2 bits) selects the mnemonic: `movq` 00, `mov` with the mark `.32` 01, `mov` with the mark `.u8` 10, `lea` 11.
 
 Fields: `sub=p0[6:5]` `op2.r=p0[4:0]` `op1.base=p1[15:12]` `op1.index=p1[11:8]` `op1.scale=p1[7:6]` `op1.d=p1[5:0]`
 
@@ -839,7 +839,7 @@ Fields: `sub=p0[5]` `op1.r=p0[4:0]` `op2.imm=p1[15:13]` `op3.pcrel=p1[12:0]`
 
 `op2` is `reg5`: register, 5 bits.
 
-`sub` (2 bits) selects the mnemonic: `movq` 00, `movl` 01, `movzb` 10, `lea` 11.
+`sub` (2 bits) selects the mnemonic: `movq` 00, `mov` with the mark `.32` 01, `mov` with the mark `.u8` 10, `lea` 11.
 
 Fields: `sub=p0[5:4]` `op1.base=p0[3:0]+p1[15]` `op2.r=p1[14:10]` `op1.d=p1[9:0]`
 
@@ -852,7 +852,7 @@ Fields: `sub=p0[5:4]` `op1.base=p0[3:0]+p1[15]` `op2.r=p1[14:10]` `op1.d=p1[9:0]
 
 `op2` is `x4-4d6s`: memory at base + (index << scale) + signed 6-bit displacement; base register, 4 bits (an index into the hot-register table), index register, 4 bits (an index into the hot-register table).
 
-`sub` (1 bit) selects the mnemonic: `movq` 0, `movl` 1.
+`sub` (1 bit) selects the mnemonic: `movq` 0, `mov` with the mark `.32` 1.
 
 Fields: `sub=p0[5]` `op1.r-1=p0[4]` `op2.index=p0[3:0]` `op1.r-2=p1[15:12]` `op2.base=p1[11:8]` `op2.scale=p1[7:6]` `op2.d=p1[5:0]`
 
@@ -865,7 +865,7 @@ Fields: `sub=p0[5]` `op1.r-1=p0[4]` `op2.index=p0[3:0]` `op1.r-2=p1[15:12]` `op2
 
 `op2` is `x4-4d6s`: memory at base + (index << scale) + signed 6-bit displacement; base register, 4 bits (an index into the hot-register table), index register, 4 bits (an index into the hot-register table).
 
-`sub` (1 bit) selects the mnemonic: `movw` 0, `movb` 1.
+`sub` (1 bit) selects the mnemonic: `mov` with the mark `.16` 0, `mov` with the mark `.8` 1.
 
 Fields: `sub=p0[5]` `op1.r-1=p0[4]` `op2.index=p0[3:0]` `op1.r-2=p1[15:12]` `op2.base=p1[11:8]` `op2.scale=p1[7:6]` `op2.d=p1[5:0]`
 
@@ -878,7 +878,7 @@ Fields: `sub=p0[5]` `op1.r-1=p0[4]` `op2.index=p0[3:0]` `op1.r-2=p1[15:12]` `op2
 
 `op2` is `reg4`: register, 4 bits (an index into the hot-register table).
 
-`sub` (2 bits) selects the mnemonic: `movq` 00, `movl` 01, `movzb` 10, `lea` 11.
+`sub` (2 bits) selects the mnemonic: `movq` 00, `mov` with the mark `.32` 01, `mov` with the mark `.u8` 10, `lea` 11.
 
 Fields: `sub=p0[5:4]` `op2.r=p0[3:0]` `op1.pcrel=p1[15:0]`
 
@@ -997,7 +997,7 @@ Fields: `op1.r=p0[4:0]` `op2.pcrel=p1[15:0]`
 
 `op2` is `reg5`: register, 5 bits.
 
-`sub` (2 bits) selects the mnemonic: `movq` 00, `movl` 01, `movzb` 10, `lea` 11.
+`sub` (2 bits) selects the mnemonic: `movq` 00, `mov` with the mark `.32` 01, `mov` with the mark `.u8` 10, `lea` 11.
 
 Fields: `sub=p0[4:3]` `op2.r=p0[2:0]+p1[15:14]` `op1.pcrel=p1[13:0]`
 
@@ -1023,7 +1023,7 @@ Fields: `sub=p0[4:3]` `op1.base=p0[2:0]+p1[15]` `op2.r=p1[14:10]` `op1.d=p1[9:0]
 
 `op2` is `b4d12u-xsz`: memory at base register, 4 bits (an index into the hot-register table) + unsigned 12-bit displacement times the size of the access.
 
-`sub` (1 bit) selects the mnemonic: `movq` 0, `movl` 1.
+`sub` (1 bit) selects the mnemonic: `movq` 0, `mov` with the mark `.32` 1.
 
 Fields: `sub=p0[4]` `op2.base=p0[3:0]` `op1.r=p1[15:12]` `op2.d=p1[11:0]`
 
@@ -1036,7 +1036,7 @@ Fields: `sub=p0[4]` `op2.base=p0[3:0]` `op1.r=p1[15:12]` `op2.d=p1[11:0]`
 
 `op2` is `b4d12u-xsz`: memory at base register, 4 bits (an index into the hot-register table) + unsigned 12-bit displacement times the size of the access.
 
-`sub` (1 bit) selects the mnemonic: `movw` 0, `movb` 1.
+`sub` (1 bit) selects the mnemonic: `mov` with the mark `.16` 0, `mov` with the mark `.8` 1.
 
 Fields: `sub=p0[4]` `op2.base=p0[3:0]` `op1.r=p1[15:12]` `op2.d=p1[11:0]`
 
@@ -1049,7 +1049,7 @@ Fields: `sub=p0[4]` `op2.base=p0[3:0]` `op1.r=p1[15:12]` `op2.d=p1[11:0]`
 
 `op2` is `reg5`: register, 5 bits.
 
-`sub` (2 bits) selects the mnemonic: `movw` 00, `movb` 01, `movzl` 10, `movzw` 11.
+`sub` (2 bits) selects the mnemonic: `mov` with the mark `.16` 00, `mov` with the mark `.8` 01, `mov` with the mark `.u32` 10, `mov` with the mark `.u16` 11.
 
 Fields: `sub=p0[4:3]` `op1.base=p0[2:0]+p1[15]` `op1.index=p1[14:11]` `op1.scale=p1[10:9]` `op1.d=p1[8:5]` `op2.r=p1[4:0]`
 
@@ -1164,7 +1164,7 @@ Fields: `sub=p0[3:2]` `op1.r=p0[1:0]+p1[15:13]` `op2.r=p1[12:8]` `op3.pcrel=p1[7
 
 `op2` is `reg4`: register, 4 bits (an index into the hot-register table).
 
-`sub` (2 bits) selects the mnemonic: `movw` 00, `movb` 01, `movzl` 10, `movzw` 11.
+`sub` (2 bits) selects the mnemonic: `mov` with the mark `.16` 00, `mov` with the mark `.8` 01, `mov` with the mark `.u32` 10, `mov` with the mark `.u16` 11.
 
 Fields: `sub=p0[3:2]` `op2.r=p0[1:0]+p1[15:14]` `op1.pcrel=p1[13:0]`
 
@@ -1268,7 +1268,7 @@ Fields: `sub=p0[2:1]` `op1.base=p0[0]+p1[15:12]` `op1.stride=p1[11:0]`
 
 `op2` is `b5d8s-xsz`: memory at base register, 5 bits + signed 8-bit displacement times the size of the access.
 
-`sub` (1 bit) selects the mnemonic: `movq` 0, `movl` 1.
+`sub` (1 bit) selects the mnemonic: `movq` 0, `mov` with the mark `.32` 1.
 
 Fields: `sub=p0[2]` `op1.r=p0[1:0]+p1[15:13]` `op2.base=p1[12:8]` `op2.d=p1[7:0]`
 
@@ -1303,7 +1303,7 @@ Fields: `sub=p0[2:1]` `op1.base=p0[0]+p1[15:12]` `op1.d=p1[11:0]`
 
 `op2` is `reg5`: register, 5 bits.
 
-`sub` (2 bits) selects the mnemonic: `movq` 00, `movl` 01, `movzb` 10, `lea` 11.
+`sub` (2 bits) selects the mnemonic: `movq` 00, `mov` with the mark `.32` 01, `mov` with the mark `.u8` 10, `lea` 11.
 
 Fields: `sub=p0[2:1]` `op1.base=p0[0]+p1[15:12]` `op1.index=p1[11:7]` `op1.scale=p1[6:5]` `op2.r=p1[4:0]`
 
@@ -1316,7 +1316,7 @@ Fields: `sub=p0[2:1]` `op1.base=p0[0]+p1[15:12]` `op1.index=p1[11:7]` `op1.scale
 
 `op2` is `reg5`: register, 5 bits.
 
-`sub` (2 bits) selects the mnemonic: `movw` 00, `movb` 01, `movzl` 10, `movzw` 11.
+`sub` (2 bits) selects the mnemonic: `mov` with the mark `.16` 00, `mov` with the mark `.8` 01, `mov` with the mark `.u32` 10, `mov` with the mark `.u16` 11.
 
 Fields: `sub=p0[2:1]` `op1.base=p0[0]+p1[15:12]` `op1.index=p1[11:7]` `op1.scale=p1[6:5]` `op2.r=p1[4:0]`
 
@@ -1536,7 +1536,7 @@ Fields: `op1.base=p0[1:0]+p1[15:13]` `op1.index=p1[12:8]` `op1.scale=p1[7:6]` `o
 
 `op2` is `reg5`: register, 5 bits.
 
-`sub` (2 bits) selects the mnemonic: `movw` 00, `movb` 01, `movzl` 10, `movzw` 11.
+`sub` (2 bits) selects the mnemonic: `mov` with the mark `.16` 00, `mov` with the mark `.8` 01, `mov` with the mark `.u32` 10, `mov` with the mark `.u16` 11.
 
 Fields: `sub=p0[1:0]` `op1.base=p1[15:11]` `op1.d=p1[10:5]` `op2.r=p1[4:0]`
 
@@ -1549,7 +1549,7 @@ Fields: `sub=p0[1:0]` `op1.base=p1[15:11]` `op1.d=p1[10:5]` `op2.r=p1[4:0]`
 
 `op2` is `reg5`: register, 5 bits.
 
-`sub` (2 bits) selects the mnemonic: `movw` 00, `movb` 01, `movzl` 10, `movzw` 11.
+`sub` (2 bits) selects the mnemonic: `mov` with the mark `.16` 00, `mov` with the mark `.8` 01, `mov` with the mark `.u32` 10, `mov` with the mark `.u16` 11.
 
 Fields: `sub=p0[1:0]` `op1.base=p1[15:11]` `op1.d=p1[10:5]` `op2.r=p1[4:0]`
 
@@ -1573,7 +1573,7 @@ Fields: `op1.base=p0[1:0]+p1[15:13]` `op2.r=p1[12:8]` `op1.d=p1[7:0]`
 
 `op2` is `x5-5d0s`: memory at base + (index << scale); base register, 5 bits, index register, 5 bits.
 
-`sub` (1 bit) selects the mnemonic: `movq` 0, `movl` 1.
+`sub` (1 bit) selects the mnemonic: `movq` 0, `mov` with the mark `.32` 1.
 
 Fields: `sub=p0[1]` `op1.r=p0[0]+p1[15:12]` `op2.base=p1[11:7]` `op2.index=p1[6:2]` `op2.scale=p1[1:0]`
 
@@ -1586,7 +1586,7 @@ Fields: `sub=p0[1]` `op1.r=p0[0]+p1[15:12]` `op2.base=p1[11:7]` `op2.index=p1[6:
 
 `op2` is `x5-5d0s`: memory at base + (index << scale); base register, 5 bits, index register, 5 bits.
 
-`sub` (1 bit) selects the mnemonic: `movw` 0, `movb` 1.
+`sub` (1 bit) selects the mnemonic: `mov` with the mark `.16` 0, `mov` with the mark `.8` 1.
 
 Fields: `sub=p0[1]` `op1.r=p0[0]+p1[15:12]` `op2.base=p1[11:7]` `op2.index=p1[6:2]` `op2.scale=p1[1:0]`
 
@@ -1634,7 +1634,7 @@ Fields: `sub=p0[1]` `op2.r=p0[0]+p1[15:12]` `op1.imm=p1[11:0]`
 
 `op2` is `reg5`: register, 5 bits.
 
-`sub` (1 bit) selects the mnemonic: `bic` 0, `movb` 1.
+`sub` (1 bit) selects the mnemonic: `bic` 0, `mov` with the mark `.8` 1.
 
 Fields: `sub=p0[1]` `op2.r=p0[0]+p1[15:12]` `op1.imm=p1[11:0]`
 
@@ -1713,7 +1713,7 @@ Fields: `op1.base=p0[0]+p1[15:12]` `op1.stride=p1[11:0]`
 
 `op2` is `b5d6s-xsz`: memory at base register, 5 bits + signed 6-bit displacement times the size of the access.
 
-`sub` (1 bit) selects the mnemonic: `movw` 0, `movb` 1.
+`sub` (1 bit) selects the mnemonic: `mov` with the mark `.16` 0, `mov` with the mark `.8` 1.
 
 Fields: `sub=p0[0]` `op1.r=p1[15:11]` `op2.base=p1[10:6]` `op2.d=p1[5:0]`
 
@@ -1768,7 +1768,7 @@ Fields: `op2.r=p0[0]+p1[15:12]` `op1.imm=p1[11:0]`
 
 `op2` is `b4d8s-xsz`: memory at base register, 4 bits (an index into the hot-register table) + signed 8-bit displacement times the size of the access.
 
-`sub` (1 bit) selects the mnemonic: `movw` 0, `movb` 1.
+`sub` (1 bit) selects the mnemonic: `mov` with the mark `.16` 0, `mov` with the mark `.8` 1.
 
 Fields: `sub=p0[0]` `op1.r=p1[15:12]` `op2.base=p1[11:8]` `op2.d=p1[7:0]`
 
@@ -1867,7 +1867,7 @@ Fields: `xsub=p1[15:10]` `op1.base=p1[9:5]` `op2.r=p1[4:0]`
 
 `op2` is `reg5`: register, 5 bits.
 
-`sub` (4 bits) selects the mnemonic: `movq` 0000, `movl` 0001, `movw` 0010, `movb` 0011, `movzl` 0100, `movzw` 0101, `movzb` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
+`sub` (4 bits) selects the mnemonic: `movq` 0000, `mov` with the mark `.32` 0001, `mov` with the mark `.16` 0010, `mov` with the mark `.8` 0011, `mov` with the mark `.u32` 0100, `mov` with the mark `.u16` 0101, `mov` with the mark `.u8` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
 
 Fields: `sub=p0[10:7]` `op1.base-1=p0[6:5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:13]` `op1.index=p1[12:8]` `op1.scale=p1[7:6]` `op1.d=p1[5:0]+p2[15:0]`
 
@@ -1880,7 +1880,7 @@ Fields: `sub=p0[10:7]` `op1.base-1=p0[6:5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:13
 
 `op2` is `reg5`: register, 5 bits.
 
-`sub` (4 bits) selects the mnemonic: `movq` 0000, `movl` 0001, `movw` 0010, `movb` 0011, `movzl` 0100, `movzw` 0101, `movzb` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
+`sub` (4 bits) selects the mnemonic: `movq` 0000, `mov` with the mark `.32` 0001, `mov` with the mark `.16` 0010, `mov` with the mark `.8` 0011, `mov` with the mark `.u32` 0100, `mov` with the mark `.u16` 0101, `mov` with the mark `.u8` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
 
 Fields: `sub=p0[9:6]` `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` `op1.d=p1[11:0]+p2[15:0]`
 
@@ -1893,7 +1893,7 @@ Fields: `sub=p0[9:6]` `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` 
 
 `op2` is `x5-5d22s`: memory at base + (index << scale) + signed 22-bit displacement; base register, 5 bits, index register, 5 bits.
 
-`sub` (3 bits) selects the mnemonic: `movq` 000, `movl` 001, `movw` 010, `movb` 011, `addm` 100, `subm` 101, `bicm` 110, `bism` 111.
+`sub` (3 bits) selects the mnemonic: `movq` 000, `mov` with the mark `.32` 001, `mov` with the mark `.16` 010, `mov` with the mark `.8` 011, `addm` 100, `subm` 101, `bicm` 110, `bism` 111.
 
 Fields: `sub=p0[9:7]` `op1.r-1=p0[6:5]` `op2.index=p0[4:0]` `op1.r-2=p1[15:13]` `op2.base=p1[12:8]` `op2.scale=p1[7:6]` `op2.d=p1[5:0]+p2[15:0]`
 
@@ -1949,7 +1949,7 @@ Fields: `sub=p0[8:7]` `op1.base-1=p0[6:5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:13]
 
 `op2` is `reg5`: register, 5 bits.
 
-`sub` (4 bits) selects the mnemonic: `movq` 0000, `movl` 0001, `movw` 0010, `movb` 0011, `movzl` 0100, `movzw` 0101, `movzb` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
+`sub` (4 bits) selects the mnemonic: `movq` 0000, `mov` with the mark `.32` 0001, `mov` with the mark `.16` 0010, `mov` with the mark `.8` 0011, `mov` with the mark `.u32` 0100, `mov` with the mark `.u16` 0101, `mov` with the mark `.u8` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
 
 Fields: `sub=p0[8:5]` `op2.r=p0[4:0]` `op1.pcrel=p1[15:0]+p2[15:0]`
 
@@ -1962,7 +1962,7 @@ Fields: `sub=p0[8:5]` `op2.r=p0[4:0]` `op1.pcrel=p1[15:0]+p2[15:0]`
 
 `op2` is `reg5`: register, 5 bits.
 
-`sub` (4 bits) selects the mnemonic: `movq` 0000, `movl` 0001, `movw` 0010, `movb` 0011, `movzl` 0100, `movzw` 0101, `movzb` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
+`sub` (4 bits) selects the mnemonic: `movq` 0000, `mov` with the mark `.32` 0001, `mov` with the mark `.16` 0010, `mov` with the mark `.8` 0011, `mov` with the mark `.u32` 0100, `mov` with the mark `.u16` 0101, `mov` with the mark `.u8` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
 
 Fields: `sub=p0[8:5]` `op2.r=p0[4:0]` `op1.abs=p1[15:0]+p2[15:0]`
 
@@ -1975,7 +1975,7 @@ Fields: `sub=p0[8:5]` `op2.r=p0[4:0]` `op1.abs=p1[15:0]+p2[15:0]`
 
 `op2` is `reg5`: register, 5 bits.
 
-`sub` (4 bits) selects the mnemonic: `add` 0000, `sub` 0001, `bic` 0010, `bis` 0011, `xor` 0100, `and` 0101, `mul` 0110, `mulh` 0111, `shl` 1000, `shr` 1001, `sar` 1010, `fadd` 1011, `fsub` 1100, `fmul` 1101, `movq` 1110, `movl` 1111.
+`sub` (4 bits) selects the mnemonic: `add` 0000, `sub` 0001, `bic` 0010, `bis` 0011, `xor` 0100, `and` 0101, `mul` 0110, `mulh` 0111, `shl` 1000, `shr` 1001, `sar` 1010, `fadd` 1011, `fsub` 1100, `fmul` 1101, `movq` 1110, `mov` with the mark `.32` 1111.
 
 Fields: `sub=p0[8:5]` `op2.r=p0[4:0]` `op1.imm=p1[15:0]+p2[15:0]`
 
@@ -1988,7 +1988,7 @@ Fields: `sub=p0[8:5]` `op2.r=p0[4:0]` `op1.imm=p1[15:0]+p2[15:0]`
 
 `op2` is `b5d28s-x1`: memory at base register, 5 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes.
 
-`sub` (3 bits) selects the mnemonic: `movq` 000, `movl` 001, `movw` 010, `movb` 011, `addm` 100, `subm` 101, `bicm` 110, `bism` 111.
+`sub` (3 bits) selects the mnemonic: `movq` 000, `mov` with the mark `.32` 001, `mov` with the mark `.16` 010, `mov` with the mark `.8` 011, `addm` 100, `subm` 101, `bicm` 110, `bism` 111.
 
 Fields: `sub=p0[8:6]` `op1.r-1=p0[5]` `op2.base=p0[4:0]` `op1.r-2=p1[15:12]` `op2.d=p1[11:0]+p2[15:0]`
 
@@ -2018,7 +2018,7 @@ Fields: `op1.r-1=p0[7:5]` `op4.r=p0[4:0]` `op1.r-2=p1[15:14]` `op2.imm=p1[13:8]`
 
 `op2` is `reg5`: register, 5 bits.
 
-`sub` (2 bits) selects the mnemonic: `movq.u` 00, `movl.u` 01, `movw.u` 10, `movb.u` 11.
+`sub` (2 bits) selects the mnemonic: `mov.u` 00, `mov.u` with the mark `.32` 01, `mov.u` with the mark `.16` 10, `mov.u` with the mark `.8` 11.
 
 Fields: `sub=p0[7:6]` `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` `op1.d=p1[11:0]+p2[15:0]`
 
@@ -2031,7 +2031,7 @@ Fields: `sub=p0[7:6]` `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` 
 
 `op2` is `b5d28s-x1`: memory at base register, 5 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes.
 
-`sub` (2 bits) selects the mnemonic: `movq.u` 00, `movl.u` 01, `movw.u` 10, `movb.u` 11.
+`sub` (2 bits) selects the mnemonic: `mov.u` 00, `mov.u` with the mark `.32` 01, `mov.u` with the mark `.16` 10, `mov.u` with the mark `.8` 11.
 
 Fields: `sub=p0[7:6]` `op1.r-1=p0[5]` `op2.base=p0[4:0]` `op1.r-2=p1[15:12]` `op2.d=p1[11:0]+p2[15:0]`
 
@@ -2070,7 +2070,7 @@ Fields: `sub=p0[7]` `op1.base-1=p0[6:5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:13]` 
 
 `op2` is `pc32-u1`: pc-relative, 32 bits counted in 1-byte units (-2147483648 to 2147483647 bytes).
 
-`sub` (3 bits) selects the mnemonic: `movq` 000, `movl` 001, `movw` 010, `movb` 011, `addm` 100, `subm` 101, `bicm` 110, `bism` 111.
+`sub` (3 bits) selects the mnemonic: `movq` 000, `mov` with the mark `.32` 001, `mov` with the mark `.16` 010, `mov` with the mark `.8` 011, `addm` 100, `subm` 101, `bicm` 110, `bism` 111.
 
 Fields: `sub=p0[7:5]` `op1.r=p0[4:0]` `op2.pcrel=p1[15:0]+p2[15:0]`
 
@@ -2083,7 +2083,7 @@ Fields: `sub=p0[7:5]` `op1.r=p0[4:0]` `op2.pcrel=p1[15:0]+p2[15:0]`
 
 `op2` is `abs32`: absolute address, 32 bits.
 
-`sub` (3 bits) selects the mnemonic: `movq` 000, `movl` 001, `movw` 010, `movb` 011, `addm` 100, `subm` 101, `bicm` 110, `bism` 111.
+`sub` (3 bits) selects the mnemonic: `movq` 000, `mov` with the mark `.32` 001, `mov` with the mark `.16` 010, `mov` with the mark `.8` 011, `addm` 100, `subm` 101, `bicm` 110, `bism` 111.
 
 Fields: `sub=p0[7:5]` `op1.r=p0[4:0]` `op2.abs=p1[15:0]+p2[15:0]`
 
@@ -2096,7 +2096,7 @@ Fields: `sub=p0[7:5]` `op1.r=p0[4:0]` `op2.abs=p1[15:0]+p2[15:0]`
 
 `op2` is `reg5`: register, 5 bits.
 
-`sub` (1 bit) selects the mnemonic: `movzl.u` 0, `movzw.u` 1.
+`sub` (1 bit) selects the mnemonic: `mov.u` with the mark `.u32` 0, `mov.u` with the mark `.u16` 1.
 
 Fields: `sub=p0[6]` `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` `op1.d=p1[11:0]+p2[15:0]`
 
@@ -2148,7 +2148,7 @@ Fields: `sub=p0[6:5]` `op2.r=p0[4:0]` `op1.abs=p1[15:0]+p2[15:0]`
 
 `op2` is `reg5`: register, 5 bits.
 
-`sub` (2 bits) selects the mnemonic: `movw` 00, `movb` 01, `movzl` 10, `movzw` 11.
+`sub` (2 bits) selects the mnemonic: `mov` with the mark `.16` 00, `mov` with the mark `.8` 01, `mov` with the mark `.u32` 10, `mov` with the mark `.u16` 11.
 
 Fields: `sub=p0[6:5]` `op2.r=p0[4:0]` `op1.imm=p1[15:0]+p2[15:0]`
 
@@ -2220,7 +2220,7 @@ Fields: `sub=p0[4:2]` `op1.base=p0[1:0]+p1[15:13]` `op1.index=p1[12:8]` `op1.sca
 
 `op2` is `reg5`: register, 5 bits.
 
-`sub` (4 bits) selects the mnemonic: `movq` 0000, `movl` 0001, `movw` 0010, `movb` 0011, `movzl` 0100, `movzw` 0101, `movzb` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
+`sub` (4 bits) selects the mnemonic: `movq` 0000, `mov` with the mark `.32` 0001, `mov` with the mark `.16` 0010, `mov` with the mark `.8` 0011, `mov` with the mark `.u32` 0100, `mov` with the mark `.u16` 0101, `mov` with the mark `.u8` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
 
 Fields: `sub=p0[4:1]` `op2.r=p0[0]+p1[15:12]` `op1.d=p1[11:0]+p2[15:0]`
 
@@ -2617,11 +2617,11 @@ Fields: `op2.r=p0[4:0]` `op1.imm=p1[15:0]+p2[15:0]+p3[15:0]+p4[15:0]`
 For every mnemonic, the charts in which it is a sub-opcode or the whole leaf.
 
 * <a id="mn-aadd"></a>`AADD`: [ATOM-1](#ATOM-1)
-* <a id="mn-aaddl"></a>`AADDL`: [ATOM-1](#ATOM-1)
+* <a id="mn-aaddl"></a>`AADD with `.32``: [ATOM-1](#ATOM-1)
 * <a id="mn-aand"></a>`AAND`: [ATOM-1](#ATOM-1)
-* <a id="mn-aandl"></a>`AANDL`: [ATOM-1](#ATOM-1)
+* <a id="mn-aandl"></a>`AAND with `.32``: [ATOM-1](#ATOM-1)
 * <a id="mn-abis"></a>`ABIS`: [ATOM-1](#ATOM-1)
-* <a id="mn-abisl"></a>`ABISL`: [ATOM-1](#ATOM-1)
+* <a id="mn-abisl"></a>`ABIS with `.32``: [ATOM-1](#ATOM-1)
 * <a id="mn-add"></a>`ADD`: [LDF-B28-1](#LDF-B28-1), [LDF-X22-1](#LDF-X22-1), [LDF-PI12-1](#LDF-PI12-1), [LDF-PD12-1](#LDF-PD12-1), [LDF-PC32-1](#LDF-PC32-1), [LDF-A32-1](#LDF-A32-1), [LDFI-I32-1](#LDFI-I32-1), [DPF-D28-1](#DPF-D28-1), [RRF-1](#RRF-1), [RRF5-1](#RRF5-1), [SPADJF-1](#SPADJF-1), [RR5-1](#RR5-1), [IMMh44-b-1](#IMMh44-b-1), [SPADJ6-a-1](#SPADJ6-a-1), [LDBu8-c-1](#LDBu8-c-1), [LDX0-c-1](#LDX0-c-1), [LDI12-b-1](#LDI12-b-1), [LDBu10H-c-1](#LDBu10H-c-1), [LDPC16H-c-1](#LDPC16H-c-1), [LDI18H-b-1](#LDI18H-b-1)
 * <a id="mn-addm"></a>`ADDM`: [STF-B28-1](#STF-B28-1), [STF-X22-1](#STF-X22-1), [STF-PI12-1](#STF-PI12-1), [STF-PD12-1](#STF-PD12-1), [STF-PC32-1](#STF-PC32-1), [STF-A32-1](#STF-A32-1)
 * <a id="mn-addv"></a>`ADDV`: [R2-1](#R2-1)
@@ -2633,18 +2633,18 @@ For every mnemonic, the charts in which it is a sub-opcode or the whole leaf.
 * <a id="mn-aesks1"></a>`AESKS1`: [RRI-1](#RRI-1)
 * <a id="mn-aesks2"></a>`AESKS2`: [R3-1](#R3-1)
 * <a id="mn-amax"></a>`AMAX`: [ATOM-1](#ATOM-1)
-* <a id="mn-amaxl"></a>`AMAXL`: [ATOM-1](#ATOM-1)
+* <a id="mn-amaxl"></a>`AMAX with `.32``: [ATOM-1](#ATOM-1)
 * <a id="mn-amaxu"></a>`AMAXU`: [ATOM-1](#ATOM-1)
-* <a id="mn-amaxul"></a>`AMAXUL`: [ATOM-1](#ATOM-1)
+* <a id="mn-amaxul"></a>`AMAXU with `.32``: [ATOM-1](#ATOM-1)
 * <a id="mn-amin"></a>`AMIN`: [ATOM-1](#ATOM-1)
-* <a id="mn-aminl"></a>`AMINL`: [ATOM-1](#ATOM-1)
+* <a id="mn-aminl"></a>`AMIN with `.32``: [ATOM-1](#ATOM-1)
 * <a id="mn-aminu"></a>`AMINU`: [ATOM-1](#ATOM-1)
-* <a id="mn-aminul"></a>`AMINUL`: [ATOM-1](#ATOM-1)
+* <a id="mn-aminul"></a>`AMINU with `.32``: [ATOM-1](#ATOM-1)
 * <a id="mn-and"></a>`AND`: [LDF-B28-1](#LDF-B28-1), [LDF-X22-1](#LDF-X22-1), [LDF-PI12-1](#LDF-PI12-1), [LDF-PD12-1](#LDF-PD12-1), [LDF-PC32-1](#LDF-PC32-1), [LDF-A32-1](#LDF-A32-1), [LDFI-I32-1](#LDFI-I32-1), [DPF-D28-1](#DPF-D28-1), [RRF-1](#RRF-1), [RRF5-1](#RRF5-1), [RR5-1](#RR5-1), [IMMh44-b-1](#IMMh44-b-1), [LDBu8-c-1](#LDBu8-c-1), [LDX0-c-1](#LDX0-c-1), [LDI12-b-2](#LDI12-b-2), [LDBu10H-c-1](#LDBu10H-c-1), [LDPC16H-c-1](#LDPC16H-c-1), [LDI18H-b-2](#LDI18H-b-2)
 * <a id="mn-asl"></a>`ASL`: [SOF-B28-1](#SOF-B28-1), [SOF-X22-1](#SOF-X22-1), [SOF-PI12-1](#SOF-PI12-1), [SOF-PD12-1](#SOF-PD12-1), [SOF-PC32-1](#SOF-PC32-1), [SOF-A32-1](#SOF-A32-1), [SOPR-1](#SOPR-1)
 * <a id="mn-asr"></a>`ASR`: [SOF-B28-1](#SOF-B28-1), [SOF-X22-1](#SOF-X22-1), [SOF-PI12-1](#SOF-PI12-1), [SOF-PD12-1](#SOF-PD12-1), [SOF-PC32-1](#SOF-PC32-1), [SOF-A32-1](#SOF-A32-1), [SOPR-1](#SOPR-1)
 * <a id="mn-axor"></a>`AXOR`: [ATOM-1](#ATOM-1)
-* <a id="mn-axorl"></a>`AXORL`: [ATOM-1](#ATOM-1)
+* <a id="mn-axorl"></a>`AXOR with `.32``: [ATOM-1](#ATOM-1)
 * <a id="mn-bic"></a>`BIC`: [LDF-B28-1](#LDF-B28-1), [LDF-X22-1](#LDF-X22-1), [LDF-PI12-1](#LDF-PI12-1), [LDF-PD12-1](#LDF-PD12-1), [LDF-PC32-1](#LDF-PC32-1), [LDF-A32-1](#LDF-A32-1), [LDFI-I32-1](#LDFI-I32-1), [DPF-D28-1](#DPF-D28-1), [RRF-1](#RRF-1), [RRF5-1](#RRF5-1), [LDI12-d-2](#LDI12-d-2), [LDPC12H-d-1](#LDPC12H-d-1), [LDI14H-c-1](#LDI14H-c-1)
 * <a id="mn-bicm"></a>`BICM`: [STF-B28-1](#STF-B28-1), [STF-X22-1](#STF-X22-1), [STF-PI12-1](#STF-PI12-1), [STF-PD12-1](#STF-PD12-1), [STF-PC32-1](#STF-PC32-1), [STF-A32-1](#STF-A32-1)
 * <a id="mn-bis"></a>`BIS`: [LDF-B28-1](#LDF-B28-1), [LDF-X22-1](#LDF-X22-1), [LDF-PI12-1](#LDF-PI12-1), [LDF-PD12-1](#LDF-PD12-1), [LDF-PC32-1](#LDF-PC32-1), [LDF-A32-1](#LDF-A32-1), [LDFI-I32-1](#LDFI-I32-1), [DPF-D28-1](#DPF-D28-1), [RRF-1](#RRF-1), [RRF5-1](#RRF5-1), [RR5-1](#RR5-1), [LDBu8-c-1](#LDBu8-c-1), [LDX0-c-1](#LDX0-c-1), [LDBu10H-c-1](#LDBu10H-c-1), [LDPC16H-c-1](#LDPC16H-c-1), [LDI14H-c-1](#LDI14H-c-1)
@@ -2655,13 +2655,13 @@ For every mnemonic, the charts in which it is a sub-opcode or the whole leaf.
 * <a id="mn-br"></a>`BR`: [BRF-1](#BRF-1), [BR1-9-a-1](#BR1-9-a-1), [BR2-16-a-1](#BR2-16-a-1)
 * <a id="mn-bsel"></a>`BSEL`: [R4-1](#R4-1)
 * <a id="mn-bswap"></a>`BSWAP`: [R2-1](#R2-1)
-* <a id="mn-bswapl"></a>`BSWAPL`: [R2-1](#R2-1)
-* <a id="mn-bswapw"></a>`BSWAPW`: [R2-1](#R2-1)
+* <a id="mn-bswapl"></a>`BSWAP with `.32``: [R2-1](#R2-1)
+* <a id="mn-bswapw"></a>`BSWAP with `.16``: [R2-1](#R2-1)
 * <a id="mn-btag"></a>`BTAG`: [TAG-1](#TAG-1)
 * <a id="mn-call"></a>`CALL`: [SOF-B28-2](#SOF-B28-2), [SOF-X22-2](#SOF-X22-2), [SOF-PI12-2](#SOF-PI12-2), [SOF-PD12-2](#SOF-PD12-2), [SOF-PC32-2](#SOF-PC32-2), [SOF-A32-2](#SOF-A32-2), [CALLF-1](#CALLF-1), [SOPR-3](#SOPR-3), [SOBu12-x-1](#SOBu12-x-1), [SOX4-x-1](#SOX4-x-1), [CALL2-20-c-1](#CALL2-20-c-1)
 * <a id="mn-calli"></a>`CALLI`: [SOF-B28-3](#SOF-B28-3), [SOF-X22-3](#SOF-X22-3), [SOF-PI12-3](#SOF-PI12-3), [SOF-PD12-3](#SOF-PD12-3), [SOF-PC32-3](#SOF-PC32-3), [SOF-A32-3](#SOF-A32-3), [SOBu12-x-1](#SOBu12-x-1), [SOX4-x-1](#SOX4-x-1)
 * <a id="mn-cas"></a>`CAS`: [ATOM-1](#ATOM-1)
-* <a id="mn-casl"></a>`CASL`: [ATOM-1](#ATOM-1)
+* <a id="mn-casl"></a>`CAS with `.32``: [ATOM-1](#ATOM-1)
 * <a id="mn-cbcc"></a>`CBCC`: [CBR8-c-1](#CBR8-c-1), [CB3I16-12-c-1](#CB3I16-12-c-1), [CBR10H-c-1](#CBR10H-c-1), [CBI3-10H-c-1](#CBI3-10H-c-1), [CBI8-8H-c-1](#CBI8-8H-c-1), [CB3R24-bc-1](#CB3R24-bc-1), [CB3I12-16-c-1](#CB3I12-16-c-1)
 * <a id="mn-cbcs"></a>`CBCS`: [CBR8-c-1](#CBR8-c-1), [CB3I16-12-c-1](#CB3I16-12-c-1), [CBR10H-c-1](#CBR10H-c-1), [CBI3-10H-c-1](#CBI3-10H-c-1), [CBI8-8H-c-1](#CBI8-8H-c-1), [CB3R24-bc-1](#CB3R24-bc-1), [CB3I12-16-c-1](#CB3I12-16-c-1)
 * <a id="mn-cbeq"></a>`CBEQ`: [CBZ1-5-a-1](#CBZ1-5-a-1), [CBR8-a-1](#CBR8-a-1), [CB3I16-12-a-1](#CB3I16-12-a-1), [CB3R24-a-1](#CB3R24-a-1), [CBI3-10-a-1](#CBI3-10-a-1), [CBI5-8-a-1](#CBI5-8-a-1), [CBR10H-a-1](#CBR10H-a-1), [CBZ2-14H-a-1](#CBZ2-14H-a-1), [CB3I12-16H-a-1](#CB3I12-16H-a-1), [CBI3-12H-a-1](#CBI3-12H-a-1), [CBI8-10H-a-1](#CBI8-10H-a-1), [CBI10-8H-a-1](#CBI10-8H-a-1)
@@ -2699,48 +2699,48 @@ For every mnemonic, the charts in which it is a sub-opcode or the whole leaf.
 * <a id="mn-extzb"></a>`EXTZB`: [BFy-1](#BFy-1)
 * <a id="mn-fabs"></a>`FABS`: [R2-1](#R2-1)
 * <a id="mn-fadd"></a>`FADD`: [LDF-B28-2](#LDF-B28-2), [LDF-X22-2](#LDF-X22-2), [LDF-PI12-2](#LDF-PI12-2), [LDF-PD12-2](#LDF-PD12-2), [LDF-PC32-2](#LDF-PC32-2), [LDF-A32-2](#LDF-A32-2), [LDFI-I32-1](#LDFI-I32-1), [DPF-D28-2](#DPF-D28-2), [RRF-2](#RRF-2), [RRF5-1](#RRF5-1), [LDPC12H-d-1](#LDPC12H-d-1)
-* <a id="mn-fadd32"></a>`FADD32`: [R2-1](#R2-1)
+* <a id="mn-fadd32"></a>`FADD with `.32``: [R2-1](#R2-1)
 * <a id="mn-fcbeq"></a>`FCBEQ`: [FCBR10H-1](#FCBR10H-1), [FCB3R22-1](#FCB3R22-1)
-* <a id="mn-fcbeq32"></a>`FCBEQ32`: [FCBR10H-1](#FCBR10H-1), [FCB3R22-1](#FCB3R22-1)
+* <a id="mn-fcbeq32"></a>`FCBEQ with `.32``: [FCBR10H-1](#FCBR10H-1), [FCB3R22-1](#FCB3R22-1)
 * <a id="mn-fcble"></a>`FCBLE`: [FCBR10H-1](#FCBR10H-1), [FCB3R22-1](#FCB3R22-1)
-* <a id="mn-fcble32"></a>`FCBLE32`: [FCBR10H-1](#FCBR10H-1), [FCB3R22-1](#FCB3R22-1)
+* <a id="mn-fcble32"></a>`FCBLE with `.32``: [FCBR10H-1](#FCBR10H-1), [FCB3R22-1](#FCB3R22-1)
 * <a id="mn-fcblt"></a>`FCBLT`: [FCBR10H-1](#FCBR10H-1), [FCB3R22-1](#FCB3R22-1)
-* <a id="mn-fcblt32"></a>`FCBLT32`: [FCBR10H-1](#FCBR10H-1), [FCB3R22-1](#FCB3R22-1)
+* <a id="mn-fcblt32"></a>`FCBLT with `.32``: [FCBR10H-1](#FCBR10H-1), [FCB3R22-1](#FCB3R22-1)
 * <a id="mn-fcbne"></a>`FCBNE`: [FCBR10H-1](#FCBR10H-1), [FCB3R22-1](#FCB3R22-1)
-* <a id="mn-fcbne32"></a>`FCBNE32`: [FCBR10H-1](#FCBR10H-1), [FCB3R22-1](#FCB3R22-1)
+* <a id="mn-fcbne32"></a>`FCBNE with `.32``: [FCBR10H-1](#FCBR10H-1), [FCB3R22-1](#FCB3R22-1)
 * <a id="mn-fcbor"></a>`FCBOR`: [FCBR10H-1](#FCBR10H-1), [FCB3R22-1](#FCB3R22-1)
-* <a id="mn-fcbor32"></a>`FCBOR32`: [FCBR10H-1](#FCBR10H-1), [FCB3R22-1](#FCB3R22-1)
+* <a id="mn-fcbor32"></a>`FCBOR with `.32``: [FCBR10H-1](#FCBR10H-1), [FCB3R22-1](#FCB3R22-1)
 * <a id="mn-fcbuo"></a>`FCBUO`: [FCBR10H-1](#FCBR10H-1), [FCB3R22-1](#FCB3R22-1)
-* <a id="mn-fcbuo32"></a>`FCBUO32`: [FCBR10H-1](#FCBR10H-1), [FCB3R22-1](#FCB3R22-1)
+* <a id="mn-fcbuo32"></a>`FCBUO with `.32``: [FCBR10H-1](#FCBR10H-1), [FCB3R22-1](#FCB3R22-1)
 * <a id="mn-fclass"></a>`FCLASS`: [R2-1](#R2-1)
-* <a id="mn-fclass32"></a>`FCLASS32`: [R2-1](#R2-1)
+* <a id="mn-fclass32"></a>`FCLASS with `.32``: [R2-1](#R2-1)
 * <a id="mn-fcopysign"></a>`FCOPYSIGN`: [R3-1](#R3-1)
-* <a id="mn-fcvtdh"></a>`FCVTDH`: [R2-1](#R2-1)
-* <a id="mn-fcvtdq"></a>`FCVTDQ`: [R2-1](#R2-1)
-* <a id="mn-fcvtdqu"></a>`FCVTDQU`: [R2-1](#R2-1)
-* <a id="mn-fcvtds"></a>`FCVTDS`: [R2-1](#R2-1)
-* <a id="mn-fcvthd"></a>`FCVTHD`: [R2-1](#R2-1)
-* <a id="mn-fcvthl"></a>`FCVTHL`: [R2-1](#R2-1)
-* <a id="mn-fcvths"></a>`FCVTHS`: [R2-1](#R2-1)
-* <a id="mn-fcvtlh"></a>`FCVTLH`: [R2-1](#R2-1)
-* <a id="mn-fcvtls"></a>`FCVTLS`: [R2-1](#R2-1)
-* <a id="mn-fcvtqd"></a>`FCVTQD`: [R2-1](#R2-1)
-* <a id="mn-fcvtqud"></a>`FCVTQUD`: [R2-1](#R2-1)
-* <a id="mn-fcvtsd"></a>`FCVTSD`: [R2-1](#R2-1)
-* <a id="mn-fcvtsh"></a>`FCVTSH`: [R2-1](#R2-1)
-* <a id="mn-fcvtsl"></a>`FCVTSL`: [R2-1](#R2-1)
+* <a id="mn-fcvtdh"></a>`FCVT with source `.64` and destination `.16``: [R2-1](#R2-1)
+* <a id="mn-fcvtdq"></a>`FCVT with source `.64` and destination no mark`: [R2-1](#R2-1)
+* <a id="mn-fcvtdqu"></a>`FCVT with source `.64` and destination `.u64``: [R2-1](#R2-1)
+* <a id="mn-fcvtds"></a>`FCVT with source `.64` and destination `.32``: [R2-1](#R2-1)
+* <a id="mn-fcvthd"></a>`FCVT with source `.16` and destination `.64``: [R2-1](#R2-1)
+* <a id="mn-fcvthl"></a>`FCVT with source `.16` and destination `.s32``: [R2-1](#R2-1)
+* <a id="mn-fcvths"></a>`FCVT with source `.16` and destination `.32``: [R2-1](#R2-1)
+* <a id="mn-fcvtlh"></a>`FCVT with source `.s32` and destination `.16``: [R2-1](#R2-1)
+* <a id="mn-fcvtls"></a>`FCVT with source `.s32` and destination `.32``: [R2-1](#R2-1)
+* <a id="mn-fcvtqd"></a>`FCVT with source no mark and destination `.64``: [R2-1](#R2-1)
+* <a id="mn-fcvtqud"></a>`FCVT with source `.u64` and destination `.64``: [R2-1](#R2-1)
+* <a id="mn-fcvtsd"></a>`FCVT with source `.32` and destination `.64``: [R2-1](#R2-1)
+* <a id="mn-fcvtsh"></a>`FCVT with source `.32` and destination `.16``: [R2-1](#R2-1)
+* <a id="mn-fcvtsl"></a>`FCVT with source `.32` and destination `.s32``: [R2-1](#R2-1)
 * <a id="mn-fdiv"></a>`FDIV`: [R2-1](#R2-1)
-* <a id="mn-fdiv32"></a>`FDIV32`: [R2-1](#R2-1)
+* <a id="mn-fdiv32"></a>`FDIV with `.32``: [R2-1](#R2-1)
 * <a id="mn-fence"></a>`FENCE`: [SYS0-1](#SYS0-1)
 * <a id="mn-fmadd"></a>`FMADD`: [R4-1](#R4-1)
-* <a id="mn-fmadd32"></a>`FMADD32`: [R4-1](#R4-1)
+* <a id="mn-fmadd32"></a>`FMADD with `.32``: [R4-1](#R4-1)
 * <a id="mn-fmax"></a>`FMAX`: [R3-1](#R3-1)
 * <a id="mn-fmin"></a>`FMIN`: [R3-1](#R3-1)
 * <a id="mn-fmul"></a>`FMUL`: [LDF-B28-3](#LDF-B28-3), [LDF-X22-3](#LDF-X22-3), [LDF-PI12-3](#LDF-PI12-3), [LDF-PD12-3](#LDF-PD12-3), [LDF-PC32-3](#LDF-PC32-3), [LDF-A32-3](#LDF-A32-3), [LDFI-I32-1](#LDFI-I32-1), [DPF-D28-3](#DPF-D28-3), [RRF-3](#RRF-3), [RRF5-1](#RRF5-1), [LDPC12H-d-2](#LDPC12H-d-2)
-* <a id="mn-fmul32"></a>`FMUL32`: [R2-1](#R2-1)
+* <a id="mn-fmul32"></a>`FMUL with `.32``: [R2-1](#R2-1)
 * <a id="mn-fneg"></a>`FNEG`: [R2-1](#R2-1)
 * <a id="mn-fnmsub"></a>`FNMSUB`: [R4-1](#R4-1)
-* <a id="mn-fnmsub32"></a>`FNMSUB32`: [R4-1](#R4-1)
+* <a id="mn-fnmsub32"></a>`FNMSUB with `.32``: [R4-1](#R4-1)
 * <a id="mn-frint"></a>`FRINT`: [R2-1](#R2-1)
 * <a id="mn-frinta"></a>`FRINTA`: [R2-1](#R2-1)
 * <a id="mn-frintm"></a>`FRINTM`: [R2-1](#R2-1)
@@ -2748,9 +2748,9 @@ For every mnemonic, the charts in which it is a sub-opcode or the whole leaf.
 * <a id="mn-frintz"></a>`FRINTZ`: [R2-1](#R2-1)
 * <a id="mn-fsflags"></a>`FSFLAGS`: [R2-1](#R2-1)
 * <a id="mn-fsqrt"></a>`FSQRT`: [R2-1](#R2-1)
-* <a id="mn-fsqrt32"></a>`FSQRT32`: [R2-1](#R2-1)
+* <a id="mn-fsqrt32"></a>`FSQRT with `.32``: [R2-1](#R2-1)
 * <a id="mn-fsub"></a>`FSUB`: [LDF-B28-2](#LDF-B28-2), [LDF-X22-2](#LDF-X22-2), [LDF-PI12-2](#LDF-PI12-2), [LDF-PD12-2](#LDF-PD12-2), [LDF-PC32-2](#LDF-PC32-2), [LDF-A32-2](#LDF-A32-2), [LDFI-I32-1](#LDFI-I32-1), [DPF-D28-2](#DPF-D28-2), [RRF-2](#RRF-2), [RRF5-1](#RRF5-1), [LDPC12H-d-1](#LDPC12H-d-1)
-* <a id="mn-fsub32"></a>`FSUB32`: [R2-1](#R2-1)
+* <a id="mn-fsub32"></a>`FSUB with `.32``: [R2-1](#R2-1)
 * <a id="mn-genter"></a>`GENTER`: [RETM-1](#RETM-1)
 * <a id="mn-halt"></a>`HALT`: [SYS0-1](#SYS0-1)
 * <a id="mn-hint"></a>`HINT`: [SYSI-2](#SYSI-2)
@@ -2764,7 +2764,7 @@ For every mnemonic, the charts in which it is a sub-opcode or the whole leaf.
 * <a id="mn-jtag"></a>`JTAG`: [JTAG3-1](#JTAG3-1), [JTAG2-1](#JTAG2-1)
 * <a id="mn-lea"></a>`LEA`: [LDF-B28-3](#LDF-B28-3), [LDF-X22-3](#LDF-X22-3), [LDF-PI12-3](#LDF-PI12-3), [LDF-PD12-3](#LDF-PD12-3), [LDF-PC32-3](#LDF-PC32-3), [LDF-A32-3](#LDF-A32-3), [DPF-D28-3](#DPF-D28-3), [LDHHH3-a-1](#LDHHH3-a-1), [LDSPh5-a-1](#LDSPh5-a-1), [LEASPh5-a-1](#LEASPh5-a-1), [LDBs10-a-1](#LDBs10-a-1), [LDX0-a-1](#LDX0-a-1), [LDPC14-a-1](#LDPC14-a-1), [LDBu12H-a-1](#LDBu12H-a-1), [LEAS12H-a-1](#LEAS12H-a-1), [LDX6H-a-1](#LDX6H-a-1), [LDPC16H-a-1](#LDPC16H-a-1)
 * <a id="mn-ll"></a>`LL`: [ATOML-1](#ATOML-1)
-* <a id="mn-lll"></a>`LLL`: [ATOML-1](#ATOML-1)
+* <a id="mn-lll"></a>`LL with `.32``: [ATOML-1](#ATOML-1)
 * <a id="mn-lpad"></a>`LPAD`: [SYS0-1](#SYS0-1)
 * <a id="mn-maskeqz"></a>`MASKEQZ`: [R3-1](#R3-1)
 * <a id="mn-masknez"></a>`MASKNEZ`: [R3-1](#R3-1)
@@ -2779,21 +2779,21 @@ For every mnemonic, the charts in which it is a sub-opcode or the whole leaf.
 * <a id="mn-mod"></a>`MOD`: [R3-1](#R3-1)
 * <a id="mn-modu"></a>`MODU`: [R3-1](#R3-1)
 * <a id="mn-mov2"></a>`MOV2`: [FX-MOV2-1](#FX-MOV2-1)
-* <a id="mn-movb"></a>`MOVB`: [LDF-B28-1](#LDF-B28-1), [LDF-X22-1](#LDF-X22-1), [LDF-PI12-1](#LDF-PI12-1), [LDF-PD12-1](#LDF-PD12-1), [LDF-PC32-1](#LDF-PC32-1), [LDF-A32-1](#LDF-A32-1), [LDFI-I32-2](#LDFI-I32-2), [STF-B28-1](#STF-B28-1), [STF-X22-1](#STF-X22-1), [STF-PI12-1](#STF-PI12-1), [STF-PD12-1](#STF-PD12-1), [STF-PC32-1](#STF-PC32-1), [STF-A32-1](#STF-A32-1), [DPF-D28-1](#DPF-D28-1), [RRF-1](#RRF-1), [RRF5-1](#RRF5-1), [STHHH1-b-1](#STHHH1-b-1), [LDBs6-b-1](#LDBs6-b-1), [STBs6-b-1](#STBs6-b-1), [LDBu6-b-1](#LDBu6-b-1), [LDX0-b-1](#LDX0-b-1), [STX0-b-1](#STX0-b-1), [LDI12-d-2](#LDI12-d-2), [STBs8H-b-1](#STBs8H-b-1), [LDBu12H-b-1](#LDBu12H-b-1), [STBu12H-b-1](#STBu12H-b-1), [LDX4H-b-1](#LDX4H-b-1), [STX6H-b-1](#STX6H-b-1), [LDPC14H-b-1](#LDPC14H-b-1)
-* <a id="mn-movb-u"></a>`MOVB.U`: [LDU-B28-1](#LDU-B28-1), [STU-B28-1](#STU-B28-1), [LDU-B12-1](#LDU-B12-1), [STU-B12-1](#STU-B12-1), [LDU-X6-1](#LDU-X6-1), [STU-X6-1](#STU-X6-1)
+* <a id="mn-movb"></a>`MOV with `.8``: [LDF-B28-1](#LDF-B28-1), [LDF-X22-1](#LDF-X22-1), [LDF-PI12-1](#LDF-PI12-1), [LDF-PD12-1](#LDF-PD12-1), [LDF-PC32-1](#LDF-PC32-1), [LDF-A32-1](#LDF-A32-1), [LDFI-I32-2](#LDFI-I32-2), [STF-B28-1](#STF-B28-1), [STF-X22-1](#STF-X22-1), [STF-PI12-1](#STF-PI12-1), [STF-PD12-1](#STF-PD12-1), [STF-PC32-1](#STF-PC32-1), [STF-A32-1](#STF-A32-1), [DPF-D28-1](#DPF-D28-1), [RRF-1](#RRF-1), [RRF5-1](#RRF5-1), [STHHH1-b-1](#STHHH1-b-1), [LDBs6-b-1](#LDBs6-b-1), [STBs6-b-1](#STBs6-b-1), [LDBu6-b-1](#LDBu6-b-1), [LDX0-b-1](#LDX0-b-1), [STX0-b-1](#STX0-b-1), [LDI12-d-2](#LDI12-d-2), [STBs8H-b-1](#STBs8H-b-1), [LDBu12H-b-1](#LDBu12H-b-1), [STBu12H-b-1](#STBu12H-b-1), [LDX4H-b-1](#LDX4H-b-1), [STX6H-b-1](#STX6H-b-1), [LDPC14H-b-1](#LDPC14H-b-1)
+* <a id="mn-movb-u"></a>`MOV.U with `.8``: [LDU-B28-1](#LDU-B28-1), [STU-B28-1](#STU-B28-1), [LDU-B12-1](#LDU-B12-1), [STU-B12-1](#STU-B12-1), [LDU-X6-1](#LDU-X6-1), [STU-X6-1](#STU-X6-1)
 * <a id="mn-movcall"></a>`MOVCALL`: [FX-MOVCALL3-1](#FX-MOVCALL3-1), [FX-MOVCALL2-1](#FX-MOVCALL2-1)
-* <a id="mn-movl"></a>`MOVL`: [LDF-B28-1](#LDF-B28-1), [LDF-X22-1](#LDF-X22-1), [LDF-PI12-1](#LDF-PI12-1), [LDF-PD12-1](#LDF-PD12-1), [LDF-PC32-1](#LDF-PC32-1), [LDF-A32-1](#LDF-A32-1), [LDFI-I32-1](#LDFI-I32-1), [STF-B28-1](#STF-B28-1), [STF-X22-1](#STF-X22-1), [STF-PI12-1](#STF-PI12-1), [STF-PD12-1](#STF-PD12-1), [STF-PC32-1](#STF-PC32-1), [STF-A32-1](#STF-A32-1), [DPF-D28-1](#DPF-D28-1), [RRF-1](#RRF-1), [RRF5-1](#RRF5-1), [RR5-1](#RR5-1), [LDHHH3-a-1](#LDHHH3-a-1), [STHHH3-a-1](#STHHH3-a-1), [STSPh4-a-1](#STSPh4-a-1), [LDSPh5-a-1](#LDSPh5-a-1), [STBs8-a-1](#STBs8-a-1), [LDBs10-a-1](#LDBs10-a-1), [LDX0-a-1](#LDX0-a-1), [STX0-a-1](#STX0-a-1), [LDPC14-a-1](#LDPC14-a-1), [LDBu12H-a-1](#LDBu12H-a-1), [STBu12H-a-1](#STBu12H-a-1), [LDX6H-a-1](#LDX6H-a-1), [STX6H-a-1](#STX6H-a-1), [LDPC16H-a-1](#LDPC16H-a-1)
-* <a id="mn-movl-u"></a>`MOVL.U`: [LDU-B28-1](#LDU-B28-1), [STU-B28-1](#STU-B28-1), [LDU-B12-1](#LDU-B12-1), [STU-B12-1](#STU-B12-1), [LDU-X6-1](#LDU-X6-1), [STU-X6-1](#STU-X6-1)
-* <a id="mn-movq"></a>`MOVQ`: [MOVQ64-1](#MOVQ64-1), [LDF-B28-1](#LDF-B28-1), [LDF-X22-1](#LDF-X22-1), [LDF-PI12-1](#LDF-PI12-1), [LDF-PD12-1](#LDF-PD12-1), [LDF-PC32-1](#LDF-PC32-1), [LDF-A32-1](#LDF-A32-1), [LDFI-I32-1](#LDFI-I32-1), [STF-B28-1](#STF-B28-1), [STF-X22-1](#STF-X22-1), [STF-PI12-1](#STF-PI12-1), [STF-PD12-1](#STF-PD12-1), [STF-PC32-1](#STF-PC32-1), [STF-A32-1](#STF-A32-1), [DPF-D28-1](#DPF-D28-1), [RRF-1](#RRF-1), [RRF5-1](#RRF5-1), [RR5-1](#RR5-1), [LDHHH3-a-1](#LDHHH3-a-1), [STHHH3-a-1](#STHHH3-a-1), [STSPh4-a-1](#STSPh4-a-1), [LDSPh5-a-1](#LDSPh5-a-1), [IMMh47-a-1](#IMMh47-a-1), [STBs8-a-1](#STBs8-a-1), [LDBs10-a-1](#LDBs10-a-1), [LDX0-a-1](#LDX0-a-1), [STX0-a-1](#STX0-a-1), [LDPC14-a-1](#LDPC14-a-1), [LDI12-a-1](#LDI12-a-1), [LDBu12H-a-1](#LDBu12H-a-1), [STBu12H-a-1](#STBu12H-a-1), [LDX6H-a-1](#LDX6H-a-1), [STX6H-a-1](#STX6H-a-1), [LDPC16H-a-1](#LDPC16H-a-1), [LDI18H-a-1](#LDI18H-a-1)
-* <a id="mn-movq-u"></a>`MOVQ.U`: [LDU-B28-1](#LDU-B28-1), [STU-B28-1](#STU-B28-1), [LDU-B12-1](#LDU-B12-1), [STU-B12-1](#STU-B12-1), [LDU-X6-1](#LDU-X6-1), [STU-X6-1](#STU-X6-1)
-* <a id="mn-movw"></a>`MOVW`: [LDF-B28-1](#LDF-B28-1), [LDF-X22-1](#LDF-X22-1), [LDF-PI12-1](#LDF-PI12-1), [LDF-PD12-1](#LDF-PD12-1), [LDF-PC32-1](#LDF-PC32-1), [LDF-A32-1](#LDF-A32-1), [LDFI-I32-2](#LDFI-I32-2), [STF-B28-1](#STF-B28-1), [STF-X22-1](#STF-X22-1), [STF-PI12-1](#STF-PI12-1), [STF-PD12-1](#STF-PD12-1), [STF-PC32-1](#STF-PC32-1), [STF-A32-1](#STF-A32-1), [DPF-D28-1](#DPF-D28-1), [RRF-1](#RRF-1), [RRF5-1](#RRF5-1), [STHHH1-b-1](#STHHH1-b-1), [LDBs6-b-1](#LDBs6-b-1), [STBs6-b-1](#STBs6-b-1), [LDBu6-b-1](#LDBu6-b-1), [LDX0-b-1](#LDX0-b-1), [STX0-b-1](#STX0-b-1), [STBs8H-b-1](#STBs8H-b-1), [LDBu12H-b-1](#LDBu12H-b-1), [STBu12H-b-1](#STBu12H-b-1), [LDX4H-b-1](#LDX4H-b-1), [STX6H-b-1](#STX6H-b-1), [LDPC14H-b-1](#LDPC14H-b-1)
-* <a id="mn-movw-u"></a>`MOVW.U`: [LDU-B28-1](#LDU-B28-1), [STU-B28-1](#STU-B28-1), [LDU-B12-1](#LDU-B12-1), [STU-B12-1](#STU-B12-1), [LDU-X6-1](#LDU-X6-1), [STU-X6-1](#STU-X6-1)
-* <a id="mn-movzb"></a>`MOVZB`: [LDF-B28-1](#LDF-B28-1), [LDF-X22-1](#LDF-X22-1), [LDF-PI12-1](#LDF-PI12-1), [LDF-PD12-1](#LDF-PD12-1), [LDF-PC32-1](#LDF-PC32-1), [LDF-A32-1](#LDF-A32-1), [LDFI-I32-3](#LDFI-I32-3), [DPF-D28-1](#DPF-D28-1), [RRF-1](#RRF-1), [RRF5-1](#RRF5-1), [LDHHH3-a-1](#LDHHH3-a-1), [LDSPh5-a-1](#LDSPh5-a-1), [LDBs10-a-1](#LDBs10-a-1), [LDX0-a-1](#LDX0-a-1), [LDPC14-a-1](#LDPC14-a-1), [LDBu12H-a-1](#LDBu12H-a-1), [LDX6H-a-1](#LDX6H-a-1), [LDPC16H-a-1](#LDPC16H-a-1)
-* <a id="mn-movzb-u"></a>`MOVZB.U`: [LDU-B28-3](#LDU-B28-3), [LDU-B12-3](#LDU-B12-3), [LDU-X6-3](#LDU-X6-3)
-* <a id="mn-movzl"></a>`MOVZL`: [LDF-B28-1](#LDF-B28-1), [LDF-X22-1](#LDF-X22-1), [LDF-PI12-1](#LDF-PI12-1), [LDF-PD12-1](#LDF-PD12-1), [LDF-PC32-1](#LDF-PC32-1), [LDF-A32-1](#LDF-A32-1), [LDFI-I32-2](#LDFI-I32-2), [DPF-D28-1](#DPF-D28-1), [RRF-1](#RRF-1), [RRF5-1](#RRF5-1), [LDBs6-b-1](#LDBs6-b-1), [LDBu6-b-1](#LDBu6-b-1), [LDX0-b-1](#LDX0-b-1), [LDBu12H-b-1](#LDBu12H-b-1), [LDX4H-b-1](#LDX4H-b-1), [LDPC14H-b-1](#LDPC14H-b-1)
-* <a id="mn-movzl-u"></a>`MOVZL.U`: [LDU-B28-2](#LDU-B28-2), [LDU-B12-2](#LDU-B12-2), [LDU-X6-2](#LDU-X6-2)
-* <a id="mn-movzw"></a>`MOVZW`: [LDF-B28-1](#LDF-B28-1), [LDF-X22-1](#LDF-X22-1), [LDF-PI12-1](#LDF-PI12-1), [LDF-PD12-1](#LDF-PD12-1), [LDF-PC32-1](#LDF-PC32-1), [LDF-A32-1](#LDF-A32-1), [LDFI-I32-2](#LDFI-I32-2), [DPF-D28-1](#DPF-D28-1), [RRF-1](#RRF-1), [RRF5-1](#RRF5-1), [LDBs6-b-1](#LDBs6-b-1), [LDBu6-b-1](#LDBu6-b-1), [LDX0-b-1](#LDX0-b-1), [LDBu12H-b-1](#LDBu12H-b-1), [LDX4H-b-1](#LDX4H-b-1), [LDPC14H-b-1](#LDPC14H-b-1)
-* <a id="mn-movzw-u"></a>`MOVZW.U`: [LDU-B28-2](#LDU-B28-2), [LDU-B12-2](#LDU-B12-2), [LDU-X6-2](#LDU-X6-2)
+* <a id="mn-movl"></a>`MOV with `.32``: [LDF-B28-1](#LDF-B28-1), [LDF-X22-1](#LDF-X22-1), [LDF-PI12-1](#LDF-PI12-1), [LDF-PD12-1](#LDF-PD12-1), [LDF-PC32-1](#LDF-PC32-1), [LDF-A32-1](#LDF-A32-1), [LDFI-I32-1](#LDFI-I32-1), [STF-B28-1](#STF-B28-1), [STF-X22-1](#STF-X22-1), [STF-PI12-1](#STF-PI12-1), [STF-PD12-1](#STF-PD12-1), [STF-PC32-1](#STF-PC32-1), [STF-A32-1](#STF-A32-1), [DPF-D28-1](#DPF-D28-1), [RRF-1](#RRF-1), [RRF5-1](#RRF5-1), [RR5-1](#RR5-1), [LDHHH3-a-1](#LDHHH3-a-1), [STHHH3-a-1](#STHHH3-a-1), [STSPh4-a-1](#STSPh4-a-1), [LDSPh5-a-1](#LDSPh5-a-1), [STBs8-a-1](#STBs8-a-1), [LDBs10-a-1](#LDBs10-a-1), [LDX0-a-1](#LDX0-a-1), [STX0-a-1](#STX0-a-1), [LDPC14-a-1](#LDPC14-a-1), [LDBu12H-a-1](#LDBu12H-a-1), [STBu12H-a-1](#STBu12H-a-1), [LDX6H-a-1](#LDX6H-a-1), [STX6H-a-1](#STX6H-a-1), [LDPC16H-a-1](#LDPC16H-a-1)
+* <a id="mn-movl-u"></a>`MOV.U with `.32``: [LDU-B28-1](#LDU-B28-1), [STU-B28-1](#STU-B28-1), [LDU-B12-1](#LDU-B12-1), [STU-B12-1](#STU-B12-1), [LDU-X6-1](#LDU-X6-1), [STU-X6-1](#STU-X6-1)
+* <a id="mn-movq"></a>`MOV (no mark)`: [MOVQ64-1](#MOVQ64-1), [LDF-B28-1](#LDF-B28-1), [LDF-X22-1](#LDF-X22-1), [LDF-PI12-1](#LDF-PI12-1), [LDF-PD12-1](#LDF-PD12-1), [LDF-PC32-1](#LDF-PC32-1), [LDF-A32-1](#LDF-A32-1), [LDFI-I32-1](#LDFI-I32-1), [STF-B28-1](#STF-B28-1), [STF-X22-1](#STF-X22-1), [STF-PI12-1](#STF-PI12-1), [STF-PD12-1](#STF-PD12-1), [STF-PC32-1](#STF-PC32-1), [STF-A32-1](#STF-A32-1), [DPF-D28-1](#DPF-D28-1), [RRF-1](#RRF-1), [RRF5-1](#RRF5-1), [RR5-1](#RR5-1), [LDHHH3-a-1](#LDHHH3-a-1), [STHHH3-a-1](#STHHH3-a-1), [STSPh4-a-1](#STSPh4-a-1), [LDSPh5-a-1](#LDSPh5-a-1), [IMMh47-a-1](#IMMh47-a-1), [STBs8-a-1](#STBs8-a-1), [LDBs10-a-1](#LDBs10-a-1), [LDX0-a-1](#LDX0-a-1), [STX0-a-1](#STX0-a-1), [LDPC14-a-1](#LDPC14-a-1), [LDI12-a-1](#LDI12-a-1), [LDBu12H-a-1](#LDBu12H-a-1), [STBu12H-a-1](#STBu12H-a-1), [LDX6H-a-1](#LDX6H-a-1), [STX6H-a-1](#STX6H-a-1), [LDPC16H-a-1](#LDPC16H-a-1), [LDI18H-a-1](#LDI18H-a-1)
+* <a id="mn-movq-u"></a>`MOV.U`: [LDU-B28-1](#LDU-B28-1), [STU-B28-1](#STU-B28-1), [LDU-B12-1](#LDU-B12-1), [STU-B12-1](#STU-B12-1), [LDU-X6-1](#LDU-X6-1), [STU-X6-1](#STU-X6-1)
+* <a id="mn-movw"></a>`MOV with `.16``: [LDF-B28-1](#LDF-B28-1), [LDF-X22-1](#LDF-X22-1), [LDF-PI12-1](#LDF-PI12-1), [LDF-PD12-1](#LDF-PD12-1), [LDF-PC32-1](#LDF-PC32-1), [LDF-A32-1](#LDF-A32-1), [LDFI-I32-2](#LDFI-I32-2), [STF-B28-1](#STF-B28-1), [STF-X22-1](#STF-X22-1), [STF-PI12-1](#STF-PI12-1), [STF-PD12-1](#STF-PD12-1), [STF-PC32-1](#STF-PC32-1), [STF-A32-1](#STF-A32-1), [DPF-D28-1](#DPF-D28-1), [RRF-1](#RRF-1), [RRF5-1](#RRF5-1), [STHHH1-b-1](#STHHH1-b-1), [LDBs6-b-1](#LDBs6-b-1), [STBs6-b-1](#STBs6-b-1), [LDBu6-b-1](#LDBu6-b-1), [LDX0-b-1](#LDX0-b-1), [STX0-b-1](#STX0-b-1), [STBs8H-b-1](#STBs8H-b-1), [LDBu12H-b-1](#LDBu12H-b-1), [STBu12H-b-1](#STBu12H-b-1), [LDX4H-b-1](#LDX4H-b-1), [STX6H-b-1](#STX6H-b-1), [LDPC14H-b-1](#LDPC14H-b-1)
+* <a id="mn-movw-u"></a>`MOV.U with `.16``: [LDU-B28-1](#LDU-B28-1), [STU-B28-1](#STU-B28-1), [LDU-B12-1](#LDU-B12-1), [STU-B12-1](#STU-B12-1), [LDU-X6-1](#LDU-X6-1), [STU-X6-1](#STU-X6-1)
+* <a id="mn-movzb"></a>`MOV with `.u8``: [LDF-B28-1](#LDF-B28-1), [LDF-X22-1](#LDF-X22-1), [LDF-PI12-1](#LDF-PI12-1), [LDF-PD12-1](#LDF-PD12-1), [LDF-PC32-1](#LDF-PC32-1), [LDF-A32-1](#LDF-A32-1), [LDFI-I32-3](#LDFI-I32-3), [DPF-D28-1](#DPF-D28-1), [RRF-1](#RRF-1), [RRF5-1](#RRF5-1), [LDHHH3-a-1](#LDHHH3-a-1), [LDSPh5-a-1](#LDSPh5-a-1), [LDBs10-a-1](#LDBs10-a-1), [LDX0-a-1](#LDX0-a-1), [LDPC14-a-1](#LDPC14-a-1), [LDBu12H-a-1](#LDBu12H-a-1), [LDX6H-a-1](#LDX6H-a-1), [LDPC16H-a-1](#LDPC16H-a-1)
+* <a id="mn-movzb-u"></a>`MOV.U with `.u8``: [LDU-B28-3](#LDU-B28-3), [LDU-B12-3](#LDU-B12-3), [LDU-X6-3](#LDU-X6-3)
+* <a id="mn-movzl"></a>`MOV with `.u32``: [LDF-B28-1](#LDF-B28-1), [LDF-X22-1](#LDF-X22-1), [LDF-PI12-1](#LDF-PI12-1), [LDF-PD12-1](#LDF-PD12-1), [LDF-PC32-1](#LDF-PC32-1), [LDF-A32-1](#LDF-A32-1), [LDFI-I32-2](#LDFI-I32-2), [DPF-D28-1](#DPF-D28-1), [RRF-1](#RRF-1), [RRF5-1](#RRF5-1), [LDBs6-b-1](#LDBs6-b-1), [LDBu6-b-1](#LDBu6-b-1), [LDX0-b-1](#LDX0-b-1), [LDBu12H-b-1](#LDBu12H-b-1), [LDX4H-b-1](#LDX4H-b-1), [LDPC14H-b-1](#LDPC14H-b-1)
+* <a id="mn-movzl-u"></a>`MOV.U with `.u32``: [LDU-B28-2](#LDU-B28-2), [LDU-B12-2](#LDU-B12-2), [LDU-X6-2](#LDU-X6-2)
+* <a id="mn-movzw"></a>`MOV with `.u16``: [LDF-B28-1](#LDF-B28-1), [LDF-X22-1](#LDF-X22-1), [LDF-PI12-1](#LDF-PI12-1), [LDF-PD12-1](#LDF-PD12-1), [LDF-PC32-1](#LDF-PC32-1), [LDF-A32-1](#LDF-A32-1), [LDFI-I32-2](#LDFI-I32-2), [DPF-D28-1](#DPF-D28-1), [RRF-1](#RRF-1), [RRF5-1](#RRF5-1), [LDBs6-b-1](#LDBs6-b-1), [LDBu6-b-1](#LDBu6-b-1), [LDX0-b-1](#LDX0-b-1), [LDBu12H-b-1](#LDBu12H-b-1), [LDX4H-b-1](#LDX4H-b-1), [LDPC14H-b-1](#LDPC14H-b-1)
+* <a id="mn-movzw-u"></a>`MOV.U with `.u16``: [LDU-B28-2](#LDU-B28-2), [LDU-B12-2](#LDU-B12-2), [LDU-X6-2](#LDU-X6-2)
 * <a id="mn-mscn"></a>`MSCN`: [R3-1](#R3-1)
 * <a id="mn-mscnn"></a>`MSCNN`: [R3-1](#R3-1)
 * <a id="mn-mset"></a>`MSET`: [R3-1](#R3-1)
@@ -2820,12 +2820,12 @@ For every mnemonic, the charts in which it is a sub-opcode or the whole leaf.
 * <a id="mn-pushx"></a>`PUSHX`: [SYS0-2](#SYS0-2)
 * <a id="mn-ret"></a>`RET`: [SYS0-1](#SYS0-1)
 * <a id="mn-ror"></a>`ROR`: [R3-1](#R3-1), [RRI-1](#RRI-1), [IMMh44-b-1](#IMMh44-b-1)
-* <a id="mn-ror32"></a>`ROR32`: [RRI-1](#RRI-1)
+* <a id="mn-ror32"></a>`ROR with `.32``: [RRI-1](#RRI-1)
 * <a id="mn-rti"></a>`RTI`: [RETM-1](#RETM-1)
 * <a id="mn-rtt"></a>`RTT`: [RETM-1](#RETM-1)
 * <a id="mn-sar"></a>`SAR`: [LDF-B28-2](#LDF-B28-2), [LDF-X22-2](#LDF-X22-2), [LDF-PI12-2](#LDF-PI12-2), [LDF-PD12-2](#LDF-PD12-2), [LDF-PC32-2](#LDF-PC32-2), [LDF-A32-2](#LDF-A32-2), [LDFI-I32-1](#LDFI-I32-1), [DPF-D28-2](#DPF-D28-2), [RRF-2](#RRF-2), [RRF5-1](#RRF5-1), [SHIh44-a-2](#SHIh44-a-2), [LDI12-d-1](#LDI12-d-1), [LDPC12H-d-1](#LDPC12H-d-1)
 * <a id="mn-sc"></a>`SC`: [ATOM-1](#ATOM-1)
-* <a id="mn-scl"></a>`SCL`: [ATOM-1](#ATOM-1)
+* <a id="mn-scl"></a>`SC with `.32``: [ATOM-1](#ATOM-1)
 * <a id="mn-setcc"></a>`SETCC`: [SETCCR-1](#SETCCR-1), [SETCCI-1](#SETCCI-1)
 * <a id="mn-setcs"></a>`SETCS`: [SETCCR-1](#SETCCR-1), [SETCCI-1](#SETCCI-1)
 * <a id="mn-seteq"></a>`SETEQ`: [SETCCR-1](#SETCCR-1), [SETCCI-1](#SETCCI-1)
@@ -2853,7 +2853,7 @@ For every mnemonic, the charts in which it is a sub-opcode or the whole leaf.
 * <a id="mn-subm"></a>`SUBM`: [STF-B28-1](#STF-B28-1), [STF-X22-1](#STF-X22-1), [STF-PI12-1](#STF-PI12-1), [STF-PD12-1](#STF-PD12-1), [STF-PC32-1](#STF-PC32-1), [STF-A32-1](#STF-A32-1)
 * <a id="mn-subv"></a>`SUBV`: [R2-1](#R2-1)
 * <a id="mn-swap"></a>`SWAP`: [ATOM-1](#ATOM-1)
-* <a id="mn-swapl"></a>`SWAPL`: [ATOM-1](#ATOM-1)
+* <a id="mn-swapl"></a>`SWAP with `.32``: [ATOM-1](#ATOM-1)
 * <a id="mn-tlbi"></a>`TLBI`: [SYSR-1](#SYSR-1)
 * <a id="mn-tlbia"></a>`TLBIA`: [SYS0-2](#SYS0-2)
 * <a id="mn-tlbias"></a>`TLBIAS`: [TLBX-1](#TLBX-1)

@@ -93,30 +93,30 @@ N4:	movq	cnt, r12
 	movq	#4, r0
 	halt
 1:
-	; ---- case 5: movl store at offset 1 of normal cached memory: it works
+	; ---- case 5: mov .32 store at offset 1 of normal cached memory: it works
 	movq	=(0x800000), r3
 	movq	=(0x44332211), r1
 	movq	#0, r10
 	movq	r10, cnt
 	lea	N5, r13
-I5:	movl	r1, 1(r3)
+I5:	mov	r1, 1(r3).32
 N5:	movq	cnt, r12
 	movq	=(0), r17
 	cbeq	r12, r17, 1f	; case 5: no exception
 	movq	#5, r0
 	halt
 1:
-	movzl	1(r3), r4
+	mov	1(r3).u32, r4
 	movq	=(0x44332211), r17
 	cbeq	r4, r17, 1f	; case 5: it reads back what was stored
 	movq	#5, r0
 	halt
 1:
-	; ---- case 6: movl load at offset 1 of normal cached memory: it works
+	; ---- case 6: mov .32 load at offset 1 of normal cached memory: it works
 	movq	#0, r10
 	movq	r10, cnt
 	lea	N6, r13
-I6:	movzl	1(r3), r5
+I6:	mov	1(r3).u32, r5
 N6:	movq	cnt, r12
 	movq	=(0), r17
 	cbeq	r12, r17, 1f	; case 6: no exception
@@ -128,30 +128,30 @@ N6:	movq	cnt, r12
 	movq	#6, r0
 	halt
 1:
-	; ---- case 7: movw store at offset 1 of normal cached memory: it works
+	; ---- case 7: mov .16 store at offset 1 of normal cached memory: it works
 	movq	=(0x800000), r3
 	movq	=(0x2211), r1
 	movq	#0, r10
 	movq	r10, cnt
 	lea	N7, r13
-I7:	movw	r1, 1(r3)
+I7:	mov	r1, 1(r3).16
 N7:	movq	cnt, r12
 	movq	=(0), r17
 	cbeq	r12, r17, 1f	; case 7: no exception
 	movq	#7, r0
 	halt
 1:
-	movzw	1(r3), r4
+	mov	1(r3).u16, r4
 	movq	=(0x2211), r17
 	cbeq	r4, r17, 1f	; case 7: it reads back what was stored
 	movq	#7, r0
 	halt
 1:
-	; ---- case 8: movw load at offset 1 of normal cached memory: it works
+	; ---- case 8: mov .16 load at offset 1 of normal cached memory: it works
 	movq	#0, r10
 	movq	r10, cnt
 	lea	N8, r13
-I8:	movzw	1(r3), r5
+I8:	mov	1(r3).u16, r5
 N8:	movq	cnt, r12
 	movq	=(0), r17
 	cbeq	r12, r17, 1f	; case 8: no exception
@@ -233,30 +233,30 @@ N12:	movq	cnt, r12
 	movq	#12, r0
 	halt
 1:
-	; ---- case 13: movl store at offset 1 of normal uncached memory: it works
+	; ---- case 13: mov .32 store at offset 1 of normal uncached memory: it works
 	movq	=(0x802000), r3
 	movq	=(0x44332211), r1
 	movq	#0, r10
 	movq	r10, cnt
 	lea	N13, r13
-I13:	movl	r1, 1(r3)
+I13:	mov	r1, 1(r3).32
 N13:	movq	cnt, r12
 	movq	=(0), r17
 	cbeq	r12, r17, 1f	; case 13: no exception
 	movq	#13, r0
 	halt
 1:
-	movzl	1(r3), r4
+	mov	1(r3).u32, r4
 	movq	=(0x44332211), r17
 	cbeq	r4, r17, 1f	; case 13: it reads back what was stored
 	movq	#13, r0
 	halt
 1:
-	; ---- case 14: movl load at offset 1 of normal uncached memory: it works
+	; ---- case 14: mov .32 load at offset 1 of normal uncached memory: it works
 	movq	#0, r10
 	movq	r10, cnt
 	lea	N14, r13
-I14:	movzl	1(r3), r5
+I14:	mov	1(r3).u32, r5
 N14:	movq	cnt, r12
 	movq	=(0), r17
 	cbeq	r12, r17, 1f	; case 14: no exception
@@ -268,30 +268,30 @@ N14:	movq	cnt, r12
 	movq	#14, r0
 	halt
 1:
-	; ---- case 15: movw store at offset 1 of normal uncached memory: it works
+	; ---- case 15: mov .16 store at offset 1 of normal uncached memory: it works
 	movq	=(0x802000), r3
 	movq	=(0x2211), r1
 	movq	#0, r10
 	movq	r10, cnt
 	lea	N15, r13
-I15:	movw	r1, 1(r3)
+I15:	mov	r1, 1(r3).16
 N15:	movq	cnt, r12
 	movq	=(0), r17
 	cbeq	r12, r17, 1f	; case 15: no exception
 	movq	#15, r0
 	halt
 1:
-	movzw	1(r3), r4
+	mov	1(r3).u16, r4
 	movq	=(0x2211), r17
 	cbeq	r4, r17, 1f	; case 15: it reads back what was stored
 	movq	#15, r0
 	halt
 1:
-	; ---- case 16: movw load at offset 1 of normal uncached memory: it works
+	; ---- case 16: mov .16 load at offset 1 of normal uncached memory: it works
 	movq	#0, r10
 	movq	r10, cnt
 	lea	N16, r13
-I16:	movzw	1(r3), r5
+I16:	mov	1(r3).u16, r5
 N16:	movq	cnt, r12
 	movq	=(0), r17
 	cbeq	r12, r17, 1f	; case 16: no exception
@@ -471,13 +471,13 @@ N20:	movq	cnt, r12
 	movq	#21, r0
 	halt
 1:
-	; ---- case 22: movl load at offset 10 of a strongly ordered device page: the misalignment fault, nothing performed
+	; ---- case 22: mov .32 load at offset 10 of a strongly ordered device page: the misalignment fault, nothing performed
 	movq	=(0x805000), r3
 	movq	=(0x5a5a5a5a5a5a5a5a), r4
 	movq	#0, r10
 	movq	r10, cnt
 	lea	N21, r13
-I21:	movl	10(r3), r4
+I21:	mov	10(r3).32, r4
 N21:	movq	cnt, r12
 	movq	=(1), r17
 	cbeq	r12, r17, 1f	; case 22: one exception
@@ -513,13 +513,13 @@ N21:	movq	cnt, r12
 	movq	#22, r0
 	halt
 1:
-	; ---- case 23: movl store at offset 10 of a strongly ordered device page: the misalignment fault, nothing performed
+	; ---- case 23: mov .32 store at offset 10 of a strongly ordered device page: the misalignment fault, nothing performed
 	movq	=(0x805000), r3
 	movq	=(0xaabbccdd99887766), r1
 	movq	#0, r10
 	movq	r10, cnt
 	lea	N22, r13
-I22:	movl	r1, 10(r3)
+I22:	mov	r1, 10(r3).32
 N22:	movq	cnt, r12
 	movq	=(1), r17
 	cbeq	r12, r17, 1f	; case 23: one exception
@@ -550,13 +550,13 @@ N22:	movq	cnt, r12
 	movq	#23, r0
 	halt
 1:
-	; ---- case 24: movl load at offset 2 of a strongly ordered device page: the misalignment fault, nothing performed
+	; ---- case 24: mov .32 load at offset 2 of a strongly ordered device page: the misalignment fault, nothing performed
 	movq	=(0x805000), r3
 	movq	=(0x5a5a5a5a5a5a5a5a), r4
 	movq	#0, r10
 	movq	r10, cnt
 	lea	N23, r13
-I23:	movl	2(r3), r4
+I23:	mov	2(r3).32, r4
 N23:	movq	cnt, r12
 	movq	=(1), r17
 	cbeq	r12, r17, 1f	; case 24: one exception
@@ -592,13 +592,13 @@ N23:	movq	cnt, r12
 	movq	#24, r0
 	halt
 1:
-	; ---- case 25: movl store at offset 2 of a strongly ordered device page: the misalignment fault, nothing performed
+	; ---- case 25: mov .32 store at offset 2 of a strongly ordered device page: the misalignment fault, nothing performed
 	movq	=(0x805000), r3
 	movq	=(0xaabbccdd99887766), r1
 	movq	#0, r10
 	movq	r10, cnt
 	lea	N24, r13
-I24:	movl	r1, 2(r3)
+I24:	mov	r1, 2(r3).32
 N24:	movq	cnt, r12
 	movq	=(1), r17
 	cbeq	r12, r17, 1f	; case 25: one exception
@@ -629,13 +629,13 @@ N24:	movq	cnt, r12
 	movq	#25, r0
 	halt
 1:
-	; ---- case 26: movw load at offset 7 of a strongly ordered device page: the misalignment fault, nothing performed
+	; ---- case 26: mov .16 load at offset 7 of a strongly ordered device page: the misalignment fault, nothing performed
 	movq	=(0x805000), r3
 	movq	=(0x5a5a5a5a5a5a5a5a), r4
 	movq	#0, r10
 	movq	r10, cnt
 	lea	N25, r13
-I25:	movw	7(r3), r4
+I25:	mov	7(r3).16, r4
 N25:	movq	cnt, r12
 	movq	=(1), r17
 	cbeq	r12, r17, 1f	; case 26: one exception
@@ -671,13 +671,13 @@ N25:	movq	cnt, r12
 	movq	#26, r0
 	halt
 1:
-	; ---- case 27: movw store at offset 7 of a strongly ordered device page: the misalignment fault, nothing performed
+	; ---- case 27: mov .16 store at offset 7 of a strongly ordered device page: the misalignment fault, nothing performed
 	movq	=(0x805000), r3
 	movq	=(0xaabbccdd99887766), r1
 	movq	#0, r10
 	movq	r10, cnt
 	lea	N26, r13
-I26:	movw	r1, 7(r3)
+I26:	mov	r1, 7(r3).16
 N26:	movq	cnt, r12
 	movq	=(1), r17
 	cbeq	r12, r17, 1f	; case 27: one exception
@@ -708,13 +708,13 @@ N26:	movq	cnt, r12
 	movq	#27, r0
 	halt
 1:
-	; ---- case 28: movw load at offset 1 of a strongly ordered device page: the misalignment fault, nothing performed
+	; ---- case 28: mov .16 load at offset 1 of a strongly ordered device page: the misalignment fault, nothing performed
 	movq	=(0x805000), r3
 	movq	=(0x5a5a5a5a5a5a5a5a), r4
 	movq	#0, r10
 	movq	r10, cnt
 	lea	N27, r13
-I27:	movw	1(r3), r4
+I27:	mov	1(r3).16, r4
 N27:	movq	cnt, r12
 	movq	=(1), r17
 	cbeq	r12, r17, 1f	; case 28: one exception
@@ -750,13 +750,13 @@ N27:	movq	cnt, r12
 	movq	#28, r0
 	halt
 1:
-	; ---- case 29: movw store at offset 1 of a strongly ordered device page: the misalignment fault, nothing performed
+	; ---- case 29: mov .16 store at offset 1 of a strongly ordered device page: the misalignment fault, nothing performed
 	movq	=(0x805000), r3
 	movq	=(0xaabbccdd99887766), r1
 	movq	#0, r10
 	movq	r10, cnt
 	lea	N28, r13
-I28:	movw	r1, 1(r3)
+I28:	mov	r1, 1(r3).16
 N28:	movq	cnt, r12
 	movq	=(1), r17
 	cbeq	r12, r17, 1f	; case 29: one exception
@@ -813,11 +813,11 @@ N29:	movq	cnt, r12
 	movq	#31, r0
 	halt
 1:
-	; ---- case 32: movl load at offset 6 of a weakly ordered device page: it works
+	; ---- case 32: mov .32 load at offset 6 of a weakly ordered device page: it works
 	movq	#0, r10
 	movq	r10, cnt
 	lea	N30, r13
-I30:	movl	6(r3), r4
+I30:	mov	6(r3).32, r4
 N30:	movq	cnt, r12
 	movq	=(0), r17
 	cbeq	r12, r17, 1f	; case 32: no exception
@@ -919,7 +919,7 @@ N34:	movq	cnt, r12
 	movq	#37, r0
 	halt
 1:
-	movl	(r3), r4
+	mov	(r3).32, r4
 	movq	=(0x55667788), r17
 	cbeq	r4, r17, 1f	; case 37: the four bytes in RAM are written
 	movq	#37, r0
@@ -928,7 +928,7 @@ N34:	movq	cnt, r12
 	; ---- case 38: a quad load from a weakly ordered device page into a cached page (3 into 4): it works
 	movq	=(0x804000), r3
 	movq	=(0xbadf00d), r1
-	movl	r1, (r3)
+	mov	r1, (r3).32
 	movq	=(0x803ffc), r3
 	movq	#0, r10
 	movq	r10, cnt
@@ -976,7 +976,7 @@ N36:	movq	cnt, r12
 	movq	#39, r0
 	halt
 1:
-	movl	(r3), r4
+	mov	(r3).32, r4
 	movq	=(0x5a5a5a5a), r17
 	cbeq	r4, r17, 1f	; case 39: the four bytes in RAM are as they were
 	movq	#39, r0
@@ -1021,7 +1021,7 @@ N37:	movq	cnt, r12
 	; ---- case 41: a quad store from a strongly ordered device page into a cached page (5 into 6): the fault, nothing written
 	movq	=(0x806000), r3
 	movq	=(0xc0ffee0), r1
-	movl	r1, (r3)
+	mov	r1, (r3).32
 	movq	=(0x805ffc), r3
 	movq	=(0x1122334455667788), r1
 	movq	#0, r10
@@ -1053,7 +1053,7 @@ N38:	movq	cnt, r12
 	halt
 1:
 	movq	=(0x806000), r3
-	movl	(r3), r4
+	mov	(r3).32, r4
 	movq	=(0x0c0ffee0), r17
 	cbeq	r4, r17, 1f	; case 41: the four bytes in RAM are as they were
 	movq	#41, r0

@@ -877,7 +877,7 @@ _start:
 	movq	=0x123456789abcdef, r30
 	cbne	r3, r30, f197
 	movq	=0x123456789abcdef, r1
-	ror32	r1, #8, r2
+	ror	r1.32, #8, r2
 	movq	=0xffffffffef89abcd, r30
 	cbne	r2, r30, f198
 	movq	#0, r0

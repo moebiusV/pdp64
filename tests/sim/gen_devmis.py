@@ -16,6 +16,9 @@ offset 4 is a piece of 4 bytes at 4 (no register: reads zero, ignored) and a pie
 sec-device-split: the console's receive data register (offset 8) is cleared by a read and the character after it is accepted; a transmit write sends a character.  A split access onto it must do neither.
 
 Registers: r3 the address, r1 the value, r4 the result; r13 where the handler resumes; r17 the scratch of the check macros.  Failed case n: exit n."""
+import sys as _sys, os as _os
+_sys.path.insert(0, _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..', '..', 'tools'))
+import marks		# the words of the encoding written with width marks (tools/marks.py)
 import os, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(HERE, '..', 'sec'))
@@ -274,7 +277,7 @@ def main():
     root = os.path.join(HERE, '..', 'qemu')
     for name, fn in (('mmu-misaligned', gen_misaligned), ('sec-device-split', gen_split)):
         hdr, body = fn()
-        open(os.path.join(root, name + '.S'), 'w').write(GEN + hdr[0] + '\n' + ''.join('; ' + l + '\n' for l in hdr[1:]) + body)
+        open(os.path.join(root, name + '.S'), 'w').write(GEN + hdr[0] + '\n' + ''.join('; ' + l + '\n' for l in hdr[1:]) + marks.spell_text(body))
     open(os.path.join(root, 'sec-device-split.in'), 'w').write('xy\n')
     open(os.path.join(root, 'sec-device-split.out'), 'w').write('Z')
 

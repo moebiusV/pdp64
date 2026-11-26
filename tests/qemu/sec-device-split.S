@@ -66,7 +66,7 @@ N1:	movq	cnt, r12
 	movq	#0, r10
 	movq	r10, cnt
 	lea	N2, r13
-I2:	movl	6(r3), r5
+I2:	mov	6(r3).32, r5
 N2:	movq	cnt, r12
 	movq	=(1), r17
 	cbeq	r12, r17, 1f	; case 3: one exception
@@ -94,7 +94,7 @@ N2:	movq	cnt, r12
 	movq	#0, r10
 	movq	r10, cnt
 	lea	N3, r13
-I3:	movzw	7(r3), r5
+I3:	mov	7(r3).u16, r5
 N3:	movq	cnt, r12
 	movq	=(1), r17
 	cbeq	r12, r17, 1f	; case 3: one exception
@@ -166,7 +166,7 @@ N4:	movq	cnt, r12
 	movq	#0, r10
 	movq	r10, cnt
 	lea	N5, r13
-I5:	movl	r1, 22(r3)
+I5:	mov	r1, 22(r3).32
 N5:	movq	cnt, r12
 	movq	=(1), r17
 	cbeq	r12, r17, 1f	; case 5: one exception

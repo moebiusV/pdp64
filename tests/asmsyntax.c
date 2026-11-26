@@ -70,5 +70,6 @@ int main(void){
   bad+=try("[ ] and ! operators","N = [1+2]*3\nM = 5 ! 1\n", 1);
   bad+=try("< > byte operators","movq #<0x1234, r1\nmovq #>0x1234, r2\n", 1);
   bad+=try(".if .else .endif", ".if 1\n.else\n.endif\n", 1);
+  bad+=try("base minus disp, sp",  "movq r5-8, r1\nmovq sp-8, r1\n", 1);
   bad+=try("registers keep names","r5: ret\n", 0);
   return bad!=0;}

@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 """Generate tests/sim/newops.s (registers r0-r15) and newops32.s (registers r16-r31): the instructions that only the pdp64 has, with
 expectations computed here, not by the simulator.  A failed check n exits with n (halt).  usage: gen_newops.py OUTDIR"""
+import sys as _sys, os as _os
+_sys.path.insert(0, _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..', '..', 'tools'))
+import marks		# the words of the encoding written with width marks (tools/marks.py)
 import sys
 M = (1 << 64) - 1
 out = sys.argv[1]
@@ -26,7 +29,7 @@ class T:
         self.a('F9999:', 'movq\t#99, r0', 'halt')
         self.l.append(tail)
         self.l += ['\t.data', '\t.align 8', 'ubuf:\t.space 32', '\t.bss', '\t.align 16', '\t.space 256', 'stack_top:', '\t.space 64']
-        open('%s/%s' % (out, name), 'w').write('\n'.join(self.l) + '\n')
+        open('%s/%s' % (out, name), 'w').write(marks.spell_text('\n'.join(self.l)) + '\n')
 
 def s64(v): return v - (1 << 64) if v >> 63 else v
 
@@ -221,4 +224,4 @@ k.a('h_gen:', 'mfsr\tr6, epc', 'mfsr\tr8, ecause', 'mfsr\tr9, eva', 'movq\tr2, c
     'cbeq\tr4, #0, 1f', 'movq\tr4, sp', '1:', 'cbeq\tr7, #0, 1f', 'mtsr\tepc, r7', '1:', 'rti\t#0xffffffff')
 k.l += ['\t.data', '\t.align 8', 'cap:\t.space 48', 'popstk:\t.quad 0x5555, 0', 'popmstk:\t.quad 0xbb, 0xaa, 0', 'vtab:', '\t.space 16', '\t.quad h_gen', '\t.space 8', '\t.quad h_gen', '\t.space 64', '\t.quad h_gen',
         '\t.space 16', '\t.quad h_gen', '\t.space 3900', '\t.bss', '\t.align 16', '\t.space 256', 'stack_top:', '\t.space 64']
-open(out + '/fused.s', 'w').write('\n'.join(k.l).replace('movq\tr14, r12', 'movq\tsp, r12') + '\n')
+open(out + '/fused.s', 'w').write(marks.spell_text('\n'.join(k.l)).replace('movq\tr14, r12', 'movq\tsp, r12') + '\n')

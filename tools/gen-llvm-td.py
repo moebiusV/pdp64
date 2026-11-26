@@ -112,7 +112,10 @@ def generate():
 
     # ---------------- PDP64GenMnemonics.td
     t = [HEADER, '// every mnemonic of the grammar; mangled: non-identifier characters become _\n']
-    for m in mns:
+    import marks			# the width marks: the words of the encoding that the assembly language does not have (movb, aaddl, fadd32 ...) are not mnemonics here; their operations (mov, fcvt) are, and the marks are written in the assembly strings
+    gone = set(marks.words())
+    ops = sorted({op for op, _ in marks.rows().values()})
+    for m in sorted(set(m for m in mns if m not in gone) | set(ops), key=lambda m: (mns.index(m) if m in mns else len(mns), m)):
         t.append('defvar MN_%s = "%s";\n' % (mangle(m), m))
     mn_td = ''.join(t)
 

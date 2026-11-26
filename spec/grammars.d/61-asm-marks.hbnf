@@ -1,0 +1,35 @@
+; targets: asm spec
+; The operand width marks and the words they replace (docs/asm-syntax.md, "Width marks").  The mnemonic names the operation and the width is a mark on the operand, in bits: `.8 .16 .32 .64`,
+; `.u8 .u16 .u32 .u64` (zero-extending) and `.s8 .s16 .s32 .s64` (signed, the default for the integer widths; `.s32` and `.u64` name the integer side of `fcvt`).  The encoding keeps its words
+; (movb, aaddl, fadd32, fcvtds: the names in the tables of the encoding); this part says which operation and which marks each of them is, and tools/mkgrammar.py writes it for as64 (which turns a mark into
+; the word), for the disassembler (which turns a word into a mark) and for the dictionary of the manual.
+
+; the words the operations are written with that the encoding does not have
+mn-surface = "mov"@0 | "mov.u"@1 | "fcvt"@2
+
+; the words of the encoding that are not words of the assembly language: `movb r1, r2` is an unknown mnemonic, `mov r1.8, r2` is the instruction
+map-words = "movl" | "movw" | "movb" | "movzl" | "movzw" | "movzb"
+          | "movq.u" | "movl.u" | "movw.u" | "movb.u" | "movzl.u" | "movzw.u" | "movzb.u"
+          | "bswapw" | "bswapl" | "ror32"
+          | "casl" | "swapl" | "aaddl" | "aandl" | "abisl" | "axorl" | "amaxl" | "aminl" | "amaxul" | "aminul" | "scl" | "lll"
+          | "fadd32" | "fsub32" | "fmul32" | "fdiv32" | "fsqrt32" | "fmadd32" | "fnmsub32" | "fclass32" | "fabs32" | "fneg32"
+          | "fcbeq32" | "fcbne32" | "fcblt32" | "fcble32" | "fcbgt32" | "fcbge32" | "fcbor32" | "fcbuo32"
+          | "fcvtdq" | "fcvtdqu" | "fcvtqd" | "fcvtqud" | "fcvtds" | "fcvtsd" | "fcvtsl" | "fcvtls" | "fcvtsh" | "fcvths" | "fcvtdh" | "fcvthd" | "fcvthl" | "fcvtlh"
+
+; the rows: "word of the encoding = operation and the marks".  The marks are given by a letter and a width:
+;   (none)  the operation with no mark, or with .64 on every operand: the plain word
+;   m8 m16 m32 mu8 mu16 mu32   the one memory operand of the instruction carries the mark (a load, a store, an atomic); a move between registers carries it on its source register.  mu: zero-extending
+;   s16 s32                    the first (source) register carries the mark; the destination is written in full and carries none
+;   f32                        every register operand carries the mark (the unmarked ones are 64 bits)
+;   c:S:D                      fcvt: the mark of the source register S and of the destination D; i is the unmarked register (a 64-bit signed integer), u64 and s32 are the other integers, 16 32 64 the float formats
+map-rows = "movq=mov" | "movl=mov m32" | "movw=mov m16" | "movb=mov m8" | "movzl=mov mu32" | "movzw=mov mu16" | "movzb=mov mu8"
+         | "movq.u=mov.u" | "movl.u=mov.u m32" | "movw.u=mov.u m16" | "movb.u=mov.u m8" | "movzl.u=mov.u mu32" | "movzw.u=mov.u mu16" | "movzb.u=mov.u mu8"
+         | "bswapw=bswap s16" | "bswapl=bswap s32" | "ror32=ror s32"
+         | "casl=cas m32" | "swapl=swap m32" | "aaddl=aadd m32" | "aandl=aand m32" | "abisl=abis m32" | "axorl=axor m32" | "amaxl=amax m32" | "aminl=amin m32"
+         | "amaxul=amaxu m32" | "aminul=aminu m32" | "scl=sc m32" | "lll=ll m32"
+         | "fadd32=fadd f32" | "fsub32=fsub f32" | "fmul32=fmul f32" | "fdiv32=fdiv f32" | "fsqrt32=fsqrt f32" | "fmadd32=fmadd f32" | "fnmsub32=fnmsub f32"
+         | "fclass32=fclass s32" | "fabs32=fabs s32" | "fneg32=fneg s32"
+         | "fcbeq32=fcbeq f32" | "fcbne32=fcbne f32" | "fcblt32=fcblt f32" | "fcble32=fcble f32" | "fcbgt32=fcbgt f32" | "fcbge32=fcbge f32" | "fcbor32=fcbor f32" | "fcbuo32=fcbuo f32"
+         | "fcvtdq=fcvt c:64:i" | "fcvtdqu=fcvt c:64:u64" | "fcvtqd=fcvt c:i:64" | "fcvtqud=fcvt c:u64:64" | "fcvtds=fcvt c:64:32" | "fcvtsd=fcvt c:32:64"
+         | "fcvtsl=fcvt c:32:s32" | "fcvtls=fcvt c:s32:32" | "fcvtsh=fcvt c:32:16" | "fcvths=fcvt c:16:32" | "fcvtdh=fcvt c:64:16" | "fcvthd=fcvt c:16:64"
+         | "fcvthl=fcvt c:16:s32" | "fcvtlh=fcvt c:s32:16"

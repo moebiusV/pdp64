@@ -9,6 +9,9 @@ to nearest even (the only rounding the machine has), with the canonical quiet Na
 for an inexact or overflowing finite result.  Cases that would underflow are left out: the flag is the host's.  A failed check n exits with n.
 
 usage: gen_fma.py OUTDIR"""
+import sys as _sys, os as _os
+_sys.path.insert(0, _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..', '..', 'tools'))
+import marks		# the words of the encoding written with width marks (tools/marks.py)
 import os, sys, struct
 from fractions import Fraction
 
@@ -183,5 +186,5 @@ def gen():
 
 if __name__ == '__main__':
     d = sys.argv[1]
-    open(os.path.join(d, 'fma-negate.s'), 'w').write(gen())
+    open(os.path.join(d, 'fma-negate.s'), 'w').write(marks.spell_text(gen()))
     print('gen_fma: fma-negate.s')

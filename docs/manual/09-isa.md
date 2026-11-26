@@ -46,7 +46,7 @@
 
 **9.2.12** An instruction does what its name says and nothing else: it writes its result and leaves nothing behind, because the machine has no condition codes for it to leave.
 
-**9.2.13** Measured on the 841-file corpus of the compiler (instruction bytes, `as64 --stats`), the output of the compiler is 964,158 bytes in 296,070 instructions (3.26 bytes an instruction); over six large programs the average is 2.934 bytes an executed instruction (1.8). The fused pairs account for 19,786 instructions of the corpus. Linker relaxation (9.5.5) takes a further 3.76% off the text of the corpus. The tables and their provenance are in appendix E.
+**9.2.13** Measured on the 841-file corpus of the compiler (instruction bytes, `as64 --stats`), the output of the compiler is 964,158 bytes in 296,070 instructions (3.26 bytes an instruction); over six large programs the average is 2.934 bytes an executed instruction (1.8). The fused pairs account for 19,786 instructions of the corpus. Linker relaxation (9.5.6) takes a further 3.76% off the text of the corpus. The tables and their provenance are in appendix E.
 
 *Commentary.* **Precedent.** 9.2.2 is x86's ModR/M idea made architectural; it is also what lets the exception machinery be small (the PDP-11 recorded at most two register side effects per instruction because it had two specifiers; with one memory operand there is at most one). 9.2.6 exists because the Motorola 68000, which was very nearly this machine, could not restart an instruction after a bus error and so could not do demand paging until its successor retrofitted a fault model. 9.2.4 is the rule x86-64 adopted for 32-bit writes and failed to apply to the 8- and 16-bit forms. 9.2.7 is the arrangement RISC-V standardised as Zfinx. **Trade-offs.** 9.2.9 means narrow arithmetic is done wide and converted, which costs an extension instruction after some narrow operations. 9.2.8 is the cheapest model on a small in-order core and the most expensive on a large speculative one. 9.2.10 lets the page table have three levels, as RISC-V's Sv39 does, or four or five as x86-64, AArch64 and Sv48 and Sv57 do, at a longer walk for each level. **Improvements.** The rules are soft defaults: each says what it protects and what breaking it costs. **Benefits.** Together they make the machine small, restartable and easy for a compiler; the measured code size is in chapter 1. **Modern comparables.** AArch64 and RISC-V have fixed-length register-to-register encodings and weak memory models; x86-64 has memory operands and total store order; the pdp64 takes memory operands, strong ordering and a bounded fault surface. **Impact.** *Kernel:* Restartable instructions and precise exceptions mean a page-fault handler repairs the mapping and returns, with no instruction-specific cases, and sequential consistency means no barrier code. *Compiler:* One memory operand keeps instruction selection and register allocation simple; a register written in full removes partial-register merges; the single ALU width costs an extension instruction after some narrow arithmetic. *Hardware:* One address generator, at most one register side effect, a single-entry undo buffer, no byte-lane multiplexing and a length that is a lookup on one parcel are what keep the die small.
 
@@ -107,15 +107,17 @@
 | `(Rn)+d` | post-increment by a stride `d` (0: the operand size) | none | 12-bit stride | none |
 | `-(Rn)` or `(Rn)-d` | pre-decrement by a stride (0: the operand size) | none | 12-bit stride | none |
 
-**9.5.2** The deferred modes of the PDP-11 are removed; indirection is done with `JMPI`, `CALLI` and a load.
+**9.5.2** The width of an operand is not part of the mnemonic: it is a mark on the operand, a dot and a number of bits glued to the operand's last character with no space. `.8`, `.16`, `.32` and `.64` are the widths, `.u8`, `.u16` and `.u32` zero-extend where the plain ones sign-extend, and `.s8`, `.s16` and `.s32` spell the sign-extension that is the default. The mark goes after the operand whatever its mode: `r1.32`, `(r1).8`, `8(r1).16`, `(r1)+.32`, `-(r1).8`, `(r1)(r2*4).16`, `@0x100.8` and `msg+4.16`. An unmarked operand is 64 bits. A mark on a memory operand says how much memory is touched, a mark on a register says how much of the register counts, and a register that is written is always written in full, so a mark on a destination register is refused; so is a mark on a constant. The words that take marks are `MOV`, the atomics, `BSWAP`, `ROR`, the floating-point operations and `FCVT`; any other word refuses one. With `(Rn)+` and `-(Rn)` and no stride, the mark sets the stride: `(r1)+.8` steps by one byte.
 
-**9.5.3** At most one register side effect occurs per instruction, and it is committed at retirement; a fault discards it.
+**9.5.3** The deferred modes of the PDP-11 are removed; indirection is done with `JMPI`, `CALLI` and a load.
 
-**9.5.4** A pc-relative operand is measured in bytes from the first parcel of the instruction; the field counts bytes for a memory operand and parcels for a branch or call. A branch has a field of 6 to 9 bits in one parcel (±64 to ±512 bytes), 16 bits in two (±64 KiB) and 32 bits in three (±4 GiB); a `CALL` has 18 bits in two parcels (±256 KiB) and 32 in three; a `LEA` or a load through `d(PC)` reaches ±2 KiB to ±32 KiB in two parcels and ±2 GiB in three. The dictionary lists the width and reach of every operand shape.
+**9.5.4** At most one register side effect occurs per instruction, and it is committed at retirement; a fault discards it.
 
-**9.5.5** The assembler cannot know the distance to a symbol in another object, so it writes such a `CALL` or `LEA` of a data symbol in its long form (six bytes) with a relocation; the linker lays out the sections, gives each such instruction the shortest form that reaches (a 4-byte `CALL` within ±256 KiB, a 4-byte `LEA` or pc-relative load within ±32 KiB, a 4-byte `JMP` or `MOVCALL` within ±64 KiB) and moves everything behind it. It grows each instruction from its shortest form, so the lengths only grow and the iteration ends. Relaxation is on by default; `as64 --no-relax` and `ld64 --no-relax` give the unrelaxed bytes.
+**9.5.5** A pc-relative operand is measured in bytes from the first parcel of the instruction; the field counts bytes for a memory operand and parcels for a branch or call. A branch has a field of 6 to 9 bits in one parcel (±64 to ±512 bytes), 16 bits in two (±64 KiB) and 32 bits in three (±4 GiB); a `CALL` has 18 bits in two parcels (±256 KiB) and 32 in three; a `LEA` or a load through `d(PC)` reaches ±2 KiB to ±32 KiB in two parcels and ±2 GiB in three. The dictionary lists the width and reach of every operand shape.
 
-*Commentary on 9.5.1, 9.5.4 and 9.5.5.* **Precedent.** The PDP-11 chose the mode in each six-bit specifier; x86 chooses it in ModR/M and SIB; here the leaf chooses it, and the cost of a mode is the length of the leaf that has it. **Trade-offs.** The scaled index is the thin case: its shortest form has a 6-bit displacement, and `d(DP)` has only the six-byte load form, so a thread-local access through `DP` costs six bytes. Relaxation turns the assembler's guess into the linker's measurement: it saved 3.76% of the text of the corpus (an upper bound for the reach of the 4-byte call, since the corpus stub places symbols right behind each file) and 1.65% of the linked text of the six large programs; external calls, 6 bytes each, are the bulk. **Improvements.** The stride of the post-increment and pre-decrement is the same field in every leaf, so an array of 16-byte records is one instruction per element; the scaled index takes a conversion of a narrower index in the compiler (`bs_ec`'s inner loop, 31% fewer instructions). **Benefits.** An object file from `as64` is correct without relaxation and smaller with it, and a program linked either way produces the same output on the six large programs. **Modern comparables.** RISC-V's linker relaxes `call` and `lui`/`addi` pairs for the same reason; AArch64 needs linker veneers for far branches. **Impact.** *Kernel:* the kernel is relaxed like any other program, and text near the reach limits is smaller by the 4-byte forms. *Compiler:* it emits the long form for an external symbol and leaves the choice to the linker; it prefers scaled index and strided autoincrement where its loops allow (appendix E, E.4). *Hardware:* nothing: the address adder takes a field and a base in every leaf.
+**9.5.6** The assembler cannot know the distance to a symbol in another object, so it writes such a `CALL` or `LEA` of a data symbol in its long form (six bytes) with a relocation; the linker lays out the sections, gives each such instruction the shortest form that reaches (a 4-byte `CALL` within ±256 KiB, a 4-byte `LEA` or pc-relative load within ±32 KiB, a 4-byte `JMP` or `MOVCALL` within ±64 KiB) and moves everything behind it. It grows each instruction from its shortest form, so the lengths only grow and the iteration ends. Relaxation is on by default; `as64 --no-relax` and `ld64 --no-relax` give the unrelaxed bytes.
+
+*Commentary on 9.5.1, 9.5.5 and 9.5.6.* **Precedent.** The PDP-11 chose the mode in each six-bit specifier; x86 chooses it in ModR/M and SIB; here the leaf chooses it, and the cost of a mode is the length of the leaf that has it. **Trade-offs.** The scaled index is the thin case: its shortest form has a 6-bit displacement, and `d(DP)` has only the six-byte load form, so a thread-local access through `DP` costs six bytes. Relaxation turns the assembler's guess into the linker's measurement: it saved 3.76% of the text of the corpus (an upper bound for the reach of the 4-byte call, since the corpus stub places symbols right behind each file) and 1.65% of the linked text of the six large programs; external calls, 6 bytes each, are the bulk. **Improvements.** The stride of the post-increment and pre-decrement is the same field in every leaf, so an array of 16-byte records is one instruction per element; the scaled index takes a conversion of a narrower index in the compiler (`bs_ec`'s inner loop, 31% fewer instructions). **Benefits.** An object file from `as64` is correct without relaxation and smaller with it, and a program linked either way produces the same output on the six large programs. **Modern comparables.** RISC-V's linker relaxes `call` and `lui`/`addi` pairs for the same reason; AArch64 needs linker veneers for far branches. **Impact.** *Kernel:* the kernel is relaxed like any other program, and text near the reach limits is smaller by the 4-byte forms. *Compiler:* it emits the long form for an external symbol and leaves the choice to the linker; it prefers scaled index and strided autoincrement where its loops allow (appendix E, E.4). *Hardware:* nothing: the address adder takes a field and a base in every leaf.
 
 *Commentary.* **Precedent.** The PDP-11 had eight modes for each of eight registers, with a deferred flavour of each, and it made `*p++` and `*--p` single instructions. **Trade-offs.** Dropping the deferred modes removes the case where a fault occurs after a register has been updated at an address that itself came from a load; keeping the strided autoincrement costs nothing, because the undo information was already a delta (the PDP-11's `MMR1` recorded an amount for the same reason). **Improvements.** The increment is a stride, so walking an array of 16-byte records is one instruction; the PC-relative modes count from the instruction itself, so a branch needs no adjustment and `LEA` reads the PC. **Benefits.** Address generation is one adder pass, never load-then-add, which is the difference between one cycle and a long path on an FPGA. **Modern comparables.** AArch64 has pre- and post-indexed forms with an immediate; x86 has scaled index with a base; RISC-V has base plus immediate only. **Impact.** *Kernel:* A strided autoincrement walks a table of records, and `d(DP)` reaches the per-CPU structure in one instruction. *Compiler:* The modes match C idioms (`*p++`, `a[i]`) one-to-one, and dropping the deferred modes removes the cases the selector would otherwise have to consider. *Hardware:* Address generation is one adder pass, never load-then-add, and the PC-relative base is the first parcel, so no adjustment is needed.
 
@@ -133,9 +135,9 @@
 
 *Cf. section 6.7 for the memory types that decide whether an access is cached, and section 6.4 for what a faulting load leaves behind.*
 
-**9.6.1** `MOVQ`, `MOVL`, `MOVW` and `MOVB` load and store 64, 32, 16 and 8 bits; the loads sign-extend. `MOVZL`, `MOVZW` and `MOVZB` load with zero extension.
+**9.6.1** `MOV` loads and stores 64, 32, 16 and 8 bits by a width mark on its memory operand (section 9.5): `mov (r1).8, r2` is a byte load, `mov r2, 4(r1).32` stores 32 bits, and with no mark the move is 64 bits (`MOVQ` is the word for that plain move). The loads sign-extend; with a zero-extending mark, `mov (r1).u8, r2`, they load with zero extension.
 
-**9.6.2** With a register operand, the same opcodes are the conversion set: `MOVB R1, R2` sign-extends the low byte, `MOVZW R1, R2` zero-extends the low word.
+**9.6.2** With a register source, the same operation is the conversion set: `MOV R1.8, R2` sign-extends the low byte, `MOV R1.u16, R2` zero-extends the low word. A mark on the destination register is refused, because a register is always written in full.
 
 **9.6.3** `LEA` forms an effective address; `LEA 0(PC), Rn` reads the program counter.
 
@@ -150,22 +152,25 @@
 
 **9.6.8** The one-parcel forms abbreviate the common cases: loads and stores through a hot base register or the stack pointer at small offsets, `LEA` from `SP`, and `MOVQ #imm, rd` with an immediate of up to seven bits.
 
-**9.6.9** A load or store may be qualified `.U` (the memory operand is accessed with user privilege, which is how the kernel reaches user memory past the user-memory guard of 6.10); the block copy has the same qualifier for each of its sides, `MCPY.UR` and `MCPY.UW`.
+**9.6.9** A load or store may be qualified `.U`, written as the word `MOV.U` with the marks of `MOV` (`mov.u (r1).u8, r2`; the memory operand is accessed with user privilege, which is how the kernel reaches user memory past the user-memory guard of 6.10); the block copy has the same qualifier for each of its sides, `MCPY.UR` and `MCPY.UW`.
 
-*Commentary.* **Precedent.** The PDP-11 had `MOV` and `MOVB` with a byte sign-extended into a register; the VAX had a sized `MOV` for every width. **Trade-offs.** Keeping the sized loads costs four extra opcodes against a quad-only design, but without `MOVL` a struct field load becomes two `MOVW`s, a shift and an or, and ELF, timestamps and most on-disk and wire structures are full of 32- and 16-bit fields. **Improvements.** There is no separate `CVT` group: the conversions are the moves with a register source, so they cost nothing. **Benefits.** No partial-register state anywhere. **Modern comparables.** AArch64 and RISC-V have the same sized loads with sign and zero extension; x86-64 keeps 8- and 16-bit register writes that preserve the upper bits, which makes narrow writes depend on the old value. **Use.** `LEA 0(PC)` is how a position-independent program finds itself; a plain load reads a packed on-disk or network structure at whatever address it has. **Impact.** *Kernel:* `LEA 0(PC)` lets position-independent kernel code find itself; the plain moves read packed on-disk and network structures where they lie. *Compiler:* Sized loads avoid the shift, mask and or of a struct-field read, and the conversions are moves, so no separate conversion selection exists. *Hardware:* No partial-register write anywhere; the conversions reuse the load-extend path.
+*Commentary.* **Precedent.** The PDP-11 had `MOV` and `MOVB` with a byte sign-extended into a register; the VAX had a sized `MOV` for every width. Here the width is not in the name: the word is `MOV` and the width is a mark on the operand, as `.8`. **Trade-offs.** Keeping the sized loads costs extra opcodes against a quad-only design, but without a 32-bit load a struct field load becomes two 16-bit loads, a shift and an or, and ELF, timestamps and most on-disk and wire structures are full of 32- and 16-bit fields. **Improvements.** There is no separate `CVT` group: the conversions are the moves with a register source, so they cost nothing. **Benefits.** No partial-register state anywhere. **Modern comparables.** AArch64 and RISC-V have the same sized loads with sign and zero extension; x86-64 keeps 8- and 16-bit register writes that preserve the upper bits, which makes narrow writes depend on the old value. **Use.** `LEA 0(PC)` is how a position-independent program finds itself; a plain load reads a packed on-disk or network structure at whatever address it has. **Impact.** *Kernel:* `LEA 0(PC)` lets position-independent kernel code find itself; the plain moves read packed on-disk and network structures where they lie. *Compiler:* Sized loads avoid the shift, mask and or of a struct-field read, and the conversions are moves, so no separate conversion selection exists. *Hardware:* No partial-register write anywhere; the conversions reuse the load-extend path.
 
 <!-- entries:9.6 -->
-### MOV: Move, load and store (64, 32, 16 and 8 bits)
+### MOV: Move, load and store, with a width mark
 
-**Mnemonics:** `MOVQ`, `MOVL`, `MOVW`, `MOVB`
+**Mnemonics:** `MOV`, `MOV.U`
 
 **Syntax**
 
 ```
-MOVQ rm, Rd        ; load
-MOVQ Rs, rm        ; store
-MOVQ #imm, Rd      ; a constant of any size
-MOVL, MOVW, MOVB likewise
+MOV rm, Rd                ; load 64 bits (the plain move is also written MOVQ)
+MOV Rs, rm                ; store 64 bits
+MOV #imm, Rd              ; a constant of any size
+MOV d(Rn).8, Rd           ; a load with a mark: .8 .16 .32 sign-extend, .u8 .u16 .u32 zero-extend, .64 is the default
+MOV Rs, d(Rn).8           ; a store with a mark: the low 8, 16 or 32 bits of Rs
+MOV Rs.8, Rd              ; sign-extend the low 8, 16 or 32 bits of Rs (.u8 .u16 .u32: zero-extend)
+MOV.U d(Rn).u8, Rd       ; the same, the memory operand checked as a user-mode access (a load or a store)
 ```
 
 **Encoding**
@@ -174,26 +179,29 @@ MOVL, MOVW, MOVB likewise
 
 The chart is the leaf `MOVQ64-1`, MOVQ64, prefix `11001110100`. `op1` is `imm64s`: signed 64-bit immediate, -9223372036854775808 to 9223372036854775807. `op2` is `reg5`: register, 5 bits.
 
-**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`MOVQ64-1`](dictionary/by-encoding.md#MOVQ64-1), [`LDF-B28-1`](dictionary/by-encoding.md#LDF-B28-1), [`LDF-X22-1`](dictionary/by-encoding.md#LDF-X22-1), [`LDF-PI12-1`](dictionary/by-encoding.md#LDF-PI12-1), [`LDF-PD12-1`](dictionary/by-encoding.md#LDF-PD12-1), [`LDF-PC32-1`](dictionary/by-encoding.md#LDF-PC32-1), [`LDF-A32-1`](dictionary/by-encoding.md#LDF-A32-1), [`LDFI-I32-1`](dictionary/by-encoding.md#LDFI-I32-1), [`STF-B28-1`](dictionary/by-encoding.md#STF-B28-1), [`STF-X22-1`](dictionary/by-encoding.md#STF-X22-1), [`STF-PI12-1`](dictionary/by-encoding.md#STF-PI12-1), [`STF-PD12-1`](dictionary/by-encoding.md#STF-PD12-1), [`STF-PC32-1`](dictionary/by-encoding.md#STF-PC32-1), [`STF-A32-1`](dictionary/by-encoding.md#STF-A32-1), [`DPF-D28-1`](dictionary/by-encoding.md#DPF-D28-1), [`RRF-1`](dictionary/by-encoding.md#RRF-1), [`RRF5-1`](dictionary/by-encoding.md#RRF5-1), [`RR5-1`](dictionary/by-encoding.md#RR5-1), [`LDHHH3-a-1`](dictionary/by-encoding.md#LDHHH3-a-1), [`STHHH3-a-1`](dictionary/by-encoding.md#STHHH3-a-1), [`STSPh4-a-1`](dictionary/by-encoding.md#STSPh4-a-1), [`LDSPh5-a-1`](dictionary/by-encoding.md#LDSPh5-a-1), [`IMMh47-a-1`](dictionary/by-encoding.md#IMMh47-a-1), [`STBs8-a-1`](dictionary/by-encoding.md#STBs8-a-1), [`LDBs10-a-1`](dictionary/by-encoding.md#LDBs10-a-1), [`LDX0-a-1`](dictionary/by-encoding.md#LDX0-a-1), [`STX0-a-1`](dictionary/by-encoding.md#STX0-a-1), [`LDPC14-a-1`](dictionary/by-encoding.md#LDPC14-a-1), [`LDI12-a-1`](dictionary/by-encoding.md#LDI12-a-1), [`LDBu12H-a-1`](dictionary/by-encoding.md#LDBu12H-a-1), [`STBu12H-a-1`](dictionary/by-encoding.md#STBu12H-a-1), [`LDX6H-a-1`](dictionary/by-encoding.md#LDX6H-a-1), [`STX6H-a-1`](dictionary/by-encoding.md#STX6H-a-1), [`LDPC16H-a-1`](dictionary/by-encoding.md#LDPC16H-a-1), [`LDI18H-a-1`](dictionary/by-encoding.md#LDI18H-a-1), [`LDFI-I32-2`](dictionary/by-encoding.md#LDFI-I32-2), [`STHHH1-b-1`](dictionary/by-encoding.md#STHHH1-b-1), [`LDBs6-b-1`](dictionary/by-encoding.md#LDBs6-b-1), [`STBs6-b-1`](dictionary/by-encoding.md#STBs6-b-1), [`LDBu6-b-1`](dictionary/by-encoding.md#LDBu6-b-1), [`LDX0-b-1`](dictionary/by-encoding.md#LDX0-b-1), [`STX0-b-1`](dictionary/by-encoding.md#STX0-b-1), [`STBs8H-b-1`](dictionary/by-encoding.md#STBs8H-b-1), [`LDBu12H-b-1`](dictionary/by-encoding.md#LDBu12H-b-1), [`STBu12H-b-1`](dictionary/by-encoding.md#STBu12H-b-1), [`LDX4H-b-1`](dictionary/by-encoding.md#LDX4H-b-1), [`STX6H-b-1`](dictionary/by-encoding.md#STX6H-b-1), [`LDPC14H-b-1`](dictionary/by-encoding.md#LDPC14H-b-1), [`LDI12-d-2`](dictionary/by-encoding.md#LDI12-d-2).
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`MOVQ64-1`](dictionary/by-encoding.md#MOVQ64-1), [`LDF-B28-1`](dictionary/by-encoding.md#LDF-B28-1), [`LDF-X22-1`](dictionary/by-encoding.md#LDF-X22-1), [`LDF-PI12-1`](dictionary/by-encoding.md#LDF-PI12-1), [`LDF-PD12-1`](dictionary/by-encoding.md#LDF-PD12-1), [`LDF-PC32-1`](dictionary/by-encoding.md#LDF-PC32-1), [`LDF-A32-1`](dictionary/by-encoding.md#LDF-A32-1), [`LDFI-I32-1`](dictionary/by-encoding.md#LDFI-I32-1), [`STF-B28-1`](dictionary/by-encoding.md#STF-B28-1), [`STF-X22-1`](dictionary/by-encoding.md#STF-X22-1), [`STF-PI12-1`](dictionary/by-encoding.md#STF-PI12-1), [`STF-PD12-1`](dictionary/by-encoding.md#STF-PD12-1), [`STF-PC32-1`](dictionary/by-encoding.md#STF-PC32-1), [`STF-A32-1`](dictionary/by-encoding.md#STF-A32-1), [`DPF-D28-1`](dictionary/by-encoding.md#DPF-D28-1), [`RRF-1`](dictionary/by-encoding.md#RRF-1), [`RRF5-1`](dictionary/by-encoding.md#RRF5-1), [`RR5-1`](dictionary/by-encoding.md#RR5-1), [`LDHHH3-a-1`](dictionary/by-encoding.md#LDHHH3-a-1), [`STHHH3-a-1`](dictionary/by-encoding.md#STHHH3-a-1), [`STSPh4-a-1`](dictionary/by-encoding.md#STSPh4-a-1), [`LDSPh5-a-1`](dictionary/by-encoding.md#LDSPh5-a-1), [`IMMh47-a-1`](dictionary/by-encoding.md#IMMh47-a-1), [`STBs8-a-1`](dictionary/by-encoding.md#STBs8-a-1), [`LDBs10-a-1`](dictionary/by-encoding.md#LDBs10-a-1), [`LDX0-a-1`](dictionary/by-encoding.md#LDX0-a-1), [`STX0-a-1`](dictionary/by-encoding.md#STX0-a-1), [`LDPC14-a-1`](dictionary/by-encoding.md#LDPC14-a-1), [`LDI12-a-1`](dictionary/by-encoding.md#LDI12-a-1), [`LDBu12H-a-1`](dictionary/by-encoding.md#LDBu12H-a-1), [`STBu12H-a-1`](dictionary/by-encoding.md#STBu12H-a-1), [`LDX6H-a-1`](dictionary/by-encoding.md#LDX6H-a-1), [`STX6H-a-1`](dictionary/by-encoding.md#STX6H-a-1), [`LDPC16H-a-1`](dictionary/by-encoding.md#LDPC16H-a-1), [`LDI18H-a-1`](dictionary/by-encoding.md#LDI18H-a-1), [`LDFI-I32-2`](dictionary/by-encoding.md#LDFI-I32-2), [`STHHH1-b-1`](dictionary/by-encoding.md#STHHH1-b-1), [`LDBs6-b-1`](dictionary/by-encoding.md#LDBs6-b-1), [`STBs6-b-1`](dictionary/by-encoding.md#STBs6-b-1), [`LDBu6-b-1`](dictionary/by-encoding.md#LDBu6-b-1), [`LDX0-b-1`](dictionary/by-encoding.md#LDX0-b-1), [`STX0-b-1`](dictionary/by-encoding.md#STX0-b-1), [`STBs8H-b-1`](dictionary/by-encoding.md#STBs8H-b-1), [`LDBu12H-b-1`](dictionary/by-encoding.md#LDBu12H-b-1), [`STBu12H-b-1`](dictionary/by-encoding.md#STBu12H-b-1), [`LDX4H-b-1`](dictionary/by-encoding.md#LDX4H-b-1), [`STX6H-b-1`](dictionary/by-encoding.md#STX6H-b-1), [`LDPC14H-b-1`](dictionary/by-encoding.md#LDPC14H-b-1), [`LDI12-d-2`](dictionary/by-encoding.md#LDI12-d-2), [`LDFI-I32-3`](dictionary/by-encoding.md#LDFI-I32-3), [`LDU-B28-1`](dictionary/by-encoding.md#LDU-B28-1), [`STU-B28-1`](dictionary/by-encoding.md#STU-B28-1), [`LDU-B12-1`](dictionary/by-encoding.md#LDU-B12-1), [`STU-B12-1`](dictionary/by-encoding.md#STU-B12-1), [`LDU-X6-1`](dictionary/by-encoding.md#LDU-X6-1), [`STU-X6-1`](dictionary/by-encoding.md#STU-X6-1), [`LDU-B28-2`](dictionary/by-encoding.md#LDU-B28-2), [`LDU-B12-2`](dictionary/by-encoding.md#LDU-B12-2), [`LDU-X6-2`](dictionary/by-encoding.md#LDU-X6-2), [`LDU-B28-3`](dictionary/by-encoding.md#LDU-B28-3), [`LDU-B12-3`](dictionary/by-encoding.md#LDU-B12-3), [`LDU-X6-3`](dictionary/by-encoding.md#LDU-X6-3).
 
 **Operation**
 
 ```
-size = 8 (MOVQ), 4 (MOVL), 2 (MOVW) or 1 (MOVB) bytes
-load :  Rd ← sext(M[EA(rm)], size)          ; len = 00: Rd ← sext(Rs[8×size-1:0])
-store:  M[EA(rm)] ← Rs[8×size-1:0]          ; len = 00: Rd ← sext(Rs[8×size-1:0])
+size = 8, 4, 2 or 1 bytes by the mark .64 (or none), .32, .16 or .8; the marks .u32, .u16 and .u8 are the same sizes, zero-extending
+load :  Rd ← sext(M[EA(rm)], size)          ; the mark .uN: Rd ← zext(M[EA(rm)], size)
+store:  M[EA(rm)] ← Rs[8×size-1:0]
+Rs.8 :  Rd ← sext(Rs[7:0])                  ; Rs.u8: Rd ← zext(Rs[7:0])
+MOV.U:  as MOV, with the memory operand checked as a user-mode access: the page must be present, have U = 1,
+        and permit R (a load) or W (a store); a kernel page takes the protection abort
 ```
 
 **Exceptions** Memory operand: page fault, protection fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`); there is no alignment fault, and an access that crosses a page changes nothing when either page faults (9.6.5). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
-A register is always written in full: a narrow load sign-extends to 64 bits and there is no partial-register write anywhere. The register-to-register forms of the sized moves are the conversion set: `MOVB R1, R2` sign-extends the low byte of `R1` into `R2`.
+A register is always written in full: a narrow load sign-extends to 64 bits and there is no partial-register write anywhere. The mark goes on the memory operand or on a source register, and a mark on a destination register is refused. `MOV R1.8, R2` sign-extends the low byte of `R1` into `R2` and `MOV R1.u8, R2` zero-extends it: these are the conversion set. There is no zero-extending 64-bit move. `MOV.U` is the same move with the memory operand checked as a user-mode access.
 
-**Why it is here.** A 64-bit constant otherwise comes from the literal pool. The mnemonic does not say how long the instruction is: `MOVQ #imm, Rd` is the one word for every constant, and the assembler picks the two-, four-, six- or ten-byte form. The alignment fault had been the one trap of an ordinary access, and it had been useful as a free tag check of tagged pointers; the explicit tag branches are the check now. ARM and x86 do the same (*unverified*); RISC-V leaves it to the implementation, which is the opposite of one binary for every core, so it is not the precedent.
+**Why it is here.** A 64-bit constant otherwise comes from the literal pool. The mnemonic does not say how long the instruction is: `MOV #imm, Rd` is the one word for every constant, and the assembler picks the two-, four-, six- or ten-byte form. The alignment fault had been the one trap of an ordinary access, and it had been useful as a free tag check of tagged pointers; the explicit tag branches are the check now. ARM and x86 do the same (*unverified*); RISC-V leaves it to the implementation, which is the opposite of one binary for every core, so it is not the precedent. Copying between the kernel and the user is where kernels pay for the user-memory guard. x86 opens a window with `STAC` and closes it with `CLAC` (35 and 53 sites in the kernel-assembly corpus), and a forgotten `CLAC` on an error path is the bug class; Arm's `LDTR` and `STTR` make the access itself unprivileged (52 sites), but only for plain loads and stores. I accepted four of its five leanings; the fifth, keeping `PSW.UA`, `STUA` and `CLUA` beside the new qualifier, I gave up on 2026-11-25: one mechanism is enough, and it is the one that cannot be left open.
 
-**Cf.** 6.7 for the memory type that decides whether the access is cached; 6.4 for what a faulting access leaves behind.
+**Cf.** 6.7 for the memory type that decides whether the access is cached; 6.4 for what a faulting access leaves behind; 6.10 (the user-memory guard).
 
 <a id="w-movq"></a>
-#### MOVQ
+#### MOV (no mark)
 
 ![MOVQ: MOVQ64, prefix 11001110100; operands imm64s, reg5; 10 bytes](figures/w/movq/01.svg)
 
@@ -265,16 +273,10 @@ A register is always written in full: a narrow load sign-extends to 64 bits and 
 
 ![MOVQ: IMMh47/a, prefix 01011; operands imm7s, reg4; 2 bytes](figures/w/movq/23.svg)
 
-```
-MOVQ rm, Rd
-MOVQ Rs, rm
-MOVQ #imm, Rd
-```
-
 Operation and exceptions as for the entry MOV above; 35 layout forms, each a chart of its own (above).
 
 <a id="w-movl"></a>
-#### MOVL
+#### MOV with `.32`
 
 ![MOVL: LDF.B28, prefix 011010, sub-opcode 0001; operands b5d28s-x1, reg5; 6 bytes](figures/w/movl/01.svg)
 
@@ -338,14 +340,10 @@ Operation and exceptions as for the entry MOV above; 35 layout forms, each a cha
 
 ![MOVL: LDSPh5/a, prefix 01010, sub-opcode 01; operands spd5u-xsz, reg4; 2 bytes](figures/w/movl/21.svg)
 
-```
-MOVL, MOVW, MOVB likewise
-```
-
 Operation and exceptions as for the entry MOV above; 31 layout forms, each a chart of its own (above).
 
 <a id="w-movw"></a>
-#### MOVW
+#### MOV with `.16`
 
 ![MOVW: LDF.B28, prefix 011010, sub-opcode 0010; operands b5d28s-x1, reg5; 6 bytes](figures/w/movw/01.svg)
 
@@ -406,7 +404,7 @@ Operation and exceptions as for the entry MOV above; 31 layout forms, each a cha
 Operation and exceptions as for the entry MOV above; 28 layout forms, each a chart of its own (above).
 
 <a id="w-movb"></a>
-#### MOVB
+#### MOV with `.8`
 
 ![MOVB: LDF.B28, prefix 011010, sub-opcode 0011; operands b5d28s-x1, reg5; 6 bytes](figures/w/movb/01.svg)
 
@@ -468,39 +466,8 @@ Operation and exceptions as for the entry MOV above; 28 layout forms, each a cha
 
 Operation and exceptions as for the entry MOV above; 29 layout forms, each a chart of its own (above).
 
-
-### MOVZ: Move zero-extended (32, 16 and 8 bits)
-
-**Mnemonics:** `MOVZL`, `MOVZW`, `MOVZB`
-
-**Syntax**
-
-```
-MOVZL rm, Rd
-MOVZW rm, Rd
-MOVZB rm, Rd
-```
-
-**Encoding**
-
-![Encoding of MOVZ](figures/LDF-B28-1.svg)
-
-The chart is the leaf `LDF-B28-1`, LDF.B28, prefix `011010`. `op1` is `b5d28s-x1`: memory at base register, 5 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg5`: register, 5 bits. `sub` (4 bits) selects the mnemonic: `movq` 0000, `movl` 0001, `movw` 0010, `movb` 0011, `movzl` 0100, `movzw` 0101, `movzb` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
-
-**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`LDF-B28-1`](dictionary/by-encoding.md#LDF-B28-1), [`LDF-X22-1`](dictionary/by-encoding.md#LDF-X22-1), [`LDF-PI12-1`](dictionary/by-encoding.md#LDF-PI12-1), [`LDF-PD12-1`](dictionary/by-encoding.md#LDF-PD12-1), [`LDF-PC32-1`](dictionary/by-encoding.md#LDF-PC32-1), [`LDF-A32-1`](dictionary/by-encoding.md#LDF-A32-1), [`LDFI-I32-2`](dictionary/by-encoding.md#LDFI-I32-2), [`DPF-D28-1`](dictionary/by-encoding.md#DPF-D28-1), [`RRF-1`](dictionary/by-encoding.md#RRF-1), [`RRF5-1`](dictionary/by-encoding.md#RRF5-1), [`LDBs6-b-1`](dictionary/by-encoding.md#LDBs6-b-1), [`LDBu6-b-1`](dictionary/by-encoding.md#LDBu6-b-1), [`LDX0-b-1`](dictionary/by-encoding.md#LDX0-b-1), [`LDBu12H-b-1`](dictionary/by-encoding.md#LDBu12H-b-1), [`LDX4H-b-1`](dictionary/by-encoding.md#LDX4H-b-1), [`LDPC14H-b-1`](dictionary/by-encoding.md#LDPC14H-b-1), [`LDFI-I32-3`](dictionary/by-encoding.md#LDFI-I32-3), [`LDHHH3-a-1`](dictionary/by-encoding.md#LDHHH3-a-1), [`LDSPh5-a-1`](dictionary/by-encoding.md#LDSPh5-a-1), [`LDBs10-a-1`](dictionary/by-encoding.md#LDBs10-a-1), [`LDX0-a-1`](dictionary/by-encoding.md#LDX0-a-1), [`LDPC14-a-1`](dictionary/by-encoding.md#LDPC14-a-1), [`LDBu12H-a-1`](dictionary/by-encoding.md#LDBu12H-a-1), [`LDX6H-a-1`](dictionary/by-encoding.md#LDX6H-a-1), [`LDPC16H-a-1`](dictionary/by-encoding.md#LDPC16H-a-1).
-
-**Operation**
-
-```
-Rd ← zext(M[EA(rm)], size)      ; len = 00: Rd ← zext(Rs[8×size-1:0])
-```
-
-**Exceptions** Memory operand: page fault, protection fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`); there is no alignment fault, and an access that crosses a page changes nothing when either page faults (9.6.5). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
-
-There is no zero-extending 64-bit move (it would be `MOVQ`). The register-to-register forms are the zero-extending half of the conversion set.
-
 <a id="w-movzl"></a>
-#### MOVZL
+#### MOV with `.u32`
 
 ![MOVZL: LDF.B28, prefix 011010, sub-opcode 0100; operands b5d28s-x1, reg5; 6 bytes](figures/w/movzl/01.svg)
 
@@ -534,14 +501,10 @@ There is no zero-extending 64-bit move (it would be `MOVQ`). The register-to-reg
 
 ![MOVZL: RRF, prefix 0010, sub-opcode 0100; operands reg4, reg4; 2 bytes](figures/w/movzl/09.svg)
 
-```
-MOVZL rm, Rd
-```
-
-Operation and exceptions as for the entry MOVZ above; 16 layout forms, each a chart of its own (above).
+Operation and exceptions as for the entry MOV above; 16 layout forms, each a chart of its own (above).
 
 <a id="w-movzw"></a>
-#### MOVZW
+#### MOV with `.u16`
 
 ![MOVZW: LDF.B28, prefix 011010, sub-opcode 0101; operands b5d28s-x1, reg5; 6 bytes](figures/w/movzw/01.svg)
 
@@ -575,14 +538,10 @@ Operation and exceptions as for the entry MOVZ above; 16 layout forms, each a ch
 
 ![MOVZW: RRF, prefix 0010, sub-opcode 0101; operands reg4, reg4; 2 bytes](figures/w/movzw/09.svg)
 
-```
-MOVZW rm, Rd
-```
-
-Operation and exceptions as for the entry MOVZ above; 16 layout forms, each a chart of its own (above).
+Operation and exceptions as for the entry MOV above; 16 layout forms, each a chart of its own (above).
 
 <a id="w-movzb"></a>
-#### MOVZB
+#### MOV with `.u8`
 
 ![MOVZB: LDF.B28, prefix 011010, sub-opcode 0110; operands b5d28s-x1, reg5; 6 bytes](figures/w/movzb/01.svg)
 
@@ -620,11 +579,108 @@ Operation and exceptions as for the entry MOVZ above; 16 layout forms, each a ch
 
 ![MOVZB: LDSPh5/a, prefix 01010, sub-opcode 10; operands spd5u-xsz, reg4; 2 bytes](figures/w/movzb/12.svg)
 
-```
-MOVZB rm, Rd
-```
+Operation and exceptions as for the entry MOV above; 18 layout forms, each a chart of its own (above).
 
-Operation and exceptions as for the entry MOVZ above; 18 layout forms, each a chart of its own (above).
+<a id="w-movq-u"></a>
+#### MOV.U
+
+![MOVQ.U: LDU.B28, prefix 10110001, sub-opcode 00; operands b5d28s-x1, reg5; 6 bytes](figures/w/movq-u/01.svg)
+
+![MOVQ.U: STU.B28, prefix 10110010, sub-opcode 00; operands reg5, b5d28s-x1; 6 bytes](figures/w/movq-u/02.svg)
+
+![MOVQ.U: LDU.B12, prefix 10110011, sub-opcode 00; operands b5d12s-x1, reg5; 4 bytes](figures/w/movq-u/03.svg)
+
+![MOVQ.U: STU.B12, prefix 10110100, sub-opcode 00; operands reg5, b5d12s-x1; 4 bytes](figures/w/movq-u/04.svg)
+
+![MOVQ.U: LDU.X6, prefix 1001000, sub-opcode 00; operands x5-5d6s, reg5; 4 bytes](figures/w/movq-u/05.svg)
+
+![MOVQ.U: STU.X6, prefix 1001001, sub-opcode 00; operands reg5, x5-5d6s; 4 bytes](figures/w/movq-u/06.svg)
+
+Operation and exceptions as for the entry MOV above; 6 layout forms, each a chart of its own (above).
+
+<a id="w-movl-u"></a>
+#### MOV.U with `.32`
+
+![MOVL.U: LDU.B28, prefix 10110001, sub-opcode 01; operands b5d28s-x1, reg5; 6 bytes](figures/w/movl-u/01.svg)
+
+![MOVL.U: STU.B28, prefix 10110010, sub-opcode 01; operands reg5, b5d28s-x1; 6 bytes](figures/w/movl-u/02.svg)
+
+![MOVL.U: LDU.B12, prefix 10110011, sub-opcode 01; operands b5d12s-x1, reg5; 4 bytes](figures/w/movl-u/03.svg)
+
+![MOVL.U: STU.B12, prefix 10110100, sub-opcode 01; operands reg5, b5d12s-x1; 4 bytes](figures/w/movl-u/04.svg)
+
+![MOVL.U: LDU.X6, prefix 1001000, sub-opcode 01; operands x5-5d6s, reg5; 4 bytes](figures/w/movl-u/05.svg)
+
+![MOVL.U: STU.X6, prefix 1001001, sub-opcode 01; operands reg5, x5-5d6s; 4 bytes](figures/w/movl-u/06.svg)
+
+Operation and exceptions as for the entry MOV above; 6 layout forms, each a chart of its own (above).
+
+<a id="w-movw-u"></a>
+#### MOV.U with `.16`
+
+![MOVW.U: LDU.B28, prefix 10110001, sub-opcode 10; operands b5d28s-x1, reg5; 6 bytes](figures/w/movw-u/01.svg)
+
+![MOVW.U: STU.B28, prefix 10110010, sub-opcode 10; operands reg5, b5d28s-x1; 6 bytes](figures/w/movw-u/02.svg)
+
+![MOVW.U: LDU.B12, prefix 10110011, sub-opcode 10; operands b5d12s-x1, reg5; 4 bytes](figures/w/movw-u/03.svg)
+
+![MOVW.U: STU.B12, prefix 10110100, sub-opcode 10; operands reg5, b5d12s-x1; 4 bytes](figures/w/movw-u/04.svg)
+
+![MOVW.U: LDU.X6, prefix 1001000, sub-opcode 10; operands x5-5d6s, reg5; 4 bytes](figures/w/movw-u/05.svg)
+
+![MOVW.U: STU.X6, prefix 1001001, sub-opcode 10; operands reg5, x5-5d6s; 4 bytes](figures/w/movw-u/06.svg)
+
+Operation and exceptions as for the entry MOV above; 6 layout forms, each a chart of its own (above).
+
+<a id="w-movb-u"></a>
+#### MOV.U with `.8`
+
+![MOVB.U: LDU.B28, prefix 10110001, sub-opcode 11; operands b5d28s-x1, reg5; 6 bytes](figures/w/movb-u/01.svg)
+
+![MOVB.U: STU.B28, prefix 10110010, sub-opcode 11; operands reg5, b5d28s-x1; 6 bytes](figures/w/movb-u/02.svg)
+
+![MOVB.U: LDU.B12, prefix 10110011, sub-opcode 11; operands b5d12s-x1, reg5; 4 bytes](figures/w/movb-u/03.svg)
+
+![MOVB.U: STU.B12, prefix 10110100, sub-opcode 11; operands reg5, b5d12s-x1; 4 bytes](figures/w/movb-u/04.svg)
+
+![MOVB.U: LDU.X6, prefix 1001000, sub-opcode 11; operands x5-5d6s, reg5; 4 bytes](figures/w/movb-u/05.svg)
+
+![MOVB.U: STU.X6, prefix 1001001, sub-opcode 11; operands reg5, x5-5d6s; 4 bytes](figures/w/movb-u/06.svg)
+
+Operation and exceptions as for the entry MOV above; 6 layout forms, each a chart of its own (above).
+
+<a id="w-movzl-u"></a>
+#### MOV.U with `.u32`
+
+![MOVZL.U: LDU.B28, prefix 110000011, sub-opcode 0; operands b5d28s-x1, reg5; 6 bytes](figures/w/movzl-u/01.svg)
+
+![MOVZL.U: LDU.B12, prefix 110000100, sub-opcode 0; operands b5d12s-x1, reg5; 4 bytes](figures/w/movzl-u/02.svg)
+
+![MOVZL.U: LDU.X6, prefix 10110101, sub-opcode 0; operands x5-5d6s, reg5; 4 bytes](figures/w/movzl-u/03.svg)
+
+Operation and exceptions as for the entry MOV above; 3 layout forms, each a chart of its own (above).
+
+<a id="w-movzw-u"></a>
+#### MOV.U with `.u16`
+
+![MOVZW.U: LDU.B28, prefix 110000011, sub-opcode 1; operands b5d28s-x1, reg5; 6 bytes](figures/w/movzw-u/01.svg)
+
+![MOVZW.U: LDU.B12, prefix 110000100, sub-opcode 1; operands b5d12s-x1, reg5; 4 bytes](figures/w/movzw-u/02.svg)
+
+![MOVZW.U: LDU.X6, prefix 10110101, sub-opcode 1; operands x5-5d6s, reg5; 4 bytes](figures/w/movzw-u/03.svg)
+
+Operation and exceptions as for the entry MOV above; 3 layout forms, each a chart of its own (above).
+
+<a id="w-movzb-u"></a>
+#### MOV.U with `.u8`
+
+![MOVZB.U: LDU.B28, prefix 1100101001; operands b5d28s-x1, reg5; 6 bytes](figures/w/movzb-u/01.svg)
+
+![MOVZB.U: LDU.B12, prefix 1100101010; operands b5d12s-x1, reg5; 4 bytes](figures/w/movzb-u/02.svg)
+
+![MOVZB.U: LDU.X6, prefix 110000101; operands x5-5d6s, reg5; 4 bytes](figures/w/movzb-u/03.svg)
+
+Operation and exceptions as for the entry MOV above; 3 layout forms, each a chart of its own (above).
 
 
 <a id="w-lea"></a>
@@ -730,157 +786,6 @@ Rd ← Rc           ; in this order
 **Why it is here.** I decided the four fused pairs (`movcall`, `popmret`, `popret`, `mov2`) and left the fusing to the compiler: the assembler never fuses. The reason is the measurement of `docs/encoding-proposal.md` section 8 (static size of the training corpus, in the encoding): `MOVQ Ra, Rb` followed by `MOVQ Rc, Rd` occurs 6,742 times and saves 0.50%, the smallest gain of the four and the dearest in code space: four 3-bit register fields use one sixteenth of the first-parcel space and can name only the eight hot registers. The encoding study lists both as costs, and one instruction that writes two registers (the rename width of an out-of-order core).
 
 **Cf.** Appendix C (the hot-register tables).
-
-
-### MOVUSER: User-qualified load and store
-
-**Mnemonics:** `MOVQ.U`, `MOVL.U`, `MOVW.U`, `MOVB.U`, `MOVZL.U`, `MOVZW.U`, `MOVZB.U`
-
-**Syntax**
-
-```
-MOVQ.U d(Rn), Rd
-MOVQ.U Rs, d(Rn)
-MOVL.U ..., MOVW.U ..., MOVB.U ...
-MOVZL.U ..., MOVZW.U ..., MOVZB.U ...    ; loads only
-```
-
-**Encoding**
-
-![Encoding of MOVUSER](figures/LDU-B28-1.svg)
-
-The chart is the leaf `LDU-B28-1`, LDU.B28, prefix `10110001`. `op1` is `b5d28s-x1`: memory at base register, 5 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg5`: register, 5 bits. `sub` (2 bits) selects the mnemonic: `movq.u` 00, `movl.u` 01, `movw.u` 10, `movb.u` 11.
-
-**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`LDU-B28-1`](dictionary/by-encoding.md#LDU-B28-1), [`STU-B28-1`](dictionary/by-encoding.md#STU-B28-1), [`LDU-B12-1`](dictionary/by-encoding.md#LDU-B12-1), [`STU-B12-1`](dictionary/by-encoding.md#STU-B12-1), [`LDU-X6-1`](dictionary/by-encoding.md#LDU-X6-1), [`STU-X6-1`](dictionary/by-encoding.md#STU-X6-1), [`LDU-B28-2`](dictionary/by-encoding.md#LDU-B28-2), [`LDU-B12-2`](dictionary/by-encoding.md#LDU-B12-2), [`LDU-X6-2`](dictionary/by-encoding.md#LDU-X6-2), [`LDU-B28-3`](dictionary/by-encoding.md#LDU-B28-3), [`LDU-B12-3`](dictionary/by-encoding.md#LDU-B12-3), [`LDU-X6-3`](dictionary/by-encoding.md#LDU-X6-3).
-
-**Operation**
-
-```
-the access of MOVQ, MOVL, MOVW, MOVB and MOVZ* with the operand checked as a user-mode access:
-the page must be present, have U = 1, and permit R (a load) or W (a store); a kernel page takes the protection abort
-```
-
-**Exceptions** The faults of the access, as a user-mode access. In user mode the encoding is a privileged-instruction abort.
-
-Item 18 of `docs/study-proposals.md`: user access is an attribute of one memory operand, so it cannot outlive the instruction, cannot leak across an interrupt, and `RTI` re-executes the instruction with the attribute. I accepted four of the five leanings: a fixup table in place of `pcb_onfault`, the `.U` spelling, `ECAUSE` bit 15 to say that the access was user-qualified, and the atomics taking the user form once the operand placement of `ATOM` is fixed; the fifth, keeping a status bit and two instructions beside `.U`, is gone, because one mechanism that cannot be left open is enough. A kernel-mode data access to a user page that is not `.U` is always a protection fault.
-
-**Why it is here.** Copying between the kernel and the user is where kernels pay for the user-memory guard. x86 opens a window with `STAC` and closes it with `CLAC` (35 and 53 sites in the kernel-assembly corpus), and a forgotten `CLAC` on an error path is the bug class; Arm's `LDTR` and `STTR` make the access itself unprivileged (52 sites), but only for plain loads and stores. Item 18 of the study makes user access an attribute of one operand, so that no window exists to leave open and the range check of the copy routines (`addr + len` against the top of the user half) disappears into the hardware: a kernel address faults at the first byte. I accepted four of its five leanings; the fifth, keeping `PSW.UA`, `STUA` and `CLUA` beside the new qualifier, I gave up on 2026-11-25: one mechanism is enough, and it is the one that cannot be left open.
-
-**Cf.** 6.10 (the user-memory guard), docs/study-proposals.md item 18.
-
-<a id="w-movq-u"></a>
-#### MOVQ.U
-
-![MOVQ.U: LDU.B28, prefix 10110001, sub-opcode 00; operands b5d28s-x1, reg5; 6 bytes](figures/w/movq-u/01.svg)
-
-![MOVQ.U: STU.B28, prefix 10110010, sub-opcode 00; operands reg5, b5d28s-x1; 6 bytes](figures/w/movq-u/02.svg)
-
-![MOVQ.U: LDU.B12, prefix 10110011, sub-opcode 00; operands b5d12s-x1, reg5; 4 bytes](figures/w/movq-u/03.svg)
-
-![MOVQ.U: STU.B12, prefix 10110100, sub-opcode 00; operands reg5, b5d12s-x1; 4 bytes](figures/w/movq-u/04.svg)
-
-![MOVQ.U: LDU.X6, prefix 1001000, sub-opcode 00; operands x5-5d6s, reg5; 4 bytes](figures/w/movq-u/05.svg)
-
-![MOVQ.U: STU.X6, prefix 1001001, sub-opcode 00; operands reg5, x5-5d6s; 4 bytes](figures/w/movq-u/06.svg)
-
-```
-MOVQ.U d(Rn), Rd
-MOVQ.U Rs, d(Rn)
-```
-
-Operation and exceptions as for the entry MOVUSER above; 6 layout forms, each a chart of its own (above).
-
-<a id="w-movl-u"></a>
-#### MOVL.U
-
-![MOVL.U: LDU.B28, prefix 10110001, sub-opcode 01; operands b5d28s-x1, reg5; 6 bytes](figures/w/movl-u/01.svg)
-
-![MOVL.U: STU.B28, prefix 10110010, sub-opcode 01; operands reg5, b5d28s-x1; 6 bytes](figures/w/movl-u/02.svg)
-
-![MOVL.U: LDU.B12, prefix 10110011, sub-opcode 01; operands b5d12s-x1, reg5; 4 bytes](figures/w/movl-u/03.svg)
-
-![MOVL.U: STU.B12, prefix 10110100, sub-opcode 01; operands reg5, b5d12s-x1; 4 bytes](figures/w/movl-u/04.svg)
-
-![MOVL.U: LDU.X6, prefix 1001000, sub-opcode 01; operands x5-5d6s, reg5; 4 bytes](figures/w/movl-u/05.svg)
-
-![MOVL.U: STU.X6, prefix 1001001, sub-opcode 01; operands reg5, x5-5d6s; 4 bytes](figures/w/movl-u/06.svg)
-
-```
-MOVL.U ..., MOVW.U ..., MOVB.U ...
-```
-
-Operation and exceptions as for the entry MOVUSER above; 6 layout forms, each a chart of its own (above).
-
-<a id="w-movw-u"></a>
-#### MOVW.U
-
-![MOVW.U: LDU.B28, prefix 10110001, sub-opcode 10; operands b5d28s-x1, reg5; 6 bytes](figures/w/movw-u/01.svg)
-
-![MOVW.U: STU.B28, prefix 10110010, sub-opcode 10; operands reg5, b5d28s-x1; 6 bytes](figures/w/movw-u/02.svg)
-
-![MOVW.U: LDU.B12, prefix 10110011, sub-opcode 10; operands b5d12s-x1, reg5; 4 bytes](figures/w/movw-u/03.svg)
-
-![MOVW.U: STU.B12, prefix 10110100, sub-opcode 10; operands reg5, b5d12s-x1; 4 bytes](figures/w/movw-u/04.svg)
-
-![MOVW.U: LDU.X6, prefix 1001000, sub-opcode 10; operands x5-5d6s, reg5; 4 bytes](figures/w/movw-u/05.svg)
-
-![MOVW.U: STU.X6, prefix 1001001, sub-opcode 10; operands reg5, x5-5d6s; 4 bytes](figures/w/movw-u/06.svg)
-
-Operation and exceptions as for the entry MOVUSER above; 6 layout forms, each a chart of its own (above).
-
-<a id="w-movb-u"></a>
-#### MOVB.U
-
-![MOVB.U: LDU.B28, prefix 10110001, sub-opcode 11; operands b5d28s-x1, reg5; 6 bytes](figures/w/movb-u/01.svg)
-
-![MOVB.U: STU.B28, prefix 10110010, sub-opcode 11; operands reg5, b5d28s-x1; 6 bytes](figures/w/movb-u/02.svg)
-
-![MOVB.U: LDU.B12, prefix 10110011, sub-opcode 11; operands b5d12s-x1, reg5; 4 bytes](figures/w/movb-u/03.svg)
-
-![MOVB.U: STU.B12, prefix 10110100, sub-opcode 11; operands reg5, b5d12s-x1; 4 bytes](figures/w/movb-u/04.svg)
-
-![MOVB.U: LDU.X6, prefix 1001000, sub-opcode 11; operands x5-5d6s, reg5; 4 bytes](figures/w/movb-u/05.svg)
-
-![MOVB.U: STU.X6, prefix 1001001, sub-opcode 11; operands reg5, x5-5d6s; 4 bytes](figures/w/movb-u/06.svg)
-
-Operation and exceptions as for the entry MOVUSER above; 6 layout forms, each a chart of its own (above).
-
-<a id="w-movzl-u"></a>
-#### MOVZL.U
-
-![MOVZL.U: LDU.B28, prefix 110000011, sub-opcode 0; operands b5d28s-x1, reg5; 6 bytes](figures/w/movzl-u/01.svg)
-
-![MOVZL.U: LDU.B12, prefix 110000100, sub-opcode 0; operands b5d12s-x1, reg5; 4 bytes](figures/w/movzl-u/02.svg)
-
-![MOVZL.U: LDU.X6, prefix 10110101, sub-opcode 0; operands x5-5d6s, reg5; 4 bytes](figures/w/movzl-u/03.svg)
-
-```
-MOVZL.U ..., MOVZW.U ..., MOVZB.U ...
-```
-
-Operation and exceptions as for the entry MOVUSER above; 3 layout forms, each a chart of its own (above).
-
-<a id="w-movzw-u"></a>
-#### MOVZW.U
-
-![MOVZW.U: LDU.B28, prefix 110000011, sub-opcode 1; operands b5d28s-x1, reg5; 6 bytes](figures/w/movzw-u/01.svg)
-
-![MOVZW.U: LDU.B12, prefix 110000100, sub-opcode 1; operands b5d12s-x1, reg5; 4 bytes](figures/w/movzw-u/02.svg)
-
-![MOVZW.U: LDU.X6, prefix 10110101, sub-opcode 1; operands x5-5d6s, reg5; 4 bytes](figures/w/movzw-u/03.svg)
-
-Operation and exceptions as for the entry MOVUSER above; 3 layout forms, each a chart of its own (above).
-
-<a id="w-movzb-u"></a>
-#### MOVZB.U
-
-![MOVZB.U: LDU.B28, prefix 1100101001; operands b5d28s-x1, reg5; 6 bytes](figures/w/movzb-u/01.svg)
-
-![MOVZB.U: LDU.B12, prefix 1100101010; operands b5d12s-x1, reg5; 4 bytes](figures/w/movzb-u/02.svg)
-
-![MOVZB.U: LDU.X6, prefix 110000101; operands x5-5d6s, reg5; 4 bytes](figures/w/movzb-u/03.svg)
-
-Operation and exceptions as for the entry MOVUSER above; 3 layout forms, each a chart of its own (above).
 
 
 ### MCPYU: User-qualified block copy
@@ -1051,7 +956,7 @@ ADD rm, Rd
 
 ![Encoding of ADD](figures/LDF-B28-1.svg)
 
-The chart is the leaf `LDF-B28-1`, LDF.B28, prefix `011010`. `op1` is `b5d28s-x1`: memory at base register, 5 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg5`: register, 5 bits. `sub` (4 bits) selects the mnemonic: `movq` 0000, `movl` 0001, `movw` 0010, `movb` 0011, `movzl` 0100, `movzw` 0101, `movzb` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
+The chart is the leaf `LDF-B28-1`, LDF.B28, prefix `011010`. `op1` is `b5d28s-x1`: memory at base register, 5 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg5`: register, 5 bits. `sub` (4 bits) selects the mnemonic: `movq` 0000, `mov` with the mark `.32` 0001, `mov` with the mark `.16` 0010, `mov` with the mark `.8` 0011, `mov` with the mark `.u32` 0100, `mov` with the mark `.u16` 0101, `mov` with the mark `.u8` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`LDF-B28-1`](dictionary/by-encoding.md#LDF-B28-1), [`LDF-X22-1`](dictionary/by-encoding.md#LDF-X22-1), [`LDF-PI12-1`](dictionary/by-encoding.md#LDF-PI12-1), [`LDF-PD12-1`](dictionary/by-encoding.md#LDF-PD12-1), [`LDF-PC32-1`](dictionary/by-encoding.md#LDF-PC32-1), [`LDF-A32-1`](dictionary/by-encoding.md#LDF-A32-1), [`LDFI-I32-1`](dictionary/by-encoding.md#LDFI-I32-1), [`DPF-D28-1`](dictionary/by-encoding.md#DPF-D28-1), [`RRF-1`](dictionary/by-encoding.md#RRF-1), [`RRF5-1`](dictionary/by-encoding.md#RRF5-1), [`SPADJF-1`](dictionary/by-encoding.md#SPADJF-1), [`RR5-1`](dictionary/by-encoding.md#RR5-1), [`IMMh44-b-1`](dictionary/by-encoding.md#IMMh44-b-1), [`SPADJ6-a-1`](dictionary/by-encoding.md#SPADJ6-a-1), [`LDBu8-c-1`](dictionary/by-encoding.md#LDBu8-c-1), [`LDX0-c-1`](dictionary/by-encoding.md#LDX0-c-1), [`LDI12-b-1`](dictionary/by-encoding.md#LDI12-b-1), [`LDBu10H-c-1`](dictionary/by-encoding.md#LDBu10H-c-1), [`LDPC16H-c-1`](dictionary/by-encoding.md#LDPC16H-c-1), [`LDI18H-b-1`](dictionary/by-encoding.md#LDI18H-b-1).
 
@@ -1121,7 +1026,7 @@ SUB rm, Rd
 
 ![Encoding of SUB](figures/LDF-B28-1.svg)
 
-The chart is the leaf `LDF-B28-1`, LDF.B28, prefix `011010`. `op1` is `b5d28s-x1`: memory at base register, 5 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg5`: register, 5 bits. `sub` (4 bits) selects the mnemonic: `movq` 0000, `movl` 0001, `movw` 0010, `movb` 0011, `movzl` 0100, `movzw` 0101, `movzb` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
+The chart is the leaf `LDF-B28-1`, LDF.B28, prefix `011010`. `op1` is `b5d28s-x1`: memory at base register, 5 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg5`: register, 5 bits. `sub` (4 bits) selects the mnemonic: `movq` 0000, `mov` with the mark `.32` 0001, `mov` with the mark `.16` 0010, `mov` with the mark `.8` 0011, `mov` with the mark `.u32` 0100, `mov` with the mark `.u16` 0101, `mov` with the mark `.u8` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`LDF-B28-1`](dictionary/by-encoding.md#LDF-B28-1), [`LDF-X22-1`](dictionary/by-encoding.md#LDF-X22-1), [`LDF-PI12-1`](dictionary/by-encoding.md#LDF-PI12-1), [`LDF-PD12-1`](dictionary/by-encoding.md#LDF-PD12-1), [`LDF-PC32-1`](dictionary/by-encoding.md#LDF-PC32-1), [`LDF-A32-1`](dictionary/by-encoding.md#LDF-A32-1), [`LDFI-I32-1`](dictionary/by-encoding.md#LDFI-I32-1), [`DPF-D28-1`](dictionary/by-encoding.md#DPF-D28-1), [`RRF-1`](dictionary/by-encoding.md#RRF-1), [`RRF5-1`](dictionary/by-encoding.md#RRF5-1), [`SPADJF-1`](dictionary/by-encoding.md#SPADJF-1), [`RR5-1`](dictionary/by-encoding.md#RR5-1), [`IMMh44-b-1`](dictionary/by-encoding.md#IMMh44-b-1), [`SPADJ6-a-1`](dictionary/by-encoding.md#SPADJ6-a-1), [`LDBu8-c-1`](dictionary/by-encoding.md#LDBu8-c-1), [`LDX0-c-1`](dictionary/by-encoding.md#LDX0-c-1), [`LDI12-b-1`](dictionary/by-encoding.md#LDI12-b-1), [`LDBu10H-c-1`](dictionary/by-encoding.md#LDBu10H-c-1), [`LDPC16H-c-1`](dictionary/by-encoding.md#LDPC16H-c-1), [`LDI18H-b-1`](dictionary/by-encoding.md#LDI18H-b-1).
 
@@ -1176,7 +1081,7 @@ MUL rm, Rd
 
 ![Encoding of MUL](figures/LDF-B28-1.svg)
 
-The chart is the leaf `LDF-B28-1`, LDF.B28, prefix `011010`. `op1` is `b5d28s-x1`: memory at base register, 5 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg5`: register, 5 bits. `sub` (4 bits) selects the mnemonic: `movq` 0000, `movl` 0001, `movw` 0010, `movb` 0011, `movzl` 0100, `movzw` 0101, `movzb` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
+The chart is the leaf `LDF-B28-1`, LDF.B28, prefix `011010`. `op1` is `b5d28s-x1`: memory at base register, 5 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg5`: register, 5 bits. `sub` (4 bits) selects the mnemonic: `movq` 0000, `mov` with the mark `.32` 0001, `mov` with the mark `.16` 0010, `mov` with the mark `.8` 0011, `mov` with the mark `.u32` 0100, `mov` with the mark `.u16` 0101, `mov` with the mark `.u8` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`LDF-B28-1`](dictionary/by-encoding.md#LDF-B28-1), [`LDF-X22-1`](dictionary/by-encoding.md#LDF-X22-1), [`LDF-PI12-1`](dictionary/by-encoding.md#LDF-PI12-1), [`LDF-PD12-1`](dictionary/by-encoding.md#LDF-PD12-1), [`LDF-PC32-1`](dictionary/by-encoding.md#LDF-PC32-1), [`LDF-A32-1`](dictionary/by-encoding.md#LDF-A32-1), [`LDFI-I32-1`](dictionary/by-encoding.md#LDFI-I32-1), [`DPF-D28-1`](dictionary/by-encoding.md#DPF-D28-1), [`RRF-1`](dictionary/by-encoding.md#RRF-1), [`RRF5-1`](dictionary/by-encoding.md#RRF5-1), [`LDI12-d-1`](dictionary/by-encoding.md#LDI12-d-1), [`LDPC12H-d-1`](dictionary/by-encoding.md#LDPC12H-d-1), [`LDI14H-c-1`](dictionary/by-encoding.md#LDI14H-c-1).
 
@@ -1231,7 +1136,7 @@ MULH rm, Rd
 
 ![Encoding of MULH](figures/LDF-B28-1.svg)
 
-The chart is the leaf `LDF-B28-1`, LDF.B28, prefix `011010`. `op1` is `b5d28s-x1`: memory at base register, 5 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg5`: register, 5 bits. `sub` (4 bits) selects the mnemonic: `movq` 0000, `movl` 0001, `movw` 0010, `movb` 0011, `movzl` 0100, `movzw` 0101, `movzb` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
+The chart is the leaf `LDF-B28-1`, LDF.B28, prefix `011010`. `op1` is `b5d28s-x1`: memory at base register, 5 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg5`: register, 5 bits. `sub` (4 bits) selects the mnemonic: `movq` 0000, `mov` with the mark `.32` 0001, `mov` with the mark `.16` 0010, `mov` with the mark `.8` 0011, `mov` with the mark `.u32` 0100, `mov` with the mark `.u16` 0101, `mov` with the mark `.u8` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`LDF-B28-1`](dictionary/by-encoding.md#LDF-B28-1), [`LDF-X22-1`](dictionary/by-encoding.md#LDF-X22-1), [`LDF-PI12-1`](dictionary/by-encoding.md#LDF-PI12-1), [`LDF-PD12-1`](dictionary/by-encoding.md#LDF-PD12-1), [`LDF-PC32-1`](dictionary/by-encoding.md#LDF-PC32-1), [`LDF-A32-1`](dictionary/by-encoding.md#LDF-A32-1), [`LDFI-I32-1`](dictionary/by-encoding.md#LDFI-I32-1), [`DPF-D28-1`](dictionary/by-encoding.md#DPF-D28-1), [`RRF-1`](dictionary/by-encoding.md#RRF-1), [`RRF5-1`](dictionary/by-encoding.md#RRF5-1), [`LDPC12H-d-1`](dictionary/by-encoding.md#LDPC12H-d-1).
 
@@ -1265,7 +1170,7 @@ BISM Rs, rm
 
 ![Encoding of ADDM](figures/STF-B28-1.svg)
 
-The chart is the leaf `STF-B28-1`, STF.B28, prefix `1001110`. `op1` is `reg5`: register, 5 bits. `op2` is `b5d28s-x1`: memory at base register, 5 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `sub` (3 bits) selects the mnemonic: `movq` 000, `movl` 001, `movw` 010, `movb` 011, `addm` 100, `subm` 101, `bicm` 110, `bism` 111.
+The chart is the leaf `STF-B28-1`, STF.B28, prefix `1001110`. `op1` is `reg5`: register, 5 bits. `op2` is `b5d28s-x1`: memory at base register, 5 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `sub` (3 bits) selects the mnemonic: `movq` 000, `mov` with the mark `.32` 001, `mov` with the mark `.16` 010, `mov` with the mark `.8` 011, `addm` 100, `subm` 101, `bicm` 110, `bism` 111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`STF-B28-1`](dictionary/by-encoding.md#STF-B28-1), [`STF-X22-1`](dictionary/by-encoding.md#STF-X22-1), [`STF-PI12-1`](dictionary/by-encoding.md#STF-PI12-1), [`STF-PD12-1`](dictionary/by-encoding.md#STF-PD12-1), [`STF-PC32-1`](dictionary/by-encoding.md#STF-PC32-1), [`STF-A32-1`](dictionary/by-encoding.md#STF-A32-1).
 
@@ -1965,11 +1870,11 @@ Operation and exceptions as for the entry OVF above; 1 layout form, each a chart
 
 **9.8.3** A shift count of 64 or more shifts the value entirely away.
 
-**9.8.4** `ROR` rotates right by a register or a constant count (the assembler picks the form: two bytes for a constant count from -8 to 7 of a register that is both source and destination and is one of r0 to r15, a negative count rotating left, and four bytes otherwise); `ROL` is an assembler spelling of the same instruction with the count complemented, `ROL Rs, #n, Rd` being `ROR Rs, #(64-n), Rd`, and takes a constant only, because the count of `ROR` is taken modulo 64 and a rotate left by a register count is `ROR` by the negated register; `ROR32` rotates the low 32 bits and sign-extends.
+**9.8.4** `ROR` rotates right by a register or a constant count (the assembler picks the form: two bytes for a constant count from -8 to 7 of a register that is both source and destination and is one of r0 to r15, a negative count rotating left, and four bytes otherwise); `ROL` is an assembler spelling of the same instruction with the count complemented, `ROL Rs, #n, Rd` being `ROR Rs, #(64-n), Rd`, and takes a constant only, because the count of `ROR` is taken modulo 64 and a rotate left by a register count is `ROR` by the negated register; `ROR` with the mark `.32` on the source register and a constant count (`ror r1.32, #5, r2`) rotates the low 32 bits and sign-extends.
 
 **9.8.5** `DSHR` is a double-width funnel shift.
 
-*Commentary.* **Precedent.** The PDP-11 had `ASL`, `ASR`, `ROL` and `ROR` by one through the carry; x86's `SHRD` and ARM's `EXTR` are the funnel shifts. **Trade-offs.** One rotate direction is enough, so there is no by-one `ROL` in a two-byte slot; there is no carry for a rotate to pass through. **Improvements.** The shift count comes from `rm`, not from a fixed register like x86's `CL`, which costs a register shuffle in every hand-written loop. **Benefits.** Multi-precision shifting is `DSHR`, two instructions for any distance. **Modern comparables.** RISC-V and AArch64 have rotates by register and by immediate; x86 has `RCL`/`RCR` through the carry as well. **Use.** `ROR` with a constant and `ROR32` are for hashes and ciphers, which rotate by constants; `DSHR` shifts a bignum. **Impact.** *Kernel:* Bit tests and mask operations on the status and page-table words are single instructions. *Compiler:* The shift count may be any register, immediate or memory operand, so the compiler never has to move a count into a fixed register; hashes and ciphers rotate by constants. *Hardware:* The barrel shifter (about 450 lookup tables) serves shifts and rotates,.
+*Commentary.* **Precedent.** The PDP-11 had `ASL`, `ASR`, `ROL` and `ROR` by one through the carry; x86's `SHRD` and ARM's `EXTR` are the funnel shifts. **Trade-offs.** One rotate direction is enough, so there is no by-one `ROL` in a two-byte slot; there is no carry for a rotate to pass through. **Improvements.** The shift count comes from `rm`, not from a fixed register like x86's `CL`, which costs a register shuffle in every hand-written loop. **Benefits.** Multi-precision shifting is `DSHR`, two instructions for any distance. **Modern comparables.** RISC-V and AArch64 have rotates by register and by immediate; x86 has `RCL`/`RCR` through the carry as well. **Use.** `ROR` with a constant, and the same with the mark `.32`, are for hashes and ciphers, which rotate by constants; `DSHR` shifts a bignum. **Impact.** *Kernel:* Bit tests and mask operations on the status and page-table words are single instructions. *Compiler:* The shift count may be any register, immediate or memory operand, so the compiler never has to move a count into a fixed register; hashes and ciphers rotate by constants. *Hardware:* The barrel shifter (about 450 lookup tables) serves shifts and rotates,.
 
 <!-- entries:9.8 -->
 <a id="w-bic"></a>
@@ -2013,7 +1918,7 @@ BIC rm, Rd
 
 ![Encoding of BIC](figures/LDF-B28-1.svg)
 
-The chart is the leaf `LDF-B28-1`, LDF.B28, prefix `011010`. `op1` is `b5d28s-x1`: memory at base register, 5 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg5`: register, 5 bits. `sub` (4 bits) selects the mnemonic: `movq` 0000, `movl` 0001, `movw` 0010, `movb` 0011, `movzl` 0100, `movzw` 0101, `movzb` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
+The chart is the leaf `LDF-B28-1`, LDF.B28, prefix `011010`. `op1` is `b5d28s-x1`: memory at base register, 5 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg5`: register, 5 bits. `sub` (4 bits) selects the mnemonic: `movq` 0000, `mov` with the mark `.32` 0001, `mov` with the mark `.16` 0010, `mov` with the mark `.8` 0011, `mov` with the mark `.u32` 0100, `mov` with the mark `.u16` 0101, `mov` with the mark `.u8` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`LDF-B28-1`](dictionary/by-encoding.md#LDF-B28-1), [`LDF-X22-1`](dictionary/by-encoding.md#LDF-X22-1), [`LDF-PI12-1`](dictionary/by-encoding.md#LDF-PI12-1), [`LDF-PD12-1`](dictionary/by-encoding.md#LDF-PD12-1), [`LDF-PC32-1`](dictionary/by-encoding.md#LDF-PC32-1), [`LDF-A32-1`](dictionary/by-encoding.md#LDF-A32-1), [`LDFI-I32-1`](dictionary/by-encoding.md#LDFI-I32-1), [`DPF-D28-1`](dictionary/by-encoding.md#DPF-D28-1), [`RRF-1`](dictionary/by-encoding.md#RRF-1), [`RRF5-1`](dictionary/by-encoding.md#RRF5-1), [`LDI12-d-2`](dictionary/by-encoding.md#LDI12-d-2), [`LDPC12H-d-1`](dictionary/by-encoding.md#LDPC12H-d-1), [`LDI14H-c-1`](dictionary/by-encoding.md#LDI14H-c-1).
 
@@ -2075,7 +1980,7 @@ BIS rm, Rd
 
 ![Encoding of BIS](figures/LDF-B28-1.svg)
 
-The chart is the leaf `LDF-B28-1`, LDF.B28, prefix `011010`. `op1` is `b5d28s-x1`: memory at base register, 5 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg5`: register, 5 bits. `sub` (4 bits) selects the mnemonic: `movq` 0000, `movl` 0001, `movw` 0010, `movb` 0011, `movzl` 0100, `movzw` 0101, `movzb` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
+The chart is the leaf `LDF-B28-1`, LDF.B28, prefix `011010`. `op1` is `b5d28s-x1`: memory at base register, 5 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg5`: register, 5 bits. `sub` (4 bits) selects the mnemonic: `movq` 0000, `mov` with the mark `.32` 0001, `mov` with the mark `.16` 0010, `mov` with the mark `.8` 0011, `mov` with the mark `.u32` 0100, `mov` with the mark `.u16` 0101, `mov` with the mark `.u8` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`LDF-B28-1`](dictionary/by-encoding.md#LDF-B28-1), [`LDF-X22-1`](dictionary/by-encoding.md#LDF-X22-1), [`LDF-PI12-1`](dictionary/by-encoding.md#LDF-PI12-1), [`LDF-PD12-1`](dictionary/by-encoding.md#LDF-PD12-1), [`LDF-PC32-1`](dictionary/by-encoding.md#LDF-PC32-1), [`LDF-A32-1`](dictionary/by-encoding.md#LDF-A32-1), [`LDFI-I32-1`](dictionary/by-encoding.md#LDFI-I32-1), [`DPF-D28-1`](dictionary/by-encoding.md#DPF-D28-1), [`RRF-1`](dictionary/by-encoding.md#RRF-1), [`RRF5-1`](dictionary/by-encoding.md#RRF5-1), [`RR5-1`](dictionary/by-encoding.md#RR5-1), [`LDBu8-c-1`](dictionary/by-encoding.md#LDBu8-c-1), [`LDX0-c-1`](dictionary/by-encoding.md#LDX0-c-1), [`LDBu10H-c-1`](dictionary/by-encoding.md#LDBu10H-c-1), [`LDPC16H-c-1`](dictionary/by-encoding.md#LDPC16H-c-1), [`LDI14H-c-1`](dictionary/by-encoding.md#LDI14H-c-1).
 
@@ -2124,7 +2029,7 @@ Rd ← Rd OR rm
 
 ![XOR: RR5, prefix 000, sub-opcode 100; operands reg5, reg5; 2 bytes](figures/w/xor/11.svg)
 
-**Mnemonics:** `XOR`  (aliases: `FNEG32`)
+**Mnemonics:** `XOR`  (aliases: `FNEG`)
 
 **Syntax**
 
@@ -2136,7 +2041,7 @@ XOR rm, Rd
 
 ![Encoding of XOR](figures/LDF-B28-1.svg)
 
-The chart is the leaf `LDF-B28-1`, LDF.B28, prefix `011010`. `op1` is `b5d28s-x1`: memory at base register, 5 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg5`: register, 5 bits. `sub` (4 bits) selects the mnemonic: `movq` 0000, `movl` 0001, `movw` 0010, `movb` 0011, `movzl` 0100, `movzw` 0101, `movzb` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
+The chart is the leaf `LDF-B28-1`, LDF.B28, prefix `011010`. `op1` is `b5d28s-x1`: memory at base register, 5 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg5`: register, 5 bits. `sub` (4 bits) selects the mnemonic: `movq` 0000, `mov` with the mark `.32` 0001, `mov` with the mark `.16` 0010, `mov` with the mark `.8` 0011, `mov` with the mark `.u32` 0100, `mov` with the mark `.u16` 0101, `mov` with the mark `.u8` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`LDF-B28-1`](dictionary/by-encoding.md#LDF-B28-1), [`LDF-X22-1`](dictionary/by-encoding.md#LDF-X22-1), [`LDF-PI12-1`](dictionary/by-encoding.md#LDF-PI12-1), [`LDF-PD12-1`](dictionary/by-encoding.md#LDF-PD12-1), [`LDF-PC32-1`](dictionary/by-encoding.md#LDF-PC32-1), [`LDF-A32-1`](dictionary/by-encoding.md#LDF-A32-1), [`LDFI-I32-1`](dictionary/by-encoding.md#LDFI-I32-1), [`DPF-D28-1`](dictionary/by-encoding.md#DPF-D28-1), [`RRF-1`](dictionary/by-encoding.md#RRF-1), [`RRF5-1`](dictionary/by-encoding.md#RRF5-1), [`RR5-1`](dictionary/by-encoding.md#RR5-1), [`LDBu8-c-2`](dictionary/by-encoding.md#LDBu8-c-2), [`LDX0-c-2`](dictionary/by-encoding.md#LDX0-c-2), [`LDBu10H-c-2`](dictionary/by-encoding.md#LDBu10H-c-2), [`LDPC16H-c-2`](dictionary/by-encoding.md#LDPC16H-c-2), [`LDI14H-c-1`](dictionary/by-encoding.md#LDI14H-c-1).
 
@@ -2149,7 +2054,7 @@ Rd ← Rd XOR rm
 **Exceptions** Memory operand: page fault, protection fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`); there is no alignment fault, and an access that crosses a page changes nothing when either page faults (9.6.5). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
 <a id="w-fneg32"></a>
-**`FNEG32`** is an alias of `XOR`: the assembler writes it as that word.
+**`FNEG with `.32``** is an alias of `XOR`: the assembler writes it as that word.
 
 
 <a id="w-and"></a>
@@ -2192,7 +2097,7 @@ Rd ← Rd XOR rm
 
 ![AND: IMMh44/b, prefix 100010, sub-opcode 10; operands imm4s, reg4; 2 bytes](figures/w/and/12.svg)
 
-**Mnemonics:** `AND`  (aliases: `FABS32`)
+**Mnemonics:** `AND`  (aliases: `FABS`)
 
 **Syntax**
 
@@ -2204,7 +2109,7 @@ AND rm, Rd
 
 ![Encoding of AND](figures/LDF-B28-1.svg)
 
-The chart is the leaf `LDF-B28-1`, LDF.B28, prefix `011010`. `op1` is `b5d28s-x1`: memory at base register, 5 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg5`: register, 5 bits. `sub` (4 bits) selects the mnemonic: `movq` 0000, `movl` 0001, `movw` 0010, `movb` 0011, `movzl` 0100, `movzw` 0101, `movzb` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
+The chart is the leaf `LDF-B28-1`, LDF.B28, prefix `011010`. `op1` is `b5d28s-x1`: memory at base register, 5 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg5`: register, 5 bits. `sub` (4 bits) selects the mnemonic: `movq` 0000, `mov` with the mark `.32` 0001, `mov` with the mark `.16` 0010, `mov` with the mark `.8` 0011, `mov` with the mark `.u32` 0100, `mov` with the mark `.u16` 0101, `mov` with the mark `.u8` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`LDF-B28-1`](dictionary/by-encoding.md#LDF-B28-1), [`LDF-X22-1`](dictionary/by-encoding.md#LDF-X22-1), [`LDF-PI12-1`](dictionary/by-encoding.md#LDF-PI12-1), [`LDF-PD12-1`](dictionary/by-encoding.md#LDF-PD12-1), [`LDF-PC32-1`](dictionary/by-encoding.md#LDF-PC32-1), [`LDF-A32-1`](dictionary/by-encoding.md#LDF-A32-1), [`LDFI-I32-1`](dictionary/by-encoding.md#LDFI-I32-1), [`DPF-D28-1`](dictionary/by-encoding.md#DPF-D28-1), [`RRF-1`](dictionary/by-encoding.md#RRF-1), [`RRF5-1`](dictionary/by-encoding.md#RRF5-1), [`RR5-1`](dictionary/by-encoding.md#RR5-1), [`IMMh44-b-1`](dictionary/by-encoding.md#IMMh44-b-1), [`LDBu8-c-1`](dictionary/by-encoding.md#LDBu8-c-1), [`LDX0-c-1`](dictionary/by-encoding.md#LDX0-c-1), [`LDI12-b-2`](dictionary/by-encoding.md#LDI12-b-2), [`LDBu10H-c-1`](dictionary/by-encoding.md#LDBu10H-c-1), [`LDPC16H-c-1`](dictionary/by-encoding.md#LDPC16H-c-1), [`LDI18H-b-2`](dictionary/by-encoding.md#LDI18H-b-2).
 
@@ -2217,7 +2122,7 @@ Rd ← Rd AND rm
 **Exceptions** Memory operand: page fault, protection fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`); there is no alignment fault, and an access that crosses a page changes nothing when either page faults (9.6.5). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
 <a id="w-fabs32"></a>
-**`FABS32`** is an alias of `AND`: the assembler writes it as that word.
+**`FABS with `.32``** is an alias of `AND`: the assembler writes it as that word.
 
 
 ### SHIFT: Shift left, shift right logical, shift right arithmetic
@@ -2236,7 +2141,7 @@ SAR rm, Rd
 
 ![Encoding of SHIFT](figures/LDF-B28-1.svg)
 
-The chart is the leaf `LDF-B28-1`, LDF.B28, prefix `011010`. `op1` is `b5d28s-x1`: memory at base register, 5 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg5`: register, 5 bits. `sub` (4 bits) selects the mnemonic: `movq` 0000, `movl` 0001, `movw` 0010, `movb` 0011, `movzl` 0100, `movzw` 0101, `movzb` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
+The chart is the leaf `LDF-B28-1`, LDF.B28, prefix `011010`. `op1` is `b5d28s-x1`: memory at base register, 5 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg5`: register, 5 bits. `sub` (4 bits) selects the mnemonic: `movq` 0000, `mov` with the mark `.32` 0001, `mov` with the mark `.16` 0010, `mov` with the mark `.8` 0011, `mov` with the mark `.u32` 0100, `mov` with the mark `.u16` 0101, `mov` with the mark `.u8` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`LDF-B28-1`](dictionary/by-encoding.md#LDF-B28-1), [`LDF-X22-1`](dictionary/by-encoding.md#LDF-X22-1), [`LDF-PI12-1`](dictionary/by-encoding.md#LDF-PI12-1), [`LDF-PD12-1`](dictionary/by-encoding.md#LDF-PD12-1), [`LDF-PC32-1`](dictionary/by-encoding.md#LDF-PC32-1), [`LDF-A32-1`](dictionary/by-encoding.md#LDF-A32-1), [`LDFI-I32-1`](dictionary/by-encoding.md#LDFI-I32-1), [`DPF-D28-1`](dictionary/by-encoding.md#DPF-D28-1), [`RRF-1`](dictionary/by-encoding.md#RRF-1), [`RRF5-1`](dictionary/by-encoding.md#RRF5-1), [`RR5-1`](dictionary/by-encoding.md#RR5-1), [`SHIh44-a-1`](dictionary/by-encoding.md#SHIh44-a-1), [`LDI12-d-1`](dictionary/by-encoding.md#LDI12-d-1), [`LDPC12H-d-1`](dictionary/by-encoding.md#LDPC12H-d-1), [`LDF-B28-2`](dictionary/by-encoding.md#LDF-B28-2), [`LDF-X22-2`](dictionary/by-encoding.md#LDF-X22-2), [`LDF-PI12-2`](dictionary/by-encoding.md#LDF-PI12-2), [`LDF-PD12-2`](dictionary/by-encoding.md#LDF-PD12-2), [`LDF-PC32-2`](dictionary/by-encoding.md#LDF-PC32-2), [`LDF-A32-2`](dictionary/by-encoding.md#LDF-A32-2), [`DPF-D28-2`](dictionary/by-encoding.md#DPF-D28-2), [`RRF-2`](dictionary/by-encoding.md#RRF-2), [`SHIh44-a-2`](dictionary/by-encoding.md#SHIh44-a-2).
 
@@ -2548,7 +2453,7 @@ The by-one form of `SAR`.
 
 ## 9.9 Bits, bytes and text
 
-**9.9.1** The bit-and-field escape provides `CLZ`, `CTZ`, `CLO`, `CTO` (count leading and trailing zeros and ones), `POPCNT`, `BSWAP`, `BSWAPW`, `BSWAPL` and `BITREV`.
+**9.9.1** The bit-and-field escape provides `CLZ`, `CTZ`, `CLO`, `CTO` (count leading and trailing zeros and ones), `POPCNT`, `BSWAP` (with the mark `.16` or `.32` on its source it swaps the bytes of each 16-bit word or 32-bit long) and `BITREV`.
 
 **9.9.2** `EXTB` and `EXTZB` extract a bitfield at a position and width, sign- or zero-extended, and `INSB` inserts one; the position and the width are 6-bit fields (a width of 64 cannot be written), so these are six bytes.
 
@@ -2680,14 +2585,14 @@ Rd ← number of one bits in Rs
 
 ### BSWAP: Byte swap
 
-**Mnemonics:** `BSWAP`, `BSWAPW`, `BSWAPL`
+**Mnemonics:** `BSWAP`
 
 **Syntax**
 
 ```
 BSWAP Rs, Rd
-BSWAPW Rs, Rd
-BSWAPL Rs, Rd
+BSWAP Rs.16, Rd        ; the bytes of each 16-bit word
+BSWAP Rs.32, Rd        ; the bytes of each 32-bit long
 ```
 
 **Encoding**
@@ -2701,14 +2606,14 @@ The chart is the leaf `R2-1`, R2, prefix `110100000100`. `op1` is `reg5`: regist
 **Operation**
 
 ```
-BSWAP : Rd ← Rs with all 8 bytes reversed
-BSWAPW: Rd ← Rs with the bytes of each 16-bit word reversed
-BSWAPL: Rd ← Rs with the bytes of each 32-bit long reversed
+BSWAP     : Rd ← Rs with all 8 bytes reversed
+BSWAP Rs.16: Rd ← Rs with the bytes of each 16-bit word reversed
+BSWAP Rs.32: Rd ← Rs with the bytes of each 32-bit long reversed
 ```
 
 **Exceptions** None.
 
-The generalisation of the PDP-11 `SWAB` to 64 bits.
+The generalisation of the PDP-11 `SWAB` to 64 bits. The mark is on the source register; the destination is written in full and takes none.
 
 **Why it is here.** The PDP-11 `SWAB` swapped the bytes of a word; `BSWAP` generalises it to 64 bits, with word and long variants. `SWAB` is therefore subsumed, not lost (9.18).
 
@@ -2719,29 +2624,23 @@ The generalisation of the PDP-11 `SWAB` to 64 bits.
 
 ```
 BSWAP Rs, Rd
+BSWAP Rs.16, Rd
+BSWAP Rs.32, Rd
 ```
 
 Operation and exceptions as for the entry BSWAP above; 1 layout form, each a chart of its own (above).
 
 <a id="w-bswapw"></a>
-#### BSWAPW
+#### BSWAP with `.16`
 
 ![BSWAPW: R2, prefix 110100000100, sub-opcode 0000000110; operands reg5, reg5; 4 bytes](figures/w/bswapw/01.svg)
-
-```
-BSWAPW Rs, Rd
-```
 
 Operation and exceptions as for the entry BSWAP above; 1 layout form, each a chart of its own (above).
 
 <a id="w-bswapl"></a>
-#### BSWAPL
+#### BSWAP with `.32`
 
 ![BSWAPL: R2, prefix 110100000100, sub-opcode 0000000111; operands reg5, reg5; 4 bytes](figures/w/bswapl/01.svg)
-
-```
-BSWAPL Rs, Rd
-```
 
 Operation and exceptions as for the entry BSWAP above; 1 layout form, each a chart of its own (above).
 
@@ -2778,15 +2677,7 @@ Rd ← Rs with bit i moved to bit 63-i
 **Why it is here.** Borrowed with the other LoongArch bit operations (`REVB`, `REVH`, `BITREV`). No workload from the corpus is recorded.
 
 
-<a id="w-ror"></a>
-<a id="w-rol"></a>
 ### ROR: Rotate right by a register or a constant
-
-![ROR: R3, prefix 1100101000, sub-opcode 0000001; operands reg5, reg5, reg5; 4 bytes](figures/w/ror/01.svg)
-
-![ROR: RRI, prefix 110100000101, sub-opcode 0000; operands reg5, imm6u, reg5; 4 bytes](figures/w/ror/02.svg)
-
-![ROR: IMMh44/b, prefix 100010, sub-opcode 11; operands imm4s, reg4; 2 bytes](figures/w/ror/03.svg)
 
 **Mnemonics:** `ROR`  (aliases: `ROL`)
 
@@ -2796,6 +2687,7 @@ Rd ← Rs with bit i moved to bit 63-i
 ROR Ra, Rb, Rd
 ROR Rs, #n, Rd
 ROR #n, Rd
+ROR Rs.32, #n, Rd    ; 32 bits, a constant count
 ROL Rs, #n, Rd
 ROL #n, Rd
 ```
@@ -2811,51 +2703,44 @@ The chart is the leaf `R3-1`, R3, prefix `1100101000`. `op1` is `reg5`: register
 **Operation**
 
 ```
-Rd ← Ra rotated right by (Rb mod 64), or by (n mod 64) with a constant; ROL rotates left by the constant (an assembler mapping)
+Rd ← Ra rotated right by (Rb mod 64), or by (n mod 64) with a constant; with the mark .32: Rd ← sext32(ror32(Rs[31:0], n mod 32)); ROL rotates left by the constant (an assembler mapping)
 ```
 
 **Exceptions** None.
 
-`ROL` is an assembler mapping, not an instruction: a rotate left by n is a rotate right by 64 - n, so `ROL Rs, #n, Rd` assembles to `ROR Rs, #(64-n), Rd` and `ROL #n, Rd` to `ROR #(64-n), Rd`, in the two-byte form when the count of the right rotation fits it (a rotate left by 1 to 8) and in the four-byte form otherwise; the disassembler prints `ROR`, with a negative count for the short form. `ROL` takes a constant only: the count of `ROR` is taken modulo 64, so a rotate left by a register count is `ROR` by the negated register, which the program makes with `NEG` (a mapping is one instruction, and the assembler does not invent a scratch register). There is no `ROL32`: `ROR32` by 32 minus n is the same rotation. No rotate is through carry; multi-word shifting uses `DSHR`.
+`ROL` is an assembler mapping, not an instruction: a rotate left by n is a rotate right by 64 - n, so `ROL Rs, #n, Rd` assembles to `ROR Rs, #(64-n), Rd` and `ROL #n, Rd` to `ROR #(64-n), Rd`, in the two-byte form when the count of the right rotation fits it (a rotate left by 1 to 8) and in the four-byte form otherwise; the disassembler prints `ROR`, with a negative count for the short form. `ROL` takes a constant only: the count of `ROR` is taken modulo 64, so a rotate left by a register count is `ROR` by the negated register, which the program makes with `NEG` (a mapping is one instruction, and the assembler does not invent a scratch register). The mark `.32` on the source register and a constant count make the 32-bit rotate, with the result sign-extended like every 32-bit result and the count taken modulo 32; it is the primitive of most hash functions and ciphers, and a 32-bit rotate left is the one by 32 minus n. A register count has no 32-bit form. No rotate is through carry; multi-word shifting uses `DSHR`.
 
 **Why it is here.** One rotate direction suffices and `ROR` is the one to keep: `ROL x, #n` is `ROR x, #(64-n)` (an assembler mapping), and a funnel shifter yields `ROR` directly. No rotate is through carry (see `DSHR`). `ROR` is a bit operation and not an ALU operation: cryptographic code rotates by compile-time constants, so an immediate form is needed either way, and the register-count form has almost no users.
 
-<a id="w-rol"></a>
-**`ROL`** is an alias of `ROR`: the assembler writes it as that word.
+<a id="w-ror"></a>
+#### ROR
 
+![ROR: R3, prefix 1100101000, sub-opcode 0000001; operands reg5, reg5, reg5; 4 bytes](figures/w/ror/01.svg)
+
+![ROR: RRI, prefix 110100000101, sub-opcode 0000; operands reg5, imm6u, reg5; 4 bytes](figures/w/ror/02.svg)
+
+![ROR: IMMh44/b, prefix 100010, sub-opcode 11; operands imm4s, reg4; 2 bytes](figures/w/ror/03.svg)
+
+```
+ROR Ra, Rb, Rd
+ROR Rs, #n, Rd
+ROR #n, Rd
+ROR Rs.32, #n, Rd
+```
+
+Operation and exceptions as for the entry ROR above; 3 layout forms, each a chart of its own (above).
+
+<a id="w-rol"></a>
+#### ROL
+
+An alias of [`ROR`](#w-ror): the assembler writes it as that word.
 
 <a id="w-ror32"></a>
-### ROR32: Rotate right by a constant, 32 bits
+#### ROR with `.32`
 
 ![ROR32: RRI, prefix 110100000101, sub-opcode 0001; operands reg5, imm6u, reg5; 4 bytes](figures/w/ror32/01.svg)
 
-**Mnemonics:** `ROR32`
-
-**Syntax**
-
-```
-ROR32 Rs, #n, Rd
-```
-
-**Encoding**
-
-![Encoding of ROR32](figures/RRI-1.svg)
-
-The chart is the leaf `RRI-1`, RRI, prefix `110100000101`. `op1` is `reg5`: register, 5 bits. `op2` is `imm6u`: unsigned 6-bit immediate, 0 to 63. `op3` is `reg5`: register, 5 bits. `xsub` selects the mnemonic.
-
-**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`RRI-1`](dictionary/by-encoding.md#RRI-1).
-
-**Operation**
-
-```
-Rd ← sext32(ror32(Rs[31:0], n mod 32))
-```
-
-**Exceptions** None.
-
-The 32-bit rotate with the result sign-extended like every 32-bit result; the primitive of most hash functions and ciphers.
-
-**Why it is here.** A 32-bit rotate by a constant, the shape of crypto and hash inner loops, estimated together with `CBCC` at 22 KB (1.3%) of the compiled image. The result is sign-extended like the rest of the 32-bit operations, so that no instruction is needed after it. It removes 44 `MOVL` instructions in the corpus (the demand analysis already removes nearly all of them).
+Operation and exceptions as for the entry ROR above; 1 layout form, each a chart of its own (above).
 
 
 <a id="w-dshr"></a>
@@ -3567,7 +3452,7 @@ A range check is one unsigned compare-and-branch, and a `switch` is a bounds che
 
 **9.10.7** A call pushes the return address on the stack; there is no link register.
 
-**9.10.8** `FCBCC` compares two binary64 values held in registers and branches: `fcblt Ra, Rb, L`. The conditions are `eq`, `ne`, `lt`, `le`, `uo` (taken if either operand is a NaN) and `or` (taken if neither is); `FCBGT` and `FCBGE` are the spellings of `FCBLT` and `FCBLE` with the registers exchanged, and the `32` forms (`FCBEQ32` to `FCBOR32`) compare binary32. The rules are IEEE's, as in C: with a NaN operand `eq`, `lt`, `le`, `gt` and `ge` are false and `ne` is true; a signaling NaN also sets the invalid flag of `FPSR`, a quiet one does not. There is no "not less than" branch: the negation of `lt` is not `ge` when an operand can be a NaN, so a branch is never inverted by changing its condition, and the unordered case has the words of its own. The instruction is four bytes for registers of the hot set and a target within 1 KB, and six bytes otherwise (a target within 4 MB); a farther target is refused. There is no immediate form.
+**9.10.8** `FCBCC` compares two binary64 values held in registers and branches: `fcblt Ra, Rb, L`. The conditions are `eq`, `ne`, `lt`, `le`, `uo` (taken if either operand is a NaN) and `or` (taken if neither is); `FCBGT` and `FCBGE` are the spellings of `FCBLT` and `FCBLE` with the registers exchanged, and with the mark `.32` on both registers (`fcblt Ra.32, Rb.32, L`) they compare binary32. The rules are IEEE's, as in C: with a NaN operand `eq`, `lt`, `le`, `gt` and `ge` are false and `ne` is true; a signaling NaN also sets the invalid flag of `FPSR`, a quiet one does not. There is no "not less than" branch: the negation of `lt` is not `ge` when an operand can be a NaN, so a branch is never inverted by changing its condition, and the unordered case has the words of its own. The instruction is four bytes for registers of the hot set and a target within 1 KB, and six bytes otherwise (a target within 4 MB); a farther target is refused. There is no immediate form.
 
 ```
         fcblt   r1, r2, 1f      ; if (x < y) goto 1f;  false for a NaN
@@ -3950,14 +3835,14 @@ An alias of [`CBCS`](#w-cbcs): the assembler writes it as that word.
 
 ### FCBCC: Floating-point compare and branch
 
-**Mnemonics:** `FCBEQ`, `FCBNE`, `FCBLT`, `FCBLE`, `FCBUO`, `FCBOR`, `FCBEQ32`, `FCBNE32`, `FCBLT32`, `FCBLE32`, `FCBUO32`, `FCBOR32`
+**Mnemonics:** `FCBEQ`, `FCBNE`, `FCBLT`, `FCBLE`, `FCBUO`, `FCBOR`
 
 **Syntax**
 
 ```
 FCBLT Ra, Rb, target
 FCBEQ Ra, Rb, target ... and the rest
-FCBLT32 Ra, Rb, target
+FCBLT Ra.32, Rb.32, target    ; binary32: the mark .32 on both registers
 ```
 
 **Encoding**
@@ -3971,7 +3856,7 @@ The chart is the leaf `FCBR10H-1`, FCBR10H, prefix `1100111000`. `op1` is `reg4`
 **Operation**
 
 ```
-x ← Ra as binary64 (binary32 for the 32 forms) ; y ← Rb the same
+x ← Ra as binary64 (binary32 with the mark .32) ; y ← Rb the same
 unordered ← x or y is a NaN
 FCBEQ: taken if not unordered and x = y         FCBNE: taken if unordered or x ≠ y
 FCBLT: taken if not unordered and x < y         FCBLE: taken if not unordered and x ≤ y
@@ -4018,6 +3903,7 @@ Operation and exceptions as for the entry FCBCC above; 2 layout forms, each a ch
 
 ```
 FCBLT Ra, Rb, target
+FCBLT Ra.32, Rb.32, target
 ```
 
 Operation and exceptions as for the entry FCBCC above; 2 layout forms, each a chart of its own (above).
@@ -4050,7 +3936,7 @@ Operation and exceptions as for the entry FCBCC above; 2 layout forms, each a ch
 Operation and exceptions as for the entry FCBCC above; 2 layout forms, each a chart of its own (above).
 
 <a id="w-fcbeq32"></a>
-#### FCBEQ32
+#### FCBEQ with `.32`
 
 ![FCBEQ32: FCB3R22, prefix 110100010011, sub-opcode 0110; operands reg5, reg5, pc22-u2; 6 bytes](figures/w/fcbeq32/02.svg)
 
@@ -4059,7 +3945,7 @@ Operation and exceptions as for the entry FCBCC above; 2 layout forms, each a ch
 Operation and exceptions as for the entry FCBCC above; 2 layout forms, each a chart of its own (above).
 
 <a id="w-fcbne32"></a>
-#### FCBNE32
+#### FCBNE with `.32`
 
 ![FCBNE32: FCB3R22, prefix 110100010011, sub-opcode 0111; operands reg5, reg5, pc22-u2; 6 bytes](figures/w/fcbne32/02.svg)
 
@@ -4068,20 +3954,16 @@ Operation and exceptions as for the entry FCBCC above; 2 layout forms, each a ch
 Operation and exceptions as for the entry FCBCC above; 2 layout forms, each a chart of its own (above).
 
 <a id="w-fcblt32"></a>
-#### FCBLT32
+#### FCBLT with `.32`
 
 ![FCBLT32: FCB3R22, prefix 110100010011, sub-opcode 1000; operands reg5, reg5, pc22-u2; 6 bytes](figures/w/fcblt32/02.svg)
 
 ![FCBLT32: FCBR10H, prefix 1100111000, sub-opcode 1000; operands reg4, reg4, pc10-u2; 4 bytes](figures/w/fcblt32/01.svg)
 
-```
-FCBLT32 Ra, Rb, target
-```
-
 Operation and exceptions as for the entry FCBCC above; 2 layout forms, each a chart of its own (above).
 
 <a id="w-fcble32"></a>
-#### FCBLE32
+#### FCBLE with `.32`
 
 ![FCBLE32: FCB3R22, prefix 110100010011, sub-opcode 1001; operands reg5, reg5, pc22-u2; 6 bytes](figures/w/fcble32/02.svg)
 
@@ -4090,7 +3972,7 @@ Operation and exceptions as for the entry FCBCC above; 2 layout forms, each a ch
 Operation and exceptions as for the entry FCBCC above; 2 layout forms, each a chart of its own (above).
 
 <a id="w-fcbuo32"></a>
-#### FCBUO32
+#### FCBUO with `.32`
 
 ![FCBUO32: FCB3R22, prefix 110100010011, sub-opcode 1010; operands reg5, reg5, pc22-u2; 6 bytes](figures/w/fcbuo32/02.svg)
 
@@ -4099,7 +3981,7 @@ Operation and exceptions as for the entry FCBCC above; 2 layout forms, each a ch
 Operation and exceptions as for the entry FCBCC above; 2 layout forms, each a chart of its own (above).
 
 <a id="w-fcbor32"></a>
-#### FCBOR32
+#### FCBOR with `.32`
 
 ![FCBOR32: FCB3R22, prefix 110100010011, sub-opcode 1011; operands reg5, reg5, pc22-u2; 6 bytes](figures/w/fcbor32/02.svg)
 
@@ -5124,16 +5006,16 @@ Operation and exceptions as for the entry FDIV above; 1 layout form, each a char
 
 ### FSINGLE: Floating arithmetic, binary32
 
-**Mnemonics:** `FADD32`, `FSUB32`, `FMUL32`, `FDIV32`, `FSQRT32`
+**Mnemonics:** `FADD`, `FSUB`, `FMUL`, `FDIV`, `FSQRT`
 
 **Syntax**
 
 ```
-FADD32 Rs, Rd
-FSUB32 Rs, Rd
-FMUL32 Rs, Rd
-FDIV32 Rs, Rd
-FSQRT32 Rs, Rd
+FADD Rs.32, Rd.32
+FSUB Rs.32, Rd.32
+FMUL Rs.32, Rd.32
+FDIV Rs.32, Rd.32
+FSQRT Rs.32, Rd.32
 ```
 
 **Encoding**
@@ -5147,69 +5029,49 @@ The chart is the leaf `R2-1`, R2, prefix `110100000100`. `op1` is `reg5`: regist
 **Operation**
 
 ```
-Rd ← Rd op Rs  (FADD32 FSUB32 FMUL32 FDIV32); Rd ← sqrt(Rs) (FSQRT32)
+Rd ← Rd op Rs  (FADD FSUB FMUL FDIV with the mark .32 on every register); Rd ← sqrt(Rs) (FSQRT with the mark)
 ```
 
 **Exception flags** The IEEE exception flags raised are ORed into `FPSR` (`NX` inexact, `UF` underflow, `OF` overflow, `DZ` divide by zero, `NV` invalid); nothing traps.
 
 **Exceptions** None.
 
-A `binary32` lives in the low 32 bits of a register, sign-extended to 64 like every 32-bit result. Results are correctly rounded to nearest even.
+The format is a mark on the registers: `.32` on every register operand makes the operation a `binary32` one, and no mark (or `.64`) is the `binary64` operation. The registers of one instruction carry the same mark, and an unmarked register is 64 bits, so a mixture is refused. A `binary32` lives in the low 32 bits of a register, sign-extended to 64 like every 32-bit result. Results are correctly rounded to nearest even.
 
 **Why it is here.** `binary64` has first-class opcodes because on a 64-bit machine it is the common case; `binary32` has the same operations, held in the low 32 bits of a register and sign-extended like every other 32-bit value (see also the ABI). The naming rule is an `F` in front of the integer mnemonic (`FADD`) and a size suffix for the other format (`FADD32`).
 
 <a id="w-fadd32"></a>
-#### FADD32
+#### FADD with `.32`
 
 ![FADD32: R2, prefix 110100000100, sub-opcode 0000011011; operands reg5, reg5; 4 bytes](figures/w/fadd32/01.svg)
-
-```
-FADD32 Rs, Rd
-```
 
 Operation and exceptions as for the entry FSINGLE above; 1 layout form, each a chart of its own (above).
 
 <a id="w-fsub32"></a>
-#### FSUB32
+#### FSUB with `.32`
 
 ![FSUB32: R2, prefix 110100000100, sub-opcode 0000011100; operands reg5, reg5; 4 bytes](figures/w/fsub32/01.svg)
-
-```
-FSUB32 Rs, Rd
-```
 
 Operation and exceptions as for the entry FSINGLE above; 1 layout form, each a chart of its own (above).
 
 <a id="w-fmul32"></a>
-#### FMUL32
+#### FMUL with `.32`
 
 ![FMUL32: R2, prefix 110100000100, sub-opcode 0000011101; operands reg5, reg5; 4 bytes](figures/w/fmul32/01.svg)
-
-```
-FMUL32 Rs, Rd
-```
 
 Operation and exceptions as for the entry FSINGLE above; 1 layout form, each a chart of its own (above).
 
 <a id="w-fdiv32"></a>
-#### FDIV32
+#### FDIV with `.32`
 
 ![FDIV32: R2, prefix 110100000100, sub-opcode 0000011110; operands reg5, reg5; 4 bytes](figures/w/fdiv32/01.svg)
-
-```
-FDIV32 Rs, Rd
-```
 
 Operation and exceptions as for the entry FSINGLE above; 1 layout form, each a chart of its own (above).
 
 <a id="w-fsqrt32"></a>
-#### FSQRT32
+#### FSQRT with `.32`
 
 ![FSQRT32: R2, prefix 110100000100, sub-opcode 0000011111; operands reg5, reg5; 4 bytes](figures/w/fsqrt32/01.svg)
-
-```
-FSQRT32 Rs, Rd
-```
 
 Operation and exceptions as for the entry FSINGLE above; 1 layout form, each a chart of its own (above).
 
@@ -5271,13 +5133,13 @@ Operation and exceptions as for the entry FMADD above; 1 layout form, each a cha
 
 ### FMADD32: Fused multiply-add, binary32
 
-**Mnemonics:** `FMADD32`, `FNMSUB32`
+**Mnemonics:** `FMADD`, `FNMSUB`
 
 **Syntax**
 
 ```
-FMADD32 Rs, Rt, Ru, Rd
-FNMSUB32 Rs, Rt, Ru, Rd
+FMADD Rs.32, Rt.32, Ru.32, Rd.32
+FNMSUB Rs.32, Rt.32, Ru.32, Rd.32
 ```
 
 **Encoding**
@@ -5298,36 +5160,28 @@ As FMADD and FNMSUB, in binary32, rounded once
 
 **Exceptions** None.
 
-The sign of a `binary32` is flipped exactly by `FNEG32`, which is `XOR #-2147483648` and raises no exception flag.
+The sign of a `binary32` is flipped exactly by `FNEG` with the mark `.32` on its source, which is `XOR #-2147483648` and raises no exception flag.
 
 **Why it is here.** The `binary32` forms of the fused multiply-add family.
 
 <a id="w-fmadd32"></a>
-#### FMADD32
+#### FMADD with `.32`
 
 ![FMADD32: R4, prefix 10101111, sub-opcode 0010; operands reg5, reg5, reg5, reg5; 4 bytes](figures/w/fmadd32/01.svg)
-
-```
-FMADD32 Rs, Rt, Ru, Rd
-```
 
 Operation and exceptions as for the entry FMADD32 above; 1 layout form, each a chart of its own (above).
 
 <a id="w-fnmsub32"></a>
-#### FNMSUB32
+#### FNMSUB with `.32`
 
 ![FNMSUB32: R4, prefix 10101111, sub-opcode 0011; operands reg5, reg5, reg5, reg5; 4 bytes](figures/w/fnmsub32/01.svg)
-
-```
-FNMSUB32 Rs, Rt, Ru, Rd
-```
 
 Operation and exceptions as for the entry FMADD32 above; 1 layout form, each a chart of its own (above).
 
 
 ### FSIGN: Sign operations on the bits
 
-**Mnemonics:** `FNEG`, `FABS`, `FCOPYSIGN`  (aliases: `FNEG32`, `FABS32`)
+**Mnemonics:** `FNEG`, `FABS`, `FCOPYSIGN`  (aliases: `FNEG`, `FABS`)
 
 **Syntax**
 
@@ -5335,8 +5189,8 @@ Operation and exceptions as for the entry FMADD32 above; 1 layout form, each a c
 FNEG Rs, Rd
 FABS Rs, Rd
 FCOPYSIGN Rs, Rt, Rd
-FNEG32 Rs, Rd
-FABS32 Rs, Rd
+FNEG Rs.32, Rd
+FABS Rs.32, Rd
 ```
 
 **Encoding**
@@ -5353,15 +5207,15 @@ The chart is the leaf `R2-1`, R2, prefix `110100000100`. `op1` is `reg5`: regist
 FNEG     : Rd ← Rs with the sign bit flipped
 FABS     : Rd ← Rs with the sign bit cleared
 FCOPYSIGN: Rd ← magnitude of Rs, sign of Rt
-FNEG32   : Rd ← Rs with the sign of the binary32 flipped    (XOR #-2147483648, Rd)
-FABS32   : Rd ← Rs with the sign of the binary32 cleared    (AND #0x7FFFFFFF, Rd)
+FNEG Rs.32: Rd ← Rs with the sign of the binary32 flipped    (XOR #-2147483648, Rd)
+FABS Rs.32: Rd ← Rs with the sign of the binary32 cleared    (AND #0x7FFFFFFF, Rd)
 ```
 
-**Exception flags** None for the three native words: they operate on the bits, do not canonicalise a NaN and raise no exception flag. `FNEG32` and `FABS32` are the instructions they stand for and raise none either.
+**Exception flags** None for the three native words: they operate on the bits, do not canonicalise a NaN and raise no exception flag. The two with the mark `.32` are the instructions they stand for and raise none either.
 
 **Exceptions** None.
 
-`FNEG32` and `FABS32` are assembler mappings of the sign operations of a `binary32`, not native instructions: `FNEG32 Rs, Rd` assembles to `XOR #-2147483648, Rd` and `FABS32 Rs, Rd` to `AND #0x7FFFFFFF, Rd`, each preceded by `MOVQ Rs, Rd` when the two registers differ. A `binary32` lives in a register sign-extended to 64 bits, so its sign is bits 63 to 31 together and the constant that changes it is `0xFFFFFFFF80000000`; the result is again a sign-extended `binary32`, flipped or cleared exactly (a NaN and a zero included), and nothing is raised. The sign of a `binary64` is the single bit 63, which is why `FNEG` and `FABS` are native; the sign of a sign-extended `binary32` is spread over bits 63 to 31, so no single native instruction changes it and the two mappings are an `XOR` and an `AND` with a constant. There is no `FCOPYSIGN32`: its `binary32` form is several instructions on the bits (and the sign must be extended to 64 bits again), more than a mapping should hide.
+`FNEG` and `FABS` with the mark `.32` on the source register are assembler mappings of the sign operations of a `binary32`, not native instructions: `FNEG Rs.32, Rd` assembles to `XOR #-2147483648, Rd` and `FABS Rs.32, Rd` to `AND #0x7FFFFFFF, Rd`, each preceded by `MOVQ Rs, Rd` when the two registers differ. A `binary32` lives in a register sign-extended to 64 bits, so its sign is bits 63 to 31 together and the constant that changes it is `0xFFFFFFFF80000000`; the result is again a sign-extended `binary32`, flipped or cleared exactly (a NaN and a zero included), and nothing is raised. The sign of a `binary64` is the single bit 63, which is why `FNEG` and `FABS` are native; the sign of a sign-extended `binary32` is spread over bits 63 to 31, so no single native instruction changes it and the two mappings are an `XOR` and an `AND` with a constant. There is no `FCOPYSIGN32`: its `binary32` form is several instructions on the bits (and the sign must be extended to 64 bits again), more than a mapping should hide.
 
 **Why it is here.** Sign and selection operations (negate, absolute value and the like) work on the bits, do not canonicalise a NaN and raise no exception flag, so they cost almost nothing. The PowerPC 601 floating-point set has the same operations (stated from memory, not checked against a manual). No separate reason is recorded for these three.
 
@@ -5372,6 +5226,7 @@ FABS32   : Rd ← Rs with the sign of the binary32 cleared    (AND #0x7FFFFFFF, 
 
 ```
 FNEG Rs, Rd
+FNEG Rs.32, Rd
 ```
 
 Operation and exceptions as for the entry FSIGN above; 1 layout form, each a chart of its own (above).
@@ -5383,6 +5238,7 @@ Operation and exceptions as for the entry FSIGN above; 1 layout form, each a cha
 
 ```
 FABS Rs, Rd
+FABS Rs.32, Rd
 ```
 
 Operation and exceptions as for the entry FSIGN above; 1 layout form, each a chart of its own (above).
@@ -5399,12 +5255,12 @@ FCOPYSIGN Rs, Rt, Rd
 Operation and exceptions as for the entry FSIGN above; 1 layout form, each a chart of its own (above).
 
 <a id="w-fneg32"></a>
-#### FNEG32
+#### FNEG with `.32`
 
 An alias of [`XOR`](#w-xor): the assembler writes it as that word.
 
 <a id="w-fabs32"></a>
-#### FABS32
+#### FABS with `.32`
 
 An alias of [`AND`](#w-and): the assembler writes it as that word.
 
@@ -5466,13 +5322,13 @@ Operation and exceptions as for the entry FMIN above; 1 layout form, each a char
 
 ### FCLASS: Classify a floating-point value
 
-**Mnemonics:** `FCLASS`, `FCLASS32`
+**Mnemonics:** `FCLASS`
 
 **Syntax**
 
 ```
 FCLASS Rs, Rd
-FCLASS32 Rs, Rd
+FCLASS Rs.32, Rd        ; the source is a binary32
 ```
 
 **Encoding**
@@ -5505,18 +5361,15 @@ Every libm function begins with this dispatch.
 
 ```
 FCLASS Rs, Rd
+FCLASS Rs.32, Rd
 ```
 
 Operation and exceptions as for the entry FCLASS above; 1 layout form, each a chart of its own (above).
 
 <a id="w-fclass32"></a>
-#### FCLASS32
+#### FCLASS with `.32`
 
 ![FCLASS32: R2, prefix 110100000100, sub-opcode 0000100011; operands reg5, reg5; 4 bytes](figures/w/fclass32/01.svg)
-
-```
-FCLASS32 Rs, Rd
-```
 
 Operation and exceptions as for the entry FCLASS above; 1 layout form, each a chart of its own (above).
 
@@ -5617,19 +5470,25 @@ Operation and exceptions as for the entry FRINT above; 1 layout form, each a cha
 
 ### FCVT: Floating conversions
 
-**Mnemonics:** `FCVTDQ`, `FCVTDQU`, `FCVTQD`, `FCVTQUD`, `FCVTDS`, `FCVTSD`, `FCVTSL`, `FCVTLS`
+**Mnemonics:** `FCVT`
 
 **Syntax**
 
 ```
-FCVTDQ Rs, Rd        ; binary64 to signed quad
-FCVTDQU Rs, Rd       ; binary64 to unsigned quad
-FCVTQD Rs, Rd        ; signed quad to binary64
-FCVTQUD Rs, Rd       ; unsigned quad to binary64
-FCVTDS Rs, Rd        ; binary64 to binary32
-FCVTSD Rs, Rd        ; binary32 to binary64
-FCVTSL Rs, Rd        ; binary32 to signed 32-bit integer
-FCVTLS Rs, Rd        ; signed 32-bit integer to binary32
+FCVT Rs.64, Rd        ; binary64 to signed quad (the unmarked register is a 64-bit signed integer)
+FCVT Rs.64, Rd.u64    ; binary64 to unsigned quad
+FCVT Rs, Rd.64        ; signed quad to binary64
+FCVT Rs.u64, Rd.64    ; unsigned quad to binary64
+FCVT Rs.64, Rd.32    ; binary64 to binary32
+FCVT Rs.32, Rd.64    ; binary32 to binary64
+FCVT Rs.32, Rd.s32   ; binary32 to signed 32-bit integer
+FCVT Rs.s32, Rd.32   ; signed 32-bit integer to binary32
+FCVT Rs.32, Rd.16    ; binary32 to half
+FCVT Rs.16, Rd.32    ; half to binary32
+FCVT Rs.64, Rd.16    ; binary64 to half
+FCVT Rs.16, Rd.64    ; half to binary64
+FCVT Rs.16, Rd.s32   ; half to signed 32-bit integer, toward zero
+FCVT Rs.s32, Rd.16   ; signed 32-bit integer to half
 ```
 
 **Encoding**
@@ -5645,101 +5504,113 @@ The chart is the leaf `R2-1`, R2, prefix `110100000100`. `op1` is `reg5`: regist
 ```
 float to integer: truncate toward zero, then saturate; a NaN gives the largest value
 integer to float: round to nearest even
+narrowing to a half: round to nearest even ; widening: exact
+a half to an integer of a NaN or an infinity is invalid and saturates; truncating a fraction is inexact
 ```
 
 **Exception flags** The IEEE exception flags raised are ORed into `FPSR` (`NX` inexact, `UF` underflow, `OF` overflow, `DZ` divide by zero, `NV` invalid); nothing traps. A NaN or an out-of-range value raises `NV` and saturates.
 
 **Exceptions** None.
 
-Integer results are 64-bit (`FCVTDQ`, `FCVTDQU`) or 32-bit sign-extended (`FCVTSL`). Unsigned conversion of a negative value is invalid and gives 0.
+The source register and the destination register each carry the format they hold as a mark: `.16`, `.32` and `.64` are the floating formats `binary16`, `binary32` and `binary64`, and the integers are `.s32` (signed, 32 bits), no mark or `.s64` (signed, 64 bits) and `.u64` (unsigned, 64 bits). The unmarked register is therefore a 64-bit signed integer here, and `.64` is the double; a conversion between two equal formats, two integers or a pair that has no instruction is refused, and so is an unsigned 32-bit integer. Integer results are 64-bit or 32-bit sign-extended (`.s32`). Unsigned conversion of a negative value is invalid and gives 0. `binary16` is a storage format: a half lives in the low 16 bits of a register, sign-extended to 64, is loaded and stored with a `.16` mark on the move, and has these conversions and no arithmetic. Every half is exact in `binary32`, so an operation on halves is made by widening, operating in `binary32` and narrowing once; for add, subtract, multiply, divide and square root that gives the correctly rounded half, because a `binary32` has at least 2 × 11 + 2 bits of significand. A fused multiply-add of halves is not a case of this: widen to `binary64` and the sum may be rounded before it is narrowed. A NaN narrowed to a half is the canonical `0x7E00`; tininess is judged after rounding.
 
-**Why it is here.** `FCVTDQU` and `FCVTQUD` convert unsigned 64-bit integers to and from `binary64`. C needs both, and without them each takes a branch and several instructions.
+**Why it is here.** `FCVTDQU` and `FCVTQUD` convert unsigned 64-bit integers to and from `binary64`. C needs both, and without them each takes a branch and several instructions. Half precision began as a GPU format (NVIDIA's `half`, 2002), spread to machine learning and image formats, and is in CPUs (x86 `F16C` and AVX-512 FP16, ARMv8.2, RISC-V `Zfh` and `Zfhmin`); this account is from memory and not checked against a manual. The architecture has the conversions only, as RISC-V's `Zfhmin` and x86's `F16C` have: a half is a storage format, normally loaded and stored with a move with the mark `.16`, converted, computed in single or double, and converted back, and a core without half-width adders, multipliers and dividers has fewer units to build and to verify. The full arithmetic (add, subtract, multiply, divide, square root, compare, classify and four fused multiply-adds, eleven words) was removed on 2026-11-25: the double rounding through `binary32` is exact for the five basic operations, so the two instructions it costs give the same results. 16-bit *integer* arithmetic is not provided: the ALU has one width (9.2.9).
 
 <a id="w-fcvtdq"></a>
-#### FCVTDQ
+#### FCVT with source `.64` and destination no mark
 
 ![FCVTDQ: R2, prefix 110100000100, sub-opcode 0000101001; operands reg5, reg5; 4 bytes](figures/w/fcvtdq/01.svg)
-
-```
-FCVTDQ Rs, Rd
-```
 
 Operation and exceptions as for the entry FCVT above; 1 layout form, each a chart of its own (above).
 
 <a id="w-fcvtdqu"></a>
-#### FCVTDQU
+#### FCVT with source `.64` and destination `.u64`
 
 ![FCVTDQU: R2, prefix 110100000100, sub-opcode 0000101111; operands reg5, reg5; 4 bytes](figures/w/fcvtdqu/01.svg)
-
-```
-FCVTDQU Rs, Rd
-```
 
 Operation and exceptions as for the entry FCVT above; 1 layout form, each a chart of its own (above).
 
 <a id="w-fcvtqd"></a>
-#### FCVTQD
+#### FCVT with source no mark and destination `.64`
 
 ![FCVTQD: R2, prefix 110100000100, sub-opcode 0000101010; operands reg5, reg5; 4 bytes](figures/w/fcvtqd/01.svg)
-
-```
-FCVTQD Rs, Rd
-```
 
 Operation and exceptions as for the entry FCVT above; 1 layout form, each a chart of its own (above).
 
 <a id="w-fcvtqud"></a>
-#### FCVTQUD
+#### FCVT with source `.u64` and destination `.64`
 
 ![FCVTQUD: R2, prefix 110100000100, sub-opcode 0000110000; operands reg5, reg5; 4 bytes](figures/w/fcvtqud/01.svg)
-
-```
-FCVTQUD Rs, Rd
-```
 
 Operation and exceptions as for the entry FCVT above; 1 layout form, each a chart of its own (above).
 
 <a id="w-fcvtds"></a>
-#### FCVTDS
+#### FCVT with source `.64` and destination `.32`
 
 ![FCVTDS: R2, prefix 110100000100, sub-opcode 0000101011; operands reg5, reg5; 4 bytes](figures/w/fcvtds/01.svg)
-
-```
-FCVTDS Rs, Rd
-```
 
 Operation and exceptions as for the entry FCVT above; 1 layout form, each a chart of its own (above).
 
 <a id="w-fcvtsd"></a>
-#### FCVTSD
+#### FCVT with source `.32` and destination `.64`
 
 ![FCVTSD: R2, prefix 110100000100, sub-opcode 0000101100; operands reg5, reg5; 4 bytes](figures/w/fcvtsd/01.svg)
-
-```
-FCVTSD Rs, Rd
-```
 
 Operation and exceptions as for the entry FCVT above; 1 layout form, each a chart of its own (above).
 
 <a id="w-fcvtsl"></a>
-#### FCVTSL
+#### FCVT with source `.32` and destination `.s32`
 
 ![FCVTSL: R2, prefix 110100000100, sub-opcode 0000101101; operands reg5, reg5; 4 bytes](figures/w/fcvtsl/01.svg)
-
-```
-FCVTSL Rs, Rd
-```
 
 Operation and exceptions as for the entry FCVT above; 1 layout form, each a chart of its own (above).
 
 <a id="w-fcvtls"></a>
-#### FCVTLS
+#### FCVT with source `.s32` and destination `.32`
 
 ![FCVTLS: R2, prefix 110100000100, sub-opcode 0000101110; operands reg5, reg5; 4 bytes](figures/w/fcvtls/01.svg)
 
-```
-FCVTLS Rs, Rd
-```
+Operation and exceptions as for the entry FCVT above; 1 layout form, each a chart of its own (above).
+
+<a id="w-fcvtsh"></a>
+#### FCVT with source `.32` and destination `.16`
+
+![FCVTSH: R2, prefix 110100000100, sub-opcode 0000110010; operands reg5, reg5; 4 bytes](figures/w/fcvtsh/01.svg)
+
+Operation and exceptions as for the entry FCVT above; 1 layout form, each a chart of its own (above).
+
+<a id="w-fcvths"></a>
+#### FCVT with source `.16` and destination `.32`
+
+![FCVTHS: R2, prefix 110100000100, sub-opcode 0000110011; operands reg5, reg5; 4 bytes](figures/w/fcvths/01.svg)
+
+Operation and exceptions as for the entry FCVT above; 1 layout form, each a chart of its own (above).
+
+<a id="w-fcvtdh"></a>
+#### FCVT with source `.64` and destination `.16`
+
+![FCVTDH: R2, prefix 110100000100, sub-opcode 0000110100; operands reg5, reg5; 4 bytes](figures/w/fcvtdh/01.svg)
+
+Operation and exceptions as for the entry FCVT above; 1 layout form, each a chart of its own (above).
+
+<a id="w-fcvthd"></a>
+#### FCVT with source `.16` and destination `.64`
+
+![FCVTHD: R2, prefix 110100000100, sub-opcode 0000110101; operands reg5, reg5; 4 bytes](figures/w/fcvthd/01.svg)
+
+Operation and exceptions as for the entry FCVT above; 1 layout form, each a chart of its own (above).
+
+<a id="w-fcvthl"></a>
+#### FCVT with source `.16` and destination `.s32`
+
+![FCVTHL: R2, prefix 110100000100, sub-opcode 0000110110; operands reg5, reg5; 4 bytes](figures/w/fcvthl/01.svg)
+
+Operation and exceptions as for the entry FCVT above; 1 layout form, each a chart of its own (above).
+
+<a id="w-fcvtlh"></a>
+#### FCVT with source `.s32` and destination `.16`
+
+![FCVTLH: R2, prefix 110100000100, sub-opcode 0000110111; operands reg5, reg5; 4 bytes](figures/w/fcvtlh/01.svg)
 
 Operation and exceptions as for the entry FCVT above; 1 layout form, each a chart of its own (above).
 
@@ -5778,111 +5649,6 @@ Rd ← old
 `FPSR` is the sticky five-bit register (`NX` bit 0, `UF` 1, `OF` 2, `DZ` 3, `NV` 4). C99 `<fenv.h>` is built on this one instruction.
 
 **Why it is here.** IEEE 754 requires five status flags, and C99 `<fenv.h>` needs software access to them. The architecture has a sticky five-bit `FPSR`, laid out as RISC-V's `fflags`, written by every operation that can raise a flag and never trapping, and one swap instruction to read and write it. It is a record of what happened, not a mode, so the rule against mode bits is untouched.
-
-
-### FCVTH: Conversions to and from binary16
-
-**Mnemonics:** `FCVTSH`, `FCVTHS`, `FCVTDH`, `FCVTHD`, `FCVTHL`, `FCVTLH`
-
-**Syntax**
-
-```
-FCVTSH Rs, Rd        ; binary32 to half
-FCVTHS Rs, Rd        ; half to binary32
-FCVTDH Rs, Rd        ; binary64 to half
-FCVTHD Rs, Rd        ; half to binary64
-FCVTHL Rs, Rd        ; half to signed 32-bit integer, toward zero
-FCVTLH Rs, Rd        ; signed 32-bit integer to half
-```
-
-**Encoding**
-
-![Encoding of FCVTH](figures/R2-1.svg)
-
-The chart is the leaf `R2-1`, R2, prefix `110100000100`. `op1` is `reg5`: register, 5 bits. `op2` is `reg5`: register, 5 bits. `xsub` selects the mnemonic.
-
-**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`R2-1`](dictionary/by-encoding.md#R2-1).
-
-**Operation**
-
-```
-narrowing: round to nearest even ; widening: exact
-FCVTHL of a NaN or an infinity is invalid and saturates; truncating a fraction is inexact
-```
-
-**Exception flags** The IEEE exception flags raised are ORed into `FPSR` (`NX` inexact, `UF` underflow, `OF` overflow, `DZ` divide by zero, `NV` invalid); nothing traps.
-
-**Exceptions** None.
-
-`binary16` is a storage format: a half lives in the low 16 bits of a register, sign-extended to 64, is loaded and stored with `MOVW`, and has these six conversions and no arithmetic. Every half is exact in `binary32`, so an operation on halves is made by widening (`FCVTHS`), operating in `binary32` and narrowing (`FCVTSH`) once; for add, subtract, multiply, divide and square root that gives the correctly rounded half, because a `binary32` has at least 2 × 11 + 2 bits of significand. A fused multiply-add of halves is not a case of this: widen to `binary64` and the sum may be rounded before it is narrowed. A NaN narrowed to a half is the canonical `0x7E00`; tininess is judged after rounding.
-
-**Why it is here.** Half precision began as a GPU format (NVIDIA's `half`, 2002), spread to machine learning and image formats, and is in CPUs (x86 `F16C` and AVX-512 FP16, ARMv8.2, RISC-V `Zfh` and `Zfhmin`); this account is from memory and not checked against a manual. The architecture has the conversions only, as RISC-V's `Zfhmin` and x86's `F16C` have: a half is a storage format, normally loaded and stored with `MOVW`, converted, computed in single or double, and converted back, and a core without half-width adders, multipliers and dividers has fewer units to build and to verify. The full arithmetic (add, subtract, multiply, divide, square root, compare, classify and four fused multiply-adds, eleven words) was removed on 2026-11-25: the double rounding through `binary32` is exact for the five basic operations, so the two instructions it costs give the same results. 16-bit *integer* arithmetic is not provided: the ALU has one width (9.2.9).
-
-<a id="w-fcvtsh"></a>
-#### FCVTSH
-
-![FCVTSH: R2, prefix 110100000100, sub-opcode 0000110010; operands reg5, reg5; 4 bytes](figures/w/fcvtsh/01.svg)
-
-```
-FCVTSH Rs, Rd
-```
-
-Operation and exceptions as for the entry FCVTH above; 1 layout form, each a chart of its own (above).
-
-<a id="w-fcvths"></a>
-#### FCVTHS
-
-![FCVTHS: R2, prefix 110100000100, sub-opcode 0000110011; operands reg5, reg5; 4 bytes](figures/w/fcvths/01.svg)
-
-```
-FCVTHS Rs, Rd
-```
-
-Operation and exceptions as for the entry FCVTH above; 1 layout form, each a chart of its own (above).
-
-<a id="w-fcvtdh"></a>
-#### FCVTDH
-
-![FCVTDH: R2, prefix 110100000100, sub-opcode 0000110100; operands reg5, reg5; 4 bytes](figures/w/fcvtdh/01.svg)
-
-```
-FCVTDH Rs, Rd
-```
-
-Operation and exceptions as for the entry FCVTH above; 1 layout form, each a chart of its own (above).
-
-<a id="w-fcvthd"></a>
-#### FCVTHD
-
-![FCVTHD: R2, prefix 110100000100, sub-opcode 0000110101; operands reg5, reg5; 4 bytes](figures/w/fcvthd/01.svg)
-
-```
-FCVTHD Rs, Rd
-```
-
-Operation and exceptions as for the entry FCVTH above; 1 layout form, each a chart of its own (above).
-
-<a id="w-fcvthl"></a>
-#### FCVTHL
-
-![FCVTHL: R2, prefix 110100000100, sub-opcode 0000110110; operands reg5, reg5; 4 bytes](figures/w/fcvthl/01.svg)
-
-```
-FCVTHL Rs, Rd
-```
-
-Operation and exceptions as for the entry FCVTH above; 1 layout form, each a chart of its own (above).
-
-<a id="w-fcvtlh"></a>
-#### FCVTLH
-
-![FCVTLH: R2, prefix 110100000100, sub-opcode 0000110111; operands reg5, reg5; 4 bytes](figures/w/fcvtlh/01.svg)
-
-```
-FCVTLH Rs, Rd
-```
-
-Operation and exceptions as for the entry FCVTH above; 1 layout form, each a chart of its own (above).
 <!-- /entries:9.12 -->
 
 ## 9.13 Atomics and ordering
@@ -5893,20 +5659,20 @@ Operation and exceptions as for the entry FCVTH above; 1 layout form, each a cha
 
 **9.13.2** The fetch-and-operate words are the names of the machine's own instructions with an `A` for atomic in front: `AADD`, `AAND`, `ABIS`, `AXOR`, `AMAX`, `AMIN`, `AMAXU` and `AMINU` do to memory what `ADD`, `AND`, `BIS` (the inclusive or), `XOR`, `MAX`, `MIN`, `MAXU` and `MINU` do to a register, and return the old value; `CAS`, `SWAP`, `LL` and `SC` keep their plain names. Like every instruction with a destination they write it last: `AADD Rs, (Ra), Rd`.
 
-**9.13.3** `CAS` operates on 4 bytes (`CASL`) or 8 bytes (`CAS`), and every atomic has the register fields of 7.4.6 and the address `(Ra)` with no offset, `CAS Rs, (Ra), Rd` with the expected and the old value in `Rd` (`LL` has two operands, `LL (Ra), Rd`); an aligned 8-byte compare-and-swap may cover two adjacent 4-byte fields, because the usual lock-and-count fast path of an operating system is exactly that (an 8-byte whole over two 4-byte members).
+**9.13.3** `CAS` operates on 4 bytes (the mark `.32` on the address, `CAS Rs, (Ra).32, Rd`) or 8 bytes (no mark), and every atomic has the register fields of 7.4.6 and the address `(Ra)` with no offset, `CAS Rs, (Ra), Rd` with the expected and the old value in `Rd` (`LL` has two operands, `LL (Ra), Rd`); an aligned 8-byte compare-and-swap may cover two adjacent 4-byte fields, because the usual lock-and-count fast path of an operating system is exactly that (an 8-byte whole over two 4-byte members).
 
 *Commentary.* The official entry of each instruction is below, in this section; chapter 7 gives the reasons, the memory model and the use. **Impact.** *Kernel:* the entries below are all a kernel needs to write its locks; chapter 7 explains how they compose. *Compiler:* a lock acquire is one instruction. *Hardware:* a reservation monitor beside the data cache.
 
 <!-- entries:9.13 -->
 ### CAS: Compare and swap
 
-**Mnemonics:** `CAS`, `CASL`
+**Mnemonics:** `CAS`
 
 **Syntax**
 
 ```
 CAS Rs, (Ra), Rd        ; three registers, the destination last: Rd holds the expected value going in and the old value coming out, Rs the new value, Ra the address (no offset); 8 bytes
-CASL ...                ; the same on 4 bytes
+CAS Rs, (Ra).32, Rd     ; the same on 4 bytes: the mark .32 on the address
 ```
 
 **Encoding**
@@ -5920,8 +5686,8 @@ The chart is the leaf `ATOM-1`, ATOM, prefix `110100110100`. `op1` is `reg5`: re
 **Operation**
 
 ```
-old ← M[Ra]                              ; 8 bytes (4 for CASL), naturally aligned, ordinary cached memory
-if old = Rd then M[Ra] ← Rs                  ; CASL compares and writes the low 4 bytes of Rd and Rs
+old ← M[Ra]                              ; 8 bytes (4 with the mark .32), naturally aligned, ordinary cached memory
+if old = Rd then M[Ra] ← Rs                  ; with .32 it compares and writes the low 4 bytes of Rd and Rs
 Rd ← old              ; the program compares Rd with the value it expected to learn whether the swap happened
 ```
 
@@ -5940,31 +5706,28 @@ The sub-opcodes and the semantics of this group are specified.
 
 ```
 CAS Rs, (Ra), Rd
+CAS Rs, (Ra).32, Rd
 ```
 
 Operation and exceptions as for the entry CAS above; 1 layout form, each a chart of its own (above).
 
 <a id="w-casl"></a>
-#### CASL
+#### CAS with `.32`
 
 ![CASL: ATOM, prefix 110100110100, sub-opcode 00001; operands reg5, b5d0s-x1, reg5; 4 bytes](figures/w/casl/01.svg)
-
-```
-CASL ...
-```
 
 Operation and exceptions as for the entry CAS above; 1 layout form, each a chart of its own (above).
 
 
 ### SWAP: Atomic exchange
 
-**Mnemonics:** `SWAP`, `SWAPL`
+**Mnemonics:** `SWAP`
 
 **Syntax**
 
 ```
 SWAP Rs, (Ra), Rd        ; Ra the address (no offset), Rs the value, Rd the old value
-SWAPL ...                ; 4 bytes
+SWAP Rs, (Ra).32, Rd     ; 4 bytes
 ```
 
 **Encoding**
@@ -5978,7 +5741,7 @@ The chart is the leaf `ATOM-1`, ATOM, prefix `110100110100`. `op1` is `reg5`: re
 **Operation**
 
 ```
-old ← M[Ra] ; M[Ra] ← Rs ; Rd ← old       ; 8 bytes (4 for SWAPL)
+old ← M[Ra] ; M[Ra] ← Rs ; Rd ← old       ; 8 bytes (4 with the mark .32)
 ```
 
 **Exceptions** All precise: nothing has changed, `EPC` is the instruction and `EVA` the address. An address that is not naturally aligned for the size takes the misalignment fault (no atomic is ever split over two words, two blocks or two pages, so nothing takes the bus for it). Memory that is not ordinary cached memory (uncached memory, a device's registers) takes the store protection fault. A page that is not present, or cannot be written, takes the fault of a store: an atomic reads and writes, and `LL` and `SC` check the access as a store too. The access is atomic with respect to every initiator, cores and devices alike.
@@ -5996,31 +5759,28 @@ The sub-opcodes and the semantics of this group are specified.
 
 ```
 SWAP Rs, (Ra), Rd
+SWAP Rs, (Ra).32, Rd
 ```
 
 Operation and exceptions as for the entry SWAP above; 1 layout form, each a chart of its own (above).
 
 <a id="w-swapl"></a>
-#### SWAPL
+#### SWAP with `.32`
 
 ![SWAPL: ATOM, prefix 110100110100, sub-opcode 00011; operands reg5, b5d0s-x1, reg5; 4 bytes](figures/w/swapl/01.svg)
-
-```
-SWAPL ...
-```
 
 Operation and exceptions as for the entry SWAP above; 1 layout form, each a chart of its own (above).
 
 
 ### AADD: Atomic fetch and add
 
-**Mnemonics:** `AADD`, `AADDL`
+**Mnemonics:** `AADD`
 
 **Syntax**
 
 ```
 AADD Rs, (Ra), Rd        ; Ra the address (no offset), Rs the operand, Rd the old value; 8 bytes
-AADDL ...                ; 4 bytes
+AADD Rs, (Ra).32, Rd     ; 4 bytes
 ```
 
 **Encoding**
@@ -6034,7 +5794,7 @@ The chart is the leaf `ATOM-1`, ATOM, prefix `110100110100`. `op1` is `reg5`: re
 **Operation**
 
 ```
-old ← M[Ra] ; M[Ra] ← old + Rs ; Rd ← old     ; 8 bytes (4 for AADDL; the sum wraps in 4 bytes)
+old ← M[Ra] ; M[Ra] ← old + Rs ; Rd ← old     ; 8 bytes (4 with the mark .32; the sum wraps in 4 bytes)
 ```
 
 **Exceptions** All precise: nothing has changed, `EPC` is the instruction and `EVA` the address. An address that is not naturally aligned for the size takes the misalignment fault (no atomic is ever split over two words, two blocks or two pages, so nothing takes the bus for it). Memory that is not ordinary cached memory (uncached memory, a device's registers) takes the store protection fault. A page that is not present, or cannot be written, takes the fault of a store: an atomic reads and writes, and `LL` and `SC` check the access as a store too. The access is atomic with respect to every initiator, cores and devices alike.
@@ -6052,25 +5812,22 @@ The sub-opcodes and the semantics of this group are specified.
 
 ```
 AADD Rs, (Ra), Rd
+AADD Rs, (Ra).32, Rd
 ```
 
 Operation and exceptions as for the entry AADD above; 1 layout form, each a chart of its own (above).
 
 <a id="w-aaddl"></a>
-#### AADDL
+#### AADD with `.32`
 
 ![AADDL: ATOM, prefix 110100110100, sub-opcode 00101; operands reg5, b5d0s-x1, reg5; 4 bytes](figures/w/aaddl/01.svg)
-
-```
-AADDL ...
-```
 
 Operation and exceptions as for the entry AADD above; 1 layout form, each a chart of its own (above).
 
 
 ### AAND: Atomic fetch and and, bit set (or), xor
 
-**Mnemonics:** `AAND`, `AANDL`, `ABIS`, `ABISL`, `AXOR`, `AXORL`
+**Mnemonics:** `AAND`, `ABIS`, `AXOR`
 
 **Syntax**
 
@@ -6078,7 +5835,7 @@ Operation and exceptions as for the entry AADD above; 1 layout form, each a char
 AAND Rs, (Ra), Rd
 ABIS Rs, (Ra), Rd        ; the machine's own BIS, bit set, the inclusive or
 AXOR Rs, (Ra), Rd
-each with an L form (AANDL, ABISL, AXORL: 4 bytes)
+each with the mark .32 on the address for 4 bytes: AAND Rs, (Ra).32, Rd
 ```
 
 **Encoding**
@@ -6119,7 +5876,7 @@ AAND Rs, (Ra), Rd
 Operation and exceptions as for the entry AAND above; 1 layout form, each a chart of its own (above).
 
 <a id="w-aandl"></a>
-#### AANDL
+#### AAND with `.32`
 
 ![AANDL: ATOM, prefix 110100110100, sub-opcode 00111; operands reg5, b5d0s-x1, reg5; 4 bytes](figures/w/aandl/01.svg)
 
@@ -6137,7 +5894,7 @@ ABIS Rs, (Ra), Rd
 Operation and exceptions as for the entry AAND above; 1 layout form, each a chart of its own (above).
 
 <a id="w-abisl"></a>
-#### ABISL
+#### ABIS with `.32`
 
 ![ABISL: ATOM, prefix 110100110100, sub-opcode 01001; operands reg5, b5d0s-x1, reg5; 4 bytes](figures/w/abisl/01.svg)
 
@@ -6155,7 +5912,7 @@ AXOR Rs, (Ra), Rd
 Operation and exceptions as for the entry AAND above; 1 layout form, each a chart of its own (above).
 
 <a id="w-axorl"></a>
-#### AXORL
+#### AXOR with `.32`
 
 ![AXORL: ATOM, prefix 110100110100, sub-opcode 01011; operands reg5, b5d0s-x1, reg5; 4 bytes](figures/w/axorl/01.svg)
 
@@ -6164,14 +5921,14 @@ Operation and exceptions as for the entry AAND above; 1 layout form, each a char
 
 ### AMAX: Atomic fetch and minimum or maximum
 
-**Mnemonics:** `AMAX`, `AMAXL`, `AMIN`, `AMINL`, `AMAXU`, `AMAXUL`, `AMINU`, `AMINUL`
+**Mnemonics:** `AMAX`, `AMIN`, `AMAXU`, `AMINU`
 
 **Syntax**
 
 ```
 AMAX Rs, (Ra), Rd
 AMIN ..., AMAXU ..., AMINU ...
-each with an L form (AMAXL, AMAXUL, AMINL, AMINUL: 4 bytes)
+each with the mark .32 on the address for 4 bytes: AMAXU Rs, (Ra).32, Rd
 ```
 
 **Encoding**
@@ -6209,7 +5966,7 @@ AMAX Rs, (Ra), Rd
 Operation and exceptions as for the entry AMAX above; 1 layout form, each a chart of its own (above).
 
 <a id="w-amaxl"></a>
-#### AMAXL
+#### AMAX with `.32`
 
 ![AMAXL: ATOM, prefix 110100110100, sub-opcode 01101; operands reg5, b5d0s-x1, reg5; 4 bytes](figures/w/amaxl/01.svg)
 
@@ -6227,7 +5984,7 @@ AMIN ..., AMAXU ..., AMINU ...
 Operation and exceptions as for the entry AMAX above; 1 layout form, each a chart of its own (above).
 
 <a id="w-aminl"></a>
-#### AMINL
+#### AMIN with `.32`
 
 ![AMINL: ATOM, prefix 110100110100, sub-opcode 01111; operands reg5, b5d0s-x1, reg5; 4 bytes](figures/w/aminl/01.svg)
 
@@ -6241,7 +5998,7 @@ Operation and exceptions as for the entry AMAX above; 1 layout form, each a char
 Operation and exceptions as for the entry AMAX above; 1 layout form, each a chart of its own (above).
 
 <a id="w-amaxul"></a>
-#### AMAXUL
+#### AMAXU with `.32`
 
 ![AMAXUL: ATOM, prefix 110100110100, sub-opcode 10001; operands reg5, b5d0s-x1, reg5; 4 bytes](figures/w/amaxul/01.svg)
 
@@ -6255,7 +6012,7 @@ Operation and exceptions as for the entry AMAX above; 1 layout form, each a char
 Operation and exceptions as for the entry AMAX above; 1 layout form, each a chart of its own (above).
 
 <a id="w-aminul"></a>
-#### AMINUL
+#### AMINU with `.32`
 
 ![AMINUL: ATOM, prefix 110100110100, sub-opcode 10011; operands reg5, b5d0s-x1, reg5; 4 bytes](figures/w/aminul/01.svg)
 
@@ -6264,15 +6021,15 @@ Operation and exceptions as for the entry AMAX above; 1 layout form, each a char
 
 ### LLSC: Load-linked and store-conditional
 
-**Mnemonics:** `LL`, `LLL`, `SC`, `SCL`
+**Mnemonics:** `LL`, `SC`
 
 **Syntax**
 
 ```
 LL (Ra), Rd        ; 8 bytes
-LLL (Ra), Rd       ; 4 bytes
+LL (Ra).32, Rd     ; 4 bytes
 SC Rs, (Ra), Rd    ; 8 bytes
-SCL Rs, (Ra), Rd   ; 4 bytes
+SC Rs, (Ra).32, Rd ; 4 bytes
 ```
 
 **Encoding**
@@ -6310,18 +6067,15 @@ A short `LL`/`SC` sequence must eventually succeed if no other initiator keeps w
 
 ```
 LL (Ra), Rd
+LL (Ra).32, Rd
 ```
 
 Operation and exceptions as for the entry LLSC above; 1 layout form, each a chart of its own (above).
 
 <a id="w-lll"></a>
-#### LLL
+#### LL with `.32`
 
 ![LLL: ATOML, prefix 1101001011111001, sub-opcode 000001; operands b5d0s-x1, reg5; 4 bytes](figures/w/lll/01.svg)
-
-```
-LLL (Ra), Rd
-```
 
 Operation and exceptions as for the entry LLSC above; 1 layout form, each a chart of its own (above).
 
@@ -6332,18 +6086,15 @@ Operation and exceptions as for the entry LLSC above; 1 layout form, each a char
 
 ```
 SC Rs, (Ra), Rd
+SC Rs, (Ra).32, Rd
 ```
 
 Operation and exceptions as for the entry LLSC above; 1 layout form, each a chart of its own (above).
 
 <a id="w-scl"></a>
-#### SCL
+#### SC with `.32`
 
 ![SCL: ATOM, prefix 110100110100, sub-opcode 10101; operands reg5, b5d0s-x1, reg5; 4 bytes](figures/w/scl/01.svg)
-
-```
-SCL Rs, (Ra), Rd
-```
 
 Operation and exceptions as for the entry LLSC above; 1 layout form, each a chart of its own (above).
 <!-- /entries:9.13 -->
@@ -7567,7 +7318,7 @@ The two-bound check, for an index whose lower bound is not zero (the Pascal and 
 
 **9.18.2** The VAX's counted-string instructions are largely present: `MOVC3` is `MCPY`, `CMPC3` is `MCMP`, `LOCC` is `MSCN`, `SKPC` is `MSCNN`, and `MOVC5` is `MCPY` plus `MSET`. Table-translated move, table scans and substring search are absent because a per-byte table lookup stops a block operation from streaming.
 
-**9.18.3** Deliberately lost, with their replacements: memory-to-memory `MOV` (replaced by `MCPY`); autoincrement-deferred and the dispatch-table idiom (replaced by `JTAG` for tag dispatch and a scaled-index `JMP` for the rest); `JSR Rn` and `RTS Rn` with inline arguments and cheap coroutines (replaced by `CALL` and `RET` with the return address on the stack where every unwinder and debugger expects it); the VAX `CASE` and `INDEX` instructions (replaced by a compare, branch and scaled `JMP`); byte and word ALU operations (`MOVZB`, the operation, `MOVB`: three instructions where the PDP-11 had one); and the flag set and clear instructions, which a machine with no flags has no use for.
+**9.18.3** Deliberately lost, with their replacements: memory-to-memory `MOV` (replaced by `MCPY`); autoincrement-deferred and the dispatch-table idiom (replaced by `JTAG` for tag dispatch and a scaled-index `JMP` for the rest); `JSR Rn` and `RTS Rn` with inline arguments and cheap coroutines (replaced by `CALL` and `RET` with the return address on the stack where every unwinder and debugger expects it); the VAX `CASE` and `INDEX` instructions (replaced by a compare, branch and scaled `JMP`); byte and word ALU operations (a zero-extending byte load, the operation, a byte store: three instructions where the PDP-11 had one); and the flag set and clear instructions, which a machine with no flags has no use for.
 
 **9.18.4** Subsumed, so not losses: `SXT` (the conversion moves), `SWAB` (`BSWAP`), `MARK` (the convention it served is gone), `ASH` and `ASHC` (the shifts take a register count), `MFPI` and `MTPI` (`PROBER` with the previous-mode bits and the user-memory guard), `MULU` (identical to `MUL` in the low half), and `ROL` (an assembler alias for `ROR`).
 

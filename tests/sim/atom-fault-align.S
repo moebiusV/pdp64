@@ -18,7 +18,7 @@ kfill:	movq	r2, (r1)+
 
 	movq	=(0x1111111111111111), r1
 	movq	=(0x2222222222222222), r2
-	; ---- case 1: cas at +4
+		; ---- case 1: cas at +4
 	lea	buf+20, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -41,75 +41,75 @@ I1:
 	cas	r2, (r3), r1
 N1:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 1: cas at +4: one exception
+	cbeq	r4, r17, 1f		; case 1: cas at +4: one exception
 	movq	#1, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 1: cas at +4: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 1: cas at +4: it is the misalignment fault
 	movq	#1, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+20, r5
-	cbeq	r4, r5, 1f	; case 1: cas at +4: EVA is the address
+	cbeq	r4, r5, 1f		; case 1: cas at +4: EVA is the address
 	movq	#1, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I1, r5
-	cbeq	r4, r5, 1f	; case 1: cas at +4: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 1: cas at +4: EPC is the instruction (precise)
 	movq	#1, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 1: cas at +4: Rd unchanged
+	cbeq	r1, r17, 1f		; case 1: cas at +4: Rd unchanged
 	movq	#1, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 1: cas at +4: Rs unchanged
+	cbeq	r2, r17, 1f		; case 1: cas at +4: Rs unchanged
 	movq	#1, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 1: cas at +4: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 1: cas at +4: the memory around is untouched (-16)
 	movq	#1, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 1: cas at +4: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 1: cas at +4: the memory around is untouched (-8)
 	movq	#1, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 1: cas at +4: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 1: cas at +4: the memory around is untouched (0)
 	movq	#1, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 1: cas at +4: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 1: cas at +4: the memory around is untouched (8)
 	movq	#1, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 1: cas at +4: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 1: cas at +4: the memory around is untouched (16)
 	movq	#1, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 1: cas at +4: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 1: cas at +4: the memory around is untouched (24)
 	movq	#1, r0
 	halt
 1:
-	; ---- case 2: cas at +1
+		; ---- case 2: cas at +1
 	lea	buf+17, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -132,75 +132,75 @@ I2:
 	cas	r2, (r3), r1
 N2:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 2: cas at +1: one exception
+	cbeq	r4, r17, 1f		; case 2: cas at +1: one exception
 	movq	#2, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 2: cas at +1: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 2: cas at +1: it is the misalignment fault
 	movq	#2, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+17, r5
-	cbeq	r4, r5, 1f	; case 2: cas at +1: EVA is the address
+	cbeq	r4, r5, 1f		; case 2: cas at +1: EVA is the address
 	movq	#2, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I2, r5
-	cbeq	r4, r5, 1f	; case 2: cas at +1: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 2: cas at +1: EPC is the instruction (precise)
 	movq	#2, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 2: cas at +1: Rd unchanged
+	cbeq	r1, r17, 1f		; case 2: cas at +1: Rd unchanged
 	movq	#2, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 2: cas at +1: Rs unchanged
+	cbeq	r2, r17, 1f		; case 2: cas at +1: Rs unchanged
 	movq	#2, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 2: cas at +1: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 2: cas at +1: the memory around is untouched (-16)
 	movq	#2, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 2: cas at +1: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 2: cas at +1: the memory around is untouched (-8)
 	movq	#2, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 2: cas at +1: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 2: cas at +1: the memory around is untouched (0)
 	movq	#2, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 2: cas at +1: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 2: cas at +1: the memory around is untouched (8)
 	movq	#2, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 2: cas at +1: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 2: cas at +1: the memory around is untouched (16)
 	movq	#2, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 2: cas at +1: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 2: cas at +1: the memory around is untouched (24)
 	movq	#2, r0
 	halt
 1:
-	; ---- case 3: cas at +7
+		; ---- case 3: cas at +7
 	lea	buf+23, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -223,75 +223,75 @@ I3:
 	cas	r2, (r3), r1
 N3:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 3: cas at +7: one exception
+	cbeq	r4, r17, 1f		; case 3: cas at +7: one exception
 	movq	#3, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 3: cas at +7: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 3: cas at +7: it is the misalignment fault
 	movq	#3, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+23, r5
-	cbeq	r4, r5, 1f	; case 3: cas at +7: EVA is the address
+	cbeq	r4, r5, 1f		; case 3: cas at +7: EVA is the address
 	movq	#3, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I3, r5
-	cbeq	r4, r5, 1f	; case 3: cas at +7: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 3: cas at +7: EPC is the instruction (precise)
 	movq	#3, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 3: cas at +7: Rd unchanged
+	cbeq	r1, r17, 1f		; case 3: cas at +7: Rd unchanged
 	movq	#3, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 3: cas at +7: Rs unchanged
+	cbeq	r2, r17, 1f		; case 3: cas at +7: Rs unchanged
 	movq	#3, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 3: cas at +7: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 3: cas at +7: the memory around is untouched (-16)
 	movq	#3, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 3: cas at +7: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 3: cas at +7: the memory around is untouched (-8)
 	movq	#3, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 3: cas at +7: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 3: cas at +7: the memory around is untouched (0)
 	movq	#3, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 3: cas at +7: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 3: cas at +7: the memory around is untouched (8)
 	movq	#3, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 3: cas at +7: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 3: cas at +7: the memory around is untouched (16)
 	movq	#3, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 3: cas at +7: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 3: cas at +7: the memory around is untouched (24)
 	movq	#3, r0
 	halt
 1:
-	; ---- case 4: swap at +4
+		; ---- case 4: swap at +4
 	lea	buf+20, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -314,75 +314,75 @@ I4:
 	swap	r2, (r3), r1
 N4:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 4: swap at +4: one exception
+	cbeq	r4, r17, 1f		; case 4: swap at +4: one exception
 	movq	#4, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 4: swap at +4: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 4: swap at +4: it is the misalignment fault
 	movq	#4, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+20, r5
-	cbeq	r4, r5, 1f	; case 4: swap at +4: EVA is the address
+	cbeq	r4, r5, 1f		; case 4: swap at +4: EVA is the address
 	movq	#4, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I4, r5
-	cbeq	r4, r5, 1f	; case 4: swap at +4: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 4: swap at +4: EPC is the instruction (precise)
 	movq	#4, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 4: swap at +4: Rd unchanged
+	cbeq	r1, r17, 1f		; case 4: swap at +4: Rd unchanged
 	movq	#4, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 4: swap at +4: Rs unchanged
+	cbeq	r2, r17, 1f		; case 4: swap at +4: Rs unchanged
 	movq	#4, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 4: swap at +4: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 4: swap at +4: the memory around is untouched (-16)
 	movq	#4, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 4: swap at +4: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 4: swap at +4: the memory around is untouched (-8)
 	movq	#4, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 4: swap at +4: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 4: swap at +4: the memory around is untouched (0)
 	movq	#4, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 4: swap at +4: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 4: swap at +4: the memory around is untouched (8)
 	movq	#4, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 4: swap at +4: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 4: swap at +4: the memory around is untouched (16)
 	movq	#4, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 4: swap at +4: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 4: swap at +4: the memory around is untouched (24)
 	movq	#4, r0
 	halt
 1:
-	; ---- case 5: swap at +1
+		; ---- case 5: swap at +1
 	lea	buf+17, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -405,75 +405,75 @@ I5:
 	swap	r2, (r3), r1
 N5:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 5: swap at +1: one exception
+	cbeq	r4, r17, 1f		; case 5: swap at +1: one exception
 	movq	#5, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 5: swap at +1: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 5: swap at +1: it is the misalignment fault
 	movq	#5, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+17, r5
-	cbeq	r4, r5, 1f	; case 5: swap at +1: EVA is the address
+	cbeq	r4, r5, 1f		; case 5: swap at +1: EVA is the address
 	movq	#5, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I5, r5
-	cbeq	r4, r5, 1f	; case 5: swap at +1: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 5: swap at +1: EPC is the instruction (precise)
 	movq	#5, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 5: swap at +1: Rd unchanged
+	cbeq	r1, r17, 1f		; case 5: swap at +1: Rd unchanged
 	movq	#5, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 5: swap at +1: Rs unchanged
+	cbeq	r2, r17, 1f		; case 5: swap at +1: Rs unchanged
 	movq	#5, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 5: swap at +1: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 5: swap at +1: the memory around is untouched (-16)
 	movq	#5, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 5: swap at +1: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 5: swap at +1: the memory around is untouched (-8)
 	movq	#5, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 5: swap at +1: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 5: swap at +1: the memory around is untouched (0)
 	movq	#5, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 5: swap at +1: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 5: swap at +1: the memory around is untouched (8)
 	movq	#5, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 5: swap at +1: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 5: swap at +1: the memory around is untouched (16)
 	movq	#5, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 5: swap at +1: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 5: swap at +1: the memory around is untouched (24)
 	movq	#5, r0
 	halt
 1:
-	; ---- case 6: swap at +7
+		; ---- case 6: swap at +7
 	lea	buf+23, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -496,75 +496,75 @@ I6:
 	swap	r2, (r3), r1
 N6:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 6: swap at +7: one exception
+	cbeq	r4, r17, 1f		; case 6: swap at +7: one exception
 	movq	#6, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 6: swap at +7: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 6: swap at +7: it is the misalignment fault
 	movq	#6, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+23, r5
-	cbeq	r4, r5, 1f	; case 6: swap at +7: EVA is the address
+	cbeq	r4, r5, 1f		; case 6: swap at +7: EVA is the address
 	movq	#6, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I6, r5
-	cbeq	r4, r5, 1f	; case 6: swap at +7: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 6: swap at +7: EPC is the instruction (precise)
 	movq	#6, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 6: swap at +7: Rd unchanged
+	cbeq	r1, r17, 1f		; case 6: swap at +7: Rd unchanged
 	movq	#6, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 6: swap at +7: Rs unchanged
+	cbeq	r2, r17, 1f		; case 6: swap at +7: Rs unchanged
 	movq	#6, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 6: swap at +7: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 6: swap at +7: the memory around is untouched (-16)
 	movq	#6, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 6: swap at +7: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 6: swap at +7: the memory around is untouched (-8)
 	movq	#6, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 6: swap at +7: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 6: swap at +7: the memory around is untouched (0)
 	movq	#6, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 6: swap at +7: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 6: swap at +7: the memory around is untouched (8)
 	movq	#6, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 6: swap at +7: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 6: swap at +7: the memory around is untouched (16)
 	movq	#6, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 6: swap at +7: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 6: swap at +7: the memory around is untouched (24)
 	movq	#6, r0
 	halt
 1:
-	; ---- case 7: aadd at +4
+		; ---- case 7: aadd at +4
 	lea	buf+20, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -587,75 +587,75 @@ I7:
 	aadd	r2, (r3), r1
 N7:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 7: aadd at +4: one exception
+	cbeq	r4, r17, 1f		; case 7: aadd at +4: one exception
 	movq	#7, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 7: aadd at +4: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 7: aadd at +4: it is the misalignment fault
 	movq	#7, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+20, r5
-	cbeq	r4, r5, 1f	; case 7: aadd at +4: EVA is the address
+	cbeq	r4, r5, 1f		; case 7: aadd at +4: EVA is the address
 	movq	#7, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I7, r5
-	cbeq	r4, r5, 1f	; case 7: aadd at +4: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 7: aadd at +4: EPC is the instruction (precise)
 	movq	#7, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 7: aadd at +4: Rd unchanged
+	cbeq	r1, r17, 1f		; case 7: aadd at +4: Rd unchanged
 	movq	#7, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 7: aadd at +4: Rs unchanged
+	cbeq	r2, r17, 1f		; case 7: aadd at +4: Rs unchanged
 	movq	#7, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 7: aadd at +4: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 7: aadd at +4: the memory around is untouched (-16)
 	movq	#7, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 7: aadd at +4: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 7: aadd at +4: the memory around is untouched (-8)
 	movq	#7, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 7: aadd at +4: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 7: aadd at +4: the memory around is untouched (0)
 	movq	#7, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 7: aadd at +4: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 7: aadd at +4: the memory around is untouched (8)
 	movq	#7, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 7: aadd at +4: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 7: aadd at +4: the memory around is untouched (16)
 	movq	#7, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 7: aadd at +4: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 7: aadd at +4: the memory around is untouched (24)
 	movq	#7, r0
 	halt
 1:
-	; ---- case 8: aadd at +1
+		; ---- case 8: aadd at +1
 	lea	buf+17, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -678,75 +678,75 @@ I8:
 	aadd	r2, (r3), r1
 N8:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 8: aadd at +1: one exception
+	cbeq	r4, r17, 1f		; case 8: aadd at +1: one exception
 	movq	#8, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 8: aadd at +1: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 8: aadd at +1: it is the misalignment fault
 	movq	#8, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+17, r5
-	cbeq	r4, r5, 1f	; case 8: aadd at +1: EVA is the address
+	cbeq	r4, r5, 1f		; case 8: aadd at +1: EVA is the address
 	movq	#8, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I8, r5
-	cbeq	r4, r5, 1f	; case 8: aadd at +1: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 8: aadd at +1: EPC is the instruction (precise)
 	movq	#8, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 8: aadd at +1: Rd unchanged
+	cbeq	r1, r17, 1f		; case 8: aadd at +1: Rd unchanged
 	movq	#8, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 8: aadd at +1: Rs unchanged
+	cbeq	r2, r17, 1f		; case 8: aadd at +1: Rs unchanged
 	movq	#8, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 8: aadd at +1: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 8: aadd at +1: the memory around is untouched (-16)
 	movq	#8, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 8: aadd at +1: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 8: aadd at +1: the memory around is untouched (-8)
 	movq	#8, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 8: aadd at +1: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 8: aadd at +1: the memory around is untouched (0)
 	movq	#8, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 8: aadd at +1: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 8: aadd at +1: the memory around is untouched (8)
 	movq	#8, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 8: aadd at +1: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 8: aadd at +1: the memory around is untouched (16)
 	movq	#8, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 8: aadd at +1: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 8: aadd at +1: the memory around is untouched (24)
 	movq	#8, r0
 	halt
 1:
-	; ---- case 9: aadd at +7
+		; ---- case 9: aadd at +7
 	lea	buf+23, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -769,75 +769,75 @@ I9:
 	aadd	r2, (r3), r1
 N9:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 9: aadd at +7: one exception
+	cbeq	r4, r17, 1f		; case 9: aadd at +7: one exception
 	movq	#9, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 9: aadd at +7: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 9: aadd at +7: it is the misalignment fault
 	movq	#9, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+23, r5
-	cbeq	r4, r5, 1f	; case 9: aadd at +7: EVA is the address
+	cbeq	r4, r5, 1f		; case 9: aadd at +7: EVA is the address
 	movq	#9, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I9, r5
-	cbeq	r4, r5, 1f	; case 9: aadd at +7: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 9: aadd at +7: EPC is the instruction (precise)
 	movq	#9, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 9: aadd at +7: Rd unchanged
+	cbeq	r1, r17, 1f		; case 9: aadd at +7: Rd unchanged
 	movq	#9, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 9: aadd at +7: Rs unchanged
+	cbeq	r2, r17, 1f		; case 9: aadd at +7: Rs unchanged
 	movq	#9, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 9: aadd at +7: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 9: aadd at +7: the memory around is untouched (-16)
 	movq	#9, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 9: aadd at +7: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 9: aadd at +7: the memory around is untouched (-8)
 	movq	#9, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 9: aadd at +7: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 9: aadd at +7: the memory around is untouched (0)
 	movq	#9, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 9: aadd at +7: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 9: aadd at +7: the memory around is untouched (8)
 	movq	#9, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 9: aadd at +7: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 9: aadd at +7: the memory around is untouched (16)
 	movq	#9, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 9: aadd at +7: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 9: aadd at +7: the memory around is untouched (24)
 	movq	#9, r0
 	halt
 1:
-	; ---- case 10: aand at +4
+		; ---- case 10: aand at +4
 	lea	buf+20, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -860,75 +860,75 @@ I10:
 	aand	r2, (r3), r1
 N10:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 10: aand at +4: one exception
+	cbeq	r4, r17, 1f		; case 10: aand at +4: one exception
 	movq	#10, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 10: aand at +4: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 10: aand at +4: it is the misalignment fault
 	movq	#10, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+20, r5
-	cbeq	r4, r5, 1f	; case 10: aand at +4: EVA is the address
+	cbeq	r4, r5, 1f		; case 10: aand at +4: EVA is the address
 	movq	#10, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I10, r5
-	cbeq	r4, r5, 1f	; case 10: aand at +4: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 10: aand at +4: EPC is the instruction (precise)
 	movq	#10, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 10: aand at +4: Rd unchanged
+	cbeq	r1, r17, 1f		; case 10: aand at +4: Rd unchanged
 	movq	#10, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 10: aand at +4: Rs unchanged
+	cbeq	r2, r17, 1f		; case 10: aand at +4: Rs unchanged
 	movq	#10, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 10: aand at +4: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 10: aand at +4: the memory around is untouched (-16)
 	movq	#10, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 10: aand at +4: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 10: aand at +4: the memory around is untouched (-8)
 	movq	#10, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 10: aand at +4: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 10: aand at +4: the memory around is untouched (0)
 	movq	#10, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 10: aand at +4: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 10: aand at +4: the memory around is untouched (8)
 	movq	#10, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 10: aand at +4: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 10: aand at +4: the memory around is untouched (16)
 	movq	#10, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 10: aand at +4: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 10: aand at +4: the memory around is untouched (24)
 	movq	#10, r0
 	halt
 1:
-	; ---- case 11: aand at +1
+		; ---- case 11: aand at +1
 	lea	buf+17, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -951,75 +951,75 @@ I11:
 	aand	r2, (r3), r1
 N11:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 11: aand at +1: one exception
+	cbeq	r4, r17, 1f		; case 11: aand at +1: one exception
 	movq	#11, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 11: aand at +1: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 11: aand at +1: it is the misalignment fault
 	movq	#11, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+17, r5
-	cbeq	r4, r5, 1f	; case 11: aand at +1: EVA is the address
+	cbeq	r4, r5, 1f		; case 11: aand at +1: EVA is the address
 	movq	#11, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I11, r5
-	cbeq	r4, r5, 1f	; case 11: aand at +1: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 11: aand at +1: EPC is the instruction (precise)
 	movq	#11, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 11: aand at +1: Rd unchanged
+	cbeq	r1, r17, 1f		; case 11: aand at +1: Rd unchanged
 	movq	#11, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 11: aand at +1: Rs unchanged
+	cbeq	r2, r17, 1f		; case 11: aand at +1: Rs unchanged
 	movq	#11, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 11: aand at +1: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 11: aand at +1: the memory around is untouched (-16)
 	movq	#11, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 11: aand at +1: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 11: aand at +1: the memory around is untouched (-8)
 	movq	#11, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 11: aand at +1: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 11: aand at +1: the memory around is untouched (0)
 	movq	#11, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 11: aand at +1: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 11: aand at +1: the memory around is untouched (8)
 	movq	#11, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 11: aand at +1: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 11: aand at +1: the memory around is untouched (16)
 	movq	#11, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 11: aand at +1: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 11: aand at +1: the memory around is untouched (24)
 	movq	#11, r0
 	halt
 1:
-	; ---- case 12: aand at +7
+		; ---- case 12: aand at +7
 	lea	buf+23, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -1042,75 +1042,75 @@ I12:
 	aand	r2, (r3), r1
 N12:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 12: aand at +7: one exception
+	cbeq	r4, r17, 1f		; case 12: aand at +7: one exception
 	movq	#12, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 12: aand at +7: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 12: aand at +7: it is the misalignment fault
 	movq	#12, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+23, r5
-	cbeq	r4, r5, 1f	; case 12: aand at +7: EVA is the address
+	cbeq	r4, r5, 1f		; case 12: aand at +7: EVA is the address
 	movq	#12, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I12, r5
-	cbeq	r4, r5, 1f	; case 12: aand at +7: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 12: aand at +7: EPC is the instruction (precise)
 	movq	#12, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 12: aand at +7: Rd unchanged
+	cbeq	r1, r17, 1f		; case 12: aand at +7: Rd unchanged
 	movq	#12, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 12: aand at +7: Rs unchanged
+	cbeq	r2, r17, 1f		; case 12: aand at +7: Rs unchanged
 	movq	#12, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 12: aand at +7: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 12: aand at +7: the memory around is untouched (-16)
 	movq	#12, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 12: aand at +7: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 12: aand at +7: the memory around is untouched (-8)
 	movq	#12, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 12: aand at +7: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 12: aand at +7: the memory around is untouched (0)
 	movq	#12, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 12: aand at +7: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 12: aand at +7: the memory around is untouched (8)
 	movq	#12, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 12: aand at +7: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 12: aand at +7: the memory around is untouched (16)
 	movq	#12, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 12: aand at +7: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 12: aand at +7: the memory around is untouched (24)
 	movq	#12, r0
 	halt
 1:
-	; ---- case 13: abis at +4
+		; ---- case 13: abis at +4
 	lea	buf+20, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -1133,75 +1133,75 @@ I13:
 	abis	r2, (r3), r1
 N13:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 13: abis at +4: one exception
+	cbeq	r4, r17, 1f		; case 13: abis at +4: one exception
 	movq	#13, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 13: abis at +4: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 13: abis at +4: it is the misalignment fault
 	movq	#13, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+20, r5
-	cbeq	r4, r5, 1f	; case 13: abis at +4: EVA is the address
+	cbeq	r4, r5, 1f		; case 13: abis at +4: EVA is the address
 	movq	#13, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I13, r5
-	cbeq	r4, r5, 1f	; case 13: abis at +4: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 13: abis at +4: EPC is the instruction (precise)
 	movq	#13, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 13: abis at +4: Rd unchanged
+	cbeq	r1, r17, 1f		; case 13: abis at +4: Rd unchanged
 	movq	#13, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 13: abis at +4: Rs unchanged
+	cbeq	r2, r17, 1f		; case 13: abis at +4: Rs unchanged
 	movq	#13, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 13: abis at +4: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 13: abis at +4: the memory around is untouched (-16)
 	movq	#13, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 13: abis at +4: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 13: abis at +4: the memory around is untouched (-8)
 	movq	#13, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 13: abis at +4: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 13: abis at +4: the memory around is untouched (0)
 	movq	#13, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 13: abis at +4: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 13: abis at +4: the memory around is untouched (8)
 	movq	#13, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 13: abis at +4: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 13: abis at +4: the memory around is untouched (16)
 	movq	#13, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 13: abis at +4: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 13: abis at +4: the memory around is untouched (24)
 	movq	#13, r0
 	halt
 1:
-	; ---- case 14: abis at +1
+		; ---- case 14: abis at +1
 	lea	buf+17, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -1224,75 +1224,75 @@ I14:
 	abis	r2, (r3), r1
 N14:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 14: abis at +1: one exception
+	cbeq	r4, r17, 1f		; case 14: abis at +1: one exception
 	movq	#14, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 14: abis at +1: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 14: abis at +1: it is the misalignment fault
 	movq	#14, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+17, r5
-	cbeq	r4, r5, 1f	; case 14: abis at +1: EVA is the address
+	cbeq	r4, r5, 1f		; case 14: abis at +1: EVA is the address
 	movq	#14, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I14, r5
-	cbeq	r4, r5, 1f	; case 14: abis at +1: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 14: abis at +1: EPC is the instruction (precise)
 	movq	#14, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 14: abis at +1: Rd unchanged
+	cbeq	r1, r17, 1f		; case 14: abis at +1: Rd unchanged
 	movq	#14, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 14: abis at +1: Rs unchanged
+	cbeq	r2, r17, 1f		; case 14: abis at +1: Rs unchanged
 	movq	#14, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 14: abis at +1: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 14: abis at +1: the memory around is untouched (-16)
 	movq	#14, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 14: abis at +1: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 14: abis at +1: the memory around is untouched (-8)
 	movq	#14, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 14: abis at +1: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 14: abis at +1: the memory around is untouched (0)
 	movq	#14, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 14: abis at +1: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 14: abis at +1: the memory around is untouched (8)
 	movq	#14, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 14: abis at +1: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 14: abis at +1: the memory around is untouched (16)
 	movq	#14, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 14: abis at +1: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 14: abis at +1: the memory around is untouched (24)
 	movq	#14, r0
 	halt
 1:
-	; ---- case 15: abis at +7
+		; ---- case 15: abis at +7
 	lea	buf+23, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -1315,75 +1315,75 @@ I15:
 	abis	r2, (r3), r1
 N15:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 15: abis at +7: one exception
+	cbeq	r4, r17, 1f		; case 15: abis at +7: one exception
 	movq	#15, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 15: abis at +7: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 15: abis at +7: it is the misalignment fault
 	movq	#15, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+23, r5
-	cbeq	r4, r5, 1f	; case 15: abis at +7: EVA is the address
+	cbeq	r4, r5, 1f		; case 15: abis at +7: EVA is the address
 	movq	#15, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I15, r5
-	cbeq	r4, r5, 1f	; case 15: abis at +7: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 15: abis at +7: EPC is the instruction (precise)
 	movq	#15, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 15: abis at +7: Rd unchanged
+	cbeq	r1, r17, 1f		; case 15: abis at +7: Rd unchanged
 	movq	#15, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 15: abis at +7: Rs unchanged
+	cbeq	r2, r17, 1f		; case 15: abis at +7: Rs unchanged
 	movq	#15, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 15: abis at +7: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 15: abis at +7: the memory around is untouched (-16)
 	movq	#15, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 15: abis at +7: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 15: abis at +7: the memory around is untouched (-8)
 	movq	#15, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 15: abis at +7: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 15: abis at +7: the memory around is untouched (0)
 	movq	#15, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 15: abis at +7: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 15: abis at +7: the memory around is untouched (8)
 	movq	#15, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 15: abis at +7: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 15: abis at +7: the memory around is untouched (16)
 	movq	#15, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 15: abis at +7: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 15: abis at +7: the memory around is untouched (24)
 	movq	#15, r0
 	halt
 1:
-	; ---- case 16: axor at +4
+		; ---- case 16: axor at +4
 	lea	buf+20, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -1406,75 +1406,75 @@ I16:
 	axor	r2, (r3), r1
 N16:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 16: axor at +4: one exception
+	cbeq	r4, r17, 1f		; case 16: axor at +4: one exception
 	movq	#16, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 16: axor at +4: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 16: axor at +4: it is the misalignment fault
 	movq	#16, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+20, r5
-	cbeq	r4, r5, 1f	; case 16: axor at +4: EVA is the address
+	cbeq	r4, r5, 1f		; case 16: axor at +4: EVA is the address
 	movq	#16, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I16, r5
-	cbeq	r4, r5, 1f	; case 16: axor at +4: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 16: axor at +4: EPC is the instruction (precise)
 	movq	#16, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 16: axor at +4: Rd unchanged
+	cbeq	r1, r17, 1f		; case 16: axor at +4: Rd unchanged
 	movq	#16, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 16: axor at +4: Rs unchanged
+	cbeq	r2, r17, 1f		; case 16: axor at +4: Rs unchanged
 	movq	#16, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 16: axor at +4: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 16: axor at +4: the memory around is untouched (-16)
 	movq	#16, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 16: axor at +4: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 16: axor at +4: the memory around is untouched (-8)
 	movq	#16, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 16: axor at +4: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 16: axor at +4: the memory around is untouched (0)
 	movq	#16, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 16: axor at +4: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 16: axor at +4: the memory around is untouched (8)
 	movq	#16, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 16: axor at +4: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 16: axor at +4: the memory around is untouched (16)
 	movq	#16, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 16: axor at +4: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 16: axor at +4: the memory around is untouched (24)
 	movq	#16, r0
 	halt
 1:
-	; ---- case 17: axor at +1
+		; ---- case 17: axor at +1
 	lea	buf+17, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -1497,75 +1497,75 @@ I17:
 	axor	r2, (r3), r1
 N17:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 17: axor at +1: one exception
+	cbeq	r4, r17, 1f		; case 17: axor at +1: one exception
 	movq	#17, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 17: axor at +1: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 17: axor at +1: it is the misalignment fault
 	movq	#17, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+17, r5
-	cbeq	r4, r5, 1f	; case 17: axor at +1: EVA is the address
+	cbeq	r4, r5, 1f		; case 17: axor at +1: EVA is the address
 	movq	#17, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I17, r5
-	cbeq	r4, r5, 1f	; case 17: axor at +1: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 17: axor at +1: EPC is the instruction (precise)
 	movq	#17, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 17: axor at +1: Rd unchanged
+	cbeq	r1, r17, 1f		; case 17: axor at +1: Rd unchanged
 	movq	#17, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 17: axor at +1: Rs unchanged
+	cbeq	r2, r17, 1f		; case 17: axor at +1: Rs unchanged
 	movq	#17, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 17: axor at +1: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 17: axor at +1: the memory around is untouched (-16)
 	movq	#17, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 17: axor at +1: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 17: axor at +1: the memory around is untouched (-8)
 	movq	#17, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 17: axor at +1: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 17: axor at +1: the memory around is untouched (0)
 	movq	#17, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 17: axor at +1: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 17: axor at +1: the memory around is untouched (8)
 	movq	#17, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 17: axor at +1: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 17: axor at +1: the memory around is untouched (16)
 	movq	#17, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 17: axor at +1: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 17: axor at +1: the memory around is untouched (24)
 	movq	#17, r0
 	halt
 1:
-	; ---- case 18: axor at +7
+		; ---- case 18: axor at +7
 	lea	buf+23, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -1588,75 +1588,75 @@ I18:
 	axor	r2, (r3), r1
 N18:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 18: axor at +7: one exception
+	cbeq	r4, r17, 1f		; case 18: axor at +7: one exception
 	movq	#18, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 18: axor at +7: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 18: axor at +7: it is the misalignment fault
 	movq	#18, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+23, r5
-	cbeq	r4, r5, 1f	; case 18: axor at +7: EVA is the address
+	cbeq	r4, r5, 1f		; case 18: axor at +7: EVA is the address
 	movq	#18, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I18, r5
-	cbeq	r4, r5, 1f	; case 18: axor at +7: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 18: axor at +7: EPC is the instruction (precise)
 	movq	#18, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 18: axor at +7: Rd unchanged
+	cbeq	r1, r17, 1f		; case 18: axor at +7: Rd unchanged
 	movq	#18, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 18: axor at +7: Rs unchanged
+	cbeq	r2, r17, 1f		; case 18: axor at +7: Rs unchanged
 	movq	#18, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 18: axor at +7: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 18: axor at +7: the memory around is untouched (-16)
 	movq	#18, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 18: axor at +7: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 18: axor at +7: the memory around is untouched (-8)
 	movq	#18, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 18: axor at +7: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 18: axor at +7: the memory around is untouched (0)
 	movq	#18, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 18: axor at +7: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 18: axor at +7: the memory around is untouched (8)
 	movq	#18, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 18: axor at +7: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 18: axor at +7: the memory around is untouched (16)
 	movq	#18, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 18: axor at +7: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 18: axor at +7: the memory around is untouched (24)
 	movq	#18, r0
 	halt
 1:
-	; ---- case 19: amax at +4
+		; ---- case 19: amax at +4
 	lea	buf+20, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -1679,75 +1679,75 @@ I19:
 	amax	r2, (r3), r1
 N19:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 19: amax at +4: one exception
+	cbeq	r4, r17, 1f		; case 19: amax at +4: one exception
 	movq	#19, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 19: amax at +4: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 19: amax at +4: it is the misalignment fault
 	movq	#19, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+20, r5
-	cbeq	r4, r5, 1f	; case 19: amax at +4: EVA is the address
+	cbeq	r4, r5, 1f		; case 19: amax at +4: EVA is the address
 	movq	#19, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I19, r5
-	cbeq	r4, r5, 1f	; case 19: amax at +4: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 19: amax at +4: EPC is the instruction (precise)
 	movq	#19, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 19: amax at +4: Rd unchanged
+	cbeq	r1, r17, 1f		; case 19: amax at +4: Rd unchanged
 	movq	#19, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 19: amax at +4: Rs unchanged
+	cbeq	r2, r17, 1f		; case 19: amax at +4: Rs unchanged
 	movq	#19, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 19: amax at +4: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 19: amax at +4: the memory around is untouched (-16)
 	movq	#19, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 19: amax at +4: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 19: amax at +4: the memory around is untouched (-8)
 	movq	#19, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 19: amax at +4: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 19: amax at +4: the memory around is untouched (0)
 	movq	#19, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 19: amax at +4: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 19: amax at +4: the memory around is untouched (8)
 	movq	#19, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 19: amax at +4: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 19: amax at +4: the memory around is untouched (16)
 	movq	#19, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 19: amax at +4: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 19: amax at +4: the memory around is untouched (24)
 	movq	#19, r0
 	halt
 1:
-	; ---- case 20: amax at +1
+		; ---- case 20: amax at +1
 	lea	buf+17, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -1770,75 +1770,75 @@ I20:
 	amax	r2, (r3), r1
 N20:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 20: amax at +1: one exception
+	cbeq	r4, r17, 1f		; case 20: amax at +1: one exception
 	movq	#20, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 20: amax at +1: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 20: amax at +1: it is the misalignment fault
 	movq	#20, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+17, r5
-	cbeq	r4, r5, 1f	; case 20: amax at +1: EVA is the address
+	cbeq	r4, r5, 1f		; case 20: amax at +1: EVA is the address
 	movq	#20, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I20, r5
-	cbeq	r4, r5, 1f	; case 20: amax at +1: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 20: amax at +1: EPC is the instruction (precise)
 	movq	#20, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 20: amax at +1: Rd unchanged
+	cbeq	r1, r17, 1f		; case 20: amax at +1: Rd unchanged
 	movq	#20, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 20: amax at +1: Rs unchanged
+	cbeq	r2, r17, 1f		; case 20: amax at +1: Rs unchanged
 	movq	#20, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 20: amax at +1: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 20: amax at +1: the memory around is untouched (-16)
 	movq	#20, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 20: amax at +1: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 20: amax at +1: the memory around is untouched (-8)
 	movq	#20, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 20: amax at +1: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 20: amax at +1: the memory around is untouched (0)
 	movq	#20, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 20: amax at +1: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 20: amax at +1: the memory around is untouched (8)
 	movq	#20, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 20: amax at +1: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 20: amax at +1: the memory around is untouched (16)
 	movq	#20, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 20: amax at +1: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 20: amax at +1: the memory around is untouched (24)
 	movq	#20, r0
 	halt
 1:
-	; ---- case 21: amax at +7
+		; ---- case 21: amax at +7
 	lea	buf+23, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -1861,75 +1861,75 @@ I21:
 	amax	r2, (r3), r1
 N21:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 21: amax at +7: one exception
+	cbeq	r4, r17, 1f		; case 21: amax at +7: one exception
 	movq	#21, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 21: amax at +7: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 21: amax at +7: it is the misalignment fault
 	movq	#21, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+23, r5
-	cbeq	r4, r5, 1f	; case 21: amax at +7: EVA is the address
+	cbeq	r4, r5, 1f		; case 21: amax at +7: EVA is the address
 	movq	#21, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I21, r5
-	cbeq	r4, r5, 1f	; case 21: amax at +7: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 21: amax at +7: EPC is the instruction (precise)
 	movq	#21, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 21: amax at +7: Rd unchanged
+	cbeq	r1, r17, 1f		; case 21: amax at +7: Rd unchanged
 	movq	#21, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 21: amax at +7: Rs unchanged
+	cbeq	r2, r17, 1f		; case 21: amax at +7: Rs unchanged
 	movq	#21, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 21: amax at +7: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 21: amax at +7: the memory around is untouched (-16)
 	movq	#21, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 21: amax at +7: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 21: amax at +7: the memory around is untouched (-8)
 	movq	#21, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 21: amax at +7: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 21: amax at +7: the memory around is untouched (0)
 	movq	#21, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 21: amax at +7: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 21: amax at +7: the memory around is untouched (8)
 	movq	#21, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 21: amax at +7: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 21: amax at +7: the memory around is untouched (16)
 	movq	#21, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 21: amax at +7: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 21: amax at +7: the memory around is untouched (24)
 	movq	#21, r0
 	halt
 1:
-	; ---- case 22: amin at +4
+		; ---- case 22: amin at +4
 	lea	buf+20, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -1952,75 +1952,75 @@ I22:
 	amin	r2, (r3), r1
 N22:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 22: amin at +4: one exception
+	cbeq	r4, r17, 1f		; case 22: amin at +4: one exception
 	movq	#22, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 22: amin at +4: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 22: amin at +4: it is the misalignment fault
 	movq	#22, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+20, r5
-	cbeq	r4, r5, 1f	; case 22: amin at +4: EVA is the address
+	cbeq	r4, r5, 1f		; case 22: amin at +4: EVA is the address
 	movq	#22, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I22, r5
-	cbeq	r4, r5, 1f	; case 22: amin at +4: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 22: amin at +4: EPC is the instruction (precise)
 	movq	#22, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 22: amin at +4: Rd unchanged
+	cbeq	r1, r17, 1f		; case 22: amin at +4: Rd unchanged
 	movq	#22, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 22: amin at +4: Rs unchanged
+	cbeq	r2, r17, 1f		; case 22: amin at +4: Rs unchanged
 	movq	#22, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 22: amin at +4: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 22: amin at +4: the memory around is untouched (-16)
 	movq	#22, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 22: amin at +4: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 22: amin at +4: the memory around is untouched (-8)
 	movq	#22, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 22: amin at +4: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 22: amin at +4: the memory around is untouched (0)
 	movq	#22, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 22: amin at +4: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 22: amin at +4: the memory around is untouched (8)
 	movq	#22, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 22: amin at +4: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 22: amin at +4: the memory around is untouched (16)
 	movq	#22, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 22: amin at +4: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 22: amin at +4: the memory around is untouched (24)
 	movq	#22, r0
 	halt
 1:
-	; ---- case 23: amin at +1
+		; ---- case 23: amin at +1
 	lea	buf+17, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -2043,75 +2043,75 @@ I23:
 	amin	r2, (r3), r1
 N23:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 23: amin at +1: one exception
+	cbeq	r4, r17, 1f		; case 23: amin at +1: one exception
 	movq	#23, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 23: amin at +1: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 23: amin at +1: it is the misalignment fault
 	movq	#23, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+17, r5
-	cbeq	r4, r5, 1f	; case 23: amin at +1: EVA is the address
+	cbeq	r4, r5, 1f		; case 23: amin at +1: EVA is the address
 	movq	#23, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I23, r5
-	cbeq	r4, r5, 1f	; case 23: amin at +1: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 23: amin at +1: EPC is the instruction (precise)
 	movq	#23, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 23: amin at +1: Rd unchanged
+	cbeq	r1, r17, 1f		; case 23: amin at +1: Rd unchanged
 	movq	#23, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 23: amin at +1: Rs unchanged
+	cbeq	r2, r17, 1f		; case 23: amin at +1: Rs unchanged
 	movq	#23, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 23: amin at +1: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 23: amin at +1: the memory around is untouched (-16)
 	movq	#23, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 23: amin at +1: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 23: amin at +1: the memory around is untouched (-8)
 	movq	#23, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 23: amin at +1: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 23: amin at +1: the memory around is untouched (0)
 	movq	#23, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 23: amin at +1: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 23: amin at +1: the memory around is untouched (8)
 	movq	#23, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 23: amin at +1: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 23: amin at +1: the memory around is untouched (16)
 	movq	#23, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 23: amin at +1: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 23: amin at +1: the memory around is untouched (24)
 	movq	#23, r0
 	halt
 1:
-	; ---- case 24: amin at +7
+		; ---- case 24: amin at +7
 	lea	buf+23, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -2134,75 +2134,75 @@ I24:
 	amin	r2, (r3), r1
 N24:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 24: amin at +7: one exception
+	cbeq	r4, r17, 1f		; case 24: amin at +7: one exception
 	movq	#24, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 24: amin at +7: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 24: amin at +7: it is the misalignment fault
 	movq	#24, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+23, r5
-	cbeq	r4, r5, 1f	; case 24: amin at +7: EVA is the address
+	cbeq	r4, r5, 1f		; case 24: amin at +7: EVA is the address
 	movq	#24, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I24, r5
-	cbeq	r4, r5, 1f	; case 24: amin at +7: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 24: amin at +7: EPC is the instruction (precise)
 	movq	#24, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 24: amin at +7: Rd unchanged
+	cbeq	r1, r17, 1f		; case 24: amin at +7: Rd unchanged
 	movq	#24, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 24: amin at +7: Rs unchanged
+	cbeq	r2, r17, 1f		; case 24: amin at +7: Rs unchanged
 	movq	#24, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 24: amin at +7: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 24: amin at +7: the memory around is untouched (-16)
 	movq	#24, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 24: amin at +7: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 24: amin at +7: the memory around is untouched (-8)
 	movq	#24, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 24: amin at +7: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 24: amin at +7: the memory around is untouched (0)
 	movq	#24, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 24: amin at +7: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 24: amin at +7: the memory around is untouched (8)
 	movq	#24, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 24: amin at +7: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 24: amin at +7: the memory around is untouched (16)
 	movq	#24, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 24: amin at +7: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 24: amin at +7: the memory around is untouched (24)
 	movq	#24, r0
 	halt
 1:
-	; ---- case 25: amaxu at +4
+		; ---- case 25: amaxu at +4
 	lea	buf+20, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -2225,75 +2225,75 @@ I25:
 	amaxu	r2, (r3), r1
 N25:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 25: amaxu at +4: one exception
+	cbeq	r4, r17, 1f		; case 25: amaxu at +4: one exception
 	movq	#25, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 25: amaxu at +4: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 25: amaxu at +4: it is the misalignment fault
 	movq	#25, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+20, r5
-	cbeq	r4, r5, 1f	; case 25: amaxu at +4: EVA is the address
+	cbeq	r4, r5, 1f		; case 25: amaxu at +4: EVA is the address
 	movq	#25, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I25, r5
-	cbeq	r4, r5, 1f	; case 25: amaxu at +4: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 25: amaxu at +4: EPC is the instruction (precise)
 	movq	#25, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 25: amaxu at +4: Rd unchanged
+	cbeq	r1, r17, 1f		; case 25: amaxu at +4: Rd unchanged
 	movq	#25, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 25: amaxu at +4: Rs unchanged
+	cbeq	r2, r17, 1f		; case 25: amaxu at +4: Rs unchanged
 	movq	#25, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 25: amaxu at +4: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 25: amaxu at +4: the memory around is untouched (-16)
 	movq	#25, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 25: amaxu at +4: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 25: amaxu at +4: the memory around is untouched (-8)
 	movq	#25, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 25: amaxu at +4: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 25: amaxu at +4: the memory around is untouched (0)
 	movq	#25, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 25: amaxu at +4: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 25: amaxu at +4: the memory around is untouched (8)
 	movq	#25, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 25: amaxu at +4: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 25: amaxu at +4: the memory around is untouched (16)
 	movq	#25, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 25: amaxu at +4: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 25: amaxu at +4: the memory around is untouched (24)
 	movq	#25, r0
 	halt
 1:
-	; ---- case 26: amaxu at +1
+		; ---- case 26: amaxu at +1
 	lea	buf+17, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -2316,75 +2316,75 @@ I26:
 	amaxu	r2, (r3), r1
 N26:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 26: amaxu at +1: one exception
+	cbeq	r4, r17, 1f		; case 26: amaxu at +1: one exception
 	movq	#26, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 26: amaxu at +1: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 26: amaxu at +1: it is the misalignment fault
 	movq	#26, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+17, r5
-	cbeq	r4, r5, 1f	; case 26: amaxu at +1: EVA is the address
+	cbeq	r4, r5, 1f		; case 26: amaxu at +1: EVA is the address
 	movq	#26, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I26, r5
-	cbeq	r4, r5, 1f	; case 26: amaxu at +1: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 26: amaxu at +1: EPC is the instruction (precise)
 	movq	#26, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 26: amaxu at +1: Rd unchanged
+	cbeq	r1, r17, 1f		; case 26: amaxu at +1: Rd unchanged
 	movq	#26, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 26: amaxu at +1: Rs unchanged
+	cbeq	r2, r17, 1f		; case 26: amaxu at +1: Rs unchanged
 	movq	#26, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 26: amaxu at +1: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 26: amaxu at +1: the memory around is untouched (-16)
 	movq	#26, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 26: amaxu at +1: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 26: amaxu at +1: the memory around is untouched (-8)
 	movq	#26, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 26: amaxu at +1: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 26: amaxu at +1: the memory around is untouched (0)
 	movq	#26, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 26: amaxu at +1: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 26: amaxu at +1: the memory around is untouched (8)
 	movq	#26, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 26: amaxu at +1: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 26: amaxu at +1: the memory around is untouched (16)
 	movq	#26, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 26: amaxu at +1: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 26: amaxu at +1: the memory around is untouched (24)
 	movq	#26, r0
 	halt
 1:
-	; ---- case 27: amaxu at +7
+		; ---- case 27: amaxu at +7
 	lea	buf+23, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -2407,75 +2407,75 @@ I27:
 	amaxu	r2, (r3), r1
 N27:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 27: amaxu at +7: one exception
+	cbeq	r4, r17, 1f		; case 27: amaxu at +7: one exception
 	movq	#27, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 27: amaxu at +7: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 27: amaxu at +7: it is the misalignment fault
 	movq	#27, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+23, r5
-	cbeq	r4, r5, 1f	; case 27: amaxu at +7: EVA is the address
+	cbeq	r4, r5, 1f		; case 27: amaxu at +7: EVA is the address
 	movq	#27, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I27, r5
-	cbeq	r4, r5, 1f	; case 27: amaxu at +7: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 27: amaxu at +7: EPC is the instruction (precise)
 	movq	#27, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 27: amaxu at +7: Rd unchanged
+	cbeq	r1, r17, 1f		; case 27: amaxu at +7: Rd unchanged
 	movq	#27, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 27: amaxu at +7: Rs unchanged
+	cbeq	r2, r17, 1f		; case 27: amaxu at +7: Rs unchanged
 	movq	#27, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 27: amaxu at +7: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 27: amaxu at +7: the memory around is untouched (-16)
 	movq	#27, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 27: amaxu at +7: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 27: amaxu at +7: the memory around is untouched (-8)
 	movq	#27, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 27: amaxu at +7: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 27: amaxu at +7: the memory around is untouched (0)
 	movq	#27, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 27: amaxu at +7: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 27: amaxu at +7: the memory around is untouched (8)
 	movq	#27, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 27: amaxu at +7: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 27: amaxu at +7: the memory around is untouched (16)
 	movq	#27, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 27: amaxu at +7: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 27: amaxu at +7: the memory around is untouched (24)
 	movq	#27, r0
 	halt
 1:
-	; ---- case 28: aminu at +4
+		; ---- case 28: aminu at +4
 	lea	buf+20, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -2498,75 +2498,75 @@ I28:
 	aminu	r2, (r3), r1
 N28:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 28: aminu at +4: one exception
+	cbeq	r4, r17, 1f		; case 28: aminu at +4: one exception
 	movq	#28, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 28: aminu at +4: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 28: aminu at +4: it is the misalignment fault
 	movq	#28, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+20, r5
-	cbeq	r4, r5, 1f	; case 28: aminu at +4: EVA is the address
+	cbeq	r4, r5, 1f		; case 28: aminu at +4: EVA is the address
 	movq	#28, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I28, r5
-	cbeq	r4, r5, 1f	; case 28: aminu at +4: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 28: aminu at +4: EPC is the instruction (precise)
 	movq	#28, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 28: aminu at +4: Rd unchanged
+	cbeq	r1, r17, 1f		; case 28: aminu at +4: Rd unchanged
 	movq	#28, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 28: aminu at +4: Rs unchanged
+	cbeq	r2, r17, 1f		; case 28: aminu at +4: Rs unchanged
 	movq	#28, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 28: aminu at +4: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 28: aminu at +4: the memory around is untouched (-16)
 	movq	#28, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 28: aminu at +4: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 28: aminu at +4: the memory around is untouched (-8)
 	movq	#28, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 28: aminu at +4: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 28: aminu at +4: the memory around is untouched (0)
 	movq	#28, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 28: aminu at +4: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 28: aminu at +4: the memory around is untouched (8)
 	movq	#28, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 28: aminu at +4: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 28: aminu at +4: the memory around is untouched (16)
 	movq	#28, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 28: aminu at +4: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 28: aminu at +4: the memory around is untouched (24)
 	movq	#28, r0
 	halt
 1:
-	; ---- case 29: aminu at +1
+		; ---- case 29: aminu at +1
 	lea	buf+17, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -2589,75 +2589,75 @@ I29:
 	aminu	r2, (r3), r1
 N29:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 29: aminu at +1: one exception
+	cbeq	r4, r17, 1f		; case 29: aminu at +1: one exception
 	movq	#29, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 29: aminu at +1: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 29: aminu at +1: it is the misalignment fault
 	movq	#29, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+17, r5
-	cbeq	r4, r5, 1f	; case 29: aminu at +1: EVA is the address
+	cbeq	r4, r5, 1f		; case 29: aminu at +1: EVA is the address
 	movq	#29, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I29, r5
-	cbeq	r4, r5, 1f	; case 29: aminu at +1: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 29: aminu at +1: EPC is the instruction (precise)
 	movq	#29, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 29: aminu at +1: Rd unchanged
+	cbeq	r1, r17, 1f		; case 29: aminu at +1: Rd unchanged
 	movq	#29, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 29: aminu at +1: Rs unchanged
+	cbeq	r2, r17, 1f		; case 29: aminu at +1: Rs unchanged
 	movq	#29, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 29: aminu at +1: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 29: aminu at +1: the memory around is untouched (-16)
 	movq	#29, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 29: aminu at +1: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 29: aminu at +1: the memory around is untouched (-8)
 	movq	#29, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 29: aminu at +1: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 29: aminu at +1: the memory around is untouched (0)
 	movq	#29, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 29: aminu at +1: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 29: aminu at +1: the memory around is untouched (8)
 	movq	#29, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 29: aminu at +1: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 29: aminu at +1: the memory around is untouched (16)
 	movq	#29, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 29: aminu at +1: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 29: aminu at +1: the memory around is untouched (24)
 	movq	#29, r0
 	halt
 1:
-	; ---- case 30: aminu at +7
+		; ---- case 30: aminu at +7
 	lea	buf+23, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -2680,75 +2680,75 @@ I30:
 	aminu	r2, (r3), r1
 N30:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 30: aminu at +7: one exception
+	cbeq	r4, r17, 1f		; case 30: aminu at +7: one exception
 	movq	#30, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 30: aminu at +7: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 30: aminu at +7: it is the misalignment fault
 	movq	#30, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+23, r5
-	cbeq	r4, r5, 1f	; case 30: aminu at +7: EVA is the address
+	cbeq	r4, r5, 1f		; case 30: aminu at +7: EVA is the address
 	movq	#30, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I30, r5
-	cbeq	r4, r5, 1f	; case 30: aminu at +7: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 30: aminu at +7: EPC is the instruction (precise)
 	movq	#30, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 30: aminu at +7: Rd unchanged
+	cbeq	r1, r17, 1f		; case 30: aminu at +7: Rd unchanged
 	movq	#30, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 30: aminu at +7: Rs unchanged
+	cbeq	r2, r17, 1f		; case 30: aminu at +7: Rs unchanged
 	movq	#30, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 30: aminu at +7: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 30: aminu at +7: the memory around is untouched (-16)
 	movq	#30, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 30: aminu at +7: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 30: aminu at +7: the memory around is untouched (-8)
 	movq	#30, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 30: aminu at +7: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 30: aminu at +7: the memory around is untouched (0)
 	movq	#30, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 30: aminu at +7: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 30: aminu at +7: the memory around is untouched (8)
 	movq	#30, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 30: aminu at +7: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 30: aminu at +7: the memory around is untouched (16)
 	movq	#30, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 30: aminu at +7: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 30: aminu at +7: the memory around is untouched (24)
 	movq	#30, r0
 	halt
 1:
-	; ---- case 31: sc at +4
+		; ---- case 31: sc at +4
 	lea	buf+20, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -2772,75 +2772,75 @@ I31:
 	sc	r2, (r3), r1
 N31:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 31: sc at +4: one exception
+	cbeq	r4, r17, 1f		; case 31: sc at +4: one exception
 	movq	#31, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 31: sc at +4: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 31: sc at +4: it is the misalignment fault
 	movq	#31, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+20, r5
-	cbeq	r4, r5, 1f	; case 31: sc at +4: EVA is the address
+	cbeq	r4, r5, 1f		; case 31: sc at +4: EVA is the address
 	movq	#31, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I31, r5
-	cbeq	r4, r5, 1f	; case 31: sc at +4: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 31: sc at +4: EPC is the instruction (precise)
 	movq	#31, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 31: sc at +4: Rd unchanged
+	cbeq	r1, r17, 1f		; case 31: sc at +4: Rd unchanged
 	movq	#31, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 31: sc at +4: Rs unchanged
+	cbeq	r2, r17, 1f		; case 31: sc at +4: Rs unchanged
 	movq	#31, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 31: sc at +4: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 31: sc at +4: the memory around is untouched (-16)
 	movq	#31, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 31: sc at +4: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 31: sc at +4: the memory around is untouched (-8)
 	movq	#31, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 31: sc at +4: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 31: sc at +4: the memory around is untouched (0)
 	movq	#31, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 31: sc at +4: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 31: sc at +4: the memory around is untouched (8)
 	movq	#31, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 31: sc at +4: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 31: sc at +4: the memory around is untouched (16)
 	movq	#31, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 31: sc at +4: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 31: sc at +4: the memory around is untouched (24)
 	movq	#31, r0
 	halt
 1:
-	; ---- case 32: sc at +1
+		; ---- case 32: sc at +1
 	lea	buf+17, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -2864,75 +2864,75 @@ I32:
 	sc	r2, (r3), r1
 N32:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 32: sc at +1: one exception
+	cbeq	r4, r17, 1f		; case 32: sc at +1: one exception
 	movq	#32, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 32: sc at +1: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 32: sc at +1: it is the misalignment fault
 	movq	#32, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+17, r5
-	cbeq	r4, r5, 1f	; case 32: sc at +1: EVA is the address
+	cbeq	r4, r5, 1f		; case 32: sc at +1: EVA is the address
 	movq	#32, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I32, r5
-	cbeq	r4, r5, 1f	; case 32: sc at +1: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 32: sc at +1: EPC is the instruction (precise)
 	movq	#32, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 32: sc at +1: Rd unchanged
+	cbeq	r1, r17, 1f		; case 32: sc at +1: Rd unchanged
 	movq	#32, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 32: sc at +1: Rs unchanged
+	cbeq	r2, r17, 1f		; case 32: sc at +1: Rs unchanged
 	movq	#32, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 32: sc at +1: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 32: sc at +1: the memory around is untouched (-16)
 	movq	#32, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 32: sc at +1: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 32: sc at +1: the memory around is untouched (-8)
 	movq	#32, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 32: sc at +1: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 32: sc at +1: the memory around is untouched (0)
 	movq	#32, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 32: sc at +1: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 32: sc at +1: the memory around is untouched (8)
 	movq	#32, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 32: sc at +1: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 32: sc at +1: the memory around is untouched (16)
 	movq	#32, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 32: sc at +1: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 32: sc at +1: the memory around is untouched (24)
 	movq	#32, r0
 	halt
 1:
-	; ---- case 33: sc at +7
+		; ---- case 33: sc at +7
 	lea	buf+23, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -2956,75 +2956,75 @@ I33:
 	sc	r2, (r3), r1
 N33:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 33: sc at +7: one exception
+	cbeq	r4, r17, 1f		; case 33: sc at +7: one exception
 	movq	#33, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 33: sc at +7: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 33: sc at +7: it is the misalignment fault
 	movq	#33, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+23, r5
-	cbeq	r4, r5, 1f	; case 33: sc at +7: EVA is the address
+	cbeq	r4, r5, 1f		; case 33: sc at +7: EVA is the address
 	movq	#33, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I33, r5
-	cbeq	r4, r5, 1f	; case 33: sc at +7: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 33: sc at +7: EPC is the instruction (precise)
 	movq	#33, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 33: sc at +7: Rd unchanged
+	cbeq	r1, r17, 1f		; case 33: sc at +7: Rd unchanged
 	movq	#33, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 33: sc at +7: Rs unchanged
+	cbeq	r2, r17, 1f		; case 33: sc at +7: Rs unchanged
 	movq	#33, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 33: sc at +7: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 33: sc at +7: the memory around is untouched (-16)
 	movq	#33, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 33: sc at +7: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 33: sc at +7: the memory around is untouched (-8)
 	movq	#33, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 33: sc at +7: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 33: sc at +7: the memory around is untouched (0)
 	movq	#33, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 33: sc at +7: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 33: sc at +7: the memory around is untouched (8)
 	movq	#33, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 33: sc at +7: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 33: sc at +7: the memory around is untouched (16)
 	movq	#33, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 33: sc at +7: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 33: sc at +7: the memory around is untouched (24)
 	movq	#33, r0
 	halt
 1:
-	; ---- case 34: ll at +4
+		; ---- case 34: ll at +4
 	lea	buf+20, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -3047,75 +3047,75 @@ I34:
 	ll	(r3), r1
 N34:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 34: ll at +4: one exception
+	cbeq	r4, r17, 1f		; case 34: ll at +4: one exception
 	movq	#34, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 34: ll at +4: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 34: ll at +4: it is the misalignment fault
 	movq	#34, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+20, r5
-	cbeq	r4, r5, 1f	; case 34: ll at +4: EVA is the address
+	cbeq	r4, r5, 1f		; case 34: ll at +4: EVA is the address
 	movq	#34, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I34, r5
-	cbeq	r4, r5, 1f	; case 34: ll at +4: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 34: ll at +4: EPC is the instruction (precise)
 	movq	#34, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 34: ll at +4: Rd unchanged
+	cbeq	r1, r17, 1f		; case 34: ll at +4: Rd unchanged
 	movq	#34, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 34: ll at +4: Rs unchanged
+	cbeq	r2, r17, 1f		; case 34: ll at +4: Rs unchanged
 	movq	#34, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 34: ll at +4: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 34: ll at +4: the memory around is untouched (-16)
 	movq	#34, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 34: ll at +4: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 34: ll at +4: the memory around is untouched (-8)
 	movq	#34, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 34: ll at +4: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 34: ll at +4: the memory around is untouched (0)
 	movq	#34, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 34: ll at +4: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 34: ll at +4: the memory around is untouched (8)
 	movq	#34, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 34: ll at +4: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 34: ll at +4: the memory around is untouched (16)
 	movq	#34, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 34: ll at +4: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 34: ll at +4: the memory around is untouched (24)
 	movq	#34, r0
 	halt
 1:
-	; ---- case 35: ll at +1
+		; ---- case 35: ll at +1
 	lea	buf+17, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -3138,75 +3138,75 @@ I35:
 	ll	(r3), r1
 N35:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 35: ll at +1: one exception
+	cbeq	r4, r17, 1f		; case 35: ll at +1: one exception
 	movq	#35, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 35: ll at +1: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 35: ll at +1: it is the misalignment fault
 	movq	#35, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+17, r5
-	cbeq	r4, r5, 1f	; case 35: ll at +1: EVA is the address
+	cbeq	r4, r5, 1f		; case 35: ll at +1: EVA is the address
 	movq	#35, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I35, r5
-	cbeq	r4, r5, 1f	; case 35: ll at +1: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 35: ll at +1: EPC is the instruction (precise)
 	movq	#35, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 35: ll at +1: Rd unchanged
+	cbeq	r1, r17, 1f		; case 35: ll at +1: Rd unchanged
 	movq	#35, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 35: ll at +1: Rs unchanged
+	cbeq	r2, r17, 1f		; case 35: ll at +1: Rs unchanged
 	movq	#35, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 35: ll at +1: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 35: ll at +1: the memory around is untouched (-16)
 	movq	#35, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 35: ll at +1: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 35: ll at +1: the memory around is untouched (-8)
 	movq	#35, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 35: ll at +1: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 35: ll at +1: the memory around is untouched (0)
 	movq	#35, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 35: ll at +1: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 35: ll at +1: the memory around is untouched (8)
 	movq	#35, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 35: ll at +1: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 35: ll at +1: the memory around is untouched (16)
 	movq	#35, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 35: ll at +1: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 35: ll at +1: the memory around is untouched (24)
 	movq	#35, r0
 	halt
 1:
-	; ---- case 36: ll at +7
+		; ---- case 36: ll at +7
 	lea	buf+23, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -3229,75 +3229,75 @@ I36:
 	ll	(r3), r1
 N36:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 36: ll at +7: one exception
+	cbeq	r4, r17, 1f		; case 36: ll at +7: one exception
 	movq	#36, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 36: ll at +7: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 36: ll at +7: it is the misalignment fault
 	movq	#36, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+23, r5
-	cbeq	r4, r5, 1f	; case 36: ll at +7: EVA is the address
+	cbeq	r4, r5, 1f		; case 36: ll at +7: EVA is the address
 	movq	#36, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I36, r5
-	cbeq	r4, r5, 1f	; case 36: ll at +7: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 36: ll at +7: EPC is the instruction (precise)
 	movq	#36, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 36: ll at +7: Rd unchanged
+	cbeq	r1, r17, 1f		; case 36: ll at +7: Rd unchanged
 	movq	#36, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 36: ll at +7: Rs unchanged
+	cbeq	r2, r17, 1f		; case 36: ll at +7: Rs unchanged
 	movq	#36, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 36: ll at +7: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 36: ll at +7: the memory around is untouched (-16)
 	movq	#36, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 36: ll at +7: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 36: ll at +7: the memory around is untouched (-8)
 	movq	#36, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 36: ll at +7: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 36: ll at +7: the memory around is untouched (0)
 	movq	#36, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 36: ll at +7: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 36: ll at +7: the memory around is untouched (8)
 	movq	#36, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 36: ll at +7: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 36: ll at +7: the memory around is untouched (16)
 	movq	#36, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 36: ll at +7: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 36: ll at +7: the memory around is untouched (24)
 	movq	#36, r0
 	halt
 1:
-	; ---- case 37: casl at +2
+		; ---- case 37: cas .32 at +2
 	lea	buf+18, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -3317,78 +3317,78 @@ N36:	movq	cnt, r4
 	movq	r4, cnt
 	lea	N37, r13
 I37:
-	casl	r2, (r3), r1
+	cas	r2, (r3).32, r1
 N37:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 37: casl at +2: one exception
+	cbeq	r4, r17, 1f		; case 37: cas .32 at +2: one exception
 	movq	#37, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 37: casl at +2: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 37: cas .32 at +2: it is the misalignment fault
 	movq	#37, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+18, r5
-	cbeq	r4, r5, 1f	; case 37: casl at +2: EVA is the address
+	cbeq	r4, r5, 1f		; case 37: cas .32 at +2: EVA is the address
 	movq	#37, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I37, r5
-	cbeq	r4, r5, 1f	; case 37: casl at +2: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 37: cas .32 at +2: EPC is the instruction (precise)
 	movq	#37, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 37: casl at +2: Rd unchanged
+	cbeq	r1, r17, 1f		; case 37: cas .32 at +2: Rd unchanged
 	movq	#37, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 37: casl at +2: Rs unchanged
+	cbeq	r2, r17, 1f		; case 37: cas .32 at +2: Rs unchanged
 	movq	#37, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 37: casl at +2: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 37: cas .32 at +2: the memory around is untouched (-16)
 	movq	#37, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 37: casl at +2: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 37: cas .32 at +2: the memory around is untouched (-8)
 	movq	#37, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 37: casl at +2: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 37: cas .32 at +2: the memory around is untouched (0)
 	movq	#37, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 37: casl at +2: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 37: cas .32 at +2: the memory around is untouched (8)
 	movq	#37, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 37: casl at +2: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 37: cas .32 at +2: the memory around is untouched (16)
 	movq	#37, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 37: casl at +2: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 37: cas .32 at +2: the memory around is untouched (24)
 	movq	#37, r0
 	halt
 1:
-	; ---- case 38: casl at +1
+		; ---- case 38: cas .32 at +1
 	lea	buf+17, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -3408,78 +3408,78 @@ N37:	movq	cnt, r4
 	movq	r4, cnt
 	lea	N38, r13
 I38:
-	casl	r2, (r3), r1
+	cas	r2, (r3).32, r1
 N38:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 38: casl at +1: one exception
+	cbeq	r4, r17, 1f		; case 38: cas .32 at +1: one exception
 	movq	#38, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 38: casl at +1: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 38: cas .32 at +1: it is the misalignment fault
 	movq	#38, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+17, r5
-	cbeq	r4, r5, 1f	; case 38: casl at +1: EVA is the address
+	cbeq	r4, r5, 1f		; case 38: cas .32 at +1: EVA is the address
 	movq	#38, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I38, r5
-	cbeq	r4, r5, 1f	; case 38: casl at +1: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 38: cas .32 at +1: EPC is the instruction (precise)
 	movq	#38, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 38: casl at +1: Rd unchanged
+	cbeq	r1, r17, 1f		; case 38: cas .32 at +1: Rd unchanged
 	movq	#38, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 38: casl at +1: Rs unchanged
+	cbeq	r2, r17, 1f		; case 38: cas .32 at +1: Rs unchanged
 	movq	#38, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 38: casl at +1: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 38: cas .32 at +1: the memory around is untouched (-16)
 	movq	#38, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 38: casl at +1: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 38: cas .32 at +1: the memory around is untouched (-8)
 	movq	#38, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 38: casl at +1: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 38: cas .32 at +1: the memory around is untouched (0)
 	movq	#38, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 38: casl at +1: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 38: cas .32 at +1: the memory around is untouched (8)
 	movq	#38, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 38: casl at +1: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 38: cas .32 at +1: the memory around is untouched (16)
 	movq	#38, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 38: casl at +1: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 38: cas .32 at +1: the memory around is untouched (24)
 	movq	#38, r0
 	halt
 1:
-	; ---- case 39: casl at +3
+		; ---- case 39: cas .32 at +3
 	lea	buf+19, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -3499,78 +3499,78 @@ N38:	movq	cnt, r4
 	movq	r4, cnt
 	lea	N39, r13
 I39:
-	casl	r2, (r3), r1
+	cas	r2, (r3).32, r1
 N39:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 39: casl at +3: one exception
+	cbeq	r4, r17, 1f		; case 39: cas .32 at +3: one exception
 	movq	#39, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 39: casl at +3: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 39: cas .32 at +3: it is the misalignment fault
 	movq	#39, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+19, r5
-	cbeq	r4, r5, 1f	; case 39: casl at +3: EVA is the address
+	cbeq	r4, r5, 1f		; case 39: cas .32 at +3: EVA is the address
 	movq	#39, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I39, r5
-	cbeq	r4, r5, 1f	; case 39: casl at +3: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 39: cas .32 at +3: EPC is the instruction (precise)
 	movq	#39, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 39: casl at +3: Rd unchanged
+	cbeq	r1, r17, 1f		; case 39: cas .32 at +3: Rd unchanged
 	movq	#39, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 39: casl at +3: Rs unchanged
+	cbeq	r2, r17, 1f		; case 39: cas .32 at +3: Rs unchanged
 	movq	#39, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 39: casl at +3: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 39: cas .32 at +3: the memory around is untouched (-16)
 	movq	#39, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 39: casl at +3: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 39: cas .32 at +3: the memory around is untouched (-8)
 	movq	#39, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 39: casl at +3: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 39: cas .32 at +3: the memory around is untouched (0)
 	movq	#39, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 39: casl at +3: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 39: cas .32 at +3: the memory around is untouched (8)
 	movq	#39, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 39: casl at +3: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 39: cas .32 at +3: the memory around is untouched (16)
 	movq	#39, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 39: casl at +3: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 39: cas .32 at +3: the memory around is untouched (24)
 	movq	#39, r0
 	halt
 1:
-	; ---- case 40: swapl at +2
+		; ---- case 40: swap .32 at +2
 	lea	buf+18, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -3590,78 +3590,78 @@ N39:	movq	cnt, r4
 	movq	r4, cnt
 	lea	N40, r13
 I40:
-	swapl	r2, (r3), r1
+	swap	r2, (r3).32, r1
 N40:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 40: swapl at +2: one exception
+	cbeq	r4, r17, 1f		; case 40: swap .32 at +2: one exception
 	movq	#40, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 40: swapl at +2: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 40: swap .32 at +2: it is the misalignment fault
 	movq	#40, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+18, r5
-	cbeq	r4, r5, 1f	; case 40: swapl at +2: EVA is the address
+	cbeq	r4, r5, 1f		; case 40: swap .32 at +2: EVA is the address
 	movq	#40, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I40, r5
-	cbeq	r4, r5, 1f	; case 40: swapl at +2: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 40: swap .32 at +2: EPC is the instruction (precise)
 	movq	#40, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 40: swapl at +2: Rd unchanged
+	cbeq	r1, r17, 1f		; case 40: swap .32 at +2: Rd unchanged
 	movq	#40, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 40: swapl at +2: Rs unchanged
+	cbeq	r2, r17, 1f		; case 40: swap .32 at +2: Rs unchanged
 	movq	#40, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 40: swapl at +2: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 40: swap .32 at +2: the memory around is untouched (-16)
 	movq	#40, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 40: swapl at +2: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 40: swap .32 at +2: the memory around is untouched (-8)
 	movq	#40, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 40: swapl at +2: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 40: swap .32 at +2: the memory around is untouched (0)
 	movq	#40, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 40: swapl at +2: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 40: swap .32 at +2: the memory around is untouched (8)
 	movq	#40, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 40: swapl at +2: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 40: swap .32 at +2: the memory around is untouched (16)
 	movq	#40, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 40: swapl at +2: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 40: swap .32 at +2: the memory around is untouched (24)
 	movq	#40, r0
 	halt
 1:
-	; ---- case 41: swapl at +1
+		; ---- case 41: swap .32 at +1
 	lea	buf+17, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -3681,78 +3681,78 @@ N40:	movq	cnt, r4
 	movq	r4, cnt
 	lea	N41, r13
 I41:
-	swapl	r2, (r3), r1
+	swap	r2, (r3).32, r1
 N41:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 41: swapl at +1: one exception
+	cbeq	r4, r17, 1f		; case 41: swap .32 at +1: one exception
 	movq	#41, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 41: swapl at +1: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 41: swap .32 at +1: it is the misalignment fault
 	movq	#41, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+17, r5
-	cbeq	r4, r5, 1f	; case 41: swapl at +1: EVA is the address
+	cbeq	r4, r5, 1f		; case 41: swap .32 at +1: EVA is the address
 	movq	#41, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I41, r5
-	cbeq	r4, r5, 1f	; case 41: swapl at +1: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 41: swap .32 at +1: EPC is the instruction (precise)
 	movq	#41, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 41: swapl at +1: Rd unchanged
+	cbeq	r1, r17, 1f		; case 41: swap .32 at +1: Rd unchanged
 	movq	#41, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 41: swapl at +1: Rs unchanged
+	cbeq	r2, r17, 1f		; case 41: swap .32 at +1: Rs unchanged
 	movq	#41, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 41: swapl at +1: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 41: swap .32 at +1: the memory around is untouched (-16)
 	movq	#41, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 41: swapl at +1: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 41: swap .32 at +1: the memory around is untouched (-8)
 	movq	#41, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 41: swapl at +1: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 41: swap .32 at +1: the memory around is untouched (0)
 	movq	#41, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 41: swapl at +1: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 41: swap .32 at +1: the memory around is untouched (8)
 	movq	#41, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 41: swapl at +1: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 41: swap .32 at +1: the memory around is untouched (16)
 	movq	#41, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 41: swapl at +1: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 41: swap .32 at +1: the memory around is untouched (24)
 	movq	#41, r0
 	halt
 1:
-	; ---- case 42: swapl at +3
+		; ---- case 42: swap .32 at +3
 	lea	buf+19, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -3772,78 +3772,78 @@ N41:	movq	cnt, r4
 	movq	r4, cnt
 	lea	N42, r13
 I42:
-	swapl	r2, (r3), r1
+	swap	r2, (r3).32, r1
 N42:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 42: swapl at +3: one exception
+	cbeq	r4, r17, 1f		; case 42: swap .32 at +3: one exception
 	movq	#42, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 42: swapl at +3: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 42: swap .32 at +3: it is the misalignment fault
 	movq	#42, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+19, r5
-	cbeq	r4, r5, 1f	; case 42: swapl at +3: EVA is the address
+	cbeq	r4, r5, 1f		; case 42: swap .32 at +3: EVA is the address
 	movq	#42, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I42, r5
-	cbeq	r4, r5, 1f	; case 42: swapl at +3: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 42: swap .32 at +3: EPC is the instruction (precise)
 	movq	#42, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 42: swapl at +3: Rd unchanged
+	cbeq	r1, r17, 1f		; case 42: swap .32 at +3: Rd unchanged
 	movq	#42, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 42: swapl at +3: Rs unchanged
+	cbeq	r2, r17, 1f		; case 42: swap .32 at +3: Rs unchanged
 	movq	#42, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 42: swapl at +3: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 42: swap .32 at +3: the memory around is untouched (-16)
 	movq	#42, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 42: swapl at +3: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 42: swap .32 at +3: the memory around is untouched (-8)
 	movq	#42, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 42: swapl at +3: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 42: swap .32 at +3: the memory around is untouched (0)
 	movq	#42, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 42: swapl at +3: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 42: swap .32 at +3: the memory around is untouched (8)
 	movq	#42, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 42: swapl at +3: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 42: swap .32 at +3: the memory around is untouched (16)
 	movq	#42, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 42: swapl at +3: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 42: swap .32 at +3: the memory around is untouched (24)
 	movq	#42, r0
 	halt
 1:
-	; ---- case 43: aaddl at +2
+		; ---- case 43: aadd .32 at +2
 	lea	buf+18, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -3863,78 +3863,78 @@ N42:	movq	cnt, r4
 	movq	r4, cnt
 	lea	N43, r13
 I43:
-	aaddl	r2, (r3), r1
+	aadd	r2, (r3).32, r1
 N43:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 43: aaddl at +2: one exception
+	cbeq	r4, r17, 1f		; case 43: aadd .32 at +2: one exception
 	movq	#43, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 43: aaddl at +2: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 43: aadd .32 at +2: it is the misalignment fault
 	movq	#43, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+18, r5
-	cbeq	r4, r5, 1f	; case 43: aaddl at +2: EVA is the address
+	cbeq	r4, r5, 1f		; case 43: aadd .32 at +2: EVA is the address
 	movq	#43, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I43, r5
-	cbeq	r4, r5, 1f	; case 43: aaddl at +2: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 43: aadd .32 at +2: EPC is the instruction (precise)
 	movq	#43, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 43: aaddl at +2: Rd unchanged
+	cbeq	r1, r17, 1f		; case 43: aadd .32 at +2: Rd unchanged
 	movq	#43, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 43: aaddl at +2: Rs unchanged
+	cbeq	r2, r17, 1f		; case 43: aadd .32 at +2: Rs unchanged
 	movq	#43, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 43: aaddl at +2: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 43: aadd .32 at +2: the memory around is untouched (-16)
 	movq	#43, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 43: aaddl at +2: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 43: aadd .32 at +2: the memory around is untouched (-8)
 	movq	#43, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 43: aaddl at +2: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 43: aadd .32 at +2: the memory around is untouched (0)
 	movq	#43, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 43: aaddl at +2: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 43: aadd .32 at +2: the memory around is untouched (8)
 	movq	#43, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 43: aaddl at +2: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 43: aadd .32 at +2: the memory around is untouched (16)
 	movq	#43, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 43: aaddl at +2: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 43: aadd .32 at +2: the memory around is untouched (24)
 	movq	#43, r0
 	halt
 1:
-	; ---- case 44: aaddl at +1
+		; ---- case 44: aadd .32 at +1
 	lea	buf+17, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -3954,78 +3954,78 @@ N43:	movq	cnt, r4
 	movq	r4, cnt
 	lea	N44, r13
 I44:
-	aaddl	r2, (r3), r1
+	aadd	r2, (r3).32, r1
 N44:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 44: aaddl at +1: one exception
+	cbeq	r4, r17, 1f		; case 44: aadd .32 at +1: one exception
 	movq	#44, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 44: aaddl at +1: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 44: aadd .32 at +1: it is the misalignment fault
 	movq	#44, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+17, r5
-	cbeq	r4, r5, 1f	; case 44: aaddl at +1: EVA is the address
+	cbeq	r4, r5, 1f		; case 44: aadd .32 at +1: EVA is the address
 	movq	#44, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I44, r5
-	cbeq	r4, r5, 1f	; case 44: aaddl at +1: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 44: aadd .32 at +1: EPC is the instruction (precise)
 	movq	#44, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 44: aaddl at +1: Rd unchanged
+	cbeq	r1, r17, 1f		; case 44: aadd .32 at +1: Rd unchanged
 	movq	#44, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 44: aaddl at +1: Rs unchanged
+	cbeq	r2, r17, 1f		; case 44: aadd .32 at +1: Rs unchanged
 	movq	#44, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 44: aaddl at +1: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 44: aadd .32 at +1: the memory around is untouched (-16)
 	movq	#44, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 44: aaddl at +1: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 44: aadd .32 at +1: the memory around is untouched (-8)
 	movq	#44, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 44: aaddl at +1: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 44: aadd .32 at +1: the memory around is untouched (0)
 	movq	#44, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 44: aaddl at +1: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 44: aadd .32 at +1: the memory around is untouched (8)
 	movq	#44, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 44: aaddl at +1: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 44: aadd .32 at +1: the memory around is untouched (16)
 	movq	#44, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 44: aaddl at +1: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 44: aadd .32 at +1: the memory around is untouched (24)
 	movq	#44, r0
 	halt
 1:
-	; ---- case 45: aaddl at +3
+		; ---- case 45: aadd .32 at +3
 	lea	buf+19, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -4045,78 +4045,78 @@ N44:	movq	cnt, r4
 	movq	r4, cnt
 	lea	N45, r13
 I45:
-	aaddl	r2, (r3), r1
+	aadd	r2, (r3).32, r1
 N45:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 45: aaddl at +3: one exception
+	cbeq	r4, r17, 1f		; case 45: aadd .32 at +3: one exception
 	movq	#45, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 45: aaddl at +3: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 45: aadd .32 at +3: it is the misalignment fault
 	movq	#45, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+19, r5
-	cbeq	r4, r5, 1f	; case 45: aaddl at +3: EVA is the address
+	cbeq	r4, r5, 1f		; case 45: aadd .32 at +3: EVA is the address
 	movq	#45, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I45, r5
-	cbeq	r4, r5, 1f	; case 45: aaddl at +3: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 45: aadd .32 at +3: EPC is the instruction (precise)
 	movq	#45, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 45: aaddl at +3: Rd unchanged
+	cbeq	r1, r17, 1f		; case 45: aadd .32 at +3: Rd unchanged
 	movq	#45, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 45: aaddl at +3: Rs unchanged
+	cbeq	r2, r17, 1f		; case 45: aadd .32 at +3: Rs unchanged
 	movq	#45, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 45: aaddl at +3: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 45: aadd .32 at +3: the memory around is untouched (-16)
 	movq	#45, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 45: aaddl at +3: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 45: aadd .32 at +3: the memory around is untouched (-8)
 	movq	#45, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 45: aaddl at +3: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 45: aadd .32 at +3: the memory around is untouched (0)
 	movq	#45, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 45: aaddl at +3: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 45: aadd .32 at +3: the memory around is untouched (8)
 	movq	#45, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 45: aaddl at +3: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 45: aadd .32 at +3: the memory around is untouched (16)
 	movq	#45, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 45: aaddl at +3: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 45: aadd .32 at +3: the memory around is untouched (24)
 	movq	#45, r0
 	halt
 1:
-	; ---- case 46: aandl at +2
+		; ---- case 46: aand .32 at +2
 	lea	buf+18, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -4136,78 +4136,78 @@ N45:	movq	cnt, r4
 	movq	r4, cnt
 	lea	N46, r13
 I46:
-	aandl	r2, (r3), r1
+	aand	r2, (r3).32, r1
 N46:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 46: aandl at +2: one exception
+	cbeq	r4, r17, 1f		; case 46: aand .32 at +2: one exception
 	movq	#46, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 46: aandl at +2: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 46: aand .32 at +2: it is the misalignment fault
 	movq	#46, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+18, r5
-	cbeq	r4, r5, 1f	; case 46: aandl at +2: EVA is the address
+	cbeq	r4, r5, 1f		; case 46: aand .32 at +2: EVA is the address
 	movq	#46, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I46, r5
-	cbeq	r4, r5, 1f	; case 46: aandl at +2: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 46: aand .32 at +2: EPC is the instruction (precise)
 	movq	#46, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 46: aandl at +2: Rd unchanged
+	cbeq	r1, r17, 1f		; case 46: aand .32 at +2: Rd unchanged
 	movq	#46, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 46: aandl at +2: Rs unchanged
+	cbeq	r2, r17, 1f		; case 46: aand .32 at +2: Rs unchanged
 	movq	#46, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 46: aandl at +2: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 46: aand .32 at +2: the memory around is untouched (-16)
 	movq	#46, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 46: aandl at +2: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 46: aand .32 at +2: the memory around is untouched (-8)
 	movq	#46, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 46: aandl at +2: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 46: aand .32 at +2: the memory around is untouched (0)
 	movq	#46, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 46: aandl at +2: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 46: aand .32 at +2: the memory around is untouched (8)
 	movq	#46, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 46: aandl at +2: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 46: aand .32 at +2: the memory around is untouched (16)
 	movq	#46, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 46: aandl at +2: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 46: aand .32 at +2: the memory around is untouched (24)
 	movq	#46, r0
 	halt
 1:
-	; ---- case 47: aandl at +1
+		; ---- case 47: aand .32 at +1
 	lea	buf+17, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -4227,78 +4227,78 @@ N46:	movq	cnt, r4
 	movq	r4, cnt
 	lea	N47, r13
 I47:
-	aandl	r2, (r3), r1
+	aand	r2, (r3).32, r1
 N47:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 47: aandl at +1: one exception
+	cbeq	r4, r17, 1f		; case 47: aand .32 at +1: one exception
 	movq	#47, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 47: aandl at +1: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 47: aand .32 at +1: it is the misalignment fault
 	movq	#47, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+17, r5
-	cbeq	r4, r5, 1f	; case 47: aandl at +1: EVA is the address
+	cbeq	r4, r5, 1f		; case 47: aand .32 at +1: EVA is the address
 	movq	#47, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I47, r5
-	cbeq	r4, r5, 1f	; case 47: aandl at +1: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 47: aand .32 at +1: EPC is the instruction (precise)
 	movq	#47, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 47: aandl at +1: Rd unchanged
+	cbeq	r1, r17, 1f		; case 47: aand .32 at +1: Rd unchanged
 	movq	#47, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 47: aandl at +1: Rs unchanged
+	cbeq	r2, r17, 1f		; case 47: aand .32 at +1: Rs unchanged
 	movq	#47, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 47: aandl at +1: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 47: aand .32 at +1: the memory around is untouched (-16)
 	movq	#47, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 47: aandl at +1: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 47: aand .32 at +1: the memory around is untouched (-8)
 	movq	#47, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 47: aandl at +1: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 47: aand .32 at +1: the memory around is untouched (0)
 	movq	#47, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 47: aandl at +1: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 47: aand .32 at +1: the memory around is untouched (8)
 	movq	#47, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 47: aandl at +1: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 47: aand .32 at +1: the memory around is untouched (16)
 	movq	#47, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 47: aandl at +1: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 47: aand .32 at +1: the memory around is untouched (24)
 	movq	#47, r0
 	halt
 1:
-	; ---- case 48: aandl at +3
+		; ---- case 48: aand .32 at +3
 	lea	buf+19, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -4318,78 +4318,78 @@ N47:	movq	cnt, r4
 	movq	r4, cnt
 	lea	N48, r13
 I48:
-	aandl	r2, (r3), r1
+	aand	r2, (r3).32, r1
 N48:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 48: aandl at +3: one exception
+	cbeq	r4, r17, 1f		; case 48: aand .32 at +3: one exception
 	movq	#48, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 48: aandl at +3: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 48: aand .32 at +3: it is the misalignment fault
 	movq	#48, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+19, r5
-	cbeq	r4, r5, 1f	; case 48: aandl at +3: EVA is the address
+	cbeq	r4, r5, 1f		; case 48: aand .32 at +3: EVA is the address
 	movq	#48, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I48, r5
-	cbeq	r4, r5, 1f	; case 48: aandl at +3: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 48: aand .32 at +3: EPC is the instruction (precise)
 	movq	#48, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 48: aandl at +3: Rd unchanged
+	cbeq	r1, r17, 1f		; case 48: aand .32 at +3: Rd unchanged
 	movq	#48, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 48: aandl at +3: Rs unchanged
+	cbeq	r2, r17, 1f		; case 48: aand .32 at +3: Rs unchanged
 	movq	#48, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 48: aandl at +3: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 48: aand .32 at +3: the memory around is untouched (-16)
 	movq	#48, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 48: aandl at +3: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 48: aand .32 at +3: the memory around is untouched (-8)
 	movq	#48, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 48: aandl at +3: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 48: aand .32 at +3: the memory around is untouched (0)
 	movq	#48, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 48: aandl at +3: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 48: aand .32 at +3: the memory around is untouched (8)
 	movq	#48, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 48: aandl at +3: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 48: aand .32 at +3: the memory around is untouched (16)
 	movq	#48, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 48: aandl at +3: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 48: aand .32 at +3: the memory around is untouched (24)
 	movq	#48, r0
 	halt
 1:
-	; ---- case 49: abisl at +2
+		; ---- case 49: abis .32 at +2
 	lea	buf+18, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -4409,78 +4409,78 @@ N48:	movq	cnt, r4
 	movq	r4, cnt
 	lea	N49, r13
 I49:
-	abisl	r2, (r3), r1
+	abis	r2, (r3).32, r1
 N49:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 49: abisl at +2: one exception
+	cbeq	r4, r17, 1f		; case 49: abis .32 at +2: one exception
 	movq	#49, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 49: abisl at +2: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 49: abis .32 at +2: it is the misalignment fault
 	movq	#49, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+18, r5
-	cbeq	r4, r5, 1f	; case 49: abisl at +2: EVA is the address
+	cbeq	r4, r5, 1f		; case 49: abis .32 at +2: EVA is the address
 	movq	#49, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I49, r5
-	cbeq	r4, r5, 1f	; case 49: abisl at +2: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 49: abis .32 at +2: EPC is the instruction (precise)
 	movq	#49, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 49: abisl at +2: Rd unchanged
+	cbeq	r1, r17, 1f		; case 49: abis .32 at +2: Rd unchanged
 	movq	#49, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 49: abisl at +2: Rs unchanged
+	cbeq	r2, r17, 1f		; case 49: abis .32 at +2: Rs unchanged
 	movq	#49, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 49: abisl at +2: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 49: abis .32 at +2: the memory around is untouched (-16)
 	movq	#49, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 49: abisl at +2: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 49: abis .32 at +2: the memory around is untouched (-8)
 	movq	#49, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 49: abisl at +2: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 49: abis .32 at +2: the memory around is untouched (0)
 	movq	#49, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 49: abisl at +2: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 49: abis .32 at +2: the memory around is untouched (8)
 	movq	#49, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 49: abisl at +2: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 49: abis .32 at +2: the memory around is untouched (16)
 	movq	#49, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 49: abisl at +2: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 49: abis .32 at +2: the memory around is untouched (24)
 	movq	#49, r0
 	halt
 1:
-	; ---- case 50: abisl at +1
+		; ---- case 50: abis .32 at +1
 	lea	buf+17, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -4500,78 +4500,78 @@ N49:	movq	cnt, r4
 	movq	r4, cnt
 	lea	N50, r13
 I50:
-	abisl	r2, (r3), r1
+	abis	r2, (r3).32, r1
 N50:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 50: abisl at +1: one exception
+	cbeq	r4, r17, 1f		; case 50: abis .32 at +1: one exception
 	movq	#50, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 50: abisl at +1: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 50: abis .32 at +1: it is the misalignment fault
 	movq	#50, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+17, r5
-	cbeq	r4, r5, 1f	; case 50: abisl at +1: EVA is the address
+	cbeq	r4, r5, 1f		; case 50: abis .32 at +1: EVA is the address
 	movq	#50, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I50, r5
-	cbeq	r4, r5, 1f	; case 50: abisl at +1: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 50: abis .32 at +1: EPC is the instruction (precise)
 	movq	#50, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 50: abisl at +1: Rd unchanged
+	cbeq	r1, r17, 1f		; case 50: abis .32 at +1: Rd unchanged
 	movq	#50, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 50: abisl at +1: Rs unchanged
+	cbeq	r2, r17, 1f		; case 50: abis .32 at +1: Rs unchanged
 	movq	#50, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 50: abisl at +1: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 50: abis .32 at +1: the memory around is untouched (-16)
 	movq	#50, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 50: abisl at +1: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 50: abis .32 at +1: the memory around is untouched (-8)
 	movq	#50, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 50: abisl at +1: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 50: abis .32 at +1: the memory around is untouched (0)
 	movq	#50, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 50: abisl at +1: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 50: abis .32 at +1: the memory around is untouched (8)
 	movq	#50, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 50: abisl at +1: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 50: abis .32 at +1: the memory around is untouched (16)
 	movq	#50, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 50: abisl at +1: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 50: abis .32 at +1: the memory around is untouched (24)
 	movq	#50, r0
 	halt
 1:
-	; ---- case 51: abisl at +3
+		; ---- case 51: abis .32 at +3
 	lea	buf+19, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -4591,78 +4591,78 @@ N50:	movq	cnt, r4
 	movq	r4, cnt
 	lea	N51, r13
 I51:
-	abisl	r2, (r3), r1
+	abis	r2, (r3).32, r1
 N51:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 51: abisl at +3: one exception
+	cbeq	r4, r17, 1f		; case 51: abis .32 at +3: one exception
 	movq	#51, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 51: abisl at +3: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 51: abis .32 at +3: it is the misalignment fault
 	movq	#51, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+19, r5
-	cbeq	r4, r5, 1f	; case 51: abisl at +3: EVA is the address
+	cbeq	r4, r5, 1f		; case 51: abis .32 at +3: EVA is the address
 	movq	#51, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I51, r5
-	cbeq	r4, r5, 1f	; case 51: abisl at +3: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 51: abis .32 at +3: EPC is the instruction (precise)
 	movq	#51, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 51: abisl at +3: Rd unchanged
+	cbeq	r1, r17, 1f		; case 51: abis .32 at +3: Rd unchanged
 	movq	#51, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 51: abisl at +3: Rs unchanged
+	cbeq	r2, r17, 1f		; case 51: abis .32 at +3: Rs unchanged
 	movq	#51, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 51: abisl at +3: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 51: abis .32 at +3: the memory around is untouched (-16)
 	movq	#51, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 51: abisl at +3: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 51: abis .32 at +3: the memory around is untouched (-8)
 	movq	#51, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 51: abisl at +3: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 51: abis .32 at +3: the memory around is untouched (0)
 	movq	#51, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 51: abisl at +3: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 51: abis .32 at +3: the memory around is untouched (8)
 	movq	#51, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 51: abisl at +3: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 51: abis .32 at +3: the memory around is untouched (16)
 	movq	#51, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 51: abisl at +3: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 51: abis .32 at +3: the memory around is untouched (24)
 	movq	#51, r0
 	halt
 1:
-	; ---- case 52: axorl at +2
+		; ---- case 52: axor .32 at +2
 	lea	buf+18, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -4682,78 +4682,78 @@ N51:	movq	cnt, r4
 	movq	r4, cnt
 	lea	N52, r13
 I52:
-	axorl	r2, (r3), r1
+	axor	r2, (r3).32, r1
 N52:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 52: axorl at +2: one exception
+	cbeq	r4, r17, 1f		; case 52: axor .32 at +2: one exception
 	movq	#52, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 52: axorl at +2: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 52: axor .32 at +2: it is the misalignment fault
 	movq	#52, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+18, r5
-	cbeq	r4, r5, 1f	; case 52: axorl at +2: EVA is the address
+	cbeq	r4, r5, 1f		; case 52: axor .32 at +2: EVA is the address
 	movq	#52, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I52, r5
-	cbeq	r4, r5, 1f	; case 52: axorl at +2: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 52: axor .32 at +2: EPC is the instruction (precise)
 	movq	#52, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 52: axorl at +2: Rd unchanged
+	cbeq	r1, r17, 1f		; case 52: axor .32 at +2: Rd unchanged
 	movq	#52, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 52: axorl at +2: Rs unchanged
+	cbeq	r2, r17, 1f		; case 52: axor .32 at +2: Rs unchanged
 	movq	#52, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 52: axorl at +2: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 52: axor .32 at +2: the memory around is untouched (-16)
 	movq	#52, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 52: axorl at +2: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 52: axor .32 at +2: the memory around is untouched (-8)
 	movq	#52, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 52: axorl at +2: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 52: axor .32 at +2: the memory around is untouched (0)
 	movq	#52, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 52: axorl at +2: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 52: axor .32 at +2: the memory around is untouched (8)
 	movq	#52, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 52: axorl at +2: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 52: axor .32 at +2: the memory around is untouched (16)
 	movq	#52, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 52: axorl at +2: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 52: axor .32 at +2: the memory around is untouched (24)
 	movq	#52, r0
 	halt
 1:
-	; ---- case 53: axorl at +1
+		; ---- case 53: axor .32 at +1
 	lea	buf+17, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -4773,78 +4773,78 @@ N52:	movq	cnt, r4
 	movq	r4, cnt
 	lea	N53, r13
 I53:
-	axorl	r2, (r3), r1
+	axor	r2, (r3).32, r1
 N53:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 53: axorl at +1: one exception
+	cbeq	r4, r17, 1f		; case 53: axor .32 at +1: one exception
 	movq	#53, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 53: axorl at +1: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 53: axor .32 at +1: it is the misalignment fault
 	movq	#53, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+17, r5
-	cbeq	r4, r5, 1f	; case 53: axorl at +1: EVA is the address
+	cbeq	r4, r5, 1f		; case 53: axor .32 at +1: EVA is the address
 	movq	#53, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I53, r5
-	cbeq	r4, r5, 1f	; case 53: axorl at +1: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 53: axor .32 at +1: EPC is the instruction (precise)
 	movq	#53, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 53: axorl at +1: Rd unchanged
+	cbeq	r1, r17, 1f		; case 53: axor .32 at +1: Rd unchanged
 	movq	#53, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 53: axorl at +1: Rs unchanged
+	cbeq	r2, r17, 1f		; case 53: axor .32 at +1: Rs unchanged
 	movq	#53, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 53: axorl at +1: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 53: axor .32 at +1: the memory around is untouched (-16)
 	movq	#53, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 53: axorl at +1: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 53: axor .32 at +1: the memory around is untouched (-8)
 	movq	#53, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 53: axorl at +1: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 53: axor .32 at +1: the memory around is untouched (0)
 	movq	#53, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 53: axorl at +1: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 53: axor .32 at +1: the memory around is untouched (8)
 	movq	#53, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 53: axorl at +1: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 53: axor .32 at +1: the memory around is untouched (16)
 	movq	#53, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 53: axorl at +1: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 53: axor .32 at +1: the memory around is untouched (24)
 	movq	#53, r0
 	halt
 1:
-	; ---- case 54: axorl at +3
+		; ---- case 54: axor .32 at +3
 	lea	buf+19, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -4864,78 +4864,78 @@ N53:	movq	cnt, r4
 	movq	r4, cnt
 	lea	N54, r13
 I54:
-	axorl	r2, (r3), r1
+	axor	r2, (r3).32, r1
 N54:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 54: axorl at +3: one exception
+	cbeq	r4, r17, 1f		; case 54: axor .32 at +3: one exception
 	movq	#54, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 54: axorl at +3: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 54: axor .32 at +3: it is the misalignment fault
 	movq	#54, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+19, r5
-	cbeq	r4, r5, 1f	; case 54: axorl at +3: EVA is the address
+	cbeq	r4, r5, 1f		; case 54: axor .32 at +3: EVA is the address
 	movq	#54, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I54, r5
-	cbeq	r4, r5, 1f	; case 54: axorl at +3: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 54: axor .32 at +3: EPC is the instruction (precise)
 	movq	#54, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 54: axorl at +3: Rd unchanged
+	cbeq	r1, r17, 1f		; case 54: axor .32 at +3: Rd unchanged
 	movq	#54, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 54: axorl at +3: Rs unchanged
+	cbeq	r2, r17, 1f		; case 54: axor .32 at +3: Rs unchanged
 	movq	#54, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 54: axorl at +3: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 54: axor .32 at +3: the memory around is untouched (-16)
 	movq	#54, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 54: axorl at +3: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 54: axor .32 at +3: the memory around is untouched (-8)
 	movq	#54, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 54: axorl at +3: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 54: axor .32 at +3: the memory around is untouched (0)
 	movq	#54, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 54: axorl at +3: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 54: axor .32 at +3: the memory around is untouched (8)
 	movq	#54, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 54: axorl at +3: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 54: axor .32 at +3: the memory around is untouched (16)
 	movq	#54, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 54: axorl at +3: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 54: axor .32 at +3: the memory around is untouched (24)
 	movq	#54, r0
 	halt
 1:
-	; ---- case 55: amaxl at +2
+		; ---- case 55: amax .32 at +2
 	lea	buf+18, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -4955,78 +4955,78 @@ N54:	movq	cnt, r4
 	movq	r4, cnt
 	lea	N55, r13
 I55:
-	amaxl	r2, (r3), r1
+	amax	r2, (r3).32, r1
 N55:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 55: amaxl at +2: one exception
+	cbeq	r4, r17, 1f		; case 55: amax .32 at +2: one exception
 	movq	#55, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 55: amaxl at +2: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 55: amax .32 at +2: it is the misalignment fault
 	movq	#55, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+18, r5
-	cbeq	r4, r5, 1f	; case 55: amaxl at +2: EVA is the address
+	cbeq	r4, r5, 1f		; case 55: amax .32 at +2: EVA is the address
 	movq	#55, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I55, r5
-	cbeq	r4, r5, 1f	; case 55: amaxl at +2: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 55: amax .32 at +2: EPC is the instruction (precise)
 	movq	#55, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 55: amaxl at +2: Rd unchanged
+	cbeq	r1, r17, 1f		; case 55: amax .32 at +2: Rd unchanged
 	movq	#55, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 55: amaxl at +2: Rs unchanged
+	cbeq	r2, r17, 1f		; case 55: amax .32 at +2: Rs unchanged
 	movq	#55, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 55: amaxl at +2: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 55: amax .32 at +2: the memory around is untouched (-16)
 	movq	#55, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 55: amaxl at +2: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 55: amax .32 at +2: the memory around is untouched (-8)
 	movq	#55, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 55: amaxl at +2: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 55: amax .32 at +2: the memory around is untouched (0)
 	movq	#55, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 55: amaxl at +2: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 55: amax .32 at +2: the memory around is untouched (8)
 	movq	#55, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 55: amaxl at +2: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 55: amax .32 at +2: the memory around is untouched (16)
 	movq	#55, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 55: amaxl at +2: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 55: amax .32 at +2: the memory around is untouched (24)
 	movq	#55, r0
 	halt
 1:
-	; ---- case 56: amaxl at +1
+		; ---- case 56: amax .32 at +1
 	lea	buf+17, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -5046,78 +5046,78 @@ N55:	movq	cnt, r4
 	movq	r4, cnt
 	lea	N56, r13
 I56:
-	amaxl	r2, (r3), r1
+	amax	r2, (r3).32, r1
 N56:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 56: amaxl at +1: one exception
+	cbeq	r4, r17, 1f		; case 56: amax .32 at +1: one exception
 	movq	#56, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 56: amaxl at +1: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 56: amax .32 at +1: it is the misalignment fault
 	movq	#56, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+17, r5
-	cbeq	r4, r5, 1f	; case 56: amaxl at +1: EVA is the address
+	cbeq	r4, r5, 1f		; case 56: amax .32 at +1: EVA is the address
 	movq	#56, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I56, r5
-	cbeq	r4, r5, 1f	; case 56: amaxl at +1: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 56: amax .32 at +1: EPC is the instruction (precise)
 	movq	#56, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 56: amaxl at +1: Rd unchanged
+	cbeq	r1, r17, 1f		; case 56: amax .32 at +1: Rd unchanged
 	movq	#56, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 56: amaxl at +1: Rs unchanged
+	cbeq	r2, r17, 1f		; case 56: amax .32 at +1: Rs unchanged
 	movq	#56, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 56: amaxl at +1: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 56: amax .32 at +1: the memory around is untouched (-16)
 	movq	#56, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 56: amaxl at +1: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 56: amax .32 at +1: the memory around is untouched (-8)
 	movq	#56, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 56: amaxl at +1: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 56: amax .32 at +1: the memory around is untouched (0)
 	movq	#56, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 56: amaxl at +1: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 56: amax .32 at +1: the memory around is untouched (8)
 	movq	#56, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 56: amaxl at +1: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 56: amax .32 at +1: the memory around is untouched (16)
 	movq	#56, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 56: amaxl at +1: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 56: amax .32 at +1: the memory around is untouched (24)
 	movq	#56, r0
 	halt
 1:
-	; ---- case 57: amaxl at +3
+		; ---- case 57: amax .32 at +3
 	lea	buf+19, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -5137,78 +5137,78 @@ N56:	movq	cnt, r4
 	movq	r4, cnt
 	lea	N57, r13
 I57:
-	amaxl	r2, (r3), r1
+	amax	r2, (r3).32, r1
 N57:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 57: amaxl at +3: one exception
+	cbeq	r4, r17, 1f		; case 57: amax .32 at +3: one exception
 	movq	#57, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 57: amaxl at +3: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 57: amax .32 at +3: it is the misalignment fault
 	movq	#57, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+19, r5
-	cbeq	r4, r5, 1f	; case 57: amaxl at +3: EVA is the address
+	cbeq	r4, r5, 1f		; case 57: amax .32 at +3: EVA is the address
 	movq	#57, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I57, r5
-	cbeq	r4, r5, 1f	; case 57: amaxl at +3: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 57: amax .32 at +3: EPC is the instruction (precise)
 	movq	#57, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 57: amaxl at +3: Rd unchanged
+	cbeq	r1, r17, 1f		; case 57: amax .32 at +3: Rd unchanged
 	movq	#57, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 57: amaxl at +3: Rs unchanged
+	cbeq	r2, r17, 1f		; case 57: amax .32 at +3: Rs unchanged
 	movq	#57, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 57: amaxl at +3: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 57: amax .32 at +3: the memory around is untouched (-16)
 	movq	#57, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 57: amaxl at +3: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 57: amax .32 at +3: the memory around is untouched (-8)
 	movq	#57, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 57: amaxl at +3: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 57: amax .32 at +3: the memory around is untouched (0)
 	movq	#57, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 57: amaxl at +3: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 57: amax .32 at +3: the memory around is untouched (8)
 	movq	#57, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 57: amaxl at +3: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 57: amax .32 at +3: the memory around is untouched (16)
 	movq	#57, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 57: amaxl at +3: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 57: amax .32 at +3: the memory around is untouched (24)
 	movq	#57, r0
 	halt
 1:
-	; ---- case 58: aminl at +2
+		; ---- case 58: amin .32 at +2
 	lea	buf+18, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -5228,78 +5228,78 @@ N57:	movq	cnt, r4
 	movq	r4, cnt
 	lea	N58, r13
 I58:
-	aminl	r2, (r3), r1
+	amin	r2, (r3).32, r1
 N58:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 58: aminl at +2: one exception
+	cbeq	r4, r17, 1f		; case 58: amin .32 at +2: one exception
 	movq	#58, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 58: aminl at +2: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 58: amin .32 at +2: it is the misalignment fault
 	movq	#58, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+18, r5
-	cbeq	r4, r5, 1f	; case 58: aminl at +2: EVA is the address
+	cbeq	r4, r5, 1f		; case 58: amin .32 at +2: EVA is the address
 	movq	#58, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I58, r5
-	cbeq	r4, r5, 1f	; case 58: aminl at +2: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 58: amin .32 at +2: EPC is the instruction (precise)
 	movq	#58, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 58: aminl at +2: Rd unchanged
+	cbeq	r1, r17, 1f		; case 58: amin .32 at +2: Rd unchanged
 	movq	#58, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 58: aminl at +2: Rs unchanged
+	cbeq	r2, r17, 1f		; case 58: amin .32 at +2: Rs unchanged
 	movq	#58, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 58: aminl at +2: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 58: amin .32 at +2: the memory around is untouched (-16)
 	movq	#58, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 58: aminl at +2: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 58: amin .32 at +2: the memory around is untouched (-8)
 	movq	#58, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 58: aminl at +2: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 58: amin .32 at +2: the memory around is untouched (0)
 	movq	#58, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 58: aminl at +2: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 58: amin .32 at +2: the memory around is untouched (8)
 	movq	#58, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 58: aminl at +2: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 58: amin .32 at +2: the memory around is untouched (16)
 	movq	#58, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 58: aminl at +2: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 58: amin .32 at +2: the memory around is untouched (24)
 	movq	#58, r0
 	halt
 1:
-	; ---- case 59: aminl at +1
+		; ---- case 59: amin .32 at +1
 	lea	buf+17, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -5319,78 +5319,78 @@ N58:	movq	cnt, r4
 	movq	r4, cnt
 	lea	N59, r13
 I59:
-	aminl	r2, (r3), r1
+	amin	r2, (r3).32, r1
 N59:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 59: aminl at +1: one exception
+	cbeq	r4, r17, 1f		; case 59: amin .32 at +1: one exception
 	movq	#59, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 59: aminl at +1: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 59: amin .32 at +1: it is the misalignment fault
 	movq	#59, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+17, r5
-	cbeq	r4, r5, 1f	; case 59: aminl at +1: EVA is the address
+	cbeq	r4, r5, 1f		; case 59: amin .32 at +1: EVA is the address
 	movq	#59, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I59, r5
-	cbeq	r4, r5, 1f	; case 59: aminl at +1: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 59: amin .32 at +1: EPC is the instruction (precise)
 	movq	#59, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 59: aminl at +1: Rd unchanged
+	cbeq	r1, r17, 1f		; case 59: amin .32 at +1: Rd unchanged
 	movq	#59, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 59: aminl at +1: Rs unchanged
+	cbeq	r2, r17, 1f		; case 59: amin .32 at +1: Rs unchanged
 	movq	#59, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 59: aminl at +1: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 59: amin .32 at +1: the memory around is untouched (-16)
 	movq	#59, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 59: aminl at +1: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 59: amin .32 at +1: the memory around is untouched (-8)
 	movq	#59, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 59: aminl at +1: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 59: amin .32 at +1: the memory around is untouched (0)
 	movq	#59, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 59: aminl at +1: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 59: amin .32 at +1: the memory around is untouched (8)
 	movq	#59, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 59: aminl at +1: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 59: amin .32 at +1: the memory around is untouched (16)
 	movq	#59, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 59: aminl at +1: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 59: amin .32 at +1: the memory around is untouched (24)
 	movq	#59, r0
 	halt
 1:
-	; ---- case 60: aminl at +3
+		; ---- case 60: amin .32 at +3
 	lea	buf+19, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -5410,78 +5410,78 @@ N59:	movq	cnt, r4
 	movq	r4, cnt
 	lea	N60, r13
 I60:
-	aminl	r2, (r3), r1
+	amin	r2, (r3).32, r1
 N60:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 60: aminl at +3: one exception
+	cbeq	r4, r17, 1f		; case 60: amin .32 at +3: one exception
 	movq	#60, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 60: aminl at +3: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 60: amin .32 at +3: it is the misalignment fault
 	movq	#60, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+19, r5
-	cbeq	r4, r5, 1f	; case 60: aminl at +3: EVA is the address
+	cbeq	r4, r5, 1f		; case 60: amin .32 at +3: EVA is the address
 	movq	#60, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I60, r5
-	cbeq	r4, r5, 1f	; case 60: aminl at +3: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 60: amin .32 at +3: EPC is the instruction (precise)
 	movq	#60, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 60: aminl at +3: Rd unchanged
+	cbeq	r1, r17, 1f		; case 60: amin .32 at +3: Rd unchanged
 	movq	#60, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 60: aminl at +3: Rs unchanged
+	cbeq	r2, r17, 1f		; case 60: amin .32 at +3: Rs unchanged
 	movq	#60, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 60: aminl at +3: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 60: amin .32 at +3: the memory around is untouched (-16)
 	movq	#60, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 60: aminl at +3: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 60: amin .32 at +3: the memory around is untouched (-8)
 	movq	#60, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 60: aminl at +3: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 60: amin .32 at +3: the memory around is untouched (0)
 	movq	#60, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 60: aminl at +3: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 60: amin .32 at +3: the memory around is untouched (8)
 	movq	#60, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 60: aminl at +3: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 60: amin .32 at +3: the memory around is untouched (16)
 	movq	#60, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 60: aminl at +3: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 60: amin .32 at +3: the memory around is untouched (24)
 	movq	#60, r0
 	halt
 1:
-	; ---- case 61: amaxul at +2
+		; ---- case 61: amaxu .32 at +2
 	lea	buf+18, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -5501,78 +5501,78 @@ N60:	movq	cnt, r4
 	movq	r4, cnt
 	lea	N61, r13
 I61:
-	amaxul	r2, (r3), r1
+	amaxu	r2, (r3).32, r1
 N61:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 61: amaxul at +2: one exception
+	cbeq	r4, r17, 1f		; case 61: amaxu .32 at +2: one exception
 	movq	#61, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 61: amaxul at +2: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 61: amaxu .32 at +2: it is the misalignment fault
 	movq	#61, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+18, r5
-	cbeq	r4, r5, 1f	; case 61: amaxul at +2: EVA is the address
+	cbeq	r4, r5, 1f		; case 61: amaxu .32 at +2: EVA is the address
 	movq	#61, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I61, r5
-	cbeq	r4, r5, 1f	; case 61: amaxul at +2: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 61: amaxu .32 at +2: EPC is the instruction (precise)
 	movq	#61, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 61: amaxul at +2: Rd unchanged
+	cbeq	r1, r17, 1f		; case 61: amaxu .32 at +2: Rd unchanged
 	movq	#61, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 61: amaxul at +2: Rs unchanged
+	cbeq	r2, r17, 1f		; case 61: amaxu .32 at +2: Rs unchanged
 	movq	#61, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 61: amaxul at +2: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 61: amaxu .32 at +2: the memory around is untouched (-16)
 	movq	#61, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 61: amaxul at +2: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 61: amaxu .32 at +2: the memory around is untouched (-8)
 	movq	#61, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 61: amaxul at +2: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 61: amaxu .32 at +2: the memory around is untouched (0)
 	movq	#61, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 61: amaxul at +2: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 61: amaxu .32 at +2: the memory around is untouched (8)
 	movq	#61, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 61: amaxul at +2: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 61: amaxu .32 at +2: the memory around is untouched (16)
 	movq	#61, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 61: amaxul at +2: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 61: amaxu .32 at +2: the memory around is untouched (24)
 	movq	#61, r0
 	halt
 1:
-	; ---- case 62: amaxul at +1
+		; ---- case 62: amaxu .32 at +1
 	lea	buf+17, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -5592,78 +5592,78 @@ N61:	movq	cnt, r4
 	movq	r4, cnt
 	lea	N62, r13
 I62:
-	amaxul	r2, (r3), r1
+	amaxu	r2, (r3).32, r1
 N62:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 62: amaxul at +1: one exception
+	cbeq	r4, r17, 1f		; case 62: amaxu .32 at +1: one exception
 	movq	#62, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 62: amaxul at +1: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 62: amaxu .32 at +1: it is the misalignment fault
 	movq	#62, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+17, r5
-	cbeq	r4, r5, 1f	; case 62: amaxul at +1: EVA is the address
+	cbeq	r4, r5, 1f		; case 62: amaxu .32 at +1: EVA is the address
 	movq	#62, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I62, r5
-	cbeq	r4, r5, 1f	; case 62: amaxul at +1: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 62: amaxu .32 at +1: EPC is the instruction (precise)
 	movq	#62, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 62: amaxul at +1: Rd unchanged
+	cbeq	r1, r17, 1f		; case 62: amaxu .32 at +1: Rd unchanged
 	movq	#62, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 62: amaxul at +1: Rs unchanged
+	cbeq	r2, r17, 1f		; case 62: amaxu .32 at +1: Rs unchanged
 	movq	#62, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 62: amaxul at +1: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 62: amaxu .32 at +1: the memory around is untouched (-16)
 	movq	#62, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 62: amaxul at +1: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 62: amaxu .32 at +1: the memory around is untouched (-8)
 	movq	#62, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 62: amaxul at +1: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 62: amaxu .32 at +1: the memory around is untouched (0)
 	movq	#62, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 62: amaxul at +1: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 62: amaxu .32 at +1: the memory around is untouched (8)
 	movq	#62, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 62: amaxul at +1: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 62: amaxu .32 at +1: the memory around is untouched (16)
 	movq	#62, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 62: amaxul at +1: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 62: amaxu .32 at +1: the memory around is untouched (24)
 	movq	#62, r0
 	halt
 1:
-	; ---- case 63: amaxul at +3
+		; ---- case 63: amaxu .32 at +3
 	lea	buf+19, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -5683,78 +5683,78 @@ N62:	movq	cnt, r4
 	movq	r4, cnt
 	lea	N63, r13
 I63:
-	amaxul	r2, (r3), r1
+	amaxu	r2, (r3).32, r1
 N63:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 63: amaxul at +3: one exception
+	cbeq	r4, r17, 1f		; case 63: amaxu .32 at +3: one exception
 	movq	#63, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 63: amaxul at +3: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 63: amaxu .32 at +3: it is the misalignment fault
 	movq	#63, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+19, r5
-	cbeq	r4, r5, 1f	; case 63: amaxul at +3: EVA is the address
+	cbeq	r4, r5, 1f		; case 63: amaxu .32 at +3: EVA is the address
 	movq	#63, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I63, r5
-	cbeq	r4, r5, 1f	; case 63: amaxul at +3: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 63: amaxu .32 at +3: EPC is the instruction (precise)
 	movq	#63, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 63: amaxul at +3: Rd unchanged
+	cbeq	r1, r17, 1f		; case 63: amaxu .32 at +3: Rd unchanged
 	movq	#63, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 63: amaxul at +3: Rs unchanged
+	cbeq	r2, r17, 1f		; case 63: amaxu .32 at +3: Rs unchanged
 	movq	#63, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 63: amaxul at +3: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 63: amaxu .32 at +3: the memory around is untouched (-16)
 	movq	#63, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 63: amaxul at +3: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 63: amaxu .32 at +3: the memory around is untouched (-8)
 	movq	#63, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 63: amaxul at +3: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 63: amaxu .32 at +3: the memory around is untouched (0)
 	movq	#63, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 63: amaxul at +3: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 63: amaxu .32 at +3: the memory around is untouched (8)
 	movq	#63, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 63: amaxul at +3: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 63: amaxu .32 at +3: the memory around is untouched (16)
 	movq	#63, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 63: amaxul at +3: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 63: amaxu .32 at +3: the memory around is untouched (24)
 	movq	#63, r0
 	halt
 1:
-	; ---- case 64: aminul at +2
+		; ---- case 64: aminu .32 at +2
 	lea	buf+18, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -5774,78 +5774,78 @@ N63:	movq	cnt, r4
 	movq	r4, cnt
 	lea	N64, r13
 I64:
-	aminul	r2, (r3), r1
+	aminu	r2, (r3).32, r1
 N64:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 64: aminul at +2: one exception
+	cbeq	r4, r17, 1f		; case 64: aminu .32 at +2: one exception
 	movq	#64, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 64: aminul at +2: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 64: aminu .32 at +2: it is the misalignment fault
 	movq	#64, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+18, r5
-	cbeq	r4, r5, 1f	; case 64: aminul at +2: EVA is the address
+	cbeq	r4, r5, 1f		; case 64: aminu .32 at +2: EVA is the address
 	movq	#64, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I64, r5
-	cbeq	r4, r5, 1f	; case 64: aminul at +2: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 64: aminu .32 at +2: EPC is the instruction (precise)
 	movq	#64, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 64: aminul at +2: Rd unchanged
+	cbeq	r1, r17, 1f		; case 64: aminu .32 at +2: Rd unchanged
 	movq	#64, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 64: aminul at +2: Rs unchanged
+	cbeq	r2, r17, 1f		; case 64: aminu .32 at +2: Rs unchanged
 	movq	#64, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 64: aminul at +2: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 64: aminu .32 at +2: the memory around is untouched (-16)
 	movq	#64, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 64: aminul at +2: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 64: aminu .32 at +2: the memory around is untouched (-8)
 	movq	#64, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 64: aminul at +2: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 64: aminu .32 at +2: the memory around is untouched (0)
 	movq	#64, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 64: aminul at +2: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 64: aminu .32 at +2: the memory around is untouched (8)
 	movq	#64, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 64: aminul at +2: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 64: aminu .32 at +2: the memory around is untouched (16)
 	movq	#64, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 64: aminul at +2: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 64: aminu .32 at +2: the memory around is untouched (24)
 	movq	#64, r0
 	halt
 1:
-	; ---- case 65: aminul at +1
+		; ---- case 65: aminu .32 at +1
 	lea	buf+17, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -5865,78 +5865,78 @@ N64:	movq	cnt, r4
 	movq	r4, cnt
 	lea	N65, r13
 I65:
-	aminul	r2, (r3), r1
+	aminu	r2, (r3).32, r1
 N65:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 65: aminul at +1: one exception
+	cbeq	r4, r17, 1f		; case 65: aminu .32 at +1: one exception
 	movq	#65, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 65: aminul at +1: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 65: aminu .32 at +1: it is the misalignment fault
 	movq	#65, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+17, r5
-	cbeq	r4, r5, 1f	; case 65: aminul at +1: EVA is the address
+	cbeq	r4, r5, 1f		; case 65: aminu .32 at +1: EVA is the address
 	movq	#65, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I65, r5
-	cbeq	r4, r5, 1f	; case 65: aminul at +1: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 65: aminu .32 at +1: EPC is the instruction (precise)
 	movq	#65, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 65: aminul at +1: Rd unchanged
+	cbeq	r1, r17, 1f		; case 65: aminu .32 at +1: Rd unchanged
 	movq	#65, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 65: aminul at +1: Rs unchanged
+	cbeq	r2, r17, 1f		; case 65: aminu .32 at +1: Rs unchanged
 	movq	#65, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 65: aminul at +1: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 65: aminu .32 at +1: the memory around is untouched (-16)
 	movq	#65, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 65: aminul at +1: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 65: aminu .32 at +1: the memory around is untouched (-8)
 	movq	#65, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 65: aminul at +1: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 65: aminu .32 at +1: the memory around is untouched (0)
 	movq	#65, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 65: aminul at +1: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 65: aminu .32 at +1: the memory around is untouched (8)
 	movq	#65, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 65: aminul at +1: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 65: aminu .32 at +1: the memory around is untouched (16)
 	movq	#65, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 65: aminul at +1: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 65: aminu .32 at +1: the memory around is untouched (24)
 	movq	#65, r0
 	halt
 1:
-	; ---- case 66: aminul at +3
+		; ---- case 66: aminu .32 at +3
 	lea	buf+19, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -5956,78 +5956,78 @@ N65:	movq	cnt, r4
 	movq	r4, cnt
 	lea	N66, r13
 I66:
-	aminul	r2, (r3), r1
+	aminu	r2, (r3).32, r1
 N66:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 66: aminul at +3: one exception
+	cbeq	r4, r17, 1f		; case 66: aminu .32 at +3: one exception
 	movq	#66, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 66: aminul at +3: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 66: aminu .32 at +3: it is the misalignment fault
 	movq	#66, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+19, r5
-	cbeq	r4, r5, 1f	; case 66: aminul at +3: EVA is the address
+	cbeq	r4, r5, 1f		; case 66: aminu .32 at +3: EVA is the address
 	movq	#66, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I66, r5
-	cbeq	r4, r5, 1f	; case 66: aminul at +3: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 66: aminu .32 at +3: EPC is the instruction (precise)
 	movq	#66, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 66: aminul at +3: Rd unchanged
+	cbeq	r1, r17, 1f		; case 66: aminu .32 at +3: Rd unchanged
 	movq	#66, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 66: aminul at +3: Rs unchanged
+	cbeq	r2, r17, 1f		; case 66: aminu .32 at +3: Rs unchanged
 	movq	#66, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 66: aminul at +3: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 66: aminu .32 at +3: the memory around is untouched (-16)
 	movq	#66, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 66: aminul at +3: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 66: aminu .32 at +3: the memory around is untouched (-8)
 	movq	#66, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 66: aminul at +3: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 66: aminu .32 at +3: the memory around is untouched (0)
 	movq	#66, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 66: aminul at +3: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 66: aminu .32 at +3: the memory around is untouched (8)
 	movq	#66, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 66: aminul at +3: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 66: aminu .32 at +3: the memory around is untouched (16)
 	movq	#66, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 66: aminul at +3: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 66: aminu .32 at +3: the memory around is untouched (24)
 	movq	#66, r0
 	halt
 1:
-	; ---- case 67: scl at +2
+		; ---- case 67: sc .32 at +2
 	lea	buf+18, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -6046,80 +6046,80 @@ N66:	movq	cnt, r4
 	movq	#0, r4
 	movq	r4, cnt
 	lea	N67, r13
-	lll	(r7), r6
+	ll	(r7).32, r6
 I67:
-	scl	r2, (r3), r1
+	sc	r2, (r3).32, r1
 N67:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 67: scl at +2: one exception
+	cbeq	r4, r17, 1f		; case 67: sc .32 at +2: one exception
 	movq	#67, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 67: scl at +2: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 67: sc .32 at +2: it is the misalignment fault
 	movq	#67, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+18, r5
-	cbeq	r4, r5, 1f	; case 67: scl at +2: EVA is the address
+	cbeq	r4, r5, 1f		; case 67: sc .32 at +2: EVA is the address
 	movq	#67, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I67, r5
-	cbeq	r4, r5, 1f	; case 67: scl at +2: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 67: sc .32 at +2: EPC is the instruction (precise)
 	movq	#67, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 67: scl at +2: Rd unchanged
+	cbeq	r1, r17, 1f		; case 67: sc .32 at +2: Rd unchanged
 	movq	#67, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 67: scl at +2: Rs unchanged
+	cbeq	r2, r17, 1f		; case 67: sc .32 at +2: Rs unchanged
 	movq	#67, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 67: scl at +2: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 67: sc .32 at +2: the memory around is untouched (-16)
 	movq	#67, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 67: scl at +2: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 67: sc .32 at +2: the memory around is untouched (-8)
 	movq	#67, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 67: scl at +2: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 67: sc .32 at +2: the memory around is untouched (0)
 	movq	#67, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 67: scl at +2: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 67: sc .32 at +2: the memory around is untouched (8)
 	movq	#67, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 67: scl at +2: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 67: sc .32 at +2: the memory around is untouched (16)
 	movq	#67, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 67: scl at +2: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 67: sc .32 at +2: the memory around is untouched (24)
 	movq	#67, r0
 	halt
 1:
-	; ---- case 68: scl at +1
+		; ---- case 68: sc .32 at +1
 	lea	buf+17, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -6138,80 +6138,80 @@ N67:	movq	cnt, r4
 	movq	#0, r4
 	movq	r4, cnt
 	lea	N68, r13
-	lll	(r7), r6
+	ll	(r7).32, r6
 I68:
-	scl	r2, (r3), r1
+	sc	r2, (r3).32, r1
 N68:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 68: scl at +1: one exception
+	cbeq	r4, r17, 1f		; case 68: sc .32 at +1: one exception
 	movq	#68, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 68: scl at +1: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 68: sc .32 at +1: it is the misalignment fault
 	movq	#68, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+17, r5
-	cbeq	r4, r5, 1f	; case 68: scl at +1: EVA is the address
+	cbeq	r4, r5, 1f		; case 68: sc .32 at +1: EVA is the address
 	movq	#68, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I68, r5
-	cbeq	r4, r5, 1f	; case 68: scl at +1: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 68: sc .32 at +1: EPC is the instruction (precise)
 	movq	#68, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 68: scl at +1: Rd unchanged
+	cbeq	r1, r17, 1f		; case 68: sc .32 at +1: Rd unchanged
 	movq	#68, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 68: scl at +1: Rs unchanged
+	cbeq	r2, r17, 1f		; case 68: sc .32 at +1: Rs unchanged
 	movq	#68, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 68: scl at +1: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 68: sc .32 at +1: the memory around is untouched (-16)
 	movq	#68, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 68: scl at +1: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 68: sc .32 at +1: the memory around is untouched (-8)
 	movq	#68, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 68: scl at +1: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 68: sc .32 at +1: the memory around is untouched (0)
 	movq	#68, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 68: scl at +1: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 68: sc .32 at +1: the memory around is untouched (8)
 	movq	#68, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 68: scl at +1: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 68: sc .32 at +1: the memory around is untouched (16)
 	movq	#68, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 68: scl at +1: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 68: sc .32 at +1: the memory around is untouched (24)
 	movq	#68, r0
 	halt
 1:
-	; ---- case 69: scl at +3
+		; ---- case 69: sc .32 at +3
 	lea	buf+19, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -6230,80 +6230,80 @@ N68:	movq	cnt, r4
 	movq	#0, r4
 	movq	r4, cnt
 	lea	N69, r13
-	lll	(r7), r6
+	ll	(r7).32, r6
 I69:
-	scl	r2, (r3), r1
+	sc	r2, (r3).32, r1
 N69:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 69: scl at +3: one exception
+	cbeq	r4, r17, 1f		; case 69: sc .32 at +3: one exception
 	movq	#69, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 69: scl at +3: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 69: sc .32 at +3: it is the misalignment fault
 	movq	#69, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+19, r5
-	cbeq	r4, r5, 1f	; case 69: scl at +3: EVA is the address
+	cbeq	r4, r5, 1f		; case 69: sc .32 at +3: EVA is the address
 	movq	#69, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I69, r5
-	cbeq	r4, r5, 1f	; case 69: scl at +3: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 69: sc .32 at +3: EPC is the instruction (precise)
 	movq	#69, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 69: scl at +3: Rd unchanged
+	cbeq	r1, r17, 1f		; case 69: sc .32 at +3: Rd unchanged
 	movq	#69, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 69: scl at +3: Rs unchanged
+	cbeq	r2, r17, 1f		; case 69: sc .32 at +3: Rs unchanged
 	movq	#69, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 69: scl at +3: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 69: sc .32 at +3: the memory around is untouched (-16)
 	movq	#69, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 69: scl at +3: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 69: sc .32 at +3: the memory around is untouched (-8)
 	movq	#69, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 69: scl at +3: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 69: sc .32 at +3: the memory around is untouched (0)
 	movq	#69, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 69: scl at +3: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 69: sc .32 at +3: the memory around is untouched (8)
 	movq	#69, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 69: scl at +3: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 69: sc .32 at +3: the memory around is untouched (16)
 	movq	#69, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 69: scl at +3: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 69: sc .32 at +3: the memory around is untouched (24)
 	movq	#69, r0
 	halt
 1:
-	; ---- case 70: lll at +2
+		; ---- case 70: ll .32 at +2
 	lea	buf+18, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -6323,78 +6323,78 @@ N69:	movq	cnt, r4
 	movq	r4, cnt
 	lea	N70, r13
 I70:
-	lll	(r3), r1
+	ll	(r3).32, r1
 N70:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 70: lll at +2: one exception
+	cbeq	r4, r17, 1f		; case 70: ll .32 at +2: one exception
 	movq	#70, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 70: lll at +2: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 70: ll .32 at +2: it is the misalignment fault
 	movq	#70, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+18, r5
-	cbeq	r4, r5, 1f	; case 70: lll at +2: EVA is the address
+	cbeq	r4, r5, 1f		; case 70: ll .32 at +2: EVA is the address
 	movq	#70, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I70, r5
-	cbeq	r4, r5, 1f	; case 70: lll at +2: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 70: ll .32 at +2: EPC is the instruction (precise)
 	movq	#70, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 70: lll at +2: Rd unchanged
+	cbeq	r1, r17, 1f		; case 70: ll .32 at +2: Rd unchanged
 	movq	#70, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 70: lll at +2: Rs unchanged
+	cbeq	r2, r17, 1f		; case 70: ll .32 at +2: Rs unchanged
 	movq	#70, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 70: lll at +2: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 70: ll .32 at +2: the memory around is untouched (-16)
 	movq	#70, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 70: lll at +2: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 70: ll .32 at +2: the memory around is untouched (-8)
 	movq	#70, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 70: lll at +2: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 70: ll .32 at +2: the memory around is untouched (0)
 	movq	#70, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 70: lll at +2: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 70: ll .32 at +2: the memory around is untouched (8)
 	movq	#70, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 70: lll at +2: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 70: ll .32 at +2: the memory around is untouched (16)
 	movq	#70, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 70: lll at +2: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 70: ll .32 at +2: the memory around is untouched (24)
 	movq	#70, r0
 	halt
 1:
-	; ---- case 71: lll at +1
+		; ---- case 71: ll .32 at +1
 	lea	buf+17, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -6414,78 +6414,78 @@ N70:	movq	cnt, r4
 	movq	r4, cnt
 	lea	N71, r13
 I71:
-	lll	(r3), r1
+	ll	(r3).32, r1
 N71:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 71: lll at +1: one exception
+	cbeq	r4, r17, 1f		; case 71: ll .32 at +1: one exception
 	movq	#71, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 71: lll at +1: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 71: ll .32 at +1: it is the misalignment fault
 	movq	#71, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+17, r5
-	cbeq	r4, r5, 1f	; case 71: lll at +1: EVA is the address
+	cbeq	r4, r5, 1f		; case 71: ll .32 at +1: EVA is the address
 	movq	#71, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I71, r5
-	cbeq	r4, r5, 1f	; case 71: lll at +1: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 71: ll .32 at +1: EPC is the instruction (precise)
 	movq	#71, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 71: lll at +1: Rd unchanged
+	cbeq	r1, r17, 1f		; case 71: ll .32 at +1: Rd unchanged
 	movq	#71, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 71: lll at +1: Rs unchanged
+	cbeq	r2, r17, 1f		; case 71: ll .32 at +1: Rs unchanged
 	movq	#71, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 71: lll at +1: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 71: ll .32 at +1: the memory around is untouched (-16)
 	movq	#71, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 71: lll at +1: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 71: ll .32 at +1: the memory around is untouched (-8)
 	movq	#71, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 71: lll at +1: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 71: ll .32 at +1: the memory around is untouched (0)
 	movq	#71, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 71: lll at +1: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 71: ll .32 at +1: the memory around is untouched (8)
 	movq	#71, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 71: lll at +1: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 71: ll .32 at +1: the memory around is untouched (16)
 	movq	#71, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 71: lll at +1: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 71: ll .32 at +1: the memory around is untouched (24)
 	movq	#71, r0
 	halt
 1:
-	; ---- case 72: lll at +3
+		; ---- case 72: ll .32 at +3
 	lea	buf+19, r3
 	lea	buf+16, r7
 	movq	=(0x101010101010101), r17
@@ -6505,74 +6505,74 @@ N71:	movq	cnt, r4
 	movq	r4, cnt
 	lea	N72, r13
 I72:
-	lll	(r3), r1
+	ll	(r3).32, r1
 N72:	movq	cnt, r4
 	movq	=(1), r17
-	cbeq	r4, r17, 1f	; case 72: lll at +3: one exception
+	cbeq	r4, r17, 1f		; case 72: ll .32 at +3: one exception
 	movq	#72, r0
 	halt
 1:
 	movq	last_cause, r4
 	movq	=(VECTOR_MISALIGNED), r17
-	cbeq	r4, r17, 1f	; case 72: lll at +3: it is the misalignment fault
+	cbeq	r4, r17, 1f		; case 72: ll .32 at +3: it is the misalignment fault
 	movq	#72, r0
 	halt
 1:
 	movq	last_eva, r4
 	lea	buf+19, r5
-	cbeq	r4, r5, 1f	; case 72: lll at +3: EVA is the address
+	cbeq	r4, r5, 1f		; case 72: ll .32 at +3: EVA is the address
 	movq	#72, r0
 	halt
 1:
 	movq	last_epc, r4
 	lea	I72, r5
-	cbeq	r4, r5, 1f	; case 72: lll at +3: EPC is the instruction (precise)
+	cbeq	r4, r5, 1f		; case 72: ll .32 at +3: EPC is the instruction (precise)
 	movq	#72, r0
 	halt
 1:
 	movq	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f	; case 72: lll at +3: Rd unchanged
+	cbeq	r1, r17, 1f		; case 72: ll .32 at +3: Rd unchanged
 	movq	#72, r0
 	halt
 1:
 	movq	=(0x2222222222222222), r17
-	cbeq	r2, r17, 1f	; case 72: lll at +3: Rs unchanged
+	cbeq	r2, r17, 1f		; case 72: ll .32 at +3: Rs unchanged
 	movq	#72, r0
 	halt
 1:
 	movq	-16(r7), r4
 	movq	=(0x101010101010101), r17
-	cbeq	r4, r17, 1f	; case 72: lll at +3: the memory around is untouched (-16)
+	cbeq	r4, r17, 1f		; case 72: ll .32 at +3: the memory around is untouched (-16)
 	movq	#72, r0
 	halt
 1:
 	movq	-8(r7), r4
 	movq	=(0x202020202020202), r17
-	cbeq	r4, r17, 1f	; case 72: lll at +3: the memory around is untouched (-8)
+	cbeq	r4, r17, 1f		; case 72: ll .32 at +3: the memory around is untouched (-8)
 	movq	#72, r0
 	halt
 1:
 	movq	0(r7), r4
 	movq	=(0x303030303030303), r17
-	cbeq	r4, r17, 1f	; case 72: lll at +3: the memory around is untouched (0)
+	cbeq	r4, r17, 1f		; case 72: ll .32 at +3: the memory around is untouched (0)
 	movq	#72, r0
 	halt
 1:
 	movq	8(r7), r4
 	movq	=(0x404040404040404), r17
-	cbeq	r4, r17, 1f	; case 72: lll at +3: the memory around is untouched (8)
+	cbeq	r4, r17, 1f		; case 72: ll .32 at +3: the memory around is untouched (8)
 	movq	#72, r0
 	halt
 1:
 	movq	16(r7), r4
 	movq	=(0x505050505050505), r17
-	cbeq	r4, r17, 1f	; case 72: lll at +3: the memory around is untouched (16)
+	cbeq	r4, r17, 1f		; case 72: ll .32 at +3: the memory around is untouched (16)
 	movq	#72, r0
 	halt
 1:
 	movq	24(r7), r4
 	movq	=(0x606060606060606), r17
-	cbeq	r4, r17, 1f	; case 72: lll at +3: the memory around is untouched (24)
+	cbeq	r4, r17, 1f		; case 72: ll .32 at +3: the memory around is untouched (24)
 	movq	#72, r0
 	halt
 1:

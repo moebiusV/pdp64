@@ -16,7 +16,7 @@ _start:
 	movq	(r4), r5
 	movq	=0x0807060504030201, r6
 	cbne r5, r6, f4
-	movl	8(r4), r5
+	mov	8(r4).32, r5
 	movq	=0x0c0b0a09, r11
 	cbne	r5, r11, f5
 	lea	src, r8
@@ -27,9 +27,9 @@ _start:
 	lea	dst2, r4
 	movq	(r4), r5
 	cbne r5, r6, f7
-	movzb	8(r4), r5
+	mov	8(r4).u8, r5
 	cbne r5, #9, f8
-	movzb	9(r4), r5
+	mov	9(r4).u8, r5
 	cbne r5, #0, f9
 	lea	dst2+16, r9
 	lea	src, r8

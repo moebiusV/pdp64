@@ -380,49 +380,49 @@ _start:
 	lea	ubuf, r8
 	movq	=0x1122334455667788, r1
 	movq	r1, 1(r8)
-	movzb	1(r8), r15
+	mov	1(r8).u8, r15
 	movq	=0x88, r12
 	cbne	r15, r12, F103
-	movzb	2(r8), r15
+	mov	2(r8).u8, r15
 	movq	=0x77, r12
 	cbne	r15, r12, F104
-	movzb	8(r8), r15
+	mov	8(r8).u8, r15
 	movq	=0x11, r12
 	cbne	r15, r12, F105
 	movq	1(r8), r2
 	movq	=0x1122334455667788, r15
 	cbne	r2, r15, F106
-	movl	3(r8), r2
+	mov	3(r8).32, r2
 	movq	=0x33445566, r15
 	cbne	r2, r15, F107
-	movw	2(r8), r2
+	mov	2(r8).16, r2
 	movq	=0x6677, r15
 	cbne	r2, r15, F108
-	movl	4(r8), r2
+	mov	4(r8).32, r2
 	movq	=0x22334455, r15
 	cbne	r2, r15, F109
-	movb	1(r8), r2
+	mov	1(r8).8, r2
 	movq	=0xffffffffffffff88, r15
 	cbne	r2, r15, F110
 	movq	=0xaabbccdd, r1
-	movl	r1, 5(r8)
-	movzb	5(r8), r15
+	mov	r1, 5(r8).32
+	mov	5(r8).u8, r15
 	movq	=0xdd, r12
 	cbne	r15, r12, F111
-	movzb	8(r8), r15
+	mov	8(r8).u8, r15
 	movq	=0xaa, r12
 	cbne	r15, r12, F112
-	movl	5(r8), r2
+	mov	5(r8).32, r2
 	movq	=0xffffffffaabbccdd, r15
 	cbne	r2, r15, F113
 	movq	=0x8000, r1
-	movw	r1, 7(r8)
-	movw	7(r8), r2
+	mov	r1, 7(r8).16
+	mov	7(r8).16, r2
 	movq	=0xffffffffffff8000, r15
 	cbne	r2, r15, F114
 	movq	#0x1ff, r1
-	movb	r1, 9(r8)
-	movzb	9(r8), r2
+	mov	r1, 9(r8).8
+	mov	9(r8).u8, r2
 	movq	=0xff, r15
 	cbne	r2, r15, F115
 	lea	ubuf, r8
@@ -546,43 +546,43 @@ _start:
 	movq	=0x0, r15
 	cbne	r2, r15, F139
 	movq	=0x3f800000, r1
-	fclass32	r1, r2
+	fclass	r1.32, r2
 	movq	=0x40, r15
 	cbne	r2, r15, F140
 	movq	=0xbf800000, r1
-	fclass32	r1, r2
+	fclass	r1.32, r2
 	movq	=0x2, r15
 	cbne	r2, r15, F141
 	movq	=0x0, r1
-	fclass32	r1, r2
+	fclass	r1.32, r2
 	movq	=0x10, r15
 	cbne	r2, r15, F142
 	movq	=0x80000000, r1
-	fclass32	r1, r2
+	fclass	r1.32, r2
 	movq	=0x8, r15
 	cbne	r2, r15, F143
 	movq	=0x7f800000, r1
-	fclass32	r1, r2
+	fclass	r1.32, r2
 	movq	=0x80, r15
 	cbne	r2, r15, F144
 	movq	=0xff800000, r1
-	fclass32	r1, r2
+	fclass	r1.32, r2
 	movq	=0x1, r15
 	cbne	r2, r15, F145
 	movq	=0x7fc00000, r1
-	fclass32	r1, r2
+	fclass	r1.32, r2
 	movq	=0x200, r15
 	cbne	r2, r15, F146
 	movq	=0x7f800001, r1
-	fclass32	r1, r2
+	fclass	r1.32, r2
 	movq	=0x100, r15
 	cbne	r2, r15, F147
 	movq	=0x1, r1
-	fclass32	r1, r2
+	fclass	r1.32, r2
 	movq	=0x20, r15
 	cbne	r2, r15, F148
 	movq	=0x80000001, r1
-	fclass32	r1, r2
+	fclass	r1.32, r2
 	movq	=0x4, r15
 	cbne	r2, r15, F149
 	clr	r0

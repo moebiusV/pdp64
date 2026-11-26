@@ -27,7 +27,7 @@ _start:
 	movq	#0x0201, r3
 	shl	#48, r3
 	cbne r2, r3, f9
-	bswapw	r1, r2
+	bswap	r1.16, r2
 	cbne r2, #513, f10
 	movq	#1, r1
 	bitrev	r1, r2
@@ -61,7 +61,7 @@ _start:
 	lea	dst, r4
 	sub	r4, r2
 	cbne r2, #13, f20
-	movb	dst+7, r5
+	mov	dst+7.8, r5
 	cbne r5, #119, f21
 	lea	src, r1
 	lea	dst, r2
@@ -70,7 +70,7 @@ _start:
 	cbne r3, #0, f22		; equal blocks: the count left is 0
 	lea	dst, r2
 	movq	#88, r5
-	movb	r5, dst+4
+	mov	r5, dst+4.8
 	lea	src, r1
 	movq	#13, r3
 	mcmp	r2, r1, r3
@@ -80,9 +80,9 @@ _start:
 	movq	#120, r1
 	movq	#5, r3
 	mset	r2, r1, r3
-	movzb	dst+4, r5
+	mov	dst+4.u8, r5
 	cbne r5, #120, f25
-	movzb	dst+5, r5
+	mov	dst+5.u8, r5
 	cbne r5, #44, f26
 	lea	src, r2
 	movq	#44, r1

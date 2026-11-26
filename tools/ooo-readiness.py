@@ -10,6 +10,8 @@ The flag behaviour of each mnemonic is taken from common/pdp64exec.c (the execut
 Every detector can print random samples (--samples N) so that the detector can be read against the text it matched.
 """
 import argparse, os, random, re, sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import marks
 from collections import Counter, defaultdict
 
 N, Z, V, C = 'N', 'Z', 'V', 'C'
@@ -96,7 +98,8 @@ def load(d):
             if not body or body.startswith('.'): continue
             m = re.match(r'^([a-z][a-z0-9_]*)\s*(.*)$', body)
             if not m: continue
-            ins = Ins(m.group(1), split_ops(m.group(2)), body, fn, ln)
+            _mn, _ops = marks.unspell(m.group(1), split_ops(m.group(2)))		# the source writes width marks; the analysis thinks in the words of the encoding
+            ins = Ins(_mn, _ops, body, fn, ln)
             cur.append(ins); allins.append(ins)
         if cur: blocks.append(cur)
     return allins, blocks

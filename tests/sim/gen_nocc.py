@@ -2,6 +2,9 @@
 """Writes tests/sim/nocc.s: the compare into a register (setCC Ra, Rb|#imm, Rd), the floating-point compare-and-branch (fcbCC, fcbCC32, with NaN, infinity and signed zero), and the
 long forms of the compare-and-branch for the unsigned conditions (the target far beyond the short forms), taken and not taken, forward and backward.  A failed check n exits with n.
     python3 tests/sim/gen_nocc.py > tests/sim/nocc.s"""
+import sys as _sys, os as _os
+_sys.path.insert(0, _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..', '..', 'tools'))
+import marks		# the words of the encoding written with width marks (tools/marks.py)
 import struct, itertools
 M = (1 << 64) - 1
 S = lambda v: v - (1 << 64) if v >> 63 else v
@@ -65,4 +68,4 @@ for cc in ('cs', 'cc', 'hi', 'los', 'lt', 'ge', 'gt', 'le'):
 out.append('\tmovq\t#0, r0\n\ttrap\t#0')
 for i in fails:
     out.append('f%d:\tmovq\t#%d, r0\n\ttrap\t#0' % (i, i))
-print('\n'.join(out))
+print(marks.spell_text('\n'.join(out)))

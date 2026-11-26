@@ -17,15 +17,13 @@ CTO: Rd <- number of trailing one bits of Rs        (64 if Rs = all ones)''', NO
       notes='`CTZ` is the VAX `FFS`. Bit manipulation is core on a machine that does filesystem and bignum work, not an extension.', xnote='Register to register only; four bytes.'),
     E('POPCNT', 'bits', ['popcnt'], 'Population count', ['POPCNT Rs, Rd'], 'Rd <- number of one bits in Rs', NOFLAGS, NONE),
     E('BSWAP', 'bits', ['bswap', 'bswapw', 'bswapl'], 'Byte swap',
-      ['BSWAP Rs, Rd', 'BSWAPW Rs, Rd', 'BSWAPL Rs, Rd'],
-      '''BSWAP : Rd <- Rs with all 8 bytes reversed
-BSWAPW: Rd <- Rs with the bytes of each 16-bit word reversed
-BSWAPL: Rd <- Rs with the bytes of each 32-bit long reversed''', NOFLAGS, NONE, notes='The generalisation of the PDP-11 `SWAB` to 64 bits.'),
+      ['BSWAP Rs, Rd', 'BSWAP Rs.16, Rd        ; the bytes of each 16-bit word', 'BSWAP Rs.32, Rd        ; the bytes of each 32-bit long'],
+      '''BSWAP     : Rd <- Rs with all 8 bytes reversed
+BSWAP Rs.16: Rd <- Rs with the bytes of each 16-bit word reversed
+BSWAP Rs.32: Rd <- Rs with the bytes of each 32-bit long reversed''', NOFLAGS, NONE, notes='The generalisation of the PDP-11 `SWAB` to 64 bits. The mark is on the source register; the destination is written in full and takes none.'),
     E('BITREV', 'bits', ['bitrev'], 'Reverse the bits', ['BITREV Rs, Rd'], 'Rd <- Rs with bit i moved to bit 63-i', NOFLAGS, NONE),
-    E('ROR', 'bits', ['ror', 'rol'], 'Rotate right by a register or a constant', ['ROR Ra, Rb, Rd', 'ROR Rs, #n, Rd', 'ROR #n, Rd', 'ROL Rs, #n, Rd', 'ROL #n, Rd'], 'Rd <- Ra rotated right by (Rb mod 64), or by (n mod 64) with a constant; ROL rotates left by the constant (an assembler mapping)', 'None written (rotates write no flags).', NONE,
-      notes='One word names the operation, as `SHL`, `SHR` and `SAR` do: the assembler takes a register or a constant for the count and picks the form: two bytes for `ROR #n, Rd` (the register is both source and destination and is one of r0 to r15, and the count is from -8 to 7, a signed count of four bits, so a negative count rotates left), four bytes for any other. `ROL` is an assembler mapping, not an instruction: a rotate left by n is a rotate right by 64 - n, so `ROL Rs, #n, Rd` assembles to `ROR Rs, #(64-n), Rd` and `ROL #n, Rd` to `ROR #(64-n), Rd`, in the two-byte form when the count of the right rotation fits it (a rotate left by 1 to 8) and in the four-byte form otherwise; the disassembler prints `ROR`, with a negative count for the short form. `ROL` takes a constant only: the count of `ROR` is taken modulo 64, so a rotate left by a register count is `ROR` by the negated register, which the program makes with `NEG` (a mapping is one instruction, and the assembler does not invent a scratch register). There is no `ROL32`: `ROR32` by 32 minus n is the same rotation. No rotate is through carry; multi-word shifting uses `DSHR`.', xnote='With a constant count parcel 1 is `rs:5 count:6 rd:5`; the two-byte form is `100011 11 count:4 rd:4`.'),
-    E('ROR32', 'bits', ['ror32'], 'Rotate right by a constant, 32 bits', ['ROR32 Rs, #n, Rd'],
-      'Rd <- sext32(ror32(Rs[31:0], n mod 32))', 'None written.', NONE, notes='The 32-bit rotate with the result sign-extended like every 32-bit result; the primitive of most hash functions and ciphers.'),
+    E('ROR', 'bits', ['ror', 'rol', 'ror32'], 'Rotate right by a register or a constant', ['ROR Ra, Rb, Rd', 'ROR Rs, #n, Rd', 'ROR #n, Rd', 'ROR Rs.32, #n, Rd    ; 32 bits, a constant count', 'ROL Rs, #n, Rd', 'ROL #n, Rd'], 'Rd <- Ra rotated right by (Rb mod 64), or by (n mod 64) with a constant; with the mark .32: Rd <- sext32(ror32(Rs[31:0], n mod 32)); ROL rotates left by the constant (an assembler mapping)', 'None written (rotates write no flags).', NONE,
+      notes='One word names the operation, as `SHL`, `SHR` and `SAR` do: the assembler takes a register or a constant for the count and picks the form: two bytes for `ROR #n, Rd` (the register is both source and destination and is one of r0 to r15, and the count is from -8 to 7, a signed count of four bits, so a negative count rotates left), four bytes for any other. `ROL` is an assembler mapping, not an instruction: a rotate left by n is a rotate right by 64 - n, so `ROL Rs, #n, Rd` assembles to `ROR Rs, #(64-n), Rd` and `ROL #n, Rd` to `ROR #(64-n), Rd`, in the two-byte form when the count of the right rotation fits it (a rotate left by 1 to 8) and in the four-byte form otherwise; the disassembler prints `ROR`, with a negative count for the short form. `ROL` takes a constant only: the count of `ROR` is taken modulo 64, so a rotate left by a register count is `ROR` by the negated register, which the program makes with `NEG` (a mapping is one instruction, and the assembler does not invent a scratch register). The mark `.32` on the source register and a constant count make the 32-bit rotate, with the result sign-extended like every 32-bit result and the count taken modulo 32; it is the primitive of most hash functions and ciphers, and a 32-bit rotate left is the one by 32 minus n. A register count has no 32-bit form. No rotate is through carry; multi-word shifting uses `DSHR`.', xnote='With a constant count parcel 1 is `rs:5 count:6 rd:5`; the two-byte form is `100011 11 count:4 rd:4`.'),
     E('DSHR', 'bits', ['dshr'], 'Double-width funnel shift right', ['DSHR Ra, Rb, #n, Rd'],
       '''t <- Ra:Rb                    ; 128 bits, Ra the high half
 Rd <- (t >> n)[63:0]          ; n = 0..63''', 'None written.', NONE,
@@ -116,29 +114,29 @@ MAX : Rd <- larger of Ra, Rb (signed)          MAXU: unsigned''', 'Those of the 
 FSQRT: Rd <- sqrt(Rs)''', FPFLAG, NONE, xnote=FXNOTE,
       notes='`FDIV` and `FSQRT` are multi-cycle sequencer operations and rarely appear in a two-byte form, so they are in `FESC`.'),
     E('FSINGLE', 'fp', ['fadd32', 'fsub32', 'fmul32', 'fdiv32', 'fsqrt32'], 'Floating arithmetic, binary32',
-      ['FADD32 Rs, Rd', 'FSUB32 Rs, Rd', 'FMUL32 Rs, Rd', 'FDIV32 Rs, Rd', 'FSQRT32 Rs, Rd'],
-      '''Rd <- Rd op Rs  (FADD32 FSUB32 FMUL32 FDIV32); Rd <- sqrt(Rs) (FSQRT32)''', FPFLAG, NONE, xnote=FXNOTE,
-      notes='A `binary32` lives in the low 32 bits of a register, sign-extended to 64 like every 32-bit result. Results are correctly rounded to nearest even.'),
+      ['FADD Rs.32, Rd.32', 'FSUB Rs.32, Rd.32', 'FMUL Rs.32, Rd.32', 'FDIV Rs.32, Rd.32', 'FSQRT Rs.32, Rd.32'],
+      '''Rd <- Rd op Rs  (FADD FSUB FMUL FDIV with the mark .32 on every register); Rd <- sqrt(Rs) (FSQRT with the mark)''', FPFLAG, NONE, xnote=FXNOTE,
+      notes='The format is a mark on the registers: `.32` on every register operand makes the operation a `binary32` one, and no mark (or `.64`) is the `binary64` operation. The registers of one instruction carry the same mark, and an unmarked register is 64 bits, so a mixture is refused. A `binary32` lives in the low 32 bits of a register, sign-extended to 64 like every 32-bit result. Results are correctly rounded to nearest even.'),
     E('FMADD', 'fp', ['fmadd', 'fnmsub'], 'Fused multiply-add, binary64',
       ['FMADD Rs, Rt, Ru, Rd', 'FNMSUB Rs, Rt, Ru, Rd'],
       '''FMADD : Rd <- Rs*Rt + Ru
 FNMSUB: Rd <- -(Rs*Rt) + Ru          ; each rounded once''', FPFLAG, NONE, xnote=FXNOTE,
       notes='Four register operands are available at `len = 01`. The two other signs are these two with the addend negated by `FNEG`, which is exact and raises nothing: `Rs*Rt - Ru` is `FMADD` of `Rs`, `Rt` and the negated `Ru`, and `-(Rs*Rt) - Ru` is `FNMSUB` of the same three; the result, its rounding and its flags are exactly those of an operation that subtracts. `-(Rs*Rt) - Ru` is not the negated `FMADD`: when the exact sum is zero the two have different signs of zero.'),
     E('FMADD32', 'fp', ['fmadd32', 'fnmsub32'], 'Fused multiply-add, binary32',
-      ['FMADD32 Rs, Rt, Ru, Rd', 'FNMSUB32 Rs, Rt, Ru, Rd'], 'As FMADD and FNMSUB, in binary32, rounded once', FPFLAG, NONE, xnote=FXNOTE,
-      notes='The sign of a `binary32` is flipped exactly by `FNEG32`, which is `XOR #-2147483648` and raises no exception flag.'),
-    E('FSIGN', 'fp', ['fneg', 'fabs', 'fcopysign', 'fneg32', 'fabs32'], 'Sign operations on the bits', ['FNEG Rs, Rd', 'FABS Rs, Rd', 'FCOPYSIGN Rs, Rt, Rd', 'FNEG32 Rs, Rd', 'FABS32 Rs, Rd'],
+      ['FMADD Rs.32, Rt.32, Ru.32, Rd.32', 'FNMSUB Rs.32, Rt.32, Ru.32, Rd.32'], 'As FMADD and FNMSUB, in binary32, rounded once', FPFLAG, NONE, xnote=FXNOTE,
+      notes='The sign of a `binary32` is flipped exactly by `FNEG` with the mark `.32` on its source, which is `XOR #-2147483648` and raises no exception flag.'),
+    E('FSIGN', 'fp', ['fneg', 'fabs', 'fcopysign', 'fneg32', 'fabs32'], 'Sign operations on the bits', ['FNEG Rs, Rd', 'FABS Rs, Rd', 'FCOPYSIGN Rs, Rt, Rd', 'FNEG Rs.32, Rd', 'FABS Rs.32, Rd'],
       '''FNEG     : Rd <- Rs with the sign bit flipped
 FABS     : Rd <- Rs with the sign bit cleared
 FCOPYSIGN: Rd <- magnitude of Rs, sign of Rt
-FNEG32   : Rd <- Rs with the sign of the binary32 flipped    (XOR #-2147483648, Rd)
-FABS32   : Rd <- Rs with the sign of the binary32 cleared    (AND #0x7FFFFFFF, Rd)''',
-      'None for the three native words: they operate on the bits, do not canonicalise a NaN and raise no exception flag. `FNEG32` and `FABS32` are the instructions they stand for and raise none either.', NONE, xnote=FXNOTE,
-      notes='`FNEG32` and `FABS32` are assembler mappings of the sign operations of a `binary32`, not native instructions: `FNEG32 Rs, Rd` assembles to `XOR #-2147483648, Rd` and `FABS32 Rs, Rd` to `AND #0x7FFFFFFF, Rd`, each preceded by `MOVQ Rs, Rd` when the two registers differ. A `binary32` lives in a register sign-extended to 64 bits, so its sign is bits 63 to 31 together and the constant that changes it is `0xFFFFFFFF80000000`; the result is again a sign-extended `binary32`, flipped or cleared exactly (a NaN and a zero included), and nothing is raised. The sign of a `binary64` is the single bit 63, which is why `FNEG` and `FABS` are native; the sign of a sign-extended `binary32` is spread over bits 63 to 31, so no single native instruction changes it and the two mappings are an `XOR` and an `AND` with a constant. There is no `FCOPYSIGN32`: its `binary32` form is several instructions on the bits (and the sign must be extended to 64 bits again), more than a mapping should hide.'),
+FNEG Rs.32: Rd <- Rs with the sign of the binary32 flipped    (XOR #-2147483648, Rd)
+FABS Rs.32: Rd <- Rs with the sign of the binary32 cleared    (AND #0x7FFFFFFF, Rd)''',
+      'None for the three native words: they operate on the bits, do not canonicalise a NaN and raise no exception flag. The two with the mark `.32` are the instructions they stand for and raise none either.', NONE, xnote=FXNOTE,
+      notes='`FNEG` and `FABS` with the mark `.32` on the source register are assembler mappings of the sign operations of a `binary32`, not native instructions: `FNEG Rs.32, Rd` assembles to `XOR #-2147483648, Rd` and `FABS Rs.32, Rd` to `AND #0x7FFFFFFF, Rd`, each preceded by `MOVQ Rs, Rd` when the two registers differ. A `binary32` lives in a register sign-extended to 64 bits, so its sign is bits 63 to 31 together and the constant that changes it is `0xFFFFFFFF80000000`; the result is again a sign-extended `binary32`, flipped or cleared exactly (a NaN and a zero included), and nothing is raised. The sign of a `binary64` is the single bit 63, which is why `FNEG` and `FABS` are native; the sign of a sign-extended `binary32` is spread over bits 63 to 31, so no single native instruction changes it and the two mappings are an `XOR` and an `AND` with a constant. There is no `FCOPYSIGN32`: its `binary32` form is several instructions on the bits (and the sign must be extended to 64 bits again), more than a mapping should hide.'),
     E('FMIN', 'fp', ['fmin', 'fmax'], 'Floating minimum and maximum, binary64', ['FMIN Rs, Rt, Rd', 'FMAX Rs, Rt, Rd'],
       '''if Rs is a NaN then Rd <- Rt ; else if Rt is a NaN then Rd <- Rs ; else Rd <- smaller (FMIN) or larger (FMAX)
 if both are NaNs the result is the canonical quiet NaN''', FPFLAG, NONE, xnote=FXNOTE, notes=''),
-    E('FCLASS', 'fp', ['fclass', 'fclass32'], 'Classify a floating-point value', ['FCLASS Rs, Rd', 'FCLASS32 Rs, Rd'],
+    E('FCLASS', 'fp', ['fclass', 'fclass32'], 'Classify a floating-point value', ['FCLASS Rs, Rd', 'FCLASS Rs.32, Rd        ; the source is a binary32'],
       '''Rd <- a bit vector with exactly one bit set:
 bit 0 -infinity      bit 1 -normal      bit 2 -subnormal   bit 3 -zero
 bit 4 +zero          bit 5 +subnormal   bit 6 +normal      bit 7 +infinity
@@ -149,21 +147,19 @@ bit 8 signalling NaN bit 9 quiet NaN''', 'None.', NONE, xnote=FXNOTE, notes='Eve
 FRINTZ: toward zero         FRINTM: toward -infinity
 FRINTP: toward +infinity    FRINTA: to nearest, ties away from zero (C round())''', FPFLAG, NONE, xnote=FXNOTE,
       notes='The rounding mode is in the opcode, never in a mode bit.'),
-    E('FCVT', 'fp', ['fcvtdq', 'fcvtdqu', 'fcvtqd', 'fcvtqud', 'fcvtds', 'fcvtsd', 'fcvtsl', 'fcvtls'], 'Floating conversions',
-      ['FCVTDQ Rs, Rd        ; binary64 to signed quad', 'FCVTDQU Rs, Rd       ; binary64 to unsigned quad', 'FCVTQD Rs, Rd        ; signed quad to binary64', 'FCVTQUD Rs, Rd       ; unsigned quad to binary64',
-       'FCVTDS Rs, Rd        ; binary64 to binary32', 'FCVTSD Rs, Rd        ; binary32 to binary64', 'FCVTSL Rs, Rd        ; binary32 to signed 32-bit integer', 'FCVTLS Rs, Rd        ; signed 32-bit integer to binary32'],
+    E('FCVT', 'fp', ['fcvtdq', 'fcvtdqu', 'fcvtqd', 'fcvtqud', 'fcvtds', 'fcvtsd', 'fcvtsl', 'fcvtls', 'fcvtsh', 'fcvths', 'fcvtdh', 'fcvthd', 'fcvthl', 'fcvtlh'], 'Floating conversions',
+      ['FCVT Rs.64, Rd        ; binary64 to signed quad (the unmarked register is a 64-bit signed integer)', 'FCVT Rs.64, Rd.u64    ; binary64 to unsigned quad', 'FCVT Rs, Rd.64        ; signed quad to binary64', 'FCVT Rs.u64, Rd.64    ; unsigned quad to binary64',
+       'FCVT Rs.64, Rd.32    ; binary64 to binary32', 'FCVT Rs.32, Rd.64    ; binary32 to binary64', 'FCVT Rs.32, Rd.s32   ; binary32 to signed 32-bit integer', 'FCVT Rs.s32, Rd.32   ; signed 32-bit integer to binary32',
+       'FCVT Rs.32, Rd.16    ; binary32 to half', 'FCVT Rs.16, Rd.32    ; half to binary32', 'FCVT Rs.64, Rd.16    ; binary64 to half', 'FCVT Rs.16, Rd.64    ; half to binary64',
+       'FCVT Rs.16, Rd.s32   ; half to signed 32-bit integer, toward zero', 'FCVT Rs.s32, Rd.16   ; signed 32-bit integer to half'],
       '''float to integer: truncate toward zero, then saturate; a NaN gives the largest value
-integer to float: round to nearest even''', FPFLAG + ' ' + SATQ, NONE, xnote=FXNOTE,
-      notes='Integer results are 64-bit (`FCVTDQ`, `FCVTDQU`) or 32-bit sign-extended (`FCVTSL`). Unsigned conversion of a negative value is invalid and gives 0.'),
+integer to float: round to nearest even
+narrowing to a half: round to nearest even ; widening: exact
+a half to an integer of a NaN or an infinity is invalid and saturates; truncating a fraction is inexact''', FPFLAG + ' ' + SATQ, NONE, xnote=FXNOTE,
+      notes='The source register and the destination register each carry the format they hold as a mark: `.16`, `.32` and `.64` are the floating formats `binary16`, `binary32` and `binary64`, and the integers are `.s32` (signed, 32 bits), no mark or `.s64` (signed, 64 bits) and `.u64` (unsigned, 64 bits). The unmarked register is therefore a 64-bit signed integer here, and `.64` is the double; a conversion between two equal formats, two integers or a pair that has no instruction is refused, and so is an unsigned 32-bit integer. Integer results are 64-bit or 32-bit sign-extended (`.s32`). Unsigned conversion of a negative value is invalid and gives 0. `binary16` is a storage format: a half lives in the low 16 bits of a register, sign-extended to 64, is loaded and stored with a `.16` mark on the move, and has these conversions and no arithmetic. Every half is exact in `binary32`, so an operation on halves is made by widening, operating in `binary32` and narrowing once; for add, subtract, multiply, divide and square root that gives the correctly rounded half, because a `binary32` has at least 2 × 11 + 2 bits of significand. A fused multiply-add of halves is not a case of this: widen to `binary64` and the sum may be rounded before it is narrowed. A NaN narrowed to a half is the canonical `0x7E00`; tininess is judged after rounding.'),
     E('FSFLAGS', 'fp', ['fsflags'], 'Swap the floating-point exception flags', ['FSFLAGS Rs, Rd'],
       '''old <- FPSR
 FPSR <- Rs[4:0]
 Rd <- old''', 'None.', NONE, xnote=FXNOTE,
       notes='`FPSR` is the sticky five-bit register (`NX` bit 0, `UF` 1, `OF` 2, `DZ` 3, `NV` 4). C99 `<fenv.h>` is built on this one instruction.'),
-    E('FCVTH', 'fp', ['fcvtsh', 'fcvths', 'fcvtdh', 'fcvthd', 'fcvthl', 'fcvtlh'], 'Conversions to and from binary16',
-      ['FCVTSH Rs, Rd        ; binary32 to half', 'FCVTHS Rs, Rd        ; half to binary32', 'FCVTDH Rs, Rd        ; binary64 to half', 'FCVTHD Rs, Rd        ; half to binary64',
-       'FCVTHL Rs, Rd        ; half to signed 32-bit integer, toward zero', 'FCVTLH Rs, Rd        ; signed 32-bit integer to half'],
-      '''narrowing: round to nearest even ; widening: exact
-FCVTHL of a NaN or an infinity is invalid and saturates; truncating a fraction is inexact''', FPFLAG, NONE, xnote=FXNOTE,
-      notes='`binary16` is a storage format: a half lives in the low 16 bits of a register, sign-extended to 64, is loaded and stored with `MOVW`, and has these six conversions and no arithmetic. Every half is exact in `binary32`, so an operation on halves is made by widening (`FCVTHS`), operating in `binary32` and narrowing (`FCVTSH`) once; for add, subtract, multiply, divide and square root that gives the correctly rounded half, because a `binary32` has at least 2 × 11 + 2 bits of significand. A fused multiply-add of halves is not a case of this: widen to `binary64` and the sum may be rounded before it is narrowed. A NaN narrowed to a half is the canonical `0x7E00`; tininess is judged after rounding.'),
 ]

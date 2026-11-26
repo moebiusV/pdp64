@@ -3,7 +3,7 @@
 #include "pdp64-consts.h"
 	.text
 	.globl	_start
-xh:	jmp	r20			; every exit: on to the continuation (forward: a backward jump would end a reservation by itself)
+xh:	jmp	r20						; every exit: on to the continuation (forward: a backward jump would end a reservation by itself)
 gh:	halt
 _start:
 	lea	htab, r1
@@ -24,7 +24,7 @@ fill2:	movq	r2, (r1)+
 	movq	r17, (r3)
 	lea	res, r5
 
-	; ---- case 1: GENTER clears the hypervisor's reservation: a guest's SC fails
+		; ---- case 1: GENTER clears the hypervisor's reservation: a guest's SC fails
 	lea	gA, r2
 	mtsr	hepc, r2
 	movq	#0, r2
@@ -37,17 +37,17 @@ gA:	sc	r2, (r3), r4
 	movq	r4, 0(r5)
 	halt
 backA:	movq	0(r5), r4
-	cbne	r4, #0, 1f	; case 1: the guest's SC does not use the reservation of the hypervisor
+	cbne	r4, #0, 1f		; case 1: the guest's SC does not use the reservation of the hypervisor
 	movq	#1, r0
 	halt
 1:
 	movq	(r3), r4
 	movq	=(7), r17
-	cbeq	r4, r17, 1f	; case 1: GENTER: nothing was written
+	cbeq	r4, r17, 1f		; case 1: GENTER: nothing was written
 	movq	#1, r0
 	halt
 1:
-	; ---- case 2: an exit clears the guest's reservation: the hypervisor's SC fails
+		; ---- case 2: an exit clears the guest's reservation: the hypervisor's SC fails
 	lea	gB, r2
 	mtsr	hepc, r2
 	movq	#0, r2
@@ -58,17 +58,17 @@ gB:	ll	(r3), r1
 	halt
 backB:	movq	#66, r2
 	sc	r2, (r3), r4
-	cbne	r4, #0, 1f	; case 2: the hypervisor's SC after the guest's LL and an exit fails
+	cbne	r4, #0, 1f		; case 2: the hypervisor's SC after the guest's LL and an exit fails
 	movq	#2, r0
 	halt
 1:
 	movq	(r3), r4
 	movq	=(7), r17
-	cbeq	r4, r17, 1f	; case 2: exit: nothing was written
+	cbeq	r4, r17, 1f		; case 2: exit: nothing was written
 	movq	#2, r0
 	halt
 1:
-	; ---- case 3: a switch from one guest to another: the second guest does not find the first one's reservation
+		; ---- case 3: a switch from one guest to another: the second guest does not find the first one's reservation
 	lea	gC2, r8
 	movq	#0, r9
 	lea	backC2, r21
@@ -89,17 +89,17 @@ gC2:	sc	r2, (r3), r4
 	movq	r4, 8(r5)
 	halt
 backC2:	movq	8(r5), r4
-	cbne	r4, #0, 1f	; case 3: guest B's SC fails
+	cbne	r4, #0, 1f		; case 3: guest B's SC fails
 	movq	#3, r0
 	halt
 1:
 	movq	(r3), r4
 	movq	=(7), r17
-	cbeq	r4, r17, 1f	; case 3: a switch: nothing was written
+	cbeq	r4, r17, 1f		; case 3: a switch: nothing was written
 	movq	#3, r0
 	halt
 1:
-	; ---- case 4: control: an LL and an SC of the guest work
+		; ---- case 4: control: an LL and an SC of the guest work
 	lea	gD, r2
 	mtsr	hepc, r2
 	movq	#0, r2
@@ -113,22 +113,22 @@ gD:	ll	(r3), r1
 	halt
 backD:	movq	16(r5), r4
 	movq	=(0), r17
-	cbeq	r4, r17, 1f	; case 4: the guest's SC works when nothing came between
+	cbeq	r4, r17, 1f		; case 4: the guest's SC works when nothing came between
 	movq	#4, r0
 	halt
 1:
 	movq	(r3), r4
 	movq	=(33), r17
-	cbeq	r4, r17, 1f	; case 4: and wrote
+	cbeq	r4, r17, 1f		; case 4: and wrote
 	movq	#4, r0
 	halt
 1:
-	; ---- case 5: control: an LL and an SC of the hypervisor work
+		; ---- case 5: control: an LL and an SC of the hypervisor work
 	movq	#22, r2
 	ll	(r3), r1
 	sc	r2, (r3), r4
 	movq	=(0), r17
-	cbeq	r4, r17, 1f	; case 5: the hypervisor's own SC works
+	cbeq	r4, r17, 1f		; case 5: the hypervisor's own SC works
 	movq	#5, r0
 	halt
 1:

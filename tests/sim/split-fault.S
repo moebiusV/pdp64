@@ -25,10 +25,10 @@ kfill:	movq	r2, (r1)+
 	mtsr	mmuctl, r1
 
 	lea	ustack_top, sp
-	; ---- 1: a quad store from A (present) into B (absent)
+		; ---- 1: a quad store from A (present) into B (absent)
 	movq	=(0x820000), r3
 	movq	=(0x44332211), r1
-	movl	r1, 4092(r3)
+	mov	r1, 4092(r3).32
 	movq	#0, r4
 	movq	r4, cnt
 	movq	=(0x820ffc), r4
@@ -42,44 +42,44 @@ kfill:	movq	r2, (r1)+
 	movq	r4, watch
 	movq	cnt, r11
 	movq	=(1), r17
-	cbeq	r11, r17, 1f	; check 1 case 1: a split store, B absent: one fault
+	cbeq	r11, r17, 1f		; check 1 case 1: a split store, B absent: one fault
 	movq	#1, r0
 	halt
 1:
 	movq	last_cause, r11
 	movq	=(VECTOR_SFAULT), r17
-	cbeq	r11, r17, 1f	; check 2 case 1: a split store, B absent: the vector
+	cbeq	r11, r17, 1f		; check 2 case 1: a split store, B absent: the vector
 	movq	#2, r0
 	halt
 1:
 	movq	last_eva, r11
 	movq	=(0x821000), r17
-	cbeq	r11, r17, 1f	; check 3 case 1: a split store, B absent: EVA
+	cbeq	r11, r17, 1f		; check 3 case 1: a split store, B absent: EVA
 	movq	#3, r0
 	halt
 1:
 	lea	s1, r11
 	movq	last_epc, r12
-	cbeq	r12, r11, 1f	; check 4 case 1: a split store, B absent: EPC is the instruction
+	cbeq	r12, r11, 1f		; check 4 case 1: a split store, B absent: EPC is the instruction
 	movq	#4, r0
 	halt
 1:
 	movq	seen, r11
 	movq	=(0x44332211), r17
-	cbeq	r11, r17, 1f	; check 5 case 1: at the fault the four bytes of A are as they were
+	cbeq	r11, r17, 1f		; check 5 case 1: at the fault the four bytes of A are as they were
 	movq	#5, r0
 	halt
 1:
 	movq	4092(r3), r11
 	movq	=(0x8877665544332211), r17
-	cbeq	r11, r17, 1f	; check 6 case 1: after the restart all eight bytes are there
+	cbeq	r11, r17, 1f		; check 6 case 1: after the restart all eight bytes are there
 	movq	#6, r0
 	halt
 1:
-	; ---- 2: the same store with A absent and B present
+		; ---- 2: the same store with A absent and B present
 	movq	=(0x822000), r3
 	movq	=(0x55667788), r1
-	movl	r1, 4096(r3)
+	mov	r1, 4096(r3).32
 	movq	=(0x823000), r4
 	movq	r4, watch
 	movq	=(0x8877665544332211), r1
@@ -91,44 +91,44 @@ kfill:	movq	r2, (r1)+
 	movq	r4, watch
 	movq	cnt, r11
 	movq	=(1), r17
-	cbeq	r11, r17, 1f	; check 7 case 2: a split store, A absent: one fault
+	cbeq	r11, r17, 1f		; check 7 case 2: a split store, A absent: one fault
 	movq	#7, r0
 	halt
 1:
 	movq	last_cause, r11
 	movq	=(VECTOR_SFAULT), r17
-	cbeq	r11, r17, 1f	; check 8 case 2: a split store, A absent: the vector
+	cbeq	r11, r17, 1f		; check 8 case 2: a split store, A absent: the vector
 	movq	#8, r0
 	halt
 1:
 	movq	last_eva, r11
 	movq	=(0x822ffc), r17
-	cbeq	r11, r17, 1f	; check 9 case 2: a split store, A absent: EVA
+	cbeq	r11, r17, 1f		; check 9 case 2: a split store, A absent: EVA
 	movq	#9, r0
 	halt
 1:
 	lea	s2, r11
 	movq	last_epc, r12
-	cbeq	r12, r11, 1f	; check 10 case 2: a split store, A absent: EPC is the instruction
+	cbeq	r12, r11, 1f		; check 10 case 2: a split store, A absent: EPC is the instruction
 	movq	#10, r0
 	halt
 1:
 	movq	seen, r11
 	movq	=(0x55667788), r17
-	cbeq	r11, r17, 1f	; check 11 case 2: at the fault the bytes of B are as they were
+	cbeq	r11, r17, 1f		; check 11 case 2: at the fault the bytes of B are as they were
 	movq	#11, r0
 	halt
 1:
 	movq	4092(r3), r11
 	movq	=(0x8877665544332211), r17
-	cbeq	r11, r17, 1f	; check 12 case 2: after the restart all eight bytes are there
+	cbeq	r11, r17, 1f		; check 12 case 2: after the restart all eight bytes are there
 	movq	#12, r0
 	halt
 1:
-	; ---- 3: a quad load across A (present) and B (absent)
+		; ---- 3: a quad load across A (present) and B (absent)
 	movq	=(0x824000), r3
 	movq	=(0x44332211), r1
-	movl	r1, 4092(r3)
+	mov	r1, 4092(r3).32
 	movq	=(99), r5
 	movq	#0, r4
 	movq	r4, cnt
@@ -137,85 +137,85 @@ kfill:	movq	r2, (r1)+
 	movq	4092(r3), r5
 	movq	cnt, r11
 	movq	=(1), r17
-	cbeq	r11, r17, 1f	; check 13 case 3: a split load, B absent: one fault
+	cbeq	r11, r17, 1f		; check 13 case 3: a split load, B absent: one fault
 	movq	#13, r0
 	halt
 1:
 	movq	last_cause, r11
 	movq	=(VECTOR_LFAULT), r17
-	cbeq	r11, r17, 1f	; check 14 case 3: a split load, B absent: the vector
+	cbeq	r11, r17, 1f		; check 14 case 3: a split load, B absent: the vector
 	movq	#14, r0
 	halt
 1:
 	movq	last_eva, r11
 	movq	=(0x825000), r17
-	cbeq	r11, r17, 1f	; check 15 case 3: a split load, B absent: EVA
+	cbeq	r11, r17, 1f		; check 15 case 3: a split load, B absent: EVA
 	movq	#15, r0
 	halt
 1:
 	lea	s3, r11
 	movq	last_epc, r12
-	cbeq	r12, r11, 1f	; check 16 case 3: a split load, B absent: EPC is the instruction
+	cbeq	r12, r11, 1f		; check 16 case 3: a split load, B absent: EPC is the instruction
 	movq	#16, r0
 	halt
 1:
 	movq	hr5, r11
 	movq	=(99), r17
-	cbeq	r11, r17, 1f	; check 17 case 3: at the fault the destination is as it was
+	cbeq	r11, r17, 1f		; check 17 case 3: at the fault the destination is as it was
 	movq	#17, r0
 	halt
 1:
 	movq	=(0x44332211), r17
-	cbeq	r5, r17, 1f	; check 18 case 3: after the restart it holds the quad (the new page is zero)
+	cbeq	r5, r17, 1f		; check 18 case 3: after the restart it holds the quad (the new page is zero)
 	movq	#18, r0
 	halt
 1:
-	; ---- 4: a four-byte store across A (present) and B (absent)
+		; ---- 4: a four-byte store across A (present) and B (absent)
 	movq	=(0x826000), r3
 	movq	=(0x44332211), r1
-	movl	r1, 4092(r3)
+	mov	r1, 4092(r3).32
 	movq	=(0x826ffc), r4
 	movq	r4, watch
 	movq	=(0x1122ccdd), r1
 	movq	#0, r4
 	movq	r4, cnt
 	s4:
-	movl	r1, 4094(r3)
+	mov	r1, 4094(r3).32
 	movq	#0, r4
 	movq	r4, watch
 	movq	cnt, r11
 	movq	=(1), r17
-	cbeq	r11, r17, 1f	; check 19 case 4: a split four-byte store, B absent: one fault
+	cbeq	r11, r17, 1f		; check 19 case 4: a split four-byte store, B absent: one fault
 	movq	#19, r0
 	halt
 1:
 	movq	last_cause, r11
 	movq	=(VECTOR_SFAULT), r17
-	cbeq	r11, r17, 1f	; check 20 case 4: a split four-byte store, B absent: the vector
+	cbeq	r11, r17, 1f		; check 20 case 4: a split four-byte store, B absent: the vector
 	movq	#20, r0
 	halt
 1:
 	movq	last_eva, r11
 	movq	=(0x827000), r17
-	cbeq	r11, r17, 1f	; check 21 case 4: a split four-byte store, B absent: EVA
+	cbeq	r11, r17, 1f		; check 21 case 4: a split four-byte store, B absent: EVA
 	movq	#21, r0
 	halt
 1:
 	lea	s4, r11
 	movq	last_epc, r12
-	cbeq	r12, r11, 1f	; check 22 case 4: a split four-byte store, B absent: EPC is the instruction
+	cbeq	r12, r11, 1f		; check 22 case 4: a split four-byte store, B absent: EPC is the instruction
 	movq	#22, r0
 	halt
 1:
 	movq	seen, r11
 	movq	=(0x44332211), r17
-	cbeq	r11, r17, 1f	; check 23 case 4: at the fault the last four bytes of A are as they were
+	cbeq	r11, r17, 1f		; check 23 case 4: at the fault the last four bytes of A are as they were
 	movq	#23, r0
 	halt
 1:
-	movl	4094(r3), r11
+	mov	4094(r3).32, r11
 	movq	=(0x1122ccdd), r17
-	cbeq	r11, r17, 1f	; check 24 case 4: after the restart all four bytes are there
+	cbeq	r11, r17, 1f		; check 24 case 4: after the restart all four bytes are there
 	movq	#24, r0
 	halt
 1:
@@ -226,7 +226,7 @@ h_fault:
 	movq	r5, hr5
 	movq	watch, r12
 	cbeq	r12, #0, 1f
-	movl	(r12), r11
+	mov	(r12).32, r11
 	movq	r11, seen
 1:
 	movq	cnt, r12

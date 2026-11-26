@@ -19,8 +19,8 @@ _start:
 	lea	E1, r2
 	movq	#77, r4
 c1:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c1
 ;; test 2: vceq.b by a register holding the sign bit of the lane
@@ -38,8 +38,8 @@ movq	=0xabcd80, r8
 	lea	E2, r2
 	movq	#77, r4
 c2:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c2
 ;; test 3: vceq.b by the immediate -2 (the lane value 2^n - 2 for the unsigned compare)
@@ -56,8 +56,8 @@ c2:
 	lea	E3, r2
 	movq	#77, r4
 c3:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c3
 ;; test 4: vcgt.b vector by vector (signed greater)
@@ -76,8 +76,8 @@ c3:
 	lea	E4, r2
 	movq	#77, r4
 c4:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c4
 ;; test 5: vcgt.b by a register holding the sign bit of the lane
@@ -95,8 +95,8 @@ movq	=0xabcd80, r8
 	lea	E5, r2
 	movq	#77, r4
 c5:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c5
 ;; test 6: vcgt.b by the immediate -2 (the lane value 2^n - 2 for the unsigned compare)
@@ -113,8 +113,8 @@ c5:
 	lea	E6, r2
 	movq	#77, r4
 c6:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c6
 ;; test 7: vcgtu.b vector by vector (unsigned greater)
@@ -133,8 +133,8 @@ c6:
 	lea	E7, r2
 	movq	#77, r4
 c7:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c7
 ;; test 8: vcgtu.b by a register holding the sign bit of the lane
@@ -152,8 +152,8 @@ movq	=0xabcd80, r8
 	lea	E8, r2
 	movq	#77, r4
 c8:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c8
 ;; test 9: vcgtu.b by the immediate -2 (the lane value 2^n - 2 for the unsigned compare)
@@ -170,8 +170,8 @@ c8:
 	lea	E9, r2
 	movq	#77, r4
 c9:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c9
 ;; test 10: vceq.w vector by vector (equal)
@@ -190,8 +190,8 @@ c9:
 	lea	E10, r2
 	movq	#154, r4
 c10:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c10
 ;; test 11: vceq.w by a register holding the sign bit of the lane
@@ -209,8 +209,8 @@ movq	=0xabcd8000, r8
 	lea	E11, r2
 	movq	#154, r4
 c11:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c11
 ;; test 12: vceq.w by the immediate -2 (the lane value 2^n - 2 for the unsigned compare)
@@ -227,8 +227,8 @@ c11:
 	lea	E12, r2
 	movq	#154, r4
 c12:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c12
 ;; test 13: vcgt.w vector by vector (signed greater)
@@ -247,8 +247,8 @@ c12:
 	lea	E13, r2
 	movq	#154, r4
 c13:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c13
 ;; test 14: vcgt.w by a register holding the sign bit of the lane
@@ -266,8 +266,8 @@ movq	=0xabcd8000, r8
 	lea	E14, r2
 	movq	#154, r4
 c14:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c14
 ;; test 15: vcgt.w by the immediate -2 (the lane value 2^n - 2 for the unsigned compare)
@@ -284,8 +284,8 @@ c14:
 	lea	E15, r2
 	movq	#154, r4
 c15:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c15
 ;; test 16: vcgtu.w vector by vector (unsigned greater)
@@ -304,8 +304,8 @@ c15:
 	lea	E16, r2
 	movq	#154, r4
 c16:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c16
 ;; test 17: vcgtu.w by a register holding the sign bit of the lane
@@ -323,8 +323,8 @@ movq	=0xabcd8000, r8
 	lea	E17, r2
 	movq	#154, r4
 c17:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c17
 ;; test 18: vcgtu.w by the immediate -2 (the lane value 2^n - 2 for the unsigned compare)
@@ -341,8 +341,8 @@ c17:
 	lea	E18, r2
 	movq	#154, r4
 c18:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c18
 ;; test 19: vceq.l vector by vector (equal)
@@ -361,8 +361,8 @@ c18:
 	lea	E19, r2
 	movq	#308, r4
 c19:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c19
 ;; test 20: vceq.l by a register holding the sign bit of the lane
@@ -380,8 +380,8 @@ movq	=0xabcd80000000, r8
 	lea	E20, r2
 	movq	#308, r4
 c20:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c20
 ;; test 21: vceq.l by the immediate -2 (the lane value 2^n - 2 for the unsigned compare)
@@ -398,8 +398,8 @@ c20:
 	lea	E21, r2
 	movq	#308, r4
 c21:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c21
 ;; test 22: vcgt.l vector by vector (signed greater)
@@ -418,8 +418,8 @@ c21:
 	lea	E22, r2
 	movq	#308, r4
 c22:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c22
 ;; test 23: vcgt.l by a register holding the sign bit of the lane
@@ -437,8 +437,8 @@ movq	=0xabcd80000000, r8
 	lea	E23, r2
 	movq	#308, r4
 c23:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c23
 ;; test 24: vcgt.l by the immediate -2 (the lane value 2^n - 2 for the unsigned compare)
@@ -455,8 +455,8 @@ c23:
 	lea	E24, r2
 	movq	#308, r4
 c24:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c24
 ;; test 25: vcgtu.l vector by vector (unsigned greater)
@@ -475,8 +475,8 @@ c24:
 	lea	E25, r2
 	movq	#308, r4
 c25:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c25
 ;; test 26: vcgtu.l by a register holding the sign bit of the lane
@@ -494,8 +494,8 @@ movq	=0xabcd80000000, r8
 	lea	E26, r2
 	movq	#308, r4
 c26:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c26
 ;; test 27: vcgtu.l by the immediate -2 (the lane value 2^n - 2 for the unsigned compare)
@@ -512,8 +512,8 @@ c26:
 	lea	E27, r2
 	movq	#308, r4
 c27:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c27
 ;; test 28: vceq.f vector by vector (NaN, -0.0, infinities)
@@ -532,8 +532,8 @@ c27:
 	lea	E28, r2
 	movq	#308, r4
 c28:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c28
 ;; test 29: vceq.f by a register (2.5)
@@ -551,8 +551,8 @@ movq	=0x40200000, r8
 	lea	E29, r2
 	movq	#308, r4
 c29:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c29
 ;; test 30: vceq.f by the immediate -1 (the value -1.0)
@@ -569,8 +569,8 @@ c29:
 	lea	E30, r2
 	movq	#308, r4
 c30:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c30
 ;; test 31: vcgt.f vector by vector (NaN, -0.0, infinities)
@@ -589,8 +589,8 @@ c30:
 	lea	E31, r2
 	movq	#308, r4
 c31:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c31
 ;; test 32: vcgt.f by a register (2.5)
@@ -608,8 +608,8 @@ movq	=0x40200000, r8
 	lea	E32, r2
 	movq	#308, r4
 c32:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c32
 ;; test 33: vcgt.f by the immediate -1 (the value -1.0)
@@ -626,8 +626,8 @@ c32:
 	lea	E33, r2
 	movq	#308, r4
 c33:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c33
 ;; test 34: vbsl, random bits, vD another register
@@ -648,8 +648,8 @@ c33:
 	lea	E34, r2
 	movq	#308, r4
 c34:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c34
 ;; test 35: vbsl, random bits, vD = vM
@@ -670,8 +670,8 @@ c34:
 	lea	E35, r2
 	movq	#308, r4
 c35:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c35
 ;; test 36: vbsl, random bits, vD = vA
@@ -692,8 +692,8 @@ c35:
 	lea	E36, r2
 	movq	#308, r4
 c36:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c36
 ;; test 37: vbsl, random bits, vD = vB
@@ -714,8 +714,8 @@ c36:
 	lea	E37, r2
 	movq	#308, r4
 c37:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c37
 ;; test 38: vcgtu.b and vbsl: the unsigned maximum of bytes
@@ -735,8 +735,8 @@ c37:
 	lea	E38, r2
 	movq	#77, r4
 c38:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c38
 ;; test 39: clamp: vcgt.w by an immediate, vmov.w constant, vbsl
@@ -755,8 +755,8 @@ c38:
 	lea	E39, r2
 	movq	#154, r4
 c39:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c39
 ;; test 40: relu on floats: vcgt.f by an immediate 0, vbsl with 0.0 (NaN and -0.0 give +0.0)
@@ -775,8 +775,8 @@ c39:
 	lea	E40, r2
 	movq	#308, r4
 c40:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c40
 ;; test 41: vcvt.l.f: signed int32 to binary32, round to nearest even
@@ -793,8 +793,8 @@ c40:
 	lea	E41, r2
 	movq	#308, r4
 c41:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c41
 ;; test 42: vcvt.lu.f: unsigned int32 to binary32, round to nearest even
@@ -811,8 +811,8 @@ c41:
 	lea	E42, r2
 	movq	#308, r4
 c42:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c42
 ;; test 43: vcvt.f.l: binary32 to int32, truncate toward zero and saturate, NaN gives the largest value
@@ -829,8 +829,8 @@ c42:
 	lea	E43, r2
 	movq	#308, r4
 c43:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c43
 ;; test 44: vcvt.f.lu: binary32 to int32, truncate toward zero and saturate, NaN gives the largest value
@@ -847,8 +847,8 @@ c43:
 	lea	E44, r2
 	movq	#308, r4
 c44:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c44
 ;; test 45: int32 to float, clamp to 1000.0 (vcgt.f, vbsl), back to int32
@@ -869,8 +869,8 @@ c44:
 	lea	E45, r2
 	movq	#308, r4
 c45:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c45
 	movq	#0, r0

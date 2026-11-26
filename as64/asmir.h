@@ -38,6 +38,8 @@ struct oper {
 	int special;		/* OK_BASED: 0 an ordinary register, 1 pc, 2 dp */
 	int scale;		/* OK_INDEXED: 1, 2, 4, 8 */
 	struct xnode *x;	/* the expression: displacement, immediate, address; NULL if there is none */
+	int mark;		/* 1: a width mark follows the operand (r1.32, (r1).8, @x.u16) */
+	int mwidth, msign;	/* the mark: 8, 16, 32 or 64; 0, 'u' (zero-extending) or 's' (explicit signed) */
 };
 
 struct darg { int isstr; struct slice s; struct xnode *x; };	/* x: the argument as an expression (NULL where it is not one: the section name) */

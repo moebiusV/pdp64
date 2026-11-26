@@ -9,6 +9,9 @@
   hv-off.S     the machine with no hypervisor (sim64 -K, no strap): every hypervisor register and GENTER is an illegal instruction.
 
 usage: gen_hv.py OUTDIR     (writes the four files)"""
+import sys as _sys, os as _os
+_sys.path.insert(0, _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..', '..', 'tools'))
+import marks		# the words of the encoding written with width marks (tools/marks.py)
 import os
 import sys
 
@@ -62,7 +65,7 @@ class Prog:
 
 def write(outdir, name, body):
     with open(os.path.join(outdir, name), 'w') as f:
-        f.write(body)
+        f.write(marks.spell_text(body))
 
 
 # ---------------------------------------------------------------------------------------------------------------------------------------

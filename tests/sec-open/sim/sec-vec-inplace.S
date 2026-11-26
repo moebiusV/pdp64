@@ -27,7 +27,7 @@ kfill:	movq	r2, (r1)+
 	mtsr	mmuctl, r1
 
 	movq	=(0x800000+0), r6
-	movzb	(r6), r7
+	mov	(r6).u8, r7
 	movq	=(0x800ff0), r1
 	movq	r1, r3
 	add	#32, r3
@@ -46,7 +46,7 @@ kfill:	movq	r2, (r1)+
 	movq	=(0x800ff0), r4
 	movq	#8, r6
 	movq	#0, r8
-lw0:	movl	(r4)+, r5
+lw0:	mov	(r4)+.32, r5
 	cbeq	r5, #1, 1f
 	add	#1, r8
 1:	sob	r6, lw0
@@ -55,7 +55,7 @@ lw0:	movl	(r4)+, r5
 	halt
 1:
 	movq	=(0x800000+8192), r6
-	movzb	(r6), r7
+	mov	(r6).u8, r7
 	movq	=(0x802ff0), r1
 	movq	r1, r3
 	add	#32, r3
@@ -76,7 +76,7 @@ lw0:	movl	(r4)+, r5
 	movq	=(0x802ff0), r4
 	movq	#8, r6
 	movq	#0, r8
-lw1:	movl	(r4)+, r5
+lw1:	mov	(r4)+.32, r5
 	cbeq	r5, #1, 1f
 	add	#1, r8
 1:	sob	r6, lw1

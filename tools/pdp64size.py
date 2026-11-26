@@ -32,7 +32,7 @@ TOOL = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # pdp64 is measured with build/pcc/ccom (tools/build-pcc.sh) and build/as64 --stats, which counts the instruction bytes itself.
 RESULTS = os.environ.get('RESULTS', '/tmp/co-final/results.jsonl')
 sys.path.insert(0, os.path.join(REPO, 'tools'))
-import grammars_d
+import grammars_d, marks
 MNEM = grammars_d.text(REPO, 'asm', generated=False).split('\n')          # the hand-written words of spec/grammars.d/
 
 CCOMFLAGS_NOSSA = '-xdmr -xtemps -xdeljumps -xinline -xdce'
@@ -166,7 +166,9 @@ def parse_s(path, arch):
                 sec = 'text' if '.text' in line else 'data'
             continue
         w = line.split(None, 1)
-        ins.append((sec, w[0], split_ops(w[1]) if len(w) > 1 else []))
+        mn, ops = w[0], split_ops(w[1]) if len(w) > 1 else []
+        if arch == 'pdp64': mn, ops = marks.unspell(mn, ops)		# the analysis thinks in the words of the encoding (movb, fadd32); the source writes marks
+        ins.append((sec, mn, ops))
     return ins
 
 

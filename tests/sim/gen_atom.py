@@ -6,6 +6,9 @@
 
 The expected values come from the small Python model below, written from the manual and not from the executor.  A failed check n ends the program with status n (halt, with r0 = n).
 Registers: r1 Rd, r2 Rs, r3 Ra; r17 the scratch of the check macros; r11, r12 the handlers'; r13 where a handler resumes."""
+import sys as _sys, os as _os
+_sys.path.insert(0, _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..', '..', 'tools'))
+import marks		# the words of the encoding written with width marks (tools/marks.py)
 import os, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(HERE, '..', 'sec'))
@@ -626,7 +629,7 @@ def main():
     for name, fn, flags, *kind in out:
         hdr, body = fn()[:2]
         d = os.path.join(root, kind[0] if kind else 'sim')
-        open(os.path.join(d, name + '.S'), 'w').write(GEN + hdr[0] + '\n' + ''.join('; ' + l + '\n' for l in hdr[1:]) + body)
+        open(os.path.join(d, name + '.S'), 'w').write(GEN + hdr[0] + '\n' + ''.join('; ' + l + '\n' for l in hdr[1:]) + marks.spell_text(body))
         if flags:
             open(os.path.join(d, name + '.flags'), 'w').write(flags + '\n')
         if kind:

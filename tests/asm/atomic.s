@@ -1,6 +1,6 @@
 ; the atomic words: every one of the 24, each with registers that differ, assembled and compared with the words worked out from the layout of the grammar (57-enc-atomic.hbnf):
 ; parcel 0 = prefix (12 bits: 0xFE0) then the high four bits of the 5-bit sub-opcode (the operation times two, plus 1 for the 4-byte word); parcel 1 = the low bit of the sub-opcode, Rs, Ra, Rd (5 bits each, in the order written, `op Rs, (Ra), Rd`: the destination is the lowest field);
-; ll and lll: parcel 0 = 0xFE20, parcel 1 = sub-opcode (6 bits), Ra, Rd (written `ll (Ra), Rd`).
+; ll and ll .32: parcel 0 = 0xFE20, parcel 1 = sub-opcode (6 bits), Ra, Rd (written `ll (Ra), Rd`).
 	.text
 	cas r2,(r3),r1
 	swap r8,(r13),r3
@@ -13,16 +13,16 @@
 	amaxu r18,(r19),r17
 	aminu r24,(r29),r19
 	sc r22,(r23),r21
-	casl r1,(r12),r22
-	swapl r7,(r22),r24
-	aaddl r13,(r0),r26
-	aandl r19,(r10),r28
-	abisl r25,(r20),r30
-	axorl r31,(r30),r0
-	amaxl r5,(r8),r2
-	aminl r11,(r18),r4
-	amaxul r17,(r28),r6
-	aminul r23,(r6),r8
-	scl r14,(r16),r12
+	cas r1, (r12).32, r22
+	swap r7, (r22).32, r24
+	aadd r13, (r0).32, r26
+	aand r19, (r10).32, r28
+	abis r25, (r20).32, r30
+	axor r31, (r30).32, r0
+	amax r5, (r8).32, r2
+	amin r11, (r18).32, r4
+	amaxu r17, (r28).32, r6
+	aminu r23, (r6).32, r8
+	sc r14, (r16).32, r12
 	ll (r30),r7
-	lll (r29),r8
+	ll (r29).32, r8

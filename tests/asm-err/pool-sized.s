@@ -1,2 +1,2 @@
 	.text
-	movl	=5, r1
+	mov	=5.32, r1

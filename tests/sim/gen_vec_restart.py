@@ -24,6 +24,9 @@ the restart must still give the result of a run with no fault, at every strip.  
 The window of the test pages (WIN..WIN+16 MiB) is made of pages that are not present: on QEMU they are not mapped in the page table (the test builds identity tables and enables
 the MMU; the handler maps the page) and on sim64 `-x LO:HI` makes the first access to each page fault (the facility added for this test).  Each scenario uses fresh pages.
 usage: gen_vec_restart.py OUT.S"""
+import sys as _sys, os as _os
+_sys.path.insert(0, _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..', '..', 'tools'))
+import marks		# the words of the encoding written with width marks (tools/marks.py)
 import random, struct, sys, math
 
 rng = random.Random(172)
@@ -1055,7 +1058,7 @@ for i in range(512):
         w('\t.quad\t%d + (1<<PTE_V|1<<PTE_R|1<<PTE_W|1<<PTE_X|1<<PTE_A|1<<PTE_D)' % (i << 21))
 w('\t.align\t4096')
 w('wpt:\t.space\t%d' % (NW * 4096))
-open(sys.argv[1], 'w').write('\n'.join(O) + '\n')
+open(sys.argv[1], 'w').write(marks.spell_text('\n'.join(O)) + '\n')
 if len(sys.argv) > 2:
     open(sys.argv[2], 'w').write('\n'.join(desc) + '\n')
 print('%d kernels, %d rows, %d window slots, %d blobs' % (len(kerns), len(rows), slot[0], len(blobs)))

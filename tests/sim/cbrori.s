@@ -49,25 +49,25 @@ _start:
 3:	cbeq	r4, #10, 4b
 	br	f25
 5:	cbne r5, #1, f26
-; ror32: the low 32 bits rotate right, the result is sign-extended from bit 31 (errata 34)
+; ror .32: the low 32 bits rotate right, the result is sign-extended from bit 31 (errata 34)
 	movq	#-1, r6
 	shl	#16, r6
 	bis	#0x8000, r6
 	shl	#16, r6
 	bis	#1, r6			; r6 = 0xFFFFFFFF80000001
-	ror32	r6, #1, r7		; ror32(0x80000001, 1) = 0xC0000000: bit 31 set, so negative: 0xFFFFFFFFC0000000
+	ror	r6.32, #1, r7 ; the rotate of 0x80000001 by 1 = 0xC0000000: bit 31 set, so negative: 0xFFFFFFFFC0000000
 	movq	#-1073741824, r8
 	cbne r7, r8, f27
-	ror32	r6, #0, r7		; a zero count: 0x80000001 sign-extended
+	ror	r6.32, #0, r7 ; a zero count: 0x80000001 sign-extended
 	movq	#-2147483647, r8
 	cbne r7, r8, f28
-	ror32	r6, #31, r7		; ror32(0x80000001, 31) = 3: bit 31 clear, positive
+	ror	r6.32, #31, r7 ; the rotate of 0x80000001 by 31 = 3: bit 31 clear, positive
 	cbne r7, #3, f29
 	movq	#0x12345678, r6
-	ror32	r6, #8, r7		; 0x78123456: bit 31 clear
+	ror	r6.32, #8, r7 ; 0x78123456: bit 31 clear
 	movq	#0x78123456, r8
 	cbne r7, r8, f30
-	ror32	r6, #4, r6		; rd = rs; 0x81234567: bit 31 set, 0xFFFFFFFF81234567
+	ror	r6.32, #4, r6 ; rd = rs; 0x81234567: bit 31 set, 0xFFFFFFFF81234567
 	movq	#-2128394905, r8
 	cbne r6, r8, f31
 	movq	#0, r0

@@ -48,14 +48,37 @@ static int name_len(struct slice s)
 }
 
 /* a register is its enumerator in the tree: the numbers (r10 is 10, sp is 14) are the grammar's */
+/* The lexer layer in front of the generated parser: a width mark is a dot, glued to the operand before it, then `8 16 32 64`, with `u` or `s` before the number, and then no
+   name character.  Its dot becomes MARKCH, which no name contains: names, numbers and registers end before it and the grammar (`mark` in 60-asm-syntax.hbnf) takes it as the mark.  A dot inside quotes, inside a
+   comment, or after a blank (the `.` of a directive, a label, a name that starts with a dot) stays a dot, and so does a dot that is not followed by exactly a mark. */
+#define MARKCH '\001'
+static int idc_byte(int c) { return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_' || c == '.' || c == '$' || c >= 0x80; }
+static void mark_prescan(char *l)
+{
+	int q = 0;
+	for (char *p = l; *p; p++) {
+		if (q) { if (*p == '\\' && p[1]) p++; else if (*p == q) q = 0; continue; }
+		if (*p == '"' || *p == '\'' || *p == '`') { q = *p; continue; }
+		if (*p == ';' || (*p == '/' && p[1] == '/')) break;
+		if (*p != '.' || p == l || p[-1] == ' ' || p[-1] == '\t') continue;
+		const char *k = p + 1;
+		if (*k == 'u' || *k == 's') k++;
+		if (!strncmp(k, "16", 2) || !strncmp(k, "32", 2) || !strncmp(k, "64", 2)) k += 2;
+		else if (*k == '8') k++;
+		else continue;
+		if (idc_byte((unsigned char)*k)) continue;
+		*p = MARKCH;
+	}
+}
+
+static const char *cur_text;				/* the line being read: a register is read from its characters */
 static int reg_of(const reg_t *r)
 {
-	switch (r->_alt) {
-	case 1: return (int)r->rnum;
-	case 2: return (int)r->ralias;
-	case 3: return (int)r->pctnum.rnum;		/* %r1: the percent sign means nothing */
-	default: return (int)r->pctalias.ralias;
-	}
+	const char *p = cur_text + r->_pos;
+	while (*p == '%' || *p == ' ' || *p == '\t') p++;		/* %r1: the percent sign means nothing */
+	if ((*p | 0x20) == 's') return 14;			/* sp */
+	if ((*p | 0x20) == 'f') return 13;			/* fp */
+	return atoi(p + 1);					/* r0..r31 */
 }
 
 
@@ -208,13 +231,24 @@ static void put_darg(const char *text, struct stmt *st, const darg_t *a)
 }
 
 /* The expression text of an operand, and its registers, from the text the grammar matched as that operand. */
-static void operand(const char *text, const operand_t *o, struct oper *r)
+static void operand(const char *text, const operand_t *oo, struct oper *r)
 {
+	const opbody_t *o = &oo->opbody;
 	struct slice t = sl(text, o->_pos, o->_end);
 	const char *p = t.p;
 	int n = t.n;
 	memset(r, 0, sizeof *r);
 	r->kind = o->_alt;
+	/* the width mark, glued to the end of the body: `.8 .16 .32 .64 .u8 .u16 .u32 .s8 .s16 .s32` (the grammar has accepted it; which instruction takes which is as64's table) */
+	{
+		struct slice m = sl(text, o->_end, oo->_end);
+		if (m.n > 1 && m.p[0] == MARKCH) {
+			const char *q = m.p + 1;
+			r->mark = 1;
+			if (*q == 'u' || *q == 's') r->msign = *q++;
+			r->mwidth = atoi(q);
+		}
+	}
 	switch (o->_alt) {
 	case OK_IMM:
 		r->x = expr_x(text, o->immop.expr);
@@ -474,7 +508,10 @@ int asm_parse(const char *src, struct stmt **out, int *n, char *err, size_t errs
 
 		if (le) { *le = '\0'; nl = le + 1; } else nl = text + len + 1;
 		lineno++;
+		cur_text = line;
+		mark_prescan(line);
 		if (!parse_text(line, &a, err, errsz, &el, &ec)) {
+			for (char *c = err; *c; c++) if (*c == MARKCH) *c = '.';
 			*errline = lineno;
 			return -1;
 		}

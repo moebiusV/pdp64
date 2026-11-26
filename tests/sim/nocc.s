@@ -5124,7 +5124,7 @@ _start:
 	movq	=0, r1
 	movq	=0, r2
 	clr	r3
-	fcbeq32	r1, r2, 1f
+	fcbeq	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5132,7 +5132,7 @@ _start:
 	movq	=0, r1
 	movq	=-2147483648, r2
 	clr	r3
-	fcbeq32	r1, r2, 1f
+	fcbeq	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5140,7 +5140,7 @@ _start:
 	movq	=0, r1
 	movq	=1065353216, r2
 	clr	r3
-	fcbeq32	r1, r2, 1f
+	fcbeq	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5148,7 +5148,7 @@ _start:
 	movq	=0, r1
 	movq	=-1077936128, r2
 	clr	r3
-	fcbeq32	r1, r2, 1f
+	fcbeq	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5156,7 +5156,7 @@ _start:
 	movq	=0, r1
 	movq	=1075838976, r2
 	clr	r3
-	fcbeq32	r1, r2, 1f
+	fcbeq	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5164,7 +5164,7 @@ _start:
 	movq	=0, r1
 	movq	=2139095040, r2
 	clr	r3
-	fcbeq32	r1, r2, 1f
+	fcbeq	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5172,7 +5172,7 @@ _start:
 	movq	=0, r1
 	movq	=-8388608, r2
 	clr	r3
-	fcbeq32	r1, r2, 1f
+	fcbeq	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5180,7 +5180,7 @@ _start:
 	movq	=0, r1
 	movq	=2143289344, r2
 	clr	r3
-	fcbeq32	r1, r2, 1f
+	fcbeq	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5188,7 +5188,7 @@ _start:
 	movq	=-2147483648, r1
 	movq	=0, r2
 	clr	r3
-	fcbeq32	r1, r2, 1f
+	fcbeq	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5196,7 +5196,7 @@ _start:
 	movq	=-2147483648, r1
 	movq	=-2147483648, r2
 	clr	r3
-	fcbeq32	r1, r2, 1f
+	fcbeq	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5204,7 +5204,7 @@ _start:
 	movq	=-2147483648, r1
 	movq	=1065353216, r2
 	clr	r3
-	fcbeq32	r1, r2, 1f
+	fcbeq	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5212,7 +5212,7 @@ _start:
 	movq	=-2147483648, r1
 	movq	=-1077936128, r2
 	clr	r3
-	fcbeq32	r1, r2, 1f
+	fcbeq	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5220,7 +5220,7 @@ _start:
 	movq	=-2147483648, r1
 	movq	=1075838976, r2
 	clr	r3
-	fcbeq32	r1, r2, 1f
+	fcbeq	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5228,7 +5228,7 @@ _start:
 	movq	=-2147483648, r1
 	movq	=2139095040, r2
 	clr	r3
-	fcbeq32	r1, r2, 1f
+	fcbeq	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5236,7 +5236,7 @@ _start:
 	movq	=-2147483648, r1
 	movq	=-8388608, r2
 	clr	r3
-	fcbeq32	r1, r2, 1f
+	fcbeq	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5244,7 +5244,7 @@ _start:
 	movq	=-2147483648, r1
 	movq	=2143289344, r2
 	clr	r3
-	fcbeq32	r1, r2, 1f
+	fcbeq	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5252,7 +5252,7 @@ _start:
 	movq	=1065353216, r1
 	movq	=0, r2
 	clr	r3
-	fcbeq32	r1, r2, 1f
+	fcbeq	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5260,7 +5260,7 @@ _start:
 	movq	=1065353216, r1
 	movq	=-2147483648, r2
 	clr	r3
-	fcbeq32	r1, r2, 1f
+	fcbeq	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5268,7 +5268,7 @@ _start:
 	movq	=1065353216, r1
 	movq	=1065353216, r2
 	clr	r3
-	fcbeq32	r1, r2, 1f
+	fcbeq	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5276,7 +5276,7 @@ _start:
 	movq	=1065353216, r1
 	movq	=-1077936128, r2
 	clr	r3
-	fcbeq32	r1, r2, 1f
+	fcbeq	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5284,7 +5284,7 @@ _start:
 	movq	=1065353216, r1
 	movq	=1075838976, r2
 	clr	r3
-	fcbeq32	r1, r2, 1f
+	fcbeq	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5292,7 +5292,7 @@ _start:
 	movq	=1065353216, r1
 	movq	=2139095040, r2
 	clr	r3
-	fcbeq32	r1, r2, 1f
+	fcbeq	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5300,7 +5300,7 @@ _start:
 	movq	=1065353216, r1
 	movq	=-8388608, r2
 	clr	r3
-	fcbeq32	r1, r2, 1f
+	fcbeq	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5308,7 +5308,7 @@ _start:
 	movq	=1065353216, r1
 	movq	=2143289344, r2
 	clr	r3
-	fcbeq32	r1, r2, 1f
+	fcbeq	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5316,7 +5316,7 @@ _start:
 	movq	=-1077936128, r1
 	movq	=0, r2
 	clr	r3
-	fcbeq32	r1, r2, 1f
+	fcbeq	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5324,7 +5324,7 @@ _start:
 	movq	=-1077936128, r1
 	movq	=-2147483648, r2
 	clr	r3
-	fcbeq32	r1, r2, 1f
+	fcbeq	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5332,7 +5332,7 @@ _start:
 	movq	=-1077936128, r1
 	movq	=1065353216, r2
 	clr	r3
-	fcbeq32	r1, r2, 1f
+	fcbeq	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5340,7 +5340,7 @@ _start:
 	movq	=-1077936128, r1
 	movq	=-1077936128, r2
 	clr	r3
-	fcbeq32	r1, r2, 1f
+	fcbeq	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5348,7 +5348,7 @@ _start:
 	movq	=-1077936128, r1
 	movq	=1075838976, r2
 	clr	r3
-	fcbeq32	r1, r2, 1f
+	fcbeq	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5356,7 +5356,7 @@ _start:
 	movq	=-1077936128, r1
 	movq	=2139095040, r2
 	clr	r3
-	fcbeq32	r1, r2, 1f
+	fcbeq	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5364,7 +5364,7 @@ _start:
 	movq	=-1077936128, r1
 	movq	=-8388608, r2
 	clr	r3
-	fcbeq32	r1, r2, 1f
+	fcbeq	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5372,7 +5372,7 @@ _start:
 	movq	=-1077936128, r1
 	movq	=2143289344, r2
 	clr	r3
-	fcbeq32	r1, r2, 1f
+	fcbeq	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5380,7 +5380,7 @@ _start:
 	movq	=1075838976, r1
 	movq	=0, r2
 	clr	r3
-	fcbeq32	r1, r2, 1f
+	fcbeq	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5388,7 +5388,7 @@ _start:
 	movq	=1075838976, r1
 	movq	=-2147483648, r2
 	clr	r3
-	fcbeq32	r1, r2, 1f
+	fcbeq	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5396,7 +5396,7 @@ _start:
 	movq	=1075838976, r1
 	movq	=1065353216, r2
 	clr	r3
-	fcbeq32	r1, r2, 1f
+	fcbeq	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5404,7 +5404,7 @@ _start:
 	movq	=1075838976, r1
 	movq	=-1077936128, r2
 	clr	r3
-	fcbeq32	r1, r2, 1f
+	fcbeq	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5412,7 +5412,7 @@ _start:
 	movq	=1075838976, r1
 	movq	=1075838976, r2
 	clr	r3
-	fcbeq32	r1, r2, 1f
+	fcbeq	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5420,7 +5420,7 @@ _start:
 	movq	=1075838976, r1
 	movq	=2139095040, r2
 	clr	r3
-	fcbeq32	r1, r2, 1f
+	fcbeq	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5428,7 +5428,7 @@ _start:
 	movq	=1075838976, r1
 	movq	=-8388608, r2
 	clr	r3
-	fcbeq32	r1, r2, 1f
+	fcbeq	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5436,7 +5436,7 @@ _start:
 	movq	=1075838976, r1
 	movq	=2143289344, r2
 	clr	r3
-	fcbeq32	r1, r2, 1f
+	fcbeq	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5444,7 +5444,7 @@ _start:
 	movq	=2139095040, r1
 	movq	=0, r2
 	clr	r3
-	fcbeq32	r1, r2, 1f
+	fcbeq	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5452,7 +5452,7 @@ _start:
 	movq	=2139095040, r1
 	movq	=-2147483648, r2
 	clr	r3
-	fcbeq32	r1, r2, 1f
+	fcbeq	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5460,7 +5460,7 @@ _start:
 	movq	=2139095040, r1
 	movq	=1065353216, r2
 	clr	r3
-	fcbeq32	r1, r2, 1f
+	fcbeq	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5468,7 +5468,7 @@ _start:
 	movq	=2139095040, r1
 	movq	=-1077936128, r2
 	clr	r3
-	fcbeq32	r1, r2, 1f
+	fcbeq	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5476,7 +5476,7 @@ _start:
 	movq	=2139095040, r1
 	movq	=1075838976, r2
 	clr	r3
-	fcbeq32	r1, r2, 1f
+	fcbeq	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5484,7 +5484,7 @@ _start:
 	movq	=2139095040, r1
 	movq	=2139095040, r2
 	clr	r3
-	fcbeq32	r1, r2, 1f
+	fcbeq	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5492,7 +5492,7 @@ _start:
 	movq	=2139095040, r1
 	movq	=-8388608, r2
 	clr	r3
-	fcbeq32	r1, r2, 1f
+	fcbeq	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5500,7 +5500,7 @@ _start:
 	movq	=2139095040, r1
 	movq	=2143289344, r2
 	clr	r3
-	fcbeq32	r1, r2, 1f
+	fcbeq	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5508,7 +5508,7 @@ _start:
 	movq	=-8388608, r1
 	movq	=0, r2
 	clr	r3
-	fcbeq32	r1, r2, 1f
+	fcbeq	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5516,7 +5516,7 @@ _start:
 	movq	=-8388608, r1
 	movq	=-2147483648, r2
 	clr	r3
-	fcbeq32	r1, r2, 1f
+	fcbeq	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5524,7 +5524,7 @@ _start:
 	movq	=-8388608, r1
 	movq	=1065353216, r2
 	clr	r3
-	fcbeq32	r1, r2, 1f
+	fcbeq	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5532,7 +5532,7 @@ _start:
 	movq	=-8388608, r1
 	movq	=-1077936128, r2
 	clr	r3
-	fcbeq32	r1, r2, 1f
+	fcbeq	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5540,7 +5540,7 @@ _start:
 	movq	=-8388608, r1
 	movq	=1075838976, r2
 	clr	r3
-	fcbeq32	r1, r2, 1f
+	fcbeq	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5548,7 +5548,7 @@ _start:
 	movq	=-8388608, r1
 	movq	=2139095040, r2
 	clr	r3
-	fcbeq32	r1, r2, 1f
+	fcbeq	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5556,7 +5556,7 @@ _start:
 	movq	=-8388608, r1
 	movq	=-8388608, r2
 	clr	r3
-	fcbeq32	r1, r2, 1f
+	fcbeq	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5564,7 +5564,7 @@ _start:
 	movq	=-8388608, r1
 	movq	=2143289344, r2
 	clr	r3
-	fcbeq32	r1, r2, 1f
+	fcbeq	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5572,7 +5572,7 @@ _start:
 	movq	=2143289344, r1
 	movq	=0, r2
 	clr	r3
-	fcbeq32	r1, r2, 1f
+	fcbeq	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5580,7 +5580,7 @@ _start:
 	movq	=2143289344, r1
 	movq	=-2147483648, r2
 	clr	r3
-	fcbeq32	r1, r2, 1f
+	fcbeq	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5588,7 +5588,7 @@ _start:
 	movq	=2143289344, r1
 	movq	=1065353216, r2
 	clr	r3
-	fcbeq32	r1, r2, 1f
+	fcbeq	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5596,7 +5596,7 @@ _start:
 	movq	=2143289344, r1
 	movq	=-1077936128, r2
 	clr	r3
-	fcbeq32	r1, r2, 1f
+	fcbeq	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5604,7 +5604,7 @@ _start:
 	movq	=2143289344, r1
 	movq	=1075838976, r2
 	clr	r3
-	fcbeq32	r1, r2, 1f
+	fcbeq	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5612,7 +5612,7 @@ _start:
 	movq	=2143289344, r1
 	movq	=2139095040, r2
 	clr	r3
-	fcbeq32	r1, r2, 1f
+	fcbeq	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5620,7 +5620,7 @@ _start:
 	movq	=2143289344, r1
 	movq	=-8388608, r2
 	clr	r3
-	fcbeq32	r1, r2, 1f
+	fcbeq	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5628,7 +5628,7 @@ _start:
 	movq	=2143289344, r1
 	movq	=2143289344, r2
 	clr	r3
-	fcbeq32	r1, r2, 1f
+	fcbeq	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5636,7 +5636,7 @@ _start:
 	movq	=0, r1
 	movq	=0, r2
 	clr	r3
-	fcbne32	r1, r2, 1f
+	fcbne	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5644,7 +5644,7 @@ _start:
 	movq	=0, r1
 	movq	=-2147483648, r2
 	clr	r3
-	fcbne32	r1, r2, 1f
+	fcbne	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5652,7 +5652,7 @@ _start:
 	movq	=0, r1
 	movq	=1065353216, r2
 	clr	r3
-	fcbne32	r1, r2, 1f
+	fcbne	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5660,7 +5660,7 @@ _start:
 	movq	=0, r1
 	movq	=-1077936128, r2
 	clr	r3
-	fcbne32	r1, r2, 1f
+	fcbne	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5668,7 +5668,7 @@ _start:
 	movq	=0, r1
 	movq	=1075838976, r2
 	clr	r3
-	fcbne32	r1, r2, 1f
+	fcbne	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5676,7 +5676,7 @@ _start:
 	movq	=0, r1
 	movq	=2139095040, r2
 	clr	r3
-	fcbne32	r1, r2, 1f
+	fcbne	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5684,7 +5684,7 @@ _start:
 	movq	=0, r1
 	movq	=-8388608, r2
 	clr	r3
-	fcbne32	r1, r2, 1f
+	fcbne	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5692,7 +5692,7 @@ _start:
 	movq	=0, r1
 	movq	=2143289344, r2
 	clr	r3
-	fcbne32	r1, r2, 1f
+	fcbne	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5700,7 +5700,7 @@ _start:
 	movq	=-2147483648, r1
 	movq	=0, r2
 	clr	r3
-	fcbne32	r1, r2, 1f
+	fcbne	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5708,7 +5708,7 @@ _start:
 	movq	=-2147483648, r1
 	movq	=-2147483648, r2
 	clr	r3
-	fcbne32	r1, r2, 1f
+	fcbne	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5716,7 +5716,7 @@ _start:
 	movq	=-2147483648, r1
 	movq	=1065353216, r2
 	clr	r3
-	fcbne32	r1, r2, 1f
+	fcbne	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5724,7 +5724,7 @@ _start:
 	movq	=-2147483648, r1
 	movq	=-1077936128, r2
 	clr	r3
-	fcbne32	r1, r2, 1f
+	fcbne	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5732,7 +5732,7 @@ _start:
 	movq	=-2147483648, r1
 	movq	=1075838976, r2
 	clr	r3
-	fcbne32	r1, r2, 1f
+	fcbne	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5740,7 +5740,7 @@ _start:
 	movq	=-2147483648, r1
 	movq	=2139095040, r2
 	clr	r3
-	fcbne32	r1, r2, 1f
+	fcbne	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5748,7 +5748,7 @@ _start:
 	movq	=-2147483648, r1
 	movq	=-8388608, r2
 	clr	r3
-	fcbne32	r1, r2, 1f
+	fcbne	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5756,7 +5756,7 @@ _start:
 	movq	=-2147483648, r1
 	movq	=2143289344, r2
 	clr	r3
-	fcbne32	r1, r2, 1f
+	fcbne	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5764,7 +5764,7 @@ _start:
 	movq	=1065353216, r1
 	movq	=0, r2
 	clr	r3
-	fcbne32	r1, r2, 1f
+	fcbne	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5772,7 +5772,7 @@ _start:
 	movq	=1065353216, r1
 	movq	=-2147483648, r2
 	clr	r3
-	fcbne32	r1, r2, 1f
+	fcbne	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5780,7 +5780,7 @@ _start:
 	movq	=1065353216, r1
 	movq	=1065353216, r2
 	clr	r3
-	fcbne32	r1, r2, 1f
+	fcbne	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5788,7 +5788,7 @@ _start:
 	movq	=1065353216, r1
 	movq	=-1077936128, r2
 	clr	r3
-	fcbne32	r1, r2, 1f
+	fcbne	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5796,7 +5796,7 @@ _start:
 	movq	=1065353216, r1
 	movq	=1075838976, r2
 	clr	r3
-	fcbne32	r1, r2, 1f
+	fcbne	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5804,7 +5804,7 @@ _start:
 	movq	=1065353216, r1
 	movq	=2139095040, r2
 	clr	r3
-	fcbne32	r1, r2, 1f
+	fcbne	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5812,7 +5812,7 @@ _start:
 	movq	=1065353216, r1
 	movq	=-8388608, r2
 	clr	r3
-	fcbne32	r1, r2, 1f
+	fcbne	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5820,7 +5820,7 @@ _start:
 	movq	=1065353216, r1
 	movq	=2143289344, r2
 	clr	r3
-	fcbne32	r1, r2, 1f
+	fcbne	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5828,7 +5828,7 @@ _start:
 	movq	=-1077936128, r1
 	movq	=0, r2
 	clr	r3
-	fcbne32	r1, r2, 1f
+	fcbne	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5836,7 +5836,7 @@ _start:
 	movq	=-1077936128, r1
 	movq	=-2147483648, r2
 	clr	r3
-	fcbne32	r1, r2, 1f
+	fcbne	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5844,7 +5844,7 @@ _start:
 	movq	=-1077936128, r1
 	movq	=1065353216, r2
 	clr	r3
-	fcbne32	r1, r2, 1f
+	fcbne	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5852,7 +5852,7 @@ _start:
 	movq	=-1077936128, r1
 	movq	=-1077936128, r2
 	clr	r3
-	fcbne32	r1, r2, 1f
+	fcbne	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5860,7 +5860,7 @@ _start:
 	movq	=-1077936128, r1
 	movq	=1075838976, r2
 	clr	r3
-	fcbne32	r1, r2, 1f
+	fcbne	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5868,7 +5868,7 @@ _start:
 	movq	=-1077936128, r1
 	movq	=2139095040, r2
 	clr	r3
-	fcbne32	r1, r2, 1f
+	fcbne	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5876,7 +5876,7 @@ _start:
 	movq	=-1077936128, r1
 	movq	=-8388608, r2
 	clr	r3
-	fcbne32	r1, r2, 1f
+	fcbne	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5884,7 +5884,7 @@ _start:
 	movq	=-1077936128, r1
 	movq	=2143289344, r2
 	clr	r3
-	fcbne32	r1, r2, 1f
+	fcbne	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5892,7 +5892,7 @@ _start:
 	movq	=1075838976, r1
 	movq	=0, r2
 	clr	r3
-	fcbne32	r1, r2, 1f
+	fcbne	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5900,7 +5900,7 @@ _start:
 	movq	=1075838976, r1
 	movq	=-2147483648, r2
 	clr	r3
-	fcbne32	r1, r2, 1f
+	fcbne	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5908,7 +5908,7 @@ _start:
 	movq	=1075838976, r1
 	movq	=1065353216, r2
 	clr	r3
-	fcbne32	r1, r2, 1f
+	fcbne	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5916,7 +5916,7 @@ _start:
 	movq	=1075838976, r1
 	movq	=-1077936128, r2
 	clr	r3
-	fcbne32	r1, r2, 1f
+	fcbne	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5924,7 +5924,7 @@ _start:
 	movq	=1075838976, r1
 	movq	=1075838976, r2
 	clr	r3
-	fcbne32	r1, r2, 1f
+	fcbne	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5932,7 +5932,7 @@ _start:
 	movq	=1075838976, r1
 	movq	=2139095040, r2
 	clr	r3
-	fcbne32	r1, r2, 1f
+	fcbne	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5940,7 +5940,7 @@ _start:
 	movq	=1075838976, r1
 	movq	=-8388608, r2
 	clr	r3
-	fcbne32	r1, r2, 1f
+	fcbne	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5948,7 +5948,7 @@ _start:
 	movq	=1075838976, r1
 	movq	=2143289344, r2
 	clr	r3
-	fcbne32	r1, r2, 1f
+	fcbne	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5956,7 +5956,7 @@ _start:
 	movq	=2139095040, r1
 	movq	=0, r2
 	clr	r3
-	fcbne32	r1, r2, 1f
+	fcbne	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5964,7 +5964,7 @@ _start:
 	movq	=2139095040, r1
 	movq	=-2147483648, r2
 	clr	r3
-	fcbne32	r1, r2, 1f
+	fcbne	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5972,7 +5972,7 @@ _start:
 	movq	=2139095040, r1
 	movq	=1065353216, r2
 	clr	r3
-	fcbne32	r1, r2, 1f
+	fcbne	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5980,7 +5980,7 @@ _start:
 	movq	=2139095040, r1
 	movq	=-1077936128, r2
 	clr	r3
-	fcbne32	r1, r2, 1f
+	fcbne	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5988,7 +5988,7 @@ _start:
 	movq	=2139095040, r1
 	movq	=1075838976, r2
 	clr	r3
-	fcbne32	r1, r2, 1f
+	fcbne	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -5996,7 +5996,7 @@ _start:
 	movq	=2139095040, r1
 	movq	=2139095040, r2
 	clr	r3
-	fcbne32	r1, r2, 1f
+	fcbne	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6004,7 +6004,7 @@ _start:
 	movq	=2139095040, r1
 	movq	=-8388608, r2
 	clr	r3
-	fcbne32	r1, r2, 1f
+	fcbne	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6012,7 +6012,7 @@ _start:
 	movq	=2139095040, r1
 	movq	=2143289344, r2
 	clr	r3
-	fcbne32	r1, r2, 1f
+	fcbne	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6020,7 +6020,7 @@ _start:
 	movq	=-8388608, r1
 	movq	=0, r2
 	clr	r3
-	fcbne32	r1, r2, 1f
+	fcbne	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6028,7 +6028,7 @@ _start:
 	movq	=-8388608, r1
 	movq	=-2147483648, r2
 	clr	r3
-	fcbne32	r1, r2, 1f
+	fcbne	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6036,7 +6036,7 @@ _start:
 	movq	=-8388608, r1
 	movq	=1065353216, r2
 	clr	r3
-	fcbne32	r1, r2, 1f
+	fcbne	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6044,7 +6044,7 @@ _start:
 	movq	=-8388608, r1
 	movq	=-1077936128, r2
 	clr	r3
-	fcbne32	r1, r2, 1f
+	fcbne	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6052,7 +6052,7 @@ _start:
 	movq	=-8388608, r1
 	movq	=1075838976, r2
 	clr	r3
-	fcbne32	r1, r2, 1f
+	fcbne	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6060,7 +6060,7 @@ _start:
 	movq	=-8388608, r1
 	movq	=2139095040, r2
 	clr	r3
-	fcbne32	r1, r2, 1f
+	fcbne	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6068,7 +6068,7 @@ _start:
 	movq	=-8388608, r1
 	movq	=-8388608, r2
 	clr	r3
-	fcbne32	r1, r2, 1f
+	fcbne	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6076,7 +6076,7 @@ _start:
 	movq	=-8388608, r1
 	movq	=2143289344, r2
 	clr	r3
-	fcbne32	r1, r2, 1f
+	fcbne	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6084,7 +6084,7 @@ _start:
 	movq	=2143289344, r1
 	movq	=0, r2
 	clr	r3
-	fcbne32	r1, r2, 1f
+	fcbne	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6092,7 +6092,7 @@ _start:
 	movq	=2143289344, r1
 	movq	=-2147483648, r2
 	clr	r3
-	fcbne32	r1, r2, 1f
+	fcbne	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6100,7 +6100,7 @@ _start:
 	movq	=2143289344, r1
 	movq	=1065353216, r2
 	clr	r3
-	fcbne32	r1, r2, 1f
+	fcbne	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6108,7 +6108,7 @@ _start:
 	movq	=2143289344, r1
 	movq	=-1077936128, r2
 	clr	r3
-	fcbne32	r1, r2, 1f
+	fcbne	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6116,7 +6116,7 @@ _start:
 	movq	=2143289344, r1
 	movq	=1075838976, r2
 	clr	r3
-	fcbne32	r1, r2, 1f
+	fcbne	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6124,7 +6124,7 @@ _start:
 	movq	=2143289344, r1
 	movq	=2139095040, r2
 	clr	r3
-	fcbne32	r1, r2, 1f
+	fcbne	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6132,7 +6132,7 @@ _start:
 	movq	=2143289344, r1
 	movq	=-8388608, r2
 	clr	r3
-	fcbne32	r1, r2, 1f
+	fcbne	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6140,7 +6140,7 @@ _start:
 	movq	=2143289344, r1
 	movq	=2143289344, r2
 	clr	r3
-	fcbne32	r1, r2, 1f
+	fcbne	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6148,7 +6148,7 @@ _start:
 	movq	=0, r1
 	movq	=0, r2
 	clr	r3
-	fcblt32	r1, r2, 1f
+	fcblt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6156,7 +6156,7 @@ _start:
 	movq	=0, r1
 	movq	=-2147483648, r2
 	clr	r3
-	fcblt32	r1, r2, 1f
+	fcblt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6164,7 +6164,7 @@ _start:
 	movq	=0, r1
 	movq	=1065353216, r2
 	clr	r3
-	fcblt32	r1, r2, 1f
+	fcblt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6172,7 +6172,7 @@ _start:
 	movq	=0, r1
 	movq	=-1077936128, r2
 	clr	r3
-	fcblt32	r1, r2, 1f
+	fcblt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6180,7 +6180,7 @@ _start:
 	movq	=0, r1
 	movq	=1075838976, r2
 	clr	r3
-	fcblt32	r1, r2, 1f
+	fcblt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6188,7 +6188,7 @@ _start:
 	movq	=0, r1
 	movq	=2139095040, r2
 	clr	r3
-	fcblt32	r1, r2, 1f
+	fcblt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6196,7 +6196,7 @@ _start:
 	movq	=0, r1
 	movq	=-8388608, r2
 	clr	r3
-	fcblt32	r1, r2, 1f
+	fcblt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6204,7 +6204,7 @@ _start:
 	movq	=0, r1
 	movq	=2143289344, r2
 	clr	r3
-	fcblt32	r1, r2, 1f
+	fcblt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6212,7 +6212,7 @@ _start:
 	movq	=-2147483648, r1
 	movq	=0, r2
 	clr	r3
-	fcblt32	r1, r2, 1f
+	fcblt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6220,7 +6220,7 @@ _start:
 	movq	=-2147483648, r1
 	movq	=-2147483648, r2
 	clr	r3
-	fcblt32	r1, r2, 1f
+	fcblt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6228,7 +6228,7 @@ _start:
 	movq	=-2147483648, r1
 	movq	=1065353216, r2
 	clr	r3
-	fcblt32	r1, r2, 1f
+	fcblt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6236,7 +6236,7 @@ _start:
 	movq	=-2147483648, r1
 	movq	=-1077936128, r2
 	clr	r3
-	fcblt32	r1, r2, 1f
+	fcblt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6244,7 +6244,7 @@ _start:
 	movq	=-2147483648, r1
 	movq	=1075838976, r2
 	clr	r3
-	fcblt32	r1, r2, 1f
+	fcblt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6252,7 +6252,7 @@ _start:
 	movq	=-2147483648, r1
 	movq	=2139095040, r2
 	clr	r3
-	fcblt32	r1, r2, 1f
+	fcblt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6260,7 +6260,7 @@ _start:
 	movq	=-2147483648, r1
 	movq	=-8388608, r2
 	clr	r3
-	fcblt32	r1, r2, 1f
+	fcblt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6268,7 +6268,7 @@ _start:
 	movq	=-2147483648, r1
 	movq	=2143289344, r2
 	clr	r3
-	fcblt32	r1, r2, 1f
+	fcblt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6276,7 +6276,7 @@ _start:
 	movq	=1065353216, r1
 	movq	=0, r2
 	clr	r3
-	fcblt32	r1, r2, 1f
+	fcblt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6284,7 +6284,7 @@ _start:
 	movq	=1065353216, r1
 	movq	=-2147483648, r2
 	clr	r3
-	fcblt32	r1, r2, 1f
+	fcblt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6292,7 +6292,7 @@ _start:
 	movq	=1065353216, r1
 	movq	=1065353216, r2
 	clr	r3
-	fcblt32	r1, r2, 1f
+	fcblt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6300,7 +6300,7 @@ _start:
 	movq	=1065353216, r1
 	movq	=-1077936128, r2
 	clr	r3
-	fcblt32	r1, r2, 1f
+	fcblt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6308,7 +6308,7 @@ _start:
 	movq	=1065353216, r1
 	movq	=1075838976, r2
 	clr	r3
-	fcblt32	r1, r2, 1f
+	fcblt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6316,7 +6316,7 @@ _start:
 	movq	=1065353216, r1
 	movq	=2139095040, r2
 	clr	r3
-	fcblt32	r1, r2, 1f
+	fcblt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6324,7 +6324,7 @@ _start:
 	movq	=1065353216, r1
 	movq	=-8388608, r2
 	clr	r3
-	fcblt32	r1, r2, 1f
+	fcblt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6332,7 +6332,7 @@ _start:
 	movq	=1065353216, r1
 	movq	=2143289344, r2
 	clr	r3
-	fcblt32	r1, r2, 1f
+	fcblt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6340,7 +6340,7 @@ _start:
 	movq	=-1077936128, r1
 	movq	=0, r2
 	clr	r3
-	fcblt32	r1, r2, 1f
+	fcblt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6348,7 +6348,7 @@ _start:
 	movq	=-1077936128, r1
 	movq	=-2147483648, r2
 	clr	r3
-	fcblt32	r1, r2, 1f
+	fcblt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6356,7 +6356,7 @@ _start:
 	movq	=-1077936128, r1
 	movq	=1065353216, r2
 	clr	r3
-	fcblt32	r1, r2, 1f
+	fcblt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6364,7 +6364,7 @@ _start:
 	movq	=-1077936128, r1
 	movq	=-1077936128, r2
 	clr	r3
-	fcblt32	r1, r2, 1f
+	fcblt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6372,7 +6372,7 @@ _start:
 	movq	=-1077936128, r1
 	movq	=1075838976, r2
 	clr	r3
-	fcblt32	r1, r2, 1f
+	fcblt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6380,7 +6380,7 @@ _start:
 	movq	=-1077936128, r1
 	movq	=2139095040, r2
 	clr	r3
-	fcblt32	r1, r2, 1f
+	fcblt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6388,7 +6388,7 @@ _start:
 	movq	=-1077936128, r1
 	movq	=-8388608, r2
 	clr	r3
-	fcblt32	r1, r2, 1f
+	fcblt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6396,7 +6396,7 @@ _start:
 	movq	=-1077936128, r1
 	movq	=2143289344, r2
 	clr	r3
-	fcblt32	r1, r2, 1f
+	fcblt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6404,7 +6404,7 @@ _start:
 	movq	=1075838976, r1
 	movq	=0, r2
 	clr	r3
-	fcblt32	r1, r2, 1f
+	fcblt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6412,7 +6412,7 @@ _start:
 	movq	=1075838976, r1
 	movq	=-2147483648, r2
 	clr	r3
-	fcblt32	r1, r2, 1f
+	fcblt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6420,7 +6420,7 @@ _start:
 	movq	=1075838976, r1
 	movq	=1065353216, r2
 	clr	r3
-	fcblt32	r1, r2, 1f
+	fcblt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6428,7 +6428,7 @@ _start:
 	movq	=1075838976, r1
 	movq	=-1077936128, r2
 	clr	r3
-	fcblt32	r1, r2, 1f
+	fcblt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6436,7 +6436,7 @@ _start:
 	movq	=1075838976, r1
 	movq	=1075838976, r2
 	clr	r3
-	fcblt32	r1, r2, 1f
+	fcblt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6444,7 +6444,7 @@ _start:
 	movq	=1075838976, r1
 	movq	=2139095040, r2
 	clr	r3
-	fcblt32	r1, r2, 1f
+	fcblt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6452,7 +6452,7 @@ _start:
 	movq	=1075838976, r1
 	movq	=-8388608, r2
 	clr	r3
-	fcblt32	r1, r2, 1f
+	fcblt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6460,7 +6460,7 @@ _start:
 	movq	=1075838976, r1
 	movq	=2143289344, r2
 	clr	r3
-	fcblt32	r1, r2, 1f
+	fcblt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6468,7 +6468,7 @@ _start:
 	movq	=2139095040, r1
 	movq	=0, r2
 	clr	r3
-	fcblt32	r1, r2, 1f
+	fcblt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6476,7 +6476,7 @@ _start:
 	movq	=2139095040, r1
 	movq	=-2147483648, r2
 	clr	r3
-	fcblt32	r1, r2, 1f
+	fcblt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6484,7 +6484,7 @@ _start:
 	movq	=2139095040, r1
 	movq	=1065353216, r2
 	clr	r3
-	fcblt32	r1, r2, 1f
+	fcblt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6492,7 +6492,7 @@ _start:
 	movq	=2139095040, r1
 	movq	=-1077936128, r2
 	clr	r3
-	fcblt32	r1, r2, 1f
+	fcblt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6500,7 +6500,7 @@ _start:
 	movq	=2139095040, r1
 	movq	=1075838976, r2
 	clr	r3
-	fcblt32	r1, r2, 1f
+	fcblt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6508,7 +6508,7 @@ _start:
 	movq	=2139095040, r1
 	movq	=2139095040, r2
 	clr	r3
-	fcblt32	r1, r2, 1f
+	fcblt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6516,7 +6516,7 @@ _start:
 	movq	=2139095040, r1
 	movq	=-8388608, r2
 	clr	r3
-	fcblt32	r1, r2, 1f
+	fcblt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6524,7 +6524,7 @@ _start:
 	movq	=2139095040, r1
 	movq	=2143289344, r2
 	clr	r3
-	fcblt32	r1, r2, 1f
+	fcblt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6532,7 +6532,7 @@ _start:
 	movq	=-8388608, r1
 	movq	=0, r2
 	clr	r3
-	fcblt32	r1, r2, 1f
+	fcblt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6540,7 +6540,7 @@ _start:
 	movq	=-8388608, r1
 	movq	=-2147483648, r2
 	clr	r3
-	fcblt32	r1, r2, 1f
+	fcblt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6548,7 +6548,7 @@ _start:
 	movq	=-8388608, r1
 	movq	=1065353216, r2
 	clr	r3
-	fcblt32	r1, r2, 1f
+	fcblt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6556,7 +6556,7 @@ _start:
 	movq	=-8388608, r1
 	movq	=-1077936128, r2
 	clr	r3
-	fcblt32	r1, r2, 1f
+	fcblt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6564,7 +6564,7 @@ _start:
 	movq	=-8388608, r1
 	movq	=1075838976, r2
 	clr	r3
-	fcblt32	r1, r2, 1f
+	fcblt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6572,7 +6572,7 @@ _start:
 	movq	=-8388608, r1
 	movq	=2139095040, r2
 	clr	r3
-	fcblt32	r1, r2, 1f
+	fcblt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6580,7 +6580,7 @@ _start:
 	movq	=-8388608, r1
 	movq	=-8388608, r2
 	clr	r3
-	fcblt32	r1, r2, 1f
+	fcblt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6588,7 +6588,7 @@ _start:
 	movq	=-8388608, r1
 	movq	=2143289344, r2
 	clr	r3
-	fcblt32	r1, r2, 1f
+	fcblt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6596,7 +6596,7 @@ _start:
 	movq	=2143289344, r1
 	movq	=0, r2
 	clr	r3
-	fcblt32	r1, r2, 1f
+	fcblt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6604,7 +6604,7 @@ _start:
 	movq	=2143289344, r1
 	movq	=-2147483648, r2
 	clr	r3
-	fcblt32	r1, r2, 1f
+	fcblt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6612,7 +6612,7 @@ _start:
 	movq	=2143289344, r1
 	movq	=1065353216, r2
 	clr	r3
-	fcblt32	r1, r2, 1f
+	fcblt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6620,7 +6620,7 @@ _start:
 	movq	=2143289344, r1
 	movq	=-1077936128, r2
 	clr	r3
-	fcblt32	r1, r2, 1f
+	fcblt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6628,7 +6628,7 @@ _start:
 	movq	=2143289344, r1
 	movq	=1075838976, r2
 	clr	r3
-	fcblt32	r1, r2, 1f
+	fcblt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6636,7 +6636,7 @@ _start:
 	movq	=2143289344, r1
 	movq	=2139095040, r2
 	clr	r3
-	fcblt32	r1, r2, 1f
+	fcblt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6644,7 +6644,7 @@ _start:
 	movq	=2143289344, r1
 	movq	=-8388608, r2
 	clr	r3
-	fcblt32	r1, r2, 1f
+	fcblt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6652,7 +6652,7 @@ _start:
 	movq	=2143289344, r1
 	movq	=2143289344, r2
 	clr	r3
-	fcblt32	r1, r2, 1f
+	fcblt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6660,7 +6660,7 @@ _start:
 	movq	=0, r1
 	movq	=0, r2
 	clr	r3
-	fcble32	r1, r2, 1f
+	fcble	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6668,7 +6668,7 @@ _start:
 	movq	=0, r1
 	movq	=-2147483648, r2
 	clr	r3
-	fcble32	r1, r2, 1f
+	fcble	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6676,7 +6676,7 @@ _start:
 	movq	=0, r1
 	movq	=1065353216, r2
 	clr	r3
-	fcble32	r1, r2, 1f
+	fcble	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6684,7 +6684,7 @@ _start:
 	movq	=0, r1
 	movq	=-1077936128, r2
 	clr	r3
-	fcble32	r1, r2, 1f
+	fcble	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6692,7 +6692,7 @@ _start:
 	movq	=0, r1
 	movq	=1075838976, r2
 	clr	r3
-	fcble32	r1, r2, 1f
+	fcble	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6700,7 +6700,7 @@ _start:
 	movq	=0, r1
 	movq	=2139095040, r2
 	clr	r3
-	fcble32	r1, r2, 1f
+	fcble	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6708,7 +6708,7 @@ _start:
 	movq	=0, r1
 	movq	=-8388608, r2
 	clr	r3
-	fcble32	r1, r2, 1f
+	fcble	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6716,7 +6716,7 @@ _start:
 	movq	=0, r1
 	movq	=2143289344, r2
 	clr	r3
-	fcble32	r1, r2, 1f
+	fcble	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6724,7 +6724,7 @@ _start:
 	movq	=-2147483648, r1
 	movq	=0, r2
 	clr	r3
-	fcble32	r1, r2, 1f
+	fcble	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6732,7 +6732,7 @@ _start:
 	movq	=-2147483648, r1
 	movq	=-2147483648, r2
 	clr	r3
-	fcble32	r1, r2, 1f
+	fcble	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6740,7 +6740,7 @@ _start:
 	movq	=-2147483648, r1
 	movq	=1065353216, r2
 	clr	r3
-	fcble32	r1, r2, 1f
+	fcble	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6748,7 +6748,7 @@ _start:
 	movq	=-2147483648, r1
 	movq	=-1077936128, r2
 	clr	r3
-	fcble32	r1, r2, 1f
+	fcble	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6756,7 +6756,7 @@ _start:
 	movq	=-2147483648, r1
 	movq	=1075838976, r2
 	clr	r3
-	fcble32	r1, r2, 1f
+	fcble	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6764,7 +6764,7 @@ _start:
 	movq	=-2147483648, r1
 	movq	=2139095040, r2
 	clr	r3
-	fcble32	r1, r2, 1f
+	fcble	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6772,7 +6772,7 @@ _start:
 	movq	=-2147483648, r1
 	movq	=-8388608, r2
 	clr	r3
-	fcble32	r1, r2, 1f
+	fcble	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6780,7 +6780,7 @@ _start:
 	movq	=-2147483648, r1
 	movq	=2143289344, r2
 	clr	r3
-	fcble32	r1, r2, 1f
+	fcble	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6788,7 +6788,7 @@ _start:
 	movq	=1065353216, r1
 	movq	=0, r2
 	clr	r3
-	fcble32	r1, r2, 1f
+	fcble	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6796,7 +6796,7 @@ _start:
 	movq	=1065353216, r1
 	movq	=-2147483648, r2
 	clr	r3
-	fcble32	r1, r2, 1f
+	fcble	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6804,7 +6804,7 @@ _start:
 	movq	=1065353216, r1
 	movq	=1065353216, r2
 	clr	r3
-	fcble32	r1, r2, 1f
+	fcble	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6812,7 +6812,7 @@ _start:
 	movq	=1065353216, r1
 	movq	=-1077936128, r2
 	clr	r3
-	fcble32	r1, r2, 1f
+	fcble	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6820,7 +6820,7 @@ _start:
 	movq	=1065353216, r1
 	movq	=1075838976, r2
 	clr	r3
-	fcble32	r1, r2, 1f
+	fcble	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6828,7 +6828,7 @@ _start:
 	movq	=1065353216, r1
 	movq	=2139095040, r2
 	clr	r3
-	fcble32	r1, r2, 1f
+	fcble	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6836,7 +6836,7 @@ _start:
 	movq	=1065353216, r1
 	movq	=-8388608, r2
 	clr	r3
-	fcble32	r1, r2, 1f
+	fcble	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6844,7 +6844,7 @@ _start:
 	movq	=1065353216, r1
 	movq	=2143289344, r2
 	clr	r3
-	fcble32	r1, r2, 1f
+	fcble	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6852,7 +6852,7 @@ _start:
 	movq	=-1077936128, r1
 	movq	=0, r2
 	clr	r3
-	fcble32	r1, r2, 1f
+	fcble	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6860,7 +6860,7 @@ _start:
 	movq	=-1077936128, r1
 	movq	=-2147483648, r2
 	clr	r3
-	fcble32	r1, r2, 1f
+	fcble	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6868,7 +6868,7 @@ _start:
 	movq	=-1077936128, r1
 	movq	=1065353216, r2
 	clr	r3
-	fcble32	r1, r2, 1f
+	fcble	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6876,7 +6876,7 @@ _start:
 	movq	=-1077936128, r1
 	movq	=-1077936128, r2
 	clr	r3
-	fcble32	r1, r2, 1f
+	fcble	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6884,7 +6884,7 @@ _start:
 	movq	=-1077936128, r1
 	movq	=1075838976, r2
 	clr	r3
-	fcble32	r1, r2, 1f
+	fcble	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6892,7 +6892,7 @@ _start:
 	movq	=-1077936128, r1
 	movq	=2139095040, r2
 	clr	r3
-	fcble32	r1, r2, 1f
+	fcble	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6900,7 +6900,7 @@ _start:
 	movq	=-1077936128, r1
 	movq	=-8388608, r2
 	clr	r3
-	fcble32	r1, r2, 1f
+	fcble	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6908,7 +6908,7 @@ _start:
 	movq	=-1077936128, r1
 	movq	=2143289344, r2
 	clr	r3
-	fcble32	r1, r2, 1f
+	fcble	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6916,7 +6916,7 @@ _start:
 	movq	=1075838976, r1
 	movq	=0, r2
 	clr	r3
-	fcble32	r1, r2, 1f
+	fcble	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6924,7 +6924,7 @@ _start:
 	movq	=1075838976, r1
 	movq	=-2147483648, r2
 	clr	r3
-	fcble32	r1, r2, 1f
+	fcble	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6932,7 +6932,7 @@ _start:
 	movq	=1075838976, r1
 	movq	=1065353216, r2
 	clr	r3
-	fcble32	r1, r2, 1f
+	fcble	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6940,7 +6940,7 @@ _start:
 	movq	=1075838976, r1
 	movq	=-1077936128, r2
 	clr	r3
-	fcble32	r1, r2, 1f
+	fcble	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6948,7 +6948,7 @@ _start:
 	movq	=1075838976, r1
 	movq	=1075838976, r2
 	clr	r3
-	fcble32	r1, r2, 1f
+	fcble	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6956,7 +6956,7 @@ _start:
 	movq	=1075838976, r1
 	movq	=2139095040, r2
 	clr	r3
-	fcble32	r1, r2, 1f
+	fcble	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6964,7 +6964,7 @@ _start:
 	movq	=1075838976, r1
 	movq	=-8388608, r2
 	clr	r3
-	fcble32	r1, r2, 1f
+	fcble	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6972,7 +6972,7 @@ _start:
 	movq	=1075838976, r1
 	movq	=2143289344, r2
 	clr	r3
-	fcble32	r1, r2, 1f
+	fcble	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6980,7 +6980,7 @@ _start:
 	movq	=2139095040, r1
 	movq	=0, r2
 	clr	r3
-	fcble32	r1, r2, 1f
+	fcble	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6988,7 +6988,7 @@ _start:
 	movq	=2139095040, r1
 	movq	=-2147483648, r2
 	clr	r3
-	fcble32	r1, r2, 1f
+	fcble	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -6996,7 +6996,7 @@ _start:
 	movq	=2139095040, r1
 	movq	=1065353216, r2
 	clr	r3
-	fcble32	r1, r2, 1f
+	fcble	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7004,7 +7004,7 @@ _start:
 	movq	=2139095040, r1
 	movq	=-1077936128, r2
 	clr	r3
-	fcble32	r1, r2, 1f
+	fcble	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7012,7 +7012,7 @@ _start:
 	movq	=2139095040, r1
 	movq	=1075838976, r2
 	clr	r3
-	fcble32	r1, r2, 1f
+	fcble	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7020,7 +7020,7 @@ _start:
 	movq	=2139095040, r1
 	movq	=2139095040, r2
 	clr	r3
-	fcble32	r1, r2, 1f
+	fcble	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7028,7 +7028,7 @@ _start:
 	movq	=2139095040, r1
 	movq	=-8388608, r2
 	clr	r3
-	fcble32	r1, r2, 1f
+	fcble	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7036,7 +7036,7 @@ _start:
 	movq	=2139095040, r1
 	movq	=2143289344, r2
 	clr	r3
-	fcble32	r1, r2, 1f
+	fcble	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7044,7 +7044,7 @@ _start:
 	movq	=-8388608, r1
 	movq	=0, r2
 	clr	r3
-	fcble32	r1, r2, 1f
+	fcble	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7052,7 +7052,7 @@ _start:
 	movq	=-8388608, r1
 	movq	=-2147483648, r2
 	clr	r3
-	fcble32	r1, r2, 1f
+	fcble	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7060,7 +7060,7 @@ _start:
 	movq	=-8388608, r1
 	movq	=1065353216, r2
 	clr	r3
-	fcble32	r1, r2, 1f
+	fcble	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7068,7 +7068,7 @@ _start:
 	movq	=-8388608, r1
 	movq	=-1077936128, r2
 	clr	r3
-	fcble32	r1, r2, 1f
+	fcble	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7076,7 +7076,7 @@ _start:
 	movq	=-8388608, r1
 	movq	=1075838976, r2
 	clr	r3
-	fcble32	r1, r2, 1f
+	fcble	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7084,7 +7084,7 @@ _start:
 	movq	=-8388608, r1
 	movq	=2139095040, r2
 	clr	r3
-	fcble32	r1, r2, 1f
+	fcble	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7092,7 +7092,7 @@ _start:
 	movq	=-8388608, r1
 	movq	=-8388608, r2
 	clr	r3
-	fcble32	r1, r2, 1f
+	fcble	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7100,7 +7100,7 @@ _start:
 	movq	=-8388608, r1
 	movq	=2143289344, r2
 	clr	r3
-	fcble32	r1, r2, 1f
+	fcble	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7108,7 +7108,7 @@ _start:
 	movq	=2143289344, r1
 	movq	=0, r2
 	clr	r3
-	fcble32	r1, r2, 1f
+	fcble	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7116,7 +7116,7 @@ _start:
 	movq	=2143289344, r1
 	movq	=-2147483648, r2
 	clr	r3
-	fcble32	r1, r2, 1f
+	fcble	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7124,7 +7124,7 @@ _start:
 	movq	=2143289344, r1
 	movq	=1065353216, r2
 	clr	r3
-	fcble32	r1, r2, 1f
+	fcble	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7132,7 +7132,7 @@ _start:
 	movq	=2143289344, r1
 	movq	=-1077936128, r2
 	clr	r3
-	fcble32	r1, r2, 1f
+	fcble	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7140,7 +7140,7 @@ _start:
 	movq	=2143289344, r1
 	movq	=1075838976, r2
 	clr	r3
-	fcble32	r1, r2, 1f
+	fcble	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7148,7 +7148,7 @@ _start:
 	movq	=2143289344, r1
 	movq	=2139095040, r2
 	clr	r3
-	fcble32	r1, r2, 1f
+	fcble	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7156,7 +7156,7 @@ _start:
 	movq	=2143289344, r1
 	movq	=-8388608, r2
 	clr	r3
-	fcble32	r1, r2, 1f
+	fcble	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7164,7 +7164,7 @@ _start:
 	movq	=2143289344, r1
 	movq	=2143289344, r2
 	clr	r3
-	fcble32	r1, r2, 1f
+	fcble	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7172,7 +7172,7 @@ _start:
 	movq	=0, r1
 	movq	=0, r2
 	clr	r3
-	fcbgt32	r1, r2, 1f
+	fcbgt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7180,7 +7180,7 @@ _start:
 	movq	=0, r1
 	movq	=-2147483648, r2
 	clr	r3
-	fcbgt32	r1, r2, 1f
+	fcbgt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7188,7 +7188,7 @@ _start:
 	movq	=0, r1
 	movq	=1065353216, r2
 	clr	r3
-	fcbgt32	r1, r2, 1f
+	fcbgt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7196,7 +7196,7 @@ _start:
 	movq	=0, r1
 	movq	=-1077936128, r2
 	clr	r3
-	fcbgt32	r1, r2, 1f
+	fcbgt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7204,7 +7204,7 @@ _start:
 	movq	=0, r1
 	movq	=1075838976, r2
 	clr	r3
-	fcbgt32	r1, r2, 1f
+	fcbgt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7212,7 +7212,7 @@ _start:
 	movq	=0, r1
 	movq	=2139095040, r2
 	clr	r3
-	fcbgt32	r1, r2, 1f
+	fcbgt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7220,7 +7220,7 @@ _start:
 	movq	=0, r1
 	movq	=-8388608, r2
 	clr	r3
-	fcbgt32	r1, r2, 1f
+	fcbgt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7228,7 +7228,7 @@ _start:
 	movq	=0, r1
 	movq	=2143289344, r2
 	clr	r3
-	fcbgt32	r1, r2, 1f
+	fcbgt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7236,7 +7236,7 @@ _start:
 	movq	=-2147483648, r1
 	movq	=0, r2
 	clr	r3
-	fcbgt32	r1, r2, 1f
+	fcbgt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7244,7 +7244,7 @@ _start:
 	movq	=-2147483648, r1
 	movq	=-2147483648, r2
 	clr	r3
-	fcbgt32	r1, r2, 1f
+	fcbgt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7252,7 +7252,7 @@ _start:
 	movq	=-2147483648, r1
 	movq	=1065353216, r2
 	clr	r3
-	fcbgt32	r1, r2, 1f
+	fcbgt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7260,7 +7260,7 @@ _start:
 	movq	=-2147483648, r1
 	movq	=-1077936128, r2
 	clr	r3
-	fcbgt32	r1, r2, 1f
+	fcbgt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7268,7 +7268,7 @@ _start:
 	movq	=-2147483648, r1
 	movq	=1075838976, r2
 	clr	r3
-	fcbgt32	r1, r2, 1f
+	fcbgt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7276,7 +7276,7 @@ _start:
 	movq	=-2147483648, r1
 	movq	=2139095040, r2
 	clr	r3
-	fcbgt32	r1, r2, 1f
+	fcbgt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7284,7 +7284,7 @@ _start:
 	movq	=-2147483648, r1
 	movq	=-8388608, r2
 	clr	r3
-	fcbgt32	r1, r2, 1f
+	fcbgt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7292,7 +7292,7 @@ _start:
 	movq	=-2147483648, r1
 	movq	=2143289344, r2
 	clr	r3
-	fcbgt32	r1, r2, 1f
+	fcbgt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7300,7 +7300,7 @@ _start:
 	movq	=1065353216, r1
 	movq	=0, r2
 	clr	r3
-	fcbgt32	r1, r2, 1f
+	fcbgt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7308,7 +7308,7 @@ _start:
 	movq	=1065353216, r1
 	movq	=-2147483648, r2
 	clr	r3
-	fcbgt32	r1, r2, 1f
+	fcbgt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7316,7 +7316,7 @@ _start:
 	movq	=1065353216, r1
 	movq	=1065353216, r2
 	clr	r3
-	fcbgt32	r1, r2, 1f
+	fcbgt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7324,7 +7324,7 @@ _start:
 	movq	=1065353216, r1
 	movq	=-1077936128, r2
 	clr	r3
-	fcbgt32	r1, r2, 1f
+	fcbgt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7332,7 +7332,7 @@ _start:
 	movq	=1065353216, r1
 	movq	=1075838976, r2
 	clr	r3
-	fcbgt32	r1, r2, 1f
+	fcbgt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7340,7 +7340,7 @@ _start:
 	movq	=1065353216, r1
 	movq	=2139095040, r2
 	clr	r3
-	fcbgt32	r1, r2, 1f
+	fcbgt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7348,7 +7348,7 @@ _start:
 	movq	=1065353216, r1
 	movq	=-8388608, r2
 	clr	r3
-	fcbgt32	r1, r2, 1f
+	fcbgt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7356,7 +7356,7 @@ _start:
 	movq	=1065353216, r1
 	movq	=2143289344, r2
 	clr	r3
-	fcbgt32	r1, r2, 1f
+	fcbgt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7364,7 +7364,7 @@ _start:
 	movq	=-1077936128, r1
 	movq	=0, r2
 	clr	r3
-	fcbgt32	r1, r2, 1f
+	fcbgt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7372,7 +7372,7 @@ _start:
 	movq	=-1077936128, r1
 	movq	=-2147483648, r2
 	clr	r3
-	fcbgt32	r1, r2, 1f
+	fcbgt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7380,7 +7380,7 @@ _start:
 	movq	=-1077936128, r1
 	movq	=1065353216, r2
 	clr	r3
-	fcbgt32	r1, r2, 1f
+	fcbgt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7388,7 +7388,7 @@ _start:
 	movq	=-1077936128, r1
 	movq	=-1077936128, r2
 	clr	r3
-	fcbgt32	r1, r2, 1f
+	fcbgt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7396,7 +7396,7 @@ _start:
 	movq	=-1077936128, r1
 	movq	=1075838976, r2
 	clr	r3
-	fcbgt32	r1, r2, 1f
+	fcbgt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7404,7 +7404,7 @@ _start:
 	movq	=-1077936128, r1
 	movq	=2139095040, r2
 	clr	r3
-	fcbgt32	r1, r2, 1f
+	fcbgt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7412,7 +7412,7 @@ _start:
 	movq	=-1077936128, r1
 	movq	=-8388608, r2
 	clr	r3
-	fcbgt32	r1, r2, 1f
+	fcbgt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7420,7 +7420,7 @@ _start:
 	movq	=-1077936128, r1
 	movq	=2143289344, r2
 	clr	r3
-	fcbgt32	r1, r2, 1f
+	fcbgt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7428,7 +7428,7 @@ _start:
 	movq	=1075838976, r1
 	movq	=0, r2
 	clr	r3
-	fcbgt32	r1, r2, 1f
+	fcbgt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7436,7 +7436,7 @@ _start:
 	movq	=1075838976, r1
 	movq	=-2147483648, r2
 	clr	r3
-	fcbgt32	r1, r2, 1f
+	fcbgt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7444,7 +7444,7 @@ _start:
 	movq	=1075838976, r1
 	movq	=1065353216, r2
 	clr	r3
-	fcbgt32	r1, r2, 1f
+	fcbgt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7452,7 +7452,7 @@ _start:
 	movq	=1075838976, r1
 	movq	=-1077936128, r2
 	clr	r3
-	fcbgt32	r1, r2, 1f
+	fcbgt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7460,7 +7460,7 @@ _start:
 	movq	=1075838976, r1
 	movq	=1075838976, r2
 	clr	r3
-	fcbgt32	r1, r2, 1f
+	fcbgt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7468,7 +7468,7 @@ _start:
 	movq	=1075838976, r1
 	movq	=2139095040, r2
 	clr	r3
-	fcbgt32	r1, r2, 1f
+	fcbgt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7476,7 +7476,7 @@ _start:
 	movq	=1075838976, r1
 	movq	=-8388608, r2
 	clr	r3
-	fcbgt32	r1, r2, 1f
+	fcbgt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7484,7 +7484,7 @@ _start:
 	movq	=1075838976, r1
 	movq	=2143289344, r2
 	clr	r3
-	fcbgt32	r1, r2, 1f
+	fcbgt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7492,7 +7492,7 @@ _start:
 	movq	=2139095040, r1
 	movq	=0, r2
 	clr	r3
-	fcbgt32	r1, r2, 1f
+	fcbgt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7500,7 +7500,7 @@ _start:
 	movq	=2139095040, r1
 	movq	=-2147483648, r2
 	clr	r3
-	fcbgt32	r1, r2, 1f
+	fcbgt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7508,7 +7508,7 @@ _start:
 	movq	=2139095040, r1
 	movq	=1065353216, r2
 	clr	r3
-	fcbgt32	r1, r2, 1f
+	fcbgt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7516,7 +7516,7 @@ _start:
 	movq	=2139095040, r1
 	movq	=-1077936128, r2
 	clr	r3
-	fcbgt32	r1, r2, 1f
+	fcbgt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7524,7 +7524,7 @@ _start:
 	movq	=2139095040, r1
 	movq	=1075838976, r2
 	clr	r3
-	fcbgt32	r1, r2, 1f
+	fcbgt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7532,7 +7532,7 @@ _start:
 	movq	=2139095040, r1
 	movq	=2139095040, r2
 	clr	r3
-	fcbgt32	r1, r2, 1f
+	fcbgt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7540,7 +7540,7 @@ _start:
 	movq	=2139095040, r1
 	movq	=-8388608, r2
 	clr	r3
-	fcbgt32	r1, r2, 1f
+	fcbgt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7548,7 +7548,7 @@ _start:
 	movq	=2139095040, r1
 	movq	=2143289344, r2
 	clr	r3
-	fcbgt32	r1, r2, 1f
+	fcbgt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7556,7 +7556,7 @@ _start:
 	movq	=-8388608, r1
 	movq	=0, r2
 	clr	r3
-	fcbgt32	r1, r2, 1f
+	fcbgt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7564,7 +7564,7 @@ _start:
 	movq	=-8388608, r1
 	movq	=-2147483648, r2
 	clr	r3
-	fcbgt32	r1, r2, 1f
+	fcbgt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7572,7 +7572,7 @@ _start:
 	movq	=-8388608, r1
 	movq	=1065353216, r2
 	clr	r3
-	fcbgt32	r1, r2, 1f
+	fcbgt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7580,7 +7580,7 @@ _start:
 	movq	=-8388608, r1
 	movq	=-1077936128, r2
 	clr	r3
-	fcbgt32	r1, r2, 1f
+	fcbgt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7588,7 +7588,7 @@ _start:
 	movq	=-8388608, r1
 	movq	=1075838976, r2
 	clr	r3
-	fcbgt32	r1, r2, 1f
+	fcbgt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7596,7 +7596,7 @@ _start:
 	movq	=-8388608, r1
 	movq	=2139095040, r2
 	clr	r3
-	fcbgt32	r1, r2, 1f
+	fcbgt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7604,7 +7604,7 @@ _start:
 	movq	=-8388608, r1
 	movq	=-8388608, r2
 	clr	r3
-	fcbgt32	r1, r2, 1f
+	fcbgt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7612,7 +7612,7 @@ _start:
 	movq	=-8388608, r1
 	movq	=2143289344, r2
 	clr	r3
-	fcbgt32	r1, r2, 1f
+	fcbgt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7620,7 +7620,7 @@ _start:
 	movq	=2143289344, r1
 	movq	=0, r2
 	clr	r3
-	fcbgt32	r1, r2, 1f
+	fcbgt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7628,7 +7628,7 @@ _start:
 	movq	=2143289344, r1
 	movq	=-2147483648, r2
 	clr	r3
-	fcbgt32	r1, r2, 1f
+	fcbgt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7636,7 +7636,7 @@ _start:
 	movq	=2143289344, r1
 	movq	=1065353216, r2
 	clr	r3
-	fcbgt32	r1, r2, 1f
+	fcbgt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7644,7 +7644,7 @@ _start:
 	movq	=2143289344, r1
 	movq	=-1077936128, r2
 	clr	r3
-	fcbgt32	r1, r2, 1f
+	fcbgt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7652,7 +7652,7 @@ _start:
 	movq	=2143289344, r1
 	movq	=1075838976, r2
 	clr	r3
-	fcbgt32	r1, r2, 1f
+	fcbgt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7660,7 +7660,7 @@ _start:
 	movq	=2143289344, r1
 	movq	=2139095040, r2
 	clr	r3
-	fcbgt32	r1, r2, 1f
+	fcbgt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7668,7 +7668,7 @@ _start:
 	movq	=2143289344, r1
 	movq	=-8388608, r2
 	clr	r3
-	fcbgt32	r1, r2, 1f
+	fcbgt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7676,7 +7676,7 @@ _start:
 	movq	=2143289344, r1
 	movq	=2143289344, r2
 	clr	r3
-	fcbgt32	r1, r2, 1f
+	fcbgt	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7684,7 +7684,7 @@ _start:
 	movq	=0, r1
 	movq	=0, r2
 	clr	r3
-	fcbge32	r1, r2, 1f
+	fcbge	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7692,7 +7692,7 @@ _start:
 	movq	=0, r1
 	movq	=-2147483648, r2
 	clr	r3
-	fcbge32	r1, r2, 1f
+	fcbge	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7700,7 +7700,7 @@ _start:
 	movq	=0, r1
 	movq	=1065353216, r2
 	clr	r3
-	fcbge32	r1, r2, 1f
+	fcbge	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7708,7 +7708,7 @@ _start:
 	movq	=0, r1
 	movq	=-1077936128, r2
 	clr	r3
-	fcbge32	r1, r2, 1f
+	fcbge	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7716,7 +7716,7 @@ _start:
 	movq	=0, r1
 	movq	=1075838976, r2
 	clr	r3
-	fcbge32	r1, r2, 1f
+	fcbge	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7724,7 +7724,7 @@ _start:
 	movq	=0, r1
 	movq	=2139095040, r2
 	clr	r3
-	fcbge32	r1, r2, 1f
+	fcbge	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7732,7 +7732,7 @@ _start:
 	movq	=0, r1
 	movq	=-8388608, r2
 	clr	r3
-	fcbge32	r1, r2, 1f
+	fcbge	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7740,7 +7740,7 @@ _start:
 	movq	=0, r1
 	movq	=2143289344, r2
 	clr	r3
-	fcbge32	r1, r2, 1f
+	fcbge	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7748,7 +7748,7 @@ _start:
 	movq	=-2147483648, r1
 	movq	=0, r2
 	clr	r3
-	fcbge32	r1, r2, 1f
+	fcbge	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7756,7 +7756,7 @@ _start:
 	movq	=-2147483648, r1
 	movq	=-2147483648, r2
 	clr	r3
-	fcbge32	r1, r2, 1f
+	fcbge	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7764,7 +7764,7 @@ _start:
 	movq	=-2147483648, r1
 	movq	=1065353216, r2
 	clr	r3
-	fcbge32	r1, r2, 1f
+	fcbge	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7772,7 +7772,7 @@ _start:
 	movq	=-2147483648, r1
 	movq	=-1077936128, r2
 	clr	r3
-	fcbge32	r1, r2, 1f
+	fcbge	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7780,7 +7780,7 @@ _start:
 	movq	=-2147483648, r1
 	movq	=1075838976, r2
 	clr	r3
-	fcbge32	r1, r2, 1f
+	fcbge	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7788,7 +7788,7 @@ _start:
 	movq	=-2147483648, r1
 	movq	=2139095040, r2
 	clr	r3
-	fcbge32	r1, r2, 1f
+	fcbge	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7796,7 +7796,7 @@ _start:
 	movq	=-2147483648, r1
 	movq	=-8388608, r2
 	clr	r3
-	fcbge32	r1, r2, 1f
+	fcbge	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7804,7 +7804,7 @@ _start:
 	movq	=-2147483648, r1
 	movq	=2143289344, r2
 	clr	r3
-	fcbge32	r1, r2, 1f
+	fcbge	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7812,7 +7812,7 @@ _start:
 	movq	=1065353216, r1
 	movq	=0, r2
 	clr	r3
-	fcbge32	r1, r2, 1f
+	fcbge	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7820,7 +7820,7 @@ _start:
 	movq	=1065353216, r1
 	movq	=-2147483648, r2
 	clr	r3
-	fcbge32	r1, r2, 1f
+	fcbge	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7828,7 +7828,7 @@ _start:
 	movq	=1065353216, r1
 	movq	=1065353216, r2
 	clr	r3
-	fcbge32	r1, r2, 1f
+	fcbge	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7836,7 +7836,7 @@ _start:
 	movq	=1065353216, r1
 	movq	=-1077936128, r2
 	clr	r3
-	fcbge32	r1, r2, 1f
+	fcbge	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7844,7 +7844,7 @@ _start:
 	movq	=1065353216, r1
 	movq	=1075838976, r2
 	clr	r3
-	fcbge32	r1, r2, 1f
+	fcbge	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7852,7 +7852,7 @@ _start:
 	movq	=1065353216, r1
 	movq	=2139095040, r2
 	clr	r3
-	fcbge32	r1, r2, 1f
+	fcbge	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7860,7 +7860,7 @@ _start:
 	movq	=1065353216, r1
 	movq	=-8388608, r2
 	clr	r3
-	fcbge32	r1, r2, 1f
+	fcbge	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7868,7 +7868,7 @@ _start:
 	movq	=1065353216, r1
 	movq	=2143289344, r2
 	clr	r3
-	fcbge32	r1, r2, 1f
+	fcbge	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7876,7 +7876,7 @@ _start:
 	movq	=-1077936128, r1
 	movq	=0, r2
 	clr	r3
-	fcbge32	r1, r2, 1f
+	fcbge	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7884,7 +7884,7 @@ _start:
 	movq	=-1077936128, r1
 	movq	=-2147483648, r2
 	clr	r3
-	fcbge32	r1, r2, 1f
+	fcbge	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7892,7 +7892,7 @@ _start:
 	movq	=-1077936128, r1
 	movq	=1065353216, r2
 	clr	r3
-	fcbge32	r1, r2, 1f
+	fcbge	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7900,7 +7900,7 @@ _start:
 	movq	=-1077936128, r1
 	movq	=-1077936128, r2
 	clr	r3
-	fcbge32	r1, r2, 1f
+	fcbge	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7908,7 +7908,7 @@ _start:
 	movq	=-1077936128, r1
 	movq	=1075838976, r2
 	clr	r3
-	fcbge32	r1, r2, 1f
+	fcbge	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7916,7 +7916,7 @@ _start:
 	movq	=-1077936128, r1
 	movq	=2139095040, r2
 	clr	r3
-	fcbge32	r1, r2, 1f
+	fcbge	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7924,7 +7924,7 @@ _start:
 	movq	=-1077936128, r1
 	movq	=-8388608, r2
 	clr	r3
-	fcbge32	r1, r2, 1f
+	fcbge	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7932,7 +7932,7 @@ _start:
 	movq	=-1077936128, r1
 	movq	=2143289344, r2
 	clr	r3
-	fcbge32	r1, r2, 1f
+	fcbge	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7940,7 +7940,7 @@ _start:
 	movq	=1075838976, r1
 	movq	=0, r2
 	clr	r3
-	fcbge32	r1, r2, 1f
+	fcbge	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7948,7 +7948,7 @@ _start:
 	movq	=1075838976, r1
 	movq	=-2147483648, r2
 	clr	r3
-	fcbge32	r1, r2, 1f
+	fcbge	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7956,7 +7956,7 @@ _start:
 	movq	=1075838976, r1
 	movq	=1065353216, r2
 	clr	r3
-	fcbge32	r1, r2, 1f
+	fcbge	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7964,7 +7964,7 @@ _start:
 	movq	=1075838976, r1
 	movq	=-1077936128, r2
 	clr	r3
-	fcbge32	r1, r2, 1f
+	fcbge	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7972,7 +7972,7 @@ _start:
 	movq	=1075838976, r1
 	movq	=1075838976, r2
 	clr	r3
-	fcbge32	r1, r2, 1f
+	fcbge	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7980,7 +7980,7 @@ _start:
 	movq	=1075838976, r1
 	movq	=2139095040, r2
 	clr	r3
-	fcbge32	r1, r2, 1f
+	fcbge	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7988,7 +7988,7 @@ _start:
 	movq	=1075838976, r1
 	movq	=-8388608, r2
 	clr	r3
-	fcbge32	r1, r2, 1f
+	fcbge	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -7996,7 +7996,7 @@ _start:
 	movq	=1075838976, r1
 	movq	=2143289344, r2
 	clr	r3
-	fcbge32	r1, r2, 1f
+	fcbge	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8004,7 +8004,7 @@ _start:
 	movq	=2139095040, r1
 	movq	=0, r2
 	clr	r3
-	fcbge32	r1, r2, 1f
+	fcbge	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8012,7 +8012,7 @@ _start:
 	movq	=2139095040, r1
 	movq	=-2147483648, r2
 	clr	r3
-	fcbge32	r1, r2, 1f
+	fcbge	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8020,7 +8020,7 @@ _start:
 	movq	=2139095040, r1
 	movq	=1065353216, r2
 	clr	r3
-	fcbge32	r1, r2, 1f
+	fcbge	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8028,7 +8028,7 @@ _start:
 	movq	=2139095040, r1
 	movq	=-1077936128, r2
 	clr	r3
-	fcbge32	r1, r2, 1f
+	fcbge	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8036,7 +8036,7 @@ _start:
 	movq	=2139095040, r1
 	movq	=1075838976, r2
 	clr	r3
-	fcbge32	r1, r2, 1f
+	fcbge	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8044,7 +8044,7 @@ _start:
 	movq	=2139095040, r1
 	movq	=2139095040, r2
 	clr	r3
-	fcbge32	r1, r2, 1f
+	fcbge	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8052,7 +8052,7 @@ _start:
 	movq	=2139095040, r1
 	movq	=-8388608, r2
 	clr	r3
-	fcbge32	r1, r2, 1f
+	fcbge	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8060,7 +8060,7 @@ _start:
 	movq	=2139095040, r1
 	movq	=2143289344, r2
 	clr	r3
-	fcbge32	r1, r2, 1f
+	fcbge	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8068,7 +8068,7 @@ _start:
 	movq	=-8388608, r1
 	movq	=0, r2
 	clr	r3
-	fcbge32	r1, r2, 1f
+	fcbge	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8076,7 +8076,7 @@ _start:
 	movq	=-8388608, r1
 	movq	=-2147483648, r2
 	clr	r3
-	fcbge32	r1, r2, 1f
+	fcbge	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8084,7 +8084,7 @@ _start:
 	movq	=-8388608, r1
 	movq	=1065353216, r2
 	clr	r3
-	fcbge32	r1, r2, 1f
+	fcbge	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8092,7 +8092,7 @@ _start:
 	movq	=-8388608, r1
 	movq	=-1077936128, r2
 	clr	r3
-	fcbge32	r1, r2, 1f
+	fcbge	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8100,7 +8100,7 @@ _start:
 	movq	=-8388608, r1
 	movq	=1075838976, r2
 	clr	r3
-	fcbge32	r1, r2, 1f
+	fcbge	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8108,7 +8108,7 @@ _start:
 	movq	=-8388608, r1
 	movq	=2139095040, r2
 	clr	r3
-	fcbge32	r1, r2, 1f
+	fcbge	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8116,7 +8116,7 @@ _start:
 	movq	=-8388608, r1
 	movq	=-8388608, r2
 	clr	r3
-	fcbge32	r1, r2, 1f
+	fcbge	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8124,7 +8124,7 @@ _start:
 	movq	=-8388608, r1
 	movq	=2143289344, r2
 	clr	r3
-	fcbge32	r1, r2, 1f
+	fcbge	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8132,7 +8132,7 @@ _start:
 	movq	=2143289344, r1
 	movq	=0, r2
 	clr	r3
-	fcbge32	r1, r2, 1f
+	fcbge	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8140,7 +8140,7 @@ _start:
 	movq	=2143289344, r1
 	movq	=-2147483648, r2
 	clr	r3
-	fcbge32	r1, r2, 1f
+	fcbge	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8148,7 +8148,7 @@ _start:
 	movq	=2143289344, r1
 	movq	=1065353216, r2
 	clr	r3
-	fcbge32	r1, r2, 1f
+	fcbge	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8156,7 +8156,7 @@ _start:
 	movq	=2143289344, r1
 	movq	=-1077936128, r2
 	clr	r3
-	fcbge32	r1, r2, 1f
+	fcbge	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8164,7 +8164,7 @@ _start:
 	movq	=2143289344, r1
 	movq	=1075838976, r2
 	clr	r3
-	fcbge32	r1, r2, 1f
+	fcbge	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8172,7 +8172,7 @@ _start:
 	movq	=2143289344, r1
 	movq	=2139095040, r2
 	clr	r3
-	fcbge32	r1, r2, 1f
+	fcbge	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8180,7 +8180,7 @@ _start:
 	movq	=2143289344, r1
 	movq	=-8388608, r2
 	clr	r3
-	fcbge32	r1, r2, 1f
+	fcbge	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8188,7 +8188,7 @@ _start:
 	movq	=2143289344, r1
 	movq	=2143289344, r2
 	clr	r3
-	fcbge32	r1, r2, 1f
+	fcbge	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8196,7 +8196,7 @@ _start:
 	movq	=0, r1
 	movq	=0, r2
 	clr	r3
-	fcbuo32	r1, r2, 1f
+	fcbuo	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8204,7 +8204,7 @@ _start:
 	movq	=0, r1
 	movq	=-2147483648, r2
 	clr	r3
-	fcbuo32	r1, r2, 1f
+	fcbuo	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8212,7 +8212,7 @@ _start:
 	movq	=0, r1
 	movq	=1065353216, r2
 	clr	r3
-	fcbuo32	r1, r2, 1f
+	fcbuo	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8220,7 +8220,7 @@ _start:
 	movq	=0, r1
 	movq	=-1077936128, r2
 	clr	r3
-	fcbuo32	r1, r2, 1f
+	fcbuo	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8228,7 +8228,7 @@ _start:
 	movq	=0, r1
 	movq	=1075838976, r2
 	clr	r3
-	fcbuo32	r1, r2, 1f
+	fcbuo	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8236,7 +8236,7 @@ _start:
 	movq	=0, r1
 	movq	=2139095040, r2
 	clr	r3
-	fcbuo32	r1, r2, 1f
+	fcbuo	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8244,7 +8244,7 @@ _start:
 	movq	=0, r1
 	movq	=-8388608, r2
 	clr	r3
-	fcbuo32	r1, r2, 1f
+	fcbuo	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8252,7 +8252,7 @@ _start:
 	movq	=0, r1
 	movq	=2143289344, r2
 	clr	r3
-	fcbuo32	r1, r2, 1f
+	fcbuo	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8260,7 +8260,7 @@ _start:
 	movq	=-2147483648, r1
 	movq	=0, r2
 	clr	r3
-	fcbuo32	r1, r2, 1f
+	fcbuo	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8268,7 +8268,7 @@ _start:
 	movq	=-2147483648, r1
 	movq	=-2147483648, r2
 	clr	r3
-	fcbuo32	r1, r2, 1f
+	fcbuo	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8276,7 +8276,7 @@ _start:
 	movq	=-2147483648, r1
 	movq	=1065353216, r2
 	clr	r3
-	fcbuo32	r1, r2, 1f
+	fcbuo	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8284,7 +8284,7 @@ _start:
 	movq	=-2147483648, r1
 	movq	=-1077936128, r2
 	clr	r3
-	fcbuo32	r1, r2, 1f
+	fcbuo	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8292,7 +8292,7 @@ _start:
 	movq	=-2147483648, r1
 	movq	=1075838976, r2
 	clr	r3
-	fcbuo32	r1, r2, 1f
+	fcbuo	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8300,7 +8300,7 @@ _start:
 	movq	=-2147483648, r1
 	movq	=2139095040, r2
 	clr	r3
-	fcbuo32	r1, r2, 1f
+	fcbuo	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8308,7 +8308,7 @@ _start:
 	movq	=-2147483648, r1
 	movq	=-8388608, r2
 	clr	r3
-	fcbuo32	r1, r2, 1f
+	fcbuo	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8316,7 +8316,7 @@ _start:
 	movq	=-2147483648, r1
 	movq	=2143289344, r2
 	clr	r3
-	fcbuo32	r1, r2, 1f
+	fcbuo	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8324,7 +8324,7 @@ _start:
 	movq	=1065353216, r1
 	movq	=0, r2
 	clr	r3
-	fcbuo32	r1, r2, 1f
+	fcbuo	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8332,7 +8332,7 @@ _start:
 	movq	=1065353216, r1
 	movq	=-2147483648, r2
 	clr	r3
-	fcbuo32	r1, r2, 1f
+	fcbuo	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8340,7 +8340,7 @@ _start:
 	movq	=1065353216, r1
 	movq	=1065353216, r2
 	clr	r3
-	fcbuo32	r1, r2, 1f
+	fcbuo	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8348,7 +8348,7 @@ _start:
 	movq	=1065353216, r1
 	movq	=-1077936128, r2
 	clr	r3
-	fcbuo32	r1, r2, 1f
+	fcbuo	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8356,7 +8356,7 @@ _start:
 	movq	=1065353216, r1
 	movq	=1075838976, r2
 	clr	r3
-	fcbuo32	r1, r2, 1f
+	fcbuo	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8364,7 +8364,7 @@ _start:
 	movq	=1065353216, r1
 	movq	=2139095040, r2
 	clr	r3
-	fcbuo32	r1, r2, 1f
+	fcbuo	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8372,7 +8372,7 @@ _start:
 	movq	=1065353216, r1
 	movq	=-8388608, r2
 	clr	r3
-	fcbuo32	r1, r2, 1f
+	fcbuo	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8380,7 +8380,7 @@ _start:
 	movq	=1065353216, r1
 	movq	=2143289344, r2
 	clr	r3
-	fcbuo32	r1, r2, 1f
+	fcbuo	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8388,7 +8388,7 @@ _start:
 	movq	=-1077936128, r1
 	movq	=0, r2
 	clr	r3
-	fcbuo32	r1, r2, 1f
+	fcbuo	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8396,7 +8396,7 @@ _start:
 	movq	=-1077936128, r1
 	movq	=-2147483648, r2
 	clr	r3
-	fcbuo32	r1, r2, 1f
+	fcbuo	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8404,7 +8404,7 @@ _start:
 	movq	=-1077936128, r1
 	movq	=1065353216, r2
 	clr	r3
-	fcbuo32	r1, r2, 1f
+	fcbuo	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8412,7 +8412,7 @@ _start:
 	movq	=-1077936128, r1
 	movq	=-1077936128, r2
 	clr	r3
-	fcbuo32	r1, r2, 1f
+	fcbuo	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8420,7 +8420,7 @@ _start:
 	movq	=-1077936128, r1
 	movq	=1075838976, r2
 	clr	r3
-	fcbuo32	r1, r2, 1f
+	fcbuo	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8428,7 +8428,7 @@ _start:
 	movq	=-1077936128, r1
 	movq	=2139095040, r2
 	clr	r3
-	fcbuo32	r1, r2, 1f
+	fcbuo	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8436,7 +8436,7 @@ _start:
 	movq	=-1077936128, r1
 	movq	=-8388608, r2
 	clr	r3
-	fcbuo32	r1, r2, 1f
+	fcbuo	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8444,7 +8444,7 @@ _start:
 	movq	=-1077936128, r1
 	movq	=2143289344, r2
 	clr	r3
-	fcbuo32	r1, r2, 1f
+	fcbuo	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8452,7 +8452,7 @@ _start:
 	movq	=1075838976, r1
 	movq	=0, r2
 	clr	r3
-	fcbuo32	r1, r2, 1f
+	fcbuo	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8460,7 +8460,7 @@ _start:
 	movq	=1075838976, r1
 	movq	=-2147483648, r2
 	clr	r3
-	fcbuo32	r1, r2, 1f
+	fcbuo	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8468,7 +8468,7 @@ _start:
 	movq	=1075838976, r1
 	movq	=1065353216, r2
 	clr	r3
-	fcbuo32	r1, r2, 1f
+	fcbuo	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8476,7 +8476,7 @@ _start:
 	movq	=1075838976, r1
 	movq	=-1077936128, r2
 	clr	r3
-	fcbuo32	r1, r2, 1f
+	fcbuo	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8484,7 +8484,7 @@ _start:
 	movq	=1075838976, r1
 	movq	=1075838976, r2
 	clr	r3
-	fcbuo32	r1, r2, 1f
+	fcbuo	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8492,7 +8492,7 @@ _start:
 	movq	=1075838976, r1
 	movq	=2139095040, r2
 	clr	r3
-	fcbuo32	r1, r2, 1f
+	fcbuo	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8500,7 +8500,7 @@ _start:
 	movq	=1075838976, r1
 	movq	=-8388608, r2
 	clr	r3
-	fcbuo32	r1, r2, 1f
+	fcbuo	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8508,7 +8508,7 @@ _start:
 	movq	=1075838976, r1
 	movq	=2143289344, r2
 	clr	r3
-	fcbuo32	r1, r2, 1f
+	fcbuo	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8516,7 +8516,7 @@ _start:
 	movq	=2139095040, r1
 	movq	=0, r2
 	clr	r3
-	fcbuo32	r1, r2, 1f
+	fcbuo	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8524,7 +8524,7 @@ _start:
 	movq	=2139095040, r1
 	movq	=-2147483648, r2
 	clr	r3
-	fcbuo32	r1, r2, 1f
+	fcbuo	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8532,7 +8532,7 @@ _start:
 	movq	=2139095040, r1
 	movq	=1065353216, r2
 	clr	r3
-	fcbuo32	r1, r2, 1f
+	fcbuo	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8540,7 +8540,7 @@ _start:
 	movq	=2139095040, r1
 	movq	=-1077936128, r2
 	clr	r3
-	fcbuo32	r1, r2, 1f
+	fcbuo	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8548,7 +8548,7 @@ _start:
 	movq	=2139095040, r1
 	movq	=1075838976, r2
 	clr	r3
-	fcbuo32	r1, r2, 1f
+	fcbuo	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8556,7 +8556,7 @@ _start:
 	movq	=2139095040, r1
 	movq	=2139095040, r2
 	clr	r3
-	fcbuo32	r1, r2, 1f
+	fcbuo	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8564,7 +8564,7 @@ _start:
 	movq	=2139095040, r1
 	movq	=-8388608, r2
 	clr	r3
-	fcbuo32	r1, r2, 1f
+	fcbuo	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8572,7 +8572,7 @@ _start:
 	movq	=2139095040, r1
 	movq	=2143289344, r2
 	clr	r3
-	fcbuo32	r1, r2, 1f
+	fcbuo	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8580,7 +8580,7 @@ _start:
 	movq	=-8388608, r1
 	movq	=0, r2
 	clr	r3
-	fcbuo32	r1, r2, 1f
+	fcbuo	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8588,7 +8588,7 @@ _start:
 	movq	=-8388608, r1
 	movq	=-2147483648, r2
 	clr	r3
-	fcbuo32	r1, r2, 1f
+	fcbuo	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8596,7 +8596,7 @@ _start:
 	movq	=-8388608, r1
 	movq	=1065353216, r2
 	clr	r3
-	fcbuo32	r1, r2, 1f
+	fcbuo	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8604,7 +8604,7 @@ _start:
 	movq	=-8388608, r1
 	movq	=-1077936128, r2
 	clr	r3
-	fcbuo32	r1, r2, 1f
+	fcbuo	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8612,7 +8612,7 @@ _start:
 	movq	=-8388608, r1
 	movq	=1075838976, r2
 	clr	r3
-	fcbuo32	r1, r2, 1f
+	fcbuo	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8620,7 +8620,7 @@ _start:
 	movq	=-8388608, r1
 	movq	=2139095040, r2
 	clr	r3
-	fcbuo32	r1, r2, 1f
+	fcbuo	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8628,7 +8628,7 @@ _start:
 	movq	=-8388608, r1
 	movq	=-8388608, r2
 	clr	r3
-	fcbuo32	r1, r2, 1f
+	fcbuo	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8636,7 +8636,7 @@ _start:
 	movq	=-8388608, r1
 	movq	=2143289344, r2
 	clr	r3
-	fcbuo32	r1, r2, 1f
+	fcbuo	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8644,7 +8644,7 @@ _start:
 	movq	=2143289344, r1
 	movq	=0, r2
 	clr	r3
-	fcbuo32	r1, r2, 1f
+	fcbuo	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8652,7 +8652,7 @@ _start:
 	movq	=2143289344, r1
 	movq	=-2147483648, r2
 	clr	r3
-	fcbuo32	r1, r2, 1f
+	fcbuo	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8660,7 +8660,7 @@ _start:
 	movq	=2143289344, r1
 	movq	=1065353216, r2
 	clr	r3
-	fcbuo32	r1, r2, 1f
+	fcbuo	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8668,7 +8668,7 @@ _start:
 	movq	=2143289344, r1
 	movq	=-1077936128, r2
 	clr	r3
-	fcbuo32	r1, r2, 1f
+	fcbuo	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8676,7 +8676,7 @@ _start:
 	movq	=2143289344, r1
 	movq	=1075838976, r2
 	clr	r3
-	fcbuo32	r1, r2, 1f
+	fcbuo	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8684,7 +8684,7 @@ _start:
 	movq	=2143289344, r1
 	movq	=2139095040, r2
 	clr	r3
-	fcbuo32	r1, r2, 1f
+	fcbuo	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8692,7 +8692,7 @@ _start:
 	movq	=2143289344, r1
 	movq	=-8388608, r2
 	clr	r3
-	fcbuo32	r1, r2, 1f
+	fcbuo	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8700,7 +8700,7 @@ _start:
 	movq	=2143289344, r1
 	movq	=2143289344, r2
 	clr	r3
-	fcbuo32	r1, r2, 1f
+	fcbuo	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8708,7 +8708,7 @@ _start:
 	movq	=0, r1
 	movq	=0, r2
 	clr	r3
-	fcbor32	r1, r2, 1f
+	fcbor	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8716,7 +8716,7 @@ _start:
 	movq	=0, r1
 	movq	=-2147483648, r2
 	clr	r3
-	fcbor32	r1, r2, 1f
+	fcbor	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8724,7 +8724,7 @@ _start:
 	movq	=0, r1
 	movq	=1065353216, r2
 	clr	r3
-	fcbor32	r1, r2, 1f
+	fcbor	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8732,7 +8732,7 @@ _start:
 	movq	=0, r1
 	movq	=-1077936128, r2
 	clr	r3
-	fcbor32	r1, r2, 1f
+	fcbor	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8740,7 +8740,7 @@ _start:
 	movq	=0, r1
 	movq	=1075838976, r2
 	clr	r3
-	fcbor32	r1, r2, 1f
+	fcbor	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8748,7 +8748,7 @@ _start:
 	movq	=0, r1
 	movq	=2139095040, r2
 	clr	r3
-	fcbor32	r1, r2, 1f
+	fcbor	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8756,7 +8756,7 @@ _start:
 	movq	=0, r1
 	movq	=-8388608, r2
 	clr	r3
-	fcbor32	r1, r2, 1f
+	fcbor	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8764,7 +8764,7 @@ _start:
 	movq	=0, r1
 	movq	=2143289344, r2
 	clr	r3
-	fcbor32	r1, r2, 1f
+	fcbor	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8772,7 +8772,7 @@ _start:
 	movq	=-2147483648, r1
 	movq	=0, r2
 	clr	r3
-	fcbor32	r1, r2, 1f
+	fcbor	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8780,7 +8780,7 @@ _start:
 	movq	=-2147483648, r1
 	movq	=-2147483648, r2
 	clr	r3
-	fcbor32	r1, r2, 1f
+	fcbor	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8788,7 +8788,7 @@ _start:
 	movq	=-2147483648, r1
 	movq	=1065353216, r2
 	clr	r3
-	fcbor32	r1, r2, 1f
+	fcbor	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8796,7 +8796,7 @@ _start:
 	movq	=-2147483648, r1
 	movq	=-1077936128, r2
 	clr	r3
-	fcbor32	r1, r2, 1f
+	fcbor	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8804,7 +8804,7 @@ _start:
 	movq	=-2147483648, r1
 	movq	=1075838976, r2
 	clr	r3
-	fcbor32	r1, r2, 1f
+	fcbor	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8812,7 +8812,7 @@ _start:
 	movq	=-2147483648, r1
 	movq	=2139095040, r2
 	clr	r3
-	fcbor32	r1, r2, 1f
+	fcbor	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8820,7 +8820,7 @@ _start:
 	movq	=-2147483648, r1
 	movq	=-8388608, r2
 	clr	r3
-	fcbor32	r1, r2, 1f
+	fcbor	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8828,7 +8828,7 @@ _start:
 	movq	=-2147483648, r1
 	movq	=2143289344, r2
 	clr	r3
-	fcbor32	r1, r2, 1f
+	fcbor	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8836,7 +8836,7 @@ _start:
 	movq	=1065353216, r1
 	movq	=0, r2
 	clr	r3
-	fcbor32	r1, r2, 1f
+	fcbor	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8844,7 +8844,7 @@ _start:
 	movq	=1065353216, r1
 	movq	=-2147483648, r2
 	clr	r3
-	fcbor32	r1, r2, 1f
+	fcbor	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8852,7 +8852,7 @@ _start:
 	movq	=1065353216, r1
 	movq	=1065353216, r2
 	clr	r3
-	fcbor32	r1, r2, 1f
+	fcbor	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8860,7 +8860,7 @@ _start:
 	movq	=1065353216, r1
 	movq	=-1077936128, r2
 	clr	r3
-	fcbor32	r1, r2, 1f
+	fcbor	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8868,7 +8868,7 @@ _start:
 	movq	=1065353216, r1
 	movq	=1075838976, r2
 	clr	r3
-	fcbor32	r1, r2, 1f
+	fcbor	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8876,7 +8876,7 @@ _start:
 	movq	=1065353216, r1
 	movq	=2139095040, r2
 	clr	r3
-	fcbor32	r1, r2, 1f
+	fcbor	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8884,7 +8884,7 @@ _start:
 	movq	=1065353216, r1
 	movq	=-8388608, r2
 	clr	r3
-	fcbor32	r1, r2, 1f
+	fcbor	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8892,7 +8892,7 @@ _start:
 	movq	=1065353216, r1
 	movq	=2143289344, r2
 	clr	r3
-	fcbor32	r1, r2, 1f
+	fcbor	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8900,7 +8900,7 @@ _start:
 	movq	=-1077936128, r1
 	movq	=0, r2
 	clr	r3
-	fcbor32	r1, r2, 1f
+	fcbor	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8908,7 +8908,7 @@ _start:
 	movq	=-1077936128, r1
 	movq	=-2147483648, r2
 	clr	r3
-	fcbor32	r1, r2, 1f
+	fcbor	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8916,7 +8916,7 @@ _start:
 	movq	=-1077936128, r1
 	movq	=1065353216, r2
 	clr	r3
-	fcbor32	r1, r2, 1f
+	fcbor	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8924,7 +8924,7 @@ _start:
 	movq	=-1077936128, r1
 	movq	=-1077936128, r2
 	clr	r3
-	fcbor32	r1, r2, 1f
+	fcbor	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8932,7 +8932,7 @@ _start:
 	movq	=-1077936128, r1
 	movq	=1075838976, r2
 	clr	r3
-	fcbor32	r1, r2, 1f
+	fcbor	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8940,7 +8940,7 @@ _start:
 	movq	=-1077936128, r1
 	movq	=2139095040, r2
 	clr	r3
-	fcbor32	r1, r2, 1f
+	fcbor	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8948,7 +8948,7 @@ _start:
 	movq	=-1077936128, r1
 	movq	=-8388608, r2
 	clr	r3
-	fcbor32	r1, r2, 1f
+	fcbor	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8956,7 +8956,7 @@ _start:
 	movq	=-1077936128, r1
 	movq	=2143289344, r2
 	clr	r3
-	fcbor32	r1, r2, 1f
+	fcbor	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8964,7 +8964,7 @@ _start:
 	movq	=1075838976, r1
 	movq	=0, r2
 	clr	r3
-	fcbor32	r1, r2, 1f
+	fcbor	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8972,7 +8972,7 @@ _start:
 	movq	=1075838976, r1
 	movq	=-2147483648, r2
 	clr	r3
-	fcbor32	r1, r2, 1f
+	fcbor	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8980,7 +8980,7 @@ _start:
 	movq	=1075838976, r1
 	movq	=1065353216, r2
 	clr	r3
-	fcbor32	r1, r2, 1f
+	fcbor	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8988,7 +8988,7 @@ _start:
 	movq	=1075838976, r1
 	movq	=-1077936128, r2
 	clr	r3
-	fcbor32	r1, r2, 1f
+	fcbor	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -8996,7 +8996,7 @@ _start:
 	movq	=1075838976, r1
 	movq	=1075838976, r2
 	clr	r3
-	fcbor32	r1, r2, 1f
+	fcbor	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -9004,7 +9004,7 @@ _start:
 	movq	=1075838976, r1
 	movq	=2139095040, r2
 	clr	r3
-	fcbor32	r1, r2, 1f
+	fcbor	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -9012,7 +9012,7 @@ _start:
 	movq	=1075838976, r1
 	movq	=-8388608, r2
 	clr	r3
-	fcbor32	r1, r2, 1f
+	fcbor	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -9020,7 +9020,7 @@ _start:
 	movq	=1075838976, r1
 	movq	=2143289344, r2
 	clr	r3
-	fcbor32	r1, r2, 1f
+	fcbor	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -9028,7 +9028,7 @@ _start:
 	movq	=2139095040, r1
 	movq	=0, r2
 	clr	r3
-	fcbor32	r1, r2, 1f
+	fcbor	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -9036,7 +9036,7 @@ _start:
 	movq	=2139095040, r1
 	movq	=-2147483648, r2
 	clr	r3
-	fcbor32	r1, r2, 1f
+	fcbor	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -9044,7 +9044,7 @@ _start:
 	movq	=2139095040, r1
 	movq	=1065353216, r2
 	clr	r3
-	fcbor32	r1, r2, 1f
+	fcbor	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -9052,7 +9052,7 @@ _start:
 	movq	=2139095040, r1
 	movq	=-1077936128, r2
 	clr	r3
-	fcbor32	r1, r2, 1f
+	fcbor	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -9060,7 +9060,7 @@ _start:
 	movq	=2139095040, r1
 	movq	=1075838976, r2
 	clr	r3
-	fcbor32	r1, r2, 1f
+	fcbor	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -9068,7 +9068,7 @@ _start:
 	movq	=2139095040, r1
 	movq	=2139095040, r2
 	clr	r3
-	fcbor32	r1, r2, 1f
+	fcbor	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -9076,7 +9076,7 @@ _start:
 	movq	=2139095040, r1
 	movq	=-8388608, r2
 	clr	r3
-	fcbor32	r1, r2, 1f
+	fcbor	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -9084,7 +9084,7 @@ _start:
 	movq	=2139095040, r1
 	movq	=2143289344, r2
 	clr	r3
-	fcbor32	r1, r2, 1f
+	fcbor	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -9092,7 +9092,7 @@ _start:
 	movq	=-8388608, r1
 	movq	=0, r2
 	clr	r3
-	fcbor32	r1, r2, 1f
+	fcbor	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -9100,7 +9100,7 @@ _start:
 	movq	=-8388608, r1
 	movq	=-2147483648, r2
 	clr	r3
-	fcbor32	r1, r2, 1f
+	fcbor	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -9108,7 +9108,7 @@ _start:
 	movq	=-8388608, r1
 	movq	=1065353216, r2
 	clr	r3
-	fcbor32	r1, r2, 1f
+	fcbor	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -9116,7 +9116,7 @@ _start:
 	movq	=-8388608, r1
 	movq	=-1077936128, r2
 	clr	r3
-	fcbor32	r1, r2, 1f
+	fcbor	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -9124,7 +9124,7 @@ _start:
 	movq	=-8388608, r1
 	movq	=1075838976, r2
 	clr	r3
-	fcbor32	r1, r2, 1f
+	fcbor	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -9132,7 +9132,7 @@ _start:
 	movq	=-8388608, r1
 	movq	=2139095040, r2
 	clr	r3
-	fcbor32	r1, r2, 1f
+	fcbor	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -9140,7 +9140,7 @@ _start:
 	movq	=-8388608, r1
 	movq	=-8388608, r2
 	clr	r3
-	fcbor32	r1, r2, 1f
+	fcbor	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -9148,7 +9148,7 @@ _start:
 	movq	=-8388608, r1
 	movq	=2143289344, r2
 	clr	r3
-	fcbor32	r1, r2, 1f
+	fcbor	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -9156,7 +9156,7 @@ _start:
 	movq	=2143289344, r1
 	movq	=0, r2
 	clr	r3
-	fcbor32	r1, r2, 1f
+	fcbor	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -9164,7 +9164,7 @@ _start:
 	movq	=2143289344, r1
 	movq	=-2147483648, r2
 	clr	r3
-	fcbor32	r1, r2, 1f
+	fcbor	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -9172,7 +9172,7 @@ _start:
 	movq	=2143289344, r1
 	movq	=1065353216, r2
 	clr	r3
-	fcbor32	r1, r2, 1f
+	fcbor	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -9180,7 +9180,7 @@ _start:
 	movq	=2143289344, r1
 	movq	=-1077936128, r2
 	clr	r3
-	fcbor32	r1, r2, 1f
+	fcbor	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -9188,7 +9188,7 @@ _start:
 	movq	=2143289344, r1
 	movq	=1075838976, r2
 	clr	r3
-	fcbor32	r1, r2, 1f
+	fcbor	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -9196,7 +9196,7 @@ _start:
 	movq	=2143289344, r1
 	movq	=2139095040, r2
 	clr	r3
-	fcbor32	r1, r2, 1f
+	fcbor	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -9204,7 +9204,7 @@ _start:
 	movq	=2143289344, r1
 	movq	=-8388608, r2
 	clr	r3
-	fcbor32	r1, r2, 1f
+	fcbor	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:
@@ -9212,7 +9212,7 @@ _start:
 	movq	=2143289344, r1
 	movq	=2143289344, r2
 	clr	r3
-	fcbor32	r1, r2, 1f
+	fcbor	r1.32, r2.32, 1f
 	br	2f
 1:	movq	#1, r3
 2:

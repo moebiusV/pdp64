@@ -73,8 +73,8 @@ expect_copy:
 	lea	src, r1
 	lea	dst, r2
 	movq	#32, r3
-1:	movzb	(r1)+, r4
-	movzb	(r2)+, r5
+1:	mov	(r1)+.u8, r4
+	mov	(r2)+.u8, r5
 	cbne	r4, r5, 2f
 	sob	r3, 1b
 	movq	#0, r0
@@ -86,17 +86,17 @@ expect_sums:
 	lea	src, r1
 	lea	dst, r2
 	movq	#4, r3
-1:	movl	(r1)+, r4
-	movl	(r2)+, r5
+1:	mov	(r1)+.32, r4
+	mov	(r2)+.32, r5
 	cbne	r4, r5, 2f
 	sob	r3, 1b
 	lea	src, r1
 	lea	dst+16, r2
 	movq	#4, r3
-3:	movl	(r1), r4
-	movl	16(r1), r6
+3:	mov	(r1).32, r4
+	mov	16(r1).32, r6
 	add	r6, r4
-	movl	(r2)+, r5
+	mov	(r2)+.32, r5
 	cbne	r4, r5, 2f
 	add	#4, r1
 	sob	r3, 3b

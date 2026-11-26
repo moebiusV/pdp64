@@ -17,7 +17,7 @@ spec = importlib.util.spec_from_file_location('chk', os.path.join(HERE, '..', '.
 chk = importlib.util.module_from_spec(spec); spec.loader.exec_module(chk)
 ROOT = os.path.join(HERE, '..', '..', '..')
 sys.path.insert(0, os.path.join(ROOT, 'tools'))
-import encgram
+import encgram, marks
 FZ = ('movcall', 'popmret', 'popret', 'mov2')
 
 COMMON = {
@@ -187,6 +187,7 @@ def run(which):
         fn = os.path.join(outdir, name + '.s')
         open(fn, 'w').write(src)
         ev, recs = __import__('m2').parse(fn)
+        open(fn, 'w').write(marks.spell_text(src))		# the prototype read the words of the encoding; the program is written with the width marks of the assembly language
         total = layout(ev, sc.lenfun)
         words = []
         for e in ev:

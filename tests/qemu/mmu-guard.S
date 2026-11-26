@@ -132,13 +132,13 @@ res4:	movq	r4, r1
 1:
 ; ---- 6: the `.U` moves
 	movq	#0, r10
-	movq.u	8(r3), r5
+	mov.u	8(r3), r5
 	cbeq r5, #0x1234, 1f
 	movq	#107, r0
 	halt
 1:	movq	#0x6666, r5
-	movq.u	r5, 24(r3)
-	movq.u	24(r3), r2
+	mov.u	r5, 24(r3)
+	mov.u	24(r3), r2
 	cbeq r2, r5, 1f
 	movq	#101, r0
 	halt
@@ -146,7 +146,7 @@ res4:	movq	r4, r1
 	call	expect_none
 	movq	#0, r10
 	lea	res8a, r13
-at8a:	movq.u	8(r11), r5
+at8a:	mov.u	8(r11), r5
 res8a:	lea	at8a, r1
 	movq	#(VECTOR_LPROT|USRBIT), r2
 	movq	r11, r4
@@ -155,7 +155,7 @@ res8a:	lea	at8a, r1
 	call	expect_fault
 	movq	#0, r10
 	lea	res8b, r13
-at8b:	movq.u	r5, 8(r11)
+at8b:	mov.u	r5, 8(r11)
 res8b:	lea	at8b, r1
 	movq	#(VECTOR_SPROT|USRBIT), r2
 	movq	r11, r4
@@ -164,7 +164,7 @@ res8b:	lea	at8b, r1
 	call	expect_fault
 	movq	#0, r10
 	lea	res8c, r13
-at8c:	movq.u	r5, 8(r14)
+at8c:	mov.u	r5, 8(r14)
 res8c:	lea	at8c, r1
 	movq	#(VECTOR_SPROT|USRBIT), r2
 	movq	r14, r4
@@ -203,7 +203,7 @@ res8d:	lea	at8d, r1
 	add	#8, r21
 	movq	#8, r22
 	mcpy.uw	r20, r21, r22
-	movq.u	40(r3), r2
+	mov.u	40(r3), r2
 	cbeq r2, #0x2345, 1f
 	movq	#110, r0
 	halt

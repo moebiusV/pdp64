@@ -23,7 +23,7 @@ TPL=${HBNF_TEMPLATES:-/tmp/hbnf-latest/hbnf-templates}
 T=$(mktemp -d "${TMPDIR:-/tmp}/grammar-enc.XXXXXX")
 trap 'rm -rf "$T"' EXIT
 GOLD=tests/enc/generated.sha256
-FILES="pdp64-tab.c pdp64-hbfields.h x/pdp64-groups.h x/pdp64-extnames.h x/pdp64-mnnames.h"
+FILES="pdp64-tab.c pdp64-hbfields.h x/pdp64-groups.h x/pdp64-extnames.h x/pdp64-mnnames.h x/pdp64-marks.h"
 export BUILD=$T
 GEN=spec/grammars.d
 python3 tools/mkparts.py --check || exit 1

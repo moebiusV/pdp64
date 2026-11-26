@@ -1,36 +1,36 @@
-; fneg32 and fabs32: the sign of a binary32 kept sign-extended in a register; assembler mappings of XOR and AND (they write no flag)
+; fneg .32 and fabs .32: the sign of a binary32 kept sign-extended in a register; assembler mappings of XOR and AND (they write no flag)
 	.text
 	.globl	_start
 _start:
 	movq	#0x3F800000, r1		; 1.0f
-	fneg32	r1, r2
+	fneg	r1.32, r2
 	movq	#0xFFFFFFFFBF800000, r3	; -1.0f, sign-extended
 	cbne r2, r3, f1
 	movq	#0x3F800000, r13
 	cbne	r1, r13, f2		; the source is untouched
-	fneg32	r2, r2			; in place: back to 1.0f
+	fneg	r2.32, r2 ; in place: back to 1.0f
 	cbne r2, r1, f3
-	fabs32	r3, r4
+	fabs	r3.32, r4
 	cbne r4, r1, f4
-	fabs32	r1, r1
+	fabs	r1.32, r1
 	cbne	r1, r13, f5
 	movq	#0, r5			; +0.0f gives -0.0f, and the sum of a value and its negation is +0.0f
-	fneg32	r5, r6
+	fneg	r5.32, r6
 	movq	#0xFFFFFFFF80000000, r7
 	cbne r6, r7, f6
 	movq	#0x40490FDB, r8		; pi as a binary32
-	fneg32	r8, r9
-	fadd32	r8, r9
+	fneg	r8.32, r9
+	fadd	r8.32, r9.32
 	cbne r9, #0, f7
 	; the sign of the results as an integer
-	movq	#0x7F800000, r10	; +infinity: fneg32 gives a negative integer (sign-extended)
-	fneg32	r10, r10
+	movq	#0x7F800000, r10	; +infinity: fneg .32 gives a negative integer (sign-extended)
+	fneg	r10.32, r10
 	cbge	r10, #0, f8
-	fabs32	r10, r11		; a positive result
+	fabs	r10.32, r11 ; a positive result
 	cblt	r11, #0, f9
 	cbeq	r11, #0, f10
-	movq	#0xFFFFFFFF80000000, r12	; -0.0f sign-extended: fabs32 of it is zero
-	fabs32	r12, r12
+	movq	#0xFFFFFFFF80000000, r12	; -0.0f sign-extended: fabs .32 of it is zero
+	fabs	r12.32, r12
 	cbne	r12, #0, f11
 	movq	#0, r0
 	trap	#0

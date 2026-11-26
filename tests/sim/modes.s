@@ -25,24 +25,24 @@ _start:
 	lea	(r2)(r8*8), r3
 	sub	r2, r3
 	cbne r3, #16, f9
-	movl	32(r2), r1
+	mov	32(r2).32, r1
 	cbne r1, #5, f10
-	movw	36(r2), r1
+	mov	36(r2).16, r1
 	cbne r1, #6, f11
-	movb	38(r2), r1
+	mov	38(r2).8, r1
 	cbne r1, #7, f12
-	movb	39(r2), r1
+	mov	39(r2).8, r1
 	cbne r1, #-1, f13
-	movzb	39(r2), r1
+	mov	39(r2).u8, r1
 	cbne r1, #255, f14
-	movw	40(r2), r1
+	mov	40(r2).16, r1
 	cbne r1, #-1, f15
-	movzw	40(r2), r1
+	mov	40(r2).u16, r1
 	movq	=65535, r13
 	cbne	r1, r13, f16
-	movl	44(r2), r1
+	mov	44(r2).32, r1
 	cbne r1, #-1, f17
-	movzl	44(r2), r1
+	mov	44(r2).u32, r1
 	movq	#65535, r12
 	shl	#16, r12
 	bis	#65535, r12
@@ -52,13 +52,13 @@ _start:
 	movq	8(r2), r3
 	cbne r3, #77, f19
 	movq	#0x1FF, r1
-	movb	r1, 48(r2)
-	movzb	48(r2), r3
+	mov	r1, 48(r2).8
+	mov	48(r2).u8, r3
 	cbne r3, #255, f20
 	movq	#-1, r1
 	movq	r1, 48(r2)
-	movl	#0, r1
-	movl	r1, 48(r2)
+	movq	#0, r1
+	mov	r1, 48(r2).32
 	movq	48(r2), r3
 	movq	#-1, r12
 	shl	#32, r12

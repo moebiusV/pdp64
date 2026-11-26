@@ -19,8 +19,8 @@ _start:
 	lea	E1, r2
 	movq	#77, r4
 c1:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c1
 ;; test 2: vsub.b by a register
@@ -38,8 +38,8 @@ c1:
 	lea	E2, r2
 	movq	#77, r4
 c2:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c2
 ;; test 3: vsub.b by the immediate -2
@@ -56,8 +56,8 @@ c2:
 	lea	E3, r2
 	movq	#77, r4
 c3:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c3
 ;; test 4: vsub.w vector by vector
@@ -76,8 +76,8 @@ c3:
 	lea	E4, r2
 	movq	#154, r4
 c4:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c4
 ;; test 5: vsub.w by a register
@@ -95,8 +95,8 @@ c4:
 	lea	E5, r2
 	movq	#154, r4
 c5:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c5
 ;; test 6: vsub.w by the immediate -2
@@ -113,8 +113,8 @@ c5:
 	lea	E6, r2
 	movq	#154, r4
 c6:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c6
 ;; test 7: vsub.l vector by vector
@@ -133,8 +133,8 @@ c6:
 	lea	E7, r2
 	movq	#308, r4
 c7:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c7
 ;; test 8: vsub.l by a register
@@ -152,8 +152,8 @@ c7:
 	lea	E8, r2
 	movq	#308, r4
 c8:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c8
 ;; test 9: vsub.l by the immediate -2
@@ -170,8 +170,8 @@ c8:
 	lea	E9, r2
 	movq	#308, r4
 c9:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c9
 ;; test 10: vsub.q vector by vector
@@ -190,8 +190,8 @@ c9:
 	lea	E10, r2
 	movq	#616, r4
 c10:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c10
 ;; test 11: vsub.q by a register
@@ -209,8 +209,8 @@ c10:
 	lea	E11, r2
 	movq	#616, r4
 c11:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c11
 ;; test 12: vsub.q by the immediate -2
@@ -227,8 +227,8 @@ c11:
 	lea	E12, r2
 	movq	#616, r4
 c12:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c12
 ;; test 13: vmul.b vector by vector
@@ -247,8 +247,8 @@ c12:
 	lea	E13, r2
 	movq	#77, r4
 c13:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c13
 ;; test 14: vmul.b by a register
@@ -266,8 +266,8 @@ c13:
 	lea	E14, r2
 	movq	#77, r4
 c14:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c14
 ;; test 15: vmul.b by the immediate -2
@@ -284,8 +284,8 @@ c14:
 	lea	E15, r2
 	movq	#77, r4
 c15:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c15
 ;; test 16: vmul.w vector by vector
@@ -304,8 +304,8 @@ c15:
 	lea	E16, r2
 	movq	#154, r4
 c16:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c16
 ;; test 17: vmul.w by a register
@@ -323,8 +323,8 @@ c16:
 	lea	E17, r2
 	movq	#154, r4
 c17:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c17
 ;; test 18: vmul.w by the immediate -2
@@ -341,8 +341,8 @@ c17:
 	lea	E18, r2
 	movq	#154, r4
 c18:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c18
 ;; test 19: vmul.l vector by vector
@@ -361,8 +361,8 @@ c18:
 	lea	E19, r2
 	movq	#308, r4
 c19:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c19
 ;; test 20: vmul.l by a register
@@ -380,8 +380,8 @@ c19:
 	lea	E20, r2
 	movq	#308, r4
 c20:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c20
 ;; test 21: vmul.l by the immediate -2
@@ -398,8 +398,8 @@ c20:
 	lea	E21, r2
 	movq	#308, r4
 c21:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c21
 ;; test 22: vand.b vector by vector
@@ -418,8 +418,8 @@ c21:
 	lea	E22, r2
 	movq	#77, r4
 c22:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c22
 ;; test 23: vand.b by a register
@@ -437,8 +437,8 @@ c22:
 	lea	E23, r2
 	movq	#77, r4
 c23:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c23
 ;; test 24: vand.b by the immediate -2
@@ -455,8 +455,8 @@ c23:
 	lea	E24, r2
 	movq	#77, r4
 c24:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c24
 ;; test 25: vand.w vector by vector
@@ -475,8 +475,8 @@ c24:
 	lea	E25, r2
 	movq	#154, r4
 c25:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c25
 ;; test 26: vand.w by a register
@@ -494,8 +494,8 @@ c25:
 	lea	E26, r2
 	movq	#154, r4
 c26:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c26
 ;; test 27: vand.w by the immediate -2
@@ -512,8 +512,8 @@ c26:
 	lea	E27, r2
 	movq	#154, r4
 c27:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c27
 ;; test 28: vand.l vector by vector
@@ -532,8 +532,8 @@ c27:
 	lea	E28, r2
 	movq	#308, r4
 c28:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c28
 ;; test 29: vand.l by a register
@@ -551,8 +551,8 @@ c28:
 	lea	E29, r2
 	movq	#308, r4
 c29:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c29
 ;; test 30: vand.l by the immediate -2
@@ -569,8 +569,8 @@ c29:
 	lea	E30, r2
 	movq	#308, r4
 c30:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c30
 ;; test 31: vand.q vector by vector
@@ -589,8 +589,8 @@ c30:
 	lea	E31, r2
 	movq	#616, r4
 c31:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c31
 ;; test 32: vand.q by a register
@@ -608,8 +608,8 @@ c31:
 	lea	E32, r2
 	movq	#616, r4
 c32:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c32
 ;; test 33: vand.q by the immediate -2
@@ -626,8 +626,8 @@ c32:
 	lea	E33, r2
 	movq	#616, r4
 c33:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c33
 ;; test 34: vor.b vector by vector
@@ -646,8 +646,8 @@ c33:
 	lea	E34, r2
 	movq	#77, r4
 c34:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c34
 ;; test 35: vor.b by a register
@@ -665,8 +665,8 @@ c34:
 	lea	E35, r2
 	movq	#77, r4
 c35:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c35
 ;; test 36: vor.b by the immediate -2
@@ -683,8 +683,8 @@ c35:
 	lea	E36, r2
 	movq	#77, r4
 c36:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c36
 ;; test 37: vor.w vector by vector
@@ -703,8 +703,8 @@ c36:
 	lea	E37, r2
 	movq	#154, r4
 c37:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c37
 ;; test 38: vor.w by a register
@@ -722,8 +722,8 @@ c37:
 	lea	E38, r2
 	movq	#154, r4
 c38:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c38
 ;; test 39: vor.w by the immediate -2
@@ -740,8 +740,8 @@ c38:
 	lea	E39, r2
 	movq	#154, r4
 c39:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c39
 ;; test 40: vor.l vector by vector
@@ -760,8 +760,8 @@ c39:
 	lea	E40, r2
 	movq	#308, r4
 c40:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c40
 ;; test 41: vor.l by a register
@@ -779,8 +779,8 @@ c40:
 	lea	E41, r2
 	movq	#308, r4
 c41:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c41
 ;; test 42: vor.l by the immediate -2
@@ -797,8 +797,8 @@ c41:
 	lea	E42, r2
 	movq	#308, r4
 c42:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c42
 ;; test 43: vor.q vector by vector
@@ -817,8 +817,8 @@ c42:
 	lea	E43, r2
 	movq	#616, r4
 c43:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c43
 ;; test 44: vor.q by a register
@@ -836,8 +836,8 @@ c43:
 	lea	E44, r2
 	movq	#616, r4
 c44:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c44
 ;; test 45: vor.q by the immediate -2
@@ -854,8 +854,8 @@ c44:
 	lea	E45, r2
 	movq	#616, r4
 c45:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c45
 ;; test 46: vxor.b vector by vector
@@ -874,8 +874,8 @@ c45:
 	lea	E46, r2
 	movq	#77, r4
 c46:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c46
 ;; test 47: vxor.b by a register
@@ -893,8 +893,8 @@ c46:
 	lea	E47, r2
 	movq	#77, r4
 c47:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c47
 ;; test 48: vxor.b by the immediate -2
@@ -911,8 +911,8 @@ c47:
 	lea	E48, r2
 	movq	#77, r4
 c48:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c48
 ;; test 49: vxor.w vector by vector
@@ -931,8 +931,8 @@ c48:
 	lea	E49, r2
 	movq	#154, r4
 c49:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c49
 ;; test 50: vxor.w by a register
@@ -950,8 +950,8 @@ c49:
 	lea	E50, r2
 	movq	#154, r4
 c50:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c50
 ;; test 51: vxor.w by the immediate -2
@@ -968,8 +968,8 @@ c50:
 	lea	E51, r2
 	movq	#154, r4
 c51:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c51
 ;; test 52: vxor.l vector by vector
@@ -988,8 +988,8 @@ c51:
 	lea	E52, r2
 	movq	#308, r4
 c52:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c52
 ;; test 53: vxor.l by a register
@@ -1007,8 +1007,8 @@ c52:
 	lea	E53, r2
 	movq	#308, r4
 c53:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c53
 ;; test 54: vxor.l by the immediate -2
@@ -1025,8 +1025,8 @@ c53:
 	lea	E54, r2
 	movq	#308, r4
 c54:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c54
 ;; test 55: vxor.q vector by vector
@@ -1045,8 +1045,8 @@ c54:
 	lea	E55, r2
 	movq	#616, r4
 c55:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c55
 ;; test 56: vxor.q by a register
@@ -1064,8 +1064,8 @@ c55:
 	lea	E56, r2
 	movq	#616, r4
 c56:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c56
 ;; test 57: vxor.q by the immediate -2
@@ -1082,8 +1082,8 @@ c56:
 	lea	E57, r2
 	movq	#616, r4
 c57:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c57
 ;; test 58: vshl.b vector by vector
@@ -1102,8 +1102,8 @@ c57:
 	lea	E58, r2
 	movq	#77, r4
 c58:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c58
 ;; test 59: vshl.b by a register
@@ -1121,8 +1121,8 @@ c58:
 	lea	E59, r2
 	movq	#77, r4
 c59:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c59
 ;; test 60: vshl.b by the immediate 5
@@ -1139,8 +1139,8 @@ c59:
 	lea	E60, r2
 	movq	#77, r4
 c60:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c60
 ;; test 61: vshl.w vector by vector
@@ -1159,8 +1159,8 @@ c60:
 	lea	E61, r2
 	movq	#154, r4
 c61:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c61
 ;; test 62: vshl.w by a register
@@ -1178,8 +1178,8 @@ c61:
 	lea	E62, r2
 	movq	#154, r4
 c62:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c62
 ;; test 63: vshl.w by the immediate 5
@@ -1196,8 +1196,8 @@ c62:
 	lea	E63, r2
 	movq	#154, r4
 c63:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c63
 ;; test 64: vshl.l vector by vector
@@ -1216,8 +1216,8 @@ c63:
 	lea	E64, r2
 	movq	#308, r4
 c64:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c64
 ;; test 65: vshl.l by a register
@@ -1235,8 +1235,8 @@ c64:
 	lea	E65, r2
 	movq	#308, r4
 c65:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c65
 ;; test 66: vshl.l by the immediate 5
@@ -1253,8 +1253,8 @@ c65:
 	lea	E66, r2
 	movq	#308, r4
 c66:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c66
 ;; test 67: vshl.q vector by vector
@@ -1273,8 +1273,8 @@ c66:
 	lea	E67, r2
 	movq	#616, r4
 c67:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c67
 ;; test 68: vshl.q by a register
@@ -1292,8 +1292,8 @@ c67:
 	lea	E68, r2
 	movq	#616, r4
 c68:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c68
 ;; test 69: vshl.q by the immediate 5
@@ -1310,8 +1310,8 @@ c68:
 	lea	E69, r2
 	movq	#616, r4
 c69:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c69
 ;; test 70: vshr.b vector by vector
@@ -1330,8 +1330,8 @@ c69:
 	lea	E70, r2
 	movq	#77, r4
 c70:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c70
 ;; test 71: vshr.b by a register
@@ -1349,8 +1349,8 @@ c70:
 	lea	E71, r2
 	movq	#77, r4
 c71:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c71
 ;; test 72: vshr.b by the immediate 5
@@ -1367,8 +1367,8 @@ c71:
 	lea	E72, r2
 	movq	#77, r4
 c72:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c72
 ;; test 73: vshr.w vector by vector
@@ -1387,8 +1387,8 @@ c72:
 	lea	E73, r2
 	movq	#154, r4
 c73:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c73
 ;; test 74: vshr.w by a register
@@ -1406,8 +1406,8 @@ c73:
 	lea	E74, r2
 	movq	#154, r4
 c74:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c74
 ;; test 75: vshr.w by the immediate 5
@@ -1424,8 +1424,8 @@ c74:
 	lea	E75, r2
 	movq	#154, r4
 c75:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c75
 ;; test 76: vshr.l vector by vector
@@ -1444,8 +1444,8 @@ c75:
 	lea	E76, r2
 	movq	#308, r4
 c76:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c76
 ;; test 77: vshr.l by a register
@@ -1463,8 +1463,8 @@ c76:
 	lea	E77, r2
 	movq	#308, r4
 c77:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c77
 ;; test 78: vshr.l by the immediate 5
@@ -1481,8 +1481,8 @@ c77:
 	lea	E78, r2
 	movq	#308, r4
 c78:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c78
 ;; test 79: vshr.q vector by vector
@@ -1501,8 +1501,8 @@ c78:
 	lea	E79, r2
 	movq	#616, r4
 c79:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c79
 ;; test 80: vshr.q by a register
@@ -1520,8 +1520,8 @@ c79:
 	lea	E80, r2
 	movq	#616, r4
 c80:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c80
 ;; test 81: vshr.q by the immediate 5
@@ -1538,8 +1538,8 @@ c80:
 	lea	E81, r2
 	movq	#616, r4
 c81:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c81
 ;; test 82: vsar.b vector by vector
@@ -1558,8 +1558,8 @@ c81:
 	lea	E82, r2
 	movq	#77, r4
 c82:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c82
 ;; test 83: vsar.b by a register
@@ -1577,8 +1577,8 @@ c82:
 	lea	E83, r2
 	movq	#77, r4
 c83:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c83
 ;; test 84: vsar.b by the immediate 5
@@ -1595,8 +1595,8 @@ c83:
 	lea	E84, r2
 	movq	#77, r4
 c84:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c84
 ;; test 85: vsar.w vector by vector
@@ -1615,8 +1615,8 @@ c84:
 	lea	E85, r2
 	movq	#154, r4
 c85:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c85
 ;; test 86: vsar.w by a register
@@ -1634,8 +1634,8 @@ c85:
 	lea	E86, r2
 	movq	#154, r4
 c86:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c86
 ;; test 87: vsar.w by the immediate 5
@@ -1652,8 +1652,8 @@ c86:
 	lea	E87, r2
 	movq	#154, r4
 c87:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c87
 ;; test 88: vsar.l vector by vector
@@ -1672,8 +1672,8 @@ c87:
 	lea	E88, r2
 	movq	#308, r4
 c88:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c88
 ;; test 89: vsar.l by a register
@@ -1691,8 +1691,8 @@ c88:
 	lea	E89, r2
 	movq	#308, r4
 c89:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c89
 ;; test 90: vsar.l by the immediate 5
@@ -1709,8 +1709,8 @@ c89:
 	lea	E90, r2
 	movq	#308, r4
 c90:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c90
 ;; test 91: vsar.q vector by vector
@@ -1729,8 +1729,8 @@ c90:
 	lea	E91, r2
 	movq	#616, r4
 c91:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c91
 ;; test 92: vsar.q by a register
@@ -1748,8 +1748,8 @@ c91:
 	lea	E92, r2
 	movq	#616, r4
 c92:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c92
 ;; test 93: vsar.q by the immediate 5
@@ -1766,8 +1766,8 @@ c92:
 	lea	E93, r2
 	movq	#616, r4
 c93:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c93
 ;; test 94: vabd.b vector by vector
@@ -1786,8 +1786,8 @@ c93:
 	lea	E94, r2
 	movq	#77, r4
 c94:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c94
 ;; test 95: vabd.b by a register
@@ -1805,8 +1805,8 @@ c94:
 	lea	E95, r2
 	movq	#77, r4
 c95:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c95
 ;; test 96: vabd.b by the immediate -2
@@ -1823,8 +1823,8 @@ c95:
 	lea	E96, r2
 	movq	#77, r4
 c96:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c96
 ;; test 97: vabd.w vector by vector
@@ -1843,8 +1843,8 @@ c96:
 	lea	E97, r2
 	movq	#154, r4
 c97:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c97
 ;; test 98: vabd.w by a register
@@ -1862,8 +1862,8 @@ c97:
 	lea	E98, r2
 	movq	#154, r4
 c98:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c98
 ;; test 99: vabd.w by the immediate -2
@@ -1880,8 +1880,8 @@ c98:
 	lea	E99, r2
 	movq	#154, r4
 c99:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c99
 ;; test 100: vabd.l vector by vector
@@ -1900,8 +1900,8 @@ c99:
 	lea	E100, r2
 	movq	#308, r4
 c100:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c100
 ;; test 101: vabd.l by a register
@@ -1919,8 +1919,8 @@ c100:
 	lea	E101, r2
 	movq	#308, r4
 c101:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c101
 ;; test 102: vabd.l by the immediate -2
@@ -1937,8 +1937,8 @@ c101:
 	lea	E102, r2
 	movq	#308, r4
 c102:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c102
 ;; test 103: vabdu.b vector by vector
@@ -1957,8 +1957,8 @@ c102:
 	lea	E103, r2
 	movq	#77, r4
 c103:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c103
 ;; test 104: vabdu.b by a register
@@ -1976,8 +1976,8 @@ c103:
 	lea	E104, r2
 	movq	#77, r4
 c104:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c104
 ;; test 105: vabdu.b by the immediate -2
@@ -1994,8 +1994,8 @@ c104:
 	lea	E105, r2
 	movq	#77, r4
 c105:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c105
 ;; test 106: vabdu.w vector by vector
@@ -2014,8 +2014,8 @@ c105:
 	lea	E106, r2
 	movq	#154, r4
 c106:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c106
 ;; test 107: vabdu.w by a register
@@ -2033,8 +2033,8 @@ c106:
 	lea	E107, r2
 	movq	#154, r4
 c107:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c107
 ;; test 108: vabdu.w by the immediate -2
@@ -2051,8 +2051,8 @@ c107:
 	lea	E108, r2
 	movq	#154, r4
 c108:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c108
 ;; test 109: vmin.b vector by vector
@@ -2071,8 +2071,8 @@ c108:
 	lea	E109, r2
 	movq	#77, r4
 c109:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c109
 ;; test 110: vmin.b by a register
@@ -2090,8 +2090,8 @@ c109:
 	lea	E110, r2
 	movq	#77, r4
 c110:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c110
 ;; test 111: vmin.b by the immediate -2
@@ -2108,8 +2108,8 @@ c110:
 	lea	E111, r2
 	movq	#77, r4
 c111:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c111
 ;; test 112: vmin.w vector by vector
@@ -2128,8 +2128,8 @@ c111:
 	lea	E112, r2
 	movq	#154, r4
 c112:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c112
 ;; test 113: vmin.w by a register
@@ -2147,8 +2147,8 @@ c112:
 	lea	E113, r2
 	movq	#154, r4
 c113:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c113
 ;; test 114: vmin.w by the immediate -2
@@ -2165,8 +2165,8 @@ c113:
 	lea	E114, r2
 	movq	#154, r4
 c114:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c114
 ;; test 115: vmin.l vector by vector
@@ -2185,8 +2185,8 @@ c114:
 	lea	E115, r2
 	movq	#308, r4
 c115:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c115
 ;; test 116: vmin.l by a register
@@ -2204,8 +2204,8 @@ c115:
 	lea	E116, r2
 	movq	#308, r4
 c116:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c116
 ;; test 117: vmin.l by the immediate -2
@@ -2222,8 +2222,8 @@ c116:
 	lea	E117, r2
 	movq	#308, r4
 c117:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c117
 ;; test 118: vmax.b vector by vector
@@ -2242,8 +2242,8 @@ c117:
 	lea	E118, r2
 	movq	#77, r4
 c118:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c118
 ;; test 119: vmax.b by a register
@@ -2261,8 +2261,8 @@ c118:
 	lea	E119, r2
 	movq	#77, r4
 c119:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c119
 ;; test 120: vmax.b by the immediate -2
@@ -2279,8 +2279,8 @@ c119:
 	lea	E120, r2
 	movq	#77, r4
 c120:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c120
 ;; test 121: vmax.w vector by vector
@@ -2299,8 +2299,8 @@ c120:
 	lea	E121, r2
 	movq	#154, r4
 c121:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c121
 ;; test 122: vmax.w by a register
@@ -2318,8 +2318,8 @@ c121:
 	lea	E122, r2
 	movq	#154, r4
 c122:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c122
 ;; test 123: vmax.w by the immediate -2
@@ -2336,8 +2336,8 @@ c122:
 	lea	E123, r2
 	movq	#154, r4
 c123:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c123
 ;; test 124: vmax.l vector by vector
@@ -2356,8 +2356,8 @@ c123:
 	lea	E124, r2
 	movq	#308, r4
 c124:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c124
 ;; test 125: vmax.l by a register
@@ -2375,8 +2375,8 @@ c124:
 	lea	E125, r2
 	movq	#308, r4
 c125:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c125
 ;; test 126: vmax.l by the immediate -2
@@ -2393,8 +2393,8 @@ c125:
 	lea	E126, r2
 	movq	#308, r4
 c126:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c126
 ;; test 127: vminu.b vector by vector
@@ -2413,8 +2413,8 @@ c126:
 	lea	E127, r2
 	movq	#77, r4
 c127:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c127
 ;; test 128: vminu.b by a register
@@ -2432,8 +2432,8 @@ c127:
 	lea	E128, r2
 	movq	#77, r4
 c128:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c128
 ;; test 129: vminu.b by the immediate -2
@@ -2450,8 +2450,8 @@ c128:
 	lea	E129, r2
 	movq	#77, r4
 c129:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c129
 ;; test 130: vminu.w vector by vector
@@ -2470,8 +2470,8 @@ c129:
 	lea	E130, r2
 	movq	#154, r4
 c130:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c130
 ;; test 131: vminu.w by a register
@@ -2489,8 +2489,8 @@ c130:
 	lea	E131, r2
 	movq	#154, r4
 c131:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c131
 ;; test 132: vminu.w by the immediate -2
@@ -2507,8 +2507,8 @@ c131:
 	lea	E132, r2
 	movq	#154, r4
 c132:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c132
 ;; test 133: vminu.l vector by vector
@@ -2527,8 +2527,8 @@ c132:
 	lea	E133, r2
 	movq	#308, r4
 c133:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c133
 ;; test 134: vminu.l by a register
@@ -2546,8 +2546,8 @@ c133:
 	lea	E134, r2
 	movq	#308, r4
 c134:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c134
 ;; test 135: vminu.l by the immediate -2
@@ -2564,8 +2564,8 @@ c134:
 	lea	E135, r2
 	movq	#308, r4
 c135:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c135
 ;; test 136: vmaxu.b vector by vector
@@ -2584,8 +2584,8 @@ c135:
 	lea	E136, r2
 	movq	#77, r4
 c136:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c136
 ;; test 137: vmaxu.b by a register
@@ -2603,8 +2603,8 @@ c136:
 	lea	E137, r2
 	movq	#77, r4
 c137:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c137
 ;; test 138: vmaxu.b by the immediate -2
@@ -2621,8 +2621,8 @@ c137:
 	lea	E138, r2
 	movq	#77, r4
 c138:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c138
 ;; test 139: vmaxu.w vector by vector
@@ -2641,8 +2641,8 @@ c138:
 	lea	E139, r2
 	movq	#154, r4
 c139:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c139
 ;; test 140: vmaxu.w by a register
@@ -2660,8 +2660,8 @@ c139:
 	lea	E140, r2
 	movq	#154, r4
 c140:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c140
 ;; test 141: vmaxu.w by the immediate -2
@@ -2678,8 +2678,8 @@ c140:
 	lea	E141, r2
 	movq	#154, r4
 c141:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c141
 ;; test 142: vmaxu.l vector by vector
@@ -2698,8 +2698,8 @@ c141:
 	lea	E142, r2
 	movq	#308, r4
 c142:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c142
 ;; test 143: vmaxu.l by a register
@@ -2717,8 +2717,8 @@ c142:
 	lea	E143, r2
 	movq	#308, r4
 c143:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c143
 ;; test 144: vmaxu.l by the immediate -2
@@ -2735,8 +2735,8 @@ c143:
 	lea	E144, r2
 	movq	#308, r4
 c144:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c144
 ;; test 145: vsubs.b vector by vector
@@ -2755,8 +2755,8 @@ c144:
 	lea	E145, r2
 	movq	#77, r4
 c145:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c145
 ;; test 146: vsubs.b by a register
@@ -2774,8 +2774,8 @@ c145:
 	lea	E146, r2
 	movq	#77, r4
 c146:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c146
 ;; test 147: vsubs.b by the immediate -2
@@ -2792,8 +2792,8 @@ c146:
 	lea	E147, r2
 	movq	#77, r4
 c147:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c147
 ;; test 148: vsubs.w vector by vector
@@ -2812,8 +2812,8 @@ c147:
 	lea	E148, r2
 	movq	#154, r4
 c148:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c148
 ;; test 149: vsubs.w by a register
@@ -2831,8 +2831,8 @@ c148:
 	lea	E149, r2
 	movq	#154, r4
 c149:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c149
 ;; test 150: vsubs.w by the immediate -2
@@ -2849,8 +2849,8 @@ c149:
 	lea	E150, r2
 	movq	#154, r4
 c150:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c150
 ;; test 151: vsubs.l vector by vector
@@ -2869,8 +2869,8 @@ c150:
 	lea	E151, r2
 	movq	#308, r4
 c151:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c151
 ;; test 152: vsubs.l by a register
@@ -2888,8 +2888,8 @@ c151:
 	lea	E152, r2
 	movq	#308, r4
 c152:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c152
 ;; test 153: vsubs.l by the immediate -2
@@ -2906,8 +2906,8 @@ c152:
 	lea	E153, r2
 	movq	#308, r4
 c153:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c153
 ;; test 154: vaddsu.b vector by vector
@@ -2926,8 +2926,8 @@ c153:
 	lea	E154, r2
 	movq	#77, r4
 c154:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c154
 ;; test 155: vaddsu.b by a register
@@ -2945,8 +2945,8 @@ c154:
 	lea	E155, r2
 	movq	#77, r4
 c155:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c155
 ;; test 156: vaddsu.b by the immediate -2
@@ -2963,8 +2963,8 @@ c155:
 	lea	E156, r2
 	movq	#77, r4
 c156:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c156
 ;; test 157: vaddsu.w vector by vector
@@ -2983,8 +2983,8 @@ c156:
 	lea	E157, r2
 	movq	#154, r4
 c157:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c157
 ;; test 158: vaddsu.w by a register
@@ -3002,8 +3002,8 @@ c157:
 	lea	E158, r2
 	movq	#154, r4
 c158:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c158
 ;; test 159: vaddsu.w by the immediate -2
@@ -3020,8 +3020,8 @@ c158:
 	lea	E159, r2
 	movq	#154, r4
 c159:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c159
 ;; test 160: vaddsu.l vector by vector
@@ -3040,8 +3040,8 @@ c159:
 	lea	E160, r2
 	movq	#308, r4
 c160:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c160
 ;; test 161: vaddsu.l by a register
@@ -3059,8 +3059,8 @@ c160:
 	lea	E161, r2
 	movq	#308, r4
 c161:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c161
 ;; test 162: vaddsu.l by the immediate -2
@@ -3077,8 +3077,8 @@ c161:
 	lea	E162, r2
 	movq	#308, r4
 c162:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c162
 ;; test 163: vsubsu.b vector by vector
@@ -3097,8 +3097,8 @@ c162:
 	lea	E163, r2
 	movq	#77, r4
 c163:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c163
 ;; test 164: vsubsu.b by a register
@@ -3116,8 +3116,8 @@ c163:
 	lea	E164, r2
 	movq	#77, r4
 c164:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c164
 ;; test 165: vsubsu.b by the immediate -2
@@ -3134,8 +3134,8 @@ c164:
 	lea	E165, r2
 	movq	#77, r4
 c165:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c165
 ;; test 166: vsubsu.w vector by vector
@@ -3154,8 +3154,8 @@ c165:
 	lea	E166, r2
 	movq	#154, r4
 c166:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c166
 ;; test 167: vsubsu.w by a register
@@ -3173,8 +3173,8 @@ c166:
 	lea	E167, r2
 	movq	#154, r4
 c167:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c167
 ;; test 168: vsubsu.w by the immediate -2
@@ -3191,8 +3191,8 @@ c167:
 	lea	E168, r2
 	movq	#154, r4
 c168:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c168
 ;; test 169: vsubsu.l vector by vector
@@ -3211,8 +3211,8 @@ c168:
 	lea	E169, r2
 	movq	#308, r4
 c169:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c169
 ;; test 170: vsubsu.l by a register
@@ -3230,8 +3230,8 @@ c169:
 	lea	E170, r2
 	movq	#308, r4
 c170:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c170
 ;; test 171: vsubsu.l by the immediate -2
@@ -3248,8 +3248,8 @@ c170:
 	lea	E171, r2
 	movq	#308, r4
 c171:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c171
 ;; test 172: vneg.b
@@ -3266,8 +3266,8 @@ c171:
 	lea	E172, r2
 	movq	#77, r4
 c172:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c172
 ;; test 173: vneg.w
@@ -3284,8 +3284,8 @@ c172:
 	lea	E173, r2
 	movq	#154, r4
 c173:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c173
 ;; test 174: vneg.l
@@ -3302,8 +3302,8 @@ c173:
 	lea	E174, r2
 	movq	#308, r4
 c174:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c174
 ;; test 175: vneg.q
@@ -3320,8 +3320,8 @@ c174:
 	lea	E175, r2
 	movq	#616, r4
 c175:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c175
 ;; test 176: vsub.f vector by vector
@@ -3340,8 +3340,8 @@ c175:
 	lea	E176, r2
 	movq	#308, r4
 c176:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c176
 ;; test 177: vmul.f vector by vector
@@ -3360,8 +3360,8 @@ c176:
 	lea	E177, r2
 	movq	#308, r4
 c177:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c177
 ;; test 178: vmin.f vector by vector
@@ -3380,8 +3380,8 @@ c177:
 	lea	E178, r2
 	movq	#308, r4
 c178:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c178
 ;; test 179: vmax.f vector by vector
@@ -3400,8 +3400,8 @@ c178:
 	lea	E179, r2
 	movq	#308, r4
 c179:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c179
 ;; test 180: vfnma.f: vD - vA x vB
@@ -3422,8 +3422,8 @@ c179:
 	lea	E180, r2
 	movq	#308, r4
 c180:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c180
 ;; test 181: vdotu.b over 77 bytes, the lanes summed by vacc.l.q (the last lane has one product)
@@ -3469,8 +3469,8 @@ c180:
 	lea	E183, r2
 	movq	#231, r4
 c183:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c183
 ;; test 184: vlseg4.b: 77 records of four bytes de-interleaved into v0 .. v3
@@ -3492,32 +3492,32 @@ c183:
 	lea	E184_0, r2
 	movq	#77, r4
 c184_0:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c184_0
 	lea	O184_1, r1
 	lea	E184_1, r2
 	movq	#77, r4
 c184_1:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c184_1
 	lea	O184_2, r1
 	lea	E184_2, r2
 	movq	#77, r4
 c184_2:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c184_2
 	lea	O184_3, r1
 	lea	E184_3, r2
 	movq	#77, r4
 c184_3:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c184_3
 ;; test 185: vsseg3.b: 3 planes of 77 bytes interleaved into records
@@ -3537,8 +3537,8 @@ c184_3:
 	lea	E185, r2
 	movq	#231, r4
 c185:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c185
 ;; test 186: vsseg4.b: 4 planes of 77 bytes interleaved into records
@@ -3560,8 +3560,8 @@ c185:
 	lea	E186, r2
 	movq	#308, r4
 c186:
-	movzb	(r1)+, r5
-	movzb	(r2)+, r6
+	mov	(r1)+.u8, r5
+	mov	(r2)+.u8, r6
 	cbne	r5, r6, fail
 	sob	r4, c186
 	movq	#0, r0
