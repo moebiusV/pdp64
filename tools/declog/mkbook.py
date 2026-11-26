@@ -92,7 +92,7 @@ for name, ls in cats:
     outline.append('c:%s    %s' % (u, name))
     put(u, 'c-%s.md' % u, demote(ls, 2), head='# {{c:%s}} — %s' % (u, name))
 # Appendices
-outline += ['', 'p:id00300    Appendices', 'a:label:Appendix', 'a:number:letter']
+outline += ['', 'p:id00300    Appendices', 'c:label:Appendix', 'c:number:letter', 'c:count:1']
 put('id00300', 'part-id00300.md', [], head='# {{p:id00300}} — Appendices')
 n = 3000
 for h, ls in h1.items():
@@ -100,8 +100,8 @@ for h, ls in h1.items():
     if m:
         n += 1
         u = 'id%05d' % n
-        outline.append('a:%s    %s' % (u, m.group(1)))
-        put(u, 'a-%s.md' % u, ls, head='# {{a:%s}} — %s' % (u, m.group(1)))
+        outline.append('c:%s    %s' % (u, m.group(1)))
+        put(u, 'a-%s.md' % u, ls, head='# {{c:%s}} — %s' % (u, m.group(1)))
 open(os.path.join(build, 'outline.txt'), 'w').write('\n'.join(outline) + '\n')
 open(os.path.join(build, 'filemap.txt'), 'w').write('\n'.join(filemap) + '\n')
 tpl = open(os.path.join(ROOT, 'book', 'template.typ')).read()
