@@ -23,16 +23,6 @@ _start:
 	cblo	r1, #-16, 1f		; taken
 	br	f16
 1:
-; cbCC writes no flag (errata 39): the flags after it, taken or not, are those the last cmp left
-	cmp	r1, #5			; Z set
-	cbeq	r1, #4, f17		; not taken (5 - 4 would clear Z)
-	beq	1f
-	br	f18
-1:	cbne	r1, #4, 1f		; taken (5 - 4 would clear Z as well)
-	br	f19
-1:	beq	1f
-	br	f20
-1:
 ; the extreme immediates: -16 and 15
 	movq	#-16, r2
 	cbeq	r2, #-16, 1f
@@ -47,8 +37,7 @@ _start:
 2:	add	#1, r4
 	sub	#1, r3
 	cbne	r3, #0, 2b
-	cmp	r4, #10
-	bne	f23
+	cbne r4, #10, f23
 ; the long form: a target more than 1024 parcels away, forward and backward
 	cbeq	r4, #10, 1f
 	br	f24
@@ -59,8 +48,7 @@ _start:
 	.space	3000
 3:	cbeq	r4, #10, 4b
 	br	f25
-5:	cmp	r5, #1
-	bne	f26
+5:	cbne r5, #1, f26
 ; ror32: the low 32 bits rotate right, the result is sign-extended from bit 31 (errata 34)
 	movq	#-1, r6
 	shl	#16, r6
@@ -69,24 +57,19 @@ _start:
 	bis	#1, r6			; r6 = 0xFFFFFFFF80000001
 	ror32	r6, #1, r7		; ror32(0x80000001, 1) = 0xC0000000: bit 31 set, so negative: 0xFFFFFFFFC0000000
 	movq	#-1073741824, r8
-	cmp	r7, r8
-	bne	f27
+	cbne r7, r8, f27
 	ror32	r6, #0, r7		; a zero count: 0x80000001 sign-extended
 	movq	#-2147483647, r8
-	cmp	r7, r8
-	bne	f28
+	cbne r7, r8, f28
 	ror32	r6, #31, r7		; ror32(0x80000001, 31) = 3: bit 31 clear, positive
-	cmp	r7, #3
-	bne	f29
+	cbne r7, #3, f29
 	movq	#0x12345678, r6
 	ror32	r6, #8, r7		; 0x78123456: bit 31 clear
 	movq	#0x78123456, r8
-	cmp	r7, r8
-	bne	f30
+	cbne r7, r8, f30
 	ror32	r6, #4, r6		; rd = rs; 0x81234567: bit 31 set, 0xFFFFFFFF81234567
 	movq	#-2128394905, r8
-	cmp	r6, r8
-	bne	f31
+	cbne r6, r8, f31
 	movq	#0, r0
 	trap	#0
 f1:	movq	#1, r0

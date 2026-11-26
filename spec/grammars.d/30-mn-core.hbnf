@@ -18,13 +18,11 @@ mn-movz = "movzl"@0b001000
 ; effective address
 mn-lea = "lea"@0b001011
 
-; ALU and FP ALU: register destination (ISA 4.2, 4.10); CMP computes reg - rm, errata 13
+; ALU and FP ALU: register destination (ISA 4.2, 4.10)
 mn-alu = "add"@0b010110
        | "sub"@0b010111
        | "bic"@0b011000
        | "bis"@0b011001
-       | "cmp"@0b011010
-       | "bit"@0b011011
        | "xor"@0b011100
        | "and"@0b011101
        | "mul"@0b011110
@@ -35,32 +33,15 @@ mn-alu = "add"@0b010110
        | "fadd"@0b100100
        | "fsub"@0b100101
        | "fmul"@0b100110
-       | "fcmp"@0b100111
        | "mulu"@0x11E
        | "fneg32"@0x11C
        | "fabs32"@0x11D
 
-; conditional branches (ISA 4.4); BHIS and BLO are aliases below
+; the unconditional branch (ISA 4.4); the machine has no condition codes, so every conditional branch is a compare-and-branch (cbCC, below)
 mn-branch = "br"@0b110000
-          | "bne"@0b110001
-          | "beq"@0b110010
-          | "bpl"@0b110011
-          | "bmi"@0b110100
-          | "bvc"@0b110101
-          | "bvs"@0b110110
-          | "bcc"@0b110111
-          | "bcs"@0b111000
-          | "bge"@0b111001
-          | "blt"@0b111010
-          | "bgt"@0b111011
-          | "ble"@0b111100
-          | "bhi"@0b111101
-          | "blos"@0b111110
-          | "bhis"@0x137
-          | "blo"@0x138
 
-; compare a register with a 5-bit immediate and branch (opcode 0x28): the number is the condition, as in `set` (cc below); the two
-; aliases are numbered above, as in the branch group
+; compare a register with an immediate or a register and branch: the number is the condition (ne 1, eq 2, cc 7, cs 8, ge 9, lt 10, gt 11, le 12, hi 13, los 14); the two
+; aliases (cbhis, cblo) are numbered with 0x100 added
 mn-cbranch = "cbne"@0b0001
            | "cbeq"@0b0010
            | "cbcc"@0b0111
@@ -87,9 +68,6 @@ mn-sop = "clr"@0b0000
        | "inc"@0b0010
        | "dec"@0b0011
        | "neg"@0b0100
-       | "tst"@0b0101
-       | "adc"@0b0110
-       | "sbc"@0b0111
        | "asl"@0b1000
        | "asr"@0b1001
        | "pushm"@0b1010
@@ -157,7 +135,6 @@ mn-fesc = "fdiv"@0b00000000
         | "fmul32"@0b00001010
         | "fdiv32"@0b00001011
         | "fsqrt32"@0b00001100
-        | "fcmp32"@0b00001101
         | "fmadd"@0b00010000
         | "fnmsub"@0b00010011
         | "fmadd32"@0b00011000

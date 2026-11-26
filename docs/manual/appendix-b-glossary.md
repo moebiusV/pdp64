@@ -18,7 +18,8 @@
 | **hot register** | one of the eight (3-bit field) or sixteen (4-bit field) most-used registers, which a register field of a one-parcel form names by an index into a table; the tables are part of the ABI (9.4, appendix C) |
 | **fused instruction** | `MOVCALL`, `POPRET`, `POPMRET` or `MOV2`: one instruction for a pair that the compiler finds adjacent (9.10) |
 | **relaxation** | the linker's choice, after the sections are laid out, of the shortest form that reaches for a call or an address; on by default (9.5) |
-| **`CBCC`** | compare-immediate-and-branch on condition, the one fused compare and branch (9.10) |
+| **`CBCC`** | compare-and-branch on condition: compares a register with zero, an immediate or a second register and branches in one instruction, writing nothing; the integer conditional branch of a machine with no condition codes (9.10) |
+| **`FCBCC`** | the floating-point compare-and-branch: compares two binary64 (or, with the `32` forms, binary32) registers and branches, with the words `uo` and `or` for the unordered case (9.10.8) |
 | **`ROR32`** | rotate right by an immediate, 32-bit, sign-extended result |
 | **`SOB`** | subtract one and branch, either direction (9.10) |
 | **`MCPY`, `MMOV`, `MSET`, `MCMP`, `MSCN`, `MSCNN`** | the block operations: copy, move (overlap-safe), fill, compare, scan for a byte, scan for the first byte not equal; progress is held in registers so a fault restarts for free (9.11) |
@@ -29,10 +30,10 @@
 | **`LPAD`** | marks a legal target of an indirect jump or call; optional in ABI version 1 (appendix A.1) |
 | **`CLMUL`** | carry-less multiply, the primitive under every CRC and Galois-field operation (9.9) |
 | **`XNORPOP`, `POPCNT`** | bit-population instructions used by binary operations and bitsets (8.5) |
-| **`SET cc, rd`** | set a register to 0 or 1 from a condition (9.7) |
+| **`SETCC`** | compare two values and set a register to 0 or 1: a comparison used as a value, and the carry of an addition (`SETLO`) (9.7.5) |
 | **`DP`** | the direct pointer: in user mode it is the thread pointer, in kernel mode the per-CPU pointer; a descendant of the 6502's zero page (9.3, 9.16) |
-| **`PSW`** | the processor status word: flags, mode, priority and the guard bit (6.2) |
-| **`N Z V C`** | the four condition flags: negative, zero, overflow, carry (9.3) |
+| **`PSW`** | the processor status word: trace bit, mode, priority and the guard bit (6.2) |
+| **`N Z V C`** | the PDP-11's four condition codes: negative, zero, overflow, carry; the pdp64 has none (9.3.4) |
 | **canonical address** | a 64-bit address whose bits above the top bit of the virtual address (bit 38, 47 or 56 with three, four or five levels) equal that bit; any other value faults, so software cannot hide tags in the high bits (6.6) |
 | **`lowtag`** | a type tag stored in the low bits of a pointer, free because objects are quad-aligned (instruction-set text, section 6.2; not otherwise used in this manual) |
 | **SWAR** | SIMD within a register: using one wide scalar register as several narrow lanes through masking and carry-aware arithmetic (instruction-set text, glossary; the manual's bit and byte instructions of 9.9 make it effective) |

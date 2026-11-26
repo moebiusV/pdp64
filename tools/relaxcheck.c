@@ -19,7 +19,7 @@
 static int is_ctl(const char *mn)
 {
 	if (!strcmp(mn, "call") || !strcmp(mn, "jmp") || !strcmp(mn, "movcall") || !strcmp(mn, "sob") || !strcmp(mn, "br")) return 1;
-	if (!strncmp(mn, "cb", 2)) return 1;
+	if (!strncmp(mn, "cb", 2) || !strncmp(mn, "fcb", 3)) return 1;
 	if (mn[0] == 'b' && strlen(mn) <= 4) {
 		static const char *const no[] = { "bic", "bis", "bit", "bsf", "bsr", "bicm", "bism", "bext", "bset", "bclr", 0 };
 		for (int i = 0; no[i]; i++) if (!strcmp(mn, no[i])) return 0;

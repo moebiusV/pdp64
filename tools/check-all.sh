@@ -24,7 +24,6 @@ tools/check-exec-enc.sh
 tools/encopt/check.sh > /dev/null; echo "encopt: random instances against brute force, small case, current statistics: ok"
 tools/check-relax.sh | tail -n 1
 tools/check-relax.sh --mutate | tail -n 1
-tools/check-flaginv.sh | tail -n 1
 tools/feedback/test-feedback.sh
 if [ -x "${PDP64_QEMU:-$(dirname "$PWD")/qemu-build/qemu-system-pdp64}" ]; then
 	tools/check-qemu.sh

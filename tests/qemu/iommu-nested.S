@@ -23,8 +23,8 @@ _start:
 	call	lib_unit_up
 	movq	#0, r30
 	lea	ts_a, r1			; the host address of the guest's tables is not the identity (else the test could not tell)
-	cmp	r1, #GA
-	bne	1f
+	movq	#GA, r2
+	cbne r1, r2, 1f
 	movq	#10, r0
 	halt
 1:	; level A: the guest's tables, at host ts_a, with pointers that hold guest-physical addresses (base GA)

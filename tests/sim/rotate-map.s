@@ -6,1078 +6,880 @@ _start:
 	movq	#-1, r2
 	rol	r1, #0, r2
 	movq	=0x123456789abcdef, r30
-	cmp	r2, r30
-	bne	f1
+	cbne	r2, r30, f1
 	movq	=0x123456789abcdef, r1
 	movq	#-1, r2
 	ror	r1, #0, r2
 	movq	=0x123456789abcdef, r30
-	cmp	r2, r30
-	bne	f2
+	cbne	r2, r30, f2
 	movq	=0x123456789abcdef, r3
 	rol	r3, #0, r3
 	movq	=0x123456789abcdef, r30
-	cmp	r3, r30
-	bne	f3
+	cbne	r3, r30, f3
 	movq	=0x123456789abcdef, r3
 	rol	#0, r3
 	movq	=0x123456789abcdef, r30
-	cmp	r3, r30
-	bne	f4
+	cbne	r3, r30, f4
 	movq	=0x123456789abcdef, r3
 	ror	r3, #0, r3
 	movq	=0x123456789abcdef, r30
-	cmp	r3, r30
-	bne	f5
+	cbne	r3, r30, f5
 	movq	=0x123456789abcdef, r3
 	ror	#0, r3
 	movq	=0x123456789abcdef, r30
-	cmp	r3, r30
-	bne	f6
+	cbne	r3, r30, f6
 	movq	=0x123456789abcdef, r17
 	movq	#-1, r18
 	rol	r17, #0, r18
 	movq	=0x123456789abcdef, r30
-	cmp	r18, r30
-	bne	f7
+	cbne	r18, r30, f7
 	movq	=0x123456789abcdef, r17
 	movq	#-1, r18
 	ror	r17, #0, r18
 	movq	=0x123456789abcdef, r30
-	cmp	r18, r30
-	bne	f8
+	cbne	r18, r30, f8
 	movq	=0x123456789abcdef, r20
 	rol	r20, #0, r20
 	movq	=0x123456789abcdef, r30
-	cmp	r20, r30
-	bne	f9
+	cbne	r20, r30, f9
 	movq	=0x123456789abcdef, r20
 	rol	#0, r20
 	movq	=0x123456789abcdef, r30
-	cmp	r20, r30
-	bne	f10
+	cbne	r20, r30, f10
 	movq	=0x123456789abcdef, r20
 	ror	r20, #0, r20
 	movq	=0x123456789abcdef, r30
-	cmp	r20, r30
-	bne	f11
+	cbne	r20, r30, f11
 	movq	=0x123456789abcdef, r20
 	ror	#0, r20
 	movq	=0x123456789abcdef, r30
-	cmp	r20, r30
-	bne	f12
+	cbne	r20, r30, f12
 	movq	=0x123456789abcdef, r4
 	movq	#77, r5
 	ror	#0, r4
 	movq	=0x4d, r30
-	cmp	r5, r30
-	bne	f13
+	cbne	r5, r30, f13
 	movq	=0x123456789abcdef, r1
 	movq	#-1, r2
 	rol	r1, #1, r2
 	movq	=0x2468acf13579bde, r30
-	cmp	r2, r30
-	bne	f14
+	cbne	r2, r30, f14
 	movq	=0x123456789abcdef, r1
 	movq	#-1, r2
 	ror	r1, #1, r2
 	movq	=0x8091a2b3c4d5e6f7, r30
-	cmp	r2, r30
-	bne	f15
+	cbne	r2, r30, f15
 	movq	=0x123456789abcdef, r3
 	rol	r3, #1, r3
 	movq	=0x2468acf13579bde, r30
-	cmp	r3, r30
-	bne	f16
+	cbne	r3, r30, f16
 	movq	=0x123456789abcdef, r3
 	rol	#1, r3
 	movq	=0x2468acf13579bde, r30
-	cmp	r3, r30
-	bne	f17
+	cbne	r3, r30, f17
 	movq	=0x123456789abcdef, r3
 	ror	r3, #1, r3
 	movq	=0x8091a2b3c4d5e6f7, r30
-	cmp	r3, r30
-	bne	f18
+	cbne	r3, r30, f18
 	movq	=0x123456789abcdef, r3
 	ror	#1, r3
 	movq	=0x8091a2b3c4d5e6f7, r30
-	cmp	r3, r30
-	bne	f19
+	cbne	r3, r30, f19
 	movq	=0x123456789abcdef, r17
 	movq	#-1, r18
 	rol	r17, #1, r18
 	movq	=0x2468acf13579bde, r30
-	cmp	r18, r30
-	bne	f20
+	cbne	r18, r30, f20
 	movq	=0x123456789abcdef, r17
 	movq	#-1, r18
 	ror	r17, #1, r18
 	movq	=0x8091a2b3c4d5e6f7, r30
-	cmp	r18, r30
-	bne	f21
+	cbne	r18, r30, f21
 	movq	=0x123456789abcdef, r20
 	rol	r20, #1, r20
 	movq	=0x2468acf13579bde, r30
-	cmp	r20, r30
-	bne	f22
+	cbne	r20, r30, f22
 	movq	=0x123456789abcdef, r20
 	rol	#1, r20
 	movq	=0x2468acf13579bde, r30
-	cmp	r20, r30
-	bne	f23
+	cbne	r20, r30, f23
 	movq	=0x123456789abcdef, r20
 	ror	r20, #1, r20
 	movq	=0x8091a2b3c4d5e6f7, r30
-	cmp	r20, r30
-	bne	f24
+	cbne	r20, r30, f24
 	movq	=0x123456789abcdef, r20
 	ror	#1, r20
 	movq	=0x8091a2b3c4d5e6f7, r30
-	cmp	r20, r30
-	bne	f25
+	cbne	r20, r30, f25
 	movq	=0x123456789abcdef, r4
 	movq	#77, r5
 	ror	#1, r4
 	movq	=0x4d, r30
-	cmp	r5, r30
-	bne	f26
+	cbne	r5, r30, f26
 	movq	=0x123456789abcdef, r1
 	movq	#-1, r2
 	rol	r1, #3, r2
 	movq	=0x91a2b3c4d5e6f78, r30
-	cmp	r2, r30
-	bne	f27
+	cbne	r2, r30, f27
 	movq	=0x123456789abcdef, r1
 	movq	#-1, r2
 	ror	r1, #3, r2
 	movq	=0xe02468acf13579bd, r30
-	cmp	r2, r30
-	bne	f28
+	cbne	r2, r30, f28
 	movq	=0x123456789abcdef, r3
 	rol	r3, #3, r3
 	movq	=0x91a2b3c4d5e6f78, r30
-	cmp	r3, r30
-	bne	f29
+	cbne	r3, r30, f29
 	movq	=0x123456789abcdef, r3
 	rol	#3, r3
 	movq	=0x91a2b3c4d5e6f78, r30
-	cmp	r3, r30
-	bne	f30
+	cbne	r3, r30, f30
 	movq	=0x123456789abcdef, r3
 	ror	r3, #3, r3
 	movq	=0xe02468acf13579bd, r30
-	cmp	r3, r30
-	bne	f31
+	cbne	r3, r30, f31
 	movq	=0x123456789abcdef, r3
 	ror	#3, r3
 	movq	=0xe02468acf13579bd, r30
-	cmp	r3, r30
-	bne	f32
+	cbne	r3, r30, f32
 	movq	=0x123456789abcdef, r17
 	movq	#-1, r18
 	rol	r17, #3, r18
 	movq	=0x91a2b3c4d5e6f78, r30
-	cmp	r18, r30
-	bne	f33
+	cbne	r18, r30, f33
 	movq	=0x123456789abcdef, r17
 	movq	#-1, r18
 	ror	r17, #3, r18
 	movq	=0xe02468acf13579bd, r30
-	cmp	r18, r30
-	bne	f34
+	cbne	r18, r30, f34
 	movq	=0x123456789abcdef, r20
 	rol	r20, #3, r20
 	movq	=0x91a2b3c4d5e6f78, r30
-	cmp	r20, r30
-	bne	f35
+	cbne	r20, r30, f35
 	movq	=0x123456789abcdef, r20
 	rol	#3, r20
 	movq	=0x91a2b3c4d5e6f78, r30
-	cmp	r20, r30
-	bne	f36
+	cbne	r20, r30, f36
 	movq	=0x123456789abcdef, r20
 	ror	r20, #3, r20
 	movq	=0xe02468acf13579bd, r30
-	cmp	r20, r30
-	bne	f37
+	cbne	r20, r30, f37
 	movq	=0x123456789abcdef, r20
 	ror	#3, r20
 	movq	=0xe02468acf13579bd, r30
-	cmp	r20, r30
-	bne	f38
+	cbne	r20, r30, f38
 	movq	=0x123456789abcdef, r4
 	movq	#77, r5
 	ror	#3, r4
 	movq	=0x4d, r30
-	cmp	r5, r30
-	bne	f39
+	cbne	r5, r30, f39
 	movq	=0x123456789abcdef, r1
 	movq	#-1, r2
 	rol	r1, #7, r2
 	movq	=0x91a2b3c4d5e6f780, r30
-	cmp	r2, r30
-	bne	f40
+	cbne	r2, r30, f40
 	movq	=0x123456789abcdef, r1
 	movq	#-1, r2
 	ror	r1, #7, r2
 	movq	=0xde02468acf13579b, r30
-	cmp	r2, r30
-	bne	f41
+	cbne	r2, r30, f41
 	movq	=0x123456789abcdef, r3
 	rol	r3, #7, r3
 	movq	=0x91a2b3c4d5e6f780, r30
-	cmp	r3, r30
-	bne	f42
+	cbne	r3, r30, f42
 	movq	=0x123456789abcdef, r3
 	rol	#7, r3
 	movq	=0x91a2b3c4d5e6f780, r30
-	cmp	r3, r30
-	bne	f43
+	cbne	r3, r30, f43
 	movq	=0x123456789abcdef, r3
 	ror	r3, #7, r3
 	movq	=0xde02468acf13579b, r30
-	cmp	r3, r30
-	bne	f44
+	cbne	r3, r30, f44
 	movq	=0x123456789abcdef, r3
 	ror	#7, r3
 	movq	=0xde02468acf13579b, r30
-	cmp	r3, r30
-	bne	f45
+	cbne	r3, r30, f45
 	movq	=0x123456789abcdef, r17
 	movq	#-1, r18
 	rol	r17, #7, r18
 	movq	=0x91a2b3c4d5e6f780, r30
-	cmp	r18, r30
-	bne	f46
+	cbne	r18, r30, f46
 	movq	=0x123456789abcdef, r17
 	movq	#-1, r18
 	ror	r17, #7, r18
 	movq	=0xde02468acf13579b, r30
-	cmp	r18, r30
-	bne	f47
+	cbne	r18, r30, f47
 	movq	=0x123456789abcdef, r20
 	rol	r20, #7, r20
 	movq	=0x91a2b3c4d5e6f780, r30
-	cmp	r20, r30
-	bne	f48
+	cbne	r20, r30, f48
 	movq	=0x123456789abcdef, r20
 	rol	#7, r20
 	movq	=0x91a2b3c4d5e6f780, r30
-	cmp	r20, r30
-	bne	f49
+	cbne	r20, r30, f49
 	movq	=0x123456789abcdef, r20
 	ror	r20, #7, r20
 	movq	=0xde02468acf13579b, r30
-	cmp	r20, r30
-	bne	f50
+	cbne	r20, r30, f50
 	movq	=0x123456789abcdef, r20
 	ror	#7, r20
 	movq	=0xde02468acf13579b, r30
-	cmp	r20, r30
-	bne	f51
+	cbne	r20, r30, f51
 	movq	=0x123456789abcdef, r4
 	movq	#77, r5
 	ror	#7, r4
 	movq	=0x4d, r30
-	cmp	r5, r30
-	bne	f52
+	cbne	r5, r30, f52
 	movq	=0x123456789abcdef, r1
 	movq	#-1, r2
 	rol	r1, #8, r2
 	movq	=0x23456789abcdef01, r30
-	cmp	r2, r30
-	bne	f53
+	cbne	r2, r30, f53
 	movq	=0x123456789abcdef, r1
 	movq	#-1, r2
 	ror	r1, #8, r2
 	movq	=0xef0123456789abcd, r30
-	cmp	r2, r30
-	bne	f54
+	cbne	r2, r30, f54
 	movq	=0x123456789abcdef, r3
 	rol	r3, #8, r3
 	movq	=0x23456789abcdef01, r30
-	cmp	r3, r30
-	bne	f55
+	cbne	r3, r30, f55
 	movq	=0x123456789abcdef, r3
 	rol	#8, r3
 	movq	=0x23456789abcdef01, r30
-	cmp	r3, r30
-	bne	f56
+	cbne	r3, r30, f56
 	movq	=0x123456789abcdef, r3
 	ror	r3, #8, r3
 	movq	=0xef0123456789abcd, r30
-	cmp	r3, r30
-	bne	f57
+	cbne	r3, r30, f57
 	movq	=0x123456789abcdef, r3
 	ror	#8, r3
 	movq	=0xef0123456789abcd, r30
-	cmp	r3, r30
-	bne	f58
+	cbne	r3, r30, f58
 	movq	=0x123456789abcdef, r17
 	movq	#-1, r18
 	rol	r17, #8, r18
 	movq	=0x23456789abcdef01, r30
-	cmp	r18, r30
-	bne	f59
+	cbne	r18, r30, f59
 	movq	=0x123456789abcdef, r17
 	movq	#-1, r18
 	ror	r17, #8, r18
 	movq	=0xef0123456789abcd, r30
-	cmp	r18, r30
-	bne	f60
+	cbne	r18, r30, f60
 	movq	=0x123456789abcdef, r20
 	rol	r20, #8, r20
 	movq	=0x23456789abcdef01, r30
-	cmp	r20, r30
-	bne	f61
+	cbne	r20, r30, f61
 	movq	=0x123456789abcdef, r20
 	rol	#8, r20
 	movq	=0x23456789abcdef01, r30
-	cmp	r20, r30
-	bne	f62
+	cbne	r20, r30, f62
 	movq	=0x123456789abcdef, r20
 	ror	r20, #8, r20
 	movq	=0xef0123456789abcd, r30
-	cmp	r20, r30
-	bne	f63
+	cbne	r20, r30, f63
 	movq	=0x123456789abcdef, r20
 	ror	#8, r20
 	movq	=0xef0123456789abcd, r30
-	cmp	r20, r30
-	bne	f64
+	cbne	r20, r30, f64
 	movq	=0x123456789abcdef, r4
 	movq	#77, r5
 	ror	#8, r4
 	movq	=0x4d, r30
-	cmp	r5, r30
-	bne	f65
+	cbne	r5, r30, f65
 	movq	=0x123456789abcdef, r1
 	movq	#-1, r2
 	rol	r1, #9, r2
 	movq	=0x468acf13579bde02, r30
-	cmp	r2, r30
-	bne	f66
+	cbne	r2, r30, f66
 	movq	=0x123456789abcdef, r1
 	movq	#-1, r2
 	ror	r1, #9, r2
 	movq	=0xf78091a2b3c4d5e6, r30
-	cmp	r2, r30
-	bne	f67
+	cbne	r2, r30, f67
 	movq	=0x123456789abcdef, r3
 	rol	r3, #9, r3
 	movq	=0x468acf13579bde02, r30
-	cmp	r3, r30
-	bne	f68
+	cbne	r3, r30, f68
 	movq	=0x123456789abcdef, r3
 	rol	#9, r3
 	movq	=0x468acf13579bde02, r30
-	cmp	r3, r30
-	bne	f69
+	cbne	r3, r30, f69
 	movq	=0x123456789abcdef, r3
 	ror	r3, #9, r3
 	movq	=0xf78091a2b3c4d5e6, r30
-	cmp	r3, r30
-	bne	f70
+	cbne	r3, r30, f70
 	movq	=0x123456789abcdef, r3
 	ror	#9, r3
 	movq	=0xf78091a2b3c4d5e6, r30
-	cmp	r3, r30
-	bne	f71
+	cbne	r3, r30, f71
 	movq	=0x123456789abcdef, r17
 	movq	#-1, r18
 	rol	r17, #9, r18
 	movq	=0x468acf13579bde02, r30
-	cmp	r18, r30
-	bne	f72
+	cbne	r18, r30, f72
 	movq	=0x123456789abcdef, r17
 	movq	#-1, r18
 	ror	r17, #9, r18
 	movq	=0xf78091a2b3c4d5e6, r30
-	cmp	r18, r30
-	bne	f73
+	cbne	r18, r30, f73
 	movq	=0x123456789abcdef, r20
 	rol	r20, #9, r20
 	movq	=0x468acf13579bde02, r30
-	cmp	r20, r30
-	bne	f74
+	cbne	r20, r30, f74
 	movq	=0x123456789abcdef, r20
 	rol	#9, r20
 	movq	=0x468acf13579bde02, r30
-	cmp	r20, r30
-	bne	f75
+	cbne	r20, r30, f75
 	movq	=0x123456789abcdef, r20
 	ror	r20, #9, r20
 	movq	=0xf78091a2b3c4d5e6, r30
-	cmp	r20, r30
-	bne	f76
+	cbne	r20, r30, f76
 	movq	=0x123456789abcdef, r20
 	ror	#9, r20
 	movq	=0xf78091a2b3c4d5e6, r30
-	cmp	r20, r30
-	bne	f77
+	cbne	r20, r30, f77
 	movq	=0x123456789abcdef, r4
 	movq	#77, r5
 	ror	#9, r4
 	movq	=0x4d, r30
-	cmp	r5, r30
-	bne	f78
+	cbne	r5, r30, f78
 	movq	=0x123456789abcdef, r1
 	movq	#-1, r2
 	rol	r1, #15, r2
 	movq	=0xa2b3c4d5e6f78091, r30
-	cmp	r2, r30
-	bne	f79
+	cbne	r2, r30, f79
 	movq	=0x123456789abcdef, r1
 	movq	#-1, r2
 	ror	r1, #15, r2
 	movq	=0x9bde02468acf1357, r30
-	cmp	r2, r30
-	bne	f80
+	cbne	r2, r30, f80
 	movq	=0x123456789abcdef, r3
 	rol	r3, #15, r3
 	movq	=0xa2b3c4d5e6f78091, r30
-	cmp	r3, r30
-	bne	f81
+	cbne	r3, r30, f81
 	movq	=0x123456789abcdef, r3
 	rol	#15, r3
 	movq	=0xa2b3c4d5e6f78091, r30
-	cmp	r3, r30
-	bne	f82
+	cbne	r3, r30, f82
 	movq	=0x123456789abcdef, r3
 	ror	r3, #15, r3
 	movq	=0x9bde02468acf1357, r30
-	cmp	r3, r30
-	bne	f83
+	cbne	r3, r30, f83
 	movq	=0x123456789abcdef, r3
 	ror	#15, r3
 	movq	=0x9bde02468acf1357, r30
-	cmp	r3, r30
-	bne	f84
+	cbne	r3, r30, f84
 	movq	=0x123456789abcdef, r17
 	movq	#-1, r18
 	rol	r17, #15, r18
 	movq	=0xa2b3c4d5e6f78091, r30
-	cmp	r18, r30
-	bne	f85
+	cbne	r18, r30, f85
 	movq	=0x123456789abcdef, r17
 	movq	#-1, r18
 	ror	r17, #15, r18
 	movq	=0x9bde02468acf1357, r30
-	cmp	r18, r30
-	bne	f86
+	cbne	r18, r30, f86
 	movq	=0x123456789abcdef, r20
 	rol	r20, #15, r20
 	movq	=0xa2b3c4d5e6f78091, r30
-	cmp	r20, r30
-	bne	f87
+	cbne	r20, r30, f87
 	movq	=0x123456789abcdef, r20
 	rol	#15, r20
 	movq	=0xa2b3c4d5e6f78091, r30
-	cmp	r20, r30
-	bne	f88
+	cbne	r20, r30, f88
 	movq	=0x123456789abcdef, r20
 	ror	r20, #15, r20
 	movq	=0x9bde02468acf1357, r30
-	cmp	r20, r30
-	bne	f89
+	cbne	r20, r30, f89
 	movq	=0x123456789abcdef, r20
 	ror	#15, r20
 	movq	=0x9bde02468acf1357, r30
-	cmp	r20, r30
-	bne	f90
+	cbne	r20, r30, f90
 	movq	=0x123456789abcdef, r4
 	movq	#77, r5
 	ror	#15, r4
 	movq	=0x4d, r30
-	cmp	r5, r30
-	bne	f91
+	cbne	r5, r30, f91
 	movq	=0x123456789abcdef, r1
 	movq	#-1, r2
 	rol	r1, #16, r2
 	movq	=0x456789abcdef0123, r30
-	cmp	r2, r30
-	bne	f92
+	cbne	r2, r30, f92
 	movq	=0x123456789abcdef, r1
 	movq	#-1, r2
 	ror	r1, #16, r2
 	movq	=0xcdef0123456789ab, r30
-	cmp	r2, r30
-	bne	f93
+	cbne	r2, r30, f93
 	movq	=0x123456789abcdef, r3
 	rol	r3, #16, r3
 	movq	=0x456789abcdef0123, r30
-	cmp	r3, r30
-	bne	f94
+	cbne	r3, r30, f94
 	movq	=0x123456789abcdef, r3
 	rol	#16, r3
 	movq	=0x456789abcdef0123, r30
-	cmp	r3, r30
-	bne	f95
+	cbne	r3, r30, f95
 	movq	=0x123456789abcdef, r3
 	ror	r3, #16, r3
 	movq	=0xcdef0123456789ab, r30
-	cmp	r3, r30
-	bne	f96
+	cbne	r3, r30, f96
 	movq	=0x123456789abcdef, r3
 	ror	#16, r3
 	movq	=0xcdef0123456789ab, r30
-	cmp	r3, r30
-	bne	f97
+	cbne	r3, r30, f97
 	movq	=0x123456789abcdef, r17
 	movq	#-1, r18
 	rol	r17, #16, r18
 	movq	=0x456789abcdef0123, r30
-	cmp	r18, r30
-	bne	f98
+	cbne	r18, r30, f98
 	movq	=0x123456789abcdef, r17
 	movq	#-1, r18
 	ror	r17, #16, r18
 	movq	=0xcdef0123456789ab, r30
-	cmp	r18, r30
-	bne	f99
+	cbne	r18, r30, f99
 	movq	=0x123456789abcdef, r20
 	rol	r20, #16, r20
 	movq	=0x456789abcdef0123, r30
-	cmp	r20, r30
-	bne	f100
+	cbne	r20, r30, f100
 	movq	=0x123456789abcdef, r20
 	rol	#16, r20
 	movq	=0x456789abcdef0123, r30
-	cmp	r20, r30
-	bne	f101
+	cbne	r20, r30, f101
 	movq	=0x123456789abcdef, r20
 	ror	r20, #16, r20
 	movq	=0xcdef0123456789ab, r30
-	cmp	r20, r30
-	bne	f102
+	cbne	r20, r30, f102
 	movq	=0x123456789abcdef, r20
 	ror	#16, r20
 	movq	=0xcdef0123456789ab, r30
-	cmp	r20, r30
-	bne	f103
+	cbne	r20, r30, f103
 	movq	=0x123456789abcdef, r4
 	movq	#77, r5
 	ror	#16, r4
 	movq	=0x4d, r30
-	cmp	r5, r30
-	bne	f104
+	cbne	r5, r30, f104
 	movq	=0x123456789abcdef, r1
 	movq	#-1, r2
 	rol	r1, #32, r2
 	movq	=0x89abcdef01234567, r30
-	cmp	r2, r30
-	bne	f105
+	cbne	r2, r30, f105
 	movq	=0x123456789abcdef, r1
 	movq	#-1, r2
 	ror	r1, #32, r2
 	movq	=0x89abcdef01234567, r30
-	cmp	r2, r30
-	bne	f106
+	cbne	r2, r30, f106
 	movq	=0x123456789abcdef, r3
 	rol	r3, #32, r3
 	movq	=0x89abcdef01234567, r30
-	cmp	r3, r30
-	bne	f107
+	cbne	r3, r30, f107
 	movq	=0x123456789abcdef, r3
 	rol	#32, r3
 	movq	=0x89abcdef01234567, r30
-	cmp	r3, r30
-	bne	f108
+	cbne	r3, r30, f108
 	movq	=0x123456789abcdef, r3
 	ror	r3, #32, r3
 	movq	=0x89abcdef01234567, r30
-	cmp	r3, r30
-	bne	f109
+	cbne	r3, r30, f109
 	movq	=0x123456789abcdef, r3
 	ror	#32, r3
 	movq	=0x89abcdef01234567, r30
-	cmp	r3, r30
-	bne	f110
+	cbne	r3, r30, f110
 	movq	=0x123456789abcdef, r17
 	movq	#-1, r18
 	rol	r17, #32, r18
 	movq	=0x89abcdef01234567, r30
-	cmp	r18, r30
-	bne	f111
+	cbne	r18, r30, f111
 	movq	=0x123456789abcdef, r17
 	movq	#-1, r18
 	ror	r17, #32, r18
 	movq	=0x89abcdef01234567, r30
-	cmp	r18, r30
-	bne	f112
+	cbne	r18, r30, f112
 	movq	=0x123456789abcdef, r20
 	rol	r20, #32, r20
 	movq	=0x89abcdef01234567, r30
-	cmp	r20, r30
-	bne	f113
+	cbne	r20, r30, f113
 	movq	=0x123456789abcdef, r20
 	rol	#32, r20
 	movq	=0x89abcdef01234567, r30
-	cmp	r20, r30
-	bne	f114
+	cbne	r20, r30, f114
 	movq	=0x123456789abcdef, r20
 	ror	r20, #32, r20
 	movq	=0x89abcdef01234567, r30
-	cmp	r20, r30
-	bne	f115
+	cbne	r20, r30, f115
 	movq	=0x123456789abcdef, r20
 	ror	#32, r20
 	movq	=0x89abcdef01234567, r30
-	cmp	r20, r30
-	bne	f116
+	cbne	r20, r30, f116
 	movq	=0x123456789abcdef, r4
 	movq	#77, r5
 	ror	#32, r4
 	movq	=0x4d, r30
-	cmp	r5, r30
-	bne	f117
+	cbne	r5, r30, f117
 	movq	=0x123456789abcdef, r1
 	movq	#-1, r2
 	rol	r1, #55, r2
 	movq	=0xf78091a2b3c4d5e6, r30
-	cmp	r2, r30
-	bne	f118
+	cbne	r2, r30, f118
 	movq	=0x123456789abcdef, r1
 	movq	#-1, r2
 	ror	r1, #55, r2
 	movq	=0x468acf13579bde02, r30
-	cmp	r2, r30
-	bne	f119
+	cbne	r2, r30, f119
 	movq	=0x123456789abcdef, r3
 	rol	r3, #55, r3
 	movq	=0xf78091a2b3c4d5e6, r30
-	cmp	r3, r30
-	bne	f120
+	cbne	r3, r30, f120
 	movq	=0x123456789abcdef, r3
 	rol	#55, r3
 	movq	=0xf78091a2b3c4d5e6, r30
-	cmp	r3, r30
-	bne	f121
+	cbne	r3, r30, f121
 	movq	=0x123456789abcdef, r3
 	ror	r3, #55, r3
 	movq	=0x468acf13579bde02, r30
-	cmp	r3, r30
-	bne	f122
+	cbne	r3, r30, f122
 	movq	=0x123456789abcdef, r3
 	ror	#55, r3
 	movq	=0x468acf13579bde02, r30
-	cmp	r3, r30
-	bne	f123
+	cbne	r3, r30, f123
 	movq	=0x123456789abcdef, r17
 	movq	#-1, r18
 	rol	r17, #55, r18
 	movq	=0xf78091a2b3c4d5e6, r30
-	cmp	r18, r30
-	bne	f124
+	cbne	r18, r30, f124
 	movq	=0x123456789abcdef, r17
 	movq	#-1, r18
 	ror	r17, #55, r18
 	movq	=0x468acf13579bde02, r30
-	cmp	r18, r30
-	bne	f125
+	cbne	r18, r30, f125
 	movq	=0x123456789abcdef, r20
 	rol	r20, #55, r20
 	movq	=0xf78091a2b3c4d5e6, r30
-	cmp	r20, r30
-	bne	f126
+	cbne	r20, r30, f126
 	movq	=0x123456789abcdef, r20
 	rol	#55, r20
 	movq	=0xf78091a2b3c4d5e6, r30
-	cmp	r20, r30
-	bne	f127
+	cbne	r20, r30, f127
 	movq	=0x123456789abcdef, r20
 	ror	r20, #55, r20
 	movq	=0x468acf13579bde02, r30
-	cmp	r20, r30
-	bne	f128
+	cbne	r20, r30, f128
 	movq	=0x123456789abcdef, r20
 	ror	#55, r20
 	movq	=0x468acf13579bde02, r30
-	cmp	r20, r30
-	bne	f129
+	cbne	r20, r30, f129
 	movq	=0x123456789abcdef, r4
 	movq	#77, r5
 	ror	#55, r4
 	movq	=0x4d, r30
-	cmp	r5, r30
-	bne	f130
+	cbne	r5, r30, f130
 	movq	=0x123456789abcdef, r1
 	movq	#-1, r2
 	rol	r1, #56, r2
 	movq	=0xef0123456789abcd, r30
-	cmp	r2, r30
-	bne	f131
+	cbne	r2, r30, f131
 	movq	=0x123456789abcdef, r1
 	movq	#-1, r2
 	ror	r1, #56, r2
 	movq	=0x23456789abcdef01, r30
-	cmp	r2, r30
-	bne	f132
+	cbne	r2, r30, f132
 	movq	=0x123456789abcdef, r3
 	rol	r3, #56, r3
 	movq	=0xef0123456789abcd, r30
-	cmp	r3, r30
-	bne	f133
+	cbne	r3, r30, f133
 	movq	=0x123456789abcdef, r3
 	rol	#56, r3
 	movq	=0xef0123456789abcd, r30
-	cmp	r3, r30
-	bne	f134
+	cbne	r3, r30, f134
 	movq	=0x123456789abcdef, r3
 	ror	r3, #56, r3
 	movq	=0x23456789abcdef01, r30
-	cmp	r3, r30
-	bne	f135
+	cbne	r3, r30, f135
 	movq	=0x123456789abcdef, r3
 	ror	#56, r3
 	movq	=0x23456789abcdef01, r30
-	cmp	r3, r30
-	bne	f136
+	cbne	r3, r30, f136
 	movq	=0x123456789abcdef, r17
 	movq	#-1, r18
 	rol	r17, #56, r18
 	movq	=0xef0123456789abcd, r30
-	cmp	r18, r30
-	bne	f137
+	cbne	r18, r30, f137
 	movq	=0x123456789abcdef, r17
 	movq	#-1, r18
 	ror	r17, #56, r18
 	movq	=0x23456789abcdef01, r30
-	cmp	r18, r30
-	bne	f138
+	cbne	r18, r30, f138
 	movq	=0x123456789abcdef, r20
 	rol	r20, #56, r20
 	movq	=0xef0123456789abcd, r30
-	cmp	r20, r30
-	bne	f139
+	cbne	r20, r30, f139
 	movq	=0x123456789abcdef, r20
 	rol	#56, r20
 	movq	=0xef0123456789abcd, r30
-	cmp	r20, r30
-	bne	f140
+	cbne	r20, r30, f140
 	movq	=0x123456789abcdef, r20
 	ror	r20, #56, r20
 	movq	=0x23456789abcdef01, r30
-	cmp	r20, r30
-	bne	f141
+	cbne	r20, r30, f141
 	movq	=0x123456789abcdef, r20
 	ror	#56, r20
 	movq	=0x23456789abcdef01, r30
-	cmp	r20, r30
-	bne	f142
+	cbne	r20, r30, f142
 	movq	=0x123456789abcdef, r4
 	movq	#77, r5
 	ror	#56, r4
 	movq	=0x4d, r30
-	cmp	r5, r30
-	bne	f143
+	cbne	r5, r30, f143
 	movq	=0x123456789abcdef, r1
 	movq	#-1, r2
 	rol	r1, #57, r2
 	movq	=0xde02468acf13579b, r30
-	cmp	r2, r30
-	bne	f144
+	cbne	r2, r30, f144
 	movq	=0x123456789abcdef, r1
 	movq	#-1, r2
 	ror	r1, #57, r2
 	movq	=0x91a2b3c4d5e6f780, r30
-	cmp	r2, r30
-	bne	f145
+	cbne	r2, r30, f145
 	movq	=0x123456789abcdef, r3
 	rol	r3, #57, r3
 	movq	=0xde02468acf13579b, r30
-	cmp	r3, r30
-	bne	f146
+	cbne	r3, r30, f146
 	movq	=0x123456789abcdef, r3
 	rol	#57, r3
 	movq	=0xde02468acf13579b, r30
-	cmp	r3, r30
-	bne	f147
+	cbne	r3, r30, f147
 	movq	=0x123456789abcdef, r3
 	ror	r3, #57, r3
 	movq	=0x91a2b3c4d5e6f780, r30
-	cmp	r3, r30
-	bne	f148
+	cbne	r3, r30, f148
 	movq	=0x123456789abcdef, r3
 	ror	#57, r3
 	movq	=0x91a2b3c4d5e6f780, r30
-	cmp	r3, r30
-	bne	f149
+	cbne	r3, r30, f149
 	movq	=0x123456789abcdef, r17
 	movq	#-1, r18
 	rol	r17, #57, r18
 	movq	=0xde02468acf13579b, r30
-	cmp	r18, r30
-	bne	f150
+	cbne	r18, r30, f150
 	movq	=0x123456789abcdef, r17
 	movq	#-1, r18
 	ror	r17, #57, r18
 	movq	=0x91a2b3c4d5e6f780, r30
-	cmp	r18, r30
-	bne	f151
+	cbne	r18, r30, f151
 	movq	=0x123456789abcdef, r20
 	rol	r20, #57, r20
 	movq	=0xde02468acf13579b, r30
-	cmp	r20, r30
-	bne	f152
+	cbne	r20, r30, f152
 	movq	=0x123456789abcdef, r20
 	rol	#57, r20
 	movq	=0xde02468acf13579b, r30
-	cmp	r20, r30
-	bne	f153
+	cbne	r20, r30, f153
 	movq	=0x123456789abcdef, r20
 	ror	r20, #57, r20
 	movq	=0x91a2b3c4d5e6f780, r30
-	cmp	r20, r30
-	bne	f154
+	cbne	r20, r30, f154
 	movq	=0x123456789abcdef, r20
 	ror	#57, r20
 	movq	=0x91a2b3c4d5e6f780, r30
-	cmp	r20, r30
-	bne	f155
+	cbne	r20, r30, f155
 	movq	=0x123456789abcdef, r4
 	movq	#77, r5
 	ror	#57, r4
 	movq	=0x4d, r30
-	cmp	r5, r30
-	bne	f156
+	cbne	r5, r30, f156
 	movq	=0x123456789abcdef, r1
 	movq	#-1, r2
 	rol	r1, #63, r2
 	movq	=0x8091a2b3c4d5e6f7, r30
-	cmp	r2, r30
-	bne	f157
+	cbne	r2, r30, f157
 	movq	=0x123456789abcdef, r1
 	movq	#-1, r2
 	ror	r1, #63, r2
 	movq	=0x2468acf13579bde, r30
-	cmp	r2, r30
-	bne	f158
+	cbne	r2, r30, f158
 	movq	=0x123456789abcdef, r3
 	rol	r3, #63, r3
 	movq	=0x8091a2b3c4d5e6f7, r30
-	cmp	r3, r30
-	bne	f159
+	cbne	r3, r30, f159
 	movq	=0x123456789abcdef, r3
 	rol	#63, r3
 	movq	=0x8091a2b3c4d5e6f7, r30
-	cmp	r3, r30
-	bne	f160
+	cbne	r3, r30, f160
 	movq	=0x123456789abcdef, r3
 	ror	r3, #63, r3
 	movq	=0x2468acf13579bde, r30
-	cmp	r3, r30
-	bne	f161
+	cbne	r3, r30, f161
 	movq	=0x123456789abcdef, r3
 	ror	#63, r3
 	movq	=0x2468acf13579bde, r30
-	cmp	r3, r30
-	bne	f162
+	cbne	r3, r30, f162
 	movq	=0x123456789abcdef, r17
 	movq	#-1, r18
 	rol	r17, #63, r18
 	movq	=0x8091a2b3c4d5e6f7, r30
-	cmp	r18, r30
-	bne	f163
+	cbne	r18, r30, f163
 	movq	=0x123456789abcdef, r17
 	movq	#-1, r18
 	ror	r17, #63, r18
 	movq	=0x2468acf13579bde, r30
-	cmp	r18, r30
-	bne	f164
+	cbne	r18, r30, f164
 	movq	=0x123456789abcdef, r20
 	rol	r20, #63, r20
 	movq	=0x8091a2b3c4d5e6f7, r30
-	cmp	r20, r30
-	bne	f165
+	cbne	r20, r30, f165
 	movq	=0x123456789abcdef, r20
 	rol	#63, r20
 	movq	=0x8091a2b3c4d5e6f7, r30
-	cmp	r20, r30
-	bne	f166
+	cbne	r20, r30, f166
 	movq	=0x123456789abcdef, r20
 	ror	r20, #63, r20
 	movq	=0x2468acf13579bde, r30
-	cmp	r20, r30
-	bne	f167
+	cbne	r20, r30, f167
 	movq	=0x123456789abcdef, r20
 	ror	#63, r20
 	movq	=0x2468acf13579bde, r30
-	cmp	r20, r30
-	bne	f168
+	cbne	r20, r30, f168
 	movq	=0x123456789abcdef, r4
 	movq	#77, r5
 	ror	#63, r4
 	movq	=0x4d, r30
-	cmp	r5, r30
-	bne	f169
+	cbne	r5, r30, f169
 	movq	=0x123456789abcdef, r6
 	ror	#-1, r6
 	movq	=0x2468acf13579bde, r30
-	cmp	r6, r30
-	bne	f170
+	cbne	r6, r30, f170
 	movq	=0x123456789abcdef, r6
 	rol	#-1, r6
 	movq	=0x8091a2b3c4d5e6f7, r30
-	cmp	r6, r30
-	bne	f171
+	cbne	r6, r30, f171
 	movq	=0x123456789abcdef, r6
 	ror	#-3, r6
 	movq	=0x91a2b3c4d5e6f78, r30
-	cmp	r6, r30
-	bne	f172
+	cbne	r6, r30, f172
 	movq	=0x123456789abcdef, r6
 	rol	#-3, r6
 	movq	=0xe02468acf13579bd, r30
-	cmp	r6, r30
-	bne	f173
+	cbne	r6, r30, f173
 	movq	=0x123456789abcdef, r6
 	ror	#-8, r6
 	movq	=0x23456789abcdef01, r30
-	cmp	r6, r30
-	bne	f174
+	cbne	r6, r30, f174
 	movq	=0x123456789abcdef, r6
 	rol	#-8, r6
 	movq	=0xef0123456789abcd, r30
-	cmp	r6, r30
-	bne	f175
+	cbne	r6, r30, f175
 	movq	=0x123456789abcdef, r6
 	ror	#-9, r6
 	movq	=0x468acf13579bde02, r30
-	cmp	r6, r30
-	bne	f176
+	cbne	r6, r30, f176
 	movq	=0x123456789abcdef, r6
 	rol	#-9, r6
 	movq	=0xf78091a2b3c4d5e6, r30
-	cmp	r6, r30
-	bne	f177
+	cbne	r6, r30, f177
 	movq	=0x123456789abcdef, r6
 	ror	#-33, r6
 	movq	=0x13579bde02468acf, r30
-	cmp	r6, r30
-	bne	f178
+	cbne	r6, r30, f178
 	movq	=0x123456789abcdef, r6
 	rol	#-33, r6
 	movq	=0xc4d5e6f78091a2b3, r30
-	cmp	r6, r30
-	bne	f179
+	cbne	r6, r30, f179
 	movq	=0x123456789abcdef, r6
 	ror	#-63, r6
 	movq	=0x8091a2b3c4d5e6f7, r30
-	cmp	r6, r30
-	bne	f180
+	cbne	r6, r30, f180
 	movq	=0x123456789abcdef, r6
 	rol	#-63, r6
 	movq	=0x2468acf13579bde, r30
-	cmp	r6, r30
-	bne	f181
+	cbne	r6, r30, f181
 	movq	=0x123456789abcdef, r6
 	ror	#-64, r6
 	movq	=0x123456789abcdef, r30
-	cmp	r6, r30
-	bne	f182
+	cbne	r6, r30, f182
 	movq	=0x123456789abcdef, r6
 	rol	#-64, r6
 	movq	=0x123456789abcdef, r30
-	cmp	r6, r30
-	bne	f183
+	cbne	r6, r30, f183
 	movq	=0x123456789abcdef, r1
 	movq	#0, r2
 	ror	r1, r2, r3
 	movq	=0x123456789abcdef, r30
-	cmp	r3, r30
-	bne	f184
+	cbne	r3, r30, f184
 	movq	=0x123456789abcdef, r1
 	movq	#0, r2
 	neg	r2
 	ror	r1, r2, r3
 	movq	=0x123456789abcdef, r30
-	cmp	r3, r30
-	bne	f185
+	cbne	r3, r30, f185
 	movq	=0x123456789abcdef, r1
 	movq	#1, r2
 	ror	r1, r2, r3
 	movq	=0x8091a2b3c4d5e6f7, r30
-	cmp	r3, r30
-	bne	f186
+	cbne	r3, r30, f186
 	movq	=0x123456789abcdef, r1
 	movq	#1, r2
 	neg	r2
 	ror	r1, r2, r3
 	movq	=0x2468acf13579bde, r30
-	cmp	r3, r30
-	bne	f187
+	cbne	r3, r30, f187
 	movq	=0x123456789abcdef, r1
 	movq	#7, r2
 	ror	r1, r2, r3
 	movq	=0xde02468acf13579b, r30
-	cmp	r3, r30
-	bne	f188
+	cbne	r3, r30, f188
 	movq	=0x123456789abcdef, r1
 	movq	#7, r2
 	neg	r2
 	ror	r1, r2, r3
 	movq	=0x91a2b3c4d5e6f780, r30
-	cmp	r3, r30
-	bne	f189
+	cbne	r3, r30, f189
 	movq	=0x123456789abcdef, r1
 	movq	#64, r2
 	ror	r1, r2, r3
 	movq	=0x123456789abcdef, r30
-	cmp	r3, r30
-	bne	f190
+	cbne	r3, r30, f190
 	movq	=0x123456789abcdef, r1
 	movq	#64, r2
 	neg	r2
 	ror	r1, r2, r3
 	movq	=0x123456789abcdef, r30
-	cmp	r3, r30
-	bne	f191
+	cbne	r3, r30, f191
 	movq	=0x123456789abcdef, r1
 	movq	#65, r2
 	ror	r1, r2, r3
 	movq	=0x8091a2b3c4d5e6f7, r30
-	cmp	r3, r30
-	bne	f192
+	cbne	r3, r30, f192
 	movq	=0x123456789abcdef, r1
 	movq	#65, r2
 	neg	r2
 	ror	r1, r2, r3
 	movq	=0x2468acf13579bde, r30
-	cmp	r3, r30
-	bne	f193
+	cbne	r3, r30, f193
 	movq	=0x123456789abcdef, r1
 	movq	#-1, r2
 	ror	r1, r2, r3
 	movq	=0x2468acf13579bde, r30
-	cmp	r3, r30
-	bne	f194
+	cbne	r3, r30, f194
 	movq	=0x123456789abcdef, r1
 	movq	#-1, r2
 	neg	r2
 	ror	r1, r2, r3
 	movq	=0x8091a2b3c4d5e6f7, r30
-	cmp	r3, r30
-	bne	f195
+	cbne	r3, r30, f195
 	movq	=0x123456789abcdef, r1
 	movq	#-64, r2
 	ror	r1, r2, r3
 	movq	=0x123456789abcdef, r30
-	cmp	r3, r30
-	bne	f196
+	cbne	r3, r30, f196
 	movq	=0x123456789abcdef, r1
 	movq	#-64, r2
 	neg	r2
 	ror	r1, r2, r3
 	movq	=0x123456789abcdef, r30
-	cmp	r3, r30
-	bne	f197
+	cbne	r3, r30, f197
 	movq	=0x123456789abcdef, r1
 	ror32	r1, #8, r2
 	movq	=0xffffffffef89abcd, r30
-	cmp	r2, r30
-	bne	f198
+	cbne	r2, r30, f198
 	movq	#0, r0
 	trap	#0
 f1:	movq	#1, r0

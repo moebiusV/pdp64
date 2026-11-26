@@ -1153,7 +1153,7 @@ int main(int argc, char **argv)
 		if (!run_pass(0) && it >= 1) break;
 	run_pass(1);
 	if (enc_lens) fclose(enc_lens);
-	if (enc_stats && !errors) fprintf(stderr, "%s: %ld instructions, %ld bytes (%ld cbCC expanded to cmp + bCC)\n", progname, enc_ninsn, enc_nbytes, enc_nexpanded);
+	if (enc_stats && !errors) fprintf(stderr, "%s: %ld instructions, %ld bytes (%ld cbCC expanded to the opposite cbCC and br)\n", progname, enc_ninsn, enc_nbytes, enc_nexpanded);
 	if (errors) { fprintf(stderr, "%s: %d error%s\n", progname, errors, errors == 1 ? "" : "s"); return 1; }
 	return write_object(out) ? 1 : 0;
 }

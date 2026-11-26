@@ -647,8 +647,7 @@ nopre2:
 	movq	r1, hcount
 	movq	r1, hr_epc
 	movq	16(r12), r1
-	cmp	r1, #0
-	set	ne, r1
+	setne	r1, #0, r1
 	movq	r1, expect
 	movq	40(r12), r1
 	movq	48(r12), r2
@@ -815,8 +814,7 @@ w('\tmovq\t#21, r0')
 w('\thalt')
 w('1:')
 w('\tmovq\t16(r12), r1')
-w('\tcmp\tr1, #2')
-w('\tbeq\trownext')
+w('\tcbeq\tr1, #2, rownext')
 for nm, (src, ini) in enumerate([('fin_r1', 40), ('fin_r2', 48), ('fin_r7', 56), ('fin_r3', 64), ('fin_r6', 72)]):
     w('\tmovq\t%s, r1' % src)
     w('\tmovq\t%d(r12), r2' % ini)
@@ -848,8 +846,7 @@ h_bad:	movq	#99, r0
 h_fault:
 	pushm	#0x3fff
 	movq	24(r12), r0
-	cmp	r0, #3
-	beq	h_min
+	cbeq	r0, #3, h_min
 	movq	r1, hr_r1
 	movq	r2, hr_r2
 	movq	r7, hr_r7
@@ -877,8 +874,7 @@ h_nf:	add	#1, r2
 	mcpy	r2, r4, r3
 h_nosnap:
 	movq	hr_cause, r2
-	cmp	r2, #VECTOR_MISALIGNED
-	beq	h_mis
+	cbeq	r2, #VECTOR_MISALIGNED, h_mis
 h_page:
 	mfsr	r1, eva
 	shr	#12, r1
@@ -907,14 +903,11 @@ hp_s:	cbeq	r4, r5, h_pdone
 	add	r2, r6
 	movq	r1, r3
 	add	#4096, r3
-	cmp	r2, r1
-	bhis	1f
+	cbhis	r2, r1, 1f
 	movq	r1, r2
-1:	cmp	r6, r3
-	blo	1f
+1:	cblo	r6, r3, 1f
 	movq	r3, r6
-1:	cmp	r2, r6
-	bhis	hp_next
+1:	cbhis	r2, r6, hp_next
 	movq	r6, r7
 	sub	r2, r7
 	movq	16(r4), r3
@@ -937,8 +930,7 @@ h_pdone:
 	movq	24(r12), r2
 	cbeq	r2, #0, h_ret
 	cbeq	r2, #3, h_ret
-	cmp	r2, #4
-	bne	h_garb
+	cbne	r2, #4, h_garb
 ; clob 4: the handler names accumulators with vclr OUTSIDE any block (all sixteen registers) and returns: the exception return clears the naming (errata 186 decision 13, 6.14.9;
 ; the open item of errata 172), so the restarted block of the interrupted program finds nothing named and gives the result of a run with no fault
 	vclr.l	v0, #8
@@ -967,8 +959,7 @@ h_garb:
 	vld.l	v15, (r1)+
 	vend
 	movq	24(r12), r2
-	cmp	r2, #2
-	blo	h_ret
+	cblo	r2, #2, h_ret
 	lea	gdata, r1
 	lea	gdata+32, r5
 	vec	r1, r5

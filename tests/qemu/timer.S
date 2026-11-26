@@ -11,8 +11,7 @@ _start:
 	movq	r2, r3
 	add	#1000, r3
 1:	movq	(r13), r4
-	cmp	r4, r3
-	blo	1b
+	cblo r4, r3, 1b
 	movq	#0, r6
 	movq	#0, r7
 	movq	#0, r12
@@ -23,53 +22,45 @@ _start:
 	movq	r2, TIMER_REG_CONTROL(r13)
 1:	movq	TIMER_REG_CONTROL(r13), r2
 	and	#(1<<TIMER_CTL_PENDING), r2
-	beq	1b
-	cmp	r10, #(0)
-	beq	1f
+	cbeq	r2, #0, 1b
+	cbeq r10, #(0), 1f
 	movq	#2, r0	; check 1
 	halt
 1:
 	spl	#6
 	nop
 	nop
-	cmp	r10, #(0)
-	beq	1f
+	cbeq r10, #(0), 1f
 	movq	#3, r0	; check 2
 	halt
 1:
 	spl	#5
 after5:
 	nop
-	cmp	r10, #(1)
-	beq	1f
+	cbeq r10, #(1), 1f
 	movq	#4, r0	; check 3
 	halt
 1:
 	lea	after5, r11
-	cmp	r6, r11
-	beq	1f
+	cbeq r6, r11, 1f
 	movq	#5, r0	; check 4
 	halt
 1:
 	bic	#15, r7
-	cmp	r7, #((MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|5<<PSW_PRI))
-	beq	1f
+	cbeq r7, #((MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|5<<PSW_PRI)), 1f
 	movq	#6, r0	; check 5
 	halt
 1:
-	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|7<<PSW_PRI))
-	beq	1f
+	cbeq r12, #((MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|7<<PSW_PRI)), 1f
 	movq	#7, r0	; check 6
 	halt
 1:
-	cmp	r8, #(VECTOR_TIMER)
-	beq	1f
+	cbeq r8, #(VECTOR_TIMER), 1f
 	movq	#8, r0	; check 7
 	halt
 1:
 	movq	TIMER_REG_CONTROL(r13), r2
-	cmp	r2, #((1<<TIMER_CTL_PENDING))
-	beq	1f
+	cbeq r2, #((1<<TIMER_CTL_PENDING)), 1f
 	movq	#9, r0	; check 8
 	halt
 1:
@@ -83,14 +74,12 @@ after5:
 	wfe
 afterw:
 	nop
-	cmp	r10, #(2)
-	beq	1f
+	cbeq r10, #(2), 1f
 	movq	#10, r0	; check 9
 	halt
 1:
 	lea	afterw, r11
-	cmp	r6, r11
-	beq	1f
+	cbeq r6, r11, 1f
 	movq	#11, r0	; check 10
 	halt
 1:
@@ -102,8 +91,7 @@ afterw:
 	movq	r2, TIMER_REG_CONTROL(r13)
 	spl	#3
 	nop
-	cmp	r10, #(3)
-	beq	1f
+	cbeq r10, #(3), 1f
 	movq	#12, r0	; check 11
 	halt
 1:
@@ -113,16 +101,14 @@ afterw:
 	movq	r2, TIMER_REG_CONTROL(r13)
 	nop
 	nop
-	cmp	r10, #(3)
-	beq	1f
+	cbeq r10, #(3), 1f
 	movq	#13, r0	; check 12
 	halt
 1:
 	movq	#0, r3
 	movq	r3, (r13)
 	movq	(r13), r3
-	cmp	r3, #1000
-	bhi	1f
+	cbhi r3, #1000, 1f
 	movq	#14, r0
 	halt
 1:

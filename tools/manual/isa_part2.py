@@ -3,7 +3,7 @@ from isa_common import *
 
 REGX = 'A reserved encoding aborts with the illegal-instruction vector.'
 FXNOTE = 'Operand roles: `reg` is the destination `Rd`, `low` the first source `Rs`, `t` the second `Rt` and `x` the third `Ru`; the assembler writes the destination last.'
-FPFLAG = 'No integer flag is written. The IEEE exception flags raised are ORed into `FPSR` (`NX` inexact, `UF` underflow, `OF` overflow, `DZ` divide by zero, `NV` invalid); nothing traps.'
+FPFLAG = 'The IEEE exception flags raised are ORed into `FPSR` (`NX` inexact, `UF` underflow, `OF` overflow, `DZ` divide by zero, `NV` invalid); nothing traps.'
 SATQ = 'A NaN or an out-of-range value raises `NV` and saturates.'
 
 ENTRIES = [
@@ -49,11 +49,11 @@ CLMULH: Rd <- p[127:64]''', 'None written.', NONE,
     E('UTF8DEC', 'bits', ['utf8dec'], 'Decode a UTF-8 sequence', ['UTF8DEC Rs, Rd'],
       '''Rs holds up to 4 bytes, leading byte in bits 7..0
 Rd <- the scalar value
-V  <- 1 if the sequence is not a valid encoding''',
-      '`V` set for a bad continuation byte, an overlong form, a surrogate (U+D800 to U+DFFF), a value above U+10FFFF, or a leading byte of `11000000 (0xC0)`, `11000001 (0xC1)` or `11110101 (0xF5)` to `11111111 (0xFF)`; the length consumed is reported in a scratch field of the status word (details in the instruction-set text, section {{r:second-stage-carries-its-own}}).', NONE),
+If the sequence is not a valid encoding, Rd <- -1''',
+      'None written. An invalid sequence (a bad continuation byte, an overlong form, a surrogate (U+D800 to U+DFFF), a value above U+10FFFF, or a leading byte of `11000000 (0xC0)`, `11000001 (0xC1)` or `11110101 (0xF5)` to `11111111 (0xFF)`) gives all ones in `Rd`, which is not a scalar value; the length of a valid sequence is `UTF8LEN` of its leading byte.', NONE),
     E('UTF8ENC', 'bits', ['utf8enc'], 'Encode a Unicode scalar value', ['UTF8ENC Rs, Rd'],
       '''Rd <- the UTF-8 bytes of the scalar value Rs, leading byte in bits 7..0
-V  <- 1 if Rs is not a Unicode scalar value''', '`V` set if `Rs` is not a Unicode scalar value (a surrogate or above U+10FFFF).', NONE),
+If Rs is not a Unicode scalar value, Rd <- -1''', 'None written. A surrogate or a value above U+10FFFF gives all ones in `Rd`, which no valid encoding is.', NONE),
 
     # ---- MBLK ----
     E('MCPY', 'block', ['mcpy', 'mmov'], 'Copy a block of bytes',
@@ -70,19 +70,19 @@ MMOV: as MCPY, but the direction is chosen from the pointers so that an overlapp
     E('MCMP', 'block', ['mcmp'], 'Compare two blocks of bytes', ['MCMP Rd, Rs, Rn'],
       '''while Rn != 0:
     x <- M8[Rd] ; y <- M8[Rs]
-    if x != y then  flags <- flags of (x - y) ; stop      ; pointers left AT the differing byte
+    if x != y then stop                               ; pointers left AT the differing byte, Rn the count remaining
     Rd <- Rd + 1 ; Rs <- Rs + 1 ; Rn <- Rn - 1
-if equal:  N = 0, Z = 1, V = 0, C = 0''',
-      'From the first differing byte as for `CMP` of the two bytes (`C` set if `x < y` unsigned, `N` and `V` from the signed difference); for equal blocks `N` = 0, `Z` = 1, `V` = 0, `C` = 0.', MEMX,
-      notes='When the instruction stops at a difference, `Rd` and `Rs` point at the differing bytes and `Rn` is the count remaining, so the position of the difference is in the registers.', cf='{{r:faults-and-restart-what-precise-means}}.'),
+if equal:  Rn = 0''',
+      NOFLAGS, MEMX,
+      notes='The report is in the registers: when the blocks are equal `Rn` is 0; when the instruction stops at a difference `Rn` is not 0 and `Rd` and `Rs` point at the differing bytes, so the position of the difference is known and the order of the two bytes is two loads and a compare-and-branch (or `SETLO`) away.', cf='{{r:faults-and-restart-what-precise-means}}.'),
     E('MSCN', 'block', ['mscn', 'mscnn'], 'Scan a block for a byte, or for a byte not equal to it', ['MSCN Rd, Rv, Rn', 'MSCNN Rd, Rv, Rn'],
       '''while Rn != 0:
     hit <- (M8[Rd] == Rv[7:0])             ; MSCNN: hit <- (M8[Rd] != Rv[7:0])
-    if hit then  Z = 1 ; stop              ; Rd points AT the byte found
+    if hit then stop                       ; Rd points AT the byte found, Rn the count remaining
     Rd <- Rd + 1 ; Rn <- Rn - 1
-not found: Z = 0''',
-      '**All four flags are written**: `Z` = 1 if the byte was found, else 0; `N`, `V` and `C` are cleared.', MEMX,
-      notes='`MSCN` is `memchr`; with an explicit count it gives `strnlen`, and composing it with `MCPY` gives a bounded `strcpy` in two instructions. There are no NUL-terminated string instructions.', cf='{{r:faults-and-restart-what-precise-means}}.'),
+not found: Rn = 0''',
+      NOFLAGS, MEMX,
+      notes='The report is in the registers: `Rn` is 0 when no byte was found and not 0 when one was, with `Rd` at it. `MSCN` is `memchr`; with an explicit count it gives `strnlen`, and composing it with `MCPY` gives a bounded `strcpy` in two instructions. There are no NUL-terminated string instructions.', cf='{{r:faults-and-restart-what-precise-means}}.'),
     E('MVAL', 'block', ['mval'], 'Validate a block as UTF-8', ['MVAL Rd, Rn'],
       'scan Rn bytes at Rd; stop at the first byte that cannot be part of a valid UTF-8 sequence (the rules of UTF8DEC)',
       'On completion `Rn` is 0 and the buffer is valid; otherwise `Rd` points at the offending sequence and `Rn` counts the bytes remaining (details in the instruction-set text, section {{r:reset-only-core-0-runs}}).', MEMX,
@@ -104,19 +104,18 @@ MODU: Rd <- Ra mod Rb (unsigned)''', NOFLAGS, 'Division by zero aborts with the 
       ['MIN Ra, Rb, Rd', 'MINU Ra, Rb, Rd', 'MAX Ra, Rb, Rd', 'MAXU Ra, Rb, Rd'],
       '''MIN : Rd <- smaller of Ra, Rb (signed)         MINU: unsigned
 MAX : Rd <- larger of Ra, Rb (signed)          MAXU: unsigned''', 'Those of the instructions they expand to.', NONE, alias="`MIN`, `MINU`, `MAX` and `MAXU` are assembler aliases, not native instructions (my decision). Meaning: the smaller or the larger of `Ra` and `Rb`, signed for `MIN` and `MAX` and unsigned for `MINU` and `MAXU`."),
-    E('SET', 'arith', ['set'], 'Set a register from a condition', ['SET cc, Rd        ; for example SET EQ, R1'],
-      'Rd <- 1 if condition cc holds on the current flags, else 0', NOFLAGS, NONE,
-      notes='The condition is the `x` field of parcel 1, numbered as the low nibble of the branch opcodes (`al` 0, `ne` 1, `eq` 2, ... `los` 14).'),
+    E('SETCC', 'arith', ['seteq', 'setne', 'setlt', 'setle', 'setgt', 'setge', 'setcs', 'setcc', 'sethi', 'setlos'], 'Compare into a register', ['SETLT Ra, Rb, Rd', 'SETEQ Ra, #imm, Rd ... and the rest'],
+      'Rd <- 1 if the comparison of Ra with Rb (or with the signed immediate) holds, else 0', NOFLAGS, 'None.',
+      notes='The conditions are equal, not equal, the signed less, less-or-equal, greater and greater-or-equal, and the unsigned lower (`SETCS`, also `SETLO`), higher-or-the-same (`SETCC`, also `SETHIS`), higher and lower-or-the-same, as the compare-and-branch words have them. `SETLT Ra, Rb, Rd` is `Rd <- (Ra < Rb)`, the first operand the left of the comparison. The immediate is an 8-bit signed number, sign-extended to 64 bits before the comparison, for the unsigned conditions as well; a wider constant is loaded into a register first. The destination may be one of the sources; they are read before it is written. Four bytes. A carry out of an addition is `ADD Rb, Ra` then `SETLO Ra, Rb, Rt`: the sum is lower than an addend exactly when the addition carried.'),
 
     # ---- FESC ----
     E('FDIV', 'fp', ['fdiv', 'fsqrt'], 'Floating divide and square root, binary64', ['FDIV Rs, Rd', 'FSQRT Rs, Rd'],
       '''FDIV : Rd <- Rd / Rs
 FSQRT: Rd <- sqrt(Rs)''', FPFLAG, NONE, xnote=FXNOTE,
       notes='`FDIV` and `FSQRT` are multi-cycle sequencer operations and rarely appear in a two-byte form, so they are in `FESC`.'),
-    E('FSINGLE', 'fp', ['fadd32', 'fsub32', 'fmul32', 'fdiv32', 'fsqrt32', 'fcmp32'], 'Floating arithmetic, binary32',
-      ['FADD32 Rs, Rd', 'FSUB32 Rs, Rd', 'FMUL32 Rs, Rd', 'FDIV32 Rs, Rd', 'FSQRT32 Rs, Rd', 'FCMP32 Rd, Rs'],
-      '''Rd <- Rd op Rs  (FADD32 FSUB32 FMUL32 FDIV32); Rd <- sqrt(Rs) (FSQRT32)
-FCMP32: flags as FCMP, comparing Rd with Rs''', FPFLAG + ' `FCMP32` writes `N Z V C` as `FCMP` does.', NONE, xnote=FXNOTE,
+    E('FSINGLE', 'fp', ['fadd32', 'fsub32', 'fmul32', 'fdiv32', 'fsqrt32'], 'Floating arithmetic, binary32',
+      ['FADD32 Rs, Rd', 'FSUB32 Rs, Rd', 'FMUL32 Rs, Rd', 'FDIV32 Rs, Rd', 'FSQRT32 Rs, Rd'],
+      '''Rd <- Rd op Rs  (FADD32 FSUB32 FMUL32 FDIV32); Rd <- sqrt(Rs) (FSQRT32)''', FPFLAG, NONE, xnote=FXNOTE,
       notes='A `binary32` lives in the low 32 bits of a register, sign-extended to 64 like every 32-bit result. Results are correctly rounded to nearest even.'),
     E('FMADD', 'fp', ['fmadd', 'fnmsub'], 'Fused multiply-add, binary64',
       ['FMADD Rs, Rt, Ru, Rd', 'FNMSUB Rs, Rt, Ru, Rd'],
@@ -125,14 +124,14 @@ FNMSUB: Rd <- -(Rs*Rt) + Ru          ; each rounded once''', FPFLAG, NONE, xnote
       notes='Four register operands are available at `len = 01`. The two other signs are these two with the addend negated by `FNEG`, which is exact and raises nothing: `Rs*Rt - Ru` is `FMADD` of `Rs`, `Rt` and the negated `Ru`, and `-(Rs*Rt) - Ru` is `FNMSUB` of the same three; the result, its rounding and its flags are exactly those of an operation that subtracts. `-(Rs*Rt) - Ru` is not the negated `FMADD`: when the exact sum is zero the two have different signs of zero.'),
     E('FMADD32', 'fp', ['fmadd32', 'fnmsub32'], 'Fused multiply-add, binary32',
       ['FMADD32 Rs, Rt, Ru, Rd', 'FNMSUB32 Rs, Rt, Ru, Rd'], 'As FMADD and FNMSUB, in binary32, rounded once', FPFLAG, NONE, xnote=FXNOTE,
-      notes='The sign of a `binary32` is flipped exactly by `FNEG32`, which is `XOR #-2147483648` and writes the integer flags `N` and `Z` as `XOR` does.'),
+      notes='The sign of a `binary32` is flipped exactly by `FNEG32`, which is `XOR #-2147483648` and writes no flag.'),
     E('FSIGN', 'fp', ['fneg', 'fabs', 'fcopysign', 'fneg32', 'fabs32'], 'Sign operations on the bits', ['FNEG Rs, Rd', 'FABS Rs, Rd', 'FCOPYSIGN Rs, Rt, Rd', 'FNEG32 Rs, Rd', 'FABS32 Rs, Rd'],
       '''FNEG     : Rd <- Rs with the sign bit flipped
 FABS     : Rd <- Rs with the sign bit cleared
 FCOPYSIGN: Rd <- magnitude of Rs, sign of Rt
 FNEG32   : Rd <- Rs with the sign of the binary32 flipped    (XOR #-2147483648, Rd)
 FABS32   : Rd <- Rs with the sign of the binary32 cleared    (AND #0x7FFFFFFF, Rd)''',
-      'None for the three native words: they operate on the bits, do not canonicalise a NaN and raise no exception flag. `FNEG32` and `FABS32` are the instructions they stand for and write `N` and `Z` from the result, clear `V` and leave `C` (and `FPSR`) unchanged.', NONE, xnote=FXNOTE,
+      'None for the three native words: they operate on the bits, do not canonicalise a NaN and raise no exception flag. `FNEG32` and `FABS32` are the instructions they stand for and write no flag.', NONE, xnote=FXNOTE,
       notes='`FNEG32` and `FABS32` are assembler mappings of the sign operations of a `binary32`, not native instructions: `FNEG32 Rs, Rd` assembles to `XOR #-2147483648, Rd` and `FABS32 Rs, Rd` to `AND #0x7FFFFFFF, Rd`, each preceded by `MOVQ Rs, Rd` when the two registers differ. A `binary32` lives in a register sign-extended to 64 bits, so its sign is bits 63 to 31 together and the constant that changes it is `0xFFFFFFFF80000000`; the result is again a sign-extended `binary32`, flipped or cleared exactly (a NaN and a zero included), and nothing is raised. The sign of a `binary64` is the single bit 63, which is why `FNEG` and `FABS` are native and write no flag; no one instruction that writes no flag changes the sign of a sign-extended `binary32`, so the two mappings write `N` and `Z`, and a program that keeps flags across one saves them as it would across any `XOR` or `AND`. There is no `FCOPYSIGN32`: its `binary32` form is several instructions on the bits (and the sign must be extended to 64 bits again), more than a mapping should hide.'),
     E('FMIN', 'fp', ['fmin', 'fmax'], 'Floating minimum and maximum, binary64', ['FMIN Rs, Rt, Rd', 'FMAX Rs, Rt, Rd'],
       '''if Rs is a NaN then Rd <- Rt ; else if Rt is a NaN then Rd <- Rs ; else Rd <- smaller (FMIN) or larger (FMAX)

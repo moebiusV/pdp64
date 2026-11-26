@@ -133,7 +133,7 @@ def write_shapes(ds):
     return '\n'.join(out) + '\n'
 
 
-EXT_ALIASES = [('cthis', 'ctcc'), ('ctlo', 'ctcs')]	# the compare-and-trap's spellings, as bhis and blo are the branches' (errata 152): the number is 0x1000 plus that of the word (the words of mn-ext go past 256)
+EXT_ALIASES = [('cthis', 'ctcc'), ('ctlo', 'ctcs'), ('fcbgt', 'fcblt'), ('fcbge', 'fcble'), ('fcbgt32', 'fcblt32'), ('fcbge32', 'fcble32'), ('setlo', 'setcs'), ('sethis', 'setcc')]	# the compare-and-trap's spellings, as bhis and blo are the branches' (errata 152): the number is 0x1000 plus that of the word (the words of mn-ext go past 256)
 
 
 def write_ext(words):

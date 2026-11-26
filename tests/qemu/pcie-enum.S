@@ -9,22 +9,20 @@ _start:
 	movq	=0xffffffff, r12
 	movzl	(r13), r1			; bus 0, device 0, function 0: vendor and device
 	movq	=0x00081b36, r2
-	cmp	r1, r2
-	beq	1f
+	cbeq r1, r2, 1f
 	movq	#1, r0
 	halt
 1:
 	movzl	8(r13), r1			; revision and class code: the class (bits 31 to 16) is 0x0600, a host bridge
 	shr	#16, r1
-	cmp	r1, #0x0600
-	beq	1f
+	cbeq r1, #0x0600, 1f
 	movq	#2, r0
 	halt
 1:
 	movzl	12(r13), r1			; header type (bits 23 to 16): 0, a normal function
 	shr	#16, r1
 	and	#0x7f, r1
-	beq	1f
+	cbeq	r1, #0, 1f
 	movq	#3, r0
 	halt
 1:
@@ -34,19 +32,16 @@ _start:
 	shl	#15, r6
 	add	r13, r6
 	movzl	(r6), r1
-	cmp	r1, r12
-	beq	1f
+	cbeq r1, r12, 1f
 	movq	#4, r0
 	halt
 1:	add	#1, r5
-	cmp	r5, #32
-	blo	2b
+	cblo r5, #32, 2b
 	; the root bus has no devices on bus 1: all ones too
 	movq	=0x100000, r6
 	add	r13, r6
 	movzl	(r6), r1
-	cmp	r1, r12
-	beq	1f
+	cbeq r1, r12, 1f
 	movq	#5, r0
 	halt
 1:

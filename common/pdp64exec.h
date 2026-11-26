@@ -4,10 +4,9 @@
 #include <stdint.h>
 #include "pdp64-consts.h"
 
-/* The valid bits of the PSW (System v1: docs/pdp64-system-architecture.md section 15): the flags, T, the priority, the two modes and the user-access guard UA (bit 12); the rest is reserved, zero. */
-#define PSW_FLAGS	((1u << PSW_C) | (1u << PSW_V) | (1u << PSW_Z) | (1u << PSW_N))
+/* The valid bits of the PSW (System v1: docs/pdp64-system-architecture.md section 15): T, the priority, the two modes and the user-access guard UA (bit 12); the rest is reserved, zero. */
 #define PSW_FIELD(name, v)	(((unsigned)(v) & ((1u << PSW_WIDTH_##name) - 1)) << PSW_##name)
-#define PSW_VALID	(PSW_FLAGS | (1u << PSW_T) | PSW_FIELD(PRI, ~0u) | PSW_FIELD(MODE, ~0u) | PSW_FIELD(PREV, ~0u))
+#define PSW_VALID	((1u << PSW_T) | PSW_FIELD(PRI, ~0u) | PSW_FIELD(MODE, ~0u) | PSW_FIELD(PREV, ~0u))
 
 /* the instruction classes of the second cycle model of the vec blocks: each has a latency and an interval (cycles) that the host sets (sim64 --latency) */
 enum { VC_ALU, VC_CMP, VC_BSL, VC_SHIFT, VC_NARROW, VC_MUL8, VC_MUL16, VC_MULH16, VC_MUL32, VC_MUL64, VC_DOT, VC_DACC, VC_SAD, VC_ACC, VC_MMACC, VC_FIR, VC_TBL, VC_LSEG, VC_SSEG, VC_CVT,
@@ -16,9 +15,8 @@ const char *pdp64_vclass_name(int c);		/* "alu", "cmp", ... (docs/encoding-work/
 
 struct pdp64_cpu {
 	uint64_t r[32], pc, dp, fpsr;
-	int fN, fZ, fV, fC;				/* the flag bits of the PSW; the other bits are in `psw` */
 	uint64_t cur_pc;			/* the instruction being executed (set by pdp64_step) */
-	unsigned psw;				/* the PSW without the flags (bits 0 to 3 are always zero here): T, priority, current and previous mode.  Read and write it through pdp64_psw / pdp64_set_psw. */
+	unsigned psw;				/* the PSW (bits 0 to 3 are reserved and always zero): T, priority, current and previous mode.  Read and write it through pdp64_psw / pdp64_set_psw. */
 	/* r[14] and dp are the current bank's copies; the other banks' are here, by bank index (kernel 0, supervisor 1, user 2, the hypervisor 3: errata 195, 196).  The current bank's slot is stale.
 	   While H = 1 the current bank is 3 whatever the mode field of the status word says; the guest's three banks are then all in their slots. */
 	uint64_t spbank[4], dpbank[4];
@@ -62,7 +60,7 @@ struct pdp64_cpu {
 	uint64_t v2n[VC_N];				/* the vector instructions run, by class */
 	int vrow, vrow_set;				/* the 2D block (vec2, errata 176): the model's cost of the row advance, cycles a row (used if vrow_set; default 1: an ASSUMPTION, vec-2d.md) */
 	uint64_t vrows, vskips, v2blocks;		/* rows run, vskip words decoded, vec2 blocks run */
-	struct { uint64_t r[32], pc, dp, fpsr; int fN, fZ, fV, fC; } snap;	/* the state at the start of the instruction, for precise aborts (kept only when deliver is on) */
+	struct { uint64_t r[32], pc, dp, fpsr; } snap;	/* the state at the start of the instruction, for precise aborts (kept only when deliver is on) */
 };
 
 /* The host's side.  ld and st move 1, 2, 4 or 8 bytes, little-endian, and check alignment and mapping themselves; fault never returns. */
@@ -120,7 +118,7 @@ int pdp64_insn_parcels(uint16_t parcel0);	/* the length in parcels of the instru
 void pdp64_init(void);				/* once, before the first step */
 void pdp64_step(struct pdp64_cpu *c, const struct pdp64_env *e);
 
-unsigned pdp64_psw(const struct pdp64_cpu *c);	/* the whole PSW: flags and the rest */
+unsigned pdp64_psw(const struct pdp64_cpu *c);	/* the whole PSW */
 void pdp64_set_hve(struct pdp64_cpu *c, int hve);	/* the strap: with hve set the core starts at H = 1 with HTRAP at its reset value; call after the status word and before r[14] and dp are set */
 void pdp64_set_h(struct pdp64_cpu *c, int h);	/* change H, switching the r14 and DP banks (the hypervisor's bank is 3) */
 #define HTRAP_VALID	((((unsigned)1 << (HTRAP_STEP + 1)) - 1) | ((((unsigned)1 << HTRAP_WIDTH_MASK) - 1) << HTRAP_MASK))	/* the defined bits of HTRAP; the others read as zero and a write of a one is an illegal instruction */

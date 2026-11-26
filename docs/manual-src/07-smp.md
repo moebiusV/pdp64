@@ -227,7 +227,7 @@ Under {{r:accesses-inside-one-block-operation}} a block operation as a whole is 
 
 **{{#out-of-order-execution}}** Out-of-order execution is not ruled out: the first implementations are in order, and the architecture is kept ready for a large out-of-order design.
 
-**{{#sequential-consistency-on-a-speculative}}** Sequential consistency on a speculative core needs loads that are replayed when another core intervenes: the core executes a load early and, before the load retires, checks whether another core has written its line since, and if so executes it again. The readiness review calls this awkward but defined, and names the flag rules, the reservation rules and the `ISYNC` and `HINT` instructions as what a speculative core needs.
+**{{#sequential-consistency-on-a-speculative}}** Sequential consistency on a speculative core needs loads that are replayed when another core intervenes: the core executes a load early and, before the load retires, checks whether another core has written its line since, and if so executes it again. The readiness review calls this awkward but defined, and names the reservation rules and the `ISYNC` and `HINT` instructions as what a speculative core needs.
 
 The tests are part of the work. A declaration of sequential consistency is easy to violate by accident, in a store buffer that forwards wrongly or a cache that reorders its fills, so the standard litmus suites (the `litmus7` and `herd7` families) are to run against two cores before any lock-based software is trusted (repo, `docs/pdp64-fpga-plan.md` item 7).
 

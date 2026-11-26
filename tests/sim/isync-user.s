@@ -13,8 +13,7 @@ _start:
 	hint	#2
 	isync
 	movq	(r2), r3
-	cmp	r3, r1
-	bne	F1
+	cbne r3, r1, F1
 	movq	#0, r0
 	trap	#0
 F1:	movq	#1, r0

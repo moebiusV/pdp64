@@ -12,23 +12,21 @@ _start:
 	; polled: wait for the first character and store it
 1:	movq	CONSOLE_REG_RXCS(r13), r3
 	and	#(1<<CONSOLE_CSR_READY), r3
-	beq	1b
+	cbeq	r3, #0, 1b
 	movq	CONSOLE_REG_RXDB(r13), r2
 	movb	r2, (r12)+
 	; interrupt driven: the handler stores the rest of the line; at priority 0 the level-4 request is taken
 	movq	#(1<<CONSOLE_CSR_IE), r2
 	movq	r2, CONSOLE_REG_RXCS(r13)
 	spl	#0
-2:	cmp	r8, #0
-	beq	2b
+2:	cbeq r8, #0, 2b
 	spl	#7
 	movq	#0, r2
 	movq	r2, CONSOLE_REG_RXCS(r13)
 	; echo the buffer, polled
 	lea	buf, r1
 3:	movb	(r1)+, r2
-	cmp	r2, #0
-	beq	4f
+	cbeq r2, #0, 4f
 	call	putc
 	br	3b
 	; output driven by interrupts: the handler sends the next character of msg2 while TXCS IE is set
@@ -36,24 +34,21 @@ _start:
 	movq	#(1<<CONSOLE_CSR_IE), r2
 	movq	r2, CONSOLE_REG_TXCS(r13)
 	spl	#0
-5:	cmp	r7, #0
-	beq	5b
+5:	cbeq r7, #0, 5b
 	movq	#0, r0
 	halt
 putc:	movq	CONSOLE_REG_TXCS(r13), r3
 	and	#(1<<CONSOLE_CSR_READY), r3
-	beq	putc
+	cbeq	r3, #0, putc
 	movq	r2, CONSOLE_REG_TXDB(r13)
 	ret
 h_rx:	movq	CONSOLE_REG_RXDB(r13), r9
 	movb	r9, (r12)+
-	cmp	r9, #10
-	bne	1f
+	cbne r9, #10, 1f
 	movq	#1, r8
 1:	rti	#RTIMASK_ALL
 h_tx:	movb	(r10)+, r9
-	cmp	r9, #0
-	bne	1f
+	cbne r9, #0, 1f
 	movq	#0, r9
 	movq	r9, CONSOLE_REG_TXCS(r13)
 	movq	#1, r7

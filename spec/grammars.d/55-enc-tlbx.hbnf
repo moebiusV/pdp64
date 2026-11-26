@@ -4,5 +4,5 @@
 ; the register: 16 bits); tools/mkenc.py fails, naming the overlap, if it is not free.  Two bytes each.
 forms =/ "TLBX"
 form-TLBX = o1:reg5
-leaf-TLBX-1 = 0b1101111110 sub:1 o1-r:5
+leaf-TLBX-1 = 0b1101001100 sub:1 o1-r:5
 sub-TLBX-1 = "tlbias" | "tlbigp"

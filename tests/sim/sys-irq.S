@@ -1,4 +1,4 @@
-; System v1 interrupts (sim64 -K -i ...): a request is taken between instructions when its level is above the priority; the handler runs at that level; rti restores the priority; the higher level first. Generated; a failed check n halts with status n.
+; System v1 interrupts (sim64 -K -i ...): a request is taken between instructions when its level is above the priority; the handler runs at that level; rti restores the priority; the higher level first. A failed check n halts with status n.
 #include "pdp64-consts.h"
 	.text
 	.globl	_start
@@ -12,59 +12,40 @@ _start:
 	movq	#0, r12
 	nop
 	nop
-	cmp	r10, #(0)
-	bne	F1	; check 1
+	cbne r10, #(0), F1 ; check 1
 	spl	#6
 	nop
 	nop
-	cmp	r10, #(0)
-	bne	F2	; check 2
+	cbne r10, #(0), F2 ; check 2
 	spl	#5
 after5:
 	nop
-	cmp	r10, #(1)
-	bne	F3	; check 3
-	cmp	r15, #(41)
-	bne	F4	; check 4
+	cbne r10, #(1), F3 ; check 3
+	cbne r15, #(41), F4 ; check 4
 	lea	after5, r11
-	cmp	r6, r11
-	bne	F5	; check 5
-	bic	#15, r7
-	cmp	r7, #((MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|5<<PSW_PRI))
-	bne	F6	; check 6
-	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|7<<PSW_PRI))
-	bne	F7	; check 7
-	cmp	r8, #(VECTOR_TIMER+9)
-	bne	F8	; check 8
+	cbne r6, r11, F5 ; check 5
+	cbne r7, #((MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|5<<PSW_PRI)), F6 ; check 6
+	cbne r12, #((MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|7<<PSW_PRI)), F7 ; check 7
+	cbne r8, #(VECTOR_TIMER+9), F8 ; check 8
 	mfps	r1
-	bic	#15, r1
-	cmp	r1, #((MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|5<<PSW_PRI))
-	bne	F9	; check 9
+	cbne r1, #((MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|5<<PSW_PRI)), F9 ; check 9
 	spl	#4
 after4:
 	nop
-	cmp	r10, #(2)
-	bne	F10	; check 10
-	cmp	r15, #(4140)
-	bne	F11	; check 11
+	cbne r10, #(2), F10 ; check 10
+	cbne r15, #(4140), F11 ; check 11
 	lea	after4, r11
-	cmp	r6, r11
-	bne	F12	; check 12
-	bic	#15, r7
-	cmp	r7, #((MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|4<<PSW_PRI))
-	bne	F13	; check 13
-	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|7<<PSW_PRI))
-	bne	F14	; check 14
+	cbne r6, r11, F12 ; check 12
+	cbne r7, #((MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|4<<PSW_PRI)), F13 ; check 13
+	cbne r12, #((MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|7<<PSW_PRI)), F14 ; check 14
 	spl	#0
 	nop
 	nop
 	nop
-	cmp	r10, #(4)
-	bne	F15	; check 15
-	cmp	r15, #(41404243)
-	bne	F16	; check 16
-	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|7<<PSW_PRI))
-	bne	F17	; check 17
+	cbne r10, #(4), F15 ; check 15
+	movq	#41404243, r14
+	cbne r15, r14, F16 ; check 16
+	cbne r12, #((MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|7<<PSW_PRI)), F17 ; check 17
 	movq	#0, r0
 	halt
 F1:	movq	#1, r0

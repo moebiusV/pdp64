@@ -1,4 +1,4 @@
-; System v1 user mode (sim64 -K): the kernel enters user mode with rti; the privileged instructions abort with vector 3; mtps writes the flags only; trap (a small and a large vector number) and bpt enter the kernel at
+; System v1 user mode (sim64 -K): the kernel enters user mode with rti; the privileged instructions abort with vector 3; mtps is privileged; trap (a small and a large vector number) and bpt enter the kernel at
 ; vector 256 + n and 15; the stack pointer and DP are banked per mode (usp seen from the kernel, changed while the user is stopped); the supervisor mode has its own bank.  Generated.
 #include "pdp64-consts.h"
 	.text
@@ -18,19 +18,15 @@ _start:
 	rti	#RTIMASK_ALL
 user:
 	mfps	r1
-	cmp	r1, #(MODE_USER<<PSW_MODE)
-	bne	F1	; check 1
+	cbne r1, #(MODE_USER<<PSW_MODE), F1 ; check 1
 	lea	ustack_top, r11
-	cmp	sp, r11
-	bne	F2	; check 2
+	cbne sp, r11, F2 ; check 2
 	mfdp	r1
-	cmp	r1, #(0)
-	bne	F3	; check 3
+	cbne r1, #(0), F3 ; check 3
 	movq	#0x2222, r1
 	mtdp	r1
 	mfdp	r5
-	cmp	r5, #(8738)
-	bne	F4	; check 4
+	cbne r5, #(8738), F4 ; check 4
 	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
@@ -45,27 +41,17 @@ user:
 pi0:
 	mfsr	r1, ptbr
 pr0:
-	cmp	r10, #(1)
-	bne	F5	; check 5
+	cbne r10, #(1), F5 ; check 5
 	lea	pi0, r11
-	cmp	r6, r11
-	bne	F6	; check 6
-	cmp	r8, #(VECTOR_PRIVILEGED)
-	bne	F7	; check 7
-	cmp	r9, #(0)
-	bne	F8	; check 8
-	bic	#15, r7
-	cmp	r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV))
-	bne	F9	; check 9
-	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV|7<<PSW_PRI))
-	bne	F10	; check 10
+	cbne r6, r11, F6 ; check 6
+	cbne r8, #(VECTOR_PRIVILEGED), F7 ; check 7
+	cbne r9, #(0), F8 ; check 8
+	cbne r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV)), F9 ; check 9
+	cbne r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV|7<<PSW_PRI)), F10 ; check 10
 	movq	ksp_saved, r1
-	cmp	r13, r1
-	bne	F11	; check 11
-	cmp	r2, #(4369)
-	bne	F12	; check 12
-	cmp	r3, sp
-	bne	F13	; check 13
+	cbne r13, r1, F11 ; check 11
+	cbne r2, #(4369), F12 ; check 12
+	cbne r3, sp, F13 ; check 13
 	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
@@ -80,20 +66,13 @@ pr0:
 pi1:
 	mtsr	ptbr, r1
 pr1:
-	cmp	r10, #(1)
-	bne	F14	; check 14
+	cbne r10, #(1), F14 ; check 14
 	lea	pi1, r11
-	cmp	r6, r11
-	bne	F15	; check 15
-	cmp	r8, #(VECTOR_PRIVILEGED)
-	bne	F16	; check 16
-	cmp	r9, #(0)
-	bne	F17	; check 17
-	bic	#15, r7
-	cmp	r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV))
-	bne	F18	; check 18
-	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV|7<<PSW_PRI))
-	bne	F19	; check 19
+	cbne r6, r11, F15 ; check 15
+	cbne r8, #(VECTOR_PRIVILEGED), F16 ; check 16
+	cbne r9, #(0), F17 ; check 17
+	cbne r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV)), F18 ; check 18
+	cbne r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV|7<<PSW_PRI)), F19 ; check 19
 	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
@@ -108,20 +87,13 @@ pr1:
 pi2:
 	spl	#5
 pr2:
-	cmp	r10, #(1)
-	bne	F20	; check 20
+	cbne r10, #(1), F20 ; check 20
 	lea	pi2, r11
-	cmp	r6, r11
-	bne	F21	; check 21
-	cmp	r8, #(VECTOR_PRIVILEGED)
-	bne	F22	; check 22
-	cmp	r9, #(0)
-	bne	F23	; check 23
-	bic	#15, r7
-	cmp	r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV))
-	bne	F24	; check 24
-	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV|7<<PSW_PRI))
-	bne	F25	; check 25
+	cbne r6, r11, F21 ; check 21
+	cbne r8, #(VECTOR_PRIVILEGED), F22 ; check 22
+	cbne r9, #(0), F23 ; check 23
+	cbne r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV)), F24 ; check 24
+	cbne r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV|7<<PSW_PRI)), F25 ; check 25
 	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
@@ -136,20 +108,13 @@ pr2:
 pi3:
 	halt
 pr3:
-	cmp	r10, #(1)
-	bne	F26	; check 26
+	cbne r10, #(1), F26 ; check 26
 	lea	pi3, r11
-	cmp	r6, r11
-	bne	F27	; check 27
-	cmp	r8, #(VECTOR_PRIVILEGED)
-	bne	F28	; check 28
-	cmp	r9, #(0)
-	bne	F29	; check 29
-	bic	#15, r7
-	cmp	r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV))
-	bne	F30	; check 30
-	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV|7<<PSW_PRI))
-	bne	F31	; check 31
+	cbne r6, r11, F27 ; check 27
+	cbne r8, #(VECTOR_PRIVILEGED), F28 ; check 28
+	cbne r9, #(0), F29 ; check 29
+	cbne r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV)), F30 ; check 30
+	cbne r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV|7<<PSW_PRI)), F31 ; check 31
 	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
@@ -164,20 +129,13 @@ pr3:
 pi4:
 	rti	#RTIMASK_ALL
 pr4:
-	cmp	r10, #(1)
-	bne	F32	; check 32
+	cbne r10, #(1), F32 ; check 32
 	lea	pi4, r11
-	cmp	r6, r11
-	bne	F33	; check 33
-	cmp	r8, #(VECTOR_PRIVILEGED)
-	bne	F34	; check 34
-	cmp	r9, #(0)
-	bne	F35	; check 35
-	bic	#15, r7
-	cmp	r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV))
-	bne	F36	; check 36
-	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV|7<<PSW_PRI))
-	bne	F37	; check 37
+	cbne r6, r11, F33 ; check 33
+	cbne r8, #(VECTOR_PRIVILEGED), F34 ; check 34
+	cbne r9, #(0), F35 ; check 35
+	cbne r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV)), F36 ; check 36
+	cbne r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV|7<<PSW_PRI)), F37 ; check 37
 	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
@@ -192,20 +150,13 @@ pr4:
 pi5:
 	rtt	#RTIMASK_ALL
 pr5:
-	cmp	r10, #(1)
-	bne	F38	; check 38
+	cbne r10, #(1), F38 ; check 38
 	lea	pi5, r11
-	cmp	r6, r11
-	bne	F39	; check 39
-	cmp	r8, #(VECTOR_PRIVILEGED)
-	bne	F40	; check 40
-	cmp	r9, #(0)
-	bne	F41	; check 41
-	bic	#15, r7
-	cmp	r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV))
-	bne	F42	; check 42
-	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV|7<<PSW_PRI))
-	bne	F43	; check 43
+	cbne r6, r11, F39 ; check 39
+	cbne r8, #(VECTOR_PRIVILEGED), F40 ; check 40
+	cbne r9, #(0), F41 ; check 41
+	cbne r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV)), F42 ; check 42
+	cbne r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV|7<<PSW_PRI)), F43 ; check 43
 	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
@@ -220,20 +171,13 @@ pr5:
 pi6:
 	tlbi	r1
 pr6:
-	cmp	r10, #(1)
-	bne	F44	; check 44
+	cbne r10, #(1), F44 ; check 44
 	lea	pi6, r11
-	cmp	r6, r11
-	bne	F45	; check 45
-	cmp	r8, #(VECTOR_PRIVILEGED)
-	bne	F46	; check 46
-	cmp	r9, #(0)
-	bne	F47	; check 47
-	bic	#15, r7
-	cmp	r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV))
-	bne	F48	; check 48
-	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV|7<<PSW_PRI))
-	bne	F49	; check 49
+	cbne r6, r11, F45 ; check 45
+	cbne r8, #(VECTOR_PRIVILEGED), F46 ; check 46
+	cbne r9, #(0), F47 ; check 47
+	cbne r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV)), F48 ; check 48
+	cbne r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV|7<<PSW_PRI)), F49 ; check 49
 	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
@@ -248,20 +192,13 @@ pr6:
 pi7:
 	tlbia
 pr7:
-	cmp	r10, #(1)
-	bne	F50	; check 50
+	cbne r10, #(1), F50 ; check 50
 	lea	pi7, r11
-	cmp	r6, r11
-	bne	F51	; check 51
-	cmp	r8, #(VECTOR_PRIVILEGED)
-	bne	F52	; check 52
-	cmp	r9, #(0)
-	bne	F53	; check 53
-	bic	#15, r7
-	cmp	r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV))
-	bne	F54	; check 54
-	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV|7<<PSW_PRI))
-	bne	F55	; check 55
+	cbne r6, r11, F51 ; check 51
+	cbne r8, #(VECTOR_PRIVILEGED), F52 ; check 52
+	cbne r9, #(0), F53 ; check 53
+	cbne r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV)), F54 ; check 54
+	cbne r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV|7<<PSW_PRI)), F55 ; check 55
 	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
@@ -276,20 +213,13 @@ pr7:
 pi8:
 	tlbsync
 pr8:
-	cmp	r10, #(1)
-	bne	F56	; check 56
+	cbne r10, #(1), F56 ; check 56
 	lea	pi8, r11
-	cmp	r6, r11
-	bne	F57	; check 57
-	cmp	r8, #(VECTOR_PRIVILEGED)
-	bne	F58	; check 58
-	cmp	r9, #(0)
-	bne	F59	; check 59
-	bic	#15, r7
-	cmp	r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV))
-	bne	F60	; check 60
-	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV|7<<PSW_PRI))
-	bne	F61	; check 61
+	cbne r6, r11, F57 ; check 57
+	cbne r8, #(VECTOR_PRIVILEGED), F58 ; check 58
+	cbne r9, #(0), F59 ; check 59
+	cbne r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV)), F60 ; check 60
+	cbne r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV|7<<PSW_PRI)), F61 ; check 61
 	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
@@ -304,20 +234,13 @@ pr8:
 pi9:
 	mtsr	asid, r1
 pr9:
-	cmp	r10, #(1)
-	bne	F62	; check 62
+	cbne r10, #(1), F62 ; check 62
 	lea	pi9, r11
-	cmp	r6, r11
-	bne	F63	; check 63
-	cmp	r8, #(VECTOR_PRIVILEGED)
-	bne	F64	; check 64
-	cmp	r9, #(0)
-	bne	F65	; check 65
-	bic	#15, r7
-	cmp	r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV))
-	bne	F66	; check 66
-	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV|7<<PSW_PRI))
-	bne	F67	; check 67
+	cbne r6, r11, F63 ; check 63
+	cbne r8, #(VECTOR_PRIVILEGED), F64 ; check 64
+	cbne r9, #(0), F65 ; check 65
+	cbne r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV)), F66 ; check 66
+	cbne r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV|7<<PSW_PRI)), F67 ; check 67
 	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
@@ -332,20 +255,13 @@ pr9:
 pi10:
 	mfsr	r1, asid
 pr10:
-	cmp	r10, #(1)
-	bne	F68	; check 68
+	cbne r10, #(1), F68 ; check 68
 	lea	pi10, r11
-	cmp	r6, r11
-	bne	F69	; check 69
-	cmp	r8, #(VECTOR_PRIVILEGED)
-	bne	F70	; check 70
-	cmp	r9, #(0)
-	bne	F71	; check 71
-	bic	#15, r7
-	cmp	r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV))
-	bne	F72	; check 72
-	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV|7<<PSW_PRI))
-	bne	F73	; check 73
+	cbne r6, r11, F69 ; check 69
+	cbne r8, #(VECTOR_PRIVILEGED), F70 ; check 70
+	cbne r9, #(0), F71 ; check 71
+	cbne r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV)), F72 ; check 72
+	cbne r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV|7<<PSW_PRI)), F73 ; check 73
 	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
@@ -360,20 +276,13 @@ pr10:
 pi12:
 	wfe
 pr12:
-	cmp	r10, #(1)
-	bne	F80	; check 80
+	cbne r10, #(1), F80 ; check 80
 	lea	pi12, r11
-	cmp	r6, r11
-	bne	F81	; check 81
-	cmp	r8, #(VECTOR_PRIVILEGED)
-	bne	F82	; check 82
-	cmp	r9, #(0)
-	bne	F83	; check 83
-	bic	#15, r7
-	cmp	r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV))
-	bne	F84	; check 84
-	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV|7<<PSW_PRI))
-	bne	F85	; check 85
+	cbne r6, r11, F81 ; check 81
+	cbne r8, #(VECTOR_PRIVILEGED), F82 ; check 82
+	cbne r9, #(0), F83 ; check 83
+	cbne r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV)), F84 ; check 84
+	cbne r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV|7<<PSW_PRI)), F85 ; check 85
 	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
@@ -388,20 +297,13 @@ pr12:
 pi13:
 	pushx
 pr13:
-	cmp	r10, #(1)
-	bne	F86	; check 86
+	cbne r10, #(1), F86 ; check 86
 	lea	pi13, r11
-	cmp	r6, r11
-	bne	F87	; check 87
-	cmp	r8, #(VECTOR_PRIVILEGED)
-	bne	F88	; check 88
-	cmp	r9, #(0)
-	bne	F89	; check 89
-	bic	#15, r7
-	cmp	r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV))
-	bne	F90	; check 90
-	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV|7<<PSW_PRI))
-	bne	F91	; check 91
+	cbne r6, r11, F87 ; check 87
+	cbne r8, #(VECTOR_PRIVILEGED), F88 ; check 88
+	cbne r9, #(0), F89 ; check 89
+	cbne r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV)), F90 ; check 90
+	cbne r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV|7<<PSW_PRI)), F91 ; check 91
 	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
@@ -416,20 +318,13 @@ pr13:
 pi14:
 	popx
 pr14:
-	cmp	r10, #(1)
-	bne	F92	; check 92
+	cbne r10, #(1), F92 ; check 92
 	lea	pi14, r11
-	cmp	r6, r11
-	bne	F93	; check 93
-	cmp	r8, #(VECTOR_PRIVILEGED)
-	bne	F94	; check 94
-	cmp	r9, #(0)
-	bne	F95	; check 95
-	bic	#15, r7
-	cmp	r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV))
-	bne	F96	; check 96
-	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV|7<<PSW_PRI))
-	bne	F97	; check 97
+	cbne r6, r11, F93 ; check 93
+	cbne r8, #(VECTOR_PRIVILEGED), F94 ; check 94
+	cbne r9, #(0), F95 ; check 95
+	cbne r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV)), F96 ; check 96
+	cbne r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV|7<<PSW_PRI)), F97 ; check 97
 	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
@@ -444,20 +339,13 @@ pr14:
 pi15:
 	prober	r2, r1
 pr15:
-	cmp	r10, #(1)
-	bne	F98	; check 98
+	cbne r10, #(1), F98 ; check 98
 	lea	pi15, r11
-	cmp	r6, r11
-	bne	F99	; check 99
-	cmp	r8, #(VECTOR_PRIVILEGED)
-	bne	F100	; check 100
-	cmp	r9, #(0)
-	bne	F101	; check 101
-	bic	#15, r7
-	cmp	r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV))
-	bne	F102	; check 102
-	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV|7<<PSW_PRI))
-	bne	F103	; check 103
+	cbne r6, r11, F99 ; check 99
+	cbne r8, #(VECTOR_PRIVILEGED), F100 ; check 100
+	cbne r9, #(0), F101 ; check 101
+	cbne r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV)), F102 ; check 102
+	cbne r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV|7<<PSW_PRI)), F103 ; check 103
 	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
@@ -472,33 +360,31 @@ pr15:
 pi16:
 	probew	r2, r1
 pr16:
-	cmp	r10, #(1)
-	bne	F104	; check 104
+	cbne r10, #(1), F104 ; check 104
 	lea	pi16, r11
-	cmp	r6, r11
-	bne	F105	; check 105
-	cmp	r8, #(VECTOR_PRIVILEGED)
-	bne	F106	; check 106
-	cmp	r9, #(0)
-	bne	F107	; check 107
-	bic	#15, r7
-	cmp	r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV))
-	bne	F108	; check 108
-	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV|7<<PSW_PRI))
-	bne	F109	; check 109
+	cbne r6, r11, F105 ; check 105
+	cbne r8, #(VECTOR_PRIVILEGED), F106 ; check 106
+	cbne r9, #(0), F107 ; check 107
+	cbne r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV)), F108 ; check 108
+	cbne r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV|7<<PSW_PRI)), F109 ; check 109
 	mfdp	r5
-	cmp	r5, #(8738)
-	bne	F110	; check 110
+	cbne r5, #(8738), F110 ; check 110
+	mfps	r5
+	cbne r5, #(MODE_USER<<PSW_MODE), F111 ; check 111: the flag bits of the PSW read as zero
+	movq	#0, r10
+	movq	#0, r6
+	movq	#0, r8
 	movq	#0xFFF, r1
+	lea	pr17, r4
+pi17:
 	mtps	r1
+pr17:
+	cbne r10, #(1), F112 ; check 112: mtps is privileged, in user mode it aborts
+	lea	pi17, r11
+	cbne r6, r11, F207 ; check 207
+	cbne r8, #(VECTOR_PRIVILEGED), F208 ; check 208
 	mfps	r5
-	cmp	r5, #((MODE_USER<<PSW_MODE)|15)
-	bne	F111	; check 111
-	movq	#0, r1
-	mtps	r1
-	mfps	r5
-	cmp	r5, #(MODE_USER<<PSW_MODE)
-	bne	F112	; check 112
+	cbne r5, #(MODE_USER<<PSW_MODE), F209 ; check 209: nothing was written
 	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
@@ -517,10 +403,8 @@ pr16:
 	mfdp	r5
 	push	r1
 	pop	r5
-	cmp	r10, #(0)
-	bne	F113	; check 113
-	cmp	r5, #(7)
-	bne	F114	; check 114
+	cbne r10, #(0), F113 ; check 113
+	cbne r5, #(7), F114 ; check 114
 	movq	#0x2222, r1
 	mtdp	r1
 	movq	#0, r4
@@ -532,18 +416,12 @@ pr16:
 	movq	#0, r12
 	trap	#5
 aft1:
-	cmp	r10, #(1)
-	bne	F115	; check 115
+	cbne r10, #(1), F115 ; check 115
 	lea	aft1, r11
-	cmp	r6, r11
-	bne	F116	; check 116
-	cmp	r8, #(VECTOR_TRAP_BASE+5)
-	bne	F117	; check 117
-	bic	#15, r7
-	cmp	r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV))
-	bne	F118	; check 118
-	cmp	r9, #(0)
-	bne	F119	; check 119
+	cbne r6, r11, F116 ; check 116
+	cbne r8, #(VECTOR_TRAP_BASE+5), F117 ; check 117
+	cbne r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV)), F118 ; check 118
+	cbne r9, #(0), F119 ; check 119
 	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
@@ -553,13 +431,10 @@ aft1:
 	movq	#0, r12
 	trap	#200
 aft2:
-	cmp	r10, #(1)
-	bne	F120	; check 120
+	cbne r10, #(1), F120 ; check 120
 	lea	aft2, r11
-	cmp	r6, r11
-	bne	F121	; check 121
-	cmp	r8, #(VECTOR_TRAP_BASE+200)
-	bne	F122	; check 122
+	cbne r6, r11, F121 ; check 121
+	cbne r8, #(VECTOR_TRAP_BASE+200), F122 ; check 122
 	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
@@ -569,20 +444,15 @@ aft2:
 	movq	#0, r12
 	bpt
 aft3:
-	cmp	r10, #(1)
-	bne	F123	; check 123
+	cbne r10, #(1), F123 ; check 123
 	lea	aft3, r11
-	cmp	r6, r11
-	bne	F124	; check 124
-	cmp	r8, #(VECTOR_BPT)
-	bne	F125	; check 125
+	cbne r6, r11, F124 ; check 124
+	cbne r8, #(VECTOR_BPT), F125 ; check 125
 	mfdp	r5
-	cmp	r5, #(8738)
-	bne	F126	; check 126
+	cbne r5, #(8738), F126 ; check 126
 	trap	#7
 	lea	ustack_alt, r11
-	cmp	sp, r11
-	bne	F127	; check 127
+	cbne sp, r11, F127 ; check 127
 	trap	#8
 	movq	#99, r0
 	trap	#1
@@ -830,11 +700,9 @@ F127:	movq	#127, r0
 	trap	#1
 sup:
 	mfps	r1
-	cmp	r1, #(MODE_SUPERVISOR<<PSW_MODE|MODE_USER<<PSW_PREV)
-	bne	F201	; check 201
+	cbne r1, #(MODE_SUPERVISOR<<PSW_MODE|MODE_USER<<PSW_PREV), F201 ; check 201
 	lea	sstack_top, r11
-	cmp	sp, r11
-	bne	F202	; check 202
+	cbne sp, r11, F202 ; check 202
 	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
@@ -846,16 +714,11 @@ sup:
 sp1:
 	mfsr	r1, ptbr
 sr1:
-	cmp	r10, #(1)
-	bne	F203	; check 203
+	cbne r10, #(1), F203 ; check 203
 	lea	sp1, r11
-	cmp	r6, r11
-	bne	F204	; check 204
-	cmp	r8, #(VECTOR_PRIVILEGED)
-	bne	F205	; check 205
-	bic	#15, r7
-	cmp	r7, #((MODE_SUPERVISOR<<PSW_MODE|MODE_USER<<PSW_PREV))
-	bne	F206	; check 206
+	cbne r6, r11, F204 ; check 204
+	cbne r8, #(VECTOR_PRIVILEGED), F205 ; check 205
+	cbne r7, #((MODE_SUPERVISOR<<PSW_MODE|MODE_USER<<PSW_PREV)), F206 ; check 206
 	movq	#0, r0
 	trap	#0
 F201:	movq	#201, r0
@@ -869,6 +732,12 @@ F204:	movq	#204, r0
 F205:	movq	#205, r0
 	trap	#1
 F206:	movq	#206, r0
+	trap	#1
+F207:	movq	#207, r0
+	trap	#1
+F208:	movq	#208, r0
+	trap	#1
+F209:	movq	#209, r0
 	trap	#1
 h_gen:	mfps	r12
 	mfsr	r6, epc

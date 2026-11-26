@@ -23,31 +23,18 @@ _start:
 	trap	#3
 after_trap:
 	mfps	r1
-	bic	#15, r1
-	cmp	r1, #((MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|0<<PSW_PRI))
-	bne	F1	; check 1
-	cmp	r10, #(1)
-	bne	F2	; check 2
-	cmp	r5, #(0)
-	bne	F3	; check 3
-	cmp	r4, #(1)
-	bne	F4	; check 4
+	cbne r1, #((MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|0<<PSW_PRI)), F1 ; check 1
+	cbne r10, #(1), F2 ; check 2
+	cbne r5, #(0), F3 ; check 3
+	cbne r4, #(1), F4 ; check 4
 	lea	after_trap, r11
-	cmp	r6, r11
-	bne	F5	; check 5
+	cbne r6, r11, F5 ; check 5
 	lea	after_trap, r11
-	cmp	r8, r11
-	bne	F6	; check 6
-	bic	#15, r7
-	bic	#15, r9
-	cmp	r7, #((MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|0<<PSW_PRI))
-	bne	F7	; check 7
-	cmp	r9, #((MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|0<<PSW_PRI))
-	bne	F8	; check 8
-	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|7<<PSW_PRI))
-	bne	F9	; check 9
-	cmp	r15, #(40)
-	bne	F10	; check 10
+	cbne r8, r11, F6 ; check 6
+	cbne r7, #((MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|0<<PSW_PRI)), F7 ; check 7
+	cbne r9, #((MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|0<<PSW_PRI)), F8 ; check 8
+	cbne r12, #((MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|7<<PSW_PRI)), F9 ; check 9
+	cbne r15, #(40), F10 ; check 10
 	movq	#0, r10
 	movq	#0, r5
 	movq	#0, r4
@@ -78,23 +65,15 @@ nops2:
 	nop
 	nop
 	mfps	r1
-	bic	#15, r1
-	cmp	r1, #((MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|0<<PSW_PRI))
-	bne	F11	; check 11
-	cmp	r8, #(1)
-	bne	F12	; check 12
-	cmp	r13, #(0)
-	bne	F13	; check 13
-	cmp	r12, #(0)
-	bne	F14	; check 14
-	cmp	r9, #(1)
-	bne	F15	; check 15
-	cmp	r10, #(1)
-	bne	F16	; check 16
-	cmp	r3, #((MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|7<<PSW_PRI))
-	bne	F17	; check 17
-	cmp	r15, #(404142)
-	bne	F18	; check 18
+	cbne r1, #((MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|0<<PSW_PRI)), F11 ; check 11
+	cbne r8, #(1), F12 ; check 12
+	cbne r13, #(0), F13 ; check 13
+	cbne r12, #(0), F14 ; check 14
+	cbne r9, #(1), F15 ; check 15
+	cbne r10, #(1), F16 ; check 16
+	cbne r3, #((MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|7<<PSW_PRI)), F17 ; check 17
+	movq	#404142, r14
+	cbne r15, r14, F18 ; check 18
 	movq	#0, r0
 	halt
 F1:	movq	#1, r0
@@ -156,7 +135,6 @@ h_irq:	add	#1, r10
 h_41:	mfsr	r6, epc
 	mfsr	r7, epsw
 	mfps	r3
-	bic	#15, r3
 	add	#1, r8
 	mfsr	r2, ecause
 	mul	#100, r15

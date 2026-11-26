@@ -12,11 +12,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f1
+	cbne	r5, r6, f1
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2
+	cbne	r8, r6, f2
 	movq	=0x0, r1
 	movq	=0x0, r2
 	movq	=0x0, r3
@@ -26,11 +24,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x8000000000000000, r6
-	cmp	r5, r6
-	bne	f3
+	cbne	r5, r6, f3
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4
+	cbne	r8, r6, f4
 	movq	=0x0, r1
 	movq	=0x0, r2
 	movq	=0x8000000000000000, r3
@@ -40,11 +36,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f5
+	cbne	r5, r6, f5
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f6
+	cbne	r8, r6, f6
 	movq	=0x0, r1
 	movq	=0x0, r2
 	movq	=0x8000000000000000, r3
@@ -54,11 +48,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f7
+	cbne	r5, r6, f7
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f8
+	cbne	r8, r6, f8
 	movq	=0x0, r1
 	movq	=0x0, r2
 	movq	=0x3ff0000000000000, r3
@@ -68,11 +60,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f9
+	cbne	r5, r6, f9
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f10
+	cbne	r8, r6, f10
 	movq	=0x0, r1
 	movq	=0x0, r2
 	movq	=0x3ff0000000000000, r3
@@ -82,11 +72,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f11
+	cbne	r5, r6, f11
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f12
+	cbne	r8, r6, f12
 	movq	=0x0, r1
 	movq	=0x0, r2
 	movq	=0xbff0000000000000, r3
@@ -96,11 +84,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff0000000000000, r6
-	cmp	r5, r6
-	bne	f13
+	cbne	r5, r6, f13
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f14
+	cbne	r8, r6, f14
 	movq	=0x0, r1
 	movq	=0x0, r2
 	movq	=0xbff0000000000000, r3
@@ -110,11 +96,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff0000000000000, r6
-	cmp	r5, r6
-	bne	f15
+	cbne	r5, r6, f15
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f16
+	cbne	r8, r6, f16
 	movq	=0x0, r1
 	movq	=0x0, r2
 	movq	=0x4000000000000000, r3
@@ -124,11 +108,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc000000000000000, r6
-	cmp	r5, r6
-	bne	f17
+	cbne	r5, r6, f17
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f18
+	cbne	r8, r6, f18
 	movq	=0x0, r1
 	movq	=0x0, r2
 	movq	=0x4000000000000000, r3
@@ -138,11 +120,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc000000000000000, r6
-	cmp	r5, r6
-	bne	f19
+	cbne	r5, r6, f19
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f20
+	cbne	r8, r6, f20
 	movq	=0x0, r1
 	movq	=0x0, r2
 	movq	=0x4008000000000000, r3
@@ -152,11 +132,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc008000000000000, r6
-	cmp	r5, r6
-	bne	f21
+	cbne	r5, r6, f21
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f22
+	cbne	r8, r6, f22
 	movq	=0x0, r1
 	movq	=0x0, r2
 	movq	=0x4008000000000000, r3
@@ -166,11 +144,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc008000000000000, r6
-	cmp	r5, r6
-	bne	f23
+	cbne	r5, r6, f23
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f24
+	cbne	r8, r6, f24
 	movq	=0x0, r1
 	movq	=0x0, r2
 	movq	=0x3ff8000000000000, r3
@@ -180,11 +156,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f25
+	cbne	r5, r6, f25
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f26
+	cbne	r8, r6, f26
 	movq	=0x0, r1
 	movq	=0x0, r2
 	movq	=0x3ff8000000000000, r3
@@ -194,11 +168,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f27
+	cbne	r5, r6, f27
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f28
+	cbne	r8, r6, f28
 	movq	=0x0, r1
 	movq	=0x0, r2
 	movq	=0x4004000000000000, r3
@@ -208,11 +180,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc004000000000000, r6
-	cmp	r5, r6
-	bne	f29
+	cbne	r5, r6, f29
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f30
+	cbne	r8, r6, f30
 	movq	=0x0, r1
 	movq	=0x0, r2
 	movq	=0x4004000000000000, r3
@@ -222,11 +192,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc004000000000000, r6
-	cmp	r5, r6
-	bne	f31
+	cbne	r5, r6, f31
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f32
+	cbne	r8, r6, f32
 	movq	=0x0, r1
 	movq	=0x0, r2
 	movq	=0x400e000000000000, r3
@@ -236,11 +204,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00e000000000000, r6
-	cmp	r5, r6
-	bne	f33
+	cbne	r5, r6, f33
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f34
+	cbne	r8, r6, f34
 	movq	=0x0, r1
 	movq	=0x0, r2
 	movq	=0x400e000000000000, r3
@@ -250,11 +216,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00e000000000000, r6
-	cmp	r5, r6
-	bne	f35
+	cbne	r5, r6, f35
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f36
+	cbne	r8, r6, f36
 	movq	=0x0, r1
 	movq	=0x0, r2
 	movq	=0xc00e000000000000, r3
@@ -264,11 +228,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x400e000000000000, r6
-	cmp	r5, r6
-	bne	f37
+	cbne	r5, r6, f37
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f38
+	cbne	r8, r6, f38
 	movq	=0x0, r1
 	movq	=0x0, r2
 	movq	=0xc00e000000000000, r3
@@ -278,11 +240,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x400e000000000000, r6
-	cmp	r5, r6
-	bne	f39
+	cbne	r5, r6, f39
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f40
+	cbne	r8, r6, f40
 	movq	=0x0, r1
 	movq	=0x0, r2
 	movq	=0x401e000000000000, r3
@@ -292,11 +252,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01e000000000000, r6
-	cmp	r5, r6
-	bne	f41
+	cbne	r5, r6, f41
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f42
+	cbne	r8, r6, f42
 	movq	=0x0, r1
 	movq	=0x0, r2
 	movq	=0x401e000000000000, r3
@@ -306,11 +264,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01e000000000000, r6
-	cmp	r5, r6
-	bne	f43
+	cbne	r5, r6, f43
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f44
+	cbne	r8, r6, f44
 	movq	=0x0, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x0, r3
@@ -320,11 +276,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x8000000000000000, r6
-	cmp	r5, r6
-	bne	f45
+	cbne	r5, r6, f45
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f46
+	cbne	r8, r6, f46
 	movq	=0x0, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x0, r3
@@ -334,11 +288,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f47
+	cbne	r5, r6, f47
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f48
+	cbne	r8, r6, f48
 	movq	=0x0, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -348,11 +300,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f49
+	cbne	r5, r6, f49
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f50
+	cbne	r8, r6, f50
 	movq	=0x0, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -362,11 +312,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f51
+	cbne	r5, r6, f51
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f52
+	cbne	r8, r6, f52
 	movq	=0x0, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -376,11 +324,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f53
+	cbne	r5, r6, f53
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f54
+	cbne	r8, r6, f54
 	movq	=0x0, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -390,11 +336,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f55
+	cbne	r5, r6, f55
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f56
+	cbne	r8, r6, f56
 	movq	=0x0, r1
 	movq	=0x8000000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -404,11 +348,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff0000000000000, r6
-	cmp	r5, r6
-	bne	f57
+	cbne	r5, r6, f57
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f58
+	cbne	r8, r6, f58
 	movq	=0x0, r1
 	movq	=0x8000000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -418,11 +360,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff0000000000000, r6
-	cmp	r5, r6
-	bne	f59
+	cbne	r5, r6, f59
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f60
+	cbne	r8, r6, f60
 	movq	=0x0, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -432,11 +372,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc000000000000000, r6
-	cmp	r5, r6
-	bne	f61
+	cbne	r5, r6, f61
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f62
+	cbne	r8, r6, f62
 	movq	=0x0, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -446,11 +384,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc000000000000000, r6
-	cmp	r5, r6
-	bne	f63
+	cbne	r5, r6, f63
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f64
+	cbne	r8, r6, f64
 	movq	=0x0, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -460,11 +396,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc008000000000000, r6
-	cmp	r5, r6
-	bne	f65
+	cbne	r5, r6, f65
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f66
+	cbne	r8, r6, f66
 	movq	=0x0, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -474,11 +408,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc008000000000000, r6
-	cmp	r5, r6
-	bne	f67
+	cbne	r5, r6, f67
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f68
+	cbne	r8, r6, f68
 	movq	=0x0, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -488,11 +420,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f69
+	cbne	r5, r6, f69
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f70
+	cbne	r8, r6, f70
 	movq	=0x0, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -502,11 +432,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f71
+	cbne	r5, r6, f71
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f72
+	cbne	r8, r6, f72
 	movq	=0x0, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -516,11 +444,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc004000000000000, r6
-	cmp	r5, r6
-	bne	f73
+	cbne	r5, r6, f73
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f74
+	cbne	r8, r6, f74
 	movq	=0x0, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -530,11 +456,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc004000000000000, r6
-	cmp	r5, r6
-	bne	f75
+	cbne	r5, r6, f75
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f76
+	cbne	r8, r6, f76
 	movq	=0x0, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -544,11 +468,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00e000000000000, r6
-	cmp	r5, r6
-	bne	f77
+	cbne	r5, r6, f77
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f78
+	cbne	r8, r6, f78
 	movq	=0x0, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -558,11 +480,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00e000000000000, r6
-	cmp	r5, r6
-	bne	f79
+	cbne	r5, r6, f79
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f80
+	cbne	r8, r6, f80
 	movq	=0x0, r1
 	movq	=0x8000000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -572,11 +492,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x400e000000000000, r6
-	cmp	r5, r6
-	bne	f81
+	cbne	r5, r6, f81
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f82
+	cbne	r8, r6, f82
 	movq	=0x0, r1
 	movq	=0x8000000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -586,11 +504,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x400e000000000000, r6
-	cmp	r5, r6
-	bne	f83
+	cbne	r5, r6, f83
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f84
+	cbne	r8, r6, f84
 	movq	=0x0, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -600,11 +516,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01e000000000000, r6
-	cmp	r5, r6
-	bne	f85
+	cbne	r5, r6, f85
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f86
+	cbne	r8, r6, f86
 	movq	=0x0, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -614,11 +528,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01e000000000000, r6
-	cmp	r5, r6
-	bne	f87
+	cbne	r5, r6, f87
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f88
+	cbne	r8, r6, f88
 	movq	=0x0, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x0, r3
@@ -628,11 +540,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f89
+	cbne	r5, r6, f89
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f90
+	cbne	r8, r6, f90
 	movq	=0x0, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x0, r3
@@ -642,11 +552,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x8000000000000000, r6
-	cmp	r5, r6
-	bne	f91
+	cbne	r5, r6, f91
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f92
+	cbne	r8, r6, f92
 	movq	=0x0, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -656,11 +564,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f93
+	cbne	r5, r6, f93
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f94
+	cbne	r8, r6, f94
 	movq	=0x0, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -670,11 +576,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f95
+	cbne	r5, r6, f95
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f96
+	cbne	r8, r6, f96
 	movq	=0x0, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -684,11 +588,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f97
+	cbne	r5, r6, f97
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f98
+	cbne	r8, r6, f98
 	movq	=0x0, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -698,11 +600,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f99
+	cbne	r5, r6, f99
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f100
+	cbne	r8, r6, f100
 	movq	=0x0, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -712,11 +612,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff0000000000000, r6
-	cmp	r5, r6
-	bne	f101
+	cbne	r5, r6, f101
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f102
+	cbne	r8, r6, f102
 	movq	=0x0, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -726,11 +624,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff0000000000000, r6
-	cmp	r5, r6
-	bne	f103
+	cbne	r5, r6, f103
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f104
+	cbne	r8, r6, f104
 	movq	=0x0, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -740,11 +636,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc000000000000000, r6
-	cmp	r5, r6
-	bne	f105
+	cbne	r5, r6, f105
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f106
+	cbne	r8, r6, f106
 	movq	=0x0, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -754,11 +648,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc000000000000000, r6
-	cmp	r5, r6
-	bne	f107
+	cbne	r5, r6, f107
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f108
+	cbne	r8, r6, f108
 	movq	=0x0, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -768,11 +660,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc008000000000000, r6
-	cmp	r5, r6
-	bne	f109
+	cbne	r5, r6, f109
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f110
+	cbne	r8, r6, f110
 	movq	=0x0, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -782,11 +672,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc008000000000000, r6
-	cmp	r5, r6
-	bne	f111
+	cbne	r5, r6, f111
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f112
+	cbne	r8, r6, f112
 	movq	=0x0, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -796,11 +684,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f113
+	cbne	r5, r6, f113
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f114
+	cbne	r8, r6, f114
 	movq	=0x0, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -810,11 +696,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f115
+	cbne	r5, r6, f115
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f116
+	cbne	r8, r6, f116
 	movq	=0x0, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -824,11 +708,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc004000000000000, r6
-	cmp	r5, r6
-	bne	f117
+	cbne	r5, r6, f117
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f118
+	cbne	r8, r6, f118
 	movq	=0x0, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -838,11 +720,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc004000000000000, r6
-	cmp	r5, r6
-	bne	f119
+	cbne	r5, r6, f119
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f120
+	cbne	r8, r6, f120
 	movq	=0x0, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -852,11 +732,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00e000000000000, r6
-	cmp	r5, r6
-	bne	f121
+	cbne	r5, r6, f121
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f122
+	cbne	r8, r6, f122
 	movq	=0x0, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -866,11 +744,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00e000000000000, r6
-	cmp	r5, r6
-	bne	f123
+	cbne	r5, r6, f123
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f124
+	cbne	r8, r6, f124
 	movq	=0x0, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -880,11 +756,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x400e000000000000, r6
-	cmp	r5, r6
-	bne	f125
+	cbne	r5, r6, f125
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f126
+	cbne	r8, r6, f126
 	movq	=0x0, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -894,11 +768,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x400e000000000000, r6
-	cmp	r5, r6
-	bne	f127
+	cbne	r5, r6, f127
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f128
+	cbne	r8, r6, f128
 	movq	=0x0, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -908,11 +780,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01e000000000000, r6
-	cmp	r5, r6
-	bne	f129
+	cbne	r5, r6, f129
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f130
+	cbne	r8, r6, f130
 	movq	=0x0, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -922,11 +792,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01e000000000000, r6
-	cmp	r5, r6
-	bne	f131
+	cbne	r5, r6, f131
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f132
+	cbne	r8, r6, f132
 	movq	=0x0, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x0, r3
@@ -936,11 +804,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x8000000000000000, r6
-	cmp	r5, r6
-	bne	f133
+	cbne	r5, r6, f133
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f134
+	cbne	r8, r6, f134
 	movq	=0x0, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x0, r3
@@ -950,11 +816,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f135
+	cbne	r5, r6, f135
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f136
+	cbne	r8, r6, f136
 	movq	=0x0, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -964,11 +828,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f137
+	cbne	r5, r6, f137
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f138
+	cbne	r8, r6, f138
 	movq	=0x0, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -978,11 +840,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f139
+	cbne	r5, r6, f139
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f140
+	cbne	r8, r6, f140
 	movq	=0x0, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -992,11 +852,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f141
+	cbne	r5, r6, f141
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f142
+	cbne	r8, r6, f142
 	movq	=0x0, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -1006,11 +864,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f143
+	cbne	r5, r6, f143
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f144
+	cbne	r8, r6, f144
 	movq	=0x0, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -1020,11 +876,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff0000000000000, r6
-	cmp	r5, r6
-	bne	f145
+	cbne	r5, r6, f145
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f146
+	cbne	r8, r6, f146
 	movq	=0x0, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -1034,11 +888,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff0000000000000, r6
-	cmp	r5, r6
-	bne	f147
+	cbne	r5, r6, f147
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f148
+	cbne	r8, r6, f148
 	movq	=0x0, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -1048,11 +900,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc000000000000000, r6
-	cmp	r5, r6
-	bne	f149
+	cbne	r5, r6, f149
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f150
+	cbne	r8, r6, f150
 	movq	=0x0, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -1062,11 +912,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc000000000000000, r6
-	cmp	r5, r6
-	bne	f151
+	cbne	r5, r6, f151
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f152
+	cbne	r8, r6, f152
 	movq	=0x0, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -1076,11 +924,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc008000000000000, r6
-	cmp	r5, r6
-	bne	f153
+	cbne	r5, r6, f153
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f154
+	cbne	r8, r6, f154
 	movq	=0x0, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -1090,11 +936,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc008000000000000, r6
-	cmp	r5, r6
-	bne	f155
+	cbne	r5, r6, f155
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f156
+	cbne	r8, r6, f156
 	movq	=0x0, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -1104,11 +948,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f157
+	cbne	r5, r6, f157
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f158
+	cbne	r8, r6, f158
 	movq	=0x0, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -1118,11 +960,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f159
+	cbne	r5, r6, f159
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f160
+	cbne	r8, r6, f160
 	movq	=0x0, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -1132,11 +972,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc004000000000000, r6
-	cmp	r5, r6
-	bne	f161
+	cbne	r5, r6, f161
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f162
+	cbne	r8, r6, f162
 	movq	=0x0, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -1146,11 +984,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc004000000000000, r6
-	cmp	r5, r6
-	bne	f163
+	cbne	r5, r6, f163
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f164
+	cbne	r8, r6, f164
 	movq	=0x0, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -1160,11 +996,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00e000000000000, r6
-	cmp	r5, r6
-	bne	f165
+	cbne	r5, r6, f165
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f166
+	cbne	r8, r6, f166
 	movq	=0x0, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -1174,11 +1008,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00e000000000000, r6
-	cmp	r5, r6
-	bne	f167
+	cbne	r5, r6, f167
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f168
+	cbne	r8, r6, f168
 	movq	=0x0, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -1188,11 +1020,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x400e000000000000, r6
-	cmp	r5, r6
-	bne	f169
+	cbne	r5, r6, f169
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f170
+	cbne	r8, r6, f170
 	movq	=0x0, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -1202,11 +1032,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x400e000000000000, r6
-	cmp	r5, r6
-	bne	f171
+	cbne	r5, r6, f171
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f172
+	cbne	r8, r6, f172
 	movq	=0x0, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -1216,11 +1044,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01e000000000000, r6
-	cmp	r5, r6
-	bne	f173
+	cbne	r5, r6, f173
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f174
+	cbne	r8, r6, f174
 	movq	=0x0, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -1230,11 +1056,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01e000000000000, r6
-	cmp	r5, r6
-	bne	f175
+	cbne	r5, r6, f175
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f176
+	cbne	r8, r6, f176
 	movq	=0x0, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x0, r3
@@ -1244,11 +1068,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f177
+	cbne	r5, r6, f177
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f178
+	cbne	r8, r6, f178
 	movq	=0x0, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x0, r3
@@ -1258,11 +1080,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x8000000000000000, r6
-	cmp	r5, r6
-	bne	f179
+	cbne	r5, r6, f179
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f180
+	cbne	r8, r6, f180
 	movq	=0x0, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -1272,11 +1092,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f181
+	cbne	r5, r6, f181
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f182
+	cbne	r8, r6, f182
 	movq	=0x0, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -1286,11 +1104,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f183
+	cbne	r5, r6, f183
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f184
+	cbne	r8, r6, f184
 	movq	=0x0, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -1300,11 +1116,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f185
+	cbne	r5, r6, f185
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f186
+	cbne	r8, r6, f186
 	movq	=0x0, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -1314,11 +1128,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f187
+	cbne	r5, r6, f187
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f188
+	cbne	r8, r6, f188
 	movq	=0x0, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -1328,11 +1140,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff0000000000000, r6
-	cmp	r5, r6
-	bne	f189
+	cbne	r5, r6, f189
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f190
+	cbne	r8, r6, f190
 	movq	=0x0, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -1342,11 +1152,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff0000000000000, r6
-	cmp	r5, r6
-	bne	f191
+	cbne	r5, r6, f191
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f192
+	cbne	r8, r6, f192
 	movq	=0x0, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -1356,11 +1164,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc000000000000000, r6
-	cmp	r5, r6
-	bne	f193
+	cbne	r5, r6, f193
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f194
+	cbne	r8, r6, f194
 	movq	=0x0, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -1370,11 +1176,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc000000000000000, r6
-	cmp	r5, r6
-	bne	f195
+	cbne	r5, r6, f195
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f196
+	cbne	r8, r6, f196
 	movq	=0x0, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -1384,11 +1188,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc008000000000000, r6
-	cmp	r5, r6
-	bne	f197
+	cbne	r5, r6, f197
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f198
+	cbne	r8, r6, f198
 	movq	=0x0, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -1398,11 +1200,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc008000000000000, r6
-	cmp	r5, r6
-	bne	f199
+	cbne	r5, r6, f199
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f200
+	cbne	r8, r6, f200
 	movq	=0x0, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -1412,11 +1212,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f201
+	cbne	r5, r6, f201
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f202
+	cbne	r8, r6, f202
 	movq	=0x0, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -1426,11 +1224,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f203
+	cbne	r5, r6, f203
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f204
+	cbne	r8, r6, f204
 	movq	=0x0, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -1440,11 +1236,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc004000000000000, r6
-	cmp	r5, r6
-	bne	f205
+	cbne	r5, r6, f205
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f206
+	cbne	r8, r6, f206
 	movq	=0x0, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -1454,11 +1248,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc004000000000000, r6
-	cmp	r5, r6
-	bne	f207
+	cbne	r5, r6, f207
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f208
+	cbne	r8, r6, f208
 	movq	=0x0, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -1468,11 +1260,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00e000000000000, r6
-	cmp	r5, r6
-	bne	f209
+	cbne	r5, r6, f209
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f210
+	cbne	r8, r6, f210
 	movq	=0x0, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -1482,11 +1272,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00e000000000000, r6
-	cmp	r5, r6
-	bne	f211
+	cbne	r5, r6, f211
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f212
+	cbne	r8, r6, f212
 	movq	=0x0, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -1496,11 +1284,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x400e000000000000, r6
-	cmp	r5, r6
-	bne	f213
+	cbne	r5, r6, f213
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f214
+	cbne	r8, r6, f214
 	movq	=0x0, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -1510,11 +1296,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x400e000000000000, r6
-	cmp	r5, r6
-	bne	f215
+	cbne	r5, r6, f215
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f216
+	cbne	r8, r6, f216
 	movq	=0x0, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -1524,11 +1308,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01e000000000000, r6
-	cmp	r5, r6
-	bne	f217
+	cbne	r5, r6, f217
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f218
+	cbne	r8, r6, f218
 	movq	=0x0, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -1538,11 +1320,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01e000000000000, r6
-	cmp	r5, r6
-	bne	f219
+	cbne	r5, r6, f219
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f220
+	cbne	r8, r6, f220
 	movq	=0x8000000000000000, r1
 	movq	=0x0, r2
 	movq	=0x0, r3
@@ -1552,11 +1332,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x8000000000000000, r6
-	cmp	r5, r6
-	bne	f221
+	cbne	r5, r6, f221
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f222
+	cbne	r8, r6, f222
 	movq	=0x8000000000000000, r1
 	movq	=0x0, r2
 	movq	=0x0, r3
@@ -1566,11 +1344,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f223
+	cbne	r5, r6, f223
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f224
+	cbne	r8, r6, f224
 	movq	=0x8000000000000000, r1
 	movq	=0x0, r2
 	movq	=0x8000000000000000, r3
@@ -1580,11 +1356,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f225
+	cbne	r5, r6, f225
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f226
+	cbne	r8, r6, f226
 	movq	=0x8000000000000000, r1
 	movq	=0x0, r2
 	movq	=0x8000000000000000, r3
@@ -1594,11 +1368,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f227
+	cbne	r5, r6, f227
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f228
+	cbne	r8, r6, f228
 	movq	=0x8000000000000000, r1
 	movq	=0x0, r2
 	movq	=0x3ff0000000000000, r3
@@ -1608,11 +1380,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f229
+	cbne	r5, r6, f229
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f230
+	cbne	r8, r6, f230
 	movq	=0x8000000000000000, r1
 	movq	=0x0, r2
 	movq	=0x3ff0000000000000, r3
@@ -1622,11 +1392,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f231
+	cbne	r5, r6, f231
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f232
+	cbne	r8, r6, f232
 	movq	=0x8000000000000000, r1
 	movq	=0x0, r2
 	movq	=0xbff0000000000000, r3
@@ -1636,11 +1404,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff0000000000000, r6
-	cmp	r5, r6
-	bne	f233
+	cbne	r5, r6, f233
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f234
+	cbne	r8, r6, f234
 	movq	=0x8000000000000000, r1
 	movq	=0x0, r2
 	movq	=0xbff0000000000000, r3
@@ -1650,11 +1416,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff0000000000000, r6
-	cmp	r5, r6
-	bne	f235
+	cbne	r5, r6, f235
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f236
+	cbne	r8, r6, f236
 	movq	=0x8000000000000000, r1
 	movq	=0x0, r2
 	movq	=0x4000000000000000, r3
@@ -1664,11 +1428,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc000000000000000, r6
-	cmp	r5, r6
-	bne	f237
+	cbne	r5, r6, f237
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f238
+	cbne	r8, r6, f238
 	movq	=0x8000000000000000, r1
 	movq	=0x0, r2
 	movq	=0x4000000000000000, r3
@@ -1678,11 +1440,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc000000000000000, r6
-	cmp	r5, r6
-	bne	f239
+	cbne	r5, r6, f239
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f240
+	cbne	r8, r6, f240
 	movq	=0x8000000000000000, r1
 	movq	=0x0, r2
 	movq	=0x4008000000000000, r3
@@ -1692,11 +1452,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc008000000000000, r6
-	cmp	r5, r6
-	bne	f241
+	cbne	r5, r6, f241
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f242
+	cbne	r8, r6, f242
 	movq	=0x8000000000000000, r1
 	movq	=0x0, r2
 	movq	=0x4008000000000000, r3
@@ -1706,11 +1464,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc008000000000000, r6
-	cmp	r5, r6
-	bne	f243
+	cbne	r5, r6, f243
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f244
+	cbne	r8, r6, f244
 	movq	=0x8000000000000000, r1
 	movq	=0x0, r2
 	movq	=0x3ff8000000000000, r3
@@ -1720,11 +1476,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f245
+	cbne	r5, r6, f245
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f246
+	cbne	r8, r6, f246
 	movq	=0x8000000000000000, r1
 	movq	=0x0, r2
 	movq	=0x3ff8000000000000, r3
@@ -1734,11 +1488,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f247
+	cbne	r5, r6, f247
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f248
+	cbne	r8, r6, f248
 	movq	=0x8000000000000000, r1
 	movq	=0x0, r2
 	movq	=0x4004000000000000, r3
@@ -1748,11 +1500,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc004000000000000, r6
-	cmp	r5, r6
-	bne	f249
+	cbne	r5, r6, f249
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f250
+	cbne	r8, r6, f250
 	movq	=0x8000000000000000, r1
 	movq	=0x0, r2
 	movq	=0x4004000000000000, r3
@@ -1762,11 +1512,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc004000000000000, r6
-	cmp	r5, r6
-	bne	f251
+	cbne	r5, r6, f251
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f252
+	cbne	r8, r6, f252
 	movq	=0x8000000000000000, r1
 	movq	=0x0, r2
 	movq	=0x400e000000000000, r3
@@ -1776,11 +1524,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00e000000000000, r6
-	cmp	r5, r6
-	bne	f253
+	cbne	r5, r6, f253
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f254
+	cbne	r8, r6, f254
 	movq	=0x8000000000000000, r1
 	movq	=0x0, r2
 	movq	=0x400e000000000000, r3
@@ -1790,11 +1536,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00e000000000000, r6
-	cmp	r5, r6
-	bne	f255
+	cbne	r5, r6, f255
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f256
+	cbne	r8, r6, f256
 	movq	=0x8000000000000000, r1
 	movq	=0x0, r2
 	movq	=0xc00e000000000000, r3
@@ -1804,11 +1548,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x400e000000000000, r6
-	cmp	r5, r6
-	bne	f257
+	cbne	r5, r6, f257
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f258
+	cbne	r8, r6, f258
 	movq	=0x8000000000000000, r1
 	movq	=0x0, r2
 	movq	=0xc00e000000000000, r3
@@ -1818,11 +1560,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x400e000000000000, r6
-	cmp	r5, r6
-	bne	f259
+	cbne	r5, r6, f259
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f260
+	cbne	r8, r6, f260
 	movq	=0x8000000000000000, r1
 	movq	=0x0, r2
 	movq	=0x401e000000000000, r3
@@ -1832,11 +1572,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01e000000000000, r6
-	cmp	r5, r6
-	bne	f261
+	cbne	r5, r6, f261
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f262
+	cbne	r8, r6, f262
 	movq	=0x8000000000000000, r1
 	movq	=0x0, r2
 	movq	=0x401e000000000000, r3
@@ -1846,11 +1584,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01e000000000000, r6
-	cmp	r5, r6
-	bne	f263
+	cbne	r5, r6, f263
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f264
+	cbne	r8, r6, f264
 	movq	=0x8000000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x0, r3
@@ -1860,11 +1596,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f265
+	cbne	r5, r6, f265
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f266
+	cbne	r8, r6, f266
 	movq	=0x8000000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x0, r3
@@ -1874,11 +1608,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x8000000000000000, r6
-	cmp	r5, r6
-	bne	f267
+	cbne	r5, r6, f267
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f268
+	cbne	r8, r6, f268
 	movq	=0x8000000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -1888,11 +1620,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f269
+	cbne	r5, r6, f269
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f270
+	cbne	r8, r6, f270
 	movq	=0x8000000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -1902,11 +1632,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f271
+	cbne	r5, r6, f271
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f272
+	cbne	r8, r6, f272
 	movq	=0x8000000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -1916,11 +1644,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f273
+	cbne	r5, r6, f273
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f274
+	cbne	r8, r6, f274
 	movq	=0x8000000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -1930,11 +1656,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f275
+	cbne	r5, r6, f275
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f276
+	cbne	r8, r6, f276
 	movq	=0x8000000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -1944,11 +1668,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff0000000000000, r6
-	cmp	r5, r6
-	bne	f277
+	cbne	r5, r6, f277
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f278
+	cbne	r8, r6, f278
 	movq	=0x8000000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -1958,11 +1680,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff0000000000000, r6
-	cmp	r5, r6
-	bne	f279
+	cbne	r5, r6, f279
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f280
+	cbne	r8, r6, f280
 	movq	=0x8000000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -1972,11 +1692,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc000000000000000, r6
-	cmp	r5, r6
-	bne	f281
+	cbne	r5, r6, f281
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f282
+	cbne	r8, r6, f282
 	movq	=0x8000000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -1986,11 +1704,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc000000000000000, r6
-	cmp	r5, r6
-	bne	f283
+	cbne	r5, r6, f283
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f284
+	cbne	r8, r6, f284
 	movq	=0x8000000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -2000,11 +1716,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc008000000000000, r6
-	cmp	r5, r6
-	bne	f285
+	cbne	r5, r6, f285
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f286
+	cbne	r8, r6, f286
 	movq	=0x8000000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -2014,11 +1728,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc008000000000000, r6
-	cmp	r5, r6
-	bne	f287
+	cbne	r5, r6, f287
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f288
+	cbne	r8, r6, f288
 	movq	=0x8000000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -2028,11 +1740,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f289
+	cbne	r5, r6, f289
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f290
+	cbne	r8, r6, f290
 	movq	=0x8000000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -2042,11 +1752,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f291
+	cbne	r5, r6, f291
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f292
+	cbne	r8, r6, f292
 	movq	=0x8000000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -2056,11 +1764,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc004000000000000, r6
-	cmp	r5, r6
-	bne	f293
+	cbne	r5, r6, f293
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f294
+	cbne	r8, r6, f294
 	movq	=0x8000000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -2070,11 +1776,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc004000000000000, r6
-	cmp	r5, r6
-	bne	f295
+	cbne	r5, r6, f295
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f296
+	cbne	r8, r6, f296
 	movq	=0x8000000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -2084,11 +1788,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00e000000000000, r6
-	cmp	r5, r6
-	bne	f297
+	cbne	r5, r6, f297
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f298
+	cbne	r8, r6, f298
 	movq	=0x8000000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -2098,11 +1800,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00e000000000000, r6
-	cmp	r5, r6
-	bne	f299
+	cbne	r5, r6, f299
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f300
+	cbne	r8, r6, f300
 	movq	=0x8000000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -2112,11 +1812,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x400e000000000000, r6
-	cmp	r5, r6
-	bne	f301
+	cbne	r5, r6, f301
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f302
+	cbne	r8, r6, f302
 	movq	=0x8000000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -2126,11 +1824,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x400e000000000000, r6
-	cmp	r5, r6
-	bne	f303
+	cbne	r5, r6, f303
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f304
+	cbne	r8, r6, f304
 	movq	=0x8000000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -2140,11 +1836,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01e000000000000, r6
-	cmp	r5, r6
-	bne	f305
+	cbne	r5, r6, f305
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f306
+	cbne	r8, r6, f306
 	movq	=0x8000000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -2154,11 +1848,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01e000000000000, r6
-	cmp	r5, r6
-	bne	f307
+	cbne	r5, r6, f307
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f308
+	cbne	r8, r6, f308
 	movq	=0x8000000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x0, r3
@@ -2168,11 +1860,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x8000000000000000, r6
-	cmp	r5, r6
-	bne	f309
+	cbne	r5, r6, f309
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f310
+	cbne	r8, r6, f310
 	movq	=0x8000000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x0, r3
@@ -2182,11 +1872,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f311
+	cbne	r5, r6, f311
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f312
+	cbne	r8, r6, f312
 	movq	=0x8000000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -2196,11 +1884,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f313
+	cbne	r5, r6, f313
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f314
+	cbne	r8, r6, f314
 	movq	=0x8000000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -2210,11 +1896,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f315
+	cbne	r5, r6, f315
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f316
+	cbne	r8, r6, f316
 	movq	=0x8000000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -2224,11 +1908,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f317
+	cbne	r5, r6, f317
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f318
+	cbne	r8, r6, f318
 	movq	=0x8000000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -2238,11 +1920,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f319
+	cbne	r5, r6, f319
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f320
+	cbne	r8, r6, f320
 	movq	=0x8000000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -2252,11 +1932,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff0000000000000, r6
-	cmp	r5, r6
-	bne	f321
+	cbne	r5, r6, f321
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f322
+	cbne	r8, r6, f322
 	movq	=0x8000000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -2266,11 +1944,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff0000000000000, r6
-	cmp	r5, r6
-	bne	f323
+	cbne	r5, r6, f323
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f324
+	cbne	r8, r6, f324
 	movq	=0x8000000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -2280,11 +1956,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc000000000000000, r6
-	cmp	r5, r6
-	bne	f325
+	cbne	r5, r6, f325
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f326
+	cbne	r8, r6, f326
 	movq	=0x8000000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -2294,11 +1968,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc000000000000000, r6
-	cmp	r5, r6
-	bne	f327
+	cbne	r5, r6, f327
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f328
+	cbne	r8, r6, f328
 	movq	=0x8000000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -2308,11 +1980,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc008000000000000, r6
-	cmp	r5, r6
-	bne	f329
+	cbne	r5, r6, f329
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f330
+	cbne	r8, r6, f330
 	movq	=0x8000000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -2322,11 +1992,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc008000000000000, r6
-	cmp	r5, r6
-	bne	f331
+	cbne	r5, r6, f331
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f332
+	cbne	r8, r6, f332
 	movq	=0x8000000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -2336,11 +2004,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f333
+	cbne	r5, r6, f333
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f334
+	cbne	r8, r6, f334
 	movq	=0x8000000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -2350,11 +2016,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f335
+	cbne	r5, r6, f335
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f336
+	cbne	r8, r6, f336
 	movq	=0x8000000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -2364,11 +2028,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc004000000000000, r6
-	cmp	r5, r6
-	bne	f337
+	cbne	r5, r6, f337
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f338
+	cbne	r8, r6, f338
 	movq	=0x8000000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -2378,11 +2040,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc004000000000000, r6
-	cmp	r5, r6
-	bne	f339
+	cbne	r5, r6, f339
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f340
+	cbne	r8, r6, f340
 	movq	=0x8000000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -2392,11 +2052,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00e000000000000, r6
-	cmp	r5, r6
-	bne	f341
+	cbne	r5, r6, f341
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f342
+	cbne	r8, r6, f342
 	movq	=0x8000000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -2406,11 +2064,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00e000000000000, r6
-	cmp	r5, r6
-	bne	f343
+	cbne	r5, r6, f343
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f344
+	cbne	r8, r6, f344
 	movq	=0x8000000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -2420,11 +2076,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x400e000000000000, r6
-	cmp	r5, r6
-	bne	f345
+	cbne	r5, r6, f345
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f346
+	cbne	r8, r6, f346
 	movq	=0x8000000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -2434,11 +2088,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x400e000000000000, r6
-	cmp	r5, r6
-	bne	f347
+	cbne	r5, r6, f347
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f348
+	cbne	r8, r6, f348
 	movq	=0x8000000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -2448,11 +2100,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01e000000000000, r6
-	cmp	r5, r6
-	bne	f349
+	cbne	r5, r6, f349
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f350
+	cbne	r8, r6, f350
 	movq	=0x8000000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -2462,11 +2112,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01e000000000000, r6
-	cmp	r5, r6
-	bne	f351
+	cbne	r5, r6, f351
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f352
+	cbne	r8, r6, f352
 	movq	=0x8000000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x0, r3
@@ -2476,11 +2124,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f353
+	cbne	r5, r6, f353
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f354
+	cbne	r8, r6, f354
 	movq	=0x8000000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x0, r3
@@ -2490,11 +2136,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x8000000000000000, r6
-	cmp	r5, r6
-	bne	f355
+	cbne	r5, r6, f355
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f356
+	cbne	r8, r6, f356
 	movq	=0x8000000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -2504,11 +2148,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f357
+	cbne	r5, r6, f357
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f358
+	cbne	r8, r6, f358
 	movq	=0x8000000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -2518,11 +2160,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f359
+	cbne	r5, r6, f359
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f360
+	cbne	r8, r6, f360
 	movq	=0x8000000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -2532,11 +2172,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f361
+	cbne	r5, r6, f361
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f362
+	cbne	r8, r6, f362
 	movq	=0x8000000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -2546,11 +2184,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f363
+	cbne	r5, r6, f363
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f364
+	cbne	r8, r6, f364
 	movq	=0x8000000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -2560,11 +2196,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff0000000000000, r6
-	cmp	r5, r6
-	bne	f365
+	cbne	r5, r6, f365
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f366
+	cbne	r8, r6, f366
 	movq	=0x8000000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -2574,11 +2208,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff0000000000000, r6
-	cmp	r5, r6
-	bne	f367
+	cbne	r5, r6, f367
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f368
+	cbne	r8, r6, f368
 	movq	=0x8000000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -2588,11 +2220,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc000000000000000, r6
-	cmp	r5, r6
-	bne	f369
+	cbne	r5, r6, f369
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f370
+	cbne	r8, r6, f370
 	movq	=0x8000000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -2602,11 +2232,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc000000000000000, r6
-	cmp	r5, r6
-	bne	f371
+	cbne	r5, r6, f371
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f372
+	cbne	r8, r6, f372
 	movq	=0x8000000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -2616,11 +2244,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc008000000000000, r6
-	cmp	r5, r6
-	bne	f373
+	cbne	r5, r6, f373
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f374
+	cbne	r8, r6, f374
 	movq	=0x8000000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -2630,11 +2256,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc008000000000000, r6
-	cmp	r5, r6
-	bne	f375
+	cbne	r5, r6, f375
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f376
+	cbne	r8, r6, f376
 	movq	=0x8000000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -2644,11 +2268,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f377
+	cbne	r5, r6, f377
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f378
+	cbne	r8, r6, f378
 	movq	=0x8000000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -2658,11 +2280,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f379
+	cbne	r5, r6, f379
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f380
+	cbne	r8, r6, f380
 	movq	=0x8000000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -2672,11 +2292,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc004000000000000, r6
-	cmp	r5, r6
-	bne	f381
+	cbne	r5, r6, f381
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f382
+	cbne	r8, r6, f382
 	movq	=0x8000000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -2686,11 +2304,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc004000000000000, r6
-	cmp	r5, r6
-	bne	f383
+	cbne	r5, r6, f383
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f384
+	cbne	r8, r6, f384
 	movq	=0x8000000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -2700,11 +2316,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00e000000000000, r6
-	cmp	r5, r6
-	bne	f385
+	cbne	r5, r6, f385
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f386
+	cbne	r8, r6, f386
 	movq	=0x8000000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -2714,11 +2328,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00e000000000000, r6
-	cmp	r5, r6
-	bne	f387
+	cbne	r5, r6, f387
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f388
+	cbne	r8, r6, f388
 	movq	=0x8000000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -2728,11 +2340,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x400e000000000000, r6
-	cmp	r5, r6
-	bne	f389
+	cbne	r5, r6, f389
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f390
+	cbne	r8, r6, f390
 	movq	=0x8000000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -2742,11 +2352,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x400e000000000000, r6
-	cmp	r5, r6
-	bne	f391
+	cbne	r5, r6, f391
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f392
+	cbne	r8, r6, f392
 	movq	=0x8000000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -2756,11 +2364,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01e000000000000, r6
-	cmp	r5, r6
-	bne	f393
+	cbne	r5, r6, f393
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f394
+	cbne	r8, r6, f394
 	movq	=0x8000000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -2770,11 +2376,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01e000000000000, r6
-	cmp	r5, r6
-	bne	f395
+	cbne	r5, r6, f395
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f396
+	cbne	r8, r6, f396
 	movq	=0x8000000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x0, r3
@@ -2784,11 +2388,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x8000000000000000, r6
-	cmp	r5, r6
-	bne	f397
+	cbne	r5, r6, f397
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f398
+	cbne	r8, r6, f398
 	movq	=0x8000000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x0, r3
@@ -2798,11 +2400,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f399
+	cbne	r5, r6, f399
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f400
+	cbne	r8, r6, f400
 	movq	=0x8000000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -2812,11 +2412,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f401
+	cbne	r5, r6, f401
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f402
+	cbne	r8, r6, f402
 	movq	=0x8000000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -2826,11 +2424,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f403
+	cbne	r5, r6, f403
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f404
+	cbne	r8, r6, f404
 	movq	=0x8000000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -2840,11 +2436,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f405
+	cbne	r5, r6, f405
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f406
+	cbne	r8, r6, f406
 	movq	=0x8000000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -2854,11 +2448,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f407
+	cbne	r5, r6, f407
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f408
+	cbne	r8, r6, f408
 	movq	=0x8000000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -2868,11 +2460,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff0000000000000, r6
-	cmp	r5, r6
-	bne	f409
+	cbne	r5, r6, f409
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f410
+	cbne	r8, r6, f410
 	movq	=0x8000000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -2882,11 +2472,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff0000000000000, r6
-	cmp	r5, r6
-	bne	f411
+	cbne	r5, r6, f411
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f412
+	cbne	r8, r6, f412
 	movq	=0x8000000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -2896,11 +2484,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc000000000000000, r6
-	cmp	r5, r6
-	bne	f413
+	cbne	r5, r6, f413
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f414
+	cbne	r8, r6, f414
 	movq	=0x8000000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -2910,11 +2496,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc000000000000000, r6
-	cmp	r5, r6
-	bne	f415
+	cbne	r5, r6, f415
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f416
+	cbne	r8, r6, f416
 	movq	=0x8000000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -2924,11 +2508,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc008000000000000, r6
-	cmp	r5, r6
-	bne	f417
+	cbne	r5, r6, f417
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f418
+	cbne	r8, r6, f418
 	movq	=0x8000000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -2938,11 +2520,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc008000000000000, r6
-	cmp	r5, r6
-	bne	f419
+	cbne	r5, r6, f419
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f420
+	cbne	r8, r6, f420
 	movq	=0x8000000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -2952,11 +2532,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f421
+	cbne	r5, r6, f421
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f422
+	cbne	r8, r6, f422
 	movq	=0x8000000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -2966,11 +2544,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f423
+	cbne	r5, r6, f423
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f424
+	cbne	r8, r6, f424
 	movq	=0x8000000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -2980,11 +2556,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc004000000000000, r6
-	cmp	r5, r6
-	bne	f425
+	cbne	r5, r6, f425
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f426
+	cbne	r8, r6, f426
 	movq	=0x8000000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -2994,11 +2568,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc004000000000000, r6
-	cmp	r5, r6
-	bne	f427
+	cbne	r5, r6, f427
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f428
+	cbne	r8, r6, f428
 	movq	=0x8000000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -3008,11 +2580,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00e000000000000, r6
-	cmp	r5, r6
-	bne	f429
+	cbne	r5, r6, f429
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f430
+	cbne	r8, r6, f430
 	movq	=0x8000000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -3022,11 +2592,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00e000000000000, r6
-	cmp	r5, r6
-	bne	f431
+	cbne	r5, r6, f431
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f432
+	cbne	r8, r6, f432
 	movq	=0x8000000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -3036,11 +2604,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x400e000000000000, r6
-	cmp	r5, r6
-	bne	f433
+	cbne	r5, r6, f433
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f434
+	cbne	r8, r6, f434
 	movq	=0x8000000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -3050,11 +2616,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x400e000000000000, r6
-	cmp	r5, r6
-	bne	f435
+	cbne	r5, r6, f435
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f436
+	cbne	r8, r6, f436
 	movq	=0x8000000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -3064,11 +2628,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01e000000000000, r6
-	cmp	r5, r6
-	bne	f437
+	cbne	r5, r6, f437
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f438
+	cbne	r8, r6, f438
 	movq	=0x8000000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -3078,11 +2640,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01e000000000000, r6
-	cmp	r5, r6
-	bne	f439
+	cbne	r5, r6, f439
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f440
+	cbne	r8, r6, f440
 	movq	=0x3ff0000000000000, r1
 	movq	=0x0, r2
 	movq	=0x0, r3
@@ -3092,11 +2652,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f441
+	cbne	r5, r6, f441
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f442
+	cbne	r8, r6, f442
 	movq	=0x3ff0000000000000, r1
 	movq	=0x0, r2
 	movq	=0x0, r3
@@ -3106,11 +2664,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x8000000000000000, r6
-	cmp	r5, r6
-	bne	f443
+	cbne	r5, r6, f443
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f444
+	cbne	r8, r6, f444
 	movq	=0x3ff0000000000000, r1
 	movq	=0x0, r2
 	movq	=0x8000000000000000, r3
@@ -3120,11 +2676,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f445
+	cbne	r5, r6, f445
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f446
+	cbne	r8, r6, f446
 	movq	=0x3ff0000000000000, r1
 	movq	=0x0, r2
 	movq	=0x8000000000000000, r3
@@ -3134,11 +2688,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f447
+	cbne	r5, r6, f447
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f448
+	cbne	r8, r6, f448
 	movq	=0x3ff0000000000000, r1
 	movq	=0x0, r2
 	movq	=0x3ff0000000000000, r3
@@ -3148,11 +2700,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f449
+	cbne	r5, r6, f449
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f450
+	cbne	r8, r6, f450
 	movq	=0x3ff0000000000000, r1
 	movq	=0x0, r2
 	movq	=0x3ff0000000000000, r3
@@ -3162,11 +2712,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f451
+	cbne	r5, r6, f451
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f452
+	cbne	r8, r6, f452
 	movq	=0x3ff0000000000000, r1
 	movq	=0x0, r2
 	movq	=0xbff0000000000000, r3
@@ -3176,11 +2724,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff0000000000000, r6
-	cmp	r5, r6
-	bne	f453
+	cbne	r5, r6, f453
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f454
+	cbne	r8, r6, f454
 	movq	=0x3ff0000000000000, r1
 	movq	=0x0, r2
 	movq	=0xbff0000000000000, r3
@@ -3190,11 +2736,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff0000000000000, r6
-	cmp	r5, r6
-	bne	f455
+	cbne	r5, r6, f455
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f456
+	cbne	r8, r6, f456
 	movq	=0x3ff0000000000000, r1
 	movq	=0x0, r2
 	movq	=0x4000000000000000, r3
@@ -3204,11 +2748,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc000000000000000, r6
-	cmp	r5, r6
-	bne	f457
+	cbne	r5, r6, f457
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f458
+	cbne	r8, r6, f458
 	movq	=0x3ff0000000000000, r1
 	movq	=0x0, r2
 	movq	=0x4000000000000000, r3
@@ -3218,11 +2760,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc000000000000000, r6
-	cmp	r5, r6
-	bne	f459
+	cbne	r5, r6, f459
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f460
+	cbne	r8, r6, f460
 	movq	=0x3ff0000000000000, r1
 	movq	=0x0, r2
 	movq	=0x4008000000000000, r3
@@ -3232,11 +2772,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc008000000000000, r6
-	cmp	r5, r6
-	bne	f461
+	cbne	r5, r6, f461
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f462
+	cbne	r8, r6, f462
 	movq	=0x3ff0000000000000, r1
 	movq	=0x0, r2
 	movq	=0x4008000000000000, r3
@@ -3246,11 +2784,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc008000000000000, r6
-	cmp	r5, r6
-	bne	f463
+	cbne	r5, r6, f463
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f464
+	cbne	r8, r6, f464
 	movq	=0x3ff0000000000000, r1
 	movq	=0x0, r2
 	movq	=0x3ff8000000000000, r3
@@ -3260,11 +2796,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f465
+	cbne	r5, r6, f465
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f466
+	cbne	r8, r6, f466
 	movq	=0x3ff0000000000000, r1
 	movq	=0x0, r2
 	movq	=0x3ff8000000000000, r3
@@ -3274,11 +2808,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f467
+	cbne	r5, r6, f467
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f468
+	cbne	r8, r6, f468
 	movq	=0x3ff0000000000000, r1
 	movq	=0x0, r2
 	movq	=0x4004000000000000, r3
@@ -3288,11 +2820,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc004000000000000, r6
-	cmp	r5, r6
-	bne	f469
+	cbne	r5, r6, f469
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f470
+	cbne	r8, r6, f470
 	movq	=0x3ff0000000000000, r1
 	movq	=0x0, r2
 	movq	=0x4004000000000000, r3
@@ -3302,11 +2832,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc004000000000000, r6
-	cmp	r5, r6
-	bne	f471
+	cbne	r5, r6, f471
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f472
+	cbne	r8, r6, f472
 	movq	=0x3ff0000000000000, r1
 	movq	=0x0, r2
 	movq	=0x400e000000000000, r3
@@ -3316,11 +2844,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00e000000000000, r6
-	cmp	r5, r6
-	bne	f473
+	cbne	r5, r6, f473
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f474
+	cbne	r8, r6, f474
 	movq	=0x3ff0000000000000, r1
 	movq	=0x0, r2
 	movq	=0x400e000000000000, r3
@@ -3330,11 +2856,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00e000000000000, r6
-	cmp	r5, r6
-	bne	f475
+	cbne	r5, r6, f475
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f476
+	cbne	r8, r6, f476
 	movq	=0x3ff0000000000000, r1
 	movq	=0x0, r2
 	movq	=0xc00e000000000000, r3
@@ -3344,11 +2868,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x400e000000000000, r6
-	cmp	r5, r6
-	bne	f477
+	cbne	r5, r6, f477
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f478
+	cbne	r8, r6, f478
 	movq	=0x3ff0000000000000, r1
 	movq	=0x0, r2
 	movq	=0xc00e000000000000, r3
@@ -3358,11 +2880,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x400e000000000000, r6
-	cmp	r5, r6
-	bne	f479
+	cbne	r5, r6, f479
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f480
+	cbne	r8, r6, f480
 	movq	=0x3ff0000000000000, r1
 	movq	=0x0, r2
 	movq	=0x401e000000000000, r3
@@ -3372,11 +2892,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01e000000000000, r6
-	cmp	r5, r6
-	bne	f481
+	cbne	r5, r6, f481
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f482
+	cbne	r8, r6, f482
 	movq	=0x3ff0000000000000, r1
 	movq	=0x0, r2
 	movq	=0x401e000000000000, r3
@@ -3386,11 +2904,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01e000000000000, r6
-	cmp	r5, r6
-	bne	f483
+	cbne	r5, r6, f483
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f484
+	cbne	r8, r6, f484
 	movq	=0x3ff0000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x0, r3
@@ -3400,11 +2916,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x8000000000000000, r6
-	cmp	r5, r6
-	bne	f485
+	cbne	r5, r6, f485
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f486
+	cbne	r8, r6, f486
 	movq	=0x3ff0000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x0, r3
@@ -3414,11 +2928,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f487
+	cbne	r5, r6, f487
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f488
+	cbne	r8, r6, f488
 	movq	=0x3ff0000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -3428,11 +2940,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f489
+	cbne	r5, r6, f489
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f490
+	cbne	r8, r6, f490
 	movq	=0x3ff0000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -3442,11 +2952,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f491
+	cbne	r5, r6, f491
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f492
+	cbne	r8, r6, f492
 	movq	=0x3ff0000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -3456,11 +2964,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f493
+	cbne	r5, r6, f493
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f494
+	cbne	r8, r6, f494
 	movq	=0x3ff0000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -3470,11 +2976,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f495
+	cbne	r5, r6, f495
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f496
+	cbne	r8, r6, f496
 	movq	=0x3ff0000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -3484,11 +2988,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff0000000000000, r6
-	cmp	r5, r6
-	bne	f497
+	cbne	r5, r6, f497
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f498
+	cbne	r8, r6, f498
 	movq	=0x3ff0000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -3498,11 +3000,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff0000000000000, r6
-	cmp	r5, r6
-	bne	f499
+	cbne	r5, r6, f499
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f500
+	cbne	r8, r6, f500
 	movq	=0x3ff0000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -3512,11 +3012,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc000000000000000, r6
-	cmp	r5, r6
-	bne	f501
+	cbne	r5, r6, f501
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f502
+	cbne	r8, r6, f502
 	movq	=0x3ff0000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -3526,11 +3024,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc000000000000000, r6
-	cmp	r5, r6
-	bne	f503
+	cbne	r5, r6, f503
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f504
+	cbne	r8, r6, f504
 	movq	=0x3ff0000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -3540,11 +3036,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc008000000000000, r6
-	cmp	r5, r6
-	bne	f505
+	cbne	r5, r6, f505
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f506
+	cbne	r8, r6, f506
 	movq	=0x3ff0000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -3554,11 +3048,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc008000000000000, r6
-	cmp	r5, r6
-	bne	f507
+	cbne	r5, r6, f507
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f508
+	cbne	r8, r6, f508
 	movq	=0x3ff0000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -3568,11 +3060,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f509
+	cbne	r5, r6, f509
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f510
+	cbne	r8, r6, f510
 	movq	=0x3ff0000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -3582,11 +3072,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f511
+	cbne	r5, r6, f511
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f512
+	cbne	r8, r6, f512
 	movq	=0x3ff0000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -3596,11 +3084,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc004000000000000, r6
-	cmp	r5, r6
-	bne	f513
+	cbne	r5, r6, f513
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f514
+	cbne	r8, r6, f514
 	movq	=0x3ff0000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -3610,11 +3096,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc004000000000000, r6
-	cmp	r5, r6
-	bne	f515
+	cbne	r5, r6, f515
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f516
+	cbne	r8, r6, f516
 	movq	=0x3ff0000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -3624,11 +3108,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00e000000000000, r6
-	cmp	r5, r6
-	bne	f517
+	cbne	r5, r6, f517
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f518
+	cbne	r8, r6, f518
 	movq	=0x3ff0000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -3638,11 +3120,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00e000000000000, r6
-	cmp	r5, r6
-	bne	f519
+	cbne	r5, r6, f519
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f520
+	cbne	r8, r6, f520
 	movq	=0x3ff0000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -3652,11 +3132,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x400e000000000000, r6
-	cmp	r5, r6
-	bne	f521
+	cbne	r5, r6, f521
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f522
+	cbne	r8, r6, f522
 	movq	=0x3ff0000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -3666,11 +3144,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x400e000000000000, r6
-	cmp	r5, r6
-	bne	f523
+	cbne	r5, r6, f523
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f524
+	cbne	r8, r6, f524
 	movq	=0x3ff0000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -3680,11 +3156,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01e000000000000, r6
-	cmp	r5, r6
-	bne	f525
+	cbne	r5, r6, f525
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f526
+	cbne	r8, r6, f526
 	movq	=0x3ff0000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -3694,11 +3168,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01e000000000000, r6
-	cmp	r5, r6
-	bne	f527
+	cbne	r5, r6, f527
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f528
+	cbne	r8, r6, f528
 	movq	=0x3ff0000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x0, r3
@@ -3708,11 +3180,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff0000000000000, r6
-	cmp	r5, r6
-	bne	f529
+	cbne	r5, r6, f529
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f530
+	cbne	r8, r6, f530
 	movq	=0x3ff0000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x0, r3
@@ -3722,11 +3192,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f531
+	cbne	r5, r6, f531
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f532
+	cbne	r8, r6, f532
 	movq	=0x3ff0000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -3736,11 +3204,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff0000000000000, r6
-	cmp	r5, r6
-	bne	f533
+	cbne	r5, r6, f533
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f534
+	cbne	r8, r6, f534
 	movq	=0x3ff0000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -3750,11 +3216,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f535
+	cbne	r5, r6, f535
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f536
+	cbne	r8, r6, f536
 	movq	=0x3ff0000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -3764,11 +3228,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f537
+	cbne	r5, r6, f537
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f538
+	cbne	r8, r6, f538
 	movq	=0x3ff0000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -3778,11 +3240,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc000000000000000, r6
-	cmp	r5, r6
-	bne	f539
+	cbne	r5, r6, f539
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f540
+	cbne	r8, r6, f540
 	movq	=0x3ff0000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -3792,11 +3252,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4000000000000000, r6
-	cmp	r5, r6
-	bne	f541
+	cbne	r5, r6, f541
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f542
+	cbne	r8, r6, f542
 	movq	=0x3ff0000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -3806,11 +3264,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f543
+	cbne	r5, r6, f543
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f544
+	cbne	r8, r6, f544
 	movq	=0x3ff0000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -3820,11 +3276,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f545
+	cbne	r5, r6, f545
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f546
+	cbne	r8, r6, f546
 	movq	=0x3ff0000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -3834,11 +3288,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc008000000000000, r6
-	cmp	r5, r6
-	bne	f547
+	cbne	r5, r6, f547
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f548
+	cbne	r8, r6, f548
 	movq	=0x3ff0000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -3848,11 +3300,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc000000000000000, r6
-	cmp	r5, r6
-	bne	f549
+	cbne	r5, r6, f549
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f550
+	cbne	r8, r6, f550
 	movq	=0x3ff0000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -3862,11 +3312,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc010000000000000, r6
-	cmp	r5, r6
-	bne	f551
+	cbne	r5, r6, f551
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f552
+	cbne	r8, r6, f552
 	movq	=0x3ff0000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -3876,11 +3324,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbfe0000000000000, r6
-	cmp	r5, r6
-	bne	f553
+	cbne	r5, r6, f553
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f554
+	cbne	r8, r6, f554
 	movq	=0x3ff0000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -3890,11 +3336,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc004000000000000, r6
-	cmp	r5, r6
-	bne	f555
+	cbne	r5, r6, f555
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f556
+	cbne	r8, r6, f556
 	movq	=0x3ff0000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -3904,11 +3348,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f557
+	cbne	r5, r6, f557
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f558
+	cbne	r8, r6, f558
 	movq	=0x3ff0000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -3918,11 +3360,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00c000000000000, r6
-	cmp	r5, r6
-	bne	f559
+	cbne	r5, r6, f559
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f560
+	cbne	r8, r6, f560
 	movq	=0x3ff0000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -3932,11 +3372,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc006000000000000, r6
-	cmp	r5, r6
-	bne	f561
+	cbne	r5, r6, f561
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f562
+	cbne	r8, r6, f562
 	movq	=0x3ff0000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -3946,11 +3384,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc013000000000000, r6
-	cmp	r5, r6
-	bne	f563
+	cbne	r5, r6, f563
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f564
+	cbne	r8, r6, f564
 	movq	=0x3ff0000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -3960,11 +3396,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4013000000000000, r6
-	cmp	r5, r6
-	bne	f565
+	cbne	r5, r6, f565
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f566
+	cbne	r8, r6, f566
 	movq	=0x3ff0000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -3974,11 +3408,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4006000000000000, r6
-	cmp	r5, r6
-	bne	f567
+	cbne	r5, r6, f567
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f568
+	cbne	r8, r6, f568
 	movq	=0x3ff0000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -3988,11 +3420,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01a000000000000, r6
-	cmp	r5, r6
-	bne	f569
+	cbne	r5, r6, f569
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f570
+	cbne	r8, r6, f570
 	movq	=0x3ff0000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -4002,11 +3432,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc021000000000000, r6
-	cmp	r5, r6
-	bne	f571
+	cbne	r5, r6, f571
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f572
+	cbne	r8, r6, f572
 	movq	=0x3ff0000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x0, r3
@@ -4016,11 +3444,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f573
+	cbne	r5, r6, f573
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f574
+	cbne	r8, r6, f574
 	movq	=0x3ff0000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x0, r3
@@ -4030,11 +3456,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff0000000000000, r6
-	cmp	r5, r6
-	bne	f575
+	cbne	r5, r6, f575
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f576
+	cbne	r8, r6, f576
 	movq	=0x3ff0000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -4044,11 +3468,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f577
+	cbne	r5, r6, f577
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f578
+	cbne	r8, r6, f578
 	movq	=0x3ff0000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -4058,11 +3480,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff0000000000000, r6
-	cmp	r5, r6
-	bne	f579
+	cbne	r5, r6, f579
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f580
+	cbne	r8, r6, f580
 	movq	=0x3ff0000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -4072,11 +3492,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc000000000000000, r6
-	cmp	r5, r6
-	bne	f581
+	cbne	r5, r6, f581
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f582
+	cbne	r8, r6, f582
 	movq	=0x3ff0000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -4086,11 +3504,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f583
+	cbne	r5, r6, f583
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f584
+	cbne	r8, r6, f584
 	movq	=0x3ff0000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -4100,11 +3516,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f585
+	cbne	r5, r6, f585
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f586
+	cbne	r8, r6, f586
 	movq	=0x3ff0000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -4114,11 +3528,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4000000000000000, r6
-	cmp	r5, r6
-	bne	f587
+	cbne	r5, r6, f587
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f588
+	cbne	r8, r6, f588
 	movq	=0x3ff0000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -4128,11 +3540,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc008000000000000, r6
-	cmp	r5, r6
-	bne	f589
+	cbne	r5, r6, f589
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f590
+	cbne	r8, r6, f590
 	movq	=0x3ff0000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -4142,11 +3552,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f591
+	cbne	r5, r6, f591
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f592
+	cbne	r8, r6, f592
 	movq	=0x3ff0000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -4156,11 +3564,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc010000000000000, r6
-	cmp	r5, r6
-	bne	f593
+	cbne	r5, r6, f593
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f594
+	cbne	r8, r6, f594
 	movq	=0x3ff0000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -4170,11 +3576,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc000000000000000, r6
-	cmp	r5, r6
-	bne	f595
+	cbne	r5, r6, f595
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f596
+	cbne	r8, r6, f596
 	movq	=0x3ff0000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -4184,11 +3588,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc004000000000000, r6
-	cmp	r5, r6
-	bne	f597
+	cbne	r5, r6, f597
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f598
+	cbne	r8, r6, f598
 	movq	=0x3ff0000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -4198,11 +3600,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbfe0000000000000, r6
-	cmp	r5, r6
-	bne	f599
+	cbne	r5, r6, f599
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f600
+	cbne	r8, r6, f600
 	movq	=0x3ff0000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -4212,11 +3612,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00c000000000000, r6
-	cmp	r5, r6
-	bne	f601
+	cbne	r5, r6, f601
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f602
+	cbne	r8, r6, f602
 	movq	=0x3ff0000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -4226,11 +3624,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f603
+	cbne	r5, r6, f603
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f604
+	cbne	r8, r6, f604
 	movq	=0x3ff0000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -4240,11 +3636,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc013000000000000, r6
-	cmp	r5, r6
-	bne	f605
+	cbne	r5, r6, f605
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f606
+	cbne	r8, r6, f606
 	movq	=0x3ff0000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -4254,11 +3648,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc006000000000000, r6
-	cmp	r5, r6
-	bne	f607
+	cbne	r5, r6, f607
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f608
+	cbne	r8, r6, f608
 	movq	=0x3ff0000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -4268,11 +3660,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4006000000000000, r6
-	cmp	r5, r6
-	bne	f609
+	cbne	r5, r6, f609
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f610
+	cbne	r8, r6, f610
 	movq	=0x3ff0000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -4282,11 +3672,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4013000000000000, r6
-	cmp	r5, r6
-	bne	f611
+	cbne	r5, r6, f611
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f612
+	cbne	r8, r6, f612
 	movq	=0x3ff0000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -4296,11 +3684,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc021000000000000, r6
-	cmp	r5, r6
-	bne	f613
+	cbne	r5, r6, f613
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f614
+	cbne	r8, r6, f614
 	movq	=0x3ff0000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -4310,11 +3696,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01a000000000000, r6
-	cmp	r5, r6
-	bne	f615
+	cbne	r5, r6, f615
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f616
+	cbne	r8, r6, f616
 	movq	=0x3ff0000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x0, r3
@@ -4324,11 +3708,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff8000000000000, r6
-	cmp	r5, r6
-	bne	f617
+	cbne	r5, r6, f617
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f618
+	cbne	r8, r6, f618
 	movq	=0x3ff0000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x0, r3
@@ -4338,11 +3720,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f619
+	cbne	r5, r6, f619
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f620
+	cbne	r8, r6, f620
 	movq	=0x3ff0000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -4352,11 +3732,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff8000000000000, r6
-	cmp	r5, r6
-	bne	f621
+	cbne	r5, r6, f621
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f622
+	cbne	r8, r6, f622
 	movq	=0x3ff0000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -4366,11 +3744,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f623
+	cbne	r5, r6, f623
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f624
+	cbne	r8, r6, f624
 	movq	=0x3ff0000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -4380,11 +3756,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3fe0000000000000, r6
-	cmp	r5, r6
-	bne	f625
+	cbne	r5, r6, f625
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f626
+	cbne	r8, r6, f626
 	movq	=0x3ff0000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -4394,11 +3768,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc004000000000000, r6
-	cmp	r5, r6
-	bne	f627
+	cbne	r5, r6, f627
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f628
+	cbne	r8, r6, f628
 	movq	=0x3ff0000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -4408,11 +3780,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4004000000000000, r6
-	cmp	r5, r6
-	bne	f629
+	cbne	r5, r6, f629
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f630
+	cbne	r8, r6, f630
 	movq	=0x3ff0000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -4422,11 +3792,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbfe0000000000000, r6
-	cmp	r5, r6
-	bne	f631
+	cbne	r5, r6, f631
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f632
+	cbne	r8, r6, f632
 	movq	=0x3ff0000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -4436,11 +3804,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbfe0000000000000, r6
-	cmp	r5, r6
-	bne	f633
+	cbne	r5, r6, f633
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f634
+	cbne	r8, r6, f634
 	movq	=0x3ff0000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -4450,11 +3816,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00c000000000000, r6
-	cmp	r5, r6
-	bne	f635
+	cbne	r5, r6, f635
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f636
+	cbne	r8, r6, f636
 	movq	=0x3ff0000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -4464,11 +3828,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f637
+	cbne	r5, r6, f637
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f638
+	cbne	r8, r6, f638
 	movq	=0x3ff0000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -4478,11 +3840,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc012000000000000, r6
-	cmp	r5, r6
-	bne	f639
+	cbne	r5, r6, f639
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f640
+	cbne	r8, r6, f640
 	movq	=0x3ff0000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -4492,11 +3852,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f641
+	cbne	r5, r6, f641
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f642
+	cbne	r8, r6, f642
 	movq	=0x3ff0000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -4506,11 +3864,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc008000000000000, r6
-	cmp	r5, r6
-	bne	f643
+	cbne	r5, r6, f643
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f644
+	cbne	r8, r6, f644
 	movq	=0x3ff0000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -4520,11 +3876,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f645
+	cbne	r5, r6, f645
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f646
+	cbne	r8, r6, f646
 	movq	=0x3ff0000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -4534,11 +3888,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc010000000000000, r6
-	cmp	r5, r6
-	bne	f647
+	cbne	r5, r6, f647
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f648
+	cbne	r8, r6, f648
 	movq	=0x3ff0000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -4548,11 +3900,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc002000000000000, r6
-	cmp	r5, r6
-	bne	f649
+	cbne	r5, r6, f649
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f650
+	cbne	r8, r6, f650
 	movq	=0x3ff0000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -4562,11 +3912,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc015000000000000, r6
-	cmp	r5, r6
-	bne	f651
+	cbne	r5, r6, f651
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f652
+	cbne	r8, r6, f652
 	movq	=0x3ff0000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -4576,11 +3924,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4015000000000000, r6
-	cmp	r5, r6
-	bne	f653
+	cbne	r5, r6, f653
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f654
+	cbne	r8, r6, f654
 	movq	=0x3ff0000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -4590,11 +3936,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4002000000000000, r6
-	cmp	r5, r6
-	bne	f655
+	cbne	r5, r6, f655
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f656
+	cbne	r8, r6, f656
 	movq	=0x3ff0000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -4604,11 +3948,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc018000000000000, r6
-	cmp	r5, r6
-	bne	f657
+	cbne	r5, r6, f657
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f658
+	cbne	r8, r6, f658
 	movq	=0x3ff0000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -4618,11 +3960,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc022000000000000, r6
-	cmp	r5, r6
-	bne	f659
+	cbne	r5, r6, f659
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f660
+	cbne	r8, r6, f660
 	movq	=0xbff0000000000000, r1
 	movq	=0x0, r2
 	movq	=0x0, r3
@@ -4632,11 +3972,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x8000000000000000, r6
-	cmp	r5, r6
-	bne	f661
+	cbne	r5, r6, f661
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f662
+	cbne	r8, r6, f662
 	movq	=0xbff0000000000000, r1
 	movq	=0x0, r2
 	movq	=0x0, r3
@@ -4646,11 +3984,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f663
+	cbne	r5, r6, f663
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f664
+	cbne	r8, r6, f664
 	movq	=0xbff0000000000000, r1
 	movq	=0x0, r2
 	movq	=0x8000000000000000, r3
@@ -4660,11 +3996,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f665
+	cbne	r5, r6, f665
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f666
+	cbne	r8, r6, f666
 	movq	=0xbff0000000000000, r1
 	movq	=0x0, r2
 	movq	=0x8000000000000000, r3
@@ -4674,11 +4008,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f667
+	cbne	r5, r6, f667
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f668
+	cbne	r8, r6, f668
 	movq	=0xbff0000000000000, r1
 	movq	=0x0, r2
 	movq	=0x3ff0000000000000, r3
@@ -4688,11 +4020,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f669
+	cbne	r5, r6, f669
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f670
+	cbne	r8, r6, f670
 	movq	=0xbff0000000000000, r1
 	movq	=0x0, r2
 	movq	=0x3ff0000000000000, r3
@@ -4702,11 +4032,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f671
+	cbne	r5, r6, f671
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f672
+	cbne	r8, r6, f672
 	movq	=0xbff0000000000000, r1
 	movq	=0x0, r2
 	movq	=0xbff0000000000000, r3
@@ -4716,11 +4044,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff0000000000000, r6
-	cmp	r5, r6
-	bne	f673
+	cbne	r5, r6, f673
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f674
+	cbne	r8, r6, f674
 	movq	=0xbff0000000000000, r1
 	movq	=0x0, r2
 	movq	=0xbff0000000000000, r3
@@ -4730,11 +4056,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff0000000000000, r6
-	cmp	r5, r6
-	bne	f675
+	cbne	r5, r6, f675
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f676
+	cbne	r8, r6, f676
 	movq	=0xbff0000000000000, r1
 	movq	=0x0, r2
 	movq	=0x4000000000000000, r3
@@ -4744,11 +4068,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc000000000000000, r6
-	cmp	r5, r6
-	bne	f677
+	cbne	r5, r6, f677
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f678
+	cbne	r8, r6, f678
 	movq	=0xbff0000000000000, r1
 	movq	=0x0, r2
 	movq	=0x4000000000000000, r3
@@ -4758,11 +4080,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc000000000000000, r6
-	cmp	r5, r6
-	bne	f679
+	cbne	r5, r6, f679
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f680
+	cbne	r8, r6, f680
 	movq	=0xbff0000000000000, r1
 	movq	=0x0, r2
 	movq	=0x4008000000000000, r3
@@ -4772,11 +4092,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc008000000000000, r6
-	cmp	r5, r6
-	bne	f681
+	cbne	r5, r6, f681
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f682
+	cbne	r8, r6, f682
 	movq	=0xbff0000000000000, r1
 	movq	=0x0, r2
 	movq	=0x4008000000000000, r3
@@ -4786,11 +4104,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc008000000000000, r6
-	cmp	r5, r6
-	bne	f683
+	cbne	r5, r6, f683
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f684
+	cbne	r8, r6, f684
 	movq	=0xbff0000000000000, r1
 	movq	=0x0, r2
 	movq	=0x3ff8000000000000, r3
@@ -4800,11 +4116,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f685
+	cbne	r5, r6, f685
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f686
+	cbne	r8, r6, f686
 	movq	=0xbff0000000000000, r1
 	movq	=0x0, r2
 	movq	=0x3ff8000000000000, r3
@@ -4814,11 +4128,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f687
+	cbne	r5, r6, f687
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f688
+	cbne	r8, r6, f688
 	movq	=0xbff0000000000000, r1
 	movq	=0x0, r2
 	movq	=0x4004000000000000, r3
@@ -4828,11 +4140,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc004000000000000, r6
-	cmp	r5, r6
-	bne	f689
+	cbne	r5, r6, f689
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f690
+	cbne	r8, r6, f690
 	movq	=0xbff0000000000000, r1
 	movq	=0x0, r2
 	movq	=0x4004000000000000, r3
@@ -4842,11 +4152,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc004000000000000, r6
-	cmp	r5, r6
-	bne	f691
+	cbne	r5, r6, f691
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f692
+	cbne	r8, r6, f692
 	movq	=0xbff0000000000000, r1
 	movq	=0x0, r2
 	movq	=0x400e000000000000, r3
@@ -4856,11 +4164,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00e000000000000, r6
-	cmp	r5, r6
-	bne	f693
+	cbne	r5, r6, f693
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f694
+	cbne	r8, r6, f694
 	movq	=0xbff0000000000000, r1
 	movq	=0x0, r2
 	movq	=0x400e000000000000, r3
@@ -4870,11 +4176,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00e000000000000, r6
-	cmp	r5, r6
-	bne	f695
+	cbne	r5, r6, f695
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f696
+	cbne	r8, r6, f696
 	movq	=0xbff0000000000000, r1
 	movq	=0x0, r2
 	movq	=0xc00e000000000000, r3
@@ -4884,11 +4188,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x400e000000000000, r6
-	cmp	r5, r6
-	bne	f697
+	cbne	r5, r6, f697
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f698
+	cbne	r8, r6, f698
 	movq	=0xbff0000000000000, r1
 	movq	=0x0, r2
 	movq	=0xc00e000000000000, r3
@@ -4898,11 +4200,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x400e000000000000, r6
-	cmp	r5, r6
-	bne	f699
+	cbne	r5, r6, f699
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f700
+	cbne	r8, r6, f700
 	movq	=0xbff0000000000000, r1
 	movq	=0x0, r2
 	movq	=0x401e000000000000, r3
@@ -4912,11 +4212,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01e000000000000, r6
-	cmp	r5, r6
-	bne	f701
+	cbne	r5, r6, f701
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f702
+	cbne	r8, r6, f702
 	movq	=0xbff0000000000000, r1
 	movq	=0x0, r2
 	movq	=0x401e000000000000, r3
@@ -4926,11 +4224,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01e000000000000, r6
-	cmp	r5, r6
-	bne	f703
+	cbne	r5, r6, f703
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f704
+	cbne	r8, r6, f704
 	movq	=0xbff0000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x0, r3
@@ -4940,11 +4236,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f705
+	cbne	r5, r6, f705
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f706
+	cbne	r8, r6, f706
 	movq	=0xbff0000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x0, r3
@@ -4954,11 +4248,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x8000000000000000, r6
-	cmp	r5, r6
-	bne	f707
+	cbne	r5, r6, f707
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f708
+	cbne	r8, r6, f708
 	movq	=0xbff0000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -4968,11 +4260,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f709
+	cbne	r5, r6, f709
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f710
+	cbne	r8, r6, f710
 	movq	=0xbff0000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -4982,11 +4272,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f711
+	cbne	r5, r6, f711
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f712
+	cbne	r8, r6, f712
 	movq	=0xbff0000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -4996,11 +4284,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f713
+	cbne	r5, r6, f713
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f714
+	cbne	r8, r6, f714
 	movq	=0xbff0000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -5010,11 +4296,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f715
+	cbne	r5, r6, f715
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f716
+	cbne	r8, r6, f716
 	movq	=0xbff0000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -5024,11 +4308,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff0000000000000, r6
-	cmp	r5, r6
-	bne	f717
+	cbne	r5, r6, f717
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f718
+	cbne	r8, r6, f718
 	movq	=0xbff0000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -5038,11 +4320,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff0000000000000, r6
-	cmp	r5, r6
-	bne	f719
+	cbne	r5, r6, f719
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f720
+	cbne	r8, r6, f720
 	movq	=0xbff0000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -5052,11 +4332,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc000000000000000, r6
-	cmp	r5, r6
-	bne	f721
+	cbne	r5, r6, f721
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f722
+	cbne	r8, r6, f722
 	movq	=0xbff0000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -5066,11 +4344,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc000000000000000, r6
-	cmp	r5, r6
-	bne	f723
+	cbne	r5, r6, f723
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f724
+	cbne	r8, r6, f724
 	movq	=0xbff0000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -5080,11 +4356,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc008000000000000, r6
-	cmp	r5, r6
-	bne	f725
+	cbne	r5, r6, f725
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f726
+	cbne	r8, r6, f726
 	movq	=0xbff0000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -5094,11 +4368,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc008000000000000, r6
-	cmp	r5, r6
-	bne	f727
+	cbne	r5, r6, f727
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f728
+	cbne	r8, r6, f728
 	movq	=0xbff0000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -5108,11 +4380,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f729
+	cbne	r5, r6, f729
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f730
+	cbne	r8, r6, f730
 	movq	=0xbff0000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -5122,11 +4392,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f731
+	cbne	r5, r6, f731
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f732
+	cbne	r8, r6, f732
 	movq	=0xbff0000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -5136,11 +4404,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc004000000000000, r6
-	cmp	r5, r6
-	bne	f733
+	cbne	r5, r6, f733
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f734
+	cbne	r8, r6, f734
 	movq	=0xbff0000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -5150,11 +4416,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc004000000000000, r6
-	cmp	r5, r6
-	bne	f735
+	cbne	r5, r6, f735
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f736
+	cbne	r8, r6, f736
 	movq	=0xbff0000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -5164,11 +4428,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00e000000000000, r6
-	cmp	r5, r6
-	bne	f737
+	cbne	r5, r6, f737
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f738
+	cbne	r8, r6, f738
 	movq	=0xbff0000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -5178,11 +4440,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00e000000000000, r6
-	cmp	r5, r6
-	bne	f739
+	cbne	r5, r6, f739
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f740
+	cbne	r8, r6, f740
 	movq	=0xbff0000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -5192,11 +4452,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x400e000000000000, r6
-	cmp	r5, r6
-	bne	f741
+	cbne	r5, r6, f741
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f742
+	cbne	r8, r6, f742
 	movq	=0xbff0000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -5206,11 +4464,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x400e000000000000, r6
-	cmp	r5, r6
-	bne	f743
+	cbne	r5, r6, f743
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f744
+	cbne	r8, r6, f744
 	movq	=0xbff0000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -5220,11 +4476,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01e000000000000, r6
-	cmp	r5, r6
-	bne	f745
+	cbne	r5, r6, f745
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f746
+	cbne	r8, r6, f746
 	movq	=0xbff0000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -5234,11 +4488,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01e000000000000, r6
-	cmp	r5, r6
-	bne	f747
+	cbne	r5, r6, f747
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f748
+	cbne	r8, r6, f748
 	movq	=0xbff0000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x0, r3
@@ -5248,11 +4500,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f749
+	cbne	r5, r6, f749
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f750
+	cbne	r8, r6, f750
 	movq	=0xbff0000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x0, r3
@@ -5262,11 +4512,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff0000000000000, r6
-	cmp	r5, r6
-	bne	f751
+	cbne	r5, r6, f751
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f752
+	cbne	r8, r6, f752
 	movq	=0xbff0000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -5276,11 +4524,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f753
+	cbne	r5, r6, f753
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f754
+	cbne	r8, r6, f754
 	movq	=0xbff0000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -5290,11 +4536,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff0000000000000, r6
-	cmp	r5, r6
-	bne	f755
+	cbne	r5, r6, f755
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f756
+	cbne	r8, r6, f756
 	movq	=0xbff0000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -5304,11 +4548,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc000000000000000, r6
-	cmp	r5, r6
-	bne	f757
+	cbne	r5, r6, f757
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f758
+	cbne	r8, r6, f758
 	movq	=0xbff0000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -5318,11 +4560,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f759
+	cbne	r5, r6, f759
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f760
+	cbne	r8, r6, f760
 	movq	=0xbff0000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -5332,11 +4572,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f761
+	cbne	r5, r6, f761
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f762
+	cbne	r8, r6, f762
 	movq	=0xbff0000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -5346,11 +4584,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4000000000000000, r6
-	cmp	r5, r6
-	bne	f763
+	cbne	r5, r6, f763
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f764
+	cbne	r8, r6, f764
 	movq	=0xbff0000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -5360,11 +4596,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc008000000000000, r6
-	cmp	r5, r6
-	bne	f765
+	cbne	r5, r6, f765
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f766
+	cbne	r8, r6, f766
 	movq	=0xbff0000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -5374,11 +4608,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f767
+	cbne	r5, r6, f767
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f768
+	cbne	r8, r6, f768
 	movq	=0xbff0000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -5388,11 +4620,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc010000000000000, r6
-	cmp	r5, r6
-	bne	f769
+	cbne	r5, r6, f769
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f770
+	cbne	r8, r6, f770
 	movq	=0xbff0000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -5402,11 +4632,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc000000000000000, r6
-	cmp	r5, r6
-	bne	f771
+	cbne	r5, r6, f771
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f772
+	cbne	r8, r6, f772
 	movq	=0xbff0000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -5416,11 +4644,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc004000000000000, r6
-	cmp	r5, r6
-	bne	f773
+	cbne	r5, r6, f773
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f774
+	cbne	r8, r6, f774
 	movq	=0xbff0000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -5430,11 +4656,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbfe0000000000000, r6
-	cmp	r5, r6
-	bne	f775
+	cbne	r5, r6, f775
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f776
+	cbne	r8, r6, f776
 	movq	=0xbff0000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -5444,11 +4668,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00c000000000000, r6
-	cmp	r5, r6
-	bne	f777
+	cbne	r5, r6, f777
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f778
+	cbne	r8, r6, f778
 	movq	=0xbff0000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -5458,11 +4680,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f779
+	cbne	r5, r6, f779
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f780
+	cbne	r8, r6, f780
 	movq	=0xbff0000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -5472,11 +4692,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc013000000000000, r6
-	cmp	r5, r6
-	bne	f781
+	cbne	r5, r6, f781
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f782
+	cbne	r8, r6, f782
 	movq	=0xbff0000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -5486,11 +4704,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc006000000000000, r6
-	cmp	r5, r6
-	bne	f783
+	cbne	r5, r6, f783
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f784
+	cbne	r8, r6, f784
 	movq	=0xbff0000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -5500,11 +4716,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4006000000000000, r6
-	cmp	r5, r6
-	bne	f785
+	cbne	r5, r6, f785
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f786
+	cbne	r8, r6, f786
 	movq	=0xbff0000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -5514,11 +4728,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4013000000000000, r6
-	cmp	r5, r6
-	bne	f787
+	cbne	r5, r6, f787
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f788
+	cbne	r8, r6, f788
 	movq	=0xbff0000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -5528,11 +4740,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc021000000000000, r6
-	cmp	r5, r6
-	bne	f789
+	cbne	r5, r6, f789
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f790
+	cbne	r8, r6, f790
 	movq	=0xbff0000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -5542,11 +4752,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01a000000000000, r6
-	cmp	r5, r6
-	bne	f791
+	cbne	r5, r6, f791
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f792
+	cbne	r8, r6, f792
 	movq	=0xbff0000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x0, r3
@@ -5556,11 +4764,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff0000000000000, r6
-	cmp	r5, r6
-	bne	f793
+	cbne	r5, r6, f793
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f794
+	cbne	r8, r6, f794
 	movq	=0xbff0000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x0, r3
@@ -5570,11 +4776,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f795
+	cbne	r5, r6, f795
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f796
+	cbne	r8, r6, f796
 	movq	=0xbff0000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -5584,11 +4788,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff0000000000000, r6
-	cmp	r5, r6
-	bne	f797
+	cbne	r5, r6, f797
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f798
+	cbne	r8, r6, f798
 	movq	=0xbff0000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -5598,11 +4800,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f799
+	cbne	r5, r6, f799
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f800
+	cbne	r8, r6, f800
 	movq	=0xbff0000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -5612,11 +4812,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f801
+	cbne	r5, r6, f801
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f802
+	cbne	r8, r6, f802
 	movq	=0xbff0000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -5626,11 +4824,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc000000000000000, r6
-	cmp	r5, r6
-	bne	f803
+	cbne	r5, r6, f803
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f804
+	cbne	r8, r6, f804
 	movq	=0xbff0000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -5640,11 +4836,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4000000000000000, r6
-	cmp	r5, r6
-	bne	f805
+	cbne	r5, r6, f805
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f806
+	cbne	r8, r6, f806
 	movq	=0xbff0000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -5654,11 +4848,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f807
+	cbne	r5, r6, f807
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f808
+	cbne	r8, r6, f808
 	movq	=0xbff0000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -5668,11 +4860,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f809
+	cbne	r5, r6, f809
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f810
+	cbne	r8, r6, f810
 	movq	=0xbff0000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -5682,11 +4872,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc008000000000000, r6
-	cmp	r5, r6
-	bne	f811
+	cbne	r5, r6, f811
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f812
+	cbne	r8, r6, f812
 	movq	=0xbff0000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -5696,11 +4884,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc000000000000000, r6
-	cmp	r5, r6
-	bne	f813
+	cbne	r5, r6, f813
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f814
+	cbne	r8, r6, f814
 	movq	=0xbff0000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -5710,11 +4896,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc010000000000000, r6
-	cmp	r5, r6
-	bne	f815
+	cbne	r5, r6, f815
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f816
+	cbne	r8, r6, f816
 	movq	=0xbff0000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -5724,11 +4908,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbfe0000000000000, r6
-	cmp	r5, r6
-	bne	f817
+	cbne	r5, r6, f817
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f818
+	cbne	r8, r6, f818
 	movq	=0xbff0000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -5738,11 +4920,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc004000000000000, r6
-	cmp	r5, r6
-	bne	f819
+	cbne	r5, r6, f819
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f820
+	cbne	r8, r6, f820
 	movq	=0xbff0000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -5752,11 +4932,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f821
+	cbne	r5, r6, f821
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f822
+	cbne	r8, r6, f822
 	movq	=0xbff0000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -5766,11 +4944,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00c000000000000, r6
-	cmp	r5, r6
-	bne	f823
+	cbne	r5, r6, f823
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f824
+	cbne	r8, r6, f824
 	movq	=0xbff0000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -5780,11 +4956,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc006000000000000, r6
-	cmp	r5, r6
-	bne	f825
+	cbne	r5, r6, f825
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f826
+	cbne	r8, r6, f826
 	movq	=0xbff0000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -5794,11 +4968,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc013000000000000, r6
-	cmp	r5, r6
-	bne	f827
+	cbne	r5, r6, f827
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f828
+	cbne	r8, r6, f828
 	movq	=0xbff0000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -5808,11 +4980,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4013000000000000, r6
-	cmp	r5, r6
-	bne	f829
+	cbne	r5, r6, f829
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f830
+	cbne	r8, r6, f830
 	movq	=0xbff0000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -5822,11 +4992,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4006000000000000, r6
-	cmp	r5, r6
-	bne	f831
+	cbne	r5, r6, f831
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f832
+	cbne	r8, r6, f832
 	movq	=0xbff0000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -5836,11 +5004,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01a000000000000, r6
-	cmp	r5, r6
-	bne	f833
+	cbne	r5, r6, f833
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f834
+	cbne	r8, r6, f834
 	movq	=0xbff0000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -5850,11 +5016,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc021000000000000, r6
-	cmp	r5, r6
-	bne	f835
+	cbne	r5, r6, f835
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f836
+	cbne	r8, r6, f836
 	movq	=0xbff0000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x0, r3
@@ -5864,11 +5028,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f837
+	cbne	r5, r6, f837
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f838
+	cbne	r8, r6, f838
 	movq	=0xbff0000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x0, r3
@@ -5878,11 +5040,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff8000000000000, r6
-	cmp	r5, r6
-	bne	f839
+	cbne	r5, r6, f839
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f840
+	cbne	r8, r6, f840
 	movq	=0xbff0000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -5892,11 +5052,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f841
+	cbne	r5, r6, f841
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f842
+	cbne	r8, r6, f842
 	movq	=0xbff0000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -5906,11 +5064,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff8000000000000, r6
-	cmp	r5, r6
-	bne	f843
+	cbne	r5, r6, f843
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f844
+	cbne	r8, r6, f844
 	movq	=0xbff0000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -5920,11 +5076,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc004000000000000, r6
-	cmp	r5, r6
-	bne	f845
+	cbne	r5, r6, f845
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f846
+	cbne	r8, r6, f846
 	movq	=0xbff0000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -5934,11 +5088,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3fe0000000000000, r6
-	cmp	r5, r6
-	bne	f847
+	cbne	r5, r6, f847
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f848
+	cbne	r8, r6, f848
 	movq	=0xbff0000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -5948,11 +5100,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbfe0000000000000, r6
-	cmp	r5, r6
-	bne	f849
+	cbne	r5, r6, f849
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f850
+	cbne	r8, r6, f850
 	movq	=0xbff0000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -5962,11 +5112,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4004000000000000, r6
-	cmp	r5, r6
-	bne	f851
+	cbne	r5, r6, f851
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f852
+	cbne	r8, r6, f852
 	movq	=0xbff0000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -5976,11 +5124,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00c000000000000, r6
-	cmp	r5, r6
-	bne	f853
+	cbne	r5, r6, f853
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f854
+	cbne	r8, r6, f854
 	movq	=0xbff0000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -5990,11 +5136,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbfe0000000000000, r6
-	cmp	r5, r6
-	bne	f855
+	cbne	r5, r6, f855
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f856
+	cbne	r8, r6, f856
 	movq	=0xbff0000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -6004,11 +5148,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc012000000000000, r6
-	cmp	r5, r6
-	bne	f857
+	cbne	r5, r6, f857
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f858
+	cbne	r8, r6, f858
 	movq	=0xbff0000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -6018,11 +5160,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f859
+	cbne	r5, r6, f859
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f860
+	cbne	r8, r6, f860
 	movq	=0xbff0000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -6032,11 +5172,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc008000000000000, r6
-	cmp	r5, r6
-	bne	f861
+	cbne	r5, r6, f861
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f862
+	cbne	r8, r6, f862
 	movq	=0xbff0000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -6046,11 +5184,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f863
+	cbne	r5, r6, f863
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f864
+	cbne	r8, r6, f864
 	movq	=0xbff0000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -6060,11 +5196,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc010000000000000, r6
-	cmp	r5, r6
-	bne	f865
+	cbne	r5, r6, f865
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f866
+	cbne	r8, r6, f866
 	movq	=0xbff0000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -6074,11 +5208,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f867
+	cbne	r5, r6, f867
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f868
+	cbne	r8, r6, f868
 	movq	=0xbff0000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -6088,11 +5220,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc015000000000000, r6
-	cmp	r5, r6
-	bne	f869
+	cbne	r5, r6, f869
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f870
+	cbne	r8, r6, f870
 	movq	=0xbff0000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -6102,11 +5232,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc002000000000000, r6
-	cmp	r5, r6
-	bne	f871
+	cbne	r5, r6, f871
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f872
+	cbne	r8, r6, f872
 	movq	=0xbff0000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -6116,11 +5244,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4002000000000000, r6
-	cmp	r5, r6
-	bne	f873
+	cbne	r5, r6, f873
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f874
+	cbne	r8, r6, f874
 	movq	=0xbff0000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -6130,11 +5256,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4015000000000000, r6
-	cmp	r5, r6
-	bne	f875
+	cbne	r5, r6, f875
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f876
+	cbne	r8, r6, f876
 	movq	=0xbff0000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -6144,11 +5268,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc022000000000000, r6
-	cmp	r5, r6
-	bne	f877
+	cbne	r5, r6, f877
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f878
+	cbne	r8, r6, f878
 	movq	=0xbff0000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -6158,11 +5280,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc018000000000000, r6
-	cmp	r5, r6
-	bne	f879
+	cbne	r5, r6, f879
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f880
+	cbne	r8, r6, f880
 	movq	=0x4000000000000000, r1
 	movq	=0x0, r2
 	movq	=0x0, r3
@@ -6172,11 +5292,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f881
+	cbne	r5, r6, f881
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f882
+	cbne	r8, r6, f882
 	movq	=0x4000000000000000, r1
 	movq	=0x0, r2
 	movq	=0x0, r3
@@ -6186,11 +5304,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x8000000000000000, r6
-	cmp	r5, r6
-	bne	f883
+	cbne	r5, r6, f883
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f884
+	cbne	r8, r6, f884
 	movq	=0x4000000000000000, r1
 	movq	=0x0, r2
 	movq	=0x8000000000000000, r3
@@ -6200,11 +5316,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f885
+	cbne	r5, r6, f885
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f886
+	cbne	r8, r6, f886
 	movq	=0x4000000000000000, r1
 	movq	=0x0, r2
 	movq	=0x8000000000000000, r3
@@ -6214,11 +5328,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f887
+	cbne	r5, r6, f887
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f888
+	cbne	r8, r6, f888
 	movq	=0x4000000000000000, r1
 	movq	=0x0, r2
 	movq	=0x3ff0000000000000, r3
@@ -6228,11 +5340,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f889
+	cbne	r5, r6, f889
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f890
+	cbne	r8, r6, f890
 	movq	=0x4000000000000000, r1
 	movq	=0x0, r2
 	movq	=0x3ff0000000000000, r3
@@ -6242,11 +5352,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f891
+	cbne	r5, r6, f891
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f892
+	cbne	r8, r6, f892
 	movq	=0x4000000000000000, r1
 	movq	=0x0, r2
 	movq	=0xbff0000000000000, r3
@@ -6256,11 +5364,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff0000000000000, r6
-	cmp	r5, r6
-	bne	f893
+	cbne	r5, r6, f893
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f894
+	cbne	r8, r6, f894
 	movq	=0x4000000000000000, r1
 	movq	=0x0, r2
 	movq	=0xbff0000000000000, r3
@@ -6270,11 +5376,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff0000000000000, r6
-	cmp	r5, r6
-	bne	f895
+	cbne	r5, r6, f895
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f896
+	cbne	r8, r6, f896
 	movq	=0x4000000000000000, r1
 	movq	=0x0, r2
 	movq	=0x4000000000000000, r3
@@ -6284,11 +5388,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc000000000000000, r6
-	cmp	r5, r6
-	bne	f897
+	cbne	r5, r6, f897
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f898
+	cbne	r8, r6, f898
 	movq	=0x4000000000000000, r1
 	movq	=0x0, r2
 	movq	=0x4000000000000000, r3
@@ -6298,11 +5400,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc000000000000000, r6
-	cmp	r5, r6
-	bne	f899
+	cbne	r5, r6, f899
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f900
+	cbne	r8, r6, f900
 	movq	=0x4000000000000000, r1
 	movq	=0x0, r2
 	movq	=0x4008000000000000, r3
@@ -6312,11 +5412,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc008000000000000, r6
-	cmp	r5, r6
-	bne	f901
+	cbne	r5, r6, f901
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f902
+	cbne	r8, r6, f902
 	movq	=0x4000000000000000, r1
 	movq	=0x0, r2
 	movq	=0x4008000000000000, r3
@@ -6326,11 +5424,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc008000000000000, r6
-	cmp	r5, r6
-	bne	f903
+	cbne	r5, r6, f903
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f904
+	cbne	r8, r6, f904
 	movq	=0x4000000000000000, r1
 	movq	=0x0, r2
 	movq	=0x3ff8000000000000, r3
@@ -6340,11 +5436,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f905
+	cbne	r5, r6, f905
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f906
+	cbne	r8, r6, f906
 	movq	=0x4000000000000000, r1
 	movq	=0x0, r2
 	movq	=0x3ff8000000000000, r3
@@ -6354,11 +5448,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f907
+	cbne	r5, r6, f907
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f908
+	cbne	r8, r6, f908
 	movq	=0x4000000000000000, r1
 	movq	=0x0, r2
 	movq	=0x4004000000000000, r3
@@ -6368,11 +5460,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc004000000000000, r6
-	cmp	r5, r6
-	bne	f909
+	cbne	r5, r6, f909
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f910
+	cbne	r8, r6, f910
 	movq	=0x4000000000000000, r1
 	movq	=0x0, r2
 	movq	=0x4004000000000000, r3
@@ -6382,11 +5472,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc004000000000000, r6
-	cmp	r5, r6
-	bne	f911
+	cbne	r5, r6, f911
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f912
+	cbne	r8, r6, f912
 	movq	=0x4000000000000000, r1
 	movq	=0x0, r2
 	movq	=0x400e000000000000, r3
@@ -6396,11 +5484,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00e000000000000, r6
-	cmp	r5, r6
-	bne	f913
+	cbne	r5, r6, f913
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f914
+	cbne	r8, r6, f914
 	movq	=0x4000000000000000, r1
 	movq	=0x0, r2
 	movq	=0x400e000000000000, r3
@@ -6410,11 +5496,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00e000000000000, r6
-	cmp	r5, r6
-	bne	f915
+	cbne	r5, r6, f915
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f916
+	cbne	r8, r6, f916
 	movq	=0x4000000000000000, r1
 	movq	=0x0, r2
 	movq	=0xc00e000000000000, r3
@@ -6424,11 +5508,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x400e000000000000, r6
-	cmp	r5, r6
-	bne	f917
+	cbne	r5, r6, f917
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f918
+	cbne	r8, r6, f918
 	movq	=0x4000000000000000, r1
 	movq	=0x0, r2
 	movq	=0xc00e000000000000, r3
@@ -6438,11 +5520,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x400e000000000000, r6
-	cmp	r5, r6
-	bne	f919
+	cbne	r5, r6, f919
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f920
+	cbne	r8, r6, f920
 	movq	=0x4000000000000000, r1
 	movq	=0x0, r2
 	movq	=0x401e000000000000, r3
@@ -6452,11 +5532,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01e000000000000, r6
-	cmp	r5, r6
-	bne	f921
+	cbne	r5, r6, f921
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f922
+	cbne	r8, r6, f922
 	movq	=0x4000000000000000, r1
 	movq	=0x0, r2
 	movq	=0x401e000000000000, r3
@@ -6466,11 +5544,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01e000000000000, r6
-	cmp	r5, r6
-	bne	f923
+	cbne	r5, r6, f923
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f924
+	cbne	r8, r6, f924
 	movq	=0x4000000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x0, r3
@@ -6480,11 +5556,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x8000000000000000, r6
-	cmp	r5, r6
-	bne	f925
+	cbne	r5, r6, f925
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f926
+	cbne	r8, r6, f926
 	movq	=0x4000000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x0, r3
@@ -6494,11 +5568,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f927
+	cbne	r5, r6, f927
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f928
+	cbne	r8, r6, f928
 	movq	=0x4000000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -6508,11 +5580,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f929
+	cbne	r5, r6, f929
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f930
+	cbne	r8, r6, f930
 	movq	=0x4000000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -6522,11 +5592,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f931
+	cbne	r5, r6, f931
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f932
+	cbne	r8, r6, f932
 	movq	=0x4000000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -6536,11 +5604,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f933
+	cbne	r5, r6, f933
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f934
+	cbne	r8, r6, f934
 	movq	=0x4000000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -6550,11 +5616,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f935
+	cbne	r5, r6, f935
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f936
+	cbne	r8, r6, f936
 	movq	=0x4000000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -6564,11 +5628,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff0000000000000, r6
-	cmp	r5, r6
-	bne	f937
+	cbne	r5, r6, f937
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f938
+	cbne	r8, r6, f938
 	movq	=0x4000000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -6578,11 +5640,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff0000000000000, r6
-	cmp	r5, r6
-	bne	f939
+	cbne	r5, r6, f939
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f940
+	cbne	r8, r6, f940
 	movq	=0x4000000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -6592,11 +5652,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc000000000000000, r6
-	cmp	r5, r6
-	bne	f941
+	cbne	r5, r6, f941
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f942
+	cbne	r8, r6, f942
 	movq	=0x4000000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -6606,11 +5664,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc000000000000000, r6
-	cmp	r5, r6
-	bne	f943
+	cbne	r5, r6, f943
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f944
+	cbne	r8, r6, f944
 	movq	=0x4000000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -6620,11 +5676,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc008000000000000, r6
-	cmp	r5, r6
-	bne	f945
+	cbne	r5, r6, f945
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f946
+	cbne	r8, r6, f946
 	movq	=0x4000000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -6634,11 +5688,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc008000000000000, r6
-	cmp	r5, r6
-	bne	f947
+	cbne	r5, r6, f947
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f948
+	cbne	r8, r6, f948
 	movq	=0x4000000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -6648,11 +5700,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f949
+	cbne	r5, r6, f949
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f950
+	cbne	r8, r6, f950
 	movq	=0x4000000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -6662,11 +5712,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f951
+	cbne	r5, r6, f951
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f952
+	cbne	r8, r6, f952
 	movq	=0x4000000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -6676,11 +5724,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc004000000000000, r6
-	cmp	r5, r6
-	bne	f953
+	cbne	r5, r6, f953
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f954
+	cbne	r8, r6, f954
 	movq	=0x4000000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -6690,11 +5736,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc004000000000000, r6
-	cmp	r5, r6
-	bne	f955
+	cbne	r5, r6, f955
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f956
+	cbne	r8, r6, f956
 	movq	=0x4000000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -6704,11 +5748,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00e000000000000, r6
-	cmp	r5, r6
-	bne	f957
+	cbne	r5, r6, f957
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f958
+	cbne	r8, r6, f958
 	movq	=0x4000000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -6718,11 +5760,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00e000000000000, r6
-	cmp	r5, r6
-	bne	f959
+	cbne	r5, r6, f959
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f960
+	cbne	r8, r6, f960
 	movq	=0x4000000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -6732,11 +5772,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x400e000000000000, r6
-	cmp	r5, r6
-	bne	f961
+	cbne	r5, r6, f961
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f962
+	cbne	r8, r6, f962
 	movq	=0x4000000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -6746,11 +5784,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x400e000000000000, r6
-	cmp	r5, r6
-	bne	f963
+	cbne	r5, r6, f963
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f964
+	cbne	r8, r6, f964
 	movq	=0x4000000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -6760,11 +5796,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01e000000000000, r6
-	cmp	r5, r6
-	bne	f965
+	cbne	r5, r6, f965
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f966
+	cbne	r8, r6, f966
 	movq	=0x4000000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -6774,11 +5808,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01e000000000000, r6
-	cmp	r5, r6
-	bne	f967
+	cbne	r5, r6, f967
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f968
+	cbne	r8, r6, f968
 	movq	=0x4000000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x0, r3
@@ -6788,11 +5820,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4000000000000000, r6
-	cmp	r5, r6
-	bne	f969
+	cbne	r5, r6, f969
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f970
+	cbne	r8, r6, f970
 	movq	=0x4000000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x0, r3
@@ -6802,11 +5832,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc000000000000000, r6
-	cmp	r5, r6
-	bne	f971
+	cbne	r5, r6, f971
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f972
+	cbne	r8, r6, f972
 	movq	=0x4000000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -6816,11 +5844,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4000000000000000, r6
-	cmp	r5, r6
-	bne	f973
+	cbne	r5, r6, f973
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f974
+	cbne	r8, r6, f974
 	movq	=0x4000000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -6830,11 +5856,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc000000000000000, r6
-	cmp	r5, r6
-	bne	f975
+	cbne	r5, r6, f975
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f976
+	cbne	r8, r6, f976
 	movq	=0x4000000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -6844,11 +5868,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff0000000000000, r6
-	cmp	r5, r6
-	bne	f977
+	cbne	r5, r6, f977
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f978
+	cbne	r8, r6, f978
 	movq	=0x4000000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -6858,11 +5880,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc008000000000000, r6
-	cmp	r5, r6
-	bne	f979
+	cbne	r5, r6, f979
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f980
+	cbne	r8, r6, f980
 	movq	=0x4000000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -6872,11 +5892,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4008000000000000, r6
-	cmp	r5, r6
-	bne	f981
+	cbne	r5, r6, f981
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f982
+	cbne	r8, r6, f982
 	movq	=0x4000000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -6886,11 +5904,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f983
+	cbne	r5, r6, f983
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f984
+	cbne	r8, r6, f984
 	movq	=0x4000000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -6900,11 +5916,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f985
+	cbne	r5, r6, f985
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f986
+	cbne	r8, r6, f986
 	movq	=0x4000000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -6914,11 +5928,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc010000000000000, r6
-	cmp	r5, r6
-	bne	f987
+	cbne	r5, r6, f987
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f988
+	cbne	r8, r6, f988
 	movq	=0x4000000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -6928,11 +5940,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f989
+	cbne	r5, r6, f989
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f990
+	cbne	r8, r6, f990
 	movq	=0x4000000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -6942,11 +5952,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc014000000000000, r6
-	cmp	r5, r6
-	bne	f991
+	cbne	r5, r6, f991
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f992
+	cbne	r8, r6, f992
 	movq	=0x4000000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -6956,11 +5964,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3fe0000000000000, r6
-	cmp	r5, r6
-	bne	f993
+	cbne	r5, r6, f993
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f994
+	cbne	r8, r6, f994
 	movq	=0x4000000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -6970,11 +5976,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00c000000000000, r6
-	cmp	r5, r6
-	bne	f995
+	cbne	r5, r6, f995
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f996
+	cbne	r8, r6, f996
 	movq	=0x4000000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -6984,11 +5988,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbfe0000000000000, r6
-	cmp	r5, r6
-	bne	f997
+	cbne	r5, r6, f997
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f998
+	cbne	r8, r6, f998
 	movq	=0x4000000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -6998,11 +6000,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc012000000000000, r6
-	cmp	r5, r6
-	bne	f999
+	cbne	r5, r6, f999
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1000
+	cbne	r8, r6, f1000
 	movq	=0x4000000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -7012,11 +6012,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbffc000000000000, r6
-	cmp	r5, r6
-	bne	f1001
+	cbne	r5, r6, f1001
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1002
+	cbne	r8, r6, f1002
 	movq	=0x4000000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -7026,11 +6024,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc017000000000000, r6
-	cmp	r5, r6
-	bne	f1003
+	cbne	r5, r6, f1003
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1004
+	cbne	r8, r6, f1004
 	movq	=0x4000000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -7040,11 +6036,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4017000000000000, r6
-	cmp	r5, r6
-	bne	f1005
+	cbne	r5, r6, f1005
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1006
+	cbne	r8, r6, f1006
 	movq	=0x4000000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -7054,11 +6048,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ffc000000000000, r6
-	cmp	r5, r6
-	bne	f1007
+	cbne	r5, r6, f1007
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1008
+	cbne	r8, r6, f1008
 	movq	=0x4000000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -7068,11 +6060,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc016000000000000, r6
-	cmp	r5, r6
-	bne	f1009
+	cbne	r5, r6, f1009
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1010
+	cbne	r8, r6, f1010
 	movq	=0x4000000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -7082,11 +6072,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc023000000000000, r6
-	cmp	r5, r6
-	bne	f1011
+	cbne	r5, r6, f1011
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1012
+	cbne	r8, r6, f1012
 	movq	=0x4000000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x0, r3
@@ -7096,11 +6084,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc000000000000000, r6
-	cmp	r5, r6
-	bne	f1013
+	cbne	r5, r6, f1013
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1014
+	cbne	r8, r6, f1014
 	movq	=0x4000000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x0, r3
@@ -7110,11 +6096,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4000000000000000, r6
-	cmp	r5, r6
-	bne	f1015
+	cbne	r5, r6, f1015
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1016
+	cbne	r8, r6, f1016
 	movq	=0x4000000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -7124,11 +6108,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc000000000000000, r6
-	cmp	r5, r6
-	bne	f1017
+	cbne	r5, r6, f1017
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1018
+	cbne	r8, r6, f1018
 	movq	=0x4000000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -7138,11 +6120,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4000000000000000, r6
-	cmp	r5, r6
-	bne	f1019
+	cbne	r5, r6, f1019
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1020
+	cbne	r8, r6, f1020
 	movq	=0x4000000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -7152,11 +6132,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc008000000000000, r6
-	cmp	r5, r6
-	bne	f1021
+	cbne	r5, r6, f1021
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1022
+	cbne	r8, r6, f1022
 	movq	=0x4000000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -7166,11 +6144,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff0000000000000, r6
-	cmp	r5, r6
-	bne	f1023
+	cbne	r5, r6, f1023
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1024
+	cbne	r8, r6, f1024
 	movq	=0x4000000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -7180,11 +6156,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f1025
+	cbne	r5, r6, f1025
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1026
+	cbne	r8, r6, f1026
 	movq	=0x4000000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -7194,11 +6168,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4008000000000000, r6
-	cmp	r5, r6
-	bne	f1027
+	cbne	r5, r6, f1027
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1028
+	cbne	r8, r6, f1028
 	movq	=0x4000000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -7208,11 +6180,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc010000000000000, r6
-	cmp	r5, r6
-	bne	f1029
+	cbne	r5, r6, f1029
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1030
+	cbne	r8, r6, f1030
 	movq	=0x4000000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -7222,11 +6192,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f1031
+	cbne	r5, r6, f1031
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1032
+	cbne	r8, r6, f1032
 	movq	=0x4000000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -7236,11 +6204,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc014000000000000, r6
-	cmp	r5, r6
-	bne	f1033
+	cbne	r5, r6, f1033
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1034
+	cbne	r8, r6, f1034
 	movq	=0x4000000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -7250,11 +6216,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f1035
+	cbne	r5, r6, f1035
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1036
+	cbne	r8, r6, f1036
 	movq	=0x4000000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -7264,11 +6228,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00c000000000000, r6
-	cmp	r5, r6
-	bne	f1037
+	cbne	r5, r6, f1037
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1038
+	cbne	r8, r6, f1038
 	movq	=0x4000000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -7278,11 +6240,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3fe0000000000000, r6
-	cmp	r5, r6
-	bne	f1039
+	cbne	r5, r6, f1039
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1040
+	cbne	r8, r6, f1040
 	movq	=0x4000000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -7292,11 +6252,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc012000000000000, r6
-	cmp	r5, r6
-	bne	f1041
+	cbne	r5, r6, f1041
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1042
+	cbne	r8, r6, f1042
 	movq	=0x4000000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -7306,11 +6264,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbfe0000000000000, r6
-	cmp	r5, r6
-	bne	f1043
+	cbne	r5, r6, f1043
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1044
+	cbne	r8, r6, f1044
 	movq	=0x4000000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -7320,11 +6276,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc017000000000000, r6
-	cmp	r5, r6
-	bne	f1045
+	cbne	r5, r6, f1045
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1046
+	cbne	r8, r6, f1046
 	movq	=0x4000000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -7334,11 +6288,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbffc000000000000, r6
-	cmp	r5, r6
-	bne	f1047
+	cbne	r5, r6, f1047
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1048
+	cbne	r8, r6, f1048
 	movq	=0x4000000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -7348,11 +6300,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ffc000000000000, r6
-	cmp	r5, r6
-	bne	f1049
+	cbne	r5, r6, f1049
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1050
+	cbne	r8, r6, f1050
 	movq	=0x4000000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -7362,11 +6312,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4017000000000000, r6
-	cmp	r5, r6
-	bne	f1051
+	cbne	r5, r6, f1051
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1052
+	cbne	r8, r6, f1052
 	movq	=0x4000000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -7376,11 +6324,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc023000000000000, r6
-	cmp	r5, r6
-	bne	f1053
+	cbne	r5, r6, f1053
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1054
+	cbne	r8, r6, f1054
 	movq	=0x4000000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -7390,11 +6336,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc016000000000000, r6
-	cmp	r5, r6
-	bne	f1055
+	cbne	r5, r6, f1055
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1056
+	cbne	r8, r6, f1056
 	movq	=0x4000000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x0, r3
@@ -7404,11 +6348,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4008000000000000, r6
-	cmp	r5, r6
-	bne	f1057
+	cbne	r5, r6, f1057
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1058
+	cbne	r8, r6, f1058
 	movq	=0x4000000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x0, r3
@@ -7418,11 +6360,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc008000000000000, r6
-	cmp	r5, r6
-	bne	f1059
+	cbne	r5, r6, f1059
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1060
+	cbne	r8, r6, f1060
 	movq	=0x4000000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -7432,11 +6372,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4008000000000000, r6
-	cmp	r5, r6
-	bne	f1061
+	cbne	r5, r6, f1061
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1062
+	cbne	r8, r6, f1062
 	movq	=0x4000000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -7446,11 +6384,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc008000000000000, r6
-	cmp	r5, r6
-	bne	f1063
+	cbne	r5, r6, f1063
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1064
+	cbne	r8, r6, f1064
 	movq	=0x4000000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -7460,11 +6396,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4000000000000000, r6
-	cmp	r5, r6
-	bne	f1065
+	cbne	r5, r6, f1065
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1066
+	cbne	r8, r6, f1066
 	movq	=0x4000000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -7474,11 +6408,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc010000000000000, r6
-	cmp	r5, r6
-	bne	f1067
+	cbne	r5, r6, f1067
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1068
+	cbne	r8, r6, f1068
 	movq	=0x4000000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -7488,11 +6420,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4010000000000000, r6
-	cmp	r5, r6
-	bne	f1069
+	cbne	r5, r6, f1069
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1070
+	cbne	r8, r6, f1070
 	movq	=0x4000000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -7502,11 +6432,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc000000000000000, r6
-	cmp	r5, r6
-	bne	f1071
+	cbne	r5, r6, f1071
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1072
+	cbne	r8, r6, f1072
 	movq	=0x4000000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -7516,11 +6444,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff0000000000000, r6
-	cmp	r5, r6
-	bne	f1073
+	cbne	r5, r6, f1073
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1074
+	cbne	r8, r6, f1074
 	movq	=0x4000000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -7530,11 +6456,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc014000000000000, r6
-	cmp	r5, r6
-	bne	f1075
+	cbne	r5, r6, f1075
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1076
+	cbne	r8, r6, f1076
 	movq	=0x4000000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -7544,11 +6468,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f1077
+	cbne	r5, r6, f1077
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1078
+	cbne	r8, r6, f1078
 	movq	=0x4000000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -7558,11 +6480,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc018000000000000, r6
-	cmp	r5, r6
-	bne	f1079
+	cbne	r5, r6, f1079
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1080
+	cbne	r8, r6, f1080
 	movq	=0x4000000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -7572,11 +6492,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff8000000000000, r6
-	cmp	r5, r6
-	bne	f1081
+	cbne	r5, r6, f1081
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1082
+	cbne	r8, r6, f1082
 	movq	=0x4000000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -7586,11 +6504,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc012000000000000, r6
-	cmp	r5, r6
-	bne	f1083
+	cbne	r5, r6, f1083
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1084
+	cbne	r8, r6, f1084
 	movq	=0x4000000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -7600,11 +6516,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3fe0000000000000, r6
-	cmp	r5, r6
-	bne	f1085
+	cbne	r5, r6, f1085
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1086
+	cbne	r8, r6, f1086
 	movq	=0x4000000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -7614,11 +6528,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc016000000000000, r6
-	cmp	r5, r6
-	bne	f1087
+	cbne	r5, r6, f1087
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1088
+	cbne	r8, r6, f1088
 	movq	=0x4000000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -7628,11 +6540,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbfe8000000000000, r6
-	cmp	r5, r6
-	bne	f1089
+	cbne	r5, r6, f1089
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1090
+	cbne	r8, r6, f1090
 	movq	=0x4000000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -7642,11 +6552,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01b000000000000, r6
-	cmp	r5, r6
-	bne	f1091
+	cbne	r5, r6, f1091
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1092
+	cbne	r8, r6, f1092
 	movq	=0x4000000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -7656,11 +6564,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x401b000000000000, r6
-	cmp	r5, r6
-	bne	f1093
+	cbne	r5, r6, f1093
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1094
+	cbne	r8, r6, f1094
 	movq	=0x4000000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -7670,11 +6576,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3fe8000000000000, r6
-	cmp	r5, r6
-	bne	f1095
+	cbne	r5, r6, f1095
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1096
+	cbne	r8, r6, f1096
 	movq	=0x4000000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -7684,11 +6588,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc012000000000000, r6
-	cmp	r5, r6
-	bne	f1097
+	cbne	r5, r6, f1097
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1098
+	cbne	r8, r6, f1098
 	movq	=0x4000000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -7698,11 +6600,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc025000000000000, r6
-	cmp	r5, r6
-	bne	f1099
+	cbne	r5, r6, f1099
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1100
+	cbne	r8, r6, f1100
 	movq	=0x4008000000000000, r1
 	movq	=0x0, r2
 	movq	=0x0, r3
@@ -7712,11 +6612,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f1101
+	cbne	r5, r6, f1101
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1102
+	cbne	r8, r6, f1102
 	movq	=0x4008000000000000, r1
 	movq	=0x0, r2
 	movq	=0x0, r3
@@ -7726,11 +6624,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x8000000000000000, r6
-	cmp	r5, r6
-	bne	f1103
+	cbne	r5, r6, f1103
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1104
+	cbne	r8, r6, f1104
 	movq	=0x4008000000000000, r1
 	movq	=0x0, r2
 	movq	=0x8000000000000000, r3
@@ -7740,11 +6636,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f1105
+	cbne	r5, r6, f1105
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1106
+	cbne	r8, r6, f1106
 	movq	=0x4008000000000000, r1
 	movq	=0x0, r2
 	movq	=0x8000000000000000, r3
@@ -7754,11 +6648,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f1107
+	cbne	r5, r6, f1107
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1108
+	cbne	r8, r6, f1108
 	movq	=0x4008000000000000, r1
 	movq	=0x0, r2
 	movq	=0x3ff0000000000000, r3
@@ -7768,11 +6660,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f1109
+	cbne	r5, r6, f1109
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1110
+	cbne	r8, r6, f1110
 	movq	=0x4008000000000000, r1
 	movq	=0x0, r2
 	movq	=0x3ff0000000000000, r3
@@ -7782,11 +6672,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f1111
+	cbne	r5, r6, f1111
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1112
+	cbne	r8, r6, f1112
 	movq	=0x4008000000000000, r1
 	movq	=0x0, r2
 	movq	=0xbff0000000000000, r3
@@ -7796,11 +6684,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff0000000000000, r6
-	cmp	r5, r6
-	bne	f1113
+	cbne	r5, r6, f1113
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1114
+	cbne	r8, r6, f1114
 	movq	=0x4008000000000000, r1
 	movq	=0x0, r2
 	movq	=0xbff0000000000000, r3
@@ -7810,11 +6696,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff0000000000000, r6
-	cmp	r5, r6
-	bne	f1115
+	cbne	r5, r6, f1115
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1116
+	cbne	r8, r6, f1116
 	movq	=0x4008000000000000, r1
 	movq	=0x0, r2
 	movq	=0x4000000000000000, r3
@@ -7824,11 +6708,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc000000000000000, r6
-	cmp	r5, r6
-	bne	f1117
+	cbne	r5, r6, f1117
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1118
+	cbne	r8, r6, f1118
 	movq	=0x4008000000000000, r1
 	movq	=0x0, r2
 	movq	=0x4000000000000000, r3
@@ -7838,11 +6720,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc000000000000000, r6
-	cmp	r5, r6
-	bne	f1119
+	cbne	r5, r6, f1119
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1120
+	cbne	r8, r6, f1120
 	movq	=0x4008000000000000, r1
 	movq	=0x0, r2
 	movq	=0x4008000000000000, r3
@@ -7852,11 +6732,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc008000000000000, r6
-	cmp	r5, r6
-	bne	f1121
+	cbne	r5, r6, f1121
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1122
+	cbne	r8, r6, f1122
 	movq	=0x4008000000000000, r1
 	movq	=0x0, r2
 	movq	=0x4008000000000000, r3
@@ -7866,11 +6744,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc008000000000000, r6
-	cmp	r5, r6
-	bne	f1123
+	cbne	r5, r6, f1123
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1124
+	cbne	r8, r6, f1124
 	movq	=0x4008000000000000, r1
 	movq	=0x0, r2
 	movq	=0x3ff8000000000000, r3
@@ -7880,11 +6756,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f1125
+	cbne	r5, r6, f1125
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1126
+	cbne	r8, r6, f1126
 	movq	=0x4008000000000000, r1
 	movq	=0x0, r2
 	movq	=0x3ff8000000000000, r3
@@ -7894,11 +6768,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f1127
+	cbne	r5, r6, f1127
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1128
+	cbne	r8, r6, f1128
 	movq	=0x4008000000000000, r1
 	movq	=0x0, r2
 	movq	=0x4004000000000000, r3
@@ -7908,11 +6780,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc004000000000000, r6
-	cmp	r5, r6
-	bne	f1129
+	cbne	r5, r6, f1129
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1130
+	cbne	r8, r6, f1130
 	movq	=0x4008000000000000, r1
 	movq	=0x0, r2
 	movq	=0x4004000000000000, r3
@@ -7922,11 +6792,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc004000000000000, r6
-	cmp	r5, r6
-	bne	f1131
+	cbne	r5, r6, f1131
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1132
+	cbne	r8, r6, f1132
 	movq	=0x4008000000000000, r1
 	movq	=0x0, r2
 	movq	=0x400e000000000000, r3
@@ -7936,11 +6804,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00e000000000000, r6
-	cmp	r5, r6
-	bne	f1133
+	cbne	r5, r6, f1133
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1134
+	cbne	r8, r6, f1134
 	movq	=0x4008000000000000, r1
 	movq	=0x0, r2
 	movq	=0x400e000000000000, r3
@@ -7950,11 +6816,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00e000000000000, r6
-	cmp	r5, r6
-	bne	f1135
+	cbne	r5, r6, f1135
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1136
+	cbne	r8, r6, f1136
 	movq	=0x4008000000000000, r1
 	movq	=0x0, r2
 	movq	=0xc00e000000000000, r3
@@ -7964,11 +6828,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x400e000000000000, r6
-	cmp	r5, r6
-	bne	f1137
+	cbne	r5, r6, f1137
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1138
+	cbne	r8, r6, f1138
 	movq	=0x4008000000000000, r1
 	movq	=0x0, r2
 	movq	=0xc00e000000000000, r3
@@ -7978,11 +6840,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x400e000000000000, r6
-	cmp	r5, r6
-	bne	f1139
+	cbne	r5, r6, f1139
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1140
+	cbne	r8, r6, f1140
 	movq	=0x4008000000000000, r1
 	movq	=0x0, r2
 	movq	=0x401e000000000000, r3
@@ -7992,11 +6852,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01e000000000000, r6
-	cmp	r5, r6
-	bne	f1141
+	cbne	r5, r6, f1141
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1142
+	cbne	r8, r6, f1142
 	movq	=0x4008000000000000, r1
 	movq	=0x0, r2
 	movq	=0x401e000000000000, r3
@@ -8006,11 +6864,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01e000000000000, r6
-	cmp	r5, r6
-	bne	f1143
+	cbne	r5, r6, f1143
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1144
+	cbne	r8, r6, f1144
 	movq	=0x4008000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x0, r3
@@ -8020,11 +6876,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x8000000000000000, r6
-	cmp	r5, r6
-	bne	f1145
+	cbne	r5, r6, f1145
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1146
+	cbne	r8, r6, f1146
 	movq	=0x4008000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x0, r3
@@ -8034,11 +6888,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f1147
+	cbne	r5, r6, f1147
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1148
+	cbne	r8, r6, f1148
 	movq	=0x4008000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -8048,11 +6900,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f1149
+	cbne	r5, r6, f1149
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1150
+	cbne	r8, r6, f1150
 	movq	=0x4008000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -8062,11 +6912,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f1151
+	cbne	r5, r6, f1151
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1152
+	cbne	r8, r6, f1152
 	movq	=0x4008000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -8076,11 +6924,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f1153
+	cbne	r5, r6, f1153
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1154
+	cbne	r8, r6, f1154
 	movq	=0x4008000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -8090,11 +6936,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f1155
+	cbne	r5, r6, f1155
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1156
+	cbne	r8, r6, f1156
 	movq	=0x4008000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -8104,11 +6948,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff0000000000000, r6
-	cmp	r5, r6
-	bne	f1157
+	cbne	r5, r6, f1157
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1158
+	cbne	r8, r6, f1158
 	movq	=0x4008000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -8118,11 +6960,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff0000000000000, r6
-	cmp	r5, r6
-	bne	f1159
+	cbne	r5, r6, f1159
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1160
+	cbne	r8, r6, f1160
 	movq	=0x4008000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -8132,11 +6972,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc000000000000000, r6
-	cmp	r5, r6
-	bne	f1161
+	cbne	r5, r6, f1161
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1162
+	cbne	r8, r6, f1162
 	movq	=0x4008000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -8146,11 +6984,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc000000000000000, r6
-	cmp	r5, r6
-	bne	f1163
+	cbne	r5, r6, f1163
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1164
+	cbne	r8, r6, f1164
 	movq	=0x4008000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -8160,11 +6996,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc008000000000000, r6
-	cmp	r5, r6
-	bne	f1165
+	cbne	r5, r6, f1165
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1166
+	cbne	r8, r6, f1166
 	movq	=0x4008000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -8174,11 +7008,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc008000000000000, r6
-	cmp	r5, r6
-	bne	f1167
+	cbne	r5, r6, f1167
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1168
+	cbne	r8, r6, f1168
 	movq	=0x4008000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -8188,11 +7020,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f1169
+	cbne	r5, r6, f1169
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1170
+	cbne	r8, r6, f1170
 	movq	=0x4008000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -8202,11 +7032,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f1171
+	cbne	r5, r6, f1171
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1172
+	cbne	r8, r6, f1172
 	movq	=0x4008000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -8216,11 +7044,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc004000000000000, r6
-	cmp	r5, r6
-	bne	f1173
+	cbne	r5, r6, f1173
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1174
+	cbne	r8, r6, f1174
 	movq	=0x4008000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -8230,11 +7056,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc004000000000000, r6
-	cmp	r5, r6
-	bne	f1175
+	cbne	r5, r6, f1175
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1176
+	cbne	r8, r6, f1176
 	movq	=0x4008000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -8244,11 +7068,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00e000000000000, r6
-	cmp	r5, r6
-	bne	f1177
+	cbne	r5, r6, f1177
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1178
+	cbne	r8, r6, f1178
 	movq	=0x4008000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -8258,11 +7080,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00e000000000000, r6
-	cmp	r5, r6
-	bne	f1179
+	cbne	r5, r6, f1179
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1180
+	cbne	r8, r6, f1180
 	movq	=0x4008000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -8272,11 +7092,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x400e000000000000, r6
-	cmp	r5, r6
-	bne	f1181
+	cbne	r5, r6, f1181
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1182
+	cbne	r8, r6, f1182
 	movq	=0x4008000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -8286,11 +7104,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x400e000000000000, r6
-	cmp	r5, r6
-	bne	f1183
+	cbne	r5, r6, f1183
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1184
+	cbne	r8, r6, f1184
 	movq	=0x4008000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -8300,11 +7116,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01e000000000000, r6
-	cmp	r5, r6
-	bne	f1185
+	cbne	r5, r6, f1185
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1186
+	cbne	r8, r6, f1186
 	movq	=0x4008000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -8314,11 +7128,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01e000000000000, r6
-	cmp	r5, r6
-	bne	f1187
+	cbne	r5, r6, f1187
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1188
+	cbne	r8, r6, f1188
 	movq	=0x4008000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x0, r3
@@ -8328,11 +7140,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4008000000000000, r6
-	cmp	r5, r6
-	bne	f1189
+	cbne	r5, r6, f1189
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1190
+	cbne	r8, r6, f1190
 	movq	=0x4008000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x0, r3
@@ -8342,11 +7152,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc008000000000000, r6
-	cmp	r5, r6
-	bne	f1191
+	cbne	r5, r6, f1191
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1192
+	cbne	r8, r6, f1192
 	movq	=0x4008000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -8356,11 +7164,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4008000000000000, r6
-	cmp	r5, r6
-	bne	f1193
+	cbne	r5, r6, f1193
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1194
+	cbne	r8, r6, f1194
 	movq	=0x4008000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -8370,11 +7176,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc008000000000000, r6
-	cmp	r5, r6
-	bne	f1195
+	cbne	r5, r6, f1195
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1196
+	cbne	r8, r6, f1196
 	movq	=0x4008000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -8384,11 +7188,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4000000000000000, r6
-	cmp	r5, r6
-	bne	f1197
+	cbne	r5, r6, f1197
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1198
+	cbne	r8, r6, f1198
 	movq	=0x4008000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -8398,11 +7200,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc010000000000000, r6
-	cmp	r5, r6
-	bne	f1199
+	cbne	r5, r6, f1199
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1200
+	cbne	r8, r6, f1200
 	movq	=0x4008000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -8412,11 +7212,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4010000000000000, r6
-	cmp	r5, r6
-	bne	f1201
+	cbne	r5, r6, f1201
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1202
+	cbne	r8, r6, f1202
 	movq	=0x4008000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -8426,11 +7224,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc000000000000000, r6
-	cmp	r5, r6
-	bne	f1203
+	cbne	r5, r6, f1203
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1204
+	cbne	r8, r6, f1204
 	movq	=0x4008000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -8440,11 +7236,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff0000000000000, r6
-	cmp	r5, r6
-	bne	f1205
+	cbne	r5, r6, f1205
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1206
+	cbne	r8, r6, f1206
 	movq	=0x4008000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -8454,11 +7248,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc014000000000000, r6
-	cmp	r5, r6
-	bne	f1207
+	cbne	r5, r6, f1207
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1208
+	cbne	r8, r6, f1208
 	movq	=0x4008000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -8468,11 +7260,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f1209
+	cbne	r5, r6, f1209
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1210
+	cbne	r8, r6, f1210
 	movq	=0x4008000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -8482,11 +7272,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc018000000000000, r6
-	cmp	r5, r6
-	bne	f1211
+	cbne	r5, r6, f1211
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1212
+	cbne	r8, r6, f1212
 	movq	=0x4008000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -8496,11 +7284,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff8000000000000, r6
-	cmp	r5, r6
-	bne	f1213
+	cbne	r5, r6, f1213
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1214
+	cbne	r8, r6, f1214
 	movq	=0x4008000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -8510,11 +7296,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc012000000000000, r6
-	cmp	r5, r6
-	bne	f1215
+	cbne	r5, r6, f1215
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1216
+	cbne	r8, r6, f1216
 	movq	=0x4008000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -8524,11 +7308,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3fe0000000000000, r6
-	cmp	r5, r6
-	bne	f1217
+	cbne	r5, r6, f1217
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1218
+	cbne	r8, r6, f1218
 	movq	=0x4008000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -8538,11 +7320,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc016000000000000, r6
-	cmp	r5, r6
-	bne	f1219
+	cbne	r5, r6, f1219
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1220
+	cbne	r8, r6, f1220
 	movq	=0x4008000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -8552,11 +7332,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbfe8000000000000, r6
-	cmp	r5, r6
-	bne	f1221
+	cbne	r5, r6, f1221
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1222
+	cbne	r8, r6, f1222
 	movq	=0x4008000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -8566,11 +7344,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01b000000000000, r6
-	cmp	r5, r6
-	bne	f1223
+	cbne	r5, r6, f1223
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1224
+	cbne	r8, r6, f1224
 	movq	=0x4008000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -8580,11 +7356,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x401b000000000000, r6
-	cmp	r5, r6
-	bne	f1225
+	cbne	r5, r6, f1225
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1226
+	cbne	r8, r6, f1226
 	movq	=0x4008000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -8594,11 +7368,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3fe8000000000000, r6
-	cmp	r5, r6
-	bne	f1227
+	cbne	r5, r6, f1227
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1228
+	cbne	r8, r6, f1228
 	movq	=0x4008000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -8608,11 +7380,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc012000000000000, r6
-	cmp	r5, r6
-	bne	f1229
+	cbne	r5, r6, f1229
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1230
+	cbne	r8, r6, f1230
 	movq	=0x4008000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -8622,11 +7392,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc025000000000000, r6
-	cmp	r5, r6
-	bne	f1231
+	cbne	r5, r6, f1231
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1232
+	cbne	r8, r6, f1232
 	movq	=0x4008000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x0, r3
@@ -8636,11 +7404,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc008000000000000, r6
-	cmp	r5, r6
-	bne	f1233
+	cbne	r5, r6, f1233
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1234
+	cbne	r8, r6, f1234
 	movq	=0x4008000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x0, r3
@@ -8650,11 +7416,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4008000000000000, r6
-	cmp	r5, r6
-	bne	f1235
+	cbne	r5, r6, f1235
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1236
+	cbne	r8, r6, f1236
 	movq	=0x4008000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -8664,11 +7428,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc008000000000000, r6
-	cmp	r5, r6
-	bne	f1237
+	cbne	r5, r6, f1237
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1238
+	cbne	r8, r6, f1238
 	movq	=0x4008000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -8678,11 +7440,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4008000000000000, r6
-	cmp	r5, r6
-	bne	f1239
+	cbne	r5, r6, f1239
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1240
+	cbne	r8, r6, f1240
 	movq	=0x4008000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -8692,11 +7452,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc010000000000000, r6
-	cmp	r5, r6
-	bne	f1241
+	cbne	r5, r6, f1241
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1242
+	cbne	r8, r6, f1242
 	movq	=0x4008000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -8706,11 +7464,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4000000000000000, r6
-	cmp	r5, r6
-	bne	f1243
+	cbne	r5, r6, f1243
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1244
+	cbne	r8, r6, f1244
 	movq	=0x4008000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -8720,11 +7476,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc000000000000000, r6
-	cmp	r5, r6
-	bne	f1245
+	cbne	r5, r6, f1245
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1246
+	cbne	r8, r6, f1246
 	movq	=0x4008000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -8734,11 +7488,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4010000000000000, r6
-	cmp	r5, r6
-	bne	f1247
+	cbne	r5, r6, f1247
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1248
+	cbne	r8, r6, f1248
 	movq	=0x4008000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -8748,11 +7500,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc014000000000000, r6
-	cmp	r5, r6
-	bne	f1249
+	cbne	r5, r6, f1249
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1250
+	cbne	r8, r6, f1250
 	movq	=0x4008000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -8762,11 +7512,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff0000000000000, r6
-	cmp	r5, r6
-	bne	f1251
+	cbne	r5, r6, f1251
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1252
+	cbne	r8, r6, f1252
 	movq	=0x4008000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -8776,11 +7524,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc018000000000000, r6
-	cmp	r5, r6
-	bne	f1253
+	cbne	r5, r6, f1253
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1254
+	cbne	r8, r6, f1254
 	movq	=0x4008000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -8790,11 +7536,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f1255
+	cbne	r5, r6, f1255
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1256
+	cbne	r8, r6, f1256
 	movq	=0x4008000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -8804,11 +7548,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc012000000000000, r6
-	cmp	r5, r6
-	bne	f1257
+	cbne	r5, r6, f1257
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1258
+	cbne	r8, r6, f1258
 	movq	=0x4008000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -8818,11 +7560,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff8000000000000, r6
-	cmp	r5, r6
-	bne	f1259
+	cbne	r5, r6, f1259
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1260
+	cbne	r8, r6, f1260
 	movq	=0x4008000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -8832,11 +7572,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc016000000000000, r6
-	cmp	r5, r6
-	bne	f1261
+	cbne	r5, r6, f1261
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1262
+	cbne	r8, r6, f1262
 	movq	=0x4008000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -8846,11 +7584,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3fe0000000000000, r6
-	cmp	r5, r6
-	bne	f1263
+	cbne	r5, r6, f1263
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1264
+	cbne	r8, r6, f1264
 	movq	=0x4008000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -8860,11 +7596,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01b000000000000, r6
-	cmp	r5, r6
-	bne	f1265
+	cbne	r5, r6, f1265
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1266
+	cbne	r8, r6, f1266
 	movq	=0x4008000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -8874,11 +7608,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbfe8000000000000, r6
-	cmp	r5, r6
-	bne	f1267
+	cbne	r5, r6, f1267
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1268
+	cbne	r8, r6, f1268
 	movq	=0x4008000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -8888,11 +7620,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3fe8000000000000, r6
-	cmp	r5, r6
-	bne	f1269
+	cbne	r5, r6, f1269
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1270
+	cbne	r8, r6, f1270
 	movq	=0x4008000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -8902,11 +7632,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x401b000000000000, r6
-	cmp	r5, r6
-	bne	f1271
+	cbne	r5, r6, f1271
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1272
+	cbne	r8, r6, f1272
 	movq	=0x4008000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -8916,11 +7644,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc025000000000000, r6
-	cmp	r5, r6
-	bne	f1273
+	cbne	r5, r6, f1273
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1274
+	cbne	r8, r6, f1274
 	movq	=0x4008000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -8930,11 +7656,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc012000000000000, r6
-	cmp	r5, r6
-	bne	f1275
+	cbne	r5, r6, f1275
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1276
+	cbne	r8, r6, f1276
 	movq	=0x4008000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x0, r3
@@ -8944,11 +7668,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4012000000000000, r6
-	cmp	r5, r6
-	bne	f1277
+	cbne	r5, r6, f1277
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1278
+	cbne	r8, r6, f1278
 	movq	=0x4008000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x0, r3
@@ -8958,11 +7680,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc012000000000000, r6
-	cmp	r5, r6
-	bne	f1279
+	cbne	r5, r6, f1279
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1280
+	cbne	r8, r6, f1280
 	movq	=0x4008000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -8972,11 +7692,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4012000000000000, r6
-	cmp	r5, r6
-	bne	f1281
+	cbne	r5, r6, f1281
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1282
+	cbne	r8, r6, f1282
 	movq	=0x4008000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -8986,11 +7704,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc012000000000000, r6
-	cmp	r5, r6
-	bne	f1283
+	cbne	r5, r6, f1283
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1284
+	cbne	r8, r6, f1284
 	movq	=0x4008000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -9000,11 +7716,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x400c000000000000, r6
-	cmp	r5, r6
-	bne	f1285
+	cbne	r5, r6, f1285
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1286
+	cbne	r8, r6, f1286
 	movq	=0x4008000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -9014,11 +7728,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc016000000000000, r6
-	cmp	r5, r6
-	bne	f1287
+	cbne	r5, r6, f1287
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1288
+	cbne	r8, r6, f1288
 	movq	=0x4008000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -9028,11 +7740,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4016000000000000, r6
-	cmp	r5, r6
-	bne	f1289
+	cbne	r5, r6, f1289
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1290
+	cbne	r8, r6, f1290
 	movq	=0x4008000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -9042,11 +7752,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00c000000000000, r6
-	cmp	r5, r6
-	bne	f1291
+	cbne	r5, r6, f1291
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1292
+	cbne	r8, r6, f1292
 	movq	=0x4008000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -9056,11 +7764,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4004000000000000, r6
-	cmp	r5, r6
-	bne	f1293
+	cbne	r5, r6, f1293
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1294
+	cbne	r8, r6, f1294
 	movq	=0x4008000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -9070,11 +7776,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01a000000000000, r6
-	cmp	r5, r6
-	bne	f1295
+	cbne	r5, r6, f1295
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1296
+	cbne	r8, r6, f1296
 	movq	=0x4008000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -9084,11 +7788,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff8000000000000, r6
-	cmp	r5, r6
-	bne	f1297
+	cbne	r5, r6, f1297
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1298
+	cbne	r8, r6, f1298
 	movq	=0x4008000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -9098,11 +7800,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01e000000000000, r6
-	cmp	r5, r6
-	bne	f1299
+	cbne	r5, r6, f1299
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1300
+	cbne	r8, r6, f1300
 	movq	=0x4008000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -9112,11 +7812,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4008000000000000, r6
-	cmp	r5, r6
-	bne	f1301
+	cbne	r5, r6, f1301
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1302
+	cbne	r8, r6, f1302
 	movq	=0x4008000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -9126,11 +7824,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc018000000000000, r6
-	cmp	r5, r6
-	bne	f1303
+	cbne	r5, r6, f1303
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1304
+	cbne	r8, r6, f1304
 	movq	=0x4008000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -9140,11 +7836,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4000000000000000, r6
-	cmp	r5, r6
-	bne	f1305
+	cbne	r5, r6, f1305
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1306
+	cbne	r8, r6, f1306
 	movq	=0x4008000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -9154,11 +7848,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01c000000000000, r6
-	cmp	r5, r6
-	bne	f1307
+	cbne	r5, r6, f1307
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1308
+	cbne	r8, r6, f1308
 	movq	=0x4008000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -9168,11 +7860,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3fe8000000000000, r6
-	cmp	r5, r6
-	bne	f1309
+	cbne	r5, r6, f1309
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1310
+	cbne	r8, r6, f1310
 	movq	=0x4008000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -9182,11 +7872,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc020800000000000, r6
-	cmp	r5, r6
-	bne	f1311
+	cbne	r5, r6, f1311
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1312
+	cbne	r8, r6, f1312
 	movq	=0x4008000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -9196,11 +7884,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4020800000000000, r6
-	cmp	r5, r6
-	bne	f1313
+	cbne	r5, r6, f1313
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1314
+	cbne	r8, r6, f1314
 	movq	=0x4008000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -9210,11 +7896,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbfe8000000000000, r6
-	cmp	r5, r6
-	bne	f1315
+	cbne	r5, r6, f1315
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1316
+	cbne	r8, r6, f1316
 	movq	=0x4008000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -9224,11 +7908,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc008000000000000, r6
-	cmp	r5, r6
-	bne	f1317
+	cbne	r5, r6, f1317
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1318
+	cbne	r8, r6, f1318
 	movq	=0x4008000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -9238,11 +7920,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc028000000000000, r6
-	cmp	r5, r6
-	bne	f1319
+	cbne	r5, r6, f1319
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1320
+	cbne	r8, r6, f1320
 	movq	=0x3ff8000000000000, r1
 	movq	=0x0, r2
 	movq	=0x0, r3
@@ -9252,11 +7932,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f1321
+	cbne	r5, r6, f1321
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1322
+	cbne	r8, r6, f1322
 	movq	=0x3ff8000000000000, r1
 	movq	=0x0, r2
 	movq	=0x0, r3
@@ -9266,11 +7944,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x8000000000000000, r6
-	cmp	r5, r6
-	bne	f1323
+	cbne	r5, r6, f1323
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1324
+	cbne	r8, r6, f1324
 	movq	=0x3ff8000000000000, r1
 	movq	=0x0, r2
 	movq	=0x8000000000000000, r3
@@ -9280,11 +7956,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f1325
+	cbne	r5, r6, f1325
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1326
+	cbne	r8, r6, f1326
 	movq	=0x3ff8000000000000, r1
 	movq	=0x0, r2
 	movq	=0x8000000000000000, r3
@@ -9294,11 +7968,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f1327
+	cbne	r5, r6, f1327
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1328
+	cbne	r8, r6, f1328
 	movq	=0x3ff8000000000000, r1
 	movq	=0x0, r2
 	movq	=0x3ff0000000000000, r3
@@ -9308,11 +7980,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f1329
+	cbne	r5, r6, f1329
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1330
+	cbne	r8, r6, f1330
 	movq	=0x3ff8000000000000, r1
 	movq	=0x0, r2
 	movq	=0x3ff0000000000000, r3
@@ -9322,11 +7992,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f1331
+	cbne	r5, r6, f1331
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1332
+	cbne	r8, r6, f1332
 	movq	=0x3ff8000000000000, r1
 	movq	=0x0, r2
 	movq	=0xbff0000000000000, r3
@@ -9336,11 +8004,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff0000000000000, r6
-	cmp	r5, r6
-	bne	f1333
+	cbne	r5, r6, f1333
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1334
+	cbne	r8, r6, f1334
 	movq	=0x3ff8000000000000, r1
 	movq	=0x0, r2
 	movq	=0xbff0000000000000, r3
@@ -9350,11 +8016,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff0000000000000, r6
-	cmp	r5, r6
-	bne	f1335
+	cbne	r5, r6, f1335
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1336
+	cbne	r8, r6, f1336
 	movq	=0x3ff8000000000000, r1
 	movq	=0x0, r2
 	movq	=0x4000000000000000, r3
@@ -9364,11 +8028,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc000000000000000, r6
-	cmp	r5, r6
-	bne	f1337
+	cbne	r5, r6, f1337
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1338
+	cbne	r8, r6, f1338
 	movq	=0x3ff8000000000000, r1
 	movq	=0x0, r2
 	movq	=0x4000000000000000, r3
@@ -9378,11 +8040,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc000000000000000, r6
-	cmp	r5, r6
-	bne	f1339
+	cbne	r5, r6, f1339
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1340
+	cbne	r8, r6, f1340
 	movq	=0x3ff8000000000000, r1
 	movq	=0x0, r2
 	movq	=0x4008000000000000, r3
@@ -9392,11 +8052,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc008000000000000, r6
-	cmp	r5, r6
-	bne	f1341
+	cbne	r5, r6, f1341
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1342
+	cbne	r8, r6, f1342
 	movq	=0x3ff8000000000000, r1
 	movq	=0x0, r2
 	movq	=0x4008000000000000, r3
@@ -9406,11 +8064,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc008000000000000, r6
-	cmp	r5, r6
-	bne	f1343
+	cbne	r5, r6, f1343
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1344
+	cbne	r8, r6, f1344
 	movq	=0x3ff8000000000000, r1
 	movq	=0x0, r2
 	movq	=0x3ff8000000000000, r3
@@ -9420,11 +8076,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f1345
+	cbne	r5, r6, f1345
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1346
+	cbne	r8, r6, f1346
 	movq	=0x3ff8000000000000, r1
 	movq	=0x0, r2
 	movq	=0x3ff8000000000000, r3
@@ -9434,11 +8088,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f1347
+	cbne	r5, r6, f1347
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1348
+	cbne	r8, r6, f1348
 	movq	=0x3ff8000000000000, r1
 	movq	=0x0, r2
 	movq	=0x4004000000000000, r3
@@ -9448,11 +8100,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc004000000000000, r6
-	cmp	r5, r6
-	bne	f1349
+	cbne	r5, r6, f1349
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1350
+	cbne	r8, r6, f1350
 	movq	=0x3ff8000000000000, r1
 	movq	=0x0, r2
 	movq	=0x4004000000000000, r3
@@ -9462,11 +8112,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc004000000000000, r6
-	cmp	r5, r6
-	bne	f1351
+	cbne	r5, r6, f1351
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1352
+	cbne	r8, r6, f1352
 	movq	=0x3ff8000000000000, r1
 	movq	=0x0, r2
 	movq	=0x400e000000000000, r3
@@ -9476,11 +8124,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00e000000000000, r6
-	cmp	r5, r6
-	bne	f1353
+	cbne	r5, r6, f1353
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1354
+	cbne	r8, r6, f1354
 	movq	=0x3ff8000000000000, r1
 	movq	=0x0, r2
 	movq	=0x400e000000000000, r3
@@ -9490,11 +8136,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00e000000000000, r6
-	cmp	r5, r6
-	bne	f1355
+	cbne	r5, r6, f1355
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1356
+	cbne	r8, r6, f1356
 	movq	=0x3ff8000000000000, r1
 	movq	=0x0, r2
 	movq	=0xc00e000000000000, r3
@@ -9504,11 +8148,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x400e000000000000, r6
-	cmp	r5, r6
-	bne	f1357
+	cbne	r5, r6, f1357
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1358
+	cbne	r8, r6, f1358
 	movq	=0x3ff8000000000000, r1
 	movq	=0x0, r2
 	movq	=0xc00e000000000000, r3
@@ -9518,11 +8160,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x400e000000000000, r6
-	cmp	r5, r6
-	bne	f1359
+	cbne	r5, r6, f1359
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1360
+	cbne	r8, r6, f1360
 	movq	=0x3ff8000000000000, r1
 	movq	=0x0, r2
 	movq	=0x401e000000000000, r3
@@ -9532,11 +8172,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01e000000000000, r6
-	cmp	r5, r6
-	bne	f1361
+	cbne	r5, r6, f1361
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1362
+	cbne	r8, r6, f1362
 	movq	=0x3ff8000000000000, r1
 	movq	=0x0, r2
 	movq	=0x401e000000000000, r3
@@ -9546,11 +8184,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01e000000000000, r6
-	cmp	r5, r6
-	bne	f1363
+	cbne	r5, r6, f1363
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1364
+	cbne	r8, r6, f1364
 	movq	=0x3ff8000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x0, r3
@@ -9560,11 +8196,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x8000000000000000, r6
-	cmp	r5, r6
-	bne	f1365
+	cbne	r5, r6, f1365
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1366
+	cbne	r8, r6, f1366
 	movq	=0x3ff8000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x0, r3
@@ -9574,11 +8208,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f1367
+	cbne	r5, r6, f1367
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1368
+	cbne	r8, r6, f1368
 	movq	=0x3ff8000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -9588,11 +8220,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f1369
+	cbne	r5, r6, f1369
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1370
+	cbne	r8, r6, f1370
 	movq	=0x3ff8000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -9602,11 +8232,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f1371
+	cbne	r5, r6, f1371
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1372
+	cbne	r8, r6, f1372
 	movq	=0x3ff8000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -9616,11 +8244,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f1373
+	cbne	r5, r6, f1373
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1374
+	cbne	r8, r6, f1374
 	movq	=0x3ff8000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -9630,11 +8256,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f1375
+	cbne	r5, r6, f1375
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1376
+	cbne	r8, r6, f1376
 	movq	=0x3ff8000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -9644,11 +8268,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff0000000000000, r6
-	cmp	r5, r6
-	bne	f1377
+	cbne	r5, r6, f1377
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1378
+	cbne	r8, r6, f1378
 	movq	=0x3ff8000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -9658,11 +8280,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff0000000000000, r6
-	cmp	r5, r6
-	bne	f1379
+	cbne	r5, r6, f1379
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1380
+	cbne	r8, r6, f1380
 	movq	=0x3ff8000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -9672,11 +8292,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc000000000000000, r6
-	cmp	r5, r6
-	bne	f1381
+	cbne	r5, r6, f1381
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1382
+	cbne	r8, r6, f1382
 	movq	=0x3ff8000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -9686,11 +8304,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc000000000000000, r6
-	cmp	r5, r6
-	bne	f1383
+	cbne	r5, r6, f1383
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1384
+	cbne	r8, r6, f1384
 	movq	=0x3ff8000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -9700,11 +8316,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc008000000000000, r6
-	cmp	r5, r6
-	bne	f1385
+	cbne	r5, r6, f1385
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1386
+	cbne	r8, r6, f1386
 	movq	=0x3ff8000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -9714,11 +8328,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc008000000000000, r6
-	cmp	r5, r6
-	bne	f1387
+	cbne	r5, r6, f1387
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1388
+	cbne	r8, r6, f1388
 	movq	=0x3ff8000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -9728,11 +8340,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f1389
+	cbne	r5, r6, f1389
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1390
+	cbne	r8, r6, f1390
 	movq	=0x3ff8000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -9742,11 +8352,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f1391
+	cbne	r5, r6, f1391
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1392
+	cbne	r8, r6, f1392
 	movq	=0x3ff8000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -9756,11 +8364,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc004000000000000, r6
-	cmp	r5, r6
-	bne	f1393
+	cbne	r5, r6, f1393
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1394
+	cbne	r8, r6, f1394
 	movq	=0x3ff8000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -9770,11 +8376,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc004000000000000, r6
-	cmp	r5, r6
-	bne	f1395
+	cbne	r5, r6, f1395
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1396
+	cbne	r8, r6, f1396
 	movq	=0x3ff8000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -9784,11 +8388,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00e000000000000, r6
-	cmp	r5, r6
-	bne	f1397
+	cbne	r5, r6, f1397
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1398
+	cbne	r8, r6, f1398
 	movq	=0x3ff8000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -9798,11 +8400,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00e000000000000, r6
-	cmp	r5, r6
-	bne	f1399
+	cbne	r5, r6, f1399
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1400
+	cbne	r8, r6, f1400
 	movq	=0x3ff8000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -9812,11 +8412,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x400e000000000000, r6
-	cmp	r5, r6
-	bne	f1401
+	cbne	r5, r6, f1401
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1402
+	cbne	r8, r6, f1402
 	movq	=0x3ff8000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -9826,11 +8424,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x400e000000000000, r6
-	cmp	r5, r6
-	bne	f1403
+	cbne	r5, r6, f1403
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1404
+	cbne	r8, r6, f1404
 	movq	=0x3ff8000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -9840,11 +8436,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01e000000000000, r6
-	cmp	r5, r6
-	bne	f1405
+	cbne	r5, r6, f1405
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1406
+	cbne	r8, r6, f1406
 	movq	=0x3ff8000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -9854,11 +8448,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01e000000000000, r6
-	cmp	r5, r6
-	bne	f1407
+	cbne	r5, r6, f1407
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1408
+	cbne	r8, r6, f1408
 	movq	=0x3ff8000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x0, r3
@@ -9868,11 +8460,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff8000000000000, r6
-	cmp	r5, r6
-	bne	f1409
+	cbne	r5, r6, f1409
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1410
+	cbne	r8, r6, f1410
 	movq	=0x3ff8000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x0, r3
@@ -9882,11 +8472,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f1411
+	cbne	r5, r6, f1411
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1412
+	cbne	r8, r6, f1412
 	movq	=0x3ff8000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -9896,11 +8484,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff8000000000000, r6
-	cmp	r5, r6
-	bne	f1413
+	cbne	r5, r6, f1413
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1414
+	cbne	r8, r6, f1414
 	movq	=0x3ff8000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -9910,11 +8496,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f1415
+	cbne	r5, r6, f1415
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1416
+	cbne	r8, r6, f1416
 	movq	=0x3ff8000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -9924,11 +8508,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3fe0000000000000, r6
-	cmp	r5, r6
-	bne	f1417
+	cbne	r5, r6, f1417
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1418
+	cbne	r8, r6, f1418
 	movq	=0x3ff8000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -9938,11 +8520,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc004000000000000, r6
-	cmp	r5, r6
-	bne	f1419
+	cbne	r5, r6, f1419
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1420
+	cbne	r8, r6, f1420
 	movq	=0x3ff8000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -9952,11 +8532,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4004000000000000, r6
-	cmp	r5, r6
-	bne	f1421
+	cbne	r5, r6, f1421
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1422
+	cbne	r8, r6, f1422
 	movq	=0x3ff8000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -9966,11 +8544,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbfe0000000000000, r6
-	cmp	r5, r6
-	bne	f1423
+	cbne	r5, r6, f1423
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1424
+	cbne	r8, r6, f1424
 	movq	=0x3ff8000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -9980,11 +8556,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbfe0000000000000, r6
-	cmp	r5, r6
-	bne	f1425
+	cbne	r5, r6, f1425
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1426
+	cbne	r8, r6, f1426
 	movq	=0x3ff8000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -9994,11 +8568,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00c000000000000, r6
-	cmp	r5, r6
-	bne	f1427
+	cbne	r5, r6, f1427
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1428
+	cbne	r8, r6, f1428
 	movq	=0x3ff8000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -10008,11 +8580,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f1429
+	cbne	r5, r6, f1429
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1430
+	cbne	r8, r6, f1430
 	movq	=0x3ff8000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -10022,11 +8592,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc012000000000000, r6
-	cmp	r5, r6
-	bne	f1431
+	cbne	r5, r6, f1431
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1432
+	cbne	r8, r6, f1432
 	movq	=0x3ff8000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -10036,11 +8604,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f1433
+	cbne	r5, r6, f1433
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1434
+	cbne	r8, r6, f1434
 	movq	=0x3ff8000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -10050,11 +8616,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc008000000000000, r6
-	cmp	r5, r6
-	bne	f1435
+	cbne	r5, r6, f1435
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1436
+	cbne	r8, r6, f1436
 	movq	=0x3ff8000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -10064,11 +8628,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f1437
+	cbne	r5, r6, f1437
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1438
+	cbne	r8, r6, f1438
 	movq	=0x3ff8000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -10078,11 +8640,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc010000000000000, r6
-	cmp	r5, r6
-	bne	f1439
+	cbne	r5, r6, f1439
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1440
+	cbne	r8, r6, f1440
 	movq	=0x3ff8000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -10092,11 +8652,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc002000000000000, r6
-	cmp	r5, r6
-	bne	f1441
+	cbne	r5, r6, f1441
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1442
+	cbne	r8, r6, f1442
 	movq	=0x3ff8000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -10106,11 +8664,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc015000000000000, r6
-	cmp	r5, r6
-	bne	f1443
+	cbne	r5, r6, f1443
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1444
+	cbne	r8, r6, f1444
 	movq	=0x3ff8000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -10120,11 +8676,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4015000000000000, r6
-	cmp	r5, r6
-	bne	f1445
+	cbne	r5, r6, f1445
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1446
+	cbne	r8, r6, f1446
 	movq	=0x3ff8000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -10134,11 +8688,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4002000000000000, r6
-	cmp	r5, r6
-	bne	f1447
+	cbne	r5, r6, f1447
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1448
+	cbne	r8, r6, f1448
 	movq	=0x3ff8000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -10148,11 +8700,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc018000000000000, r6
-	cmp	r5, r6
-	bne	f1449
+	cbne	r5, r6, f1449
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1450
+	cbne	r8, r6, f1450
 	movq	=0x3ff8000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -10162,11 +8712,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc022000000000000, r6
-	cmp	r5, r6
-	bne	f1451
+	cbne	r5, r6, f1451
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1452
+	cbne	r8, r6, f1452
 	movq	=0x3ff8000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x0, r3
@@ -10176,11 +8724,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f1453
+	cbne	r5, r6, f1453
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1454
+	cbne	r8, r6, f1454
 	movq	=0x3ff8000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x0, r3
@@ -10190,11 +8736,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff8000000000000, r6
-	cmp	r5, r6
-	bne	f1455
+	cbne	r5, r6, f1455
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1456
+	cbne	r8, r6, f1456
 	movq	=0x3ff8000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -10204,11 +8748,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f1457
+	cbne	r5, r6, f1457
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1458
+	cbne	r8, r6, f1458
 	movq	=0x3ff8000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -10218,11 +8760,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff8000000000000, r6
-	cmp	r5, r6
-	bne	f1459
+	cbne	r5, r6, f1459
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1460
+	cbne	r8, r6, f1460
 	movq	=0x3ff8000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -10232,11 +8772,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc004000000000000, r6
-	cmp	r5, r6
-	bne	f1461
+	cbne	r5, r6, f1461
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1462
+	cbne	r8, r6, f1462
 	movq	=0x3ff8000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -10246,11 +8784,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3fe0000000000000, r6
-	cmp	r5, r6
-	bne	f1463
+	cbne	r5, r6, f1463
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1464
+	cbne	r8, r6, f1464
 	movq	=0x3ff8000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -10260,11 +8796,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbfe0000000000000, r6
-	cmp	r5, r6
-	bne	f1465
+	cbne	r5, r6, f1465
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1466
+	cbne	r8, r6, f1466
 	movq	=0x3ff8000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -10274,11 +8808,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4004000000000000, r6
-	cmp	r5, r6
-	bne	f1467
+	cbne	r5, r6, f1467
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1468
+	cbne	r8, r6, f1468
 	movq	=0x3ff8000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -10288,11 +8820,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00c000000000000, r6
-	cmp	r5, r6
-	bne	f1469
+	cbne	r5, r6, f1469
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1470
+	cbne	r8, r6, f1470
 	movq	=0x3ff8000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -10302,11 +8832,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbfe0000000000000, r6
-	cmp	r5, r6
-	bne	f1471
+	cbne	r5, r6, f1471
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1472
+	cbne	r8, r6, f1472
 	movq	=0x3ff8000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -10316,11 +8844,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc012000000000000, r6
-	cmp	r5, r6
-	bne	f1473
+	cbne	r5, r6, f1473
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1474
+	cbne	r8, r6, f1474
 	movq	=0x3ff8000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -10330,11 +8856,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f1475
+	cbne	r5, r6, f1475
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1476
+	cbne	r8, r6, f1476
 	movq	=0x3ff8000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -10344,11 +8868,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc008000000000000, r6
-	cmp	r5, r6
-	bne	f1477
+	cbne	r5, r6, f1477
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1478
+	cbne	r8, r6, f1478
 	movq	=0x3ff8000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -10358,11 +8880,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f1479
+	cbne	r5, r6, f1479
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1480
+	cbne	r8, r6, f1480
 	movq	=0x3ff8000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -10372,11 +8892,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc010000000000000, r6
-	cmp	r5, r6
-	bne	f1481
+	cbne	r5, r6, f1481
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1482
+	cbne	r8, r6, f1482
 	movq	=0x3ff8000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -10386,11 +8904,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f1483
+	cbne	r5, r6, f1483
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1484
+	cbne	r8, r6, f1484
 	movq	=0x3ff8000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -10400,11 +8916,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc015000000000000, r6
-	cmp	r5, r6
-	bne	f1485
+	cbne	r5, r6, f1485
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1486
+	cbne	r8, r6, f1486
 	movq	=0x3ff8000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -10414,11 +8928,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc002000000000000, r6
-	cmp	r5, r6
-	bne	f1487
+	cbne	r5, r6, f1487
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1488
+	cbne	r8, r6, f1488
 	movq	=0x3ff8000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -10428,11 +8940,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4002000000000000, r6
-	cmp	r5, r6
-	bne	f1489
+	cbne	r5, r6, f1489
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1490
+	cbne	r8, r6, f1490
 	movq	=0x3ff8000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -10442,11 +8952,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4015000000000000, r6
-	cmp	r5, r6
-	bne	f1491
+	cbne	r5, r6, f1491
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1492
+	cbne	r8, r6, f1492
 	movq	=0x3ff8000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -10456,11 +8964,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc022000000000000, r6
-	cmp	r5, r6
-	bne	f1493
+	cbne	r5, r6, f1493
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1494
+	cbne	r8, r6, f1494
 	movq	=0x3ff8000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -10470,11 +8976,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc018000000000000, r6
-	cmp	r5, r6
-	bne	f1495
+	cbne	r5, r6, f1495
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1496
+	cbne	r8, r6, f1496
 	movq	=0x3ff8000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x0, r3
@@ -10484,11 +8988,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4002000000000000, r6
-	cmp	r5, r6
-	bne	f1497
+	cbne	r5, r6, f1497
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1498
+	cbne	r8, r6, f1498
 	movq	=0x3ff8000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x0, r3
@@ -10498,11 +9000,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc002000000000000, r6
-	cmp	r5, r6
-	bne	f1499
+	cbne	r5, r6, f1499
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1500
+	cbne	r8, r6, f1500
 	movq	=0x3ff8000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -10512,11 +9012,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4002000000000000, r6
-	cmp	r5, r6
-	bne	f1501
+	cbne	r5, r6, f1501
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1502
+	cbne	r8, r6, f1502
 	movq	=0x3ff8000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -10526,11 +9024,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc002000000000000, r6
-	cmp	r5, r6
-	bne	f1503
+	cbne	r5, r6, f1503
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1504
+	cbne	r8, r6, f1504
 	movq	=0x3ff8000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -10540,11 +9036,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff4000000000000, r6
-	cmp	r5, r6
-	bne	f1505
+	cbne	r5, r6, f1505
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1506
+	cbne	r8, r6, f1506
 	movq	=0x3ff8000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -10554,11 +9048,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00a000000000000, r6
-	cmp	r5, r6
-	bne	f1507
+	cbne	r5, r6, f1507
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1508
+	cbne	r8, r6, f1508
 	movq	=0x3ff8000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -10568,11 +9060,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x400a000000000000, r6
-	cmp	r5, r6
-	bne	f1509
+	cbne	r5, r6, f1509
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1510
+	cbne	r8, r6, f1510
 	movq	=0x3ff8000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -10582,11 +9072,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff4000000000000, r6
-	cmp	r5, r6
-	bne	f1511
+	cbne	r5, r6, f1511
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1512
+	cbne	r8, r6, f1512
 	movq	=0x3ff8000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -10596,11 +9084,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3fd0000000000000, r6
-	cmp	r5, r6
-	bne	f1513
+	cbne	r5, r6, f1513
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1514
+	cbne	r8, r6, f1514
 	movq	=0x3ff8000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -10610,11 +9096,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc011000000000000, r6
-	cmp	r5, r6
-	bne	f1515
+	cbne	r5, r6, f1515
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1516
+	cbne	r8, r6, f1516
 	movq	=0x3ff8000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -10624,11 +9108,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbfe8000000000000, r6
-	cmp	r5, r6
-	bne	f1517
+	cbne	r5, r6, f1517
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1518
+	cbne	r8, r6, f1518
 	movq	=0x3ff8000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -10638,11 +9120,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc015000000000000, r6
-	cmp	r5, r6
-	bne	f1519
+	cbne	r5, r6, f1519
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1520
+	cbne	r8, r6, f1520
 	movq	=0x3ff8000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -10652,11 +9132,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3fe8000000000000, r6
-	cmp	r5, r6
-	bne	f1521
+	cbne	r5, r6, f1521
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1522
+	cbne	r8, r6, f1522
 	movq	=0x3ff8000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -10666,11 +9144,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00e000000000000, r6
-	cmp	r5, r6
-	bne	f1523
+	cbne	r5, r6, f1523
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1524
+	cbne	r8, r6, f1524
 	movq	=0x3ff8000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -10680,11 +9156,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbfd0000000000000, r6
-	cmp	r5, r6
-	bne	f1525
+	cbne	r5, r6, f1525
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1526
+	cbne	r8, r6, f1526
 	movq	=0x3ff8000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -10694,11 +9168,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc013000000000000, r6
-	cmp	r5, r6
-	bne	f1527
+	cbne	r5, r6, f1527
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1528
+	cbne	r8, r6, f1528
 	movq	=0x3ff8000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -10708,11 +9180,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f1529
+	cbne	r5, r6, f1529
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1530
+	cbne	r8, r6, f1530
 	movq	=0x3ff8000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -10722,11 +9192,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc018000000000000, r6
-	cmp	r5, r6
-	bne	f1531
+	cbne	r5, r6, f1531
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1532
+	cbne	r8, r6, f1532
 	movq	=0x3ff8000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -10736,11 +9204,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4018000000000000, r6
-	cmp	r5, r6
-	bne	f1533
+	cbne	r5, r6, f1533
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1534
+	cbne	r8, r6, f1534
 	movq	=0x3ff8000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -10750,11 +9216,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff8000000000000, r6
-	cmp	r5, r6
-	bne	f1535
+	cbne	r5, r6, f1535
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1536
+	cbne	r8, r6, f1536
 	movq	=0x3ff8000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -10764,11 +9228,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc015000000000000, r6
-	cmp	r5, r6
-	bne	f1537
+	cbne	r5, r6, f1537
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1538
+	cbne	r8, r6, f1538
 	movq	=0x3ff8000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -10778,11 +9240,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc023800000000000, r6
-	cmp	r5, r6
-	bne	f1539
+	cbne	r5, r6, f1539
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1540
+	cbne	r8, r6, f1540
 	movq	=0x4004000000000000, r1
 	movq	=0x0, r2
 	movq	=0x0, r3
@@ -10792,11 +9252,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f1541
+	cbne	r5, r6, f1541
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1542
+	cbne	r8, r6, f1542
 	movq	=0x4004000000000000, r1
 	movq	=0x0, r2
 	movq	=0x0, r3
@@ -10806,11 +9264,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x8000000000000000, r6
-	cmp	r5, r6
-	bne	f1543
+	cbne	r5, r6, f1543
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1544
+	cbne	r8, r6, f1544
 	movq	=0x4004000000000000, r1
 	movq	=0x0, r2
 	movq	=0x8000000000000000, r3
@@ -10820,11 +9276,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f1545
+	cbne	r5, r6, f1545
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1546
+	cbne	r8, r6, f1546
 	movq	=0x4004000000000000, r1
 	movq	=0x0, r2
 	movq	=0x8000000000000000, r3
@@ -10834,11 +9288,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f1547
+	cbne	r5, r6, f1547
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1548
+	cbne	r8, r6, f1548
 	movq	=0x4004000000000000, r1
 	movq	=0x0, r2
 	movq	=0x3ff0000000000000, r3
@@ -10848,11 +9300,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f1549
+	cbne	r5, r6, f1549
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1550
+	cbne	r8, r6, f1550
 	movq	=0x4004000000000000, r1
 	movq	=0x0, r2
 	movq	=0x3ff0000000000000, r3
@@ -10862,11 +9312,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f1551
+	cbne	r5, r6, f1551
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1552
+	cbne	r8, r6, f1552
 	movq	=0x4004000000000000, r1
 	movq	=0x0, r2
 	movq	=0xbff0000000000000, r3
@@ -10876,11 +9324,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff0000000000000, r6
-	cmp	r5, r6
-	bne	f1553
+	cbne	r5, r6, f1553
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1554
+	cbne	r8, r6, f1554
 	movq	=0x4004000000000000, r1
 	movq	=0x0, r2
 	movq	=0xbff0000000000000, r3
@@ -10890,11 +9336,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff0000000000000, r6
-	cmp	r5, r6
-	bne	f1555
+	cbne	r5, r6, f1555
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1556
+	cbne	r8, r6, f1556
 	movq	=0x4004000000000000, r1
 	movq	=0x0, r2
 	movq	=0x4000000000000000, r3
@@ -10904,11 +9348,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc000000000000000, r6
-	cmp	r5, r6
-	bne	f1557
+	cbne	r5, r6, f1557
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1558
+	cbne	r8, r6, f1558
 	movq	=0x4004000000000000, r1
 	movq	=0x0, r2
 	movq	=0x4000000000000000, r3
@@ -10918,11 +9360,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc000000000000000, r6
-	cmp	r5, r6
-	bne	f1559
+	cbne	r5, r6, f1559
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1560
+	cbne	r8, r6, f1560
 	movq	=0x4004000000000000, r1
 	movq	=0x0, r2
 	movq	=0x4008000000000000, r3
@@ -10932,11 +9372,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc008000000000000, r6
-	cmp	r5, r6
-	bne	f1561
+	cbne	r5, r6, f1561
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1562
+	cbne	r8, r6, f1562
 	movq	=0x4004000000000000, r1
 	movq	=0x0, r2
 	movq	=0x4008000000000000, r3
@@ -10946,11 +9384,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc008000000000000, r6
-	cmp	r5, r6
-	bne	f1563
+	cbne	r5, r6, f1563
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1564
+	cbne	r8, r6, f1564
 	movq	=0x4004000000000000, r1
 	movq	=0x0, r2
 	movq	=0x3ff8000000000000, r3
@@ -10960,11 +9396,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f1565
+	cbne	r5, r6, f1565
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1566
+	cbne	r8, r6, f1566
 	movq	=0x4004000000000000, r1
 	movq	=0x0, r2
 	movq	=0x3ff8000000000000, r3
@@ -10974,11 +9408,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f1567
+	cbne	r5, r6, f1567
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1568
+	cbne	r8, r6, f1568
 	movq	=0x4004000000000000, r1
 	movq	=0x0, r2
 	movq	=0x4004000000000000, r3
@@ -10988,11 +9420,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc004000000000000, r6
-	cmp	r5, r6
-	bne	f1569
+	cbne	r5, r6, f1569
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1570
+	cbne	r8, r6, f1570
 	movq	=0x4004000000000000, r1
 	movq	=0x0, r2
 	movq	=0x4004000000000000, r3
@@ -11002,11 +9432,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc004000000000000, r6
-	cmp	r5, r6
-	bne	f1571
+	cbne	r5, r6, f1571
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1572
+	cbne	r8, r6, f1572
 	movq	=0x4004000000000000, r1
 	movq	=0x0, r2
 	movq	=0x400e000000000000, r3
@@ -11016,11 +9444,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00e000000000000, r6
-	cmp	r5, r6
-	bne	f1573
+	cbne	r5, r6, f1573
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1574
+	cbne	r8, r6, f1574
 	movq	=0x4004000000000000, r1
 	movq	=0x0, r2
 	movq	=0x400e000000000000, r3
@@ -11030,11 +9456,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00e000000000000, r6
-	cmp	r5, r6
-	bne	f1575
+	cbne	r5, r6, f1575
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1576
+	cbne	r8, r6, f1576
 	movq	=0x4004000000000000, r1
 	movq	=0x0, r2
 	movq	=0xc00e000000000000, r3
@@ -11044,11 +9468,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x400e000000000000, r6
-	cmp	r5, r6
-	bne	f1577
+	cbne	r5, r6, f1577
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1578
+	cbne	r8, r6, f1578
 	movq	=0x4004000000000000, r1
 	movq	=0x0, r2
 	movq	=0xc00e000000000000, r3
@@ -11058,11 +9480,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x400e000000000000, r6
-	cmp	r5, r6
-	bne	f1579
+	cbne	r5, r6, f1579
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1580
+	cbne	r8, r6, f1580
 	movq	=0x4004000000000000, r1
 	movq	=0x0, r2
 	movq	=0x401e000000000000, r3
@@ -11072,11 +9492,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01e000000000000, r6
-	cmp	r5, r6
-	bne	f1581
+	cbne	r5, r6, f1581
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1582
+	cbne	r8, r6, f1582
 	movq	=0x4004000000000000, r1
 	movq	=0x0, r2
 	movq	=0x401e000000000000, r3
@@ -11086,11 +9504,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01e000000000000, r6
-	cmp	r5, r6
-	bne	f1583
+	cbne	r5, r6, f1583
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1584
+	cbne	r8, r6, f1584
 	movq	=0x4004000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x0, r3
@@ -11100,11 +9516,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x8000000000000000, r6
-	cmp	r5, r6
-	bne	f1585
+	cbne	r5, r6, f1585
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1586
+	cbne	r8, r6, f1586
 	movq	=0x4004000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x0, r3
@@ -11114,11 +9528,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f1587
+	cbne	r5, r6, f1587
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1588
+	cbne	r8, r6, f1588
 	movq	=0x4004000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -11128,11 +9540,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f1589
+	cbne	r5, r6, f1589
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1590
+	cbne	r8, r6, f1590
 	movq	=0x4004000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -11142,11 +9552,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f1591
+	cbne	r5, r6, f1591
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1592
+	cbne	r8, r6, f1592
 	movq	=0x4004000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -11156,11 +9564,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f1593
+	cbne	r5, r6, f1593
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1594
+	cbne	r8, r6, f1594
 	movq	=0x4004000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -11170,11 +9576,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f1595
+	cbne	r5, r6, f1595
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1596
+	cbne	r8, r6, f1596
 	movq	=0x4004000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -11184,11 +9588,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff0000000000000, r6
-	cmp	r5, r6
-	bne	f1597
+	cbne	r5, r6, f1597
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1598
+	cbne	r8, r6, f1598
 	movq	=0x4004000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -11198,11 +9600,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff0000000000000, r6
-	cmp	r5, r6
-	bne	f1599
+	cbne	r5, r6, f1599
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1600
+	cbne	r8, r6, f1600
 	movq	=0x4004000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -11212,11 +9612,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc000000000000000, r6
-	cmp	r5, r6
-	bne	f1601
+	cbne	r5, r6, f1601
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1602
+	cbne	r8, r6, f1602
 	movq	=0x4004000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -11226,11 +9624,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc000000000000000, r6
-	cmp	r5, r6
-	bne	f1603
+	cbne	r5, r6, f1603
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1604
+	cbne	r8, r6, f1604
 	movq	=0x4004000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -11240,11 +9636,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc008000000000000, r6
-	cmp	r5, r6
-	bne	f1605
+	cbne	r5, r6, f1605
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1606
+	cbne	r8, r6, f1606
 	movq	=0x4004000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -11254,11 +9648,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc008000000000000, r6
-	cmp	r5, r6
-	bne	f1607
+	cbne	r5, r6, f1607
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1608
+	cbne	r8, r6, f1608
 	movq	=0x4004000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -11268,11 +9660,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f1609
+	cbne	r5, r6, f1609
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1610
+	cbne	r8, r6, f1610
 	movq	=0x4004000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -11282,11 +9672,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f1611
+	cbne	r5, r6, f1611
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1612
+	cbne	r8, r6, f1612
 	movq	=0x4004000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -11296,11 +9684,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc004000000000000, r6
-	cmp	r5, r6
-	bne	f1613
+	cbne	r5, r6, f1613
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1614
+	cbne	r8, r6, f1614
 	movq	=0x4004000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -11310,11 +9696,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc004000000000000, r6
-	cmp	r5, r6
-	bne	f1615
+	cbne	r5, r6, f1615
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1616
+	cbne	r8, r6, f1616
 	movq	=0x4004000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -11324,11 +9708,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00e000000000000, r6
-	cmp	r5, r6
-	bne	f1617
+	cbne	r5, r6, f1617
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1618
+	cbne	r8, r6, f1618
 	movq	=0x4004000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -11338,11 +9720,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00e000000000000, r6
-	cmp	r5, r6
-	bne	f1619
+	cbne	r5, r6, f1619
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1620
+	cbne	r8, r6, f1620
 	movq	=0x4004000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -11352,11 +9732,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x400e000000000000, r6
-	cmp	r5, r6
-	bne	f1621
+	cbne	r5, r6, f1621
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1622
+	cbne	r8, r6, f1622
 	movq	=0x4004000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -11366,11 +9744,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x400e000000000000, r6
-	cmp	r5, r6
-	bne	f1623
+	cbne	r5, r6, f1623
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1624
+	cbne	r8, r6, f1624
 	movq	=0x4004000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -11380,11 +9756,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01e000000000000, r6
-	cmp	r5, r6
-	bne	f1625
+	cbne	r5, r6, f1625
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1626
+	cbne	r8, r6, f1626
 	movq	=0x4004000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -11394,11 +9768,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01e000000000000, r6
-	cmp	r5, r6
-	bne	f1627
+	cbne	r5, r6, f1627
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1628
+	cbne	r8, r6, f1628
 	movq	=0x4004000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x0, r3
@@ -11408,11 +9780,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4004000000000000, r6
-	cmp	r5, r6
-	bne	f1629
+	cbne	r5, r6, f1629
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1630
+	cbne	r8, r6, f1630
 	movq	=0x4004000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x0, r3
@@ -11422,11 +9792,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc004000000000000, r6
-	cmp	r5, r6
-	bne	f1631
+	cbne	r5, r6, f1631
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1632
+	cbne	r8, r6, f1632
 	movq	=0x4004000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -11436,11 +9804,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4004000000000000, r6
-	cmp	r5, r6
-	bne	f1633
+	cbne	r5, r6, f1633
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1634
+	cbne	r8, r6, f1634
 	movq	=0x4004000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -11450,11 +9816,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc004000000000000, r6
-	cmp	r5, r6
-	bne	f1635
+	cbne	r5, r6, f1635
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1636
+	cbne	r8, r6, f1636
 	movq	=0x4004000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -11464,11 +9828,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff8000000000000, r6
-	cmp	r5, r6
-	bne	f1637
+	cbne	r5, r6, f1637
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1638
+	cbne	r8, r6, f1638
 	movq	=0x4004000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -11478,11 +9840,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00c000000000000, r6
-	cmp	r5, r6
-	bne	f1639
+	cbne	r5, r6, f1639
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1640
+	cbne	r8, r6, f1640
 	movq	=0x4004000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -11492,11 +9852,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x400c000000000000, r6
-	cmp	r5, r6
-	bne	f1641
+	cbne	r5, r6, f1641
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1642
+	cbne	r8, r6, f1642
 	movq	=0x4004000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -11506,11 +9864,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f1643
+	cbne	r5, r6, f1643
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1644
+	cbne	r8, r6, f1644
 	movq	=0x4004000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -11520,11 +9876,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3fe0000000000000, r6
-	cmp	r5, r6
-	bne	f1645
+	cbne	r5, r6, f1645
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1646
+	cbne	r8, r6, f1646
 	movq	=0x4004000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -11534,11 +9888,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc012000000000000, r6
-	cmp	r5, r6
-	bne	f1647
+	cbne	r5, r6, f1647
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1648
+	cbne	r8, r6, f1648
 	movq	=0x4004000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -11548,11 +9900,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbfe0000000000000, r6
-	cmp	r5, r6
-	bne	f1649
+	cbne	r5, r6, f1649
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1650
+	cbne	r8, r6, f1650
 	movq	=0x4004000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -11562,11 +9912,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc016000000000000, r6
-	cmp	r5, r6
-	bne	f1651
+	cbne	r5, r6, f1651
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1652
+	cbne	r8, r6, f1652
 	movq	=0x4004000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -11576,11 +9924,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff0000000000000, r6
-	cmp	r5, r6
-	bne	f1653
+	cbne	r5, r6, f1653
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1654
+	cbne	r8, r6, f1654
 	movq	=0x4004000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -11590,11 +9936,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc010000000000000, r6
-	cmp	r5, r6
-	bne	f1655
+	cbne	r5, r6, f1655
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1656
+	cbne	r8, r6, f1656
 	movq	=0x4004000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -11604,11 +9948,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f1657
+	cbne	r5, r6, f1657
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1658
+	cbne	r8, r6, f1658
 	movq	=0x4004000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -11618,11 +9960,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc014000000000000, r6
-	cmp	r5, r6
-	bne	f1659
+	cbne	r5, r6, f1659
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1660
+	cbne	r8, r6, f1660
 	movq	=0x4004000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -11632,11 +9972,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff4000000000000, r6
-	cmp	r5, r6
-	bne	f1661
+	cbne	r5, r6, f1661
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1662
+	cbne	r8, r6, f1662
 	movq	=0x4004000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -11646,11 +9984,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc019000000000000, r6
-	cmp	r5, r6
-	bne	f1663
+	cbne	r5, r6, f1663
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1664
+	cbne	r8, r6, f1664
 	movq	=0x4004000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -11660,11 +9996,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4019000000000000, r6
-	cmp	r5, r6
-	bne	f1665
+	cbne	r5, r6, f1665
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1666
+	cbne	r8, r6, f1666
 	movq	=0x4004000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -11674,11 +10008,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff4000000000000, r6
-	cmp	r5, r6
-	bne	f1667
+	cbne	r5, r6, f1667
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1668
+	cbne	r8, r6, f1668
 	movq	=0x4004000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -11688,11 +10020,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc014000000000000, r6
-	cmp	r5, r6
-	bne	f1669
+	cbne	r5, r6, f1669
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1670
+	cbne	r8, r6, f1670
 	movq	=0x4004000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -11702,11 +10032,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc024000000000000, r6
-	cmp	r5, r6
-	bne	f1671
+	cbne	r5, r6, f1671
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1672
+	cbne	r8, r6, f1672
 	movq	=0x4004000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x0, r3
@@ -11716,11 +10044,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc004000000000000, r6
-	cmp	r5, r6
-	bne	f1673
+	cbne	r5, r6, f1673
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1674
+	cbne	r8, r6, f1674
 	movq	=0x4004000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x0, r3
@@ -11730,11 +10056,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4004000000000000, r6
-	cmp	r5, r6
-	bne	f1675
+	cbne	r5, r6, f1675
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1676
+	cbne	r8, r6, f1676
 	movq	=0x4004000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -11744,11 +10068,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc004000000000000, r6
-	cmp	r5, r6
-	bne	f1677
+	cbne	r5, r6, f1677
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1678
+	cbne	r8, r6, f1678
 	movq	=0x4004000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -11758,11 +10080,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4004000000000000, r6
-	cmp	r5, r6
-	bne	f1679
+	cbne	r5, r6, f1679
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1680
+	cbne	r8, r6, f1680
 	movq	=0x4004000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -11772,11 +10092,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00c000000000000, r6
-	cmp	r5, r6
-	bne	f1681
+	cbne	r5, r6, f1681
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1682
+	cbne	r8, r6, f1682
 	movq	=0x4004000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -11786,11 +10104,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff8000000000000, r6
-	cmp	r5, r6
-	bne	f1683
+	cbne	r5, r6, f1683
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1684
+	cbne	r8, r6, f1684
 	movq	=0x4004000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -11800,11 +10116,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f1685
+	cbne	r5, r6, f1685
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1686
+	cbne	r8, r6, f1686
 	movq	=0x4004000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -11814,11 +10128,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x400c000000000000, r6
-	cmp	r5, r6
-	bne	f1687
+	cbne	r5, r6, f1687
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1688
+	cbne	r8, r6, f1688
 	movq	=0x4004000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -11828,11 +10140,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc012000000000000, r6
-	cmp	r5, r6
-	bne	f1689
+	cbne	r5, r6, f1689
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1690
+	cbne	r8, r6, f1690
 	movq	=0x4004000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -11842,11 +10152,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3fe0000000000000, r6
-	cmp	r5, r6
-	bne	f1691
+	cbne	r5, r6, f1691
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1692
+	cbne	r8, r6, f1692
 	movq	=0x4004000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -11856,11 +10164,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc016000000000000, r6
-	cmp	r5, r6
-	bne	f1693
+	cbne	r5, r6, f1693
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1694
+	cbne	r8, r6, f1694
 	movq	=0x4004000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -11870,11 +10176,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbfe0000000000000, r6
-	cmp	r5, r6
-	bne	f1695
+	cbne	r5, r6, f1695
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1696
+	cbne	r8, r6, f1696
 	movq	=0x4004000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -11884,11 +10188,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc010000000000000, r6
-	cmp	r5, r6
-	bne	f1697
+	cbne	r5, r6, f1697
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1698
+	cbne	r8, r6, f1698
 	movq	=0x4004000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -11898,11 +10200,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff0000000000000, r6
-	cmp	r5, r6
-	bne	f1699
+	cbne	r5, r6, f1699
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1700
+	cbne	r8, r6, f1700
 	movq	=0x4004000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -11912,11 +10212,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc014000000000000, r6
-	cmp	r5, r6
-	bne	f1701
+	cbne	r5, r6, f1701
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1702
+	cbne	r8, r6, f1702
 	movq	=0x4004000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -11926,11 +10224,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f1703
+	cbne	r5, r6, f1703
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1704
+	cbne	r8, r6, f1704
 	movq	=0x4004000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -11940,11 +10236,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc019000000000000, r6
-	cmp	r5, r6
-	bne	f1705
+	cbne	r5, r6, f1705
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1706
+	cbne	r8, r6, f1706
 	movq	=0x4004000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -11954,11 +10248,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff4000000000000, r6
-	cmp	r5, r6
-	bne	f1707
+	cbne	r5, r6, f1707
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1708
+	cbne	r8, r6, f1708
 	movq	=0x4004000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -11968,11 +10260,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff4000000000000, r6
-	cmp	r5, r6
-	bne	f1709
+	cbne	r5, r6, f1709
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1710
+	cbne	r8, r6, f1710
 	movq	=0x4004000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -11982,11 +10272,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4019000000000000, r6
-	cmp	r5, r6
-	bne	f1711
+	cbne	r5, r6, f1711
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1712
+	cbne	r8, r6, f1712
 	movq	=0x4004000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -11996,11 +10284,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc024000000000000, r6
-	cmp	r5, r6
-	bne	f1713
+	cbne	r5, r6, f1713
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1714
+	cbne	r8, r6, f1714
 	movq	=0x4004000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -12010,11 +10296,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc014000000000000, r6
-	cmp	r5, r6
-	bne	f1715
+	cbne	r5, r6, f1715
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1716
+	cbne	r8, r6, f1716
 	movq	=0x4004000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x0, r3
@@ -12024,11 +10308,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x400e000000000000, r6
-	cmp	r5, r6
-	bne	f1717
+	cbne	r5, r6, f1717
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1718
+	cbne	r8, r6, f1718
 	movq	=0x4004000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x0, r3
@@ -12038,11 +10320,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00e000000000000, r6
-	cmp	r5, r6
-	bne	f1719
+	cbne	r5, r6, f1719
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1720
+	cbne	r8, r6, f1720
 	movq	=0x4004000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -12052,11 +10332,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x400e000000000000, r6
-	cmp	r5, r6
-	bne	f1721
+	cbne	r5, r6, f1721
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1722
+	cbne	r8, r6, f1722
 	movq	=0x4004000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -12066,11 +10344,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00e000000000000, r6
-	cmp	r5, r6
-	bne	f1723
+	cbne	r5, r6, f1723
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1724
+	cbne	r8, r6, f1724
 	movq	=0x4004000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -12080,11 +10356,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4006000000000000, r6
-	cmp	r5, r6
-	bne	f1725
+	cbne	r5, r6, f1725
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1726
+	cbne	r8, r6, f1726
 	movq	=0x4004000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -12094,11 +10368,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc013000000000000, r6
-	cmp	r5, r6
-	bne	f1727
+	cbne	r5, r6, f1727
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1728
+	cbne	r8, r6, f1728
 	movq	=0x4004000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -12108,11 +10380,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4013000000000000, r6
-	cmp	r5, r6
-	bne	f1729
+	cbne	r5, r6, f1729
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1730
+	cbne	r8, r6, f1730
 	movq	=0x4004000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -12122,11 +10392,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc006000000000000, r6
-	cmp	r5, r6
-	bne	f1731
+	cbne	r5, r6, f1731
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1732
+	cbne	r8, r6, f1732
 	movq	=0x4004000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -12136,11 +10404,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ffc000000000000, r6
-	cmp	r5, r6
-	bne	f1733
+	cbne	r5, r6, f1733
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1734
+	cbne	r8, r6, f1734
 	movq	=0x4004000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -12150,11 +10416,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc017000000000000, r6
-	cmp	r5, r6
-	bne	f1735
+	cbne	r5, r6, f1735
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1736
+	cbne	r8, r6, f1736
 	movq	=0x4004000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -12164,11 +10428,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3fe8000000000000, r6
-	cmp	r5, r6
-	bne	f1737
+	cbne	r5, r6, f1737
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1738
+	cbne	r8, r6, f1738
 	movq	=0x4004000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -12178,11 +10440,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01b000000000000, r6
-	cmp	r5, r6
-	bne	f1739
+	cbne	r5, r6, f1739
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1740
+	cbne	r8, r6, f1740
 	movq	=0x4004000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -12192,11 +10452,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4002000000000000, r6
-	cmp	r5, r6
-	bne	f1741
+	cbne	r5, r6, f1741
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1742
+	cbne	r8, r6, f1742
 	movq	=0x4004000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -12206,11 +10464,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc015000000000000, r6
-	cmp	r5, r6
-	bne	f1743
+	cbne	r5, r6, f1743
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1744
+	cbne	r8, r6, f1744
 	movq	=0x4004000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -12220,11 +10476,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff4000000000000, r6
-	cmp	r5, r6
-	bne	f1745
+	cbne	r5, r6, f1745
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1746
+	cbne	r8, r6, f1746
 	movq	=0x4004000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -12234,11 +10488,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc019000000000000, r6
-	cmp	r5, r6
-	bne	f1747
+	cbne	r5, r6, f1747
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1748
+	cbne	r8, r6, f1748
 	movq	=0x4004000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -12248,11 +10500,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f1749
+	cbne	r5, r6, f1749
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1750
+	cbne	r8, r6, f1750
 	movq	=0x4004000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -12262,11 +10512,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01e000000000000, r6
-	cmp	r5, r6
-	bne	f1751
+	cbne	r5, r6, f1751
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1752
+	cbne	r8, r6, f1752
 	movq	=0x4004000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -12276,11 +10524,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x401e000000000000, r6
-	cmp	r5, r6
-	bne	f1753
+	cbne	r5, r6, f1753
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1754
+	cbne	r8, r6, f1754
 	movq	=0x4004000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -12290,11 +10536,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f1755
+	cbne	r5, r6, f1755
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1756
+	cbne	r8, r6, f1756
 	movq	=0x4004000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -12304,11 +10548,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00e000000000000, r6
-	cmp	r5, r6
-	bne	f1757
+	cbne	r5, r6, f1757
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1758
+	cbne	r8, r6, f1758
 	movq	=0x4004000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -12318,11 +10560,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc026800000000000, r6
-	cmp	r5, r6
-	bne	f1759
+	cbne	r5, r6, f1759
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1760
+	cbne	r8, r6, f1760
 	movq	=0x400e000000000000, r1
 	movq	=0x0, r2
 	movq	=0x0, r3
@@ -12332,11 +10572,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f1761
+	cbne	r5, r6, f1761
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1762
+	cbne	r8, r6, f1762
 	movq	=0x400e000000000000, r1
 	movq	=0x0, r2
 	movq	=0x0, r3
@@ -12346,11 +10584,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x8000000000000000, r6
-	cmp	r5, r6
-	bne	f1763
+	cbne	r5, r6, f1763
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1764
+	cbne	r8, r6, f1764
 	movq	=0x400e000000000000, r1
 	movq	=0x0, r2
 	movq	=0x8000000000000000, r3
@@ -12360,11 +10596,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f1765
+	cbne	r5, r6, f1765
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1766
+	cbne	r8, r6, f1766
 	movq	=0x400e000000000000, r1
 	movq	=0x0, r2
 	movq	=0x8000000000000000, r3
@@ -12374,11 +10608,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f1767
+	cbne	r5, r6, f1767
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1768
+	cbne	r8, r6, f1768
 	movq	=0x400e000000000000, r1
 	movq	=0x0, r2
 	movq	=0x3ff0000000000000, r3
@@ -12388,11 +10620,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f1769
+	cbne	r5, r6, f1769
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1770
+	cbne	r8, r6, f1770
 	movq	=0x400e000000000000, r1
 	movq	=0x0, r2
 	movq	=0x3ff0000000000000, r3
@@ -12402,11 +10632,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f1771
+	cbne	r5, r6, f1771
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1772
+	cbne	r8, r6, f1772
 	movq	=0x400e000000000000, r1
 	movq	=0x0, r2
 	movq	=0xbff0000000000000, r3
@@ -12416,11 +10644,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff0000000000000, r6
-	cmp	r5, r6
-	bne	f1773
+	cbne	r5, r6, f1773
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1774
+	cbne	r8, r6, f1774
 	movq	=0x400e000000000000, r1
 	movq	=0x0, r2
 	movq	=0xbff0000000000000, r3
@@ -12430,11 +10656,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff0000000000000, r6
-	cmp	r5, r6
-	bne	f1775
+	cbne	r5, r6, f1775
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1776
+	cbne	r8, r6, f1776
 	movq	=0x400e000000000000, r1
 	movq	=0x0, r2
 	movq	=0x4000000000000000, r3
@@ -12444,11 +10668,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc000000000000000, r6
-	cmp	r5, r6
-	bne	f1777
+	cbne	r5, r6, f1777
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1778
+	cbne	r8, r6, f1778
 	movq	=0x400e000000000000, r1
 	movq	=0x0, r2
 	movq	=0x4000000000000000, r3
@@ -12458,11 +10680,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc000000000000000, r6
-	cmp	r5, r6
-	bne	f1779
+	cbne	r5, r6, f1779
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1780
+	cbne	r8, r6, f1780
 	movq	=0x400e000000000000, r1
 	movq	=0x0, r2
 	movq	=0x4008000000000000, r3
@@ -12472,11 +10692,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc008000000000000, r6
-	cmp	r5, r6
-	bne	f1781
+	cbne	r5, r6, f1781
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1782
+	cbne	r8, r6, f1782
 	movq	=0x400e000000000000, r1
 	movq	=0x0, r2
 	movq	=0x4008000000000000, r3
@@ -12486,11 +10704,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc008000000000000, r6
-	cmp	r5, r6
-	bne	f1783
+	cbne	r5, r6, f1783
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1784
+	cbne	r8, r6, f1784
 	movq	=0x400e000000000000, r1
 	movq	=0x0, r2
 	movq	=0x3ff8000000000000, r3
@@ -12500,11 +10716,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f1785
+	cbne	r5, r6, f1785
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1786
+	cbne	r8, r6, f1786
 	movq	=0x400e000000000000, r1
 	movq	=0x0, r2
 	movq	=0x3ff8000000000000, r3
@@ -12514,11 +10728,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f1787
+	cbne	r5, r6, f1787
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1788
+	cbne	r8, r6, f1788
 	movq	=0x400e000000000000, r1
 	movq	=0x0, r2
 	movq	=0x4004000000000000, r3
@@ -12528,11 +10740,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc004000000000000, r6
-	cmp	r5, r6
-	bne	f1789
+	cbne	r5, r6, f1789
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1790
+	cbne	r8, r6, f1790
 	movq	=0x400e000000000000, r1
 	movq	=0x0, r2
 	movq	=0x4004000000000000, r3
@@ -12542,11 +10752,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc004000000000000, r6
-	cmp	r5, r6
-	bne	f1791
+	cbne	r5, r6, f1791
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1792
+	cbne	r8, r6, f1792
 	movq	=0x400e000000000000, r1
 	movq	=0x0, r2
 	movq	=0x400e000000000000, r3
@@ -12556,11 +10764,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00e000000000000, r6
-	cmp	r5, r6
-	bne	f1793
+	cbne	r5, r6, f1793
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1794
+	cbne	r8, r6, f1794
 	movq	=0x400e000000000000, r1
 	movq	=0x0, r2
 	movq	=0x400e000000000000, r3
@@ -12570,11 +10776,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00e000000000000, r6
-	cmp	r5, r6
-	bne	f1795
+	cbne	r5, r6, f1795
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1796
+	cbne	r8, r6, f1796
 	movq	=0x400e000000000000, r1
 	movq	=0x0, r2
 	movq	=0xc00e000000000000, r3
@@ -12584,11 +10788,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x400e000000000000, r6
-	cmp	r5, r6
-	bne	f1797
+	cbne	r5, r6, f1797
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1798
+	cbne	r8, r6, f1798
 	movq	=0x400e000000000000, r1
 	movq	=0x0, r2
 	movq	=0xc00e000000000000, r3
@@ -12598,11 +10800,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x400e000000000000, r6
-	cmp	r5, r6
-	bne	f1799
+	cbne	r5, r6, f1799
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1800
+	cbne	r8, r6, f1800
 	movq	=0x400e000000000000, r1
 	movq	=0x0, r2
 	movq	=0x401e000000000000, r3
@@ -12612,11 +10812,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01e000000000000, r6
-	cmp	r5, r6
-	bne	f1801
+	cbne	r5, r6, f1801
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1802
+	cbne	r8, r6, f1802
 	movq	=0x400e000000000000, r1
 	movq	=0x0, r2
 	movq	=0x401e000000000000, r3
@@ -12626,11 +10824,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01e000000000000, r6
-	cmp	r5, r6
-	bne	f1803
+	cbne	r5, r6, f1803
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1804
+	cbne	r8, r6, f1804
 	movq	=0x400e000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x0, r3
@@ -12640,11 +10836,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x8000000000000000, r6
-	cmp	r5, r6
-	bne	f1805
+	cbne	r5, r6, f1805
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1806
+	cbne	r8, r6, f1806
 	movq	=0x400e000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x0, r3
@@ -12654,11 +10848,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f1807
+	cbne	r5, r6, f1807
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1808
+	cbne	r8, r6, f1808
 	movq	=0x400e000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -12668,11 +10860,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f1809
+	cbne	r5, r6, f1809
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1810
+	cbne	r8, r6, f1810
 	movq	=0x400e000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -12682,11 +10872,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f1811
+	cbne	r5, r6, f1811
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1812
+	cbne	r8, r6, f1812
 	movq	=0x400e000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -12696,11 +10884,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f1813
+	cbne	r5, r6, f1813
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1814
+	cbne	r8, r6, f1814
 	movq	=0x400e000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -12710,11 +10896,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff0000000000000, r6
-	cmp	r5, r6
-	bne	f1815
+	cbne	r5, r6, f1815
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1816
+	cbne	r8, r6, f1816
 	movq	=0x400e000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -12724,11 +10908,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff0000000000000, r6
-	cmp	r5, r6
-	bne	f1817
+	cbne	r5, r6, f1817
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1818
+	cbne	r8, r6, f1818
 	movq	=0x400e000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -12738,11 +10920,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff0000000000000, r6
-	cmp	r5, r6
-	bne	f1819
+	cbne	r5, r6, f1819
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1820
+	cbne	r8, r6, f1820
 	movq	=0x400e000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -12752,11 +10932,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc000000000000000, r6
-	cmp	r5, r6
-	bne	f1821
+	cbne	r5, r6, f1821
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1822
+	cbne	r8, r6, f1822
 	movq	=0x400e000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -12766,11 +10944,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc000000000000000, r6
-	cmp	r5, r6
-	bne	f1823
+	cbne	r5, r6, f1823
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1824
+	cbne	r8, r6, f1824
 	movq	=0x400e000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -12780,11 +10956,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc008000000000000, r6
-	cmp	r5, r6
-	bne	f1825
+	cbne	r5, r6, f1825
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1826
+	cbne	r8, r6, f1826
 	movq	=0x400e000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -12794,11 +10968,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc008000000000000, r6
-	cmp	r5, r6
-	bne	f1827
+	cbne	r5, r6, f1827
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1828
+	cbne	r8, r6, f1828
 	movq	=0x400e000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -12808,11 +10980,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f1829
+	cbne	r5, r6, f1829
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1830
+	cbne	r8, r6, f1830
 	movq	=0x400e000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -12822,11 +10992,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbff8000000000000, r6
-	cmp	r5, r6
-	bne	f1831
+	cbne	r5, r6, f1831
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1832
+	cbne	r8, r6, f1832
 	movq	=0x400e000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -12836,11 +11004,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc004000000000000, r6
-	cmp	r5, r6
-	bne	f1833
+	cbne	r5, r6, f1833
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1834
+	cbne	r8, r6, f1834
 	movq	=0x400e000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -12850,11 +11016,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc004000000000000, r6
-	cmp	r5, r6
-	bne	f1835
+	cbne	r5, r6, f1835
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1836
+	cbne	r8, r6, f1836
 	movq	=0x400e000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -12864,11 +11028,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00e000000000000, r6
-	cmp	r5, r6
-	bne	f1837
+	cbne	r5, r6, f1837
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1838
+	cbne	r8, r6, f1838
 	movq	=0x400e000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -12878,11 +11040,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00e000000000000, r6
-	cmp	r5, r6
-	bne	f1839
+	cbne	r5, r6, f1839
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1840
+	cbne	r8, r6, f1840
 	movq	=0x400e000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -12892,11 +11052,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x400e000000000000, r6
-	cmp	r5, r6
-	bne	f1841
+	cbne	r5, r6, f1841
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1842
+	cbne	r8, r6, f1842
 	movq	=0x400e000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -12906,11 +11064,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x400e000000000000, r6
-	cmp	r5, r6
-	bne	f1843
+	cbne	r5, r6, f1843
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1844
+	cbne	r8, r6, f1844
 	movq	=0x400e000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -12920,11 +11076,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01e000000000000, r6
-	cmp	r5, r6
-	bne	f1845
+	cbne	r5, r6, f1845
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1846
+	cbne	r8, r6, f1846
 	movq	=0x400e000000000000, r1
 	movq	=0x8000000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -12934,11 +11088,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01e000000000000, r6
-	cmp	r5, r6
-	bne	f1847
+	cbne	r5, r6, f1847
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1848
+	cbne	r8, r6, f1848
 	movq	=0x400e000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x0, r3
@@ -12948,11 +11100,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x400e000000000000, r6
-	cmp	r5, r6
-	bne	f1849
+	cbne	r5, r6, f1849
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1850
+	cbne	r8, r6, f1850
 	movq	=0x400e000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x0, r3
@@ -12962,11 +11112,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00e000000000000, r6
-	cmp	r5, r6
-	bne	f1851
+	cbne	r5, r6, f1851
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1852
+	cbne	r8, r6, f1852
 	movq	=0x400e000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -12976,11 +11124,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x400e000000000000, r6
-	cmp	r5, r6
-	bne	f1853
+	cbne	r5, r6, f1853
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1854
+	cbne	r8, r6, f1854
 	movq	=0x400e000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -12990,11 +11136,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00e000000000000, r6
-	cmp	r5, r6
-	bne	f1855
+	cbne	r5, r6, f1855
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1856
+	cbne	r8, r6, f1856
 	movq	=0x400e000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -13004,11 +11148,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4006000000000000, r6
-	cmp	r5, r6
-	bne	f1857
+	cbne	r5, r6, f1857
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1858
+	cbne	r8, r6, f1858
 	movq	=0x400e000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -13018,11 +11160,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc013000000000000, r6
-	cmp	r5, r6
-	bne	f1859
+	cbne	r5, r6, f1859
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1860
+	cbne	r8, r6, f1860
 	movq	=0x400e000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -13032,11 +11172,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4013000000000000, r6
-	cmp	r5, r6
-	bne	f1861
+	cbne	r5, r6, f1861
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1862
+	cbne	r8, r6, f1862
 	movq	=0x400e000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -13046,11 +11184,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc006000000000000, r6
-	cmp	r5, r6
-	bne	f1863
+	cbne	r5, r6, f1863
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1864
+	cbne	r8, r6, f1864
 	movq	=0x400e000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -13060,11 +11196,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ffc000000000000, r6
-	cmp	r5, r6
-	bne	f1865
+	cbne	r5, r6, f1865
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1866
+	cbne	r8, r6, f1866
 	movq	=0x400e000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -13074,11 +11208,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc017000000000000, r6
-	cmp	r5, r6
-	bne	f1867
+	cbne	r5, r6, f1867
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1868
+	cbne	r8, r6, f1868
 	movq	=0x400e000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -13088,11 +11220,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3fe8000000000000, r6
-	cmp	r5, r6
-	bne	f1869
+	cbne	r5, r6, f1869
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1870
+	cbne	r8, r6, f1870
 	movq	=0x400e000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -13102,11 +11232,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01b000000000000, r6
-	cmp	r5, r6
-	bne	f1871
+	cbne	r5, r6, f1871
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1872
+	cbne	r8, r6, f1872
 	movq	=0x400e000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -13116,11 +11244,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4002000000000000, r6
-	cmp	r5, r6
-	bne	f1873
+	cbne	r5, r6, f1873
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1874
+	cbne	r8, r6, f1874
 	movq	=0x400e000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -13130,11 +11256,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc015000000000000, r6
-	cmp	r5, r6
-	bne	f1875
+	cbne	r5, r6, f1875
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1876
+	cbne	r8, r6, f1876
 	movq	=0x400e000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -13144,11 +11268,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff4000000000000, r6
-	cmp	r5, r6
-	bne	f1877
+	cbne	r5, r6, f1877
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1878
+	cbne	r8, r6, f1878
 	movq	=0x400e000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -13158,11 +11280,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc019000000000000, r6
-	cmp	r5, r6
-	bne	f1879
+	cbne	r5, r6, f1879
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1880
+	cbne	r8, r6, f1880
 	movq	=0x400e000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -13172,11 +11292,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f1881
+	cbne	r5, r6, f1881
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1882
+	cbne	r8, r6, f1882
 	movq	=0x400e000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -13186,11 +11304,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01e000000000000, r6
-	cmp	r5, r6
-	bne	f1883
+	cbne	r5, r6, f1883
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1884
+	cbne	r8, r6, f1884
 	movq	=0x400e000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -13200,11 +11316,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x401e000000000000, r6
-	cmp	r5, r6
-	bne	f1885
+	cbne	r5, r6, f1885
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1886
+	cbne	r8, r6, f1886
 	movq	=0x400e000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -13214,11 +11328,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f1887
+	cbne	r5, r6, f1887
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1888
+	cbne	r8, r6, f1888
 	movq	=0x400e000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -13228,11 +11340,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00e000000000000, r6
-	cmp	r5, r6
-	bne	f1889
+	cbne	r5, r6, f1889
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1890
+	cbne	r8, r6, f1890
 	movq	=0x400e000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -13242,11 +11352,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc026800000000000, r6
-	cmp	r5, r6
-	bne	f1891
+	cbne	r5, r6, f1891
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1892
+	cbne	r8, r6, f1892
 	movq	=0x400e000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x0, r3
@@ -13256,11 +11364,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00e000000000000, r6
-	cmp	r5, r6
-	bne	f1893
+	cbne	r5, r6, f1893
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1894
+	cbne	r8, r6, f1894
 	movq	=0x400e000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x0, r3
@@ -13270,11 +11376,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x400e000000000000, r6
-	cmp	r5, r6
-	bne	f1895
+	cbne	r5, r6, f1895
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1896
+	cbne	r8, r6, f1896
 	movq	=0x400e000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -13284,11 +11388,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00e000000000000, r6
-	cmp	r5, r6
-	bne	f1897
+	cbne	r5, r6, f1897
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1898
+	cbne	r8, r6, f1898
 	movq	=0x400e000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -13298,11 +11400,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x400e000000000000, r6
-	cmp	r5, r6
-	bne	f1899
+	cbne	r5, r6, f1899
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1900
+	cbne	r8, r6, f1900
 	movq	=0x400e000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -13312,11 +11412,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc013000000000000, r6
-	cmp	r5, r6
-	bne	f1901
+	cbne	r5, r6, f1901
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1902
+	cbne	r8, r6, f1902
 	movq	=0x400e000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -13326,11 +11424,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4006000000000000, r6
-	cmp	r5, r6
-	bne	f1903
+	cbne	r5, r6, f1903
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1904
+	cbne	r8, r6, f1904
 	movq	=0x400e000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -13340,11 +11436,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc006000000000000, r6
-	cmp	r5, r6
-	bne	f1905
+	cbne	r5, r6, f1905
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1906
+	cbne	r8, r6, f1906
 	movq	=0x400e000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -13354,11 +11448,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4013000000000000, r6
-	cmp	r5, r6
-	bne	f1907
+	cbne	r5, r6, f1907
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1908
+	cbne	r8, r6, f1908
 	movq	=0x400e000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -13368,11 +11460,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc017000000000000, r6
-	cmp	r5, r6
-	bne	f1909
+	cbne	r5, r6, f1909
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1910
+	cbne	r8, r6, f1910
 	movq	=0x400e000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -13382,11 +11472,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ffc000000000000, r6
-	cmp	r5, r6
-	bne	f1911
+	cbne	r5, r6, f1911
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1912
+	cbne	r8, r6, f1912
 	movq	=0x400e000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -13396,11 +11484,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01b000000000000, r6
-	cmp	r5, r6
-	bne	f1913
+	cbne	r5, r6, f1913
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1914
+	cbne	r8, r6, f1914
 	movq	=0x400e000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -13410,11 +11496,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3fe8000000000000, r6
-	cmp	r5, r6
-	bne	f1915
+	cbne	r5, r6, f1915
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1916
+	cbne	r8, r6, f1916
 	movq	=0x400e000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -13424,11 +11508,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc015000000000000, r6
-	cmp	r5, r6
-	bne	f1917
+	cbne	r5, r6, f1917
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1918
+	cbne	r8, r6, f1918
 	movq	=0x400e000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -13438,11 +11520,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4002000000000000, r6
-	cmp	r5, r6
-	bne	f1919
+	cbne	r5, r6, f1919
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1920
+	cbne	r8, r6, f1920
 	movq	=0x400e000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -13452,11 +11532,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc019000000000000, r6
-	cmp	r5, r6
-	bne	f1921
+	cbne	r5, r6, f1921
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1922
+	cbne	r8, r6, f1922
 	movq	=0x400e000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -13466,11 +11544,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff4000000000000, r6
-	cmp	r5, r6
-	bne	f1923
+	cbne	r5, r6, f1923
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1924
+	cbne	r8, r6, f1924
 	movq	=0x400e000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -13480,11 +11556,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01e000000000000, r6
-	cmp	r5, r6
-	bne	f1925
+	cbne	r5, r6, f1925
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1926
+	cbne	r8, r6, f1926
 	movq	=0x400e000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -13494,11 +11568,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f1927
+	cbne	r5, r6, f1927
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1928
+	cbne	r8, r6, f1928
 	movq	=0x400e000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -13508,11 +11580,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f1929
+	cbne	r5, r6, f1929
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1930
+	cbne	r8, r6, f1930
 	movq	=0x400e000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -13522,11 +11592,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x401e000000000000, r6
-	cmp	r5, r6
-	bne	f1931
+	cbne	r5, r6, f1931
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1932
+	cbne	r8, r6, f1932
 	movq	=0x400e000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -13536,11 +11604,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc026800000000000, r6
-	cmp	r5, r6
-	bne	f1933
+	cbne	r5, r6, f1933
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1934
+	cbne	r8, r6, f1934
 	movq	=0x400e000000000000, r1
 	movq	=0xbff0000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -13550,11 +11616,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc00e000000000000, r6
-	cmp	r5, r6
-	bne	f1935
+	cbne	r5, r6, f1935
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1936
+	cbne	r8, r6, f1936
 	movq	=0x400e000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x0, r3
@@ -13564,11 +11628,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4016800000000000, r6
-	cmp	r5, r6
-	bne	f1937
+	cbne	r5, r6, f1937
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1938
+	cbne	r8, r6, f1938
 	movq	=0x400e000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x0, r3
@@ -13578,11 +11640,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc016800000000000, r6
-	cmp	r5, r6
-	bne	f1939
+	cbne	r5, r6, f1939
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1940
+	cbne	r8, r6, f1940
 	movq	=0x400e000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -13592,11 +11652,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4016800000000000, r6
-	cmp	r5, r6
-	bne	f1941
+	cbne	r5, r6, f1941
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1942
+	cbne	r8, r6, f1942
 	movq	=0x400e000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x8000000000000000, r3
@@ -13606,11 +11664,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc016800000000000, r6
-	cmp	r5, r6
-	bne	f1943
+	cbne	r5, r6, f1943
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1944
+	cbne	r8, r6, f1944
 	movq	=0x400e000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -13620,11 +11676,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4012800000000000, r6
-	cmp	r5, r6
-	bne	f1945
+	cbne	r5, r6, f1945
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1946
+	cbne	r8, r6, f1946
 	movq	=0x400e000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -13634,11 +11688,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01a800000000000, r6
-	cmp	r5, r6
-	bne	f1947
+	cbne	r5, r6, f1947
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1948
+	cbne	r8, r6, f1948
 	movq	=0x400e000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -13648,11 +11700,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x401a800000000000, r6
-	cmp	r5, r6
-	bne	f1949
+	cbne	r5, r6, f1949
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1950
+	cbne	r8, r6, f1950
 	movq	=0x400e000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -13662,11 +11712,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc012800000000000, r6
-	cmp	r5, r6
-	bne	f1951
+	cbne	r5, r6, f1951
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1952
+	cbne	r8, r6, f1952
 	movq	=0x400e000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -13676,11 +11724,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x400d000000000000, r6
-	cmp	r5, r6
-	bne	f1953
+	cbne	r5, r6, f1953
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1954
+	cbne	r8, r6, f1954
 	movq	=0x400e000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x4000000000000000, r3
@@ -13690,11 +11736,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01e800000000000, r6
-	cmp	r5, r6
-	bne	f1955
+	cbne	r5, r6, f1955
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1956
+	cbne	r8, r6, f1956
 	movq	=0x400e000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -13704,11 +11748,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4005000000000000, r6
-	cmp	r5, r6
-	bne	f1957
+	cbne	r5, r6, f1957
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1958
+	cbne	r8, r6, f1958
 	movq	=0x400e000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x4008000000000000, r3
@@ -13718,11 +11760,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc021400000000000, r6
-	cmp	r5, r6
-	bne	f1959
+	cbne	r5, r6, f1959
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1960
+	cbne	r8, r6, f1960
 	movq	=0x400e000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -13732,11 +11772,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4010800000000000, r6
-	cmp	r5, r6
-	bne	f1961
+	cbne	r5, r6, f1961
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1962
+	cbne	r8, r6, f1962
 	movq	=0x400e000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x3ff8000000000000, r3
@@ -13746,11 +11784,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01c800000000000, r6
-	cmp	r5, r6
-	bne	f1963
+	cbne	r5, r6, f1963
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1964
+	cbne	r8, r6, f1964
 	movq	=0x400e000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -13760,11 +11796,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4009000000000000, r6
-	cmp	r5, r6
-	bne	f1965
+	cbne	r5, r6, f1965
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1966
+	cbne	r8, r6, f1966
 	movq	=0x400e000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x4004000000000000, r3
@@ -13774,11 +11808,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc020400000000000, r6
-	cmp	r5, r6
-	bne	f1967
+	cbne	r5, r6, f1967
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1968
+	cbne	r8, r6, f1968
 	movq	=0x400e000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -13788,11 +11820,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ffe000000000000, r6
-	cmp	r5, r6
-	bne	f1969
+	cbne	r5, r6, f1969
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1970
+	cbne	r8, r6, f1970
 	movq	=0x400e000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -13802,11 +11832,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc022c00000000000, r6
-	cmp	r5, r6
-	bne	f1971
+	cbne	r5, r6, f1971
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1972
+	cbne	r8, r6, f1972
 	movq	=0x400e000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -13816,11 +11844,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4022c00000000000, r6
-	cmp	r5, r6
-	bne	f1973
+	cbne	r5, r6, f1973
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1974
+	cbne	r8, r6, f1974
 	movq	=0x400e000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -13830,11 +11856,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbffe000000000000, r6
-	cmp	r5, r6
-	bne	f1975
+	cbne	r5, r6, f1975
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1976
+	cbne	r8, r6, f1976
 	movq	=0x400e000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -13844,11 +11868,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbffe000000000000, r6
-	cmp	r5, r6
-	bne	f1977
+	cbne	r5, r6, f1977
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1978
+	cbne	r8, r6, f1978
 	movq	=0x400e000000000000, r1
 	movq	=0x3ff8000000000000, r2
 	movq	=0x401e000000000000, r3
@@ -13858,11 +11880,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc02a400000000000, r6
-	cmp	r5, r6
-	bne	f1979
+	cbne	r5, r6, f1979
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1980
+	cbne	r8, r6, f1980
 	movq	=0x3ff8000000000000, r1
 	movq	=0x4004000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -13872,11 +11892,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f1981
+	cbne	r5, r6, f1981
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1982
+	cbne	r8, r6, f1982
 	movq	=0x3ff8000000000000, r1
 	movq	=0x4004000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -13886,11 +11904,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01e000000000000, r6
-	cmp	r5, r6
-	bne	f1983
+	cbne	r5, r6, f1983
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1984
+	cbne	r8, r6, f1984
 	movq	=0x3ff8000000000000, r1
 	movq	=0x4004000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -13900,11 +11916,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x401e000000000000, r6
-	cmp	r5, r6
-	bne	f1985
+	cbne	r5, r6, f1985
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1986
+	cbne	r8, r6, f1986
 	movq	=0x3ff8000000000000, r1
 	movq	=0x4004000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -13914,11 +11928,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f1987
+	cbne	r5, r6, f1987
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1988
+	cbne	r8, r6, f1988
 	movq	=0xbff8000000000000, r1
 	movq	=0x4004000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -13928,11 +11940,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc01e000000000000, r6
-	cmp	r5, r6
-	bne	f1989
+	cbne	r5, r6, f1989
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1990
+	cbne	r8, r6, f1990
 	movq	=0xbff8000000000000, r1
 	movq	=0x4004000000000000, r2
 	movq	=0x400e000000000000, r3
@@ -13942,11 +11952,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f1991
+	cbne	r5, r6, f1991
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1992
+	cbne	r8, r6, f1992
 	movq	=0x3ff8000000000000, r1
 	movq	=0xc004000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -13956,11 +11964,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f1993
+	cbne	r5, r6, f1993
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1994
+	cbne	r8, r6, f1994
 	movq	=0x3ff8000000000000, r1
 	movq	=0xc004000000000000, r2
 	movq	=0xc00e000000000000, r3
@@ -13970,11 +11976,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x401e000000000000, r6
-	cmp	r5, r6
-	bne	f1995
+	cbne	r5, r6, f1995
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f1996
+	cbne	r8, r6, f1996
 	movq	=0x7fe1ccf385ebc8a0, r1
 	movq	=0x4024000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -13984,11 +11988,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff0000000000000, r6
-	cmp	r5, r6
-	bne	f1997
+	cbne	r5, r6, f1997
 	movq	=0x5, r6
-	cmp	r8, r6
-	bne	f1998
+	cbne	r8, r6, f1998
 	movq	=0x7fe1ccf385ebc8a0, r1
 	movq	=0x4024000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -13998,11 +12000,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xfff0000000000000, r6
-	cmp	r5, r6
-	bne	f1999
+	cbne	r5, r6, f1999
 	movq	=0x5, r6
-	cmp	r8, r6
-	bne	f2000
+	cbne	r8, r6, f2000
 	movq	=0x7fe1ccf385ebc8a0, r1
 	movq	=0x4024000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -14012,11 +12012,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff0000000000000, r6
-	cmp	r5, r6
-	bne	f2001
+	cbne	r5, r6, f2001
 	movq	=0x5, r6
-	cmp	r8, r6
-	bne	f2002
+	cbne	r8, r6, f2002
 	movq	=0x7fe1ccf385ebc8a0, r1
 	movq	=0x4024000000000000, r2
 	movq	=0xbff0000000000000, r3
@@ -14026,11 +12024,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xfff0000000000000, r6
-	cmp	r5, r6
-	bne	f2003
+	cbne	r5, r6, f2003
 	movq	=0x5, r6
-	cmp	r8, r6
-	bne	f2004
+	cbne	r8, r6, f2004
 	movq	=0x7fe1ccf385ebc8a0, r1
 	movq	=0xc024000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -14040,11 +12036,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xfff0000000000000, r6
-	cmp	r5, r6
-	bne	f2005
+	cbne	r5, r6, f2005
 	movq	=0x5, r6
-	cmp	r8, r6
-	bne	f2006
+	cbne	r8, r6, f2006
 	movq	=0x7fe1ccf385ebc8a0, r1
 	movq	=0xc024000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -14054,11 +12048,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff0000000000000, r6
-	cmp	r5, r6
-	bne	f2007
+	cbne	r5, r6, f2007
 	movq	=0x5, r6
-	cmp	r8, r6
-	bne	f2008
+	cbne	r8, r6, f2008
 	movq	=0x3fb999999999999a, r1
 	movq	=0x3fd3333333333333, r2
 	movq	=0x3fe6666666666666, r3
@@ -14068,11 +12060,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbfe570a3d70a3d70, r6
-	cmp	r5, r6
-	bne	f2009
+	cbne	r5, r6, f2009
 	movq	=0x1, r6
-	cmp	r8, r6
-	bne	f2010
+	cbne	r8, r6, f2010
 	movq	=0x3fb999999999999a, r1
 	movq	=0x3fd3333333333333, r2
 	movq	=0x3fe6666666666666, r3
@@ -14082,11 +12072,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbfe75c28f5c28f5c, r6
-	cmp	r5, r6
-	bne	f2011
+	cbne	r5, r6, f2011
 	movq	=0x1, r6
-	cmp	r8, r6
-	bne	f2012
+	cbne	r8, r6, f2012
 	movq	=0x4202a05f20000000, r1
 	movq	=0x4202a05f20000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -14096,11 +12084,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4415af1d78b58c40, r6
-	cmp	r5, r6
-	bne	f2013
+	cbne	r5, r6, f2013
 	movq	=0x1, r6
-	cmp	r8, r6
-	bne	f2014
+	cbne	r8, r6, f2014
 	movq	=0x4202a05f20000000, r1
 	movq	=0x4202a05f20000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -14110,11 +12096,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc415af1d78b58c40, r6
-	cmp	r5, r6
-	bne	f2015
+	cbne	r5, r6, f2015
 	movq	=0x1, r6
-	cmp	r8, r6
-	bne	f2016
+	cbne	r8, r6, f2016
 	movq	=0x3ff0000100000000, r1
 	movq	=0x3ff0000100000000, r2
 	movq	=0xbff0000200000000, r3
@@ -14124,11 +12108,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x4000000200000800, r6
-	cmp	r5, r6
-	bne	f2017
+	cbne	r5, r6, f2017
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2018
+	cbne	r8, r6, f2018
 	movq	=0x3ff0000100000000, r1
 	movq	=0x3ff0000100000000, r2
 	movq	=0xbff0000200000000, r3
@@ -14138,11 +12120,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xbd70000000000000, r6
-	cmp	r5, r6
-	bne	f2019
+	cbne	r5, r6, f2019
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2020
+	cbne	r8, r6, f2020
 	movq	=0x3ff0000100000000, r1
 	movq	=0x3ff0000100000000, r2
 	movq	=0x3ff0000200000000, r3
@@ -14152,11 +12132,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3d70000000000000, r6
-	cmp	r5, r6
-	bne	f2021
+	cbne	r5, r6, f2021
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2022
+	cbne	r8, r6, f2022
 	movq	=0x3ff0000100000000, r1
 	movq	=0x3ff0000100000000, r2
 	movq	=0x3ff0000200000000, r3
@@ -14166,11 +12144,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xc000000200000800, r6
-	cmp	r5, r6
-	bne	f2023
+	cbne	r5, r6, f2023
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2024
+	cbne	r8, r6, f2024
 	movq	=0x7ff0000000000000, r1
 	movq	=0x4000000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -14180,11 +12156,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff0000000000000, r6
-	cmp	r5, r6
-	bne	f2025
+	cbne	r5, r6, f2025
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2026
+	cbne	r8, r6, f2026
 	movq	=0x7ff0000000000000, r1
 	movq	=0x4000000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -14194,11 +12168,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xfff0000000000000, r6
-	cmp	r5, r6
-	bne	f2027
+	cbne	r5, r6, f2027
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2028
+	cbne	r8, r6, f2028
 	movq	=0x4000000000000000, r1
 	movq	=0x7ff0000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -14208,11 +12180,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff0000000000000, r6
-	cmp	r5, r6
-	bne	f2029
+	cbne	r5, r6, f2029
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2030
+	cbne	r8, r6, f2030
 	movq	=0x4000000000000000, r1
 	movq	=0x7ff0000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -14222,11 +12192,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xfff0000000000000, r6
-	cmp	r5, r6
-	bne	f2031
+	cbne	r5, r6, f2031
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2032
+	cbne	r8, r6, f2032
 	movq	=0x4000000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x7ff0000000000000, r3
@@ -14236,11 +12204,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xfff0000000000000, r6
-	cmp	r5, r6
-	bne	f2033
+	cbne	r5, r6, f2033
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2034
+	cbne	r8, r6, f2034
 	movq	=0x4000000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x7ff0000000000000, r3
@@ -14250,11 +12216,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xfff0000000000000, r6
-	cmp	r5, r6
-	bne	f2035
+	cbne	r5, r6, f2035
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2036
+	cbne	r8, r6, f2036
 	movq	=0x7ff0000000000000, r1
 	movq	=0x0, r2
 	movq	=0x3ff0000000000000, r3
@@ -14264,11 +12228,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2037
+	cbne	r5, r6, f2037
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f2038
+	cbne	r8, r6, f2038
 	movq	=0x7ff0000000000000, r1
 	movq	=0x0, r2
 	movq	=0x3ff0000000000000, r3
@@ -14278,11 +12240,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2039
+	cbne	r5, r6, f2039
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f2040
+	cbne	r8, r6, f2040
 	movq	=0x0, r1
 	movq	=0x7ff0000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -14292,11 +12252,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2041
+	cbne	r5, r6, f2041
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f2042
+	cbne	r8, r6, f2042
 	movq	=0x0, r1
 	movq	=0x7ff0000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -14306,11 +12264,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2043
+	cbne	r5, r6, f2043
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f2044
+	cbne	r8, r6, f2044
 	movq	=0x7ff0000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x7ff0000000000000, r3
@@ -14320,11 +12276,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2045
+	cbne	r5, r6, f2045
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f2046
+	cbne	r8, r6, f2046
 	movq	=0x7ff0000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x7ff0000000000000, r3
@@ -14334,11 +12288,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xfff0000000000000, r6
-	cmp	r5, r6
-	bne	f2047
+	cbne	r5, r6, f2047
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2048
+	cbne	r8, r6, f2048
 	movq	=0xfff0000000000000, r1
 	movq	=0x4000000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -14348,11 +12300,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xfff0000000000000, r6
-	cmp	r5, r6
-	bne	f2049
+	cbne	r5, r6, f2049
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2050
+	cbne	r8, r6, f2050
 	movq	=0xfff0000000000000, r1
 	movq	=0x4000000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -14362,11 +12312,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff0000000000000, r6
-	cmp	r5, r6
-	bne	f2051
+	cbne	r5, r6, f2051
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2052
+	cbne	r8, r6, f2052
 	movq	=0x4000000000000000, r1
 	movq	=0xfff0000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -14376,11 +12324,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xfff0000000000000, r6
-	cmp	r5, r6
-	bne	f2053
+	cbne	r5, r6, f2053
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2054
+	cbne	r8, r6, f2054
 	movq	=0x4000000000000000, r1
 	movq	=0xfff0000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -14390,11 +12336,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff0000000000000, r6
-	cmp	r5, r6
-	bne	f2055
+	cbne	r5, r6, f2055
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2056
+	cbne	r8, r6, f2056
 	movq	=0x4000000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0xfff0000000000000, r3
@@ -14404,11 +12348,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff0000000000000, r6
-	cmp	r5, r6
-	bne	f2057
+	cbne	r5, r6, f2057
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2058
+	cbne	r8, r6, f2058
 	movq	=0x4000000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0xfff0000000000000, r3
@@ -14418,11 +12360,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff0000000000000, r6
-	cmp	r5, r6
-	bne	f2059
+	cbne	r5, r6, f2059
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2060
+	cbne	r8, r6, f2060
 	movq	=0xfff0000000000000, r1
 	movq	=0x0, r2
 	movq	=0x3ff0000000000000, r3
@@ -14432,11 +12372,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2061
+	cbne	r5, r6, f2061
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f2062
+	cbne	r8, r6, f2062
 	movq	=0xfff0000000000000, r1
 	movq	=0x0, r2
 	movq	=0x3ff0000000000000, r3
@@ -14446,11 +12384,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2063
+	cbne	r5, r6, f2063
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f2064
+	cbne	r8, r6, f2064
 	movq	=0x0, r1
 	movq	=0xfff0000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -14460,11 +12396,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2065
+	cbne	r5, r6, f2065
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f2066
+	cbne	r8, r6, f2066
 	movq	=0x0, r1
 	movq	=0xfff0000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -14474,11 +12408,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2067
+	cbne	r5, r6, f2067
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f2068
+	cbne	r8, r6, f2068
 	movq	=0xfff0000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0xfff0000000000000, r3
@@ -14488,11 +12420,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2069
+	cbne	r5, r6, f2069
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f2070
+	cbne	r8, r6, f2070
 	movq	=0xfff0000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0xfff0000000000000, r3
@@ -14502,11 +12432,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff0000000000000, r6
-	cmp	r5, r6
-	bne	f2071
+	cbne	r5, r6, f2071
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2072
+	cbne	r8, r6, f2072
 	movq	=0x7ff8000000000123, r1
 	movq	=0x4000000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -14516,11 +12444,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2073
+	cbne	r5, r6, f2073
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2074
+	cbne	r8, r6, f2074
 	movq	=0x7ff8000000000123, r1
 	movq	=0x4000000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -14530,11 +12456,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2075
+	cbne	r5, r6, f2075
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2076
+	cbne	r8, r6, f2076
 	movq	=0x4000000000000000, r1
 	movq	=0x7ff8000000000123, r2
 	movq	=0x3ff0000000000000, r3
@@ -14544,11 +12468,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2077
+	cbne	r5, r6, f2077
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2078
+	cbne	r8, r6, f2078
 	movq	=0x4000000000000000, r1
 	movq	=0x7ff8000000000123, r2
 	movq	=0x3ff0000000000000, r3
@@ -14558,11 +12480,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2079
+	cbne	r5, r6, f2079
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2080
+	cbne	r8, r6, f2080
 	movq	=0x4000000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x7ff8000000000123, r3
@@ -14572,11 +12492,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2081
+	cbne	r5, r6, f2081
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2082
+	cbne	r8, r6, f2082
 	movq	=0x4000000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x7ff8000000000123, r3
@@ -14586,11 +12504,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2083
+	cbne	r5, r6, f2083
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2084
+	cbne	r8, r6, f2084
 	movq	=0x7ff8000000000123, r1
 	movq	=0x0, r2
 	movq	=0x3ff0000000000000, r3
@@ -14600,11 +12516,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2085
+	cbne	r5, r6, f2085
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2086
+	cbne	r8, r6, f2086
 	movq	=0x7ff8000000000123, r1
 	movq	=0x0, r2
 	movq	=0x3ff0000000000000, r3
@@ -14614,11 +12528,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2087
+	cbne	r5, r6, f2087
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2088
+	cbne	r8, r6, f2088
 	movq	=0x0, r1
 	movq	=0x7ff8000000000123, r2
 	movq	=0x3ff0000000000000, r3
@@ -14628,11 +12540,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2089
+	cbne	r5, r6, f2089
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2090
+	cbne	r8, r6, f2090
 	movq	=0x0, r1
 	movq	=0x7ff8000000000123, r2
 	movq	=0x3ff0000000000000, r3
@@ -14642,11 +12552,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2091
+	cbne	r5, r6, f2091
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2092
+	cbne	r8, r6, f2092
 	movq	=0x7ff8000000000123, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x7ff8000000000123, r3
@@ -14656,11 +12564,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2093
+	cbne	r5, r6, f2093
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2094
+	cbne	r8, r6, f2094
 	movq	=0x7ff8000000000123, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x7ff8000000000123, r3
@@ -14670,11 +12576,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2095
+	cbne	r5, r6, f2095
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2096
+	cbne	r8, r6, f2096
 	movq	=0xfff8000000000456, r1
 	movq	=0x4000000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -14684,11 +12588,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2097
+	cbne	r5, r6, f2097
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2098
+	cbne	r8, r6, f2098
 	movq	=0xfff8000000000456, r1
 	movq	=0x4000000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -14698,11 +12600,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2099
+	cbne	r5, r6, f2099
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2100
+	cbne	r8, r6, f2100
 	movq	=0x4000000000000000, r1
 	movq	=0xfff8000000000456, r2
 	movq	=0x3ff0000000000000, r3
@@ -14712,11 +12612,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2101
+	cbne	r5, r6, f2101
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2102
+	cbne	r8, r6, f2102
 	movq	=0x4000000000000000, r1
 	movq	=0xfff8000000000456, r2
 	movq	=0x3ff0000000000000, r3
@@ -14726,11 +12624,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2103
+	cbne	r5, r6, f2103
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2104
+	cbne	r8, r6, f2104
 	movq	=0x4000000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0xfff8000000000456, r3
@@ -14740,11 +12636,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2105
+	cbne	r5, r6, f2105
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2106
+	cbne	r8, r6, f2106
 	movq	=0x4000000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0xfff8000000000456, r3
@@ -14754,11 +12648,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2107
+	cbne	r5, r6, f2107
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2108
+	cbne	r8, r6, f2108
 	movq	=0xfff8000000000456, r1
 	movq	=0x0, r2
 	movq	=0x3ff0000000000000, r3
@@ -14768,11 +12660,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2109
+	cbne	r5, r6, f2109
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2110
+	cbne	r8, r6, f2110
 	movq	=0xfff8000000000456, r1
 	movq	=0x0, r2
 	movq	=0x3ff0000000000000, r3
@@ -14782,11 +12672,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2111
+	cbne	r5, r6, f2111
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2112
+	cbne	r8, r6, f2112
 	movq	=0x0, r1
 	movq	=0xfff8000000000456, r2
 	movq	=0x3ff0000000000000, r3
@@ -14796,11 +12684,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2113
+	cbne	r5, r6, f2113
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2114
+	cbne	r8, r6, f2114
 	movq	=0x0, r1
 	movq	=0xfff8000000000456, r2
 	movq	=0x3ff0000000000000, r3
@@ -14810,11 +12696,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2115
+	cbne	r5, r6, f2115
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2116
+	cbne	r8, r6, f2116
 	movq	=0xfff8000000000456, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0xfff8000000000456, r3
@@ -14824,11 +12708,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2117
+	cbne	r5, r6, f2117
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2118
+	cbne	r8, r6, f2118
 	movq	=0xfff8000000000456, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0xfff8000000000456, r3
@@ -14838,11 +12720,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2119
+	cbne	r5, r6, f2119
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2120
+	cbne	r8, r6, f2120
 	movq	=0x7ff0000000000789, r1
 	movq	=0x4000000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -14852,11 +12732,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2121
+	cbne	r5, r6, f2121
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f2122
+	cbne	r8, r6, f2122
 	movq	=0x7ff0000000000789, r1
 	movq	=0x4000000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -14866,11 +12744,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2123
+	cbne	r5, r6, f2123
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f2124
+	cbne	r8, r6, f2124
 	movq	=0x4000000000000000, r1
 	movq	=0x7ff0000000000789, r2
 	movq	=0x3ff0000000000000, r3
@@ -14880,11 +12756,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2125
+	cbne	r5, r6, f2125
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f2126
+	cbne	r8, r6, f2126
 	movq	=0x4000000000000000, r1
 	movq	=0x7ff0000000000789, r2
 	movq	=0x3ff0000000000000, r3
@@ -14894,11 +12768,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2127
+	cbne	r5, r6, f2127
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f2128
+	cbne	r8, r6, f2128
 	movq	=0x4000000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x7ff0000000000789, r3
@@ -14908,11 +12780,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2129
+	cbne	r5, r6, f2129
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f2130
+	cbne	r8, r6, f2130
 	movq	=0x4000000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x7ff0000000000789, r3
@@ -14922,11 +12792,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2131
+	cbne	r5, r6, f2131
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f2132
+	cbne	r8, r6, f2132
 	movq	=0x7ff0000000000789, r1
 	movq	=0x0, r2
 	movq	=0x3ff0000000000000, r3
@@ -14936,11 +12804,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2133
+	cbne	r5, r6, f2133
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f2134
+	cbne	r8, r6, f2134
 	movq	=0x7ff0000000000789, r1
 	movq	=0x0, r2
 	movq	=0x3ff0000000000000, r3
@@ -14950,11 +12816,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2135
+	cbne	r5, r6, f2135
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f2136
+	cbne	r8, r6, f2136
 	movq	=0x0, r1
 	movq	=0x7ff0000000000789, r2
 	movq	=0x3ff0000000000000, r3
@@ -14964,11 +12828,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2137
+	cbne	r5, r6, f2137
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f2138
+	cbne	r8, r6, f2138
 	movq	=0x0, r1
 	movq	=0x7ff0000000000789, r2
 	movq	=0x3ff0000000000000, r3
@@ -14978,11 +12840,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2139
+	cbne	r5, r6, f2139
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f2140
+	cbne	r8, r6, f2140
 	movq	=0x7ff0000000000789, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x7ff0000000000789, r3
@@ -14992,11 +12852,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2141
+	cbne	r5, r6, f2141
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f2142
+	cbne	r8, r6, f2142
 	movq	=0x7ff0000000000789, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x7ff0000000000789, r3
@@ -15006,11 +12864,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2143
+	cbne	r5, r6, f2143
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f2144
+	cbne	r8, r6, f2144
 	movq	=0xfff0000000000789, r1
 	movq	=0x4000000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -15020,11 +12876,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2145
+	cbne	r5, r6, f2145
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f2146
+	cbne	r8, r6, f2146
 	movq	=0xfff0000000000789, r1
 	movq	=0x4000000000000000, r2
 	movq	=0x3ff0000000000000, r3
@@ -15034,11 +12888,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2147
+	cbne	r5, r6, f2147
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f2148
+	cbne	r8, r6, f2148
 	movq	=0x4000000000000000, r1
 	movq	=0xfff0000000000789, r2
 	movq	=0x3ff0000000000000, r3
@@ -15048,11 +12900,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2149
+	cbne	r5, r6, f2149
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f2150
+	cbne	r8, r6, f2150
 	movq	=0x4000000000000000, r1
 	movq	=0xfff0000000000789, r2
 	movq	=0x3ff0000000000000, r3
@@ -15062,11 +12912,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2151
+	cbne	r5, r6, f2151
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f2152
+	cbne	r8, r6, f2152
 	movq	=0x4000000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0xfff0000000000789, r3
@@ -15076,11 +12924,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2153
+	cbne	r5, r6, f2153
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f2154
+	cbne	r8, r6, f2154
 	movq	=0x4000000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0xfff0000000000789, r3
@@ -15090,11 +12936,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2155
+	cbne	r5, r6, f2155
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f2156
+	cbne	r8, r6, f2156
 	movq	=0xfff0000000000789, r1
 	movq	=0x0, r2
 	movq	=0x3ff0000000000000, r3
@@ -15104,11 +12948,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2157
+	cbne	r5, r6, f2157
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f2158
+	cbne	r8, r6, f2158
 	movq	=0xfff0000000000789, r1
 	movq	=0x0, r2
 	movq	=0x3ff0000000000000, r3
@@ -15118,11 +12960,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2159
+	cbne	r5, r6, f2159
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f2160
+	cbne	r8, r6, f2160
 	movq	=0x0, r1
 	movq	=0xfff0000000000789, r2
 	movq	=0x3ff0000000000000, r3
@@ -15132,11 +12972,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2161
+	cbne	r5, r6, f2161
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f2162
+	cbne	r8, r6, f2162
 	movq	=0x0, r1
 	movq	=0xfff0000000000789, r2
 	movq	=0x3ff0000000000000, r3
@@ -15146,11 +12984,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2163
+	cbne	r5, r6, f2163
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f2164
+	cbne	r8, r6, f2164
 	movq	=0xfff0000000000789, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0xfff0000000000789, r3
@@ -15160,11 +12996,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2165
+	cbne	r5, r6, f2165
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f2166
+	cbne	r8, r6, f2166
 	movq	=0xfff0000000000789, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0xfff0000000000789, r3
@@ -15174,11 +13008,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2167
+	cbne	r5, r6, f2167
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f2168
+	cbne	r8, r6, f2168
 	movq	=0x7ff0000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x7ff0000000000000, r3
@@ -15188,11 +13020,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2169
+	cbne	r5, r6, f2169
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f2170
+	cbne	r8, r6, f2170
 	movq	=0x7ff0000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x7ff0000000000000, r3
@@ -15202,11 +13032,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xfff0000000000000, r6
-	cmp	r5, r6
-	bne	f2171
+	cbne	r5, r6, f2171
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2172
+	cbne	r8, r6, f2172
 	movq	=0x7ff0000000000000, r1
 	movq	=0x0, r2
 	movq	=0x7ff0000000000000, r3
@@ -15216,11 +13044,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2173
+	cbne	r5, r6, f2173
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f2174
+	cbne	r8, r6, f2174
 	movq	=0x7ff0000000000000, r1
 	movq	=0x0, r2
 	movq	=0x7ff0000000000000, r3
@@ -15230,11 +13056,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2175
+	cbne	r5, r6, f2175
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f2176
+	cbne	r8, r6, f2176
 	movq	=0x3ff0000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x7ff0000000000000, r3
@@ -15244,11 +13068,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xfff0000000000000, r6
-	cmp	r5, r6
-	bne	f2177
+	cbne	r5, r6, f2177
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2178
+	cbne	r8, r6, f2178
 	movq	=0x3ff0000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x7ff0000000000000, r3
@@ -15258,11 +13080,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xfff0000000000000, r6
-	cmp	r5, r6
-	bne	f2179
+	cbne	r5, r6, f2179
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2180
+	cbne	r8, r6, f2180
 	movq	=0x7ff0000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0xfff0000000000000, r3
@@ -15272,11 +13092,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff0000000000000, r6
-	cmp	r5, r6
-	bne	f2181
+	cbne	r5, r6, f2181
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2182
+	cbne	r8, r6, f2182
 	movq	=0x7ff0000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0xfff0000000000000, r3
@@ -15286,11 +13104,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2183
+	cbne	r5, r6, f2183
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f2184
+	cbne	r8, r6, f2184
 	movq	=0x7ff0000000000000, r1
 	movq	=0x0, r2
 	movq	=0xfff0000000000000, r3
@@ -15300,11 +13116,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2185
+	cbne	r5, r6, f2185
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f2186
+	cbne	r8, r6, f2186
 	movq	=0x7ff0000000000000, r1
 	movq	=0x0, r2
 	movq	=0xfff0000000000000, r3
@@ -15314,11 +13128,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2187
+	cbne	r5, r6, f2187
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f2188
+	cbne	r8, r6, f2188
 	movq	=0x3ff0000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0xfff0000000000000, r3
@@ -15328,11 +13140,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff0000000000000, r6
-	cmp	r5, r6
-	bne	f2189
+	cbne	r5, r6, f2189
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2190
+	cbne	r8, r6, f2190
 	movq	=0x3ff0000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0xfff0000000000000, r3
@@ -15342,11 +13152,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff0000000000000, r6
-	cmp	r5, r6
-	bne	f2191
+	cbne	r5, r6, f2191
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2192
+	cbne	r8, r6, f2192
 	movq	=0xfff0000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x7ff0000000000000, r3
@@ -15356,11 +13164,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xfff0000000000000, r6
-	cmp	r5, r6
-	bne	f2193
+	cbne	r5, r6, f2193
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2194
+	cbne	r8, r6, f2194
 	movq	=0xfff0000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x7ff0000000000000, r3
@@ -15370,11 +13176,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2195
+	cbne	r5, r6, f2195
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f2196
+	cbne	r8, r6, f2196
 	movq	=0xfff0000000000000, r1
 	movq	=0x0, r2
 	movq	=0x7ff0000000000000, r3
@@ -15384,11 +13188,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2197
+	cbne	r5, r6, f2197
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f2198
+	cbne	r8, r6, f2198
 	movq	=0xfff0000000000000, r1
 	movq	=0x0, r2
 	movq	=0x7ff0000000000000, r3
@@ -15398,11 +13200,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2199
+	cbne	r5, r6, f2199
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f2200
+	cbne	r8, r6, f2200
 	movq	=0x3ff0000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x7ff0000000000000, r3
@@ -15412,11 +13212,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xfff0000000000000, r6
-	cmp	r5, r6
-	bne	f2201
+	cbne	r5, r6, f2201
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2202
+	cbne	r8, r6, f2202
 	movq	=0x3ff0000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0x7ff0000000000000, r3
@@ -15426,11 +13224,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xfff0000000000000, r6
-	cmp	r5, r6
-	bne	f2203
+	cbne	r5, r6, f2203
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2204
+	cbne	r8, r6, f2204
 	movq	=0xfff0000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0xfff0000000000000, r3
@@ -15440,11 +13236,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2205
+	cbne	r5, r6, f2205
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f2206
+	cbne	r8, r6, f2206
 	movq	=0xfff0000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0xfff0000000000000, r3
@@ -15454,11 +13248,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff0000000000000, r6
-	cmp	r5, r6
-	bne	f2207
+	cbne	r5, r6, f2207
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2208
+	cbne	r8, r6, f2208
 	movq	=0xfff0000000000000, r1
 	movq	=0x0, r2
 	movq	=0xfff0000000000000, r3
@@ -15468,11 +13260,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2209
+	cbne	r5, r6, f2209
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f2210
+	cbne	r8, r6, f2210
 	movq	=0xfff0000000000000, r1
 	movq	=0x0, r2
 	movq	=0xfff0000000000000, r3
@@ -15482,11 +13272,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff8000000000000, r6
-	cmp	r5, r6
-	bne	f2211
+	cbne	r5, r6, f2211
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f2212
+	cbne	r8, r6, f2212
 	movq	=0x3ff0000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0xfff0000000000000, r3
@@ -15496,11 +13284,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff0000000000000, r6
-	cmp	r5, r6
-	bne	f2213
+	cbne	r5, r6, f2213
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2214
+	cbne	r8, r6, f2214
 	movq	=0x3ff0000000000000, r1
 	movq	=0x3ff0000000000000, r2
 	movq	=0xfff0000000000000, r3
@@ -15510,11 +13296,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7ff0000000000000, r6
-	cmp	r5, r6
-	bne	f2215
+	cbne	r5, r6, f2215
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2216
+	cbne	r8, r6, f2216
 	movq	=0x0, r1
 	movq	=0x0, r2
 	movq	=0x0, r3
@@ -15525,11 +13309,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f2217
+	cbne	r5, r6, f2217
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2218
+	cbne	r8, r6, f2218
 	movq	=0x0, r1
 	movq	=0x0, r2
 	movq	=0x0, r3
@@ -15540,11 +13322,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffff80000000, r6
-	cmp	r5, r6
-	bne	f2219
+	cbne	r5, r6, f2219
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2220
+	cbne	r8, r6, f2220
 	movq	=0x0, r1
 	movq	=0x0, r2
 	movq	=0xffffffff80000000, r3
@@ -15555,11 +13335,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f2221
+	cbne	r5, r6, f2221
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2222
+	cbne	r8, r6, f2222
 	movq	=0x0, r1
 	movq	=0x0, r2
 	movq	=0xffffffff80000000, r3
@@ -15570,11 +13348,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f2223
+	cbne	r5, r6, f2223
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2224
+	cbne	r8, r6, f2224
 	movq	=0x0, r1
 	movq	=0x0, r2
 	movq	=0x3f800000, r3
@@ -15585,11 +13361,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f2225
+	cbne	r5, r6, f2225
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2226
+	cbne	r8, r6, f2226
 	movq	=0x0, r1
 	movq	=0x0, r2
 	movq	=0x3f800000, r3
@@ -15600,11 +13374,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f2227
+	cbne	r5, r6, f2227
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2228
+	cbne	r8, r6, f2228
 	movq	=0x0, r1
 	movq	=0x0, r2
 	movq	=0xffffffffbf800000, r3
@@ -15615,11 +13387,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
-	cmp	r5, r6
-	bne	f2229
+	cbne	r5, r6, f2229
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2230
+	cbne	r8, r6, f2230
 	movq	=0x0, r1
 	movq	=0x0, r2
 	movq	=0xffffffffbf800000, r3
@@ -15630,11 +13400,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
-	cmp	r5, r6
-	bne	f2231
+	cbne	r5, r6, f2231
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2232
+	cbne	r8, r6, f2232
 	movq	=0x0, r1
 	movq	=0x0, r2
 	movq	=0x40000000, r3
@@ -15645,11 +13413,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
-	cmp	r5, r6
-	bne	f2233
+	cbne	r5, r6, f2233
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2234
+	cbne	r8, r6, f2234
 	movq	=0x0, r1
 	movq	=0x0, r2
 	movq	=0x40000000, r3
@@ -15660,11 +13426,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
-	cmp	r5, r6
-	bne	f2235
+	cbne	r5, r6, f2235
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2236
+	cbne	r8, r6, f2236
 	movq	=0x0, r1
 	movq	=0x0, r2
 	movq	=0x40400000, r3
@@ -15675,11 +13439,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
-	cmp	r5, r6
-	bne	f2237
+	cbne	r5, r6, f2237
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2238
+	cbne	r8, r6, f2238
 	movq	=0x0, r1
 	movq	=0x0, r2
 	movq	=0x40400000, r3
@@ -15690,11 +13452,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
-	cmp	r5, r6
-	bne	f2239
+	cbne	r5, r6, f2239
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2240
+	cbne	r8, r6, f2240
 	movq	=0x0, r1
 	movq	=0x0, r2
 	movq	=0x3fc00000, r3
@@ -15705,11 +13465,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f2241
+	cbne	r5, r6, f2241
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2242
+	cbne	r8, r6, f2242
 	movq	=0x0, r1
 	movq	=0x0, r2
 	movq	=0x3fc00000, r3
@@ -15720,11 +13478,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f2243
+	cbne	r5, r6, f2243
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2244
+	cbne	r8, r6, f2244
 	movq	=0x0, r1
 	movq	=0x0, r2
 	movq	=0x40200000, r3
@@ -15735,11 +13491,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
-	cmp	r5, r6
-	bne	f2245
+	cbne	r5, r6, f2245
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2246
+	cbne	r8, r6, f2246
 	movq	=0x0, r1
 	movq	=0x0, r2
 	movq	=0x40200000, r3
@@ -15750,11 +13504,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
-	cmp	r5, r6
-	bne	f2247
+	cbne	r5, r6, f2247
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2248
+	cbne	r8, r6, f2248
 	movq	=0x0, r1
 	movq	=0x0, r2
 	movq	=0x40700000, r3
@@ -15765,11 +13517,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
-	cmp	r5, r6
-	bne	f2249
+	cbne	r5, r6, f2249
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2250
+	cbne	r8, r6, f2250
 	movq	=0x0, r1
 	movq	=0x0, r2
 	movq	=0x40700000, r3
@@ -15780,11 +13530,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
-	cmp	r5, r6
-	bne	f2251
+	cbne	r5, r6, f2251
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2252
+	cbne	r8, r6, f2252
 	movq	=0x0, r1
 	movq	=0x0, r2
 	movq	=0xffffffffc0700000, r3
@@ -15795,11 +13543,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40700000, r6
-	cmp	r5, r6
-	bne	f2253
+	cbne	r5, r6, f2253
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2254
+	cbne	r8, r6, f2254
 	movq	=0x0, r1
 	movq	=0x0, r2
 	movq	=0xffffffffc0700000, r3
@@ -15810,11 +13556,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40700000, r6
-	cmp	r5, r6
-	bne	f2255
+	cbne	r5, r6, f2255
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2256
+	cbne	r8, r6, f2256
 	movq	=0x0, r1
 	movq	=0x0, r2
 	movq	=0x40f00000, r3
@@ -15825,11 +13569,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
-	cmp	r5, r6
-	bne	f2257
+	cbne	r5, r6, f2257
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2258
+	cbne	r8, r6, f2258
 	movq	=0x0, r1
 	movq	=0x0, r2
 	movq	=0x40f00000, r3
@@ -15840,11 +13582,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
-	cmp	r5, r6
-	bne	f2259
+	cbne	r5, r6, f2259
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2260
+	cbne	r8, r6, f2260
 	movq	=0x0, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x0, r3
@@ -15855,11 +13595,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffff80000000, r6
-	cmp	r5, r6
-	bne	f2261
+	cbne	r5, r6, f2261
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2262
+	cbne	r8, r6, f2262
 	movq	=0x0, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x0, r3
@@ -15870,11 +13608,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f2263
+	cbne	r5, r6, f2263
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2264
+	cbne	r8, r6, f2264
 	movq	=0x0, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0xffffffff80000000, r3
@@ -15885,11 +13621,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f2265
+	cbne	r5, r6, f2265
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2266
+	cbne	r8, r6, f2266
 	movq	=0x0, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0xffffffff80000000, r3
@@ -15900,11 +13634,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f2267
+	cbne	r5, r6, f2267
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2268
+	cbne	r8, r6, f2268
 	movq	=0x0, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x3f800000, r3
@@ -15915,11 +13647,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f2269
+	cbne	r5, r6, f2269
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2270
+	cbne	r8, r6, f2270
 	movq	=0x0, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x3f800000, r3
@@ -15930,11 +13660,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f2271
+	cbne	r5, r6, f2271
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2272
+	cbne	r8, r6, f2272
 	movq	=0x0, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0xffffffffbf800000, r3
@@ -15945,11 +13673,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
-	cmp	r5, r6
-	bne	f2273
+	cbne	r5, r6, f2273
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2274
+	cbne	r8, r6, f2274
 	movq	=0x0, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0xffffffffbf800000, r3
@@ -15960,11 +13686,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
-	cmp	r5, r6
-	bne	f2275
+	cbne	r5, r6, f2275
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2276
+	cbne	r8, r6, f2276
 	movq	=0x0, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40000000, r3
@@ -15975,11 +13699,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
-	cmp	r5, r6
-	bne	f2277
+	cbne	r5, r6, f2277
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2278
+	cbne	r8, r6, f2278
 	movq	=0x0, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40000000, r3
@@ -15990,11 +13712,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
-	cmp	r5, r6
-	bne	f2279
+	cbne	r5, r6, f2279
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2280
+	cbne	r8, r6, f2280
 	movq	=0x0, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40400000, r3
@@ -16005,11 +13725,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
-	cmp	r5, r6
-	bne	f2281
+	cbne	r5, r6, f2281
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2282
+	cbne	r8, r6, f2282
 	movq	=0x0, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40400000, r3
@@ -16020,11 +13738,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
-	cmp	r5, r6
-	bne	f2283
+	cbne	r5, r6, f2283
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2284
+	cbne	r8, r6, f2284
 	movq	=0x0, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x3fc00000, r3
@@ -16035,11 +13751,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f2285
+	cbne	r5, r6, f2285
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2286
+	cbne	r8, r6, f2286
 	movq	=0x0, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x3fc00000, r3
@@ -16050,11 +13764,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f2287
+	cbne	r5, r6, f2287
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2288
+	cbne	r8, r6, f2288
 	movq	=0x0, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40200000, r3
@@ -16065,11 +13777,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
-	cmp	r5, r6
-	bne	f2289
+	cbne	r5, r6, f2289
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2290
+	cbne	r8, r6, f2290
 	movq	=0x0, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40200000, r3
@@ -16080,11 +13790,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
-	cmp	r5, r6
-	bne	f2291
+	cbne	r5, r6, f2291
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2292
+	cbne	r8, r6, f2292
 	movq	=0x0, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40700000, r3
@@ -16095,11 +13803,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
-	cmp	r5, r6
-	bne	f2293
+	cbne	r5, r6, f2293
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2294
+	cbne	r8, r6, f2294
 	movq	=0x0, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40700000, r3
@@ -16110,11 +13816,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
-	cmp	r5, r6
-	bne	f2295
+	cbne	r5, r6, f2295
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2296
+	cbne	r8, r6, f2296
 	movq	=0x0, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0xffffffffc0700000, r3
@@ -16125,11 +13829,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40700000, r6
-	cmp	r5, r6
-	bne	f2297
+	cbne	r5, r6, f2297
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2298
+	cbne	r8, r6, f2298
 	movq	=0x0, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0xffffffffc0700000, r3
@@ -16140,11 +13842,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40700000, r6
-	cmp	r5, r6
-	bne	f2299
+	cbne	r5, r6, f2299
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2300
+	cbne	r8, r6, f2300
 	movq	=0x0, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40f00000, r3
@@ -16155,11 +13855,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
-	cmp	r5, r6
-	bne	f2301
+	cbne	r5, r6, f2301
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2302
+	cbne	r8, r6, f2302
 	movq	=0x0, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40f00000, r3
@@ -16170,11 +13868,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
-	cmp	r5, r6
-	bne	f2303
+	cbne	r5, r6, f2303
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2304
+	cbne	r8, r6, f2304
 	movq	=0x0, r1
 	movq	=0x3f800000, r2
 	movq	=0x0, r3
@@ -16185,11 +13881,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f2305
+	cbne	r5, r6, f2305
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2306
+	cbne	r8, r6, f2306
 	movq	=0x0, r1
 	movq	=0x3f800000, r2
 	movq	=0x0, r3
@@ -16200,11 +13894,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffff80000000, r6
-	cmp	r5, r6
-	bne	f2307
+	cbne	r5, r6, f2307
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2308
+	cbne	r8, r6, f2308
 	movq	=0x0, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffff80000000, r3
@@ -16215,11 +13907,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f2309
+	cbne	r5, r6, f2309
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2310
+	cbne	r8, r6, f2310
 	movq	=0x0, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffff80000000, r3
@@ -16230,11 +13920,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f2311
+	cbne	r5, r6, f2311
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2312
+	cbne	r8, r6, f2312
 	movq	=0x0, r1
 	movq	=0x3f800000, r2
 	movq	=0x3f800000, r3
@@ -16245,11 +13933,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f2313
+	cbne	r5, r6, f2313
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2314
+	cbne	r8, r6, f2314
 	movq	=0x0, r1
 	movq	=0x3f800000, r2
 	movq	=0x3f800000, r3
@@ -16260,11 +13946,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f2315
+	cbne	r5, r6, f2315
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2316
+	cbne	r8, r6, f2316
 	movq	=0x0, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffffbf800000, r3
@@ -16275,11 +13959,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
-	cmp	r5, r6
-	bne	f2317
+	cbne	r5, r6, f2317
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2318
+	cbne	r8, r6, f2318
 	movq	=0x0, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffffbf800000, r3
@@ -16290,11 +13972,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
-	cmp	r5, r6
-	bne	f2319
+	cbne	r5, r6, f2319
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2320
+	cbne	r8, r6, f2320
 	movq	=0x0, r1
 	movq	=0x3f800000, r2
 	movq	=0x40000000, r3
@@ -16305,11 +13985,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
-	cmp	r5, r6
-	bne	f2321
+	cbne	r5, r6, f2321
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2322
+	cbne	r8, r6, f2322
 	movq	=0x0, r1
 	movq	=0x3f800000, r2
 	movq	=0x40000000, r3
@@ -16320,11 +13998,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
-	cmp	r5, r6
-	bne	f2323
+	cbne	r5, r6, f2323
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2324
+	cbne	r8, r6, f2324
 	movq	=0x0, r1
 	movq	=0x3f800000, r2
 	movq	=0x40400000, r3
@@ -16335,11 +14011,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
-	cmp	r5, r6
-	bne	f2325
+	cbne	r5, r6, f2325
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2326
+	cbne	r8, r6, f2326
 	movq	=0x0, r1
 	movq	=0x3f800000, r2
 	movq	=0x40400000, r3
@@ -16350,11 +14024,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
-	cmp	r5, r6
-	bne	f2327
+	cbne	r5, r6, f2327
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2328
+	cbne	r8, r6, f2328
 	movq	=0x0, r1
 	movq	=0x3f800000, r2
 	movq	=0x3fc00000, r3
@@ -16365,11 +14037,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f2329
+	cbne	r5, r6, f2329
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2330
+	cbne	r8, r6, f2330
 	movq	=0x0, r1
 	movq	=0x3f800000, r2
 	movq	=0x3fc00000, r3
@@ -16380,11 +14050,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f2331
+	cbne	r5, r6, f2331
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2332
+	cbne	r8, r6, f2332
 	movq	=0x0, r1
 	movq	=0x3f800000, r2
 	movq	=0x40200000, r3
@@ -16395,11 +14063,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
-	cmp	r5, r6
-	bne	f2333
+	cbne	r5, r6, f2333
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2334
+	cbne	r8, r6, f2334
 	movq	=0x0, r1
 	movq	=0x3f800000, r2
 	movq	=0x40200000, r3
@@ -16410,11 +14076,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
-	cmp	r5, r6
-	bne	f2335
+	cbne	r5, r6, f2335
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2336
+	cbne	r8, r6, f2336
 	movq	=0x0, r1
 	movq	=0x3f800000, r2
 	movq	=0x40700000, r3
@@ -16425,11 +14089,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
-	cmp	r5, r6
-	bne	f2337
+	cbne	r5, r6, f2337
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2338
+	cbne	r8, r6, f2338
 	movq	=0x0, r1
 	movq	=0x3f800000, r2
 	movq	=0x40700000, r3
@@ -16440,11 +14102,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
-	cmp	r5, r6
-	bne	f2339
+	cbne	r5, r6, f2339
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2340
+	cbne	r8, r6, f2340
 	movq	=0x0, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffffc0700000, r3
@@ -16455,11 +14115,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40700000, r6
-	cmp	r5, r6
-	bne	f2341
+	cbne	r5, r6, f2341
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2342
+	cbne	r8, r6, f2342
 	movq	=0x0, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffffc0700000, r3
@@ -16470,11 +14128,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40700000, r6
-	cmp	r5, r6
-	bne	f2343
+	cbne	r5, r6, f2343
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2344
+	cbne	r8, r6, f2344
 	movq	=0x0, r1
 	movq	=0x3f800000, r2
 	movq	=0x40f00000, r3
@@ -16485,11 +14141,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
-	cmp	r5, r6
-	bne	f2345
+	cbne	r5, r6, f2345
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2346
+	cbne	r8, r6, f2346
 	movq	=0x0, r1
 	movq	=0x3f800000, r2
 	movq	=0x40f00000, r3
@@ -16500,11 +14154,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
-	cmp	r5, r6
-	bne	f2347
+	cbne	r5, r6, f2347
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2348
+	cbne	r8, r6, f2348
 	movq	=0x0, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x0, r3
@@ -16515,11 +14167,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffff80000000, r6
-	cmp	r5, r6
-	bne	f2349
+	cbne	r5, r6, f2349
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2350
+	cbne	r8, r6, f2350
 	movq	=0x0, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x0, r3
@@ -16530,11 +14180,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f2351
+	cbne	r5, r6, f2351
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2352
+	cbne	r8, r6, f2352
 	movq	=0x0, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0xffffffff80000000, r3
@@ -16545,11 +14193,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f2353
+	cbne	r5, r6, f2353
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2354
+	cbne	r8, r6, f2354
 	movq	=0x0, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0xffffffff80000000, r3
@@ -16560,11 +14206,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f2355
+	cbne	r5, r6, f2355
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2356
+	cbne	r8, r6, f2356
 	movq	=0x0, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x3f800000, r3
@@ -16575,11 +14219,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f2357
+	cbne	r5, r6, f2357
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2358
+	cbne	r8, r6, f2358
 	movq	=0x0, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x3f800000, r3
@@ -16590,11 +14232,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f2359
+	cbne	r5, r6, f2359
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2360
+	cbne	r8, r6, f2360
 	movq	=0x0, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0xffffffffbf800000, r3
@@ -16605,11 +14245,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
-	cmp	r5, r6
-	bne	f2361
+	cbne	r5, r6, f2361
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2362
+	cbne	r8, r6, f2362
 	movq	=0x0, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0xffffffffbf800000, r3
@@ -16620,11 +14258,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
-	cmp	r5, r6
-	bne	f2363
+	cbne	r5, r6, f2363
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2364
+	cbne	r8, r6, f2364
 	movq	=0x0, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40000000, r3
@@ -16635,11 +14271,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
-	cmp	r5, r6
-	bne	f2365
+	cbne	r5, r6, f2365
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2366
+	cbne	r8, r6, f2366
 	movq	=0x0, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40000000, r3
@@ -16650,11 +14284,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
-	cmp	r5, r6
-	bne	f2367
+	cbne	r5, r6, f2367
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2368
+	cbne	r8, r6, f2368
 	movq	=0x0, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40400000, r3
@@ -16665,11 +14297,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
-	cmp	r5, r6
-	bne	f2369
+	cbne	r5, r6, f2369
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2370
+	cbne	r8, r6, f2370
 	movq	=0x0, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40400000, r3
@@ -16680,11 +14310,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
-	cmp	r5, r6
-	bne	f2371
+	cbne	r5, r6, f2371
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2372
+	cbne	r8, r6, f2372
 	movq	=0x0, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x3fc00000, r3
@@ -16695,11 +14323,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f2373
+	cbne	r5, r6, f2373
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2374
+	cbne	r8, r6, f2374
 	movq	=0x0, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x3fc00000, r3
@@ -16710,11 +14336,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f2375
+	cbne	r5, r6, f2375
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2376
+	cbne	r8, r6, f2376
 	movq	=0x0, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40200000, r3
@@ -16725,11 +14349,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
-	cmp	r5, r6
-	bne	f2377
+	cbne	r5, r6, f2377
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2378
+	cbne	r8, r6, f2378
 	movq	=0x0, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40200000, r3
@@ -16740,11 +14362,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
-	cmp	r5, r6
-	bne	f2379
+	cbne	r5, r6, f2379
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2380
+	cbne	r8, r6, f2380
 	movq	=0x0, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40700000, r3
@@ -16755,11 +14375,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
-	cmp	r5, r6
-	bne	f2381
+	cbne	r5, r6, f2381
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2382
+	cbne	r8, r6, f2382
 	movq	=0x0, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40700000, r3
@@ -16770,11 +14388,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
-	cmp	r5, r6
-	bne	f2383
+	cbne	r5, r6, f2383
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2384
+	cbne	r8, r6, f2384
 	movq	=0x0, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0xffffffffc0700000, r3
@@ -16785,11 +14401,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40700000, r6
-	cmp	r5, r6
-	bne	f2385
+	cbne	r5, r6, f2385
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2386
+	cbne	r8, r6, f2386
 	movq	=0x0, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0xffffffffc0700000, r3
@@ -16800,11 +14414,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40700000, r6
-	cmp	r5, r6
-	bne	f2387
+	cbne	r5, r6, f2387
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2388
+	cbne	r8, r6, f2388
 	movq	=0x0, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40f00000, r3
@@ -16815,11 +14427,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
-	cmp	r5, r6
-	bne	f2389
+	cbne	r5, r6, f2389
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2390
+	cbne	r8, r6, f2390
 	movq	=0x0, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40f00000, r3
@@ -16830,11 +14440,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
-	cmp	r5, r6
-	bne	f2391
+	cbne	r5, r6, f2391
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2392
+	cbne	r8, r6, f2392
 	movq	=0x0, r1
 	movq	=0x3fc00000, r2
 	movq	=0x0, r3
@@ -16845,11 +14453,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f2393
+	cbne	r5, r6, f2393
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2394
+	cbne	r8, r6, f2394
 	movq	=0x0, r1
 	movq	=0x3fc00000, r2
 	movq	=0x0, r3
@@ -16860,11 +14466,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffff80000000, r6
-	cmp	r5, r6
-	bne	f2395
+	cbne	r5, r6, f2395
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2396
+	cbne	r8, r6, f2396
 	movq	=0x0, r1
 	movq	=0x3fc00000, r2
 	movq	=0xffffffff80000000, r3
@@ -16875,11 +14479,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f2397
+	cbne	r5, r6, f2397
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2398
+	cbne	r8, r6, f2398
 	movq	=0x0, r1
 	movq	=0x3fc00000, r2
 	movq	=0xffffffff80000000, r3
@@ -16890,11 +14492,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f2399
+	cbne	r5, r6, f2399
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2400
+	cbne	r8, r6, f2400
 	movq	=0x0, r1
 	movq	=0x3fc00000, r2
 	movq	=0x3f800000, r3
@@ -16905,11 +14505,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f2401
+	cbne	r5, r6, f2401
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2402
+	cbne	r8, r6, f2402
 	movq	=0x0, r1
 	movq	=0x3fc00000, r2
 	movq	=0x3f800000, r3
@@ -16920,11 +14518,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f2403
+	cbne	r5, r6, f2403
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2404
+	cbne	r8, r6, f2404
 	movq	=0x0, r1
 	movq	=0x3fc00000, r2
 	movq	=0xffffffffbf800000, r3
@@ -16935,11 +14531,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
-	cmp	r5, r6
-	bne	f2405
+	cbne	r5, r6, f2405
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2406
+	cbne	r8, r6, f2406
 	movq	=0x0, r1
 	movq	=0x3fc00000, r2
 	movq	=0xffffffffbf800000, r3
@@ -16950,11 +14544,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
-	cmp	r5, r6
-	bne	f2407
+	cbne	r5, r6, f2407
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2408
+	cbne	r8, r6, f2408
 	movq	=0x0, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40000000, r3
@@ -16965,11 +14557,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
-	cmp	r5, r6
-	bne	f2409
+	cbne	r5, r6, f2409
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2410
+	cbne	r8, r6, f2410
 	movq	=0x0, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40000000, r3
@@ -16980,11 +14570,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
-	cmp	r5, r6
-	bne	f2411
+	cbne	r5, r6, f2411
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2412
+	cbne	r8, r6, f2412
 	movq	=0x0, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40400000, r3
@@ -16995,11 +14583,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
-	cmp	r5, r6
-	bne	f2413
+	cbne	r5, r6, f2413
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2414
+	cbne	r8, r6, f2414
 	movq	=0x0, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40400000, r3
@@ -17010,11 +14596,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
-	cmp	r5, r6
-	bne	f2415
+	cbne	r5, r6, f2415
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2416
+	cbne	r8, r6, f2416
 	movq	=0x0, r1
 	movq	=0x3fc00000, r2
 	movq	=0x3fc00000, r3
@@ -17025,11 +14609,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f2417
+	cbne	r5, r6, f2417
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2418
+	cbne	r8, r6, f2418
 	movq	=0x0, r1
 	movq	=0x3fc00000, r2
 	movq	=0x3fc00000, r3
@@ -17040,11 +14622,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f2419
+	cbne	r5, r6, f2419
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2420
+	cbne	r8, r6, f2420
 	movq	=0x0, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40200000, r3
@@ -17055,11 +14635,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
-	cmp	r5, r6
-	bne	f2421
+	cbne	r5, r6, f2421
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2422
+	cbne	r8, r6, f2422
 	movq	=0x0, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40200000, r3
@@ -17070,11 +14648,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
-	cmp	r5, r6
-	bne	f2423
+	cbne	r5, r6, f2423
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2424
+	cbne	r8, r6, f2424
 	movq	=0x0, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40700000, r3
@@ -17085,11 +14661,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
-	cmp	r5, r6
-	bne	f2425
+	cbne	r5, r6, f2425
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2426
+	cbne	r8, r6, f2426
 	movq	=0x0, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40700000, r3
@@ -17100,11 +14674,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
-	cmp	r5, r6
-	bne	f2427
+	cbne	r5, r6, f2427
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2428
+	cbne	r8, r6, f2428
 	movq	=0x0, r1
 	movq	=0x3fc00000, r2
 	movq	=0xffffffffc0700000, r3
@@ -17115,11 +14687,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40700000, r6
-	cmp	r5, r6
-	bne	f2429
+	cbne	r5, r6, f2429
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2430
+	cbne	r8, r6, f2430
 	movq	=0x0, r1
 	movq	=0x3fc00000, r2
 	movq	=0xffffffffc0700000, r3
@@ -17130,11 +14700,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40700000, r6
-	cmp	r5, r6
-	bne	f2431
+	cbne	r5, r6, f2431
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2432
+	cbne	r8, r6, f2432
 	movq	=0x0, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40f00000, r3
@@ -17145,11 +14713,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
-	cmp	r5, r6
-	bne	f2433
+	cbne	r5, r6, f2433
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2434
+	cbne	r8, r6, f2434
 	movq	=0x0, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40f00000, r3
@@ -17160,11 +14726,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
-	cmp	r5, r6
-	bne	f2435
+	cbne	r5, r6, f2435
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2436
+	cbne	r8, r6, f2436
 	movq	=0xffffffff80000000, r1
 	movq	=0x0, r2
 	movq	=0x0, r3
@@ -17175,11 +14739,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffff80000000, r6
-	cmp	r5, r6
-	bne	f2437
+	cbne	r5, r6, f2437
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2438
+	cbne	r8, r6, f2438
 	movq	=0xffffffff80000000, r1
 	movq	=0x0, r2
 	movq	=0x0, r3
@@ -17190,11 +14752,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f2439
+	cbne	r5, r6, f2439
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2440
+	cbne	r8, r6, f2440
 	movq	=0xffffffff80000000, r1
 	movq	=0x0, r2
 	movq	=0xffffffff80000000, r3
@@ -17205,11 +14765,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f2441
+	cbne	r5, r6, f2441
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2442
+	cbne	r8, r6, f2442
 	movq	=0xffffffff80000000, r1
 	movq	=0x0, r2
 	movq	=0xffffffff80000000, r3
@@ -17220,11 +14778,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f2443
+	cbne	r5, r6, f2443
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2444
+	cbne	r8, r6, f2444
 	movq	=0xffffffff80000000, r1
 	movq	=0x0, r2
 	movq	=0x3f800000, r3
@@ -17235,11 +14791,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f2445
+	cbne	r5, r6, f2445
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2446
+	cbne	r8, r6, f2446
 	movq	=0xffffffff80000000, r1
 	movq	=0x0, r2
 	movq	=0x3f800000, r3
@@ -17250,11 +14804,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f2447
+	cbne	r5, r6, f2447
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2448
+	cbne	r8, r6, f2448
 	movq	=0xffffffff80000000, r1
 	movq	=0x0, r2
 	movq	=0xffffffffbf800000, r3
@@ -17265,11 +14817,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
-	cmp	r5, r6
-	bne	f2449
+	cbne	r5, r6, f2449
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2450
+	cbne	r8, r6, f2450
 	movq	=0xffffffff80000000, r1
 	movq	=0x0, r2
 	movq	=0xffffffffbf800000, r3
@@ -17280,11 +14830,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
-	cmp	r5, r6
-	bne	f2451
+	cbne	r5, r6, f2451
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2452
+	cbne	r8, r6, f2452
 	movq	=0xffffffff80000000, r1
 	movq	=0x0, r2
 	movq	=0x40000000, r3
@@ -17295,11 +14843,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
-	cmp	r5, r6
-	bne	f2453
+	cbne	r5, r6, f2453
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2454
+	cbne	r8, r6, f2454
 	movq	=0xffffffff80000000, r1
 	movq	=0x0, r2
 	movq	=0x40000000, r3
@@ -17310,11 +14856,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
-	cmp	r5, r6
-	bne	f2455
+	cbne	r5, r6, f2455
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2456
+	cbne	r8, r6, f2456
 	movq	=0xffffffff80000000, r1
 	movq	=0x0, r2
 	movq	=0x40400000, r3
@@ -17325,11 +14869,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
-	cmp	r5, r6
-	bne	f2457
+	cbne	r5, r6, f2457
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2458
+	cbne	r8, r6, f2458
 	movq	=0xffffffff80000000, r1
 	movq	=0x0, r2
 	movq	=0x40400000, r3
@@ -17340,11 +14882,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
-	cmp	r5, r6
-	bne	f2459
+	cbne	r5, r6, f2459
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2460
+	cbne	r8, r6, f2460
 	movq	=0xffffffff80000000, r1
 	movq	=0x0, r2
 	movq	=0x3fc00000, r3
@@ -17355,11 +14895,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f2461
+	cbne	r5, r6, f2461
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2462
+	cbne	r8, r6, f2462
 	movq	=0xffffffff80000000, r1
 	movq	=0x0, r2
 	movq	=0x3fc00000, r3
@@ -17370,11 +14908,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f2463
+	cbne	r5, r6, f2463
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2464
+	cbne	r8, r6, f2464
 	movq	=0xffffffff80000000, r1
 	movq	=0x0, r2
 	movq	=0x40200000, r3
@@ -17385,11 +14921,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
-	cmp	r5, r6
-	bne	f2465
+	cbne	r5, r6, f2465
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2466
+	cbne	r8, r6, f2466
 	movq	=0xffffffff80000000, r1
 	movq	=0x0, r2
 	movq	=0x40200000, r3
@@ -17400,11 +14934,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
-	cmp	r5, r6
-	bne	f2467
+	cbne	r5, r6, f2467
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2468
+	cbne	r8, r6, f2468
 	movq	=0xffffffff80000000, r1
 	movq	=0x0, r2
 	movq	=0x40700000, r3
@@ -17415,11 +14947,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
-	cmp	r5, r6
-	bne	f2469
+	cbne	r5, r6, f2469
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2470
+	cbne	r8, r6, f2470
 	movq	=0xffffffff80000000, r1
 	movq	=0x0, r2
 	movq	=0x40700000, r3
@@ -17430,11 +14960,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
-	cmp	r5, r6
-	bne	f2471
+	cbne	r5, r6, f2471
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2472
+	cbne	r8, r6, f2472
 	movq	=0xffffffff80000000, r1
 	movq	=0x0, r2
 	movq	=0xffffffffc0700000, r3
@@ -17445,11 +14973,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40700000, r6
-	cmp	r5, r6
-	bne	f2473
+	cbne	r5, r6, f2473
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2474
+	cbne	r8, r6, f2474
 	movq	=0xffffffff80000000, r1
 	movq	=0x0, r2
 	movq	=0xffffffffc0700000, r3
@@ -17460,11 +14986,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40700000, r6
-	cmp	r5, r6
-	bne	f2475
+	cbne	r5, r6, f2475
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2476
+	cbne	r8, r6, f2476
 	movq	=0xffffffff80000000, r1
 	movq	=0x0, r2
 	movq	=0x40f00000, r3
@@ -17475,11 +14999,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
-	cmp	r5, r6
-	bne	f2477
+	cbne	r5, r6, f2477
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2478
+	cbne	r8, r6, f2478
 	movq	=0xffffffff80000000, r1
 	movq	=0x0, r2
 	movq	=0x40f00000, r3
@@ -17490,11 +15012,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
-	cmp	r5, r6
-	bne	f2479
+	cbne	r5, r6, f2479
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2480
+	cbne	r8, r6, f2480
 	movq	=0xffffffff80000000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x0, r3
@@ -17505,11 +15025,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f2481
+	cbne	r5, r6, f2481
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2482
+	cbne	r8, r6, f2482
 	movq	=0xffffffff80000000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x0, r3
@@ -17520,11 +15038,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffff80000000, r6
-	cmp	r5, r6
-	bne	f2483
+	cbne	r5, r6, f2483
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2484
+	cbne	r8, r6, f2484
 	movq	=0xffffffff80000000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0xffffffff80000000, r3
@@ -17535,11 +15051,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f2485
+	cbne	r5, r6, f2485
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2486
+	cbne	r8, r6, f2486
 	movq	=0xffffffff80000000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0xffffffff80000000, r3
@@ -17550,11 +15064,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f2487
+	cbne	r5, r6, f2487
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2488
+	cbne	r8, r6, f2488
 	movq	=0xffffffff80000000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x3f800000, r3
@@ -17565,11 +15077,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f2489
+	cbne	r5, r6, f2489
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2490
+	cbne	r8, r6, f2490
 	movq	=0xffffffff80000000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x3f800000, r3
@@ -17580,11 +15090,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f2491
+	cbne	r5, r6, f2491
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2492
+	cbne	r8, r6, f2492
 	movq	=0xffffffff80000000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0xffffffffbf800000, r3
@@ -17595,11 +15103,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
-	cmp	r5, r6
-	bne	f2493
+	cbne	r5, r6, f2493
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2494
+	cbne	r8, r6, f2494
 	movq	=0xffffffff80000000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0xffffffffbf800000, r3
@@ -17610,11 +15116,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
-	cmp	r5, r6
-	bne	f2495
+	cbne	r5, r6, f2495
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2496
+	cbne	r8, r6, f2496
 	movq	=0xffffffff80000000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40000000, r3
@@ -17625,11 +15129,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
-	cmp	r5, r6
-	bne	f2497
+	cbne	r5, r6, f2497
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2498
+	cbne	r8, r6, f2498
 	movq	=0xffffffff80000000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40000000, r3
@@ -17640,11 +15142,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
-	cmp	r5, r6
-	bne	f2499
+	cbne	r5, r6, f2499
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2500
+	cbne	r8, r6, f2500
 	movq	=0xffffffff80000000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40400000, r3
@@ -17655,11 +15155,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
-	cmp	r5, r6
-	bne	f2501
+	cbne	r5, r6, f2501
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2502
+	cbne	r8, r6, f2502
 	movq	=0xffffffff80000000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40400000, r3
@@ -17670,11 +15168,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
-	cmp	r5, r6
-	bne	f2503
+	cbne	r5, r6, f2503
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2504
+	cbne	r8, r6, f2504
 	movq	=0xffffffff80000000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x3fc00000, r3
@@ -17685,11 +15181,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f2505
+	cbne	r5, r6, f2505
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2506
+	cbne	r8, r6, f2506
 	movq	=0xffffffff80000000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x3fc00000, r3
@@ -17700,11 +15194,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f2507
+	cbne	r5, r6, f2507
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2508
+	cbne	r8, r6, f2508
 	movq	=0xffffffff80000000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40200000, r3
@@ -17715,11 +15207,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
-	cmp	r5, r6
-	bne	f2509
+	cbne	r5, r6, f2509
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2510
+	cbne	r8, r6, f2510
 	movq	=0xffffffff80000000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40200000, r3
@@ -17730,11 +15220,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
-	cmp	r5, r6
-	bne	f2511
+	cbne	r5, r6, f2511
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2512
+	cbne	r8, r6, f2512
 	movq	=0xffffffff80000000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40700000, r3
@@ -17745,11 +15233,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
-	cmp	r5, r6
-	bne	f2513
+	cbne	r5, r6, f2513
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2514
+	cbne	r8, r6, f2514
 	movq	=0xffffffff80000000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40700000, r3
@@ -17760,11 +15246,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
-	cmp	r5, r6
-	bne	f2515
+	cbne	r5, r6, f2515
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2516
+	cbne	r8, r6, f2516
 	movq	=0xffffffff80000000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0xffffffffc0700000, r3
@@ -17775,11 +15259,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40700000, r6
-	cmp	r5, r6
-	bne	f2517
+	cbne	r5, r6, f2517
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2518
+	cbne	r8, r6, f2518
 	movq	=0xffffffff80000000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0xffffffffc0700000, r3
@@ -17790,11 +15272,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40700000, r6
-	cmp	r5, r6
-	bne	f2519
+	cbne	r5, r6, f2519
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2520
+	cbne	r8, r6, f2520
 	movq	=0xffffffff80000000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40f00000, r3
@@ -17805,11 +15285,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
-	cmp	r5, r6
-	bne	f2521
+	cbne	r5, r6, f2521
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2522
+	cbne	r8, r6, f2522
 	movq	=0xffffffff80000000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40f00000, r3
@@ -17820,11 +15298,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
-	cmp	r5, r6
-	bne	f2523
+	cbne	r5, r6, f2523
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2524
+	cbne	r8, r6, f2524
 	movq	=0xffffffff80000000, r1
 	movq	=0x3f800000, r2
 	movq	=0x0, r3
@@ -17835,11 +15311,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffff80000000, r6
-	cmp	r5, r6
-	bne	f2525
+	cbne	r5, r6, f2525
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2526
+	cbne	r8, r6, f2526
 	movq	=0xffffffff80000000, r1
 	movq	=0x3f800000, r2
 	movq	=0x0, r3
@@ -17850,11 +15324,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f2527
+	cbne	r5, r6, f2527
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2528
+	cbne	r8, r6, f2528
 	movq	=0xffffffff80000000, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffff80000000, r3
@@ -17865,11 +15337,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f2529
+	cbne	r5, r6, f2529
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2530
+	cbne	r8, r6, f2530
 	movq	=0xffffffff80000000, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffff80000000, r3
@@ -17880,11 +15350,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f2531
+	cbne	r5, r6, f2531
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2532
+	cbne	r8, r6, f2532
 	movq	=0xffffffff80000000, r1
 	movq	=0x3f800000, r2
 	movq	=0x3f800000, r3
@@ -17895,11 +15363,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f2533
+	cbne	r5, r6, f2533
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2534
+	cbne	r8, r6, f2534
 	movq	=0xffffffff80000000, r1
 	movq	=0x3f800000, r2
 	movq	=0x3f800000, r3
@@ -17910,11 +15376,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f2535
+	cbne	r5, r6, f2535
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2536
+	cbne	r8, r6, f2536
 	movq	=0xffffffff80000000, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffffbf800000, r3
@@ -17925,11 +15389,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
-	cmp	r5, r6
-	bne	f2537
+	cbne	r5, r6, f2537
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2538
+	cbne	r8, r6, f2538
 	movq	=0xffffffff80000000, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffffbf800000, r3
@@ -17940,11 +15402,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
-	cmp	r5, r6
-	bne	f2539
+	cbne	r5, r6, f2539
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2540
+	cbne	r8, r6, f2540
 	movq	=0xffffffff80000000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40000000, r3
@@ -17955,11 +15415,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
-	cmp	r5, r6
-	bne	f2541
+	cbne	r5, r6, f2541
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2542
+	cbne	r8, r6, f2542
 	movq	=0xffffffff80000000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40000000, r3
@@ -17970,11 +15428,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
-	cmp	r5, r6
-	bne	f2543
+	cbne	r5, r6, f2543
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2544
+	cbne	r8, r6, f2544
 	movq	=0xffffffff80000000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40400000, r3
@@ -17985,11 +15441,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
-	cmp	r5, r6
-	bne	f2545
+	cbne	r5, r6, f2545
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2546
+	cbne	r8, r6, f2546
 	movq	=0xffffffff80000000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40400000, r3
@@ -18000,11 +15454,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
-	cmp	r5, r6
-	bne	f2547
+	cbne	r5, r6, f2547
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2548
+	cbne	r8, r6, f2548
 	movq	=0xffffffff80000000, r1
 	movq	=0x3f800000, r2
 	movq	=0x3fc00000, r3
@@ -18015,11 +15467,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f2549
+	cbne	r5, r6, f2549
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2550
+	cbne	r8, r6, f2550
 	movq	=0xffffffff80000000, r1
 	movq	=0x3f800000, r2
 	movq	=0x3fc00000, r3
@@ -18030,11 +15480,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f2551
+	cbne	r5, r6, f2551
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2552
+	cbne	r8, r6, f2552
 	movq	=0xffffffff80000000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40200000, r3
@@ -18045,11 +15493,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
-	cmp	r5, r6
-	bne	f2553
+	cbne	r5, r6, f2553
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2554
+	cbne	r8, r6, f2554
 	movq	=0xffffffff80000000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40200000, r3
@@ -18060,11 +15506,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
-	cmp	r5, r6
-	bne	f2555
+	cbne	r5, r6, f2555
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2556
+	cbne	r8, r6, f2556
 	movq	=0xffffffff80000000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40700000, r3
@@ -18075,11 +15519,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
-	cmp	r5, r6
-	bne	f2557
+	cbne	r5, r6, f2557
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2558
+	cbne	r8, r6, f2558
 	movq	=0xffffffff80000000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40700000, r3
@@ -18090,11 +15532,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
-	cmp	r5, r6
-	bne	f2559
+	cbne	r5, r6, f2559
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2560
+	cbne	r8, r6, f2560
 	movq	=0xffffffff80000000, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffffc0700000, r3
@@ -18105,11 +15545,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40700000, r6
-	cmp	r5, r6
-	bne	f2561
+	cbne	r5, r6, f2561
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2562
+	cbne	r8, r6, f2562
 	movq	=0xffffffff80000000, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffffc0700000, r3
@@ -18120,11 +15558,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40700000, r6
-	cmp	r5, r6
-	bne	f2563
+	cbne	r5, r6, f2563
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2564
+	cbne	r8, r6, f2564
 	movq	=0xffffffff80000000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40f00000, r3
@@ -18135,11 +15571,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
-	cmp	r5, r6
-	bne	f2565
+	cbne	r5, r6, f2565
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2566
+	cbne	r8, r6, f2566
 	movq	=0xffffffff80000000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40f00000, r3
@@ -18150,11 +15584,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
-	cmp	r5, r6
-	bne	f2567
+	cbne	r5, r6, f2567
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2568
+	cbne	r8, r6, f2568
 	movq	=0xffffffff80000000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x0, r3
@@ -18165,11 +15597,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f2569
+	cbne	r5, r6, f2569
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2570
+	cbne	r8, r6, f2570
 	movq	=0xffffffff80000000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x0, r3
@@ -18180,11 +15610,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffff80000000, r6
-	cmp	r5, r6
-	bne	f2571
+	cbne	r5, r6, f2571
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2572
+	cbne	r8, r6, f2572
 	movq	=0xffffffff80000000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0xffffffff80000000, r3
@@ -18195,11 +15623,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f2573
+	cbne	r5, r6, f2573
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2574
+	cbne	r8, r6, f2574
 	movq	=0xffffffff80000000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0xffffffff80000000, r3
@@ -18210,11 +15636,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f2575
+	cbne	r5, r6, f2575
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2576
+	cbne	r8, r6, f2576
 	movq	=0xffffffff80000000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x3f800000, r3
@@ -18225,11 +15649,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f2577
+	cbne	r5, r6, f2577
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2578
+	cbne	r8, r6, f2578
 	movq	=0xffffffff80000000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x3f800000, r3
@@ -18240,11 +15662,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f2579
+	cbne	r5, r6, f2579
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2580
+	cbne	r8, r6, f2580
 	movq	=0xffffffff80000000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0xffffffffbf800000, r3
@@ -18255,11 +15675,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
-	cmp	r5, r6
-	bne	f2581
+	cbne	r5, r6, f2581
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2582
+	cbne	r8, r6, f2582
 	movq	=0xffffffff80000000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0xffffffffbf800000, r3
@@ -18270,11 +15688,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
-	cmp	r5, r6
-	bne	f2583
+	cbne	r5, r6, f2583
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2584
+	cbne	r8, r6, f2584
 	movq	=0xffffffff80000000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40000000, r3
@@ -18285,11 +15701,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
-	cmp	r5, r6
-	bne	f2585
+	cbne	r5, r6, f2585
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2586
+	cbne	r8, r6, f2586
 	movq	=0xffffffff80000000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40000000, r3
@@ -18300,11 +15714,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
-	cmp	r5, r6
-	bne	f2587
+	cbne	r5, r6, f2587
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2588
+	cbne	r8, r6, f2588
 	movq	=0xffffffff80000000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40400000, r3
@@ -18315,11 +15727,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
-	cmp	r5, r6
-	bne	f2589
+	cbne	r5, r6, f2589
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2590
+	cbne	r8, r6, f2590
 	movq	=0xffffffff80000000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40400000, r3
@@ -18330,11 +15740,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
-	cmp	r5, r6
-	bne	f2591
+	cbne	r5, r6, f2591
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2592
+	cbne	r8, r6, f2592
 	movq	=0xffffffff80000000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x3fc00000, r3
@@ -18345,11 +15753,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f2593
+	cbne	r5, r6, f2593
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2594
+	cbne	r8, r6, f2594
 	movq	=0xffffffff80000000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x3fc00000, r3
@@ -18360,11 +15766,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f2595
+	cbne	r5, r6, f2595
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2596
+	cbne	r8, r6, f2596
 	movq	=0xffffffff80000000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40200000, r3
@@ -18375,11 +15779,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
-	cmp	r5, r6
-	bne	f2597
+	cbne	r5, r6, f2597
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2598
+	cbne	r8, r6, f2598
 	movq	=0xffffffff80000000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40200000, r3
@@ -18390,11 +15792,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
-	cmp	r5, r6
-	bne	f2599
+	cbne	r5, r6, f2599
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2600
+	cbne	r8, r6, f2600
 	movq	=0xffffffff80000000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40700000, r3
@@ -18405,11 +15805,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
-	cmp	r5, r6
-	bne	f2601
+	cbne	r5, r6, f2601
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2602
+	cbne	r8, r6, f2602
 	movq	=0xffffffff80000000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40700000, r3
@@ -18420,11 +15818,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
-	cmp	r5, r6
-	bne	f2603
+	cbne	r5, r6, f2603
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2604
+	cbne	r8, r6, f2604
 	movq	=0xffffffff80000000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0xffffffffc0700000, r3
@@ -18435,11 +15831,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40700000, r6
-	cmp	r5, r6
-	bne	f2605
+	cbne	r5, r6, f2605
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2606
+	cbne	r8, r6, f2606
 	movq	=0xffffffff80000000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0xffffffffc0700000, r3
@@ -18450,11 +15844,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40700000, r6
-	cmp	r5, r6
-	bne	f2607
+	cbne	r5, r6, f2607
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2608
+	cbne	r8, r6, f2608
 	movq	=0xffffffff80000000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40f00000, r3
@@ -18465,11 +15857,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
-	cmp	r5, r6
-	bne	f2609
+	cbne	r5, r6, f2609
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2610
+	cbne	r8, r6, f2610
 	movq	=0xffffffff80000000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40f00000, r3
@@ -18480,11 +15870,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
-	cmp	r5, r6
-	bne	f2611
+	cbne	r5, r6, f2611
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2612
+	cbne	r8, r6, f2612
 	movq	=0xffffffff80000000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x0, r3
@@ -18495,11 +15883,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffff80000000, r6
-	cmp	r5, r6
-	bne	f2613
+	cbne	r5, r6, f2613
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2614
+	cbne	r8, r6, f2614
 	movq	=0xffffffff80000000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x0, r3
@@ -18510,11 +15896,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f2615
+	cbne	r5, r6, f2615
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2616
+	cbne	r8, r6, f2616
 	movq	=0xffffffff80000000, r1
 	movq	=0x3fc00000, r2
 	movq	=0xffffffff80000000, r3
@@ -18525,11 +15909,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f2617
+	cbne	r5, r6, f2617
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2618
+	cbne	r8, r6, f2618
 	movq	=0xffffffff80000000, r1
 	movq	=0x3fc00000, r2
 	movq	=0xffffffff80000000, r3
@@ -18540,11 +15922,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f2619
+	cbne	r5, r6, f2619
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2620
+	cbne	r8, r6, f2620
 	movq	=0xffffffff80000000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x3f800000, r3
@@ -18555,11 +15935,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f2621
+	cbne	r5, r6, f2621
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2622
+	cbne	r8, r6, f2622
 	movq	=0xffffffff80000000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x3f800000, r3
@@ -18570,11 +15948,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f2623
+	cbne	r5, r6, f2623
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2624
+	cbne	r8, r6, f2624
 	movq	=0xffffffff80000000, r1
 	movq	=0x3fc00000, r2
 	movq	=0xffffffffbf800000, r3
@@ -18585,11 +15961,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
-	cmp	r5, r6
-	bne	f2625
+	cbne	r5, r6, f2625
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2626
+	cbne	r8, r6, f2626
 	movq	=0xffffffff80000000, r1
 	movq	=0x3fc00000, r2
 	movq	=0xffffffffbf800000, r3
@@ -18600,11 +15974,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
-	cmp	r5, r6
-	bne	f2627
+	cbne	r5, r6, f2627
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2628
+	cbne	r8, r6, f2628
 	movq	=0xffffffff80000000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40000000, r3
@@ -18615,11 +15987,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
-	cmp	r5, r6
-	bne	f2629
+	cbne	r5, r6, f2629
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2630
+	cbne	r8, r6, f2630
 	movq	=0xffffffff80000000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40000000, r3
@@ -18630,11 +16000,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
-	cmp	r5, r6
-	bne	f2631
+	cbne	r5, r6, f2631
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2632
+	cbne	r8, r6, f2632
 	movq	=0xffffffff80000000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40400000, r3
@@ -18645,11 +16013,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
-	cmp	r5, r6
-	bne	f2633
+	cbne	r5, r6, f2633
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2634
+	cbne	r8, r6, f2634
 	movq	=0xffffffff80000000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40400000, r3
@@ -18660,11 +16026,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
-	cmp	r5, r6
-	bne	f2635
+	cbne	r5, r6, f2635
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2636
+	cbne	r8, r6, f2636
 	movq	=0xffffffff80000000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x3fc00000, r3
@@ -18675,11 +16039,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f2637
+	cbne	r5, r6, f2637
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2638
+	cbne	r8, r6, f2638
 	movq	=0xffffffff80000000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x3fc00000, r3
@@ -18690,11 +16052,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f2639
+	cbne	r5, r6, f2639
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2640
+	cbne	r8, r6, f2640
 	movq	=0xffffffff80000000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40200000, r3
@@ -18705,11 +16065,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
-	cmp	r5, r6
-	bne	f2641
+	cbne	r5, r6, f2641
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2642
+	cbne	r8, r6, f2642
 	movq	=0xffffffff80000000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40200000, r3
@@ -18720,11 +16078,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
-	cmp	r5, r6
-	bne	f2643
+	cbne	r5, r6, f2643
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2644
+	cbne	r8, r6, f2644
 	movq	=0xffffffff80000000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40700000, r3
@@ -18735,11 +16091,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
-	cmp	r5, r6
-	bne	f2645
+	cbne	r5, r6, f2645
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2646
+	cbne	r8, r6, f2646
 	movq	=0xffffffff80000000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40700000, r3
@@ -18750,11 +16104,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
-	cmp	r5, r6
-	bne	f2647
+	cbne	r5, r6, f2647
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2648
+	cbne	r8, r6, f2648
 	movq	=0xffffffff80000000, r1
 	movq	=0x3fc00000, r2
 	movq	=0xffffffffc0700000, r3
@@ -18765,11 +16117,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40700000, r6
-	cmp	r5, r6
-	bne	f2649
+	cbne	r5, r6, f2649
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2650
+	cbne	r8, r6, f2650
 	movq	=0xffffffff80000000, r1
 	movq	=0x3fc00000, r2
 	movq	=0xffffffffc0700000, r3
@@ -18780,11 +16130,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40700000, r6
-	cmp	r5, r6
-	bne	f2651
+	cbne	r5, r6, f2651
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2652
+	cbne	r8, r6, f2652
 	movq	=0xffffffff80000000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40f00000, r3
@@ -18795,11 +16143,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
-	cmp	r5, r6
-	bne	f2653
+	cbne	r5, r6, f2653
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2654
+	cbne	r8, r6, f2654
 	movq	=0xffffffff80000000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40f00000, r3
@@ -18810,11 +16156,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
-	cmp	r5, r6
-	bne	f2655
+	cbne	r5, r6, f2655
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2656
+	cbne	r8, r6, f2656
 	movq	=0x3f800000, r1
 	movq	=0x0, r2
 	movq	=0x0, r3
@@ -18825,11 +16169,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f2657
+	cbne	r5, r6, f2657
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2658
+	cbne	r8, r6, f2658
 	movq	=0x3f800000, r1
 	movq	=0x0, r2
 	movq	=0x0, r3
@@ -18840,11 +16182,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffff80000000, r6
-	cmp	r5, r6
-	bne	f2659
+	cbne	r5, r6, f2659
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2660
+	cbne	r8, r6, f2660
 	movq	=0x3f800000, r1
 	movq	=0x0, r2
 	movq	=0xffffffff80000000, r3
@@ -18855,11 +16195,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f2661
+	cbne	r5, r6, f2661
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2662
+	cbne	r8, r6, f2662
 	movq	=0x3f800000, r1
 	movq	=0x0, r2
 	movq	=0xffffffff80000000, r3
@@ -18870,11 +16208,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f2663
+	cbne	r5, r6, f2663
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2664
+	cbne	r8, r6, f2664
 	movq	=0x3f800000, r1
 	movq	=0x0, r2
 	movq	=0x3f800000, r3
@@ -18885,11 +16221,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f2665
+	cbne	r5, r6, f2665
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2666
+	cbne	r8, r6, f2666
 	movq	=0x3f800000, r1
 	movq	=0x0, r2
 	movq	=0x3f800000, r3
@@ -18900,11 +16234,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f2667
+	cbne	r5, r6, f2667
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2668
+	cbne	r8, r6, f2668
 	movq	=0x3f800000, r1
 	movq	=0x0, r2
 	movq	=0xffffffffbf800000, r3
@@ -18915,11 +16247,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
-	cmp	r5, r6
-	bne	f2669
+	cbne	r5, r6, f2669
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2670
+	cbne	r8, r6, f2670
 	movq	=0x3f800000, r1
 	movq	=0x0, r2
 	movq	=0xffffffffbf800000, r3
@@ -18930,11 +16260,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
-	cmp	r5, r6
-	bne	f2671
+	cbne	r5, r6, f2671
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2672
+	cbne	r8, r6, f2672
 	movq	=0x3f800000, r1
 	movq	=0x0, r2
 	movq	=0x40000000, r3
@@ -18945,11 +16273,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
-	cmp	r5, r6
-	bne	f2673
+	cbne	r5, r6, f2673
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2674
+	cbne	r8, r6, f2674
 	movq	=0x3f800000, r1
 	movq	=0x0, r2
 	movq	=0x40000000, r3
@@ -18960,11 +16286,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
-	cmp	r5, r6
-	bne	f2675
+	cbne	r5, r6, f2675
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2676
+	cbne	r8, r6, f2676
 	movq	=0x3f800000, r1
 	movq	=0x0, r2
 	movq	=0x40400000, r3
@@ -18975,11 +16299,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
-	cmp	r5, r6
-	bne	f2677
+	cbne	r5, r6, f2677
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2678
+	cbne	r8, r6, f2678
 	movq	=0x3f800000, r1
 	movq	=0x0, r2
 	movq	=0x40400000, r3
@@ -18990,11 +16312,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
-	cmp	r5, r6
-	bne	f2679
+	cbne	r5, r6, f2679
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2680
+	cbne	r8, r6, f2680
 	movq	=0x3f800000, r1
 	movq	=0x0, r2
 	movq	=0x3fc00000, r3
@@ -19005,11 +16325,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f2681
+	cbne	r5, r6, f2681
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2682
+	cbne	r8, r6, f2682
 	movq	=0x3f800000, r1
 	movq	=0x0, r2
 	movq	=0x3fc00000, r3
@@ -19020,11 +16338,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f2683
+	cbne	r5, r6, f2683
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2684
+	cbne	r8, r6, f2684
 	movq	=0x3f800000, r1
 	movq	=0x0, r2
 	movq	=0x40200000, r3
@@ -19035,11 +16351,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
-	cmp	r5, r6
-	bne	f2685
+	cbne	r5, r6, f2685
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2686
+	cbne	r8, r6, f2686
 	movq	=0x3f800000, r1
 	movq	=0x0, r2
 	movq	=0x40200000, r3
@@ -19050,11 +16364,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
-	cmp	r5, r6
-	bne	f2687
+	cbne	r5, r6, f2687
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2688
+	cbne	r8, r6, f2688
 	movq	=0x3f800000, r1
 	movq	=0x0, r2
 	movq	=0x40700000, r3
@@ -19065,11 +16377,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
-	cmp	r5, r6
-	bne	f2689
+	cbne	r5, r6, f2689
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2690
+	cbne	r8, r6, f2690
 	movq	=0x3f800000, r1
 	movq	=0x0, r2
 	movq	=0x40700000, r3
@@ -19080,11 +16390,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
-	cmp	r5, r6
-	bne	f2691
+	cbne	r5, r6, f2691
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2692
+	cbne	r8, r6, f2692
 	movq	=0x3f800000, r1
 	movq	=0x0, r2
 	movq	=0xffffffffc0700000, r3
@@ -19095,11 +16403,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40700000, r6
-	cmp	r5, r6
-	bne	f2693
+	cbne	r5, r6, f2693
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2694
+	cbne	r8, r6, f2694
 	movq	=0x3f800000, r1
 	movq	=0x0, r2
 	movq	=0xffffffffc0700000, r3
@@ -19110,11 +16416,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40700000, r6
-	cmp	r5, r6
-	bne	f2695
+	cbne	r5, r6, f2695
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2696
+	cbne	r8, r6, f2696
 	movq	=0x3f800000, r1
 	movq	=0x0, r2
 	movq	=0x40f00000, r3
@@ -19125,11 +16429,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
-	cmp	r5, r6
-	bne	f2697
+	cbne	r5, r6, f2697
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2698
+	cbne	r8, r6, f2698
 	movq	=0x3f800000, r1
 	movq	=0x0, r2
 	movq	=0x40f00000, r3
@@ -19140,11 +16442,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
-	cmp	r5, r6
-	bne	f2699
+	cbne	r5, r6, f2699
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2700
+	cbne	r8, r6, f2700
 	movq	=0x3f800000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x0, r3
@@ -19155,11 +16455,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffff80000000, r6
-	cmp	r5, r6
-	bne	f2701
+	cbne	r5, r6, f2701
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2702
+	cbne	r8, r6, f2702
 	movq	=0x3f800000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x0, r3
@@ -19170,11 +16468,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f2703
+	cbne	r5, r6, f2703
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2704
+	cbne	r8, r6, f2704
 	movq	=0x3f800000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0xffffffff80000000, r3
@@ -19185,11 +16481,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f2705
+	cbne	r5, r6, f2705
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2706
+	cbne	r8, r6, f2706
 	movq	=0x3f800000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0xffffffff80000000, r3
@@ -19200,11 +16494,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f2707
+	cbne	r5, r6, f2707
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2708
+	cbne	r8, r6, f2708
 	movq	=0x3f800000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x3f800000, r3
@@ -19215,11 +16507,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f2709
+	cbne	r5, r6, f2709
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2710
+	cbne	r8, r6, f2710
 	movq	=0x3f800000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x3f800000, r3
@@ -19230,11 +16520,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f2711
+	cbne	r5, r6, f2711
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2712
+	cbne	r8, r6, f2712
 	movq	=0x3f800000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0xffffffffbf800000, r3
@@ -19245,11 +16533,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
-	cmp	r5, r6
-	bne	f2713
+	cbne	r5, r6, f2713
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2714
+	cbne	r8, r6, f2714
 	movq	=0x3f800000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0xffffffffbf800000, r3
@@ -19260,11 +16546,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
-	cmp	r5, r6
-	bne	f2715
+	cbne	r5, r6, f2715
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2716
+	cbne	r8, r6, f2716
 	movq	=0x3f800000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40000000, r3
@@ -19275,11 +16559,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
-	cmp	r5, r6
-	bne	f2717
+	cbne	r5, r6, f2717
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2718
+	cbne	r8, r6, f2718
 	movq	=0x3f800000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40000000, r3
@@ -19290,11 +16572,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
-	cmp	r5, r6
-	bne	f2719
+	cbne	r5, r6, f2719
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2720
+	cbne	r8, r6, f2720
 	movq	=0x3f800000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40400000, r3
@@ -19305,11 +16585,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
-	cmp	r5, r6
-	bne	f2721
+	cbne	r5, r6, f2721
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2722
+	cbne	r8, r6, f2722
 	movq	=0x3f800000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40400000, r3
@@ -19320,11 +16598,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
-	cmp	r5, r6
-	bne	f2723
+	cbne	r5, r6, f2723
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2724
+	cbne	r8, r6, f2724
 	movq	=0x3f800000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x3fc00000, r3
@@ -19335,11 +16611,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f2725
+	cbne	r5, r6, f2725
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2726
+	cbne	r8, r6, f2726
 	movq	=0x3f800000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x3fc00000, r3
@@ -19350,11 +16624,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f2727
+	cbne	r5, r6, f2727
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2728
+	cbne	r8, r6, f2728
 	movq	=0x3f800000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40200000, r3
@@ -19365,11 +16637,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
-	cmp	r5, r6
-	bne	f2729
+	cbne	r5, r6, f2729
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2730
+	cbne	r8, r6, f2730
 	movq	=0x3f800000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40200000, r3
@@ -19380,11 +16650,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
-	cmp	r5, r6
-	bne	f2731
+	cbne	r5, r6, f2731
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2732
+	cbne	r8, r6, f2732
 	movq	=0x3f800000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40700000, r3
@@ -19395,11 +16663,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
-	cmp	r5, r6
-	bne	f2733
+	cbne	r5, r6, f2733
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2734
+	cbne	r8, r6, f2734
 	movq	=0x3f800000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40700000, r3
@@ -19410,11 +16676,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
-	cmp	r5, r6
-	bne	f2735
+	cbne	r5, r6, f2735
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2736
+	cbne	r8, r6, f2736
 	movq	=0x3f800000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0xffffffffc0700000, r3
@@ -19425,11 +16689,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40700000, r6
-	cmp	r5, r6
-	bne	f2737
+	cbne	r5, r6, f2737
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2738
+	cbne	r8, r6, f2738
 	movq	=0x3f800000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0xffffffffc0700000, r3
@@ -19440,11 +16702,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40700000, r6
-	cmp	r5, r6
-	bne	f2739
+	cbne	r5, r6, f2739
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2740
+	cbne	r8, r6, f2740
 	movq	=0x3f800000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40f00000, r3
@@ -19455,11 +16715,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
-	cmp	r5, r6
-	bne	f2741
+	cbne	r5, r6, f2741
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2742
+	cbne	r8, r6, f2742
 	movq	=0x3f800000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40f00000, r3
@@ -19470,11 +16728,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
-	cmp	r5, r6
-	bne	f2743
+	cbne	r5, r6, f2743
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2744
+	cbne	r8, r6, f2744
 	movq	=0x3f800000, r1
 	movq	=0x3f800000, r2
 	movq	=0x0, r3
@@ -19485,11 +16741,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
-	cmp	r5, r6
-	bne	f2745
+	cbne	r5, r6, f2745
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2746
+	cbne	r8, r6, f2746
 	movq	=0x3f800000, r1
 	movq	=0x3f800000, r2
 	movq	=0x0, r3
@@ -19500,11 +16754,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f2747
+	cbne	r5, r6, f2747
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2748
+	cbne	r8, r6, f2748
 	movq	=0x3f800000, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffff80000000, r3
@@ -19515,11 +16767,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
-	cmp	r5, r6
-	bne	f2749
+	cbne	r5, r6, f2749
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2750
+	cbne	r8, r6, f2750
 	movq	=0x3f800000, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffff80000000, r3
@@ -19530,11 +16780,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f2751
+	cbne	r5, r6, f2751
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2752
+	cbne	r8, r6, f2752
 	movq	=0x3f800000, r1
 	movq	=0x3f800000, r2
 	movq	=0x3f800000, r3
@@ -19545,11 +16793,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f2753
+	cbne	r5, r6, f2753
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2754
+	cbne	r8, r6, f2754
 	movq	=0x3f800000, r1
 	movq	=0x3f800000, r2
 	movq	=0x3f800000, r3
@@ -19560,11 +16806,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
-	cmp	r5, r6
-	bne	f2755
+	cbne	r5, r6, f2755
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2756
+	cbne	r8, r6, f2756
 	movq	=0x3f800000, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffffbf800000, r3
@@ -19575,11 +16819,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40000000, r6
-	cmp	r5, r6
-	bne	f2757
+	cbne	r5, r6, f2757
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2758
+	cbne	r8, r6, f2758
 	movq	=0x3f800000, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffffbf800000, r3
@@ -19590,11 +16832,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f2759
+	cbne	r5, r6, f2759
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2760
+	cbne	r8, r6, f2760
 	movq	=0x3f800000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40000000, r3
@@ -19605,11 +16845,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f2761
+	cbne	r5, r6, f2761
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2762
+	cbne	r8, r6, f2762
 	movq	=0x3f800000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40000000, r3
@@ -19620,11 +16858,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
-	cmp	r5, r6
-	bne	f2763
+	cbne	r5, r6, f2763
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2764
+	cbne	r8, r6, f2764
 	movq	=0x3f800000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40400000, r3
@@ -19635,11 +16871,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
-	cmp	r5, r6
-	bne	f2765
+	cbne	r5, r6, f2765
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2766
+	cbne	r8, r6, f2766
 	movq	=0x3f800000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40400000, r3
@@ -19650,11 +16884,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0800000, r6
-	cmp	r5, r6
-	bne	f2767
+	cbne	r5, r6, f2767
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2768
+	cbne	r8, r6, f2768
 	movq	=0x3f800000, r1
 	movq	=0x3f800000, r2
 	movq	=0x3fc00000, r3
@@ -19665,11 +16897,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf000000, r6
-	cmp	r5, r6
-	bne	f2769
+	cbne	r5, r6, f2769
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2770
+	cbne	r8, r6, f2770
 	movq	=0x3f800000, r1
 	movq	=0x3f800000, r2
 	movq	=0x3fc00000, r3
@@ -19680,11 +16910,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
-	cmp	r5, r6
-	bne	f2771
+	cbne	r5, r6, f2771
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2772
+	cbne	r8, r6, f2772
 	movq	=0x3f800000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40200000, r3
@@ -19695,11 +16923,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f2773
+	cbne	r5, r6, f2773
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2774
+	cbne	r8, r6, f2774
 	movq	=0x3f800000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40200000, r3
@@ -19710,11 +16936,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0600000, r6
-	cmp	r5, r6
-	bne	f2775
+	cbne	r5, r6, f2775
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2776
+	cbne	r8, r6, f2776
 	movq	=0x3f800000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40700000, r3
@@ -19725,11 +16949,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0300000, r6
-	cmp	r5, r6
-	bne	f2777
+	cbne	r5, r6, f2777
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2778
+	cbne	r8, r6, f2778
 	movq	=0x3f800000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40700000, r3
@@ -19740,11 +16962,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0980000, r6
-	cmp	r5, r6
-	bne	f2779
+	cbne	r5, r6, f2779
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2780
+	cbne	r8, r6, f2780
 	movq	=0x3f800000, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffffc0700000, r3
@@ -19755,11 +16975,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40980000, r6
-	cmp	r5, r6
-	bne	f2781
+	cbne	r5, r6, f2781
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2782
+	cbne	r8, r6, f2782
 	movq	=0x3f800000, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffffc0700000, r3
@@ -19770,11 +16988,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40300000, r6
-	cmp	r5, r6
-	bne	f2783
+	cbne	r5, r6, f2783
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2784
+	cbne	r8, r6, f2784
 	movq	=0x3f800000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40f00000, r3
@@ -19785,11 +17001,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0d00000, r6
-	cmp	r5, r6
-	bne	f2785
+	cbne	r5, r6, f2785
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2786
+	cbne	r8, r6, f2786
 	movq	=0x3f800000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40f00000, r3
@@ -19800,11 +17014,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc1080000, r6
-	cmp	r5, r6
-	bne	f2787
+	cbne	r5, r6, f2787
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2788
+	cbne	r8, r6, f2788
 	movq	=0x3f800000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x0, r3
@@ -19815,11 +17027,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f2789
+	cbne	r5, r6, f2789
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2790
+	cbne	r8, r6, f2790
 	movq	=0x3f800000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x0, r3
@@ -19830,11 +17040,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
-	cmp	r5, r6
-	bne	f2791
+	cbne	r5, r6, f2791
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2792
+	cbne	r8, r6, f2792
 	movq	=0x3f800000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0xffffffff80000000, r3
@@ -19845,11 +17053,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f2793
+	cbne	r5, r6, f2793
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2794
+	cbne	r8, r6, f2794
 	movq	=0x3f800000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0xffffffff80000000, r3
@@ -19860,11 +17066,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
-	cmp	r5, r6
-	bne	f2795
+	cbne	r5, r6, f2795
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2796
+	cbne	r8, r6, f2796
 	movq	=0x3f800000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x3f800000, r3
@@ -19875,11 +17079,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
-	cmp	r5, r6
-	bne	f2797
+	cbne	r5, r6, f2797
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2798
+	cbne	r8, r6, f2798
 	movq	=0x3f800000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x3f800000, r3
@@ -19890,11 +17092,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f2799
+	cbne	r5, r6, f2799
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2800
+	cbne	r8, r6, f2800
 	movq	=0x3f800000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0xffffffffbf800000, r3
@@ -19905,11 +17105,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f2801
+	cbne	r5, r6, f2801
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2802
+	cbne	r8, r6, f2802
 	movq	=0x3f800000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0xffffffffbf800000, r3
@@ -19920,11 +17118,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40000000, r6
-	cmp	r5, r6
-	bne	f2803
+	cbne	r5, r6, f2803
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2804
+	cbne	r8, r6, f2804
 	movq	=0x3f800000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40000000, r3
@@ -19935,11 +17131,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
-	cmp	r5, r6
-	bne	f2805
+	cbne	r5, r6, f2805
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2806
+	cbne	r8, r6, f2806
 	movq	=0x3f800000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40000000, r3
@@ -19950,11 +17144,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f2807
+	cbne	r5, r6, f2807
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2808
+	cbne	r8, r6, f2808
 	movq	=0x3f800000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40400000, r3
@@ -19965,11 +17157,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0800000, r6
-	cmp	r5, r6
-	bne	f2809
+	cbne	r5, r6, f2809
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2810
+	cbne	r8, r6, f2810
 	movq	=0x3f800000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40400000, r3
@@ -19980,11 +17170,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
-	cmp	r5, r6
-	bne	f2811
+	cbne	r5, r6, f2811
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2812
+	cbne	r8, r6, f2812
 	movq	=0x3f800000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x3fc00000, r3
@@ -19995,11 +17183,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
-	cmp	r5, r6
-	bne	f2813
+	cbne	r5, r6, f2813
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2814
+	cbne	r8, r6, f2814
 	movq	=0x3f800000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x3fc00000, r3
@@ -20010,11 +17196,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf000000, r6
-	cmp	r5, r6
-	bne	f2815
+	cbne	r5, r6, f2815
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2816
+	cbne	r8, r6, f2816
 	movq	=0x3f800000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40200000, r3
@@ -20025,11 +17209,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0600000, r6
-	cmp	r5, r6
-	bne	f2817
+	cbne	r5, r6, f2817
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2818
+	cbne	r8, r6, f2818
 	movq	=0x3f800000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40200000, r3
@@ -20040,11 +17222,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f2819
+	cbne	r5, r6, f2819
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2820
+	cbne	r8, r6, f2820
 	movq	=0x3f800000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40700000, r3
@@ -20055,11 +17235,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0980000, r6
-	cmp	r5, r6
-	bne	f2821
+	cbne	r5, r6, f2821
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2822
+	cbne	r8, r6, f2822
 	movq	=0x3f800000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40700000, r3
@@ -20070,11 +17248,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0300000, r6
-	cmp	r5, r6
-	bne	f2823
+	cbne	r5, r6, f2823
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2824
+	cbne	r8, r6, f2824
 	movq	=0x3f800000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0xffffffffc0700000, r3
@@ -20085,11 +17261,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40300000, r6
-	cmp	r5, r6
-	bne	f2825
+	cbne	r5, r6, f2825
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2826
+	cbne	r8, r6, f2826
 	movq	=0x3f800000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0xffffffffc0700000, r3
@@ -20100,11 +17274,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40980000, r6
-	cmp	r5, r6
-	bne	f2827
+	cbne	r5, r6, f2827
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2828
+	cbne	r8, r6, f2828
 	movq	=0x3f800000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40f00000, r3
@@ -20115,11 +17287,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc1080000, r6
-	cmp	r5, r6
-	bne	f2829
+	cbne	r5, r6, f2829
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2830
+	cbne	r8, r6, f2830
 	movq	=0x3f800000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40f00000, r3
@@ -20130,11 +17300,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0d00000, r6
-	cmp	r5, r6
-	bne	f2831
+	cbne	r5, r6, f2831
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2832
+	cbne	r8, r6, f2832
 	movq	=0x3f800000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x0, r3
@@ -20145,11 +17313,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3fc00000, r6
-	cmp	r5, r6
-	bne	f2833
+	cbne	r5, r6, f2833
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2834
+	cbne	r8, r6, f2834
 	movq	=0x3f800000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x0, r3
@@ -20160,11 +17326,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f2835
+	cbne	r5, r6, f2835
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2836
+	cbne	r8, r6, f2836
 	movq	=0x3f800000, r1
 	movq	=0x3fc00000, r2
 	movq	=0xffffffff80000000, r3
@@ -20175,11 +17339,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3fc00000, r6
-	cmp	r5, r6
-	bne	f2837
+	cbne	r5, r6, f2837
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2838
+	cbne	r8, r6, f2838
 	movq	=0x3f800000, r1
 	movq	=0x3fc00000, r2
 	movq	=0xffffffff80000000, r3
@@ -20190,11 +17352,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f2839
+	cbne	r5, r6, f2839
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2840
+	cbne	r8, r6, f2840
 	movq	=0x3f800000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x3f800000, r3
@@ -20205,11 +17365,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f000000, r6
-	cmp	r5, r6
-	bne	f2841
+	cbne	r5, r6, f2841
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2842
+	cbne	r8, r6, f2842
 	movq	=0x3f800000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x3f800000, r3
@@ -20220,11 +17378,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
-	cmp	r5, r6
-	bne	f2843
+	cbne	r5, r6, f2843
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2844
+	cbne	r8, r6, f2844
 	movq	=0x3f800000, r1
 	movq	=0x3fc00000, r2
 	movq	=0xffffffffbf800000, r3
@@ -20235,11 +17391,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40200000, r6
-	cmp	r5, r6
-	bne	f2845
+	cbne	r5, r6, f2845
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2846
+	cbne	r8, r6, f2846
 	movq	=0x3f800000, r1
 	movq	=0x3fc00000, r2
 	movq	=0xffffffffbf800000, r3
@@ -20250,11 +17404,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf000000, r6
-	cmp	r5, r6
-	bne	f2847
+	cbne	r5, r6, f2847
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2848
+	cbne	r8, r6, f2848
 	movq	=0x3f800000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40000000, r3
@@ -20265,11 +17417,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf000000, r6
-	cmp	r5, r6
-	bne	f2849
+	cbne	r5, r6, f2849
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2850
+	cbne	r8, r6, f2850
 	movq	=0x3f800000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40000000, r3
@@ -20280,11 +17430,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0600000, r6
-	cmp	r5, r6
-	bne	f2851
+	cbne	r5, r6, f2851
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2852
+	cbne	r8, r6, f2852
 	movq	=0x3f800000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40400000, r3
@@ -20295,11 +17443,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f2853
+	cbne	r5, r6, f2853
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2854
+	cbne	r8, r6, f2854
 	movq	=0x3f800000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40400000, r3
@@ -20310,11 +17456,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0900000, r6
-	cmp	r5, r6
-	bne	f2855
+	cbne	r5, r6, f2855
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2856
+	cbne	r8, r6, f2856
 	movq	=0x3f800000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x3fc00000, r3
@@ -20325,11 +17469,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f2857
+	cbne	r5, r6, f2857
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2858
+	cbne	r8, r6, f2858
 	movq	=0x3f800000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x3fc00000, r3
@@ -20340,11 +17482,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
-	cmp	r5, r6
-	bne	f2859
+	cbne	r5, r6, f2859
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2860
+	cbne	r8, r6, f2860
 	movq	=0x3f800000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40200000, r3
@@ -20355,11 +17495,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f2861
+	cbne	r5, r6, f2861
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2862
+	cbne	r8, r6, f2862
 	movq	=0x3f800000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40200000, r3
@@ -20370,11 +17508,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0800000, r6
-	cmp	r5, r6
-	bne	f2863
+	cbne	r5, r6, f2863
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2864
+	cbne	r8, r6, f2864
 	movq	=0x3f800000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40700000, r3
@@ -20385,11 +17521,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0100000, r6
-	cmp	r5, r6
-	bne	f2865
+	cbne	r5, r6, f2865
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2866
+	cbne	r8, r6, f2866
 	movq	=0x3f800000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40700000, r3
@@ -20400,11 +17534,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0a80000, r6
-	cmp	r5, r6
-	bne	f2867
+	cbne	r5, r6, f2867
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2868
+	cbne	r8, r6, f2868
 	movq	=0x3f800000, r1
 	movq	=0x3fc00000, r2
 	movq	=0xffffffffc0700000, r3
@@ -20415,11 +17547,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40a80000, r6
-	cmp	r5, r6
-	bne	f2869
+	cbne	r5, r6, f2869
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2870
+	cbne	r8, r6, f2870
 	movq	=0x3f800000, r1
 	movq	=0x3fc00000, r2
 	movq	=0xffffffffc0700000, r3
@@ -20430,11 +17560,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40100000, r6
-	cmp	r5, r6
-	bne	f2871
+	cbne	r5, r6, f2871
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2872
+	cbne	r8, r6, f2872
 	movq	=0x3f800000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40f00000, r3
@@ -20445,11 +17573,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0c00000, r6
-	cmp	r5, r6
-	bne	f2873
+	cbne	r5, r6, f2873
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2874
+	cbne	r8, r6, f2874
 	movq	=0x3f800000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40f00000, r3
@@ -20460,11 +17586,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc1100000, r6
-	cmp	r5, r6
-	bne	f2875
+	cbne	r5, r6, f2875
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2876
+	cbne	r8, r6, f2876
 	movq	=0xffffffffbf800000, r1
 	movq	=0x0, r2
 	movq	=0x0, r3
@@ -20475,11 +17599,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffff80000000, r6
-	cmp	r5, r6
-	bne	f2877
+	cbne	r5, r6, f2877
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2878
+	cbne	r8, r6, f2878
 	movq	=0xffffffffbf800000, r1
 	movq	=0x0, r2
 	movq	=0x0, r3
@@ -20490,11 +17612,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f2879
+	cbne	r5, r6, f2879
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2880
+	cbne	r8, r6, f2880
 	movq	=0xffffffffbf800000, r1
 	movq	=0x0, r2
 	movq	=0xffffffff80000000, r3
@@ -20505,11 +17625,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f2881
+	cbne	r5, r6, f2881
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2882
+	cbne	r8, r6, f2882
 	movq	=0xffffffffbf800000, r1
 	movq	=0x0, r2
 	movq	=0xffffffff80000000, r3
@@ -20520,11 +17638,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f2883
+	cbne	r5, r6, f2883
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2884
+	cbne	r8, r6, f2884
 	movq	=0xffffffffbf800000, r1
 	movq	=0x0, r2
 	movq	=0x3f800000, r3
@@ -20535,11 +17651,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f2885
+	cbne	r5, r6, f2885
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2886
+	cbne	r8, r6, f2886
 	movq	=0xffffffffbf800000, r1
 	movq	=0x0, r2
 	movq	=0x3f800000, r3
@@ -20550,11 +17664,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f2887
+	cbne	r5, r6, f2887
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2888
+	cbne	r8, r6, f2888
 	movq	=0xffffffffbf800000, r1
 	movq	=0x0, r2
 	movq	=0xffffffffbf800000, r3
@@ -20565,11 +17677,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
-	cmp	r5, r6
-	bne	f2889
+	cbne	r5, r6, f2889
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2890
+	cbne	r8, r6, f2890
 	movq	=0xffffffffbf800000, r1
 	movq	=0x0, r2
 	movq	=0xffffffffbf800000, r3
@@ -20580,11 +17690,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
-	cmp	r5, r6
-	bne	f2891
+	cbne	r5, r6, f2891
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2892
+	cbne	r8, r6, f2892
 	movq	=0xffffffffbf800000, r1
 	movq	=0x0, r2
 	movq	=0x40000000, r3
@@ -20595,11 +17703,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
-	cmp	r5, r6
-	bne	f2893
+	cbne	r5, r6, f2893
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2894
+	cbne	r8, r6, f2894
 	movq	=0xffffffffbf800000, r1
 	movq	=0x0, r2
 	movq	=0x40000000, r3
@@ -20610,11 +17716,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
-	cmp	r5, r6
-	bne	f2895
+	cbne	r5, r6, f2895
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2896
+	cbne	r8, r6, f2896
 	movq	=0xffffffffbf800000, r1
 	movq	=0x0, r2
 	movq	=0x40400000, r3
@@ -20625,11 +17729,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
-	cmp	r5, r6
-	bne	f2897
+	cbne	r5, r6, f2897
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2898
+	cbne	r8, r6, f2898
 	movq	=0xffffffffbf800000, r1
 	movq	=0x0, r2
 	movq	=0x40400000, r3
@@ -20640,11 +17742,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
-	cmp	r5, r6
-	bne	f2899
+	cbne	r5, r6, f2899
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2900
+	cbne	r8, r6, f2900
 	movq	=0xffffffffbf800000, r1
 	movq	=0x0, r2
 	movq	=0x3fc00000, r3
@@ -20655,11 +17755,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f2901
+	cbne	r5, r6, f2901
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2902
+	cbne	r8, r6, f2902
 	movq	=0xffffffffbf800000, r1
 	movq	=0x0, r2
 	movq	=0x3fc00000, r3
@@ -20670,11 +17768,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f2903
+	cbne	r5, r6, f2903
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2904
+	cbne	r8, r6, f2904
 	movq	=0xffffffffbf800000, r1
 	movq	=0x0, r2
 	movq	=0x40200000, r3
@@ -20685,11 +17781,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
-	cmp	r5, r6
-	bne	f2905
+	cbne	r5, r6, f2905
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2906
+	cbne	r8, r6, f2906
 	movq	=0xffffffffbf800000, r1
 	movq	=0x0, r2
 	movq	=0x40200000, r3
@@ -20700,11 +17794,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
-	cmp	r5, r6
-	bne	f2907
+	cbne	r5, r6, f2907
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2908
+	cbne	r8, r6, f2908
 	movq	=0xffffffffbf800000, r1
 	movq	=0x0, r2
 	movq	=0x40700000, r3
@@ -20715,11 +17807,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
-	cmp	r5, r6
-	bne	f2909
+	cbne	r5, r6, f2909
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2910
+	cbne	r8, r6, f2910
 	movq	=0xffffffffbf800000, r1
 	movq	=0x0, r2
 	movq	=0x40700000, r3
@@ -20730,11 +17820,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
-	cmp	r5, r6
-	bne	f2911
+	cbne	r5, r6, f2911
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2912
+	cbne	r8, r6, f2912
 	movq	=0xffffffffbf800000, r1
 	movq	=0x0, r2
 	movq	=0xffffffffc0700000, r3
@@ -20745,11 +17833,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40700000, r6
-	cmp	r5, r6
-	bne	f2913
+	cbne	r5, r6, f2913
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2914
+	cbne	r8, r6, f2914
 	movq	=0xffffffffbf800000, r1
 	movq	=0x0, r2
 	movq	=0xffffffffc0700000, r3
@@ -20760,11 +17846,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40700000, r6
-	cmp	r5, r6
-	bne	f2915
+	cbne	r5, r6, f2915
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2916
+	cbne	r8, r6, f2916
 	movq	=0xffffffffbf800000, r1
 	movq	=0x0, r2
 	movq	=0x40f00000, r3
@@ -20775,11 +17859,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
-	cmp	r5, r6
-	bne	f2917
+	cbne	r5, r6, f2917
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2918
+	cbne	r8, r6, f2918
 	movq	=0xffffffffbf800000, r1
 	movq	=0x0, r2
 	movq	=0x40f00000, r3
@@ -20790,11 +17872,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
-	cmp	r5, r6
-	bne	f2919
+	cbne	r5, r6, f2919
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2920
+	cbne	r8, r6, f2920
 	movq	=0xffffffffbf800000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x0, r3
@@ -20805,11 +17885,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f2921
+	cbne	r5, r6, f2921
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2922
+	cbne	r8, r6, f2922
 	movq	=0xffffffffbf800000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x0, r3
@@ -20820,11 +17898,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffff80000000, r6
-	cmp	r5, r6
-	bne	f2923
+	cbne	r5, r6, f2923
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2924
+	cbne	r8, r6, f2924
 	movq	=0xffffffffbf800000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0xffffffff80000000, r3
@@ -20835,11 +17911,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f2925
+	cbne	r5, r6, f2925
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2926
+	cbne	r8, r6, f2926
 	movq	=0xffffffffbf800000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0xffffffff80000000, r3
@@ -20850,11 +17924,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f2927
+	cbne	r5, r6, f2927
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2928
+	cbne	r8, r6, f2928
 	movq	=0xffffffffbf800000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x3f800000, r3
@@ -20865,11 +17937,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f2929
+	cbne	r5, r6, f2929
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2930
+	cbne	r8, r6, f2930
 	movq	=0xffffffffbf800000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x3f800000, r3
@@ -20880,11 +17950,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f2931
+	cbne	r5, r6, f2931
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2932
+	cbne	r8, r6, f2932
 	movq	=0xffffffffbf800000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0xffffffffbf800000, r3
@@ -20895,11 +17963,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
-	cmp	r5, r6
-	bne	f2933
+	cbne	r5, r6, f2933
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2934
+	cbne	r8, r6, f2934
 	movq	=0xffffffffbf800000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0xffffffffbf800000, r3
@@ -20910,11 +17976,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
-	cmp	r5, r6
-	bne	f2935
+	cbne	r5, r6, f2935
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2936
+	cbne	r8, r6, f2936
 	movq	=0xffffffffbf800000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40000000, r3
@@ -20925,11 +17989,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
-	cmp	r5, r6
-	bne	f2937
+	cbne	r5, r6, f2937
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2938
+	cbne	r8, r6, f2938
 	movq	=0xffffffffbf800000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40000000, r3
@@ -20940,11 +18002,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
-	cmp	r5, r6
-	bne	f2939
+	cbne	r5, r6, f2939
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2940
+	cbne	r8, r6, f2940
 	movq	=0xffffffffbf800000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40400000, r3
@@ -20955,11 +18015,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
-	cmp	r5, r6
-	bne	f2941
+	cbne	r5, r6, f2941
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2942
+	cbne	r8, r6, f2942
 	movq	=0xffffffffbf800000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40400000, r3
@@ -20970,11 +18028,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
-	cmp	r5, r6
-	bne	f2943
+	cbne	r5, r6, f2943
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2944
+	cbne	r8, r6, f2944
 	movq	=0xffffffffbf800000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x3fc00000, r3
@@ -20985,11 +18041,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f2945
+	cbne	r5, r6, f2945
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2946
+	cbne	r8, r6, f2946
 	movq	=0xffffffffbf800000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x3fc00000, r3
@@ -21000,11 +18054,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f2947
+	cbne	r5, r6, f2947
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2948
+	cbne	r8, r6, f2948
 	movq	=0xffffffffbf800000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40200000, r3
@@ -21015,11 +18067,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
-	cmp	r5, r6
-	bne	f2949
+	cbne	r5, r6, f2949
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2950
+	cbne	r8, r6, f2950
 	movq	=0xffffffffbf800000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40200000, r3
@@ -21030,11 +18080,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
-	cmp	r5, r6
-	bne	f2951
+	cbne	r5, r6, f2951
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2952
+	cbne	r8, r6, f2952
 	movq	=0xffffffffbf800000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40700000, r3
@@ -21045,11 +18093,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
-	cmp	r5, r6
-	bne	f2953
+	cbne	r5, r6, f2953
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2954
+	cbne	r8, r6, f2954
 	movq	=0xffffffffbf800000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40700000, r3
@@ -21060,11 +18106,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
-	cmp	r5, r6
-	bne	f2955
+	cbne	r5, r6, f2955
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2956
+	cbne	r8, r6, f2956
 	movq	=0xffffffffbf800000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0xffffffffc0700000, r3
@@ -21075,11 +18119,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40700000, r6
-	cmp	r5, r6
-	bne	f2957
+	cbne	r5, r6, f2957
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2958
+	cbne	r8, r6, f2958
 	movq	=0xffffffffbf800000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0xffffffffc0700000, r3
@@ -21090,11 +18132,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40700000, r6
-	cmp	r5, r6
-	bne	f2959
+	cbne	r5, r6, f2959
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2960
+	cbne	r8, r6, f2960
 	movq	=0xffffffffbf800000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40f00000, r3
@@ -21105,11 +18145,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
-	cmp	r5, r6
-	bne	f2961
+	cbne	r5, r6, f2961
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2962
+	cbne	r8, r6, f2962
 	movq	=0xffffffffbf800000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40f00000, r3
@@ -21120,11 +18158,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
-	cmp	r5, r6
-	bne	f2963
+	cbne	r5, r6, f2963
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2964
+	cbne	r8, r6, f2964
 	movq	=0xffffffffbf800000, r1
 	movq	=0x3f800000, r2
 	movq	=0x0, r3
@@ -21135,11 +18171,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f2965
+	cbne	r5, r6, f2965
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2966
+	cbne	r8, r6, f2966
 	movq	=0xffffffffbf800000, r1
 	movq	=0x3f800000, r2
 	movq	=0x0, r3
@@ -21150,11 +18184,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
-	cmp	r5, r6
-	bne	f2967
+	cbne	r5, r6, f2967
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2968
+	cbne	r8, r6, f2968
 	movq	=0xffffffffbf800000, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffff80000000, r3
@@ -21165,11 +18197,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f2969
+	cbne	r5, r6, f2969
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2970
+	cbne	r8, r6, f2970
 	movq	=0xffffffffbf800000, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffff80000000, r3
@@ -21180,11 +18210,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
-	cmp	r5, r6
-	bne	f2971
+	cbne	r5, r6, f2971
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2972
+	cbne	r8, r6, f2972
 	movq	=0xffffffffbf800000, r1
 	movq	=0x3f800000, r2
 	movq	=0x3f800000, r3
@@ -21195,11 +18223,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
-	cmp	r5, r6
-	bne	f2973
+	cbne	r5, r6, f2973
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2974
+	cbne	r8, r6, f2974
 	movq	=0xffffffffbf800000, r1
 	movq	=0x3f800000, r2
 	movq	=0x3f800000, r3
@@ -21210,11 +18236,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f2975
+	cbne	r5, r6, f2975
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2976
+	cbne	r8, r6, f2976
 	movq	=0xffffffffbf800000, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffffbf800000, r3
@@ -21225,11 +18249,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f2977
+	cbne	r5, r6, f2977
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2978
+	cbne	r8, r6, f2978
 	movq	=0xffffffffbf800000, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffffbf800000, r3
@@ -21240,11 +18262,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40000000, r6
-	cmp	r5, r6
-	bne	f2979
+	cbne	r5, r6, f2979
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2980
+	cbne	r8, r6, f2980
 	movq	=0xffffffffbf800000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40000000, r3
@@ -21255,11 +18275,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
-	cmp	r5, r6
-	bne	f2981
+	cbne	r5, r6, f2981
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2982
+	cbne	r8, r6, f2982
 	movq	=0xffffffffbf800000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40000000, r3
@@ -21270,11 +18288,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f2983
+	cbne	r5, r6, f2983
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2984
+	cbne	r8, r6, f2984
 	movq	=0xffffffffbf800000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40400000, r3
@@ -21285,11 +18301,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0800000, r6
-	cmp	r5, r6
-	bne	f2985
+	cbne	r5, r6, f2985
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2986
+	cbne	r8, r6, f2986
 	movq	=0xffffffffbf800000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40400000, r3
@@ -21300,11 +18314,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
-	cmp	r5, r6
-	bne	f2987
+	cbne	r5, r6, f2987
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2988
+	cbne	r8, r6, f2988
 	movq	=0xffffffffbf800000, r1
 	movq	=0x3f800000, r2
 	movq	=0x3fc00000, r3
@@ -21315,11 +18327,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
-	cmp	r5, r6
-	bne	f2989
+	cbne	r5, r6, f2989
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2990
+	cbne	r8, r6, f2990
 	movq	=0xffffffffbf800000, r1
 	movq	=0x3f800000, r2
 	movq	=0x3fc00000, r3
@@ -21330,11 +18340,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf000000, r6
-	cmp	r5, r6
-	bne	f2991
+	cbne	r5, r6, f2991
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2992
+	cbne	r8, r6, f2992
 	movq	=0xffffffffbf800000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40200000, r3
@@ -21345,11 +18353,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0600000, r6
-	cmp	r5, r6
-	bne	f2993
+	cbne	r5, r6, f2993
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2994
+	cbne	r8, r6, f2994
 	movq	=0xffffffffbf800000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40200000, r3
@@ -21360,11 +18366,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f2995
+	cbne	r5, r6, f2995
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2996
+	cbne	r8, r6, f2996
 	movq	=0xffffffffbf800000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40700000, r3
@@ -21375,11 +18379,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0980000, r6
-	cmp	r5, r6
-	bne	f2997
+	cbne	r5, r6, f2997
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f2998
+	cbne	r8, r6, f2998
 	movq	=0xffffffffbf800000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40700000, r3
@@ -21390,11 +18392,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0300000, r6
-	cmp	r5, r6
-	bne	f2999
+	cbne	r5, r6, f2999
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3000
+	cbne	r8, r6, f3000
 	movq	=0xffffffffbf800000, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffffc0700000, r3
@@ -21405,11 +18405,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40300000, r6
-	cmp	r5, r6
-	bne	f3001
+	cbne	r5, r6, f3001
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3002
+	cbne	r8, r6, f3002
 	movq	=0xffffffffbf800000, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffffc0700000, r3
@@ -21420,11 +18418,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40980000, r6
-	cmp	r5, r6
-	bne	f3003
+	cbne	r5, r6, f3003
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3004
+	cbne	r8, r6, f3004
 	movq	=0xffffffffbf800000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40f00000, r3
@@ -21435,11 +18431,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc1080000, r6
-	cmp	r5, r6
-	bne	f3005
+	cbne	r5, r6, f3005
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3006
+	cbne	r8, r6, f3006
 	movq	=0xffffffffbf800000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40f00000, r3
@@ -21450,11 +18444,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0d00000, r6
-	cmp	r5, r6
-	bne	f3007
+	cbne	r5, r6, f3007
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3008
+	cbne	r8, r6, f3008
 	movq	=0xffffffffbf800000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x0, r3
@@ -21465,11 +18457,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
-	cmp	r5, r6
-	bne	f3009
+	cbne	r5, r6, f3009
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3010
+	cbne	r8, r6, f3010
 	movq	=0xffffffffbf800000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x0, r3
@@ -21480,11 +18470,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f3011
+	cbne	r5, r6, f3011
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3012
+	cbne	r8, r6, f3012
 	movq	=0xffffffffbf800000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0xffffffff80000000, r3
@@ -21495,11 +18483,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
-	cmp	r5, r6
-	bne	f3013
+	cbne	r5, r6, f3013
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3014
+	cbne	r8, r6, f3014
 	movq	=0xffffffffbf800000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0xffffffff80000000, r3
@@ -21510,11 +18496,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f3015
+	cbne	r5, r6, f3015
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3016
+	cbne	r8, r6, f3016
 	movq	=0xffffffffbf800000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x3f800000, r3
@@ -21525,11 +18509,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f3017
+	cbne	r5, r6, f3017
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3018
+	cbne	r8, r6, f3018
 	movq	=0xffffffffbf800000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x3f800000, r3
@@ -21540,11 +18522,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
-	cmp	r5, r6
-	bne	f3019
+	cbne	r5, r6, f3019
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3020
+	cbne	r8, r6, f3020
 	movq	=0xffffffffbf800000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0xffffffffbf800000, r3
@@ -21555,11 +18535,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40000000, r6
-	cmp	r5, r6
-	bne	f3021
+	cbne	r5, r6, f3021
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3022
+	cbne	r8, r6, f3022
 	movq	=0xffffffffbf800000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0xffffffffbf800000, r3
@@ -21570,11 +18548,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f3023
+	cbne	r5, r6, f3023
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3024
+	cbne	r8, r6, f3024
 	movq	=0xffffffffbf800000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40000000, r3
@@ -21585,11 +18561,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f3025
+	cbne	r5, r6, f3025
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3026
+	cbne	r8, r6, f3026
 	movq	=0xffffffffbf800000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40000000, r3
@@ -21600,11 +18574,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
-	cmp	r5, r6
-	bne	f3027
+	cbne	r5, r6, f3027
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3028
+	cbne	r8, r6, f3028
 	movq	=0xffffffffbf800000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40400000, r3
@@ -21615,11 +18587,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
-	cmp	r5, r6
-	bne	f3029
+	cbne	r5, r6, f3029
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3030
+	cbne	r8, r6, f3030
 	movq	=0xffffffffbf800000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40400000, r3
@@ -21630,11 +18600,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0800000, r6
-	cmp	r5, r6
-	bne	f3031
+	cbne	r5, r6, f3031
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3032
+	cbne	r8, r6, f3032
 	movq	=0xffffffffbf800000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x3fc00000, r3
@@ -21645,11 +18613,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf000000, r6
-	cmp	r5, r6
-	bne	f3033
+	cbne	r5, r6, f3033
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3034
+	cbne	r8, r6, f3034
 	movq	=0xffffffffbf800000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x3fc00000, r3
@@ -21660,11 +18626,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
-	cmp	r5, r6
-	bne	f3035
+	cbne	r5, r6, f3035
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3036
+	cbne	r8, r6, f3036
 	movq	=0xffffffffbf800000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40200000, r3
@@ -21675,11 +18639,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f3037
+	cbne	r5, r6, f3037
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3038
+	cbne	r8, r6, f3038
 	movq	=0xffffffffbf800000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40200000, r3
@@ -21690,11 +18652,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0600000, r6
-	cmp	r5, r6
-	bne	f3039
+	cbne	r5, r6, f3039
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3040
+	cbne	r8, r6, f3040
 	movq	=0xffffffffbf800000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40700000, r3
@@ -21705,11 +18665,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0300000, r6
-	cmp	r5, r6
-	bne	f3041
+	cbne	r5, r6, f3041
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3042
+	cbne	r8, r6, f3042
 	movq	=0xffffffffbf800000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40700000, r3
@@ -21720,11 +18678,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0980000, r6
-	cmp	r5, r6
-	bne	f3043
+	cbne	r5, r6, f3043
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3044
+	cbne	r8, r6, f3044
 	movq	=0xffffffffbf800000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0xffffffffc0700000, r3
@@ -21735,11 +18691,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40980000, r6
-	cmp	r5, r6
-	bne	f3045
+	cbne	r5, r6, f3045
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3046
+	cbne	r8, r6, f3046
 	movq	=0xffffffffbf800000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0xffffffffc0700000, r3
@@ -21750,11 +18704,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40300000, r6
-	cmp	r5, r6
-	bne	f3047
+	cbne	r5, r6, f3047
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3048
+	cbne	r8, r6, f3048
 	movq	=0xffffffffbf800000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40f00000, r3
@@ -21765,11 +18717,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0d00000, r6
-	cmp	r5, r6
-	bne	f3049
+	cbne	r5, r6, f3049
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3050
+	cbne	r8, r6, f3050
 	movq	=0xffffffffbf800000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40f00000, r3
@@ -21780,11 +18730,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc1080000, r6
-	cmp	r5, r6
-	bne	f3051
+	cbne	r5, r6, f3051
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3052
+	cbne	r8, r6, f3052
 	movq	=0xffffffffbf800000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x0, r3
@@ -21795,11 +18743,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f3053
+	cbne	r5, r6, f3053
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3054
+	cbne	r8, r6, f3054
 	movq	=0xffffffffbf800000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x0, r3
@@ -21810,11 +18756,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3fc00000, r6
-	cmp	r5, r6
-	bne	f3055
+	cbne	r5, r6, f3055
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3056
+	cbne	r8, r6, f3056
 	movq	=0xffffffffbf800000, r1
 	movq	=0x3fc00000, r2
 	movq	=0xffffffff80000000, r3
@@ -21825,11 +18769,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f3057
+	cbne	r5, r6, f3057
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3058
+	cbne	r8, r6, f3058
 	movq	=0xffffffffbf800000, r1
 	movq	=0x3fc00000, r2
 	movq	=0xffffffff80000000, r3
@@ -21840,11 +18782,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3fc00000, r6
-	cmp	r5, r6
-	bne	f3059
+	cbne	r5, r6, f3059
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3060
+	cbne	r8, r6, f3060
 	movq	=0xffffffffbf800000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x3f800000, r3
@@ -21855,11 +18795,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
-	cmp	r5, r6
-	bne	f3061
+	cbne	r5, r6, f3061
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3062
+	cbne	r8, r6, f3062
 	movq	=0xffffffffbf800000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x3f800000, r3
@@ -21870,11 +18808,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f000000, r6
-	cmp	r5, r6
-	bne	f3063
+	cbne	r5, r6, f3063
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3064
+	cbne	r8, r6, f3064
 	movq	=0xffffffffbf800000, r1
 	movq	=0x3fc00000, r2
 	movq	=0xffffffffbf800000, r3
@@ -21885,11 +18821,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf000000, r6
-	cmp	r5, r6
-	bne	f3065
+	cbne	r5, r6, f3065
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3066
+	cbne	r8, r6, f3066
 	movq	=0xffffffffbf800000, r1
 	movq	=0x3fc00000, r2
 	movq	=0xffffffffbf800000, r3
@@ -21900,11 +18834,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40200000, r6
-	cmp	r5, r6
-	bne	f3067
+	cbne	r5, r6, f3067
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3068
+	cbne	r8, r6, f3068
 	movq	=0xffffffffbf800000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40000000, r3
@@ -21915,11 +18847,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0600000, r6
-	cmp	r5, r6
-	bne	f3069
+	cbne	r5, r6, f3069
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3070
+	cbne	r8, r6, f3070
 	movq	=0xffffffffbf800000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40000000, r3
@@ -21930,11 +18860,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf000000, r6
-	cmp	r5, r6
-	bne	f3071
+	cbne	r5, r6, f3071
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3072
+	cbne	r8, r6, f3072
 	movq	=0xffffffffbf800000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40400000, r3
@@ -21945,11 +18873,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0900000, r6
-	cmp	r5, r6
-	bne	f3073
+	cbne	r5, r6, f3073
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3074
+	cbne	r8, r6, f3074
 	movq	=0xffffffffbf800000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40400000, r3
@@ -21960,11 +18886,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f3075
+	cbne	r5, r6, f3075
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3076
+	cbne	r8, r6, f3076
 	movq	=0xffffffffbf800000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x3fc00000, r3
@@ -21975,11 +18899,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
-	cmp	r5, r6
-	bne	f3077
+	cbne	r5, r6, f3077
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3078
+	cbne	r8, r6, f3078
 	movq	=0xffffffffbf800000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x3fc00000, r3
@@ -21990,11 +18912,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f3079
+	cbne	r5, r6, f3079
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3080
+	cbne	r8, r6, f3080
 	movq	=0xffffffffbf800000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40200000, r3
@@ -22005,11 +18925,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0800000, r6
-	cmp	r5, r6
-	bne	f3081
+	cbne	r5, r6, f3081
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3082
+	cbne	r8, r6, f3082
 	movq	=0xffffffffbf800000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40200000, r3
@@ -22020,11 +18938,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f3083
+	cbne	r5, r6, f3083
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3084
+	cbne	r8, r6, f3084
 	movq	=0xffffffffbf800000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40700000, r3
@@ -22035,11 +18951,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0a80000, r6
-	cmp	r5, r6
-	bne	f3085
+	cbne	r5, r6, f3085
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3086
+	cbne	r8, r6, f3086
 	movq	=0xffffffffbf800000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40700000, r3
@@ -22050,11 +18964,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0100000, r6
-	cmp	r5, r6
-	bne	f3087
+	cbne	r5, r6, f3087
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3088
+	cbne	r8, r6, f3088
 	movq	=0xffffffffbf800000, r1
 	movq	=0x3fc00000, r2
 	movq	=0xffffffffc0700000, r3
@@ -22065,11 +18977,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40100000, r6
-	cmp	r5, r6
-	bne	f3089
+	cbne	r5, r6, f3089
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3090
+	cbne	r8, r6, f3090
 	movq	=0xffffffffbf800000, r1
 	movq	=0x3fc00000, r2
 	movq	=0xffffffffc0700000, r3
@@ -22080,11 +18990,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40a80000, r6
-	cmp	r5, r6
-	bne	f3091
+	cbne	r5, r6, f3091
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3092
+	cbne	r8, r6, f3092
 	movq	=0xffffffffbf800000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40f00000, r3
@@ -22095,11 +19003,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc1100000, r6
-	cmp	r5, r6
-	bne	f3093
+	cbne	r5, r6, f3093
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3094
+	cbne	r8, r6, f3094
 	movq	=0xffffffffbf800000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40f00000, r3
@@ -22110,11 +19016,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0c00000, r6
-	cmp	r5, r6
-	bne	f3095
+	cbne	r5, r6, f3095
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3096
+	cbne	r8, r6, f3096
 	movq	=0x40000000, r1
 	movq	=0x0, r2
 	movq	=0x0, r3
@@ -22125,11 +19029,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f3097
+	cbne	r5, r6, f3097
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3098
+	cbne	r8, r6, f3098
 	movq	=0x40000000, r1
 	movq	=0x0, r2
 	movq	=0x0, r3
@@ -22140,11 +19042,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffff80000000, r6
-	cmp	r5, r6
-	bne	f3099
+	cbne	r5, r6, f3099
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3100
+	cbne	r8, r6, f3100
 	movq	=0x40000000, r1
 	movq	=0x0, r2
 	movq	=0xffffffff80000000, r3
@@ -22155,11 +19055,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f3101
+	cbne	r5, r6, f3101
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3102
+	cbne	r8, r6, f3102
 	movq	=0x40000000, r1
 	movq	=0x0, r2
 	movq	=0xffffffff80000000, r3
@@ -22170,11 +19068,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f3103
+	cbne	r5, r6, f3103
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3104
+	cbne	r8, r6, f3104
 	movq	=0x40000000, r1
 	movq	=0x0, r2
 	movq	=0x3f800000, r3
@@ -22185,11 +19081,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f3105
+	cbne	r5, r6, f3105
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3106
+	cbne	r8, r6, f3106
 	movq	=0x40000000, r1
 	movq	=0x0, r2
 	movq	=0x3f800000, r3
@@ -22200,11 +19094,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f3107
+	cbne	r5, r6, f3107
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3108
+	cbne	r8, r6, f3108
 	movq	=0x40000000, r1
 	movq	=0x0, r2
 	movq	=0xffffffffbf800000, r3
@@ -22215,11 +19107,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
-	cmp	r5, r6
-	bne	f3109
+	cbne	r5, r6, f3109
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3110
+	cbne	r8, r6, f3110
 	movq	=0x40000000, r1
 	movq	=0x0, r2
 	movq	=0xffffffffbf800000, r3
@@ -22230,11 +19120,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
-	cmp	r5, r6
-	bne	f3111
+	cbne	r5, r6, f3111
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3112
+	cbne	r8, r6, f3112
 	movq	=0x40000000, r1
 	movq	=0x0, r2
 	movq	=0x40000000, r3
@@ -22245,11 +19133,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
-	cmp	r5, r6
-	bne	f3113
+	cbne	r5, r6, f3113
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3114
+	cbne	r8, r6, f3114
 	movq	=0x40000000, r1
 	movq	=0x0, r2
 	movq	=0x40000000, r3
@@ -22260,11 +19146,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
-	cmp	r5, r6
-	bne	f3115
+	cbne	r5, r6, f3115
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3116
+	cbne	r8, r6, f3116
 	movq	=0x40000000, r1
 	movq	=0x0, r2
 	movq	=0x40400000, r3
@@ -22275,11 +19159,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
-	cmp	r5, r6
-	bne	f3117
+	cbne	r5, r6, f3117
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3118
+	cbne	r8, r6, f3118
 	movq	=0x40000000, r1
 	movq	=0x0, r2
 	movq	=0x40400000, r3
@@ -22290,11 +19172,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
-	cmp	r5, r6
-	bne	f3119
+	cbne	r5, r6, f3119
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3120
+	cbne	r8, r6, f3120
 	movq	=0x40000000, r1
 	movq	=0x0, r2
 	movq	=0x3fc00000, r3
@@ -22305,11 +19185,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f3121
+	cbne	r5, r6, f3121
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3122
+	cbne	r8, r6, f3122
 	movq	=0x40000000, r1
 	movq	=0x0, r2
 	movq	=0x3fc00000, r3
@@ -22320,11 +19198,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f3123
+	cbne	r5, r6, f3123
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3124
+	cbne	r8, r6, f3124
 	movq	=0x40000000, r1
 	movq	=0x0, r2
 	movq	=0x40200000, r3
@@ -22335,11 +19211,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
-	cmp	r5, r6
-	bne	f3125
+	cbne	r5, r6, f3125
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3126
+	cbne	r8, r6, f3126
 	movq	=0x40000000, r1
 	movq	=0x0, r2
 	movq	=0x40200000, r3
@@ -22350,11 +19224,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
-	cmp	r5, r6
-	bne	f3127
+	cbne	r5, r6, f3127
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3128
+	cbne	r8, r6, f3128
 	movq	=0x40000000, r1
 	movq	=0x0, r2
 	movq	=0x40700000, r3
@@ -22365,11 +19237,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
-	cmp	r5, r6
-	bne	f3129
+	cbne	r5, r6, f3129
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3130
+	cbne	r8, r6, f3130
 	movq	=0x40000000, r1
 	movq	=0x0, r2
 	movq	=0x40700000, r3
@@ -22380,11 +19250,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
-	cmp	r5, r6
-	bne	f3131
+	cbne	r5, r6, f3131
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3132
+	cbne	r8, r6, f3132
 	movq	=0x40000000, r1
 	movq	=0x0, r2
 	movq	=0xffffffffc0700000, r3
@@ -22395,11 +19263,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40700000, r6
-	cmp	r5, r6
-	bne	f3133
+	cbne	r5, r6, f3133
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3134
+	cbne	r8, r6, f3134
 	movq	=0x40000000, r1
 	movq	=0x0, r2
 	movq	=0xffffffffc0700000, r3
@@ -22410,11 +19276,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40700000, r6
-	cmp	r5, r6
-	bne	f3135
+	cbne	r5, r6, f3135
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3136
+	cbne	r8, r6, f3136
 	movq	=0x40000000, r1
 	movq	=0x0, r2
 	movq	=0x40f00000, r3
@@ -22425,11 +19289,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
-	cmp	r5, r6
-	bne	f3137
+	cbne	r5, r6, f3137
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3138
+	cbne	r8, r6, f3138
 	movq	=0x40000000, r1
 	movq	=0x0, r2
 	movq	=0x40f00000, r3
@@ -22440,11 +19302,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
-	cmp	r5, r6
-	bne	f3139
+	cbne	r5, r6, f3139
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3140
+	cbne	r8, r6, f3140
 	movq	=0x40000000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x0, r3
@@ -22455,11 +19315,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffff80000000, r6
-	cmp	r5, r6
-	bne	f3141
+	cbne	r5, r6, f3141
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3142
+	cbne	r8, r6, f3142
 	movq	=0x40000000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x0, r3
@@ -22470,11 +19328,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f3143
+	cbne	r5, r6, f3143
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3144
+	cbne	r8, r6, f3144
 	movq	=0x40000000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0xffffffff80000000, r3
@@ -22485,11 +19341,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f3145
+	cbne	r5, r6, f3145
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3146
+	cbne	r8, r6, f3146
 	movq	=0x40000000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0xffffffff80000000, r3
@@ -22500,11 +19354,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f3147
+	cbne	r5, r6, f3147
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3148
+	cbne	r8, r6, f3148
 	movq	=0x40000000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x3f800000, r3
@@ -22515,11 +19367,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f3149
+	cbne	r5, r6, f3149
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3150
+	cbne	r8, r6, f3150
 	movq	=0x40000000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x3f800000, r3
@@ -22530,11 +19380,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f3151
+	cbne	r5, r6, f3151
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3152
+	cbne	r8, r6, f3152
 	movq	=0x40000000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0xffffffffbf800000, r3
@@ -22545,11 +19393,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
-	cmp	r5, r6
-	bne	f3153
+	cbne	r5, r6, f3153
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3154
+	cbne	r8, r6, f3154
 	movq	=0x40000000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0xffffffffbf800000, r3
@@ -22560,11 +19406,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
-	cmp	r5, r6
-	bne	f3155
+	cbne	r5, r6, f3155
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3156
+	cbne	r8, r6, f3156
 	movq	=0x40000000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40000000, r3
@@ -22575,11 +19419,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
-	cmp	r5, r6
-	bne	f3157
+	cbne	r5, r6, f3157
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3158
+	cbne	r8, r6, f3158
 	movq	=0x40000000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40000000, r3
@@ -22590,11 +19432,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
-	cmp	r5, r6
-	bne	f3159
+	cbne	r5, r6, f3159
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3160
+	cbne	r8, r6, f3160
 	movq	=0x40000000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40400000, r3
@@ -22605,11 +19445,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
-	cmp	r5, r6
-	bne	f3161
+	cbne	r5, r6, f3161
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3162
+	cbne	r8, r6, f3162
 	movq	=0x40000000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40400000, r3
@@ -22620,11 +19458,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
-	cmp	r5, r6
-	bne	f3163
+	cbne	r5, r6, f3163
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3164
+	cbne	r8, r6, f3164
 	movq	=0x40000000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x3fc00000, r3
@@ -22635,11 +19471,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f3165
+	cbne	r5, r6, f3165
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3166
+	cbne	r8, r6, f3166
 	movq	=0x40000000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x3fc00000, r3
@@ -22650,11 +19484,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f3167
+	cbne	r5, r6, f3167
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3168
+	cbne	r8, r6, f3168
 	movq	=0x40000000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40200000, r3
@@ -22665,11 +19497,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
-	cmp	r5, r6
-	bne	f3169
+	cbne	r5, r6, f3169
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3170
+	cbne	r8, r6, f3170
 	movq	=0x40000000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40200000, r3
@@ -22680,11 +19510,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
-	cmp	r5, r6
-	bne	f3171
+	cbne	r5, r6, f3171
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3172
+	cbne	r8, r6, f3172
 	movq	=0x40000000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40700000, r3
@@ -22695,11 +19523,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
-	cmp	r5, r6
-	bne	f3173
+	cbne	r5, r6, f3173
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3174
+	cbne	r8, r6, f3174
 	movq	=0x40000000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40700000, r3
@@ -22710,11 +19536,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
-	cmp	r5, r6
-	bne	f3175
+	cbne	r5, r6, f3175
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3176
+	cbne	r8, r6, f3176
 	movq	=0x40000000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0xffffffffc0700000, r3
@@ -22725,11 +19549,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40700000, r6
-	cmp	r5, r6
-	bne	f3177
+	cbne	r5, r6, f3177
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3178
+	cbne	r8, r6, f3178
 	movq	=0x40000000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0xffffffffc0700000, r3
@@ -22740,11 +19562,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40700000, r6
-	cmp	r5, r6
-	bne	f3179
+	cbne	r5, r6, f3179
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3180
+	cbne	r8, r6, f3180
 	movq	=0x40000000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40f00000, r3
@@ -22755,11 +19575,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
-	cmp	r5, r6
-	bne	f3181
+	cbne	r5, r6, f3181
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3182
+	cbne	r8, r6, f3182
 	movq	=0x40000000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40f00000, r3
@@ -22770,11 +19588,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
-	cmp	r5, r6
-	bne	f3183
+	cbne	r5, r6, f3183
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3184
+	cbne	r8, r6, f3184
 	movq	=0x40000000, r1
 	movq	=0x3f800000, r2
 	movq	=0x0, r3
@@ -22785,11 +19601,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40000000, r6
-	cmp	r5, r6
-	bne	f3185
+	cbne	r5, r6, f3185
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3186
+	cbne	r8, r6, f3186
 	movq	=0x40000000, r1
 	movq	=0x3f800000, r2
 	movq	=0x0, r3
@@ -22800,11 +19614,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
-	cmp	r5, r6
-	bne	f3187
+	cbne	r5, r6, f3187
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3188
+	cbne	r8, r6, f3188
 	movq	=0x40000000, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffff80000000, r3
@@ -22815,11 +19627,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40000000, r6
-	cmp	r5, r6
-	bne	f3189
+	cbne	r5, r6, f3189
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3190
+	cbne	r8, r6, f3190
 	movq	=0x40000000, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffff80000000, r3
@@ -22830,11 +19640,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
-	cmp	r5, r6
-	bne	f3191
+	cbne	r5, r6, f3191
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3192
+	cbne	r8, r6, f3192
 	movq	=0x40000000, r1
 	movq	=0x3f800000, r2
 	movq	=0x3f800000, r3
@@ -22845,11 +19653,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
-	cmp	r5, r6
-	bne	f3193
+	cbne	r5, r6, f3193
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3194
+	cbne	r8, r6, f3194
 	movq	=0x40000000, r1
 	movq	=0x3f800000, r2
 	movq	=0x3f800000, r3
@@ -22860,11 +19666,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
-	cmp	r5, r6
-	bne	f3195
+	cbne	r5, r6, f3195
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3196
+	cbne	r8, r6, f3196
 	movq	=0x40000000, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffffbf800000, r3
@@ -22875,11 +19679,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40400000, r6
-	cmp	r5, r6
-	bne	f3197
+	cbne	r5, r6, f3197
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3198
+	cbne	r8, r6, f3198
 	movq	=0x40000000, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffffbf800000, r3
@@ -22890,11 +19692,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f3199
+	cbne	r5, r6, f3199
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3200
+	cbne	r8, r6, f3200
 	movq	=0x40000000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40000000, r3
@@ -22905,11 +19705,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f3201
+	cbne	r5, r6, f3201
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3202
+	cbne	r8, r6, f3202
 	movq	=0x40000000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40000000, r3
@@ -22920,11 +19718,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0800000, r6
-	cmp	r5, r6
-	bne	f3203
+	cbne	r5, r6, f3203
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3204
+	cbne	r8, r6, f3204
 	movq	=0x40000000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40400000, r3
@@ -22935,11 +19731,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f3205
+	cbne	r5, r6, f3205
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3206
+	cbne	r8, r6, f3206
 	movq	=0x40000000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40400000, r3
@@ -22950,11 +19744,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0a00000, r6
-	cmp	r5, r6
-	bne	f3207
+	cbne	r5, r6, f3207
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3208
+	cbne	r8, r6, f3208
 	movq	=0x40000000, r1
 	movq	=0x3f800000, r2
 	movq	=0x3fc00000, r3
@@ -22965,11 +19757,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f000000, r6
-	cmp	r5, r6
-	bne	f3209
+	cbne	r5, r6, f3209
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3210
+	cbne	r8, r6, f3210
 	movq	=0x40000000, r1
 	movq	=0x3f800000, r2
 	movq	=0x3fc00000, r3
@@ -22980,11 +19770,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0600000, r6
-	cmp	r5, r6
-	bne	f3211
+	cbne	r5, r6, f3211
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3212
+	cbne	r8, r6, f3212
 	movq	=0x40000000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40200000, r3
@@ -22995,11 +19783,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf000000, r6
-	cmp	r5, r6
-	bne	f3213
+	cbne	r5, r6, f3213
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3214
+	cbne	r8, r6, f3214
 	movq	=0x40000000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40200000, r3
@@ -23010,11 +19796,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0900000, r6
-	cmp	r5, r6
-	bne	f3215
+	cbne	r5, r6, f3215
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3216
+	cbne	r8, r6, f3216
 	movq	=0x40000000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40700000, r3
@@ -23025,11 +19809,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfe00000, r6
-	cmp	r5, r6
-	bne	f3217
+	cbne	r5, r6, f3217
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3218
+	cbne	r8, r6, f3218
 	movq	=0x40000000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40700000, r3
@@ -23040,11 +19822,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0b80000, r6
-	cmp	r5, r6
-	bne	f3219
+	cbne	r5, r6, f3219
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3220
+	cbne	r8, r6, f3220
 	movq	=0x40000000, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffffc0700000, r3
@@ -23055,11 +19835,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40b80000, r6
-	cmp	r5, r6
-	bne	f3221
+	cbne	r5, r6, f3221
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3222
+	cbne	r8, r6, f3222
 	movq	=0x40000000, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffffc0700000, r3
@@ -23070,11 +19848,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3fe00000, r6
-	cmp	r5, r6
-	bne	f3223
+	cbne	r5, r6, f3223
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3224
+	cbne	r8, r6, f3224
 	movq	=0x40000000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40f00000, r3
@@ -23085,11 +19861,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0b00000, r6
-	cmp	r5, r6
-	bne	f3225
+	cbne	r5, r6, f3225
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3226
+	cbne	r8, r6, f3226
 	movq	=0x40000000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40f00000, r3
@@ -23100,11 +19874,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc1180000, r6
-	cmp	r5, r6
-	bne	f3227
+	cbne	r5, r6, f3227
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3228
+	cbne	r8, r6, f3228
 	movq	=0x40000000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x0, r3
@@ -23115,11 +19887,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
-	cmp	r5, r6
-	bne	f3229
+	cbne	r5, r6, f3229
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3230
+	cbne	r8, r6, f3230
 	movq	=0x40000000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x0, r3
@@ -23130,11 +19900,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40000000, r6
-	cmp	r5, r6
-	bne	f3231
+	cbne	r5, r6, f3231
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3232
+	cbne	r8, r6, f3232
 	movq	=0x40000000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0xffffffff80000000, r3
@@ -23145,11 +19913,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
-	cmp	r5, r6
-	bne	f3233
+	cbne	r5, r6, f3233
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3234
+	cbne	r8, r6, f3234
 	movq	=0x40000000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0xffffffff80000000, r3
@@ -23160,11 +19926,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40000000, r6
-	cmp	r5, r6
-	bne	f3235
+	cbne	r5, r6, f3235
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3236
+	cbne	r8, r6, f3236
 	movq	=0x40000000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x3f800000, r3
@@ -23175,11 +19939,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
-	cmp	r5, r6
-	bne	f3237
+	cbne	r5, r6, f3237
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3238
+	cbne	r8, r6, f3238
 	movq	=0x40000000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x3f800000, r3
@@ -23190,11 +19952,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
-	cmp	r5, r6
-	bne	f3239
+	cbne	r5, r6, f3239
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3240
+	cbne	r8, r6, f3240
 	movq	=0x40000000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0xffffffffbf800000, r3
@@ -23205,11 +19965,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f3241
+	cbne	r5, r6, f3241
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3242
+	cbne	r8, r6, f3242
 	movq	=0x40000000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0xffffffffbf800000, r3
@@ -23220,11 +19978,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40400000, r6
-	cmp	r5, r6
-	bne	f3243
+	cbne	r5, r6, f3243
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3244
+	cbne	r8, r6, f3244
 	movq	=0x40000000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40000000, r3
@@ -23235,11 +19991,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0800000, r6
-	cmp	r5, r6
-	bne	f3245
+	cbne	r5, r6, f3245
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3246
+	cbne	r8, r6, f3246
 	movq	=0x40000000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40000000, r3
@@ -23250,11 +20004,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f3247
+	cbne	r5, r6, f3247
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3248
+	cbne	r8, r6, f3248
 	movq	=0x40000000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40400000, r3
@@ -23265,11 +20017,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0a00000, r6
-	cmp	r5, r6
-	bne	f3249
+	cbne	r5, r6, f3249
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3250
+	cbne	r8, r6, f3250
 	movq	=0x40000000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40400000, r3
@@ -23280,11 +20030,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f3251
+	cbne	r5, r6, f3251
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3252
+	cbne	r8, r6, f3252
 	movq	=0x40000000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x3fc00000, r3
@@ -23295,11 +20043,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0600000, r6
-	cmp	r5, r6
-	bne	f3253
+	cbne	r5, r6, f3253
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3254
+	cbne	r8, r6, f3254
 	movq	=0x40000000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x3fc00000, r3
@@ -23310,11 +20056,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f000000, r6
-	cmp	r5, r6
-	bne	f3255
+	cbne	r5, r6, f3255
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3256
+	cbne	r8, r6, f3256
 	movq	=0x40000000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40200000, r3
@@ -23325,11 +20069,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0900000, r6
-	cmp	r5, r6
-	bne	f3257
+	cbne	r5, r6, f3257
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3258
+	cbne	r8, r6, f3258
 	movq	=0x40000000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40200000, r3
@@ -23340,11 +20082,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf000000, r6
-	cmp	r5, r6
-	bne	f3259
+	cbne	r5, r6, f3259
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3260
+	cbne	r8, r6, f3260
 	movq	=0x40000000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40700000, r3
@@ -23355,11 +20095,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0b80000, r6
-	cmp	r5, r6
-	bne	f3261
+	cbne	r5, r6, f3261
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3262
+	cbne	r8, r6, f3262
 	movq	=0x40000000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40700000, r3
@@ -23370,11 +20108,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfe00000, r6
-	cmp	r5, r6
-	bne	f3263
+	cbne	r5, r6, f3263
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3264
+	cbne	r8, r6, f3264
 	movq	=0x40000000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0xffffffffc0700000, r3
@@ -23385,11 +20121,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3fe00000, r6
-	cmp	r5, r6
-	bne	f3265
+	cbne	r5, r6, f3265
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3266
+	cbne	r8, r6, f3266
 	movq	=0x40000000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0xffffffffc0700000, r3
@@ -23400,11 +20134,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40b80000, r6
-	cmp	r5, r6
-	bne	f3267
+	cbne	r5, r6, f3267
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3268
+	cbne	r8, r6, f3268
 	movq	=0x40000000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40f00000, r3
@@ -23415,11 +20147,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc1180000, r6
-	cmp	r5, r6
-	bne	f3269
+	cbne	r5, r6, f3269
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3270
+	cbne	r8, r6, f3270
 	movq	=0x40000000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40f00000, r3
@@ -23430,11 +20160,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0b00000, r6
-	cmp	r5, r6
-	bne	f3271
+	cbne	r5, r6, f3271
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3272
+	cbne	r8, r6, f3272
 	movq	=0x40000000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x0, r3
@@ -23445,11 +20173,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40400000, r6
-	cmp	r5, r6
-	bne	f3273
+	cbne	r5, r6, f3273
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3274
+	cbne	r8, r6, f3274
 	movq	=0x40000000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x0, r3
@@ -23460,11 +20186,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
-	cmp	r5, r6
-	bne	f3275
+	cbne	r5, r6, f3275
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3276
+	cbne	r8, r6, f3276
 	movq	=0x40000000, r1
 	movq	=0x3fc00000, r2
 	movq	=0xffffffff80000000, r3
@@ -23475,11 +20199,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40400000, r6
-	cmp	r5, r6
-	bne	f3277
+	cbne	r5, r6, f3277
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3278
+	cbne	r8, r6, f3278
 	movq	=0x40000000, r1
 	movq	=0x3fc00000, r2
 	movq	=0xffffffff80000000, r3
@@ -23490,11 +20212,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
-	cmp	r5, r6
-	bne	f3279
+	cbne	r5, r6, f3279
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3280
+	cbne	r8, r6, f3280
 	movq	=0x40000000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x3f800000, r3
@@ -23505,11 +20225,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40000000, r6
-	cmp	r5, r6
-	bne	f3281
+	cbne	r5, r6, f3281
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3282
+	cbne	r8, r6, f3282
 	movq	=0x40000000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x3f800000, r3
@@ -23520,11 +20238,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0800000, r6
-	cmp	r5, r6
-	bne	f3283
+	cbne	r5, r6, f3283
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3284
+	cbne	r8, r6, f3284
 	movq	=0x40000000, r1
 	movq	=0x3fc00000, r2
 	movq	=0xffffffffbf800000, r3
@@ -23535,11 +20251,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40800000, r6
-	cmp	r5, r6
-	bne	f3285
+	cbne	r5, r6, f3285
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3286
+	cbne	r8, r6, f3286
 	movq	=0x40000000, r1
 	movq	=0x3fc00000, r2
 	movq	=0xffffffffbf800000, r3
@@ -23550,11 +20264,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
-	cmp	r5, r6
-	bne	f3287
+	cbne	r5, r6, f3287
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3288
+	cbne	r8, r6, f3288
 	movq	=0x40000000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40000000, r3
@@ -23565,11 +20277,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
-	cmp	r5, r6
-	bne	f3289
+	cbne	r5, r6, f3289
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3290
+	cbne	r8, r6, f3290
 	movq	=0x40000000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40000000, r3
@@ -23580,11 +20290,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0a00000, r6
-	cmp	r5, r6
-	bne	f3291
+	cbne	r5, r6, f3291
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3292
+	cbne	r8, r6, f3292
 	movq	=0x40000000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40400000, r3
@@ -23595,11 +20303,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f3293
+	cbne	r5, r6, f3293
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3294
+	cbne	r8, r6, f3294
 	movq	=0x40000000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40400000, r3
@@ -23610,11 +20316,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0c00000, r6
-	cmp	r5, r6
-	bne	f3295
+	cbne	r5, r6, f3295
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3296
+	cbne	r8, r6, f3296
 	movq	=0x40000000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x3fc00000, r3
@@ -23625,11 +20329,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3fc00000, r6
-	cmp	r5, r6
-	bne	f3297
+	cbne	r5, r6, f3297
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3298
+	cbne	r8, r6, f3298
 	movq	=0x40000000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x3fc00000, r3
@@ -23640,11 +20342,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0900000, r6
-	cmp	r5, r6
-	bne	f3299
+	cbne	r5, r6, f3299
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3300
+	cbne	r8, r6, f3300
 	movq	=0x40000000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40200000, r3
@@ -23655,11 +20355,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f000000, r6
-	cmp	r5, r6
-	bne	f3301
+	cbne	r5, r6, f3301
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3302
+	cbne	r8, r6, f3302
 	movq	=0x40000000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40200000, r3
@@ -23670,11 +20368,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0b00000, r6
-	cmp	r5, r6
-	bne	f3303
+	cbne	r5, r6, f3303
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3304
+	cbne	r8, r6, f3304
 	movq	=0x40000000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40700000, r3
@@ -23685,11 +20381,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf400000, r6
-	cmp	r5, r6
-	bne	f3305
+	cbne	r5, r6, f3305
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3306
+	cbne	r8, r6, f3306
 	movq	=0x40000000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40700000, r3
@@ -23700,11 +20394,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0d80000, r6
-	cmp	r5, r6
-	bne	f3307
+	cbne	r5, r6, f3307
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3308
+	cbne	r8, r6, f3308
 	movq	=0x40000000, r1
 	movq	=0x3fc00000, r2
 	movq	=0xffffffffc0700000, r3
@@ -23715,11 +20407,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40d80000, r6
-	cmp	r5, r6
-	bne	f3309
+	cbne	r5, r6, f3309
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3310
+	cbne	r8, r6, f3310
 	movq	=0x40000000, r1
 	movq	=0x3fc00000, r2
 	movq	=0xffffffffc0700000, r3
@@ -23730,11 +20420,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f400000, r6
-	cmp	r5, r6
-	bne	f3311
+	cbne	r5, r6, f3311
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3312
+	cbne	r8, r6, f3312
 	movq	=0x40000000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40f00000, r3
@@ -23745,11 +20433,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0900000, r6
-	cmp	r5, r6
-	bne	f3313
+	cbne	r5, r6, f3313
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3314
+	cbne	r8, r6, f3314
 	movq	=0x40000000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40f00000, r3
@@ -23760,11 +20446,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc1280000, r6
-	cmp	r5, r6
-	bne	f3315
+	cbne	r5, r6, f3315
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3316
+	cbne	r8, r6, f3316
 	movq	=0x40400000, r1
 	movq	=0x0, r2
 	movq	=0x0, r3
@@ -23775,11 +20459,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f3317
+	cbne	r5, r6, f3317
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3318
+	cbne	r8, r6, f3318
 	movq	=0x40400000, r1
 	movq	=0x0, r2
 	movq	=0x0, r3
@@ -23790,11 +20472,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffff80000000, r6
-	cmp	r5, r6
-	bne	f3319
+	cbne	r5, r6, f3319
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3320
+	cbne	r8, r6, f3320
 	movq	=0x40400000, r1
 	movq	=0x0, r2
 	movq	=0xffffffff80000000, r3
@@ -23805,11 +20485,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f3321
+	cbne	r5, r6, f3321
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3322
+	cbne	r8, r6, f3322
 	movq	=0x40400000, r1
 	movq	=0x0, r2
 	movq	=0xffffffff80000000, r3
@@ -23820,11 +20498,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f3323
+	cbne	r5, r6, f3323
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3324
+	cbne	r8, r6, f3324
 	movq	=0x40400000, r1
 	movq	=0x0, r2
 	movq	=0x3f800000, r3
@@ -23835,11 +20511,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f3325
+	cbne	r5, r6, f3325
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3326
+	cbne	r8, r6, f3326
 	movq	=0x40400000, r1
 	movq	=0x0, r2
 	movq	=0x3f800000, r3
@@ -23850,11 +20524,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f3327
+	cbne	r5, r6, f3327
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3328
+	cbne	r8, r6, f3328
 	movq	=0x40400000, r1
 	movq	=0x0, r2
 	movq	=0xffffffffbf800000, r3
@@ -23865,11 +20537,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
-	cmp	r5, r6
-	bne	f3329
+	cbne	r5, r6, f3329
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3330
+	cbne	r8, r6, f3330
 	movq	=0x40400000, r1
 	movq	=0x0, r2
 	movq	=0xffffffffbf800000, r3
@@ -23880,11 +20550,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
-	cmp	r5, r6
-	bne	f3331
+	cbne	r5, r6, f3331
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3332
+	cbne	r8, r6, f3332
 	movq	=0x40400000, r1
 	movq	=0x0, r2
 	movq	=0x40000000, r3
@@ -23895,11 +20563,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
-	cmp	r5, r6
-	bne	f3333
+	cbne	r5, r6, f3333
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3334
+	cbne	r8, r6, f3334
 	movq	=0x40400000, r1
 	movq	=0x0, r2
 	movq	=0x40000000, r3
@@ -23910,11 +20576,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
-	cmp	r5, r6
-	bne	f3335
+	cbne	r5, r6, f3335
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3336
+	cbne	r8, r6, f3336
 	movq	=0x40400000, r1
 	movq	=0x0, r2
 	movq	=0x40400000, r3
@@ -23925,11 +20589,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
-	cmp	r5, r6
-	bne	f3337
+	cbne	r5, r6, f3337
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3338
+	cbne	r8, r6, f3338
 	movq	=0x40400000, r1
 	movq	=0x0, r2
 	movq	=0x40400000, r3
@@ -23940,11 +20602,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
-	cmp	r5, r6
-	bne	f3339
+	cbne	r5, r6, f3339
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3340
+	cbne	r8, r6, f3340
 	movq	=0x40400000, r1
 	movq	=0x0, r2
 	movq	=0x3fc00000, r3
@@ -23955,11 +20615,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f3341
+	cbne	r5, r6, f3341
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3342
+	cbne	r8, r6, f3342
 	movq	=0x40400000, r1
 	movq	=0x0, r2
 	movq	=0x3fc00000, r3
@@ -23970,11 +20628,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f3343
+	cbne	r5, r6, f3343
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3344
+	cbne	r8, r6, f3344
 	movq	=0x40400000, r1
 	movq	=0x0, r2
 	movq	=0x40200000, r3
@@ -23985,11 +20641,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
-	cmp	r5, r6
-	bne	f3345
+	cbne	r5, r6, f3345
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3346
+	cbne	r8, r6, f3346
 	movq	=0x40400000, r1
 	movq	=0x0, r2
 	movq	=0x40200000, r3
@@ -24000,11 +20654,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
-	cmp	r5, r6
-	bne	f3347
+	cbne	r5, r6, f3347
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3348
+	cbne	r8, r6, f3348
 	movq	=0x40400000, r1
 	movq	=0x0, r2
 	movq	=0x40700000, r3
@@ -24015,11 +20667,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
-	cmp	r5, r6
-	bne	f3349
+	cbne	r5, r6, f3349
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3350
+	cbne	r8, r6, f3350
 	movq	=0x40400000, r1
 	movq	=0x0, r2
 	movq	=0x40700000, r3
@@ -24030,11 +20680,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
-	cmp	r5, r6
-	bne	f3351
+	cbne	r5, r6, f3351
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3352
+	cbne	r8, r6, f3352
 	movq	=0x40400000, r1
 	movq	=0x0, r2
 	movq	=0xffffffffc0700000, r3
@@ -24045,11 +20693,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40700000, r6
-	cmp	r5, r6
-	bne	f3353
+	cbne	r5, r6, f3353
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3354
+	cbne	r8, r6, f3354
 	movq	=0x40400000, r1
 	movq	=0x0, r2
 	movq	=0xffffffffc0700000, r3
@@ -24060,11 +20706,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40700000, r6
-	cmp	r5, r6
-	bne	f3355
+	cbne	r5, r6, f3355
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3356
+	cbne	r8, r6, f3356
 	movq	=0x40400000, r1
 	movq	=0x0, r2
 	movq	=0x40f00000, r3
@@ -24075,11 +20719,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
-	cmp	r5, r6
-	bne	f3357
+	cbne	r5, r6, f3357
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3358
+	cbne	r8, r6, f3358
 	movq	=0x40400000, r1
 	movq	=0x0, r2
 	movq	=0x40f00000, r3
@@ -24090,11 +20732,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
-	cmp	r5, r6
-	bne	f3359
+	cbne	r5, r6, f3359
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3360
+	cbne	r8, r6, f3360
 	movq	=0x40400000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x0, r3
@@ -24105,11 +20745,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffff80000000, r6
-	cmp	r5, r6
-	bne	f3361
+	cbne	r5, r6, f3361
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3362
+	cbne	r8, r6, f3362
 	movq	=0x40400000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x0, r3
@@ -24120,11 +20758,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f3363
+	cbne	r5, r6, f3363
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3364
+	cbne	r8, r6, f3364
 	movq	=0x40400000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0xffffffff80000000, r3
@@ -24135,11 +20771,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f3365
+	cbne	r5, r6, f3365
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3366
+	cbne	r8, r6, f3366
 	movq	=0x40400000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0xffffffff80000000, r3
@@ -24150,11 +20784,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f3367
+	cbne	r5, r6, f3367
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3368
+	cbne	r8, r6, f3368
 	movq	=0x40400000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x3f800000, r3
@@ -24165,11 +20797,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f3369
+	cbne	r5, r6, f3369
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3370
+	cbne	r8, r6, f3370
 	movq	=0x40400000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x3f800000, r3
@@ -24180,11 +20810,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f3371
+	cbne	r5, r6, f3371
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3372
+	cbne	r8, r6, f3372
 	movq	=0x40400000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0xffffffffbf800000, r3
@@ -24195,11 +20823,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
-	cmp	r5, r6
-	bne	f3373
+	cbne	r5, r6, f3373
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3374
+	cbne	r8, r6, f3374
 	movq	=0x40400000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0xffffffffbf800000, r3
@@ -24210,11 +20836,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
-	cmp	r5, r6
-	bne	f3375
+	cbne	r5, r6, f3375
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3376
+	cbne	r8, r6, f3376
 	movq	=0x40400000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40000000, r3
@@ -24225,11 +20849,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
-	cmp	r5, r6
-	bne	f3377
+	cbne	r5, r6, f3377
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3378
+	cbne	r8, r6, f3378
 	movq	=0x40400000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40000000, r3
@@ -24240,11 +20862,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
-	cmp	r5, r6
-	bne	f3379
+	cbne	r5, r6, f3379
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3380
+	cbne	r8, r6, f3380
 	movq	=0x40400000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40400000, r3
@@ -24255,11 +20875,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
-	cmp	r5, r6
-	bne	f3381
+	cbne	r5, r6, f3381
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3382
+	cbne	r8, r6, f3382
 	movq	=0x40400000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40400000, r3
@@ -24270,11 +20888,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
-	cmp	r5, r6
-	bne	f3383
+	cbne	r5, r6, f3383
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3384
+	cbne	r8, r6, f3384
 	movq	=0x40400000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x3fc00000, r3
@@ -24285,11 +20901,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f3385
+	cbne	r5, r6, f3385
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3386
+	cbne	r8, r6, f3386
 	movq	=0x40400000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x3fc00000, r3
@@ -24300,11 +20914,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f3387
+	cbne	r5, r6, f3387
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3388
+	cbne	r8, r6, f3388
 	movq	=0x40400000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40200000, r3
@@ -24315,11 +20927,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
-	cmp	r5, r6
-	bne	f3389
+	cbne	r5, r6, f3389
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3390
+	cbne	r8, r6, f3390
 	movq	=0x40400000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40200000, r3
@@ -24330,11 +20940,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
-	cmp	r5, r6
-	bne	f3391
+	cbne	r5, r6, f3391
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3392
+	cbne	r8, r6, f3392
 	movq	=0x40400000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40700000, r3
@@ -24345,11 +20953,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
-	cmp	r5, r6
-	bne	f3393
+	cbne	r5, r6, f3393
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3394
+	cbne	r8, r6, f3394
 	movq	=0x40400000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40700000, r3
@@ -24360,11 +20966,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
-	cmp	r5, r6
-	bne	f3395
+	cbne	r5, r6, f3395
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3396
+	cbne	r8, r6, f3396
 	movq	=0x40400000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0xffffffffc0700000, r3
@@ -24375,11 +20979,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40700000, r6
-	cmp	r5, r6
-	bne	f3397
+	cbne	r5, r6, f3397
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3398
+	cbne	r8, r6, f3398
 	movq	=0x40400000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0xffffffffc0700000, r3
@@ -24390,11 +20992,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40700000, r6
-	cmp	r5, r6
-	bne	f3399
+	cbne	r5, r6, f3399
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3400
+	cbne	r8, r6, f3400
 	movq	=0x40400000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40f00000, r3
@@ -24405,11 +21005,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
-	cmp	r5, r6
-	bne	f3401
+	cbne	r5, r6, f3401
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3402
+	cbne	r8, r6, f3402
 	movq	=0x40400000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40f00000, r3
@@ -24420,11 +21018,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
-	cmp	r5, r6
-	bne	f3403
+	cbne	r5, r6, f3403
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3404
+	cbne	r8, r6, f3404
 	movq	=0x40400000, r1
 	movq	=0x3f800000, r2
 	movq	=0x0, r3
@@ -24435,11 +21031,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40400000, r6
-	cmp	r5, r6
-	bne	f3405
+	cbne	r5, r6, f3405
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3406
+	cbne	r8, r6, f3406
 	movq	=0x40400000, r1
 	movq	=0x3f800000, r2
 	movq	=0x0, r3
@@ -24450,11 +21044,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
-	cmp	r5, r6
-	bne	f3407
+	cbne	r5, r6, f3407
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3408
+	cbne	r8, r6, f3408
 	movq	=0x40400000, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffff80000000, r3
@@ -24465,11 +21057,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40400000, r6
-	cmp	r5, r6
-	bne	f3409
+	cbne	r5, r6, f3409
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3410
+	cbne	r8, r6, f3410
 	movq	=0x40400000, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffff80000000, r3
@@ -24480,11 +21070,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
-	cmp	r5, r6
-	bne	f3411
+	cbne	r5, r6, f3411
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3412
+	cbne	r8, r6, f3412
 	movq	=0x40400000, r1
 	movq	=0x3f800000, r2
 	movq	=0x3f800000, r3
@@ -24495,11 +21083,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40000000, r6
-	cmp	r5, r6
-	bne	f3413
+	cbne	r5, r6, f3413
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3414
+	cbne	r8, r6, f3414
 	movq	=0x40400000, r1
 	movq	=0x3f800000, r2
 	movq	=0x3f800000, r3
@@ -24510,11 +21096,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0800000, r6
-	cmp	r5, r6
-	bne	f3415
+	cbne	r5, r6, f3415
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3416
+	cbne	r8, r6, f3416
 	movq	=0x40400000, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffffbf800000, r3
@@ -24525,11 +21109,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40800000, r6
-	cmp	r5, r6
-	bne	f3417
+	cbne	r5, r6, f3417
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3418
+	cbne	r8, r6, f3418
 	movq	=0x40400000, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffffbf800000, r3
@@ -24540,11 +21122,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
-	cmp	r5, r6
-	bne	f3419
+	cbne	r5, r6, f3419
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3420
+	cbne	r8, r6, f3420
 	movq	=0x40400000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40000000, r3
@@ -24555,11 +21135,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
-	cmp	r5, r6
-	bne	f3421
+	cbne	r5, r6, f3421
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3422
+	cbne	r8, r6, f3422
 	movq	=0x40400000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40000000, r3
@@ -24570,11 +21148,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0a00000, r6
-	cmp	r5, r6
-	bne	f3423
+	cbne	r5, r6, f3423
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3424
+	cbne	r8, r6, f3424
 	movq	=0x40400000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40400000, r3
@@ -24585,11 +21161,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f3425
+	cbne	r5, r6, f3425
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3426
+	cbne	r8, r6, f3426
 	movq	=0x40400000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40400000, r3
@@ -24600,11 +21174,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0c00000, r6
-	cmp	r5, r6
-	bne	f3427
+	cbne	r5, r6, f3427
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3428
+	cbne	r8, r6, f3428
 	movq	=0x40400000, r1
 	movq	=0x3f800000, r2
 	movq	=0x3fc00000, r3
@@ -24615,11 +21187,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3fc00000, r6
-	cmp	r5, r6
-	bne	f3429
+	cbne	r5, r6, f3429
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3430
+	cbne	r8, r6, f3430
 	movq	=0x40400000, r1
 	movq	=0x3f800000, r2
 	movq	=0x3fc00000, r3
@@ -24630,11 +21200,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0900000, r6
-	cmp	r5, r6
-	bne	f3431
+	cbne	r5, r6, f3431
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3432
+	cbne	r8, r6, f3432
 	movq	=0x40400000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40200000, r3
@@ -24645,11 +21213,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f000000, r6
-	cmp	r5, r6
-	bne	f3433
+	cbne	r5, r6, f3433
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3434
+	cbne	r8, r6, f3434
 	movq	=0x40400000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40200000, r3
@@ -24660,11 +21226,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0b00000, r6
-	cmp	r5, r6
-	bne	f3435
+	cbne	r5, r6, f3435
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3436
+	cbne	r8, r6, f3436
 	movq	=0x40400000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40700000, r3
@@ -24675,11 +21239,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf400000, r6
-	cmp	r5, r6
-	bne	f3437
+	cbne	r5, r6, f3437
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3438
+	cbne	r8, r6, f3438
 	movq	=0x40400000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40700000, r3
@@ -24690,11 +21252,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0d80000, r6
-	cmp	r5, r6
-	bne	f3439
+	cbne	r5, r6, f3439
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3440
+	cbne	r8, r6, f3440
 	movq	=0x40400000, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffffc0700000, r3
@@ -24705,11 +21265,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40d80000, r6
-	cmp	r5, r6
-	bne	f3441
+	cbne	r5, r6, f3441
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3442
+	cbne	r8, r6, f3442
 	movq	=0x40400000, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffffc0700000, r3
@@ -24720,11 +21278,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f400000, r6
-	cmp	r5, r6
-	bne	f3443
+	cbne	r5, r6, f3443
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3444
+	cbne	r8, r6, f3444
 	movq	=0x40400000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40f00000, r3
@@ -24735,11 +21291,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0900000, r6
-	cmp	r5, r6
-	bne	f3445
+	cbne	r5, r6, f3445
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3446
+	cbne	r8, r6, f3446
 	movq	=0x40400000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40f00000, r3
@@ -24750,11 +21304,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc1280000, r6
-	cmp	r5, r6
-	bne	f3447
+	cbne	r5, r6, f3447
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3448
+	cbne	r8, r6, f3448
 	movq	=0x40400000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x0, r3
@@ -24765,11 +21317,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
-	cmp	r5, r6
-	bne	f3449
+	cbne	r5, r6, f3449
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3450
+	cbne	r8, r6, f3450
 	movq	=0x40400000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x0, r3
@@ -24780,11 +21330,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40400000, r6
-	cmp	r5, r6
-	bne	f3451
+	cbne	r5, r6, f3451
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3452
+	cbne	r8, r6, f3452
 	movq	=0x40400000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0xffffffff80000000, r3
@@ -24795,11 +21343,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
-	cmp	r5, r6
-	bne	f3453
+	cbne	r5, r6, f3453
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3454
+	cbne	r8, r6, f3454
 	movq	=0x40400000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0xffffffff80000000, r3
@@ -24810,11 +21356,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40400000, r6
-	cmp	r5, r6
-	bne	f3455
+	cbne	r5, r6, f3455
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3456
+	cbne	r8, r6, f3456
 	movq	=0x40400000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x3f800000, r3
@@ -24825,11 +21369,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0800000, r6
-	cmp	r5, r6
-	bne	f3457
+	cbne	r5, r6, f3457
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3458
+	cbne	r8, r6, f3458
 	movq	=0x40400000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x3f800000, r3
@@ -24840,11 +21382,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40000000, r6
-	cmp	r5, r6
-	bne	f3459
+	cbne	r5, r6, f3459
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3460
+	cbne	r8, r6, f3460
 	movq	=0x40400000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0xffffffffbf800000, r3
@@ -24855,11 +21395,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
-	cmp	r5, r6
-	bne	f3461
+	cbne	r5, r6, f3461
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3462
+	cbne	r8, r6, f3462
 	movq	=0x40400000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0xffffffffbf800000, r3
@@ -24870,11 +21408,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40800000, r6
-	cmp	r5, r6
-	bne	f3463
+	cbne	r5, r6, f3463
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3464
+	cbne	r8, r6, f3464
 	movq	=0x40400000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40000000, r3
@@ -24885,11 +21421,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0a00000, r6
-	cmp	r5, r6
-	bne	f3465
+	cbne	r5, r6, f3465
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3466
+	cbne	r8, r6, f3466
 	movq	=0x40400000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40000000, r3
@@ -24900,11 +21434,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
-	cmp	r5, r6
-	bne	f3467
+	cbne	r5, r6, f3467
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3468
+	cbne	r8, r6, f3468
 	movq	=0x40400000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40400000, r3
@@ -24915,11 +21447,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0c00000, r6
-	cmp	r5, r6
-	bne	f3469
+	cbne	r5, r6, f3469
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3470
+	cbne	r8, r6, f3470
 	movq	=0x40400000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40400000, r3
@@ -24930,11 +21460,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f3471
+	cbne	r5, r6, f3471
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3472
+	cbne	r8, r6, f3472
 	movq	=0x40400000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x3fc00000, r3
@@ -24945,11 +21473,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0900000, r6
-	cmp	r5, r6
-	bne	f3473
+	cbne	r5, r6, f3473
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3474
+	cbne	r8, r6, f3474
 	movq	=0x40400000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x3fc00000, r3
@@ -24960,11 +21486,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3fc00000, r6
-	cmp	r5, r6
-	bne	f3475
+	cbne	r5, r6, f3475
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3476
+	cbne	r8, r6, f3476
 	movq	=0x40400000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40200000, r3
@@ -24975,11 +21499,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0b00000, r6
-	cmp	r5, r6
-	bne	f3477
+	cbne	r5, r6, f3477
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3478
+	cbne	r8, r6, f3478
 	movq	=0x40400000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40200000, r3
@@ -24990,11 +21512,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f000000, r6
-	cmp	r5, r6
-	bne	f3479
+	cbne	r5, r6, f3479
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3480
+	cbne	r8, r6, f3480
 	movq	=0x40400000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40700000, r3
@@ -25005,11 +21525,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0d80000, r6
-	cmp	r5, r6
-	bne	f3481
+	cbne	r5, r6, f3481
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3482
+	cbne	r8, r6, f3482
 	movq	=0x40400000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40700000, r3
@@ -25020,11 +21538,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf400000, r6
-	cmp	r5, r6
-	bne	f3483
+	cbne	r5, r6, f3483
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3484
+	cbne	r8, r6, f3484
 	movq	=0x40400000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0xffffffffc0700000, r3
@@ -25035,11 +21551,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f400000, r6
-	cmp	r5, r6
-	bne	f3485
+	cbne	r5, r6, f3485
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3486
+	cbne	r8, r6, f3486
 	movq	=0x40400000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0xffffffffc0700000, r3
@@ -25050,11 +21564,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40d80000, r6
-	cmp	r5, r6
-	bne	f3487
+	cbne	r5, r6, f3487
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3488
+	cbne	r8, r6, f3488
 	movq	=0x40400000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40f00000, r3
@@ -25065,11 +21577,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc1280000, r6
-	cmp	r5, r6
-	bne	f3489
+	cbne	r5, r6, f3489
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3490
+	cbne	r8, r6, f3490
 	movq	=0x40400000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40f00000, r3
@@ -25080,11 +21590,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0900000, r6
-	cmp	r5, r6
-	bne	f3491
+	cbne	r5, r6, f3491
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3492
+	cbne	r8, r6, f3492
 	movq	=0x40400000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x0, r3
@@ -25095,11 +21603,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40900000, r6
-	cmp	r5, r6
-	bne	f3493
+	cbne	r5, r6, f3493
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3494
+	cbne	r8, r6, f3494
 	movq	=0x40400000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x0, r3
@@ -25110,11 +21616,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0900000, r6
-	cmp	r5, r6
-	bne	f3495
+	cbne	r5, r6, f3495
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3496
+	cbne	r8, r6, f3496
 	movq	=0x40400000, r1
 	movq	=0x3fc00000, r2
 	movq	=0xffffffff80000000, r3
@@ -25125,11 +21629,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40900000, r6
-	cmp	r5, r6
-	bne	f3497
+	cbne	r5, r6, f3497
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3498
+	cbne	r8, r6, f3498
 	movq	=0x40400000, r1
 	movq	=0x3fc00000, r2
 	movq	=0xffffffff80000000, r3
@@ -25140,11 +21642,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0900000, r6
-	cmp	r5, r6
-	bne	f3499
+	cbne	r5, r6, f3499
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3500
+	cbne	r8, r6, f3500
 	movq	=0x40400000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x3f800000, r3
@@ -25155,11 +21655,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40600000, r6
-	cmp	r5, r6
-	bne	f3501
+	cbne	r5, r6, f3501
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3502
+	cbne	r8, r6, f3502
 	movq	=0x40400000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x3f800000, r3
@@ -25170,11 +21668,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0b00000, r6
-	cmp	r5, r6
-	bne	f3503
+	cbne	r5, r6, f3503
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3504
+	cbne	r8, r6, f3504
 	movq	=0x40400000, r1
 	movq	=0x3fc00000, r2
 	movq	=0xffffffffbf800000, r3
@@ -25185,11 +21681,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40b00000, r6
-	cmp	r5, r6
-	bne	f3505
+	cbne	r5, r6, f3505
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3506
+	cbne	r8, r6, f3506
 	movq	=0x40400000, r1
 	movq	=0x3fc00000, r2
 	movq	=0xffffffffbf800000, r3
@@ -25200,11 +21694,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0600000, r6
-	cmp	r5, r6
-	bne	f3507
+	cbne	r5, r6, f3507
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3508
+	cbne	r8, r6, f3508
 	movq	=0x40400000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40000000, r3
@@ -25215,11 +21707,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40200000, r6
-	cmp	r5, r6
-	bne	f3509
+	cbne	r5, r6, f3509
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3510
+	cbne	r8, r6, f3510
 	movq	=0x40400000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40000000, r3
@@ -25230,11 +21720,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0d00000, r6
-	cmp	r5, r6
-	bne	f3511
+	cbne	r5, r6, f3511
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3512
+	cbne	r8, r6, f3512
 	movq	=0x40400000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40400000, r3
@@ -25245,11 +21733,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3fc00000, r6
-	cmp	r5, r6
-	bne	f3513
+	cbne	r5, r6, f3513
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3514
+	cbne	r8, r6, f3514
 	movq	=0x40400000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40400000, r3
@@ -25260,11 +21746,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
-	cmp	r5, r6
-	bne	f3515
+	cbne	r5, r6, f3515
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3516
+	cbne	r8, r6, f3516
 	movq	=0x40400000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x3fc00000, r3
@@ -25275,11 +21759,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40400000, r6
-	cmp	r5, r6
-	bne	f3517
+	cbne	r5, r6, f3517
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3518
+	cbne	r8, r6, f3518
 	movq	=0x40400000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x3fc00000, r3
@@ -25290,11 +21772,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0c00000, r6
-	cmp	r5, r6
-	bne	f3519
+	cbne	r5, r6, f3519
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3520
+	cbne	r8, r6, f3520
 	movq	=0x40400000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40200000, r3
@@ -25305,11 +21785,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40000000, r6
-	cmp	r5, r6
-	bne	f3521
+	cbne	r5, r6, f3521
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3522
+	cbne	r8, r6, f3522
 	movq	=0x40400000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40200000, r3
@@ -25320,11 +21798,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0e00000, r6
-	cmp	r5, r6
-	bne	f3523
+	cbne	r5, r6, f3523
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3524
+	cbne	r8, r6, f3524
 	movq	=0x40400000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40700000, r3
@@ -25335,11 +21811,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f400000, r6
-	cmp	r5, r6
-	bne	f3525
+	cbne	r5, r6, f3525
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3526
+	cbne	r8, r6, f3526
 	movq	=0x40400000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40700000, r3
@@ -25350,11 +21824,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc1040000, r6
-	cmp	r5, r6
-	bne	f3527
+	cbne	r5, r6, f3527
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3528
+	cbne	r8, r6, f3528
 	movq	=0x40400000, r1
 	movq	=0x3fc00000, r2
 	movq	=0xffffffffc0700000, r3
@@ -25365,11 +21837,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x41040000, r6
-	cmp	r5, r6
-	bne	f3529
+	cbne	r5, r6, f3529
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3530
+	cbne	r8, r6, f3530
 	movq	=0x40400000, r1
 	movq	=0x3fc00000, r2
 	movq	=0xffffffffc0700000, r3
@@ -25380,11 +21850,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf400000, r6
-	cmp	r5, r6
-	bne	f3531
+	cbne	r5, r6, f3531
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3532
+	cbne	r8, r6, f3532
 	movq	=0x40400000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40f00000, r3
@@ -25395,11 +21863,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
-	cmp	r5, r6
-	bne	f3533
+	cbne	r5, r6, f3533
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3534
+	cbne	r8, r6, f3534
 	movq	=0x40400000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40f00000, r3
@@ -25410,11 +21876,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc1400000, r6
-	cmp	r5, r6
-	bne	f3535
+	cbne	r5, r6, f3535
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3536
+	cbne	r8, r6, f3536
 	movq	=0x3fc00000, r1
 	movq	=0x0, r2
 	movq	=0x0, r3
@@ -25425,11 +21889,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f3537
+	cbne	r5, r6, f3537
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3538
+	cbne	r8, r6, f3538
 	movq	=0x3fc00000, r1
 	movq	=0x0, r2
 	movq	=0x0, r3
@@ -25440,11 +21902,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffff80000000, r6
-	cmp	r5, r6
-	bne	f3539
+	cbne	r5, r6, f3539
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3540
+	cbne	r8, r6, f3540
 	movq	=0x3fc00000, r1
 	movq	=0x0, r2
 	movq	=0xffffffff80000000, r3
@@ -25455,11 +21915,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f3541
+	cbne	r5, r6, f3541
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3542
+	cbne	r8, r6, f3542
 	movq	=0x3fc00000, r1
 	movq	=0x0, r2
 	movq	=0xffffffff80000000, r3
@@ -25470,11 +21928,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f3543
+	cbne	r5, r6, f3543
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3544
+	cbne	r8, r6, f3544
 	movq	=0x3fc00000, r1
 	movq	=0x0, r2
 	movq	=0x3f800000, r3
@@ -25485,11 +21941,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f3545
+	cbne	r5, r6, f3545
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3546
+	cbne	r8, r6, f3546
 	movq	=0x3fc00000, r1
 	movq	=0x0, r2
 	movq	=0x3f800000, r3
@@ -25500,11 +21954,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f3547
+	cbne	r5, r6, f3547
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3548
+	cbne	r8, r6, f3548
 	movq	=0x3fc00000, r1
 	movq	=0x0, r2
 	movq	=0xffffffffbf800000, r3
@@ -25515,11 +21967,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
-	cmp	r5, r6
-	bne	f3549
+	cbne	r5, r6, f3549
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3550
+	cbne	r8, r6, f3550
 	movq	=0x3fc00000, r1
 	movq	=0x0, r2
 	movq	=0xffffffffbf800000, r3
@@ -25530,11 +21980,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
-	cmp	r5, r6
-	bne	f3551
+	cbne	r5, r6, f3551
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3552
+	cbne	r8, r6, f3552
 	movq	=0x3fc00000, r1
 	movq	=0x0, r2
 	movq	=0x40000000, r3
@@ -25545,11 +21993,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
-	cmp	r5, r6
-	bne	f3553
+	cbne	r5, r6, f3553
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3554
+	cbne	r8, r6, f3554
 	movq	=0x3fc00000, r1
 	movq	=0x0, r2
 	movq	=0x40000000, r3
@@ -25560,11 +22006,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
-	cmp	r5, r6
-	bne	f3555
+	cbne	r5, r6, f3555
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3556
+	cbne	r8, r6, f3556
 	movq	=0x3fc00000, r1
 	movq	=0x0, r2
 	movq	=0x40400000, r3
@@ -25575,11 +22019,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
-	cmp	r5, r6
-	bne	f3557
+	cbne	r5, r6, f3557
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3558
+	cbne	r8, r6, f3558
 	movq	=0x3fc00000, r1
 	movq	=0x0, r2
 	movq	=0x40400000, r3
@@ -25590,11 +22032,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
-	cmp	r5, r6
-	bne	f3559
+	cbne	r5, r6, f3559
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3560
+	cbne	r8, r6, f3560
 	movq	=0x3fc00000, r1
 	movq	=0x0, r2
 	movq	=0x3fc00000, r3
@@ -25605,11 +22045,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f3561
+	cbne	r5, r6, f3561
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3562
+	cbne	r8, r6, f3562
 	movq	=0x3fc00000, r1
 	movq	=0x0, r2
 	movq	=0x3fc00000, r3
@@ -25620,11 +22058,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f3563
+	cbne	r5, r6, f3563
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3564
+	cbne	r8, r6, f3564
 	movq	=0x3fc00000, r1
 	movq	=0x0, r2
 	movq	=0x40200000, r3
@@ -25635,11 +22071,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
-	cmp	r5, r6
-	bne	f3565
+	cbne	r5, r6, f3565
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3566
+	cbne	r8, r6, f3566
 	movq	=0x3fc00000, r1
 	movq	=0x0, r2
 	movq	=0x40200000, r3
@@ -25650,11 +22084,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
-	cmp	r5, r6
-	bne	f3567
+	cbne	r5, r6, f3567
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3568
+	cbne	r8, r6, f3568
 	movq	=0x3fc00000, r1
 	movq	=0x0, r2
 	movq	=0x40700000, r3
@@ -25665,11 +22097,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
-	cmp	r5, r6
-	bne	f3569
+	cbne	r5, r6, f3569
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3570
+	cbne	r8, r6, f3570
 	movq	=0x3fc00000, r1
 	movq	=0x0, r2
 	movq	=0x40700000, r3
@@ -25680,11 +22110,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
-	cmp	r5, r6
-	bne	f3571
+	cbne	r5, r6, f3571
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3572
+	cbne	r8, r6, f3572
 	movq	=0x3fc00000, r1
 	movq	=0x0, r2
 	movq	=0xffffffffc0700000, r3
@@ -25695,11 +22123,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40700000, r6
-	cmp	r5, r6
-	bne	f3573
+	cbne	r5, r6, f3573
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3574
+	cbne	r8, r6, f3574
 	movq	=0x3fc00000, r1
 	movq	=0x0, r2
 	movq	=0xffffffffc0700000, r3
@@ -25710,11 +22136,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40700000, r6
-	cmp	r5, r6
-	bne	f3575
+	cbne	r5, r6, f3575
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3576
+	cbne	r8, r6, f3576
 	movq	=0x3fc00000, r1
 	movq	=0x0, r2
 	movq	=0x40f00000, r3
@@ -25725,11 +22149,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
-	cmp	r5, r6
-	bne	f3577
+	cbne	r5, r6, f3577
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3578
+	cbne	r8, r6, f3578
 	movq	=0x3fc00000, r1
 	movq	=0x0, r2
 	movq	=0x40f00000, r3
@@ -25740,11 +22162,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
-	cmp	r5, r6
-	bne	f3579
+	cbne	r5, r6, f3579
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3580
+	cbne	r8, r6, f3580
 	movq	=0x3fc00000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x0, r3
@@ -25755,11 +22175,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffff80000000, r6
-	cmp	r5, r6
-	bne	f3581
+	cbne	r5, r6, f3581
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3582
+	cbne	r8, r6, f3582
 	movq	=0x3fc00000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x0, r3
@@ -25770,11 +22188,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f3583
+	cbne	r5, r6, f3583
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3584
+	cbne	r8, r6, f3584
 	movq	=0x3fc00000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0xffffffff80000000, r3
@@ -25785,11 +22201,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f3585
+	cbne	r5, r6, f3585
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3586
+	cbne	r8, r6, f3586
 	movq	=0x3fc00000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0xffffffff80000000, r3
@@ -25800,11 +22214,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f3587
+	cbne	r5, r6, f3587
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3588
+	cbne	r8, r6, f3588
 	movq	=0x3fc00000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x3f800000, r3
@@ -25815,11 +22227,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f3589
+	cbne	r5, r6, f3589
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3590
+	cbne	r8, r6, f3590
 	movq	=0x3fc00000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x3f800000, r3
@@ -25830,11 +22240,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f3591
+	cbne	r5, r6, f3591
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3592
+	cbne	r8, r6, f3592
 	movq	=0x3fc00000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0xffffffffbf800000, r3
@@ -25845,11 +22253,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
-	cmp	r5, r6
-	bne	f3593
+	cbne	r5, r6, f3593
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3594
+	cbne	r8, r6, f3594
 	movq	=0x3fc00000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0xffffffffbf800000, r3
@@ -25860,11 +22266,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
-	cmp	r5, r6
-	bne	f3595
+	cbne	r5, r6, f3595
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3596
+	cbne	r8, r6, f3596
 	movq	=0x3fc00000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40000000, r3
@@ -25875,11 +22279,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
-	cmp	r5, r6
-	bne	f3597
+	cbne	r5, r6, f3597
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3598
+	cbne	r8, r6, f3598
 	movq	=0x3fc00000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40000000, r3
@@ -25890,11 +22292,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
-	cmp	r5, r6
-	bne	f3599
+	cbne	r5, r6, f3599
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3600
+	cbne	r8, r6, f3600
 	movq	=0x3fc00000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40400000, r3
@@ -25905,11 +22305,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
-	cmp	r5, r6
-	bne	f3601
+	cbne	r5, r6, f3601
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3602
+	cbne	r8, r6, f3602
 	movq	=0x3fc00000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40400000, r3
@@ -25920,11 +22318,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
-	cmp	r5, r6
-	bne	f3603
+	cbne	r5, r6, f3603
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3604
+	cbne	r8, r6, f3604
 	movq	=0x3fc00000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x3fc00000, r3
@@ -25935,11 +22331,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f3605
+	cbne	r5, r6, f3605
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3606
+	cbne	r8, r6, f3606
 	movq	=0x3fc00000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x3fc00000, r3
@@ -25950,11 +22344,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f3607
+	cbne	r5, r6, f3607
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3608
+	cbne	r8, r6, f3608
 	movq	=0x3fc00000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40200000, r3
@@ -25965,11 +22357,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
-	cmp	r5, r6
-	bne	f3609
+	cbne	r5, r6, f3609
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3610
+	cbne	r8, r6, f3610
 	movq	=0x3fc00000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40200000, r3
@@ -25980,11 +22370,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
-	cmp	r5, r6
-	bne	f3611
+	cbne	r5, r6, f3611
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3612
+	cbne	r8, r6, f3612
 	movq	=0x3fc00000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40700000, r3
@@ -25995,11 +22383,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
-	cmp	r5, r6
-	bne	f3613
+	cbne	r5, r6, f3613
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3614
+	cbne	r8, r6, f3614
 	movq	=0x3fc00000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40700000, r3
@@ -26010,11 +22396,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
-	cmp	r5, r6
-	bne	f3615
+	cbne	r5, r6, f3615
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3616
+	cbne	r8, r6, f3616
 	movq	=0x3fc00000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0xffffffffc0700000, r3
@@ -26025,11 +22409,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40700000, r6
-	cmp	r5, r6
-	bne	f3617
+	cbne	r5, r6, f3617
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3618
+	cbne	r8, r6, f3618
 	movq	=0x3fc00000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0xffffffffc0700000, r3
@@ -26040,11 +22422,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40700000, r6
-	cmp	r5, r6
-	bne	f3619
+	cbne	r5, r6, f3619
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3620
+	cbne	r8, r6, f3620
 	movq	=0x3fc00000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40f00000, r3
@@ -26055,11 +22435,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
-	cmp	r5, r6
-	bne	f3621
+	cbne	r5, r6, f3621
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3622
+	cbne	r8, r6, f3622
 	movq	=0x3fc00000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40f00000, r3
@@ -26070,11 +22448,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
-	cmp	r5, r6
-	bne	f3623
+	cbne	r5, r6, f3623
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3624
+	cbne	r8, r6, f3624
 	movq	=0x3fc00000, r1
 	movq	=0x3f800000, r2
 	movq	=0x0, r3
@@ -26085,11 +22461,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3fc00000, r6
-	cmp	r5, r6
-	bne	f3625
+	cbne	r5, r6, f3625
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3626
+	cbne	r8, r6, f3626
 	movq	=0x3fc00000, r1
 	movq	=0x3f800000, r2
 	movq	=0x0, r3
@@ -26100,11 +22474,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f3627
+	cbne	r5, r6, f3627
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3628
+	cbne	r8, r6, f3628
 	movq	=0x3fc00000, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffff80000000, r3
@@ -26115,11 +22487,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3fc00000, r6
-	cmp	r5, r6
-	bne	f3629
+	cbne	r5, r6, f3629
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3630
+	cbne	r8, r6, f3630
 	movq	=0x3fc00000, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffff80000000, r3
@@ -26130,11 +22500,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f3631
+	cbne	r5, r6, f3631
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3632
+	cbne	r8, r6, f3632
 	movq	=0x3fc00000, r1
 	movq	=0x3f800000, r2
 	movq	=0x3f800000, r3
@@ -26145,11 +22513,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f000000, r6
-	cmp	r5, r6
-	bne	f3633
+	cbne	r5, r6, f3633
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3634
+	cbne	r8, r6, f3634
 	movq	=0x3fc00000, r1
 	movq	=0x3f800000, r2
 	movq	=0x3f800000, r3
@@ -26160,11 +22526,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
-	cmp	r5, r6
-	bne	f3635
+	cbne	r5, r6, f3635
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3636
+	cbne	r8, r6, f3636
 	movq	=0x3fc00000, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffffbf800000, r3
@@ -26175,11 +22539,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40200000, r6
-	cmp	r5, r6
-	bne	f3637
+	cbne	r5, r6, f3637
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3638
+	cbne	r8, r6, f3638
 	movq	=0x3fc00000, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffffbf800000, r3
@@ -26190,11 +22552,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf000000, r6
-	cmp	r5, r6
-	bne	f3639
+	cbne	r5, r6, f3639
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3640
+	cbne	r8, r6, f3640
 	movq	=0x3fc00000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40000000, r3
@@ -26205,11 +22565,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf000000, r6
-	cmp	r5, r6
-	bne	f3641
+	cbne	r5, r6, f3641
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3642
+	cbne	r8, r6, f3642
 	movq	=0x3fc00000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40000000, r3
@@ -26220,11 +22578,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0600000, r6
-	cmp	r5, r6
-	bne	f3643
+	cbne	r5, r6, f3643
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3644
+	cbne	r8, r6, f3644
 	movq	=0x3fc00000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40400000, r3
@@ -26235,11 +22591,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f3645
+	cbne	r5, r6, f3645
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3646
+	cbne	r8, r6, f3646
 	movq	=0x3fc00000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40400000, r3
@@ -26250,11 +22604,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0900000, r6
-	cmp	r5, r6
-	bne	f3647
+	cbne	r5, r6, f3647
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3648
+	cbne	r8, r6, f3648
 	movq	=0x3fc00000, r1
 	movq	=0x3f800000, r2
 	movq	=0x3fc00000, r3
@@ -26265,11 +22617,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f3649
+	cbne	r5, r6, f3649
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3650
+	cbne	r8, r6, f3650
 	movq	=0x3fc00000, r1
 	movq	=0x3f800000, r2
 	movq	=0x3fc00000, r3
@@ -26280,11 +22630,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
-	cmp	r5, r6
-	bne	f3651
+	cbne	r5, r6, f3651
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3652
+	cbne	r8, r6, f3652
 	movq	=0x3fc00000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40200000, r3
@@ -26295,11 +22643,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f3653
+	cbne	r5, r6, f3653
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3654
+	cbne	r8, r6, f3654
 	movq	=0x3fc00000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40200000, r3
@@ -26310,11 +22656,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0800000, r6
-	cmp	r5, r6
-	bne	f3655
+	cbne	r5, r6, f3655
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3656
+	cbne	r8, r6, f3656
 	movq	=0x3fc00000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40700000, r3
@@ -26325,11 +22669,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0100000, r6
-	cmp	r5, r6
-	bne	f3657
+	cbne	r5, r6, f3657
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3658
+	cbne	r8, r6, f3658
 	movq	=0x3fc00000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40700000, r3
@@ -26340,11 +22682,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0a80000, r6
-	cmp	r5, r6
-	bne	f3659
+	cbne	r5, r6, f3659
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3660
+	cbne	r8, r6, f3660
 	movq	=0x3fc00000, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffffc0700000, r3
@@ -26355,11 +22695,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40a80000, r6
-	cmp	r5, r6
-	bne	f3661
+	cbne	r5, r6, f3661
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3662
+	cbne	r8, r6, f3662
 	movq	=0x3fc00000, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffffc0700000, r3
@@ -26370,11 +22708,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40100000, r6
-	cmp	r5, r6
-	bne	f3663
+	cbne	r5, r6, f3663
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3664
+	cbne	r8, r6, f3664
 	movq	=0x3fc00000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40f00000, r3
@@ -26385,11 +22721,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0c00000, r6
-	cmp	r5, r6
-	bne	f3665
+	cbne	r5, r6, f3665
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3666
+	cbne	r8, r6, f3666
 	movq	=0x3fc00000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40f00000, r3
@@ -26400,11 +22734,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc1100000, r6
-	cmp	r5, r6
-	bne	f3667
+	cbne	r5, r6, f3667
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3668
+	cbne	r8, r6, f3668
 	movq	=0x3fc00000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x0, r3
@@ -26415,11 +22747,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f3669
+	cbne	r5, r6, f3669
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3670
+	cbne	r8, r6, f3670
 	movq	=0x3fc00000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x0, r3
@@ -26430,11 +22760,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3fc00000, r6
-	cmp	r5, r6
-	bne	f3671
+	cbne	r5, r6, f3671
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3672
+	cbne	r8, r6, f3672
 	movq	=0x3fc00000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0xffffffff80000000, r3
@@ -26445,11 +22773,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f3673
+	cbne	r5, r6, f3673
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3674
+	cbne	r8, r6, f3674
 	movq	=0x3fc00000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0xffffffff80000000, r3
@@ -26460,11 +22786,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3fc00000, r6
-	cmp	r5, r6
-	bne	f3675
+	cbne	r5, r6, f3675
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3676
+	cbne	r8, r6, f3676
 	movq	=0x3fc00000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x3f800000, r3
@@ -26475,11 +22799,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
-	cmp	r5, r6
-	bne	f3677
+	cbne	r5, r6, f3677
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3678
+	cbne	r8, r6, f3678
 	movq	=0x3fc00000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x3f800000, r3
@@ -26490,11 +22812,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f000000, r6
-	cmp	r5, r6
-	bne	f3679
+	cbne	r5, r6, f3679
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3680
+	cbne	r8, r6, f3680
 	movq	=0x3fc00000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0xffffffffbf800000, r3
@@ -26505,11 +22825,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf000000, r6
-	cmp	r5, r6
-	bne	f3681
+	cbne	r5, r6, f3681
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3682
+	cbne	r8, r6, f3682
 	movq	=0x3fc00000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0xffffffffbf800000, r3
@@ -26520,11 +22838,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40200000, r6
-	cmp	r5, r6
-	bne	f3683
+	cbne	r5, r6, f3683
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3684
+	cbne	r8, r6, f3684
 	movq	=0x3fc00000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40000000, r3
@@ -26535,11 +22851,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0600000, r6
-	cmp	r5, r6
-	bne	f3685
+	cbne	r5, r6, f3685
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3686
+	cbne	r8, r6, f3686
 	movq	=0x3fc00000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40000000, r3
@@ -26550,11 +22864,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf000000, r6
-	cmp	r5, r6
-	bne	f3687
+	cbne	r5, r6, f3687
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3688
+	cbne	r8, r6, f3688
 	movq	=0x3fc00000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40400000, r3
@@ -26565,11 +22877,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0900000, r6
-	cmp	r5, r6
-	bne	f3689
+	cbne	r5, r6, f3689
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3690
+	cbne	r8, r6, f3690
 	movq	=0x3fc00000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40400000, r3
@@ -26580,11 +22890,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f3691
+	cbne	r5, r6, f3691
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3692
+	cbne	r8, r6, f3692
 	movq	=0x3fc00000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x3fc00000, r3
@@ -26595,11 +22903,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
-	cmp	r5, r6
-	bne	f3693
+	cbne	r5, r6, f3693
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3694
+	cbne	r8, r6, f3694
 	movq	=0x3fc00000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x3fc00000, r3
@@ -26610,11 +22916,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f3695
+	cbne	r5, r6, f3695
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3696
+	cbne	r8, r6, f3696
 	movq	=0x3fc00000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40200000, r3
@@ -26625,11 +22929,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0800000, r6
-	cmp	r5, r6
-	bne	f3697
+	cbne	r5, r6, f3697
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3698
+	cbne	r8, r6, f3698
 	movq	=0x3fc00000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40200000, r3
@@ -26640,11 +22942,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f3699
+	cbne	r5, r6, f3699
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3700
+	cbne	r8, r6, f3700
 	movq	=0x3fc00000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40700000, r3
@@ -26655,11 +22955,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0a80000, r6
-	cmp	r5, r6
-	bne	f3701
+	cbne	r5, r6, f3701
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3702
+	cbne	r8, r6, f3702
 	movq	=0x3fc00000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40700000, r3
@@ -26670,11 +22968,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0100000, r6
-	cmp	r5, r6
-	bne	f3703
+	cbne	r5, r6, f3703
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3704
+	cbne	r8, r6, f3704
 	movq	=0x3fc00000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0xffffffffc0700000, r3
@@ -26685,11 +22981,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40100000, r6
-	cmp	r5, r6
-	bne	f3705
+	cbne	r5, r6, f3705
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3706
+	cbne	r8, r6, f3706
 	movq	=0x3fc00000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0xffffffffc0700000, r3
@@ -26700,11 +22994,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40a80000, r6
-	cmp	r5, r6
-	bne	f3707
+	cbne	r5, r6, f3707
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3708
+	cbne	r8, r6, f3708
 	movq	=0x3fc00000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40f00000, r3
@@ -26715,11 +23007,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc1100000, r6
-	cmp	r5, r6
-	bne	f3709
+	cbne	r5, r6, f3709
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3710
+	cbne	r8, r6, f3710
 	movq	=0x3fc00000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40f00000, r3
@@ -26730,11 +23020,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0c00000, r6
-	cmp	r5, r6
-	bne	f3711
+	cbne	r5, r6, f3711
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3712
+	cbne	r8, r6, f3712
 	movq	=0x3fc00000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x0, r3
@@ -26745,11 +23033,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40100000, r6
-	cmp	r5, r6
-	bne	f3713
+	cbne	r5, r6, f3713
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3714
+	cbne	r8, r6, f3714
 	movq	=0x3fc00000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x0, r3
@@ -26760,11 +23046,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0100000, r6
-	cmp	r5, r6
-	bne	f3715
+	cbne	r5, r6, f3715
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3716
+	cbne	r8, r6, f3716
 	movq	=0x3fc00000, r1
 	movq	=0x3fc00000, r2
 	movq	=0xffffffff80000000, r3
@@ -26775,11 +23059,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40100000, r6
-	cmp	r5, r6
-	bne	f3717
+	cbne	r5, r6, f3717
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3718
+	cbne	r8, r6, f3718
 	movq	=0x3fc00000, r1
 	movq	=0x3fc00000, r2
 	movq	=0xffffffff80000000, r3
@@ -26790,11 +23072,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0100000, r6
-	cmp	r5, r6
-	bne	f3719
+	cbne	r5, r6, f3719
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3720
+	cbne	r8, r6, f3720
 	movq	=0x3fc00000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x3f800000, r3
@@ -26805,11 +23085,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3fa00000, r6
-	cmp	r5, r6
-	bne	f3721
+	cbne	r5, r6, f3721
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3722
+	cbne	r8, r6, f3722
 	movq	=0x3fc00000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x3f800000, r3
@@ -26820,11 +23098,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0500000, r6
-	cmp	r5, r6
-	bne	f3723
+	cbne	r5, r6, f3723
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3724
+	cbne	r8, r6, f3724
 	movq	=0x3fc00000, r1
 	movq	=0x3fc00000, r2
 	movq	=0xffffffffbf800000, r3
@@ -26835,11 +23111,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40500000, r6
-	cmp	r5, r6
-	bne	f3725
+	cbne	r5, r6, f3725
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3726
+	cbne	r8, r6, f3726
 	movq	=0x3fc00000, r1
 	movq	=0x3fc00000, r2
 	movq	=0xffffffffbf800000, r3
@@ -26850,11 +23124,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfa00000, r6
-	cmp	r5, r6
-	bne	f3727
+	cbne	r5, r6, f3727
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3728
+	cbne	r8, r6, f3728
 	movq	=0x3fc00000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40000000, r3
@@ -26865,11 +23137,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3e800000, r6
-	cmp	r5, r6
-	bne	f3729
+	cbne	r5, r6, f3729
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3730
+	cbne	r8, r6, f3730
 	movq	=0x3fc00000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40000000, r3
@@ -26880,11 +23150,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0880000, r6
-	cmp	r5, r6
-	bne	f3731
+	cbne	r5, r6, f3731
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3732
+	cbne	r8, r6, f3732
 	movq	=0x3fc00000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40400000, r3
@@ -26895,11 +23163,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf400000, r6
-	cmp	r5, r6
-	bne	f3733
+	cbne	r5, r6, f3733
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3734
+	cbne	r8, r6, f3734
 	movq	=0x3fc00000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40400000, r3
@@ -26910,11 +23176,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0a80000, r6
-	cmp	r5, r6
-	bne	f3735
+	cbne	r5, r6, f3735
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3736
+	cbne	r8, r6, f3736
 	movq	=0x3fc00000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x3fc00000, r3
@@ -26925,11 +23189,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f400000, r6
-	cmp	r5, r6
-	bne	f3737
+	cbne	r5, r6, f3737
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3738
+	cbne	r8, r6, f3738
 	movq	=0x3fc00000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x3fc00000, r3
@@ -26940,11 +23202,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
-	cmp	r5, r6
-	bne	f3739
+	cbne	r5, r6, f3739
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3740
+	cbne	r8, r6, f3740
 	movq	=0x3fc00000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40200000, r3
@@ -26955,11 +23215,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbe800000, r6
-	cmp	r5, r6
-	bne	f3741
+	cbne	r5, r6, f3741
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3742
+	cbne	r8, r6, f3742
 	movq	=0x3fc00000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40200000, r3
@@ -26970,11 +23228,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0980000, r6
-	cmp	r5, r6
-	bne	f3743
+	cbne	r5, r6, f3743
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3744
+	cbne	r8, r6, f3744
 	movq	=0x3fc00000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40700000, r3
@@ -26985,11 +23241,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f3745
+	cbne	r5, r6, f3745
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3746
+	cbne	r8, r6, f3746
 	movq	=0x3fc00000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40700000, r3
@@ -27000,11 +23254,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0c00000, r6
-	cmp	r5, r6
-	bne	f3747
+	cbne	r5, r6, f3747
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3748
+	cbne	r8, r6, f3748
 	movq	=0x3fc00000, r1
 	movq	=0x3fc00000, r2
 	movq	=0xffffffffc0700000, r3
@@ -27015,11 +23267,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40c00000, r6
-	cmp	r5, r6
-	bne	f3749
+	cbne	r5, r6, f3749
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3750
+	cbne	r8, r6, f3750
 	movq	=0x3fc00000, r1
 	movq	=0x3fc00000, r2
 	movq	=0xffffffffc0700000, r3
@@ -27030,11 +23280,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3fc00000, r6
-	cmp	r5, r6
-	bne	f3751
+	cbne	r5, r6, f3751
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3752
+	cbne	r8, r6, f3752
 	movq	=0x3fc00000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40f00000, r3
@@ -27045,11 +23293,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0a80000, r6
-	cmp	r5, r6
-	bne	f3753
+	cbne	r5, r6, f3753
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3754
+	cbne	r8, r6, f3754
 	movq	=0x3fc00000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40f00000, r3
@@ -27060,11 +23306,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc11c0000, r6
-	cmp	r5, r6
-	bne	f3755
+	cbne	r5, r6, f3755
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3756
+	cbne	r8, r6, f3756
 	movq	=0x40200000, r1
 	movq	=0x0, r2
 	movq	=0x0, r3
@@ -27075,11 +23319,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f3757
+	cbne	r5, r6, f3757
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3758
+	cbne	r8, r6, f3758
 	movq	=0x40200000, r1
 	movq	=0x0, r2
 	movq	=0x0, r3
@@ -27090,11 +23332,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffff80000000, r6
-	cmp	r5, r6
-	bne	f3759
+	cbne	r5, r6, f3759
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3760
+	cbne	r8, r6, f3760
 	movq	=0x40200000, r1
 	movq	=0x0, r2
 	movq	=0xffffffff80000000, r3
@@ -27105,11 +23345,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f3761
+	cbne	r5, r6, f3761
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3762
+	cbne	r8, r6, f3762
 	movq	=0x40200000, r1
 	movq	=0x0, r2
 	movq	=0xffffffff80000000, r3
@@ -27120,11 +23358,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f3763
+	cbne	r5, r6, f3763
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3764
+	cbne	r8, r6, f3764
 	movq	=0x40200000, r1
 	movq	=0x0, r2
 	movq	=0x3f800000, r3
@@ -27135,11 +23371,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f3765
+	cbne	r5, r6, f3765
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3766
+	cbne	r8, r6, f3766
 	movq	=0x40200000, r1
 	movq	=0x0, r2
 	movq	=0x3f800000, r3
@@ -27150,11 +23384,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f3767
+	cbne	r5, r6, f3767
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3768
+	cbne	r8, r6, f3768
 	movq	=0x40200000, r1
 	movq	=0x0, r2
 	movq	=0xffffffffbf800000, r3
@@ -27165,11 +23397,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
-	cmp	r5, r6
-	bne	f3769
+	cbne	r5, r6, f3769
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3770
+	cbne	r8, r6, f3770
 	movq	=0x40200000, r1
 	movq	=0x0, r2
 	movq	=0xffffffffbf800000, r3
@@ -27180,11 +23410,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
-	cmp	r5, r6
-	bne	f3771
+	cbne	r5, r6, f3771
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3772
+	cbne	r8, r6, f3772
 	movq	=0x40200000, r1
 	movq	=0x0, r2
 	movq	=0x40000000, r3
@@ -27195,11 +23423,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
-	cmp	r5, r6
-	bne	f3773
+	cbne	r5, r6, f3773
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3774
+	cbne	r8, r6, f3774
 	movq	=0x40200000, r1
 	movq	=0x0, r2
 	movq	=0x40000000, r3
@@ -27210,11 +23436,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
-	cmp	r5, r6
-	bne	f3775
+	cbne	r5, r6, f3775
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3776
+	cbne	r8, r6, f3776
 	movq	=0x40200000, r1
 	movq	=0x0, r2
 	movq	=0x40400000, r3
@@ -27225,11 +23449,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
-	cmp	r5, r6
-	bne	f3777
+	cbne	r5, r6, f3777
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3778
+	cbne	r8, r6, f3778
 	movq	=0x40200000, r1
 	movq	=0x0, r2
 	movq	=0x40400000, r3
@@ -27240,11 +23462,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
-	cmp	r5, r6
-	bne	f3779
+	cbne	r5, r6, f3779
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3780
+	cbne	r8, r6, f3780
 	movq	=0x40200000, r1
 	movq	=0x0, r2
 	movq	=0x3fc00000, r3
@@ -27255,11 +23475,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f3781
+	cbne	r5, r6, f3781
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3782
+	cbne	r8, r6, f3782
 	movq	=0x40200000, r1
 	movq	=0x0, r2
 	movq	=0x3fc00000, r3
@@ -27270,11 +23488,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f3783
+	cbne	r5, r6, f3783
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3784
+	cbne	r8, r6, f3784
 	movq	=0x40200000, r1
 	movq	=0x0, r2
 	movq	=0x40200000, r3
@@ -27285,11 +23501,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
-	cmp	r5, r6
-	bne	f3785
+	cbne	r5, r6, f3785
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3786
+	cbne	r8, r6, f3786
 	movq	=0x40200000, r1
 	movq	=0x0, r2
 	movq	=0x40200000, r3
@@ -27300,11 +23514,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
-	cmp	r5, r6
-	bne	f3787
+	cbne	r5, r6, f3787
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3788
+	cbne	r8, r6, f3788
 	movq	=0x40200000, r1
 	movq	=0x0, r2
 	movq	=0x40700000, r3
@@ -27315,11 +23527,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
-	cmp	r5, r6
-	bne	f3789
+	cbne	r5, r6, f3789
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3790
+	cbne	r8, r6, f3790
 	movq	=0x40200000, r1
 	movq	=0x0, r2
 	movq	=0x40700000, r3
@@ -27330,11 +23540,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
-	cmp	r5, r6
-	bne	f3791
+	cbne	r5, r6, f3791
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3792
+	cbne	r8, r6, f3792
 	movq	=0x40200000, r1
 	movq	=0x0, r2
 	movq	=0xffffffffc0700000, r3
@@ -27345,11 +23553,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40700000, r6
-	cmp	r5, r6
-	bne	f3793
+	cbne	r5, r6, f3793
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3794
+	cbne	r8, r6, f3794
 	movq	=0x40200000, r1
 	movq	=0x0, r2
 	movq	=0xffffffffc0700000, r3
@@ -27360,11 +23566,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40700000, r6
-	cmp	r5, r6
-	bne	f3795
+	cbne	r5, r6, f3795
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3796
+	cbne	r8, r6, f3796
 	movq	=0x40200000, r1
 	movq	=0x0, r2
 	movq	=0x40f00000, r3
@@ -27375,11 +23579,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
-	cmp	r5, r6
-	bne	f3797
+	cbne	r5, r6, f3797
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3798
+	cbne	r8, r6, f3798
 	movq	=0x40200000, r1
 	movq	=0x0, r2
 	movq	=0x40f00000, r3
@@ -27390,11 +23592,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
-	cmp	r5, r6
-	bne	f3799
+	cbne	r5, r6, f3799
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3800
+	cbne	r8, r6, f3800
 	movq	=0x40200000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x0, r3
@@ -27405,11 +23605,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffff80000000, r6
-	cmp	r5, r6
-	bne	f3801
+	cbne	r5, r6, f3801
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3802
+	cbne	r8, r6, f3802
 	movq	=0x40200000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x0, r3
@@ -27420,11 +23618,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f3803
+	cbne	r5, r6, f3803
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3804
+	cbne	r8, r6, f3804
 	movq	=0x40200000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0xffffffff80000000, r3
@@ -27435,11 +23631,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f3805
+	cbne	r5, r6, f3805
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3806
+	cbne	r8, r6, f3806
 	movq	=0x40200000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0xffffffff80000000, r3
@@ -27450,11 +23644,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f3807
+	cbne	r5, r6, f3807
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3808
+	cbne	r8, r6, f3808
 	movq	=0x40200000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x3f800000, r3
@@ -27465,11 +23657,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f3809
+	cbne	r5, r6, f3809
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3810
+	cbne	r8, r6, f3810
 	movq	=0x40200000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x3f800000, r3
@@ -27480,11 +23670,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f3811
+	cbne	r5, r6, f3811
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3812
+	cbne	r8, r6, f3812
 	movq	=0x40200000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0xffffffffbf800000, r3
@@ -27495,11 +23683,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
-	cmp	r5, r6
-	bne	f3813
+	cbne	r5, r6, f3813
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3814
+	cbne	r8, r6, f3814
 	movq	=0x40200000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0xffffffffbf800000, r3
@@ -27510,11 +23696,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
-	cmp	r5, r6
-	bne	f3815
+	cbne	r5, r6, f3815
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3816
+	cbne	r8, r6, f3816
 	movq	=0x40200000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40000000, r3
@@ -27525,11 +23709,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
-	cmp	r5, r6
-	bne	f3817
+	cbne	r5, r6, f3817
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3818
+	cbne	r8, r6, f3818
 	movq	=0x40200000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40000000, r3
@@ -27540,11 +23722,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
-	cmp	r5, r6
-	bne	f3819
+	cbne	r5, r6, f3819
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3820
+	cbne	r8, r6, f3820
 	movq	=0x40200000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40400000, r3
@@ -27555,11 +23735,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
-	cmp	r5, r6
-	bne	f3821
+	cbne	r5, r6, f3821
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3822
+	cbne	r8, r6, f3822
 	movq	=0x40200000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40400000, r3
@@ -27570,11 +23748,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
-	cmp	r5, r6
-	bne	f3823
+	cbne	r5, r6, f3823
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3824
+	cbne	r8, r6, f3824
 	movq	=0x40200000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x3fc00000, r3
@@ -27585,11 +23761,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f3825
+	cbne	r5, r6, f3825
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3826
+	cbne	r8, r6, f3826
 	movq	=0x40200000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x3fc00000, r3
@@ -27600,11 +23774,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f3827
+	cbne	r5, r6, f3827
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3828
+	cbne	r8, r6, f3828
 	movq	=0x40200000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40200000, r3
@@ -27615,11 +23787,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
-	cmp	r5, r6
-	bne	f3829
+	cbne	r5, r6, f3829
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3830
+	cbne	r8, r6, f3830
 	movq	=0x40200000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40200000, r3
@@ -27630,11 +23800,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
-	cmp	r5, r6
-	bne	f3831
+	cbne	r5, r6, f3831
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3832
+	cbne	r8, r6, f3832
 	movq	=0x40200000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40700000, r3
@@ -27645,11 +23813,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
-	cmp	r5, r6
-	bne	f3833
+	cbne	r5, r6, f3833
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3834
+	cbne	r8, r6, f3834
 	movq	=0x40200000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40700000, r3
@@ -27660,11 +23826,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
-	cmp	r5, r6
-	bne	f3835
+	cbne	r5, r6, f3835
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3836
+	cbne	r8, r6, f3836
 	movq	=0x40200000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0xffffffffc0700000, r3
@@ -27675,11 +23839,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40700000, r6
-	cmp	r5, r6
-	bne	f3837
+	cbne	r5, r6, f3837
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3838
+	cbne	r8, r6, f3838
 	movq	=0x40200000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0xffffffffc0700000, r3
@@ -27690,11 +23852,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40700000, r6
-	cmp	r5, r6
-	bne	f3839
+	cbne	r5, r6, f3839
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3840
+	cbne	r8, r6, f3840
 	movq	=0x40200000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40f00000, r3
@@ -27705,11 +23865,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
-	cmp	r5, r6
-	bne	f3841
+	cbne	r5, r6, f3841
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3842
+	cbne	r8, r6, f3842
 	movq	=0x40200000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40f00000, r3
@@ -27720,11 +23878,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
-	cmp	r5, r6
-	bne	f3843
+	cbne	r5, r6, f3843
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3844
+	cbne	r8, r6, f3844
 	movq	=0x40200000, r1
 	movq	=0x3f800000, r2
 	movq	=0x0, r3
@@ -27735,11 +23891,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40200000, r6
-	cmp	r5, r6
-	bne	f3845
+	cbne	r5, r6, f3845
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3846
+	cbne	r8, r6, f3846
 	movq	=0x40200000, r1
 	movq	=0x3f800000, r2
 	movq	=0x0, r3
@@ -27750,11 +23904,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
-	cmp	r5, r6
-	bne	f3847
+	cbne	r5, r6, f3847
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3848
+	cbne	r8, r6, f3848
 	movq	=0x40200000, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffff80000000, r3
@@ -27765,11 +23917,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40200000, r6
-	cmp	r5, r6
-	bne	f3849
+	cbne	r5, r6, f3849
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3850
+	cbne	r8, r6, f3850
 	movq	=0x40200000, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffff80000000, r3
@@ -27780,11 +23930,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
-	cmp	r5, r6
-	bne	f3851
+	cbne	r5, r6, f3851
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3852
+	cbne	r8, r6, f3852
 	movq	=0x40200000, r1
 	movq	=0x3f800000, r2
 	movq	=0x3f800000, r3
@@ -27795,11 +23943,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3fc00000, r6
-	cmp	r5, r6
-	bne	f3853
+	cbne	r5, r6, f3853
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3854
+	cbne	r8, r6, f3854
 	movq	=0x40200000, r1
 	movq	=0x3f800000, r2
 	movq	=0x3f800000, r3
@@ -27810,11 +23956,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0600000, r6
-	cmp	r5, r6
-	bne	f3855
+	cbne	r5, r6, f3855
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3856
+	cbne	r8, r6, f3856
 	movq	=0x40200000, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffffbf800000, r3
@@ -27825,11 +23969,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40600000, r6
-	cmp	r5, r6
-	bne	f3857
+	cbne	r5, r6, f3857
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3858
+	cbne	r8, r6, f3858
 	movq	=0x40200000, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffffbf800000, r3
@@ -27840,11 +23982,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f3859
+	cbne	r5, r6, f3859
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3860
+	cbne	r8, r6, f3860
 	movq	=0x40200000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40000000, r3
@@ -27855,11 +23995,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f000000, r6
-	cmp	r5, r6
-	bne	f3861
+	cbne	r5, r6, f3861
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3862
+	cbne	r8, r6, f3862
 	movq	=0x40200000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40000000, r3
@@ -27870,11 +24008,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0900000, r6
-	cmp	r5, r6
-	bne	f3863
+	cbne	r5, r6, f3863
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3864
+	cbne	r8, r6, f3864
 	movq	=0x40200000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40400000, r3
@@ -27885,11 +24021,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf000000, r6
-	cmp	r5, r6
-	bne	f3865
+	cbne	r5, r6, f3865
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3866
+	cbne	r8, r6, f3866
 	movq	=0x40200000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40400000, r3
@@ -27900,11 +24034,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0b00000, r6
-	cmp	r5, r6
-	bne	f3867
+	cbne	r5, r6, f3867
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3868
+	cbne	r8, r6, f3868
 	movq	=0x40200000, r1
 	movq	=0x3f800000, r2
 	movq	=0x3fc00000, r3
@@ -27915,11 +24047,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
-	cmp	r5, r6
-	bne	f3869
+	cbne	r5, r6, f3869
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3870
+	cbne	r8, r6, f3870
 	movq	=0x40200000, r1
 	movq	=0x3f800000, r2
 	movq	=0x3fc00000, r3
@@ -27930,11 +24060,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0800000, r6
-	cmp	r5, r6
-	bne	f3871
+	cbne	r5, r6, f3871
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3872
+	cbne	r8, r6, f3872
 	movq	=0x40200000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40200000, r3
@@ -27945,11 +24073,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f3873
+	cbne	r5, r6, f3873
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3874
+	cbne	r8, r6, f3874
 	movq	=0x40200000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40200000, r3
@@ -27960,11 +24086,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0a00000, r6
-	cmp	r5, r6
-	bne	f3875
+	cbne	r5, r6, f3875
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3876
+	cbne	r8, r6, f3876
 	movq	=0x40200000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40700000, r3
@@ -27975,11 +24099,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfa00000, r6
-	cmp	r5, r6
-	bne	f3877
+	cbne	r5, r6, f3877
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3878
+	cbne	r8, r6, f3878
 	movq	=0x40200000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40700000, r3
@@ -27990,11 +24112,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0c80000, r6
-	cmp	r5, r6
-	bne	f3879
+	cbne	r5, r6, f3879
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3880
+	cbne	r8, r6, f3880
 	movq	=0x40200000, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffffc0700000, r3
@@ -28005,11 +24125,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40c80000, r6
-	cmp	r5, r6
-	bne	f3881
+	cbne	r5, r6, f3881
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3882
+	cbne	r8, r6, f3882
 	movq	=0x40200000, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffffc0700000, r3
@@ -28020,11 +24138,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3fa00000, r6
-	cmp	r5, r6
-	bne	f3883
+	cbne	r5, r6, f3883
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3884
+	cbne	r8, r6, f3884
 	movq	=0x40200000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40f00000, r3
@@ -28035,11 +24151,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0a00000, r6
-	cmp	r5, r6
-	bne	f3885
+	cbne	r5, r6, f3885
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3886
+	cbne	r8, r6, f3886
 	movq	=0x40200000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40f00000, r3
@@ -28050,11 +24164,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc1200000, r6
-	cmp	r5, r6
-	bne	f3887
+	cbne	r5, r6, f3887
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3888
+	cbne	r8, r6, f3888
 	movq	=0x40200000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x0, r3
@@ -28065,11 +24177,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
-	cmp	r5, r6
-	bne	f3889
+	cbne	r5, r6, f3889
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3890
+	cbne	r8, r6, f3890
 	movq	=0x40200000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x0, r3
@@ -28080,11 +24190,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40200000, r6
-	cmp	r5, r6
-	bne	f3891
+	cbne	r5, r6, f3891
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3892
+	cbne	r8, r6, f3892
 	movq	=0x40200000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0xffffffff80000000, r3
@@ -28095,11 +24203,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
-	cmp	r5, r6
-	bne	f3893
+	cbne	r5, r6, f3893
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3894
+	cbne	r8, r6, f3894
 	movq	=0x40200000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0xffffffff80000000, r3
@@ -28110,11 +24216,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40200000, r6
-	cmp	r5, r6
-	bne	f3895
+	cbne	r5, r6, f3895
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3896
+	cbne	r8, r6, f3896
 	movq	=0x40200000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x3f800000, r3
@@ -28125,11 +24229,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0600000, r6
-	cmp	r5, r6
-	bne	f3897
+	cbne	r5, r6, f3897
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3898
+	cbne	r8, r6, f3898
 	movq	=0x40200000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x3f800000, r3
@@ -28140,11 +24242,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3fc00000, r6
-	cmp	r5, r6
-	bne	f3899
+	cbne	r5, r6, f3899
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3900
+	cbne	r8, r6, f3900
 	movq	=0x40200000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0xffffffffbf800000, r3
@@ -28155,11 +24255,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f3901
+	cbne	r5, r6, f3901
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3902
+	cbne	r8, r6, f3902
 	movq	=0x40200000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0xffffffffbf800000, r3
@@ -28170,11 +24268,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40600000, r6
-	cmp	r5, r6
-	bne	f3903
+	cbne	r5, r6, f3903
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3904
+	cbne	r8, r6, f3904
 	movq	=0x40200000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40000000, r3
@@ -28185,11 +24281,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0900000, r6
-	cmp	r5, r6
-	bne	f3905
+	cbne	r5, r6, f3905
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3906
+	cbne	r8, r6, f3906
 	movq	=0x40200000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40000000, r3
@@ -28200,11 +24294,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f000000, r6
-	cmp	r5, r6
-	bne	f3907
+	cbne	r5, r6, f3907
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3908
+	cbne	r8, r6, f3908
 	movq	=0x40200000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40400000, r3
@@ -28215,11 +24307,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0b00000, r6
-	cmp	r5, r6
-	bne	f3909
+	cbne	r5, r6, f3909
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3910
+	cbne	r8, r6, f3910
 	movq	=0x40200000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40400000, r3
@@ -28230,11 +24320,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf000000, r6
-	cmp	r5, r6
-	bne	f3911
+	cbne	r5, r6, f3911
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3912
+	cbne	r8, r6, f3912
 	movq	=0x40200000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x3fc00000, r3
@@ -28245,11 +24333,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0800000, r6
-	cmp	r5, r6
-	bne	f3913
+	cbne	r5, r6, f3913
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3914
+	cbne	r8, r6, f3914
 	movq	=0x40200000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x3fc00000, r3
@@ -28260,11 +24346,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
-	cmp	r5, r6
-	bne	f3915
+	cbne	r5, r6, f3915
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3916
+	cbne	r8, r6, f3916
 	movq	=0x40200000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40200000, r3
@@ -28275,11 +24359,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0a00000, r6
-	cmp	r5, r6
-	bne	f3917
+	cbne	r5, r6, f3917
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3918
+	cbne	r8, r6, f3918
 	movq	=0x40200000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40200000, r3
@@ -28290,11 +24372,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f3919
+	cbne	r5, r6, f3919
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3920
+	cbne	r8, r6, f3920
 	movq	=0x40200000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40700000, r3
@@ -28305,11 +24385,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0c80000, r6
-	cmp	r5, r6
-	bne	f3921
+	cbne	r5, r6, f3921
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3922
+	cbne	r8, r6, f3922
 	movq	=0x40200000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40700000, r3
@@ -28320,11 +24398,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfa00000, r6
-	cmp	r5, r6
-	bne	f3923
+	cbne	r5, r6, f3923
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3924
+	cbne	r8, r6, f3924
 	movq	=0x40200000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0xffffffffc0700000, r3
@@ -28335,11 +24411,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3fa00000, r6
-	cmp	r5, r6
-	bne	f3925
+	cbne	r5, r6, f3925
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3926
+	cbne	r8, r6, f3926
 	movq	=0x40200000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0xffffffffc0700000, r3
@@ -28350,11 +24424,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40c80000, r6
-	cmp	r5, r6
-	bne	f3927
+	cbne	r5, r6, f3927
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3928
+	cbne	r8, r6, f3928
 	movq	=0x40200000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40f00000, r3
@@ -28365,11 +24437,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc1200000, r6
-	cmp	r5, r6
-	bne	f3929
+	cbne	r5, r6, f3929
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3930
+	cbne	r8, r6, f3930
 	movq	=0x40200000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40f00000, r3
@@ -28380,11 +24450,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0a00000, r6
-	cmp	r5, r6
-	bne	f3931
+	cbne	r5, r6, f3931
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3932
+	cbne	r8, r6, f3932
 	movq	=0x40200000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x0, r3
@@ -28395,11 +24463,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40700000, r6
-	cmp	r5, r6
-	bne	f3933
+	cbne	r5, r6, f3933
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3934
+	cbne	r8, r6, f3934
 	movq	=0x40200000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x0, r3
@@ -28410,11 +24476,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
-	cmp	r5, r6
-	bne	f3935
+	cbne	r5, r6, f3935
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3936
+	cbne	r8, r6, f3936
 	movq	=0x40200000, r1
 	movq	=0x3fc00000, r2
 	movq	=0xffffffff80000000, r3
@@ -28425,11 +24489,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40700000, r6
-	cmp	r5, r6
-	bne	f3937
+	cbne	r5, r6, f3937
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3938
+	cbne	r8, r6, f3938
 	movq	=0x40200000, r1
 	movq	=0x3fc00000, r2
 	movq	=0xffffffff80000000, r3
@@ -28440,11 +24502,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
-	cmp	r5, r6
-	bne	f3939
+	cbne	r5, r6, f3939
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3940
+	cbne	r8, r6, f3940
 	movq	=0x40200000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x3f800000, r3
@@ -28455,11 +24515,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40300000, r6
-	cmp	r5, r6
-	bne	f3941
+	cbne	r5, r6, f3941
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3942
+	cbne	r8, r6, f3942
 	movq	=0x40200000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x3f800000, r3
@@ -28470,11 +24528,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0980000, r6
-	cmp	r5, r6
-	bne	f3943
+	cbne	r5, r6, f3943
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3944
+	cbne	r8, r6, f3944
 	movq	=0x40200000, r1
 	movq	=0x3fc00000, r2
 	movq	=0xffffffffbf800000, r3
@@ -28485,11 +24541,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40980000, r6
-	cmp	r5, r6
-	bne	f3945
+	cbne	r5, r6, f3945
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3946
+	cbne	r8, r6, f3946
 	movq	=0x40200000, r1
 	movq	=0x3fc00000, r2
 	movq	=0xffffffffbf800000, r3
@@ -28500,11 +24554,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0300000, r6
-	cmp	r5, r6
-	bne	f3947
+	cbne	r5, r6, f3947
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3948
+	cbne	r8, r6, f3948
 	movq	=0x40200000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40000000, r3
@@ -28515,11 +24567,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3fe00000, r6
-	cmp	r5, r6
-	bne	f3949
+	cbne	r5, r6, f3949
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3950
+	cbne	r8, r6, f3950
 	movq	=0x40200000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40000000, r3
@@ -28530,11 +24580,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0b80000, r6
-	cmp	r5, r6
-	bne	f3951
+	cbne	r5, r6, f3951
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3952
+	cbne	r8, r6, f3952
 	movq	=0x40200000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40400000, r3
@@ -28545,11 +24593,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f400000, r6
-	cmp	r5, r6
-	bne	f3953
+	cbne	r5, r6, f3953
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3954
+	cbne	r8, r6, f3954
 	movq	=0x40200000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40400000, r3
@@ -28560,11 +24606,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0d80000, r6
-	cmp	r5, r6
-	bne	f3955
+	cbne	r5, r6, f3955
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3956
+	cbne	r8, r6, f3956
 	movq	=0x40200000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x3fc00000, r3
@@ -28575,11 +24619,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40100000, r6
-	cmp	r5, r6
-	bne	f3957
+	cbne	r5, r6, f3957
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3958
+	cbne	r8, r6, f3958
 	movq	=0x40200000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x3fc00000, r3
@@ -28590,11 +24632,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0a80000, r6
-	cmp	r5, r6
-	bne	f3959
+	cbne	r5, r6, f3959
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3960
+	cbne	r8, r6, f3960
 	movq	=0x40200000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40200000, r3
@@ -28605,11 +24645,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3fa00000, r6
-	cmp	r5, r6
-	bne	f3961
+	cbne	r5, r6, f3961
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3962
+	cbne	r8, r6, f3962
 	movq	=0x40200000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40200000, r3
@@ -28620,11 +24658,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0c80000, r6
-	cmp	r5, r6
-	bne	f3963
+	cbne	r5, r6, f3963
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3964
+	cbne	r8, r6, f3964
 	movq	=0x40200000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40700000, r3
@@ -28635,11 +24671,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f3965
+	cbne	r5, r6, f3965
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3966
+	cbne	r8, r6, f3966
 	movq	=0x40200000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40700000, r3
@@ -28650,11 +24684,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
-	cmp	r5, r6
-	bne	f3967
+	cbne	r5, r6, f3967
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3968
+	cbne	r8, r6, f3968
 	movq	=0x40200000, r1
 	movq	=0x3fc00000, r2
 	movq	=0xffffffffc0700000, r3
@@ -28665,11 +24697,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40f00000, r6
-	cmp	r5, r6
-	bne	f3969
+	cbne	r5, r6, f3969
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3970
+	cbne	r8, r6, f3970
 	movq	=0x40200000, r1
 	movq	=0x3fc00000, r2
 	movq	=0xffffffffc0700000, r3
@@ -28680,11 +24710,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f3971
+	cbne	r5, r6, f3971
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3972
+	cbne	r8, r6, f3972
 	movq	=0x40200000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40f00000, r3
@@ -28695,11 +24723,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
-	cmp	r5, r6
-	bne	f3973
+	cbne	r5, r6, f3973
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3974
+	cbne	r8, r6, f3974
 	movq	=0x40200000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40f00000, r3
@@ -28710,11 +24736,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc1340000, r6
-	cmp	r5, r6
-	bne	f3975
+	cbne	r5, r6, f3975
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3976
+	cbne	r8, r6, f3976
 	movq	=0x40700000, r1
 	movq	=0x0, r2
 	movq	=0x0, r3
@@ -28725,11 +24749,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f3977
+	cbne	r5, r6, f3977
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3978
+	cbne	r8, r6, f3978
 	movq	=0x40700000, r1
 	movq	=0x0, r2
 	movq	=0x0, r3
@@ -28740,11 +24762,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffff80000000, r6
-	cmp	r5, r6
-	bne	f3979
+	cbne	r5, r6, f3979
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3980
+	cbne	r8, r6, f3980
 	movq	=0x40700000, r1
 	movq	=0x0, r2
 	movq	=0xffffffff80000000, r3
@@ -28755,11 +24775,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f3981
+	cbne	r5, r6, f3981
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3982
+	cbne	r8, r6, f3982
 	movq	=0x40700000, r1
 	movq	=0x0, r2
 	movq	=0xffffffff80000000, r3
@@ -28770,11 +24788,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f3983
+	cbne	r5, r6, f3983
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3984
+	cbne	r8, r6, f3984
 	movq	=0x40700000, r1
 	movq	=0x0, r2
 	movq	=0x3f800000, r3
@@ -28785,11 +24801,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f3985
+	cbne	r5, r6, f3985
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3986
+	cbne	r8, r6, f3986
 	movq	=0x40700000, r1
 	movq	=0x0, r2
 	movq	=0x3f800000, r3
@@ -28800,11 +24814,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f3987
+	cbne	r5, r6, f3987
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3988
+	cbne	r8, r6, f3988
 	movq	=0x40700000, r1
 	movq	=0x0, r2
 	movq	=0xffffffffbf800000, r3
@@ -28815,11 +24827,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
-	cmp	r5, r6
-	bne	f3989
+	cbne	r5, r6, f3989
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3990
+	cbne	r8, r6, f3990
 	movq	=0x40700000, r1
 	movq	=0x0, r2
 	movq	=0xffffffffbf800000, r3
@@ -28830,11 +24840,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
-	cmp	r5, r6
-	bne	f3991
+	cbne	r5, r6, f3991
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3992
+	cbne	r8, r6, f3992
 	movq	=0x40700000, r1
 	movq	=0x0, r2
 	movq	=0x40000000, r3
@@ -28845,11 +24853,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
-	cmp	r5, r6
-	bne	f3993
+	cbne	r5, r6, f3993
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3994
+	cbne	r8, r6, f3994
 	movq	=0x40700000, r1
 	movq	=0x0, r2
 	movq	=0x40000000, r3
@@ -28860,11 +24866,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
-	cmp	r5, r6
-	bne	f3995
+	cbne	r5, r6, f3995
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3996
+	cbne	r8, r6, f3996
 	movq	=0x40700000, r1
 	movq	=0x0, r2
 	movq	=0x40400000, r3
@@ -28875,11 +24879,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
-	cmp	r5, r6
-	bne	f3997
+	cbne	r5, r6, f3997
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f3998
+	cbne	r8, r6, f3998
 	movq	=0x40700000, r1
 	movq	=0x0, r2
 	movq	=0x40400000, r3
@@ -28890,11 +24892,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
-	cmp	r5, r6
-	bne	f3999
+	cbne	r5, r6, f3999
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4000
+	cbne	r8, r6, f4000
 	movq	=0x40700000, r1
 	movq	=0x0, r2
 	movq	=0x3fc00000, r3
@@ -28905,11 +24905,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f4001
+	cbne	r5, r6, f4001
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4002
+	cbne	r8, r6, f4002
 	movq	=0x40700000, r1
 	movq	=0x0, r2
 	movq	=0x3fc00000, r3
@@ -28920,11 +24918,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f4003
+	cbne	r5, r6, f4003
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4004
+	cbne	r8, r6, f4004
 	movq	=0x40700000, r1
 	movq	=0x0, r2
 	movq	=0x40200000, r3
@@ -28935,11 +24931,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
-	cmp	r5, r6
-	bne	f4005
+	cbne	r5, r6, f4005
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4006
+	cbne	r8, r6, f4006
 	movq	=0x40700000, r1
 	movq	=0x0, r2
 	movq	=0x40200000, r3
@@ -28950,11 +24944,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
-	cmp	r5, r6
-	bne	f4007
+	cbne	r5, r6, f4007
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4008
+	cbne	r8, r6, f4008
 	movq	=0x40700000, r1
 	movq	=0x0, r2
 	movq	=0x40700000, r3
@@ -28965,11 +24957,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
-	cmp	r5, r6
-	bne	f4009
+	cbne	r5, r6, f4009
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4010
+	cbne	r8, r6, f4010
 	movq	=0x40700000, r1
 	movq	=0x0, r2
 	movq	=0x40700000, r3
@@ -28980,11 +24970,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
-	cmp	r5, r6
-	bne	f4011
+	cbne	r5, r6, f4011
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4012
+	cbne	r8, r6, f4012
 	movq	=0x40700000, r1
 	movq	=0x0, r2
 	movq	=0xffffffffc0700000, r3
@@ -28995,11 +24983,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40700000, r6
-	cmp	r5, r6
-	bne	f4013
+	cbne	r5, r6, f4013
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4014
+	cbne	r8, r6, f4014
 	movq	=0x40700000, r1
 	movq	=0x0, r2
 	movq	=0xffffffffc0700000, r3
@@ -29010,11 +24996,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40700000, r6
-	cmp	r5, r6
-	bne	f4015
+	cbne	r5, r6, f4015
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4016
+	cbne	r8, r6, f4016
 	movq	=0x40700000, r1
 	movq	=0x0, r2
 	movq	=0x40f00000, r3
@@ -29025,11 +25009,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
-	cmp	r5, r6
-	bne	f4017
+	cbne	r5, r6, f4017
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4018
+	cbne	r8, r6, f4018
 	movq	=0x40700000, r1
 	movq	=0x0, r2
 	movq	=0x40f00000, r3
@@ -29040,11 +25022,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
-	cmp	r5, r6
-	bne	f4019
+	cbne	r5, r6, f4019
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4020
+	cbne	r8, r6, f4020
 	movq	=0x40700000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x0, r3
@@ -29055,11 +25035,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffff80000000, r6
-	cmp	r5, r6
-	bne	f4021
+	cbne	r5, r6, f4021
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4022
+	cbne	r8, r6, f4022
 	movq	=0x40700000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x0, r3
@@ -29070,11 +25048,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f4023
+	cbne	r5, r6, f4023
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4024
+	cbne	r8, r6, f4024
 	movq	=0x40700000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0xffffffff80000000, r3
@@ -29085,11 +25061,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f4025
+	cbne	r5, r6, f4025
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4026
+	cbne	r8, r6, f4026
 	movq	=0x40700000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0xffffffff80000000, r3
@@ -29100,11 +25074,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f4027
+	cbne	r5, r6, f4027
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4028
+	cbne	r8, r6, f4028
 	movq	=0x40700000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x3f800000, r3
@@ -29115,11 +25087,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f4029
+	cbne	r5, r6, f4029
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4030
+	cbne	r8, r6, f4030
 	movq	=0x40700000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x3f800000, r3
@@ -29130,11 +25100,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf800000, r6
-	cmp	r5, r6
-	bne	f4031
+	cbne	r5, r6, f4031
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4032
+	cbne	r8, r6, f4032
 	movq	=0x40700000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0xffffffffbf800000, r3
@@ -29145,11 +25113,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
-	cmp	r5, r6
-	bne	f4033
+	cbne	r5, r6, f4033
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4034
+	cbne	r8, r6, f4034
 	movq	=0x40700000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0xffffffffbf800000, r3
@@ -29160,11 +25126,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f800000, r6
-	cmp	r5, r6
-	bne	f4035
+	cbne	r5, r6, f4035
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4036
+	cbne	r8, r6, f4036
 	movq	=0x40700000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40000000, r3
@@ -29175,11 +25139,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
-	cmp	r5, r6
-	bne	f4037
+	cbne	r5, r6, f4037
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4038
+	cbne	r8, r6, f4038
 	movq	=0x40700000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40000000, r3
@@ -29190,11 +25152,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0000000, r6
-	cmp	r5, r6
-	bne	f4039
+	cbne	r5, r6, f4039
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4040
+	cbne	r8, r6, f4040
 	movq	=0x40700000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40400000, r3
@@ -29205,11 +25165,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
-	cmp	r5, r6
-	bne	f4041
+	cbne	r5, r6, f4041
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4042
+	cbne	r8, r6, f4042
 	movq	=0x40700000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40400000, r3
@@ -29220,11 +25178,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0400000, r6
-	cmp	r5, r6
-	bne	f4043
+	cbne	r5, r6, f4043
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4044
+	cbne	r8, r6, f4044
 	movq	=0x40700000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x3fc00000, r3
@@ -29235,11 +25191,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f4045
+	cbne	r5, r6, f4045
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4046
+	cbne	r8, r6, f4046
 	movq	=0x40700000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x3fc00000, r3
@@ -29250,11 +25204,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbfc00000, r6
-	cmp	r5, r6
-	bne	f4047
+	cbne	r5, r6, f4047
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4048
+	cbne	r8, r6, f4048
 	movq	=0x40700000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40200000, r3
@@ -29265,11 +25217,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
-	cmp	r5, r6
-	bne	f4049
+	cbne	r5, r6, f4049
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4050
+	cbne	r8, r6, f4050
 	movq	=0x40700000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40200000, r3
@@ -29280,11 +25230,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0200000, r6
-	cmp	r5, r6
-	bne	f4051
+	cbne	r5, r6, f4051
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4052
+	cbne	r8, r6, f4052
 	movq	=0x40700000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40700000, r3
@@ -29295,11 +25243,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
-	cmp	r5, r6
-	bne	f4053
+	cbne	r5, r6, f4053
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4054
+	cbne	r8, r6, f4054
 	movq	=0x40700000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40700000, r3
@@ -29310,11 +25256,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
-	cmp	r5, r6
-	bne	f4055
+	cbne	r5, r6, f4055
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4056
+	cbne	r8, r6, f4056
 	movq	=0x40700000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0xffffffffc0700000, r3
@@ -29325,11 +25269,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40700000, r6
-	cmp	r5, r6
-	bne	f4057
+	cbne	r5, r6, f4057
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4058
+	cbne	r8, r6, f4058
 	movq	=0x40700000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0xffffffffc0700000, r3
@@ -29340,11 +25282,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40700000, r6
-	cmp	r5, r6
-	bne	f4059
+	cbne	r5, r6, f4059
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4060
+	cbne	r8, r6, f4060
 	movq	=0x40700000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40f00000, r3
@@ -29355,11 +25295,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
-	cmp	r5, r6
-	bne	f4061
+	cbne	r5, r6, f4061
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4062
+	cbne	r8, r6, f4062
 	movq	=0x40700000, r1
 	movq	=0xffffffff80000000, r2
 	movq	=0x40f00000, r3
@@ -29370,11 +25308,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
-	cmp	r5, r6
-	bne	f4063
+	cbne	r5, r6, f4063
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4064
+	cbne	r8, r6, f4064
 	movq	=0x40700000, r1
 	movq	=0x3f800000, r2
 	movq	=0x0, r3
@@ -29385,11 +25321,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40700000, r6
-	cmp	r5, r6
-	bne	f4065
+	cbne	r5, r6, f4065
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4066
+	cbne	r8, r6, f4066
 	movq	=0x40700000, r1
 	movq	=0x3f800000, r2
 	movq	=0x0, r3
@@ -29400,11 +25334,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
-	cmp	r5, r6
-	bne	f4067
+	cbne	r5, r6, f4067
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4068
+	cbne	r8, r6, f4068
 	movq	=0x40700000, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffff80000000, r3
@@ -29415,11 +25347,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40700000, r6
-	cmp	r5, r6
-	bne	f4069
+	cbne	r5, r6, f4069
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4070
+	cbne	r8, r6, f4070
 	movq	=0x40700000, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffff80000000, r3
@@ -29430,11 +25360,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
-	cmp	r5, r6
-	bne	f4071
+	cbne	r5, r6, f4071
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4072
+	cbne	r8, r6, f4072
 	movq	=0x40700000, r1
 	movq	=0x3f800000, r2
 	movq	=0x3f800000, r3
@@ -29445,11 +25373,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40300000, r6
-	cmp	r5, r6
-	bne	f4073
+	cbne	r5, r6, f4073
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4074
+	cbne	r8, r6, f4074
 	movq	=0x40700000, r1
 	movq	=0x3f800000, r2
 	movq	=0x3f800000, r3
@@ -29460,11 +25386,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0980000, r6
-	cmp	r5, r6
-	bne	f4075
+	cbne	r5, r6, f4075
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4076
+	cbne	r8, r6, f4076
 	movq	=0x40700000, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffffbf800000, r3
@@ -29475,11 +25399,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40980000, r6
-	cmp	r5, r6
-	bne	f4077
+	cbne	r5, r6, f4077
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4078
+	cbne	r8, r6, f4078
 	movq	=0x40700000, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffffbf800000, r3
@@ -29490,11 +25412,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0300000, r6
-	cmp	r5, r6
-	bne	f4079
+	cbne	r5, r6, f4079
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4080
+	cbne	r8, r6, f4080
 	movq	=0x40700000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40000000, r3
@@ -29505,11 +25425,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3fe00000, r6
-	cmp	r5, r6
-	bne	f4081
+	cbne	r5, r6, f4081
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4082
+	cbne	r8, r6, f4082
 	movq	=0x40700000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40000000, r3
@@ -29520,11 +25438,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0b80000, r6
-	cmp	r5, r6
-	bne	f4083
+	cbne	r5, r6, f4083
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4084
+	cbne	r8, r6, f4084
 	movq	=0x40700000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40400000, r3
@@ -29535,11 +25451,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f400000, r6
-	cmp	r5, r6
-	bne	f4085
+	cbne	r5, r6, f4085
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4086
+	cbne	r8, r6, f4086
 	movq	=0x40700000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40400000, r3
@@ -29550,11 +25464,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0d80000, r6
-	cmp	r5, r6
-	bne	f4087
+	cbne	r5, r6, f4087
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4088
+	cbne	r8, r6, f4088
 	movq	=0x40700000, r1
 	movq	=0x3f800000, r2
 	movq	=0x3fc00000, r3
@@ -29565,11 +25477,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40100000, r6
-	cmp	r5, r6
-	bne	f4089
+	cbne	r5, r6, f4089
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4090
+	cbne	r8, r6, f4090
 	movq	=0x40700000, r1
 	movq	=0x3f800000, r2
 	movq	=0x3fc00000, r3
@@ -29580,11 +25490,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0a80000, r6
-	cmp	r5, r6
-	bne	f4091
+	cbne	r5, r6, f4091
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4092
+	cbne	r8, r6, f4092
 	movq	=0x40700000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40200000, r3
@@ -29595,11 +25503,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3fa00000, r6
-	cmp	r5, r6
-	bne	f4093
+	cbne	r5, r6, f4093
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4094
+	cbne	r8, r6, f4094
 	movq	=0x40700000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40200000, r3
@@ -29610,11 +25516,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0c80000, r6
-	cmp	r5, r6
-	bne	f4095
+	cbne	r5, r6, f4095
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4096
+	cbne	r8, r6, f4096
 	movq	=0x40700000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40700000, r3
@@ -29625,11 +25529,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f4097
+	cbne	r5, r6, f4097
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4098
+	cbne	r8, r6, f4098
 	movq	=0x40700000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40700000, r3
@@ -29640,11 +25542,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
-	cmp	r5, r6
-	bne	f4099
+	cbne	r5, r6, f4099
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4100
+	cbne	r8, r6, f4100
 	movq	=0x40700000, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffffc0700000, r3
@@ -29655,11 +25555,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40f00000, r6
-	cmp	r5, r6
-	bne	f4101
+	cbne	r5, r6, f4101
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4102
+	cbne	r8, r6, f4102
 	movq	=0x40700000, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffffc0700000, r3
@@ -29670,11 +25568,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f4103
+	cbne	r5, r6, f4103
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4104
+	cbne	r8, r6, f4104
 	movq	=0x40700000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40f00000, r3
@@ -29685,11 +25581,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
-	cmp	r5, r6
-	bne	f4105
+	cbne	r5, r6, f4105
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4106
+	cbne	r8, r6, f4106
 	movq	=0x40700000, r1
 	movq	=0x3f800000, r2
 	movq	=0x40f00000, r3
@@ -29700,11 +25594,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc1340000, r6
-	cmp	r5, r6
-	bne	f4107
+	cbne	r5, r6, f4107
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4108
+	cbne	r8, r6, f4108
 	movq	=0x40700000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x0, r3
@@ -29715,11 +25607,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
-	cmp	r5, r6
-	bne	f4109
+	cbne	r5, r6, f4109
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4110
+	cbne	r8, r6, f4110
 	movq	=0x40700000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x0, r3
@@ -29730,11 +25620,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40700000, r6
-	cmp	r5, r6
-	bne	f4111
+	cbne	r5, r6, f4111
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4112
+	cbne	r8, r6, f4112
 	movq	=0x40700000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0xffffffff80000000, r3
@@ -29745,11 +25633,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
-	cmp	r5, r6
-	bne	f4113
+	cbne	r5, r6, f4113
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4114
+	cbne	r8, r6, f4114
 	movq	=0x40700000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0xffffffff80000000, r3
@@ -29760,11 +25646,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40700000, r6
-	cmp	r5, r6
-	bne	f4115
+	cbne	r5, r6, f4115
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4116
+	cbne	r8, r6, f4116
 	movq	=0x40700000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x3f800000, r3
@@ -29775,11 +25659,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0980000, r6
-	cmp	r5, r6
-	bne	f4117
+	cbne	r5, r6, f4117
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4118
+	cbne	r8, r6, f4118
 	movq	=0x40700000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x3f800000, r3
@@ -29790,11 +25672,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40300000, r6
-	cmp	r5, r6
-	bne	f4119
+	cbne	r5, r6, f4119
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4120
+	cbne	r8, r6, f4120
 	movq	=0x40700000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0xffffffffbf800000, r3
@@ -29805,11 +25685,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0300000, r6
-	cmp	r5, r6
-	bne	f4121
+	cbne	r5, r6, f4121
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4122
+	cbne	r8, r6, f4122
 	movq	=0x40700000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0xffffffffbf800000, r3
@@ -29820,11 +25698,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40980000, r6
-	cmp	r5, r6
-	bne	f4123
+	cbne	r5, r6, f4123
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4124
+	cbne	r8, r6, f4124
 	movq	=0x40700000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40000000, r3
@@ -29835,11 +25711,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0b80000, r6
-	cmp	r5, r6
-	bne	f4125
+	cbne	r5, r6, f4125
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4126
+	cbne	r8, r6, f4126
 	movq	=0x40700000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40000000, r3
@@ -29850,11 +25724,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3fe00000, r6
-	cmp	r5, r6
-	bne	f4127
+	cbne	r5, r6, f4127
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4128
+	cbne	r8, r6, f4128
 	movq	=0x40700000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40400000, r3
@@ -29865,11 +25737,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0d80000, r6
-	cmp	r5, r6
-	bne	f4129
+	cbne	r5, r6, f4129
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4130
+	cbne	r8, r6, f4130
 	movq	=0x40700000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40400000, r3
@@ -29880,11 +25750,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3f400000, r6
-	cmp	r5, r6
-	bne	f4131
+	cbne	r5, r6, f4131
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4132
+	cbne	r8, r6, f4132
 	movq	=0x40700000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x3fc00000, r3
@@ -29895,11 +25763,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0a80000, r6
-	cmp	r5, r6
-	bne	f4133
+	cbne	r5, r6, f4133
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4134
+	cbne	r8, r6, f4134
 	movq	=0x40700000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x3fc00000, r3
@@ -29910,11 +25776,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40100000, r6
-	cmp	r5, r6
-	bne	f4135
+	cbne	r5, r6, f4135
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4136
+	cbne	r8, r6, f4136
 	movq	=0x40700000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40200000, r3
@@ -29925,11 +25789,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0c80000, r6
-	cmp	r5, r6
-	bne	f4137
+	cbne	r5, r6, f4137
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4138
+	cbne	r8, r6, f4138
 	movq	=0x40700000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40200000, r3
@@ -29940,11 +25802,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3fa00000, r6
-	cmp	r5, r6
-	bne	f4139
+	cbne	r5, r6, f4139
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4140
+	cbne	r8, r6, f4140
 	movq	=0x40700000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40700000, r3
@@ -29955,11 +25815,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
-	cmp	r5, r6
-	bne	f4141
+	cbne	r5, r6, f4141
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4142
+	cbne	r8, r6, f4142
 	movq	=0x40700000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40700000, r3
@@ -29970,11 +25828,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f4143
+	cbne	r5, r6, f4143
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4144
+	cbne	r8, r6, f4144
 	movq	=0x40700000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0xffffffffc0700000, r3
@@ -29985,11 +25841,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f4145
+	cbne	r5, r6, f4145
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4146
+	cbne	r8, r6, f4146
 	movq	=0x40700000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0xffffffffc0700000, r3
@@ -30000,11 +25854,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40f00000, r6
-	cmp	r5, r6
-	bne	f4147
+	cbne	r5, r6, f4147
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4148
+	cbne	r8, r6, f4148
 	movq	=0x40700000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40f00000, r3
@@ -30015,11 +25867,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc1340000, r6
-	cmp	r5, r6
-	bne	f4149
+	cbne	r5, r6, f4149
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4150
+	cbne	r8, r6, f4150
 	movq	=0x40700000, r1
 	movq	=0xffffffffbf800000, r2
 	movq	=0x40f00000, r3
@@ -30030,11 +25880,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0700000, r6
-	cmp	r5, r6
-	bne	f4151
+	cbne	r5, r6, f4151
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4152
+	cbne	r8, r6, f4152
 	movq	=0x40700000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x0, r3
@@ -30045,11 +25893,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40b40000, r6
-	cmp	r5, r6
-	bne	f4153
+	cbne	r5, r6, f4153
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4154
+	cbne	r8, r6, f4154
 	movq	=0x40700000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x0, r3
@@ -30060,11 +25906,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0b40000, r6
-	cmp	r5, r6
-	bne	f4155
+	cbne	r5, r6, f4155
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4156
+	cbne	r8, r6, f4156
 	movq	=0x40700000, r1
 	movq	=0x3fc00000, r2
 	movq	=0xffffffff80000000, r3
@@ -30075,11 +25919,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40b40000, r6
-	cmp	r5, r6
-	bne	f4157
+	cbne	r5, r6, f4157
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4158
+	cbne	r8, r6, f4158
 	movq	=0x40700000, r1
 	movq	=0x3fc00000, r2
 	movq	=0xffffffff80000000, r3
@@ -30090,11 +25932,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0b40000, r6
-	cmp	r5, r6
-	bne	f4159
+	cbne	r5, r6, f4159
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4160
+	cbne	r8, r6, f4160
 	movq	=0x40700000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x3f800000, r3
@@ -30105,11 +25945,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40940000, r6
-	cmp	r5, r6
-	bne	f4161
+	cbne	r5, r6, f4161
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4162
+	cbne	r8, r6, f4162
 	movq	=0x40700000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x3f800000, r3
@@ -30120,11 +25958,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0d40000, r6
-	cmp	r5, r6
-	bne	f4163
+	cbne	r5, r6, f4163
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4164
+	cbne	r8, r6, f4164
 	movq	=0x40700000, r1
 	movq	=0x3fc00000, r2
 	movq	=0xffffffffbf800000, r3
@@ -30135,11 +25971,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40d40000, r6
-	cmp	r5, r6
-	bne	f4165
+	cbne	r5, r6, f4165
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4166
+	cbne	r8, r6, f4166
 	movq	=0x40700000, r1
 	movq	=0x3fc00000, r2
 	movq	=0xffffffffbf800000, r3
@@ -30150,11 +25984,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0940000, r6
-	cmp	r5, r6
-	bne	f4167
+	cbne	r5, r6, f4167
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4168
+	cbne	r8, r6, f4168
 	movq	=0x40700000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40000000, r3
@@ -30165,11 +25997,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40680000, r6
-	cmp	r5, r6
-	bne	f4169
+	cbne	r5, r6, f4169
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4170
+	cbne	r8, r6, f4170
 	movq	=0x40700000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40000000, r3
@@ -30180,11 +26010,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0f40000, r6
-	cmp	r5, r6
-	bne	f4171
+	cbne	r5, r6, f4171
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4172
+	cbne	r8, r6, f4172
 	movq	=0x40700000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40400000, r3
@@ -30195,11 +26023,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40280000, r6
-	cmp	r5, r6
-	bne	f4173
+	cbne	r5, r6, f4173
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4174
+	cbne	r8, r6, f4174
 	movq	=0x40700000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40400000, r3
@@ -30210,11 +26036,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc10a0000, r6
-	cmp	r5, r6
-	bne	f4175
+	cbne	r5, r6, f4175
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4176
+	cbne	r8, r6, f4176
 	movq	=0x40700000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x3fc00000, r3
@@ -30225,11 +26049,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40840000, r6
-	cmp	r5, r6
-	bne	f4177
+	cbne	r5, r6, f4177
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4178
+	cbne	r8, r6, f4178
 	movq	=0x40700000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x3fc00000, r3
@@ -30240,11 +26062,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0e40000, r6
-	cmp	r5, r6
-	bne	f4179
+	cbne	r5, r6, f4179
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4180
+	cbne	r8, r6, f4180
 	movq	=0x40700000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40200000, r3
@@ -30255,11 +26075,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40480000, r6
-	cmp	r5, r6
-	bne	f4181
+	cbne	r5, r6, f4181
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4182
+	cbne	r8, r6, f4182
 	movq	=0x40700000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40200000, r3
@@ -30270,11 +26088,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc1020000, r6
-	cmp	r5, r6
-	bne	f4183
+	cbne	r5, r6, f4183
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4184
+	cbne	r8, r6, f4184
 	movq	=0x40700000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40700000, r3
@@ -30285,11 +26101,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x3ff00000, r6
-	cmp	r5, r6
-	bne	f4185
+	cbne	r5, r6, f4185
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4186
+	cbne	r8, r6, f4186
 	movq	=0x40700000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40700000, r3
@@ -30300,11 +26114,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc1160000, r6
-	cmp	r5, r6
-	bne	f4187
+	cbne	r5, r6, f4187
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4188
+	cbne	r8, r6, f4188
 	movq	=0x40700000, r1
 	movq	=0x3fc00000, r2
 	movq	=0xffffffffc0700000, r3
@@ -30315,11 +26127,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x41160000, r6
-	cmp	r5, r6
-	bne	f4189
+	cbne	r5, r6, f4189
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4190
+	cbne	r8, r6, f4190
 	movq	=0x40700000, r1
 	movq	=0x3fc00000, r2
 	movq	=0xffffffffc0700000, r3
@@ -30330,11 +26140,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbff00000, r6
-	cmp	r5, r6
-	bne	f4191
+	cbne	r5, r6, f4191
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4192
+	cbne	r8, r6, f4192
 	movq	=0x40700000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40f00000, r3
@@ -30345,11 +26153,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbff00000, r6
-	cmp	r5, r6
-	bne	f4193
+	cbne	r5, r6, f4193
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4194
+	cbne	r8, r6, f4194
 	movq	=0x40700000, r1
 	movq	=0x3fc00000, r2
 	movq	=0x40f00000, r3
@@ -30360,11 +26166,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc1520000, r6
-	cmp	r5, r6
-	bne	f4195
+	cbne	r5, r6, f4195
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4196
+	cbne	r8, r6, f4196
 	movq	=0x3fc00000, r1
 	movq	=0x40200000, r2
 	movq	=0x40700000, r3
@@ -30375,11 +26179,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f4197
+	cbne	r5, r6, f4197
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4198
+	cbne	r8, r6, f4198
 	movq	=0x3fc00000, r1
 	movq	=0x40200000, r2
 	movq	=0x40700000, r3
@@ -30390,11 +26192,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
-	cmp	r5, r6
-	bne	f4199
+	cbne	r5, r6, f4199
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4200
+	cbne	r8, r6, f4200
 	movq	=0x3fc00000, r1
 	movq	=0x40200000, r2
 	movq	=0xffffffffc0700000, r3
@@ -30405,11 +26205,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40f00000, r6
-	cmp	r5, r6
-	bne	f4201
+	cbne	r5, r6, f4201
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4202
+	cbne	r8, r6, f4202
 	movq	=0x3fc00000, r1
 	movq	=0x40200000, r2
 	movq	=0xffffffffc0700000, r3
@@ -30420,11 +26218,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f4203
+	cbne	r5, r6, f4203
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4204
+	cbne	r8, r6, f4204
 	movq	=0xffffffffbfc00000, r1
 	movq	=0x40200000, r2
 	movq	=0x40700000, r3
@@ -30435,11 +26231,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0f00000, r6
-	cmp	r5, r6
-	bne	f4205
+	cbne	r5, r6, f4205
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4206
+	cbne	r8, r6, f4206
 	movq	=0xffffffffbfc00000, r1
 	movq	=0x40200000, r2
 	movq	=0x40700000, r3
@@ -30450,11 +26244,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f4207
+	cbne	r5, r6, f4207
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4208
+	cbne	r8, r6, f4208
 	movq	=0x3fc00000, r1
 	movq	=0xffffffffc0200000, r2
 	movq	=0xffffffffc0700000, r3
@@ -30465,11 +26257,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x0, r6
-	cmp	r5, r6
-	bne	f4209
+	cbne	r5, r6, f4209
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4210
+	cbne	r8, r6, f4210
 	movq	=0x3fc00000, r1
 	movq	=0xffffffffc0200000, r2
 	movq	=0xffffffffc0700000, r3
@@ -30480,11 +26270,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40f00000, r6
-	cmp	r5, r6
-	bne	f4211
+	cbne	r5, r6, f4211
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4212
+	cbne	r8, r6, f4212
 	movq	=0x7f61b1e6, r1
 	movq	=0x41200000, r2
 	movq	=0x3f800000, r3
@@ -30495,11 +26283,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7f800000, r6
-	cmp	r5, r6
-	bne	f4213
+	cbne	r5, r6, f4213
 	movq	=0x5, r6
-	cmp	r8, r6
-	bne	f4214
+	cbne	r8, r6, f4214
 	movq	=0x7f61b1e6, r1
 	movq	=0x41200000, r2
 	movq	=0x3f800000, r3
@@ -30510,11 +26296,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffff800000, r6
-	cmp	r5, r6
-	bne	f4215
+	cbne	r5, r6, f4215
 	movq	=0x5, r6
-	cmp	r8, r6
-	bne	f4216
+	cbne	r8, r6, f4216
 	movq	=0x7f61b1e6, r1
 	movq	=0x41200000, r2
 	movq	=0xffffffffbf800000, r3
@@ -30525,11 +26309,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7f800000, r6
-	cmp	r5, r6
-	bne	f4217
+	cbne	r5, r6, f4217
 	movq	=0x5, r6
-	cmp	r8, r6
-	bne	f4218
+	cbne	r8, r6, f4218
 	movq	=0x7f61b1e6, r1
 	movq	=0x41200000, r2
 	movq	=0xffffffffbf800000, r3
@@ -30540,11 +26322,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffff800000, r6
-	cmp	r5, r6
-	bne	f4219
+	cbne	r5, r6, f4219
 	movq	=0x5, r6
-	cmp	r8, r6
-	bne	f4220
+	cbne	r8, r6, f4220
 	movq	=0x7f61b1e6, r1
 	movq	=0xffffffffc1200000, r2
 	movq	=0x3f800000, r3
@@ -30555,11 +26335,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffff800000, r6
-	cmp	r5, r6
-	bne	f4221
+	cbne	r5, r6, f4221
 	movq	=0x5, r6
-	cmp	r8, r6
-	bne	f4222
+	cbne	r8, r6, f4222
 	movq	=0x7f61b1e6, r1
 	movq	=0xffffffffc1200000, r2
 	movq	=0x3f800000, r3
@@ -30570,11 +26348,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7f800000, r6
-	cmp	r5, r6
-	bne	f4223
+	cbne	r5, r6, f4223
 	movq	=0x5, r6
-	cmp	r8, r6
-	bne	f4224
+	cbne	r8, r6, f4224
 	movq	=0x3dcccccd, r1
 	movq	=0x3e99999a, r2
 	movq	=0x3f333333, r3
@@ -30585,11 +26361,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf2b851e, r6
-	cmp	r5, r6
-	bne	f4225
+	cbne	r5, r6, f4225
 	movq	=0x1, r6
-	cmp	r8, r6
-	bne	f4226
+	cbne	r8, r6, f4226
 	movq	=0x3dcccccd, r1
 	movq	=0x3e99999a, r2
 	movq	=0x3f333333, r3
@@ -30600,11 +26374,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffbf3ae148, r6
-	cmp	r5, r6
-	bne	f4227
+	cbne	r5, r6, f4227
 	movq	=0x1, r6
-	cmp	r8, r6
-	bne	f4228
+	cbne	r8, r6, f4228
 	movq	=0x501502f9, r1
 	movq	=0x501502f9, r2
 	movq	=0x3f800000, r3
@@ -30615,11 +26387,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x60ad78ec, r6
-	cmp	r5, r6
-	bne	f4229
+	cbne	r5, r6, f4229
 	movq	=0x1, r6
-	cmp	r8, r6
-	bne	f4230
+	cbne	r8, r6, f4230
 	movq	=0x501502f9, r1
 	movq	=0x501502f9, r2
 	movq	=0x3f800000, r3
@@ -30630,11 +26400,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffe0ad78ec, r6
-	cmp	r5, r6
-	bne	f4231
+	cbne	r5, r6, f4231
 	movq	=0x1, r6
-	cmp	r8, r6
-	bne	f4232
+	cbne	r8, r6, f4232
 	movq	=0x3f800008, r1
 	movq	=0x3f800008, r2
 	movq	=0xffffffffbf800010, r3
@@ -30645,11 +26413,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x40000010, r6
-	cmp	r5, r6
-	bne	f4233
+	cbne	r5, r6, f4233
 	movq	=0x1, r6
-	cmp	r8, r6
-	bne	f4234
+	cbne	r8, r6, f4234
 	movq	=0x3f800008, r1
 	movq	=0x3f800008, r2
 	movq	=0xffffffffbf800010, r3
@@ -30660,11 +26426,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffab800000, r6
-	cmp	r5, r6
-	bne	f4235
+	cbne	r5, r6, f4235
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4236
+	cbne	r8, r6, f4236
 	movq	=0x3f800008, r1
 	movq	=0x3f800008, r2
 	movq	=0x3f800010, r3
@@ -30675,11 +26439,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x2b800000, r6
-	cmp	r5, r6
-	bne	f4237
+	cbne	r5, r6, f4237
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4238
+	cbne	r8, r6, f4238
 	movq	=0x3f800008, r1
 	movq	=0x3f800008, r2
 	movq	=0x3f800010, r3
@@ -30690,11 +26452,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffc0000010, r6
-	cmp	r5, r6
-	bne	f4239
+	cbne	r5, r6, f4239
 	movq	=0x1, r6
-	cmp	r8, r6
-	bne	f4240
+	cbne	r8, r6, f4240
 	movq	=0x7f800000, r1
 	movq	=0x40000000, r2
 	movq	=0x3f800000, r3
@@ -30705,11 +26465,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7f800000, r6
-	cmp	r5, r6
-	bne	f4241
+	cbne	r5, r6, f4241
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4242
+	cbne	r8, r6, f4242
 	movq	=0x7f800000, r1
 	movq	=0x40000000, r2
 	movq	=0x3f800000, r3
@@ -30720,11 +26478,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffff800000, r6
-	cmp	r5, r6
-	bne	f4243
+	cbne	r5, r6, f4243
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4244
+	cbne	r8, r6, f4244
 	movq	=0x40000000, r1
 	movq	=0x7f800000, r2
 	movq	=0x3f800000, r3
@@ -30735,11 +26491,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7f800000, r6
-	cmp	r5, r6
-	bne	f4245
+	cbne	r5, r6, f4245
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4246
+	cbne	r8, r6, f4246
 	movq	=0x40000000, r1
 	movq	=0x7f800000, r2
 	movq	=0x3f800000, r3
@@ -30750,11 +26504,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffff800000, r6
-	cmp	r5, r6
-	bne	f4247
+	cbne	r5, r6, f4247
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4248
+	cbne	r8, r6, f4248
 	movq	=0x40000000, r1
 	movq	=0x3f800000, r2
 	movq	=0x7f800000, r3
@@ -30765,11 +26517,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffff800000, r6
-	cmp	r5, r6
-	bne	f4249
+	cbne	r5, r6, f4249
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4250
+	cbne	r8, r6, f4250
 	movq	=0x40000000, r1
 	movq	=0x3f800000, r2
 	movq	=0x7f800000, r3
@@ -30780,11 +26530,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffff800000, r6
-	cmp	r5, r6
-	bne	f4251
+	cbne	r5, r6, f4251
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4252
+	cbne	r8, r6, f4252
 	movq	=0x7f800000, r1
 	movq	=0x0, r2
 	movq	=0x3f800000, r3
@@ -30795,11 +26543,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4253
+	cbne	r5, r6, f4253
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f4254
+	cbne	r8, r6, f4254
 	movq	=0x7f800000, r1
 	movq	=0x0, r2
 	movq	=0x3f800000, r3
@@ -30810,11 +26556,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4255
+	cbne	r5, r6, f4255
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f4256
+	cbne	r8, r6, f4256
 	movq	=0x0, r1
 	movq	=0x7f800000, r2
 	movq	=0x3f800000, r3
@@ -30825,11 +26569,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4257
+	cbne	r5, r6, f4257
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f4258
+	cbne	r8, r6, f4258
 	movq	=0x0, r1
 	movq	=0x7f800000, r2
 	movq	=0x3f800000, r3
@@ -30840,11 +26582,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4259
+	cbne	r5, r6, f4259
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f4260
+	cbne	r8, r6, f4260
 	movq	=0x7f800000, r1
 	movq	=0x3f800000, r2
 	movq	=0x7f800000, r3
@@ -30855,11 +26595,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4261
+	cbne	r5, r6, f4261
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f4262
+	cbne	r8, r6, f4262
 	movq	=0x7f800000, r1
 	movq	=0x3f800000, r2
 	movq	=0x7f800000, r3
@@ -30870,11 +26608,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffff800000, r6
-	cmp	r5, r6
-	bne	f4263
+	cbne	r5, r6, f4263
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4264
+	cbne	r8, r6, f4264
 	movq	=0xffffffffff800000, r1
 	movq	=0x40000000, r2
 	movq	=0x3f800000, r3
@@ -30885,11 +26621,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffff800000, r6
-	cmp	r5, r6
-	bne	f4265
+	cbne	r5, r6, f4265
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4266
+	cbne	r8, r6, f4266
 	movq	=0xffffffffff800000, r1
 	movq	=0x40000000, r2
 	movq	=0x3f800000, r3
@@ -30900,11 +26634,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7f800000, r6
-	cmp	r5, r6
-	bne	f4267
+	cbne	r5, r6, f4267
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4268
+	cbne	r8, r6, f4268
 	movq	=0x40000000, r1
 	movq	=0xffffffffff800000, r2
 	movq	=0x3f800000, r3
@@ -30915,11 +26647,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffff800000, r6
-	cmp	r5, r6
-	bne	f4269
+	cbne	r5, r6, f4269
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4270
+	cbne	r8, r6, f4270
 	movq	=0x40000000, r1
 	movq	=0xffffffffff800000, r2
 	movq	=0x3f800000, r3
@@ -30930,11 +26660,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7f800000, r6
-	cmp	r5, r6
-	bne	f4271
+	cbne	r5, r6, f4271
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4272
+	cbne	r8, r6, f4272
 	movq	=0x40000000, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffffff800000, r3
@@ -30945,11 +26673,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7f800000, r6
-	cmp	r5, r6
-	bne	f4273
+	cbne	r5, r6, f4273
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4274
+	cbne	r8, r6, f4274
 	movq	=0x40000000, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffffff800000, r3
@@ -30960,11 +26686,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7f800000, r6
-	cmp	r5, r6
-	bne	f4275
+	cbne	r5, r6, f4275
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4276
+	cbne	r8, r6, f4276
 	movq	=0xffffffffff800000, r1
 	movq	=0x0, r2
 	movq	=0x3f800000, r3
@@ -30975,11 +26699,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4277
+	cbne	r5, r6, f4277
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f4278
+	cbne	r8, r6, f4278
 	movq	=0xffffffffff800000, r1
 	movq	=0x0, r2
 	movq	=0x3f800000, r3
@@ -30990,11 +26712,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4279
+	cbne	r5, r6, f4279
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f4280
+	cbne	r8, r6, f4280
 	movq	=0x0, r1
 	movq	=0xffffffffff800000, r2
 	movq	=0x3f800000, r3
@@ -31005,11 +26725,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4281
+	cbne	r5, r6, f4281
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f4282
+	cbne	r8, r6, f4282
 	movq	=0x0, r1
 	movq	=0xffffffffff800000, r2
 	movq	=0x3f800000, r3
@@ -31020,11 +26738,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4283
+	cbne	r5, r6, f4283
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f4284
+	cbne	r8, r6, f4284
 	movq	=0xffffffffff800000, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffffff800000, r3
@@ -31035,11 +26751,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4285
+	cbne	r5, r6, f4285
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f4286
+	cbne	r8, r6, f4286
 	movq	=0xffffffffff800000, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffffff800000, r3
@@ -31050,11 +26764,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7f800000, r6
-	cmp	r5, r6
-	bne	f4287
+	cbne	r5, r6, f4287
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4288
+	cbne	r8, r6, f4288
 	movq	=0x7fc00123, r1
 	movq	=0x40000000, r2
 	movq	=0x3f800000, r3
@@ -31065,11 +26777,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4289
+	cbne	r5, r6, f4289
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4290
+	cbne	r8, r6, f4290
 	movq	=0x7fc00123, r1
 	movq	=0x40000000, r2
 	movq	=0x3f800000, r3
@@ -31080,11 +26790,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4291
+	cbne	r5, r6, f4291
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4292
+	cbne	r8, r6, f4292
 	movq	=0x40000000, r1
 	movq	=0x7fc00123, r2
 	movq	=0x3f800000, r3
@@ -31095,11 +26803,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4293
+	cbne	r5, r6, f4293
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4294
+	cbne	r8, r6, f4294
 	movq	=0x40000000, r1
 	movq	=0x7fc00123, r2
 	movq	=0x3f800000, r3
@@ -31110,11 +26816,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4295
+	cbne	r5, r6, f4295
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4296
+	cbne	r8, r6, f4296
 	movq	=0x40000000, r1
 	movq	=0x3f800000, r2
 	movq	=0x7fc00123, r3
@@ -31125,11 +26829,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4297
+	cbne	r5, r6, f4297
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4298
+	cbne	r8, r6, f4298
 	movq	=0x40000000, r1
 	movq	=0x3f800000, r2
 	movq	=0x7fc00123, r3
@@ -31140,11 +26842,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4299
+	cbne	r5, r6, f4299
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4300
+	cbne	r8, r6, f4300
 	movq	=0x7fc00123, r1
 	movq	=0x0, r2
 	movq	=0x3f800000, r3
@@ -31155,11 +26855,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4301
+	cbne	r5, r6, f4301
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4302
+	cbne	r8, r6, f4302
 	movq	=0x7fc00123, r1
 	movq	=0x0, r2
 	movq	=0x3f800000, r3
@@ -31170,11 +26868,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4303
+	cbne	r5, r6, f4303
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4304
+	cbne	r8, r6, f4304
 	movq	=0x0, r1
 	movq	=0x7fc00123, r2
 	movq	=0x3f800000, r3
@@ -31185,11 +26881,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4305
+	cbne	r5, r6, f4305
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4306
+	cbne	r8, r6, f4306
 	movq	=0x0, r1
 	movq	=0x7fc00123, r2
 	movq	=0x3f800000, r3
@@ -31200,11 +26894,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4307
+	cbne	r5, r6, f4307
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4308
+	cbne	r8, r6, f4308
 	movq	=0x7fc00123, r1
 	movq	=0x3f800000, r2
 	movq	=0x7fc00123, r3
@@ -31215,11 +26907,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4309
+	cbne	r5, r6, f4309
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4310
+	cbne	r8, r6, f4310
 	movq	=0x7fc00123, r1
 	movq	=0x3f800000, r2
 	movq	=0x7fc00123, r3
@@ -31230,11 +26920,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4311
+	cbne	r5, r6, f4311
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4312
+	cbne	r8, r6, f4312
 	movq	=0xffffffffffc00456, r1
 	movq	=0x40000000, r2
 	movq	=0x3f800000, r3
@@ -31245,11 +26933,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4313
+	cbne	r5, r6, f4313
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4314
+	cbne	r8, r6, f4314
 	movq	=0xffffffffffc00456, r1
 	movq	=0x40000000, r2
 	movq	=0x3f800000, r3
@@ -31260,11 +26946,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4315
+	cbne	r5, r6, f4315
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4316
+	cbne	r8, r6, f4316
 	movq	=0x40000000, r1
 	movq	=0xffffffffffc00456, r2
 	movq	=0x3f800000, r3
@@ -31275,11 +26959,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4317
+	cbne	r5, r6, f4317
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4318
+	cbne	r8, r6, f4318
 	movq	=0x40000000, r1
 	movq	=0xffffffffffc00456, r2
 	movq	=0x3f800000, r3
@@ -31290,11 +26972,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4319
+	cbne	r5, r6, f4319
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4320
+	cbne	r8, r6, f4320
 	movq	=0x40000000, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffffffc00456, r3
@@ -31305,11 +26985,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4321
+	cbne	r5, r6, f4321
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4322
+	cbne	r8, r6, f4322
 	movq	=0x40000000, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffffffc00456, r3
@@ -31320,11 +26998,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4323
+	cbne	r5, r6, f4323
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4324
+	cbne	r8, r6, f4324
 	movq	=0xffffffffffc00456, r1
 	movq	=0x0, r2
 	movq	=0x3f800000, r3
@@ -31335,11 +27011,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4325
+	cbne	r5, r6, f4325
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4326
+	cbne	r8, r6, f4326
 	movq	=0xffffffffffc00456, r1
 	movq	=0x0, r2
 	movq	=0x3f800000, r3
@@ -31350,11 +27024,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4327
+	cbne	r5, r6, f4327
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4328
+	cbne	r8, r6, f4328
 	movq	=0x0, r1
 	movq	=0xffffffffffc00456, r2
 	movq	=0x3f800000, r3
@@ -31365,11 +27037,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4329
+	cbne	r5, r6, f4329
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4330
+	cbne	r8, r6, f4330
 	movq	=0x0, r1
 	movq	=0xffffffffffc00456, r2
 	movq	=0x3f800000, r3
@@ -31380,11 +27050,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4331
+	cbne	r5, r6, f4331
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4332
+	cbne	r8, r6, f4332
 	movq	=0xffffffffffc00456, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffffffc00456, r3
@@ -31395,11 +27063,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4333
+	cbne	r5, r6, f4333
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4334
+	cbne	r8, r6, f4334
 	movq	=0xffffffffffc00456, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffffffc00456, r3
@@ -31410,11 +27076,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4335
+	cbne	r5, r6, f4335
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4336
+	cbne	r8, r6, f4336
 	movq	=0x7f800789, r1
 	movq	=0x40000000, r2
 	movq	=0x3f800000, r3
@@ -31425,11 +27089,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4337
+	cbne	r5, r6, f4337
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f4338
+	cbne	r8, r6, f4338
 	movq	=0x7f800789, r1
 	movq	=0x40000000, r2
 	movq	=0x3f800000, r3
@@ -31440,11 +27102,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4339
+	cbne	r5, r6, f4339
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f4340
+	cbne	r8, r6, f4340
 	movq	=0x40000000, r1
 	movq	=0x7f800789, r2
 	movq	=0x3f800000, r3
@@ -31455,11 +27115,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4341
+	cbne	r5, r6, f4341
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f4342
+	cbne	r8, r6, f4342
 	movq	=0x40000000, r1
 	movq	=0x7f800789, r2
 	movq	=0x3f800000, r3
@@ -31470,11 +27128,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4343
+	cbne	r5, r6, f4343
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f4344
+	cbne	r8, r6, f4344
 	movq	=0x40000000, r1
 	movq	=0x3f800000, r2
 	movq	=0x7f800789, r3
@@ -31485,11 +27141,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4345
+	cbne	r5, r6, f4345
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f4346
+	cbne	r8, r6, f4346
 	movq	=0x40000000, r1
 	movq	=0x3f800000, r2
 	movq	=0x7f800789, r3
@@ -31500,11 +27154,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4347
+	cbne	r5, r6, f4347
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f4348
+	cbne	r8, r6, f4348
 	movq	=0x7f800789, r1
 	movq	=0x0, r2
 	movq	=0x3f800000, r3
@@ -31515,11 +27167,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4349
+	cbne	r5, r6, f4349
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f4350
+	cbne	r8, r6, f4350
 	movq	=0x7f800789, r1
 	movq	=0x0, r2
 	movq	=0x3f800000, r3
@@ -31530,11 +27180,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4351
+	cbne	r5, r6, f4351
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f4352
+	cbne	r8, r6, f4352
 	movq	=0x0, r1
 	movq	=0x7f800789, r2
 	movq	=0x3f800000, r3
@@ -31545,11 +27193,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4353
+	cbne	r5, r6, f4353
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f4354
+	cbne	r8, r6, f4354
 	movq	=0x0, r1
 	movq	=0x7f800789, r2
 	movq	=0x3f800000, r3
@@ -31560,11 +27206,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4355
+	cbne	r5, r6, f4355
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f4356
+	cbne	r8, r6, f4356
 	movq	=0x7f800789, r1
 	movq	=0x3f800000, r2
 	movq	=0x7f800789, r3
@@ -31575,11 +27219,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4357
+	cbne	r5, r6, f4357
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f4358
+	cbne	r8, r6, f4358
 	movq	=0x7f800789, r1
 	movq	=0x3f800000, r2
 	movq	=0x7f800789, r3
@@ -31590,11 +27232,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4359
+	cbne	r5, r6, f4359
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f4360
+	cbne	r8, r6, f4360
 	movq	=0xffffffffff800789, r1
 	movq	=0x40000000, r2
 	movq	=0x3f800000, r3
@@ -31605,11 +27245,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4361
+	cbne	r5, r6, f4361
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f4362
+	cbne	r8, r6, f4362
 	movq	=0xffffffffff800789, r1
 	movq	=0x40000000, r2
 	movq	=0x3f800000, r3
@@ -31620,11 +27258,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4363
+	cbne	r5, r6, f4363
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f4364
+	cbne	r8, r6, f4364
 	movq	=0x40000000, r1
 	movq	=0xffffffffff800789, r2
 	movq	=0x3f800000, r3
@@ -31635,11 +27271,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4365
+	cbne	r5, r6, f4365
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f4366
+	cbne	r8, r6, f4366
 	movq	=0x40000000, r1
 	movq	=0xffffffffff800789, r2
 	movq	=0x3f800000, r3
@@ -31650,11 +27284,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4367
+	cbne	r5, r6, f4367
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f4368
+	cbne	r8, r6, f4368
 	movq	=0x40000000, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffffff800789, r3
@@ -31665,11 +27297,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4369
+	cbne	r5, r6, f4369
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f4370
+	cbne	r8, r6, f4370
 	movq	=0x40000000, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffffff800789, r3
@@ -31680,11 +27310,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4371
+	cbne	r5, r6, f4371
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f4372
+	cbne	r8, r6, f4372
 	movq	=0xffffffffff800789, r1
 	movq	=0x0, r2
 	movq	=0x3f800000, r3
@@ -31695,11 +27323,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4373
+	cbne	r5, r6, f4373
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f4374
+	cbne	r8, r6, f4374
 	movq	=0xffffffffff800789, r1
 	movq	=0x0, r2
 	movq	=0x3f800000, r3
@@ -31710,11 +27336,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4375
+	cbne	r5, r6, f4375
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f4376
+	cbne	r8, r6, f4376
 	movq	=0x0, r1
 	movq	=0xffffffffff800789, r2
 	movq	=0x3f800000, r3
@@ -31725,11 +27349,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4377
+	cbne	r5, r6, f4377
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f4378
+	cbne	r8, r6, f4378
 	movq	=0x0, r1
 	movq	=0xffffffffff800789, r2
 	movq	=0x3f800000, r3
@@ -31740,11 +27362,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4379
+	cbne	r5, r6, f4379
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f4380
+	cbne	r8, r6, f4380
 	movq	=0xffffffffff800789, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffffff800789, r3
@@ -31755,11 +27375,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4381
+	cbne	r5, r6, f4381
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f4382
+	cbne	r8, r6, f4382
 	movq	=0xffffffffff800789, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffffff800789, r3
@@ -31770,11 +27388,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4383
+	cbne	r5, r6, f4383
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f4384
+	cbne	r8, r6, f4384
 	movq	=0x7f800000, r1
 	movq	=0x3f800000, r2
 	movq	=0x7f800000, r3
@@ -31785,11 +27401,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4385
+	cbne	r5, r6, f4385
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f4386
+	cbne	r8, r6, f4386
 	movq	=0x7f800000, r1
 	movq	=0x3f800000, r2
 	movq	=0x7f800000, r3
@@ -31800,11 +27414,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffff800000, r6
-	cmp	r5, r6
-	bne	f4387
+	cbne	r5, r6, f4387
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4388
+	cbne	r8, r6, f4388
 	movq	=0x7f800000, r1
 	movq	=0x0, r2
 	movq	=0x7f800000, r3
@@ -31815,11 +27427,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4389
+	cbne	r5, r6, f4389
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f4390
+	cbne	r8, r6, f4390
 	movq	=0x7f800000, r1
 	movq	=0x0, r2
 	movq	=0x7f800000, r3
@@ -31830,11 +27440,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4391
+	cbne	r5, r6, f4391
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f4392
+	cbne	r8, r6, f4392
 	movq	=0x3f800000, r1
 	movq	=0x3f800000, r2
 	movq	=0x7f800000, r3
@@ -31845,11 +27453,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffff800000, r6
-	cmp	r5, r6
-	bne	f4393
+	cbne	r5, r6, f4393
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4394
+	cbne	r8, r6, f4394
 	movq	=0x3f800000, r1
 	movq	=0x3f800000, r2
 	movq	=0x7f800000, r3
@@ -31860,11 +27466,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffff800000, r6
-	cmp	r5, r6
-	bne	f4395
+	cbne	r5, r6, f4395
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4396
+	cbne	r8, r6, f4396
 	movq	=0x7f800000, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffffff800000, r3
@@ -31875,11 +27479,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7f800000, r6
-	cmp	r5, r6
-	bne	f4397
+	cbne	r5, r6, f4397
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4398
+	cbne	r8, r6, f4398
 	movq	=0x7f800000, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffffff800000, r3
@@ -31890,11 +27492,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4399
+	cbne	r5, r6, f4399
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f4400
+	cbne	r8, r6, f4400
 	movq	=0x7f800000, r1
 	movq	=0x0, r2
 	movq	=0xffffffffff800000, r3
@@ -31905,11 +27505,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4401
+	cbne	r5, r6, f4401
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f4402
+	cbne	r8, r6, f4402
 	movq	=0x7f800000, r1
 	movq	=0x0, r2
 	movq	=0xffffffffff800000, r3
@@ -31920,11 +27518,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4403
+	cbne	r5, r6, f4403
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f4404
+	cbne	r8, r6, f4404
 	movq	=0x3f800000, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffffff800000, r3
@@ -31935,11 +27531,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7f800000, r6
-	cmp	r5, r6
-	bne	f4405
+	cbne	r5, r6, f4405
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4406
+	cbne	r8, r6, f4406
 	movq	=0x3f800000, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffffff800000, r3
@@ -31950,11 +27544,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7f800000, r6
-	cmp	r5, r6
-	bne	f4407
+	cbne	r5, r6, f4407
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4408
+	cbne	r8, r6, f4408
 	movq	=0xffffffffff800000, r1
 	movq	=0x3f800000, r2
 	movq	=0x7f800000, r3
@@ -31965,11 +27557,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffff800000, r6
-	cmp	r5, r6
-	bne	f4409
+	cbne	r5, r6, f4409
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4410
+	cbne	r8, r6, f4410
 	movq	=0xffffffffff800000, r1
 	movq	=0x3f800000, r2
 	movq	=0x7f800000, r3
@@ -31980,11 +27570,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4411
+	cbne	r5, r6, f4411
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f4412
+	cbne	r8, r6, f4412
 	movq	=0xffffffffff800000, r1
 	movq	=0x0, r2
 	movq	=0x7f800000, r3
@@ -31995,11 +27583,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4413
+	cbne	r5, r6, f4413
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f4414
+	cbne	r8, r6, f4414
 	movq	=0xffffffffff800000, r1
 	movq	=0x0, r2
 	movq	=0x7f800000, r3
@@ -32010,11 +27596,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4415
+	cbne	r5, r6, f4415
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f4416
+	cbne	r8, r6, f4416
 	movq	=0x3f800000, r1
 	movq	=0x3f800000, r2
 	movq	=0x7f800000, r3
@@ -32025,11 +27609,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffff800000, r6
-	cmp	r5, r6
-	bne	f4417
+	cbne	r5, r6, f4417
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4418
+	cbne	r8, r6, f4418
 	movq	=0x3f800000, r1
 	movq	=0x3f800000, r2
 	movq	=0x7f800000, r3
@@ -32040,11 +27622,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0xffffffffff800000, r6
-	cmp	r5, r6
-	bne	f4419
+	cbne	r5, r6, f4419
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4420
+	cbne	r8, r6, f4420
 	movq	=0xffffffffff800000, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffffff800000, r3
@@ -32055,11 +27635,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4421
+	cbne	r5, r6, f4421
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f4422
+	cbne	r8, r6, f4422
 	movq	=0xffffffffff800000, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffffff800000, r3
@@ -32070,11 +27648,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7f800000, r6
-	cmp	r5, r6
-	bne	f4423
+	cbne	r5, r6, f4423
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4424
+	cbne	r8, r6, f4424
 	movq	=0xffffffffff800000, r1
 	movq	=0x0, r2
 	movq	=0xffffffffff800000, r3
@@ -32085,11 +27661,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4425
+	cbne	r5, r6, f4425
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f4426
+	cbne	r8, r6, f4426
 	movq	=0xffffffffff800000, r1
 	movq	=0x0, r2
 	movq	=0xffffffffff800000, r3
@@ -32100,11 +27674,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7fc00000, r6
-	cmp	r5, r6
-	bne	f4427
+	cbne	r5, r6, f4427
 	movq	=0x10, r6
-	cmp	r8, r6
-	bne	f4428
+	cbne	r8, r6, f4428
 	movq	=0x3f800000, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffffff800000, r3
@@ -32115,11 +27687,9 @@ _start:
 	fmadd32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7f800000, r6
-	cmp	r5, r6
-	bne	f4429
+	cbne	r5, r6, f4429
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4430
+	cbne	r8, r6, f4430
 	movq	=0x3f800000, r1
 	movq	=0x3f800000, r2
 	movq	=0xffffffffff800000, r3
@@ -32130,11 +27700,9 @@ _start:
 	fnmsub32	r1, r2, r4, r5
 	fsflags	r9, r8
 	movq	=0x7f800000, r6
-	cmp	r5, r6
-	bne	f4431
+	cbne	r5, r6, f4431
 	movq	=0x0, r6
-	cmp	r8, r6
-	bne	f4432
+	cbne	r8, r6, f4432
 	clr	r0
 	trap	#0
 f1:	movq	#1, r0

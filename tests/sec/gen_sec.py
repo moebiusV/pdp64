@@ -74,25 +74,22 @@ def gen_user_return():
 
 
 def gen_user_mtps():
-    """SEC-P04: MTPS from user mode cannot raise the privilege, the priority, the trace bit or the user-access guard"""
+    """SEC-P04: MTPS from user mode is refused and cannot raise the privilege, the priority, the trace bit or the user-access guard"""
     p = Prog(user=True)
     p.e(HEADER + '\t.text\n\t.globl\t_start\n_start:' + KVEC + ENTER_USER + 'user:')
     vals = ['0', '0xf', '0x1f', '0xe0', '0x300', '0xc00', '0x1000', '0x1fff', '0xffff', '0xffffffffffffffff', '(7<<PSW_PRI)|(MODE_KERNEL<<PSW_MODE)', '0x1000|(1<<PSW_T)']
-    for v in vals:
-        p.e('\tmovq\t=(%s), r1\n\tmtps\tr1\n\tmfps\tr5' % v)
-        p.e('\tbic\t#15, r5')
-        p.eq('r5', '(MODE_USER<<PSW_MODE)|(MODE_USER<<PSW_PREV)', 'after mtps of %s the mode, previous mode, priority and T are unchanged' % v)
-    # still user mode: a privileged instruction faults
-    p.e('\tlea\tNp, r13\n\tmovq\tcnt, r10')
-    p.e('\tspl\t#3')
-    p.e('Np:\tmovq\tcnt, r11\n\tsub\tr10, r11')
-    p.eq('r11', '1', 'spl #3 still faults after the mtps attempts (the mode was not changed)')
-    p.e('\tmovq\tlast_cause, r11')
-    p.eq('r11', 'VECTOR_PRIVILEGED')
+    for i, v in enumerate(vals):
+        p.e('\tlea\tNm%d, r13\n\tmovq\tcnt, r10\n\tmovq\t=(%s), r1\n\tmtps\tr1' % (i, v))
+        p.e('Nm%d:\tmovq\tcnt, r11\n\tsub\tr10, r11' % i)
+        p.eq('r11', '1', 'mtps of %s from user mode faults (one exception)' % v)
+        p.e('\tmovq\tlast_cause, r11')
+        p.eq('r11', 'VECTOR_PRIVILEGED', 'the fault of mtps of %s is the privileged-instruction vector' % v)
+        p.e('\tmfps\tr5')
+        p.eq('r5', '(MODE_USER<<PSW_MODE)|(MODE_USER<<PSW_PREV)', 'after mtps of %s the mode, previous mode, priority, T and the reserved low bits are unchanged' % v)
     # no trace trap came (T was not set): the count of exceptions is exactly the one above
     p.done()
-    return ['MTPS from USER mode (SEC-P04, audit 3.1 and 3.3): a value with the kernel mode, the priority 7, the trace bit or the reserved bits changes nothing but the four flags: the mode',
-            'is still user (MFPS), a privileged instruction still faults, and no trace exception comes.  Failed check n: exit n.'], p.text() + KHANDLERS + KDATA
+    return ['MTPS from USER mode (SEC-P04, audit 3.1 and 3.3): it is a privileged instruction: a value with the kernel mode, the priority 7, the trace bit or the reserved bits faults with the privileged-instruction',
+            'vector and changes nothing: the mode is still user (MFPS), a privileged instruction still faults, and no trace exception comes.  Failed check n: exit n.'], p.text() + KHANDLERS + KDATA
 
 
 def gen_eva_stale():
@@ -380,7 +377,7 @@ def gen_vec_inplace(epilogue=False):
         p.e('\tmovq\tcnt, r11\n\tsub\tr10, r11')
         p.chkne('r11', '#0', 'the page fault happened (the probe is not vacuous)')
         p.e('\tmovq\t=(%s), r4\n\tmovq\t#8, r6\n\tmovq\t#0, r8' % addr)
-        p.e('lw%d:\tmovl\t(r4)+, r5\n\tcmp\tr5, #1\n\tbeq\t1f\n\tadd\t#1, r8\n1:\tsob\tr6, lw%d' % (k, k))
+        p.e('lw%d:\tmovl\t(r4)+, r5\n\tcbeq\tr5, #1, 1f\n\tadd\t#1, r8\n1:\tsob\tr6, lw%d' % (k, k))
         p.chk('r8', '#0', 'lanes that are not 1 after the %s block' % ('hidden (accumulator)' if hidden else 'ordinary'))
     p.done()
     body = p.text() + FHANDLERS + FDATA + ftables()
@@ -449,28 +446,8 @@ hstk_top:
 """
 
 
-def gen_hv_flags():
-    """SEC-B07: the guest's condition flags are not visible to the hypervisor after an exit (its status word has clear flags), and not the other way"""
-    p = Prog(user=False)
-    p.e(HEADER + '\t.text\n\t.globl\t_start\n_start:' + HVSETUP)
-    p.e('\tlea\tg1, r2\n\tmtsr\thepc, r2\n\tmovq\t#0, r2\n\tmtsr\thepsw, r2\n\tlea\tback1, r20\n\tmovq\t#99, r0\n\tgenter\t#RTIMASK_ALL')
-    p.e('g1:\tmovq\t#15, r1\n\tmtps\tr1\n\thalt')
-    p.e('back1:\tmfps\tr2\n\tmfsr\tr4, hepsw\n\tmovq\tr4, r5\n\tbic\t#15, r5\n\tsub\tr5, r4')
-    p.eq('r4', '15', 'control: the guest\'s flags (C V Z N set) are saved in HEPSW')
-    p.e('\tmovq\tr2, r3\n\tbic\t#15, r3')
-    p.chk('r2', 'r3', 'the hypervisor\'s own flags are clear after the exit (the guest\'s are not visible)')
-    # the hypervisor sets its flags and enters a guest with clear flags: the guest sees its own
-    p.e('\tmovq\t#15, r1\n\tmtps\tr1\n\tlea\tg2, r2\n\tmtsr\thepc, r2\n\tmovq\t#0, r2\n\tmtsr\thepsw, r2\n\tlea\tback2, r20\n\tgenter\t#RTIMASK_ALL')
-    p.e('g2:\tmfps\tr6\n\thalt')
-    p.e('back2:\tmovq\tr6, r7\n\tbic\t#15, r7')
-    p.chk('r6', 'r7', 'the guest starts with the flags of HEPSW (clear), not the hypervisor\'s')
-    p.done()
-    return ['The condition flags across GENTER and an exit (SEC-B07): the guest sets C V Z N and halts (an exit); the hypervisor\'s status word must have clear flags, and the guest\'s are in HEPSW.',
-            'Then the hypervisor sets its own flags and enters a guest whose HEPSW has none: the guest must not see them.  sim64 -H; QEMU hypervisor=on.  Failed check n: exit n.'], p.text() + HVTAIL
-
-
 def gen_restart_scalar():
-    """SEC-R01: a faulting scalar instruction (load or store with auto-increment or auto-decrement, push) leaves no architectural effect: registers, flags and memory as before, EPC the instruction"""
+    """SEC-R01: a faulting scalar instruction (load or store with auto-increment or auto-decrement, push) leaves no architectural effect: registers and memory as before, EPC the instruction"""
     p = Prog(user=False)
     p.e(HEADER + '\t.text\n\t.globl\t_start\n_start:' + FSETUP)
     p.e('\tlea\tustack_top, sp')
@@ -483,7 +460,6 @@ def gen_restart_scalar():
         if nm == 'push':
             p.e('\tmovq\tr14, r9\n\tmovq\tr1, r14')
         p.e('\tmovq\t#0, r10\n\tmovq\tr10, cnt\n\tmovq\t#0, r12\n\tmovq\t=0x7777, r4')
-        p.e('\tcmp\tr4, r4')                                              # flags: Z set, C clear
         p.e('p%d:%s' % (i, ins))
         p.e('\tmovq\tcnt, r11')
         p.eq('r11', '1', '%s: one fault' % nm)
@@ -496,8 +472,6 @@ def gen_restart_scalar():
             p.e('\tmovq\tr9, r14')
         p.e('\tmovq\ths_r3, r12\n\tmovq\t=(%s), r11' % (SENT if val == 0 else hex(val)))
         p.chk('r12', 'r11', '%s: at the fault the other register is as before' % nm)
-        p.e('\tmovq\ths_psw, r12\n\tmovq\tr12, r11\n\tbic\t#15, r11\n\tsub\tr11, r12')
-        p.chk('r12', '#4', '%s: at the fault the flags (EPSW) are as before (only Z set)' % nm)
         if nm == 'load (r1)+':
             p.e('\tmovq\t=(%s), r11' % hex(final))
             p.chk('r1', 'r11', 'load: after the restart the pointer moved once')
@@ -511,10 +485,10 @@ def gen_restart_scalar():
             p.e('\tmovq\t=(0x812000), r4\n\tmovq\t(r4), r12')
             p.chk('r12', 'r3', 'push: the value is in memory once the page is mapped')
     p.done()
-    body = p.text() + FHANDLERS.replace('h_fault:\n', 'h_fault:\n\tmovq\tr1, hs_r1\n\tmovq\tr3, hs_r3\n\tmfsr\tr12, epsw\n\tmovq\tr12, hs_psw\n', 1) \
-        + FDATA.replace('redirect:\t.quad\t0', 'redirect:\t.quad\t0\nhs_r1:\t.quad\t0\nhs_r3:\t.quad\t0\nhs_psw:\t.quad\t0') + ftables()
+    body = p.text() + FHANDLERS.replace('h_fault:\n', 'h_fault:\n\tmovq\tr1, hs_r1\n\tmovq\tr3, hs_r3\n', 1) \
+        + FDATA.replace('redirect:\t.quad\t0', 'redirect:\t.quad\t0\nhs_r1:\t.quad\t0\nhs_r3:\t.quad\t0') + ftables()
     return ['Precise faults of scalar instructions (SEC-R01): a load with (r1)+, a store with -(r1) and a push whose page is not present (the first touch faults; the handler maps it and returns).  At',
-            'the fault the pointer, the other register and the flags are as before the instruction and EPC is the instruction; after the restart the effect happens once.  sim64 -K -x 0x810000:0x813000',
+            'the fault the pointer and the other register are as before the instruction and EPC is the instruction; after the restart the effect happens once.  sim64 -K -x 0x810000:0x813000',
             'style window; QEMU with its tables.  Failed check n: exit n.'], body
 
 
@@ -748,7 +722,6 @@ TESTS = [
     ('sec-vec-clear-interrupt', gen_vec_hole_a, '-K', 'sim'),
     ('sec-vec-inplace', gen_vec_inplace, '-K -x 0x800000:0xa00000', 'sim'),
     ('sec-vec-stale-record', gen_vec_stale_record, '-K -x 0x800000:0xa00000', 'sim'),
-    ('sec-hv-flags', gen_hv_flags, '-H', 'sim'),
     ('sec-restart-scalar', gen_restart_scalar, '-K -x 0x800000:0xa00000', 'sim'),
     ('sec-tlb-mode', gen_tlb_mode, None, 'qemu'),
     ('sec-dma-devspace', gen_dma_devspace, None, 'qemu'),

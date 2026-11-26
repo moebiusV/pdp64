@@ -8,8 +8,6 @@ A mnemonic that assembles to another instruction (`FNEG32` and `FABS32` to an in
 
 | Written | Assembles to | Group |
 |---|---|---|
-| `BHIS` | `BCC` | `branch` |
-| `BLO` | `BCS` | `branch` |
 | `CBHIS` | `CBCC` | `cbranch` |
 | `CBLO` | `CBCS` | `cbranch` |
 | `FABS32` | `AND` with the operand `#0x7FFFFFFF` (after `MOVQ Rs, Rd` if the registers differ) | `alu` |

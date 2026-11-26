@@ -1,6 +1,6 @@
 ; System v1: a null system call round trip, two ways.  The user executes trap #n; the kernel handler saves the exception state, does a null call (or one
 ; copyin-style load of a user word), restores the state and rti's back.  Handlers V1 (trap #5, #6) do it with mfsr/push/pop/mtsr, V2 (#7, #8) with pushx/popx.
-; The test checks that both give the same architectural result: r0, every other register, the stack pointer and the flags are as they should be.
+; The test checks that both give the same architectural result: r0, every other register, and the stack pointer are as they should be.
 ; The numbers of instructions, bytes and memory accesses of the two are measured from this program by the script in the report (sim64 -K -t).  Generated.
 #include "pdp64-consts.h"
 	.text
@@ -30,39 +30,24 @@ user:
 	movq	#1012, r12
 	movq	#1013, r13
 	movq	#0, r0
-	cmp	r2, r2
 	.globl	rt_v1_null
 rt_v1_null:	trap	#5
 	.globl	ret_v1_null
-ret_v1_null:	bne	F1
-	cmp	r0, #7
-	bne	F2
-	cmp	r2, #1002
-	bne	F3
-	cmp	r3, #1003
-	bne	F4
-	cmp	r4, #1004
-	bne	F5
-	cmp	r5, #1005
-	bne	F6
-	cmp	r6, #1006
-	bne	F7
-	cmp	r7, #1007
-	bne	F8
-	cmp	r8, #1008
-	bne	F9
-	cmp	r9, #1009
-	bne	F10
-	cmp	r10, #1010
-	bne	F11
-	cmp	r11, #1011
-	bne	F12
-	cmp	r12, #1012
-	bne	F13
-	cmp	r13, #1013
-	bne	F14
-	cmp	r1, #1001
-	bne	F15
+ret_v1_null:
+	cbne r0, #7, F2
+	cbne r2, #1002, F3
+	cbne r3, #1003, F4
+	cbne r4, #1004, F5
+	cbne r5, #1005, F6
+	cbne r6, #1006, F7
+	cbne r7, #1007, F8
+	cbne r8, #1008, F9
+	cbne r9, #1009, F10
+	cbne r10, #1010, F11
+	cbne r11, #1011, F12
+	cbne r12, #1012, F13
+	cbne r13, #1013, F14
+	cbne r1, #1001, F15
 	lea	word, r1
 	movq	#1002, r2
 	movq	#1003, r3
@@ -77,40 +62,25 @@ ret_v1_null:	bne	F1
 	movq	#1012, r12
 	movq	#1013, r13
 	movq	#0, r0
-	cmp	r2, r2
 	.globl	rt_v1_copyin
 rt_v1_copyin:	trap	#6
 	.globl	ret_v1_copyin
-ret_v1_copyin:	bne	F16
-	cmp	r0, #0x1234
-	bne	F17
-	cmp	r2, #1002
-	bne	F18
-	cmp	r3, #1003
-	bne	F19
-	cmp	r4, #1004
-	bne	F20
-	cmp	r5, #1005
-	bne	F21
-	cmp	r6, #1006
-	bne	F22
-	cmp	r7, #1007
-	bne	F23
-	cmp	r8, #1008
-	bne	F24
-	cmp	r9, #1009
-	bne	F25
-	cmp	r10, #1010
-	bne	F26
-	cmp	r11, #1011
-	bne	F27
-	cmp	r12, #1012
-	bne	F28
-	cmp	r13, #1013
-	bne	F29
+ret_v1_copyin:
+	cbne r0, #0x1234, F17
+	cbne r2, #1002, F18
+	cbne r3, #1003, F19
+	cbne r4, #1004, F20
+	cbne r5, #1005, F21
+	cbne r6, #1006, F22
+	cbne r7, #1007, F23
+	cbne r8, #1008, F24
+	cbne r9, #1009, F25
+	cbne r10, #1010, F26
+	cbne r11, #1011, F27
+	cbne r12, #1012, F28
+	cbne r13, #1013, F29
 	lea	word, r11
-	cmp	r1, r11
-	bne	F30
+	cbne r1, r11, F30
 	movq	#1001, r1
 	movq	#1002, r2
 	movq	#1003, r3
@@ -125,39 +95,24 @@ ret_v1_copyin:	bne	F16
 	movq	#1012, r12
 	movq	#1013, r13
 	movq	#0, r0
-	cmp	r2, r2
 	.globl	rt_v2_null
 rt_v2_null:	trap	#7
 	.globl	ret_v2_null
-ret_v2_null:	bne	F31
-	cmp	r0, #7
-	bne	F32
-	cmp	r2, #1002
-	bne	F33
-	cmp	r3, #1003
-	bne	F34
-	cmp	r4, #1004
-	bne	F35
-	cmp	r5, #1005
-	bne	F36
-	cmp	r6, #1006
-	bne	F37
-	cmp	r7, #1007
-	bne	F38
-	cmp	r8, #1008
-	bne	F39
-	cmp	r9, #1009
-	bne	F40
-	cmp	r10, #1010
-	bne	F41
-	cmp	r11, #1011
-	bne	F42
-	cmp	r12, #1012
-	bne	F43
-	cmp	r13, #1013
-	bne	F44
-	cmp	r1, #1001
-	bne	F45
+ret_v2_null:
+	cbne r0, #7, F32
+	cbne r2, #1002, F33
+	cbne r3, #1003, F34
+	cbne r4, #1004, F35
+	cbne r5, #1005, F36
+	cbne r6, #1006, F37
+	cbne r7, #1007, F38
+	cbne r8, #1008, F39
+	cbne r9, #1009, F40
+	cbne r10, #1010, F41
+	cbne r11, #1011, F42
+	cbne r12, #1012, F43
+	cbne r13, #1013, F44
+	cbne r1, #1001, F45
 	lea	word, r1
 	movq	#1002, r2
 	movq	#1003, r3
@@ -172,40 +127,25 @@ ret_v2_null:	bne	F31
 	movq	#1012, r12
 	movq	#1013, r13
 	movq	#0, r0
-	cmp	r2, r2
 	.globl	rt_v2_copyin
 rt_v2_copyin:	trap	#8
 	.globl	ret_v2_copyin
-ret_v2_copyin:	bne	F46
-	cmp	r0, #0x1234
-	bne	F47
-	cmp	r2, #1002
-	bne	F48
-	cmp	r3, #1003
-	bne	F49
-	cmp	r4, #1004
-	bne	F50
-	cmp	r5, #1005
-	bne	F51
-	cmp	r6, #1006
-	bne	F52
-	cmp	r7, #1007
-	bne	F53
-	cmp	r8, #1008
-	bne	F54
-	cmp	r9, #1009
-	bne	F55
-	cmp	r10, #1010
-	bne	F56
-	cmp	r11, #1011
-	bne	F57
-	cmp	r12, #1012
-	bne	F58
-	cmp	r13, #1013
-	bne	F59
+ret_v2_copyin:
+	cbne r0, #0x1234, F47
+	cbne r2, #1002, F48
+	cbne r3, #1003, F49
+	cbne r4, #1004, F50
+	cbne r5, #1005, F51
+	cbne r6, #1006, F52
+	cbne r7, #1007, F53
+	cbne r8, #1008, F54
+	cbne r9, #1009, F55
+	cbne r10, #1010, F56
+	cbne r11, #1011, F57
+	cbne r12, #1012, F58
+	cbne r13, #1013, F59
 	lea	word, r11
-	cmp	r1, r11
-	bne	F60
+	cbne r1, r11, F60
 	movq	#0, r0
 	trap	#0
 F1:	movq	#1, r0

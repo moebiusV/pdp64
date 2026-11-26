@@ -35,29 +35,26 @@ _start:
 	movq	#0x1000, r1
 	movq	#8, r2
 	call	lib_dma_w
-	cmp	r30, #0
-	beq	1f
+	cbeq r30, #0, 1f
 	movq	#13, r0
 	halt
 1:	movq	IOMMU_REG_STATUS(r11), r1
 	and	#(1<<IOMMU_STATUS_FAULT_PENDING), r1
-	bne	1f
+	cbne	r1, #0, 1f
 	movq	#14, r0
 	halt
 1:	spl	#0
 	nop
 	nop
 	spl	#7
-	cmp	r30, #1
-	beq	1f
+	cbeq r30, #1, 1f
 	movq	#15, r0
 	halt
 1:	call	lib_drain
 	movq	#CTL_ON, r1
 	movq	r1, IOMMU_REG_CONTROL(r11)
 	movq	IOMMU_REG_STATUS(r11), r1
-	cmp	r1, #0
-	beq	1f
+	cbeq r1, #0, 1f
 	movq	#16, r0
 	halt
 1:	; ---- an entry for level A only (3 levels, root ts_a) with nothing mapped: "no mapping" at stage A ----
@@ -102,8 +99,7 @@ _start:
 	lea	pg1, r2
 	movq	(r2), r1
 	movq	=0x7172737475767778, r2		; the target of the refused write was not touched (the read check wrote this value there itself)
-	cmp	r1, r2
-	beq	1f
+	cbeq r1, r2, 1f
 	movq	#33, r0
 	halt
 1:	; ---- another function's window is an ordinary address: not mapped, so refused (2.3.5).  A four-level entry covers 48 bits; its root has no entry for this address ----
@@ -155,20 +151,18 @@ _start:
 	call	lib_dma_w
 	movq	#0x2000, r1
 	sub	#1, r6
-	bne	1b
+	cbne	r6, #0, 1b
 	movq	IOMMU_REG_FAULT_TAIL(r11), r1
-	cmp	r1, #3
-	beq	1f
+	cbeq r1, #3, 1f
 	movq	#91, r0
 	halt
 1:	movq	IOMMU_REG_FAULT_DROPPED(r11), r1
-	cmp	r1, #2
-	beq	1f
+	cbeq r1, #2, 1f
 	movq	#92, r0
 	halt
 1:	movq	IOMMU_REG_STATUS(r11), r1
 	and	#(1<<IOMMU_STATUS_OVERFLOW), r1
-	bne	1f
+	cbne	r1, #0, 1f
 	movq	#93, r0
 	halt
 1:	call	lib_drain
@@ -177,8 +171,7 @@ _start:
 	call	lib_dma_w
 	call	lib_lastrec
 	shr	#63, r1
-	cmp	r1, #1
-	beq	1f
+	cbeq r1, #1, 1f
 	movq	#94, r0
 	halt
 1:	movq	#0, r1						; the kernel clears the count and the sticky bit
@@ -187,13 +180,11 @@ _start:
 	movq	r1, IOMMU_REG_STATUS(r11)
 	call	lib_drain
 	movq	IOMMU_REG_FAULT_DROPPED(r11), r1
-	cmp	r1, #0
-	beq	1f
+	cbeq r1, #0, 1f
 	movq	#95, r0
 	halt
 1:	movq	IOMMU_REG_STATUS(r11), r1
-	cmp	r1, #0
-	beq	1f
+	cbeq r1, #0, 1f
 	movq	#96, r0
 	halt
 1:	movq	#0x2000, r1
@@ -201,8 +192,7 @@ _start:
 	call	lib_dma_w
 	call	lib_lastrec
 	shr	#63, r1
-	cmp	r1, #0
-	beq	1f
+	cbeq r1, #0, 1f
 	movq	#97, r0
 	halt
 1:	call	lib_drain
@@ -222,19 +212,16 @@ _start:
 	movq	#0x2000, r1
 	movq	#8, r2
 	call	lib_dma_w
-	cmp	r1, #ST_DONE
-	beq	1f
+	cbeq r1, #ST_DONE, 1f
 	movq	#61, r0
 	halt
 1:	movq	IOMMU_REG_DROPPED_WRITES(r11), r1
 	sub	r20, r1
-	cmp	r1, #1
-	beq	1f
+	cbeq r1, #1, 1f
 	movq	#62, r0
 	halt
 1:	movq	IOMMU_REG_FAULT_TAIL(r11), r1
-	cmp	r1, r21
-	beq	1f
+	cbeq r1, r21, 1f
 	movq	#63, r0
 	halt
 1:	; ---- logging switched off: the same ----
@@ -253,19 +240,16 @@ _start:
 	movq	#0x2000, r1
 	movq	#8, r2
 	call	lib_dma_r
-	cmp	r1, #ST_ERR
-	beq	1f
+	cbeq r1, #ST_ERR, 1f
 	movq	#71, r0
 	halt
 1:	movq	IOMMU_REG_REFUSED_READS(r11), r1
 	sub	r20, r1
-	cmp	r1, #1
-	beq	1f
+	cbeq r1, #1, 1f
 	movq	#72, r0
 	halt
 1:	movq	IOMMU_REG_FAULT_TAIL(r11), r1
-	cmp	r1, r21
-	beq	1f
+	cbeq r1, r21, 1f
 	movq	#73, r0
 	halt
 1:	movq	#CTL_ON, r1

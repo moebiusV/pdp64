@@ -32,7 +32,7 @@ def P(s):
 
 COMMON = [
  ('1 parcel: register move, both registers hot or not (a 4-bit field each)', 'movq R:1 R:2'),
- ('', 'movq R:15 R:0'), ('', 'add R:3 R:4'), ('', 'cmp R:7 R:6'),
+ ('', 'movq R:15 R:0'), ('', 'add R:3 R:4'), ('', 'sub R:7 R:6'),
  ('movq #imm, one parcel', 'movq I:5 R:3'), ('', 'movq I:-64 R:15'), ('', 'movq I:63 R:0'),
  ('sp-relative load/store, scaled offset', 'movq B:8:14 R:3'), ('', 'movq R:3 B:16:14'), ('', 'movl B:12:14 R:5'),
  ('hot-register base and destination, a scaled offset in one parcel', 'movq B:8:8 R:1'), ('', 'movq R:0 B:16:9'),
@@ -40,11 +40,11 @@ COMMON = [
  ('3 parcels: a 32-bit displacement, a 32-bit immediate', 'movq B:100000:1 R:2'), ('', 'add I:100000 R:2'),
  ('indexed', 'movq X:8:1:2:8 R:3'), ('', 'movq R:3 X:0:1:2:1'),
  ('post-increment and pre-decrement', 'movq PI:4:0 R:5'), ('', 'movq R:5 PD:4:0'),
- ('branches: pc-relative field counts parcels', 'br PC:6'), ('', 'bne PC:-20'), ('', 'beq PC:2000'), ('', 'br PC:300000'),
+ ('branches: pc-relative field counts parcels', 'br PC:6'), ('', 'cbne R:1 I:0 PC:-20'), ('', 'cbeq R:1 R:2 PC:2000'), ('', 'br PC:300000'),
  ('compare and branch', 'cbeq R:3 I:0 PC:8'), ('', 'cbne R:1 R:2 PC:-30'), ('', 'cblt R:4 I:100 PC:60'), ('', 'cbge R:4 I:3 PC:8'),
  ('call; an external reference needs a 32-bit field', 'call PC:200'), ('', 'call PC:0:E'), ('', 'lea PC:0:E R:1'), ('', 'movq A:0:E R:2'),
  ('no operand', 'ret'), ('', 'nop'), ('', 'halt'), ('', 'lpad'),
- ('system: trap (one 8-bit vector), set, mfsr', 'trap I:3'), ('', 'trap I:200'), ('', 'set I:2 R:3'), ('', 'mfsr R:2 I:12'), ('', 'mtsr I:1 R:2'),
+ ('system: trap (one 8-bit vector), set, mfsr', 'trap I:3'), ('', 'trap I:200'), ('', 'setlt R:1 R:2 R:3'), ('', 'mfsr R:2 I:12'), ('', 'mtsr I:1 R:2'),
  ('isync, hint, pushx', 'isync'), ('', 'hint I:165'), ('', 'pushx'),
 
  ('MESC', 'subm R:1 B:16:2'), ('', 'addm R:1 B:16:2'), ('', 'bism R:1 B:0:2'),
@@ -59,7 +59,7 @@ COMMON = [
 R32 = [
  ('registers r16-r31: 5-bit fields', 'movq R:17 R:20'), ('', 'add R:31 R:30'), ('', 'xor R:16 R:1'), ('', 'movq B:8:24 R:25'), ('', 'movq B:100:17 R:30'),
  ('the eight register-register mnemonics have a 5-bit one-parcel form', 'shl R:31 R:30'), ('', 'bis R:16 R:17'), ('', 'sub R:20 R:21'),
- ('', 'cmp R:20 R:21'), ('', 'movq X:0:16:31:8 R:18'), ('', 'cbeq R:19 I:0 PC:8'), ('', 'cbne R:30 R:31 PC:16'),
+ ('', 'sub R:20 R:21'), ('', 'movq X:0:16:31:8 R:18'), ('', 'cbeq R:19 I:0 PC:8'), ('', 'cbne R:30 R:31 PC:16'),
   ('', 'bsel R:24 R:25 R:26 R:27'),
 ]
 for which in ('32',):

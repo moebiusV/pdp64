@@ -1,51 +1,43 @@
-; literal-pool loads (=K): a 64-bit constant in the pool, used as a quad memory source; the result and the flags are those of the same operation with an immediate.  A failed check n exits with n.
+; literal-pool loads (=K): a 64-bit constant in the pool, used as a quad memory source; the result is that of the same operation with an immediate.  A failed check n exits with n.
 	.text
 	.globl	_start
 _start:
 	movq	=0x123456789ABC, r1
 	movq	r1, r2
 	shr	#32, r2
-	cmp	r2, #0x1234
-	bne	f1
+	cbne r2, #0x1234, f1
 	movq	=0x123456789ABC, r3
-	cmp	r1, r3			; the same literal twice
-	bne	f2
-	cmp	r1, =0x123456789ABC	; equal: Z set
-	bne	f3
+	cbne r1, r3, f2
+	movq	=0x123456789ABC, r13	; equal: Z set
+	cbne	r1, r13, f3
 	add	=0x100000000, r1
 	shr	#32, r1
-	cmp	r1, #0x1235
-	bne	f4
+	cbne r1, #0x1235, f4
 	movq	#-1, r4
 	and	=0xFFFFFFFF00, r4
 	shr	#8, r4
-	cmp	r4, =0xFFFFFFFF
-	bne	f5
+	movq	=0xFFFFFFFF, r13
+	cbne	r4, r13, f5
 	push	=0x7000000000
 	pop	r5
 	shr	#32, r5
-	cmp	r5, #0x70
-	bne	f6
+	cbne r5, #0x70, f6
 	movq	=-0x8000000001, r6	; below -2^31
 	add	#1, r6
 	movq	=-0x8000000000, r7
-	cmp	r6, r7
-	bne	f7
+	cbne r6, r7, f7
 	movq	=K, r8			; a constant defined by an assignment
 	shr	#40, r8
-	cmp	r8, #0x7f
-	bne	f8
+	cbne r8, #0x7f, f8
 	movq	=0x3FF0000000000000, r9	; 1.0 as a bit pattern: fadd =1.0, r9 gives 2.0
 	fadd	=0x3FF0000000000000, r9
 	movq	=0x4000000000000000, r10
-	cmp	r9, r10
-	bne	f9
+	cbne r9, r10, f9
 	br	1f			; a pool in the middle of the code: jumped over, the code after it goes on
 	.pool
 1:
 	movq	=5, r11
-	cmp	r11, #5
-	bne	f10
+	cbne r11, #5, f10
 	movq	#0, r0
 	trap	#0
 f1:	movq	#1, r0

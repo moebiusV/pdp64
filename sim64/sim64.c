@@ -72,7 +72,7 @@ static struct { uint64_t lo, hi; uint32_t *count; uint8_t *len, *cat_of; uint64_
 static void regdump(FILE *o)
 {
 	for (int i = 0; i < 32; i++) fprintf(o, "r%-2d %016llx%s", i, (unsigned long long)cpu.r[i], i % 4 == 3 ? "\n" : "  ");
-	fprintf(o, "pc  %016llx  N%d Z%d V%d C%d  fpsr %02llx  psw %04x\n", (unsigned long long)cpu.pc, cpu.fN, cpu.fZ, cpu.fV, cpu.fC, (unsigned long long)cpu.fpsr, pdp64_psw(&cpu));
+	fprintf(o, "pc  %016llx  fpsr %02llx  psw %04x\n", (unsigned long long)cpu.pc, (unsigned long long)cpu.fpsr, pdp64_psw(&cpu));
 }
 static void die(const char *what, uint64_t addr)
 {

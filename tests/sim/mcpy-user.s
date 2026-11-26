@@ -7,45 +7,36 @@ _start:
 	lea	dst, r9
 	movq	#12, r10
 	mcpy.ur	r9, r8, r10
-	cmp	r10, #0
-	bne	f1
+	cbne r10, #0, f1
 	lea	dst+12, r2
-	cmp	r9, r2
-	bne	f2
+	cbne r9, r2, f2
 	lea	src+12, r2
-	cmp	r8, r2
-	bne	f3
+	cbne r8, r2, f3
 	lea	dst, r4
 	movq	(r4), r5
 	movq	=0x0807060504030201, r6
-	cmp	r5, r6
-	bne	f4
+	cbne r5, r6, f4
 	movl	8(r4), r5
-	cmp	r5, #0x0c0b0a09
-	bne	f5
+	movq	=0x0c0b0a09, r11
+	cbne	r5, r11, f5
 	lea	src, r8
 	lea	dst2, r9
 	movq	#9, r10
 	mcpy.uw	r9, r8, r10
-	cmp	r10, #0
-	bne	f6
+	cbne r10, #0, f6
 	lea	dst2, r4
 	movq	(r4), r5
-	cmp	r5, r6
-	bne	f7
+	cbne r5, r6, f7
 	movzb	8(r4), r5
-	cmp	r5, #9
-	bne	f8
+	cbne r5, #9, f8
 	movzb	9(r4), r5
-	cmp	r5, #0
-	bne	f9
+	cbne r5, #0, f9
 	lea	dst2+16, r9
 	lea	src, r8
 	movq	#0, r10
 	mcpy.ur	r9, r8, r10
 	lea	dst2+16, r2
-	cmp	r9, r2
-	bne	f10
+	cbne r9, r2, f10
 	clr	r0
 	trap	#0
 f1:	movq	#1, r0

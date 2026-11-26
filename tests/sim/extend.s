@@ -1,4 +1,4 @@
-; sign and zero extension of every width, from a register, from memory and from an immediate; partial stores; flags
+; sign and zero extension of every width, from a register, from memory and from an immediate; partial stores
 	.text
 	.globl	_start
 _start:
@@ -10,29 +10,24 @@ _start:
 	shl	#16, r1
 	bis	#0xDEF0, r1
 	movb	r1, r2
-	cmp	r2, #-16		; register source: movb low byte 0xF0
-	bne	f1
+	cbne r2, #-16, f1
 	movzb	r1, r2
-	cmp	r2, #240		; register source: movzb 
-	bne	f2
+	cbne r2, #240, f2
 	movw	r1, r2
-	cmp	r2, #-8464		; register source: movw low word 0xDEF0
-	bne	f3
+	cbne r2, #-8464, f3
 	movzw	r1, r2
-	cmp	r2, #57072		; register source: movzw 
-	bne	f4
+	movq	=57072, r12	; register source: movzw 
+	cbne	r2, r12, f4
 	movl	r1, r2
-	cmp	r2, #-1698898192		; register source: movl low long 0x9ABCDEF0
-	bne	f5
+	movq	=-1698898192, r12	; register source: movl low long 0x9ABCDEF0
+	cbne	r2, r12, f5
 	movzl	r1, r2
 	movq	#39612, r12
 	shl	#16, r12
 	bis	#57072, r12
-	cmp	r2, r12		; register source: movzl 
-	bne	f6
+	cbne r2, r12, f6
 	movq	r1, r2
-	cmp	r2, r1		; movq copies all 64 bits
-	bne	f7
+	cbne r2, r1, f7
 	movq	#0, r3
 	movq	#0, r3
 	bis	#127, r3
@@ -40,11 +35,9 @@ _start:
 	shl	#8, r4
 	bis	r4, r3
 	movb	r3, r2
-	cmp	r2, #127		; boundary 0x7F movb
-	bne	f8
+	cbne r2, #127, f8
 	movzb	r3, r2
-	cmp	r2, #127		; boundary 0x7F movzb
-	bne	f9
+	cbne r2, #127, f9
 	movq	#0, r3
 	movq	#0, r3
 	bis	#128, r3
@@ -52,11 +45,9 @@ _start:
 	shl	#8, r4
 	bis	r4, r3
 	movb	r3, r2
-	cmp	r2, #-128		; boundary 0x80 movb
-	bne	f10
+	cbne r2, #-128, f10
 	movzb	r3, r2
-	cmp	r2, #128		; boundary 0x80 movzb
-	bne	f11
+	cbne r2, #128, f11
 	movq	#0, r3
 	movq	#0, r3
 	bis	#32767, r3
@@ -64,11 +55,9 @@ _start:
 	shl	#16, r4
 	bis	r4, r3
 	movw	r3, r2
-	cmp	r2, #32767		; boundary 0x7FFF movw
-	bne	f12
+	cbne r2, #32767, f12
 	movzw	r3, r2
-	cmp	r2, #32767		; boundary 0x7FFF movzw
-	bne	f13
+	cbne r2, #32767, f13
 	movq	#0, r3
 	movq	#0, r3
 	bis	#32768, r3
@@ -76,11 +65,10 @@ _start:
 	shl	#16, r4
 	bis	r4, r3
 	movw	r3, r2
-	cmp	r2, #-32768		; boundary 0x8000 movw
-	bne	f14
+	cbne r2, #-32768, f14
 	movzw	r3, r2
-	cmp	r2, #32768		; boundary 0x8000 movzw
-	bne	f15
+	movq	=32768, r12	; boundary 0x8000 movzw
+	cbne	r2, r12, f15
 	movq	#32767, r3
 	shl	#16, r3
 	bis	#65535, r3
@@ -88,11 +76,11 @@ _start:
 	shl	#32, r4
 	bis	r4, r3
 	movl	r3, r2
-	cmp	r2, #2147483647		; boundary 0x7FFFFFFF movl
-	bne	f16
+	movq	=2147483647, r12	; boundary 0x7FFFFFFF movl
+	cbne	r2, r12, f16
 	movzl	r3, r2
-	cmp	r2, #2147483647		; boundary 0x7FFFFFFF movzl
-	bne	f17
+	movq	=2147483647, r12	; boundary 0x7FFFFFFF movzl
+	cbne	r2, r12, f17
 	movq	#32768, r3
 	shl	#16, r3
 	bis	#0, r3
@@ -100,169 +88,126 @@ _start:
 	shl	#32, r4
 	bis	r4, r3
 	movl	r3, r2
-	cmp	r2, #-2147483648		; boundary 0x80000000 movl
-	bne	f18
+	movq	=-2147483648, r12	; boundary 0x80000000 movl
+	cbne	r2, r12, f18
 	movzl	r3, r2
 	movq	#32768, r12
 	shl	#16, r12
 	bis	#0, r12
-	cmp	r2, r12		; boundary 0x80000000 movzl
-	bne	f19
+	cbne r2, r12, f19
 	movq	r1, r2
 	movzl	r2, r2
 	movq	#39612, r12
 	shl	#16, r12
 	bis	#57072, r12
-	cmp	r2, r12		; movzl r,r clears the upper half
-	bne	f20
+	cbne r2, r12, f20
 	movq	r1, r2
 	movl	r2, r2
-	cmp	r2, #-1698898192		; movl r,r sign-extends
-	bne	f21
+	movq	=-1698898192, r12	; movl r,r sign-extends
+	cbne	r2, r12, f21
 	movq	r1, r2
 	movzb	r2, r2
-	cmp	r2, #240
-	bne	f22
+	cbne r2, #240, f22
 	lea	pat, r5
 	movb	0(r5), r2
-	cmp	r2, #-16		; memory source: movb at +0
-	bne	f23
+	cbne r2, #-16, f23
 	lea	pat, r5
 	movb	1(r5), r2
-	cmp	r2, #-34		; memory source: movb at +1
-	bne	f24
+	cbne r2, #-34, f24
 	lea	pat, r5
 	movzb	1(r5), r2
-	cmp	r2, #222		; memory source: movzb at +1
-	bne	f25
+	cbne r2, #222, f25
 	lea	pat, r5
 	movw	0(r5), r2
-	cmp	r2, #-8464		; memory source: movw at +0
-	bne	f26
+	cbne r2, #-8464, f26
 	lea	pat, r5
 	movw	2(r5), r2
-	cmp	r2, #-25924		; memory source: movw at +2
-	bne	f27
+	cbne r2, #-25924, f27
 	lea	pat, r5
 	movzw	2(r5), r2
-	cmp	r2, #39612		; memory source: movzw at +2
-	bne	f28
+	movq	=39612, r12	; memory source: movzw at +2
+	cbne	r2, r12, f28
 	lea	pat, r5
 	movl	0(r5), r2
-	cmp	r2, #-1698898192		; memory source: movl at +0
-	bne	f29
+	movq	=-1698898192, r12	; memory source: movl at +0
+	cbne	r2, r12, f29
 	lea	pat, r5
 	movl	4(r5), r2
-	cmp	r2, #305419896		; memory source: movl at +4
-	bne	f30
+	movq	=305419896, r12	; memory source: movl at +4
+	cbne	r2, r12, f30
 	lea	pat, r5
 	movzl	0(r5), r2
 	movq	#39612, r12
 	shl	#16, r12
 	bis	#57072, r12
-	cmp	r2, r12		; memory source: movzl at +0
-	bne	f31
+	cbne r2, r12, f31
 	lea	pat, r5
 	movzl	4(r5), r2
-	cmp	r2, #305419896		; memory source: movzl at +4
-	bne	f32
+	movq	=305419896, r12	; memory source: movzl at +4
+	cbne	r2, r12, f32
 	movb	#-1, r2
-	cmp	r2, #-1		; immediate source: movb #-1
-	bne	f33
+	cbne r2, #-1, f33
 	movzb	#-1, r2
-	cmp	r2, #255		; immediate source: movzb #-1
-	bne	f34
+	cbne r2, #255, f34
 	movw	#-2, r2
-	cmp	r2, #-2		; immediate source: movw #-2
-	bne	f35
+	cbne r2, #-2, f35
 	movzw	#-2, r2
-	cmp	r2, #65534		; immediate source: movzw #-2
-	bne	f36
+	movq	=65534, r12	; immediate source: movzw #-2
+	cbne	r2, r12, f36
 	movzw	#-1, r2
-	cmp	r2, #65535		; immediate source: movzw #-1
-	bne	f37
+	movq	=65535, r12	; immediate source: movzw #-1
+	cbne	r2, r12, f37
 	movl	#-3, r2
-	cmp	r2, #-3		; immediate source: movl #-3
-	bne	f38
+	cbne r2, #-3, f38
 	movzl	#-3, r2
 	movq	#65535, r12
 	shl	#16, r12
 	bis	#65533, r12
-	cmp	r2, r12		; immediate source: movzl #-3
-	bne	f39
+	cbne r2, r12, f39
 	movzl	#-1, r2
 	movq	#65535, r12
 	shl	#16, r12
 	bis	#65535, r12
-	cmp	r2, r12		; immediate source: movzl #-1
-	bne	f40
+	cbne r2, r12, f40
 	lea	out, r5
 	movq	#-1, r6
 	movb	r6, 0(r5)
 	movq	0(r5), r2
-	cmp	r2, exp1		; movb stores one byte, the others stay
-	bne	f41
+	movq	exp1, r12	; movb stores one byte, the others stay
+	cbne	r2, r12, f41
 	movw	r6, 8(r5)
 	movq	8(r5), r2
-	cmp	r2, exp2		; movw stores two bytes
-	bne	f42
+	movq	exp2, r12	; movw stores two bytes
+	cbne	r2, r12, f42
 	movq	#0x1234, r6
 	shl	#16, r6
 	bis	#0x5678, r6
 	movl	r6, 8(r5)
 	movq	8(r5), r2
-	cmp	r2, exp3		; movl stores four bytes
-	bne	f43
-; moves write no flags (errata 39): the sign and zero extension show in the register, and N and Z stay as the cmp before the move left them
+	movq	exp3, r12	; movl stores four bytes
+	cbne	r2, r12, f43
+; the sign and zero extension show in the register (checks 44 to 49)
 	movq	#128, r3
-	cmp	r3, #1			; N clear, Z clear
 	movb	r3, r2
-	cmp	r2, #-128		; the byte 0x80 sign-extended (this cmp sets the flags again, so read them first)
-	bne	f44
+	cbne r2, #-128, f44
 	movq	#128, r3
-	cmp	r3, #1
-	movb	r3, r2
-	set	mi, r4
-	cmp	r4, #0			; movb of a negative byte left N clear
-	bne	f44
-	movq	#128, r3
-	cmp	r3, #200		; 128 - 200 is negative: N set
 	movzb	r3, r2
-	set	mi, r4
-	cmp	r4, #1			; movzb of 0x80 (a positive value) left N set
-	bne	f45
-	cmp	r2, #128		; and the value is zero-extended
-	bne	f45
+	cbne r2, #128, f45
 	movq	#0, r3
-	cmp	r3, #1			; 0 - 1: N set, Z clear
 	movb	r3, r2
-	set	eq, r4
-	cmp	r4, #0			; movb of 0 left Z clear
-	bne	f46
+	cbne r2, #0, f46
 	movq	#0, r3
-	cmp	r3, #1
 	movzw	r3, r2
-	set	eq, r4
-	cmp	r4, #0			; movzw of 0 left Z clear
-	bne	f47
+	cbne r2, #0, f47
 	movq	#32768, r3
 	shl	#16, r3
-	cmp	r3, #1			; positive: N clear
 	movl	r3, r2
-	set	mi, r4
-	cmp	r4, #0			; movl of 0x80000000 (negative as a long) left N clear
-	bne	f48
-	cmp	r2, #-2147483648	; and it is sign-extended
-	bne	f48
+	movq	=-2147483648, r12	; and it is sign-extended
+	cbne r2, r12, f48
 	movq	#32768, r3
 	shl	#16, r3
-	cmp	r3, r3			; Z set
 	movzl	r3, r2
-	set	eq, r4
-	cmp	r4, #1			; movzl left Z set
-	bne	f49
-	cmp	r2, r3			; and the value is zero-extended, 0x80000000
-	bne	f49
+	cbne r2, r3, f49
 	movq	#0, r0
 	trap	#0
 f1:	movq	#1, r0

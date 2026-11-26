@@ -4,130 +4,100 @@
 _start:
 	movq	#0xF0, r1
 	clz	r1, r2
-	cmp	r2, #56
-	bne	f1
+	cbne r2, #56, f1
 	ctz	r1, r2
-	cmp	r2, #4
-	bne	f2
+	cbne r2, #4, f2
 	popcnt	r1, r2
-	cmp	r2, #4
-	bne	f3
+	cbne r2, #4, f3
 	movq	#0, r1
 	clz	r1, r2
-	cmp	r2, #64		; clz of zero
-	bne	f4
+	cbne r2, #64, f4
 	ctz	r1, r2
-	cmp	r2, #64		; ctz of zero
-	bne	f5
+	cbne r2, #64, f5
 	movq	#-1, r1
 	popcnt	r1, r2
-	cmp	r2, #64
-	bne	f6
+	cbne r2, #64, f6
 	clo	r1, r2
-	cmp	r2, #64
-	bne	f7
+	cbne r2, #64, f7
 	movq	#0xFF, r1
 	cto	r1, r2
-	cmp	r2, #8
-	bne	f8
+	cbne r2, #8, f8
 	movq	#0x0102, r1
 	bswap	r1, r2
 	movq	#0x0201, r3
 	shl	#48, r3
-	cmp	r2, r3		; byte swap of 0x0102 is 0x0201 << 48
-	bne	f9
+	cbne r2, r3, f9
 	bswapw	r1, r2
-	cmp	r2, #513		; bswapw swaps the low 16 bits
-	bne	f10
+	cbne r2, #513, f10
 	movq	#1, r1
 	bitrev	r1, r2
 	shr	#63, r2
-	cmp	r2, #1		; bit 0 goes to bit 63
-	bne	f11
+	cbne r2, #1, f11
 	movq	#1, r1
 	ror	r1, #1, r1
 	shr	#63, r1
-	cmp	r1, #1		; rotate right by 1 puts bit 0 at bit 63
-	bne	f12
+	cbne r1, #1, f12
 	movq	#-5, r1
 	abs	r1, r2
-	cmp	r2, #5
-	bne	f13
+	cbne r2, #5, f13
 	movq	#5, r1
 	abs	r1, r2
-	cmp	r2, #5
-	bne	f14
+	cbne r2, #5, f14
 	movq	#-3, r1
 	movq	#2, r2
 	min	r1, r2, r3
-	cmp	r3, #-3
-	bne	f15
+	cbne r3, #-3, f15
 	max	r1, r2, r3
-	cmp	r3, #2
-	bne	f16
+	cbne r3, #2, f16
 	minu	r1, r2, r3
-	cmp	r3, #2		; unsigned: -3 is huge
-	bne	f17
+	cbne r3, #2, f17
 	maxu	r1, r2, r3
-	cmp	r3, #-3
-	bne	f18
+	cbne r3, #-3, f18
 	lea	src, r1
 	lea	dst, r2
 	movq	#13, r3
 	mcpy	r2, r1, r3
-	cmp	r3, #0		; count is zero at the end
-	bne	f19
+	cbne r3, #0, f19
 	lea	dst, r4
 	sub	r4, r2
-	cmp	r2, #13		; dest pointer one past the end
-	bne	f20
+	cbne r2, #13, f20
 	movb	dst+7, r5
-	cmp	r5, #119
-	bne	f21
+	cbne r5, #119, f21
 	lea	src, r1
 	lea	dst, r2
 	movq	#13, r3
 	mcmp	r2, r1, r3
-	set	eq, r6
-	cmp	r6, #1		; equal buffers
-	bne	f22
+	cbne r3, #0, f22		; equal blocks: the count left is 0
 	lea	dst, r2
 	movq	#88, r5
 	movb	r5, dst+4
 	lea	src, r1
 	movq	#13, r3
 	mcmp	r2, r1, r3
-	set	ne, r6
-	cmp	r6, #1		; differ at byte 4
-	bne	f23
-	cmp	r3, #9		; count left when it stopped
-	bne	f24
+	cbeq r3, #0, f23		; a difference: the count left is not 0
+	cbne r3, #9, f24
 	lea	dst, r2
 	movq	#120, r1
 	movq	#5, r3
 	mset	r2, r1, r3
 	movzb	dst+4, r5
-	cmp	r5, #120
-	bne	f25
+	cbne r5, #120, f25
 	movzb	dst+5, r5
-	cmp	r5, #44
-	bne	f26
+	cbne r5, #44, f26
 	lea	src, r2
 	movq	#44, r1
 	movq	#13, r3
 	mscn	r2, r1, r3
 	lea	src, r4
 	sub	r4, r2
-	cmp	r2, #5		; scan stops at the comma
-	bne	f27
+	cbne r2, #5, f27
 	lea	pat, r2
 	movq	#97, r1
 	movq	#5, r3
 	mscnn	r2, r1, r3
 	lea	pat, r4
 	sub	r4, r2
-	cmp	r2, #4		; first byte that is not a
-	bne	f28
+	cbne r2, #4, f28
 	movq	#0, r0
 	trap	#0
 f1:	movq	#1, r0

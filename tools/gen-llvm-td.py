@@ -67,7 +67,7 @@ def generate():
     mns.sort()
 
     # ---------------- derived layout numbers
-    alu = ['add', 'sub', 'and', 'bis', 'xor', 'mul', 'cmp']
+    alu = ['add', 'sub', 'and', 'bis', 'xor', 'mul']
     lay = {}
     lay['AluImmBits'] = min(widest(forms, m, 'I', 'w', True) for m in alu)        # the signed immediate every one of them takes (32)
     # the immediate that the compiler writes as `movq #imm`: the widest of the forms of at most three parcels (32).  The ten-byte form (a 64-bit constant) is the same word, and the assembler uses it for

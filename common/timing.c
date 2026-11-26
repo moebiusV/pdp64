@@ -52,9 +52,9 @@ void tm_fmt(const struct fmt *f)
 	if (!tm_on) return;
 	t->cls = TC_ALU;
 	if (opc <= OPGROUP_LEA) { t->cls = opc == OPGROUP_LEA ? TC_ALU : TC_MOVE; return; }
-	if (opc >= MN_ALU_ADD && opc <= MN_ALU_FCMP) {
+	if (opc >= MN_ALU_ADD && opc <= MN_ALU_FMUL) {
 		if (opc == MN_ALU_MUL || opc == MN_ALU_MULH) t->cls = TC_MUL;
-		else if (opc == MN_ALU_FADD || opc == MN_ALU_FSUB || opc == MN_ALU_FCMP) t->cls = TC_FADD;
+		else if (opc == MN_ALU_FADD || opc == MN_ALU_FSUB) t->cls = TC_FADD;
 		else if (opc == MN_ALU_FMUL) t->cls = TC_FMUL;
 		return;
 	}
@@ -96,15 +96,15 @@ void tm_fmt(const struct fmt *f)
 /* class from the mnemonic (cached) */
 struct mnc { uint8_t done, cls, bk, fused, dir_op; };	/* dir_op: operand index to test for a direct transfer; 0xff none */
 static struct mnc *MC;
-static const char *const CCS[] = { "ne", "eq", "pl", "mi", "vc", "vs", "cc", "cs", "ge", "lt", "gt", "le", "hi", "los" };
+static const char *const CCS[] = { "ne", "eq", "cc", "cs", "ge", "lt", "gt", "le", "hi", "los" };
 static int is_cc(const char *s) { for (size_t i = 0; i < sizeof CCS / sizeof *CCS; i++) if (!strcmp(s, CCS[i])) return 1; return 0; }
 static int starts(const char *s, const char *p) { return !strncmp(s, p, strlen(p)); }
 static void classify_name(const char *n, struct mnc *c)
 {
 	c->done = 1; c->cls = TC_ALU; c->bk = BK_NONE; c->fused = 0; c->dir_op = 0xff;
 	if (!strcmp(n, "br")) { c->cls = TC_BRANCH; c->bk = BK_JMP_D; return; }
-	if (n[0] == 'b' && is_cc(n + 1)) { c->cls = TC_BRANCH; c->bk = BK_COND; return; }
 	if (starts(n, "cb") && is_cc(n + 2)) { c->cls = TC_BRANCH; c->bk = BK_COND; return; }
+	if (starts(n, "fcb")) { c->cls = TC_BRANCH; c->bk = BK_COND; return; }
 	if (!strcmp(n, "sob") || !strcmp(n, "btag") || !strcmp(n, "bntag")) { c->cls = TC_BRANCH; c->bk = BK_COND; return; }
 	if (!strcmp(n, "jmp")) { c->cls = TC_BRANCH; c->bk = BK_JMP_D; c->dir_op = 0; return; }
 	if (!strcmp(n, "call")) { c->cls = TC_CALL; c->bk = BK_CALL_D; c->dir_op = 0; return; }

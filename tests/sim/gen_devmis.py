@@ -242,7 +242,7 @@ def gen_split():
     C = page(0)
     p.case('control: the console is ready with a character (the first of the input), the page is strongly ordered')
     p.setaddr(C)
-    p.e('1:\tmovq\t0(r3), r4\n\tand\t#(1<<CONSOLE_CSR_READY), r4\n\tbeq\t1b')
+    p.e('1:\tmovq\t0(r3), r4\n\tand\t#(1<<CONSOLE_CSR_READY), r4\n\tcbeq\tr4, #0, 1b')
     p.case('a quad load at offset 4 (a piece of RXDB at offset 8) is the fault and does not take the character')
     p.pre('r5', 0x5a5a5a5a5a5a5a5a)
     p.run('movq\t4(r3), r5', True, C + 4)

@@ -4,224 +4,180 @@
 _start:
 	movq	#5, r1
 	movq	#7, r2
-	cmp	r1, r2
-	bne	L4_ok
+	cbne r1, r2, L4_ok
 	br	f1
 L4_ok:
 	movq	#5, r1
 	movq	#7, r2
-	cmp	r1, r2
-	beq	L10_ok
+	cbeq r1, r2, L10_ok
 	br	L10_end
 L10_ok:
 	br	f2
 L10_end:
 	movq	#5, r1
 	movq	#7, r2
-	cmp	r1, r2
-	bmi	L18_ok
+	cblt	r1, r2, L18_ok
 	br	f3
 L18_ok:
 	movq	#5, r1
 	movq	#7, r2
-	cmp	r1, r2
-	bpl	L24_ok
+	cbge	r1, r2, L24_ok
 	br	L24_end
 L24_ok:
 	br	f4
 L24_end:
 	movq	#5, r1
 	movq	#7, r2
-	cmp	r1, r2
-	bvs	L32_ok
-	br	L32_end
-L32_ok:
-	br	f5
-L32_end:
-	movq	#5, r1
-	movq	#7, r2
-	cmp	r1, r2
-	bvc	L40_ok
-	br	f6
-L40_ok:
-	movq	#5, r1
-	movq	#7, r2
-	cmp	r1, r2
-	bcs	L46_ok
+	cbcs r1, r2, L46_ok
 	br	f7
 L46_ok:
 	movq	#5, r1
 	movq	#7, r2
-	cmp	r1, r2
-	bcc	L52_ok
+	cbcc r1, r2, L52_ok
 	br	L52_end
 L52_ok:
 	br	f8
 L52_end:
 	movq	#5, r1
 	movq	#7, r2
-	cmp	r1, r2
-	blo	L60_ok
+	cblo r1, r2, L60_ok
 	br	f9
 L60_ok:
 	movq	#5, r1
 	movq	#7, r2
-	cmp	r1, r2
-	bhis	L66_ok
+	cbhis r1, r2, L66_ok
 	br	L66_end
 L66_ok:
 	br	f10
 L66_end:
 	movq	#5, r1
 	movq	#7, r2
-	cmp	r1, r2
-	blt	L74_ok
+	cblt r1, r2, L74_ok
 	br	f11
 L74_ok:
 	movq	#5, r1
 	movq	#7, r2
-	cmp	r1, r2
-	bge	L80_ok
+	cbge r1, r2, L80_ok
 	br	L80_end
 L80_ok:
 	br	f12
 L80_end:
 	movq	#5, r1
 	movq	#7, r2
-	cmp	r1, r2
-	ble	L88_ok
+	cble r1, r2, L88_ok
 	br	f13
 L88_ok:
 	movq	#5, r1
 	movq	#7, r2
-	cmp	r1, r2
-	bgt	L94_ok
+	cbgt r1, r2, L94_ok
 	br	L94_end
 L94_ok:
 	br	f14
 L94_end:
 	movq	#5, r1
 	movq	#7, r2
-	cmp	r1, r2
-	bhi	L102_ok
+	cbhi r1, r2, L102_ok
 	br	L102_end
 L102_ok:
 	br	f15
 L102_end:
 	movq	#5, r1
 	movq	#7, r2
-	cmp	r1, r2
-	blos	L110_ok
+	cblos r1, r2, L110_ok
 	br	f16
 L110_ok:
 	movq	#7, r1
 	movq	#7, r2
-	cmp	r1, r2
-	beq	L116_ok
+	cbeq r1, r2, L116_ok
 	br	f17
 L116_ok:
 	movq	#7, r1
 	movq	#7, r2
-	cmp	r1, r2
-	bne	L122_ok
+	cbne r1, r2, L122_ok
 	br	L122_end
 L122_ok:
 	br	f18
 L122_end:
 	movq	#7, r1
 	movq	#7, r2
-	cmp	r1, r2
-	bge	L130_ok
+	cbge r1, r2, L130_ok
 	br	f19
 L130_ok:
 	movq	#7, r1
 	movq	#7, r2
-	cmp	r1, r2
-	ble	L136_ok
+	cble r1, r2, L136_ok
 	br	f20
 L136_ok:
 	movq	#7, r1
 	movq	#7, r2
-	cmp	r1, r2
-	bgt	L142_ok
+	cbgt r1, r2, L142_ok
 	br	L142_end
 L142_ok:
 	br	f21
 L142_end:
 	movq	#7, r1
 	movq	#7, r2
-	cmp	r1, r2
-	blt	L150_ok
+	cblt r1, r2, L150_ok
 	br	L150_end
 L150_ok:
 	br	f22
 L150_end:
 	movq	#7, r1
 	movq	#7, r2
-	cmp	r1, r2
-	blos	L158_ok
+	cblos r1, r2, L158_ok
 	br	f23
 L158_ok:
 	movq	#7, r1
 	movq	#7, r2
-	cmp	r1, r2
-	bhi	L164_ok
+	cbhi r1, r2, L164_ok
 	br	L164_end
 L164_ok:
 	br	f24
 L164_end:
 	movq	#7, r1
 	movq	#7, r2
-	cmp	r1, r2
-	bcc	L172_ok
+	cbcc r1, r2, L172_ok
 	br	f25
 L172_ok:
 	movq	#-1, r1
 	movq	#1, r2
-	cmp	r1, r2
-	blt	L178_ok
+	cblt r1, r2, L178_ok
 	br	f26
 L178_ok:
 	movq	#-1, r1
 	movq	#1, r2
-	cmp	r1, r2
-	bhi	L184_ok
+	cbhi r1, r2, L184_ok
 	br	f27
 L184_ok:
 	movq	#-1, r1
 	movq	#1, r2
-	cmp	r1, r2
-	bge	L190_ok
+	cbge r1, r2, L190_ok
 	br	L190_end
 L190_ok:
 	br	f28
 L190_end:
 	movq	#-1, r1
 	movq	#1, r2
-	cmp	r1, r2
-	blos	L198_ok
+	cblos r1, r2, L198_ok
 	br	L198_end
 L198_ok:
 	br	f29
 L198_end:
 	movq	#-1, r1
 	movq	#1, r2
-	cmp	r1, r2
-	bgt	L206_ok
+	cbgt r1, r2, L206_ok
 	br	L206_end
 L206_ok:
 	br	f30
 L206_end:
 	movq	#-1, r1
 	movq	#1, r2
-	cmp	r1, r2
-	ble	L214_ok
+	cble r1, r2, L214_ok
 	br	f31
 L214_ok:
 	movq	#-1, r1
 	movq	#1, r2
-	cmp	r1, r2
-	bcs	L220_ok
+	cbcs r1, r2, L220_ok
 	br	L220_end
 L220_ok:
 	br	f32
@@ -230,15 +186,12 @@ L220_end:
 	movq	#5, r1
 	1:	inc	r0
 	sob	r1, 1b
-	cmp	r0, #5
-	bne	f33
-	cmp	r1, #0
-	bne	f34
+	cbne r0, #5, f33
+	cbne r1, #0, f34
 	movq	#0, r0
 	call	fn
 	call	fn
-	cmp	r0, #2
-	bne	f35
+	cbne r0, #2, f35
 	br	pastfn
 	fn:	inc	r0
 	ret
@@ -248,18 +201,14 @@ pastfn:
 	push	r1
 	movq	#22, r1
 	push	r1
-	cmp	r1, #22
-	bne	f36
+	cbne r1, #22, f36
 	sub	r14, r9
 	movq	r9, r8
-	cmp	r8, #16		; two pushes move sp down by 16
-	bne	f37
+	cbne r8, #16, f37
 	pop	r2
-	cmp	r2, #22		; last in, first out
-	bne	f38
+	cbne r2, #22, f38
 	pop	r3
-	cmp	r3, #11
-	bne	f39
+	cbne r3, #11, f39
 	movq	r14, r4
 	sub	r9, r4
 	movq	r14, r9
@@ -269,39 +218,30 @@ pastfn:
 	pushm	#0x0e
 	movq	r9, r8
 	sub	r14, r8
-	cmp	r8, #24		; three registers = 24 bytes
-	bne	f40
+	cbne r8, #24, f40
 	movq	0(r14), r5
-	cmp	r5, #103		; highest-numbered register at the lowest address
-	bne	f41
+	cbne r5, #103, f41
 	movq	16(r14), r5
-	cmp	r5, #101		; lowest-numbered register at the highest address
-	bne	f42
+	cbne r5, #101, f42
 	movq	#0, r1
 	movq	#0, r2
 	movq	#0, r3
 	popm	#0x0e
-	cmp	r1, #101
-	bne	f43
-	cmp	r2, #102
-	bne	f44
-	cmp	r3, #103
-	bne	f45
-	cmp	r14, r9		; sp restored
-	bne	f46
+	cbne r1, #101, f43
+	cbne r2, #102, f44
+	cbne r3, #103, f45
+	cbne r14, r9, f46
 	lea	target, r6
 	movq	r6, slot
 	movq	#0, r0
 	jmpi	slot
 	movq	#99, r0
 target:
-	cmp	r0, #0		; jmpi through memory skipped the next instruction
-	bne	f47
+	cbne r0, #0, f47
 	lea	fn2, r6
 	movq	r6, slot
 	calli	slot
-	cmp	r0, #7
-	bne	f48
+	cbne r0, #7, f48
 	br	pastfn2
 	fn2:	movq	#7, r0
 	ret

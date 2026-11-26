@@ -18,7 +18,8 @@
 | **hot register** | one of the eight (3-bit field) or sixteen (4-bit field) most-used registers, which a register field of a one-parcel form names by an index into a table; the tables are part of the ABI ({{r:instruction-format}}, appendix {{c:id03004|n}}) |
 | **fused instruction** | `MOVCALL`, `POPRET`, `POPMRET` or `MOV2`: one instruction for a pair that the compiler finds adjacent ({{r:branches-and-control-flow}}) |
 | **relaxation** | the linker's choice, after the sections are laid out, of the shortest form that reaches for a call or an address; on by default ({{r:addressing-modes}}) |
-| **`CBCC`** | compare-immediate-and-branch on condition, the one fused compare and branch ({{r:branches-and-control-flow}}) |
+| **`CBCC`** | compare-and-branch on condition: compares a register with zero, an immediate or a second register and branches in one instruction, writing nothing; the integer conditional branch of a machine with no condition codes ({{r:branches-and-control-flow}}) |
+| **`FCBCC`** | the floating-point compare-and-branch: compares two binary64 (or, with the `32` forms, binary32) registers and branches, with the words `uo` and `or` for the unordered case ({{r:fcbcc-compares-two-registers}}) |
 | **`ROR32`** | rotate right by an immediate, 32-bit, sign-extended result |
 | **`SOB`** | subtract one and branch, either direction ({{r:branches-and-control-flow}}) |
 | **`MCPY`, `MMOV`, `MSET`, `MCMP`, `MSCN`, `MSCNN`** | the block operations: copy, move (overlap-safe), fill, compare, scan for a byte, scan for the first byte not equal; progress is held in registers so a fault restarts for free ({{r:stack-and-block-operations}}) |
@@ -29,10 +30,10 @@
 | **`LPAD`** | marks a legal target of an indirect jump or call; optional in ABI version 1 (appendix {{r:page-bit-that-enforces-landing-pads}}) |
 | **`CLMUL`** | carry-less multiply, the primitive under every CRC and Galois-field operation ({{r:bits-bytes-and-text}}) |
 | **`XNORPOP`, `POPCNT`** | bit-population instructions used by binary operations and bitsets ({{r:inference-array-languages-and-the-bit}}) |
-| **`SET cc, rd`** | set a register to 0 or 1 from a condition ({{r:integer-arithmetic}}) |
+| **`SETCC`** | compare two values and set a register to 0 or 1: a comparison used as a value, and the carry of an addition (`SETLO`) ({{r:set-cc-rd-write-1}}) |
 | **`DP`** | the direct pointer: in user mode it is the thread pointer, in kernel mode the per-CPU pointer; a descendant of the 6502's zero page ({{r:state-registers-and-flags}}, {{r:position-independent-code}}) |
-| **`PSW`** | the processor status word: flags, mode, priority and the guard bit ({{r:modes-and-the-status-word}}) |
-| **`N Z V C`** | the four condition flags: negative, zero, overflow, carry ({{r:state-registers-and-flags}}) |
+| **`PSW`** | the processor status word: trace bit, mode, priority and the guard bit ({{r:modes-and-the-status-word}}) |
+| **`N Z V C`** | the PDP-11's four condition codes: negative, zero, overflow, carry; the pdp64 has none ({{r:flags-form-two-groups-c}}) |
 | **canonical address** | a 64-bit address whose bits above the top bit of the virtual address (bit 38, 47 or 56 with three, four or five levels) equal that bit; any other value faults, so software cannot hide tags in the high bits ({{r:from-segments-to-pages-virtual-memory}}) |
 | **`lowtag`** | a type tag stored in the low bits of a pointer, free because objects are quad-aligned (instruction-set text, section {{r:modes-and-the-status-word}}; not otherwise used in this manual) |
 | **SWAR** | SIMD within a register: using one wide scalar register as several narrow lanes through masking and carry-aware arithmetic (instruction-set text, glossary; the manual's bit and byte instructions of {{r:bits-bytes-and-text}} make it effective) |

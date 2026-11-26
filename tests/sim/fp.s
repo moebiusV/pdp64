@@ -9,8 +9,7 @@ _start:
 	fadd	r1, r2
 	movq	#0x400C, r3
 	shl	#48, r3
-	cmp	r2, r3		; onehalf fadd two
-	bne	f2
+	cbne r2, r3, f2
 	movq	#0x3FF8, r1
 	shl	#48, r1
 	movq	#0x4000, r2
@@ -18,8 +17,7 @@ _start:
 	fmul	r1, r2
 	movq	#0x4008, r3
 	shl	#48, r3
-	cmp	r2, r3		; onehalf fmul two
-	bne	f4
+	cbne r2, r3, f4
 	movq	#0x4000, r1
 	shl	#48, r1
 	movq	#0x400C, r2
@@ -27,8 +25,7 @@ _start:
 	fsub	r1, r2
 	movq	#0x3FF8, r3
 	shl	#48, r3
-	cmp	r2, r3		; rd - rs
-	bne	f6
+	cbne r2, r3, f6
 	movq	#0x4000, r1
 	shl	#48, r1
 	movq	#0x4008, r2
@@ -36,15 +33,13 @@ _start:
 	fdiv	r1, r2
 	movq	#0x3FF8, r3
 	shl	#48, r3
-	cmp	r2, r3		; rd / rs
-	bne	f8
+	cbne r2, r3, f8
 	movq	#0x4010, r1
 	shl	#48, r1
 	fsqrt	r1, r2
 	movq	#0x4000, r3
 	shl	#48, r3
-	cmp	r2, r3		; sqrt 4
-	bne	f9
+	cbne r2, r3, f9
 	movq	#0x4000, r1
 	shl	#48, r1
 	movq	#0x4008, r2
@@ -54,58 +49,44 @@ _start:
 	fmadd	r1, r2, r3, r4
 	movq	#0x401C, r5
 	shl	#48, r5
-	cmp	r4, r5		; 2*3+1
-	bne	f10
+	cbne r4, r5, f10
 	movq	#3, r1
 	fcvtqd	r1, r2
 	movq	#0x4008, r3
 	shl	#48, r3
-	cmp	r2, r3		; int to double
-	bne	f11
+	cbne r2, r3, f11
 	movq	#0x400C, r1
 	shl	#48, r1
 	fcvtdq	r1, r2
-	cmp	r2, #3		; truncates
-	bne	f12
+	cbne r2, #3, f12
 	movq	#0x3FF8, r1
 	shl	#48, r1
 	fneg	r1, r2
 	fabs	r2, r3
-	cmp	r3, r1		; abs(-x)
-	bne	f13
+	cbne r3, r1, f13
 	movq	#0x3FF8, r1
 	shl	#48, r1
 	movq	#0x4000, r2
 	shl	#48, r2
-	fcmp	r1, r2
-	set	lt, r4
-	set	gt, r5
-	set	eq, r6
-	set	ne, r7
-	set	le, r8
-	set	ge, r9
-	cmp	r4, #1		; 1.5 vs 2.0 lt
-	bne	f14
-	cmp	r5, #0		; 1.5 vs 2.0 gt
-	bne	f15
-	cmp	r6, #0		; 1.5 vs 2.0 eq
-	bne	f16
-	cmp	r7, #1		; 1.5 vs 2.0 ne
-	bne	f17
-	cmp	r8, #1		; 1.5 vs 2.0 le
-	bne	f18
-	cmp	r9, #0		; 1.5 vs 2.0 ge
-	bne	f19
-	fcmp	r2, r2
-	set	eq, r4
-	set	lt, r5
-	set	ge, r6
-	cmp	r4, #1		; 2.0 vs 2.0 eq
-	bne	f20
-	cmp	r5, #0		; 2.0 vs 2.0 lt
-	bne	f21
-	cmp	r6, #1		; 2.0 vs 2.0 ge
-	bne	f22
+	fcblt	r1, r2, 1f
+	br	f14
+1:
+	fcbgt	r1, r2, f15
+	fcbeq	r1, r2, f16
+	fcbne	r1, r2, 1f
+	br	f17
+1:
+	fcble	r1, r2, 1f
+	br	f18
+1:
+	fcbge	r1, r2, f19
+	fcbeq	r2, r2, 1f
+	br	f20
+1:
+	fcblt	r2, r2, f21
+	fcbge	r2, r2, 1f
+	br	f22
+1:
 	movq	#0, r9
 	fsflags	r9, r8
 	movq	#0x3FF0, r1
@@ -115,14 +96,11 @@ _start:
 	fdiv	r2, r1
 	movq	#0x7FF0, r3
 	shl	#48, r3
-	cmp	r1, r3		; 1/0 = inf
-	bne	f23
+	cbne r1, r3, f23
 	fsflags	r9, r8
-	cmp	r8, #8		; DZ raised and read back, then cleared
-	bne	f24
+	cbne r8, #8, f24
 	fsflags	r9, r8
-	cmp	r8, #0
-	bne	f25
+	cbne r8, #0, f25
 	movq	#0x0000, r1
 	shl	#48, r1
 	movq	#0x0000, r2
@@ -130,33 +108,28 @@ _start:
 	fdiv	r2, r1
 	movq	#0x7FF8, r3
 	shl	#48, r3
-	cmp	r1, r3		; 0/0 = default quiet NaN
-	bne	f26
+	cbne r1, r3, f26
 	fsflags	r9, r8
-	cmp	r8, #16		; NV
-	bne	f27
+	cbne r8, #16, f27
 	movq	#0x3FF0, r1
 	shl	#48, r1
 	movq	#0x4008, r2
 	shl	#48, r2
 	fdiv	r2, r1
 	fsflags	r9, r8
-	cmp	r8, #1		; 1/3 is inexact (NX)
-	bne	f28
+	cbne r8, #1, f28
 	movq	#0x3FF0, r1
 	shl	#48, r1
 	movq	#0x4000, r2
 	shl	#48, r2
 	fadd	r2, r1
 	fsflags	r9, r8
-	cmp	r8, #0		; exact sums raise nothing
-	bne	f29
+	cbne r8, #0, f29
 	movq	#31, r9
 	fsflags	r9, r8
 	movq	#0, r9
 	fsflags	r9, r8
-	cmp	r8, #31		; writing sets all five
-	bne	f30
+	cbne r8, #31, f30
 	movq	#0, r0
 	trap	#0
 f1:	movq	#1, r0

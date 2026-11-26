@@ -13,7 +13,6 @@
 | `ABIS` | [AAND](../09-isa.md#aand-atomic-fetch-and-and-bit-set-or-xor) (section 9.13) | [1](by-encoding.md#mn-abis), [entry](../09-isa.md#w-abis) | Atomics (ATOM) |
 | `ABISL` | [AAND](../09-isa.md#aand-atomic-fetch-and-and-bit-set-or-xor) (section 9.13) | [1](by-encoding.md#mn-abisl), [entry](../09-isa.md#w-abisl) | Atomics (ATOM) |
 | `ABS` | [ABS](../09-isa.md#abs-absolute-value-assembler-alias) (section 9.7) | [1](by-encoding.md#mn-abs), [entry](../09-isa.md#w-abs) | Arithmetic (AESC) |
-| `ADC` | [ADC](../09-isa.md#adc-add-carry) (section 9.7) | [7](by-encoding.md#mn-adc), [entry](../09-isa.md#w-adc) | Single operand (SOP) |
 | `ADD` | [ADD](../09-isa.md#add-add) (section 9.7) | [20](by-encoding.md#mn-add), [entry](../09-isa.md#w-add) | Moves, address formation and the ALU |
 | `ADDM` | [ADDM](../09-isa.md#addm-alu-operation-with-a-memory-destination) (section 9.7) | [6](by-encoding.md#mn-addm), [entry](../09-isa.md#w-addm) | Memory escape (MESC) |
 | `ADDV` | [OVF](../09-isa.md#ovf-add-subtract-and-multiply-trapping-on-signed-overflow) (section 9.7) | [1](by-encoding.md#mn-addv), [entry](../09-isa.md#w-addv) | Added by the prefix-coded encoding |
@@ -37,51 +36,34 @@
 | `ASR` | [ASR](../09-isa.md#asr-arithmetic-shift-right-by-one) (section 9.8) | [7](by-encoding.md#mn-asr), [entry](../09-isa.md#w-asr) | Single operand (SOP) |
 | `AXOR` | [AAND](../09-isa.md#aand-atomic-fetch-and-and-bit-set-or-xor) (section 9.13) | [1](by-encoding.md#mn-axor), [entry](../09-isa.md#w-axor) | Atomics (ATOM) |
 | `AXORL` | [AAND](../09-isa.md#aand-atomic-fetch-and-and-bit-set-or-xor) (section 9.13) | [1](by-encoding.md#mn-axorl), [entry](../09-isa.md#w-axorl) | Atomics (ATOM) |
-| `BCC` | [BCC](../09-isa.md#bcc-branch-on-condition) (section 9.10) | [3](by-encoding.md#mn-bcc), [entry](../09-isa.md#w-bcc) | Branches |
-| `BCS` | [BCC](../09-isa.md#bcc-branch-on-condition) (section 9.10) | [3](by-encoding.md#mn-bcs), [entry](../09-isa.md#w-bcs) | Branches |
-| `BEQ` | [BCC](../09-isa.md#bcc-branch-on-condition) (section 9.10) | [3](by-encoding.md#mn-beq), [entry](../09-isa.md#w-beq) | Branches |
-| `BGE` | [BCC](../09-isa.md#bcc-branch-on-condition) (section 9.10) | [3](by-encoding.md#mn-bge), [entry](../09-isa.md#w-bge) | Branches |
-| `BGT` | [BCC](../09-isa.md#bcc-branch-on-condition) (section 9.10) | [3](by-encoding.md#mn-bgt), [entry](../09-isa.md#w-bgt) | Branches |
-| `BHI` | [BCC](../09-isa.md#bcc-branch-on-condition) (section 9.10) | [3](by-encoding.md#mn-bhi), [entry](../09-isa.md#w-bhi) | Branches |
-| `BHIS` (alias of `BCC`) | [BCC](../09-isa.md#bcc-branch-on-condition) (section 9.10) | [3](by-encoding.md#mn-bcc), [entry](../09-isa.md#w-bcc) | Branches |
 | `BIC` | [BIC](../09-isa.md#bic-bit-clear) (section 9.8) | [13](by-encoding.md#mn-bic), [entry](../09-isa.md#w-bic) | Moves, address formation and the ALU |
 | `BICM` | [ADDM](../09-isa.md#addm-alu-operation-with-a-memory-destination) (section 9.7) | [6](by-encoding.md#mn-bicm), [entry](../09-isa.md#w-bicm) | Memory escape (MESC) |
 | `BIS` | [BIS](../09-isa.md#bis-bit-set-inclusive-or) (section 9.8) | [16](by-encoding.md#mn-bis), [entry](../09-isa.md#w-bis) | Moves, address formation and the ALU |
 | `BISM` | [ADDM](../09-isa.md#addm-alu-operation-with-a-memory-destination) (section 9.7) | [6](by-encoding.md#mn-bism), [entry](../09-isa.md#w-bism) | Memory escape (MESC) |
-| `BIT` | [BIT](../09-isa.md#bit-bit-test) (section 9.8) | [12](by-encoding.md#mn-bit), [entry](../09-isa.md#w-bit) | Moves, address formation and the ALU |
 | `BITREV` | [BITREV](../09-isa.md#bitrev-reverse-the-bits) (section 9.9) | [1](by-encoding.md#mn-bitrev), [entry](../09-isa.md#w-bitrev) | Bits and fields (BESC) |
-| `BLE` | [BCC](../09-isa.md#bcc-branch-on-condition) (section 9.10) | [3](by-encoding.md#mn-ble), [entry](../09-isa.md#w-ble) | Branches |
-| `BLO` (alias of `BCS`) | [BCC](../09-isa.md#bcc-branch-on-condition) (section 9.10) | [3](by-encoding.md#mn-bcs), [entry](../09-isa.md#w-bcs) | Branches |
-| `BLOS` | [BCC](../09-isa.md#bcc-branch-on-condition) (section 9.10) | [3](by-encoding.md#mn-blos), [entry](../09-isa.md#w-blos) | Branches |
-| `BLT` | [BCC](../09-isa.md#bcc-branch-on-condition) (section 9.10) | [3](by-encoding.md#mn-blt), [entry](../09-isa.md#w-blt) | Branches |
-| `BMI` | [BCC](../09-isa.md#bcc-branch-on-condition) (section 9.10) | [3](by-encoding.md#mn-bmi), [entry](../09-isa.md#w-bmi) | Branches |
-| `BNE` | [BCC](../09-isa.md#bcc-branch-on-condition) (section 9.10) | [3](by-encoding.md#mn-bne), [entry](../09-isa.md#w-bne) | Branches |
 | `BNTAG` | [BTAG](../09-isa.md#btag-branch-on-pointer-tag) (section 9.10) | [1](by-encoding.md#mn-bntag), [entry](../09-isa.md#w-bntag) | Branches |
-| `BPL` | [BCC](../09-isa.md#bcc-branch-on-condition) (section 9.10) | [3](by-encoding.md#mn-bpl), [entry](../09-isa.md#w-bpl) | Branches |
 | `BPT` | [BPT](../09-isa.md#bpt-breakpoint) (section 9.14) | [1](by-encoding.md#mn-bpt), [entry](../09-isa.md#w-bpt) | System (SYS) |
-| `BR` | [BCC](../09-isa.md#bcc-branch-on-condition) (section 9.10) | [3](by-encoding.md#mn-br), [entry](../09-isa.md#w-br) | Branches |
+| `BR` | [BR](../09-isa.md#br-branch) (section 9.10) | [3](by-encoding.md#mn-br), [entry](../09-isa.md#w-br) | Branches |
 | `BSEL` | [BSEL](../09-isa.md#bsel-bitwise-select) (section 9.9) | [1](by-encoding.md#mn-bsel), [entry](../09-isa.md#w-bsel) | Added by the prefix-coded encoding |
 | `BSWAP` | [BSWAP](../09-isa.md#bswap-byte-swap) (section 9.9) | [1](by-encoding.md#mn-bswap), [entry](../09-isa.md#w-bswap) | Bits and fields (BESC) |
 | `BSWAPL` | [BSWAP](../09-isa.md#bswap-byte-swap) (section 9.9) | [1](by-encoding.md#mn-bswapl), [entry](../09-isa.md#w-bswapl) | Bits and fields (BESC) |
 | `BSWAPW` | [BSWAP](../09-isa.md#bswap-byte-swap) (section 9.9) | [1](by-encoding.md#mn-bswapw), [entry](../09-isa.md#w-bswapw) | Bits and fields (BESC) |
 | `BTAG` | [BTAG](../09-isa.md#btag-branch-on-pointer-tag) (section 9.10) | [1](by-encoding.md#mn-btag), [entry](../09-isa.md#w-btag) | Branches |
-| `BVC` | [BCC](../09-isa.md#bcc-branch-on-condition) (section 9.10) | [3](by-encoding.md#mn-bvc), [entry](../09-isa.md#w-bvc) | Branches |
-| `BVS` | [BCC](../09-isa.md#bcc-branch-on-condition) (section 9.10) | [3](by-encoding.md#mn-bvs), [entry](../09-isa.md#w-bvs) | Branches |
 | `CALL` | [CALL](../09-isa.md#call-call) (section 9.10) | [11](by-encoding.md#mn-call), [entry](../09-isa.md#w-call) | Single operand (SOP) |
 | `CALLI` | [JMPI](../09-isa.md#jmpi-jump-and-call-through-memory) (section 9.10) | [8](by-encoding.md#mn-calli), [entry](../09-isa.md#w-calli) | Indirect transfers (XFER) |
 | `CAS` | [CAS](../09-isa.md#cas-compare-and-swap) (section 9.13) | [1](by-encoding.md#mn-cas), [entry](../09-isa.md#w-cas) | Atomics (ATOM) |
 | `CASL` | [CAS](../09-isa.md#cas-compare-and-swap) (section 9.13) | [1](by-encoding.md#mn-casl), [entry](../09-isa.md#w-casl) | Atomics (ATOM) |
-| `CBCC` | [CBCC](../09-isa.md#cbcc-compare-and-branch-on-condition) (section 9.10) | [5](by-encoding.md#mn-cbcc), [entry](../09-isa.md#w-cbcc) | Branches |
-| `CBCS` | [CBCC](../09-isa.md#cbcc-compare-and-branch-on-condition) (section 9.10) | [5](by-encoding.md#mn-cbcs), [entry](../09-isa.md#w-cbcs) | Branches |
+| `CBCC` | [CBCC](../09-isa.md#cbcc-compare-and-branch-on-condition) (section 9.10) | [7](by-encoding.md#mn-cbcc), [entry](../09-isa.md#w-cbcc) | Branches |
+| `CBCS` | [CBCC](../09-isa.md#cbcc-compare-and-branch-on-condition) (section 9.10) | [7](by-encoding.md#mn-cbcs), [entry](../09-isa.md#w-cbcs) | Branches |
 | `CBEQ` | [CBCC](../09-isa.md#cbcc-compare-and-branch-on-condition) (section 9.10) | [12](by-encoding.md#mn-cbeq), [entry](../09-isa.md#w-cbeq) | Branches |
-| `CBGE` | [CBCC](../09-isa.md#cbcc-compare-and-branch-on-condition) (section 9.10) | [8](by-encoding.md#mn-cbge), [entry](../09-isa.md#w-cbge) | Branches |
-| `CBGT` | [CBCC](../09-isa.md#cbcc-compare-and-branch-on-condition) (section 9.10) | [8](by-encoding.md#mn-cbgt), [entry](../09-isa.md#w-cbgt) | Branches |
-| `CBHI` | [CBCC](../09-isa.md#cbcc-compare-and-branch-on-condition) (section 9.10) | [5](by-encoding.md#mn-cbhi), [entry](../09-isa.md#w-cbhi) | Branches |
-| `CBHIS` (alias of `CBCC`) | [CBCC](../09-isa.md#cbcc-compare-and-branch-on-condition) (section 9.10) | [5](by-encoding.md#mn-cbcc), [entry](../09-isa.md#w-cbcc) | Branches |
-| `CBLE` | [CBCC](../09-isa.md#cbcc-compare-and-branch-on-condition) (section 9.10) | [8](by-encoding.md#mn-cble), [entry](../09-isa.md#w-cble) | Branches |
-| `CBLO` (alias of `CBCS`) | [CBCC](../09-isa.md#cbcc-compare-and-branch-on-condition) (section 9.10) | [5](by-encoding.md#mn-cbcs), [entry](../09-isa.md#w-cbcs) | Branches |
-| `CBLOS` | [CBCC](../09-isa.md#cbcc-compare-and-branch-on-condition) (section 9.10) | [5](by-encoding.md#mn-cblos), [entry](../09-isa.md#w-cblos) | Branches |
-| `CBLT` | [CBCC](../09-isa.md#cbcc-compare-and-branch-on-condition) (section 9.10) | [8](by-encoding.md#mn-cblt), [entry](../09-isa.md#w-cblt) | Branches |
+| `CBGE` | [CBCC](../09-isa.md#cbcc-compare-and-branch-on-condition) (section 9.10) | [10](by-encoding.md#mn-cbge), [entry](../09-isa.md#w-cbge) | Branches |
+| `CBGT` | [CBCC](../09-isa.md#cbcc-compare-and-branch-on-condition) (section 9.10) | [10](by-encoding.md#mn-cbgt), [entry](../09-isa.md#w-cbgt) | Branches |
+| `CBHI` | [CBCC](../09-isa.md#cbcc-compare-and-branch-on-condition) (section 9.10) | [7](by-encoding.md#mn-cbhi), [entry](../09-isa.md#w-cbhi) | Branches |
+| `CBHIS` (alias of `CBCC`) | [CBCC](../09-isa.md#cbcc-compare-and-branch-on-condition) (section 9.10) | [7](by-encoding.md#mn-cbcc), [entry](../09-isa.md#w-cbcc) | Branches |
+| `CBLE` | [CBCC](../09-isa.md#cbcc-compare-and-branch-on-condition) (section 9.10) | [10](by-encoding.md#mn-cble), [entry](../09-isa.md#w-cble) | Branches |
+| `CBLO` (alias of `CBCS`) | [CBCC](../09-isa.md#cbcc-compare-and-branch-on-condition) (section 9.10) | [7](by-encoding.md#mn-cbcs), [entry](../09-isa.md#w-cbcs) | Branches |
+| `CBLOS` | [CBCC](../09-isa.md#cbcc-compare-and-branch-on-condition) (section 9.10) | [7](by-encoding.md#mn-cblos), [entry](../09-isa.md#w-cblos) | Branches |
+| `CBLT` | [CBCC](../09-isa.md#cbcc-compare-and-branch-on-condition) (section 9.10) | [10](by-encoding.md#mn-cblt), [entry](../09-isa.md#w-cblt) | Branches |
 | `CBNE` | [CBCC](../09-isa.md#cbcc-compare-and-branch-on-condition) (section 9.10) | [12](by-encoding.md#mn-cbne), [entry](../09-isa.md#w-cbne) | Branches |
 | `CHK2` | [CHK2](../09-isa.md#chk2-two-bound-check) (section 9.14) | [1](by-encoding.md#mn-chk2), [entry](../09-isa.md#w-chk2) | Added by the prefix-coded encoding |
 | `CLMULH` | [CLMUL](../09-isa.md#clmul-carry-less-multiply) (section 9.9) | [1](by-encoding.md#mn-clmulh), [entry](../09-isa.md#w-clmulh) | Bits and fields (BESC) |
@@ -89,7 +71,6 @@
 | `CLO` | [COUNT](../09-isa.md#count-count-leading-and-trailing-zeros-and-ones) (section 9.9) | [1](by-encoding.md#mn-clo), [entry](../09-isa.md#w-clo) | Bits and fields (BESC) |
 | `CLR` | [CLR](../09-isa.md#clr-clear) (section 9.8) | [10](by-encoding.md#mn-clr), [entry](../09-isa.md#w-clr) | Single operand (SOP) |
 | `CLZ` | [COUNT](../09-isa.md#count-count-leading-and-trailing-zeros-and-ones) (section 9.9) | [1](by-encoding.md#mn-clz), [entry](../09-isa.md#w-clz) | Bits and fields (BESC) |
-| `CMP` | [CMP](../09-isa.md#cmp-compare) (section 9.7) | [15](by-encoding.md#mn-cmp), [entry](../09-isa.md#w-cmp) | Moves, address formation and the ALU |
 | `COM` | [COM](../09-isa.md#com-complement) (section 9.8) | [7](by-encoding.md#mn-com), [entry](../09-isa.md#w-com) | Single operand (SOP) |
 | `CTCC` | [CT](../09-isa.md#ct-compare-and-trap) (section 9.14) | [2](by-encoding.md#mn-ctcc), [entry](../09-isa.md#w-ctcc) | Added by the prefix-coded encoding |
 | `CTCS` | [CT](../09-isa.md#ct-compare-and-trap) (section 9.14) | [1](by-encoding.md#mn-ctcs), [entry](../09-isa.md#w-ctcs) | Added by the prefix-coded encoding |
@@ -100,12 +81,8 @@
 | `CTLE` | [CT](../09-isa.md#ct-compare-and-trap) (section 9.14) | [1](by-encoding.md#mn-ctle), [entry](../09-isa.md#w-ctle) | Added by the prefix-coded encoding |
 | `CTLOS` | [CT](../09-isa.md#ct-compare-and-trap) (section 9.14) | [1](by-encoding.md#mn-ctlos), [entry](../09-isa.md#w-ctlos) | Added by the prefix-coded encoding |
 | `CTLT` | [CT](../09-isa.md#ct-compare-and-trap) (section 9.14) | [1](by-encoding.md#mn-ctlt), [entry](../09-isa.md#w-ctlt) | Added by the prefix-coded encoding |
-| `CTMI` | [CT](../09-isa.md#ct-compare-and-trap) (section 9.14) | [1](by-encoding.md#mn-ctmi), [entry](../09-isa.md#w-ctmi) | Added by the prefix-coded encoding |
 | `CTNE` | [CT](../09-isa.md#ct-compare-and-trap) (section 9.14) | [3](by-encoding.md#mn-ctne), [entry](../09-isa.md#w-ctne) | Added by the prefix-coded encoding |
 | `CTO` | [COUNT](../09-isa.md#count-count-leading-and-trailing-zeros-and-ones) (section 9.9) | [1](by-encoding.md#mn-cto), [entry](../09-isa.md#w-cto) | Bits and fields (BESC) |
-| `CTPL` | [CT](../09-isa.md#ct-compare-and-trap) (section 9.14) | [1](by-encoding.md#mn-ctpl), [entry](../09-isa.md#w-ctpl) | Added by the prefix-coded encoding |
-| `CTVC` | [CT](../09-isa.md#ct-compare-and-trap) (section 9.14) | [1](by-encoding.md#mn-ctvc), [entry](../09-isa.md#w-ctvc) | Added by the prefix-coded encoding |
-| `CTVS` | [CT](../09-isa.md#ct-compare-and-trap) (section 9.14) | [1](by-encoding.md#mn-ctvs), [entry](../09-isa.md#w-ctvs) | Added by the prefix-coded encoding |
 | `CTZ` | [COUNT](../09-isa.md#count-count-leading-and-trailing-zeros-and-ones) (section 9.9) | [1](by-encoding.md#mn-ctz), [entry](../09-isa.md#w-ctz) | Bits and fields (BESC) |
 | `DEC` | [DEC](../09-isa.md#dec-decrement) (section 9.7) | [10](by-encoding.md#mn-dec), [entry](../09-isa.md#w-dec) | Single operand (SOP) |
 | `DIV` | [DIV](../09-isa.md#div-divide-and-remainder-signed-and-unsigned) (section 9.7) | [1](by-encoding.md#mn-div), [entry](../09-isa.md#w-div) | Arithmetic (AESC) |
@@ -117,10 +94,20 @@
 | `FABS32` (alias of `AND`) | [FSIGN](../09-isa.md#fsign-sign-operations-on-the-bits) (section 9.12) | [18](by-encoding.md#mn-and), [entry](../09-isa.md#w-and) | Moves, address formation and the ALU |
 | `FADD` | [FADD](../09-isa.md#fadd-floating-add-subtract-and-multiply-binary64) (section 9.12) | [11](by-encoding.md#mn-fadd), [entry](../09-isa.md#w-fadd) | Moves, address formation and the ALU |
 | `FADD32` | [FSINGLE](../09-isa.md#fsingle-floating-arithmetic-binary32) (section 9.12) | [1](by-encoding.md#mn-fadd32), [entry](../09-isa.md#w-fadd32) | Floating point (FESC) |
+| `FCBEQ` | [FCBCC](../09-isa.md#fcbcc-floating-point-compare-and-branch) (section 9.10) | [2](by-encoding.md#mn-fcbeq), [entry](../09-isa.md#w-fcbeq) | Added by the prefix-coded encoding |
+| `FCBEQ32` | [FCBCC](../09-isa.md#fcbcc-floating-point-compare-and-branch) (section 9.10) | [2](by-encoding.md#mn-fcbeq32), [entry](../09-isa.md#w-fcbeq32) | Added by the prefix-coded encoding |
+| `FCBLE` | [FCBCC](../09-isa.md#fcbcc-floating-point-compare-and-branch) (section 9.10) | [2](by-encoding.md#mn-fcble), [entry](../09-isa.md#w-fcble) | Added by the prefix-coded encoding |
+| `FCBLE32` | [FCBCC](../09-isa.md#fcbcc-floating-point-compare-and-branch) (section 9.10) | [2](by-encoding.md#mn-fcble32), [entry](../09-isa.md#w-fcble32) | Added by the prefix-coded encoding |
+| `FCBLT` | [FCBCC](../09-isa.md#fcbcc-floating-point-compare-and-branch) (section 9.10) | [2](by-encoding.md#mn-fcblt), [entry](../09-isa.md#w-fcblt) | Added by the prefix-coded encoding |
+| `FCBLT32` | [FCBCC](../09-isa.md#fcbcc-floating-point-compare-and-branch) (section 9.10) | [2](by-encoding.md#mn-fcblt32), [entry](../09-isa.md#w-fcblt32) | Added by the prefix-coded encoding |
+| `FCBNE` | [FCBCC](../09-isa.md#fcbcc-floating-point-compare-and-branch) (section 9.10) | [2](by-encoding.md#mn-fcbne), [entry](../09-isa.md#w-fcbne) | Added by the prefix-coded encoding |
+| `FCBNE32` | [FCBCC](../09-isa.md#fcbcc-floating-point-compare-and-branch) (section 9.10) | [2](by-encoding.md#mn-fcbne32), [entry](../09-isa.md#w-fcbne32) | Added by the prefix-coded encoding |
+| `FCBOR` | [FCBCC](../09-isa.md#fcbcc-floating-point-compare-and-branch) (section 9.10) | [2](by-encoding.md#mn-fcbor), [entry](../09-isa.md#w-fcbor) | Added by the prefix-coded encoding |
+| `FCBOR32` | [FCBCC](../09-isa.md#fcbcc-floating-point-compare-and-branch) (section 9.10) | [2](by-encoding.md#mn-fcbor32), [entry](../09-isa.md#w-fcbor32) | Added by the prefix-coded encoding |
+| `FCBUO` | [FCBCC](../09-isa.md#fcbcc-floating-point-compare-and-branch) (section 9.10) | [2](by-encoding.md#mn-fcbuo), [entry](../09-isa.md#w-fcbuo) | Added by the prefix-coded encoding |
+| `FCBUO32` | [FCBCC](../09-isa.md#fcbcc-floating-point-compare-and-branch) (section 9.10) | [2](by-encoding.md#mn-fcbuo32), [entry](../09-isa.md#w-fcbuo32) | Added by the prefix-coded encoding |
 | `FCLASS` | [FCLASS](../09-isa.md#fclass-classify-a-floating-point-value) (section 9.12) | [1](by-encoding.md#mn-fclass), [entry](../09-isa.md#w-fclass) | Floating point (FESC) |
 | `FCLASS32` | [FCLASS](../09-isa.md#fclass-classify-a-floating-point-value) (section 9.12) | [1](by-encoding.md#mn-fclass32), [entry](../09-isa.md#w-fclass32) | Floating point (FESC) |
-| `FCMP` | [FCMP](../09-isa.md#fcmp-floating-compare-binary64) (section 9.12) | [9](by-encoding.md#mn-fcmp), [entry](../09-isa.md#w-fcmp) | Moves, address formation and the ALU |
-| `FCMP32` | [FSINGLE](../09-isa.md#fsingle-floating-arithmetic-binary32) (section 9.12) | [1](by-encoding.md#mn-fcmp32), [entry](../09-isa.md#w-fcmp32) | Floating point (FESC) |
 | `FCOPYSIGN` | [FSIGN](../09-isa.md#fsign-sign-operations-on-the-bits) (section 9.12) | [1](by-encoding.md#mn-fcopysign), [entry](../09-isa.md#w-fcopysign) | Floating point (FESC) |
 | `FCVTDH` | [FCVTH](../09-isa.md#fcvth-conversions-to-and-from-binary16) (section 9.12) | [1](by-encoding.md#mn-fcvtdh), [entry](../09-isa.md#w-fcvtdh) | Floating point (FESC) |
 | `FCVTDQ` | [FCVT](../09-isa.md#fcvt-floating-conversions) (section 9.12) | [1](by-encoding.md#mn-fcvtdq), [entry](../09-isa.md#w-fcvtdq) | Floating point (FESC) |
@@ -238,10 +225,18 @@
 | `RTI` | [RTI](../09-isa.md#rti-return-from-interrupt-or-exception) (section 9.14) | [1](by-encoding.md#mn-rti), [entry](../09-isa.md#w-rti) | System (SYS) |
 | `RTT` | [RTI](../09-isa.md#rti-return-from-interrupt-or-exception) (section 9.14) | [1](by-encoding.md#mn-rtt), [entry](../09-isa.md#w-rtt) | System (SYS) |
 | `SAR` | [SHIFT](../09-isa.md#shift-shift-left-shift-right-logical-shift-right-arithmetic) (section 9.8) | [13](by-encoding.md#mn-sar), [entry](../09-isa.md#w-sar) | Moves, address formation and the ALU |
-| `SBC` | [SBC](../09-isa.md#sbc-subtract-carry) (section 9.7) | [7](by-encoding.md#mn-sbc), [entry](../09-isa.md#w-sbc) | Single operand (SOP) |
 | `SC` | [LLSC](../09-isa.md#llsc-load-linked-and-store-conditional) (section 9.13) | [1](by-encoding.md#mn-sc), [entry](../09-isa.md#w-sc) | Atomics (ATOM) |
 | `SCL` | [LLSC](../09-isa.md#llsc-load-linked-and-store-conditional) (section 9.13) | [1](by-encoding.md#mn-scl), [entry](../09-isa.md#w-scl) | Atomics (ATOM) |
-| `SET` | [SET](../09-isa.md#set-set-a-register-from-a-condition) (section 9.7) | [1](by-encoding.md#mn-set), [entry](../09-isa.md#w-set) | Arithmetic (AESC) |
+| `SETCC` | [SETCC](../09-isa.md#setcc-compare-into-a-register) (section 9.7) | [2](by-encoding.md#mn-setcc), [entry](../09-isa.md#w-setcc) | Added by the prefix-coded encoding |
+| `SETCS` | [SETCC](../09-isa.md#setcc-compare-into-a-register) (section 9.7) | [2](by-encoding.md#mn-setcs), [entry](../09-isa.md#w-setcs) | Added by the prefix-coded encoding |
+| `SETEQ` | [SETCC](../09-isa.md#setcc-compare-into-a-register) (section 9.7) | [2](by-encoding.md#mn-seteq), [entry](../09-isa.md#w-seteq) | Added by the prefix-coded encoding |
+| `SETGE` | [SETCC](../09-isa.md#setcc-compare-into-a-register) (section 9.7) | [2](by-encoding.md#mn-setge), [entry](../09-isa.md#w-setge) | Added by the prefix-coded encoding |
+| `SETGT` | [SETCC](../09-isa.md#setcc-compare-into-a-register) (section 9.7) | [2](by-encoding.md#mn-setgt), [entry](../09-isa.md#w-setgt) | Added by the prefix-coded encoding |
+| `SETHI` | [SETCC](../09-isa.md#setcc-compare-into-a-register) (section 9.7) | [2](by-encoding.md#mn-sethi), [entry](../09-isa.md#w-sethi) | Added by the prefix-coded encoding |
+| `SETLE` | [SETCC](../09-isa.md#setcc-compare-into-a-register) (section 9.7) | [2](by-encoding.md#mn-setle), [entry](../09-isa.md#w-setle) | Added by the prefix-coded encoding |
+| `SETLOS` | [SETCC](../09-isa.md#setcc-compare-into-a-register) (section 9.7) | [2](by-encoding.md#mn-setlos), [entry](../09-isa.md#w-setlos) | Added by the prefix-coded encoding |
+| `SETLT` | [SETCC](../09-isa.md#setcc-compare-into-a-register) (section 9.7) | [2](by-encoding.md#mn-setlt), [entry](../09-isa.md#w-setlt) | Added by the prefix-coded encoding |
+| `SETNE` | [SETCC](../09-isa.md#setcc-compare-into-a-register) (section 9.7) | [2](by-encoding.md#mn-setne), [entry](../09-isa.md#w-setne) | Added by the prefix-coded encoding |
 | `SEV` | [SEV](../09-isa.md#sev-send-an-event) (section 9.14) | [1](by-encoding.md#mn-sev), [entry](../09-isa.md#w-sev) | System (SYS) |
 | `SHA256SIG0` | [SHA256](../09-isa.md#sha256-the-sha-256-functions) (section 9.9) | [1](by-encoding.md#mn-sha256sig0), [entry](../09-isa.md#w-sha256sig0) | Added by the prefix-coded encoding |
 | `SHA256SIG1` | [SHA256](../09-isa.md#sha256-the-sha-256-functions) (section 9.9) | [1](by-encoding.md#mn-sha256sig1), [entry](../09-isa.md#w-sha256sig1) | Added by the prefix-coded encoding |
@@ -266,7 +261,6 @@
 | `TLBIGP` | [TLBIAS](../09-isa.md#tlbias-invalidate-by-address-space-number-invalidate-by-guest-physical-page) (section 9.14) | [1](by-encoding.md#mn-tlbigp), [entry](../09-isa.md#w-tlbigp) | System (SYS) |
 | `TLBSYNC` | [TLBA](../09-isa.md#tlba-invalidate-all-translations-wait-for-translation-invalidations-invalidate-the-whole-instruction-cache) (section 9.14) | [1](by-encoding.md#mn-tlbsync), [entry](../09-isa.md#w-tlbsync) | System (SYS) |
 | `TRAP` | [TRAP](../09-isa.md#trap-system-call-and-trap) (section 9.14) | [1](by-encoding.md#mn-trap), [entry](../09-isa.md#w-trap) | System (SYS) |
-| `TST` | [TST](../09-isa.md#tst-test) (section 9.8) | [10](by-encoding.md#mn-tst), [entry](../09-isa.md#w-tst) | Single operand (SOP) |
 | `UTF8DEC` | [UTF8DEC](../09-isa.md#utf8dec-decode-a-utf-8-sequence) (section 9.9) | [1](by-encoding.md#mn-utf8dec), [entry](../09-isa.md#w-utf8dec) | Bits and fields (BESC) |
 | `UTF8ENC` | [UTF8ENC](../09-isa.md#utf8enc-encode-a-unicode-scalar-value) (section 9.9) | [1](by-encoding.md#mn-utf8enc), [entry](../09-isa.md#w-utf8enc) | Bits and fields (BESC) |
 | `UTF8LEN` | [UTF8LEN](../09-isa.md#utf8len-length-of-a-utf-8-sequence-from-its-leading-byte) (section 9.9) | [1](by-encoding.md#mn-utf8len), [entry](../09-isa.md#w-utf8len) | Bits and fields (BESC) |

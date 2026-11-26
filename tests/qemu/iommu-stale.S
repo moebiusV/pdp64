@@ -99,8 +99,7 @@ _start:
 	; the head of the ring has consumed what the doorbell said (two commands: the invalidate and the sync)
 	movq	IOMMU_REG_CMD_HEAD(r11), r1
 	movq	IOMMU_REG_DOORBELL(r11), r2
-	cmp	r1, r2
-	beq	1f
+	cbeq r1, r2, 1f
 	movq	#18, r0
 	halt
 1:	; ---- invalidate domain: another domain leaves it, the domain (5) ends it ----
@@ -236,13 +235,12 @@ _start:
 	movq	#(CTL_ON|(1<<IOMMU_CONTROL_RESET)), r1
 	movq	r1, IOMMU_REG_CONTROL(r11)
 	movq	IOMMU_REG_CONTROL(r11), r1
-	cmp	r1, #CTL_ON
-	beq	1f
+	cbeq r1, #CTL_ON, 1f
 	movq	#62, r0
 	halt
 1:	movq	IOMMU_REG_DEVICE(r11), r1
 	and	#((1<<IOMMU_DEVICE_WIDTH_MODE)-1), r1
-	beq	1f
+	cbeq	r1, #0, 1f
 	movq	#63, r0
 	halt
 1:	movq	#0x1000, r1
@@ -259,7 +257,7 @@ _start:
 	; ---- a command the unit cannot decode: the sticky command-error bit, cleared by writing one; a no-op does nothing ----
 	movq	IOMMU_REG_STATUS(r11), r1
 	and	#(1<<IOMMU_STATUS_CMD_ERROR), r1
-	beq	1f
+	cbeq	r1, #0, 1f
 	movq	#71, r0
 	halt
 1:	movq	#IOMMU_OP_NOP, r1
@@ -267,7 +265,7 @@ _start:
 	call	lib_cmd
 	movq	IOMMU_REG_STATUS(r11), r1
 	and	#(1<<IOMMU_STATUS_CMD_ERROR), r1
-	beq	1f
+	cbeq	r1, #0, 1f
 	movq	#72, r0
 	halt
 1:	movq	#0x7f, r1
@@ -275,14 +273,14 @@ _start:
 	call	lib_cmd
 	movq	IOMMU_REG_STATUS(r11), r1
 	and	#(1<<IOMMU_STATUS_CMD_ERROR), r1
-	bne	1f
+	cbne	r1, #0, 1f
 	movq	#73, r0
 	halt
 1:	movq	#(1<<IOMMU_STATUS_CMD_ERROR), r1
 	movq	r1, IOMMU_REG_STATUS(r11)
 	movq	IOMMU_REG_STATUS(r11), r1
 	and	#(1<<IOMMU_STATUS_CMD_ERROR), r1
-	beq	1f
+	cbeq	r1, #0, 1f
 	movq	#74, r0
 	halt
 1:	; ---- two guests, the same device addresses: function 1 (RID1) is guest 1 with ts_a (0x1000 -> pg3 now), function 2 (RID2) is guest 2 with ts_c (0x1000 -> pg1 after the change below) ----

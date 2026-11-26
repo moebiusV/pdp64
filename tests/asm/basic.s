@@ -16,13 +16,13 @@ start:	movq r1,r2
 	and #255,r3
 	shl #3,r4
 	xor r8,r9
-	cmp r1,r2
-	cmp r5,#7
+	sub r1,r2
+	sub #7,r5
 	push r2
 	pop r3
 	inc r1
 	clr r2
-	tst r3
+	com r3
 	neg r4
 	add #16,sp
 	sub #4096,sp

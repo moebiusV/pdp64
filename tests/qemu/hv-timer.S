@@ -74,7 +74,7 @@ back1:
 	movq	r2, TIMER_REG_CONTROL(r13)
 2:	movq	TIMER_REG_CONTROL(r13), r2
 	and	#(1<<TIMER_CTL_PENDING), r2
-	beq	2b			; wait until it is pending
+	cbeq	r2, #0, 2b ; wait until it is pending
 	nop
 	nop
 	cbeq	r10, #0, 1f		; priority 7: not taken

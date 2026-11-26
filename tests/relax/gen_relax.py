@@ -2,7 +2,7 @@
 """Generate the relaxation test: main.s and lib.s (two objects) in a directory.
 usage: gen_relax.py DIR [seed]
 main.s is a program whose result r6 is known (the generator adds up what the executed code adds); it fails with the number of the check.  The blocks:
-  skip   a forward branch (br, beq, cbeq, jmp) over K calls, for K = 0..150 (the 2- and 4-byte branch forms reach 32 B to 64 KB: the calls in between are 6 bytes
+  skip   a forward branch (br, cbeq r6,r6, cbeq, jmp) over K calls, for K = 0..150 (the 2- and 4-byte branch forms reach 32 B to 64 KB: the calls in between are 6 bytes
          before relaxation and 4 after, so the form that the assembler chose is longer than the linker's) and a few K near 64 KB;
   loop   the same backward (a loop of three turns whose branch crosses K calls), also sob;
   data   lea of an external data symbol, of a local one, a load through it, movq =K from the pool, .pool in the middle, .align 4/8/16, .even after odd data;
@@ -45,7 +45,7 @@ def exec_calls(k):
 def skip_block(k, kind):
     l = lab()
     dead, _ = calls(k)
-    head = {'br': ['\tbr %s' % l], 'jmp': ['\tjmp %s' % l], 'beq': ['\tcmp r6, r6', '\tbeq %s' % l],
+    head = {'br': ['\tbr %s' % l], 'jmp': ['\tjmp %s' % l], 'beq': ['\tcbeq r6, r6, %s' % l],
             'cbeq': ['\tmovq #5, r5', '\tcbeq r5, #5, %s' % l], 'cbne': ['\tmovq #5, r5', '\tcbne r5, #6, %s' % l]}[kind]
     return head + dead + [l + ':'] + exec_calls(1)
 def loop_block(k, kind):
@@ -53,7 +53,7 @@ def loop_block(k, kind):
     body, s = calls(k)
     add(3 * s)
     if kind == 'bne':
-        return ['\tmovq #3, r9', l + ':'] + body + ['\tsub #1, r9', '\tbne %s' % l]
+        return ['\tmovq #3, r9', l + ':'] + body + ['\tsub #1, r9', '\tcbne r9, #0, %s' % l]
     if kind == 'cbne':
         return ['\tmovq #3, r9', l + ':'] + body + ['\tsub #1, r9', '\tcbne r9, #0, %s' % l]
     return ['\tmovq #3, r9', l + ':'] + body + ['\tsob r9, %s' % l]
@@ -110,7 +110,7 @@ for line in text:
     if line.startswith('\tcall lf'): tot += lfs[int(line[8:])]
 add(tot)
 m += text
-m += ['\tmovq =%d, r8' % acc, '\tcmp r6, r8', '\tbne fail', '\tmovq #0, r0', '\ttrap #0', 'fail:\tmovq #1, r0', '\ttrap #0']
+m += ['\tmovq =%d, r8' % acc, '\tcbeq r6, r8, ok', '\tbr fail', 'ok:\tmovq #0, r0', '\ttrap #0', 'fail:\tmovq #1, r0', '\ttrap #0']
 m += ['\t.globl hook', 'hook:\tadd #11, r6', '\tret']
 for i, v in enumerate(lfs):
     m += ['lf%d:\tadd #%d, r6' % (i, v), '\tret']

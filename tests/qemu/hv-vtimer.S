@@ -64,7 +64,7 @@ guest:	movq	=MAP_VTIMER, r13
 	movq	r3, TIMER_REG_CONTROL(r13)
 spin:	movq	TIMER_REG_CONTROL(r13), r5	; spin until the counter passes the compare (PENDING): the line is raised but masked
 	and	#(1<<TIMER_CTL_PENDING), r5
-	beq	spin
+	cbeq	r5, #0, spin
 	movq	#0, r6			; the interrupt has not been taken
 	spl	#5			; line 6 is now above the priority: taken before the next instruction
 	nop

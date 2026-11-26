@@ -30,24 +30,18 @@ _start:
 	movq	#0, r10
 	lea	res1, r13
 at1:	movq	r1, 4092(r3)
-res1:	cmp	r10, #1
-	bne	F1	; check 1: exactly one fault
-	cmp	r8, #(VECTOR_SPROT)
-	bne	F2	; check 2: the store protection fault
-	cmp	r9, r11
-	bne	F3	; check 3: EVA is the first byte of the second page
+res1:	cbne r10, #1, F1 ; check 1: exactly one fault
+	cbne r8, #(VECTOR_SPROT), F2 ; check 2: the store protection fault
+	cbne r9, r11, F3 ; check 3: EVA is the first byte of the second page
 	lea	at1, r2
-	cmp	r6, r2
-	bne	F4	; check 4: EPC is the instruction
+	cbne r6, r2, F4 ; check 4: EPC is the instruction
 	lea	pg0, r7
 	movq	4088(r7), r2
 	movq	=0x1111111111111111, r4
-	cmp	r2, r4
-	bne	F5	; check 5: the last eight bytes of P0 are as they were: the four bytes that fit were not written
+	cbne r2, r4, F5 ; check 5: the last eight bytes of P0 are as they were: the four bytes that fit were not written
 	lea	pg1, r7
 	movq	(r7), r2
-	cmp	r2, r4
-	bne	F6	; check 6: and P1 is as it was
+	cbne r2, r4, F6 ; check 6: and P1 is as it was
 ; ---- 2: the store from P4, which refuses, into P5
 	movq	=0x1111111111111111, r5
 	lea	pg5, r7
@@ -55,21 +49,16 @@ res1:	cmp	r10, #1
 	movq	#0, r10
 	lea	res2, r13
 at2:	movq	r1, 4092(r12)
-res2:	cmp	r10, #1
-	bne	F7	; check 7: exactly one fault
-	cmp	r8, #(VECTOR_SPROT)
-	bne	F8	; check 8: the store protection fault
+res2:	cbne r10, #1, F7 ; check 7: exactly one fault
+	cbne r8, #(VECTOR_SPROT), F8 ; check 8: the store protection fault
 	lea	4092(r12), r2
-	cmp	r9, r2
-	bne	F9	; check 9: EVA is the address of the store: the first page refused
+	cbne r9, r2, F9 ; check 9: EVA is the address of the store: the first page refused
 	lea	at2, r2
-	cmp	r6, r2
-	bne	F10	; check 10: EPC is the instruction
+	cbne r6, r2, F10 ; check 10: EPC is the instruction
 	lea	pg5, r7
 	movq	(r7), r2
 	movq	=0x1111111111111111, r4
-	cmp	r2, r4
-	bne	F11	; check 11: P5 is as it was
+	cbne r2, r4, F11 ; check 11: P5 is as it was
 	movq	#0, r0
 	halt
 h_gen:	add	#1, r10

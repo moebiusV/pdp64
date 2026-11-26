@@ -11,8 +11,7 @@ _start:
 	mtsr	mmuctl, r1
 	movq	=1073741824, r3
 	movq	8(r3), r5
-	cmp	r5, #(4660)
-	beq	1f
+	cbeq r5, #(4660), 1f
 	movq	#2, r0	; check 1
 	halt
 1:
@@ -23,8 +22,7 @@ _start:
 	movq	r2, 0(r1)
 	movq	=1073741824, r3
 	movq	8(r3), r5
-	cmp	r5, #(4660)
-	beq	1f
+	cbeq r5, #(4660), 1f
 	movq	#3, r0	; check 2
 	halt
 1:
@@ -32,8 +30,7 @@ _start:
 	tlbi	r3
 	movq	=1073741824, r3
 	movq	8(r3), r5
-	cmp	r5, #(4660)
-	beq	1f
+	cbeq r5, #(4660), 1f
 	movq	#4, r0	; check 3
 	halt
 1:
@@ -41,8 +38,7 @@ _start:
 	tlbi	r3
 	movq	=1073741824, r3
 	movq	8(r3), r5
-	cmp	r5, #(22136)
-	beq	1f
+	cbeq r5, #(22136), 1f
 	movq	#5, r0	; check 4
 	halt
 1:
@@ -51,8 +47,7 @@ _start:
 	movq	r2, 0(r1)
 	movq	=1073741824, r3
 	movq	8(r3), r5
-	cmp	r5, #(22136)
-	beq	1f
+	cbeq r5, #(22136), 1f
 	movq	#6, r0	; check 5
 	halt
 1:
@@ -70,13 +65,11 @@ _start:
 ins_u:
 	movq	8(r3), r5
 res_u:
-	cmp	r10, #(1)
-	beq	1f
+	cbeq r10, #(1), 1f
 	movq	#7, r0	; check 6
 	halt
 1:
-	cmp	r8, #(VECTOR_LFAULT)
-	beq	1f
+	cbeq r8, #(VECTOR_LFAULT), 1f
 	movq	#8, r0	; check 7
 	halt
 1:
@@ -87,8 +80,7 @@ res_u:
 	movq	r2, 0(r1)
 	movq	=1073741824, r3
 	movq	8(r3), r5
-	cmp	r5, #(4660)
-	beq	1f
+	cbeq r5, #(4660), 1f
 	movq	#9, r0	; check 8
 	halt
 1:
@@ -100,8 +92,7 @@ res_u:
 	tlbia
 	movq	=1073741824, r3
 	movq	8(r3), r5
-	cmp	r5, #(22136)
-	beq	1f
+	cbeq r5, #(22136), 1f
 	movq	#10, r0	; check 9
 	halt
 1:
@@ -112,8 +103,7 @@ res_u:
 	movq	r2, 0(r1)
 	movq	=1073741824, r3
 	movq	8(r3), r5
-	cmp	r5, #(22136)
-	beq	1f
+	cbeq r5, #(22136), 1f
 	movq	#11, r0	; check 10
 	halt
 1:
@@ -121,8 +111,7 @@ res_u:
 	mtsr	ptbr, r1
 	movq	=1073741824, r3
 	movq	8(r3), r5
-	cmp	r5, #(22136)
-	beq	1f
+	cbeq r5, #(22136), 1f
 	movq	#12, r0	; check 11
 	halt
 1:
@@ -130,8 +119,7 @@ res_u:
 	mtsr	ptbr, r1
 	movq	=1073741824, r3
 	movq	8(r3), r5
-	cmp	r5, #(4660)
-	beq	1f
+	cbeq r5, #(4660), 1f
 	movq	#13, r0	; check 12
 	halt
 1:
@@ -142,8 +130,7 @@ res_u:
 	movq	r2, 0(r1)
 	movq	=1073741824, r3
 	movq	8(r3), r5
-	cmp	r5, #(4660)
-	beq	1f
+	cbeq r5, #(4660), 1f
 	movq	#14, r0	; check 13
 	halt
 1:
@@ -151,8 +138,7 @@ res_u:
 	mtsr	asid, r1
 	movq	=1073741824, r3
 	movq	8(r3), r5
-	cmp	r5, #(22136)
-	beq	1f
+	cbeq r5, #(22136), 1f
 	movq	#15, r0	; check 14
 	halt
 1:
@@ -172,25 +158,22 @@ ins_o:
 res_o:
 	movq	#1, r1
 	mtsr	mmuctl, r1
-	cmp	r10, #(1)
-	beq	1f
+	cbeq r10, #(1), 1f
 	movq	#16, r0	; check 15
 	halt
 1:
-	cmp	r8, #(VECTOR_BUSFAULT)
-	beq	1f
+	cbeq r8, #(VECTOR_BUSFAULT), 1f
 	movq	#17, r0	; check 16
 	halt
 1:
-	cmp	r9, #(1073741832)
-	beq	1f
+	movq	=1073741832, r2
+	cbeq r9, r2, 1f
 	movq	#18, r0	; check 17
 	halt
 1:
 	movq	=1073741824, r3
 	movq	8(r3), r5
-	cmp	r5, #(22136)
-	beq	1f
+	cbeq r5, #(22136), 1f
 	movq	#19, r0	; check 18
 	halt
 1:

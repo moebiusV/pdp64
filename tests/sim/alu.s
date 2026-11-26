@@ -4,90 +4,68 @@
 _start:
 	movq	#100, r1
 	add	#23, r1
-	cmp	r1, #123
-	bne	f1
+	cbne r1, #123, f1
 	sub	#3, r1
-	cmp	r1, #120
-	bne	f2
+	cbne r1, #120, f2
 	movq	#0xF0, r2
 	bis	#0x0F, r2
-	cmp	r2, #255
-	bne	f3
+	cbne r2, #255, f3
 	bic	#0x0F, r2
-	cmp	r2, #240
-	bne	f4
+	cbne r2, #240, f4
 	xor	#0xFF, r2
-	cmp	r2, #15
-	bne	f5
+	cbne r2, #15, f5
 	and	#6, r2
-	cmp	r2, #6
-	bne	f6
+	cbne r2, #6, f6
 	movq	#7, r3
 	mul	#6, r3
-	cmp	r3, #42
-	bne	f7
+	cbne r3, #42, f7
 	shl	#3, r3
-	cmp	r3, #336
-	bne	f8
+	cbne r3, #336, f8
 	shr	#4, r3
-	cmp	r3, #21
-	bne	f9
+	cbne r3, #21, f9
 	movq	#-64, r4
 	sar	#3, r4
-	cmp	r4, #-8
-	bne	f10
+	cbne r4, #-8, f10
 	shr	#60, r4
-	cmp	r4, #15		; -8 as unsigned >> 60
-	bne	f11
+	cbne r4, #15, f11
 	movq	#1, r5
 	shl	#62, r5
 	movq	#8, r6
 	mulh	r6, r5
-	cmp	r5, #2		; high half of 2^62 * 8 = 2^65
-	bne	f12
+	cbne r5, #2, f12
 	movq	#-7, r7
 	movq	#2, r8
 	div	r7, r8, r9
-	cmp	r9, #-3		; truncates toward zero
-	bne	f13
+	cbne r9, #-3, f13
 	mod	r7, r8, r9
-	cmp	r9, #-1		; sign of the dividend
-	bne	f14
+	cbne r9, #-1, f14
 	movq	#100, r7
 	movq	#3, r8
 	divu	r7, r8, r9
-	cmp	r9, #33
-	bne	f15
+	cbne r9, #33, f15
 	modu	r7, r8, r9
-	cmp	r9, #1
-	bne	f16
+	cbne r9, #1, f16
 	movq	#1, r7
 	shl	#63, r7
 	movq	#-1, r8
 	div	r7, r8, r9
-	cmp	r9, r7		; INT64_MIN / -1 wraps, no trap
-	bne	f17
+	cbne r9, r7, f17
 	mod	r7, r8, r9
-	cmp	r9, #0
-	bne	f18
+	cbne r9, #0, f18
 	movq	#5, r1
 	shl	#64, r1
-	cmp	r1, #0		; a count of 64 or more shifts everything out
-	bne	f19
+	cbne r1, #0, f19
 	movq	#-5, r1
 	sar	#100, r1
-	cmp	r1, #-1		; sar by a huge count gives the sign
-	bne	f20
+	cbne r1, #-1, f20
 	movq	#12345, r1
 	shl	#0, r1
-	cmp	r1, #12345
-	bne	f21
+	cbne r1, #12345, f21
 	movq	#0x1234, r1
 	shl	#32, r1
 	bis	#0x56789ABC, r1
 	shr	#32, r1
-	cmp	r1, #4660		; the high half of a value made of a 16-bit and a 32-bit immediate
-	bne	f22
+	cbne r1, #4660, f22
 	movq	#0, r0
 	trap	#0
 f1:	movq	#1, r0

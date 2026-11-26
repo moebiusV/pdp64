@@ -65,12 +65,11 @@ The widths and the reach of the immediates and displacements of each shape the f
 | `pc16-u1` | pc-relative, 16 bits counted in 1-byte units (-32768 to 32767 bytes) |
 | `pc16-u2` | pc-relative, 16 bits counted in 2-byte units (-65536 to 65534 bytes) |
 | `pc20-u2` | pc-relative, 20 bits counted in 2-byte units (-1048576 to 1048574 bytes) |
+| `pc22-u2` | pc-relative, 22 bits counted in 2-byte units (-4194304 to 4194302 bytes) |
 | `pc24-u2` | pc-relative, 24 bits counted in 2-byte units (-16777216 to 16777214 bytes) |
 | `pc32-u1` | pc-relative, 32 bits counted in 1-byte units (-2147483648 to 2147483647 bytes) |
 | `pc32-u2` | pc-relative, 32 bits counted in 2-byte units (-4294967296 to 4294967294 bytes) |
 | `pc5-u2` | pc-relative, 5 bits counted in 2-byte units (-32 to 30 bytes) |
-| `pc6-u2` | pc-relative, 6 bits counted in 2-byte units (-64 to 62 bytes) |
-| `pc7-u2` | pc-relative, 7 bits counted in 2-byte units (-128 to 126 bytes) |
 | `pc8-u2` | pc-relative, 8 bits counted in 2-byte units (-256 to 254 bytes) |
 | `pc9-u2` | pc-relative, 9 bits counted in 2-byte units (-512 to 510 bytes) |
 | `pd5-s12` | pre-decrement of a base register (register, 5 bits), 12-bit stride (0: the size of the access) |
@@ -136,21 +135,8 @@ Fields: `sub=p0[11:8]` `op1.r=p0[7:4]` `op2.r=p0[3:0]`
 
 Fields: `op1.r=p0[11:9]` `op2.r=p0[8:6]` `op3.r=p0[5:3]` `op4.r=p0[2:0]`
 
-<a id="RRF-2"></a>
-#### RRF-2: RRF, prefix `01001`
-
-![Layout RRF-2](../figures/RRF-2.svg)
-
-`op1` is `reg4`: register, 4 bits (an index into the hot-register table).
-
-`op2` is `reg4`: register, 4 bits (an index into the hot-register table).
-
-`sub` (3 bits) selects the mnemonic: `shr` 000, `sar` 001, `fadd` 010, `fsub` 011, `fmul` 100, `bit` 101, `cmp` 110, `fcmp` 111.
-
-Fields: `sub=p0[10:8]` `op1.r=p0[7:4]` `op2.r=p0[3:0]`
-
 <a id="LDHHH3-a-1"></a>
-#### LDHHH3-a-1: LDHHH3/a, prefix `01010`
+#### LDHHH3-a-1: LDHHH3/a, prefix `01001`
 
 ![Layout LDHHH3-a-1](../figures/LDHHH3-a-1.svg)
 
@@ -163,7 +149,7 @@ Fields: `sub=p0[10:8]` `op1.r=p0[7:4]` `op2.r=p0[3:0]`
 Fields: `sub=p0[10:9]` `op1.d=p0[8:6]` `op1.base=p0[5:3]` `op2.r=p0[2:0]`
 
 <a id="LDSPh5-a-1"></a>
-#### LDSPh5-a-1: LDSPh5/a, prefix `01011`
+#### LDSPh5-a-1: LDSPh5/a, prefix `01010`
 
 ![Layout LDSPh5-a-1](../figures/LDSPh5-a-1.svg)
 
@@ -176,7 +162,7 @@ Fields: `sub=p0[10:9]` `op1.d=p0[8:6]` `op1.base=p0[5:3]` `op2.r=p0[2:0]`
 Fields: `sub=p0[10:9]` `op1.d=p0[8:4]` `op2.r=p0[3:0]`
 
 <a id="IMMh47-a-1"></a>
-#### IMMh47-a-1: IMMh47/a, prefix `01100`
+#### IMMh47-a-1: IMMh47/a, prefix `01011`
 
 ![Layout IMMh47-a-1](../figures/IMMh47-a-1.svg)
 
@@ -187,7 +173,7 @@ Fields: `sub=p0[10:9]` `op1.d=p0[8:4]` `op2.r=p0[3:0]`
 Fields: `op1.imm=p0[10:4]` `op2.r=p0[3:0]`
 
 <a id="CBZ1-5-a-1"></a>
-#### CBZ1-5-a-1: CBZ1_5/a, prefix `01101`
+#### CBZ1-5-a-1: CBZ1_5/a, prefix `01100`
 
 ![Layout CBZ1-5-a-1](../figures/CBZ1-5-a-1.svg)
 
@@ -201,8 +187,21 @@ Fields: `op1.imm=p0[10:4]` `op2.r=p0[3:0]`
 
 Fields: `sub=p0[10]` `op3.pcrel=p0[9:5]` `op1.r=p0[4:0]`
 
+<a id="RRF-2"></a>
+#### RRF-2: RRF, prefix `011110`
+
+![Layout RRF-2](../figures/RRF-2.svg)
+
+`op1` is `reg4`: register, 4 bits (an index into the hot-register table).
+
+`op2` is `reg4`: register, 4 bits (an index into the hot-register table).
+
+`sub` (2 bits) selects the mnemonic: `shr` 00, `sar` 01, `fadd` 10, `fsub` 11.
+
+Fields: `sub=p0[9:8]` `op1.r=p0[7:4]` `op2.r=p0[3:0]`
+
 <a id="STHHH3-a-1"></a>
-#### STHHH3-a-1: STHHH3/a, prefix `100010`
+#### STHHH3-a-1: STHHH3/a, prefix `100001`
 
 ![Layout STHHH3-a-1](../figures/STHHH3-a-1.svg)
 
@@ -215,7 +214,7 @@ Fields: `sub=p0[10]` `op3.pcrel=p0[9:5]` `op1.r=p0[4:0]`
 Fields: `sub=p0[9]` `op2.d=p0[8:6]` `op1.r=p0[5:3]` `op2.base=p0[2:0]`
 
 <a id="IMMh44-b-1"></a>
-#### IMMh44-b-1: IMMh44/b, prefix `100011`
+#### IMMh44-b-1: IMMh44/b, prefix `100010`
 
 ![Layout IMMh44-b-1](../figures/IMMh44-b-1.svg)
 
@@ -228,7 +227,7 @@ Fields: `sub=p0[9]` `op2.d=p0[8:6]` `op1.r=p0[5:3]` `op2.base=p0[2:0]`
 Fields: `sub=p0[9:8]` `op1.imm=p0[7:4]` `op2.r=p0[3:0]`
 
 <a id="SYSI-1"></a>
-#### SYSI-1: SYSI, prefix `1001000`
+#### SYSI-1: SYSI, prefix `1000110`
 
 ![Layout SYSI-1](../figures/SYSI-1.svg)
 
@@ -238,19 +237,8 @@ Fields: `sub=p0[9:8]` `op1.imm=p0[7:4]` `op2.r=p0[3:0]`
 
 Fields: `sub=p0[8]` `op1.imm=p0[7:0]`
 
-<a id="BR1-6-c-1"></a>
-#### BR1-6-c-1: BR1_6/c, prefix `1010011`
-
-![Layout BR1-6-c-1](../figures/BR1-6-c-1.svg)
-
-`op1` is `pc6-u2`: pc-relative, 6 bits counted in 2-byte units (-64 to 62 bytes).
-
-`sub` (3 bits) selects the mnemonic: `bpl` 000, `bmi` 001, `bvc` 010, `bvs` 011, `bcc` 100, `bcs` 101, `bge` 110, `blt` 111.
-
-Fields: `sub=p0[8:6]` `op1.pcrel=p0[5:0]`
-
 <a id="BR1-9-a-1"></a>
-#### BR1-9-a-1: BR1_9/a, prefix `1010100`
+#### BR1-9-a-1: BR1_9/a, prefix `1010001`
 
 ![Layout BR1-9-a-1](../figures/BR1-9-a-1.svg)
 
@@ -259,7 +247,7 @@ Fields: `sub=p0[8:6]` `op1.pcrel=p0[5:0]`
 Fields: `op1.pcrel=p0[8:0]`
 
 <a id="STSPh4-a-1"></a>
-#### STSPh4-a-1: STSPh4/a, prefix `1010101`
+#### STSPh4-a-1: STSPh4/a, prefix `1010010`
 
 ![Layout STSPh4-a-1](../figures/STSPh4-a-1.svg)
 
@@ -272,7 +260,7 @@ Fields: `op1.pcrel=p0[8:0]`
 Fields: `sub=p0[8]` `op2.d=p0[7:4]` `op1.r=p0[3:0]`
 
 <a id="LEASPh5-a-1"></a>
-#### LEASPh5-a-1: LEASPh5/a, prefix `1010110`
+#### LEASPh5-a-1: LEASPh5/a, prefix `1010011`
 
 ![Layout LEASPh5-a-1](../figures/LEASPh5-a-1.svg)
 
@@ -283,7 +271,7 @@ Fields: `sub=p0[8]` `op2.d=p0[7:4]` `op1.r=p0[3:0]`
 Fields: `op1.d=p0[8:4]` `op2.r=p0[3:0]`
 
 <a id="SHIh44-a-1"></a>
-#### SHIh44-a-1: SHIh44/a, prefix `1010111`
+#### SHIh44-a-1: SHIh44/a, prefix `1010100`
 
 ![Layout SHIh44-a-1](../figures/SHIh44-a-1.svg)
 
@@ -296,7 +284,7 @@ Fields: `op1.d=p0[8:4]` `op2.r=p0[3:0]`
 Fields: `sub=p0[8]` `op1.imm=p0[7:4]` `op2.r=p0[3:0]`
 
 <a id="PUSHM8-a-1"></a>
-#### PUSHM8-a-1: PUSHM8/a, prefix `1011000`
+#### PUSHM8-a-1: PUSHM8/a, prefix `1010101`
 
 ![Layout PUSHM8-a-1](../figures/PUSHM8-a-1.svg)
 
@@ -307,7 +295,7 @@ Fields: `sub=p0[8]` `op1.imm=p0[7:4]` `op2.r=p0[3:0]`
 Fields: `sub=p0[8]` `op1.imm=p0[7:0]`
 
 <a id="SYSI-2"></a>
-#### SYSI-2: SYSI, prefix `10110100`
+#### SYSI-2: SYSI, prefix `10101110`
 
 ![Layout SYSI-2](../figures/SYSI-2.svg)
 
@@ -316,18 +304,29 @@ Fields: `sub=p0[8]` `op1.imm=p0[7:0]`
 Fields: `op1.imm=p0[7:0]`
 
 <a id="SOPR-1"></a>
-#### SOPR-1: SOPR, prefix `11000011`
+#### SOPR-1: SOPR, prefix `10111100`
 
 ![Layout SOPR-1](../figures/SOPR-1.svg)
 
 `op1` is `reg5`: register, 5 bits.
 
-`sub` (3 bits) selects the mnemonic: `clr` 000, `com` 001, `inc` 010, `dec` 011, `neg` 100, `tst` 101, `adc` 110, `sbc` 111.
+`sub` (3 bits) selects the mnemonic: `clr` 000, `com` 001, `inc` 010, `dec` 011, `neg` 100, `asl` 101, `asr` 110, `push` 111.
 
 Fields: `sub=p0[7:5]` `op1.r=p0[4:0]`
 
+<a id="RRF-3"></a>
+#### RRF-3: RRF, prefix `10111101`
+
+![Layout RRF-3](../figures/RRF-3.svg)
+
+`op1` is `reg4`: register, 4 bits (an index into the hot-register table).
+
+`op2` is `reg4`: register, 4 bits (an index into the hot-register table).
+
+Fields: `op1.r=p0[7:4]` `op2.r=p0[3:0]`
+
 <a id="FX-POPMRET-1"></a>
-#### FX-POPMRET-1: FX.POPMRET, prefix `11000100`
+#### FX-POPMRET-1: FX.POPMRET, prefix `10111110`
 
 ![Layout FX-POPMRET-1](../figures/FX-POPMRET-1.svg)
 
@@ -335,30 +334,8 @@ Fields: `sub=p0[7:5]` `op1.r=p0[4:0]`
 
 Fields: `op1.imm=p0[7:0]`
 
-<a id="BR1-6-c-2"></a>
-#### BR1-6-c-2: BR1_6/c, prefix `11000101`
-
-![Layout BR1-6-c-2](../figures/BR1-6-c-2.svg)
-
-`op1` is `pc6-u2`: pc-relative, 6 bits counted in 2-byte units (-64 to 62 bytes).
-
-`sub` (2 bits) selects the mnemonic: `bgt` 00, `ble` 01, `bhi` 10, `blos` 11.
-
-Fields: `sub=p0[7:6]` `op1.pcrel=p0[5:0]`
-
-<a id="BR1-7-b-1"></a>
-#### BR1-7-b-1: BR1_7/b, prefix `11000110`
-
-![Layout BR1-7-b-1](../figures/BR1-7-b-1.svg)
-
-`op1` is `pc7-u2`: pc-relative, 7 bits counted in 2-byte units (-128 to 126 bytes).
-
-`sub` (1 bit) selects the mnemonic: `beq` 0, `bne` 1.
-
-Fields: `sub=p0[7]` `op1.pcrel=p0[6:0]`
-
 <a id="STHHH1-b-1"></a>
-#### STHHH1-b-1: STHHH1/b, prefix `11000111`
+#### STHHH1-b-1: STHHH1/b, prefix `10111111`
 
 ![Layout STHHH1-b-1](../figures/STHHH1-b-1.svg)
 
@@ -371,7 +348,7 @@ Fields: `sub=p0[7]` `op1.pcrel=p0[6:0]`
 Fields: `sub=p0[7]` `op2.d=p0[6]` `op1.r=p0[5:3]` `op2.base=p0[2:0]`
 
 <a id="SHIh44-a-2"></a>
-#### SHIh44-a-2: SHIh44/a, prefix `11001000`
+#### SHIh44-a-2: SHIh44/a, prefix `11000000`
 
 ![Layout SHIh44-a-2](../figures/SHIh44-a-2.svg)
 
@@ -382,7 +359,7 @@ Fields: `sub=p0[7]` `op2.d=p0[6]` `op1.r=p0[5:3]` `op2.base=p0[2:0]`
 Fields: `op1.imm=p0[7:4]` `op2.r=p0[3:0]`
 
 <a id="SYSR-1"></a>
-#### SYSR-1: SYSR, prefix `110010010`
+#### SYSR-1: SYSR, prefix `110000010`
 
 ![Layout SYSR-1](../figures/SYSR-1.svg)
 
@@ -392,19 +369,8 @@ Fields: `op1.imm=p0[7:4]` `op2.r=p0[3:0]`
 
 Fields: `sub=p0[6:5]` `op1.r=p0[4:0]`
 
-<a id="SOPR-2"></a>
-#### SOPR-2: SOPR, prefix `110100000`
-
-![Layout SOPR-2](../figures/SOPR-2.svg)
-
-`op1` is `reg5`: register, 5 bits.
-
-`sub` (2 bits) selects the mnemonic: `asl` 00, `asr` 01, `push` 10, `pop` 11.
-
-Fields: `sub=p0[6:5]` `op1.r=p0[4:0]`
-
 <a id="SPADJ6-a-1"></a>
-#### SPADJ6-a-1: SPADJ6/a, prefix `110100001`
+#### SPADJ6-a-1: SPADJ6/a, prefix `110001100`
 
 ![Layout SPADJ6-a-1](../figures/SPADJ6-a-1.svg)
 
@@ -417,7 +383,7 @@ Fields: `sub=p0[6:5]` `op1.r=p0[4:0]`
 Fields: `sub=p0[6]` `op1.imm=p0[5:0]`
 
 <a id="SYSR-2"></a>
-#### SYSR-2: SYSR, prefix `1101010000`
+#### SYSR-2: SYSR, prefix `1100100110`
 
 ![Layout SYSR-2](../figures/SYSR-2.svg)
 
@@ -428,7 +394,7 @@ Fields: `sub=p0[6]` `op1.imm=p0[5:0]`
 Fields: `sub=p0[5]` `op1.r=p0[4:0]`
 
 <a id="CT1-1"></a>
-#### CT1-1: CT1, prefix `1101010001`
+#### CT1-1: CT1, prefix `1100100111`
 
 ![Layout CT1-1](../figures/CT1-1.svg)
 
@@ -438,19 +404,19 @@ Fields: `sub=p0[5]` `op1.r=p0[4:0]`
 
 Fields: `sub=p0[5]` `op1.r=p0[4:0]`
 
-<a id="SOPR-3"></a>
-#### SOPR-3: SOPR, prefix `1101011111`
+<a id="SOPR-2"></a>
+#### SOPR-2: SOPR, prefix `1100101101`
 
-![Layout SOPR-3](../figures/SOPR-3.svg)
+![Layout SOPR-2](../figures/SOPR-2.svg)
 
 `op1` is `reg5`: register, 5 bits.
 
-`sub` (1 bit) selects the mnemonic: `jmp` 0, `call` 1.
+`sub` (1 bit) selects the mnemonic: `pop` 0, `jmp` 1.
 
 Fields: `sub=p0[5]` `op1.r=p0[4:0]`
 
 <a id="TLBX-1"></a>
-#### TLBX-1: TLBX, prefix `1101111110`
+#### TLBX-1: TLBX, prefix `1101001100`
 
 ![Layout TLBX-1](../figures/TLBX-1.svg)
 
@@ -460,8 +426,17 @@ Fields: `sub=p0[5]` `op1.r=p0[4:0]`
 
 Fields: `sub=p0[5]` `op1.r=p0[4:0]`
 
+<a id="SOPR-3"></a>
+#### SOPR-3: SOPR, prefix `11001111000`
+
+![Layout SOPR-3](../figures/SOPR-3.svg)
+
+`op1` is `reg5`: register, 5 bits.
+
+Fields: `op1.r=p0[4:0]`
+
 <a id="FX-POPRET-1"></a>
-#### FX-POPRET-1: FX.POPRET, prefix `11011011111`
+#### FX-POPRET-1: FX.POPRET, prefix `11001111010`
 
 ![Layout FX-POPRET-1](../figures/FX-POPRET-1.svg)
 
@@ -470,7 +445,7 @@ Fields: `sub=p0[5]` `op1.r=p0[4:0]`
 Fields: `op1.r=p0[4:0]`
 
 <a id="SYS0-1"></a>
-#### SYS0-1: SYS0, prefix `1101110111010`
+#### SYS0-1: SYS0, prefix `1101000101100`
 
 ![Layout SYS0-1](../figures/SYS0-1.svg)
 
@@ -479,7 +454,7 @@ Fields: `op1.r=p0[4:0]`
 Fields: `sub=p0[2:0]`
 
 <a id="SYS0-2"></a>
-#### SYS0-2: SYS0, prefix `11011110101010`
+#### SYS0-2: SYS0, prefix `11010010011010`
 
 ![Layout SYS0-2](../figures/SYS0-2.svg)
 
@@ -488,7 +463,7 @@ Fields: `sub=p0[2:0]`
 Fields: `sub=p0[1:0]`
 
 <a id="SYS0-3"></a>
-#### SYS0-3: SYS0, prefix `110111110000000`
+#### SYS0-3: SYS0, prefix `110100101011110`
 
 ![Layout SYS0-3](../figures/SYS0-3.svg)
 
@@ -499,7 +474,7 @@ Fields: `sub=p0[0]`
 ### Instructions of 2 parcels (4 bytes)
 
 <a id="LDF-PI12-1"></a>
-#### LDF-PI12-1: LDF.PI12, prefix `011101`
+#### LDF-PI12-1: LDF.PI12, prefix `011011`
 
 ![Layout LDF-PI12-1](../figures/LDF-PI12-1.svg)
 
@@ -512,7 +487,7 @@ Fields: `sub=p0[0]`
 Fields: `sub=p0[9:6]` `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` `op1.stride=p1[11:0]`
 
 <a id="LDF-PD12-1"></a>
-#### LDF-PD12-1: LDF.PD12, prefix `011110`
+#### LDF-PD12-1: LDF.PD12, prefix `011100`
 
 ![Layout LDF-PD12-1](../figures/LDF-PD12-1.svg)
 
@@ -525,7 +500,7 @@ Fields: `sub=p0[9:6]` `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` 
 Fields: `sub=p0[9:6]` `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` `op1.stride=p1[11:0]`
 
 <a id="FX-MOVCALL2-1"></a>
-#### FX-MOVCALL2-1: FX.MOVCALL2, prefix `100001`
+#### FX-MOVCALL2-1: FX.MOVCALL2, prefix `100000`
 
 ![Layout FX-MOVCALL2-1](../figures/FX-MOVCALL2-1.svg)
 
@@ -538,7 +513,7 @@ Fields: `sub=p0[9:6]` `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` 
 Fields: `op1.r=p0[9:5]` `op2.r=p0[4:0]` `op3.pcrel=p1[15:0]`
 
 <a id="LDU-X6-1"></a>
-#### LDU-X6-1: LDU.X6, prefix `1001010`
+#### LDU-X6-1: LDU.X6, prefix `1001000`
 
 ![Layout LDU-X6-1](../figures/LDU-X6-1.svg)
 
@@ -551,7 +526,7 @@ Fields: `op1.r=p0[9:5]` `op2.r=p0[4:0]` `op3.pcrel=p1[15:0]`
 Fields: `sub=p0[8:7]` `op1.base-1=p0[6:5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:13]` `op1.index=p1[12:8]` `op1.scale=p1[7:6]` `op1.d=p1[5:0]`
 
 <a id="STU-X6-1"></a>
-#### STU-X6-1: STU.X6, prefix `1001011`
+#### STU-X6-1: STU.X6, prefix `1001001`
 
 ![Layout STU-X6-1](../figures/STU-X6-1.svg)
 
@@ -564,7 +539,7 @@ Fields: `sub=p0[8:7]` `op1.base-1=p0[6:5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:13]
 Fields: `sub=p0[8:7]` `op1.r-1=p0[6:5]` `op2.index=p0[4:0]` `op1.r-2=p1[15:13]` `op2.base=p1[12:8]` `op2.scale=p1[7:6]` `op2.d=p1[5:0]`
 
 <a id="STF-PI12-1"></a>
-#### STF-PI12-1: STF.PI12, prefix `1010001`
+#### STF-PI12-1: STF.PI12, prefix `1001111`
 
 ![Layout STF-PI12-1](../figures/STF-PI12-1.svg)
 
@@ -577,7 +552,7 @@ Fields: `sub=p0[8:7]` `op1.r-1=p0[6:5]` `op2.index=p0[4:0]` `op1.r-2=p1[15:13]` 
 Fields: `sub=p0[8:6]` `op1.r-1=p0[5]` `op2.base=p0[4:0]` `op1.r-2=p1[15:12]` `op2.stride=p1[11:0]`
 
 <a id="STF-PD12-1"></a>
-#### STF-PD12-1: STF.PD12, prefix `1010010`
+#### STF-PD12-1: STF.PD12, prefix `1010000`
 
 ![Layout STF-PD12-1](../figures/STF-PD12-1.svg)
 
@@ -590,7 +565,7 @@ Fields: `sub=p0[8:6]` `op1.r-1=p0[5]` `op2.base=p0[4:0]` `op1.r-2=p1[15:12]` `op
 Fields: `sub=p0[8:6]` `op1.r-1=p0[5]` `op2.base=p0[4:0]` `op1.r-2=p1[15:12]` `op2.stride=p1[11:0]`
 
 <a id="PUSHM24-a-1"></a>
-#### PUSHM24-a-1: PUSHM24/a, prefix `1011001`
+#### PUSHM24-a-1: PUSHM24/a, prefix `1010110`
 
 ![Layout PUSHM24-a-1](../figures/PUSHM24-a-1.svg)
 
@@ -601,7 +576,7 @@ Fields: `sub=p0[8:6]` `op1.r-1=p0[5]` `op2.base=p0[4:0]` `op1.r-2=p1[15:12]` `op
 Fields: `sub=p0[8]` `op1.imm=p0[7:0]+p1[15:0]`
 
 <a id="R4-1"></a>
-#### R4-1: R4, prefix `10110101`
+#### R4-1: R4, prefix `10101111`
 
 ![Layout R4-1](../figures/R4-1.svg)
 
@@ -618,7 +593,7 @@ Fields: `sub=p0[8]` `op1.imm=p0[7:0]+p1[15:0]`
 Fields: `xsub-1=p0[7:5]` `op4.r=p0[4:0]` `xsub-2=p1[15]` `op1.r=p1[14:10]` `op2.r=p1[9:5]` `op3.r=p1[4:0]`
 
 <a id="LDU-B12-1"></a>
-#### LDU-B12-1: LDU.B12, prefix `10111001`
+#### LDU-B12-1: LDU.B12, prefix `10110011`
 
 ![Layout LDU-B12-1](../figures/LDU-B12-1.svg)
 
@@ -631,7 +606,7 @@ Fields: `xsub-1=p0[7:5]` `op4.r=p0[4:0]` `xsub-2=p1[15]` `op1.r=p1[14:10]` `op2.
 Fields: `sub=p0[7:6]` `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` `op1.d=p1[11:0]`
 
 <a id="STU-B12-1"></a>
-#### STU-B12-1: STU.B12, prefix `10111010`
+#### STU-B12-1: STU.B12, prefix `10110100`
 
 ![Layout STU-B12-1](../figures/STU-B12-1.svg)
 
@@ -644,7 +619,7 @@ Fields: `sub=p0[7:6]` `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` 
 Fields: `sub=p0[7:6]` `op1.r-1=p0[5]` `op2.base=p0[4:0]` `op1.r-2=p1[15:12]` `op2.d=p1[11:0]`
 
 <a id="LDU-X6-2"></a>
-#### LDU-X6-2: LDU.X6, prefix `10111011`
+#### LDU-X6-2: LDU.X6, prefix `10110101`
 
 ![Layout LDU-X6-2](../figures/LDU-X6-2.svg)
 
@@ -657,7 +632,7 @@ Fields: `sub=p0[7:6]` `op1.r-1=p0[5]` `op2.base=p0[4:0]` `op1.r-2=p1[15:12]` `op
 Fields: `sub=p0[7]` `op1.base-1=p0[6:5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:13]` `op1.index=p1[12:8]` `op1.scale=p1[7:6]` `op1.d=p1[5:0]`
 
 <a id="LDF-PI12-2"></a>
-#### LDF-PI12-2: LDF.PI12, prefix `10111110`
+#### LDF-PI12-2: LDF.PI12, prefix `10111000`
 
 ![Layout LDF-PI12-2](../figures/LDF-PI12-2.svg)
 
@@ -670,7 +645,7 @@ Fields: `sub=p0[7]` `op1.base-1=p0[6:5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:13]` 
 Fields: `sub=p0[7:6]` `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` `op1.stride=p1[11:0]`
 
 <a id="LDF-PD12-2"></a>
-#### LDF-PD12-2: LDF.PD12, prefix `10111111`
+#### LDF-PD12-2: LDF.PD12, prefix `10111001`
 
 ![Layout LDF-PD12-2](../figures/LDF-PD12-2.svg)
 
@@ -683,7 +658,7 @@ Fields: `sub=p0[7:6]` `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` 
 Fields: `sub=p0[7:6]` `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` `op1.stride=p1[11:0]`
 
 <a id="LDU-B12-2"></a>
-#### LDU-B12-2: LDU.B12, prefix `110010100`
+#### LDU-B12-2: LDU.B12, prefix `110000100`
 
 ![Layout LDU-B12-2](../figures/LDU-B12-2.svg)
 
@@ -696,7 +671,7 @@ Fields: `sub=p0[7:6]` `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` 
 Fields: `sub=p0[6]` `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` `op1.d=p1[11:0]`
 
 <a id="LDU-X6-3"></a>
-#### LDU-X6-3: LDU.X6, prefix `110010101`
+#### LDU-X6-3: LDU.X6, prefix `110000101`
 
 ![Layout LDU-X6-3](../figures/LDU-X6-3.svg)
 
@@ -707,7 +682,7 @@ Fields: `sub=p0[6]` `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` `o
 Fields: `op1.base-1=p0[6:5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:13]` `op1.index=p1[12:8]` `op1.scale=p1[7:6]` `op1.d=p1[5:0]`
 
 <a id="LDF-PI12-3"></a>
-#### LDF-PI12-3: LDF.PI12, prefix `110011000`
+#### LDF-PI12-3: LDF.PI12, prefix `110000111`
 
 ![Layout LDF-PI12-3](../figures/LDF-PI12-3.svg)
 
@@ -715,12 +690,12 @@ Fields: `op1.base-1=p0[6:5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:13]` `op1.index=p
 
 `op2` is `reg5`: register, 5 bits.
 
-`sub` (1 bit) selects the mnemonic: `fmul` 0, `bit` 1.
+`sub` (1 bit) selects the mnemonic: `fmul` 0, `lea` 1.
 
 Fields: `sub=p0[6]` `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` `op1.stride=p1[11:0]`
 
 <a id="LDF-PD12-3"></a>
-#### LDF-PD12-3: LDF.PD12, prefix `110011001`
+#### LDF-PD12-3: LDF.PD12, prefix `110001000`
 
 ![Layout LDF-PD12-3](../figures/LDF-PD12-3.svg)
 
@@ -728,38 +703,12 @@ Fields: `sub=p0[6]` `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` `o
 
 `op2` is `reg5`: register, 5 bits.
 
-`sub` (1 bit) selects the mnemonic: `fmul` 0, `bit` 1.
+`sub` (1 bit) selects the mnemonic: `fmul` 0, `lea` 1.
 
 Fields: `sub=p0[6]` `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` `op1.stride=p1[11:0]`
 
-<a id="CMF-PI12-1"></a>
-#### CMF-PI12-1: CMF.PI12, prefix `110011110`
-
-![Layout CMF-PI12-1](../figures/CMF-PI12-1.svg)
-
-`op1` is `reg5`: register, 5 bits.
-
-`op2` is `pi5-s12`: post-increment of a base register (register, 5 bits), 12-bit stride (0: the size of the access).
-
-`sub` (1 bit) selects the mnemonic: `cmp` 0, `fcmp` 1.
-
-Fields: `sub=p0[6]` `op1.r-1=p0[5]` `op2.base=p0[4:0]` `op1.r-2=p1[15:12]` `op2.stride=p1[11:0]`
-
-<a id="CMF-PD12-1"></a>
-#### CMF-PD12-1: CMF.PD12, prefix `110011111`
-
-![Layout CMF-PD12-1](../figures/CMF-PD12-1.svg)
-
-`op1` is `reg5`: register, 5 bits.
-
-`op2` is `pd5-s12`: pre-decrement of a base register (register, 5 bits), 12-bit stride (0: the size of the access).
-
-`sub` (1 bit) selects the mnemonic: `cmp` 0, `fcmp` 1.
-
-Fields: `sub=p0[6]` `op1.r-1=p0[5]` `op2.base=p0[4:0]` `op1.r-2=p1[15:12]` `op2.stride=p1[11:0]`
-
 <a id="LDBu12H-a-1"></a>
-#### LDBu12H-a-1: LDBu12H/a, prefix `110100010`
+#### LDBu12H-a-1: LDBu12H/a, prefix `110001101`
 
 ![Layout LDBu12H-a-1](../figures/LDBu12H-a-1.svg)
 
@@ -772,7 +721,7 @@ Fields: `sub=p0[6]` `op1.r-1=p0[5]` `op2.base=p0[4:0]` `op1.r-2=p1[15:12]` `op2.
 Fields: `sub=p0[6:5]` `op2.r=p0[4:0]` `op1.base=p1[15:12]` `op1.d=p1[11:0]`
 
 <a id="LDBu12H-b-1"></a>
-#### LDBu12H-b-1: LDBu12H/b, prefix `110100011`
+#### LDBu12H-b-1: LDBu12H/b, prefix `110001110`
 
 ![Layout LDBu12H-b-1](../figures/LDBu12H-b-1.svg)
 
@@ -785,7 +734,7 @@ Fields: `sub=p0[6:5]` `op2.r=p0[4:0]` `op1.base=p1[15:12]` `op1.d=p1[11:0]`
 Fields: `sub=p0[6:5]` `op2.r=p0[4:0]` `op1.base=p1[15:12]` `op1.d=p1[11:0]`
 
 <a id="LDX6H-a-1"></a>
-#### LDX6H-a-1: LDX6H/a, prefix `110100100`
+#### LDX6H-a-1: LDX6H/a, prefix `110001111`
 
 ![Layout LDX6H-a-1](../figures/LDX6H-a-1.svg)
 
@@ -798,7 +747,7 @@ Fields: `sub=p0[6:5]` `op2.r=p0[4:0]` `op1.base=p1[15:12]` `op1.d=p1[11:0]`
 Fields: `sub=p0[6:5]` `op2.r=p0[4:0]` `op1.base=p1[15:12]` `op1.index=p1[11:8]` `op1.scale=p1[7:6]` `op1.d=p1[5:0]`
 
 <a id="LDI18H-b-1"></a>
-#### LDI18H-b-1: LDI18H/b, prefix `110100101`
+#### LDI18H-b-1: LDI18H/b, prefix `110010000`
 
 ![Layout LDI18H-b-1](../figures/LDI18H-b-1.svg)
 
@@ -811,7 +760,7 @@ Fields: `sub=p0[6:5]` `op2.r=p0[4:0]` `op1.base=p1[15:12]` `op1.index=p1[11:8]` 
 Fields: `sub=p0[6]` `op1.imm-1=p0[5:4]` `op2.r=p0[3:0]` `op1.imm-2=p1[15:0]`
 
 <a id="CBI8-10H-a-1"></a>
-#### CBI8-10H-a-1: CBI8_10H/a, prefix `110100110`
+#### CBI8-10H-a-1: CBI8_10H/a, prefix `110010001`
 
 ![Layout CBI8-10H-a-1](../figures/CBI8-10H-a-1.svg)
 
@@ -826,7 +775,7 @@ Fields: `sub=p0[6]` `op1.imm-1=p0[5:4]` `op2.r=p0[3:0]` `op1.imm-2=p1[15:0]`
 Fields: `sub=p0[6]` `op2.imm-1=p0[5:4]` `op1.r=p0[3:0]` `op2.imm-2=p1[15:10]` `op3.pcrel=p1[9:0]`
 
 <a id="CBI10-8H-a-1"></a>
-#### CBI10-8H-a-1: CBI10_8H/a, prefix `110100111`
+#### CBI10-8H-a-1: CBI10_8H/a, prefix `110010010`
 
 ![Layout CBI10-8H-a-1](../figures/CBI10-8H-a-1.svg)
 
@@ -841,7 +790,7 @@ Fields: `sub=p0[6]` `op2.imm-1=p0[5:4]` `op1.r=p0[3:0]` `op2.imm-2=p1[15:10]` `o
 Fields: `sub=p0[6]` `op2.imm-1=p0[5:4]` `op1.r=p0[3:0]` `op2.imm-2=p1[15:8]` `op3.pcrel=p1[7:0]`
 
 <a id="R3-1"></a>
-#### R3-1: R3, prefix `1101010010`
+#### R3-1: R3, prefix `1100101000`
 
 ![Layout R3-1](../figures/R3-1.svg)
 
@@ -856,7 +805,7 @@ Fields: `sub=p0[6]` `op2.imm-1=p0[5:4]` `op1.r=p0[3:0]` `op2.imm-2=p1[15:8]` `op
 Fields: `xsub-1=p0[5]` `op3.r=p0[4:0]` `xsub-2=p1[15:10]` `op1.r=p1[9:5]` `op2.r=p1[4:0]`
 
 <a id="LDU-B12-3"></a>
-#### LDU-B12-3: LDU.B12, prefix `1101010100`
+#### LDU-B12-3: LDU.B12, prefix `1100101010`
 
 ![Layout LDU-B12-3](../figures/LDU-B12-3.svg)
 
@@ -866,30 +815,8 @@ Fields: `xsub-1=p0[5]` `op3.r=p0[4:0]` `xsub-2=p1[15:10]` `op1.r=p1[9:5]` `op2.r
 
 Fields: `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` `op1.d=p1[11:0]`
 
-<a id="LDF-PI12-4"></a>
-#### LDF-PI12-4: LDF.PI12, prefix `1101010110`
-
-![Layout LDF-PI12-4](../figures/LDF-PI12-4.svg)
-
-`op1` is `pi5-s12`: post-increment of a base register (register, 5 bits), 12-bit stride (0: the size of the access).
-
-`op2` is `reg5`: register, 5 bits.
-
-Fields: `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` `op1.stride=p1[11:0]`
-
-<a id="LDF-PD12-4"></a>
-#### LDF-PD12-4: LDF.PD12, prefix `1101010111`
-
-![Layout LDF-PD12-4](../figures/LDF-PD12-4.svg)
-
-`op1` is `pd5-s12`: pre-decrement of a base register (register, 5 bits), 12-bit stride (0: the size of the access).
-
-`op2` is `reg5`: register, 5 bits.
-
-Fields: `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` `op1.stride=p1[11:0]`
-
 <a id="TAG-1"></a>
-#### TAG-1: TAG, prefix `1101100000`
+#### TAG-1: TAG, prefix `1100101110`
 
 ![Layout TAG-1](../figures/TAG-1.svg)
 
@@ -904,7 +831,7 @@ Fields: `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` `op1.stride=p1
 Fields: `sub=p0[5]` `op1.r=p0[4:0]` `op2.imm=p1[15:13]` `op3.pcrel=p1[12:0]`
 
 <a id="LDBs10-a-1"></a>
-#### LDBs10-a-1: LDBs10/a, prefix `1101100001`
+#### LDBs10-a-1: LDBs10/a, prefix `1100101111`
 
 ![Layout LDBs10-a-1](../figures/LDBs10-a-1.svg)
 
@@ -917,7 +844,7 @@ Fields: `sub=p0[5]` `op1.r=p0[4:0]` `op2.imm=p1[15:13]` `op3.pcrel=p1[12:0]`
 Fields: `sub=p0[5:4]` `op1.base=p0[3:0]+p1[15]` `op2.r=p1[14:10]` `op1.d=p1[9:0]`
 
 <a id="STX6H-a-1"></a>
-#### STX6H-a-1: STX6H/a, prefix `1101100010`
+#### STX6H-a-1: STX6H/a, prefix `1100110000`
 
 ![Layout STX6H-a-1](../figures/STX6H-a-1.svg)
 
@@ -930,7 +857,7 @@ Fields: `sub=p0[5:4]` `op1.base=p0[3:0]+p1[15]` `op2.r=p1[14:10]` `op1.d=p1[9:0]
 Fields: `sub=p0[5]` `op1.r-1=p0[4]` `op2.index=p0[3:0]` `op1.r-2=p1[15:12]` `op2.base=p1[11:8]` `op2.scale=p1[7:6]` `op2.d=p1[5:0]`
 
 <a id="STX6H-b-1"></a>
-#### STX6H-b-1: STX6H/b, prefix `1101100011`
+#### STX6H-b-1: STX6H/b, prefix `1100110001`
 
 ![Layout STX6H-b-1](../figures/STX6H-b-1.svg)
 
@@ -943,7 +870,7 @@ Fields: `sub=p0[5]` `op1.r-1=p0[4]` `op2.index=p0[3:0]` `op1.r-2=p1[15:12]` `op2
 Fields: `sub=p0[5]` `op1.r-1=p0[4]` `op2.index=p0[3:0]` `op1.r-2=p1[15:12]` `op2.base=p1[11:8]` `op2.scale=p1[7:6]` `op2.d=p1[5:0]`
 
 <a id="LDPC16H-a-1"></a>
-#### LDPC16H-a-1: LDPC16H/a, prefix `1101100100`
+#### LDPC16H-a-1: LDPC16H/a, prefix `1100110010`
 
 ![Layout LDPC16H-a-1](../figures/LDPC16H-a-1.svg)
 
@@ -956,7 +883,7 @@ Fields: `sub=p0[5]` `op1.r-1=p0[4]` `op2.index=p0[3:0]` `op1.r-2=p1[15:12]` `op2
 Fields: `sub=p0[5:4]` `op2.r=p0[3:0]` `op1.pcrel=p1[15:0]`
 
 <a id="LDPC16H-c-1"></a>
-#### LDPC16H-c-1: LDPC16H/c, prefix `1101100101`
+#### LDPC16H-c-1: LDPC16H/c, prefix `1100110011`
 
 ![Layout LDPC16H-c-1](../figures/LDPC16H-c-1.svg)
 
@@ -969,7 +896,7 @@ Fields: `sub=p0[5:4]` `op2.r=p0[3:0]` `op1.pcrel=p1[15:0]`
 Fields: `sub=p0[5:4]` `op2.r=p0[3:0]` `op1.pcrel=p1[15:0]`
 
 <a id="LDI18H-a-1"></a>
-#### LDI18H-a-1: LDI18H/a, prefix `1101100110`
+#### LDI18H-a-1: LDI18H/a, prefix `1100110100`
 
 ![Layout LDI18H-a-1](../figures/LDI18H-a-1.svg)
 
@@ -980,7 +907,7 @@ Fields: `sub=p0[5:4]` `op2.r=p0[3:0]` `op1.pcrel=p1[15:0]`
 Fields: `op1.imm-1=p0[5:4]` `op2.r=p0[3:0]` `op1.imm-2=p1[15:0]`
 
 <a id="LDI18H-b-2"></a>
-#### LDI18H-b-2: LDI18H/b, prefix `1101100111`
+#### LDI18H-b-2: LDI18H/b, prefix `1100110101`
 
 ![Layout LDI18H-b-2](../figures/LDI18H-b-2.svg)
 
@@ -990,19 +917,8 @@ Fields: `op1.imm-1=p0[5:4]` `op2.r=p0[3:0]` `op1.imm-2=p1[15:0]`
 
 Fields: `op1.imm-1=p0[5:4]` `op2.r=p0[3:0]` `op1.imm-2=p1[15:0]`
 
-<a id="CMI18H-a-1"></a>
-#### CMI18H-a-1: CMI18H/a, prefix `1101101000`
-
-![Layout CMI18H-a-1](../figures/CMI18H-a-1.svg)
-
-`op1` is `reg4`: register, 4 bits (an index into the hot-register table).
-
-`op2` is `imm18s`: signed 18-bit immediate, -131072 to 131071.
-
-Fields: `op2.imm-1=p0[5:4]` `op1.r=p0[3:0]` `op2.imm-2=p1[15:0]`
-
 <a id="CBI8-8H-b-1"></a>
-#### CBI8-8H-b-1: CBI8_8H/b, prefix `1101101001`
+#### CBI8-8H-b-1: CBI8_8H/b, prefix `1100110110`
 
 ![Layout CBI8-8H-b-1](../figures/CBI8-8H-b-1.svg)
 
@@ -1017,7 +933,7 @@ Fields: `op2.imm-1=p0[5:4]` `op1.r=p0[3:0]` `op2.imm-2=p1[15:0]`
 Fields: `sub=p0[5:4]` `op1.r=p0[3:0]` `op2.imm=p1[15:8]` `op3.pcrel=p1[7:0]`
 
 <a id="CBI8-8H-c-1"></a>
-#### CBI8-8H-c-1: CBI8_8H/c, prefix `1101101010`
+#### CBI8-8H-c-1: CBI8_8H/c, prefix `1100110111`
 
 ![Layout CBI8-8H-c-1](../figures/CBI8-8H-c-1.svg)
 
@@ -1031,43 +947,38 @@ Fields: `sub=p0[5:4]` `op1.r=p0[3:0]` `op2.imm=p1[15:8]` `op3.pcrel=p1[7:0]`
 
 Fields: `sub=p0[5:4]` `op1.r=p0[3:0]` `op2.imm=p1[15:8]` `op3.pcrel=p1[7:0]`
 
-<a id="SETF-1"></a>
-#### SETF-1: SETF, prefix `11011010110`
+<a id="FCBR10H-1"></a>
+#### FCBR10H-1: FCBR10H, prefix `1100111000`
 
-![Layout SETF-1](../figures/SETF-1.svg)
+![Layout FCBR10H-1](../figures/FCBR10H-1.svg)
 
-`op1` is `imm4u`: unsigned 4-bit immediate, 0 to 15.
+`op1` is `reg4`: register, 4 bits (an index into the hot-register table).
 
-`op2` is `reg5`: register, 5 bits.
+`op2` is `reg4`: register, 4 bits (an index into the hot-register table).
+
+`op3` is `pc10-u2`: pc-relative, 10 bits counted in 2-byte units (-1024 to 1022 bytes).
 
 `xsub` selects the mnemonic.
 
-Fields: `op2.r=p0[4:0]` `op1.imm=p1[15:12]` `xsub=p1[11:0]`
+Fields: `xsub-1=p0[5:4]` `op2.r=p0[3:0]` `xsub-2=p1[15:14]` `op1.r=p1[13:10]` `op3.pcrel=p1[9:0]`
 
-<a id="SOF-PI12-1"></a>
-#### SOF-PI12-1: SOF.PI12, prefix `11011011011`
+<a id="SETCCI-1"></a>
+#### SETCCI-1: SETCCI, prefix `1100111001`
 
-![Layout SOF-PI12-1](../figures/SOF-PI12-1.svg)
+![Layout SETCCI-1](../figures/SETCCI-1.svg)
 
-`op1` is `pi5-s12`: post-increment of a base register (register, 5 bits), 12-bit stride (0: the size of the access).
+`op1` is `reg5`: register, 5 bits.
 
-`sub` (4 bits) selects the mnemonic: `clr` 0000, `com` 0001, `inc` 0010, `dec` 0011, `neg` 0100, `tst` 0101, `adc` 0110, `sbc` 0111, `asl` 1000, `asr` 1001, `push` 1010, `pop` 1011, `jmp` 1100, `call` 1101, `jmpi` 1110, `calli` 1111.
+`op2` is `imm8s`: signed 8-bit immediate, -128 to 127.
 
-Fields: `sub=p0[4:1]` `op1.base=p0[0]+p1[15:12]` `op1.stride=p1[11:0]`
+`op3` is `reg5`: register, 5 bits.
 
-<a id="SOF-PD12-1"></a>
-#### SOF-PD12-1: SOF.PD12, prefix `11011011100`
+`xsub` selects the mnemonic.
 
-![Layout SOF-PD12-1](../figures/SOF-PD12-1.svg)
-
-`op1` is `pd5-s12`: pre-decrement of a base register (register, 5 bits), 12-bit stride (0: the size of the access).
-
-`sub` (4 bits) selects the mnemonic: `clr` 0000, `com` 0001, `inc` 0010, `dec` 0011, `neg` 0100, `tst` 0101, `adc` 0110, `sbc` 0111, `asl` 1000, `asr` 1001, `push` 1010, `pop` 1011, `jmp` 1100, `call` 1101, `jmpi` 1110, `calli` 1111.
-
-Fields: `sub=p0[4:1]` `op1.base=p0[0]+p1[15:12]` `op1.stride=p1[11:0]`
+Fields: `xsub-1=p0[5]` `op3.r=p0[4:0]` `xsub-2=p1[15:13]` `op1.r=p1[12:8]` `op2.imm=p1[7:0]`
 
 <a id="SOB-1"></a>
-#### SOB-1: SOB, prefix `11011011110`
+#### SOB-1: SOB, prefix `11001111001`
 
 ![Layout SOB-1](../figures/SOB-1.svg)
 
@@ -1078,7 +989,7 @@ Fields: `sub=p0[4:1]` `op1.base=p0[0]+p1[15:12]` `op1.stride=p1[11:0]`
 Fields: `op1.r=p0[4:0]` `op2.pcrel=p1[15:0]`
 
 <a id="LDPC14-a-1"></a>
-#### LDPC14-a-1: LDPC14/a, prefix `11011100000`
+#### LDPC14-a-1: LDPC14/a, prefix `11001111011`
 
 ![Layout LDPC14-a-1](../figures/LDPC14-a-1.svg)
 
@@ -1091,7 +1002,7 @@ Fields: `op1.r=p0[4:0]` `op2.pcrel=p1[15:0]`
 Fields: `sub=p0[4:3]` `op2.r=p0[2:0]+p1[15:14]` `op1.pcrel=p1[13:0]`
 
 <a id="LDBu10H-c-1"></a>
-#### LDBu10H-c-1: LDBu10H/c, prefix `11011100001`
+#### LDBu10H-c-1: LDBu10H/c, prefix `11001111100`
 
 ![Layout LDBu10H-c-1](../figures/LDBu10H-c-1.svg)
 
@@ -1104,7 +1015,7 @@ Fields: `sub=p0[4:3]` `op2.r=p0[2:0]+p1[15:14]` `op1.pcrel=p1[13:0]`
 Fields: `sub=p0[4:3]` `op1.base=p0[2:0]+p1[15]` `op2.r=p1[14:10]` `op1.d=p1[9:0]`
 
 <a id="STBu12H-a-1"></a>
-#### STBu12H-a-1: STBu12H/a, prefix `11011100010`
+#### STBu12H-a-1: STBu12H/a, prefix `11001111101`
 
 ![Layout STBu12H-a-1](../figures/STBu12H-a-1.svg)
 
@@ -1117,7 +1028,7 @@ Fields: `sub=p0[4:3]` `op1.base=p0[2:0]+p1[15]` `op2.r=p1[14:10]` `op1.d=p1[9:0]
 Fields: `sub=p0[4]` `op2.base=p0[3:0]` `op1.r=p1[15:12]` `op2.d=p1[11:0]`
 
 <a id="STBu12H-b-1"></a>
-#### STBu12H-b-1: STBu12H/b, prefix `11011100011`
+#### STBu12H-b-1: STBu12H/b, prefix `11001111110`
 
 ![Layout STBu12H-b-1](../figures/STBu12H-b-1.svg)
 
@@ -1130,7 +1041,7 @@ Fields: `sub=p0[4]` `op2.base=p0[3:0]` `op1.r=p1[15:12]` `op2.d=p1[11:0]`
 Fields: `sub=p0[4]` `op2.base=p0[3:0]` `op1.r=p1[15:12]` `op2.d=p1[11:0]`
 
 <a id="LDX4H-b-1"></a>
-#### LDX4H-b-1: LDX4H/b, prefix `11011100100`
+#### LDX4H-b-1: LDX4H/b, prefix `11001111111`
 
 ![Layout LDX4H-b-1](../figures/LDX4H-b-1.svg)
 
@@ -1143,7 +1054,7 @@ Fields: `sub=p0[4]` `op2.base=p0[3:0]` `op1.r=p1[15:12]` `op2.d=p1[11:0]`
 Fields: `sub=p0[4:3]` `op1.base=p0[2:0]+p1[15]` `op1.index=p1[14:11]` `op1.scale=p1[10:9]` `op1.d=p1[8:5]` `op2.r=p1[4:0]`
 
 <a id="R2-1"></a>
-#### R2-1: R2, prefix `110111001100`
+#### R2-1: R2, prefix `110100000100`
 
 ![Layout R2-1](../figures/R2-1.svg)
 
@@ -1156,7 +1067,7 @@ Fields: `sub=p0[4:3]` `op1.base=p0[2:0]+p1[15]` `op1.index=p1[14:11]` `op1.scale
 Fields: `op1.r=p0[3:0]+p1[15]` `op2.r=p1[14:10]` `xsub=p1[9:0]`
 
 <a id="RRI-1"></a>
-#### RRI-1: RRI, prefix `110111001101`
+#### RRI-1: RRI, prefix `110100000101`
 
 ![Layout RRI-1](../figures/RRI-1.svg)
 
@@ -1170,8 +1081,30 @@ Fields: `op1.r=p0[3:0]+p1[15]` `op2.r=p1[14:10]` `xsub=p1[9:0]`
 
 Fields: `xsub=p0[3:0]` `op1.r=p1[15:11]` `op2.imm=p1[10:5]` `op3.r=p1[4:0]`
 
+<a id="SOF-PI12-1"></a>
+#### SOF-PI12-1: SOF.PI12, prefix `110100001000`
+
+![Layout SOF-PI12-1](../figures/SOF-PI12-1.svg)
+
+`op1` is `pi5-s12`: post-increment of a base register (register, 5 bits), 12-bit stride (0: the size of the access).
+
+`sub` (3 bits) selects the mnemonic: `clr` 000, `com` 001, `inc` 010, `dec` 011, `neg` 100, `asl` 101, `asr` 110, `push` 111.
+
+Fields: `sub=p0[3:1]` `op1.base=p0[0]+p1[15:12]` `op1.stride=p1[11:0]`
+
+<a id="SOF-PD12-1"></a>
+#### SOF-PD12-1: SOF.PD12, prefix `110100001001`
+
+![Layout SOF-PD12-1](../figures/SOF-PD12-1.svg)
+
+`op1` is `pd5-s12`: pre-decrement of a base register (register, 5 bits), 12-bit stride (0: the size of the access).
+
+`sub` (3 bits) selects the mnemonic: `clr` 000, `com` 001, `inc` 010, `dec` 011, `neg` 100, `asl` 101, `asr` 110, `push` 111.
+
+Fields: `sub=p0[3:1]` `op1.base=p0[0]+p1[15:12]` `op1.stride=p1[11:0]`
+
 <a id="LDBu8-c-1"></a>
-#### LDBu8-c-1: LDBu8/c, prefix `110111010000`
+#### LDBu8-c-1: LDBu8/c, prefix `110100001010`
 
 ![Layout LDBu8-c-1](../figures/LDBu8-c-1.svg)
 
@@ -1184,7 +1117,7 @@ Fields: `xsub=p0[3:0]` `op1.r=p1[15:11]` `op2.imm=p1[10:5]` `op3.r=p1[4:0]`
 Fields: `sub=p0[3:2]` `op1.base=p0[1:0]+p1[15:13]` `op2.r=p1[12:8]` `op1.d=p1[7:0]`
 
 <a id="CALL2-20-c-1"></a>
-#### CALL2-20-c-1: CALL2_20/c, prefix `110111010001`
+#### CALL2-20-c-1: CALL2_20/c, prefix `110100001011`
 
 ![Layout CALL2-20-c-1](../figures/CALL2-20-c-1.svg)
 
@@ -1193,7 +1126,7 @@ Fields: `sub=p0[3:2]` `op1.base=p0[1:0]+p1[15:13]` `op2.r=p1[12:8]` `op1.d=p1[7:
 Fields: `op1.pcrel=p0[3:0]+p1[15:0]`
 
 <a id="CBR8-b-1"></a>
-#### CBR8-b-1: CBR8/b, prefix `110111010010`
+#### CBR8-b-1: CBR8/b, prefix `110100001100`
 
 ![Layout CBR8-b-1](../figures/CBR8-b-1.svg)
 
@@ -1208,7 +1141,7 @@ Fields: `op1.pcrel=p0[3:0]+p1[15:0]`
 Fields: `sub=p0[3:2]` `op1.r=p0[1:0]+p1[15:13]` `op2.r=p1[12:8]` `op3.pcrel=p1[7:0]`
 
 <a id="CBR8-c-1"></a>
-#### CBR8-c-1: CBR8/c, prefix `110111010011`
+#### CBR8-c-1: CBR8/c, prefix `110100001101`
 
 ![Layout CBR8-c-1](../figures/CBR8-c-1.svg)
 
@@ -1222,19 +1155,8 @@ Fields: `sub=p0[3:2]` `op1.r=p0[1:0]+p1[15:13]` `op2.r=p1[12:8]` `op3.pcrel=p1[7
 
 Fields: `sub=p0[3:2]` `op1.r=p0[1:0]+p1[15:13]` `op2.r=p1[12:8]` `op3.pcrel=p1[7:0]`
 
-<a id="CMBu12H-a-1"></a>
-#### CMBu12H-a-1: CMBu12H/a, prefix `110111010100`
-
-![Layout CMBu12H-a-1](../figures/CMBu12H-a-1.svg)
-
-`op1` is `reg4`: register, 4 bits (an index into the hot-register table).
-
-`op2` is `b4d12u-xsz`: memory at base register, 4 bits (an index into the hot-register table) + unsigned 12-bit displacement times the size of the access.
-
-Fields: `op2.base=p0[3:0]` `op1.r=p1[15:12]` `op2.d=p1[11:0]`
-
 <a id="LDPC14H-b-1"></a>
-#### LDPC14H-b-1: LDPC14H/b, prefix `110111010101`
+#### LDPC14H-b-1: LDPC14H/b, prefix `110100001110`
 
 ![Layout LDPC14H-b-1](../figures/LDPC14H-b-1.svg)
 
@@ -1247,7 +1169,7 @@ Fields: `op2.base=p0[3:0]` `op1.r=p1[15:12]` `op2.d=p1[11:0]`
 Fields: `sub=p0[3:2]` `op2.r=p0[1:0]+p1[15:14]` `op1.pcrel=p1[13:0]`
 
 <a id="LDPC16H-c-2"></a>
-#### LDPC16H-c-2: LDPC16H/c, prefix `110111010110`
+#### LDPC16H-c-2: LDPC16H/c, prefix `110100001111`
 
 ![Layout LDPC16H-c-2](../figures/LDPC16H-c-2.svg)
 
@@ -1257,19 +1179,8 @@ Fields: `sub=p0[3:2]` `op2.r=p0[1:0]+p1[15:14]` `op1.pcrel=p1[13:0]`
 
 Fields: `op2.r=p0[3:0]` `op1.pcrel=p1[15:0]`
 
-<a id="CMPC16H-a-1"></a>
-#### CMPC16H-a-1: CMPC16H/a, prefix `110111010111`
-
-![Layout CMPC16H-a-1](../figures/CMPC16H-a-1.svg)
-
-`op1` is `reg4`: register, 4 bits (an index into the hot-register table).
-
-`op2` is `pc16-u1`: pc-relative, 16 bits counted in 1-byte units (-32768 to 32767 bytes).
-
-Fields: `op1.r=p0[3:0]` `op2.pcrel=p1[15:0]`
-
 <a id="LDI14H-c-1"></a>
-#### LDI14H-c-1: LDI14H/c, prefix `110111011000`
+#### LDI14H-c-1: LDI14H/c, prefix `110100010000`
 
 ![Layout LDI14H-c-1](../figures/LDI14H-c-1.svg)
 
@@ -1282,7 +1193,7 @@ Fields: `op1.r=p0[3:0]` `op2.pcrel=p1[15:0]`
 Fields: `sub=p0[3:2]` `op2.r=p0[1:0]+p1[15:14]` `op1.imm=p1[13:0]`
 
 <a id="CBR10H-c-1"></a>
-#### CBR10H-c-1: CBR10H/c, prefix `110111011001`
+#### CBR10H-c-1: CBR10H/c, prefix `110100010001`
 
 ![Layout CBR10H-c-1](../figures/CBR10H-c-1.svg)
 
@@ -1297,7 +1208,7 @@ Fields: `sub=p0[3:2]` `op2.r=p0[1:0]+p1[15:14]` `op1.imm=p1[13:0]`
 Fields: `sub=p0[3:2]` `op1.r=p0[1:0]+p1[15:14]` `op2.r=p1[13:10]` `op3.pcrel=p1[9:0]`
 
 <a id="CBI3-12H-a-1"></a>
-#### CBI3-12H-a-1: CBI3_12H/a, prefix `110111011010`
+#### CBI3-12H-a-1: CBI3_12H/a, prefix `110100010010`
 
 ![Layout CBI3-12H-a-1](../figures/CBI3-12H-a-1.svg)
 
@@ -1312,7 +1223,7 @@ Fields: `sub=p0[3:2]` `op1.r=p0[1:0]+p1[15:14]` `op2.r=p1[13:10]` `op3.pcrel=p1[
 Fields: `sub=p0[3]` `op1.r=p0[2:0]+p1[15]` `op2.imm=p1[14:12]` `op3.pcrel=p1[11:0]`
 
 <a id="ATOM-1"></a>
-#### ATOM-1: ATOM, prefix `110111110101`
+#### ATOM-1: ATOM, prefix `110100110100`
 
 ![Layout ATOM-1](../figures/ATOM-1.svg)
 
@@ -1326,8 +1237,30 @@ Fields: `sub=p0[3]` `op1.r=p0[2:0]+p1[15]` `op2.imm=p1[14:12]` `op3.pcrel=p1[11:
 
 Fields: `xsub=p0[3:0]+p1[15]` `op1.r=p1[14:10]` `op2.base=p1[9:5]` `op3.r=p1[4:0]`
 
+<a id="SOF-PI12-2"></a>
+#### SOF-PI12-2: SOF.PI12, prefix `1101000101110`
+
+![Layout SOF-PI12-2](../figures/SOF-PI12-2.svg)
+
+`op1` is `pi5-s12`: post-increment of a base register (register, 5 bits), 12-bit stride (0: the size of the access).
+
+`sub` (2 bits) selects the mnemonic: `pop` 00, `jmp` 01, `call` 10, `jmpi` 11.
+
+Fields: `sub=p0[2:1]` `op1.base=p0[0]+p1[15:12]` `op1.stride=p1[11:0]`
+
+<a id="SOF-PD12-2"></a>
+#### SOF-PD12-2: SOF.PD12, prefix `1101000101111`
+
+![Layout SOF-PD12-2](../figures/SOF-PD12-2.svg)
+
+`op1` is `pd5-s12`: pre-decrement of a base register (register, 5 bits), 12-bit stride (0: the size of the access).
+
+`sub` (2 bits) selects the mnemonic: `pop` 00, `jmp` 01, `call` 10, `jmpi` 11.
+
+Fields: `sub=p0[2:1]` `op1.base=p0[0]+p1[15:12]` `op1.stride=p1[11:0]`
+
 <a id="STBs8-a-1"></a>
-#### STBs8-a-1: STBs8/a, prefix `1101110111101`
+#### STBs8-a-1: STBs8/a, prefix `1101000110011`
 
 ![Layout STBs8-a-1](../figures/STBs8-a-1.svg)
 
@@ -1340,18 +1273,18 @@ Fields: `xsub=p0[3:0]+p1[15]` `op1.r=p1[14:10]` `op2.base=p1[9:5]` `op3.r=p1[4:0
 Fields: `sub=p0[2]` `op1.r=p0[1:0]+p1[15:13]` `op2.base=p1[12:8]` `op2.d=p1[7:0]`
 
 <a id="SOBs12-a-1"></a>
-#### SOBs12-a-1: SOBs12/a, prefix `1101110111110`
+#### SOBs12-a-1: SOBs12/a, prefix `1101000110100`
 
 ![Layout SOBs12-a-1](../figures/SOBs12-a-1.svg)
 
 `op1` is `b5d12s-xsz`: memory at base register, 5 bits + signed 12-bit displacement times the size of the access.
 
-`sub` (2 bits) selects the mnemonic: `clr` 00, `inc` 01, `dec` 10, `tst` 11.
+`sub` (2 bits) selects the mnemonic: `clr` 00, `inc` 01, `dec` 10, `push` 11.
 
 Fields: `sub=p0[2:1]` `op1.base=p0[0]+p1[15:12]` `op1.d=p1[11:0]`
 
 <a id="SOBu12-x-1"></a>
-#### SOBu12-x-1: SOBu12/x, prefix `1101110111111`
+#### SOBu12-x-1: SOBu12/x, prefix `1101000110101`
 
 ![Layout SOBu12-x-1](../figures/SOBu12-x-1.svg)
 
@@ -1362,7 +1295,7 @@ Fields: `sub=p0[2:1]` `op1.base=p0[0]+p1[15:12]` `op1.d=p1[11:0]`
 Fields: `sub=p0[2:1]` `op1.base=p0[0]+p1[15:12]` `op1.d=p1[11:0]`
 
 <a id="LDX0-a-1"></a>
-#### LDX0-a-1: LDX0/a, prefix `1101111000000`
+#### LDX0-a-1: LDX0/a, prefix `1101000110110`
 
 ![Layout LDX0-a-1](../figures/LDX0-a-1.svg)
 
@@ -1375,7 +1308,7 @@ Fields: `sub=p0[2:1]` `op1.base=p0[0]+p1[15:12]` `op1.d=p1[11:0]`
 Fields: `sub=p0[2:1]` `op1.base=p0[0]+p1[15:12]` `op1.index=p1[11:7]` `op1.scale=p1[6:5]` `op2.r=p1[4:0]`
 
 <a id="LDX0-b-1"></a>
-#### LDX0-b-1: LDX0/b, prefix `1101111000001`
+#### LDX0-b-1: LDX0/b, prefix `1101000110111`
 
 ![Layout LDX0-b-1](../figures/LDX0-b-1.svg)
 
@@ -1388,7 +1321,7 @@ Fields: `sub=p0[2:1]` `op1.base=p0[0]+p1[15:12]` `op1.index=p1[11:7]` `op1.scale
 Fields: `sub=p0[2:1]` `op1.base=p0[0]+p1[15:12]` `op1.index=p1[11:7]` `op1.scale=p1[6:5]` `op2.r=p1[4:0]`
 
 <a id="LDX0-c-1"></a>
-#### LDX0-c-1: LDX0/c, prefix `1101111000010`
+#### LDX0-c-1: LDX0/c, prefix `1101000111000`
 
 ![Layout LDX0-c-1](../figures/LDX0-c-1.svg)
 
@@ -1401,7 +1334,7 @@ Fields: `sub=p0[2:1]` `op1.base=p0[0]+p1[15:12]` `op1.index=p1[11:7]` `op1.scale
 Fields: `sub=p0[2:1]` `op1.base=p0[0]+p1[15:12]` `op1.index=p1[11:7]` `op1.scale=p1[6:5]` `op2.r=p1[4:0]`
 
 <a id="LDI12-d-1"></a>
-#### LDI12-d-1: LDI12/d, prefix `1101111000011`
+#### LDI12-d-1: LDI12/d, prefix `1101000111001`
 
 ![Layout LDI12-d-1](../figures/LDI12-d-1.svg)
 
@@ -1414,7 +1347,7 @@ Fields: `sub=p0[2:1]` `op1.base=p0[0]+p1[15:12]` `op1.index=p1[11:7]` `op1.scale
 Fields: `sub=p0[2:1]` `op2.r=p0[0]+p1[15:12]` `op1.imm=p1[11:0]`
 
 <a id="CTM12-a-1"></a>
-#### CTM12-a-1: CTM12/a, prefix `1101111000100`
+#### CTM12-a-1: CTM12/a, prefix `1101000111010`
 
 ![Layout CTM12-a-1](../figures/CTM12-a-1.svg)
 
@@ -1426,19 +1359,8 @@ Fields: `sub=p0[2:1]` `op2.r=p0[0]+p1[15:12]` `op1.imm=p1[11:0]`
 
 Fields: `sub=p0[2:1]` `op1.r=p0[0]+p1[15:12]` `op2.imm=p1[11:0]`
 
-<a id="BR2-16-c-1"></a>
-#### BR2-16-c-1: BR2_16/c, prefix `1101111000101`
-
-![Layout BR2-16-c-1](../figures/BR2-16-c-1.svg)
-
-`op1` is `pc16-u2`: pc-relative, 16 bits counted in 2-byte units (-65536 to 65534 bytes).
-
-`sub` (3 bits) selects the mnemonic: `bpl` 000, `bmi` 001, `bvc` 010, `bvs` 011, `bcc` 100, `bcs` 101, `bge` 110, `blt` 111.
-
-Fields: `sub=p0[2:0]` `op1.pcrel=p1[15:0]`
-
 <a id="CBR8-a-1"></a>
-#### CBR8-a-1: CBR8/a, prefix `1101111000110`
+#### CBR8-a-1: CBR8/a, prefix `1101000111011`
 
 ![Layout CBR8-a-1](../figures/CBR8-a-1.svg)
 
@@ -1453,7 +1375,7 @@ Fields: `sub=p0[2:0]` `op1.pcrel=p1[15:0]`
 Fields: `sub=p0[2]` `op1.r=p0[1:0]+p1[15:13]` `op2.r=p1[12:8]` `op3.pcrel=p1[7:0]`
 
 <a id="CBI3-10-a-1"></a>
-#### CBI3-10-a-1: CBI3_10/a, prefix `1101111001010`
+#### CBI3-10-a-1: CBI3_10/a, prefix `1101000111111`
 
 ![Layout CBI3-10-a-1](../figures/CBI3-10-a-1.svg)
 
@@ -1468,7 +1390,7 @@ Fields: `sub=p0[2]` `op1.r=p0[1:0]+p1[15:13]` `op2.r=p1[12:8]` `op3.pcrel=p1[7:0
 Fields: `sub=p0[2]` `op1.r=p0[1:0]+p1[15:13]` `op2.imm=p1[12:10]` `op3.pcrel=p1[9:0]`
 
 <a id="CBI4-8-b-1"></a>
-#### CBI4-8-b-1: CBI4_8/b, prefix `1101111001011`
+#### CBI4-8-b-1: CBI4_8/b, prefix `1101001000000`
 
 ![Layout CBI4-8-b-1](../figures/CBI4-8-b-1.svg)
 
@@ -1483,7 +1405,7 @@ Fields: `sub=p0[2]` `op1.r=p0[1:0]+p1[15:13]` `op2.imm=p1[12:10]` `op3.pcrel=p1[
 Fields: `sub=p0[2:1]` `op1.r=p0[0]+p1[15:12]` `op2.imm=p1[11:8]` `op3.pcrel=p1[7:0]`
 
 <a id="CBI5-8-a-1"></a>
-#### CBI5-8-a-1: CBI5_8/a, prefix `1101111001100`
+#### CBI5-8-a-1: CBI5_8/a, prefix `1101001000001`
 
 ![Layout CBI5-8-a-1](../figures/CBI5-8-a-1.svg)
 
@@ -1498,7 +1420,7 @@ Fields: `sub=p0[2:1]` `op1.r=p0[0]+p1[15:12]` `op2.imm=p1[11:8]` `op3.pcrel=p1[7
 Fields: `sub=p0[2]` `op1.r=p0[1:0]+p1[15:13]` `op2.imm=p1[12:8]` `op3.pcrel=p1[7:0]`
 
 <a id="LDBu10H-c-2"></a>
-#### LDBu10H-c-2: LDBu10H/c, prefix `1101111001101`
+#### LDBu10H-c-2: LDBu10H/c, prefix `1101001000010`
 
 ![Layout LDBu10H-c-2](../figures/LDBu10H-c-2.svg)
 
@@ -1509,7 +1431,7 @@ Fields: `sub=p0[2]` `op1.r=p0[1:0]+p1[15:13]` `op2.imm=p1[12:8]` `op3.pcrel=p1[7
 Fields: `op1.base=p0[2:0]+p1[15]` `op2.r=p1[14:10]` `op1.d=p1[9:0]`
 
 <a id="LDPC12H-d-1"></a>
-#### LDPC12H-d-1: LDPC12H/d, prefix `1101111001110`
+#### LDPC12H-d-1: LDPC12H/d, prefix `1101001000011`
 
 ![Layout LDPC12H-d-1](../figures/LDPC12H-d-1.svg)
 
@@ -1522,7 +1444,7 @@ Fields: `op1.base=p0[2:0]+p1[15]` `op2.r=p1[14:10]` `op1.d=p1[9:0]`
 Fields: `sub=p0[2:0]` `op2.r=p1[15:12]` `op1.pcrel=p1[11:0]`
 
 <a id="CBR10H-a-1"></a>
-#### CBR10H-a-1: CBR10H/a, prefix `1101111001111`
+#### CBR10H-a-1: CBR10H/a, prefix `1101001000100`
 
 ![Layout CBR10H-a-1](../figures/CBR10H-a-1.svg)
 
@@ -1537,7 +1459,7 @@ Fields: `sub=p0[2:0]` `op2.r=p1[15:12]` `op1.pcrel=p1[11:0]`
 Fields: `sub=p0[2]` `op1.r=p0[1:0]+p1[15:14]` `op2.r=p1[13:10]` `op3.pcrel=p1[9:0]`
 
 <a id="CBZ2-14H-a-1"></a>
-#### CBZ2-14H-a-1: CBZ2_14H/a, prefix `1101111010000`
+#### CBZ2-14H-a-1: CBZ2_14H/a, prefix `1101001000101`
 
 ![Layout CBZ2-14H-a-1](../figures/CBZ2-14H-a-1.svg)
 
@@ -1552,7 +1474,7 @@ Fields: `sub=p0[2]` `op1.r=p0[1:0]+p1[15:14]` `op2.r=p1[13:10]` `op3.pcrel=p1[9:
 Fields: `sub=p0[2]` `op1.r=p0[1:0]+p1[15:14]` `op3.pcrel=p1[13:0]`
 
 <a id="CBI3-10H-b-1"></a>
-#### CBI3-10H-b-1: CBI3_10H/b, prefix `1101111010001`
+#### CBI3-10H-b-1: CBI3_10H/b, prefix `1101001000110`
 
 ![Layout CBI3-10H-b-1](../figures/CBI3-10H-b-1.svg)
 
@@ -1567,7 +1489,7 @@ Fields: `sub=p0[2]` `op1.r=p0[1:0]+p1[15:14]` `op3.pcrel=p1[13:0]`
 Fields: `sub=p0[2:1]` `op1.r=p0[0]+p1[15:13]` `op2.imm=p1[12:10]` `op3.pcrel=p1[9:0]`
 
 <a id="CBI3-10H-c-1"></a>
-#### CBI3-10H-c-1: CBI3_10H/c, prefix `1101111010010`
+#### CBI3-10H-c-1: CBI3_10H/c, prefix `1101001000111`
 
 ![Layout CBI3-10H-c-1](../figures/CBI3-10H-c-1.svg)
 
@@ -1581,8 +1503,23 @@ Fields: `sub=p0[2:1]` `op1.r=p0[0]+p1[15:13]` `op2.imm=p1[12:10]` `op3.pcrel=p1[
 
 Fields: `sub=p0[2:1]` `op1.r=p0[0]+p1[15:13]` `op2.imm=p1[12:10]` `op3.pcrel=p1[9:0]`
 
+<a id="SETCCR-1"></a>
+#### SETCCR-1: SETCCR, prefix `1101001001001`
+
+![Layout SETCCR-1](../figures/SETCCR-1.svg)
+
+`op1` is `reg5`: register, 5 bits.
+
+`op2` is `reg5`: register, 5 bits.
+
+`op3` is `reg5`: register, 5 bits.
+
+`xsub` selects the mnemonic.
+
+Fields: `xsub=p0[2:0]+p1[15]` `op1.r=p1[14:10]` `op2.r=p1[9:5]` `op3.r=p1[4:0]`
+
 <a id="JTAG2-1"></a>
-#### JTAG2-1: JTAG2, prefix `11011110101110`
+#### JTAG2-1: JTAG2, prefix `11010010100000`
 
 ![Layout JTAG2-1](../figures/JTAG2-1.svg)
 
@@ -1591,7 +1528,7 @@ Fields: `sub=p0[2:1]` `op1.r=p0[0]+p1[15:13]` `op2.imm=p1[12:10]` `op3.pcrel=p1[
 Fields: `op1.base=p0[1:0]+p1[15:13]` `op1.index=p1[12:8]` `op1.scale=p1[7:6]` `op1.d=p1[5:0]`
 
 <a id="LDBs6-b-1"></a>
-#### LDBs6-b-1: LDBs6/b, prefix `11011110101111`
+#### LDBs6-b-1: LDBs6/b, prefix `11010010100001`
 
 ![Layout LDBs6-b-1](../figures/LDBs6-b-1.svg)
 
@@ -1604,7 +1541,7 @@ Fields: `op1.base=p0[1:0]+p1[15:13]` `op1.index=p1[12:8]` `op1.scale=p1[7:6]` `o
 Fields: `sub=p0[1:0]` `op1.base=p1[15:11]` `op1.d=p1[10:5]` `op2.r=p1[4:0]`
 
 <a id="LDBu6-b-1"></a>
-#### LDBu6-b-1: LDBu6/b, prefix `11011110110000`
+#### LDBu6-b-1: LDBu6/b, prefix `11010010100010`
 
 ![Layout LDBu6-b-1](../figures/LDBu6-b-1.svg)
 
@@ -1617,7 +1554,7 @@ Fields: `sub=p0[1:0]` `op1.base=p1[15:11]` `op1.d=p1[10:5]` `op2.r=p1[4:0]`
 Fields: `sub=p0[1:0]` `op1.base=p1[15:11]` `op1.d=p1[10:5]` `op2.r=p1[4:0]`
 
 <a id="LDBu8-c-2"></a>
-#### LDBu8-c-2: LDBu8/c, prefix `11011110110001`
+#### LDBu8-c-2: LDBu8/c, prefix `11010010100011`
 
 ![Layout LDBu8-c-2](../figures/LDBu8-c-2.svg)
 
@@ -1627,30 +1564,8 @@ Fields: `sub=p0[1:0]` `op1.base=p1[15:11]` `op1.d=p1[10:5]` `op2.r=p1[4:0]`
 
 Fields: `op1.base=p0[1:0]+p1[15:13]` `op2.r=p1[12:8]` `op1.d=p1[7:0]`
 
-<a id="CMBu8-a-1"></a>
-#### CMBu8-a-1: CMBu8/a, prefix `11011110110010`
-
-![Layout CMBu8-a-1](../figures/CMBu8-a-1.svg)
-
-`op1` is `reg5`: register, 5 bits.
-
-`op2` is `b5d8u-xsz`: memory at base register, 5 bits + unsigned 8-bit displacement times the size of the access.
-
-Fields: `op1.r=p0[1:0]+p1[15:13]` `op2.base=p1[12:8]` `op2.d=p1[7:0]`
-
-<a id="SOBs12-a-2"></a>
-#### SOBs12-a-2: SOBs12/a, prefix `11011110110011`
-
-![Layout SOBs12-a-2](../figures/SOBs12-a-2.svg)
-
-`op1` is `b5d12s-xsz`: memory at base register, 5 bits + signed 12-bit displacement times the size of the access.
-
-`sub` (1 bit) selects the mnemonic: `push` 0, `pop` 1.
-
-Fields: `sub=p0[1]` `op1.base=p0[0]+p1[15:12]` `op1.d=p1[11:0]`
-
 <a id="STX0-a-1"></a>
-#### STX0-a-1: STX0/a, prefix `11011110110100`
+#### STX0-a-1: STX0/a, prefix `11010010100100`
 
 ![Layout STX0-a-1](../figures/STX0-a-1.svg)
 
@@ -1663,7 +1578,7 @@ Fields: `sub=p0[1]` `op1.base=p0[0]+p1[15:12]` `op1.d=p1[11:0]`
 Fields: `sub=p0[1]` `op1.r=p0[0]+p1[15:12]` `op2.base=p1[11:7]` `op2.index=p1[6:2]` `op2.scale=p1[1:0]`
 
 <a id="STX0-b-1"></a>
-#### STX0-b-1: STX0/b, prefix `11011110110101`
+#### STX0-b-1: STX0/b, prefix `11010010100101`
 
 ![Layout STX0-b-1](../figures/STX0-b-1.svg)
 
@@ -1676,18 +1591,18 @@ Fields: `sub=p0[1]` `op1.r=p0[0]+p1[15:12]` `op2.base=p1[11:7]` `op2.index=p1[6:
 Fields: `sub=p0[1]` `op1.r=p0[0]+p1[15:12]` `op2.base=p1[11:7]` `op2.index=p1[6:2]` `op2.scale=p1[1:0]`
 
 <a id="SOX4-a-1"></a>
-#### SOX4-a-1: SOX4/a, prefix `11011110110110`
+#### SOX4-a-1: SOX4/a, prefix `11010010100110`
 
 ![Layout SOX4-a-1](../figures/SOX4-a-1.svg)
 
 `op1` is `x5-5d4s`: memory at base + (index << scale) + signed 4-bit displacement; base register, 5 bits, index register, 5 bits.
 
-`sub` (2 bits) selects the mnemonic: `clr` 00, `inc` 01, `dec` 10, `tst` 11.
+`sub` (2 bits) selects the mnemonic: `clr` 00, `inc` 01, `dec` 10, `push` 11.
 
 Fields: `sub=p0[1:0]` `op1.base=p1[15:11]` `op1.index=p1[10:6]` `op1.scale=p1[5:4]` `op1.d=p1[3:0]`
 
 <a id="SOX4-x-1"></a>
-#### SOX4-x-1: SOX4/x, prefix `11011110110111`
+#### SOX4-x-1: SOX4/x, prefix `11010010100111`
 
 ![Layout SOX4-x-1](../figures/SOX4-x-1.svg)
 
@@ -1698,7 +1613,7 @@ Fields: `sub=p0[1:0]` `op1.base=p1[15:11]` `op1.index=p1[10:6]` `op1.scale=p1[5:
 Fields: `sub=p0[1:0]` `op1.base=p1[15:11]` `op1.index=p1[10:6]` `op1.scale=p1[5:4]` `op1.d=p1[3:0]`
 
 <a id="LDI12-b-1"></a>
-#### LDI12-b-1: LDI12/b, prefix `11011110111000`
+#### LDI12-b-1: LDI12/b, prefix `11010010101000`
 
 ![Layout LDI12-b-1](../figures/LDI12-b-1.svg)
 
@@ -1711,7 +1626,7 @@ Fields: `sub=p0[1:0]` `op1.base=p1[15:11]` `op1.index=p1[10:6]` `op1.scale=p1[5:
 Fields: `sub=p0[1]` `op2.r=p0[0]+p1[15:12]` `op1.imm=p1[11:0]`
 
 <a id="LDI12-d-2"></a>
-#### LDI12-d-2: LDI12/d, prefix `11011110111001`
+#### LDI12-d-2: LDI12/d, prefix `11010010101001`
 
 ![Layout LDI12-d-2](../figures/LDI12-d-2.svg)
 
@@ -1723,30 +1638,19 @@ Fields: `sub=p0[1]` `op2.r=p0[0]+p1[15:12]` `op1.imm=p1[11:0]`
 
 Fields: `sub=p0[1]` `op2.r=p0[0]+p1[15:12]` `op1.imm=p1[11:0]`
 
-<a id="BR2-16-c-2"></a>
-#### BR2-16-c-2: BR2_16/c, prefix `11011110111010`
-
-![Layout BR2-16-c-2](../figures/BR2-16-c-2.svg)
-
-`op1` is `pc16-u2`: pc-relative, 16 bits counted in 2-byte units (-65536 to 65534 bytes).
-
-`sub` (2 bits) selects the mnemonic: `bgt` 00, `ble` 01, `bhi` 10, `blos` 11.
-
-Fields: `sub=p0[1:0]` `op1.pcrel=p1[15:0]`
-
 <a id="SOBu12H-a-1"></a>
-#### SOBu12H-a-1: SOBu12H/a, prefix `11011110111100`
+#### SOBu12H-a-1: SOBu12H/a, prefix `11010010101011`
 
 ![Layout SOBu12H-a-1](../figures/SOBu12H-a-1.svg)
 
 `op1` is `b4d12u-xsz`: memory at base register, 4 bits (an index into the hot-register table) + unsigned 12-bit displacement times the size of the access.
 
-`sub` (2 bits) selects the mnemonic: `clr` 00, `inc` 01, `dec` 10, `tst` 11.
+`sub` (2 bits) selects the mnemonic: `clr` 00, `inc` 01, `dec` 10, `push` 11.
 
 Fields: `sub=p0[1:0]` `op1.base=p1[15:12]` `op1.d=p1[11:0]`
 
 <a id="CBZ2-12H-b-1"></a>
-#### CBZ2-12H-b-1: CBZ2_12H/b, prefix `11011110111101`
+#### CBZ2-12H-b-1: CBZ2_12H/b, prefix `11010010101100`
 
 ![Layout CBZ2-12H-b-1](../figures/CBZ2-12H-b-1.svg)
 
@@ -1761,7 +1665,7 @@ Fields: `sub=p0[1:0]` `op1.base=p1[15:12]` `op1.d=p1[11:0]`
 Fields: `sub=p0[1:0]` `op1.r=p1[15:12]` `op3.pcrel=p1[11:0]`
 
 <a id="MFSR-1"></a>
-#### MFSR-1: MFSR, prefix `110111110000001`
+#### MFSR-1: MFSR, prefix `110100101011111`
 
 ![Layout MFSR-1](../figures/MFSR-1.svg)
 
@@ -1772,7 +1676,7 @@ Fields: `sub=p0[1:0]` `op1.r=p1[15:12]` `op3.pcrel=p1[11:0]`
 Fields: `op1.r=p0[0]+p1[15:12]` `op2.imm=p1[11:0]`
 
 <a id="MTSR-1"></a>
-#### MTSR-1: MTSR, prefix `110111110000010`
+#### MTSR-1: MTSR, prefix `110100101100000`
 
 ![Layout MTSR-1](../figures/MTSR-1.svg)
 
@@ -1782,8 +1686,26 @@ Fields: `op1.r=p0[0]+p1[15:12]` `op2.imm=p1[11:0]`
 
 Fields: `op2.r=p0[0]+p1[15:12]` `op1.imm=p1[11:0]`
 
+<a id="SOF-PI12-3"></a>
+#### SOF-PI12-3: SOF.PI12, prefix `110100101100010`
+
+![Layout SOF-PI12-3](../figures/SOF-PI12-3.svg)
+
+`op1` is `pi5-s12`: post-increment of a base register (register, 5 bits), 12-bit stride (0: the size of the access).
+
+Fields: `op1.base=p0[0]+p1[15:12]` `op1.stride=p1[11:0]`
+
+<a id="SOF-PD12-3"></a>
+#### SOF-PD12-3: SOF.PD12, prefix `110100101100011`
+
+![Layout SOF-PD12-3](../figures/SOF-PD12-3.svg)
+
+`op1` is `pd5-s12`: pre-decrement of a base register (register, 5 bits), 12-bit stride (0: the size of the access).
+
+Fields: `op1.base=p0[0]+p1[15:12]` `op1.stride=p1[11:0]`
+
 <a id="STBs6-b-1"></a>
-#### STBs6-b-1: STBs6/b, prefix `110111110000111`
+#### STBs6-b-1: STBs6/b, prefix `110100101100110`
 
 ![Layout STBs6-b-1](../figures/STBs6-b-1.svg)
 
@@ -1795,8 +1717,17 @@ Fields: `op2.r=p0[0]+p1[15:12]` `op1.imm=p1[11:0]`
 
 Fields: `sub=p0[0]` `op1.r=p1[15:11]` `op2.base=p1[10:6]` `op2.d=p1[5:0]`
 
+<a id="SOBs12-a-2"></a>
+#### SOBs12-a-2: SOBs12/a, prefix `110100101100111`
+
+![Layout SOBs12-a-2](../figures/SOBs12-a-2.svg)
+
+`op1` is `b5d12s-xsz`: memory at base register, 5 bits + signed 12-bit displacement times the size of the access.
+
+Fields: `op1.base=p0[0]+p1[15:12]` `op1.d=p1[11:0]`
+
 <a id="LDX0-c-2"></a>
-#### LDX0-c-2: LDX0/c, prefix `110111110001000`
+#### LDX0-c-2: LDX0/c, prefix `110100101101000`
 
 ![Layout LDX0-c-2](../figures/LDX0-c-2.svg)
 
@@ -1806,30 +1737,8 @@ Fields: `sub=p0[0]` `op1.r=p1[15:11]` `op2.base=p1[10:6]` `op2.d=p1[5:0]`
 
 Fields: `op1.base=p0[0]+p1[15:12]` `op1.index=p1[11:7]` `op1.scale=p1[6:5]` `op2.r=p1[4:0]`
 
-<a id="CMX0-a-1"></a>
-#### CMX0-a-1: CMX0/a, prefix `110111110001001`
-
-![Layout CMX0-a-1](../figures/CMX0-a-1.svg)
-
-`op1` is `reg5`: register, 5 bits.
-
-`op2` is `x5-5d0s`: memory at base + (index << scale); base register, 5 bits, index register, 5 bits.
-
-Fields: `op1.r=p0[0]+p1[15:12]` `op2.base=p1[11:7]` `op2.index=p1[6:2]` `op2.scale=p1[1:0]`
-
-<a id="SOX4-a-2"></a>
-#### SOX4-a-2: SOX4/a, prefix `110111110001010`
-
-![Layout SOX4-a-2](../figures/SOX4-a-2.svg)
-
-`op1` is `x5-5d4s`: memory at base + (index << scale) + signed 4-bit displacement; base register, 5 bits, index register, 5 bits.
-
-`sub` (1 bit) selects the mnemonic: `push` 0, `pop` 1.
-
-Fields: `sub=p0[0]` `op1.base=p1[15:11]` `op1.index=p1[10:6]` `op1.scale=p1[5:4]` `op1.d=p1[3:0]`
-
 <a id="LDI12-a-1"></a>
-#### LDI12-a-1: LDI12/a, prefix `110111110001011`
+#### LDI12-a-1: LDI12/a, prefix `110100101101001`
 
 ![Layout LDI12-a-1](../figures/LDI12-a-1.svg)
 
@@ -1840,7 +1749,7 @@ Fields: `sub=p0[0]` `op1.base=p1[15:11]` `op1.index=p1[10:6]` `op1.scale=p1[5:4]
 Fields: `op2.r=p0[0]+p1[15:12]` `op1.imm=p1[11:0]`
 
 <a id="LDI12-b-2"></a>
-#### LDI12-b-2: LDI12/b, prefix `110111110001100`
+#### LDI12-b-2: LDI12/b, prefix `110100101101010`
 
 ![Layout LDI12-b-2](../figures/LDI12-b-2.svg)
 
@@ -1850,41 +1759,8 @@ Fields: `op2.r=p0[0]+p1[15:12]` `op1.imm=p1[11:0]`
 
 Fields: `op2.r=p0[0]+p1[15:12]` `op1.imm=p1[11:0]`
 
-<a id="LDI12-d-3"></a>
-#### LDI12-d-3: LDI12/d, prefix `110111110001101`
-
-![Layout LDI12-d-3](../figures/LDI12-d-3.svg)
-
-`op1` is `imm12s`: signed 12-bit immediate, -2048 to 2047.
-
-`op2` is `reg5`: register, 5 bits.
-
-Fields: `op2.r=p0[0]+p1[15:12]` `op1.imm=p1[11:0]`
-
-<a id="CMI12-a-1"></a>
-#### CMI12-a-1: CMI12/a, prefix `110111110001110`
-
-![Layout CMI12-a-1](../figures/CMI12-a-1.svg)
-
-`op1` is `reg5`: register, 5 bits.
-
-`op2` is `imm12s`: signed 12-bit immediate, -2048 to 2047.
-
-Fields: `op1.r=p0[0]+p1[15:12]` `op2.imm=p1[11:0]`
-
-<a id="BR2-16-b-1"></a>
-#### BR2-16-b-1: BR2_16/b, prefix `110111110001111`
-
-![Layout BR2-16-b-1](../figures/BR2-16-b-1.svg)
-
-`op1` is `pc16-u2`: pc-relative, 16 bits counted in 2-byte units (-65536 to 65534 bytes).
-
-`sub` (1 bit) selects the mnemonic: `beq` 0, `bne` 1.
-
-Fields: `sub=p0[0]` `op1.pcrel=p1[15:0]`
-
 <a id="STBs8H-b-1"></a>
-#### STBs8H-b-1: STBs8H/b, prefix `110111110010000`
+#### STBs8H-b-1: STBs8H/b, prefix `110100101101011`
 
 ![Layout STBs8H-b-1](../figures/STBs8H-b-1.svg)
 
@@ -1896,32 +1772,8 @@ Fields: `sub=p0[0]` `op1.pcrel=p1[15:0]`
 
 Fields: `sub=p0[0]` `op1.r=p1[15:12]` `op2.base=p1[11:8]` `op2.d=p1[7:0]`
 
-<a id="SOBu12H-a-2"></a>
-#### SOBu12H-a-2: SOBu12H/a, prefix `110111110010001`
-
-![Layout SOBu12H-a-2](../figures/SOBu12H-a-2.svg)
-
-`op1` is `b4d12u-xsz`: memory at base register, 4 bits (an index into the hot-register table) + unsigned 12-bit displacement times the size of the access.
-
-`sub` (1 bit) selects the mnemonic: `push` 0, `pop` 1.
-
-Fields: `sub=p0[0]` `op1.base=p1[15:12]` `op1.d=p1[11:0]`
-
-<a id="LDPC12H-d-2"></a>
-#### LDPC12H-d-2: LDPC12H/d, prefix `110111110010010`
-
-![Layout LDPC12H-d-2](../figures/LDPC12H-d-2.svg)
-
-`op1` is `pc12-u1`: pc-relative, 12 bits counted in 1-byte units (-2048 to 2047 bytes).
-
-`op2` is `reg4`: register, 4 bits (an index into the hot-register table).
-
-`sub` (1 bit) selects the mnemonic: `fmul` 0, `bit` 1.
-
-Fields: `sub=p0[0]` `op2.r=p1[15:12]` `op1.pcrel=p1[11:0]`
-
 <a id="PUSHI2-1"></a>
-#### PUSHI2-1: PUSHI2, prefix `1101111100101011`
+#### PUSHI2-1: PUSHI2, prefix `1101001011011111`
 
 ![Layout PUSHI2-1](../figures/PUSHI2-1.svg)
 
@@ -1930,7 +1782,7 @@ Fields: `sub=p0[0]` `op2.r=p1[15:12]` `op1.pcrel=p1[11:0]`
 Fields: `op1.imm=p1[15:0]`
 
 <a id="RRF5-1"></a>
-#### RRF5-1: RRF5, prefix `1101111100101100`
+#### RRF5-1: RRF5, prefix `1101001011100000`
 
 ![Layout RRF5-1](../figures/RRF5-1.svg)
 
@@ -1942,8 +1794,17 @@ Fields: `op1.imm=p1[15:0]`
 
 Fields: `xsub=p1[15:10]` `op1.r=p1[9:5]` `op2.r=p1[4:0]`
 
+<a id="SOX4-a-2"></a>
+#### SOX4-a-2: SOX4/a, prefix `1101001011100001`
+
+![Layout SOX4-a-2](../figures/SOX4-a-2.svg)
+
+`op1` is `x5-5d4s`: memory at base + (index << scale) + signed 4-bit displacement; base register, 5 bits, index register, 5 bits.
+
+Fields: `op1.base=p1[15:11]` `op1.index=p1[10:6]` `op1.scale=p1[5:4]` `op1.d=p1[3:0]`
+
 <a id="BR2-16-a-1"></a>
-#### BR2-16-a-1: BR2_16/a, prefix `1101111100101101`
+#### BR2-16-a-1: BR2_16/a, prefix `1101001011100010`
 
 ![Layout BR2-16-a-1](../figures/BR2-16-a-1.svg)
 
@@ -1951,8 +1812,17 @@ Fields: `xsub=p1[15:10]` `op1.r=p1[9:5]` `op2.r=p1[4:0]`
 
 Fields: `op1.pcrel=p1[15:0]`
 
+<a id="SOBu12H-a-2"></a>
+#### SOBu12H-a-2: SOBu12H/a, prefix `1101001011100011`
+
+![Layout SOBu12H-a-2](../figures/SOBu12H-a-2.svg)
+
+`op1` is `b4d12u-xsz`: memory at base register, 4 bits (an index into the hot-register table) + unsigned 12-bit displacement times the size of the access.
+
+Fields: `op1.base=p1[15:12]` `op1.d=p1[11:0]`
+
 <a id="LEAS12H-a-1"></a>
-#### LEAS12H-a-1: LEAS12H/a, prefix `1101111100101110`
+#### LEAS12H-a-1: LEAS12H/a, prefix `1101001011100100`
 
 ![Layout LEAS12H-a-1](../figures/LEAS12H-a-1.svg)
 
@@ -1962,8 +1832,19 @@ Fields: `op1.pcrel=p1[15:0]`
 
 Fields: `op2.r=p1[15:12]` `op1.d=p1[11:0]`
 
+<a id="LDPC12H-d-2"></a>
+#### LDPC12H-d-2: LDPC12H/d, prefix `1101001011100101`
+
+![Layout LDPC12H-d-2](../figures/LDPC12H-d-2.svg)
+
+`op1` is `pc12-u1`: pc-relative, 12 bits counted in 1-byte units (-2048 to 2047 bytes).
+
+`op2` is `reg4`: register, 4 bits (an index into the hot-register table).
+
+Fields: `op2.r=p1[15:12]` `op1.pcrel=p1[11:0]`
+
 <a id="ATOML-1"></a>
-#### ATOML-1: ATOML, prefix `1101111101000010`
+#### ATOML-1: ATOML, prefix `1101001011111001`
 
 ![Layout ATOML-1](../figures/ATOML-1.svg)
 
@@ -1991,7 +1872,7 @@ Fields: `xsub=p1[15:10]` `op1.base=p1[9:5]` `op2.r=p1[4:0]`
 Fields: `sub=p0[10:7]` `op1.base-1=p0[6:5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:13]` `op1.index=p1[12:8]` `op1.scale=p1[7:6]` `op1.d=p1[5:0]+p2[15:0]`
 
 <a id="LDF-B28-1"></a>
-#### LDF-B28-1: LDF.B28, prefix `011100`
+#### LDF-B28-1: LDF.B28, prefix `011010`
 
 ![Layout LDF-B28-1](../figures/LDF-B28-1.svg)
 
@@ -2004,7 +1885,7 @@ Fields: `sub=p0[10:7]` `op1.base-1=p0[6:5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:13
 Fields: `sub=p0[9:6]` `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` `op1.d=p1[11:0]+p2[15:0]`
 
 <a id="STF-X22-1"></a>
-#### STF-X22-1: STF.X22, prefix `011111`
+#### STF-X22-1: STF.X22, prefix `011101`
 
 ![Layout STF-X22-1](../figures/STF-X22-1.svg)
 
@@ -2017,7 +1898,7 @@ Fields: `sub=p0[9:6]` `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` 
 Fields: `sub=p0[9:7]` `op1.r-1=p0[6:5]` `op2.index=p0[4:0]` `op1.r-2=p1[15:13]` `op2.base=p1[12:8]` `op2.scale=p1[7:6]` `op2.d=p1[5:0]+p2[15:0]`
 
 <a id="FX-MOVCALL3-1"></a>
-#### FX-MOVCALL3-1: FX.MOVCALL3, prefix `100000`
+#### FX-MOVCALL3-1: FX.MOVCALL3, prefix `011111`
 
 ![Layout FX-MOVCALL3-1](../figures/FX-MOVCALL3-1.svg)
 
@@ -2030,7 +1911,7 @@ Fields: `sub=p0[9:7]` `op1.r-1=p0[6:5]` `op2.index=p0[4:0]` `op1.r-2=p1[15:13]` 
 Fields: `op1.r=p0[9:5]` `op2.r=p0[4:0]` `op3.pcrel=p1[15:0]+p2[15:0]`
 
 <a id="BFx-1"></a>
-#### BFx-1: BFx, prefix `1001001`
+#### BFx-1: BFx, prefix `1000111`
 
 ![Layout BFx-1](../figures/BFx-1.svg)
 
@@ -2047,7 +1928,7 @@ Fields: `op1.r=p0[9:5]` `op2.r=p0[4:0]` `op3.pcrel=p1[15:0]+p2[15:0]`
 Fields: `op1.r-1=p0[8:5]` `op4.r=p0[4:0]` `op1.r-2=p1[15]` `op2.r=p1[14:10]` `op3.imm=p1[9:4]` `xsub=p1[3:0]+p2[15:0]`
 
 <a id="LDF-X22-2"></a>
-#### LDF-X22-2: LDF.X22, prefix `1001100`
+#### LDF-X22-2: LDF.X22, prefix `1001010`
 
 ![Layout LDF-X22-2](../figures/LDF-X22-2.svg)
 
@@ -2060,7 +1941,7 @@ Fields: `op1.r-1=p0[8:5]` `op4.r=p0[4:0]` `op1.r-2=p1[15]` `op2.r=p1[14:10]` `op
 Fields: `sub=p0[8:7]` `op1.base-1=p0[6:5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:13]` `op1.index=p1[12:8]` `op1.scale=p1[7:6]` `op1.d=p1[5:0]+p2[15:0]`
 
 <a id="LDF-PC32-1"></a>
-#### LDF-PC32-1: LDF.PC32, prefix `1001101`
+#### LDF-PC32-1: LDF.PC32, prefix `1001011`
 
 ![Layout LDF-PC32-1](../figures/LDF-PC32-1.svg)
 
@@ -2073,7 +1954,7 @@ Fields: `sub=p0[8:7]` `op1.base-1=p0[6:5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:13]
 Fields: `sub=p0[8:5]` `op2.r=p0[4:0]` `op1.pcrel=p1[15:0]+p2[15:0]`
 
 <a id="LDF-A32-1"></a>
-#### LDF-A32-1: LDF.A32, prefix `1001110`
+#### LDF-A32-1: LDF.A32, prefix `1001100`
 
 ![Layout LDF-A32-1](../figures/LDF-A32-1.svg)
 
@@ -2086,7 +1967,7 @@ Fields: `sub=p0[8:5]` `op2.r=p0[4:0]` `op1.pcrel=p1[15:0]+p2[15:0]`
 Fields: `sub=p0[8:5]` `op2.r=p0[4:0]` `op1.abs=p1[15:0]+p2[15:0]`
 
 <a id="LDFI-I32-1"></a>
-#### LDFI-I32-1: LDFI.I32, prefix `1001111`
+#### LDFI-I32-1: LDFI.I32, prefix `1001101`
 
 ![Layout LDFI-I32-1](../figures/LDFI-I32-1.svg)
 
@@ -2094,12 +1975,12 @@ Fields: `sub=p0[8:5]` `op2.r=p0[4:0]` `op1.abs=p1[15:0]+p2[15:0]`
 
 `op2` is `reg5`: register, 5 bits.
 
-`sub` (4 bits) selects the mnemonic: `add` 0000, `sub` 0001, `bic` 0010, `bis` 0011, `xor` 0100, `and` 0101, `mul` 0110, `mulh` 0111, `shl` 1000, `shr` 1001, `sar` 1010, `fadd` 1011, `fsub` 1100, `fmul` 1101, `bit` 1110, `movq` 1111.
+`sub` (4 bits) selects the mnemonic: `add` 0000, `sub` 0001, `bic` 0010, `bis` 0011, `xor` 0100, `and` 0101, `mul` 0110, `mulh` 0111, `shl` 1000, `shr` 1001, `sar` 1010, `fadd` 1011, `fsub` 1100, `fmul` 1101, `movq` 1110, `movl` 1111.
 
 Fields: `sub=p0[8:5]` `op2.r=p0[4:0]` `op1.imm=p1[15:0]+p2[15:0]`
 
 <a id="STF-B28-1"></a>
-#### STF-B28-1: STF.B28, prefix `1010000`
+#### STF-B28-1: STF.B28, prefix `1001110`
 
 ![Layout STF-B28-1](../figures/STF-B28-1.svg)
 
@@ -2112,7 +1993,7 @@ Fields: `sub=p0[8:5]` `op2.r=p0[4:0]` `op1.imm=p1[15:0]+p2[15:0]`
 Fields: `sub=p0[8:6]` `op1.r-1=p0[5]` `op2.base=p0[4:0]` `op1.r-2=p1[15:12]` `op2.d=p1[11:0]+p2[15:0]`
 
 <a id="BFy-1"></a>
-#### BFy-1: BFy, prefix `10110110`
+#### BFy-1: BFy, prefix `10110000`
 
 ![Layout BFy-1](../figures/BFy-1.svg)
 
@@ -2129,7 +2010,7 @@ Fields: `sub=p0[8:6]` `op1.r-1=p0[5]` `op2.base=p0[4:0]` `op1.r-2=p1[15:12]` `op
 Fields: `op1.r-1=p0[7:5]` `op4.r=p0[4:0]` `op1.r-2=p1[15:14]` `op2.imm=p1[13:8]` `op3.imm=p1[7:2]` `xsub=p1[1:0]+p2[15:0]`
 
 <a id="LDU-B28-1"></a>
-#### LDU-B28-1: LDU.B28, prefix `10110111`
+#### LDU-B28-1: LDU.B28, prefix `10110001`
 
 ![Layout LDU-B28-1](../figures/LDU-B28-1.svg)
 
@@ -2142,7 +2023,7 @@ Fields: `op1.r-1=p0[7:5]` `op4.r=p0[4:0]` `op1.r-2=p1[15:14]` `op2.imm=p1[13:8]`
 Fields: `sub=p0[7:6]` `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` `op1.d=p1[11:0]+p2[15:0]`
 
 <a id="STU-B28-1"></a>
-#### STU-B28-1: STU.B28, prefix `10111000`
+#### STU-B28-1: STU.B28, prefix `10110010`
 
 ![Layout STU-B28-1](../figures/STU-B28-1.svg)
 
@@ -2155,7 +2036,7 @@ Fields: `sub=p0[7:6]` `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` 
 Fields: `sub=p0[7:6]` `op1.r-1=p0[5]` `op2.base=p0[4:0]` `op1.r-2=p1[15:12]` `op2.d=p1[11:0]+p2[15:0]`
 
 <a id="LDF-B28-2"></a>
-#### LDF-B28-2: LDF.B28, prefix `10111100`
+#### LDF-B28-2: LDF.B28, prefix `10110110`
 
 ![Layout LDF-B28-2](../figures/LDF-B28-2.svg)
 
@@ -2168,7 +2049,7 @@ Fields: `sub=p0[7:6]` `op1.r-1=p0[5]` `op2.base=p0[4:0]` `op1.r-2=p1[15:12]` `op
 Fields: `sub=p0[7:6]` `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` `op1.d=p1[11:0]+p2[15:0]`
 
 <a id="LDF-X22-3"></a>
-#### LDF-X22-3: LDF.X22, prefix `10111101`
+#### LDF-X22-3: LDF.X22, prefix `10110111`
 
 ![Layout LDF-X22-3](../figures/LDF-X22-3.svg)
 
@@ -2176,12 +2057,12 @@ Fields: `sub=p0[7:6]` `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` 
 
 `op2` is `reg5`: register, 5 bits.
 
-`sub` (1 bit) selects the mnemonic: `fmul` 0, `bit` 1.
+`sub` (1 bit) selects the mnemonic: `fmul` 0, `lea` 1.
 
 Fields: `sub=p0[7]` `op1.base-1=p0[6:5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:13]` `op1.index=p1[12:8]` `op1.scale=p1[7:6]` `op1.d=p1[5:0]+p2[15:0]`
 
 <a id="STF-PC32-1"></a>
-#### STF-PC32-1: STF.PC32, prefix `11000000`
+#### STF-PC32-1: STF.PC32, prefix `10111010`
 
 ![Layout STF-PC32-1](../figures/STF-PC32-1.svg)
 
@@ -2194,7 +2075,7 @@ Fields: `sub=p0[7]` `op1.base-1=p0[6:5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:13]` 
 Fields: `sub=p0[7:5]` `op1.r=p0[4:0]` `op2.pcrel=p1[15:0]+p2[15:0]`
 
 <a id="STF-A32-1"></a>
-#### STF-A32-1: STF.A32, prefix `11000001`
+#### STF-A32-1: STF.A32, prefix `10111011`
 
 ![Layout STF-A32-1](../figures/STF-A32-1.svg)
 
@@ -2206,21 +2087,8 @@ Fields: `sub=p0[7:5]` `op1.r=p0[4:0]` `op2.pcrel=p1[15:0]+p2[15:0]`
 
 Fields: `sub=p0[7:5]` `op1.r=p0[4:0]` `op2.abs=p1[15:0]+p2[15:0]`
 
-<a id="CMF-X22-1"></a>
-#### CMF-X22-1: CMF.X22, prefix `11000010`
-
-![Layout CMF-X22-1](../figures/CMF-X22-1.svg)
-
-`op1` is `reg5`: register, 5 bits.
-
-`op2` is `x5-5d22s`: memory at base + (index << scale) + signed 22-bit displacement; base register, 5 bits, index register, 5 bits.
-
-`sub` (1 bit) selects the mnemonic: `cmp` 0, `fcmp` 1.
-
-Fields: `sub=p0[7]` `op1.r-1=p0[6:5]` `op2.index=p0[4:0]` `op1.r-2=p1[15:13]` `op2.base=p1[12:8]` `op2.scale=p1[7:6]` `op2.d=p1[5:0]+p2[15:0]`
-
 <a id="LDU-B28-2"></a>
-#### LDU-B28-2: LDU.B28, prefix `110010011`
+#### LDU-B28-2: LDU.B28, prefix `110000011`
 
 ![Layout LDU-B28-2](../figures/LDU-B28-2.svg)
 
@@ -2233,7 +2101,7 @@ Fields: `sub=p0[7]` `op1.r-1=p0[6:5]` `op2.index=p0[4:0]` `op1.r-2=p1[15:13]` `o
 Fields: `sub=p0[6]` `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` `op1.d=p1[11:0]+p2[15:0]`
 
 <a id="LDF-B28-3"></a>
-#### LDF-B28-3: LDF.B28, prefix `110010110`
+#### LDF-B28-3: LDF.B28, prefix `110000110`
 
 ![Layout LDF-B28-3](../figures/LDF-B28-3.svg)
 
@@ -2241,23 +2109,12 @@ Fields: `sub=p0[6]` `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` `o
 
 `op2` is `reg5`: register, 5 bits.
 
-`sub` (1 bit) selects the mnemonic: `fmul` 0, `bit` 1.
+`sub` (1 bit) selects the mnemonic: `fmul` 0, `lea` 1.
 
 Fields: `sub=p0[6]` `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` `op1.d=p1[11:0]+p2[15:0]`
 
-<a id="LDF-X22-4"></a>
-#### LDF-X22-4: LDF.X22, prefix `110010111`
-
-![Layout LDF-X22-4](../figures/LDF-X22-4.svg)
-
-`op1` is `x5-5d22s`: memory at base + (index << scale) + signed 22-bit displacement; base register, 5 bits, index register, 5 bits.
-
-`op2` is `reg5`: register, 5 bits.
-
-Fields: `op1.base-1=p0[6:5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:13]` `op1.index=p1[12:8]` `op1.scale=p1[7:6]` `op1.d=p1[5:0]+p2[15:0]`
-
 <a id="LDF-PC32-2"></a>
-#### LDF-PC32-2: LDF.PC32, prefix `110011010`
+#### LDF-PC32-2: LDF.PC32, prefix `110001001`
 
 ![Layout LDF-PC32-2](../figures/LDF-PC32-2.svg)
 
@@ -2270,7 +2127,7 @@ Fields: `op1.base-1=p0[6:5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:13]` `op1.index=p
 Fields: `sub=p0[6:5]` `op2.r=p0[4:0]` `op1.pcrel=p1[15:0]+p2[15:0]`
 
 <a id="LDF-A32-2"></a>
-#### LDF-A32-2: LDF.A32, prefix `110011011`
+#### LDF-A32-2: LDF.A32, prefix `110001010`
 
 ![Layout LDF-A32-2](../figures/LDF-A32-2.svg)
 
@@ -2283,7 +2140,7 @@ Fields: `sub=p0[6:5]` `op2.r=p0[4:0]` `op1.pcrel=p1[15:0]+p2[15:0]`
 Fields: `sub=p0[6:5]` `op2.r=p0[4:0]` `op1.abs=p1[15:0]+p2[15:0]`
 
 <a id="LDFI-I32-2"></a>
-#### LDFI-I32-2: LDFI.I32, prefix `110011100`
+#### LDFI-I32-2: LDFI.I32, prefix `110001011`
 
 ![Layout LDFI-I32-2](../figures/LDFI-I32-2.svg)
 
@@ -2291,25 +2148,12 @@ Fields: `sub=p0[6:5]` `op2.r=p0[4:0]` `op1.abs=p1[15:0]+p2[15:0]`
 
 `op2` is `reg5`: register, 5 bits.
 
-`sub` (2 bits) selects the mnemonic: `movl` 00, `movw` 01, `movb` 10, `movzl` 11.
+`sub` (2 bits) selects the mnemonic: `movw` 00, `movb` 01, `movzl` 10, `movzw` 11.
 
 Fields: `sub=p0[6:5]` `op2.r=p0[4:0]` `op1.imm=p1[15:0]+p2[15:0]`
 
-<a id="CMF-B28-1"></a>
-#### CMF-B28-1: CMF.B28, prefix `110011101`
-
-![Layout CMF-B28-1](../figures/CMF-B28-1.svg)
-
-`op1` is `reg5`: register, 5 bits.
-
-`op2` is `b5d28s-x1`: memory at base register, 5 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes.
-
-`sub` (1 bit) selects the mnemonic: `cmp` 0, `fcmp` 1.
-
-Fields: `sub=p0[6]` `op1.r-1=p0[5]` `op2.base=p0[4:0]` `op1.r-2=p1[15:12]` `op2.d=p1[11:0]+p2[15:0]`
-
 <a id="LDU-B28-3"></a>
-#### LDU-B28-3: LDU.B28, prefix `1101010011`
+#### LDU-B28-3: LDU.B28, prefix `1100101001`
 
 ![Layout LDU-B28-3](../figures/LDU-B28-3.svg)
 
@@ -2319,19 +2163,8 @@ Fields: `sub=p0[6]` `op1.r-1=p0[5]` `op2.base=p0[4:0]` `op1.r-2=p1[15:12]` `op2.
 
 Fields: `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` `op1.d=p1[11:0]+p2[15:0]`
 
-<a id="LDF-B28-4"></a>
-#### LDF-B28-4: LDF.B28, prefix `1101010101`
-
-![Layout LDF-B28-4](../figures/LDF-B28-4.svg)
-
-`op1` is `b5d28s-x1`: memory at base register, 5 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes.
-
-`op2` is `reg5`: register, 5 bits.
-
-Fields: `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` `op1.d=p1[11:0]+p2[15:0]`
-
 <a id="LDF-PC32-3"></a>
-#### LDF-PC32-3: LDF.PC32, prefix `1101011000`
+#### LDF-PC32-3: LDF.PC32, prefix `1100101011`
 
 ![Layout LDF-PC32-3](../figures/LDF-PC32-3.svg)
 
@@ -2339,12 +2172,12 @@ Fields: `op1.base-1=p0[5]` `op2.r=p0[4:0]` `op1.base-2=p1[15:12]` `op1.d=p1[11:0
 
 `op2` is `reg5`: register, 5 bits.
 
-`sub` (1 bit) selects the mnemonic: `fmul` 0, `bit` 1.
+`sub` (1 bit) selects the mnemonic: `fmul` 0, `lea` 1.
 
 Fields: `sub=p0[5]` `op2.r=p0[4:0]` `op1.pcrel=p1[15:0]+p2[15:0]`
 
 <a id="LDF-A32-3"></a>
-#### LDF-A32-3: LDF.A32, prefix `1101011001`
+#### LDF-A32-3: LDF.A32, prefix `1100101100`
 
 ![Layout LDF-A32-3](../figures/LDF-A32-3.svg)
 
@@ -2352,12 +2185,12 @@ Fields: `sub=p0[5]` `op2.r=p0[4:0]` `op1.pcrel=p1[15:0]+p2[15:0]`
 
 `op2` is `reg5`: register, 5 bits.
 
-`sub` (1 bit) selects the mnemonic: `fmul` 0, `bit` 1.
+`sub` (1 bit) selects the mnemonic: `fmul` 0, `lea` 1.
 
 Fields: `sub=p0[5]` `op2.r=p0[4:0]` `op1.abs=p1[15:0]+p2[15:0]`
 
 <a id="LDFI-I32-3"></a>
-#### LDFI-I32-3: LDFI.I32, prefix `1101011010`
+#### LDFI-I32-3: LDFI.I32, prefix `11001110101`
 
 ![Layout LDFI-I32-3](../figures/LDFI-I32-3.svg)
 
@@ -2365,95 +2198,21 @@ Fields: `sub=p0[5]` `op2.r=p0[4:0]` `op1.abs=p1[15:0]+p2[15:0]`
 
 `op2` is `reg5`: register, 5 bits.
 
-`sub` (1 bit) selects the mnemonic: `movzw` 0, `movzb` 1.
-
-Fields: `sub=p0[5]` `op2.r=p0[4:0]` `op1.imm=p1[15:0]+p2[15:0]`
-
-<a id="CMF-PC32-1"></a>
-#### CMF-PC32-1: CMF.PC32, prefix `1101011011`
-
-![Layout CMF-PC32-1](../figures/CMF-PC32-1.svg)
-
-`op1` is `reg5`: register, 5 bits.
-
-`op2` is `pc32-u1`: pc-relative, 32 bits counted in 1-byte units (-2147483648 to 2147483647 bytes).
-
-`sub` (1 bit) selects the mnemonic: `cmp` 0, `fcmp` 1.
-
-Fields: `sub=p0[5]` `op1.r=p0[4:0]` `op2.pcrel=p1[15:0]+p2[15:0]`
-
-<a id="CMF-A32-1"></a>
-#### CMF-A32-1: CMF.A32, prefix `1101011100`
-
-![Layout CMF-A32-1](../figures/CMF-A32-1.svg)
-
-`op1` is `reg5`: register, 5 bits.
-
-`op2` is `abs32`: absolute address, 32 bits.
-
-`sub` (1 bit) selects the mnemonic: `cmp` 0, `fcmp` 1.
-
-Fields: `sub=p0[5]` `op1.r=p0[4:0]` `op2.abs=p1[15:0]+p2[15:0]`
-
-<a id="CMF-I32-1"></a>
-#### CMF-I32-1: CMF.I32, prefix `1101011101`
-
-![Layout CMF-I32-1](../figures/CMF-I32-1.svg)
-
-`op1` is `reg5`: register, 5 bits.
-
-`op2` is `imm32s`: signed 32-bit immediate, -2147483648 to 2147483647.
-
-`sub` (1 bit) selects the mnemonic: `cmp` 0, `fcmp` 1.
-
-Fields: `sub=p0[5]` `op1.r=p0[4:0]` `op2.imm=p1[15:0]+p2[15:0]`
+Fields: `op2.r=p0[4:0]` `op1.imm=p1[15:0]+p2[15:0]`
 
 <a id="SOF-X22-1"></a>
-#### SOF-X22-1: SOF.X22, prefix `1101011110`
+#### SOF-X22-1: SOF.X22, prefix `11001110110`
 
 ![Layout SOF-X22-1](../figures/SOF-X22-1.svg)
 
 `op1` is `x5-5d22s`: memory at base + (index << scale) + signed 22-bit displacement; base register, 5 bits, index register, 5 bits.
 
-`sub` (4 bits) selects the mnemonic: `clr` 0000, `com` 0001, `inc` 0010, `dec` 0011, `neg` 0100, `tst` 0101, `adc` 0110, `sbc` 0111, `asl` 1000, `asr` 1001, `push` 1010, `pop` 1011, `jmp` 1100, `call` 1101, `jmpi` 1110, `calli` 1111.
+`sub` (3 bits) selects the mnemonic: `clr` 000, `com` 001, `inc` 010, `dec` 011, `neg` 100, `asl` 101, `asr` 110, `push` 111.
 
-Fields: `sub=p0[5:2]` `op1.base=p0[1:0]+p1[15:13]` `op1.index=p1[12:8]` `op1.scale=p1[7:6]` `op1.d=p1[5:0]+p2[15:0]`
-
-<a id="LDF-PC32-4"></a>
-#### LDF-PC32-4: LDF.PC32, prefix `11011011000`
-
-![Layout LDF-PC32-4](../figures/LDF-PC32-4.svg)
-
-`op1` is `pc32-u1`: pc-relative, 32 bits counted in 1-byte units (-2147483648 to 2147483647 bytes).
-
-`op2` is `reg5`: register, 5 bits.
-
-Fields: `op2.r=p0[4:0]` `op1.pcrel=p1[15:0]+p2[15:0]`
-
-<a id="LDF-A32-4"></a>
-#### LDF-A32-4: LDF.A32, prefix `11011011001`
-
-![Layout LDF-A32-4](../figures/LDF-A32-4.svg)
-
-`op1` is `abs32`: absolute address, 32 bits.
-
-`op2` is `reg5`: register, 5 bits.
-
-Fields: `op2.r=p0[4:0]` `op1.abs=p1[15:0]+p2[15:0]`
-
-<a id="SOF-B28-1"></a>
-#### SOF-B28-1: SOF.B28, prefix `11011011010`
-
-![Layout SOF-B28-1](../figures/SOF-B28-1.svg)
-
-`op1` is `b5d28s-x1`: memory at base register, 5 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes.
-
-`sub` (4 bits) selects the mnemonic: `clr` 0000, `com` 0001, `inc` 0010, `dec` 0011, `neg` 0100, `tst` 0101, `adc` 0110, `sbc` 0111, `asl` 1000, `asr` 1001, `push` 1010, `pop` 1011, `jmp` 1100, `call` 1101, `jmpi` 1110, `calli` 1111.
-
-Fields: `sub=p0[4:1]` `op1.base=p0[0]+p1[15:12]` `op1.d=p1[11:0]+p2[15:0]`
+Fields: `sub=p0[4:2]` `op1.base=p0[1:0]+p1[15:13]` `op1.index=p1[12:8]` `op1.scale=p1[7:6]` `op1.d=p1[5:0]+p2[15:0]`
 
 <a id="DPF-D28-1"></a>
-#### DPF-D28-1: DPF.D28, prefix `11011011101`
+#### DPF-D28-1: DPF.D28, prefix `11001110111`
 
 ![Layout DPF-D28-1](../figures/DPF-D28-1.svg)
 
@@ -2465,30 +2224,93 @@ Fields: `sub=p0[4:1]` `op1.base=p0[0]+p1[15:12]` `op1.d=p1[11:0]+p2[15:0]`
 
 Fields: `sub=p0[4:1]` `op2.r=p0[0]+p1[15:12]` `op1.d=p1[11:0]+p2[15:0]`
 
+<a id="CB3R24-bc-1"></a>
+#### CB3R24-bc-1: CB3R24/bc, prefix `11010000000`
+
+![Layout CB3R24-bc-1](../figures/CB3R24-bc-1.svg)
+
+`op1` is `reg5`: register, 5 bits.
+
+`op2` is `reg5`: register, 5 bits.
+
+`op3` is `pc24-u2`: pc-relative, 24 bits counted in 2-byte units (-16777216 to 16777214 bytes).
+
+`sub` (3 bits) selects the mnemonic: `cblt` 000, `cbge` 001, `cbgt` 010, `cble` 011, `cbcs` 100, `cbcc` 101, `cbhi` 110, `cblos` 111.
+
+Fields: `sub=p0[4:2]` `op1.r=p0[1:0]+p1[15:13]` `op2.r=p1[12:8]` `op3.pcrel=p1[7:0]+p2[15:0]`
+
+<a id="SOF-B28-1"></a>
+#### SOF-B28-1: SOF.B28, prefix `110100000110`
+
+![Layout SOF-B28-1](../figures/SOF-B28-1.svg)
+
+`op1` is `b5d28s-x1`: memory at base register, 5 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes.
+
+`sub` (3 bits) selects the mnemonic: `clr` 000, `com` 001, `inc` 010, `dec` 011, `neg` 100, `asl` 101, `asr` 110, `push` 111.
+
+Fields: `sub=p0[3:1]` `op1.base=p0[0]+p1[15:12]` `op1.d=p1[11:0]+p2[15:0]`
+
+<a id="SOF-X22-2"></a>
+#### SOF-X22-2: SOF.X22, prefix `110100000111`
+
+![Layout SOF-X22-2](../figures/SOF-X22-2.svg)
+
+`op1` is `x5-5d22s`: memory at base + (index << scale) + signed 22-bit displacement; base register, 5 bits, index register, 5 bits.
+
+`sub` (2 bits) selects the mnemonic: `pop` 00, `jmp` 01, `call` 10, `jmpi` 11.
+
+Fields: `sub=p0[3:2]` `op1.base=p0[1:0]+p1[15:13]` `op1.index=p1[12:8]` `op1.scale=p1[7:6]` `op1.d=p1[5:0]+p2[15:0]`
+
+<a id="FCB3R22-1"></a>
+#### FCB3R22-1: FCB3R22, prefix `110100010011`
+
+![Layout FCB3R22-1](../figures/FCB3R22-1.svg)
+
+`op1` is `reg5`: register, 5 bits.
+
+`op2` is `reg5`: register, 5 bits.
+
+`op3` is `pc22-u2`: pc-relative, 22 bits counted in 2-byte units (-4194304 to 4194302 bytes).
+
+`xsub` selects the mnemonic.
+
+Fields: `xsub=p0[3:0]` `op1.r=p1[15:11]` `op2.r=p1[10:6]` `op3.pcrel=p1[5:0]+p2[15:0]`
+
+<a id="SOF-B28-2"></a>
+#### SOF-B28-2: SOF.B28, prefix `1101000101101`
+
+![Layout SOF-B28-2](../figures/SOF-B28-2.svg)
+
+`op1` is `b5d28s-x1`: memory at base register, 5 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes.
+
+`sub` (2 bits) selects the mnemonic: `pop` 00, `jmp` 01, `call` 10, `jmpi` 11.
+
+Fields: `sub=p0[2:1]` `op1.base=p0[0]+p1[15:12]` `op1.d=p1[11:0]+p2[15:0]`
+
 <a id="SOF-PC32-1"></a>
-#### SOF-PC32-1: SOF.PC32, prefix `110111001110`
+#### SOF-PC32-1: SOF.PC32, prefix `1101000110000`
 
 ![Layout SOF-PC32-1](../figures/SOF-PC32-1.svg)
 
 `op1` is `pc32-u1`: pc-relative, 32 bits counted in 1-byte units (-2147483648 to 2147483647 bytes).
 
-`sub` (4 bits) selects the mnemonic: `clr` 0000, `com` 0001, `inc` 0010, `dec` 0011, `neg` 0100, `tst` 0101, `adc` 0110, `sbc` 0111, `asl` 1000, `asr` 1001, `push` 1010, `pop` 1011, `jmp` 1100, `call` 1101, `jmpi` 1110, `calli` 1111.
+`sub` (3 bits) selects the mnemonic: `clr` 000, `com` 001, `inc` 010, `dec` 011, `neg` 100, `asl` 101, `asr` 110, `push` 111.
 
-Fields: `sub=p0[3:0]` `op1.pcrel=p1[15:0]+p2[15:0]`
+Fields: `sub=p0[2:0]` `op1.pcrel=p1[15:0]+p2[15:0]`
 
 <a id="SOF-A32-1"></a>
-#### SOF-A32-1: SOF.A32, prefix `110111001111`
+#### SOF-A32-1: SOF.A32, prefix `1101000110001`
 
 ![Layout SOF-A32-1](../figures/SOF-A32-1.svg)
 
 `op1` is `abs32`: absolute address, 32 bits.
 
-`sub` (4 bits) selects the mnemonic: `clr` 0000, `com` 0001, `inc` 0010, `dec` 0011, `neg` 0100, `tst` 0101, `adc` 0110, `sbc` 0111, `asl` 1000, `asr` 1001, `push` 1010, `pop` 1011, `jmp` 1100, `call` 1101, `jmpi` 1110, `calli` 1111.
+`sub` (3 bits) selects the mnemonic: `clr` 000, `com` 001, `inc` 010, `dec` 011, `neg` 100, `asl` 101, `asr` 110, `push` 111.
 
-Fields: `sub=p0[3:0]` `op1.abs=p1[15:0]+p2[15:0]`
+Fields: `sub=p0[2:0]` `op1.abs=p1[15:0]+p2[15:0]`
 
 <a id="DPF-D28-2"></a>
-#### DPF-D28-2: DPF.D28, prefix `1101110111011`
+#### DPF-D28-2: DPF.D28, prefix `1101000110010`
 
 ![Layout DPF-D28-2](../figures/DPF-D28-2.svg)
 
@@ -2500,19 +2322,8 @@ Fields: `sub=p0[3:0]` `op1.abs=p1[15:0]+p2[15:0]`
 
 Fields: `sub=p0[2:1]` `op2.r=p0[0]+p1[15:12]` `op1.d=p1[11:0]+p2[15:0]`
 
-<a id="BRF-1"></a>
-#### BRF-1: BRF, prefix `1101110111100`
-
-![Layout BRF-1](../figures/BRF-1.svg)
-
-`op1` is `pc32-u2`: pc-relative, 32 bits counted in 2-byte units (-4294967296 to 4294967294 bytes).
-
-`sub` (3 bits) selects the mnemonic: `br` 000, `bne` 001, `beq` 010, `bpl` 011, `bmi` 100, `bvc` 101, `bvs` 110, `bcc` 111.
-
-Fields: `sub=p0[2:0]` `op1.pcrel=p1[15:0]+p2[15:0]`
-
 <a id="CB3I12-16-b-1"></a>
-#### CB3I12-16-b-1: CB3I12_16/b, prefix `1101111000111`
+#### CB3I12-16-b-1: CB3I12_16/b, prefix `1101000111100`
 
 ![Layout CB3I12-16-b-1](../figures/CB3I12-16-b-1.svg)
 
@@ -2527,7 +2338,7 @@ Fields: `sub=p0[2:0]` `op1.pcrel=p1[15:0]+p2[15:0]`
 Fields: `sub=p0[2:1]` `op1.r=p0[0]+p1[15:12]` `op2.imm=p1[11:0]` `op3.pcrel=p2[15:0]`
 
 <a id="CB3I16-12-c-1"></a>
-#### CB3I16-12-c-1: CB3I16_12/c, prefix `1101111001000`
+#### CB3I16-12-c-1: CB3I16_12/c, prefix `1101000111101`
 
 ![Layout CB3I16-12-c-1](../figures/CB3I16-12-c-1.svg)
 
@@ -2542,7 +2353,7 @@ Fields: `sub=p0[2:1]` `op1.r=p0[0]+p1[15:12]` `op2.imm=p1[11:0]` `op3.pcrel=p2[1
 Fields: `sub=p0[2:1]` `op1.r=p0[0]+p1[15:12]` `op2.imm=p1[11:0]+p2[15:12]` `op3.pcrel=p2[11:0]`
 
 <a id="CB3R24-a-1"></a>
-#### CB3R24-a-1: CB3R24/a, prefix `1101111001001`
+#### CB3R24-a-1: CB3R24/a, prefix `1101000111110`
 
 ![Layout CB3R24-a-1](../figures/CB3R24-a-1.svg)
 
@@ -2556,8 +2367,69 @@ Fields: `sub=p0[2:1]` `op1.r=p0[0]+p1[15:12]` `op2.imm=p1[11:0]+p2[15:12]` `op3.
 
 Fields: `sub=p0[2]` `op1.r=p0[1:0]+p1[15:13]` `op2.r=p1[12:8]` `op3.pcrel=p1[7:0]+p2[15:0]`
 
+<a id="CB3I12-16-c-1"></a>
+#### CB3I12-16-c-1: CB3I12_16/c, prefix `1101001001000`
+
+![Layout CB3I12-16-c-1](../figures/CB3I12-16-c-1.svg)
+
+`op1` is `reg5`: register, 5 bits.
+
+`op2` is `imm12s`: signed 12-bit immediate, -2048 to 2047.
+
+`op3` is `pc16-u2`: pc-relative, 16 bits counted in 2-byte units (-65536 to 65534 bytes).
+
+`sub` (2 bits) selects the mnemonic: `cbcs` 00, `cbcc` 01, `cbhi` 10, `cblos` 11.
+
+Fields: `sub=p0[2:1]` `op1.r=p0[0]+p1[15:12]` `op2.imm=p1[11:0]` `op3.pcrel=p2[15:0]`
+
+<a id="CB3I16-12-b-1"></a>
+#### CB3I16-12-b-1: CB3I16_12/b, prefix `1101001001010`
+
+![Layout CB3I16-12-b-1](../figures/CB3I16-12-b-1.svg)
+
+`op1` is `reg5`: register, 5 bits.
+
+`op2` is `imm16s`: signed 16-bit immediate, -32768 to 32767.
+
+`op3` is `pc12-u2`: pc-relative, 12 bits counted in 2-byte units (-4096 to 4094 bytes).
+
+`sub` (2 bits) selects the mnemonic: `cblt` 00, `cbge` 01, `cbgt` 10, `cble` 11.
+
+Fields: `sub=p0[2:1]` `op1.r=p0[0]+p1[15:12]` `op2.imm=p1[11:0]+p2[15:12]` `op3.pcrel=p2[11:0]`
+
+<a id="SOF-X22-3"></a>
+#### SOF-X22-3: SOF.X22, prefix `11010010011011`
+
+![Layout SOF-X22-3](../figures/SOF-X22-3.svg)
+
+`op1` is `x5-5d22s`: memory at base + (index << scale) + signed 22-bit displacement; base register, 5 bits, index register, 5 bits.
+
+Fields: `op1.base=p0[1:0]+p1[15:13]` `op1.index=p1[12:8]` `op1.scale=p1[7:6]` `op1.d=p1[5:0]+p2[15:0]`
+
+<a id="SOF-PC32-2"></a>
+#### SOF-PC32-2: SOF.PC32, prefix `11010010011100`
+
+![Layout SOF-PC32-2](../figures/SOF-PC32-2.svg)
+
+`op1` is `pc32-u1`: pc-relative, 32 bits counted in 1-byte units (-2147483648 to 2147483647 bytes).
+
+`sub` (2 bits) selects the mnemonic: `pop` 00, `jmp` 01, `call` 10, `jmpi` 11.
+
+Fields: `sub=p0[1:0]` `op1.pcrel=p1[15:0]+p2[15:0]`
+
+<a id="SOF-A32-2"></a>
+#### SOF-A32-2: SOF.A32, prefix `11010010011101`
+
+![Layout SOF-A32-2](../figures/SOF-A32-2.svg)
+
+`op1` is `abs32`: absolute address, 32 bits.
+
+`sub` (2 bits) selects the mnemonic: `pop` 00, `jmp` 01, `call` 10, `jmpi` 11.
+
+Fields: `sub=p0[1:0]` `op1.abs=p1[15:0]+p2[15:0]`
+
 <a id="DPF-D28-3"></a>
-#### DPF-D28-3: DPF.D28, prefix `11011110101011`
+#### DPF-D28-3: DPF.D28, prefix `11010010011110`
 
 ![Layout DPF-D28-3](../figures/DPF-D28-3.svg)
 
@@ -2565,23 +2437,12 @@ Fields: `sub=p0[2]` `op1.r=p0[1:0]+p1[15:13]` `op2.r=p1[12:8]` `op3.pcrel=p1[7:0
 
 `op2` is `reg5`: register, 5 bits.
 
-`sub` (1 bit) selects the mnemonic: `fmul` 0, `bit` 1.
+`sub` (1 bit) selects the mnemonic: `fmul` 0, `lea` 1.
 
 Fields: `sub=p0[1]` `op2.r=p0[0]+p1[15:12]` `op1.d=p1[11:0]+p2[15:0]`
 
-<a id="BRF-2"></a>
-#### BRF-2: BRF, prefix `11011110101100`
-
-![Layout BRF-2](../figures/BRF-2.svg)
-
-`op1` is `pc32-u2`: pc-relative, 32 bits counted in 2-byte units (-4294967296 to 4294967294 bytes).
-
-`sub` (2 bits) selects the mnemonic: `bcs` 00, `bge` 01, `blt` 10, `bgt` 11.
-
-Fields: `sub=p0[1:0]` `op1.pcrel=p1[15:0]+p2[15:0]`
-
 <a id="JTAG3-1"></a>
-#### JTAG3-1: JTAG3, prefix `11011110101101`
+#### JTAG3-1: JTAG3, prefix `11010010011111`
 
 ![Layout JTAG3-1](../figures/JTAG3-1.svg)
 
@@ -2590,7 +2451,7 @@ Fields: `sub=p0[1:0]` `op1.pcrel=p1[15:0]+p2[15:0]`
 Fields: `op1.base=p0[1:0]+p1[15:13]` `op1.index=p1[12:8]` `op1.scale=p1[7:6]` `op1.d=p1[5:0]+p2[15:0]`
 
 <a id="CB3I16-12-a-1"></a>
-#### CB3I16-12-a-1: CB3I16_12/a, prefix `11011110111011`
+#### CB3I16-12-a-1: CB3I16_12/a, prefix `11010010101010`
 
 ![Layout CB3I16-12-a-1](../figures/CB3I16-12-a-1.svg)
 
@@ -2605,7 +2466,7 @@ Fields: `op1.base=p0[1:0]+p1[15:13]` `op1.index=p1[12:8]` `op1.scale=p1[7:6]` `o
 Fields: `sub=p0[1]` `op1.r=p0[0]+p1[15:12]` `op2.imm=p1[11:0]+p2[15:12]` `op3.pcrel=p2[11:0]`
 
 <a id="CB3I16-12H-b-1"></a>
-#### CB3I16-12H-b-1: CB3I16_12H/b, prefix `11011110111110`
+#### CB3I16-12H-b-1: CB3I16_12H/b, prefix `11010010101101`
 
 ![Layout CB3I16-12H-b-1](../figures/CB3I16-12H-b-1.svg)
 
@@ -2620,7 +2481,7 @@ Fields: `sub=p0[1]` `op1.r=p0[0]+p1[15:12]` `op2.imm=p1[11:0]+p2[15:12]` `op3.pc
 Fields: `sub=p0[1:0]` `op1.r=p1[15:12]` `op2.imm=p1[11:0]+p2[15:12]` `op3.pcrel=p2[11:0]`
 
 <a id="CB3R24H-b-1"></a>
-#### CB3R24H-b-1: CB3R24H/b, prefix `11011110111111`
+#### CB3R24H-b-1: CB3R24H/b, prefix `11010010101110`
 
 ![Layout CB3R24H-b-1](../figures/CB3R24H-b-1.svg)
 
@@ -2635,7 +2496,7 @@ Fields: `sub=p0[1:0]` `op1.r=p1[15:12]` `op2.imm=p1[11:0]+p2[15:12]` `op3.pcrel=
 Fields: `sub=p0[1:0]` `op1.r=p1[15:12]` `op2.r=p1[11:8]` `op3.pcrel=p1[7:0]+p2[15:0]`
 
 <a id="RETM-1"></a>
-#### RETM-1: RETM, prefix `11011111010001`
+#### RETM-1: RETM, prefix `11010010111111`
 
 ![Layout RETM-1](../figures/RETM-1.svg)
 
@@ -2645,30 +2506,17 @@ Fields: `sub=p0[1:0]` `op1.r=p1[15:12]` `op2.r=p1[11:8]` `op3.pcrel=p1[7:0]+p2[1
 
 Fields: `xsub=p0[1:0]` `op1.imm=p1[15:0]+p2[15:0]`
 
-<a id="DPF-D28-4"></a>
-#### DPF-D28-4: DPF.D28, prefix `110111110000011`
+<a id="SOF-B28-3"></a>
+#### SOF-B28-3: SOF.B28, prefix `110100101100001`
 
-![Layout DPF-D28-4](../figures/DPF-D28-4.svg)
+![Layout SOF-B28-3](../figures/SOF-B28-3.svg)
 
-`op1` is `dpd28s-x1`: memory at dp + signed 28-bit displacement times 1, -134217728 to 134217727 bytes.
+`op1` is `b5d28s-x1`: memory at base register, 5 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes.
 
-`op2` is `reg5`: register, 5 bits.
-
-Fields: `op2.r=p0[0]+p1[15:12]` `op1.d=p1[11:0]+p2[15:0]`
-
-<a id="BRF-3"></a>
-#### BRF-3: BRF, prefix `110111110000100`
-
-![Layout BRF-3](../figures/BRF-3.svg)
-
-`op1` is `pc32-u2`: pc-relative, 32 bits counted in 2-byte units (-4294967296 to 4294967294 bytes).
-
-`sub` (1 bit) selects the mnemonic: `ble` 0, `bhi` 1.
-
-Fields: `sub=p0[0]` `op1.pcrel=p1[15:0]+p2[15:0]`
+Fields: `op1.base=p0[0]+p1[15:12]` `op1.d=p1[11:0]+p2[15:0]`
 
 <a id="PUSHMF-1"></a>
-#### PUSHMF-1: PUSHMF, prefix `110111110000101`
+#### PUSHMF-1: PUSHMF, prefix `110100101100100`
 
 ![Layout PUSHMF-1](../figures/PUSHMF-1.svg)
 
@@ -2679,7 +2527,7 @@ Fields: `sub=p0[0]` `op1.pcrel=p1[15:0]+p2[15:0]`
 Fields: `sub=p0[0]` `op1.imm=p1[15:0]+p2[15:0]`
 
 <a id="SPADJF-1"></a>
-#### SPADJF-1: SPADJF, prefix `110111110000110`
+#### SPADJF-1: SPADJF, prefix `110100101100101`
 
 ![Layout SPADJF-1](../figures/SPADJF-1.svg)
 
@@ -2692,7 +2540,7 @@ Fields: `sub=p0[0]` `op1.imm=p1[15:0]+p2[15:0]`
 Fields: `sub=p0[0]` `op1.imm=p1[15:0]+p2[15:0]`
 
 <a id="CB3I12-16H-a-1"></a>
-#### CB3I12-16H-a-1: CB3I12_16H/a, prefix `110111110010011`
+#### CB3I12-16H-a-1: CB3I12_16H/a, prefix `110100101101100`
 
 ![Layout CB3I12-16H-a-1](../figures/CB3I12-16H-a-1.svg)
 
@@ -2706,17 +2554,35 @@ Fields: `sub=p0[0]` `op1.imm=p1[15:0]+p2[15:0]`
 
 Fields: `sub=p0[0]` `op1.r=p1[15:12]` `op2.imm=p1[11:0]` `op3.pcrel=p2[15:0]`
 
-<a id="BRF-4"></a>
-#### BRF-4: BRF, prefix `1101111100101000`
+<a id="SOF-PC32-3"></a>
+#### SOF-PC32-3: SOF.PC32, prefix `1101001011011010`
 
-![Layout BRF-4](../figures/BRF-4.svg)
+![Layout SOF-PC32-3](../figures/SOF-PC32-3.svg)
+
+`op1` is `pc32-u1`: pc-relative, 32 bits counted in 1-byte units (-2147483648 to 2147483647 bytes).
+
+Fields: `op1.pcrel=p1[15:0]+p2[15:0]`
+
+<a id="SOF-A32-3"></a>
+#### SOF-A32-3: SOF.A32, prefix `1101001011011011`
+
+![Layout SOF-A32-3](../figures/SOF-A32-3.svg)
+
+`op1` is `abs32`: absolute address, 32 bits.
+
+Fields: `op1.abs=p1[15:0]+p2[15:0]`
+
+<a id="BRF-1"></a>
+#### BRF-1: BRF, prefix `1101001011011100`
+
+![Layout BRF-1](../figures/BRF-1.svg)
 
 `op1` is `pc32-u2`: pc-relative, 32 bits counted in 2-byte units (-4294967296 to 4294967294 bytes).
 
 Fields: `op1.pcrel=p1[15:0]+p2[15:0]`
 
 <a id="CALLF-1"></a>
-#### CALLF-1: CALLF, prefix `1101111100101001`
+#### CALLF-1: CALLF, prefix `1101001011011101`
 
 ![Layout CALLF-1](../figures/CALLF-1.svg)
 
@@ -2725,7 +2591,7 @@ Fields: `op1.pcrel=p1[15:0]+p2[15:0]`
 Fields: `op1.pcrel=p1[15:0]+p2[15:0]`
 
 <a id="PUSHI3-1"></a>
-#### PUSHI3-1: PUSHI3, prefix `1101111100101010`
+#### PUSHI3-1: PUSHI3, prefix `1101001011011110`
 
 ![Layout PUSHI3-1](../figures/PUSHI3-1.svg)
 
@@ -2736,7 +2602,7 @@ Fields: `op1.imm=p1[15:0]+p2[15:0]`
 ### Instructions of 5 parcels (10 bytes)
 
 <a id="MOVQ64-1"></a>
-#### MOVQ64-1: MOVQ64, prefix `11011010111`
+#### MOVQ64-1: MOVQ64, prefix `11001110100`
 
 ![Layout MOVQ64-1](../figures/MOVQ64-1.svg)
 
@@ -2757,7 +2623,6 @@ For every mnemonic, the charts in which it is a sub-opcode or the whole leaf.
 * <a id="mn-abis"></a>`ABIS`: [ATOM-1](#ATOM-1)
 * <a id="mn-abisl"></a>`ABISL`: [ATOM-1](#ATOM-1)
 * <a id="mn-abs"></a>`ABS`: [R2-1](#R2-1)
-* <a id="mn-adc"></a>`ADC`: [SOF-B28-1](#SOF-B28-1), [SOF-X22-1](#SOF-X22-1), [SOF-PI12-1](#SOF-PI12-1), [SOF-PD12-1](#SOF-PD12-1), [SOF-PC32-1](#SOF-PC32-1), [SOF-A32-1](#SOF-A32-1), [SOPR-1](#SOPR-1)
 * <a id="mn-add"></a>`ADD`: [LDF-B28-1](#LDF-B28-1), [LDF-X22-1](#LDF-X22-1), [LDF-PI12-1](#LDF-PI12-1), [LDF-PD12-1](#LDF-PD12-1), [LDF-PC32-1](#LDF-PC32-1), [LDF-A32-1](#LDF-A32-1), [LDFI-I32-1](#LDFI-I32-1), [DPF-D28-1](#DPF-D28-1), [RRF-1](#RRF-1), [RRF5-1](#RRF5-1), [SPADJF-1](#SPADJF-1), [RR5-1](#RR5-1), [IMMh44-b-1](#IMMh44-b-1), [SPADJ6-a-1](#SPADJ6-a-1), [LDBu8-c-1](#LDBu8-c-1), [LDX0-c-1](#LDX0-c-1), [LDI12-b-1](#LDI12-b-1), [LDBu10H-c-1](#LDBu10H-c-1), [LDPC16H-c-1](#LDPC16H-c-1), [LDI18H-b-1](#LDI18H-b-1)
 * <a id="mn-addm"></a>`ADDM`: [STF-B28-1](#STF-B28-1), [STF-X22-1](#STF-X22-1), [STF-PI12-1](#STF-PI12-1), [STF-PD12-1](#STF-PD12-1), [STF-PC32-1](#STF-PC32-1), [STF-A32-1](#STF-A32-1)
 * <a id="mn-addv"></a>`ADDV`: [R2-1](#R2-1)
@@ -2777,29 +2642,16 @@ For every mnemonic, the charts in which it is a sub-opcode or the whole leaf.
 * <a id="mn-aminu"></a>`AMINU`: [ATOM-1](#ATOM-1)
 * <a id="mn-aminul"></a>`AMINUL`: [ATOM-1](#ATOM-1)
 * <a id="mn-and"></a>`AND`: [LDF-B28-1](#LDF-B28-1), [LDF-X22-1](#LDF-X22-1), [LDF-PI12-1](#LDF-PI12-1), [LDF-PD12-1](#LDF-PD12-1), [LDF-PC32-1](#LDF-PC32-1), [LDF-A32-1](#LDF-A32-1), [LDFI-I32-1](#LDFI-I32-1), [DPF-D28-1](#DPF-D28-1), [RRF-1](#RRF-1), [RRF5-1](#RRF5-1), [RR5-1](#RR5-1), [IMMh44-b-1](#IMMh44-b-1), [LDBu8-c-1](#LDBu8-c-1), [LDX0-c-1](#LDX0-c-1), [LDI12-b-2](#LDI12-b-2), [LDBu10H-c-1](#LDBu10H-c-1), [LDPC16H-c-1](#LDPC16H-c-1), [LDI18H-b-2](#LDI18H-b-2)
-* <a id="mn-asl"></a>`ASL`: [SOF-B28-1](#SOF-B28-1), [SOF-X22-1](#SOF-X22-1), [SOF-PI12-1](#SOF-PI12-1), [SOF-PD12-1](#SOF-PD12-1), [SOF-PC32-1](#SOF-PC32-1), [SOF-A32-1](#SOF-A32-1), [SOPR-2](#SOPR-2)
-* <a id="mn-asr"></a>`ASR`: [SOF-B28-1](#SOF-B28-1), [SOF-X22-1](#SOF-X22-1), [SOF-PI12-1](#SOF-PI12-1), [SOF-PD12-1](#SOF-PD12-1), [SOF-PC32-1](#SOF-PC32-1), [SOF-A32-1](#SOF-A32-1), [SOPR-2](#SOPR-2)
+* <a id="mn-asl"></a>`ASL`: [SOF-B28-1](#SOF-B28-1), [SOF-X22-1](#SOF-X22-1), [SOF-PI12-1](#SOF-PI12-1), [SOF-PD12-1](#SOF-PD12-1), [SOF-PC32-1](#SOF-PC32-1), [SOF-A32-1](#SOF-A32-1), [SOPR-1](#SOPR-1)
+* <a id="mn-asr"></a>`ASR`: [SOF-B28-1](#SOF-B28-1), [SOF-X22-1](#SOF-X22-1), [SOF-PI12-1](#SOF-PI12-1), [SOF-PD12-1](#SOF-PD12-1), [SOF-PC32-1](#SOF-PC32-1), [SOF-A32-1](#SOF-A32-1), [SOPR-1](#SOPR-1)
 * <a id="mn-axor"></a>`AXOR`: [ATOM-1](#ATOM-1)
 * <a id="mn-axorl"></a>`AXORL`: [ATOM-1](#ATOM-1)
-* <a id="mn-bcc"></a>`BCC`: [BRF-1](#BRF-1), [BR1-6-c-1](#BR1-6-c-1), [BR2-16-c-1](#BR2-16-c-1)
-* <a id="mn-bcs"></a>`BCS`: [BRF-2](#BRF-2), [BR1-6-c-1](#BR1-6-c-1), [BR2-16-c-1](#BR2-16-c-1)
-* <a id="mn-beq"></a>`BEQ`: [BRF-1](#BRF-1), [BR1-7-b-1](#BR1-7-b-1), [BR2-16-b-1](#BR2-16-b-1)
-* <a id="mn-bge"></a>`BGE`: [BRF-2](#BRF-2), [BR1-6-c-1](#BR1-6-c-1), [BR2-16-c-1](#BR2-16-c-1)
-* <a id="mn-bgt"></a>`BGT`: [BRF-2](#BRF-2), [BR1-6-c-2](#BR1-6-c-2), [BR2-16-c-2](#BR2-16-c-2)
-* <a id="mn-bhi"></a>`BHI`: [BRF-3](#BRF-3), [BR1-6-c-2](#BR1-6-c-2), [BR2-16-c-2](#BR2-16-c-2)
 * <a id="mn-bic"></a>`BIC`: [LDF-B28-1](#LDF-B28-1), [LDF-X22-1](#LDF-X22-1), [LDF-PI12-1](#LDF-PI12-1), [LDF-PD12-1](#LDF-PD12-1), [LDF-PC32-1](#LDF-PC32-1), [LDF-A32-1](#LDF-A32-1), [LDFI-I32-1](#LDFI-I32-1), [DPF-D28-1](#DPF-D28-1), [RRF-1](#RRF-1), [RRF5-1](#RRF5-1), [LDI12-d-2](#LDI12-d-2), [LDPC12H-d-1](#LDPC12H-d-1), [LDI14H-c-1](#LDI14H-c-1)
 * <a id="mn-bicm"></a>`BICM`: [STF-B28-1](#STF-B28-1), [STF-X22-1](#STF-X22-1), [STF-PI12-1](#STF-PI12-1), [STF-PD12-1](#STF-PD12-1), [STF-PC32-1](#STF-PC32-1), [STF-A32-1](#STF-A32-1)
 * <a id="mn-bis"></a>`BIS`: [LDF-B28-1](#LDF-B28-1), [LDF-X22-1](#LDF-X22-1), [LDF-PI12-1](#LDF-PI12-1), [LDF-PD12-1](#LDF-PD12-1), [LDF-PC32-1](#LDF-PC32-1), [LDF-A32-1](#LDF-A32-1), [LDFI-I32-1](#LDFI-I32-1), [DPF-D28-1](#DPF-D28-1), [RRF-1](#RRF-1), [RRF5-1](#RRF5-1), [RR5-1](#RR5-1), [LDBu8-c-1](#LDBu8-c-1), [LDX0-c-1](#LDX0-c-1), [LDBu10H-c-1](#LDBu10H-c-1), [LDPC16H-c-1](#LDPC16H-c-1), [LDI14H-c-1](#LDI14H-c-1)
 * <a id="mn-bism"></a>`BISM`: [STF-B28-1](#STF-B28-1), [STF-X22-1](#STF-X22-1), [STF-PI12-1](#STF-PI12-1), [STF-PD12-1](#STF-PD12-1), [STF-PC32-1](#STF-PC32-1), [STF-A32-1](#STF-A32-1)
-* <a id="mn-bit"></a>`BIT`: [LDF-B28-3](#LDF-B28-3), [LDF-X22-3](#LDF-X22-3), [LDF-PI12-3](#LDF-PI12-3), [LDF-PD12-3](#LDF-PD12-3), [LDF-PC32-3](#LDF-PC32-3), [LDF-A32-3](#LDF-A32-3), [LDFI-I32-1](#LDFI-I32-1), [DPF-D28-3](#DPF-D28-3), [RRF-2](#RRF-2), [RRF5-1](#RRF5-1), [LDI12-d-3](#LDI12-d-3), [LDPC12H-d-2](#LDPC12H-d-2)
 * <a id="mn-bitrev"></a>`BITREV`: [R2-1](#R2-1)
-* <a id="mn-ble"></a>`BLE`: [BRF-3](#BRF-3), [BR1-6-c-2](#BR1-6-c-2), [BR2-16-c-2](#BR2-16-c-2)
-* <a id="mn-blos"></a>`BLOS`: [BRF-4](#BRF-4), [BR1-6-c-2](#BR1-6-c-2), [BR2-16-c-2](#BR2-16-c-2)
-* <a id="mn-blt"></a>`BLT`: [BRF-2](#BRF-2), [BR1-6-c-1](#BR1-6-c-1), [BR2-16-c-1](#BR2-16-c-1)
-* <a id="mn-bmi"></a>`BMI`: [BRF-1](#BRF-1), [BR1-6-c-1](#BR1-6-c-1), [BR2-16-c-1](#BR2-16-c-1)
-* <a id="mn-bne"></a>`BNE`: [BRF-1](#BRF-1), [BR1-7-b-1](#BR1-7-b-1), [BR2-16-b-1](#BR2-16-b-1)
 * <a id="mn-bntag"></a>`BNTAG`: [TAG-1](#TAG-1)
-* <a id="mn-bpl"></a>`BPL`: [BRF-1](#BRF-1), [BR1-6-c-1](#BR1-6-c-1), [BR2-16-c-1](#BR2-16-c-1)
 * <a id="mn-bpt"></a>`BPT`: [SYS0-1](#SYS0-1)
 * <a id="mn-br"></a>`BR`: [BRF-1](#BRF-1), [BR1-9-a-1](#BR1-9-a-1), [BR2-16-a-1](#BR2-16-a-1)
 * <a id="mn-bsel"></a>`BSEL`: [R4-1](#R4-1)
@@ -2807,21 +2659,19 @@ For every mnemonic, the charts in which it is a sub-opcode or the whole leaf.
 * <a id="mn-bswapl"></a>`BSWAPL`: [R2-1](#R2-1)
 * <a id="mn-bswapw"></a>`BSWAPW`: [R2-1](#R2-1)
 * <a id="mn-btag"></a>`BTAG`: [TAG-1](#TAG-1)
-* <a id="mn-bvc"></a>`BVC`: [BRF-1](#BRF-1), [BR1-6-c-1](#BR1-6-c-1), [BR2-16-c-1](#BR2-16-c-1)
-* <a id="mn-bvs"></a>`BVS`: [BRF-1](#BRF-1), [BR1-6-c-1](#BR1-6-c-1), [BR2-16-c-1](#BR2-16-c-1)
-* <a id="mn-call"></a>`CALL`: [SOF-B28-1](#SOF-B28-1), [SOF-X22-1](#SOF-X22-1), [SOF-PI12-1](#SOF-PI12-1), [SOF-PD12-1](#SOF-PD12-1), [SOF-PC32-1](#SOF-PC32-1), [SOF-A32-1](#SOF-A32-1), [CALLF-1](#CALLF-1), [SOPR-3](#SOPR-3), [SOBu12-x-1](#SOBu12-x-1), [SOX4-x-1](#SOX4-x-1), [CALL2-20-c-1](#CALL2-20-c-1)
-* <a id="mn-calli"></a>`CALLI`: [SOF-B28-1](#SOF-B28-1), [SOF-X22-1](#SOF-X22-1), [SOF-PI12-1](#SOF-PI12-1), [SOF-PD12-1](#SOF-PD12-1), [SOF-PC32-1](#SOF-PC32-1), [SOF-A32-1](#SOF-A32-1), [SOBu12-x-1](#SOBu12-x-1), [SOX4-x-1](#SOX4-x-1)
+* <a id="mn-call"></a>`CALL`: [SOF-B28-2](#SOF-B28-2), [SOF-X22-2](#SOF-X22-2), [SOF-PI12-2](#SOF-PI12-2), [SOF-PD12-2](#SOF-PD12-2), [SOF-PC32-2](#SOF-PC32-2), [SOF-A32-2](#SOF-A32-2), [CALLF-1](#CALLF-1), [SOPR-3](#SOPR-3), [SOBu12-x-1](#SOBu12-x-1), [SOX4-x-1](#SOX4-x-1), [CALL2-20-c-1](#CALL2-20-c-1)
+* <a id="mn-calli"></a>`CALLI`: [SOF-B28-3](#SOF-B28-3), [SOF-X22-3](#SOF-X22-3), [SOF-PI12-3](#SOF-PI12-3), [SOF-PD12-3](#SOF-PD12-3), [SOF-PC32-3](#SOF-PC32-3), [SOF-A32-3](#SOF-A32-3), [SOBu12-x-1](#SOBu12-x-1), [SOX4-x-1](#SOX4-x-1)
 * <a id="mn-cas"></a>`CAS`: [ATOM-1](#ATOM-1)
 * <a id="mn-casl"></a>`CASL`: [ATOM-1](#ATOM-1)
-* <a id="mn-cbcc"></a>`CBCC`: [CBR8-c-1](#CBR8-c-1), [CB3I16-12-c-1](#CB3I16-12-c-1), [CBR10H-c-1](#CBR10H-c-1), [CBI3-10H-c-1](#CBI3-10H-c-1), [CBI8-8H-c-1](#CBI8-8H-c-1)
-* <a id="mn-cbcs"></a>`CBCS`: [CBR8-c-1](#CBR8-c-1), [CB3I16-12-c-1](#CB3I16-12-c-1), [CBR10H-c-1](#CBR10H-c-1), [CBI3-10H-c-1](#CBI3-10H-c-1), [CBI8-8H-c-1](#CBI8-8H-c-1)
+* <a id="mn-cbcc"></a>`CBCC`: [CBR8-c-1](#CBR8-c-1), [CB3I16-12-c-1](#CB3I16-12-c-1), [CBR10H-c-1](#CBR10H-c-1), [CBI3-10H-c-1](#CBI3-10H-c-1), [CBI8-8H-c-1](#CBI8-8H-c-1), [CB3R24-bc-1](#CB3R24-bc-1), [CB3I12-16-c-1](#CB3I12-16-c-1)
+* <a id="mn-cbcs"></a>`CBCS`: [CBR8-c-1](#CBR8-c-1), [CB3I16-12-c-1](#CB3I16-12-c-1), [CBR10H-c-1](#CBR10H-c-1), [CBI3-10H-c-1](#CBI3-10H-c-1), [CBI8-8H-c-1](#CBI8-8H-c-1), [CB3R24-bc-1](#CB3R24-bc-1), [CB3I12-16-c-1](#CB3I12-16-c-1)
 * <a id="mn-cbeq"></a>`CBEQ`: [CBZ1-5-a-1](#CBZ1-5-a-1), [CBR8-a-1](#CBR8-a-1), [CB3I16-12-a-1](#CB3I16-12-a-1), [CB3R24-a-1](#CB3R24-a-1), [CBI3-10-a-1](#CBI3-10-a-1), [CBI5-8-a-1](#CBI5-8-a-1), [CBR10H-a-1](#CBR10H-a-1), [CBZ2-14H-a-1](#CBZ2-14H-a-1), [CB3I12-16H-a-1](#CB3I12-16H-a-1), [CBI3-12H-a-1](#CBI3-12H-a-1), [CBI8-10H-a-1](#CBI8-10H-a-1), [CBI10-8H-a-1](#CBI10-8H-a-1)
-* <a id="mn-cbge"></a>`CBGE`: [CBR8-b-1](#CBR8-b-1), [CB3I12-16-b-1](#CB3I12-16-b-1), [CBI4-8-b-1](#CBI4-8-b-1), [CBZ2-12H-b-1](#CBZ2-12H-b-1), [CB3I16-12H-b-1](#CB3I16-12H-b-1), [CB3R24H-b-1](#CB3R24H-b-1), [CBI3-10H-b-1](#CBI3-10H-b-1), [CBI8-8H-b-1](#CBI8-8H-b-1)
-* <a id="mn-cbgt"></a>`CBGT`: [CBR8-b-1](#CBR8-b-1), [CB3I12-16-b-1](#CB3I12-16-b-1), [CBI4-8-b-1](#CBI4-8-b-1), [CBZ2-12H-b-1](#CBZ2-12H-b-1), [CB3I16-12H-b-1](#CB3I16-12H-b-1), [CB3R24H-b-1](#CB3R24H-b-1), [CBI3-10H-b-1](#CBI3-10H-b-1), [CBI8-8H-b-1](#CBI8-8H-b-1)
-* <a id="mn-cbhi"></a>`CBHI`: [CBR8-c-1](#CBR8-c-1), [CB3I16-12-c-1](#CB3I16-12-c-1), [CBR10H-c-1](#CBR10H-c-1), [CBI3-10H-c-1](#CBI3-10H-c-1), [CBI8-8H-c-1](#CBI8-8H-c-1)
-* <a id="mn-cble"></a>`CBLE`: [CBR8-b-1](#CBR8-b-1), [CB3I12-16-b-1](#CB3I12-16-b-1), [CBI4-8-b-1](#CBI4-8-b-1), [CBZ2-12H-b-1](#CBZ2-12H-b-1), [CB3I16-12H-b-1](#CB3I16-12H-b-1), [CB3R24H-b-1](#CB3R24H-b-1), [CBI3-10H-b-1](#CBI3-10H-b-1), [CBI8-8H-b-1](#CBI8-8H-b-1)
-* <a id="mn-cblos"></a>`CBLOS`: [CBR8-c-1](#CBR8-c-1), [CB3I16-12-c-1](#CB3I16-12-c-1), [CBR10H-c-1](#CBR10H-c-1), [CBI3-10H-c-1](#CBI3-10H-c-1), [CBI8-8H-c-1](#CBI8-8H-c-1)
-* <a id="mn-cblt"></a>`CBLT`: [CBR8-b-1](#CBR8-b-1), [CB3I12-16-b-1](#CB3I12-16-b-1), [CBI4-8-b-1](#CBI4-8-b-1), [CBZ2-12H-b-1](#CBZ2-12H-b-1), [CB3I16-12H-b-1](#CB3I16-12H-b-1), [CB3R24H-b-1](#CB3R24H-b-1), [CBI3-10H-b-1](#CBI3-10H-b-1), [CBI8-8H-b-1](#CBI8-8H-b-1)
+* <a id="mn-cbge"></a>`CBGE`: [CBR8-b-1](#CBR8-b-1), [CB3I12-16-b-1](#CB3I12-16-b-1), [CBI4-8-b-1](#CBI4-8-b-1), [CBZ2-12H-b-1](#CBZ2-12H-b-1), [CB3I16-12H-b-1](#CB3I16-12H-b-1), [CB3R24H-b-1](#CB3R24H-b-1), [CBI3-10H-b-1](#CBI3-10H-b-1), [CBI8-8H-b-1](#CBI8-8H-b-1), [CB3R24-bc-1](#CB3R24-bc-1), [CB3I16-12-b-1](#CB3I16-12-b-1)
+* <a id="mn-cbgt"></a>`CBGT`: [CBR8-b-1](#CBR8-b-1), [CB3I12-16-b-1](#CB3I12-16-b-1), [CBI4-8-b-1](#CBI4-8-b-1), [CBZ2-12H-b-1](#CBZ2-12H-b-1), [CB3I16-12H-b-1](#CB3I16-12H-b-1), [CB3R24H-b-1](#CB3R24H-b-1), [CBI3-10H-b-1](#CBI3-10H-b-1), [CBI8-8H-b-1](#CBI8-8H-b-1), [CB3R24-bc-1](#CB3R24-bc-1), [CB3I16-12-b-1](#CB3I16-12-b-1)
+* <a id="mn-cbhi"></a>`CBHI`: [CBR8-c-1](#CBR8-c-1), [CB3I16-12-c-1](#CB3I16-12-c-1), [CBR10H-c-1](#CBR10H-c-1), [CBI3-10H-c-1](#CBI3-10H-c-1), [CBI8-8H-c-1](#CBI8-8H-c-1), [CB3R24-bc-1](#CB3R24-bc-1), [CB3I12-16-c-1](#CB3I12-16-c-1)
+* <a id="mn-cble"></a>`CBLE`: [CBR8-b-1](#CBR8-b-1), [CB3I12-16-b-1](#CB3I12-16-b-1), [CBI4-8-b-1](#CBI4-8-b-1), [CBZ2-12H-b-1](#CBZ2-12H-b-1), [CB3I16-12H-b-1](#CB3I16-12H-b-1), [CB3R24H-b-1](#CB3R24H-b-1), [CBI3-10H-b-1](#CBI3-10H-b-1), [CBI8-8H-b-1](#CBI8-8H-b-1), [CB3R24-bc-1](#CB3R24-bc-1), [CB3I16-12-b-1](#CB3I16-12-b-1)
+* <a id="mn-cblos"></a>`CBLOS`: [CBR8-c-1](#CBR8-c-1), [CB3I16-12-c-1](#CB3I16-12-c-1), [CBR10H-c-1](#CBR10H-c-1), [CBI3-10H-c-1](#CBI3-10H-c-1), [CBI8-8H-c-1](#CBI8-8H-c-1), [CB3R24-bc-1](#CB3R24-bc-1), [CB3I12-16-c-1](#CB3I12-16-c-1)
+* <a id="mn-cblt"></a>`CBLT`: [CBR8-b-1](#CBR8-b-1), [CB3I12-16-b-1](#CB3I12-16-b-1), [CBI4-8-b-1](#CBI4-8-b-1), [CBZ2-12H-b-1](#CBZ2-12H-b-1), [CB3I16-12H-b-1](#CB3I16-12H-b-1), [CB3R24H-b-1](#CB3R24H-b-1), [CBI3-10H-b-1](#CBI3-10H-b-1), [CBI8-8H-b-1](#CBI8-8H-b-1), [CB3R24-bc-1](#CB3R24-bc-1), [CB3I16-12-b-1](#CB3I16-12-b-1)
 * <a id="mn-cbne"></a>`CBNE`: [CBZ1-5-a-1](#CBZ1-5-a-1), [CBR8-a-1](#CBR8-a-1), [CB3I16-12-a-1](#CB3I16-12-a-1), [CB3R24-a-1](#CB3R24-a-1), [CBI3-10-a-1](#CBI3-10-a-1), [CBI5-8-a-1](#CBI5-8-a-1), [CBR10H-a-1](#CBR10H-a-1), [CBZ2-14H-a-1](#CBZ2-14H-a-1), [CB3I12-16H-a-1](#CB3I12-16H-a-1), [CBI3-12H-a-1](#CBI3-12H-a-1), [CBI8-10H-a-1](#CBI8-10H-a-1), [CBI10-8H-a-1](#CBI10-8H-a-1)
 * <a id="mn-chk2"></a>`CHK2`: [R3-1](#R3-1)
 * <a id="mn-clmulh"></a>`CLMULH`: [R3-1](#R3-1)
@@ -2829,7 +2679,6 @@ For every mnemonic, the charts in which it is a sub-opcode or the whole leaf.
 * <a id="mn-clo"></a>`CLO`: [R2-1](#R2-1)
 * <a id="mn-clr"></a>`CLR`: [SOF-B28-1](#SOF-B28-1), [SOF-X22-1](#SOF-X22-1), [SOF-PI12-1](#SOF-PI12-1), [SOF-PD12-1](#SOF-PD12-1), [SOF-PC32-1](#SOF-PC32-1), [SOF-A32-1](#SOF-A32-1), [SOPR-1](#SOPR-1), [SOBs12-a-1](#SOBs12-a-1), [SOX4-a-1](#SOX4-a-1), [SOBu12H-a-1](#SOBu12H-a-1)
 * <a id="mn-clz"></a>`CLZ`: [R2-1](#R2-1)
-* <a id="mn-cmp"></a>`CMP`: [CMF-B28-1](#CMF-B28-1), [CMF-X22-1](#CMF-X22-1), [CMF-PI12-1](#CMF-PI12-1), [CMF-PD12-1](#CMF-PD12-1), [CMF-PC32-1](#CMF-PC32-1), [CMF-A32-1](#CMF-A32-1), [CMF-I32-1](#CMF-I32-1), [RRF-2](#RRF-2), [RRF5-1](#RRF5-1), [CMBu8-a-1](#CMBu8-a-1), [CMX0-a-1](#CMX0-a-1), [CMI12-a-1](#CMI12-a-1), [CMBu12H-a-1](#CMBu12H-a-1), [CMPC16H-a-1](#CMPC16H-a-1), [CMI18H-a-1](#CMI18H-a-1)
 * <a id="mn-com"></a>`COM`: [SOF-B28-1](#SOF-B28-1), [SOF-X22-1](#SOF-X22-1), [SOF-PI12-1](#SOF-PI12-1), [SOF-PD12-1](#SOF-PD12-1), [SOF-PC32-1](#SOF-PC32-1), [SOF-A32-1](#SOF-A32-1), [SOPR-1](#SOPR-1)
 * <a id="mn-ctcc"></a>`CTCC`: [R2-1](#R2-1), [CTM12-a-1](#CTM12-a-1)
 * <a id="mn-ctcs"></a>`CTCS`: [R2-1](#R2-1)
@@ -2840,12 +2689,8 @@ For every mnemonic, the charts in which it is a sub-opcode or the whole leaf.
 * <a id="mn-ctle"></a>`CTLE`: [R2-1](#R2-1)
 * <a id="mn-ctlos"></a>`CTLOS`: [R2-1](#R2-1)
 * <a id="mn-ctlt"></a>`CTLT`: [R2-1](#R2-1)
-* <a id="mn-ctmi"></a>`CTMI`: [R2-1](#R2-1)
 * <a id="mn-ctne"></a>`CTNE`: [CT1-1](#CT1-1), [R2-1](#R2-1), [CTM12-a-1](#CTM12-a-1)
 * <a id="mn-cto"></a>`CTO`: [R2-1](#R2-1)
-* <a id="mn-ctpl"></a>`CTPL`: [R2-1](#R2-1)
-* <a id="mn-ctvc"></a>`CTVC`: [R2-1](#R2-1)
-* <a id="mn-ctvs"></a>`CTVS`: [R2-1](#R2-1)
 * <a id="mn-ctz"></a>`CTZ`: [R2-1](#R2-1)
 * <a id="mn-dec"></a>`DEC`: [SOF-B28-1](#SOF-B28-1), [SOF-X22-1](#SOF-X22-1), [SOF-PI12-1](#SOF-PI12-1), [SOF-PD12-1](#SOF-PD12-1), [SOF-PC32-1](#SOF-PC32-1), [SOF-A32-1](#SOF-A32-1), [SOPR-1](#SOPR-1), [SOBs12-a-1](#SOBs12-a-1), [SOX4-a-1](#SOX4-a-1), [SOBu12H-a-1](#SOBu12H-a-1)
 * <a id="mn-div"></a>`DIV`: [R3-1](#R3-1)
@@ -2856,10 +2701,20 @@ For every mnemonic, the charts in which it is a sub-opcode or the whole leaf.
 * <a id="mn-fabs"></a>`FABS`: [R2-1](#R2-1)
 * <a id="mn-fadd"></a>`FADD`: [LDF-B28-2](#LDF-B28-2), [LDF-X22-2](#LDF-X22-2), [LDF-PI12-2](#LDF-PI12-2), [LDF-PD12-2](#LDF-PD12-2), [LDF-PC32-2](#LDF-PC32-2), [LDF-A32-2](#LDF-A32-2), [LDFI-I32-1](#LDFI-I32-1), [DPF-D28-2](#DPF-D28-2), [RRF-2](#RRF-2), [RRF5-1](#RRF5-1), [LDPC12H-d-1](#LDPC12H-d-1)
 * <a id="mn-fadd32"></a>`FADD32`: [R2-1](#R2-1)
+* <a id="mn-fcbeq"></a>`FCBEQ`: [FCBR10H-1](#FCBR10H-1), [FCB3R22-1](#FCB3R22-1)
+* <a id="mn-fcbeq32"></a>`FCBEQ32`: [FCBR10H-1](#FCBR10H-1), [FCB3R22-1](#FCB3R22-1)
+* <a id="mn-fcble"></a>`FCBLE`: [FCBR10H-1](#FCBR10H-1), [FCB3R22-1](#FCB3R22-1)
+* <a id="mn-fcble32"></a>`FCBLE32`: [FCBR10H-1](#FCBR10H-1), [FCB3R22-1](#FCB3R22-1)
+* <a id="mn-fcblt"></a>`FCBLT`: [FCBR10H-1](#FCBR10H-1), [FCB3R22-1](#FCB3R22-1)
+* <a id="mn-fcblt32"></a>`FCBLT32`: [FCBR10H-1](#FCBR10H-1), [FCB3R22-1](#FCB3R22-1)
+* <a id="mn-fcbne"></a>`FCBNE`: [FCBR10H-1](#FCBR10H-1), [FCB3R22-1](#FCB3R22-1)
+* <a id="mn-fcbne32"></a>`FCBNE32`: [FCBR10H-1](#FCBR10H-1), [FCB3R22-1](#FCB3R22-1)
+* <a id="mn-fcbor"></a>`FCBOR`: [FCBR10H-1](#FCBR10H-1), [FCB3R22-1](#FCB3R22-1)
+* <a id="mn-fcbor32"></a>`FCBOR32`: [FCBR10H-1](#FCBR10H-1), [FCB3R22-1](#FCB3R22-1)
+* <a id="mn-fcbuo"></a>`FCBUO`: [FCBR10H-1](#FCBR10H-1), [FCB3R22-1](#FCB3R22-1)
+* <a id="mn-fcbuo32"></a>`FCBUO32`: [FCBR10H-1](#FCBR10H-1), [FCB3R22-1](#FCB3R22-1)
 * <a id="mn-fclass"></a>`FCLASS`: [R2-1](#R2-1)
 * <a id="mn-fclass32"></a>`FCLASS32`: [R2-1](#R2-1)
-* <a id="mn-fcmp"></a>`FCMP`: [CMF-B28-1](#CMF-B28-1), [CMF-X22-1](#CMF-X22-1), [CMF-PI12-1](#CMF-PI12-1), [CMF-PD12-1](#CMF-PD12-1), [CMF-PC32-1](#CMF-PC32-1), [CMF-A32-1](#CMF-A32-1), [CMF-I32-1](#CMF-I32-1), [RRF-2](#RRF-2), [RRF5-1](#RRF5-1)
-* <a id="mn-fcmp32"></a>`FCMP32`: [R2-1](#R2-1)
 * <a id="mn-fcopysign"></a>`FCOPYSIGN`: [R3-1](#R3-1)
 * <a id="mn-fcvtdh"></a>`FCVTDH`: [R2-1](#R2-1)
 * <a id="mn-fcvtdq"></a>`FCVTDQ`: [R2-1](#R2-1)
@@ -2882,7 +2737,7 @@ For every mnemonic, the charts in which it is a sub-opcode or the whole leaf.
 * <a id="mn-fmadd32"></a>`FMADD32`: [R4-1](#R4-1)
 * <a id="mn-fmax"></a>`FMAX`: [R3-1](#R3-1)
 * <a id="mn-fmin"></a>`FMIN`: [R3-1](#R3-1)
-* <a id="mn-fmul"></a>`FMUL`: [LDF-B28-3](#LDF-B28-3), [LDF-X22-3](#LDF-X22-3), [LDF-PI12-3](#LDF-PI12-3), [LDF-PD12-3](#LDF-PD12-3), [LDF-PC32-3](#LDF-PC32-3), [LDF-A32-3](#LDF-A32-3), [LDFI-I32-1](#LDFI-I32-1), [DPF-D28-3](#DPF-D28-3), [RRF-2](#RRF-2), [RRF5-1](#RRF5-1), [LDPC12H-d-2](#LDPC12H-d-2)
+* <a id="mn-fmul"></a>`FMUL`: [LDF-B28-3](#LDF-B28-3), [LDF-X22-3](#LDF-X22-3), [LDF-PI12-3](#LDF-PI12-3), [LDF-PD12-3](#LDF-PD12-3), [LDF-PC32-3](#LDF-PC32-3), [LDF-A32-3](#LDF-A32-3), [LDFI-I32-1](#LDFI-I32-1), [DPF-D28-3](#DPF-D28-3), [RRF-3](#RRF-3), [RRF5-1](#RRF5-1), [LDPC12H-d-2](#LDPC12H-d-2)
 * <a id="mn-fmul32"></a>`FMUL32`: [R2-1](#R2-1)
 * <a id="mn-fneg"></a>`FNEG`: [R2-1](#R2-1)
 * <a id="mn-fnmsub"></a>`FNMSUB`: [R4-1](#R4-1)
@@ -2905,10 +2760,10 @@ For every mnemonic, the charts in which it is a sub-opcode or the whole leaf.
 * <a id="mn-inc"></a>`INC`: [SOF-B28-1](#SOF-B28-1), [SOF-X22-1](#SOF-X22-1), [SOF-PI12-1](#SOF-PI12-1), [SOF-PD12-1](#SOF-PD12-1), [SOF-PC32-1](#SOF-PC32-1), [SOF-A32-1](#SOF-A32-1), [SOPR-1](#SOPR-1), [SOBs12-a-1](#SOBs12-a-1), [SOX4-a-1](#SOX4-a-1), [SOBu12H-a-1](#SOBu12H-a-1)
 * <a id="mn-insb"></a>`INSB`: [BFy-1](#BFy-1)
 * <a id="mn-isync"></a>`ISYNC`: [SYS0-3](#SYS0-3)
-* <a id="mn-jmp"></a>`JMP`: [SOF-B28-1](#SOF-B28-1), [SOF-X22-1](#SOF-X22-1), [SOF-PI12-1](#SOF-PI12-1), [SOF-PD12-1](#SOF-PD12-1), [SOF-PC32-1](#SOF-PC32-1), [SOF-A32-1](#SOF-A32-1), [SOPR-3](#SOPR-3), [SOBu12-x-1](#SOBu12-x-1), [SOX4-x-1](#SOX4-x-1)
-* <a id="mn-jmpi"></a>`JMPI`: [SOF-B28-1](#SOF-B28-1), [SOF-X22-1](#SOF-X22-1), [SOF-PI12-1](#SOF-PI12-1), [SOF-PD12-1](#SOF-PD12-1), [SOF-PC32-1](#SOF-PC32-1), [SOF-A32-1](#SOF-A32-1), [SOBu12-x-1](#SOBu12-x-1), [SOX4-x-1](#SOX4-x-1)
+* <a id="mn-jmp"></a>`JMP`: [SOF-B28-2](#SOF-B28-2), [SOF-X22-2](#SOF-X22-2), [SOF-PI12-2](#SOF-PI12-2), [SOF-PD12-2](#SOF-PD12-2), [SOF-PC32-2](#SOF-PC32-2), [SOF-A32-2](#SOF-A32-2), [SOPR-2](#SOPR-2), [SOBu12-x-1](#SOBu12-x-1), [SOX4-x-1](#SOX4-x-1)
+* <a id="mn-jmpi"></a>`JMPI`: [SOF-B28-2](#SOF-B28-2), [SOF-X22-2](#SOF-X22-2), [SOF-PI12-2](#SOF-PI12-2), [SOF-PD12-2](#SOF-PD12-2), [SOF-PC32-2](#SOF-PC32-2), [SOF-A32-2](#SOF-A32-2), [SOBu12-x-1](#SOBu12-x-1), [SOX4-x-1](#SOX4-x-1)
 * <a id="mn-jtag"></a>`JTAG`: [JTAG3-1](#JTAG3-1), [JTAG2-1](#JTAG2-1)
-* <a id="mn-lea"></a>`LEA`: [LDF-B28-4](#LDF-B28-4), [LDF-X22-4](#LDF-X22-4), [LDF-PI12-4](#LDF-PI12-4), [LDF-PD12-4](#LDF-PD12-4), [LDF-PC32-4](#LDF-PC32-4), [LDF-A32-4](#LDF-A32-4), [DPF-D28-4](#DPF-D28-4), [LDHHH3-a-1](#LDHHH3-a-1), [LDSPh5-a-1](#LDSPh5-a-1), [LEASPh5-a-1](#LEASPh5-a-1), [LDBs10-a-1](#LDBs10-a-1), [LDX0-a-1](#LDX0-a-1), [LDPC14-a-1](#LDPC14-a-1), [LDBu12H-a-1](#LDBu12H-a-1), [LEAS12H-a-1](#LEAS12H-a-1), [LDX6H-a-1](#LDX6H-a-1), [LDPC16H-a-1](#LDPC16H-a-1)
+* <a id="mn-lea"></a>`LEA`: [LDF-B28-3](#LDF-B28-3), [LDF-X22-3](#LDF-X22-3), [LDF-PI12-3](#LDF-PI12-3), [LDF-PD12-3](#LDF-PD12-3), [LDF-PC32-3](#LDF-PC32-3), [LDF-A32-3](#LDF-A32-3), [DPF-D28-3](#DPF-D28-3), [LDHHH3-a-1](#LDHHH3-a-1), [LDSPh5-a-1](#LDSPh5-a-1), [LEASPh5-a-1](#LEASPh5-a-1), [LDBs10-a-1](#LDBs10-a-1), [LDX0-a-1](#LDX0-a-1), [LDPC14-a-1](#LDPC14-a-1), [LDBu12H-a-1](#LDBu12H-a-1), [LEAS12H-a-1](#LEAS12H-a-1), [LDX6H-a-1](#LDX6H-a-1), [LDPC16H-a-1](#LDPC16H-a-1)
 * <a id="mn-ll"></a>`LL`: [ATOML-1](#ATOML-1)
 * <a id="mn-lll"></a>`LLL`: [ATOML-1](#ATOML-1)
 * <a id="mn-lpad"></a>`LPAD`: [SYS0-1](#SYS0-1)
@@ -2932,7 +2787,7 @@ For every mnemonic, the charts in which it is a sub-opcode or the whole leaf.
 * <a id="mn-movb"></a>`MOVB`: [LDF-B28-1](#LDF-B28-1), [LDF-X22-1](#LDF-X22-1), [LDF-PI12-1](#LDF-PI12-1), [LDF-PD12-1](#LDF-PD12-1), [LDF-PC32-1](#LDF-PC32-1), [LDF-A32-1](#LDF-A32-1), [LDFI-I32-2](#LDFI-I32-2), [STF-B28-1](#STF-B28-1), [STF-X22-1](#STF-X22-1), [STF-PI12-1](#STF-PI12-1), [STF-PD12-1](#STF-PD12-1), [STF-PC32-1](#STF-PC32-1), [STF-A32-1](#STF-A32-1), [DPF-D28-1](#DPF-D28-1), [RRF-1](#RRF-1), [RRF5-1](#RRF5-1), [STHHH1-b-1](#STHHH1-b-1), [LDBs6-b-1](#LDBs6-b-1), [STBs6-b-1](#STBs6-b-1), [LDBu6-b-1](#LDBu6-b-1), [LDX0-b-1](#LDX0-b-1), [STX0-b-1](#STX0-b-1), [LDI12-d-2](#LDI12-d-2), [STBs8H-b-1](#STBs8H-b-1), [LDBu12H-b-1](#LDBu12H-b-1), [STBu12H-b-1](#STBu12H-b-1), [LDX4H-b-1](#LDX4H-b-1), [STX6H-b-1](#STX6H-b-1), [LDPC14H-b-1](#LDPC14H-b-1)
 * <a id="mn-movb-u"></a>`MOVB.U`: [LDU-B28-1](#LDU-B28-1), [STU-B28-1](#STU-B28-1), [LDU-B12-1](#LDU-B12-1), [STU-B12-1](#STU-B12-1), [LDU-X6-1](#LDU-X6-1), [STU-X6-1](#STU-X6-1)
 * <a id="mn-movcall"></a>`MOVCALL`: [FX-MOVCALL3-1](#FX-MOVCALL3-1), [FX-MOVCALL2-1](#FX-MOVCALL2-1)
-* <a id="mn-movl"></a>`MOVL`: [LDF-B28-1](#LDF-B28-1), [LDF-X22-1](#LDF-X22-1), [LDF-PI12-1](#LDF-PI12-1), [LDF-PD12-1](#LDF-PD12-1), [LDF-PC32-1](#LDF-PC32-1), [LDF-A32-1](#LDF-A32-1), [LDFI-I32-2](#LDFI-I32-2), [STF-B28-1](#STF-B28-1), [STF-X22-1](#STF-X22-1), [STF-PI12-1](#STF-PI12-1), [STF-PD12-1](#STF-PD12-1), [STF-PC32-1](#STF-PC32-1), [STF-A32-1](#STF-A32-1), [DPF-D28-1](#DPF-D28-1), [RRF-1](#RRF-1), [RRF5-1](#RRF5-1), [RR5-1](#RR5-1), [LDHHH3-a-1](#LDHHH3-a-1), [STHHH3-a-1](#STHHH3-a-1), [STSPh4-a-1](#STSPh4-a-1), [LDSPh5-a-1](#LDSPh5-a-1), [STBs8-a-1](#STBs8-a-1), [LDBs10-a-1](#LDBs10-a-1), [LDX0-a-1](#LDX0-a-1), [STX0-a-1](#STX0-a-1), [LDPC14-a-1](#LDPC14-a-1), [LDBu12H-a-1](#LDBu12H-a-1), [STBu12H-a-1](#STBu12H-a-1), [LDX6H-a-1](#LDX6H-a-1), [STX6H-a-1](#STX6H-a-1), [LDPC16H-a-1](#LDPC16H-a-1)
+* <a id="mn-movl"></a>`MOVL`: [LDF-B28-1](#LDF-B28-1), [LDF-X22-1](#LDF-X22-1), [LDF-PI12-1](#LDF-PI12-1), [LDF-PD12-1](#LDF-PD12-1), [LDF-PC32-1](#LDF-PC32-1), [LDF-A32-1](#LDF-A32-1), [LDFI-I32-1](#LDFI-I32-1), [STF-B28-1](#STF-B28-1), [STF-X22-1](#STF-X22-1), [STF-PI12-1](#STF-PI12-1), [STF-PD12-1](#STF-PD12-1), [STF-PC32-1](#STF-PC32-1), [STF-A32-1](#STF-A32-1), [DPF-D28-1](#DPF-D28-1), [RRF-1](#RRF-1), [RRF5-1](#RRF5-1), [RR5-1](#RR5-1), [LDHHH3-a-1](#LDHHH3-a-1), [STHHH3-a-1](#STHHH3-a-1), [STSPh4-a-1](#STSPh4-a-1), [LDSPh5-a-1](#LDSPh5-a-1), [STBs8-a-1](#STBs8-a-1), [LDBs10-a-1](#LDBs10-a-1), [LDX0-a-1](#LDX0-a-1), [STX0-a-1](#STX0-a-1), [LDPC14-a-1](#LDPC14-a-1), [LDBu12H-a-1](#LDBu12H-a-1), [STBu12H-a-1](#STBu12H-a-1), [LDX6H-a-1](#LDX6H-a-1), [STX6H-a-1](#STX6H-a-1), [LDPC16H-a-1](#LDPC16H-a-1)
 * <a id="mn-movl-u"></a>`MOVL.U`: [LDU-B28-1](#LDU-B28-1), [STU-B28-1](#STU-B28-1), [LDU-B12-1](#LDU-B12-1), [STU-B12-1](#STU-B12-1), [LDU-X6-1](#LDU-X6-1), [STU-X6-1](#STU-X6-1)
 * <a id="mn-movq"></a>`MOVQ`: [MOVQ64-1](#MOVQ64-1), [LDF-B28-1](#LDF-B28-1), [LDF-X22-1](#LDF-X22-1), [LDF-PI12-1](#LDF-PI12-1), [LDF-PD12-1](#LDF-PD12-1), [LDF-PC32-1](#LDF-PC32-1), [LDF-A32-1](#LDF-A32-1), [LDFI-I32-1](#LDFI-I32-1), [STF-B28-1](#STF-B28-1), [STF-X22-1](#STF-X22-1), [STF-PI12-1](#STF-PI12-1), [STF-PD12-1](#STF-PD12-1), [STF-PC32-1](#STF-PC32-1), [STF-A32-1](#STF-A32-1), [DPF-D28-1](#DPF-D28-1), [RRF-1](#RRF-1), [RRF5-1](#RRF5-1), [RR5-1](#RR5-1), [LDHHH3-a-1](#LDHHH3-a-1), [STHHH3-a-1](#STHHH3-a-1), [STSPh4-a-1](#STSPh4-a-1), [LDSPh5-a-1](#LDSPh5-a-1), [IMMh47-a-1](#IMMh47-a-1), [STBs8-a-1](#STBs8-a-1), [LDBs10-a-1](#LDBs10-a-1), [LDX0-a-1](#LDX0-a-1), [STX0-a-1](#STX0-a-1), [LDPC14-a-1](#LDPC14-a-1), [LDI12-a-1](#LDI12-a-1), [LDBu12H-a-1](#LDBu12H-a-1), [STBu12H-a-1](#STBu12H-a-1), [LDX6H-a-1](#LDX6H-a-1), [STX6H-a-1](#STX6H-a-1), [LDPC16H-a-1](#LDPC16H-a-1), [LDI18H-a-1](#LDI18H-a-1)
 * <a id="mn-movq-u"></a>`MOVQ.U`: [LDU-B28-1](#LDU-B28-1), [STU-B28-1](#STU-B28-1), [LDU-B12-1](#LDU-B12-1), [STU-B12-1](#STU-B12-1), [LDU-X6-1](#LDU-X6-1), [STU-X6-1](#STU-X6-1)
@@ -2942,7 +2797,7 @@ For every mnemonic, the charts in which it is a sub-opcode or the whole leaf.
 * <a id="mn-movzb-u"></a>`MOVZB.U`: [LDU-B28-3](#LDU-B28-3), [LDU-B12-3](#LDU-B12-3), [LDU-X6-3](#LDU-X6-3)
 * <a id="mn-movzl"></a>`MOVZL`: [LDF-B28-1](#LDF-B28-1), [LDF-X22-1](#LDF-X22-1), [LDF-PI12-1](#LDF-PI12-1), [LDF-PD12-1](#LDF-PD12-1), [LDF-PC32-1](#LDF-PC32-1), [LDF-A32-1](#LDF-A32-1), [LDFI-I32-2](#LDFI-I32-2), [DPF-D28-1](#DPF-D28-1), [RRF-1](#RRF-1), [RRF5-1](#RRF5-1), [LDBs6-b-1](#LDBs6-b-1), [LDBu6-b-1](#LDBu6-b-1), [LDX0-b-1](#LDX0-b-1), [LDBu12H-b-1](#LDBu12H-b-1), [LDX4H-b-1](#LDX4H-b-1), [LDPC14H-b-1](#LDPC14H-b-1)
 * <a id="mn-movzl-u"></a>`MOVZL.U`: [LDU-B28-2](#LDU-B28-2), [LDU-B12-2](#LDU-B12-2), [LDU-X6-2](#LDU-X6-2)
-* <a id="mn-movzw"></a>`MOVZW`: [LDF-B28-1](#LDF-B28-1), [LDF-X22-1](#LDF-X22-1), [LDF-PI12-1](#LDF-PI12-1), [LDF-PD12-1](#LDF-PD12-1), [LDF-PC32-1](#LDF-PC32-1), [LDF-A32-1](#LDF-A32-1), [LDFI-I32-3](#LDFI-I32-3), [DPF-D28-1](#DPF-D28-1), [RRF-1](#RRF-1), [RRF5-1](#RRF5-1), [LDBs6-b-1](#LDBs6-b-1), [LDBu6-b-1](#LDBu6-b-1), [LDX0-b-1](#LDX0-b-1), [LDBu12H-b-1](#LDBu12H-b-1), [LDX4H-b-1](#LDX4H-b-1), [LDPC14H-b-1](#LDPC14H-b-1)
+* <a id="mn-movzw"></a>`MOVZW`: [LDF-B28-1](#LDF-B28-1), [LDF-X22-1](#LDF-X22-1), [LDF-PI12-1](#LDF-PI12-1), [LDF-PD12-1](#LDF-PD12-1), [LDF-PC32-1](#LDF-PC32-1), [LDF-A32-1](#LDF-A32-1), [LDFI-I32-2](#LDFI-I32-2), [DPF-D28-1](#DPF-D28-1), [RRF-1](#RRF-1), [RRF5-1](#RRF5-1), [LDBs6-b-1](#LDBs6-b-1), [LDBu6-b-1](#LDBu6-b-1), [LDX0-b-1](#LDX0-b-1), [LDBu12H-b-1](#LDBu12H-b-1), [LDX4H-b-1](#LDX4H-b-1), [LDPC14H-b-1](#LDPC14H-b-1)
 * <a id="mn-movzw-u"></a>`MOVZW.U`: [LDU-B28-2](#LDU-B28-2), [LDU-B12-2](#LDU-B12-2), [LDU-X6-2](#LDU-X6-2)
 * <a id="mn-mscn"></a>`MSCN`: [R3-1](#R3-1)
 * <a id="mn-mscnn"></a>`MSCNN`: [R3-1](#R3-1)
@@ -2957,7 +2812,7 @@ For every mnemonic, the charts in which it is a sub-opcode or the whole leaf.
 * <a id="mn-mval"></a>`MVAL`: [R2-1](#R2-1)
 * <a id="mn-neg"></a>`NEG`: [SOF-B28-1](#SOF-B28-1), [SOF-X22-1](#SOF-X22-1), [SOF-PI12-1](#SOF-PI12-1), [SOF-PD12-1](#SOF-PD12-1), [SOF-PC32-1](#SOF-PC32-1), [SOF-A32-1](#SOF-A32-1), [SOPR-1](#SOPR-1)
 * <a id="mn-nop"></a>`NOP`: [SYS0-1](#SYS0-1)
-* <a id="mn-pop"></a>`POP`: [SOF-B28-1](#SOF-B28-1), [SOF-X22-1](#SOF-X22-1), [SOF-PI12-1](#SOF-PI12-1), [SOF-PD12-1](#SOF-PD12-1), [SOF-PC32-1](#SOF-PC32-1), [SOF-A32-1](#SOF-A32-1), [SOPR-2](#SOPR-2), [SOBs12-a-2](#SOBs12-a-2), [SOX4-a-2](#SOX4-a-2), [SOBu12H-a-2](#SOBu12H-a-2)
+* <a id="mn-pop"></a>`POP`: [SOF-B28-2](#SOF-B28-2), [SOF-X22-2](#SOF-X22-2), [SOF-PI12-2](#SOF-PI12-2), [SOF-PD12-2](#SOF-PD12-2), [SOF-PC32-2](#SOF-PC32-2), [SOF-A32-2](#SOF-A32-2), [SOPR-2](#SOPR-2), [SOBs12-a-2](#SOBs12-a-2), [SOX4-a-2](#SOX4-a-2), [SOBu12H-a-2](#SOBu12H-a-2)
 * <a id="mn-popcnt"></a>`POPCNT`: [R2-1](#R2-1)
 * <a id="mn-popm"></a>`POPM`: [PUSHMF-1](#PUSHMF-1), [PUSHM8-a-1](#PUSHM8-a-1), [PUSHM24-a-1](#PUSHM24-a-1)
 * <a id="mn-popmret"></a>`POPMRET`: [FX-POPMRET-1](#FX-POPMRET-1)
@@ -2965,7 +2820,7 @@ For every mnemonic, the charts in which it is a sub-opcode or the whole leaf.
 * <a id="mn-popx"></a>`POPX`: [SYS0-3](#SYS0-3)
 * <a id="mn-prober"></a>`PROBER`: [R2-1](#R2-1)
 * <a id="mn-probew"></a>`PROBEW`: [R2-1](#R2-1)
-* <a id="mn-push"></a>`PUSH`: [SOF-B28-1](#SOF-B28-1), [SOF-X22-1](#SOF-X22-1), [SOF-PI12-1](#SOF-PI12-1), [SOF-PD12-1](#SOF-PD12-1), [SOF-PC32-1](#SOF-PC32-1), [SOF-A32-1](#SOF-A32-1), [SOPR-2](#SOPR-2), [PUSHI3-1](#PUSHI3-1), [PUSHI2-1](#PUSHI2-1), [SOBs12-a-2](#SOBs12-a-2), [SOX4-a-2](#SOX4-a-2), [SOBu12H-a-2](#SOBu12H-a-2)
+* <a id="mn-push"></a>`PUSH`: [SOF-B28-1](#SOF-B28-1), [SOF-X22-1](#SOF-X22-1), [SOF-PI12-1](#SOF-PI12-1), [SOF-PD12-1](#SOF-PD12-1), [SOF-PC32-1](#SOF-PC32-1), [SOF-A32-1](#SOF-A32-1), [SOPR-1](#SOPR-1), [PUSHI3-1](#PUSHI3-1), [PUSHI2-1](#PUSHI2-1), [SOBs12-a-1](#SOBs12-a-1), [SOX4-a-1](#SOX4-a-1), [SOBu12H-a-1](#SOBu12H-a-1)
 * <a id="mn-pushm"></a>`PUSHM`: [PUSHMF-1](#PUSHMF-1), [PUSHM8-a-1](#PUSHM8-a-1), [PUSHM24-a-1](#PUSHM24-a-1)
 * <a id="mn-pushx"></a>`PUSHX`: [SYS0-2](#SYS0-2)
 * <a id="mn-ret"></a>`RET`: [SYS0-1](#SYS0-1)
@@ -2974,10 +2829,18 @@ For every mnemonic, the charts in which it is a sub-opcode or the whole leaf.
 * <a id="mn-rti"></a>`RTI`: [RETM-1](#RETM-1)
 * <a id="mn-rtt"></a>`RTT`: [RETM-1](#RETM-1)
 * <a id="mn-sar"></a>`SAR`: [LDF-B28-2](#LDF-B28-2), [LDF-X22-2](#LDF-X22-2), [LDF-PI12-2](#LDF-PI12-2), [LDF-PD12-2](#LDF-PD12-2), [LDF-PC32-2](#LDF-PC32-2), [LDF-A32-2](#LDF-A32-2), [LDFI-I32-1](#LDFI-I32-1), [DPF-D28-2](#DPF-D28-2), [RRF-2](#RRF-2), [RRF5-1](#RRF5-1), [SHIh44-a-2](#SHIh44-a-2), [LDI12-d-1](#LDI12-d-1), [LDPC12H-d-1](#LDPC12H-d-1)
-* <a id="mn-sbc"></a>`SBC`: [SOF-B28-1](#SOF-B28-1), [SOF-X22-1](#SOF-X22-1), [SOF-PI12-1](#SOF-PI12-1), [SOF-PD12-1](#SOF-PD12-1), [SOF-PC32-1](#SOF-PC32-1), [SOF-A32-1](#SOF-A32-1), [SOPR-1](#SOPR-1)
 * <a id="mn-sc"></a>`SC`: [ATOM-1](#ATOM-1)
 * <a id="mn-scl"></a>`SCL`: [ATOM-1](#ATOM-1)
-* <a id="mn-set"></a>`SET`: [SETF-1](#SETF-1)
+* <a id="mn-setcc"></a>`SETCC`: [SETCCR-1](#SETCCR-1), [SETCCI-1](#SETCCI-1)
+* <a id="mn-setcs"></a>`SETCS`: [SETCCR-1](#SETCCR-1), [SETCCI-1](#SETCCI-1)
+* <a id="mn-seteq"></a>`SETEQ`: [SETCCR-1](#SETCCR-1), [SETCCI-1](#SETCCI-1)
+* <a id="mn-setge"></a>`SETGE`: [SETCCR-1](#SETCCR-1), [SETCCI-1](#SETCCI-1)
+* <a id="mn-setgt"></a>`SETGT`: [SETCCR-1](#SETCCR-1), [SETCCI-1](#SETCCI-1)
+* <a id="mn-sethi"></a>`SETHI`: [SETCCR-1](#SETCCR-1), [SETCCI-1](#SETCCI-1)
+* <a id="mn-setle"></a>`SETLE`: [SETCCR-1](#SETCCR-1), [SETCCI-1](#SETCCI-1)
+* <a id="mn-setlos"></a>`SETLOS`: [SETCCR-1](#SETCCR-1), [SETCCI-1](#SETCCI-1)
+* <a id="mn-setlt"></a>`SETLT`: [SETCCR-1](#SETCCR-1), [SETCCI-1](#SETCCI-1)
+* <a id="mn-setne"></a>`SETNE`: [SETCCR-1](#SETCCR-1), [SETCCI-1](#SETCCI-1)
 * <a id="mn-sev"></a>`SEV`: [SYS0-1](#SYS0-1)
 * <a id="mn-sha256sig0"></a>`SHA256SIG0`: [R2-1](#R2-1)
 * <a id="mn-sha256sig1"></a>`SHA256SIG1`: [R2-1](#R2-1)
@@ -3002,7 +2865,6 @@ For every mnemonic, the charts in which it is a sub-opcode or the whole leaf.
 * <a id="mn-tlbigp"></a>`TLBIGP`: [TLBX-1](#TLBX-1)
 * <a id="mn-tlbsync"></a>`TLBSYNC`: [SYS0-2](#SYS0-2)
 * <a id="mn-trap"></a>`TRAP`: [SYSI-1](#SYSI-1)
-* <a id="mn-tst"></a>`TST`: [SOF-B28-1](#SOF-B28-1), [SOF-X22-1](#SOF-X22-1), [SOF-PI12-1](#SOF-PI12-1), [SOF-PD12-1](#SOF-PD12-1), [SOF-PC32-1](#SOF-PC32-1), [SOF-A32-1](#SOF-A32-1), [SOPR-1](#SOPR-1), [SOBs12-a-1](#SOBs12-a-1), [SOX4-a-1](#SOX4-a-1), [SOBu12H-a-1](#SOBu12H-a-1)
 * <a id="mn-utf8dec"></a>`UTF8DEC`: [R2-1](#R2-1)
 * <a id="mn-utf8enc"></a>`UTF8ENC`: [R2-1](#R2-1)
 * <a id="mn-utf8len"></a>`UTF8LEN`: [R2-1](#R2-1)

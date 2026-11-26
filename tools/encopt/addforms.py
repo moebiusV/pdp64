@@ -33,6 +33,8 @@ ap.add_argument('--drop-file')
 ap.add_argument('--corpus', default='')
 ap.add_argument('--remove-word', action='append', default=[], metavar='FORM=WORD', help='remove a word from a form (the form is rebuilt without it; every later word of its leaves moves down)')
 ap.add_argument('--add-word', action='append', default=[], metavar='FORM=WORD', help='add a word at the end of a form (it is numbered by the group mn-ext, which this tool writes)')
+ap.add_argument('--add-form', action='append', default=[], metavar='NAME:N:XBITS:WORDS:SHAPES', help='add a form: its parcels, the bits of its own sub-opcode (0: the words are binary-aligned groups), the words and the operand shapes, each list separated by commas; a shape is rW (a register of W bits), hW (a hot register, W bits), iWu or iWs (an immediate), pcW (pc-relative, in parcels)')
+ap.add_argument('--drop-word', action='append', default=[], metavar='WORD', help='remove WORD from every generated form that lists it (a form left with no word is dropped)')
 ap.add_argument('--repack-hand', metavar='SPECDIR', help='after the forms are laid out, move the leaves of the hand-written parts of SPECDIR/grammars.d to the first free patterns behind the generated ones (their prefixes are rewritten in place, their length is kept)')
 a = ap.parse_args()
 os.environ['PDP64_CORPUS_DIR_R32'] = a.corpus
@@ -82,6 +84,25 @@ for spec_ in a.add_word:
     if w in hit[0].mns:
         print('addforms: %s has the word %s (already added)' % (fn, w)); continue
     hit[0].mns = hit[0].mns + [w]; hit[0]._ms = set(hit[0].mns)
+def shape_of(tok):
+    m = re.fullmatch(r'([rh])(\d+)', tok)
+    if m:
+        w = int(m.group(2))
+        return SR(w, tuple(d['hot16']) if m.group(1) == 'h' else None)
+    m = re.fullmatch(r'i(\d+)([us])', tok)
+    if m: return SI(int(m.group(1)), m.group(2) == 's')
+    m = re.fullmatch(r'pc(\d+)', tok)
+    if m: return SPC(int(m.group(1)), 2)
+    raise SystemExit('addforms: unknown shape %s' % tok)
+for spec_ in a.add_form:
+    nm, n_, xb, words, shapes = spec_.split(':')
+    if any(f.name == nm for f in forms):
+        print('addforms: %s is already a form' % nm); continue
+    forms.append(Form(nm, int(n_), words.split(','), [shape_of(s) for s in shapes.split(',')], xbits=int(xb)))
+for w in a.drop_word:
+    for f in forms:
+        if w in f.mns: f.mns = [m for m in f.mns if m != w]; f._ms = set(f.mns)
+forms = [f for f in forms if f.mns]
 known = {f.name for f in forms}
 # idempotent: a form already dropped is not an error, and the forms of the family that the grammar already has are replaced by the ones vecfam.py makes now
 for n in sorted(drops - known):

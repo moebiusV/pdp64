@@ -14,29 +14,17 @@ _start:
 	movq	#0, r9
 	movq	#0, r12
 	lea	res1, r4
-	cmp	r1, r1
 ill1:
 	.word	0xffff		; an illegal instruction (no leaf has this first parcel)
 res1:
-	bne	FZ
-	cmp	r10, #(1)
-	bne	F1	; check 1
+	cbne r10, #(1), F1 ; check 1
 	lea	ill1, r11
-	cmp	r6, r11
-	bne	F2	; check 2
-	cmp	r7, #((MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|7<<PSW_PRI)|1<<PSW_Z)
-	bne	F3	; check 3
-	cmp	r8, #(VECTOR_ILLEGAL)
-	bne	F4	; check 4
-	cmp	r9, #(0)
-	bne	F5	; check 5
-	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|7<<PSW_PRI))
-	bne	F6	; check 6
-	br	2f
-FZ:	movq	#90, r0
-	halt
-2:
-	movq	#0, r4
+	cbne r6, r11, F2 ; check 2
+	cbne r7, #((MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|7<<PSW_PRI)), F3 ; check 3
+	cbne r8, #(VECTOR_ILLEGAL), F4 ; check 4
+	cbne r9, #(0), F5 ; check 5
+	cbne r12, #((MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|7<<PSW_PRI)), F6 ; check 6
+		movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
 	movq	#0, r7
@@ -50,15 +38,11 @@ FZ:	movq	#90, r0
 dz:
 	div	r1, r2, r3
 res2:
-	cmp	r10, #(1)
-	bne	F7	; check 7
+	cbne r10, #(1), F7 ; check 7
 	lea	dz, r11
-	cmp	r6, r11
-	bne	F8	; check 8
-	cmp	r8, #(VECTOR_DIVZERO)
-	bne	F9	; check 9
-	cmp	r3, #(77)
-	bne	F10	; check 10
+	cbne r6, r11, F8 ; check 8
+	cbne r8, #(VECTOR_DIVZERO), F9 ; check 9
+	cbne r3, #(77), F10 ; check 10
 	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
@@ -72,21 +56,15 @@ res2:
 mis0:
 	movq	(r3), r5
 resm0:
-	cmp	r10, #(1)
-	bne	F11	; check 11
+	cbne r10, #(1), F11 ; check 11
 	lea	mis0, r11
-	cmp	r6, r11
-	bne	F12	; check 12
-	cmp	r8, #(VECTOR_BUSFAULT)
-	bne	F13	; check 13
+	cbne r6, r11, F12 ; check 12
+	cbne r8, #(VECTOR_BUSFAULT), F13 ; check 13
 	movq	=(MAP_DEV_END+1), r2
-	cmp	r9, r2
-	bne	F14	; check 14
+	cbne r9, r2, F14 ; check 14
 	movq	=(MAP_DEV_END+1), r2
-	cmp	r3, r2
-	bne	F15	; check 15
-	cmp	r5, #(99)
-	bne	F16	; check 16
+	cbne r3, r2, F15 ; check 15
+	cbne r5, #(99), F16 ; check 16
 	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
@@ -100,21 +78,15 @@ resm0:
 mis1:
 	movq	(r3)+, r5
 resm1:
-	cmp	r10, #(1)
-	bne	F17	; check 17
+	cbne r10, #(1), F17 ; check 17
 	lea	mis1, r11
-	cmp	r6, r11
-	bne	F18	; check 18
-	cmp	r8, #(VECTOR_BUSFAULT)
-	bne	F19	; check 19
+	cbne r6, r11, F18 ; check 18
+	cbne r8, #(VECTOR_BUSFAULT), F19 ; check 19
 	movq	=(MAP_DEV_END+3), r2
-	cmp	r9, r2
-	bne	F20	; check 20
+	cbne r9, r2, F20 ; check 20
 	movq	=(MAP_DEV_END+3), r2
-	cmp	r3, r2
-	bne	F21	; check 21
-	cmp	r5, #(99)
-	bne	F22	; check 22
+	cbne r3, r2, F21 ; check 21
+	cbne r5, #(99), F22 ; check 22
 	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
@@ -128,21 +100,15 @@ resm1:
 mis2:
 	movq	-(r3), r5
 resm2:
-	cmp	r10, #(1)
-	bne	F23	; check 23
+	cbne r10, #(1), F23 ; check 23
 	lea	mis2, r11
-	cmp	r6, r11
-	bne	F24	; check 24
-	cmp	r8, #(VECTOR_BUSFAULT)
-	bne	F25	; check 25
+	cbne r6, r11, F24 ; check 24
+	cbne r8, #(VECTOR_BUSFAULT), F25 ; check 25
 	movq	=(MAP_DEV_END+3), r2
-	cmp	r9, r2
-	bne	F26	; check 26
+	cbne r9, r2, F26 ; check 26
 	movq	=(MAP_DEV_END+11), r2
-	cmp	r3, r2
-	bne	F27	; check 27
-	cmp	r5, #(99)
-	bne	F28	; check 28
+	cbne r3, r2, F27 ; check 27
+	cbne r5, #(99), F28 ; check 28
 	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
@@ -156,21 +122,15 @@ resm2:
 mis3:
 	movq	r5, (r3)+
 resm3:
-	cmp	r10, #(1)
-	bne	F29	; check 29
+	cbne r10, #(1), F29 ; check 29
 	lea	mis3, r11
-	cmp	r6, r11
-	bne	F30	; check 30
-	cmp	r8, #(VECTOR_BUSFAULT)
-	bne	F31	; check 31
+	cbne r6, r11, F30 ; check 30
+	cbne r8, #(VECTOR_BUSFAULT), F31 ; check 31
 	movq	=(MAP_DEV_END+5), r2
-	cmp	r9, r2
-	bne	F32	; check 32
+	cbne r9, r2, F32 ; check 32
 	movq	=(MAP_DEV_END+5), r2
-	cmp	r3, r2
-	bne	F33	; check 33
-	cmp	r5, #(99)
-	bne	F34	; check 34
+	cbne r3, r2, F33 ; check 33
+	cbne r5, #(99), F34 ; check 34
 	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
@@ -184,21 +144,15 @@ resm3:
 mis4:
 	movq	r5, -(r3)
 resm4:
-	cmp	r10, #(1)
-	bne	F35	; check 35
+	cbne r10, #(1), F35 ; check 35
 	lea	mis4, r11
-	cmp	r6, r11
-	bne	F36	; check 36
-	cmp	r8, #(VECTOR_BUSFAULT)
-	bne	F37	; check 37
+	cbne r6, r11, F36 ; check 36
+	cbne r8, #(VECTOR_BUSFAULT), F37 ; check 37
 	movq	=(MAP_DEV_END+5), r2
-	cmp	r9, r2
-	bne	F38	; check 38
+	cbne r9, r2, F38 ; check 38
 	movq	=(MAP_DEV_END+13), r2
-	cmp	r3, r2
-	bne	F39	; check 39
-	cmp	r5, #(99)
-	bne	F40	; check 40
+	cbne r3, r2, F39 ; check 39
+	cbne r5, #(99), F40 ; check 40
 	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
@@ -211,16 +165,12 @@ resm4:
 un:
 	movq	(r3), r5
 res4:
-	cmp	r10, #(1)
-	bne	F41	; check 41
+	cbne r10, #(1), F41 ; check 41
 	lea	un, r11
-	cmp	r6, r11
-	bne	F42	; check 42
-	cmp	r8, #(VECTOR_BUSFAULT)
-	bne	F43	; check 43
+	cbne r6, r11, F42 ; check 42
+	cbne r8, #(VECTOR_BUSFAULT), F43 ; check 43
 	movq	=MAP_DEV_END, r2
-	cmp	r9, r2
-	bne	F44	; check 44
+	cbne r9, r2, F44 ; check 44
 	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
@@ -231,16 +181,11 @@ res4:
 	movq	#0, r4
 	bpt
 afterbpt:
-	cmp	r10, #(1)
-	bne	F45	; check 45
+	cbne r10, #(1), F45 ; check 45
 	lea	afterbpt, r11
-	cmp	r6, r11
-	bne	F46	; check 46
-	cmp	r8, #(VECTOR_BPT)
-	bne	F47	; check 47
-	bic	#15, r7
-	cmp	r7, #((MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|7<<PSW_PRI))
-	bne	F48	; check 48
+	cbne r6, r11, F46 ; check 46
+	cbne r8, #(VECTOR_BPT), F47 ; check 47
+	cbne r7, #((MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|7<<PSW_PRI)), F48 ; check 48
 	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
@@ -250,15 +195,11 @@ afterbpt:
 	movq	#0, r12
 	trap	#3
 aftertrap:
-	cmp	r10, #(1)
-	bne	F49	; check 49
+	cbne r10, #(1), F49 ; check 49
 	lea	aftertrap, r11
-	cmp	r6, r11
-	bne	F50	; check 50
-	cmp	r8, #(VECTOR_TRAP_BASE+3)
-	bne	F51	; check 51
-	cmp	r9, #(0)
-	bne	F52	; check 52
+	cbne r6, r11, F50 ; check 50
+	cbne r8, #(VECTOR_TRAP_BASE+3), F51 ; check 51
+	cbne r9, #(0), F52 ; check 52
 	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
@@ -268,13 +209,10 @@ aftertrap:
 	movq	#0, r12
 	trap	#200
 aftertrap200:
-	cmp	r10, #(1)
-	bne	F53	; check 53
+	cbne r10, #(1), F53 ; check 53
 	lea	aftertrap200, r11
-	cmp	r6, r11
-	bne	F54	; check 54
-	cmp	r8, #(VECTOR_TRAP_BASE+200)
-	bne	F55	; check 55
+	cbne r6, r11, F54 ; check 54
+	cbne r8, #(VECTOR_TRAP_BASE+200), F55 ; check 55
 	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
@@ -284,10 +222,8 @@ aftertrap200:
 	movq	#0, r12
 	trap	#15
 afterfifteen:
-	cmp	r10, #(1)
-	bne	F56	; check 56
-	cmp	r8, #(VECTOR_TRAP_BASE+15)
-	bne	F57	; check 57
+	cbne r10, #(1), F56 ; check 56
+	cbne r8, #(VECTOR_TRAP_BASE+15), F57 ; check 57
 	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
@@ -300,13 +236,10 @@ afterfifteen:
 badmtps:
 	mtps	r1
 res6:
-	cmp	r10, #(1)
-	bne	F58	; check 58
+	cbne r10, #(1), F58 ; check 58
 	lea	badmtps, r11
-	cmp	r6, r11
-	bne	F59	; check 59
-	cmp	r8, #(VECTOR_ILLEGAL)
-	bne	F60	; check 60
+	cbne r6, r11, F59 ; check 59
+	cbne r8, #(VECTOR_ILLEGAL), F60 ; check 60
 	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
@@ -321,13 +254,10 @@ res6:
 badrti:
 	rti	#RTIMASK_ALL
 res7:
-	cmp	r10, #(1)
-	bne	F61	; check 61
+	cbne r10, #(1), F61 ; check 61
 	lea	badrti, r11
-	cmp	r6, r11
-	bne	F62	; check 62
-	cmp	r8, #(VECTOR_ILLEGAL)
-	bne	F63	; check 63
+	cbne r6, r11, F62 ; check 62
+	cbne r8, #(VECTOR_ILLEGAL), F63 ; check 63
 	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
@@ -338,14 +268,11 @@ res7:
 	trap	#4
 afternest:
 	lea	afternest, r11
-	cmp	r6, r11
-	bne	F64	; check 64
+	cbne r6, r11, F64 ; check 64
 	lea	inner_after, r11
-	cmp	r7, r11
-	bne	F65	; check 65
+	cbne r7, r11, F65 ; check 65
 	lea	inner_after, r11
-	cmp	r9, r11
-	bne	F66	; check 66
+	cbne r9, r11, F66 ; check 66
 	movq	#0, r0
 	halt
 F1:	movq	#1, r0

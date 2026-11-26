@@ -110,11 +110,9 @@ h_fault:
 	mfsr	r12, eva
 	movq	r12, last_eva
 	movq	=(0x800000), r11
-	cmp	r12, r11
-	blo	h_bad
+	cblo	r12, r11, h_bad
 	movq	=(0xa00000), r11
-	cmp	r12, r11
-	bhis	h_bad
+	cbhis	r12, r11, h_bad
 	mfsr	r12, eva
 	movq	=(0x800000), r11
 	sub	r11, r12

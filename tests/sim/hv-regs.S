@@ -252,18 +252,18 @@ _start:
 	movq	#38, r0
 	halt
 1:
-	movq	=0xfff, r2
+	movq	=0xff0, r2
 	mtsr	hepsw, r2
 	mfsr	r3, hepsw
-	movq	=(0xfff), r11
+	movq	=(0xff0), r11
 	cbeq	r3, r11, 1f
 	movq	#39, r0
 	halt
 1:
-	movq	=0x0123, r2
+	movq	=0x0120, r2
 	mtsr	hepsw, r2
 	mfsr	r3, hepsw
-	movq	=(0x0123), r11
+	movq	=(0x0120), r11
 	cbeq	r3, r11, 1f
 	movq	#40, r0
 	halt
@@ -1080,7 +1080,7 @@ R8:
 	; --- the exception of the hypervisor itself writes HEPC, HEPSW, HEVA, HCAUSE and HEXITR (code 0) and not the guest's EPC, EPSW, EVA, ECAUSE
 	movq	=0x13572468, r2
 	mtsr	epc, r2
-	movq	=0x0abc, r2
+	movq	=0x0ab0, r2
 	mtsr	epsw, r2
 	movq	=0x24681357, r2
 	mtsr	geva, r2
@@ -1115,7 +1115,7 @@ R8:
 	halt
 1:
 	mfsr	r3, epsw
-	movq	=(0x0abc), r11
+	movq	=(0x0ab0), r11
 	cbeq	r3, r11, 1f
 	movq	#157, r0
 	halt
@@ -1154,11 +1154,11 @@ R8:
 	; --- PUSHX and POPX at H = 1 use HEPC and HEPSW, and the guest's EPC and EPSW are not touched
 	movq	=0x1111aaaa, r2
 	mtsr	hepc, r2
-	movq	=0x0555, r2
+	movq	=0x0550, r2
 	mtsr	hepsw, r2
 	pushx
 	movq	(r14), r3
-	movq	=(0x0555), r11
+	movq	=(0x0550), r11
 	cbeq	r3, r11, 1f
 	movq	#163, r0
 	halt
@@ -1180,7 +1180,7 @@ R8:
 	halt
 1:
 	mfsr	r3, hepsw
-	movq	=(0x0555), r11
+	movq	=(0x0550), r11
 	cbeq	r3, r11, 1f
 	movq	#166, r0
 	halt
@@ -1192,7 +1192,7 @@ R8:
 	halt
 1:
 	mfsr	r3, epsw
-	movq	=(0x0abc), r11
+	movq	=(0x0ab0), r11
 	cbeq	r3, r11, 1f
 	movq	#168, r0
 	halt

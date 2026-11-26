@@ -4,7 +4,7 @@
  * An instruction of the source becomes one or two instructions of the codec (an einsn: a mnemonic and operands of the shapes R, I, B, X, PI, PD, PC, A):
  *   - the operands are the operands as written, in the order written; the mnemonic is the word the grammar matched, with an alias replaced by the word it
  *     stands for (bhis is bcc, mulu is mul...); `jmp label` is br;
- *   - a cbCC for which no form reaches (a far target, a wide immediate, an external label) is assembled as cmp + bCC (the flags are written);
+ *   - a cbCC for which no form reaches (a target beyond the long forms, an external label) is assembled as the opposite cbCC over a br to the target;
  * The length of an instruction is the length of the first form that takes its operands; it never shrinks between passes.
  */
 #include "pdp64enc.h"
@@ -34,7 +34,6 @@ static void enc_setup(void)
 
 static const char *stmt_canon(const struct stmt *st)
 {
-	if (st->mg == MG_COND) return "set";
 	if (st->mg == MG_SYSREG) return st->mnum == MN_SYSREG_MFSR ? "mfsr" : "mtsr";
 	return mn_canon[st->mg][st->mnum];
 }
@@ -189,7 +188,8 @@ static int eplan(const struct stmt *st, int64_t pos, const int minn[4], struct h
 
 	if (!name) { err(st->line, "this instruction is not in the encoding %s", etab->name); return -1; }
 	if (!regs_ok(st, 1)) return -1;
-	int isbranch = mg == MG_BRANCH || mg == MG_CBRANCH || mg == MG_SOB || mg == MG_TAG;
+	int fcb = mg == MG_EXT && name[0] == 'f' && name[1] == 'c' && name[2] == 'b';		/* fcbCC, fcbCC32: floating-point compare and branch */
+	int isbranch = mg == MG_BRANCH || mg == MG_CBRANCH || mg == MG_SOB || mg == MG_TAG || fcb;
 	/* `jmp label` is `br label`: the same operation with the same reach, and br has the one-parcel form besides (docs/errata.md 214).  The other jmp operands (a register, memory, an absolute address) stay jmp. */
 	if (mg == MG_SOP && st->mnum == MN_SOP_JMP && n == 1 && st->ops[0].kind == OK_BARE) { name = "br"; isbranch = 1; }
 	/* fneg32 and fabs32 (sign operations on a binary32 held sign-extended in a register): `fneg32 Rs, Rd` is `xor #-2147483648, Rd`, `fabs32 Rs, Rd` is
@@ -250,12 +250,6 @@ static int eplan(const struct stmt *st, int64_t pos, const int minn[4], struct h
 	if (mn < 0) { err(st->line, "%s: this instruction does not exist in %s", name, etab->name); return -1; }
 	hw_init(&hw[0], mn);
 	slot[0] = 0; slot[1] = 0;
-	if (mg == MG_COND) {							/* set cc, rd */
-		if (n != 1 || st->ops[0].kind != OK_REG) { err(st->line, "set cc, register"); return -1; }
-		hw[0].in.nops = 2;
-		hw[0].in.op[0].k = EK_I; hw[0].in.op[0].v = st->cc;
-		return econv(st, 0, 1, pos, 0, 0, &hw[0]) < 0 ? -1 : 1;
-	}
 	if (mg == MG_SYSREG) {							/* mfsr rd, name / mtsr name, rs */
 		int ismf = st->mnum == MN_SYSREG_MFSR, k = ismf ? 0 : 1;
 		const char *form = ismf ? "mfsr register, name" : "mtsr name, register";
@@ -279,21 +273,37 @@ static int eplan(const struct stmt *st, int64_t pos, const int minn[4], struct h
 		hw[0].in.nops = dst;
 	}
 	if ((!strcmp(name, "pushm") || !strcmp(name, "popm")) && (n != 1 || mask_fix(st, &hw[0].in.op[0]))) { if (n != 1) err(st->line, "pushm/popm take #mask"); return -1; }
+	if (fcb) {									/* fcbgt and fcbge are fcblt and fcble with the two registers exchanged (a NaN makes both false, so the exchange is exact) */
+		if (n != 3 || st->ops[0].kind != OK_REG || st->ops[1].kind != OK_REG) { err(st->line, "%s Ra, Rb, target: two registers and a label", mn_word[mg][st->mnum]); return -1; }
+		if (st->mnum >= 0x1000) { struct eop tmp = hw[0].in.op[0]; hw[0].in.op[0] = hw[0].in.op[1]; hw[0].in.op[1] = tmp; }
+	}
 	if (hw_len(&hw[0], minn[0])) return 1;
-	/* a cbCC no form reaches: cmp, then the branch */
+	/* a cbCC no form reaches (a target beyond the long forms, an external label): the opposite condition branches over a br to the target; no flag is involved.  The linker is told not to move code in this object
+	   (text_poison): the skip distance is a constant that a shrinking br would make wrong. */
 	if (mg == MG_CBRANCH && n == 3) {
-		char bn[16];
-		snprintf(bn, sizeof bn, "b%s", name + 2);
-		int cm = enc_mn_find(etab, "cmp"), bm = enc_mn_find(etab, bn);
-		if (cm >= 0 && bm >= 0) {
+		static const char *inv[][2] = { { "cbeq", "cbne" }, { "cblt", "cbge" }, { "cbgt", "cble" }, { "cbcs", "cbcc" }, { "cbhi", "cblos" } };
+		const char *iname = NULL;
+		for (unsigned k = 0; k < sizeof inv / sizeof *inv; k++) {
+			if (!strcmp(name, inv[k][0])) iname = inv[k][1];
+			else if (!strcmp(name, inv[k][1])) iname = inv[k][0];
+		}
+		int im = iname ? enc_mn_find(etab, iname) : -1, bm = enc_mn_find(etab, "br");
+		if (im >= 0 && bm >= 0) {
 			struct hw c, b;
-			hw_init(&c, cm); hw_init(&b, bm);
-			c.in.nops = 2; c.in.op[0] = hw[0].in.op[0]; c.in.op[1] = hw[0].in.op[1];
-			int n1 = hw_len(&c, minn[2]);
-			if (n1) {
+			int n1 = 2, n2 = 0;
+			for (int round = 0; round < 4; round++) {
+				hw_init(&b, bm);
 				b.isbranch = 1; b.in.nops = 1;
 				if (econv(st, 2, 0, pos + 2 * n1, 0, 1, &b) < 0) return -1;
-				if (hw_len(&b, minn[3])) { hw[0] = c; hw[1] = b; slot[0] = 2; slot[1] = 3; return 2; }
+				n2 = hw_len(&b, minn[3]);
+				if (!n2) return 1;
+				hw_init(&c, im);
+				c.in.nops = 3; c.in.op[0] = hw[0].in.op[0]; c.in.op[1] = hw[0].in.op[1];
+				c.in.op[2].k = EK_PC; c.in.op[2].v = 2 * (n1 + n2);
+				int m1 = hw_len(&c, minn[2]);
+				if (!m1) return 1;
+				if (m1 == n1) { hw[0] = c; hw[1] = b; slot[0] = 2; slot[1] = 3; text_poison = 1; return 2; }
+				n1 = m1;
 			}
 		}
 	}

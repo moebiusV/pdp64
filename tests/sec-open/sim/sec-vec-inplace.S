@@ -47,8 +47,7 @@ kfill:	movq	r2, (r1)+
 	movq	#8, r6
 	movq	#0, r8
 lw0:	movl	(r4)+, r5
-	cmp	r5, #1
-	beq	1f
+	cbeq	r5, #1, 1f
 	add	#1, r8
 1:	sob	r6, lw0
 	cbeq	r8, #0, 1f	; check 2 lanes that are not 1 after the ordinary block
@@ -78,8 +77,7 @@ lw0:	movl	(r4)+, r5
 	movq	#8, r6
 	movq	#0, r8
 lw1:	movl	(r4)+, r5
-	cmp	r5, #1
-	beq	1f
+	cbeq	r5, #1, 1f
 	add	#1, r8
 1:	sob	r6, lw1
 	cbeq	r8, #0, 1f	; check 4 lanes that are not 1 after the hidden (accumulator) block
@@ -100,11 +98,9 @@ h_fault:
 	mfsr	r12, eva
 	movq	r12, last_eva
 	movq	=(0x800000), r11
-	cmp	r12, r11
-	blo	h_bad
+	cblo	r12, r11, h_bad
 	movq	=(0xa00000), r11
-	cmp	r12, r11
-	bhis	h_bad
+	cbhis	r12, r11, h_bad
 	mfsr	r12, eva
 	movq	=(0x800000), r11
 	sub	r11, r12

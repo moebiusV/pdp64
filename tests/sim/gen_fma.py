@@ -142,7 +142,7 @@ class Out:
     def a(self, *ls): self.l += ['\t' + x if not x.endswith(':') else x for x in ls]
     def chk_reg(self, reg, want, tmp='r6'):
         self.n += 1
-        self.a('movq\t=0x%x, %s' % (want, tmp), 'cmp\t%s, %s' % (reg, tmp), 'bne\tf%d' % self.n)
+        self.a('movq\t=0x%x, %s' % (want, tmp), 'cbne\t%s, %s, f%d' % (reg, tmp, self.n))
 
 
 def gen():

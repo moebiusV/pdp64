@@ -64,13 +64,12 @@ h_write:					; write(r1 = buffer, r2 = length); the entry has set the priority t
 	spl	#0
 	movq	r2, r0
 	movq	=CONSOLE_VA, r3
-1:	cmp	r2, #0
-	beq	3f
+1:	cbeq r2, #0, 3f
 	movb.u	(r1), r4			; the user's byte: a .U load, the only way for the kernel to read a U page
 	add	#1, r1
 2:	movq	CONSOLE_REG_TXCS(r3), r5
 	and	#(1<<CONSOLE_CSR_READY), r5
-	beq	2b
+	cbeq	r5, #0, 2b
 	movq	r4, CONSOLE_REG_TXDB(r3)
 	sub	#1, r2
 	br	1b
@@ -86,8 +85,7 @@ h_pf:						; a page fault: the user's region maps a fresh page; anything else en
 	movq	#(0x40000000), r2
 	sub	r2, r1
 	shr	#12, r1
-	cmp	r1, #USER_PAGES
-	bhis	kill
+	cbhis r1, #USER_PAGES, kill
 	shl	#3, r1
 	lea	l0a, r2
 	add	r2, r1				; the address of the page-table entry
@@ -127,15 +125,13 @@ user:
 	movq	#0x42, r5
 	movq	r5, (r3)
 	movq	(r3), r6
-	cmp	r6, #0x42
-	bne	bad
+	cbne r6, #0x42, bad
 	lea	msg2, r1
 	movq	#(msg2_end - msg2), r2
 	trap	#1
 	; wait for three ticks of the timer (the kernel's counter is a word in memory)
 1:	movq	ticks, r4
-	cmp	r4, #3
-	blo	1b
+	cblo r4, #3, 1b
 	lea	msg3, r1
 	movq	#(msg3_end - msg3), r2
 	trap	#1

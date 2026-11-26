@@ -43,11 +43,11 @@ The first word of each pair is the handler's address. The second is the new PS: 
 
 ## 6.2 Modes and the status word
 
-The three modes keep their PDP-11 values: kernel 0, supervisor 1, user 3. Loading the reserved value 2 into the status word is an illegal instruction. The fields moved down to make room for one new bit:
+The three modes keep their PDP-11 values: kernel 0, supervisor 1, user 3. Loading the reserved value 2 into the status word is an illegal instruction. The PDP-11 kept its four condition codes N, Z, V and C in the low four bits of the status word, where every arithmetic instruction might change them. The pdp64 has no condition codes: those four bits are reserved, read as zero, and a decision is a compare-and-branch that writes nothing (the facts and the measurements are with the branch instructions, 9.10). The mode fields moved down to make room for one new bit:
 
 | | PDP-11 (`psl.h`) | pdp64 |
 |---|---|---|
-| flags (four bits) | 3-0 | 3-0 |
+| condition codes N, Z, V, C (four bits) | 3-0 | 3-0, reserved, zero |
 | trace | 4 | 4 |
 | priority | 7-5 | 7-5 |
 | current mode | 15-14 | 9-8 |
@@ -59,15 +59,15 @@ The status word has no bit for the **user-memory guard** (the rule that the kern
 
 **6.2.1** There are three modes, with the PDP-11's encoding: kernel 0, supervisor 1, user 3. The supervisor mode exists in the status word and in the banked registers, and no code uses it.
 
-**6.2.2** The status word holds the flags in bits 0 to 3, the trace bit in bit 4, the interrupt priority in bits 5 to 7, the current mode in bits 8 and 9, and the previous mode in bits 10 and 11; the other bits are zero.
+**6.2.2** The status word holds the trace bit in bit 4, the interrupt priority in bits 5 to 7, the current mode in bits 8 and 9, and the previous mode in bits 10 and 11; bits 0 to 3 and the other bits are reserved and read as zero. The pdp64 has no condition codes.
 
-**6.2.3** `MTPS` in user mode writes only the flags; in kernel mode it writes every writable bit. `SPL #n` is kernel-only.
+**6.2.3** `MTPS` is privileged: outside kernel mode it aborts with the privileged-instruction vector, because user mode has no status bit it may write; in kernel mode it writes every writable bit. `MFPS` is not privileged and returns the status word, with bits 0 to 3 zero. `SPL #n` is kernel-only.
 
 **6.2.4** The stack pointer `R14` and the direct-page register `DP` each have one copy per mode; the mode selects which one an instruction names.
 
-**6.2.5** These instructions abort with the privileged-instruction vector outside kernel mode: `RTI`, `RTT`, `HALT`, `SPL`, `TLBI`, `TLBIA`, `TLBSYNC`, `MFSR`, `MTSR`, `PROBER`, `PROBEW`, `WFE`, `PUSHX`, `POPX`, `TLBIAS`, `GENTER`. At `H` = 1 (the hypervisor running, 6.16.3) all are allowed (6.16.4).
+**6.2.5** These instructions abort with the privileged-instruction vector outside kernel mode: `RTI`, `RTT`, `HALT`, `SPL`, `MTPS`, `TLBI`, `TLBIA`, `TLBSYNC`, `MFSR`, `MTSR`, `PROBER`, `PROBEW`, `WFE`, `PUSHX`, `POPX`, `TLBIAS`, `GENTER`. At `H` = 1 (the hypervisor running, 6.16.3) all are allowed (6.16.4).
 
-**6.2.6** These are not privileged: `MTDP` and `MFDP` (in user mode, the thread pointer), `ICINV` and `ICINVA` (a JIT needs them), `FENCE`, `ISYNC` (a program that generates code needs it after `ICINV`), `SEV`, `HINT`, `TRAP`, `BPT`, `NOP`, and `MTPS` and `MFPS` with the restriction above.
+**6.2.6** These are not privileged: `MTDP` and `MFDP` (in user mode, the thread pointer), `ICINV` and `ICINVA` (a JIT needs them), `FENCE`, `ISYNC` (a program that generates code needs it after `ICINV`), `SEV`, `HINT`, `TRAP`, `BPT`, `NOP` and `MFPS`.
 
 `DP` is new to a PDP-11 reader. It is the **direct-page register** (a base register that makes one region addressable with a short displacement, descended from the 6502's zero page). The kernel's copy points to the structure of the core it is running on (the **per-CPU pointer**: which core am I, and where is its private data); a user program's copy points to its thread's private data, so a thread-local variable is one `MOVQ d(DP), Rd`.
 
@@ -95,7 +95,7 @@ enter(vector, kind):
     PSW.previous_mode = PSW.current_mode
     PSW.current_mode  = kernel
     PSW.priority      = 7
-    PSW.trace = 0 ; PSW.flags = 0 ; PSW.guard = 0         # the guard: section 6.10
+    PSW.trace = 0 ; PSW.guard = 0         # the guard: section 6.10
     PC = load64_physical(VBR + 8 * vector)                # a bus error here is a machine check
 ```
 
@@ -107,7 +107,7 @@ Three differences from the PDP-11 matter to a kernel writer. Entry **cannot faul
 
 **6.3.1** Entry to an exception or an interrupt writes only registers: `EPC` receives the address of the faulting instruction (for an abort or a progress exception) or of the next instruction (for a trap or an interrupt), `EPSW` the old status word, `EVA` the faulting address (zero except for aborts), `ECAUSE` the vector number.
 
-**6.3.2** The new status word has the current mode kernel, the previous mode the old current mode, priority 7, and the trace bit and the flags cleared.
+**6.3.2** The new status word has the current mode kernel, the previous mode the old current mode, priority 7, and the trace bit and the guard cleared.
 
 **6.3.3** The new program counter is the 64-bit word at the physical address `VBR + 8 × vector`; a bus error on that fetch is a machine check that halts.
 
@@ -557,7 +557,7 @@ This section collects, in the vocabulary of the kernel, the statements of 6.2 to
 
 **6.13.4** Entry sets the priority to 7 for every exception and every interrupt; the handler lowers it.
 
-**6.13.5** There are eight interrupt priority levels; `SPL #n` sets the priority without touching the flags.
+**6.13.5** There are eight interrupt priority levels; `SPL #n` sets the priority.
 
 **6.13.6** `MFSR` and `MTSR` read and write the system registers by number; `TLBI`, `TLBIA`, `TLBIAS` and `TLBSYNC` invalidate translations (broadcast to other cores); `MTSR` of `ASID` sets the address-space tag; `ICINV` and `ICINVA` invalidate the instruction cache; `PROBER` and `PROBEW` test an address; `MFSR` of `CPUID` identifies the processor; `GENTER #mask` enters a guest from the hypervisor (6.16.17).
 
@@ -594,7 +594,7 @@ The modes and exceptions are 6.2 to 6.4 and the multiprocessor instructions are 
 | [Move to and from the direct pointer](09-isa.md#mtdp-move-to-and-from-the-direct-pointer) | `MTDP`, `MFDP` |
 | [Invalidate the instruction cache for an address](09-isa.md#icinv-invalidate-the-instruction-cache-for-an-address) | `ICINV` |
 | [Probe an address for read or write access](09-isa.md#probe-probe-an-address-for-read-or-write-access) | `PROBER`, `PROBEW` |
-| [Compare and trap](09-isa.md#ct-compare-and-trap) | `CTCC`, `CTCS`, `CTHI`, `CTLOS`, `CTEQ`, `CTNE`, `CTGE`, `CTLT`, `CTGT`, `CTLE`, `CTPL`, `CTMI`, `CTVC`, `CTVS` |
+| [Compare and trap](09-isa.md#ct-compare-and-trap) | `CTCC`, `CTCS`, `CTHI`, `CTLOS`, `CTEQ`, `CTNE`, `CTGE`, `CTLT`, `CTGT`, `CTLE` |
 | [Two-bound check](09-isa.md#chk2-two-bound-check) | `CHK2` |
 <!-- /entries:6.13 -->
 
@@ -1117,7 +1117,7 @@ Flags: bit 8 `WALK`: the failing access was the read of a guest page-table entry
 
 **6.16.18** **`RTI #mask` is the only form of `RTI`, and `GENTER #mask` is the only form of `GENTER`.** The mask has one bit for each of `R0` to `R31`; a register whose bit is one keeps its value, and the hardware clears every other register in the same step as the return to a less privileged mode (or the entry of a guest). `R14`, the banked stack pointer, is never cleared, so its bit is free and means: **keep the vector registers**; with it zero, the vector registers (the hidden accumulators included) and the floating-point sticky flags are cleared too. A return to the same mode ignores the mask. `RTT` returns and sets the trace bit after, and takes the mask as `RTI` does. The mask is in the instruction; no system register holds it. The hypervisor keeps nothing in registers across `GENTER`; the callee-saved set of the ABI (chapter 3) says which registers a handler returning to a program must name, and `R16` to `R23` are caller-saved scratch.
 
-**6.16.19** An exit is made in this order. *(1)* An event that aborts an instruction is undone (6.4). *(2)* The reason and the vector are decided and the word at `VBR + 8 * HCAUSE` is read; a bus error here is a machine check of the hypervisor and nothing has been changed. *(3)* `HEPC` is written with the address of the instruction (an abort) or of the next instruction (a trap or an interrupt); `HEPSW` with the guest's whole status word, and with the token of 6.16.31 in its upper half when a block was suspended; `HEVA`, `HGPA` and `HINSN` as the table of 6.16.14 and 6.16.7 say, else 0; `HEXITR` and `HCAUSE`. *(4)* `H` is set. The status word is made as in 6.3.2: the current mode kernel, the previous mode the guest's current mode, priority 7, the trace bit, the flags and the guard clear. The names of 6.16.4 mean the hypervisor level's own registers. *(5)* Any `LL` reservation is cleared, and the vector block's resume record is made as 6.16.31 says. *(6)* The program counter is the word read in step 2. Not written: any register of the guest, and no general register. Not done: no translation-buffer entry is removed and `GTBR` is not changed. A stage-2 fault on the vector fetch of the instruction's own entry (`TRAP`, `BPT`, a check trap) is an exit with `HEPC` at the instruction: it is retried.
+**6.16.19** An exit is made in this order. *(1)* An event that aborts an instruction is undone (6.4). *(2)* The reason and the vector are decided and the word at `VBR + 8 * HCAUSE` is read; a bus error here is a machine check of the hypervisor and nothing has been changed. *(3)* `HEPC` is written with the address of the instruction (an abort) or of the next instruction (a trap or an interrupt); `HEPSW` with the guest's whole status word, and with the token of 6.16.31 in its upper half when a block was suspended; `HEVA`, `HGPA` and `HINSN` as the table of 6.16.14 and 6.16.7 say, else 0; `HEXITR` and `HCAUSE`. *(4)* `H` is set. The status word is made as in 6.3.2: the current mode kernel, the previous mode the guest's current mode, priority 7, the trace bit and the guard clear. The names of 6.16.4 mean the hypervisor level's own registers. *(5)* Any `LL` reservation is cleared, and the vector block's resume record is made as 6.16.31 says. *(6)* The program counter is the word read in step 2. Not written: any register of the guest, and no general register. Not done: no translation-buffer entry is removed and `GTBR` is not changed. A stage-2 fault on the vector fetch of the instruction's own entry (`TRAP`, `BPT`, a check trap) is an exit with `HEPC` at the instruction: it is retried.
 
 **6.16.20** At a world switch (an exit followed by the entry of a guest) the hardware saves and loads only the guest's program counter and its status word. The hypervisor saves and loads the rest in software:
 
@@ -1171,7 +1171,7 @@ Flags: bit 8 `WALK`: the failing access was the read of a guest page-table entry
 
 | Register | After a machine reset | After a guest reset |
 |---|---|---|
-| status word | kernel mode, previous mode kernel, priority 7, trace 0, flags 0, guard 0 | the same |
+| status word | kernel mode, previous mode kernel, priority 7, trace 0, guard 0 | the same |
 | `PC` | the platform's reset entry | the guest's reset entry, in `HEPC` |
 | 0 `PTBR`, 1 `EPC`, 2 `EVA`, 3 `ECAUSE`, 6, 7 `USP`, `SSP`, 8 `EPSW`, 9 `VBR`, 10 `MMUCTL`, 11 `ASID` | 0 (translation off) | 0 (through `GPTBR` to `GASID`) |
 | 12 `CPUID` | the core number | `VCPUID` |

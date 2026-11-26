@@ -52,7 +52,6 @@ The data behind the tables is in `docs/codegen-data/`, the generators are in `to
 | without `memcpy-a2.c` (27% of the bytes) | 785,836 | 706,042 (-10.15%) |
 | instructions | 338,313 | 296,070 |
 | fused pairs (`MOVCALL`, `POPMRET`, `POPRET`, `MOV2`) | 0 | 11,531, 1,608, 2,586, 4,061 = 19,786 |
-| `CBCC` replaced by `CMP` and `BCC` | 0 | 13 |
 | text of the objects (840 files, before linking) | 1,305,878 | 1,197,018 |
 | the same linked with relaxation | not applicable | 1,152,010 (-3.76% against unrelaxed) |
 

@@ -8,8 +8,7 @@ _start:
 	mtsr	vbr, r1
 	mfsr	r5, cpuid		; kernel mode: allowed
 	mfsr	r6, cpuid
-	cmp	r5, r6
-	bne	F1
+	cbne r5, r6, F1
 	lea	ustack_top, r1
 	mtsr	usp, r1
 	lea	user, r1
@@ -24,15 +23,11 @@ user:
 pi0:
 	mfsr	r1, cpuid
 pr0:
-	cmp	r10, #1
-	bne	F2
-	cmp	r8, #(VECTOR_PRIVILEGED)
-	bne	F3
+	cbne r10, #1, F2
+	cbne r8, #(VECTOR_PRIVILEGED), F3
 	lea	pi0, r11
-	cmp	r6, r11
-	bne	F4
-	cmp	r1, #0x5a5a
-	bne	F5
+	cbne r6, r11, F4
+	cbne r1, #0x5a5a, F5
 	trap	#0			; done: vector 256 exits with 0
 F1:	movq	#1, r0
 	trap	#1

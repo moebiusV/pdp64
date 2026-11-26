@@ -4,14 +4,14 @@ a:	cbeq r1,#0,z
 	cblt r3,#100,z
 	cbge r1,#-3,a
 	cbhi r2,#5000,z
-	cbeq r1,#40000,z
+	cbeq r1,#30000,z
 	cbcc r1,#7,a
-	beq a
-	bne z
+	cbeq r1,r2,a
+	cbne r1,r2,z
 	br z
-	bcs a
-	bge z
+	cbcs r1,r2,a
+	cbge r1,r2,z
 	.space 300
-	bcs a
+	cbcs r1,r2,a
 	br a
 z:	ret

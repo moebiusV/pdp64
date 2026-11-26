@@ -25,8 +25,7 @@ _start:
 	isync
 	movq	=1073741824, r3
 	movq	8(r3), r5		; P is now cached: it maps pgA
-	cmp	r5, #(4369)
-	beq	1f
+	cbeq r5, #(4369), 1f
 	movq	#1, r0
 	halt
 1:
@@ -43,8 +42,7 @@ _start:
 	mtsr	mmuctl, r1
 	isync
 	movq	8(r3), r5
-	cmp	r5, #(13107)
-	beq	1f
+	cbeq r5, #(13107), 1f
 	movq	#2, r0			; a translation cached before translation was off was used
 	halt
 1:
@@ -61,8 +59,7 @@ _start:
 	mtsr	mmuctl, r1
 	isync
 	movq	8(r3), r5
-	cmp	r5, #(4369)
-	beq	1f
+	cbeq r5, #(4369), 1f
 	movq	#3, r0
 	halt
 1:
@@ -71,8 +68,7 @@ _start:
 	mtsr	ptbr, r1
 	isync
 	movq	8(r3), r5
-	cmp	r5, #(8738)
-	beq	1f
+	cbeq r5, #(8738), 1f
 	movq	#4, r0			; an entry walked from the old table was used under the new one
 	halt
 1:
@@ -80,8 +76,7 @@ _start:
 	mtsr	ptbr, r1
 	isync
 	movq	8(r3), r5
-	cmp	r5, #(4369)
-	beq	1f
+	cbeq r5, #(4369), 1f
 	movq	#5, r0			; the entry of l2b was used under l2
 	halt
 1:
@@ -95,8 +90,7 @@ _start:
 	mtsr	asid, r1
 	isync
 	movq	8(r3), r5
-	cmp	r5, #(13107)
-	beq	1f
+	cbeq r5, #(13107), 1f
 	movq	#6, r0			; an entry tagged ASID 0 answered under ASID 1
 	halt
 1:
@@ -110,8 +104,7 @@ _start:
 	mtsr	asid, r1
 	isync
 	movq	8(r3), r5
-	cmp	r5, #(4369)
-	beq	1f
+	cbeq r5, #(4369), 1f
 	movq	#7, r0			; an entry tagged ASID 1 answered under ASID 2
 	halt
 1:
@@ -120,8 +113,7 @@ _start:
 	mtsr	mmuctl, r1
 	isync
 	movq	8(r3), r5
-	cmp	r5, #(4369)
-	beq	1f
+	cbeq r5, #(4369), 1f
 	movq	#8, r0
 	halt
 1:

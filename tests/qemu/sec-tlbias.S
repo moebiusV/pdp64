@@ -14,8 +14,7 @@ _start:
 	mtsr	asid, r1
 	movq	=1073741824, r3
 	movq	8(r3), r5
-	cmp	r5, #(4660)
-	beq	1f
+	cbeq r5, #(4660), 1f
 	movq	#1, r0	; check 1 the page is mapped to the first data page, read under address-space number 5
 	halt
 1:
@@ -26,8 +25,7 @@ _start:
 	movq	r2, 0(r1)
 	movq	=1073741824, r3
 	movq	8(r3), r5
-	cmp	r5, #(4660)
-	beq	1f
+	cbeq r5, #(4660), 1f
 	movq	#2, r0	; check 2 control: the changed entry is not seen, the buffer holds the old translation
 	halt
 1:
@@ -35,8 +33,7 @@ _start:
 	tlbias	r1
 	movq	=1073741824, r3
 	movq	8(r3), r5
-	cmp	r5, #(22136)
-	beq	1f
+	cbeq r5, #(22136), 1f
 	movq	#3, r0	; check 3 after TLBIAS of number 5 the changed entry is seen
 	halt
 1:
@@ -47,8 +44,7 @@ _start:
 	movq	r2, 0(r1)
 	movq	=1073741824, r3
 	movq	8(r3), r5
-	cmp	r5, #(22136)
-	beq	1f
+	cbeq r5, #(22136), 1f
 	movq	#4, r0	; check 4 control: the entry changed back is not seen yet
 	halt
 1:
@@ -56,8 +52,7 @@ _start:
 	tlbias	r1
 	movq	=1073741824, r3
 	movq	8(r3), r5
-	cmp	r5, #(4660)
-	beq	1f
+	cbeq r5, #(4660), 1f
 	movq	#5, r0	; check 5 TLBIAS uses the low 16 bits of the register: 0x70005 is number 5
 	halt
 1:

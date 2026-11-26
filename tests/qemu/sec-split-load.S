@@ -29,32 +29,23 @@ _start:
 	movq	#0, r10
 	lea	res1, r13
 at1:	movq	4092(r3), r6
-res1:	cmp	r10, #1
-	bne	F1	; check 1: exactly one fault
-	cmp	r8, #(VECTOR_LPROT)
-	bne	F2	; check 2: the load protection fault
-	cmp	r9, r11
-	bne	F3	; check 3: EVA is the first byte of the second page
+res1:	cbne r10, #1, F1 ; check 1: exactly one fault
+	cbne r8, #(VECTOR_LPROT), F2 ; check 2: the load protection fault
+	cbne r9, r11, F3 ; check 3: EVA is the first byte of the second page
 	lea	at1, r2
-	cmp	r15, r2
-	bne	F4	; check 4: EPC is the instruction
+	cbne r15, r2, F4 ; check 4: EPC is the instruction
 	movq	=0x7777777777777777, r2
-	cmp	r6, r2
-	bne	F5	; check 5: the destination is as it was: no bytes of the readable page reached it
+	cbne r6, r2, F5 ; check 5: the destination is as it was: no bytes of the readable page reached it
 ; ---- 2: the load from P4, which refuses, into P5
 	movq	#0, r10
 	lea	res2, r13
 at2:	movq	4092(r12), r6
-res2:	cmp	r10, #1
-	bne	F6	; check 6: exactly one fault
-	cmp	r8, #(VECTOR_LPROT)
-	bne	F7	; check 7: the load protection fault
+res2:	cbne r10, #1, F6 ; check 6: exactly one fault
+	cbne r8, #(VECTOR_LPROT), F7 ; check 7: the load protection fault
 	lea	4092(r12), r2
-	cmp	r9, r2
-	bne	F8	; check 8: EVA is the address of the load: the first page refused
+	cbne r9, r2, F8 ; check 8: EVA is the address of the load: the first page refused
 	movq	=0x7777777777777777, r2
-	cmp	r6, r2
-	bne	F9	; check 9: the destination is as it was
+	cbne r6, r2, F9 ; check 9: the destination is as it was
 	movq	#0, r0
 	halt
 h_gen:	add	#1, r10

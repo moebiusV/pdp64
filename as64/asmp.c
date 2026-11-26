@@ -303,7 +303,7 @@ static void fill_stmt(const char *text, stmt_t *s, struct stmt *st)
 {
 	st->line = line_of(text, s->_pos);
 	switch (s->_alt) {
-	case 6:
+	case 5:
 		st->kind = S_ASSIGN;
 		{
 			struct slice a = sl(text, s->assign._pos, s->assign._end);	/* name = expression, name equ expression */
@@ -313,7 +313,7 @@ static void fill_stmt(const char *text, stmt_t *s, struct stmt *st)
 		st->expr = sl(text, s->assign.expr->_pos, s->assign.expr->_end);
 		st->x = expr_x(text, s->assign.expr);
 		break;
-	case 7: {							/* db, dw: .byte and .word under the other assemblers' names */
+	case 6: {							/* db, dw: .byte and .word under the other assemblers' names */
 		st->kind = S_DIR;
 		st->name.p = ((int)s->dbdir.dbname % 4) == 0 ? "byte" : ((int)s->dbdir.dbname % 4) == 1 ? "word" : ((int)s->dbdir.dbname % 4) == 2 ? "long" : "quad";	/* db dw dd dq, in either case */
 		st->name.n = (int)strlen(st->name.p);
@@ -329,12 +329,12 @@ static void fill_stmt(const char *text, stmt_t *s, struct stmt *st)
 		}
 		break;
 	}
-	case 8:								/* name proc: the label name */
+	case 7:								/* name proc: the label name */
 		st->kind = S_LABEL;
 		st->name = sl(text, s->procdir._pos, s->procdir._end);
 		st->name.n = name_len(st->name);
 		break;
-	case 9:								/* name endp: nothing */
+	case 8:								/* name endp: nothing */
 		st->kind = S_DIR;
 		st->name.p = "endp";
 		st->name.n = 4;
@@ -360,7 +360,7 @@ static void fill_stmt(const char *text, stmt_t *s, struct stmt *st)
 		}
 		break;
 	}
-	case 10: {							/* NASM's global, extern, bits, default, cpu, align, alignb, resb..resq: the directive without the dot */
+	case 9: {							/* NASM's global, extern, bits, default, cpu, align, alignb, resb..resq: the directive without the dot */
 		st->kind = S_DIR;
 		{
 			static const char *const nn[] = { "global", "extern", "bits", "default", "cpu", "align", "alignb", "resb", "resw", "resd", "resq" };
@@ -379,7 +379,7 @@ static void fill_stmt(const char *text, stmt_t *s, struct stmt *st)
 		}
 		break;
 	}
-	case 11: {							/* section .text | segment .data: the section's name is the one argument (options after it are ignored) */
+	case 10: {							/* section .text | segment .data: the section's name is the one argument (options after it are ignored) */
 		struct slice d = sl(text, s->secdir._pos, s->secdir._end);
 		int k = 0;
 		while (k < d.n && d.p[k] != ' ' && d.p[k] != '\t') k++;
@@ -393,7 +393,7 @@ static void fill_stmt(const char *text, stmt_t *s, struct stmt *st)
 		st->nargs = 1;
 		break;
 	}
-	case 12: {							/* times n db|dw|dd|dq v: .fill n, size, v */
+	case 11: {							/* times n db|dw|dd|dq v: .fill n, size, v */
 		static const char *const sz[] = { "1", "2", "4", "8" };
 		st->kind = S_DIR;
 		st->name.p = "fill"; st->name.n = 4;
@@ -419,17 +419,7 @@ static void fill_stmt(const char *text, stmt_t *s, struct stmt *st)
 		}
 		break;
 	}
-	case 4: {							/* an instruction that takes a condition: `set eq, r1` */
-		condinsn_t *ci = &s->condinsn;
-		st->kind = S_INSN;
-		st->mg = MG_COND;
-		st->cc = ci->ccw._alt == 1 ? (int)ci->ccw.cc : (int)ci->ccw.ccalias;
-		operand(text, &ci->operand, &st->ops[st->nops++]);
-		for (struct condinsn_1_s *j = ci->condinsn_1.head; j && st->nops < MAXOPS; j = j->_link)
-			operand(text, &j->operand, &st->ops[st->nops++]);
-		break;
-	}
-	case 5: {							/* mfsr rd, name; mtsr name, rs */
+	case 4: {							/* mfsr rd, name; mtsr name, rs */
 		srinsn_t *si = &s->srinsn;
 		st->kind = S_INSN;
 		st->mg = MG_SYSREG;

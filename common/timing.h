@@ -13,7 +13,7 @@
 
 /* ---- the log of one instruction -------------------------------------------------------------------------------------- */
 enum { TM_EV_R, TM_EV_W, TM_EV_M, TM_EV_WA, TM_EV_MA, TM_EV_LD, TM_EV_ST };	/* read, write, read-modify-write, address-update write (base register of an addressing mode, sp), the same read-modify-write, load, store */
-enum { TM_REG_FN = 32, TM_REG_FZ = 32, TM_REG_FV = 32, TM_REG_FC = 32, TM_REG_DP = 33, TM_NREG = 34 };	/* the four flags are one resource (register 32), DP is 33 */
+enum { TM_REG_DP = 33, TM_NREG = 34 };	/* register 32 is unused (the condition codes the machine once had were it), DP is 33 */
 #define TM_MAXEV 160
 
 struct tm_ev { uint8_t k, r, sz; uint64_t addr; };	/* r: the register for R W M WA MA; sz, addr: LD ST */
@@ -28,7 +28,7 @@ struct tm_rec {
 	uint8_t fused;			/* a fused instruction (movcall popmret popret mov2) */
 	int n;				/* events logged (stops at TM_MAXEV; the masks and counts below do not) */
 	struct tm_ev ev[TM_MAXEV];
-	uint64_t rmask, wmask;		/* bit r: register r (32: flags, 33: dp) read / written */
+	uint64_t rmask, wmask;		/* bit r: register r (33: dp) read / written */
 	unsigned nld, nst, ldb, stb;	/* number and bytes of memory accesses */
 };
 extern struct tm_rec tm_cur;
@@ -41,7 +41,6 @@ static inline void tm_ev(int k, int r)
 	if (k == TM_EV_R || k == TM_EV_M || k == TM_EV_MA) t->rmask |= 1ull << r;
 	if (k != TM_EV_R) t->wmask |= 1ull << r;
 	if (t->n < TM_MAXEV) {
-		if (r == TM_REG_FN && t->n && t->ev[t->n - 1].r == r && t->ev[t->n - 1].k == k) return;	/* the flags are written in several steps */
 		struct tm_ev *e = &t->ev[t->n++];
 		e->k = k; e->r = r;
 	}

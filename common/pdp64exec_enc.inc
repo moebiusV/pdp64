@@ -2,7 +2,7 @@
  * generated tables.
  *
  * An instruction is decoded by the table codec into an einsn (a mnemonic and operands as the assembly language writes them: sources first, destination
- * last, `cmp` register first).  An instruction of the groups of the mnemonic numbering (spec/grammars.d) is turned into the struct fmt (opcode
+ * last).  An instruction of the groups of the mnemonic numbering (spec/grammars.d) is turned into the struct fmt (opcode
  * group, sub-opcode, register fields) and run by exec_fmt, with its memory-side operand built by eoperand from the einsn, so that the semantics are one
  * piece of code.  What only the grammar of the encoding has (the fused instructions, the selects, the overflow-checked arithmetic, the checked trap,
  * MESC) is written here.
@@ -16,9 +16,9 @@
 enum {
 	H_UNIMPL = 0,
 	H_MOV, H_MOVZ, H_LEA, H_ALU, H_SOP, H_XFER, H_JTAG,
-	H_BR, H_CB, H_SOB, H_TAG,
+	H_BR, H_CB, H_FCB, H_SOB, H_TAG,
 	H_SYS0, H_SYSX, H_SYSM, H_TLBX, H_SYSR, H_SPL, H_TRAP, H_PROBE, H_MFSR, H_MTSR,
-	H_BESC, H_AESC, H_MBLK, H_FESC, H_SET,
+	H_BESC, H_AESC, H_MBLK, H_FESC, H_SETCC,
 	H_RMW, H_ATOM,
 	H_MASK, H_BSEL, H_OVF, H_UTF8LEN, H_CT, H_CHK2,
 	H_MOVCALL, H_POPMRET, H_POPRET, H_MOV2,
@@ -93,13 +93,13 @@ static int classify_enc(const struct hinfo *h, const struct einsn *in)
 		if (is_mem(&op[0])) return is_frame(&op[0]) ? PDP64_CAT_FRAME_LD : PDP64_CAT_MEMREF;
 		return op[0].k == EK_R && h->a == MN_MOV_MOVQ && h->kind == H_MOV ? PDP64_CAT_REGMOVE : PDP64_CAT_OTHER;
 	case H_LEA: return PDP64_CAT_LEA;
-	case H_ALU: return is_mem(h->a == MN_ALU_CMP || h->a == MN_ALU_FCMP ? &op[1] : &op[0]) ? PDP64_CAT_MEMREF : PDP64_CAT_OTHER;
+	case H_ALU: return is_mem(&op[0]) ? PDP64_CAT_MEMREF : PDP64_CAT_OTHER;
 	case H_SOP:
 		if (h->a == MN_SOP_PUSHM || h->a == MN_SOP_POPM || h->a == MN_SOP_PUSH || h->a == MN_SOP_POP) return PDP64_CAT_PUSHPOP;
 		if (h->a == MN_SOP_JMP || h->a == MN_SOP_CALL) return PDP64_CAT_CALL;
 		return is_mem(&op[0]) ? PDP64_CAT_MEMREF : PDP64_CAT_OTHER;
 	case H_XFER: case H_JTAG: return PDP64_CAT_CALL;
-	case H_BR: case H_CB: case H_SOB: case H_TAG: return PDP64_CAT_BRANCH;
+	case H_BR: case H_CB: case H_FCB: case H_SOB: case H_TAG: return PDP64_CAT_BRANCH;
 	case H_SYS0: return h->a == MN_SYS_NONE_RET ? PDP64_CAT_CALL : PDP64_CAT_OTHER;
 	case H_MBLK: return PDP64_CAT_BLOCK;
 	case H_MOVCALL: case H_POPMRET: case H_POPRET: case H_MOV2: return PDP64_CAT_FUSED;
@@ -147,11 +147,11 @@ static void resv_note(const struct hinfo *h, const struct einsn *in)
 	if (h->kind == H_ATOM && (h->a & 15) == MN_ATOM_SC) return;				/* the end of the loop */
 	if (++C->resv_n > 16) { C->resv_on = 0; return; }
 	switch (h->kind) {
-	case H_BR: case H_CB: case H_SOB: case H_TAG: return;						/* the target is a pc-relative operand, not memory; a backward branch is caught after the instruction */
+	case H_BR: case H_CB: case H_FCB: case H_SOB: case H_TAG: return;						/* the target is a pc-relative operand, not memory; a backward branch is caught after the instruction */
 	}
 	for (int k = 0; k < in->nops; k++) if (is_mem(&op[k])) { C->resv_on = 0; return; }
 	switch (h->kind) {
-	case H_MOV: case H_MOVZ: case H_LEA: case H_ALU: case H_BESC: case H_FESC: case H_MASK: case H_BSEL: case H_OVF: case H_UTF8LEN: case H_CT: case H_CHK2: case H_MOV2: case H_SET: return;
+	case H_MOV: case H_MOVZ: case H_LEA: case H_ALU: case H_BESC: case H_FESC: case H_MASK: case H_BSEL: case H_OVF: case H_UTF8LEN: case H_CT: case H_CHK2: case H_MOV2: case H_SETCC: return;
 	case H_SOP: if (h->a == MN_SOP_PUSHM || h->a == MN_SOP_POPM || h->a == MN_SOP_PUSH || h->a == MN_SOP_POP || h->a == MN_SOP_JMP || h->a == MN_SOP_CALL) break; return;
 	}
 	C->resv_on = 0;
@@ -199,8 +199,7 @@ static void step_enc(void)
 	case H_LEA: f.opc = OPGROUP_LEA; f.reg = op[1].r; EO = &op[0]; exec_fmt(f, start, 0); return;
 	case H_ALU:
 		f.opc = h->a;
-		if (h->a == MN_ALU_CMP || h->a == MN_ALU_FCMP) { f.reg = op[0].r; EO = &op[1]; }
-		else { f.reg = op[1].r; EO = &op[0]; }
+		f.reg = op[1].r; EO = &op[0];
 		exec_fmt(f, start, 0); return;
 	case H_SOP:
 		f.opc = OPGROUP_SOP; f.reg = h->a; EO = &op[0]; exec_fmt(f, start, 0); return;
@@ -211,10 +210,28 @@ static void step_enc(void)
 		pc = ld(a, 8);
 		return;
 	}
-	case H_BR: if (cond(h->a)) pc = start + op[0].v; return;
-	case H_CB: {									/* cbCC ra, #imm|rb, target: the comparison leaves the flags as they were */
+	case H_BR: pc = start + op[0].v; return;
+	case H_CB: {									/* cbCC ra, #imm|rb, target: the comparison writes nothing */
 		uint64_t b = op[1].k == EK_R ? RG[op[1].r] : (uint64_t)op[1].v;
 		if (cmp_taken(RG[op[0].r], b, h->a)) pc = start + op[2].v;
+		return;
+	}
+	case H_FCB: {									/* fcbCC ra, rb, target (the argument: the condition 0 eq, 1 ne, 2 lt, 3 le, 4 unordered, 5 ordered; plus 8 for binary32): no flag is written.  A NaN operand makes eq, lt and le false and ne true; a signaling one sets the invalid flag of FPSR */
+		int c = h->a & 7, uo, res = 0;
+		double x, y;
+		uint64_t ra = RG[op[0].r], rb = RG[op[1].r];
+		if (h->a & 8) { x = ass(ra); y = ass(rb); if (is_snan32(ra) || is_snan32(rb)) fpsr |= 16; }
+		else { x = asd(ra); y = asd(rb); if (is_snan(ra) || is_snan(rb)) fpsr |= 16; }
+		uo = isnan(x) || isnan(y);
+		switch (c) {
+		case 0: res = !uo && x == y; break;
+		case 1: res = uo || x != y; break;
+		case 2: res = !uo && x < y; break;
+		case 3: res = !uo && x <= y; break;
+		case 4: res = uo; break;
+		case 5: res = !uo; break;
+		}
+		if (res) pc = start + op[2].v;
 		return;
 	}
 	case H_SOB: if (--RG[op[0].r] != 0) pc = start + op[1].v; return;
@@ -236,13 +253,16 @@ static void step_enc(void)
 	case H_PROBE: f.opc = OPGROUP_SYS; f.reg = h->a; f.rd = op[0].r; f.low = op[1].r; exec_fmt(f, start, 0); return;
 	case H_MFSR: f.opc = OPGROUP_SYS; f.reg = 0; f.low = MN_SYSREG_MFSR; f.sub = (unsigned)op[1].v; f.rd = op[0].r; exec_fmt(f, start, 0); return;
 	case H_MTSR: f.opc = OPGROUP_SYS; f.reg = 0; f.low = MN_SYSREG_MTSR; f.sub = (unsigned)op[0].v; f.rd = op[1].r; exec_fmt(f, start, 0); return;
-	case H_SET: f.opc = OPGROUP_AESC; f.sub = SUBOP_SET; f.x = (unsigned)op[0].v; f.reg = op[1].r; exec_fmt(f, start, 0); return;
+	case H_SETCC: {									/* setCC ra, rb|#imm, rd: rd = 1 if ra compares by CC with rb (or the sign-extended immediate), else 0 (the argument is the number of the condition) */
+		uint64_t b = op[1].k == EK_R ? RG[op[1].r] : (uint64_t)op[1].v;
+		RG[op[2].r] = (uint64_t)cmp_cc(RG[op[0].r], b, h->a);
+		return;
+	}
 	case H_BESC: case H_AESC: case H_MBLK: case H_FESC: {
 		int sub = h->a;
 		f.opc = h->kind == H_BESC ? OPGROUP_BESC : h->kind == H_AESC ? OPGROUP_AESC : h->kind == H_MBLK ? OPGROUP_MBLK : OPGROUP_FESC;
 		f.sub = sub;
 		if (h->kind == H_MBLK) { f.reg = op[0].r; f.low = in.nops == 3 ? op[1].r : 0; f.t = op[in.nops - 1].r; C->ublk = h->ublk; }	/* mcpy rd, rs, rn: the destination pointer first; mcpy.ur and mcpy.uw: the side that is user memory */
-		else if (sub == MN_FESC_FCMP32 && h->kind == H_FESC) { f.reg = op[0].r; f.low = op[1].r; }
 		else if (h->kind == H_BESC && sub == MN_BESC_ROR && in.nops == 2) {	/* ror #n, rd: the short form, the count a signed four-bit number (a negative count rotates left), the register is source and destination */
 			f.low = op[1].r; f.reg = op[1].r; f.count = (unsigned)op[0].v & 63; f.sub = XSUB_RORI;
 		}
@@ -265,7 +285,7 @@ static void step_enc(void)
 		RG[op[1].r] = b < 0x80 ? 1 : b < 0xC2 ? 0 : b < 0xE0 ? 2 : b < 0xF0 ? 3 : b < 0xF5 ? 4 : 0;
 		return;
 	}
-	case H_RMW: {									/* addm rs, mem: M[EA] <- M[EA] op rs, the flags of the ALU operation */
+	case H_RMW: {									/* addm rs, mem: M[EA] <- M[EA] op rs */
 		struct opnd o;
 		uint64_t a, b = RG[op[0].r], res;
 		EO_size = 8; EO = &op[1];
@@ -273,10 +293,10 @@ static void step_enc(void)
 		check_access(o.addr, 8, 1);						/* write permission is checked with the read, on both pages of an access that crosses one */
 		a = ld(o.addr, 8);
 		switch (h->a) {
-		case MN_ALU_ADD: res = add_f(a, b, 0); break;
-		case MN_ALU_SUB: res = sub_f(a, b, 0); break;
-		case MN_ALU_BIC: res = a & ~b; nz(res); fV = 0; break;
-		default: res = a | b; nz(res); fV = 0; break;
+		case MN_ALU_ADD: res = a + b; break;
+		case MN_ALU_SUB: res = a - b; break;
+		case MN_ALU_BIC: res = a & ~b; break;
+		default: res = a | b; break;
 		}
 		st(o.addr, 8, res); after(&o);
 		return;
@@ -293,7 +313,7 @@ static void step_enc(void)
 		RG[op[in.nops - 1].r] = (uint64_t)res;
 		return;
 	}
-	case H_CT: case H_CHK2: {							/* the check instructions (errata 152): a fault on vector 16, EPC and EVA the address of this instruction, no flag read or written */
+	case H_CT: case H_CHK2: {							/* the check instructions (errata 152): a fault on vector 16, EPC and EVA the address of this instruction*/
 		int trap;
 		if (h->kind == H_CT) {							/* ctCC rs, rb | #imm | (nothing: rs against zero) */
 			uint64_t b = in.nops < 2 ? 0 : op[1].k == EK_R ? RG[op[1].r] : (uint64_t)op[1].v;

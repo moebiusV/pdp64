@@ -1,4 +1,4 @@
-; System v1: mfps, mtps, spl and the PSW fields in kernel mode; the reserved bits; spl #8 is illegal; mtps from the kernel can enter user mode. Generated; a failed check n halts with status n.
+; System v1: mfps, mtps, spl and the PSW fields in kernel mode; the reserved bits; spl #8 is illegal; mtps from the kernel can enter user mode. A failed check n halts with status n.
 #include "pdp64-consts.h"
 	.text
 	.globl	_start
@@ -7,41 +7,24 @@ _start:
 	mtsr	vbr, r1
 	movq	#0, r10
 	mfps	r1
-	bic	#15, r1
-	cmp	r1, #((MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|7<<PSW_PRI))
-	bne	F1	; check 1
+	cbne r1, #((MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|7<<PSW_PRI)), F1 ; check 1
 	movq	#(3<<PSW_PRI|0xA), r1
 	mtps	r1
-	bmi	1f
-	br	F2
-1:
-	bvs	1f
-	br	F3
-1:
-	bne	1f
-	br	F4
-1:
-	bcc	1f
-	br	F5
-1:
 	mfps	r5
-	cmp	r5, #(3<<PSW_PRI|0xA|MODE_KERNEL<<PSW_PREV)
-	bne	F6	; check 6
+	cbne r5, #(3<<PSW_PRI|MODE_KERNEL<<PSW_PREV), F6 ; check 6
 	movq	#(3<<PSW_PRI|0xA), r1
 	mtps	r1
 	spl	#2
 	mfps	r5
-	cmp	r5, #(2<<PSW_PRI|0xA)
-	bne	F7	; check 7
-	cmp	r1, r1
+	cbne r5, #(2<<PSW_PRI|MODE_KERNEL<<PSW_PREV), F7 ; check 7
+	movq	#(2<<PSW_PRI|0xF), r1	; the four low bits are reserved: they read as zero
+	mtps	r1
 	mfps	r5
-	cmp	r5, #(2<<PSW_PRI|1<<PSW_Z)
-	bne	F8	; check 8
+	cbne r5, #(2<<PSW_PRI|MODE_KERNEL<<PSW_PREV), F8 ; check 8
 	movq	#0xF000, r1
 	mtps	r1
 	mfps	r5
-	cmp	r5, #0	; bits 12 to 15 are reserved and read zero
-	bne	F9	; check 9
+	cbne r5, #0, F9 ; check 9
 	movq	#0, r4
 	movq	#0, r10
 	movq	#0, r6
@@ -53,13 +36,10 @@ _start:
 sp8:
 	spl	#8
 r1x:
-	cmp	r10, #(1)
-	bne	F10	; check 10
+	cbne r10, #(1), F10 ; check 10
 	lea	sp8, r11
-	cmp	r6, r11
-	bne	F11	; check 11
-	cmp	r8, #(VECTOR_ILLEGAL)
-	bne	F12	; check 12
+	cbne r6, r11, F11 ; check 11
+	cbne r8, #(VECTOR_ILLEGAL), F12 ; check 12
 	lea	ustack_top, r1
 	mtsr	usp, r1
 	movq	#(MODE_USER<<PSW_MODE|MODE_USER<<PSW_PREV), r1
@@ -68,11 +48,9 @@ r1x:
 	mtps	r1
 user:
 	mfps	r5
-	cmp	r5, #(MODE_USER<<PSW_MODE|MODE_USER<<PSW_PREV)
-	bne	F13	; check 13
+	cbne r5, #(MODE_USER<<PSW_MODE|MODE_USER<<PSW_PREV), F13 ; check 13
 	lea	ustack_top, r11
-	cmp	sp, r11
-	bne	F14	; check 14
+	cbne sp, r11, F14 ; check 14
 	trap	#9
 F1:	movq	#1, r0
 	halt
@@ -112,12 +90,9 @@ h_gen:	mfps	r12
 1:	rti	#RTIMASK_ALL
 h_end:	movq	sp, r1
 	movq	ksp, r2
-	cmp	r1, r2
-	bne	2f
+	cbne r1, r2, 2f
 	mfsr	r1, epsw
-	bic	#15, r1
-	cmp	r1, #(MODE_USER<<PSW_MODE|MODE_USER<<PSW_PREV)
-	bne	2f
+	cbne r1, #(MODE_USER<<PSW_MODE|MODE_USER<<PSW_PREV), 2f
 	movq	#0, r0
 	halt
 2:	movq	#99, r0

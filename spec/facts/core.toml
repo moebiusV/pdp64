@@ -64,14 +64,6 @@ arg = "MN_ALU_BIC"
 exec = "H_ALU"
 arg = "MN_ALU_BIS"
 
-[cmp]
-exec = "H_ALU"
-arg = "MN_ALU_CMP"
-
-[bit]
-exec = "H_ALU"
-arg = "MN_ALU_BIT"
-
 [xor]
 exec = "H_ALU"
 arg = "MN_ALU_XOR"
@@ -112,10 +104,6 @@ arg = "MN_ALU_FSUB"
 exec = "H_ALU"
 arg = "MN_ALU_FMUL"
 
-[fcmp]
-exec = "H_ALU"
-arg = "MN_ALU_FCMP"
-
 [clr]
 exec = "H_SOP"
 arg = "MN_SOP_CLR"
@@ -135,18 +123,6 @@ arg = "MN_SOP_DEC"
 [neg]
 exec = "H_SOP"
 arg = "MN_SOP_NEG"
-
-[tst]
-exec = "H_SOP"
-arg = "MN_SOP_TST"
-
-[adc]
-exec = "H_SOP"
-arg = "MN_SOP_ADC"
-
-[sbc]
-exec = "H_SOP"
-arg = "MN_SOP_SBC"
 
 [asl]
 exec = "H_SOP"
@@ -195,62 +171,6 @@ arg = "0"
 [br]
 exec = "H_BR"
 arg = "0"
-
-[bne]
-exec = "H_BR"
-arg = "1"
-
-[beq]
-exec = "H_BR"
-arg = "2"
-
-[bpl]
-exec = "H_BR"
-arg = "3"
-
-[bmi]
-exec = "H_BR"
-arg = "4"
-
-[bvc]
-exec = "H_BR"
-arg = "5"
-
-[bvs]
-exec = "H_BR"
-arg = "6"
-
-[bcc]
-exec = "H_BR"
-arg = "7"
-
-[bcs]
-exec = "H_BR"
-arg = "8"
-
-[bge]
-exec = "H_BR"
-arg = "9"
-
-[blt]
-exec = "H_BR"
-arg = "10"
-
-[bgt]
-exec = "H_BR"
-arg = "11"
-
-[ble]
-exec = "H_BR"
-arg = "12"
-
-[bhi]
-exec = "H_BR"
-arg = "13"
-
-[blos]
-exec = "H_BR"
-arg = "14"
 
 [cbne]
 exec = "H_CB"
@@ -548,10 +468,6 @@ arg = "MN_AESC_MAX"
 exec = "H_AESC"
 arg = "MN_AESC_MAXU"
 
-[set]
-exec = "H_SET"
-arg = "0"
-
 [mcpy]
 exec = "H_MBLK"
 arg = "MN_MBLK_MCPY"
@@ -604,10 +520,6 @@ arg = "MN_FESC_FDIV32"
 [fsqrt32]
 exec = "H_FESC"
 arg = "MN_FESC_FSQRT32"
-
-[fcmp32]
-exec = "H_FESC"
-arg = "MN_FESC_FCMP32"
 
 [fmadd]
 exec = "H_FESC"
@@ -756,22 +668,6 @@ arg = "1"
 [cteq]
 exec = "H_CT"
 arg = "2"
-
-[ctpl]
-exec = "H_CT"
-arg = "3"
-
-[ctmi]
-exec = "H_CT"
-arg = "4"
-
-[ctvc]
-exec = "H_CT"
-arg = "5"
-
-[ctvs]
-exec = "H_CT"
-arg = "6"
 
 [ctcc]
 exec = "H_CT"
@@ -1009,3 +905,91 @@ arg = "MN_ATOM_LL"
 [lll]
 exec = "H_ATOM"
 arg = "MN_ATOM_LLL"
+
+[fcbeq]
+exec = "H_FCB"
+arg = "0"
+
+[fcbne]
+exec = "H_FCB"
+arg = "1"
+
+[fcblt]
+exec = "H_FCB"
+arg = "2"
+
+[fcble]
+exec = "H_FCB"
+arg = "3"
+
+[fcbuo]
+exec = "H_FCB"
+arg = "4"
+
+[fcbor]
+exec = "H_FCB"
+arg = "5"
+
+[fcbeq32]
+exec = "H_FCB"
+arg = "8"
+
+[fcbne32]
+exec = "H_FCB"
+arg = "9"
+
+[fcblt32]
+exec = "H_FCB"
+arg = "10"
+
+[fcble32]
+exec = "H_FCB"
+arg = "11"
+
+[fcbuo32]
+exec = "H_FCB"
+arg = "12"
+
+[fcbor32]
+exec = "H_FCB"
+arg = "13"
+
+[seteq]
+exec = "H_SETCC"
+arg = "2"
+
+[setne]
+exec = "H_SETCC"
+arg = "1"
+
+[setlt]
+exec = "H_SETCC"
+arg = "10"
+
+[setle]
+exec = "H_SETCC"
+arg = "12"
+
+[setgt]
+exec = "H_SETCC"
+arg = "11"
+
+[setge]
+exec = "H_SETCC"
+arg = "9"
+
+[setcs]
+exec = "H_SETCC"
+arg = "8"
+
+[setcc]
+exec = "H_SETCC"
+arg = "7"
+
+[sethi]
+exec = "H_SETCC"
+arg = "13"
+
+[setlos]
+exec = "H_SETCC"
+arg = "14"

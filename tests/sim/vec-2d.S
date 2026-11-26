@@ -72,10 +72,8 @@ tchs:
 	halt
 1:
 	movq	hr_cause, r1
-	cmp	r1, #VECTOR_LFAULT
-	beq	causedone
-	cmp	r1, #VECTOR_SFAULT
-	beq	causedone
+	cbeq	r1, #VECTOR_LFAULT, causedone
+	cbeq	r1, #VECTOR_SFAULT, causedone
 	movq	#4, r0
 	halt
 causedone:

@@ -30,11 +30,16 @@ def make_fallback(prev,lam):
     'unencodable' and every cbCC form is credited with 99-4 bytes)."""
     if lam is None or prev is None: return None
     def fb(mn,ops):
-        if not (mn.startswith('cb') and len(ops)==3): return None
-        c=prev.size1('cmp',(ops[0],ops[1]))
-        tgt=ops[2]; nt=tgt if tgt[1] is None else ('PC',tgt[1]-(c or 0),tgt[2])
-        b=prev.size1('b'+mn[2:],(nt,))
-        return None if c is None or b is None else c+b+lam
+        from scheme import CB_INVERSE
+        if not (mn in CB_INVERSE and len(ops)==3): return None
+        tgt=ops[2]
+        for l1 in (2,4,6):
+            nt=tgt if tgt[1] is None else ('PC',tgt[1]-l1,tgt[2])
+            l2=prev.size1('br',(nt,))
+            if l2 is None: return None
+            l1m=prev.size1(CB_INVERSE[mn],(ops[0],ops[1],('PC',l1+l2,tgt[2] if len(tgt)>2 else None)))
+            if l1m==l1: return l1+l2+lam
+        return None
     return fb
 def build_one(which,tag,prev=None,lam=2.0,opts=None,hot=None,lenfun=None,budget=0.95,refine=0):
     mns=['movq','movl','add','sub','xor','and','bis','shl']

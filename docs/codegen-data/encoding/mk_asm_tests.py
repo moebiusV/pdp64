@@ -39,13 +39,13 @@ start:\tmovq r1,r2
 \tand #255,r3
 \tshl #3,r4
 \txor r8,r9
-\tcmp r1,r2
-\tcmp r5,#7
+\tsub r1,r2
+\tsub #7,r5
 \tpush r2
 \tpop r3
 \tinc r1
 \tclr r2
-\ttst r3
+\tcom r3
 \tneg r4
 \tadd #16,sp
 \tsub #4096,sp
@@ -59,25 +59,25 @@ a:\tcbeq r1,#0,z
 \tcblt r3,#100,z
 \tcbge r1,#-3,a
 \tcbhi r2,#5000,z
-\tcbeq r1,#40000,z
+\tcbeq r1,#30000,z
 \tcbcc r1,#7,a
-\tbeq a
-\tbne z
+\tcbeq r1,r2,a
+\tcbne r1,r2,z
 \tbr z
-\tbcs a
-\tbge z
+\tcbcs r1,r2,a
+\tcbge r1,r2,z
 \t.space 300
-\tbcs a
+\tcbcs r1,r2,a
 \tbr a
 z:\tret
 """),
 'far': ('', """\t.text
 a:\tcbeq r1,#0,z
 \tcbne r1,r2,z
-\tcbeq r1,#100000,z
+\tcbhi r1,r2,z
 \tcbge r1,#0,z
 \tbr z
-\tbeq z
+\tcbeq r1,r2,z
 \t.space 70000
 z:\tret
 """),
@@ -133,7 +133,7 @@ lb:\tbtag r1,#2,lb
 \taddm r1,16(r2)
 \tmovq.u 8(r1),r2
 \tmovb.u (r3),r4
-\tfcmp r1,r2
+\tfadd r1,r2
 \tfadd r2,r3
 \tmul #6,r1
 \tshr #40,r2

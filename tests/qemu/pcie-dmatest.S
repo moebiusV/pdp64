@@ -22,15 +22,12 @@ _start:
 	shl	#15, r6
 	add	r13, r6
 	movzl	(r6), r1
-	cmp	r1, r4
-	beq	1f
+	cbeq r1, r4, 1f
 	add	#1, r5
-	cmp	r5, #32
-	blo	2b
+	cblo r5, #32, 2b
 	movq	#1, r0			; not found
 	halt
-1:	cmp	r5, #2			; it was put at device 2 on the command line
-	beq	1f
+1:	cbeq r5, #2, 1f
 	movq	#2, r0
 	halt
 1:	movq	r6, r13			; r13: the function's configuration space
@@ -39,14 +36,12 @@ _start:
 	movl	r1, 16(r13)
 	movzl	16(r13), r1
 	movq	=0xffffe004, r2
-	cmp	r1, r2
-	beq	1f
+	cbeq r1, r2, 1f
 	movq	#3, r0
 	halt
 1:	movl	r12, 20(r13)
 	movzl	20(r13), r1
-	cmp	r1, r12
-	beq	1f
+	cbeq r1, r12, 1f
 	movq	#4, r0
 	halt
 1:	movq	=MAP_PCIE_MMIO, r1	; the address: the low dword (the type bits stay), then the high dword
@@ -56,13 +51,11 @@ _start:
 	movq	#6, r1			; memory space and bus master
 	movw	r1, 4(r13)
 	movzl	16(r13), r1
-	cmp	r1, #4
-	beq	1f
+	cbeq r1, #4, 1f
 	movq	#5, r0
 	halt
 1:	movzl	20(r13), r1
-	cmp	r1, #(MAP_PCIE_MMIO>>32)
-	beq	1f
+	cbeq r1, #(MAP_PCIE_MMIO>>32), 1f
 	movq	#6, r0
 	halt
 1:
@@ -70,8 +63,7 @@ _start:
 	movq	=MAP_PCIE_MMIO, r12
 	movq	DMATEST_REG_ID(r12), r1
 	movq	=DMATEST_ID_MAGIC, r2
-	cmp	r1, r2
-	beq	1f
+	cbeq r1, r2, 1f
 	movq	#7, r0
 	halt
 1:	movq	=0x0123456789abcdef, r2
@@ -80,20 +72,17 @@ _start:
 	movq	r2, (r3)
 	movq	r2, 56(r3)
 	movq	(r3), r1
-	cmp	r1, r2
-	beq	1f
+	cbeq r1, r2, 1f
 	movq	#8, r0
 	halt
 1:	movq	56(r3), r1
-	cmp	r1, r2
-	beq	1f
+	cbeq r1, r2, 1f
 	movq	#9, r0
 	halt
 1:	movq	#77, r1
 	movq	r1, DMATEST_REG_LEN(r12)
 	movq	DMATEST_REG_LEN(r12), r1
-	cmp	r1, #77
-	beq	1f
+	cbeq r1, #77, 1f
 	movq	#10, r0
 	halt
 1:
@@ -128,30 +117,27 @@ _start:
 3:	movq	r2, (r7)+
 	add	r11, r2				; 8 different quadwords
 	sub	#1, r6
-	bne	3b
+	cbne	r6, #0, 3b
 	movq	#((1<<DMATEST_CTL_START)|(1<<DMATEST_CTL_WRITE)), r1
 	movq	r1, DMATEST_REG_CONTROL(r12)
 	movq	DMATEST_REG_STATUS(r12), r1
-	cmp	r1, #(1<<DMATEST_STATUS_DONE)
-	beq	1f
+	cbeq r1, #(1<<DMATEST_STATUS_DONE), 1f
 	movq	#11, r0
 	halt
 1:	lea	dest, r8
 	movq	=0x1111111111111111, r2
 	movq	#8, r6
 3:	movq	(r8)+, r1
-	cmp	r1, r2
-	beq	1f
+	cbeq r1, r2, 1f
 	movq	#12, r0			; the data did not arrive
 	halt
 1:	add	r11, r2
 	sub	#1, r6
-	bne	3b
+	cbne	r6, #0, 3b
 	movq	#(1<<DMATEST_STATUS_DONE), r1
 	movq	r1, DMATEST_REG_STATUS(r12)	; write one to clear
 	movq	DMATEST_REG_STATUS(r12), r1
-	cmp	r1, #0
-	beq	1f
+	cbeq r1, #0, 1f
 	movq	#13, r0
 	halt
 1:	; a DMA read: clear the buffer, read 32 bytes from `src` (four quadwords of a pattern)
@@ -160,7 +146,7 @@ _start:
 3:	movq	#0, r1
 	movq	r1, (r7)+
 	sub	#1, r6
-	bne	3b
+	cbne	r6, #0, 3b
 	lea	src, r1
 	movq	r1, DMATEST_REG_SRC(r12)
 	movq	#32, r1
@@ -168,30 +154,25 @@ _start:
 	movq	#(1<<DMATEST_CTL_START), r1
 	movq	r1, DMATEST_REG_CONTROL(r12)
 	movq	DMATEST_REG_STATUS(r12), r1
-	cmp	r1, #(1<<DMATEST_STATUS_DONE)
-	beq	1f
+	cbeq r1, #(1<<DMATEST_STATUS_DONE), 1f
 	movq	#14, r0
 	halt
 1:	movq	DMATEST_REG_RESULT(r12), r1
-	cmp	r1, #0
-	beq	1f
+	cbeq r1, #0, 1f
 	movq	#15, r0
 	halt
 1:	movq	(r3), r1
 	movq	=0xa0a1a2a3a4a5a6a7, r2
-	cmp	r1, r2
-	beq	1f
+	cbeq r1, r2, 1f
 	movq	#16, r0
 	halt
 1:	movq	24(r3), r1
 	movq	=0xb8b9babbbcbdbebf, r2
-	cmp	r1, r2
-	beq	1f
+	cbeq r1, r2, 1f
 	movq	#17, r0
 	halt
 1:	movq	32(r3), r1		; beyond the length: unchanged
-	cmp	r1, #0
-	beq	1f
+	cbeq r1, #0, 1f
 	movq	#18, r0
 	halt
 1:	movq	#(1<<DMATEST_STATUS_DONE), r1
@@ -204,19 +185,16 @@ _start:
 	movq	r1, DMATEST_REG_CONTROL(r12)
 	nop
 	nop
-	cmp	r10, #0
-	beq	1f
+	cbeq r10, #0, 1f
 	movq	#19, r0			; taken at the level of the line: it must be masked
 	halt
 1:	spl	#0
 	nop
 	nop
-	cmp	r10, #1
-	beq	1f
+	cbeq r10, #1, 1f
 	movq	#20, r0
 	halt
-1:	cmp	r8, #VECTOR_PCIE_INTC
-	beq	1f
+1:	cbeq r8, #VECTOR_PCIE_INTC, 1f
 	movq	#21, r0
 	halt
 1:	movq	#0, r0

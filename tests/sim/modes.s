@@ -3,77 +3,58 @@
 	.globl	_start
 _start:
 	movq	buf, r1
-	cmp	r1, #11		; pc-relative
-	bne	f1
+	cbne r1, #11, f1
 	lea	buf, r2
 	movq	8(r2), r3
-	cmp	r3, #22		; base + displacement
-	bne	f2
+	cbne r3, #22, f2
 	movq	(r2)+, r4
-	cmp	r4, #11		; post-increment returns the old
-	bne	f3
+	cbne r4, #11, f3
 	lea	buf, r5
 	add	#8, r5
-	cmp	r2, r5		; post-increment added the stride (8)
-	bne	f4
+	cbne r2, r5, f4
 	movq	(r2)+, r6
-	cmp	r6, #22
-	bne	f5
+	cbne r6, #22, f5
 	movq	-(r2), r7
-	cmp	r7, #22		; pre-decrement subtracts first
-	bne	f6
+	cbne r7, #22, f6
 	lea	buf, r2
 	movq	#2, r8
 	movq	(r2)(r8*8), r9
-	cmp	r9, #33		; indexed
-	bne	f7
+	cbne r9, #33, f7
 	movq	8(r2)(r8*8), r9
-	cmp	r9, #44		; indexed with displacement
-	bne	f8
+	cbne r9, #44, f8
 	lea	(r2)(r8*8), r3
 	sub	r2, r3
-	cmp	r3, #16		; lea of an indexed address
-	bne	f9
+	cbne r3, #16, f9
 	movl	32(r2), r1
-	cmp	r1, #5
-	bne	f10
+	cbne r1, #5, f10
 	movw	36(r2), r1
-	cmp	r1, #6
-	bne	f11
+	cbne r1, #6, f11
 	movb	38(r2), r1
-	cmp	r1, #7
-	bne	f12
+	cbne r1, #7, f12
 	movb	39(r2), r1
-	cmp	r1, #-1		; movb sign-extends
-	bne	f13
+	cbne r1, #-1, f13
 	movzb	39(r2), r1
-	cmp	r1, #255		; movzb zero-extends
-	bne	f14
+	cbne r1, #255, f14
 	movw	40(r2), r1
-	cmp	r1, #-1
-	bne	f15
+	cbne r1, #-1, f15
 	movzw	40(r2), r1
-	cmp	r1, #65535
-	bne	f16
+	movq	=65535, r13
+	cbne	r1, r13, f16
 	movl	44(r2), r1
-	cmp	r1, #-1
-	bne	f17
+	cbne r1, #-1, f17
 	movzl	44(r2), r1
 	movq	#65535, r12
 	shl	#16, r12
 	bis	#65535, r12
-	cmp	r1, r12
-	bne	f18
+	cbne r1, r12, f18
 	movq	#77, r1
 	movq	r1, 8(r2)
 	movq	8(r2), r3
-	cmp	r3, #77		; store and reload
-	bne	f19
+	cbne r3, #77, f19
 	movq	#0x1FF, r1
 	movb	r1, 48(r2)
 	movzb	48(r2), r3
-	cmp	r3, #255		; a byte store keeps the low byte
-	bne	f20
+	cbne r3, #255, f20
 	movq	#-1, r1
 	movq	r1, 48(r2)
 	movl	#0, r1
@@ -81,15 +62,12 @@ _start:
 	movq	48(r2), r3
 	movq	#-1, r12
 	shl	#32, r12
-	cmp	r3, r12		; a long store leaves the other half (-4294967296)
-	bne	f21
+	cbne r3, r12, f21
 	mtdp	r2
 	movq	8(dp), r3
-	cmp	r3, #77		; direct page
-	bne	f22
+	cbne r3, #77, f22
 	movq	#-5, r1
-	cmp	r1, #-5		; immediate sign-extended
-	bne	f23
+	cbne r1, #-5, f23
 	movq	#0x1234, r1		; a 48-bit value built from pieces: an immediate is 32 bits
 	shl	#32, r1
 	bis	#0x56789ABC, r1
@@ -97,8 +75,7 @@ _start:
 	shl	#32, r12
 	movq	#0x56789ABC, r11
 	bis	r11, r12
-	cmp	r1, r12
-	bne	f24
+	cbne r1, r12, f24
 	movq	#0, r0
 	trap	#0
 f1:	movq	#1, r0

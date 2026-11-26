@@ -83,8 +83,6 @@ pi5-s12        = base:5 stride:12
 ; ---- operand shapes: pc-relative
 
 pc5-u2         = pcrel:5
-pc6-u2         = pcrel:6
-pc7-u2         = pcrel:7
 pc8-u2         = pcrel:8
 pc9-u2         = pcrel:9
 pc10-u2        = pcrel:10
@@ -96,6 +94,7 @@ pc14-u2        = pcrel:14
 pc16-u1        = pcrel:16
 pc16-u2        = pcrel:16
 pc20-u2        = pcrel:20
+pc22-u2        = pcrel:22
 pc24-u2        = pcrel:24
 pc32-u1        = pcrel:32
 pc32-u2        = pcrel:32

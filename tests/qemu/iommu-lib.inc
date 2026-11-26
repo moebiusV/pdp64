@@ -9,8 +9,7 @@ lib_pci_up:
 	movq	=(MAP_PCIE_ECAM+(2<<15)), r13
 	movzl	(r13), r1
 	movq	=((DMATEST_ID_DEVICE<<16)|DMATEST_ID_VENDOR), r2
-	cmp	r1, r2
-	beq	1f
+	cbeq r1, r2, 1f
 	movq	#101, r0
 	halt
 1:	movq	=MAP_PCIE_MMIO, r1
@@ -27,8 +26,7 @@ lib_pci_up2:
 	movq	=(MAP_PCIE_ECAM+(3<<15)), r1
 	movzl	(r1), r2
 	movq	=((DMATEST_ID_DEVICE<<16)|DMATEST_ID_VENDOR), r3
-	cmp	r2, r3
-	beq	1f
+	cbeq r2, r3, 1f
 	movq	#102, r0
 	halt
 1:	movq	=(MAP_PCIE_MMIO+0x10000), r2
@@ -82,7 +80,7 @@ lib_tbl_clear:
 	movq	=1536, r3
 1:	movq	r2, (r1)+
 	sub	#1, r3
-	bne	1b
+	cbne	r3, #0, 1b
 	ret
 ; r1 the block (where the tables are written), r5 the address that the pointers hold (the same for a table read by the unit; a guest-physical address for stage A of A then B)
 lib_tbl_init:
@@ -157,8 +155,7 @@ lib_sync:
 	lea	syncflag, r2
 	movq	#0, r4
 	movq	r4, (r2)
-	cmp	r1, #0
-	bne	1f
+	cbne r1, #0, 1f
 	movq	#IOMMU_OP_SYNC, r1
 	call	lib_cmd
 	br	2f
@@ -166,8 +163,7 @@ lib_sync:
 	call	lib_ring
 2:	lea	syncflag, r2
 	movq	(r2), r4
-	cmp	r4, #1
-	bne	lib_fail
+	cbne r4, #1, lib_fail
 	ret
 ; ---- the fault ring ----
 lib_drain:
@@ -197,8 +193,7 @@ lib_expect:
 	movq	r2, r17
 	movq	r3, r18
 	call	lib_which
-	cmp	r1, r17
-	bne	lib_fail
+	cbne r1, r17, lib_fail
 	ret
 ; map the device address r2 to the page r3 (read and write) in the block r1
 lib_mappage:
@@ -219,63 +214,50 @@ lib_chk_ref:
 	add	r12, r26
 	movq	=0x5a5a5a5a5a5a5a5a, r27
 	movq	r27, (r26)
-	cmp	r20, #0
-	bne	3f
+	cbne r20, #0, 3f
 	movq	IOMMU_REG_REFUSED_READS(r11), r23
 	movq	r16, r1
 	movq	#8, r2
 	call	lib_dma_r
-	cmp	r1, #ST_ERR
-	bne	lib_fail
-	cmp	r2, #0
-	beq	lib_fail
+	cbne r1, #ST_ERR, lib_fail
+	cbeq r2, #0, lib_fail
 	movq	(r26), r6
-	cmp	r6, r27
-	bne	lib_fail
+	cbne r6, r27, lib_fail
 	movq	IOMMU_REG_REFUSED_READS(r11), r6
 	sub	r23, r6
-	cmp	r6, #1
-	bne	lib_fail
+	cbne r6, #1, lib_fail
 	br	2f
 3:	movq	IOMMU_REG_DROPPED_WRITES(r11), r23
 	movq	r16, r1
 	movq	#8, r2
 	call	lib_dma_w
-	cmp	r1, #ST_DONE
-	bne	lib_fail
+	cbne r1, #ST_DONE, lib_fail
 	movq	IOMMU_REG_DROPPED_WRITES(r11), r6
 	sub	r23, r6
-	cmp	r6, #1
-	bne	lib_fail
+	cbne r6, #1, lib_fail
 2:	movq	IOMMU_REG_FAULT_TAIL(r11), r6
 	sub	r21, r6
 	movq	IOMMU_REG_FAULT_SIZE(r11), r7
 	sub	#1, r7
 	and	r7, r6
-	cmp	r6, #1
-	bne	lib_fail
+	cbne r6, #1, lib_fail
 	call	lib_lastrec
 	movq	r1, r5
 	and	#0xff, r5
-	cmp	r5, r17
-	bne	lib_fail
+	cbne r5, r17, lib_fail
 	movq	r1, r5
 	shr	#8, r5
 	and	#3, r5
-	cmp	r5, r19
-	bne	lib_fail
+	cbne r5, r19, lib_fail
 	movq	r1, r5
 	shr	#10, r5
 	and	#1, r5
-	cmp	r5, r20
-	bne	lib_fail
+	cbne r5, r20, lib_fail
 	movq	r1, r5
 	shr	#62, r5
 	and	#1, r5
-	cmp	r5, #1
-	bne	lib_fail
-	cmp	r3, r16
-	bne	lib_fail
+	cbne r5, #1, lib_fail
+	cbne r3, r16, lib_fail
 	call	lib_drain
 	ret
 ; the last record must have the cause r1, the stage r2, the word of identities r3 (requester identity | guest tag << 16), the device address r4 and the guest-physical address r5
@@ -290,19 +272,14 @@ lib_chk_rec:
 	call	lib_lastrec
 	movq	r1, r5
 	and	#0xff, r5
-	cmp	r5, r17
-	bne	lib_fail
+	cbne r5, r17, lib_fail
 	movq	r1, r5
 	shr	#8, r5
 	and	#3, r5
-	cmp	r5, r19
-	bne	lib_fail
-	cmp	r2, r20
-	bne	lib_fail
-	cmp	r3, r21
-	bne	lib_fail
-	cmp	r4, r23
-	bne	lib_fail
+	cbne r5, r19, lib_fail
+	cbne r2, r20, lib_fail
+	cbne r3, r21, lib_fail
+	cbne r4, r23, lib_fail
 	call	lib_drain
 	ret
 ; a write of 8 bytes at the device address r1 must arrive at the physical address r2 (r3 the number of the check), with no refusal
@@ -321,17 +298,13 @@ lib_chk_ok_w:
 	movq	r16, r1
 	movq	#8, r2
 	call	lib_dma_w
-	cmp	r1, #ST_DONE
-	bne	lib_fail
+	cbne r1, #ST_DONE, lib_fail
 	movq	(r17), r6
-	cmp	r6, r27
-	bne	lib_fail
+	cbne r6, r27, lib_fail
 	movq	IOMMU_REG_DROPPED_WRITES(r11), r6
-	cmp	r6, r23
-	bne	lib_fail
+	cbne r6, r23, lib_fail
 	movq	IOMMU_REG_FAULT_TAIL(r11), r6
-	cmp	r6, r21
-	bne	lib_fail
+	cbne r6, r21, lib_fail
 	ret
 ; a read of 8 bytes at the device address r1 must give the 8 bytes at the physical address r2 (r3 the number of the check), with no refusal
 lib_chk_ok_r:
@@ -349,19 +322,14 @@ lib_chk_ok_r:
 	movq	r16, r1
 	movq	#8, r2
 	call	lib_dma_r
-	cmp	r1, #ST_DONE
-	bne	lib_fail
-	cmp	r2, #0
-	bne	lib_fail
+	cbne r1, #ST_DONE, lib_fail
+	cbne r2, #0, lib_fail
 	movq	(r26), r6
-	cmp	r6, r27
-	bne	lib_fail
+	cbne r6, r27, lib_fail
 	movq	IOMMU_REG_REFUSED_READS(r11), r6
-	cmp	r6, r23
-	bne	lib_fail
+	cbne r6, r23, lib_fail
 	movq	IOMMU_REG_FAULT_TAIL(r11), r6
-	cmp	r6, r21
-	bne	lib_fail
+	cbne r6, r21, lib_fail
 	ret
 ; which page does a write at the page-aligned device address r1 reach?  Returns r1: bit 0 pg1, bit 1 pg2, bit 2 pg3 hold the pattern now; 0 if none (it was refused).  The ring is drained.
 lib_which:
@@ -383,18 +351,15 @@ lib_which:
 	movq	#0, r6
 	lea	pg1, r3
 	movq	(r3), r4
-	cmp	r4, r27
-	bne	1f
+	cbne r4, r27, 1f
 	bis	#1, r6
 1:	lea	pg2, r3
 	movq	(r3), r4
-	cmp	r4, r27
-	bne	1f
+	cbne r4, r27, 1f
 	bis	#2, r6
 1:	lea	pg3, r3
 	movq	(r3), r4
-	cmp	r4, r27
-	bne	1f
+	cbne r4, r27, 1f
 	bis	#4, r6
 1:	movq	r6, r26
 	call	lib_drain

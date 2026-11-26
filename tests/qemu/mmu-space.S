@@ -11,15 +11,13 @@ _start:
 	mtsr	mmuctl, r1
 	movq	=1073741824, r3
 	movq	8(r3), r5
-	cmp	r5, #(-1)
-	beq	1f
+	cbeq r5, #(-1), 1f
 	movq	#2, r0	; check 1
 	halt
 1:
 	movq	=1073745920, r3
 	movq	8(r3), r5
-	cmp	r5, #(-1)
-	beq	1f
+	cbeq r5, #(-1), 1f
 	movq	#3, r0	; check 2
 	halt
 1:
@@ -27,8 +25,7 @@ _start:
 	movq	=1073741824, r3
 	movq	r5, 8(r3)
 	movq	8(r3), r6
-	cmp	r6, #(5)
-	beq	1f
+	cbeq r6, #(5), 1f
 	movq	#4, r0	; check 3
 	halt
 1:
@@ -48,25 +45,21 @@ ins_sp_2_load:
 	movq	8(r3), r5
 res_sp_2_load:
 	bic	#15, r7
-	cmp	r10, #(1)
-	beq	1f
+	cbeq r10, #(1), 1f
 	movq	#5, r0	; check 4
 	halt
 1:
-	cmp	r8, #(VECTOR_LPROT)
-	beq	1f
+	cbeq r8, #(VECTOR_LPROT), 1f
 	movq	#6, r0	; check 5
 	halt
 1:
 	lea	ins_sp_2_load, r11
-	cmp	r6, r11
-	beq	1f
+	cbeq r6, r11, 1f
 	movq	#7, r0	; check 6
 	halt
 1:
 	movq	=1073750024, r2
-	cmp	r9, r2
-	beq	1f
+	cbeq r9, r2, 1f
 	movq	#8, r0	; check 7
 	halt
 1:
@@ -84,25 +77,21 @@ ins_sp_2_store:
 	movq	r5, 8(r3)
 res_sp_2_store:
 	bic	#15, r7
-	cmp	r10, #(1)
-	beq	1f
+	cbeq r10, #(1), 1f
 	movq	#9, r0	; check 8
 	halt
 1:
-	cmp	r8, #(VECTOR_SPROT)
-	beq	1f
+	cbeq r8, #(VECTOR_SPROT), 1f
 	movq	#10, r0	; check 9
 	halt
 1:
 	lea	ins_sp_2_store, r11
-	cmp	r6, r11
-	beq	1f
+	cbeq r6, r11, 1f
 	movq	#11, r0	; check 10
 	halt
 1:
 	movq	=1073750024, r2
-	cmp	r9, r2
-	beq	1f
+	cbeq r9, r2, 1f
 	movq	#12, r0	; check 11
 	halt
 1:
@@ -120,25 +109,21 @@ ins_sp_3_load:
 	movq	8(r3), r5
 res_sp_3_load:
 	bic	#15, r7
-	cmp	r10, #(1)
-	beq	1f
+	cbeq r10, #(1), 1f
 	movq	#13, r0	; check 12
 	halt
 1:
-	cmp	r8, #(VECTOR_LPROT)
-	beq	1f
+	cbeq r8, #(VECTOR_LPROT), 1f
 	movq	#14, r0	; check 13
 	halt
 1:
 	lea	ins_sp_3_load, r11
-	cmp	r6, r11
-	beq	1f
+	cbeq r6, r11, 1f
 	movq	#15, r0	; check 14
 	halt
 1:
 	movq	=1073754120, r2
-	cmp	r9, r2
-	beq	1f
+	cbeq r9, r2, 1f
 	movq	#16, r0	; check 15
 	halt
 1:
@@ -156,25 +141,21 @@ ins_sp_3_store:
 	movq	r5, 8(r3)
 res_sp_3_store:
 	bic	#15, r7
-	cmp	r10, #(1)
-	beq	1f
+	cbeq r10, #(1), 1f
 	movq	#17, r0	; check 16
 	halt
 1:
-	cmp	r8, #(VECTOR_SPROT)
-	beq	1f
+	cbeq r8, #(VECTOR_SPROT), 1f
 	movq	#18, r0	; check 17
 	halt
 1:
 	lea	ins_sp_3_store, r11
-	cmp	r6, r11
-	beq	1f
+	cbeq r6, r11, 1f
 	movq	#19, r0	; check 18
 	halt
 1:
 	movq	=1073754120, r2
-	cmp	r9, r2
-	beq	1f
+	cbeq r9, r2, 1f
 	movq	#20, r0	; check 19
 	halt
 1:
@@ -192,25 +173,21 @@ ins_sp_4_load:
 	movq	8(r3), r5
 res_sp_4_load:
 	bic	#15, r7
-	cmp	r10, #(1)
-	beq	1f
+	cbeq r10, #(1), 1f
 	movq	#21, r0	; check 20
 	halt
 1:
-	cmp	r8, #(VECTOR_LPROT)
-	beq	1f
+	cbeq r8, #(VECTOR_LPROT), 1f
 	movq	#22, r0	; check 21
 	halt
 1:
 	lea	ins_sp_4_load, r11
-	cmp	r6, r11
-	beq	1f
+	cbeq r6, r11, 1f
 	movq	#23, r0	; check 22
 	halt
 1:
 	movq	=1073758216, r2
-	cmp	r9, r2
-	beq	1f
+	cbeq r9, r2, 1f
 	movq	#24, r0	; check 23
 	halt
 1:
@@ -228,25 +205,21 @@ ins_sp_4_store:
 	movq	r5, 8(r3)
 res_sp_4_store:
 	bic	#15, r7
-	cmp	r10, #(1)
-	beq	1f
+	cbeq r10, #(1), 1f
 	movq	#25, r0	; check 24
 	halt
 1:
-	cmp	r8, #(VECTOR_SPROT)
-	beq	1f
+	cbeq r8, #(VECTOR_SPROT), 1f
 	movq	#26, r0	; check 25
 	halt
 1:
 	lea	ins_sp_4_store, r11
-	cmp	r6, r11
-	beq	1f
+	cbeq r6, r11, 1f
 	movq	#27, r0	; check 26
 	halt
 1:
 	movq	=1073758216, r2
-	cmp	r9, r2
-	beq	1f
+	cbeq r9, r2, 1f
 	movq	#28, r0	; check 27
 	halt
 1:
@@ -264,24 +237,20 @@ ins_sp_4_fetch:
 res_sp_4_fetch:
 	bic	#15, r7
 	add	#8, sp
-	cmp	r10, #(1)
-	beq	1f
+	cbeq r10, #(1), 1f
 	movq	#29, r0	; check 28
 	halt
 1:
-	cmp	r8, #(VECTOR_IPROT)
-	beq	1f
+	cbeq r8, #(VECTOR_IPROT), 1f
 	movq	#30, r0	; check 29
 	halt
 1:
 	movq	=1073758208, r2
-	cmp	r6, r2
-	beq	1f
+	cbeq r6, r2, 1f
 	movq	#31, r0	; check 30
 	halt
 1:
-	cmp	r9, r2
-	beq	1f
+	cbeq r9, r2, 1f
 	movq	#32, r0	; check 31
 	halt
 1:
@@ -299,25 +268,21 @@ ins_sp_5_load:
 	movq	8(r3), r5
 res_sp_5_load:
 	bic	#15, r7
-	cmp	r10, #(1)
-	beq	1f
+	cbeq r10, #(1), 1f
 	movq	#33, r0	; check 32
 	halt
 1:
-	cmp	r8, #(VECTOR_LPROT)
-	beq	1f
+	cbeq r8, #(VECTOR_LPROT), 1f
 	movq	#34, r0	; check 33
 	halt
 1:
 	lea	ins_sp_5_load, r11
-	cmp	r6, r11
-	beq	1f
+	cbeq r6, r11, 1f
 	movq	#35, r0	; check 34
 	halt
 1:
 	movq	=1073762312, r2
-	cmp	r9, r2
-	beq	1f
+	cbeq r9, r2, 1f
 	movq	#36, r0	; check 35
 	halt
 1:
@@ -335,25 +300,21 @@ ins_sp_5_store:
 	movq	r5, 8(r3)
 res_sp_5_store:
 	bic	#15, r7
-	cmp	r10, #(1)
-	beq	1f
+	cbeq r10, #(1), 1f
 	movq	#37, r0	; check 36
 	halt
 1:
-	cmp	r8, #(VECTOR_SPROT)
-	beq	1f
+	cbeq r8, #(VECTOR_SPROT), 1f
 	movq	#38, r0	; check 37
 	halt
 1:
 	lea	ins_sp_5_store, r11
-	cmp	r6, r11
-	beq	1f
+	cbeq r6, r11, 1f
 	movq	#39, r0	; check 38
 	halt
 1:
 	movq	=1073762312, r2
-	cmp	r9, r2
-	beq	1f
+	cbeq r9, r2, 1f
 	movq	#40, r0	; check 39
 	halt
 1:
@@ -371,24 +332,20 @@ ins_sp_5_fetch:
 res_sp_5_fetch:
 	bic	#15, r7
 	add	#8, sp
-	cmp	r10, #(1)
-	beq	1f
+	cbeq r10, #(1), 1f
 	movq	#41, r0	; check 40
 	halt
 1:
-	cmp	r8, #(VECTOR_IPROT)
-	beq	1f
+	cbeq r8, #(VECTOR_IPROT), 1f
 	movq	#42, r0	; check 41
 	halt
 1:
 	movq	=1073762304, r2
-	cmp	r6, r2
-	beq	1f
+	cbeq r6, r2, 1f
 	movq	#43, r0	; check 42
 	halt
 1:
-	cmp	r9, r2
-	beq	1f
+	cbeq r9, r2, 1f
 	movq	#44, r0	; check 43
 	halt
 1:
@@ -405,13 +362,11 @@ res_sp_5_fetch:
 ins_sp_6_load:
 	movq	8(r3), r5
 res_sp_6_load:
-	cmp	r10, #(0)
-	beq	1f
+	cbeq r10, #(0), 1f
 	movq	#45, r0	; check 44
 	halt
 1:
-	cmp	r5, #(4660)
-	beq	1f
+	cbeq r5, #(4660), 1f
 	movq	#46, r0	; check 45
 	halt
 1:
@@ -428,8 +383,7 @@ res_sp_6_load:
 ins_sp_6_store:
 	movq	r5, 8(r3)
 res_sp_6_store:
-	cmp	r10, #(0)
-	beq	1f
+	cbeq r10, #(0), 1f
 	movq	#47, r0	; check 46
 	halt
 1:
@@ -447,25 +401,21 @@ ins_big:
 res_big:
 	movq	r7, r1
 	bic	#15, r7
-	cmp	r10, #(1)
-	beq	1f
+	cbeq r10, #(1), 1f
 	movq	#48, r0	; check 47
 	halt
 1:
-	cmp	r8, #(VECTOR_LPROT)
-	beq	1f
+	cbeq r8, #(VECTOR_LPROT), 1f
 	movq	#49, r0	; check 48
 	halt
 1:
 	lea	ins_big, r11
-	cmp	r6, r11
-	beq	1f
+	cbeq r6, r11, 1f
 	movq	#50, r0	; check 49
 	halt
 1:
 	movq	=4294967296, r2
-	cmp	r9, r2
-	beq	1f
+	cbeq r9, r2, 1f
 	movq	#51, r0	; check 50
 	halt
 1:
@@ -478,13 +428,11 @@ res_big:
 	movq	#0, r12
 	movq	=0x140000000, r3
 	movq	8(r3), r5
-	cmp	r10, #(0)
-	beq	1f
+	cbeq r10, #(0), 1f
 	movq	#52, r0	; check 51
 	halt
 1:
-	cmp	r5, #(-1)
-	beq	1f
+	cbeq r5, #(-1), 1f
 	movq	#53, r0	; check 52
 	halt
 1:
@@ -492,8 +440,7 @@ res_big:
 	mtsr	mmuctl, r1
 	movq	=MAP_TIMER, r3
 	movq	8(r3), r5
-	cmp	r5, #(-1)
-	beq	1f
+	cbeq r5, #(-1), 1f
 	movq	#54, r0	; check 53
 	halt
 1:

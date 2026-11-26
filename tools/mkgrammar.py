@@ -66,7 +66,7 @@ def main():
         f.write('enum mn_group {\n')
         for k, n in enumerate(names):
             f.write('\tMG_%s = %d,\n' % (n, k + 1))
-        f.write('};\n#define MG_COND 99\t/* instructions that take a condition word (`set eq, r1`): not in `mnemonic` */\n#define MG_SYSREG 98\t/* mfsr, mtsr: they take a system register name (`mfsr r1, ptbr`): not in `mnemonic` */\n/* the number of the mnemonic that the parser matched, from the member of that group (single-word groups have no member: their number is the opcode) */\n')
+        f.write('};\n#define MG_SYSREG 98\t/* mfsr, mtsr: they take a system register name (`mfsr r1, ptbr`): not in `mnemonic` */\n/* the number of the mnemonic that the parser matched, from the member of that group (single-word groups have no member: their number is the opcode) */\n')
         f.write('#define MNEMONIC_NUMBER(m, out) do { switch ((m)->_alt) { \\\n')
         for k, g in enumerate(order):
             if len(full[g]) == 1:

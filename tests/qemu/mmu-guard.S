@@ -70,8 +70,7 @@ res1s:	lea	at1s, r1
 	movq	#0x7777, r5
 	movq	r5, 16(r11)
 	movq	16(r11), r2
-	cmp	r2, r5
-	beq	1f
+	cbeq r2, r5, 1f
 	movq	#100, r0
 	halt
 1:	movq	#3, r0
@@ -115,38 +114,32 @@ res4:	movq	r4, r1
 	call	expect_fault
 ; ---- 5: PROBER and PROBEW
 	prober	r2, r3
-	cmp	r2, #1
-	beq	1f
+	cbeq r2, #1, 1f
 	movq	#103, r0
 	halt
 1:	probew	r2, r3
-	cmp	r2, #1
-	beq	1f
+	cbeq r2, #1, 1f
 	movq	#104, r0
 	halt
 1:	probew	r2, r14
-	cmp	r2, #0
-	beq	1f
+	cbeq r2, #0, 1f
 	movq	#105, r0
 	halt
 1:	prober	r2, r14
-	cmp	r2, #1
-	beq	1f
+	cbeq r2, #1, 1f
 	movq	#106, r0
 	halt
 1:
 ; ---- 6: the `.U` moves
 	movq	#0, r10
 	movq.u	8(r3), r5
-	cmp	r5, #0x1234
-	beq	1f
+	cbeq r5, #0x1234, 1f
 	movq	#107, r0
 	halt
 1:	movq	#0x6666, r5
 	movq.u	r5, 24(r3)
 	movq.u	24(r3), r2
-	cmp	r2, r5
-	beq	1f
+	cbeq r2, r5, 1f
 	movq	#101, r0
 	halt
 1:	movq	#5, r0
@@ -196,12 +189,10 @@ res8d:	lea	at8d, r1
 	movq	#8, r22
 	mcpy.ur	r20, r21, r22
 	movq	32(r11), r2
-	cmp	r2, #0x1234
-	beq	1f
+	cbeq r2, #0x1234, 1f
 	movq	#108, r0
 	halt
-1:	cmp	r22, #0
-	beq	1f
+1:	cbeq r22, #0, 1f
 	movq	#109, r0
 	halt
 1:	movq	#11, r0
@@ -213,8 +204,7 @@ res8d:	lea	at8d, r1
 	movq	#8, r22
 	mcpy.uw	r20, r21, r22
 	movq.u	40(r3), r2
-	cmp	r2, #0x2345
-	beq	1f
+	cbeq r2, #0x2345, 1f
 	movq	#110, r0
 	halt
 1:	movq	#12, r0
@@ -303,20 +293,17 @@ res7f:	lea	at7f, r1
 	add	#4096, r4
 	movq	#18, r0
 	call	expect_fault
-	cmp	r22, #8
-	beq	1f
+	cbeq r22, #8, 1f
 	movq	#111, r0
 	halt
 1:	movq	r3, r2
 	add	#4096, r2
-	cmp	r21, r2
-	beq	1f
+	cbeq r21, r2, 1f
 	movq	#112, r0
 	halt
 1:	movq	r11, r2
 	add	#72, r2
-	cmp	r20, r2
-	beq	1f
+	cbeq r20, r2, 1f
 	movq	#113, r0
 	halt
 1:	movq	#0, r0
@@ -334,22 +321,18 @@ expect_fault:
 	movq	r0, r5
 	asl	r5
 	asl	r5
-	cmp	r10, #1
-	beq	1f
+	cbeq r10, #1, 1f
 	movq	r5, r0
 	halt
-1:	cmp	r8, r2
-	beq	1f
+1:	cbeq r8, r2, 1f
 	add	#1, r5
 	movq	r5, r0
 	halt
-1:	cmp	r9, r4
-	beq	1f
+1:	cbeq r9, r4, 1f
 	add	#2, r5
 	movq	r5, r0
 	halt
-1:	cmp	r6, r1
-	beq	1f
+1:	cbeq r6, r1, 1f
 	add	#3, r5
 	movq	r5, r0
 	halt

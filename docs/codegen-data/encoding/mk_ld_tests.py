@@ -39,8 +39,8 @@ for which in ('32',):
     def unit(f):
         return [sp.unit for sp in f.specs if isinstance(sp, SPC)]
     TEXT = 0x10000; DATA = 0x11000
-    # sizes first (with the externals unknown): main.s = movq #msg,r1 ; call f ; bne f ; movq val(pc),r2 ; halt   lib.s = ret
-    ext = [('movq', (('I', 0x11000), ('R', 1)), 'I'), ('call', (('PC', None),), 'PC'), ('bne', (('PC', None),), 'PC'), ('movq', (('PC', None), ('R', 2)), 'PC'), ('halt', (), '-')]
+    # sizes first (with the externals unknown): main.s = movq #msg,r1 ; call f ; br f ; movq val(pc),r2 ; halt   lib.s = ret
+    ext = [('movq', (('I', 0x11000), ('R', 1)), 'I'), ('call', (('PC', None),), 'PC'), ('br', (('PC', None),), 'PC'), ('movq', (('PC', None), ('R', 2)), 'PC'), ('halt', (), '-')]
     sizes = []
     for mn, ops, kind in ext:
         # movq #msg is an unresolved immediate: the prototype's immediate fields are signed, 32 bits is the widest
@@ -62,7 +62,7 @@ for which in ('32',):
     for mn, ops, kind in ext[1:4]:
         P_ = pos
         exto = tuple(('PC', None) if o[0] == 'PC' else o for o in ops)
-        tgt = f_addr if mn in ('call', 'bne') else DATA + 8          # f, or val
+        tgt = f_addr if mn in ('call', 'br') else DATA + 8          # f, or val
         final = tuple(('PC', tgt - P_) if o[0] == 'PC' else o for o in ops)
         f, w = enc1(mn, exto, final)
         words += w; pos += 2 * f.n

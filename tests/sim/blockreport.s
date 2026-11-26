@@ -1,0 +1,186 @@
+; the register report of mcmp, mscn and mscnn (they write no flag).
+; mcmp Rd, Rs, Rn: Rn is 0 when the blocks were equal; at a difference Rn is not 0 and Rd and Rs point at the first differing bytes.
+; mscn / mscnn Rd, Rv, Rn: Rn is 0 when no byte was found; otherwise Rn is not 0 and Rd points at the byte found.
+; A failed check n exits with n.
+	.text
+	.globl	_start
+_start:
+	lea	a, r1
+	lea	b, r2
+	movq	#8, r3
+	mcmp	r1, r2, r3
+	cbne	r3, #0, f1		; equal: Rn is 0
+	lea	a, r4
+	lea	b, r5
+	lea	a, r1
+	lea	c, r2
+	movq	#8, r3
+	mcmp	r1, r2, r3
+	cbeq	r3, #0, f3		; a difference: Rn is not 0
+	lea	a+0, r4
+	cbne	r1, r4, f4		; Rd at the differing byte
+	lea	c+0, r4
+	cbne	r2, r4, f5		; Rs at the differing byte
+	lea	a, r1
+	lea	d, r2
+	movq	#8, r3
+	mcmp	r1, r2, r3
+	cbeq	r3, #0, f6		; a difference: Rn is not 0
+	lea	a+4, r4
+	cbne	r1, r4, f7		; Rd at the differing byte
+	lea	d+4, r4
+	cbne	r2, r4, f8		; Rs at the differing byte
+	lea	a, r1
+	lea	e, r2
+	movq	#8, r3
+	mcmp	r1, r2, r3
+	cbeq	r3, #0, f9		; a difference: Rn is not 0
+	lea	a+7, r4
+	cbne	r1, r4, f10		; Rd at the differing byte
+	lea	e+7, r4
+	cbne	r2, r4, f11		; Rs at the differing byte
+	lea	a, r1
+	lea	e, r2
+	movq	#7, r3
+	mcmp	r1, r2, r3
+	cbne	r3, #0, f12		; equal: Rn is 0
+	lea	a, r4
+	lea	e, r5
+	lea	a, r1
+	lea	c, r2
+	movq	#0, r3
+	mcmp	r1, r2, r3
+	cbne	r3, #0, f14		; equal: Rn is 0
+	lea	a, r4
+	lea	c, r5
+	lea	s, r1
+	movq	#51, r2
+	movq	#8, r3
+	mscn	r1, r2, r3
+	cbeq	r3, #0, f16		; found: Rn is not 0
+	lea	s+2, r4
+	cbne	r1, r4, f17		; Rd at the byte found
+	lea	s, r1
+	movq	#17, r2
+	movq	#8, r3
+	mscn	r1, r2, r3
+	cbeq	r3, #0, f18		; found: Rn is not 0
+	lea	s+0, r4
+	cbne	r1, r4, f19		; Rd at the byte found
+	lea	s, r1
+	movq	#136, r2
+	movq	#8, r3
+	mscn	r1, r2, r3
+	cbeq	r3, #0, f20		; found: Rn is not 0
+	lea	s+7, r4
+	cbne	r1, r4, f21		; Rd at the byte found
+	lea	s, r1
+	movq	#119, r2
+	movq	#8, r3
+	mscn	r1, r2, r3
+	cbne	r3, #0, f22		; not found: Rn is 0
+	lea	s, r1
+	movq	#136, r2
+	movq	#7, r3
+	mscn	r1, r2, r3
+	cbne	r3, #0, f23		; not found: Rn is 0
+	lea	s, r1
+	movq	#17, r2
+	movq	#0, r3
+	mscn	r1, r2, r3
+	cbne	r3, #0, f24		; not found: Rn is 0
+	lea	s, r1
+	movq	#17, r2
+	movq	#8, r3
+	mscnn	r1, r2, r3
+	cbeq	r3, #0, f25		; found: Rn is not 0
+	lea	s+1, r4
+	cbne	r1, r4, f26		; Rd at the byte found
+	lea	t, r1
+	movq	#85, r2
+	movq	#8, r3
+	mscnn	r1, r2, r3
+	cbne	r3, #0, f27		; not found: Rn is 0
+	lea	t, r1
+	movq	#85, r2
+	movq	#0, r3
+	mscnn	r1, r2, r3
+	cbne	r3, #0, f28		; not found: Rn is 0
+	lea	u, r1
+	movq	#85, r2
+	movq	#8, r3
+	mscnn	r1, r2, r3
+	cbeq	r3, #0, f29		; found: Rn is not 0
+	lea	u+7, r4
+	cbne	r1, r4, f30		; Rd at the byte found
+	movq	#0, r0
+	trap	#0
+f1:	movq	#1, r0
+	trap	#0
+f2:	movq	#2, r0
+	trap	#0
+f3:	movq	#3, r0
+	trap	#0
+f4:	movq	#4, r0
+	trap	#0
+f5:	movq	#5, r0
+	trap	#0
+f6:	movq	#6, r0
+	trap	#0
+f7:	movq	#7, r0
+	trap	#0
+f8:	movq	#8, r0
+	trap	#0
+f9:	movq	#9, r0
+	trap	#0
+f10:	movq	#10, r0
+	trap	#0
+f11:	movq	#11, r0
+	trap	#0
+f12:	movq	#12, r0
+	trap	#0
+f13:	movq	#13, r0
+	trap	#0
+f14:	movq	#14, r0
+	trap	#0
+f15:	movq	#15, r0
+	trap	#0
+f16:	movq	#16, r0
+	trap	#0
+f17:	movq	#17, r0
+	trap	#0
+f18:	movq	#18, r0
+	trap	#0
+f19:	movq	#19, r0
+	trap	#0
+f20:	movq	#20, r0
+	trap	#0
+f21:	movq	#21, r0
+	trap	#0
+f22:	movq	#22, r0
+	trap	#0
+f23:	movq	#23, r0
+	trap	#0
+f24:	movq	#24, r0
+	trap	#0
+f25:	movq	#25, r0
+	trap	#0
+f26:	movq	#26, r0
+	trap	#0
+f27:	movq	#27, r0
+	trap	#0
+f28:	movq	#28, r0
+	trap	#0
+f29:	movq	#29, r0
+	trap	#0
+f30:	movq	#30, r0
+	trap	#0
+	.data
+a:	.byte	1, 2, 3, 4, 5, 6, 7, 8
+b:	.byte	1, 2, 3, 4, 5, 6, 7, 8
+c:	.byte	9, 2, 3, 4, 5, 6, 7, 8
+d:	.byte	1, 2, 3, 4, 9, 6, 7, 8
+e:	.byte	1, 2, 3, 4, 5, 6, 7, 9
+s:	.byte	0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77 - 1, 0x88
+t:	.byte	0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55
+u:	.byte	0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x56

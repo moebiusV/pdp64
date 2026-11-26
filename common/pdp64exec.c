@@ -20,10 +20,6 @@ static const struct pdp64_env *E;
 #define pc (C->pc)
 #define dp (C->dp)
 #define fpsr (C->fpsr)
-#define fN (C->fN)
-#define fZ (C->fZ)
-#define fV (C->fV)
-#define fC (C->fC)
 #define cur_pc (C->cur_pc)
 #define ld(a, n) E->ld(E->u, (a), (n))
 #define st(a, n, v) E->st(E->u, (a), (n), (v))
@@ -93,57 +89,33 @@ static void opset(struct opnd *o, int size, uint64_t v)
 }
 
 /* ------------------------------------------------------------------------------------------------------------------ */
-/* flags                                                                                                               */
+/* comparisons: the machine has no condition codes; a decision is made on two values and nothing is written                  */
 
-static void nz(uint64_t v) { fN = v >> 63; fZ = v == 0; }
-static uint64_t add_f(uint64_t a, uint64_t b, uint64_t cin)
-{
-	unsigned __int128 w = (unsigned __int128)a + b + cin;
-	uint64_t res = (uint64_t)w;
-	fC = (int)(w >> 64); fV = (int)(((a ^ res) & (b ^ res)) >> 63); nz(res);
-	return res;
-}
-static uint64_t sub_f(uint64_t a, uint64_t b, uint64_t bin)
-{
-	uint64_t res = a - b - bin;
-	fC = (a < b) || (a == b && bin); fV = (int)(((a ^ b) & (a ^ res)) >> 63); nz(res);
-	return res;
-}
-static int cond(int c)
+/* the condition c (the number of the condition words: ne 1, eq 2, cc 7, cs 8, ge 9, lt 10, gt 11, le 12, hi 13, los 14) of the comparison of a with b: the whole of a compare-and-branch and of
+   set.  -1 for a number that names no condition. */
+static int cmp_cc(uint64_t a, uint64_t b, int c)
 {
 	switch (c) {
-	case 0: return 1;
-	case 1: return !fZ;
-	case 2: return fZ;
-	case 3: return !fN;
-	case 4: return fN;
-	case 5: return !fV;
-	case 6: return fV;
-	case 7: return !fC;
-	case 8: return fC;
-	case 9: return fN == fV;
-	case 10: return fN != fV;
-	case 11: return !fZ && fN == fV;
-	case 12: return fZ || fN != fV;
-	case 13: return !fC && !fZ;
-	case 14: return fC || fZ;
+	case 1: return a != b;
+	case 2: return a == b;
+	case 7: return a >= b;
+	case 8: return a < b;
+	case 9: return (int64_t)a >= (int64_t)b;
+	case 10: return (int64_t)a < (int64_t)b;
+	case 11: return (int64_t)a > (int64_t)b;
+	case 12: return (int64_t)a <= (int64_t)b;
+	case 13: return a > b;
+	case 14: return a <= b;
 	}
-	return 0;
+	return -1;
 }
-/* the condition c of the comparison a - b, for a decision, with no flag written: cbCC leaves N Z V C as they were (errata 39) */
-static int cmp_taken(uint64_t a, uint64_t b, int c)
-{
-	int n = fN, z = fZ, v = fV, cy = fC, t;
-	sub_f(a, b, 0);
-	t = cond(c);
-	fN = n; fZ = z; fV = v; fC = cy;
-	return t;
-}
+static int cmp_taken(uint64_t a, uint64_t b, int c) { return cmp_cc(a, b, c) > 0; }
 
 /* ------------------------------------------------------------------------------------------------------------------ */
-/* floating point: values are bits in general registers; the flags are recorded in fpsr and never trap                */
+/* floating point: values are bits in general registers; the sticky exception flags are recorded in fpsr and never trap */
 
 static int is_snan(uint64_t v) { return (v >> 52 & 0x7ff) == 0x7ff && (v & 0xfffffffffffffULL) && !(v >> 51 & 1); }
+static int is_snan32(uint64_t v) { return (v >> 23 & 0xff) == 0xff && (v & 0x7fffff) && !(v >> 22 & 1); }
 static double asd(uint64_t v) { double d; memcpy(&d, &v, 8); return d; }
 /* a NaN result is always the canonical quiet NaN, whatever the host produced and whatever the operands carried (errata 26) */
 static uint64_t fromd(double d) { uint64_t v; if (isnan(d)) return 0x7ff8000000000000ULL; memcpy(&v, &d, 8); return v; }
@@ -158,12 +130,6 @@ static void fp_end(void)
 	if (e & FE_OVERFLOW) fpsr |= 4;
 	if (e & FE_DIVBYZERO) fpsr |= 8;
 	if (e & FE_INVALID) fpsr |= 16;
-}
-static void fcmp_flags(double a, double b)
-{
-	fN = fZ = fV = fC = 0;
-	if (isnan(a) || isnan(b)) { fV = 1; return; }
-	fN = a < b; fZ = a == b;
 }
 static uint64_t cvt_to_q(double d, int uns)
 {
@@ -520,37 +486,24 @@ static void exec_fmt(struct fmt f, uint64_t start, int len)
 		}
 		return;
 	}
-	if (opc >= MN_ALU_ADD && opc <= MN_ALU_FCMP) {					/* ALU, register destination */
+	if (opc >= MN_ALU_ADD && opc <= MN_ALU_FMUL) {					/* ALU, register destination */
 		operand(&f, start, &o);
-		uint64_t a = r[f.reg], b = opval(&o, 8, 0), res;
+		uint64_t a = r[f.reg], b = opval(&o, 8, 0);
 		switch (opc) {
-		case MN_ALU_ADD: r[f.reg] = add_f(a, b, 0); break;
-		case MN_ALU_SUB: r[f.reg] = sub_f(a, b, 0); break;
-		case MN_ALU_CMP: sub_f(a, b, 0); break;
-		case MN_ALU_BIC: res = a & ~b; nz(res); fV = 0; r[f.reg] = res; break;
-		case MN_ALU_BIS: res = a | b; nz(res); fV = 0; r[f.reg] = res; break;
-		case MN_ALU_BIT: res = a & b; nz(res); fV = 0; break;
-		case MN_ALU_XOR: res = a ^ b; nz(res); fV = 0; r[f.reg] = res; break;
-		case MN_ALU_AND: res = a & b; nz(res); fV = 0; r[f.reg] = res; break;
-		case MN_ALU_MUL: {
-			__int128 w = (__int128)(int64_t)a * (int64_t)b;
-			res = (uint64_t)w; nz(res); fV = w != (__int128)(int64_t)res; r[f.reg] = res;
-			break;
-		}
-		case MN_ALU_MULH: { __int128 w = (__int128)(int64_t)a * (int64_t)b; res = (uint64_t)(w >> 64); nz(res); fV = 0; r[f.reg] = res; break; }
-		case MN_ALU_SHL: case MN_ALU_SHR: case MN_ALU_SAR: {
-			/* the same flags for every count (errata 39): N and Z from the result (a count of 0 leaves the operand), V = 0, C = the last bit shifted out, 0 for a count of 0 */
-			if (b == 0) { res = a; fC = 0; }
-			else if (opc == MN_ALU_SHL) { res = b >= 64 ? 0 : a << b; fC = b <= 64 ? (int)((a >> (64 - b)) & 1) : 0; }
-			else if (opc == MN_ALU_SHR) { res = b >= 64 ? 0 : a >> b; fC = b <= 64 ? (int)((a >> (b - 1)) & 1) : 0; }
-			else { res = b >= 64 ? ((int64_t)a < 0 ? ~(uint64_t)0 : 0) : (uint64_t)((int64_t)a >> b); fC = b <= 64 ? (int)((a >> (b - 1)) & 1) : (int)(a >> 63); }
-			nz(res); fV = 0; r[f.reg] = res;
-			break;
-		}
+		case MN_ALU_ADD: r[f.reg] = a + b; break;
+		case MN_ALU_SUB: r[f.reg] = a - b; break;
+		case MN_ALU_BIC: r[f.reg] = a & ~b; break;
+		case MN_ALU_BIS: r[f.reg] = a | b; break;
+		case MN_ALU_XOR: r[f.reg] = a ^ b; break;
+		case MN_ALU_AND: r[f.reg] = a & b; break;
+		case MN_ALU_MUL: r[f.reg] = (uint64_t)((int64_t)a * (int64_t)b); break;
+		case MN_ALU_MULH: { __int128 w = (__int128)(int64_t)a * (int64_t)b; r[f.reg] = (uint64_t)(w >> 64); break; }
+		case MN_ALU_SHL: r[f.reg] = b >= 64 ? 0 : a << b; break;
+		case MN_ALU_SHR: r[f.reg] = b >= 64 ? 0 : a >> b; break;
+		case MN_ALU_SAR: r[f.reg] = b >= 64 ? ((int64_t)a < 0 ? ~(uint64_t)0 : 0) : (uint64_t)((int64_t)a >> b); break;
 		case MN_ALU_FADD: fp_begin(); r[f.reg] = fromd(asd(a) + asd(b)); fp_end(); break;
 		case MN_ALU_FSUB: fp_begin(); r[f.reg] = fromd(asd(a) - asd(b)); fp_end(); break;
 		case MN_ALU_FMUL: fp_begin(); r[f.reg] = fromd(asd(a) * asd(b)); fp_end(); break;
-		case MN_ALU_FCMP: fp_begin(); fcmp_flags(asd(a), asd(b)); if (is_snan(a) || is_snan(b)) fpsr |= 16; fp_end(); break;
 		default: die("reserved ALU opcode", opc);
 		}
 		return;
@@ -560,16 +513,13 @@ static void exec_fmt(struct fmt f, uint64_t start, int len)
 		operand(&f, start, &o);
 		uint64_t v, res;
 		switch (sub) {
-		case MN_SOP_CLR: opset(&o, 8, 0); fN = 0; fZ = 1; fV = 0; fC = 0; return;
-		case MN_SOP_COM: v = opval(&o, 8, 0); res = ~v; nz(res); fV = 0; fC = 1; break;
-		case MN_SOP_INC: { int c = fC; v = opval(&o, 8, 0); res = add_f(v, 1, 0); fC = c; break; }
-		case MN_SOP_DEC: { int c = fC; v = opval(&o, 8, 0); res = sub_f(v, 1, 0); fC = c; break; }
-		case MN_SOP_NEG: v = opval(&o, 8, 0); res = sub_f(0, v, 0); break;
-		case MN_SOP_TST: v = opval(&o, 8, 0); nz(v); fV = 0; fC = 0; return;
-		case MN_SOP_ADC: v = opval(&o, 8, 0); res = add_f(v, 0, (uint64_t)fC); break;
-		case MN_SOP_SBC: v = opval(&o, 8, 0); res = sub_f(v, 0, (uint64_t)fC); break;
-		case MN_SOP_ASL: v = opval(&o, 8, 0); res = v << 1; fC = (int)(v >> 63); nz(res); fV = fN != fC; break;
-		case MN_SOP_ASR: v = opval(&o, 8, 0); res = (uint64_t)((int64_t)v >> 1); fC = (int)(v & 1); nz(res); fV = 0; break;
+		case MN_SOP_CLR: opset(&o, 8, 0); return;
+		case MN_SOP_COM: v = opval(&o, 8, 0); res = ~v; break;
+		case MN_SOP_INC: v = opval(&o, 8, 0); res = v + 1; break;
+		case MN_SOP_DEC: v = opval(&o, 8, 0); res = v - 1; break;
+		case MN_SOP_NEG: v = opval(&o, 8, 0); res = 0 - v; break;
+		case MN_SOP_ASL: v = opval(&o, 8, 0); res = v << 1; break;
+		case MN_SOP_ASR: v = opval(&o, 8, 0); res = (uint64_t)((int64_t)v >> 1); break;
 		case MN_SOP_PUSHM: case MN_SOP_POPM: {
 			uint32_t mask = (uint32_t)(o.imm & 0xFFFFFFFFu);
 			if (sub == MN_SOP_PUSHM) { for (int n = 0; n < 32; n++) if (mask >> n & 1) push(r[n]); }
@@ -697,8 +647,8 @@ static void exec_fmt(struct fmt f, uint64_t start, int len)
 		switch (cls) {
 		case MN_SYS_MTPS: {
 			unsigned v = (unsigned)r[f.low];
-			if (MODE != MODE_KERNEL) { v = (v & PSW_FLAGS) | (pdp64_psw(C) & ~PSW_FLAGS); }	/* user mode writes only the flags */
-			else if (psw_bad(v)) die("mtps: reserved mode", 0);
+			priv();									/* the status word holds no bit that user mode may write */
+			if (psw_bad(v)) die("mtps: reserved mode", 0);
 			else if (GUEST() && (v >> PSW_PRI & 7) != pdp64_priority(C) && gtrap(HTRAP_PRIO, XCODE_PRIO)) return;	/* a change of priority exits only if the hypervisor asks (design 1.5; the guest's priority masks virtual interrupts only) */
 			pdp64_set_psw(C, v);
 			return;
@@ -741,12 +691,11 @@ static void exec_fmt(struct fmt f, uint64_t start, int len)
 				else res = a % b;
 				r[rd] = res; return;
 			case MN_AESC_MULHU: r[rd] = (uint64_t)(((unsigned __int128)a * b) >> 64); return;
-			case MN_AESC_ABS: res = (int64_t)a < 0 ? 0 - a : a; r[rd] = res; nz(res); fV = a == 0x8000000000000000ULL; return;
-			case MN_AESC_MIN: res = (int64_t)a < (int64_t)b ? a : b; r[rd] = res; nz(res); fV = 0; return;
-			case MN_AESC_MINU: res = a < b ? a : b; r[rd] = res; nz(res); fV = 0; return;
-			case MN_AESC_MAX: res = (int64_t)a > (int64_t)b ? a : b; r[rd] = res; nz(res); fV = 0; return;
-			case MN_AESC_MAXU: res = a > b ? a : b; r[rd] = res; nz(res); fV = 0; return;
-			case SUBOP_SET: r[rd] = cond(f.x); return;
+			case MN_AESC_ABS: res = (int64_t)a < 0 ? 0 - a : a; r[rd] = res; return;
+			case MN_AESC_MIN: res = (int64_t)a < (int64_t)b ? a : b; r[rd] = res; return;
+			case MN_AESC_MINU: res = a < b ? a : b; r[rd] = res; return;
+			case MN_AESC_MAX: res = (int64_t)a > (int64_t)b ? a : b; r[rd] = res; return;
+			case MN_AESC_MAXU: res = a > b ? a : b; r[rd] = res; return;
 			}
 			die("unimplemented arithmetic instruction", sub);
 		}
@@ -799,19 +748,17 @@ static void exec_fmt(struct fmt f, uint64_t start, int len)
 		case MN_MBLK_MCMP:
 			while (r[rn]) {
 				uint8_t x = (uint8_t)ld(r[rd], 1), y = (uint8_t)ld(r[rs], 1);
-				if (x != y) { sub_f(x, y, 0); return; }
+				if (x != y) return;							/* the report is in the registers: rn is nonzero and rd and rs address the first bytes that differ; rn zero means the bytes were equal */
 				r[rd]++; r[rs]++; r[rn]--;
 			}
-			fN = 0; fZ = 1; fV = 0; fC = 0;
 			return;
 		case MN_MBLK_MSCN: case MN_MBLK_MSCNN:
 			while (r[rn]) {
 				int hit = (uint8_t)ld(r[rd], 1) == (uint8_t)r[rs];
 				if (sub == MN_MBLK_MSCNN) hit = !hit;
-				if (hit) { fN = fV = fC = 0; fZ = 1; return; }		/* mscn writes all four flags (errata 39) */
+				if (hit) return;							/* the report is in the registers: rn is nonzero and rd addresses the byte found; rn zero means no byte was found */
 				r[rd]++; r[rn]--;
 			}
-			fN = fV = fC = 0; fZ = 0;
 			return;
 		}
 		die("unimplemented block instruction", sub);
@@ -831,7 +778,6 @@ static void exec_fmt(struct fmt f, uint64_t start, int len)
 		case MN_FESC_FMUL32: r[rd] = froms(ass(r[rd]) * sa); break;
 		case MN_FESC_FDIV32: r[rd] = froms(ass(r[rd]) / sa); break;
 		case MN_FESC_FSQRT32: r[rd] = froms(sqrtf(sa)); break;
-		case MN_FESC_FCMP32: fcmp_flags(ass(r[rd]), sa); break;
 		case MN_FESC_FMADD: r[rd] = fromd(fma(a, b, c)); break;
 		case MN_FESC_FNMSUB: r[rd] = fromd(fma(-a, b, c)); break;
 		case MN_FESC_FMADD32: r[rd] = froms(fmaf(sa, sb, sc)); break;
@@ -893,15 +839,11 @@ int pdp64_insn_parcels(uint16_t parcel0)
 #undef pc
 #undef dp
 #undef fpsr
-#undef fN
-#undef fZ
-#undef fV
-#undef fC
 #undef cur_pc
 
 unsigned pdp64_psw(const struct pdp64_cpu *c)
 {
-	return (c->psw & ~PSW_FLAGS) | (unsigned)c->fC << PSW_C | (unsigned)c->fV << PSW_V | (unsigned)c->fZ << PSW_Z | (unsigned)c->fN << PSW_N;
+	return c->psw;
 }
 void pdp64_set_h(struct pdp64_cpu *c, int h)
 {
@@ -922,12 +864,11 @@ void pdp64_set_psw(struct pdp64_cpu *c, unsigned v)
 	int old = pdp64_mode(c), nw;
 	v &= PSW_VALID;
 	nw = v >> PSW_MODE & ((1u << PSW_WIDTH_MODE) - 1);
-	c->fC = v >> PSW_C & 1; c->fV = v >> PSW_V & 1; c->fZ = v >> PSW_Z & 1; c->fN = v >> PSW_N & 1;
 	if (nw != old && !c->h) {							/* r14 and DP name the new mode's copies (at H = 1 the bank is the hypervisor's whatever the mode) */
 		c->spbank[bank(old)] = c->r[14]; c->dpbank[bank(old)] = c->dp;
 		c->r[14] = c->spbank[bank(nw)]; c->dp = c->dpbank[bank(nw)];
 	}
-	c->psw = v & ~PSW_FLAGS;
+	c->psw = v;
 }
 
 void pdp64_exception(struct pdp64_cpu *c, const struct pdp64_env *e, int vector, uint64_t eva)
@@ -942,7 +883,6 @@ void pdp64_exception(struct pdp64_cpu *c, const struct pdp64_env *e, int vector,
 	if (c->snap_valid) {
 		if (!c->progress) {							/* an abort leaves no trace: the registers (the (rN)+ and -(rN) updates among them) are as before */
 			memcpy(c->r, c->snap.r, sizeof c->r); c->dp = c->snap.dp; c->fpsr = c->snap.fpsr;
-			c->fN = c->snap.fN; c->fZ = c->snap.fZ; c->fV = c->snap.fV; c->fC = c->snap.fC;
 		}
 		epc = c->cur_pc;
 		c->snap_valid = 0;
@@ -998,7 +938,6 @@ void pdp64_step(struct pdp64_cpu *c, const struct pdp64_env *e)
 	c->s2_code = 0;
 	if (c->deliver) {									/* keep what an abort has to undo */
 		memcpy(c->snap.r, c->r, sizeof c->r); c->snap.pc = c->pc; c->snap.dp = c->dp; c->snap.fpsr = c->fpsr;
-		c->snap.fN = c->fN; c->snap.fZ = c->fZ; c->snap.fV = c->fV; c->snap.fC = c->fC;
 	}
 	{
 		int watch = c->resv_on; uint64_t pc0 = c->pc;

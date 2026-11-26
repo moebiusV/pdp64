@@ -16,36 +16,28 @@ un1:
 	movcall	r1, r2, tgt1
 back1:
 	movq	=0x1, r15
-	cmp	r10, r15
-	bne	F1
+	cbne	r10, r15, F1
 	lea	un1, r15
-	cmp	r6, r15
-	bne	F2
+	cbne	r6, r15, F2
 	movq	=0xd, r15
-	cmp	r8, r15
-	bne	F3
+	cbne	r8, r15, F3
 	movq	cap, r15
 	movq	=0x2222, r12
-	cmp	r15, r12
-	bne	F4
+	cbne	r15, r12, F4
 	movq	cap+32, r15
 	movq	=0x8010000000, r12
-	cmp	r15, r12
-	bne	F5
+	cbne	r15, r12, F5
 	movq	=0x1111, r15
-	cmp	r2, r15
-	bne	F6
+	cbne	r2, r15, F6
 	lea	stack_top, r15
-	cmp	sp, r15
-	bne	FSP
+	cbne	sp, r15, FSP
 	br	after1
 tgt1:
 	movq	(sp), r13
 	ret
 after1:
 	lea	back1, r15
-	cmp	r13, r15
-	bne	FSP
+	cbne	r13, r15, FSP
 	clr	r10
 	clr	r4
 	clr	r7
@@ -58,25 +50,19 @@ un2:
 back2:
 after2:
 	movq	=0x1, r15
-	cmp	r10, r15
-	bne	F7
+	cbne	r10, r15, F7
 	movq	=0xd, r15
-	cmp	r8, r15
-	bne	F8
+	cbne	r8, r15, F8
 	lea	stack_top+0x1000000, r15
-	cmp	r6, r15
-	bne	FSP
+	cbne	r6, r15, FSP
 	movq	=0x1111, r15
-	cmp	r2, r15
-	bne	F9
+	cbne	r2, r15, F9
 	lea	stack_top-8, r15
 	movq	cap+32, r12
-	cmp	r12, r15
-	bne	FSP
+	cbne	r12, r15, FSP
 	movq	stack_top-8, r13
 	lea	back2, r15
-	cmp	r13, r15
-	bne	FSP
+	cbne	r13, r15, FSP
 	clr	r10
 	clr	r4
 	clr	r7
@@ -92,28 +78,21 @@ un3:
 	popret	r3
 back3:
 	movq	=0x1, r15
-	cmp	r10, r15
-	bne	F10
+	cbne	r10, r15, F10
 	lea	un3, r15
-	cmp	r6, r15
-	bne	F11
+	cbne	r6, r15, F11
 	movq	=0xd, r15
-	cmp	r8, r15
-	bne	F12
+	cbne	r8, r15, F12
 	movq	cap+8, r15
 	movq	=0x3333, r12
-	cmp	r15, r12
-	bne	F13
+	cbne	r15, r12, F13
 	movq	cap+32, r15
 	movq	=0x7fffffeff8, r12
-	cmp	r15, r12
-	bne	F14
+	cbne	r15, r12, F14
 	movq	=0x5555, r15
-	cmp	r3, r15
-	bne	F15
+	cbne	r3, r15, F15
 	lea	popstk+16, r15
-	cmp	sp, r15
-	bne	FSP
+	cbne	sp, r15, FSP
 	clr	r10
 	clr	r4
 	clr	r7
@@ -132,35 +111,26 @@ un4:
 	popmret	#0xa000
 back4:
 	movq	=0x1, r15
-	cmp	r10, r15
-	bne	F16
+	cbne	r10, r15, F16
 	lea	un4, r15
-	cmp	r6, r15
-	bne	F17
+	cbne	r6, r15, F17
 	movq	=0xd, r15
-	cmp	r8, r15
-	bne	F18
+	cbne	r8, r15, F18
 	movq	cap+16, r15
 	movq	=0x22, r12
-	cmp	r15, r12
-	bne	F19
+	cbne	r15, r12, F19
 	movq	cap+24, r15
 	movq	=0x33, r12
-	cmp	r15, r12
-	bne	F20
+	cbne	r15, r12, F20
 	movq	cap+32, r15
 	movq	=0x7fffffeff0, r12
-	cmp	r15, r12
-	bne	F21
+	cbne	r15, r12, F21
 	movq	=0xaa, r15
-	cmp	r13, r15
-	bne	F22
+	cbne	r13, r15, F22
 	movq	=0xbb, r15
-	cmp	r15, r15
-	bne	F23
+	cbne	r15, r15, F23
 	lea	popmstk+24, r2
-	cmp	sp, r2
-	bne	FSP
+	cbne	sp, r2, FSP
 	clr	r10
 	clr	r4
 	clr	r7
@@ -171,21 +141,16 @@ un_addv:
 	addv	r1, r2
 after_addv:
 	movq	=0x1, r15
-	cmp	r10, r15
-	bne	F24
+	cbne	r10, r15, F24
 	movq	=0x10, r15
-	cmp	r8, r15
-	bne	F25
+	cbne	r8, r15, F25
 	movq	=0x7fffffffffffffff, r15
-	cmp	r2, r15
-	bne	F26
+	cbne	r2, r15, F26
 	movq	cap, r15
 	movq	=0x7fffffffffffffff, r12
-	cmp	r15, r12
-	bne	F27
+	cbne	r15, r12, F27
 	lea	un_addv, r15
-	cmp	r6, r15
-	bne	FSP
+	cbne	r6, r15, FSP
 	clr	r10
 	clr	r4
 	clr	r7
@@ -196,21 +161,16 @@ un_subv:
 	subv	r1, r2
 after_subv:
 	movq	=0x1, r15
-	cmp	r10, r15
-	bne	F28
+	cbne	r10, r15, F28
 	movq	=0x10, r15
-	cmp	r8, r15
-	bne	F29
+	cbne	r8, r15, F29
 	movq	=0x8000000000000000, r15
-	cmp	r2, r15
-	bne	F30
+	cbne	r2, r15, F30
 	movq	cap, r15
 	movq	=0x8000000000000000, r12
-	cmp	r15, r12
-	bne	F31
+	cbne	r15, r12, F31
 	lea	un_subv, r15
-	cmp	r6, r15
-	bne	FSP
+	cbne	r6, r15, FSP
 	clr	r10
 	clr	r4
 	clr	r7
@@ -221,21 +181,16 @@ un_mulv:
 	mulv	r1, r2
 after_mulv:
 	movq	=0x1, r15
-	cmp	r10, r15
-	bne	F32
+	cbne	r10, r15, F32
 	movq	=0x10, r15
-	cmp	r8, r15
-	bne	F33
+	cbne	r8, r15, F33
 	movq	=0x4000000000000000, r15
-	cmp	r2, r15
-	bne	F34
+	cbne	r2, r15, F34
 	movq	cap, r15
 	movq	=0x4000000000000000, r12
-	cmp	r15, r12
-	bne	F35
+	cbne	r15, r12, F35
 	lea	un_mulv, r15
-	cmp	r6, r15
-	bne	FSP
+	cbne	r6, r15, FSP
 	clr	r0
 	halt
 F1:

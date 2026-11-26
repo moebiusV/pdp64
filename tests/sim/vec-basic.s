@@ -62,8 +62,7 @@ _start:
 	movq	#21, r2
 3:	movw	(r1)+, r7
 	add	r7, r5
-	cmp	r7, r6
-	ble	4f
+	cble r7, r6, 4f
 	movq	r7, r6
 4:	sob	r2, 3b
 	cbne	r10, r5, fail

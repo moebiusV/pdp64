@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 """check_forms -- the encodings of one instruction are interchangeable.  One word names the operation and the assembler picks the form; that is safe only if every form the operands
-fit does the same thing.  For each instruction below, with the registers and the memory in a fixed state and the flags set in two ways, assemble it as the shortest form and with
+fit does the same thing.  For each instruction below, with the registers and the memory in a fixed state (the machine has no condition codes), assemble it as the shortest form and with
 `.encode 1`, `.encode 2`, `.encode 3` (the shortest form of that many parcels or more: a number that gives the same form as another is run once), run each under sim64 -r and compare
-the whole state: registers, flags (the status word) and the memory the instruction can reach.  A difference is a place where one word would hide a difference; there should be none.
+the whole state: registers, the status word and the memory the instruction can reach.  A difference is a place where one word would hide a difference; there should be none.
 usage: check_forms.py AS64 LD64 SIM64 WORKDIR"""
 import os, re, subprocess, sys
 AS, LD, SIM, W = sys.argv[1:5]
 os.makedirs(W, exist_ok=True)
 REGS = [0x0123456789abcdef, 0xfedcba9876543210, 7, -3 & (2**64 - 1), 0x00000000ffffffff, 0x8000000000000000, 0x7fffffffffffffff, 100, 0x00ff00ff00ff00ff]
-FLAGS = ['cmp r1, r1', 'cmp r2, r1']			# Z set; N, C and others from the compare
+FLAGS = ['nop']			# the machine has no flags: one pass (the line stays so that the program text is as before)
 # each case: the instruction (or a few lines).  buf is 64 bytes at the address in r10; r11 is buf+32; sp is in the middle of a stack
-ALU = 'add sub and bis bic xor cmp bit mul mulh'.split()
+ALU = 'add sub and bis bic xor mul mulh'.split()
 cases = []
 for m in ALU:
     cases += ['%s r3, r4' % m, '%s (r10), r4' % m, '%s 8(r10), r4' % m, '%s 40(r10), r4' % m, '%s #5, r4' % m, '%s #-3, r4' % m, '%s #60, r4' % m, '%s -8(r11), r4' % m, '%s 0(r10)(r3*1), r4' % m if False else '%s (r10)(r12*8), r4' % m]
@@ -22,16 +22,19 @@ for m in 'movq movl movw movb'.split():
     cases += ['%s r1, (r10)' % m, '%s r1, 8(r10)' % m, '%s r1, 48(r10)' % m, '%s r1, 0(r11)' % m]
 cases += ['movq (r10)+, r4', 'movq -(r11), r4', 'movq r1, (r10)+', 'movq r1, -(r11)', 'movl (r10)+, r4', 'movq (r10)(r12*8), r4', 'movq r1, (r10)(r12*8)']
 cases += ['lea 8(r10), r4', 'lea (r10)(r12*8), r4', 'lea 40(r10), r4', 'lea 16(sp), r4', 'lea buf, r4', 'movq #buf, r4']
-for m in 'clr com inc dec neg tst adc sbc asl asr'.split():
+for m in 'clr com inc dec neg asl asr'.split():
     cases += ['%s r4' % m, '%s (r10)' % m, '%s 8(r10)' % m, '%s 40(r10)' % m]
 cases += ['push r1', 'pop r4', 'push #5', 'push #100', 'push (r10)', 'pop (r10)', 'pushm #0x700', 'popm #0x700', 'push #0x12345', 'pushm #0x300']
 cases += ['add #16, sp', 'sub #16, sp', 'add #8, sp', 'sub #200, sp', 'add #1, sp', 'add #3, sp']
-for c in 'ne eq pl mi vc vs cc cs ge lt gt le hi los'.split():
-    cases += ['b%s L1\n movq #1, r5\nL1:' % c, 'cb%s r1, #5, L1\n movq #1, r5\nL1:' % c, 'cb%s r1, r2, L1\n movq #1, r5\nL1:' % c, 'cb%s r4, #0, L1\n movq #1, r5\nL1:' % c, 'cb%s r1, #100, L1\n movq #1, r5\nL1:' % c]
+for c in 'ne eq cc cs ge lt gt le hi los'.split():
+    cases += ['cb%s r1, #5, L1\n movq #1, r5\nL1:' % c, 'cb%s r1, r2, L1\n movq #1, r5\nL1:' % c, 'cb%s r4, #0, L1\n movq #1, r5\nL1:' % c, 'cb%s r1, #100, L1\n movq #1, r5\nL1:' % c]
 cases += ['br L1\n movq #1, r5\nL1:', 'jmp L1\n movq #1, r5\nL1:', 'sob r8, L1\n movq #1, r5\nL1:', 'call f\n movq #1, r5\n br L1\nf: movq #3, r6\n ret\nL1:']
-cases += ['cmp r1, #5', 'cmp r1, #-3', 'cmp r1, #200', 'cmp r1, (r10)', 'cmp r1, 8(r10)', 'cmp r1, #100000']
+for c in 'ne eq cc cs ge lt gt le hi los'.split():
+    cases += ['set%s r1, r2, r5' % c, 'set%s r1, #5, r5' % c, 'set%s r4, #-100, r5' % c, 'set%s r3, #127, r5' % c]
+for c in 'eq ne lt le uo or'.split():
+    cases += ['fcb%s r3, r4, L1\n movq #1, r5\nL1:' % c, 'fcb%s32 r3, r4, L1\n movq #1, r5\nL1:' % c]
 cases += ['add r3, sp', 'movq sp, r4', 'movq r4, sp', 'xor r4, r4', 'and #0xff, r4', 'and #0xffff, r4', 'bis #0x80, r4', 'bic #1, r4']
-cases += ['mulu r3, r4', 'fadd r3, r4', 'fcmp r3, r4', 'ror r1, #5, r2', 'clz r1, r2', 'popcnt r1, r2', 'bswap r1, r2', 'div r1, r2, r4', 'min r1, r2, r4']
+cases += ['mulu r3, r4', 'fadd r3, r4', 'ror r1, #5, r2', 'clz r1, r2', 'popcnt r1, r2', 'bswap r1, r2', 'div r1, r2, r4', 'min r1, r2, r4']
 cases += ['cteq r5', 'ctne r5', 'cthi r1, #5', 'mfps r4', 'mtps r4', 'spl #3', 'nop', 'hint #1', 'trap #3']
 cases += ['movq =0x123456789abcdef0, r4', 'movq #0x123456789abcdef0, r4', 'push =0x123456789abcdef0', 'add =0x123456789abcdef0, r4']
 SKIP_RUN = {'mtps r4', 'spl #3', 'trap #3', 'hint #1'}

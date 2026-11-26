@@ -26,7 +26,7 @@ kfill:	movq	r2, (r1)+
 	movq	=(0x800000), r3
 1:	movq	0(r3), r4
 	and	#(1<<CONSOLE_CSR_READY), r4
-	beq	1b
+	cbeq	r4, #0, 1b
 	; ---- case 2: a quad load at offset 4 (a piece of RXDB at offset 8) is the fault and does not take the character
 	movq	=(0x5a5a5a5a5a5a5a5a), r5
 	movq	#0, r10

@@ -22,15 +22,15 @@ _start:
 	movq	#0, r12
 	movq	=0x400008, r3
 	movq	(r3), r6
-	cmp	r6, #(43981)
-	beq	1f
+	movq	#43981, r2
+	cbeq r6, r2, 1f
 	movq	#2, r0	; check 1
 	halt
 1:
 	movq	=0x5F8008, r3
 	movq	(r3), r6
-	cmp	r6, #(43981)
-	beq	1f
+	movq	#43981, r2
+	cbeq r6, r2, 1f
 	movq	#3, r0	; check 2
 	halt
 1:
@@ -39,15 +39,13 @@ _start:
 	movq	r5, 0(r3)
 	movq	=0x3000010, r3
 	movq	(r3), r6
-	cmp	r6, #(85)
-	beq	1f
+	cbeq r6, #(85), 1f
 	movq	#4, r0	; check 3
 	halt
 1:
 	movq	=0xC3000010, r3
 	movq	(r3), r6
-	cmp	r6, #(85)
-	beq	1f
+	cbeq r6, #(85), 1f
 	movq	#5, r0	; check 4
 	halt
 1:
@@ -60,8 +58,7 @@ _start:
 	movq	#0, r12
 	movq	=1077940224, r3
 	movq	(r3), r6
-	cmp	r10, #(0)
-	beq	1f
+	cbeq r10, #(0), 1f
 	movq	#6, r0	; check 5
 	halt
 1:
@@ -79,25 +76,21 @@ ins_L1:
 res_L1:
 	movq	r7, r1
 	bic	#15, r7
-	cmp	r10, #(1)
-	beq	1f
+	cbeq r10, #(1), 1f
 	movq	#7, r0	; check 6
 	halt
 1:
-	cmp	r8, #(VECTOR_SFAULT)
-	beq	1f
+	cbeq r8, #(VECTOR_SFAULT), 1f
 	movq	#8, r0	; check 7
 	halt
 1:
 	lea	ins_L1, r11
-	cmp	r6, r11
-	beq	1f
+	cbeq r6, r11, 1f
 	movq	#9, r0	; check 8
 	halt
 1:
 	movq	=1077940224, r2
-	cmp	r9, r2
-	beq	1f
+	cbeq r9, r2, 1f
 	movq	#10, r0	; check 9
 	halt
 1:
@@ -115,25 +108,21 @@ ins_L2:
 res_L2:
 	movq	r7, r1
 	bic	#15, r7
-	cmp	r10, #(1)
-	beq	1f
+	cbeq r10, #(1), 1f
 	movq	#11, r0	; check 10
 	halt
 1:
-	cmp	r8, #(VECTOR_SFAULT)
-	beq	1f
+	cbeq r8, #(VECTOR_SFAULT), 1f
 	movq	#12, r0	; check 11
 	halt
 1:
 	lea	ins_L2, r11
-	cmp	r6, r11
-	beq	1f
+	cbeq r6, r11, 1f
 	movq	#13, r0	; check 12
 	halt
 1:
 	movq	=1079508992, r2
-	cmp	r9, r2
-	beq	1f
+	cbeq r9, r2, 1f
 	movq	#14, r0	; check 13
 	halt
 1:
@@ -153,15 +142,13 @@ res_L2:
 	movq	=1079508992, r3
 	movq	#0x99, r5
 	movq	r5, (r3)
-	cmp	r10, #(0)
-	beq	1f
+	cbeq r10, #(0), 1f
 	movq	#15, r0	; check 14
 	halt
 1:
 	movq	=0x780000, r3
 	movq	(r3), r6
-	cmp	r6, #(153)
-	beq	1f
+	cbeq r6, #(153), 1f
 	movq	#16, r0	; check 15
 	halt
 1:

@@ -18,7 +18,8 @@ STORY = {
 
 'MINMAX': "The integer counterparts of `FMIN` and `FMAX`, provided with `ABS`; I decided (2026-11-10) that they are assembler aliases, not native instructions. The corpus has 171 uses of `MIN` and 52 of `MAX` across 95 files, under 0.1% of code in all.",
 
-'SET': "The first instruction written with a condition word: one instruction, `SET cc, Rd`, rather than one opcode per condition, with the condition in a field numbered like the low nibble of the branch opcodes. It turns a comparison used as a value into 0 or 1 without a branch. gcc `-Os` for amd64 emits 673 `set<cc>` on the corpus, and `SET` would remove about six bytes per site, around 0.4% of code; the compiler's first pass turns such a comparison into branches before its second pass sees it, so the saving is not reached in compiled code.",
+'SETCC': "A comparison used as a value, the way `slt` does it on MIPS and RISC-V and `setcc` on the x86, with the condition in the word's name instead of a condition register: one instruction writes 0 or 1 into a register from a comparison of two registers or of a register and a small constant, for the ten conditions that the compare-and-branch has. It replaced `SET`, which read the condition codes, when the machine lost them: a comparison in the compiled corpus is a compare-and-branch nine times in ten, and the rest is this instruction. It also gives the carry of an addition without a carry flag (`ADD Rb, Ra` then `SETLO Ra, Rb, Rt`), which is why the machine has no `ADC`.",
+'FCBCC': "The floating-point partner of `CBCC`. A floating-point comparison used to set the integer flags and a flag branch read them; now one instruction compares two registers and branches, and nothing is written. The unordered case has words of its own (`FCBUO`, `FCBOR`) because the negation of \"less than\" is not \"greater than or equal\" when an operand is a NaN, so a branch cannot be inverted by changing its condition; the greater-than words are the less-than words with the operands exchanged.",
 
 'FSINGLE': "`binary64` has first-class opcodes because on a 64-bit machine it is the common case; `binary32` is in `FESC` with the same operations, held in the low 32 bits of a register and sign-extended like every other 32-bit value (see also the ABI). The naming rule is an `F` in front of the integer mnemonic (`FADD`) and a size suffix for the other format (`FADD32`).",
 
@@ -125,7 +126,7 @@ STORY = {
 
 'MFSR': "A paging operating system must install a page table and learn why it was entered, which needs instructions to write `PTBR` and read `EPC`, `EVA` and `ECAUSE`. One general pair reaches all of the system registers by number. The user and supervisor stack pointers are in the set because any kernel must read and write the user stack pointer to build a signal frame, copy a process or switch context.",
 
-'SPL': "`SPL` stays although `MTPS` writes the whole status word: it sets the priority alone, leaving the condition codes untouched, so a kernel raising priority around a critical section does not clobber flags. It is the PDP-11 instruction of the same name.",
+'SPL': "`SPL` stays although `MTPS` writes the whole status word: it sets the priority alone, leaving the trace bit and the modes as they are, so a kernel raising priority around a critical section needs no read-modify-write of the status word. It is the PDP-11 instruction of the same name.",
 
 'TRAP': "`TRAP #n` carries an 8-bit vector number in its one parcel, so the vector range of 256 and the two-byte common case are kept together; I did not keep a second spelling for the longer vectors. `IOT` and `EMT`, which were `TRAP` at two particular vectors on the PDP-11, are not provided.",
 

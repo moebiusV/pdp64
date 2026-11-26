@@ -21,43 +21,36 @@ _start:
 	lea	pg1, r1				; the device address of the identity page below is its own address; it is not mapped now
 	movq	#8, r2
 	call	lib_dma_w
-	cmp	r1, #ST_DONE
-	beq	1f
+	cbeq r1, #ST_DONE, 1f
 	movq	#11, r0
 	halt
 1:	lea	pg1, r2
 	movq	(r2), r1
 	movq	=0x5a5a5a5a5a5a5a5a, r2
-	cmp	r1, r2
-	beq	1f
+	cbeq r1, r2, 1f
 	movq	#12, r0
 	halt
 1:	movq	IOMMU_REG_DROPPED_WRITES(r11), r1
-	cmp	r1, #1
-	beq	1f
+	cbeq r1, #1, 1f
 	movq	#13, r0
 	halt
 1:	lea	pg1, r1
 	movq	#8, r2
 	call	lib_dma_r
-	cmp	r1, #ST_ERR
-	beq	1f
+	cbeq r1, #ST_ERR, 1f
 	movq	#14, r0
 	halt
-1:	cmp	r2, #0
-	bne	1f
+1:	cbne r2, #0, 1f
 	movq	#15, r0
 	halt
 1:	movq	IOMMU_REG_REFUSED_READS(r11), r1
-	cmp	r1, #1
-	beq	1f
+	cbeq r1, #1, 1f
 	movq	#16, r0
 	halt
 1:	movq	IOMMU_REG_FAULT_TAIL(r11), r1
 	movq	IOMMU_REG_STATUS(r11), r2
 	bis	r2, r1
-	cmp	r1, #0
-	beq	1f
+	cbeq r1, #0, 1f
 	movq	#17, r0
 	halt
 1:	; ---- configured but blocked, with a good table in memory: the cause is "blocked" ----
@@ -205,15 +198,14 @@ _start:
 	call	try
 	movq	IOMMU_REG_STATUS(r11), r1
 	and	#(1<<IOMMU_STATUS_TABLE_ERROR), r1
-	bne	1f
+	cbne	r1, #0, 1f
 	movq	#52, r0
 	halt
 1:	spl	#0					; the interrupt (the sticky bit and the log) is taken once at priority 0
 	nop
 	nop
 	spl	#7
-	cmp	r30, #1
-	bge	1f
+	cbge r30, #1, 1f
 	movq	#53, r0
 	halt
 1:	movq	#(1<<IOMMU_STATUS_TABLE_ERROR), r1
@@ -307,8 +299,7 @@ try_inv:
 	lea	pg1, r2
 	movq	(r2), r1
 	movq	=0x5a5a5a5a5a5a5a5a, r2
-	cmp	r1, r2
-	beq	1f
+	cbeq r1, r2, 1f
 	movq	r25, r0
 	halt
 1:	ret

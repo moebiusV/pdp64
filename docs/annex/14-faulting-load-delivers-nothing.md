@@ -2,7 +2,7 @@
 
 ## {{#annex-faulting-load}} A load that faults delivers no data: the Meltdown rule, checked by a probe
 
-**The decision.** A load that takes a fault delivers nothing: its destination register keeps its old value, no flag changes, and no later instruction can use a value that the failed access produced; the security corpus holds a small program that checks this and exits with status 0 only if the machine does as the rule says.
+**The decision.** A load that takes a fault delivers nothing: its destination register keeps its old value, and no later instruction can use a value that the failed access produced; the security corpus holds a small program that checks this and exits with status 0 only if the machine does as the rule says.
 
 **The problem.** Programs run in **user mode** and the kernel in **kernel mode**, and the kernel's memory is protected from the programs: a load of a kernel address from user mode takes a fault. On a machine that guesses ahead (**speculative execution**: it runs instructions before it knows they should run, to save time) the check may come late. In January 2018 it was found that on most Intel processors, and some Arm, Power and IBM z cores, the load returned its data to the instructions after it, which ran and left a trace in the cache, before the check caught up and raised the fault. The fault came; the trace stayed. A program could read any kernel byte by timing which cache line was warm. This was **Meltdown** (CVE-2017-5754), found independently by three teams, in the repository's catalogue.
 
@@ -54,7 +54,7 @@ hbf:    movq    =0x1111, r6
 
 ### What it costs
 
-The first implementations are in order and do not speculate, so the rule costs them nothing, and I cannot say what it costs a speculating core, which does not exist yet. The model that the probe runs on (`sim64`) has no cache and no speculation: the probe tests the architectural form of the rule (no data, no flag change, a precise fault), and cannot test timing. The corpus says so in its own index of what cannot be tested.
+The first implementations are in order and do not speculate, so the rule costs them nothing, and I cannot say what it costs a speculating core, which does not exist yet. The model that the probe runs on (`sim64`) has no cache and no speculation: the probe tests the architectural form of the rule (no data, a precise fault), and cannot test timing. The corpus says so in its own index of what cannot be tested.
 
 ### What it puts off limits
 

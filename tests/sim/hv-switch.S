@@ -17,11 +17,11 @@ fill2:	movq	r2, (r1)+
 	sob	r3, fill2
 	lea	hstk_top, r14			; the hypervisor's stack
 	; --- 1. GENTER loads the status word from HEPSW and PC from HEPC; the guest's MFPS sees it; the exit (HALT is a trap) saves it in HEPSW and the next PC in HEPC; the hypervisor's own
-	; status word is kernel mode, previous mode the guest's current mode, priority 7, flags clear
+	; status word is kernel mode, previous mode the guest's current mode, priority 7
 	movq	#0, r1
 	lea	g1, r2
 	mtsr	hepc, r2
-	movq	=(0xc65), r2
+	movq	=(0xc60), r2
 	mtsr	hepsw, r2
 	lea	back1, r20
 	movq	#99, r0
@@ -30,7 +30,7 @@ g1:	mfps	r1
 	halt
 g1e:
 back1:
-	movq	=(0xc65), r11
+	movq	=(0xc60), r11
 	cbeq	r1, r11, 1f
 	movq	#1, r0
 	halt
@@ -42,7 +42,7 @@ back1:
 	halt
 1:
 	mfsr	r2, hepsw
-	movq	=(0xc65), r11
+	movq	=(0xc60), r11
 	cbeq	r2, r11, 1f
 	movq	#3, r0
 	halt
@@ -60,7 +60,6 @@ back1:
 	halt
 1:
 	mfps	r2
-	bic	#15, r2
 	movq	=((MODE_KERNEL<<PSW_MODE)|(MODE_KERNEL<<PSW_PREV)|(7<<PSW_PRI)), r11
 	cbeq	r2, r11, 1f
 	movq	#6, r0
@@ -78,7 +77,6 @@ g2:	sev
 	halt
 back2:
 	mfps	r2
-	bic	#15, r2
 	movq	=((MODE_KERNEL<<PSW_MODE)|(MODE_USER<<PSW_PREV)|(7<<PSW_PRI)), r11
 	cbeq	r2, r11, 1f
 	movq	#7, r0

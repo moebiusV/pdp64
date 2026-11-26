@@ -2,6 +2,7 @@ import sys,collections,struct,math
 from norm import *
 import enc
 from enc import *
+CB_INVERSE={'cbeq':'cbne','cbne':'cbeq','cblt':'cbge','cbge':'cblt','cbgt':'cble','cble':'cbgt','cbcs':'cbcc','cbcc':'cbcs','cbhi':'cblos','cblos':'cbhi'}
 class Scheme:
     def __init__(s,forms,name=''):
         s.name=name; s.forms=forms; s.code=Code(forms)
@@ -29,15 +30,16 @@ class Scheme:
         if mn.startswith('fx_'):
             return s.plan_fx(mn,ops)
         if s.choose(mn,ops) is not None: return [(mn,ops)]
-        if mn.startswith('cb') and len(ops)==3:
-            cmp_=('cmp',(ops[0],ops[1])); l1=s.size1(*cmp_)
-            if l1 is None: return None
+        if mn in CB_INVERSE and len(ops)==3:
+            # no cbCC form reaches: the opposite condition branches over a br to the target (no flag is involved)
             tgt=ops[2]
-            if tgt[1] is None: nt=tgt
-            else: nt=('PC',tgt[1]-l1,tgt[2])
-            b=('b'+mn[2:],(nt,))
-            if s.size1(*b) is None: return None
-            return [cmp_,b]
+            for l1 in (2,4,6):
+                nt=tgt if tgt[1] is None else ('PC',tgt[1]-l1,tgt[2])
+                b=('br',(nt,)); l2=s.size1(*b)
+                if l2 is None: return None
+                c=(CB_INVERSE[mn],(ops[0],ops[1],('PC',l1+l2,tgt[2] if len(tgt)>2 else None)))
+                if s.size1(*c)==l1: return [c,b]
+            return None
         return None
     def plan_fx(s,mn,ops):
         sep=None

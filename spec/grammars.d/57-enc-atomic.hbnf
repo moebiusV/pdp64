@@ -14,8 +14,8 @@
 ; The destination is written last, as everywhere on the machine, and it is the lowest field, as everywhere: the fields are in the order of the operands, the source register Rs, the base register Ra, then the destination register Rd (ll: Ra, then Rd).
 forms =/ "ATOM" | "ATOML"
 form-ATOM = o1:reg5 o2:b5d0s-x1 o3:reg5
-leaf-ATOM-1 = 0b110111110101 xsub:5 o1-r:5 o2-base:5 o3-r:5 ?(xsub < 22)
+leaf-ATOM-1 = 0b110100110100 xsub:5 o1-r:5 o2-base:5 o3-r:5 ?(xsub < 22)
 sub-ATOM-1 = "cas" | "casl" | "swap" | "swapl" | "aadd" | "aaddl" | "aand" | "aandl" | "abis" | "abisl" | "axor" | "axorl" | "amax" | "amaxl" | "amin" | "aminl" | "amaxu" | "amaxul" | "aminu" | "aminul" | "sc" | "scl"
 form-ATOML = o1:b5d0s-x1 o2:reg5
-leaf-ATOML-1 = 0b1101111101000010 xsub:6 o1-base:5 o2-r:5 ?(xsub < 2)
+leaf-ATOML-1 = 0b1101001011111001 xsub:6 o1-base:5 o2-r:5 ?(xsub < 2)
 sub-ATOML-1 = "ll" | "lll"

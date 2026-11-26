@@ -39,8 +39,8 @@ def words(mn, ops, minn):
     lf = next(l for l in code.leaves if l.form is f and mn in l.mns)
     return words_of(build_word(lf, mn, v), f.n)
 TEXT = 0x10000
-# main: movq #msg,r1 ; call f ; bne f ; movq val(pc),r2 ; halt     lib: f: ret      data: msg: .quad f ; val: .quad 42
-prog = [('movq', lambda A, P: [('I', A['msg']), ('R', 1)]), ('call', lambda A, P: [('PC', A['f'] - P)]), ('bne', lambda A, P: [('PC', A['f'] - P)]),
+# main: movq #msg,r1 ; call f ; br f ; movq val(pc),r2 ; halt     lib: f: ret      data: msg: .quad f ; val: .quad 42
+prog = [('movq', lambda A, P: [('I', A['msg']), ('R', 1)]), ('call', lambda A, P: [('PC', A['f'] - P)]), ('br', lambda A, P: [('PC', A['f'] - P)]),
         ('movq', lambda A, P: [('PC', A['val'] - P), ('R', 2)]), ('halt', lambda A, P: []), ('ret', lambda A, P: [])]
 cur = [0] * len(prog)
 A = {'msg': 0, 'f': 0, 'val': 0}

@@ -14,7 +14,7 @@ import sys
 
 MODE_KERNEL, MODE_USER = 0, 3
 PSW_PRI, PSW_MODE, PSW_PREV = 5, 8, 10
-PSW_VALID = 0x0fff
+PSW_VALID = 0x0ff0
 GTBR_VALID = 0xffff00fffffff001
 KPSW = 0                                   # kernel mode, priority 0
 UPSW = (MODE_USER << PSW_MODE) | (MODE_USER << PSW_PREV)   # user mode, priority 0
@@ -121,7 +121,7 @@ def gen_regs(outdir):
     # round trips
     p.e('\t; --- write and read back: the widths')
     trips = [('htrap', '0xff7fff', '0xff7fff'), ('htrap', '0', '0'), ('htrap', '0x7fff', '0x7fff'), ('htrap', '0xff0000', '0xff0000'), ('htrap', '3', '3'),
-             ('hepc', '0x123456789abcdef0', '0x123456789abcdef0'), ('hepsw', '0x%x' % PSW_VALID, '0x%x' % PSW_VALID), ('hepsw', '0x0123', '0x0123'),
+             ('hepc', '0x123456789abcdef0', '0x123456789abcdef0'), ('hepsw', '0x%x' % PSW_VALID, '0x%x' % PSW_VALID), ('hepsw', '0x0120', '0x0120'),
              ('hvbr', '0xfedcba9876543210', '0xfedcba9876543210'), ('gtbr', '0x%x' % GTBR_VALID, '0x%x' % GTBR_VALID), ('gtbr', '0x0000003456789001', '0x0000003456789001'),
              ('virq', '0xfe', '0xfe'), ('virq', '0x20', '0x20'), ('vivec', '0x00ffffffffffffff', '0x00ffffffffffffff'), ('vivec', '0x0022232425262728', '0x0022232425262728'),
              ('vtoff', '0xffffffffffffffff', '0xffffffffffffffff'), ('vcpuid', '0xffff', '0xffff'), ('vcpuid', '0x1234', '0x1234'),
@@ -174,12 +174,12 @@ def gen_regs(outdir):
             patched_illegal(p, tmpl, num)
     # the hypervisor's own exception: HEPC, HEPSW, HEVA, HCAUSE, exit code 0; the guest's registers are not touched
     p.e('\t; --- the exception of the hypervisor itself writes HEPC, HEPSW, HEVA, HCAUSE and HEXITR (code 0) and not the guest\'s EPC, EPSW, EVA, ECAUSE')
-    p.e('\tmovq\t=0x13572468, r2\n\tmtsr\tepc, r2\n\tmovq\t=0x0abc, r2\n\tmtsr\tepsw, r2\n\tmovq\t=0x24681357, r2\n\tmtsr\tgeva, r2\n\tmovq\t=0x99, r2\n\tmtsr\tgecause, r2')
+    p.e('\tmovq\t=0x13572468, r2\n\tmtsr\tepc, r2\n\tmovq\t=0x0ab0, r2\n\tmtsr\tepsw, r2\n\tmovq\t=0x24681357, r2\n\tmtsr\tgeva, r2\n\tmovq\t=0x99, r2\n\tmtsr\tgecause, r2')
     patched_illegal(p, 'tmplw', 129)
     p.e('\tmfsr\tr3, epc')
     p.eq('r3', '0x13572468')
     p.e('\tmfsr\tr3, epsw')
-    p.eq('r3', '0x0abc')
+    p.eq('r3', '0x0ab0')
     p.e('\tmfsr\tr3, eva')
     p.eq('r3', '0x24681357')
     p.e('\tmfsr\tr3, ecause')
@@ -192,19 +192,19 @@ def gen_regs(outdir):
     p.eq('r5', '0')
     # RTI, PUSHX and POPX name HEPC and HEPSW at H = 1; EPC and EPSW stay the guest's
     p.e('\t; --- PUSHX and POPX at H = 1 use HEPC and HEPSW, and the guest\'s EPC and EPSW are not touched')
-    p.e('\tmovq\t=0x1111aaaa, r2\n\tmtsr\thepc, r2\n\tmovq\t=0x0555, r2\n\tmtsr\thepsw, r2\n\tpushx')
+    p.e('\tmovq\t=0x1111aaaa, r2\n\tmtsr\thepc, r2\n\tmovq\t=0x0550, r2\n\tmtsr\thepsw, r2\n\tpushx')
     p.e('\tmovq\t(r14), r3')
-    p.eq('r3', '0x0555')
+    p.eq('r3', '0x0550')
     p.e('\tmovq\t8(r14), r3')
     p.eq('r3', '0x1111aaaa')
     p.e('\tmovq\t#0, r2\n\tmtsr\thepc, r2\n\tmtsr\thepsw, r2\n\tpopx\n\tmfsr\tr3, hepc')
     p.eq('r3', '0x1111aaaa')
     p.e('\tmfsr\tr3, hepsw')
-    p.eq('r3', '0x0555')
+    p.eq('r3', '0x0550')
     p.e('\tmfsr\tr3, epc')
     p.eq('r3', '0x13572468')
     p.e('\tmfsr\tr3, epsw')
-    p.eq('r3', '0x0abc')
+    p.eq('r3', '0x0ab0')
     p.cbne('r14', 'r12')
     p.trailer()
     h_ill(p)
@@ -225,7 +225,7 @@ def gen_reserved(outdir):
     p.e(HEADER + '\t.text\n\t.globl\t_start\n_start:')
     p.e('\tlea\thtab, r1\n\tmtsr\thvbr, r1\n\tlea\th_ill, r3\n\tlea\thtab+8*VECTOR_ILLEGAL, r2\n\tmovq\tr3, (r2)')
     p.e('\t; --- a one in an unused bit of a hypervisor register is an illegal instruction at H = 1: nothing is written, the bit reads zero')
-    refused = [('hepsw', 'HEPSW', ['0x%x' % (1 << b) for b in (13, 15, 16, 40, 63)], '0x0123'),
+    refused = [('hepsw', 'HEPSW', ['0x%x' % (1 << b) for b in (0, 3, 13, 15, 16, 40, 63)], '0x0120'),
                ('gtbr', 'GTBR', ['0x%x' % (1 << b) for b in (1, 11, 40, 47)], '0x0000003456789001'),
                ('virq', 'VIRQ', ['1', '0x100', '0x8000000000000000'], '0x20'),
                ('vivec', 'VIVEC', ['0x0100000000000000', '0x8000000000000000'], '0x0022232425262728'),
@@ -233,7 +233,7 @@ def gen_reserved(outdir):
     for name, up, vals, keep in refused:
         for v in vals:
             p.e('\tmovq\t=%s, r2\n\tmtsr\t%s, r2' % (keep, name))
-            p.e('\tmovq\t=%s, r2' % (v if name != 'hepsw' else '(0x0123|%s)' % v))
+            p.e('\tmovq\t=%s, r2' % (v if name != 'hepsw' else '(0x0120|%s)' % v))
             expect_illegal(p, 'mtsr\t%s, r2' % name, 'a one in an unused bit of %s' % up)
             if name != 'hepsw':                               # the illegal instruction itself writes HEPSW (the status word it was taken in): no read back
                 p.e('\tmfsr\tr3, %s' % name)
@@ -266,8 +266,8 @@ def gen_switch(outdir):
     gu = (MODE_USER << PSW_MODE) | (MODE_USER << PSW_PREV)
     enter = lambda lab, back, psw: p.e('\tlea\t%s, r2\n\tmtsr\thepc, r2\n\tmovq\t=(%s), r2\n\tmtsr\thepsw, r2\n\tlea\t%s, r20\n\tmovq\t#99, r0\n\tgenter\t#RTIMASK_ALL' % (lab, psw, back))
     p.e('\t; --- 1. GENTER loads the status word from HEPSW and PC from HEPC; the guest\'s MFPS sees it; the exit (HALT is a trap) saves it in HEPSW and the next PC in HEPC; the hypervisor\'s own')
-    p.e('\t; status word is kernel mode, previous mode the guest\'s current mode, priority 7, flags clear')
-    gp = (MODE_KERNEL << PSW_MODE) | (MODE_USER << PSW_PREV) | (3 << PSW_PRI) | 0b0101     # kernel, previous user, priority 3, C and Z set
+    p.e('\t; status word is kernel mode, previous mode the guest\'s current mode, priority 7')
+    gp = (MODE_KERNEL << PSW_MODE) | (MODE_USER << PSW_PREV) | (3 << PSW_PRI)     # kernel, previous user, priority 3 (bits 3 to 0 are reserved and read zero)
     p.e('\tmovq\t#0, r1')
     enter('g1', 'back1', '0x%x' % gp)
     p.e('g1:\tmfps\tr1\n\thalt\ng1e:\nback1:')
@@ -280,12 +280,12 @@ def gen_switch(outdir):
     p.eq('r2', 'XCODE_HALT')
     p.e('\tmfsr\tr2, hcause')
     p.eq('r2', 'VECTOR_HEXIT')
-    p.e('\tmfps\tr2\n\tbic\t#15, r2')
+    p.e('\tmfps\tr2')
     p.eq('r2', '(MODE_KERNEL<<PSW_MODE)|(MODE_KERNEL<<PSW_PREV)|(7<<PSW_PRI)')
     p.e('\t; --- 2. an exit from a user-mode guest leaves its mode as the previous mode (SEV is not privileged and HTRAP resets with SEV set)')
     enter('g2', 'back2', '0x%x' % gu)
     p.e('g2:\tsev\n\thalt\nback2:')
-    p.e('\tmfps\tr2\n\tbic\t#15, r2')
+    p.e('\tmfps\tr2')
     p.eq('r2', '(MODE_KERNEL<<PSW_MODE)|(MODE_USER<<PSW_PREV)|(7<<PSW_PRI)')
     p.e('\tmfsr\tr2, hepsw')
     p.eq('r2', '0x%x' % gu)

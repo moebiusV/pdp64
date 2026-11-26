@@ -7,10 +7,7 @@ NONE = 'None.'
 PRIV = 'Privileged: outside kernel mode the instruction aborts with the privileged-instruction vector.'
 ILL = 'A reserved encoding aborts with the illegal-instruction vector.'
 
-NZVC_ADD = '`N` and `Z` from the result, `V` set on signed overflow, `C` set on a carry out of bit 63.'
-NZVC_SUB = '`N` and `Z` from the result, `V` set on signed overflow, `C` set on a **borrow** (the PDP-11 sense): `C` = 1 when the unsigned operand being subtracted is the larger.'
-NZ0 = '`N` and `Z` from the result, `V` cleared, `C` unchanged.'
-NOFLAGS = 'None written.'
+NOFLAGS = 'No flags.'
 
 
 def E(id, page, names, title, syntax, op, flags, exc, notes='', cf='', xnote='', alias=''):

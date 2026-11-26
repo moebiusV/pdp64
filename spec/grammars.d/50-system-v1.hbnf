@@ -5,12 +5,8 @@
 ; from there.  (The system-register numbers are in 41-sysreg.hbnf, because the assembler's grammar names them.)
 ; Rules of this file are not part of the instruction grammar; they follow the layout of the other number parts (30-mn-core.hbnf) so that one reader serves all; target spec only, hbnf does not read this part (a 40-bit constant does not fit an enum constant).
 
-; The processor status word, 16 bits: the value is the position of the field's lowest bit.  C V Z N are the PDP-11 order.
-psw = "c"@0
-    | "v"@1
-    | "z"@2
-    | "n"@3
-    | "t"@4
+; The processor status word, 16 bits: the value is the position of the field's lowest bit.  Bits 0 to 3 are reserved and read as zero: the machine has no condition codes.
+psw = "t"@4
     | "pri"@5
     | "mode"@8
     | "prev"@10

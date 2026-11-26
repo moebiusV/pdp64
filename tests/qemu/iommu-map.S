@@ -130,8 +130,7 @@ _start:
 	movq	#0, r28				; the case number
 	lea	badleaf, r29
 2:	movq	(r29), r3			; the flags of the case; 0 is the end
-	cmp	r3, #0
-	beq	3f
+	cbeq r3, #0, 3f
 	add	#8, r29
 	add	#1, r28
 	lea	pg1, r4

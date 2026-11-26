@@ -1,4 +1,4 @@
-; System v1: wfe sleeps until an interrupt is taken; the EPC is the instruction after the wfe. Generated; a failed check n halts with status n.
+; System v1: wfe sleeps until an interrupt is taken; the EPC is the instruction after the wfe. A failed check n halts with status n.
 #include "pdp64-consts.h"
 	.text
 	.globl	_start
@@ -10,18 +10,12 @@ _start:
 	wfe
 afterw:
 	nop
-	cmp	r10, #(1)
-	bne	F1	; check 1
+	cbne r10, #(1), F1 ; check 1
 	lea	afterw, r11
-	cmp	r6, r11
-	bne	F2	; check 2
-	cmp	r8, #(44)
-	bne	F3	; check 3
-	cmp	r12, #((MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|7<<PSW_PRI))
-	bne	F4	; check 4
-	bic	#15, r7
-	cmp	r7, #((MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|0<<PSW_PRI))
-	bne	F5	; check 5
+	cbne r6, r11, F2 ; check 2
+	cbne r8, #(44), F3 ; check 3
+	cbne r12, #((MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|7<<PSW_PRI)), F4 ; check 4
+	cbne r7, #((MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|0<<PSW_PRI)), F5 ; check 5
 	movq	#0, r0
 	halt
 F1:	movq	#1, r0

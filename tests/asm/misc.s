@@ -20,7 +20,7 @@ lb:	btag r1,#2,lb
 	addm r1,16(r2)
 	movq.u 8(r1),r2
 	movb.u (r3),r4
-	fcmp r1,r2
+	fadd r1,r2
 	fadd r2,r3
 	mul #6,r1
 	shr #40,r2

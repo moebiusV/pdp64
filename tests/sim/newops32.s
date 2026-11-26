@@ -21,53 +21,37 @@ _start:
 	movq	=0xffffffffffffffff, r30
 	movq	=0x1111111111111110, r31
 	movq	=0x1111111111111111, r15
-	cmp	r16, r15
-	bne	F1
+	cbne	r16, r15, F1
 	movq	=0x2222222222222222, r15
-	cmp	r17, r15
-	bne	F2
+	cbne	r17, r15, F2
 	movq	=0x3333333333333333, r15
-	cmp	r18, r15
-	bne	F3
+	cbne	r18, r15, F3
 	movq	=0x4444444444444444, r15
-	cmp	r19, r15
-	bne	F4
+	cbne	r19, r15, F4
 	movq	=0x5555555555555555, r15
-	cmp	r20, r15
-	bne	F5
+	cbne	r20, r15, F5
 	movq	=0x6666666666666666, r15
-	cmp	r21, r15
-	bne	F6
+	cbne	r21, r15, F6
 	movq	=0x7777777777777777, r15
-	cmp	r22, r15
-	bne	F7
+	cbne	r22, r15, F7
 	movq	=0x8888888888888888, r15
-	cmp	r23, r15
-	bne	F8
+	cbne	r23, r15, F8
 	movq	=0x9999999999999999, r15
-	cmp	r24, r15
-	bne	F9
+	cbne	r24, r15, F9
 	movq	=0xaaaaaaaaaaaaaaaa, r15
-	cmp	r25, r15
-	bne	F10
+	cbne	r25, r15, F10
 	movq	=0xbbbbbbbbbbbbbbbb, r15
-	cmp	r26, r15
-	bne	F11
+	cbne	r26, r15, F11
 	movq	=0xcccccccccccccccc, r15
-	cmp	r27, r15
-	bne	F12
+	cbne	r27, r15, F12
 	movq	=0xdddddddddddddddd, r15
-	cmp	r28, r15
-	bne	F13
+	cbne	r28, r15, F13
 	movq	=0xeeeeeeeeeeeeeeee, r15
-	cmp	r29, r15
-	bne	F14
+	cbne	r29, r15, F14
 	movq	=0xffffffffffffffff, r15
-	cmp	r30, r15
-	bne	F15
+	cbne	r30, r15, F15
 	movq	=0x1111111111111110, r15
-	cmp	r31, r15
-	bne	F16
+	cbne	r31, r15, F16
 	movq	r17, r30
 	movq	r31, r16
 	add	r20, r16
@@ -78,26 +62,19 @@ _start:
 	mul	r26, r27
 	shl	#4, r28
 	movq	=0xeeeeeeeeeeeeeeef, r15
-	cmp	r30, r15
-	bne	F17
+	cbne	r30, r15, F17
 	movq	=0x6666666666666665, r15
-	cmp	r16, r15
-	bne	F18
+	cbne	r16, r15, F18
 	movq	=0x2222222222222222, r15
-	cmp	r21, r15
-	bne	F19
+	cbne	r21, r15, F19
 	movq	=0x0, r15
-	cmp	r23, r15
-	bne	F20
+	cbne	r23, r15, F20
 	movq	=0xbbbbbbbbbbbbbbbb, r15
-	cmp	r25, r15
-	bne	F21
+	cbne	r25, r15, F21
 	movq	=0x369d0369d0369d04, r15
-	cmp	r27, r15
-	bne	F22
+	cbne	r27, r15, F22
 	movq	=0xddddddddddddddd0, r15
-	cmp	r28, r15
-	bne	F23
+	cbne	r28, r15, F23
 	lea	ubuf, r24
 	lea	ubuf, r25
 	movq	#1, r29
@@ -105,12 +82,10 @@ _start:
 	movq	r17, 8(r24)
 	movq	8(r24), r18
 	movq	=0x1122334455667788, r15
-	cmp	r18, r15
-	bne	F24
+	cbne	r18, r15, F24
 	movq	(r25)(r29*8), r19
 	movq	=0x1122334455667788, r15
-	cmp	r19, r15
-	bne	F25
+	cbne	r19, r15, F25
 	movq	#2, r20
 	movq	-8(r25)(r29*8), r21
 	movq	r20, 16(r24)(r29*8)
@@ -118,21 +93,18 @@ _start:
 	movq	(r26)+, r27
 	movq	(r26)+, r27
 	movq	=0x1122334455667788, r15
-	cmp	r27, r15
-	bne	F26
+	cbne	r27, r15, F26
 	lea	ubuf+24, r26
 	movq	-(r26), r27
 	lea	ubuf+16, r28
-	cmp	r26, r28
-	bne	F9999
+	cbne	r26, r28, F9999
 	movq	#3, r31
 	clr	r30
 1:
 	add	#1, r30
 	sob	r31, 1b
 	movq	=0x3, r15
-	cmp	r30, r15
-	bne	F27
+	cbne	r30, r15, F27
 	movq	#5, r16
 	movq	#9, r17
 	cbgt	r17, r16, 1f
@@ -154,14 +126,12 @@ _start:
 	ret
 3:
 	movq	=0x4d, r15
-	cmp	r30, r15
-	bne	F28
+	cbne	r30, r15, F28
 	movq	=0x5566778899aabbcc, r31
 	push	r31
 	pop	r16
 	movq	=0x5566778899aabbcc, r15
-	cmp	r16, r15
-	bne	F29
+	cbne	r16, r15, F29
 	movq	#2, r2
 	movq	=0x1111111111111111, r16
 	movq	=0x1111111111111110, r31
@@ -169,36 +139,28 @@ _start:
 	pushm	#0x80010004
 	movq	(sp), r15
 	movq	=0x1111111111111110, r12
-	cmp	r15, r12
-	bne	F30
+	cbne	r15, r12, F30
 	movq	8(sp), r15
 	movq	=0x1111111111111111, r12
-	cmp	r15, r12
-	bne	F31
+	cbne	r15, r12, F31
 	movq	16(sp), r15
 	movq	=0x2, r12
-	cmp	r15, r12
-	bne	F32
+	cbne	r15, r12, F32
 	movq	r8, r9
 	sub	sp, r9
 	movq	=0x18, r15
-	cmp	r9, r15
-	bne	F33
+	cbne	r9, r15, F33
 	movq	#0, r2
 	movq	#0, r16
 	movq	#0, r31
 	popm	#0x80010004
-	cmp	sp, r8
-	bne	F9999
+	cbne	sp, r8, F9999
 	movq	=0x2, r15
-	cmp	r2, r15
-	bne	F34
+	cbne	r2, r15, F34
 	movq	=0x1111111111111111, r15
-	cmp	r16, r15
-	bne	F35
+	cbne	r16, r15, F35
 	movq	=0x1111111111111110, r15
-	cmp	r31, r15
-	bne	F36
+	cbne	r31, r15, F36
 	lea	ubuf, r8
 	movq	sp, r8
 	movq	#1000, r0
@@ -266,86 +228,59 @@ _start:
 	movq	r8, r9
 	popm	#0xffffbfff
 	movq	=0x3e8, r15
-	cmp	r0, r15
-	bne	F37
+	cbne	r0, r15, F37
 	movq	=0x3e9, r15
-	cmp	r1, r15
-	bne	F38
+	cbne	r1, r15, F38
 	movq	=0x3ea, r15
-	cmp	r2, r15
-	bne	F39
+	cbne	r2, r15, F39
 	movq	=0x3eb, r15
-	cmp	r3, r15
-	bne	F40
+	cbne	r3, r15, F40
 	movq	=0x3ec, r15
-	cmp	r4, r15
-	bne	F41
+	cbne	r4, r15, F41
 	movq	=0x3ed, r15
-	cmp	r5, r15
-	bne	F42
+	cbne	r5, r15, F42
 	movq	=0x3ee, r15
-	cmp	r6, r15
-	bne	F43
+	cbne	r6, r15, F43
 	movq	=0x3ef, r15
-	cmp	r7, r15
-	bne	F44
+	cbne	r7, r15, F44
 	movq	=0x3f2, r15
-	cmp	r10, r15
-	bne	F45
+	cbne	r10, r15, F45
 	movq	=0x3f3, r15
-	cmp	r11, r15
-	bne	F46
+	cbne	r11, r15, F46
 	movq	=0x3f5, r15
-	cmp	r13, r15
-	bne	F47
+	cbne	r13, r15, F47
 	movq	=0x3f8, r15
-	cmp	r16, r15
-	bne	F48
+	cbne	r16, r15, F48
 	movq	=0x3f9, r15
-	cmp	r17, r15
-	bne	F49
+	cbne	r17, r15, F49
 	movq	=0x3fa, r15
-	cmp	r18, r15
-	bne	F50
+	cbne	r18, r15, F50
 	movq	=0x3fb, r15
-	cmp	r19, r15
-	bne	F51
+	cbne	r19, r15, F51
 	movq	=0x3fc, r15
-	cmp	r20, r15
-	bne	F52
+	cbne	r20, r15, F52
 	movq	=0x3fd, r15
-	cmp	r21, r15
-	bne	F53
+	cbne	r21, r15, F53
 	movq	=0x3fe, r15
-	cmp	r22, r15
-	bne	F54
+	cbne	r22, r15, F54
 	movq	=0x3ff, r15
-	cmp	r23, r15
-	bne	F55
+	cbne	r23, r15, F55
 	movq	=0x400, r15
-	cmp	r24, r15
-	bne	F56
+	cbne	r24, r15, F56
 	movq	=0x401, r15
-	cmp	r25, r15
-	bne	F57
+	cbne	r25, r15, F57
 	movq	=0x402, r15
-	cmp	r26, r15
-	bne	F58
+	cbne	r26, r15, F58
 	movq	=0x403, r15
-	cmp	r27, r15
-	bne	F59
+	cbne	r27, r15, F59
 	movq	=0x404, r15
-	cmp	r28, r15
-	bne	F60
+	cbne	r28, r15, F60
 	movq	=0x405, r15
-	cmp	r29, r15
-	bne	F61
+	cbne	r29, r15, F61
 	movq	=0x406, r15
-	cmp	r30, r15
-	bne	F62
+	cbne	r30, r15, F62
 	movq	=0x407, r15
-	cmp	r31, r15
-	bne	F63
+	cbne	r31, r15, F63
 	clr	r0
 	halt
 F1:

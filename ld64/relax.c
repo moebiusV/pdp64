@@ -145,8 +145,8 @@ static int rx_category(struct obj *o, int isec, const struct site *t)
 	if (!strcmp(mn, "call") || !strcmp(mn, "movcall")) return same ? RC_CALL_SAME : RC_CALL_EXT;
 	if (!strcmp(mn, "jmp")) return same ? RC_JMP_SAME : RC_JMP_EXT;
 	if (!strcmp(mn, "lea")) return data ? RC_LEA_DATA : RC_LEA_CODE;
-	if ((mn[0] == 'b' && strlen(mn) <= 4 && strcmp(mn, "bic") && strcmp(mn, "bis") && strcmp(mn, "bit") && strcmp(mn, "bsf") && strcmp(mn, "bsr") && strncmp(mn, "bext", 4) && strncmp(mn, "bset", 4) && strncmp(mn, "bclr", 4)) || !strncmp(mn, "cb", 2) || !strcmp(mn, "sob")) return RC_BRANCH;
-	if (!strncmp(mn, "mov", 3) || !strcmp(mn, "add") || !strcmp(mn, "sub") || !strcmp(mn, "cmp") || !strcmp(mn, "push") || data) return RC_DATA_REF;
+	if ((mn[0] == 'b' && strlen(mn) <= 4 && strcmp(mn, "bic") && strcmp(mn, "bis") && strcmp(mn, "bit") && strcmp(mn, "bsf") && strcmp(mn, "bsr") && strncmp(mn, "bext", 4) && strncmp(mn, "bset", 4) && strncmp(mn, "bclr", 4)) || !strncmp(mn, "cb", 2) || !strncmp(mn, "fcb", 3) || !strcmp(mn, "sob")) return RC_BRANCH;
+	if (!strncmp(mn, "mov", 3) || !strcmp(mn, "add") || !strcmp(mn, "sub") || !strcmp(mn, "push") || data) return RC_DATA_REF;
 	return RC_OTHER;
 }
 

@@ -12,45 +12,34 @@ _start:
 	movq	#107, r1
 	mtsr	ssp, r1
 	mfsr	r2, ptbr
-	cmp	r2, #101
-	bne	f1
+	cbne r2, #101, f1
 	mfsr	r2, epc
-	cmp	r2, #102
-	bne	f2
+	cbne r2, #102, f2
 	mfsr	r2, usp
-	cmp	r2, #106
-	bne	f5
+	cbne r2, #106, f5
 	mfsr	r2, ssp
-	cmp	r2, #107
-	bne	f6
-	cmp	sp, r13			; r14 was not changed by writing usp and ssp
-	bne	f7
+	cbne r2, #107, f6
+	cbne sp, r13, f7
 ; a 64-bit value, and a write after the others leaves them as they were
 	movq	#-1, r3
 	shl	#17, r3
 	bis	#12345, r3
 	mtsr	ptbr, r3
 	mfsr	r4, ptbr
-	cmp	r4, r3
-	bne	f8
+	cbne r4, r3, f8
 	mfsr	r4, epc
-	cmp	r4, #102
-	bne	f9
+	cbne r4, #102, f9
 ; the stack pointer register is not the system registers: writing r14 leaves usp and ssp
 	movq	#0, r14
 	mfsr	r4, usp
-	cmp	r4, #106
-	bne	f10
+	cbne r4, #106, f10
 	mfsr	r4, ssp
-	cmp	r4, #107
-	bne	f11
+	cbne r4, #107, f11
 ; reading eva and ecause is allowed (they start at zero in the emulator)
 	mfsr	r4, eva
-	cmp	r4, #0
-	bne	f12
+	cbne r4, #0, f12
 	mfsr	r4, ecause
-	cmp	r4, #0
-	bne	f13
+	cbne r4, #0, f13
 	movq	#0, r0
 	halt
 f1:	movq	#1, r0
