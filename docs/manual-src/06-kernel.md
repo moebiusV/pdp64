@@ -204,7 +204,7 @@ Three consequences. The undo buffer is a single entry, and row 3 of the fault ma
 
 The PDP-11 reached its control registers by address. The KT11's page registers, the status word and the other control and status registers sit in the top 8 KB of the address space, the I/O page (`KISA6` at 0172354, `UISD` at 0177600, the PS at 0177776), and the kernel used ordinary `mov` instructions on them. The pdp64 cannot, because its address space is translated ({{r:from-segments-to-pages-virtual-memory}}): a load or store to a control register would itself be translated, and an instruction that changes the translation would change the mapping of the access that reads it. Control registers are **system registers**, numbered 0 to 255, read and written by `MFSR Rd, name` (move from system register) and `MTSR name, Rs` (move to system register). Both are privileged ({{r:instructions-abort-with-the-privileged}}).
 
-**{{#system-registers-are-reached}}** The system registers are reached by `MFSR` and `MTSR` with an 8-bit register number.
+**{{#system-registers-are-reached}}** The system registers are reached by `MFSR` and `MTSR` with a 12-bit register number, 0 to 4095; the numbers in use are listed in the tables of this chapter and the rest are reserved.
 
 | Number | Register | Meaning |
 |---|---|---|
