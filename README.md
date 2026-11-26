@@ -5,6 +5,8 @@ Parent: [All Projects](https://moebiusv.github.io/) | Git Repo: [github.com/moeb
 **Digital Equity Collective's Pragmatic Digital Processor, 64 bit.**
 *A 64-bit successor to the PDP-11 instruction set and architecture.*
 
+*It is a 16-bit-word machine in the PDP-11's sense: a **word** is 16 bits, as it was on the PDP-11, a **long** is 32 bits and a **quad** is 64 bits; the width letters of the notation are `b`, `w`, `l` and `q` (8, 16, 32 and 64 bits), the PDP-11's and the VAX's.*
+
 *It began as a mashup of the PDP-11 and the Commodore 64 with secure extensions, and grew into a 64-bit symmetric-multiprocessing CPU with more security and more convenience: the history is [the evolution of the design](docs/design/evolution.md), a design note outside the manual.*
 
 **The principles every decision is judged by: [read them online](https://moebiusv.github.io/pdp64/docs/principles.html)**, [`docs/principles.md`](docs/principles.md): safety first, then speed measured as run time, then fewer instructions, dense encoding, a good compiler target, and an instruction set pleasant enough to keep in your head.
