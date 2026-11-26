@@ -58,7 +58,7 @@
 
 ## A.8 The user-memory guard
 
-**A.8.1** The user-memory guard has one mechanism: the user-qualified accesses (6.10.4, 9.6.7), the moves and the two sides of the block copy; there is no status bit and there are no instructions to open and close it.
+**A.8.1** The user-memory guard has one mechanism: the user-qualified accesses (6.10.4, 9.6.8), the moves and the two sides of the block copy; there is no status bit and there are no instructions to open and close it.
 
 ## A.9 Streaming block operations
 

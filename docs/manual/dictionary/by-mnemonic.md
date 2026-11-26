@@ -98,6 +98,7 @@
 | `EXTB` | [EXTB](../09-isa.md#extb-extract-a-bit-field) (section 9.9) | [1](by-encoding.md#mn-extb), [entry](../09-isa.md#w-extb) | Bits and fields (BESC) |
 | `EXTZB` | [EXTB](../09-isa.md#extb-extract-a-bit-field) (section 9.9) | [1](by-encoding.md#mn-extzb), [entry](../09-isa.md#w-extzb) | Bits and fields (BESC) |
 | `FABS` | [FSIGN](../09-isa.md#fsign-sign-operations-on-the-bits) (section 9.12) | [1](by-encoding.md#mn-fabs), [entry](../09-isa.md#w-fabs) | Floating point (FESC) |
+| `FABS32` (alias of `AND`) | [FSIGN](../09-isa.md#fsign-sign-operations-on-the-bits) (section 9.12) | [18](by-encoding.md#mn-and), [entry](../09-isa.md#w-and) | Moves, address formation and the ALU |
 | `FADD` | [FADD](../09-isa.md#fadd-floating-add-subtract-and-multiply-binary64) (section 9.12) | [11](by-encoding.md#mn-fadd), [entry](../09-isa.md#w-fadd) | Moves, address formation and the ALU |
 | `FADD32` | [FSINGLE](../09-isa.md#fsingle-floating-arithmetic-binary32) (section 9.12) | [1](by-encoding.md#mn-fadd32), [entry](../09-isa.md#w-fadd32) | Floating point (FESC) |
 | `FCLASS` | [FCLASS](../09-isa.md#fclass-classify-a-floating-point-value) (section 9.12) | [1](by-encoding.md#mn-fclass), [entry](../09-isa.md#w-fclass) | Floating point (FESC) |
@@ -129,6 +130,7 @@
 | `FMUL` | [FADD](../09-isa.md#fadd-floating-add-subtract-and-multiply-binary64) (section 9.12) | [11](by-encoding.md#mn-fmul), [entry](../09-isa.md#w-fmul) | Moves, address formation and the ALU |
 | `FMUL32` | [FSINGLE](../09-isa.md#fsingle-floating-arithmetic-binary32) (section 9.12) | [1](by-encoding.md#mn-fmul32), [entry](../09-isa.md#w-fmul32) | Floating point (FESC) |
 | `FNEG` | [FSIGN](../09-isa.md#fsign-sign-operations-on-the-bits) (section 9.12) | [1](by-encoding.md#mn-fneg), [entry](../09-isa.md#w-fneg) | Floating point (FESC) |
+| `FNEG32` (alias of `XOR`) | [FSIGN](../09-isa.md#fsign-sign-operations-on-the-bits) (section 9.12) | [16](by-encoding.md#mn-xor), [entry](../09-isa.md#w-xor) | Moves, address formation and the ALU |
 | `FNMSUB` | [FMADD](../09-isa.md#fmadd-fused-multiply-add-binary64) (section 9.12) | [1](by-encoding.md#mn-fnmsub), [entry](../09-isa.md#w-fnmsub) | Floating point (FESC) |
 | `FNMSUB32` | [FMADD32](../09-isa.md#fmadd32-fused-multiply-add-binary32) (section 9.12) | [1](by-encoding.md#mn-fnmsub32), [entry](../09-isa.md#w-fnmsub32) | Floating point (FESC) |
 | `FRINT` | [FRINT](../09-isa.md#frint-round-to-an-integral-value-binary64) (section 9.12) | [1](by-encoding.md#mn-frint), [entry](../09-isa.md#w-frint) | Floating point (FESC) |

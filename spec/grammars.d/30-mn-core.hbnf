@@ -37,6 +37,8 @@ mn-alu = "add"@0b010110
        | "fmul"@0b100110
        | "fcmp"@0b100111
        | "mulu"@0x11E
+       | "fneg32"@0x11C
+       | "fabs32"@0x11D
 
 ; conditional branches (ISA 4.4); BHIS and BLO are aliases below
 mn-branch = "br"@0b110000

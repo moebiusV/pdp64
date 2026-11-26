@@ -18,6 +18,7 @@ sys.path.insert(0, HERE)
 import encgram
 B = os.path.join(ROOT, os.environ.get('BUILD', 'build'))
 AS = os.path.join(B, 'as64')
+REWRITE = {'fneg32', 'fabs32'}   # aliases that map onto an instruction with rewritten operands, not a plain rename
 DRV = os.path.join(B, 'encdrv')
 # What the ABI pins and the grammar must keep (docs/abi.md, pcc's register allocation order follows it).  Nothing else is recorded here: the numbers of forms and leaves
 # are the grammar's, and the unassigned first parcels are checked against the space of its leaves.
@@ -119,6 +120,7 @@ def main():
         na = 0
         for w, c in sorted(names.items()):
             if w == c or c not in first: continue
+            if w in REWRITE: continue          # an alias that rewrites its operands (fneg32, fabs32): its words are tested by tests/asm/fsign32.s and tests/asm-equiv/
             f = d['forms'][first[c]]
             g.n = 0
             src = g.line(f, c).replace(c, w, 1)

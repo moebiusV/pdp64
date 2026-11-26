@@ -192,6 +192,26 @@ static int eplan(const struct stmt *st, int64_t pos, const int minn[4], struct h
 	int isbranch = mg == MG_BRANCH || mg == MG_CBRANCH || mg == MG_SOB || mg == MG_TAG;
 	/* `jmp label` is `br label`: the same operation with the same reach, and br has the one-parcel form besides (docs/errata.md 214).  The other jmp operands (a register, memory, an absolute address) stay jmp. */
 	if (mg == MG_SOP && st->mnum == MN_SOP_JMP && n == 1 && st->ops[0].kind == OK_BARE) { name = "br"; isbranch = 1; }
+	/* fneg32 and fabs32 (sign operations on a binary32 held sign-extended in a register): `fneg32 Rs, Rd` is `xor #-2147483648, Rd`, `fabs32 Rs, Rd` is
+	   `and #0x7FFFFFFF, Rd`, each after a `movq Rs, Rd` when the registers differ.  They write N and Z as the xor and the and do; the number of an alias is 0x100 plus its word's. */
+	if (mg == MG_ALU && (st->mnum == 0x11C || st->mnum == 0x11D)) {
+		int neg = st->mnum == 0x11C;
+		const char *w = neg ? "fneg32" : "fabs32";
+		if (n != 2 || st->ops[0].kind != OK_REG || st->ops[1].kind != OK_REG) { err(st->line, "%s Rs, Rd: two registers", w); return -1; }
+		int mv = enc_mn_find(etab, "movq"), op = enc_mn_find(etab, name);
+		if (mv < 0 || op < 0) { err(st->line, "%s: this instruction does not exist in %s", name, etab->name); return -1; }
+		struct hw m, x;
+		hw_init(&m, mv); hw_init(&x, op);
+		m.in.nops = 2; m.in.op[0].k = EK_R; m.in.op[0].r = st->ops[0].reg; m.in.op[1].k = EK_R; m.in.op[1].r = st->ops[1].reg;
+		x.in.nops = 2; x.in.op[0].k = EK_I; x.in.op[0].v = neg ? -2147483648LL : 0x7FFFFFFFLL; x.in.op[1].k = EK_R; x.in.op[1].r = st->ops[1].reg;
+		slot[0] = 0; slot[1] = 0;
+		if (st->ops[0].reg == st->ops[1].reg) {
+			if (!hw_len(&x, minn[0])) return 1;
+			hw[0] = x; return 1;
+		}
+		if (!hw_len(&m, minn[2]) || !hw_len(&x, minn[3])) return 1;
+		hw[0] = m; hw[1] = x; slot[0] = 2; slot[1] = 3; return 2;
+	}
 	int poolable = (mg == MG_MOV && st->mnum == MN_MOV_MOVQ) || (mg == MG_SOP && st->mnum == MN_SOP_PUSH) ||
 	    (mg == MG_ALU && st->mnum != MN_ALU_SHL && st->mnum != MN_ALU_SHR && st->mnum != MN_ALU_SAR);
 	int mn = enc_mn_find(etab, name);

@@ -79,7 +79,7 @@ if cond(c) on that comparison then PC <- address of this instruction + 2 * disp'
     E('BTAG', 'branches', ['btag', 'bntag'], 'Branch on pointer tag', ['BTAG Rn, #tag, target', 'BNTAG Rn, #tag, target'],
       '''BTAG : if (Rn & 111₂) == tag then PC <- address of this instruction + 2 * disp
 BNTAG: if (Rn & 111₂) != tag then PC <- address of this instruction + 2 * disp''',
-      NOFLAGS, 'None.', notes='For runtimes that keep a 3-bit type tag in the low bits of a pointer (`lowtag`). Four bytes at least; the displacement is 16 bits (32 at `len = 10`).'),
+      NOFLAGS, 'None.', notes='For runtimes that keep a 3-bit type tag in the low bits of a pointer (`lowtag`). Four bytes at least; the displacement is 16 bits (32 at `len = 10`). A pointer with the wrong tag is not caught by a fault, because a plain access works at any address ({{r:plain-access-at-any-address}}); the shortest correct check and access with a tag `T` and a field at offset `k` is `BNTAG Rn, #T, slow` followed by `MOVQ k-T(Rn), Rd` ({{r:a-mis-tagged-pointer-is-not-a-fault}}).'),
 
     E('CLR', 'single', ['clr'], 'Clear', ['CLR rm'], 'rm <- 0', '`N` = 0, `Z` = 1, `V` = 0, `C` = 0.', MEMX),
     E('COM', 'single', ['com'], 'Complement', ['COM rm'], 'rm <- NOT rm', '`N` and `Z` from the result, `V` = 0, `C` = 1 (the PDP-11 rule).', MEMX, notes='A two-byte instruction for a register operand.'),

@@ -144,9 +144,11 @@
 **9.6.5** A plain load or store works at any address: there is no alignment fault, and so no separate unaligned move. A plain access is a `MOV` form and any instruction whose memory operand is read or written once (the stack, the arithmetic with a memory operand, the read-modify-write forms). An access that is not aligned to its size is one access for the program and, where it crosses a boundary of a cache line or of a page, two for the machine; the core that executes it sees it whole, and **nothing of it changes if any part of it faults**: a store that crosses into a page that faults writes none of its bytes, a load that does leaves its destination register as it was, and the fault is precise on whichever page refuses it, with `EVA` the address of the access when its first page refuses and the first byte of the second page when that one does. To the other cores and to devices the two halves are two accesses, in ascending address order (7.5.3). The atomics keep the alignment fault (7.4.7); so do `PUSHX` and `POPX` and the operands of the vector blocks, and the block copies move bytes and have none to make. The registers of a device are accessed at their own width (5.3.4); the machine does not fault an unaligned access to a device, it makes two.
 
 
-**9.6.6** The one-parcel forms abbreviate the common cases: loads and stores through a hot base register or the stack pointer at small offsets, `LEA` from `SP`, and `MOVQ #imm, rd` with an immediate of up to seven bits.
+**9.6.6** A runtime that keeps a 3-bit type tag in the low bits of a pointer cannot rely on a fault to find a pointer with the wrong tag: the access through it simply works, at an address that is not aligned. The check is explicit and is one four-byte instruction, `BNTAG Rn, #T, slow`, placed before the access, which is then made with the tag taken off by the displacement, `MOVQ k-T(Rn), Rd`; on the way that has the right tag the branch is not taken. One check covers every access made through the same pointer, so a cell whose `car` and `cdr` are both read is checked once; and where a loop already tests its pointer (a list walk that tests for the end) `BTAG` makes that test and the type check at once, so the check costs nothing. An array index is bounds checked by `CTCC` as before, and a pointer whose tag is checked before a loop is not checked again inside it. A table dispatch on the tag is `JTAG`.
 
-**9.6.7** A load or store may be qualified `.U` (the memory operand is accessed with user privilege, which is how the kernel reaches user memory past the user-memory guard of 6.10); the block copy has the same qualifier for each of its sides, `MCPY.UR` and `MCPY.UW`.
+**9.6.7** The one-parcel forms abbreviate the common cases: loads and stores through a hot base register or the stack pointer at small offsets, `LEA` from `SP`, and `MOVQ #imm, rd` with an immediate of up to seven bits.
+
+**9.6.8** A load or store may be qualified `.U` (the memory operand is accessed with user privilege, which is how the kernel reaches user memory past the user-memory guard of 6.10); the block copy has the same qualifier for each of its sides, `MCPY.UR` and `MCPY.UW`.
 
 *Commentary.* **Precedent.** The PDP-11 had `MOV` and `MOVB` with a byte sign-extended into a register; the VAX had a sized `MOV` for every width. **Trade-offs.** Keeping the sized loads costs four extra opcodes against a quad-only design, but without `MOVL` a struct field load becomes two `MOVW`s, a shift and an or, and ELF, timestamps and most on-disk and wire structures are full of 32- and 16-bit fields. **Improvements.** There is no separate `CVT` group: the conversions are the moves with a register source, so they cost nothing. **Benefits.** No partial-register state anywhere. **Modern comparables.** AArch64 and RISC-V have the same sized loads with sign and zero extension; x86-64 keeps 8- and 16-bit register writes that preserve the upper bits, which makes narrow writes depend on the old value. **Use.** `LEA 0(PC)` is how a position-independent program finds itself; a plain load reads a packed on-disk or network structure at whatever address it has. **Impact.** *Kernel:* `LEA 0(PC)` lets position-independent kernel code find itself; the plain moves read packed on-disk and network structures where they lie. *Compiler:* Sized loads avoid the shift, mask and or of a struct-field read, and the conversions are moves, so no separate conversion selection exists. *Hardware:* No partial-register write anywhere; the conversions reuse the load-extend path.
 
@@ -2187,6 +2189,7 @@ tmp ← Rd AND rm         ; the result is discarded
 
 
 <a id="w-xor"></a>
+<a id="w-fneg32"></a>
 ### XOR: Exclusive or
 
 ![XOR: LDF.B28, prefix 011100, sub-opcode 1011; operands b5d28s-x1, reg5; 6 bytes](figures/w/xor/01.svg)
@@ -2221,7 +2224,7 @@ tmp ← Rd AND rm         ; the result is discarded
 
 ![XOR: RR5, prefix 000, sub-opcode 100; operands reg5, reg5; 2 bytes](figures/w/xor/11.svg)
 
-**Mnemonics:** `XOR`
+**Mnemonics:** `XOR`  (aliases: `FNEG32`)
 
 **Syntax**
 
@@ -2247,8 +2250,12 @@ Rd ← Rd XOR rm
 
 **Exceptions** Memory operand: page fault, protection fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`); there is no alignment fault, and an access that crosses a page changes nothing when either page faults (9.6.5). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
+<a id="w-fneg32"></a>
+**`FNEG32`** is an alias of `XOR`: the assembler writes it as that word.
+
 
 <a id="w-and"></a>
+<a id="w-fabs32"></a>
 ### AND: And
 
 ![AND: LDF.B28, prefix 011100, sub-opcode 1100; operands b5d28s-x1, reg5; 6 bytes](figures/w/and/01.svg)
@@ -2287,7 +2294,7 @@ Rd ← Rd XOR rm
 
 ![AND: IMMh44/b, prefix 11001000; operands imm4s, reg4; 2 bytes](figures/w/and/12.svg)
 
-**Mnemonics:** `AND`
+**Mnemonics:** `AND`  (aliases: `FABS32`)
 
 **Syntax**
 
@@ -2312,6 +2319,9 @@ Rd ← Rd AND rm
 **Flags** `N` and `Z` from the result, `V` cleared, `C` unchanged.
 
 **Exceptions** Memory operand: page fault, protection fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`); there is no alignment fault, and an access that crosses a page changes nothing when either page faults (9.6.5). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
+
+<a id="w-fabs32"></a>
+**`FABS32`** is an alias of `AND`: the assembler writes it as that word.
 
 
 ### SHIFT: Shift left, shift right logical, shift right arithmetic
@@ -5549,7 +5559,7 @@ As FMADD and FNMSUB, in binary32, rounded once
 
 **Exceptions** None.
 
-The sign of a `binary32` is flipped exactly by `XOR #-2147483648` (the sign-extended sign bit), which writes the integer flags `N` and `Z` as `XOR` does.
+The sign of a `binary32` is flipped exactly by `FNEG32`, which is `XOR #-2147483648` and writes the integer flags `N` and `Z` as `XOR` does.
 
 **Why it is here.** The `binary32` forms of the fused multiply-add family.
 
@@ -5578,7 +5588,7 @@ Operation, flags and exceptions as for the entry FMADD32 above; 1 layout form, e
 
 ### FSIGN: Sign operations on the bits
 
-**Mnemonics:** `FNEG`, `FABS`, `FCOPYSIGN`
+**Mnemonics:** `FNEG`, `FABS`, `FCOPYSIGN`  (aliases: `FNEG32`, `FABS32`)
 
 **Syntax**
 
@@ -5586,6 +5596,8 @@ Operation, flags and exceptions as for the entry FMADD32 above; 1 layout form, e
 FNEG Rs, Rd
 FABS Rs, Rd
 FCOPYSIGN Rs, Rt, Rd
+FNEG32 Rs, Rd
+FABS32 Rs, Rd
 ```
 
 **Encoding**
@@ -5602,11 +5614,15 @@ The chart is the leaf `R2-1`, R2, prefix `110111001100`. `op1` is `reg5`: regist
 FNEG     : Rd ← Rs with the sign bit flipped
 FABS     : Rd ← Rs with the sign bit cleared
 FCOPYSIGN: Rd ← magnitude of Rs, sign of Rt
+FNEG32   : Rd ← Rs with the sign of the binary32 flipped    (XOR #-2147483648, Rd)
+FABS32   : Rd ← Rs with the sign of the binary32 cleared    (AND #0x7FFFFFFF, Rd)
 ```
 
-**Flags** None. These operate on the bits, do not canonicalise a NaN and raise no exception flag.
+**Flags** None for the three native words: they operate on the bits, do not canonicalise a NaN and raise no exception flag. `FNEG32` and `FABS32` are the instructions they stand for and write `N` and `Z` from the result, clear `V` and leave `C` (and `FPSR`) unchanged.
 
 **Exceptions** None.
+
+`FNEG32` and `FABS32` are assembler mappings of the sign operations of a `binary32`, not native instructions: `FNEG32 Rs, Rd` assembles to `XOR #-2147483648, Rd` and `FABS32 Rs, Rd` to `AND #0x7FFFFFFF, Rd`, each preceded by `MOVQ Rs, Rd` when the two registers differ. A `binary32` lives in a register sign-extended to 64 bits, so its sign is bits 63 to 31 together and the constant that changes it is `0xFFFFFFFF80000000`; the result is again a sign-extended `binary32`, flipped or cleared exactly (a NaN and a zero included), and nothing is raised. The sign of a `binary64` is the single bit 63, which is why `FNEG` and `FABS` are native and write no flag; no one instruction that writes no flag changes the sign of a sign-extended `binary32`, so the two mappings write `N` and `Z`, and a program that keeps flags across one saves them as it would across any `XOR` or `AND`. There is no `FCOPYSIGN32`: its `binary32` form is several instructions on the bits (and the sign must be extended to 64 bits again), more than a mapping should hide.
 
 **Why it is here.** Sign and selection operations (negate, absolute value and the like) work on the bits, do not canonicalise a NaN and raise no flag, so they cost almost nothing. The PowerPC 601 floating-point set has the same operations (stated from memory, not checked against a manual). No separate reason is recorded for these three.
 
@@ -5642,6 +5658,16 @@ FCOPYSIGN Rs, Rt, Rd
 ```
 
 Operation, flags and exceptions as for the entry FSIGN above; 1 layout form, each a chart of its own (above).
+
+<a id="w-fneg32"></a>
+#### FNEG32
+
+An alias of [`XOR`](#w-xor): the assembler writes it as that word.
+
+<a id="w-fabs32"></a>
+#### FABS32
+
+An alias of [`AND`](#w-and): the assembler writes it as that word.
 
 
 ### FMIN: Floating minimum and maximum, binary64
