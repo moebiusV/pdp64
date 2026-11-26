@@ -1,0 +1,796 @@
+{
+ "base": {
+  "zlib": {
+   "flag branch": 137119,
+   "br/jmp": 632527,
+   "cbCC": 2639659,
+   "cmp": 132683,
+   "set": 4758,
+   "sob": 64,
+   "tst": 1,
+   "total": 18169459
+  },
+  "crypto": {
+   "flag branch": 65537,
+   "br/jmp": 89828,
+   "cbCC": 118682,
+   "cmp": 81937,
+   "set": 16401,
+   "sob": 4968,
+   "tst": 1,
+   "total": 17837016
+  },
+  "libc-sort-string": {
+   "flag branch": 103752,
+   "br/jmp": 199280,
+   "cbCC": 836150,
+   "cmp": 114649,
+   "set": 19147,
+   "sob": 255074,
+   "tst": 1,
+   "total": 6284747
+  },
+  "bench-sc_copy": {
+   "br/jmp": 11,
+   "cbCC": 147749,
+   "set": 1,
+   "tst": 1,
+   "total": 820401
+  },
+  "bench-sc_hash": {
+   "br/jmp": 48002,
+   "cbCC": 159453,
+   "set": 1,
+   "tst": 1,
+   "total": 1436749
+  },
+  "bench-sc_hist": {
+   "flag branch": 393220,
+   "br/jmp": 7,
+   "cbCC": 527,
+   "cmp": 393220,
+   "set": 1,
+   "tst": 1,
+   "total": 3542132
+  },
+  "bench-sc_list": {
+   "br/jmp": 8,
+   "cbCC": 84020,
+   "set": 1,
+   "tst": 1,
+   "total": 492117
+  },
+  "bench-sc_lz": {
+   "flag branch": 289875,
+   "br/jmp": 95659,
+   "cbCC": 450174,
+   "cmp": 240723,
+   "set": 1,
+   "tst": 1,
+   "total": 5135319
+  },
+  "bench-sc_matmul": {
+   "br/jmp": 2403,
+   "cbCC": 117750,
+   "set": 1,
+   "tst": 1,
+   "total": 2185197
+  },
+  "bench-sc_sha": {
+   "flag branch": 116738,
+   "br/jmp": 3074,
+   "cbCC": 83980,
+   "cmp": 116738,
+   "set": 1,
+   "tst": 1,
+   "total": 5836934
+  },
+  "bench-sc_sort": {
+   "flag branch": 16383,
+   "br/jmp": 98527,
+   "cbCC": 527042,
+   "cmp": 16383,
+   "set": 1,
+   "tst": 1,
+   "total": 2431075
+  },
+  "c_cbr": {
+   "br/jmp": 2,
+   "cbCC": 70,
+   "cmp": 39,
+   "set": 40,
+   "tst": 1,
+   "total": 379
+  },
+  "c_extend": {
+   "flag branch": 7,
+   "cbCC": 24,
+   "cmp": 7,
+   "set": 1,
+   "tst": 1,
+   "total": 122
+  },
+  "c_flagfree": {
+   "cbCC": 62,
+   "set": 11,
+   "tst": 11,
+   "total": 267
+  },
+  "c_rotate32": {
+   "flag branch": 11,
+   "cbCC": 11,
+   "cmp": 13,
+   "set": 3,
+   "tst": 1,
+   "total": 164
+  },
+  "c_rotate64": {
+   "flag branch": 3,
+   "cbCC": 7,
+   "cmp": 3,
+   "set": 1,
+   "tst": 1,
+   "total": 77
+  },
+  "c-new_autoinc": {
+   "br/jmp": 7,
+   "cbCC": 110,
+   "set": 1,
+   "sob": 33,
+   "tst": 1,
+   "total": 583
+  },
+  "c-new_avail_chase": {
+   "cbCC": 14,
+   "cmp": 2,
+   "set": 3,
+   "sob": 4,
+   "tst": 1,
+   "total": 169
+  },
+  "c-new_avail_volatile": {
+   "flag branch": 1,
+   "br/jmp": 1,
+   "cbCC": 15,
+   "cmp": 1,
+   "set": 1,
+   "tst": 1,
+   "total": 143
+  },
+  "c-new_ccp": {
+   "br/jmp": 6,
+   "cbCC": 60,
+   "set": 1,
+   "tst": 1,
+   "total": 234
+  },
+  "c-new_ccp_signedness": {
+   "cbCC": 3,
+   "set": 1,
+   "tst": 1,
+   "total": 34
+  },
+  "c-new_divmagic": {
+   "flag branch": 6000,
+   "br/jmp": 45396,
+   "cbCC": 1195827,
+   "set": 1,
+   "tst": 1,
+   "total": 6425676
+  },
+  "c-new_divp2": {
+   "br/jmp": 22,
+   "cbCC": 1297,
+   "set": 1,
+   "tst": 1,
+   "total": 17993
+  },
+  "c-new_fields": {
+   "flag branch": 4,
+   "br/jmp": 1,
+   "cbCC": 56,
+   "cmp": 4,
+   "set": 1,
+   "tst": 1,
+   "total": 601
+  },
+  "c-new_fuse_calls": {
+   "br/jmp": 3,
+   "cbCC": 21,
+   "set": 1,
+   "tst": 1,
+   "total": 262
+  },
+  "c-new_hoist": {
+   "flag branch": 20,
+   "br/jmp": 12,
+   "cbCC": 78,
+   "cmp": 8,
+   "set": 1,
+   "tst": 1,
+   "total": 860
+  },
+  "c-new_index": {
+   "flag branch": 1,
+   "br/jmp": 2,
+   "cbCC": 35,
+   "cmp": 1,
+   "set": 1,
+   "tst": 1,
+   "total": 443
+  },
+  "c-new_jtab": {
+   "flag branch": 92,
+   "br/jmp": 82,
+   "cbCC": 255,
+   "cmp": 92,
+   "set": 1,
+   "tst": 1,
+   "total": 1494
+  },
+  "c-new_leaf_lea": {
+   "br/jmp": 1,
+   "cbCC": 208,
+   "set": 1,
+   "tst": 1,
+   "total": 1080
+  },
+  "c-new_minmax": {
+   "flag branch": 258,
+   "br/jmp": 173,
+   "cbCC": 705,
+   "cmp": 258,
+   "set": 1,
+   "tst": 1,
+   "total": 4191
+  },
+  "c-new_modes": {
+   "flag branch": 1,
+   "br/jmp": 6,
+   "cbCC": 150,
+   "cmp": 1,
+   "set": 1,
+   "sob": 34,
+   "tst": 1,
+   "total": 686
+  },
+  "c-new_mullea": {
+   "br/jmp": 2,
+   "cbCC": 107,
+   "set": 1,
+   "tst": 1,
+   "total": 716
+  },
+  "c-new_regs32": {
+   "br/jmp": 1,
+   "cbCC": 20,
+   "cmp": 1,
+   "set": 2,
+   "tst": 1,
+   "total": 241
+  },
+  "c-new_setcc": {
+   "flag branch": 162,
+   "br/jmp": 470,
+   "cbCC": 2054,
+   "cmp": 1854,
+   "set": 1747,
+   "tst": 55,
+   "total": 16680
+  },
+  "c-new_tailcall": {
+   "br/jmp": 4,
+   "cbCC": 117,
+   "set": 1,
+   "tst": 1,
+   "total": 823
+  },
+  "c-new_thread_bool": {
+   "br/jmp": 9,
+   "cbCC": 78,
+   "cmp": 3,
+   "set": 7,
+   "tst": 4,
+   "total": 298
+  }
+ },
+ "nf": {
+  "zlib": {
+   "flag branch": 9468,
+   "br/jmp": 632527,
+   "cbCC": 2772067,
+   "cmp": 9468,
+   "set": 1,
+   "sob": 64,
+   "tst": 1,
+   "total": 18174216
+  },
+  "crypto": {
+   "br/jmp": 105203,
+   "cbCC": 200619,
+   "set": 1,
+   "sob": 4968,
+   "tst": 1,
+   "total": 17852391
+  },
+  "libc-sort-string": {
+   "br/jmp": 199280,
+   "cbCC": 959048,
+   "set": 1,
+   "sob": 255074,
+   "tst": 1,
+   "total": 6284745
+  },
+  "bench-sc_copy": {
+   "br/jmp": 11,
+   "cbCC": 147749,
+   "set": 1,
+   "tst": 1,
+   "total": 820401
+  },
+  "bench-sc_hash": {
+   "br/jmp": 48002,
+   "cbCC": 159453,
+   "set": 1,
+   "tst": 1,
+   "total": 1436749
+  },
+  "bench-sc_hist": {
+   "br/jmp": 7,
+   "cbCC": 393747,
+   "set": 1,
+   "tst": 1,
+   "total": 3542132
+  },
+  "bench-sc_list": {
+   "br/jmp": 8,
+   "cbCC": 84020,
+   "set": 1,
+   "tst": 1,
+   "total": 492117
+  },
+  "bench-sc_lz": {
+   "br/jmp": 95659,
+   "cbCC": 740049,
+   "set": 1,
+   "tst": 1,
+   "total": 5135319
+  },
+  "bench-sc_matmul": {
+   "br/jmp": 2403,
+   "cbCC": 117750,
+   "set": 1,
+   "tst": 1,
+   "total": 2185197
+  },
+  "bench-sc_sha": {
+   "br/jmp": 3074,
+   "cbCC": 200718,
+   "set": 1,
+   "tst": 1,
+   "total": 5786758
+  },
+  "bench-sc_sort": {
+   "br/jmp": 98527,
+   "cbCC": 543425,
+   "set": 1,
+   "tst": 1,
+   "total": 2431075
+  },
+  "c_cbr": {
+   "br/jmp": 2,
+   "cbCC": 109,
+   "set": 1,
+   "tst": 1,
+   "total": 379
+  },
+  "c_extend": {
+   "cbCC": 31,
+   "set": 1,
+   "tst": 1,
+   "total": 122
+  },
+  "c_flagfree": {
+   "cbCC": 72,
+   "set": 1,
+   "tst": 1,
+   "total": 267
+  },
+  "c_rotate32": {
+   "cbCC": 24,
+   "set": 1,
+   "tst": 1,
+   "total": 164
+  },
+  "c_rotate64": {
+   "cbCC": 10,
+   "set": 1,
+   "tst": 1,
+   "total": 77
+  },
+  "c-new_autoinc": {
+   "br/jmp": 7,
+   "cbCC": 110,
+   "set": 1,
+   "sob": 33,
+   "tst": 1,
+   "total": 583
+  },
+  "c-new_avail_chase": {
+   "br/jmp": 1,
+   "cbCC": 16,
+   "set": 1,
+   "sob": 4,
+   "tst": 1,
+   "total": 170
+  },
+  "c-new_avail_volatile": {
+   "br/jmp": 1,
+   "cbCC": 16,
+   "set": 1,
+   "tst": 1,
+   "total": 143
+  },
+  "c-new_ccp": {
+   "br/jmp": 6,
+   "cbCC": 60,
+   "set": 1,
+   "tst": 1,
+   "total": 234
+  },
+  "c-new_ccp_signedness": {
+   "cbCC": 3,
+   "set": 1,
+   "tst": 1,
+   "total": 34
+  },
+  "c-new_divmagic": {
+   "br/jmp": 45396,
+   "cbCC": 1201827,
+   "set": 1,
+   "tst": 1,
+   "total": 6425676
+  },
+  "c-new_divp2": {
+   "br/jmp": 22,
+   "cbCC": 1297,
+   "set": 1,
+   "tst": 1,
+   "total": 17993
+  },
+  "c-new_fields": {
+   "br/jmp": 1,
+   "cbCC": 60,
+   "set": 1,
+   "tst": 1,
+   "total": 601
+  },
+  "c-new_fuse_calls": {
+   "br/jmp": 3,
+   "cbCC": 21,
+   "set": 1,
+   "tst": 1,
+   "total": 262
+  },
+  "c-new_hoist": {
+   "br/jmp": 12,
+   "cbCC": 98,
+   "set": 1,
+   "tst": 1,
+   "total": 860
+  },
+  "c-new_index": {
+   "br/jmp": 2,
+   "cbCC": 36,
+   "set": 1,
+   "tst": 1,
+   "total": 443
+  },
+  "c-new_jtab": {
+   "br/jmp": 82,
+   "cbCC": 347,
+   "set": 1,
+   "tst": 1,
+   "total": 1402
+  },
+  "c-new_leaf_lea": {
+   "br/jmp": 1,
+   "cbCC": 208,
+   "set": 1,
+   "tst": 1,
+   "total": 1080
+  },
+  "c-new_minmax": {
+   "br/jmp": 173,
+   "cbCC": 963,
+   "set": 1,
+   "tst": 1,
+   "total": 4191
+  },
+  "c-new_modes": {
+   "br/jmp": 6,
+   "cbCC": 151,
+   "set": 1,
+   "sob": 34,
+   "tst": 1,
+   "total": 686
+  },
+  "c-new_mullea": {
+   "br/jmp": 2,
+   "cbCC": 107,
+   "set": 1,
+   "tst": 1,
+   "total": 716
+  },
+  "c-new_regs32": {
+   "br/jmp": 1,
+   "cbCC": 21,
+   "set": 1,
+   "tst": 1,
+   "total": 241
+  },
+  "c-new_setcc": {
+   "br/jmp": 525,
+   "cbCC": 3962,
+   "set": 1,
+   "tst": 1,
+   "total": 17147
+  },
+  "c-new_tailcall": {
+   "br/jmp": 4,
+   "cbCC": 117,
+   "set": 1,
+   "tst": 1,
+   "total": 823
+  },
+  "c-new_thread_bool": {
+   "br/jmp": 9,
+   "cbCC": 84,
+   "set": 1,
+   "tst": 1,
+   "total": 299
+  }
+ },
+ "llvm": {
+  "zlib": {
+   "flag branch": 14351,
+   "br/jmp": 84525,
+   "cbCC": 2753229,
+   "cmp": 14351,
+   "set": 1,
+   "tst": 1,
+   "total": 13889991
+  },
+  "crypto": {
+   "br/jmp": 30,
+   "cbCC": 95832,
+   "set": 1,
+   "tst": 1,
+   "total": 16268017
+  },
+  "libc-sort-string": {
+   "flag branch": 1673,
+   "br/jmp": 116131,
+   "cbCC": 1212109,
+   "cmp": 1673,
+   "set": 1,
+   "tst": 1,
+   "total": 5486085
+  },
+  "bench-sc_copy": {
+   "cbCC": 82202,
+   "set": 1,
+   "tst": 1,
+   "total": 378011
+  },
+  "bench-sc_hash": {
+   "cbCC": 159451,
+   "set": 1,
+   "tst": 1,
+   "total": 1244753
+  },
+  "bench-sc_hist": {
+   "br/jmp": 393217,
+   "cbCC": 786956,
+   "set": 1,
+   "tst": 1,
+   "total": 4032870
+  },
+  "bench-sc_list": {
+   "cbCC": 84012,
+   "set": 1,
+   "tst": 1,
+   "total": 504108
+  },
+  "bench-sc_lz": {
+   "br/jmp": 49106,
+   "cbCC": 812949,
+   "set": 1,
+   "tst": 1,
+   "total": 3359999
+  },
+  "bench-sc_matmul": {
+   "cbCC": 115347,
+   "set": 1,
+   "tst": 1,
+   "total": 809563
+  },
+  "bench-sc_sha": {
+   "cbCC": 197644,
+   "set": 1,
+   "tst": 1,
+   "total": 6858898
+  },
+  "bench-sc_sort": {
+   "br/jmp": 77502,
+   "cbCC": 528825,
+   "set": 1,
+   "tst": 1,
+   "total": 3064958
+  },
+  "c_cbr": {
+   "cbCC": 3,
+   "set": 1,
+   "tst": 1,
+   "total": 34
+  },
+  "c_extend": {
+   "cbCC": 28,
+   "set": 1,
+   "tst": 1,
+   "total": 144
+  },
+  "c_flagfree": {
+   "cbCC": 9,
+   "set": 1,
+   "tst": 1,
+   "total": 50
+  },
+  "c_rotate32": {
+   "cbCC": 3,
+   "set": 1,
+   "tst": 1,
+   "total": 37
+  },
+  "c_rotate64": {
+   "cbCC": 3,
+   "set": 1,
+   "tst": 1,
+   "total": 34
+  },
+  "c-new_autoinc": {
+   "br/jmp": 6,
+   "cbCC": 92,
+   "set": 1,
+   "tst": 1,
+   "total": 442
+  },
+  "c-new_avail_chase": {
+   "cbCC": 7,
+   "set": 1,
+   "tst": 1,
+   "total": 74
+  },
+  "c-new_avail_volatile": {
+   "cbCC": 4,
+   "set": 1,
+   "tst": 1,
+   "total": 49
+  },
+  "c-new_ccp": {
+   "cbCC": 3,
+   "set": 1,
+   "tst": 1,
+   "total": 34
+  },
+  "c-new_ccp_signedness": {
+   "cbCC": 3,
+   "set": 1,
+   "tst": 1,
+   "total": 34
+  },
+  "c-new_divmagic": {
+   "br/jmp": 206668,
+   "cbCC": 1365125,
+   "set": 1,
+   "tst": 1,
+   "total": 7146734
+  },
+  "c-new_divp2": {
+   "br/jmp": 1,
+   "cbCC": 311,
+   "set": 1,
+   "tst": 1,
+   "total": 2348
+  },
+  "c-new_fields": {
+   "cbCC": 3,
+   "set": 1,
+   "tst": 1,
+   "total": 34
+  },
+  "c-new_fuse_calls": {
+   "cbCC": 3,
+   "set": 1,
+   "tst": 1,
+   "total": 34
+  },
+  "c-new_hoist": {
+   "cbCC": 34,
+   "set": 1,
+   "tst": 1,
+   "total": 205
+  },
+  "c-new_index": {
+   "cbCC": 10,
+   "set": 1,
+   "tst": 1,
+   "total": 85
+  },
+  "c-new_jtab": {
+   "br/jmp": 63,
+   "cbCC": 273,
+   "set": 1,
+   "tst": 1,
+   "total": 942
+  },
+  "c-new_leaf_lea": {
+   "cbCC": 204,
+   "set": 1,
+   "tst": 1,
+   "total": 651
+  },
+  "c-new_minmax": {
+   "br/jmp": 37,
+   "cbCC": 419,
+   "set": 1,
+   "tst": 1,
+   "total": 1196
+  },
+  "c-new_modes": {
+   "br/jmp": 4,
+   "cbCC": 30,
+   "set": 1,
+   "tst": 1,
+   "total": 216
+  },
+  "c-new_mullea": {
+   "cbCC": 25,
+   "set": 1,
+   "tst": 1,
+   "total": 108
+  },
+  "c-new_regs32": {
+   "cbCC": 3,
+   "set": 1,
+   "tst": 1,
+   "total": 34
+  },
+  "c-new_setcc": {
+   "br/jmp": 12,
+   "cbCC": 40,
+   "set": 1,
+   "tst": 1,
+   "total": 167
+  },
+  "c-new_switch_tree": {
+   "cbCC": 18,
+   "set": 1,
+   "tst": 1,
+   "total": 81
+  },
+  "c-new_tailcall": {
+   "cbCC": 4,
+   "set": 1,
+   "tst": 1,
+   "total": 47
+  },
+  "c-new_thread_bool": {
+   "br/jmp": 2,
+   "cbCC": 14,
+   "set": 1,
+   "tst": 1,
+   "total": 61
+  }
+ }
+}

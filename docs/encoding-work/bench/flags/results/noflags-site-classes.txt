@@ -1,0 +1,9 @@
+    623 NF cmp reg,wide-imm -> load r12
+    583 NF ALU result, eq/ne -> cb #0
+    475 NF cmp reg,mem -> load r12
+    201 NF UNHANDLED unknown flag writer before a branch
+     43 NF ALU result, signed sense -> cb #0
+     29 NF cmp reg,imm -> cb
+     28 NF tst reg -> cb #0
+     27 NF setcc -> movq #v,rd ; cbCC ; clr/movq rd
+     10 NF cmp reg,reg -> cb

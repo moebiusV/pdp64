@@ -1,0 +1,305 @@
+--- /tmp/flags-pcc-base/arch/pdp64/peep.h	2026-11-26 02:46:56.650127157 -0700
++++ /tmp/flags-pcc/arch/pdp64/peep.h	2026-11-26 03:06:25.208176031 -0700
+@@ -2319,6 +2319,13 @@
+ 	return n;
+ }
+ 
++static void
++pp_nf_log(const char *what)
++{
++	if (getenv("PDP64_NOFLAGS_LOG"))
++		fprintf(stderr, "NF %s\n", what);
++}
++
+ /*
+  * A condition made into 0 or 1:  cbX a,b,Lf ; movq #1,rd ; br Lj | ret ; Lf: clr rd ; Lj:  becomes  cmp a,b ; set cc,rd [; ret]  (the VAX's
+  * movl $1 after a branch, and the PDP-11's, and now one instruction): six bytes against ten, and no branch to mispredict.
+@@ -2406,6 +2413,38 @@
+ 			if (!isret && (f >= b || (pp_in(L, f) & PP_FLAGS)))
+ 				continue;
+ 		}
++		if (getenv("PDP64_NOFLAGS") != NULL) {
++			/* no flags: movq #val1,rd ; cb(not X) a,b,Lf ; (movq #val0|clr) rd ; Lf:  three instructions, one branch (what the LLVM back end writes) */
++			char opa[96], opb[96], lab[64], ncc2[8];
++
++			if ((pp_regs(c->op[0]) | pp_regs(c->op[1])) & pp_regs(rd))
++				continue;
++			strcpy(opa, c->op[0]);
++			strcpy(opb, c->op[1]);
++			strcpy(lab, c->op[2]);
++			strcpy(ncc2, pp_negcc(cc));
++			if (val1 == 0) {
++				strcpy(c->mn, "clr");
++				strcpy(c->op[0], rd);
++				c->nops = 1;
++			} else {
++				strcpy(c->mn, "movq");
++				sprintf(c->op[0], "#%d", val1);
++				strcpy(c->op[1], rd);
++				c->nops = 2;
++			}
++			pp_unparse(c);
++			sprintf(v1->mn, "cb%s", ncc2);
++			strcpy(v1->op[0], opa);
++			strcpy(v1->op[1], opb);
++			strcpy(v1->op[2], lab);
++			v1->nops = 3;
++			pp_unparse(v1);
++			*jmp = *v0;
++			v0->kind = PK_DEAD;
++			pp_nf_log("setcc -> movq #v,rd ; cbCC ; clr/movq rd");
++			return 1;
++		}
+ 		/* val1 is the value when the branch is not taken: the condition is false */
+ 		ncc = val1 == 1 ? pp_negcc(cc) : cc;
+ 		{
+@@ -2824,6 +2863,240 @@
+ 		} while (pp_sob(L, a, b) && ++n < 100000);
+ }
+ 
++/*
++ * THE NO-FLAGS EXPERIMENT (docs/encoding-work/bench/flags): with PDP64_NOFLAGS in the environment every integer comparison
++ * leaves the compiler as a compare-and-branch, and no instruction that reads N Z V C is written.  Runs last, on the finished
++ * text.  A flag writer P (cmp, tst, an ALU instruction) and the flag branches that follow it:
++ *	cmp ra,rb | cmp ra,#imm(16 bits)	each branch becomes cbCC ra,rb|#imm
++ *	cmp ra,mem | cmp ra,#wide		the cmp becomes a load into the scratch r12 (movq mem,r12), each branch cbCC ra,r12
++ *	tst ra					each branch cbCC ra,#0
++ *	ALU op writing rd			eq ne lt ge gt le: cbCC rd,#0; carry of add (cs cc): cbCS/cbCC rd,src
++ * Counted on stderr when PDP64_NOFLAGS_LOG is set: "NF kind" per site; "NF UNHANDLED why" for what is left.
++ */
++static const char *pp_cbname(const char *b, int zero)
++{
++	static const struct { const char *b, *c; } t[] = {
++		{ "beq", "cbeq" }, { "bne", "cbne" }, { "bge", "cbge" }, { "blt", "cblt" }, { "bgt", "cbgt" }, { "ble", "cble" },
++		{ "bcc", "cbcc" }, { "bcs", "cbcs" }, { "bhi", "cbhi" }, { "blos", "cblos" }, { "bmi", "cblt" }, { "bpl", "cbge" }, { NULL, NULL }
++	};
++	int i;
++
++	for (i = 0; t[i].b; i++)
++		if (strcmp(t[i].b, b) == 0 && (zero || (strcmp(b, "bmi") != 0 && strcmp(b, "bpl") != 0)))
++			return t[i].c;
++	return NULL;
++}
++
++static int pp_isflagbr(struct pl *l)
++{
++	return l->kind == PK_INS && l->cls == M_CBR && l->mn[0] == 'b' && l->nops == 1;
++}
++
++
++/* is r12 read after line i before it is written?  (a linear look: r12 holds a value only for a pair of instructions) */
++static int
++pp_r12busy(struct pl *L, int i, int b)
++{
++	int j;
++
++	for (j = i + 1; j < b; j++) {
++		struct pl *x = &L[j];
++		ppm rd;
++
++		if (x->kind != PK_INS)
++			continue;
++		rd = x->cls == M_RET ? pp_regs(x->txt) : x->rd;
++		if (x->cls == M_CALL)
++			return 0;
++		if (rd & (1ull << 12))
++			return 1;
++		if (x->wr & (1ull << 12))
++			return 0;
++	}
++	return 0;
++}
++
++static void
++pp_noflags(struct pl *L, int a, int b)
++{
++	int i, j, k, nb;
++	int br[16];
++
++	pp_live(L, a, b);
++	for (i = a; i < b; i++) {
++		struct pl *p = &L[i];
++		int kind;			/* 1 cmp  2 tst  3 ALU  4 unknown */
++		ppm save;
++		int stop = 0;
++
++		if (p->kind != PK_INS || !(p->wr & PP_FLAGS))
++			continue;
++		if (p->cls == M_CMP && (strcmp(p->mn, "cmp") == 0))
++			kind = 1;
++		else if (p->cls == M_TST)
++			kind = 2;
++		else if ((p->cls == M_ALU2 || p->cls == M_UN || (p->cls == M_DIV3) || p->cls == M_CVT) && p->nops >= 1 && pp_isreg(p->op[p->nops - 1]))
++			kind = 3;
++		else
++			kind = 4;
++		/* the readers of these flags: the flag branches (and sets) after it, up to the next writer */
++		nb = 0;
++		for (j = i + 1; j < b; j++) {
++			struct pl *x = &L[j];
++
++			if (x->kind == PK_DEAD)
++				continue;
++			if (x->kind == PK_LABEL)
++				break;
++			if (pp_isflagbr(x)) {
++				if (nb < 16)
++					br[nb++] = j;
++				continue;
++			}
++			if (strcmp(x->mn, "set") == 0 || strcmp(x->mn, "adc") == 0 || strcmp(x->mn, "sbc") == 0 || strncmp(x->mn, "trap", 4) == 0) {
++				pp_nf_log("UNHANDLED flag-reading set/adc/sbc/trap");
++				break;
++			}
++			if (x->cls == M_BARRIER || x->cls == M_CALL || x->cls == M_RET || x->cls == M_BR || x->cls == M_CBR || (x->wr & PP_FLAGS))
++				break;
++			if (x->wr & p->rd) {		/* an operand of the compare is changed: later branches cannot use it */
++				stop = 1;
++				if (!(x->live & PP_FLAGS))
++					break;
++				break;
++			}
++			if (kind == 3 && (x->wr & p->wr & ~PP_FLAGS))
++				break;
++		}
++		if (nb == 0)
++			continue;
++		(void)stop; (void)save;
++		if (kind == 1) {
++			char x[96], y[96];
++			int load = 0;
++			char t[96];
++
++			strcpy(x, p->op[0]);
++			strcpy(y, p->op[1]);
++
++			if (!pp_isreg(x)) { pp_nf_log("UNHANDLED cmp left operand not a register"); continue; }
++			if (y[0] == '#') {
++				char *e;
++				long long v = strtoll(y + 1, &e, 0);
++
++				if (*e || v < -32768 || v > 32767)
++					load = 1;
++			} else if (!pp_isreg(y))
++				load = 1;
++			if (load) {
++				if (pp_r12busy(L, i, b) || ((p->rd & (1ull << 12)) != 0 && strcmp(y, "r12") != 0)) {
++					pp_nf_log("UNHANDLED r12 busy");
++					continue;
++				}
++				strcpy(t, y);
++				strcpy(p->mn, "movq");
++				strcpy(p->op[0], t);
++				strcpy(p->op[1], "r12");
++				p->nops = 2;
++				if (y[0] == '#') {
++					long long v = strtoll(y + 1, NULL, 0);
++					if (v < -2147483648LL || v > 2147483647LL) {
++						sprintf(p->op[0], "=%lld", v);
++					}
++				}
++				pp_nf_log(y[0] == '#' ? "cmp reg,wide-imm -> load r12" : "cmp reg,mem -> load r12");
++				/* the branches: cbCC x,r12 */
++				for (k = 0; k < nb; k++) {
++					struct pl *n = &L[br[k]];
++					const char *cb = pp_cbname(n->mn, 0);
++
++					if (cb == NULL) { pp_nf_log("UNHANDLED branch condition"); continue; }
++					strcpy(n->op[2], n->op[0]);
++					strcpy(n->op[0], x);
++					strcpy(n->op[1], "r12");
++					strcpy(n->mn, cb);
++					n->nops = 3;
++					pp_unparse(n);
++				}
++				pp_unparse(p);
++			} else {
++				for (k = 0; k < nb; k++) {
++					struct pl *n = &L[br[k]];
++					const char *cb = pp_cbname(n->mn, 0);
++
++					if (cb == NULL) { pp_nf_log("UNHANDLED branch condition"); continue; }
++					strcpy(n->op[2], n->op[0]);
++					strcpy(n->op[0], x);
++					strcpy(n->op[1], y);
++					strcpy(n->mn, cb);
++					n->nops = 3;
++					pp_unparse(n);
++				}
++				pp_nf_log(y[0] == '#' ? "cmp reg,imm -> cb" : "cmp reg,reg -> cb");
++				p->kind = PK_DEAD;
++			}
++			continue;
++		}
++		if (kind == 2) {
++			if (!pp_isreg(p->op[0])) { pp_nf_log("UNHANDLED tst of memory"); continue; }
++			for (k = 0; k < nb; k++) {
++				struct pl *n = &L[br[k]];
++				const char *cb = pp_cbname(n->mn, 1);
++
++				if (cb == NULL) { pp_nf_log("UNHANDLED branch condition"); continue; }
++				strcpy(n->op[2], n->op[0]);
++				strcpy(n->op[0], p->op[0]);
++				strcpy(n->op[1], "#0");
++				strcpy(n->mn, cb);
++				n->nops = 3;
++				pp_unparse(n);
++			}
++			pp_nf_log("tst reg -> cb #0");
++			p->kind = PK_DEAD;
++			continue;
++		}
++		if (kind == 3) {
++			char *rd = p->op[p->nops - 1];
++
++			for (k = 0; k < nb; k++) {
++				struct pl *n = &L[br[k]];
++				const char *m = n->mn;
++
++				if (strcmp(m, "bcs") == 0 || strcmp(m, "bcc") == 0) {
++					/* carry out of an add: the sum is below an addend */
++					if (strcmp(p->mn, "add") == 0 && p->nops == 2 && strcmp(p->op[0], rd) != 0 && !strchr(p->op[0], '(')) {
++						strcpy(n->op[2], n->op[0]);
++						strcpy(n->op[0], rd);
++						strcpy(n->op[1], p->op[0]);
++						strcpy(n->mn, pp_cbname(m, 0));
++						n->nops = 3;
++						pp_unparse(n);
++						pp_nf_log("add carry -> cbcs/cbcc sum,addend");
++						continue;
++					}
++					pp_nf_log("UNHANDLED carry branch after non-add");
++					continue;
++				}
++				{
++					const char *cb = pp_cbname(m, 1);
++					int eqne = strcmp(m, "beq") == 0 || strcmp(m, "bne") == 0;
++
++					if (cb == NULL || strcmp(m, "bhi") == 0 || strcmp(m, "blos") == 0) { pp_nf_log("UNHANDLED branch condition after ALU"); continue; }
++					strcpy(n->op[2], n->op[0]);
++					strcpy(n->op[0], rd);
++					strcpy(n->op[1], "#0");
++					strcpy(n->mn, cb);
++					n->nops = 3;
++					pp_unparse(n);
++					pp_nf_log(eqne ? "ALU result, eq/ne -> cb #0" : "ALU result, signed sense -> cb #0");
++				}
++			}
++			continue;
++		}
++		pp_nf_log("UNHANDLED unknown flag writer before a branch");
++	}
++}
++
+ static void
+ pdp64_peep(char *buf, FILE *out)
+ {
+@@ -2878,6 +3151,8 @@
+ 				pp_hoist(L, a, b);
+ 			pp_modes(L, a, b);
+ 			pp_fuse(L, a, b);
++			if (getenv("PDP64_NOFLAGS") != NULL)
++				pp_noflags(L, a, b);
+ 		}
+ 		a = b;
+ 	}

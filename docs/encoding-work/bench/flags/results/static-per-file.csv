@@ -1,0 +1,1105 @@
+file,group,pcc_base_insn,pcc_base_bytes,pcc_base_relaxed,pcc_nf_insn,pcc_nf_bytes,pcc_nf_relaxed,llvm_insn,llvm_bytes,llvm_relaxed,pcc_error,llvm_error
+libz__adler32,libz,254,720,720,256,752,752,295,886,886,,
+libz__compress,libz,164,426,418,164,430,422,166,488,480,,
+libz__crc32,libz,476,1258,1258,476,1258,1258,492,1394,1394,,
+libz__deflate,libz,3682,11254,11102,3696,11308,11164,4599,14604,14364,,
+libz__gzclose,libz,67,190,182,67,190,182,,,,,clang: In file included from /home/matth
+libz__gzlib,libz,539,1722,1666,539,1724,1668,,,,,clang: In file included from /home/matth
+libz__gzread,libz,891,2716,2620,893,2726,2630,,,,,clang: In file included from /home/matth
+libz__gzwrite,libz,757,2346,2258,757,2352,2264,,,,,clang: In file included from /home/matth
+libz__infback,libz,1411,3860,3844,1411,3860,3844,1119,3534,3518,,
+libz__inffast,libz,613,1660,1660,613,1664,1664,359,1076,1076,,
+libz__inflate,libz,2943,8060,7988,2943,8094,8022,2732,8634,8554,,
+libz__inftrees,libz,,,,,,,324,1026,1026,"ccom: <stdin>, line 1034: compiler error",
+libz__trees,libz,1945,5946,5938,1947,5950,5942,1909,6540,6540,,
+libz__uncompr,libz,172,454,446,172,458,450,168,504,496,,
+libz__zutil,libz,85,236,228,85,236,228,,,,,clang: In file included from /home/matth
+libc-string__bcmp,libc-string,9,26,26,9,26,26,13,34,34,,
+libc-string__bcopy,libc-string,72,188,188,72,192,192,79,220,220,,
+libc-string__bzero,libc-string,5,14,14,5,14,14,6,16,16,,
+libc-string__explicit_bzero,libc-string,11,26,24,11,26,24,,,,,as64: /tmp/flags-work/out/llvm/libc-stri
+libc-string__ffs,libc-string,26,70,70,26,70,70,32,94,94,,
+libc-string__ffsl,libc-string,13,28,28,13,28,28,6,14,14,,
+libc-string__ffsll,libc-string,13,28,28,13,28,28,6,14,14,,
+libc-string__memccpy,libc-string,9,26,26,9,26,26,12,38,38,,
+libc-string__memchr,libc-string,9,24,24,9,24,24,14,40,40,,
+libc-string__memcmp,libc-string,12,36,36,12,36,36,14,34,34,,
+libc-string__memcpy,libc-string,,,,,,,,,,cpp: In file included from /home/matthew,clang: /home/matthew/claude/openbsd-src/
+libc-string__memmem,libc-string,322,832,828,322,832,828,357,1010,1006,,
+libc-string__memmove,libc-string,73,194,194,73,198,198,84,234,234,,
+libc-string__memrchr,libc-string,8,22,22,8,22,22,13,34,34,,
+libc-string__memset,libc-string,5,14,14,5,14,14,6,16,16,,
+libc-string__stpcpy,libc-string,7,16,16,7,16,16,10,22,22,,
+libc-string__stpncpy,libc-string,14,40,40,14,40,40,20,54,54,,
+libc-string__strcasecmp,libc-string,32,104,104,32,104,104,,,,,as64: /tmp/flags-work/out/llvm/libc-stri
+libc-string__strcasecmp_l,libc-string,2,12,4,2,12,4,6,20,16,,
+libc-string__strcasestr,libc-string,141,438,406,143,440,408,51,156,150,,
+libc-string__strcat,libc-string,9,24,24,9,24,24,11,28,28,,
+libc-string__strchr,libc-string,,,,,,,,,,as64: /tmp/flags-work/out/base/libc-stri,as64: /tmp/flags-work/out/llvm/libc-stri
+libc-string__strcmp,libc-string,12,34,34,12,34,34,11,24,24,,
+libc-string__strcoll,libc-string,1,6,2,1,6,2,3,10,8,,
+libc-string__strcoll_l,libc-string,1,6,2,1,6,2,3,10,8,,
+libc-string__strcpy,libc-string,8,18,18,8,18,18,9,22,22,,
+libc-string__strcspn,libc-string,13,32,32,13,32,32,14,36,36,,
+libc-string__strdup,libc-string,73,202,194,73,202,194,23,70,64,,
+libc-string__strerror,libc-string,5,24,18,5,24,18,14,40,40,,
+libc-string__strerror_l,libc-string,106,278,270,106,278,270,17,48,48,,
+libc-string__strerror_r,libc-string,263,672,648,263,674,658,142,438,422,,
+libc-string__strlcat,libc-string,91,242,234,91,242,234,47,118,116,,
+libc-string__strlcpy,libc-string,77,204,204,77,204,204,18,46,46,,
+libc-string__strlen,libc-string,7,16,16,7,16,16,8,18,18,,
+libc-string__strmode,libc-string,238,710,710,238,728,728,87,274,274,,
+libc-string__strncat,libc-string,14,38,38,14,38,38,16,48,48,,
+libc-string__strncmp,libc-string,14,42,42,14,42,42,17,42,42,,
+libc-string__strncpy,libc-string,12,32,32,12,32,32,18,50,50,,
+libc-string__strndup,libc-string,73,204,196,73,204,196,25,76,70,,
+libc-string__strnlen,libc-string,68,182,182,68,182,182,14,32,32,,
+libc-string__strpbrk,libc-string,10,26,26,10,26,26,18,48,48,,
+libc-string__strrchr,libc-string,,,,,,,,,,as64: /tmp/flags-work/out/base/libc-stri,as64: /tmp/flags-work/out/llvm/libc-stri
+libc-string__strsep,libc-string,20,48,48,20,48,48,21,54,54,,
+libc-string__strsignal,libc-string,2,12,6,2,12,6,,,,,clang: /home/matthew/claude/openbsd-src/
+libc-string__strspn,libc-string,12,30,30,12,30,30,14,36,36,,
+libc-string__strstr,libc-string,340,926,920,340,936,930,365,1018,1010,,
+libc-string__strtok,libc-string,32,86,84,32,86,84,77,208,208,,
+libc-string__strxfrm,libc-string,6,20,14,6,20,14,6,20,16,,
+libc-string__strxfrm_l,libc-string,1,6,2,1,6,2,2,8,6,,
+libc-string__swab,libc-string,69,188,188,69,188,188,11,34,34,,
+libc-string__timingsafe_bcmp,libc-string,11,28,28,12,28,28,14,34,34,,
+libc-string__timingsafe_memcmp,libc-string,25,60,60,25,60,60,21,54,54,,
+libc-string__wcscasecmp,libc-string,,,,,,,69,202,194,"ccom: <stdin>, line 323: invalid functio",
+libc-string__wcscasecmp_l,libc-string,,,,,,,79,232,222,"ccom: <stdin>, line 323: invalid functio",
+libc-string__wcscat,libc-string,13,30,30,13,30,30,18,44,44,,
+libc-string__wcschr,libc-string,9,20,20,9,20,20,15,38,38,,
+libc-string__wcscmp,libc-string,,,,,,,12,30,30,"ccom: <stdin>, line 283: invalid functio",
+libc-string__wcscpy,libc-string,9,22,22,9,22,22,11,28,28,,
+libc-string__wcscspn,libc-string,16,40,40,16,40,40,25,68,68,,
+libc-string__wcsdup,libc-string,74,204,196,74,204,196,26,76,70,,
+libc-string__wcslcat,libc-string,93,244,244,93,244,244,48,122,120,,
+libc-string__wcslcpy,libc-string,78,206,206,78,206,206,18,48,48,,
+libc-string__wcslen,libc-string,8,16,16,8,16,16,9,22,22,,
+libc-string__wcsncat,libc-string,15,38,38,15,38,38,26,78,78,,
+libc-string__wcsncmp,libc-string,,,,,,,17,46,46,"ccom: <stdin>, line 283: invalid functio",
+libc-string__wcsncpy,libc-string,14,36,36,14,36,36,15,44,44,,
+libc-string__wcsnlen,libc-string,9,20,20,9,20,20,14,34,34,,
+libc-string__wcspbrk,libc-string,14,32,32,14,32,32,22,62,62,,
+libc-string__wcsrchr,libc-string,12,28,28,12,28,28,17,48,48,,
+libc-string__wcsspn,libc-string,18,44,44,18,44,44,27,76,76,,
+libc-string__wcsstr,libc-string,29,72,68,29,72,68,50,144,140,,
+libc-string__wcstok,libc-string,30,78,78,30,78,78,38,102,102,,
+libc-string__wcswcs,libc-string,29,72,68,29,72,68,50,144,140,,
+libc-string__wcswidth,libc-string,17,42,40,17,42,40,33,96,96,,
+libc-string__wmemchr,libc-string,9,24,24,9,24,24,12,30,30,,
+libc-string__wmemcmp,libc-string,,,,,,,16,42,42,"ccom: <stdin>, line 283: invalid functio",
+libc-string__wmemcpy,libc-string,2,8,4,2,8,4,3,10,8,,
+libc-string__wmemmove,libc-string,2,8,4,2,8,4,3,10,8,,
+libc-string__wmemset,libc-string,7,18,18,7,18,18,6,16,16,,
+libc-stdlib___Exit,libc-stdlib,60,168,168,60,168,168,2,8,6,,
+libc-stdlib____mktemp4,libc-stdlib,137,396,380,137,396,380,107,342,326,,
+libc-stdlib___rand48,libc-stdlib,97,292,276,97,292,276,,,,,as64: /tmp/flags-work/out/llvm/libc-stdl
+libc-stdlib__a64l,libc-stdlib,97,278,278,97,278,278,47,140,138,,
+libc-stdlib__abort,libc-stdlib,163,426,402,163,426,402,34,112,104,,
+libc-stdlib__abs,libc-stdlib,61,168,168,61,168,168,6,14,14,,
+libc-stdlib__atexit,libc-stdlib,,,,,,,,,,as64: /tmp/flags-work/out/base/libc-stdl,clang: In file included from /home/matth
+libc-stdlib__atof,libc-stdlib,61,170,162,61,170,162,3,10,8,,
+libc-stdlib__atoi,libc-stdlib,64,176,176,64,176,176,5,14,12,,
+libc-stdlib__atol,libc-stdlib,62,172,164,62,172,164,4,12,10,,
+libc-stdlib__atoll,libc-stdlib,62,172,164,62,172,164,4,12,10,,
+libc-stdlib__bsearch,libc-stdlib,87,224,224,87,224,224,50,132,132,,
+libc-stdlib__div,libc-stdlib,77,206,206,77,206,206,19,48,48,,
+libc-stdlib__drand48,libc-stdlib,90,266,250,90,266,250,,,,,as64: /tmp/flags-work/out/llvm/libc-stdl
+libc-stdlib__ecvt,libc-stdlib,,,,,,,,,,cpp: In file included from /home/matthew,clang: /home/matthew/claude/openbsd-src/
+libc-stdlib__erand48,libc-stdlib,82,236,228,82,236,228,,,,,as64: /tmp/flags-work/out/llvm/libc-stdl
+libc-stdlib__exit,libc-stdlib,66,184,184,66,184,184,,,,,clang: In file included from /home/matth
+libc-stdlib__gcvt,libc-stdlib,,,,,,,,,,cpp: In file included from /home/matthew,clang: /home/matthew/claude/openbsd-src/
+libc-stdlib__getenv,libc-stdlib,,,,,,,,,,"ccom: <stdin>, line 392: environ undefin",clang: /home/matthew/claude/openbsd-src/
+libc-stdlib__getopt_long,libc-stdlib,621,2124,1964,623,2136,1984,,,,,llc: LLVM ERROR: pdp64: calls of variadi
+libc-stdlib__getsubopt,libc-stdlib,128,380,372,128,380,372,92,270,270,,
+libc-stdlib__hcreate,libc-stdlib,168,518,478,168,524,484,,,,,clang: In file included from /home/matth
+libc-stdlib__heapsort,libc-stdlib,243,622,614,243,622,614,183,550,542,,
+libc-stdlib__icdb,libc-stdlib,554,1556,1484,554,1560,1480,,,,,clang: In file included from /home/matth
+libc-stdlib__imaxabs,libc-stdlib,2,6,6,2,6,6,5,12,12,,
+libc-stdlib__imaxdiv,libc-stdlib,14,42,42,14,42,42,15,38,38,,
+libc-stdlib__insque,libc-stdlib,72,188,188,72,188,188,12,24,24,,
+libc-stdlib__jrand48,libc-stdlib,67,188,188,67,188,188,,,,,as64: /tmp/flags-work/out/llvm/libc-stdl
+libc-stdlib__l64a,libc-stdlib,91,258,250,91,258,250,40,128,126,,
+libc-stdlib__labs,libc-stdlib,61,168,168,61,168,168,5,12,12,,
+libc-stdlib__lcong48,libc-stdlib,80,256,256,80,256,256,,,,,as64: /tmp/flags-work/out/llvm/libc-stdl
+libc-stdlib__ldiv,libc-stdlib,73,204,204,73,204,204,15,38,38,,
+libc-stdlib__llabs,libc-stdlib,,,,,,,,,,as64: /tmp/flags-work/out/base/libc-stdl,as64: /tmp/flags-work/out/llvm/libc-stdl
+libc-stdlib__lldiv,libc-stdlib,,,,,,,,,,as64: /tmp/flags-work/out/base/libc-stdl,as64: /tmp/flags-work/out/llvm/libc-stdl
+libc-stdlib__lrand48,libc-stdlib,73,218,202,73,218,202,,,,,as64: /tmp/flags-work/out/llvm/libc-stdl
+libc-stdlib__lsearch,libc-stdlib,92,240,240,92,240,240,88,248,246,,
+libc-stdlib__malloc,libc-stdlib,,,,,,,,,,"ccom: <stdin>, line 1876: __progname und",clang: In file included from /home/matth
+libc-stdlib__merge,libc-stdlib,773,1826,1818,780,1876,1868,638,1876,1868,,
+libc-stdlib__mkdtemp,libc-stdlib,117,304,296,117,304,296,,,,,llc: LLVM ERROR: pdp64: calls of variadi
+libc-stdlib__mkstemp,libc-stdlib,127,354,330,127,354,330,,,,,clang: In file included from /home/matth
+libc-stdlib__mktemp,libc-stdlib,,,,,,,,,,as64: /tmp/flags-work/out/base/libc-stdl,llc: LLVM ERROR: pdp64: calls of variadi
+libc-stdlib__mrand48,libc-stdlib,69,208,200,69,208,200,,,,,as64: /tmp/flags-work/out/llvm/libc-stdl
+libc-stdlib__nrand48,libc-stdlib,68,188,188,68,188,188,,,,,as64: /tmp/flags-work/out/llvm/libc-stdl
+libc-stdlib__posix_pty,libc-stdlib,174,496,464,174,496,464,,,,,clang: In file included from /home/matth
+libc-stdlib__qsort,libc-stdlib,491,1276,1276,489,1274,1266,617,1900,1900,,
+libc-stdlib__radixsort,libc-stdlib,488,1600,1552,488,1600,1552,588,1892,1876,,
+libc-stdlib__rand,libc-stdlib,81,246,238,81,246,238,30,102,98,,
+libc-stdlib__random,libc-stdlib,340,1208,1096,340,1212,1100,,,,,clang: In file included from /home/matth
+libc-stdlib__reallocarray,libc-stdlib,76,212,204,76,216,216,,,,,clang: In file included from /home/matth
+libc-stdlib__realpath,libc-stdlib,,,,,,,,,,cpp: In file included from /home/matthew,llc: LLVM ERROR: pdp64: calls of variadi
+libc-stdlib__recallocarray,libc-stdlib,127,368,352,127,376,360,,,,,clang: In file included from /home/matth
+libc-stdlib__remque,libc-stdlib,69,182,182,69,182,182,7,14,14,,
+libc-stdlib__seed48,libc-stdlib,87,294,286,87,294,286,,,,,as64: /tmp/flags-work/out/llvm/libc-stdl
+libc-stdlib__setenv,libc-stdlib,,,,,,,,,,"ccom: <stdin>, line 404: warning: illega",clang: /home/matthew/claude/openbsd-src/
+libc-stdlib__srand48,libc-stdlib,79,248,248,79,248,248,,,,,as64: /tmp/flags-work/out/llvm/libc-stdl
+libc-stdlib__strtoimax,libc-stdlib,261,752,728,263,762,730,179,544,536,,
+libc-stdlib__strtol,libc-stdlib,320,914,882,322,924,892,179,544,536,,
+libc-stdlib__strtoll,libc-stdlib,,,,,,,,,,as64: /tmp/flags-work/out/base/libc-stdl,as64: /tmp/flags-work/out/llvm/libc-stdl
+libc-stdlib__strtonum,libc-stdlib,125,352,336,125,358,342,116,390,374,,
+libc-stdlib__strtoul,libc-stdlib,284,832,808,286,838,806,159,476,468,,
+libc-stdlib__strtoull,libc-stdlib,,,,,,,,,,as64: /tmp/flags-work/out/base/libc-stdl,as64: /tmp/flags-work/out/llvm/libc-stdl
+libc-stdlib__strtoumax,libc-stdlib,225,670,640,227,676,646,159,476,468,,
+libc-stdlib__system,libc-stdlib,,,,,,,,,,"ccom: <stdin>, line 391: warning: sigadd",clang: /home/matthew/claude/openbsd-src/
+libc-stdlib__tfind,libc-stdlib,23,66,66,23,66,66,38,96,96,,
+libc-stdlib__thread_atexit,libc-stdlib,,,,,,,,,,as64: /tmp/flags-work/out/base/libc-stdl,clang: In file included from /home/matth
+libc-stdlib__tsearch,libc-stdlib,180,472,472,180,472,472,174,458,454,,
+libc-gen__alarm,libc-gen,113,288,288,113,288,288,26,76,76,,
+libc-gen__assert,libc-gen,73,218,202,73,218,202,,,,,llc: LLVM ERROR: pdp64: calls of variadi
+libc-gen__auth_subr,libc-gen,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libc-gen__authenticate,libc-gen,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libc-gen__basename,libc-gen,46,154,142,46,154,142,56,166,150,,
+libc-gen__clock,libc-gen,115,298,290,115,298,290,31,86,86,,
+libc-gen__clock_getcpuclockid,libc-gen,71,194,186,71,194,186,20,54,52,,
+libc-gen__closedir,libc-gen,105,280,272,105,280,272,21,64,64,,
+libc-gen__confstr,libc-gen,96,270,262,96,270,262,30,86,86,,
+libc-gen__ctermid,libc-gen,69,194,186,69,194,186,17,46,44,,
+libc-gen__ctype_,libc-gen,115,364,338,117,366,340,,,,,as64: /tmp/flags-work/out/llvm/libc-gen_
+libc-gen__daemon,libc-gen,90,274,258,90,274,258,,,,,clang: In file included from /home/matth
+libc-gen__devname,libc-gen,181,514,482,181,514,482,,,,,clang: In file included from /home/matth
+libc-gen__dirfd,libc-gen,61,166,166,61,166,166,2,4,4,,
+libc-gen__dirname,libc-gen,53,174,162,53,174,162,69,206,206,,
+libc-gen__disklabel,libc-gen,495,1512,1432,497,1514,1426,,,,,clang: In file included from /home/matth
+libc-gen__elf_aux_info,libc-gen,,,,,,,,,,"ccom: <stdin>, line 348: _hwcap_avail un",clang: /home/matthew/claude/openbsd-src/
+libc-gen__err,libc-gen,19,48,46,19,48,46,,,,,llc: LLVM ERROR: pdp64: variadic functio
+libc-gen__errc,libc-gen,20,52,50,20,52,50,,,,,llc: LLVM ERROR: pdp64: variadic functio
+libc-gen__errlist,libc-gen,,,,,,,,,,as64: /tmp/flags-work/out/base/libc-gen_,clang: /home/matthew/claude/openbsd-src/
+libc-gen__errno,libc-gen,,,,,,,,,,as64: /tmp/flags-work/out/base/libc-gen_,as64: /tmp/flags-work/out/llvm/libc-gen_
+libc-gen__errx,libc-gen,19,48,46,19,48,46,,,,,llc: LLVM ERROR: pdp64: variadic functio
+libc-gen__exec,libc-gen,,,,,,,,,,"ccom: <stdin>, line 748: environ undefin",clang: /home/matthew/claude/openbsd-src/
+libc-gen__fdatasync,libc-gen,60,168,168,60,168,168,4,12,10,,
+libc-gen__fnmatch,libc-gen,694,1976,1936,696,1978,1946,618,1880,1864,,
+libc-gen__fpclassify,libc-gen,115,300,300,115,300,300,44,120,120,,
+libc-gen__frexp,libc-gen,102,282,282,102,282,282,28,92,92,,
+libc-gen__fstab,libc-gen,327,1130,1034,327,1136,1040,441,1534,1438,,
+libc-gen__ftok,libc-gen,113,288,288,113,288,288,29,92,92,,
+libc-gen__fts,libc-gen,1273,3898,3714,1273,3946,3762,,,,,clang: In file included from /home/matth
+libc-gen__ftw,libc-gen,154,416,408,154,416,408,88,266,250,,
+libc-gen__getbsize,libc-gen,144,452,436,144,452,436,,,,,llc: LLVM ERROR: pdp64: calls of variadi
+libc-gen__getcap,libc-gen,1130,3598,3382,1135,3608,3392,,,,,clang: In file included from /home/matth
+libc-gen__getcwd,libc-gen,83,230,222,83,230,222,,,,,llc: LLVM ERROR: pdp64: calls of variadi
+libc-gen__getdomainname,libc-gen,77,204,204,77,204,204,21,60,60,,
+libc-gen__getexecpath,libc-gen,82,238,222,82,238,222,35,106,90,,
+libc-gen__getgrent,libc-gen,377,1134,1046,377,1134,1046,,,,,clang: In file included from /home/matth
+libc-gen__getgrouplist,libc-gen,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libc-gen__gethostname,libc-gen,77,204,204,77,204,204,21,60,60,,
+libc-gen__getloadavg,libc-gen,130,332,332,130,332,332,44,138,130,,
+libc-gen__getlogin,libc-gen,77,224,216,77,224,216,26,70,70,,
+libc-gen__getmntinfo,libc-gen,105,358,326,105,358,326,76,240,232,,
+libc-gen__getnetgrent,libc-gen,828,2514,2346,830,2522,2354,,,,,clang: In file included from /home/matth
+libc-gen__getpagesize,libc-gen,,,,,,,,,,"ccom: <stdin>, line 613: _pagesize undef",clang: /home/matthew/claude/openbsd-src/
+libc-gen__getprogname,libc-gen,,,,,,,,,,"ccom: <stdin>, line 311: __progname unde",clang: /home/matthew/claude/openbsd-src/
+libc-gen__getpwent,libc-gen,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libc-gen__getttyent,libc-gen,414,1410,1322,418,1414,1318,418,1260,1212,,
+libc-gen__getusershell,libc-gen,157,548,492,157,548,492,159,530,498,,
+libc-gen__glob,libc-gen,1491,4246,4150,1493,4318,4222,,,,,clang: In file included from /home/matth
+libc-gen__initgroups,libc-gen,77,210,202,77,210,202,34,104,104,,
+libc-gen__isatty,libc-gen,64,180,180,66,182,182,,,,,clang: In file included from /home/matth
+libc-gen__isctype,libc-gen,162,482,458,164,484,460,157,430,406,,
+libc-gen__isfdtype,libc-gen,107,274,266,109,278,278,20,58,56,,
+libc-gen__isfinite,libc-gen,,,,,,,,,,as64: /tmp/flags-work/out/base/libc-gen_,as64: /tmp/flags-work/out/llvm/libc-gen_
+libc-gen__isinf,libc-gen,,,,,,,,,,as64: /tmp/flags-work/out/base/libc-gen_,as64: /tmp/flags-work/out/llvm/libc-gen_
+libc-gen__isnan,libc-gen,,,,,,,,,,as64: /tmp/flags-work/out/base/libc-gen_,as64: /tmp/flags-work/out/llvm/libc-gen_
+libc-gen__isnormal,libc-gen,87,228,228,87,228,228,24,62,62,,
+libc-gen__ldexp,libc-gen,134,386,386,134,394,394,,,,,clang: In file included from /home/matth
+libc-gen__lockf,libc-gen,101,290,274,101,290,274,,,,,clang: In file included from /home/matth
+libc-gen__login_cap,libc-gen,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libc-gen__modf,libc-gen,163,452,452,163,452,452,40,112,112,,
+libc-gen__nftw,libc-gen,185,496,488,185,496,488,119,350,334,,
+libc-gen__nice,libc-gen,121,316,308,121,316,308,40,122,106,,
+libc-gen__nlist,libc-gen,420,1214,1174,422,1242,1194,,,,,clang: In file included from /home/matth
+libc-gen__opendir,libc-gen,181,516,492,181,516,492,,,,,clang: In file included from /home/matth
+libc-gen__pause,libc-gen,161,406,398,161,406,398,16,46,46,,
+libc-gen__popen,libc-gen,295,880,824,297,880,824,,,,,clang: In file included from /home/matth
+libc-gen__posix_spawn,libc-gen,,,,,,,,,,"ccom: <stdin>, line 451: warning: sigadd",clang: In file included from /home/matth
+libc-gen__psignal,libc-gen,187,490,474,187,490,474,,,,,clang: /home/matthew/claude/openbsd-src/
+libc-gen__pw_dup,libc-gen,159,434,402,159,434,402,118,380,352,,
+libc-gen__pwcache,libc-gen,392,1252,1172,392,1252,1172,,,,,llc: LLVM ERROR: pdp64: calls of variadi
+libc-gen__raise,libc-gen,153,386,370,153,386,370,6,16,14,,
+libc-gen__readdir,libc-gen,143,394,386,143,396,388,,,,,as64: /tmp/flags-work/out/llvm/libc-gen_
+libc-gen__readdir_r,libc-gen,117,306,298,117,306,298,,,,,as64: /tmp/flags-work/out/llvm/libc-gen_
+libc-gen__readpassphrase,libc-gen,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libc-gen__rewinddir,libc-gen,61,170,162,61,170,162,3,10,8,,
+libc-gen__scandir,libc-gen,,,,,,,,,,"ccom: <stdin>, line 880: called object i",clang: In file included from /home/matth
+libc-gen__seekdir,libc-gen,129,358,358,129,360,360,38,100,98,,
+libc-gen__setdomainname,libc-gen,76,202,194,76,202,194,20,54,54,,
+libc-gen__sethostname,libc-gen,76,202,194,76,202,194,20,54,54,,
+libc-gen__setmode,libc-gen,806,2238,2174,808,2244,2180,658,2104,2072,,
+libc-gen__setproctitle,libc-gen,,,,,,,,,,"ccom: <stdin>, line 860: __progname unde",clang: /home/matthew/claude/openbsd-src/
+libc-gen__setprogname,libc-gen,,,,,,,,,,"ccom: <stdin>, line 392: __progname unde",clang: /home/matthew/claude/openbsd-src/
+libc-gen__shm_open,libc-gen,,,,,,,,,,"ccom: <stdin>, line 975: called object i",clang: In file included from /home/matth
+libc-gen__siginterrupt,libc-gen,,,,,,,,,,"ccom: <stdin>, line 373: warning: sigadd",clang: /home/matthew/claude/openbsd-src/
+libc-gen__siglist,libc-gen,,,,,,,,,,as64: /tmp/flags-work/out/base/libc-gen_,as64: /tmp/flags-work/out/llvm/libc-gen_
+libc-gen__signal,libc-gen,,,,,,,,,,"ccom: <stdin>, line 373: warning: sigadd",clang: /home/matthew/claude/openbsd-src/
+libc-gen__signame,libc-gen,149,374,366,149,374,366,0,0,0,,
+libc-gen__signbit,libc-gen,75,198,198,75,198,198,6,18,18,,
+libc-gen__sigsetops,libc-gen,149,374,366,149,374,366,71,192,192,,
+libc-gen__sigwait,libc-gen,,,,,,,,,,as64: /tmp/flags-work/out/base/libc-gen_,clang: In file included from /home/matth
+libc-gen__sleep,libc-gen,105,270,270,105,270,270,19,56,54,,
+libc-gen__statvfs,libc-gen,123,342,342,123,342,342,99,318,314,,
+libc-gen__strtofflags,libc-gen,218,578,570,218,580,572,137,424,408,,
+libc-gen__sysconf,libc-gen,,,,,,,,,,"ccom: <stdin>, line 1383: _pagesize unde",clang: /home/matthew/claude/openbsd-src/
+libc-gen__syslog,libc-gen,,,,,,,,,,cpp: In file included from /home/matthew,llc: LLVM ERROR: pdp64: variadic functio
+libc-gen__syslog_r,libc-gen,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libc-gen__telldir,libc-gen,96,244,244,96,244,244,2,4,4,,
+libc-gen__time,libc-gen,,,,,,,,,,"ccom: <stdin>, line 272: called object i",clang: /home/matthew/claude/openbsd-src/
+libc-gen__times,libc-gen,,,,,,,,,,"ccom: <stdin>, line 323: called object i",clang: /home/matthew/claude/openbsd-src/
+libc-gen__timespec_get,libc-gen,,,,,,,,,,"ccom: <stdin>, line 148: called object i",clang: /home/matthew/claude/openbsd-src/
+libc-gen__tolower_,libc-gen,65,184,176,65,184,176,,,,,as64: /tmp/flags-work/out/llvm/libc-gen_
+libc-gen__toupper_,libc-gen,65,184,176,65,184,176,,,,,as64: /tmp/flags-work/out/llvm/libc-gen_
+libc-gen__tree,libc-gen,634,1592,1592,633,1606,1606,869,2576,2576,,
+libc-gen__ttyname,libc-gen,228,642,610,228,642,610,,,,,clang: In file included from /home/matth
+libc-gen__ttyslot,libc-gen,89,256,240,89,256,240,43,130,114,,
+libc-gen__ualarm,libc-gen,131,348,348,131,348,348,36,118,118,,
+libc-gen__uname,libc-gen,148,398,390,148,398,390,119,374,366,,
+libc-gen__unvis,libc-gen,439,1214,1190,441,1216,1192,259,728,728,,
+libc-gen__usleep,libc-gen,112,294,294,112,294,294,20,64,64,,
+libc-gen__utime,libc-gen,109,274,266,109,274,266,22,52,50,,
+libc-gen__valloc,libc-gen,71,198,198,71,198,198,22,66,62,,
+libc-gen__verr,libc-gen,,,,,,,,,,"ccom: <stdin>, line 546: __progname unde",clang: /home/matthew/claude/openbsd-src/
+libc-gen__verrc,libc-gen,,,,,,,,,,"ccom: <stdin>, line 541: __progname unde",clang: /home/matthew/claude/openbsd-src/
+libc-gen__verrx,libc-gen,,,,,,,,,,"ccom: <stdin>, line 463: __progname unde",clang: /home/matthew/claude/openbsd-src/
+libc-gen__vis,libc-gen,526,1556,1516,528,1558,1518,561,1674,1658,,
+libc-gen__vwarn,libc-gen,,,,,,,,,,"ccom: <stdin>, line 546: __progname unde",clang: /home/matthew/claude/openbsd-src/
+libc-gen__vwarnc,libc-gen,,,,,,,,,,"ccom: <stdin>, line 541: __progname unde",clang: /home/matthew/claude/openbsd-src/
+libc-gen__vwarnx,libc-gen,,,,,,,,,,"ccom: <stdin>, line 463: __progname unde",clang: /home/matthew/claude/openbsd-src/
+libc-gen__wait,libc-gen,99,254,254,99,254,254,7,18,16,,
+libc-gen__wait3,libc-gen,98,252,244,98,252,244,8,20,18,,
+libc-gen__waitpid,libc-gen,96,248,248,96,248,248,6,16,14,,
+libc-gen__warn,libc-gen,18,44,42,18,44,42,,,,,llc: LLVM ERROR: pdp64: variadic functio
+libc-gen__warnc,libc-gen,19,48,46,19,48,46,,,,,llc: LLVM ERROR: pdp64: variadic functio
+libc-gen__warnx,libc-gen,18,44,42,18,44,42,,,,,llc: LLVM ERROR: pdp64: variadic functio
+libc-stdio__asprintf,libc-stdio,,,,,,,,,,"ccom: <stdin>, line 1394: no alignment",clang: /home/matthew/claude/openbsd-src/
+libc-stdio__clrerr,libc-stdio,,,,,,,,,,"ccom: <stdin>, line 980: undefined struc",clang: /home/matthew/claude/openbsd-src/
+libc-stdio__dprintf,libc-stdio,78,210,202,78,210,202,,,,,llc: LLVM ERROR: pdp64: variadic functio
+libc-stdio__fclose,libc-stdio,,,,,,,,,,"ccom: <stdin>, line 1139: undefined stru",clang: /home/matthew/claude/openbsd-src/
+libc-stdio__fdclose,libc-stdio,,,,,,,,,,"ccom: <stdin>, line 986: undefined struc",clang: /home/matthew/claude/openbsd-src/
+libc-stdio__fdopen,libc-stdio,,,,,,,,,,"ccom: <stdin>, line 1194: undefined stru",clang: In file included from /home/matth
+libc-stdio__feof,libc-stdio,,,,,,,,,,"ccom: <stdin>, line 981: undefined struc",clang: /home/matthew/claude/openbsd-src/
+libc-stdio__ferror,libc-stdio,,,,,,,,,,"ccom: <stdin>, line 981: undefined struc",clang: /home/matthew/claude/openbsd-src/
+libc-stdio__fflush,libc-stdio,,,,,,,,,,"ccom: <stdin>, line 1140: undefined stru",clang: /home/matthew/claude/openbsd-src/
+libc-stdio__fgetc,libc-stdio,60,168,168,60,168,168,3,10,8,,
+libc-stdio__fgetln,libc-stdio,,,,,,,,,,"ccom: <stdin>, line 1212: undefined stru",clang: /home/matthew/claude/openbsd-src/
+libc-stdio__fgetpos,libc-stdio,66,186,178,68,188,188,15,40,38,,
+libc-stdio__fgets,libc-stdio,,,,,,,,,,"ccom: <stdin>, line 1067: undefined stru",clang: /home/matthew/claude/openbsd-src/
+libc-stdio__fgetwc,libc-stdio,,,,,,,,,,"ccom: <stdin>, line 985: undefined struc",clang: /home/matthew/claude/openbsd-src/
+libc-stdio__fgetwln,libc-stdio,,,,,,,,,,"ccom: <stdin>, line 1135: undefined stru",clang: /home/matthew/claude/openbsd-src/
+libc-stdio__fgetws,libc-stdio,,,,,,,,,,"ccom: <stdin>, line 985: undefined struc",clang: /home/matthew/claude/openbsd-src/
+libc-stdio__fileno,libc-stdio,,,,,,,,,,"ccom: <stdin>, line 981: undefined struc",clang: /home/matthew/claude/openbsd-src/
+libc-stdio__findfp,libc-stdio,,,,,,,,,,"ccom: <stdin>, line 1406: redeclaration ",clang: /home/matthew/claude/openbsd-src/
+libc-stdio__flags,libc-stdio,,,,,,,,,,"ccom: <stdin>, line 1000: __SRD undefine",clang: /home/matthew/claude/openbsd-src/
+libc-stdio__flockfile,libc-stdio,,,,,,,,,,"ccom: <stdin>, line 980: undefined struc",clang: /home/matthew/claude/openbsd-src/
+libc-stdio__fmemopen,libc-stdio,,,,,,,,,,"ccom: <stdin>, line 1337: undefined stru",clang: In file included from /home/matth
+libc-stdio__fopen,libc-stdio,,,,,,,,,,"ccom: <stdin>, line 1229: undefined stru",clang: In file included from /home/matth
+libc-stdio__fpending,libc-stdio,,,,,,,,,,"ccom: <stdin>, line 988: undefined struc",clang: /home/matthew/claude/openbsd-src/
+libc-stdio__fprintf,libc-stdio,78,210,202,78,210,202,,,,,llc: LLVM ERROR: pdp64: variadic functio
+libc-stdio__fpurge,libc-stdio,,,,,,,,,,"ccom: <stdin>, line 1137: undefined stru",clang: /home/matthew/claude/openbsd-src/
+libc-stdio__fputc,libc-stdio,60,168,168,60,168,168,4,12,10,,
+libc-stdio__fputs,libc-stdio,,,,,,,,,,"ccom: <stdin>, line 1077: undefined stru",clang: /home/matthew/claude/openbsd-src/
+libc-stdio__fputwc,libc-stdio,,,,,,,,,,"ccom: <stdin>, line 1003: undefined stru",clang: /home/matthew/claude/openbsd-src/
+libc-stdio__fputws,libc-stdio,,,,,,,,,,"ccom: <stdin>, line 996: undefined struc",clang: /home/matthew/claude/openbsd-src/
+libc-stdio__fread,libc-stdio,,,,,,,,,,"ccom: <stdin>, line 1087: undefined stru",clang: In file included from /home/matth
+libc-stdio__freadahead,libc-stdio,,,,,,,,,,"ccom: <stdin>, line 988: undefined struc",clang: /home/matthew/claude/openbsd-src/
+libc-stdio__freading,libc-stdio,,,,,,,,,,"ccom: <stdin>, line 987: undefined struc",clang: /home/matthew/claude/openbsd-src/
+libc-stdio__freadptr,libc-stdio,,,,,,,,,,"ccom: <stdin>, line 1141: undefined stru",clang: /home/matthew/claude/openbsd-src/
+libc-stdio__freopen,libc-stdio,,,,,,,,,,"ccom: <stdin>, line 1383: undefined stru",clang: In file included from /home/matth
+libc-stdio__fscanf,libc-stdio,78,210,202,78,210,202,,,,,llc: LLVM ERROR: pdp64: variadic functio
+libc-stdio__fseek,libc-stdio,,,,,,,,,,"ccom: <stdin>, line 1205: undefined stru",clang: In file included from /home/matth
+libc-stdio__fseterr,libc-stdio,,,,,,,,,,"ccom: <stdin>, line 987: undefined struc",clang: /home/matthew/claude/openbsd-src/
+libc-stdio__fsetpos,libc-stdio,62,172,164,62,172,164,5,14,12,,
+libc-stdio__ftell,libc-stdio,,,,,,,,,,"ccom: <stdin>, line 984: undefined struc",clang: /home/matthew/claude/openbsd-src/
+libc-stdio__funopen,libc-stdio,,,,,,,,,,"ccom: <stdin>, line 992: __SWR undefined",clang: /home/matthew/claude/openbsd-src/
+libc-stdio__fvwrite,libc-stdio,,,,,,,,,,"ccom: <stdin>, line 1409: undefined stru",clang: /home/matthew/claude/openbsd-src/
+libc-stdio__fwalk,libc-stdio,,,,,,,,,,"ccom: <stdin>, line 996: unknown structu",clang: /home/matthew/claude/openbsd-src/
+libc-stdio__fwide,libc-stdio,,,,,,,,,,"ccom: <stdin>, line 980: undefined struc",clang: /home/matthew/claude/openbsd-src/
+libc-stdio__fwprintf,libc-stdio,78,210,202,78,210,202,,,,,llc: LLVM ERROR: pdp64: variadic functio
+libc-stdio__fwrite,libc-stdio,,,,,,,,,,"ccom: <stdin>, line 1177: undefined stru",clang: In file included from /home/matth
+libc-stdio__fwriting,libc-stdio,,,,,,,,,,"ccom: <stdin>, line 987: undefined struc",clang: /home/matthew/claude/openbsd-src/
+libc-stdio__fwscanf,libc-stdio,78,210,202,78,210,202,,,,,llc: LLVM ERROR: pdp64: variadic functio
+libc-stdio__getc,libc-stdio,,,,,,,,,,"ccom: <stdin>, line 987: undefined struc",clang: /home/matthew/claude/openbsd-src/
+libc-stdio__getchar,libc-stdio,63,186,170,63,186,170,8,32,24,,
+libc-stdio__getdelim,libc-stdio,,,,,,,,,,"ccom: <stdin>, line 1238: undefined stru",clang: In file included from /home/matth
+libc-stdio__getline,libc-stdio,62,172,164,62,172,164,4,12,10,,
+libc-stdio__getw,libc-stdio,71,192,192,71,192,192,16,42,40,,
+libc-stdio__getwc,libc-stdio,60,168,168,60,168,168,3,10,8,,
+libc-stdio__getwchar,libc-stdio,61,174,166,61,174,166,4,16,12,,
+libc-stdio__makebuf,libc-stdio,,,,,,,,,,"ccom: <stdin>, line 1355: undefined stru",clang: /home/matthew/claude/openbsd-src/
+libc-stdio__open_memstream,libc-stdio,,,,,,,,,,"ccom: <stdin>, line 1335: undefined stru",clang: In file included from /home/matth
+libc-stdio__open_wmemstream,libc-stdio,,,,,,,,,,"ccom: <stdin>, line 1340: undefined stru",clang: In file included from /home/matth
+libc-stdio__perror,libc-stdio,98,300,284,98,300,284,54,160,148,,
+libc-stdio__printf,libc-stdio,78,212,204,78,212,204,,,,,llc: LLVM ERROR: pdp64: variadic functio
+libc-stdio__putc,libc-stdio,,,,,,,,,,"ccom: <stdin>, line 980: undefined struc",clang: /home/matthew/claude/openbsd-src/
+libc-stdio__putchar,libc-stdio,63,186,170,63,186,170,10,36,28,,
+libc-stdio__puts,libc-stdio,,,,,,,,,,"ccom: <stdin>, line 1081: undefined stru",clang: /home/matthew/claude/openbsd-src/
+libc-stdio__putw,libc-stdio,,,,,,,,,,"ccom: <stdin>, line 1000: undefined stru",clang: /home/matthew/claude/openbsd-src/
+libc-stdio__putwc,libc-stdio,60,168,168,60,168,168,4,12,10,,
+libc-stdio__putwchar,libc-stdio,61,174,166,61,174,166,5,18,14,,
+libc-stdio__refill,libc-stdio,,,,,,,,,,"ccom: <stdin>, line 1137: undefined stru",clang: /home/matthew/claude/openbsd-src/
+libc-stdio__remove,libc-stdio,109,290,282,109,290,282,23,78,70,,
+libc-stdio__rewind,libc-stdio,69,194,186,69,194,186,19,58,52,,
+libc-stdio__rget,libc-stdio,,,,,,,,,,"ccom: <stdin>, line 980: undefined struc",clang: /home/matthew/claude/openbsd-src/
+libc-stdio__scanf,libc-stdio,78,212,204,78,212,204,,,,,llc: LLVM ERROR: pdp64: variadic functio
+libc-stdio__setbuf,libc-stdio,101,260,252,100,258,250,6,18,16,,
+libc-stdio__setbuffer,libc-stdio,70,192,184,69,190,182,12,32,28,,
+libc-stdio__setvbuf,libc-stdio,,,,,,,,,,"ccom: <stdin>, line 1140: undefined stru",clang: /home/matthew/claude/openbsd-src/
+libc-stdio__snprintf,libc-stdio,,,,,,,,,,"ccom: <stdin>, line 1061: no alignment",clang: /home/matthew/claude/openbsd-src/
+libc-stdio__sprintf,libc-stdio,,,,,,,,,,"ccom: <stdin>, line 1060: no alignment",clang: /home/matthew/claude/openbsd-src/
+libc-stdio__sscanf,libc-stdio,,,,,,,,,,"ccom: <stdin>, line 1065: no alignment",clang: /home/matthew/claude/openbsd-src/
+libc-stdio__stdio,libc-stdio,,,,,,,,,,"ccom: <stdin>, line 1159: undefined stru",clang: /home/matthew/claude/openbsd-src/
+libc-stdio__swprintf,libc-stdio,79,214,214,79,214,214,,,,,llc: LLVM ERROR: pdp64: variadic functio
+libc-stdio__swscanf,libc-stdio,78,210,202,78,210,202,,,,,llc: LLVM ERROR: pdp64: variadic functio
+libc-stdio__tempnam,libc-stdio,,,,,,,,,,as64: /tmp/flags-work/out/base/libc-stdi,clang: /home/matthew/claude/openbsd-src/
+libc-stdio__tmpfile,libc-stdio,209,590,566,209,590,566,61,200,184,,
+libc-stdio__tmpnam,libc-stdio,,,,,,,,,,as64: /tmp/flags-work/out/base/libc-stdi,clang: /home/matthew/claude/openbsd-src/
+libc-stdio__ungetc,libc-stdio,,,,,,,,,,"ccom: <stdin>, line 1214: undefined stru",clang: /home/matthew/claude/openbsd-src/
+libc-stdio__ungetwc,libc-stdio,,,,,,,,,,"ccom: <stdin>, line 985: undefined struc",clang: /home/matthew/claude/openbsd-src/
+libc-stdio__vasprintf,libc-stdio,,,,,,,,,,"ccom: <stdin>, line 1392: no alignment",clang: /home/matthew/claude/openbsd-src/
+libc-stdio__vdprintf,libc-stdio,,,,,,,,,,"ccom: <stdin>, line 1244: no alignment",clang: /home/matthew/claude/openbsd-src/
+libc-stdio__vfprintf,libc-stdio,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libc-stdio__vfscanf,libc-stdio,,,,,,,,,,"ccom: <stdin>, line 1462: undefined stru",clang: /home/matthew/claude/openbsd-src/
+libc-stdio__vfwprintf,libc-stdio,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libc-stdio__vfwscanf,libc-stdio,,,,,,,,,,"ccom: <stdin>, line 1346: undefined stru",clang: /home/matthew/claude/openbsd-src/
+libc-stdio__vprintf,libc-stdio,63,178,170,63,178,170,6,20,16,,
+libc-stdio__vscanf,libc-stdio,63,178,170,63,178,170,6,20,16,,
+libc-stdio__vsnprintf,libc-stdio,,,,,,,,,,"ccom: <stdin>, line 1059: no alignment",clang: /home/matthew/claude/openbsd-src/
+libc-stdio__vsprintf,libc-stdio,,,,,,,,,,"ccom: <stdin>, line 1058: no alignment",clang: /home/matthew/claude/openbsd-src/
+libc-stdio__vsscanf,libc-stdio,,,,,,,,,,"ccom: <stdin>, line 1062: no alignment",clang: /home/matthew/claude/openbsd-src/
+libc-stdio__vswprintf,libc-stdio,,,,,,,,,,"ccom: <stdin>, line 1217: no alignment",clang: /home/matthew/claude/openbsd-src/
+libc-stdio__vswscanf,libc-stdio,,,,,,,,,,"ccom: <stdin>, line 1220: no alignment",clang: /home/matthew/claude/openbsd-src/
+libc-stdio__vwprintf,libc-stdio,63,178,170,63,178,170,6,20,16,,
+libc-stdio__vwscanf,libc-stdio,63,178,170,63,178,170,6,20,16,,
+libc-stdio__wbuf,libc-stdio,,,,,,,,,,"ccom: <stdin>, line 981: undefined struc",clang: /home/matthew/claude/openbsd-src/
+libc-stdio__wprintf,libc-stdio,78,212,204,78,212,204,,,,,llc: LLVM ERROR: pdp64: variadic functio
+libc-stdio__wscanf,libc-stdio,78,212,204,78,212,204,,,,,llc: LLVM ERROR: pdp64: variadic functio
+libc-stdio__wsetup,libc-stdio,,,,,,,,,,"ccom: <stdin>, line 1139: undefined stru",clang: /home/matthew/claude/openbsd-src/
+libc-net__base64,libc-net,434,1294,1238,436,1296,1240,248,770,754,,
+libc-net__ethers,libc-net,405,1240,1160,407,1242,1170,,,,,llc: LLVM ERROR: pdp64: calls of variadi
+libc-net__freeaddrinfo,libc-net,69,194,186,69,194,186,19,54,50,,
+libc-net__gai_strerror,libc-net,97,280,280,96,278,278,9,28,28,,
+libc-net__getifaddrs,libc-net,,,,,,,,,,"ccom: <stdin>, line 1850: __progname und",clang: In file included from /home/matth
+libc-net__getnetent,libc-net,65,178,178,65,178,178,7,20,20,,
+libc-net__getpeereid,libc-net,77,210,202,77,210,202,27,80,78,,
+libc-net__getproto,libc-net,86,246,238,86,246,238,82,250,234,,
+libc-net__getprotoent,libc-net,250,752,696,250,752,696,,,,,clang: In file included from /home/matth
+libc-net__getprotoname,libc-net,94,276,260,94,276,260,69,202,186,,
+libc-net__getservbyname,libc-net,107,308,284,107,308,284,76,222,206,,
+libc-net__getservbyport,libc-net,91,260,244,91,260,244,73,210,194,,
+libc-net__getservent,libc-net,259,800,744,259,804,748,,,,,clang: In file included from /home/matth
+libc-net__herror,libc-net,102,310,302,102,310,302,63,188,172,,
+libc-net__htonl,libc-net,59,162,162,59,162,162,,,,,clang: In file included from /home/matth
+libc-net__htons,libc-net,59,162,162,59,162,162,,,,,clang: In file included from /home/matth
+libc-net__if_indextoname,libc-net,118,314,298,118,314,298,41,124,114,,
+libc-net__if_nameindex,libc-net,180,482,458,180,482,458,111,342,326,,
+libc-net__if_nametoindex,libc-net,117,318,310,117,318,310,41,134,120,,
+libc-net__inet_addr,libc-net,314,946,914,318,958,934,179,544,544,,
+libc-net__inet_lnaof,libc-net,74,208,208,74,210,210,14,48,48,,
+libc-net__inet_makeaddr,libc-net,86,234,234,86,240,240,22,66,66,,
+libc-net__inet_net_ntop,libc-net,216,592,576,216,592,576,,,,,llc: LLVM ERROR: pdp64: calls of variadi
+libc-net__inet_net_pton,libc-net,463,1400,1328,465,1402,1338,299,968,920,,
+libc-net__inet_neta,libc-net,113,308,308,113,310,302,,,,,llc: LLVM ERROR: pdp64: calls of variadi
+libc-net__inet_netof,libc-net,80,228,228,80,230,230,15,42,42,,
+libc-net__inet_network,libc-net,252,732,708,254,734,710,92,272,272,,
+libc-net__inet_ntoa,libc-net,78,222,214,78,222,214,,,,,llc: LLVM ERROR: pdp64: calls of variadi
+libc-net__inet_ntop,libc-net,272,854,838,272,854,838,,,,,llc: LLVM ERROR: pdp64: calls of variadi
+libc-net__inet_pton,libc-net,251,694,678,251,696,680,289,928,912,,
+libc-net__ip6opt,libc-net,,,,,,,252,700,692,"ccom: <stdin>, line 343: redeclaration o",
+libc-net__linkaddr,libc-net,152,424,416,152,424,416,85,258,242,,
+libc-net__ntohl,libc-net,59,162,162,59,162,162,,,,,clang: In file included from /home/matth
+libc-net__ntohs,libc-net,59,162,162,59,162,162,,,,,clang: In file included from /home/matth
+libc-net__rcmd,libc-net,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libc-net__rcmdsh,libc-net,384,1190,1078,384,1190,1078,,,,,llc: LLVM ERROR: pdp64: calls of variadi
+libc-net__recv,libc-net,62,172,164,62,172,164,6,16,14,,
+libc-net__res_comp,libc-net,583,1624,1600,585,1632,1608,482,1474,1466,,
+libc-net__res_data,libc-net,209,604,580,211,606,582,0,0,0,,
+libc-net__res_debug_syms,libc-net,90,250,242,90,250,242,,,,,llc: LLVM ERROR: pdp64: calls of variadi
+libc-net__res_random,libc-net,,,,,,,,,,"ccom: <stdin>, line 1601: called object ",clang: /home/matthew/claude/openbsd-src/
+libc-net__rresvport,libc-net,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libc-net__rthdr,libc-net,,,,,,,149,392,392,"ccom: <stdin>, line 343: redeclaration o",
+libc-net__ruserok,libc-net,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libc-net__send,libc-net,62,172,164,62,172,164,6,16,14,,
+libc-net__sockatmark,libc-net,69,192,192,69,192,192,,,,,llc: LLVM ERROR: pdp64: calls of variadi
+libc-net__vars6,libc-net,59,162,162,59,162,162,0,0,0,,
+libc-hash__helper,libc-hash,,,,,,,,,,cpp: /home/matthew/claude/openbsd-src/li,clang: In file included from /home/matth
+libc-hash__md5,libc-hash,1098,2798,2790,1097,2796,2788,1037,2818,2802,,
+libc-hash__rmd160,libc-hash,2500,6362,6354,2499,6360,6352,,,,,clang: In file included from /home/matth
+libc-hash__sha1,libc-hash,,,,,,,,,,as64: /tmp/flags-work/out/base/libc-hash,clang: In file included from /home/matth
+libc-hash__sha256,libc-hash,,,,,,,,,,"ccom: <stdin>, line 561: parameter 0 nam",clang: In file included from /home/matth
+libc-hash__sha512,libc-hash,,,,,,,,,,"ccom: <stdin>, line 657: parameter 0 nam",clang: In file included from /home/matth
+libc-hash__siphash,libc-hash,240,684,668,240,684,668,,,,,clang: In file included from /home/matth
+sys-crypto__aes,sys-crypto,,,,,,,2130,5840,5840,"ccom: <stdin>, line 905: compiler error:",
+sys-crypto__arc4,sys-crypto,155,442,442,155,442,442,75,220,220,,
+sys-crypto__blake2s,sys-crypto,5964,13244,13212,5966,13248,13224,3426,9408,9344,,
+sys-crypto__blf,sys-crypto,1542,4070,4070,1542,4070,4070,1242,3612,3604,,
+sys-crypto__cast,sys-crypto,2244,6210,6202,2244,6210,6202,1509,4848,4848,,
+sys-crypto__chachapoly,sys-crypto,2461,6824,6760,2461,6824,6760,1344,4042,3994,,
+sys-crypto__cmac,sys-crypto,318,932,908,318,936,920,240,722,706,,
+sys-crypto__criov,sys-crypto,,,,,,,,,,"ccom: <stdin>, line 796: undefined struc",clang: /home/matthew/claude/openbsd-src/
+sys-crypto__crypto,sys-crypto,,,,,,,,,,"ccom: <stdin>, line 760: EINVAL undefine",clang: /home/matthew/claude/openbsd-src/
+sys-crypto__cryptosoft,sys-crypto,,,,,,,,,,"ccom: <stdin>, line 1107: warning: illeg",clang: /home/matthew/claude/openbsd-src/
+sys-crypto__curve25519,sys-crypto,2477,7166,7126,2479,7168,7136,1951,6448,6432,,
+sys-crypto__ecb3_enc,sys-crypto,224,612,604,225,612,604,136,384,384,,
+sys-crypto__ecb_enc,sys-crypto,338,1050,1050,336,1046,1046,247,760,760,,
+sys-crypto__gmac,sys-crypto,361,954,922,360,952,920,345,1070,1054,,
+sys-crypto__hmac,sys-crypto,332,1088,976,332,1088,976,389,1318,1222,,
+sys-crypto__idgen,sys-crypto,274,732,716,274,734,726,,,,,llc: LLVM ERROR: pdp64: calls of variadi
+sys-crypto__key_wrap,sys-crypto,249,678,638,251,680,640,150,466,442,,
+sys-crypto__md5,sys-crypto,1152,2930,2914,1152,2930,2914,1064,2902,2886,,
+sys-crypto__michael,sys-crypto,207,538,530,207,538,530,147,432,432,,
+sys-crypto__poly1305,sys-crypto,535,1640,1640,535,1640,1640,446,1374,1374,,
+sys-crypto__rijndael,sys-crypto,1525,4432,4432,1525,4432,4432,,,,,as64: /tmp/flags-work/out/llvm/sys-crypt
+sys-crypto__rmd160,sys-crypto,2567,6516,6508,2567,6516,6508,3276,8578,8562,,
+sys-crypto__set_key,sys-crypto,328,926,918,328,926,918,242,734,718,,
+sys-crypto__sha1,sys-crypto,2029,5932,5924,2029,5932,5924,2174,5780,5772,,
+sys-crypto__sha2,sys-crypto,804,2334,2286,806,2336,2288,2594,7262,7230,,
+sys-crypto__siphash,sys-crypto,309,866,842,309,866,842,,,,,llc: LLVM ERROR: pdp64: calls of variadi
+sys-crypto__xform,sys-crypto,387,1122,1042,387,1122,1042,449,1336,1264,,
+sys-crypto__xform_ipcomp,sys-crypto,,,,,,,,,,"ccom: <stdin>, line 862: syntax error",clang: In file included from /home/matth
+libc-regex__engine,libc-regex,,,,,,,,,,"ccom: <stdin>, line 4: syntax error",clang: /home/matthew/claude/openbsd-src/
+libc-regex__regcomp,libc-regex,2183,6478,6406,2185,6590,6518,,,,,as64: /tmp/flags-work/out/llvm/libc-rege
+libc-regex__regerror,libc-regex,241,718,686,243,722,682,,,,,llc: LLVM ERROR: pdp64: calls of variadi
+libc-regex__regexec,libc-regex,3296,9552,9456,3314,9986,9890,2877,9206,9150,,
+libc-regex__regfree,libc-regex,82,248,240,82,256,248,29,98,88,,
+libc-db__bt_close,libc-db,168,522,490,168,522,490,,,,,clang: In file included from /home/matth
+libc-db__bt_conv,libc-db,252,808,728,252,812,724,,,,,clang: In file included from /home/matth
+libc-db__bt_debug,libc-db,59,162,162,59,162,162,,,,,clang: In file included from /home/matth
+libc-db__bt_delete,libc-db,906,2730,2610,907,2740,2620,,,,,clang: In file included from /home/matth
+libc-db__bt_get,libc-db,112,314,298,112,314,298,,,,,clang: In file included from /home/matth
+libc-db__bt_open,libc-db,678,2030,1910,678,2048,1936,,,,,clang: In file included from /home/matth
+libc-db__bt_overflow,libc-db,227,642,610,227,642,610,,,,,clang: In file included from /home/matth
+libc-db__bt_page,libc-db,93,274,266,93,274,266,,,,,clang: In file included from /home/matth
+libc-db__bt_put,libc-db,429,1300,1252,431,1308,1260,,,,,clang: In file included from /home/matth
+libc-db__bt_search,libc-db,241,716,692,241,720,704,,,,,clang: In file included from /home/matth
+libc-db__bt_seq,libc-db,437,1330,1274,437,1338,1282,,,,,clang: In file included from /home/matth
+libc-db__bt_split,libc-db,1205,3542,3462,1205,3548,3468,,,,,clang: In file included from /home/matth
+libc-db__bt_utils,libc-db,280,770,754,280,788,772,,,,,clang: In file included from /home/matth
+libc-db__hash,libc-db,,,,,,,,,,"ccom: <stdin>, line 1056: __default_hash",clang: In file included from /home/matth
+libc-db__hash_bigkey,libc-db,937,2692,2628,939,2698,2626,,,,,as64: /tmp/flags-work/out/llvm/libc-db__
+libc-db__hash_buf,libc-db,410,1200,1176,411,1212,1188,,,,,as64: /tmp/flags-work/out/llvm/libc-db__
+libc-db__hash_func,libc-db,123,318,318,122,314,314,40,122,122,,
+libc-db__hash_log2,libc-db,69,184,184,69,184,184,,,,,as64: /tmp/flags-work/out/llvm/libc-db__
+libc-db__hash_page,libc-db,1582,4454,4358,1582,4460,4356,,,,,clang: In file included from /home/matth
+libc-db__ndbm,libc-db,225,570,562,225,570,562,,,,,clang: In file included from /home/matth
+libc-db__rec_close,libc-db,200,596,572,200,602,578,,,,,clang: In file included from /home/matth
+libc-db__rec_delete,libc-db,217,612,596,217,614,598,,,,,clang: In file included from /home/matth
+libc-db__rec_get,libc-db,329,990,958,329,998,966,,,,,clang: In file included from /home/matth
+libc-db__rec_open,libc-db,304,924,876,304,924,876,,,,,clang: In file included from /home/matth
+libc-db__rec_put,libc-db,341,1046,1014,341,1056,1024,,,,,clang: In file included from /home/matth
+libc-db__rec_search,libc-db,182,528,520,182,528,520,,,,,clang: In file included from /home/matth
+libc-db__rec_seq,libc-db,156,458,442,156,462,454,,,,,clang: In file included from /home/matth
+libc-db__rec_utils,libc-db,138,396,388,138,404,396,,,,,clang: In file included from /home/matth
+libc-db__mpool,libc-db,532,1590,1550,532,1600,1560,,,,,clang: In file included from /home/matth
+libc-gdtoa__dmisc,libc-gdtoa,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libc-gdtoa__dtoa,libc-gdtoa,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libc-gdtoa__gdtoa,libc-gdtoa,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libc-gdtoa__gethex,libc-gdtoa,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libc-gdtoa__gmisc,libc-gdtoa,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libc-gdtoa__hd_init,libc-gdtoa,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libc-gdtoa__hdtoa,libc-gdtoa,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libc-gdtoa__hexnan,libc-gdtoa,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libc-gdtoa__ldtoa,libc-gdtoa,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libc-gdtoa__misc,libc-gdtoa,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libc-gdtoa__smisc,libc-gdtoa,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libc-gdtoa__strtod,libc-gdtoa,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libc-gdtoa__strtodg,libc-gdtoa,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libc-gdtoa__strtof,libc-gdtoa,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libc-gdtoa__strtold,libc-gdtoa,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libc-gdtoa__strtorQ,libc-gdtoa,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libc-gdtoa__strtord,libc-gdtoa,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libc-gdtoa__strtorx,libc-gdtoa,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libc-gdtoa__sum,libc-gdtoa,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libc-gdtoa__ulp,libc-gdtoa,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libc-time__asctime,libc-time,166,458,442,166,458,442,,,,,llc: LLVM ERROR: pdp64: calls of variadi
+libc-time__difftime,libc-time,15,42,42,15,42,42,12,32,32,,
+libc-time__localtime,libc-time,3018,8886,8718,3026,8942,8766,,,,,clang: In file included from /home/matth
+libc-time__strftime,libc-time,792,2382,2374,793,2382,2374,,,,,clang: In file included from /home/matth
+libc-time__strftime_l,libc-time,1,6,2,1,6,2,2,8,6,,
+libc-time__strptime,libc-time,1077,3314,3162,1078,3340,3180,,,,,as64: /tmp/flags-work/out/llvm/libc-time
+libc-time__wcsftime,libc-time,820,2462,2454,821,2462,2454,,,,,clang: In file included from /home/matth
+libc-crypt__arc4random,libc-crypt,1483,4362,4266,1483,4362,4266,,,,,clang: In file included from /home/matth
+libc-crypt__arc4random_uniform,libc-crypt,78,212,212,78,212,212,,,,,clang: In file included from /home/matth
+libc-crypt__bcrypt,libc-crypt,,,,,,,,,,"ccom: <stdin>, line 915: called object i",clang: /home/matthew/claude/openbsd-src/
+libc-crypt__blowfish,libc-crypt,1630,4294,4294,1630,4294,4294,1362,4142,4142,,
+libc-crypt__crypt,libc-crypt,69,198,190,69,198,190,11,34,30,,
+libc-crypt__cryptutil,libc-crypt,156,450,426,156,452,420,,,,,llc: LLVM ERROR: pdp64: calls of variadi
+libc-locale___CurrentRuneLocale,libc-locale,,,,,,,,,,"ccom: <stdin>, line 250: invalid functio",as64: /tmp/flags-work/out/llvm/libc-loca
+libc-locale_____runetype_mb,libc-locale,,,,,,,,,,"ccom: <stdin>, line 207: invalid functio",as64: /tmp/flags-work/out/llvm/libc-loca
+libc-locale____mb_cur_max,libc-locale,,,,,,,,,,cpp: /home/matthew/claude/openbsd-src/li,clang: /home/matthew/claude/openbsd-src/
+libc-locale___def_messages,libc-locale,59,162,162,59,162,162,,,,,as64: /tmp/flags-work/out/llvm/libc-loca
+libc-locale___def_monetary,libc-locale,59,162,162,59,162,162,,,,,as64: /tmp/flags-work/out/llvm/libc-loca
+libc-locale___def_numeric,libc-locale,59,162,162,59,162,162,,,,,as64: /tmp/flags-work/out/llvm/libc-loca
+libc-locale___def_time,libc-locale,59,162,162,59,162,162,,,,,as64: /tmp/flags-work/out/llvm/libc-loca
+libc-locale___get_locname,libc-locale,,,,,,,,,,"ccom: <stdin>, line 560: invalid functio",as64: /tmp/flags-work/out/llvm/libc-loca
+libc-locale___wctrans,libc-locale,,,,,,,,,,"ccom: <stdin>, line 439: invalid functio",as64: /tmp/flags-work/out/llvm/libc-loca
+libc-locale__btowc,libc-locale,79,216,216,79,216,216,29,94,94,,
+libc-locale__c16rtomb,libc-locale,47,130,122,47,138,130,,,,,llc: LLVM ERROR: pdp64: calls of variadi
+libc-locale__c32rtomb,libc-locale,4,16,10,3,14,8,5,16,16,,
+libc-locale__duplocale,libc-locale,,,,,,,,,,"ccom: <stdin>, line 205: invalid functio",as64: /tmp/flags-work/out/llvm/libc-loca
+libc-locale__freelocale,libc-locale,1,2,2,1,2,2,1,2,2,,
+libc-locale__isctype_l,libc-locale,14,84,28,14,84,28,56,168,140,,
+libc-locale__iswctype,libc-locale,,,,,,,,,,"ccom: <stdin>, line 595: invalid functio",as64: /tmp/flags-work/out/llvm/libc-loca
+libc-locale__iswctype_l,libc-locale,,,,,,,,,,"ccom: <stdin>, line 595: invalid functio",as64: /tmp/flags-work/out/llvm/libc-loca
+libc-locale__localeconv,libc-locale,141,570,514,141,570,514,,,,,as64: /tmp/flags-work/out/llvm/libc-loca
+libc-locale__mblen,libc-locale,77,220,212,77,220,212,24,68,60,,
+libc-locale__mbrlen,libc-locale,7,22,16,6,20,14,8,22,22,,
+libc-locale__mbrtoc16,libc-locale,42,124,120,42,128,124,,,,,clang: In file included from /home/matth
+libc-locale__mbrtoc32,libc-locale,4,16,10,3,14,8,4,14,14,,
+libc-locale__mbstowcs,libc-locale,75,204,196,75,204,196,28,88,84,,
+libc-locale__mbtowc,libc-locale,78,228,220,78,228,220,26,84,76,,
+libc-locale__multibyte_citrus,libc-locale,,,,,,,,,,cpp: /home/matthew/claude/openbsd-src/li,clang: In file included from /home/matth
+libc-locale__newlocale,libc-locale,,,,,,,,,,"ccom: <stdin>, line 282: invalid functio",as64: /tmp/flags-work/out/llvm/libc-loca
+libc-locale__nl_langinfo,libc-locale,,,,,,,,,,"ccom: <stdin>, line 272: invalid functio",as64: /tmp/flags-work/out/llvm/libc-loca
+libc-locale__nl_langinfo_l,libc-locale,,,,,,,,,,"ccom: <stdin>, line 214: invalid functio",as64: /tmp/flags-work/out/llvm/libc-loca
+libc-locale__rune,libc-locale,,,,,,,,,,"ccom: <stdin>, line 847: invalid functio",clang: In file included from /home/matth
+libc-locale__runetable,libc-locale,,,,,,,,,,cpp: /home/matthew/claude/openbsd-src/li,clang: /home/matthew/claude/openbsd-src/
+libc-locale__setlocale,libc-locale,,,,,,,,,,"ccom: <stdin>, line 557: invalid functio",llc: LLVM ERROR: pdp64: calls of variadi
+libc-locale__uselocale,libc-locale,,,,,,,,,,"ccom: <stdin>, line 255: invalid functio",as64: /tmp/flags-work/out/llvm/libc-loca
+libc-locale__wcscoll,libc-locale,1,6,2,1,6,2,3,10,8,,
+libc-locale__wcscoll_l,libc-locale,1,6,2,1,6,2,3,10,8,,
+libc-locale__wcstod,libc-locale,215,630,590,215,630,590,179,600,560,,
+libc-locale__wcstof,libc-locale,215,630,590,215,630,590,179,600,560,,
+libc-locale__wcstoimax,libc-locale,464,1356,1324,466,1366,1334,,,,,clang: In file included from /home/matth
+libc-locale__wcstol,libc-locale,464,1356,1324,466,1366,1334,216,596,588,,
+libc-locale__wcstold,libc-locale,215,630,590,215,630,590,179,600,560,,
+libc-locale__wcstoll,libc-locale,464,1356,1324,466,1366,1334,216,596,588,,
+libc-locale__wcstombs,libc-locale,75,204,196,75,204,196,28,88,84,,
+libc-locale__wcstoul,libc-locale,428,1272,1240,430,1278,1246,193,510,502,,
+libc-locale__wcstoull,libc-locale,428,1272,1240,430,1278,1246,193,510,502,,
+libc-locale__wcstoumax,libc-locale,428,1272,1240,430,1278,1246,,,,,clang: In file included from /home/matth
+libc-locale__wcsxfrm,libc-locale,6,20,14,6,20,14,6,20,16,,
+libc-locale__wcsxfrm_l,libc-locale,1,6,2,1,6,2,2,8,6,,
+libc-locale__wctob,libc-locale,76,210,202,76,210,202,27,90,82,,
+libc-locale__wctomb,libc-locale,73,210,202,73,210,202,20,58,50,,
+libc-locale__wctype,libc-locale,,,,,,,56,164,148,"ccom: <stdin>, line 400: invalid functio",
+libc-quad__adddi3,libc-quad,,,,,,,,,,"ccom: <stdin>, line 160: argument missin",clang: In file included from /home/matth
+libc-quad__anddi3,libc-quad,,,,,,,,,,"ccom: <stdin>, line 160: argument missin",clang: In file included from /home/matth
+libc-quad__ashldi3,libc-quad,,,,,,,,,,"ccom: <stdin>, line 160: argument missin",clang: In file included from /home/matth
+libc-quad__ashrdi3,libc-quad,,,,,,,,,,"ccom: <stdin>, line 160: argument missin",clang: In file included from /home/matth
+libc-quad__cmpdi2,libc-quad,,,,,,,,,,"ccom: <stdin>, line 160: argument missin",clang: In file included from /home/matth
+libc-quad__divdi3,libc-quad,,,,,,,,,,"ccom: <stdin>, line 160: argument missin",clang: In file included from /home/matth
+libc-quad__fixdfdi,libc-quad,,,,,,,,,,"ccom: <stdin>, line 160: argument missin",clang: In file included from /home/matth
+libc-quad__fixsfdi,libc-quad,,,,,,,,,,"ccom: <stdin>, line 160: argument missin",clang: In file included from /home/matth
+libc-quad__fixunsdfdi,libc-quad,,,,,,,,,,"ccom: <stdin>, line 160: argument missin",clang: In file included from /home/matth
+libc-quad__fixunssfdi,libc-quad,,,,,,,,,,"ccom: <stdin>, line 160: argument missin",clang: In file included from /home/matth
+libc-quad__floatdidf,libc-quad,,,,,,,,,,"ccom: <stdin>, line 160: argument missin",clang: In file included from /home/matth
+libc-quad__floatdisf,libc-quad,,,,,,,,,,"ccom: <stdin>, line 160: argument missin",clang: In file included from /home/matth
+libc-quad__floatunsdidf,libc-quad,,,,,,,,,,"ccom: <stdin>, line 160: argument missin",clang: In file included from /home/matth
+libc-quad__iordi3,libc-quad,,,,,,,,,,"ccom: <stdin>, line 160: argument missin",clang: In file included from /home/matth
+libc-quad__lshldi3,libc-quad,,,,,,,,,,"ccom: <stdin>, line 160: argument missin",clang: In file included from /home/matth
+libc-quad__lshrdi3,libc-quad,,,,,,,,,,"ccom: <stdin>, line 160: argument missin",clang: In file included from /home/matth
+libc-quad__moddi3,libc-quad,,,,,,,,,,"ccom: <stdin>, line 160: argument missin",clang: In file included from /home/matth
+libc-quad__muldi3,libc-quad,,,,,,,,,,"ccom: <stdin>, line 160: argument missin",clang: In file included from /home/matth
+libc-quad__negdi2,libc-quad,,,,,,,,,,"ccom: <stdin>, line 160: argument missin",clang: In file included from /home/matth
+libc-quad__notdi2,libc-quad,,,,,,,,,,"ccom: <stdin>, line 160: argument missin",clang: In file included from /home/matth
+libc-quad__qdivrem,libc-quad,,,,,,,,,,"ccom: <stdin>, line 160: argument missin",clang: In file included from /home/matth
+libc-quad__subdi3,libc-quad,,,,,,,,,,"ccom: <stdin>, line 160: argument missin",clang: In file included from /home/matth
+libc-quad__ucmpdi2,libc-quad,,,,,,,,,,"ccom: <stdin>, line 160: argument missin",clang: In file included from /home/matth
+libc-quad__udivdi3,libc-quad,,,,,,,,,,"ccom: <stdin>, line 160: argument missin",clang: In file included from /home/matth
+libc-quad__umoddi3,libc-quad,,,,,,,,,,"ccom: <stdin>, line 160: argument missin",clang: In file included from /home/matth
+libc-quad__xordi3,libc-quad,,,,,,,,,,"ccom: <stdin>, line 160: argument missin",clang: In file included from /home/matth
+libc-softfloat__eqdf2,libc-softfloat,,,,,,,,,,"ccom: <stdin>, line 10: invalid function",clang: In file included from /home/matth
+libc-softfloat__eqsf2,libc-softfloat,,,,,,,,,,"ccom: <stdin>, line 10: invalid function",clang: In file included from /home/matth
+libc-softfloat__fpgetmask,libc-softfloat,,,,,,,,,,"ccom: <stdin>, line 18: invalid function",clang: In file included from /home/matth
+libc-softfloat__fpgetround,libc-softfloat,,,,,,,,,,"ccom: <stdin>, line 18: invalid function",clang: In file included from /home/matth
+libc-softfloat__fpgetsticky,libc-softfloat,,,,,,,,,,"ccom: <stdin>, line 18: invalid function",clang: In file included from /home/matth
+libc-softfloat__fpsetmask,libc-softfloat,,,,,,,,,,"ccom: <stdin>, line 18: invalid function",clang: In file included from /home/matth
+libc-softfloat__fpsetround,libc-softfloat,,,,,,,,,,"ccom: <stdin>, line 18: invalid function",clang: In file included from /home/matth
+libc-softfloat__fpsetsticky,libc-softfloat,,,,,,,,,,"ccom: <stdin>, line 18: invalid function",clang: In file included from /home/matth
+libc-softfloat__gedf2,libc-softfloat,,,,,,,,,,"ccom: <stdin>, line 10: invalid function",clang: In file included from /home/matth
+libc-softfloat__gesf2,libc-softfloat,,,,,,,,,,"ccom: <stdin>, line 10: invalid function",clang: In file included from /home/matth
+libc-softfloat__gtdf2,libc-softfloat,,,,,,,,,,"ccom: <stdin>, line 10: invalid function",clang: In file included from /home/matth
+libc-softfloat__gtsf2,libc-softfloat,,,,,,,,,,"ccom: <stdin>, line 10: invalid function",clang: In file included from /home/matth
+libc-softfloat__ledf2,libc-softfloat,,,,,,,,,,"ccom: <stdin>, line 10: invalid function",clang: In file included from /home/matth
+libc-softfloat__lesf2,libc-softfloat,,,,,,,,,,"ccom: <stdin>, line 10: invalid function",clang: In file included from /home/matth
+libc-softfloat__ltdf2,libc-softfloat,,,,,,,,,,"ccom: <stdin>, line 10: invalid function",clang: In file included from /home/matth
+libc-softfloat__ltsf2,libc-softfloat,,,,,,,,,,"ccom: <stdin>, line 10: invalid function",clang: In file included from /home/matth
+libc-softfloat__nedf2,libc-softfloat,,,,,,,,,,"ccom: <stdin>, line 10: invalid function",clang: In file included from /home/matth
+libc-softfloat__negdf2,libc-softfloat,,,,,,,,,,"ccom: <stdin>, line 10: invalid function",clang: In file included from /home/matth
+libc-softfloat__negsf2,libc-softfloat,,,,,,,,,,"ccom: <stdin>, line 10: invalid function",clang: In file included from /home/matth
+libc-softfloat__nesf2,libc-softfloat,,,,,,,,,,"ccom: <stdin>, line 10: invalid function",clang: In file included from /home/matth
+libc-softfloat__softfloat,libc-softfloat,,,,,,,,,,"ccom: <stdin>, line 10: invalid function",clang: In file included from /home/matth
+libc-softfloat__timesoftfloat,libc-softfloat,,,,,,,,,,"ccom: <stdin>, line 580: invalid functio",clang: In file included from /home/matth
+libc-softfloat__unorddf2,libc-softfloat,,,,,,,,,,"ccom: <stdin>, line 10: invalid function",clang: In file included from /home/matth
+libc-softfloat__unordsf2,libc-softfloat,,,,,,,,,,"ccom: <stdin>, line 10: invalid function",clang: In file included from /home/matth
+libedit__chared,libedit,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libedit__chartype,libedit,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libedit__common,libedit,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libedit__el,libedit,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libedit__eln,libedit,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libedit__emacs,libedit,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libedit__filecomplete,libedit,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libedit__hist,libedit,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libedit__history,libedit,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libedit__historyn,libedit,1161,3552,3464,1160,3552,3464,,,,,clang: In file included from /home/matth
+libedit__keymacro,libedit,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libedit__map,libedit,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libedit__parse,libedit,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libedit__prompt,libedit,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libedit__read,libedit,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libedit__readline,libedit,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libedit__refresh,libedit,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libedit__search,libedit,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libedit__sig,libedit,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libedit__terminal,libedit,,,,,,,,,,cpp: /home/matthew/claude/openbsd-src/li,clang: In file included from /home/matth
+libedit__tokenizer,libedit,522,1430,1398,522,1438,1406,,,,,clang: In file included from /home/matth
+libedit__tokenizern,libedit,506,1408,1376,506,1416,1384,,,,,clang: In file included from /home/matth
+libedit__tty,libedit,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libedit__vi,libedit,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libcurses__access,libcurses,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libcurses__add_tries,libcurses,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libcurses__alloc_entry,libcurses,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libcurses__alloc_ttype,libcurses,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libcurses__captoinfo,libcurses,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libcurses__comp_error,libcurses,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libcurses__comp_expand,libcurses,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libcurses__comp_hash,libcurses,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libcurses__comp_parse,libcurses,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libcurses__comp_scan,libcurses,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libcurses__db_iterator,libcurses,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libcurses__doalloc,libcurses,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libcurses__entries,libcurses,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libcurses__free_ttype,libcurses,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libcurses__getenv_num,libcurses,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libcurses__hashed_db,libcurses,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libcurses__home_terminfo,libcurses,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libcurses__init_keytry,libcurses,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libcurses__lib_acs,libcurses,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libcurses__lib_baudrate,libcurses,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libcurses__lib_cur_term,libcurses,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libcurses__lib_data,libcurses,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libcurses__lib_has_cap,libcurses,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libcurses__lib_kernel,libcurses,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libcurses__lib_longname,libcurses,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libcurses__lib_napms,libcurses,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libcurses__lib_options,libcurses,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libcurses__lib_print,libcurses,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libcurses__lib_raw,libcurses,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libcurses__lib_setup,libcurses,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libcurses__lib_termcap,libcurses,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libcurses__lib_termname,libcurses,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libcurses__lib_tgoto,libcurses,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libcurses__lib_ti,libcurses,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libcurses__lib_tparm,libcurses,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libcurses__lib_tputs,libcurses,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libcurses__lib_ttyflags,libcurses,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libcurses__lib_win32con,libcurses,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libcurses__lib_win32util,libcurses,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libcurses__make_hash,libcurses,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libcurses__make_keys,libcurses,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libcurses__name_match,libcurses,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libcurses__obsolete,libcurses,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libcurses__parse_entry,libcurses,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libcurses__read_entry,libcurses,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libcurses__read_termcap,libcurses,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libcurses__setbuf,libcurses,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libcurses__strings,libcurses,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libcurses__tinfo_driver,libcurses,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libcurses__trim_sgr0,libcurses,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libcurses__use_screen,libcurses,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libcurses__write_entry,libcurses,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libm__b_exp__D,libm,144,416,400,144,416,400,,,,,as64: /tmp/flags-work/out/llvm/libm__b_e
+libm__b_log__D,libm,180,520,512,180,520,512,,,,,as64: /tmp/flags-work/out/llvm/libm__b_l
+libm__b_tgamma,libm,,,,,,,,,,"ccom: <stdin>, line 487: parameter 0 nam",clang: /home/matthew/claude/openbsd-src/
+libm__e_acos,libm,266,722,714,266,726,726,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__e_acosf,libm,275,916,916,275,922,914,168,724,716,,
+libm__e_acosh,libm,127,360,344,127,368,352,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__e_acoshf,libm,128,390,382,128,400,392,61,222,214,,
+libm__e_acosl,libm,,,,,,,,,,cpp: /home/matthew/claude/openbsd-src/li,clang: /home/matthew/claude/openbsd-src/
+libm__e_asin,libm,239,650,642,239,656,648,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__e_asinf,libm,246,806,806,246,814,814,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__e_asinl,libm,,,,,,,,,,cpp: /home/matthew/claude/openbsd-src/li,clang: /home/matthew/claude/openbsd-src/
+libm__e_atan2,libm,220,648,640,220,660,652,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__e_atan2f,libm,209,666,658,209,678,678,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__e_atan2l,libm,,,,,,,,,,cpp: /home/matthew/claude/openbsd-src/li,clang: /home/matthew/claude/openbsd-src/
+libm__e_atanh,libm,140,384,376,140,392,384,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__e_atanhf,libm,131,390,382,131,398,390,55,194,186,,
+libm__e_cosh,libm,138,416,400,138,430,414,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__e_coshf,libm,132,418,402,132,428,412,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__e_exp,libm,204,570,570,204,576,576,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__e_expf,libm,206,646,646,206,652,652,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__e_fmod,libm,302,816,816,302,828,828,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__e_fmodf,libm,188,534,534,188,544,544,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__e_hypot,libm,215,588,588,215,594,586,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__e_hypotf,libm,188,572,564,188,582,582,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__e_j0,libm,,,,,,,,,,"ccom: <stdin>, line 524: parameter 0 nam",clang: /home/matthew/claude/openbsd-src/
+libm__e_j0f,libm,,,,,,,,,,"ccom: <stdin>, line 524: parameter 0 nam",clang: /home/matthew/claude/openbsd-src/
+libm__e_j1,libm,,,,,,,,,,"ccom: <stdin>, line 521: parameter 0 nam",clang: /home/matthew/claude/openbsd-src/
+libm__e_j1f,libm,,,,,,,,,,"ccom: <stdin>, line 521: parameter 0 nam",clang: /home/matthew/claude/openbsd-src/
+libm__e_jn,libm,396,1202,1138,396,1214,1158,385,1164,1108,,
+libm__e_jnf,libm,313,960,936,313,972,940,305,1018,994,,
+libm__e_lgamma_r,libm,561,1608,1576,562,1632,1600,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__e_lgammaf_r,libm,576,1986,1962,578,2018,1994,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__e_log,libm,231,654,654,231,658,658,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__e_log10,libm,132,374,374,132,378,378,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__e_log10f,libm,132,392,392,132,394,394,57,202,194,,
+libm__e_log2,libm,197,568,568,197,572,572,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__e_log2f,libm,198,638,638,198,640,640,108,424,424,,
+libm__e_logf,libm,241,772,772,241,774,774,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__e_pow,libm,581,1660,1652,581,1706,1698,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__e_powf,libm,562,1804,1796,562,1848,1840,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__e_rem_pio2,libm,243,704,696,243,712,704,,,,,as64: /tmp/flags-work/out/llvm/libm__e_r
+libm__e_rem_pio2f,libm,278,842,842,279,858,858,,,,,as64: /tmp/flags-work/out/llvm/libm__e_r
+libm__e_remainder,libm,151,400,392,151,410,402,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__e_remainderf,libm,134,390,390,134,398,398,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__e_remainderl,libm,5,14,12,5,14,12,8,22,20,,
+libm__e_scalb,libm,115,326,318,115,326,318,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__e_scalbf,libm,116,346,338,116,346,338,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__e_sinh,libm,144,424,408,144,438,430,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__e_sinhf,libm,142,446,430,142,456,448,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__e_sqrt,libm,263,668,668,263,672,672,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__e_sqrtf,libm,170,462,462,170,464,464,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__e_sqrtl,libm,230,664,648,230,668,652,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__k_cos,libm,110,286,286,110,286,286,,,,,as64: /tmp/flags-work/out/llvm/libm__k_c
+libm__k_cosf,libm,132,402,402,132,406,406,,,,,as64: /tmp/flags-work/out/llvm/libm__k_c
+libm__k_rem_pio2,libm,497,1488,1472,497,1488,1472,,,,,as64: /tmp/flags-work/out/llvm/libm__k_r
+libm__k_rem_pio2f,libm,516,1578,1570,516,1578,1570,,,,,as64: /tmp/flags-work/out/llvm/libm__k_r
+libm__k_sin,libm,109,282,282,109,282,282,,,,,as64: /tmp/flags-work/out/llvm/libm__k_s
+libm__k_sinf,libm,111,330,330,111,330,330,,,,,as64: /tmp/flags-work/out/llvm/libm__k_s
+libm__k_tan,libm,235,628,628,235,632,624,,,,,as64: /tmp/flags-work/out/llvm/libm__k_t
+libm__k_tanf,libm,217,684,684,217,690,690,,,,,as64: /tmp/flags-work/out/llvm/libm__k_t
+libm__polevll,libm,90,252,252,90,252,252,,,,,as64: /tmp/flags-work/out/llvm/libm__pol
+libm__s_asinh,libm,130,384,368,130,392,376,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__s_asinhf,libm,132,416,400,132,424,408,72,282,266,,
+libm__s_atan,libm,210,588,588,210,604,604,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__s_atanf,libm,213,678,678,213,690,690,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__s_atanl,libm,,,,,,,,,,cpp: /home/matthew/claude/openbsd-src/li,clang: /home/matthew/claude/openbsd-src/
+libm__s_cabs,libm,,,,,,,,,,"ccom: <stdin>, line 65: redeclaration of",clang: /home/matthew/claude/openbsd-src/
+libm__s_cabsf,libm,,,,,,,,,,"ccom: <stdin>, line 65: redeclaration of",clang: /home/matthew/claude/openbsd-src/
+libm__s_cabsl,libm,,,,,,,,,,"ccom: <stdin>, line 65: redeclaration of",clang: /home/matthew/claude/openbsd-src/
+libm__s_cacos,libm,,,,,,,,,,"ccom: <stdin>, line 65: redeclaration of",clang: /home/matthew/claude/openbsd-src/
+libm__s_cacosf,libm,,,,,,,26,94,88,"ccom: <stdin>, line 65: redeclaration of",
+libm__s_cacosh,libm,,,,,,,,,,"ccom: <stdin>, line 65: redeclaration of",clang: /home/matthew/claude/openbsd-src/
+libm__s_cacoshf,libm,,,,,,,49,162,154,"ccom: <stdin>, line 65: redeclaration of",
+libm__s_cacoshl,libm,,,,,,,47,130,122,"ccom: <stdin>, line 65: redeclaration of",
+libm__s_cacosl,libm,,,,,,,26,82,74,"ccom: <stdin>, line 65: redeclaration of",
+libm__s_carg,libm,,,,,,,,,,"ccom: <stdin>, line 65: redeclaration of",clang: /home/matthew/claude/openbsd-src/
+libm__s_cargf,libm,,,,,,,,,,"ccom: <stdin>, line 65: redeclaration of",clang: /home/matthew/claude/openbsd-src/
+libm__s_cargl,libm,,,,,,,,,,"ccom: <stdin>, line 65: redeclaration of",clang: /home/matthew/claude/openbsd-src/
+libm__s_casin,libm,,,,,,,,,,"ccom: <stdin>, line 65: redeclaration of",clang: /home/matthew/claude/openbsd-src/
+libm__s_casinf,libm,,,,,,,,,,"ccom: <stdin>, line 65: redeclaration of",clang: /home/matthew/claude/openbsd-src/
+libm__s_casinh,libm,,,,,,,,,,"ccom: <stdin>, line 65: redeclaration of",clang: /home/matthew/claude/openbsd-src/
+libm__s_casinhf,libm,,,,,,,32,116,110,"ccom: <stdin>, line 65: redeclaration of",
+libm__s_casinhl,libm,,,,,,,32,84,76,"ccom: <stdin>, line 65: redeclaration of",
+libm__s_casinl,libm,,,,,,,,,,"ccom: <stdin>, line 65: redeclaration of",clang: /home/matthew/claude/openbsd-src/
+libm__s_catan,libm,,,,,,,,,,"ccom: <stdin>, line 65: redeclaration of",clang: /home/matthew/claude/openbsd-src/
+libm__s_catanf,libm,,,,,,,,,,"ccom: <stdin>, line 65: redeclaration of",clang: /home/matthew/claude/openbsd-src/
+libm__s_catanh,libm,,,,,,,,,,"ccom: <stdin>, line 65: redeclaration of",clang: /home/matthew/claude/openbsd-src/
+libm__s_catanhf,libm,,,,,,,32,116,110,"ccom: <stdin>, line 65: redeclaration of",
+libm__s_catanhl,libm,,,,,,,32,84,76,"ccom: <stdin>, line 65: redeclaration of",
+libm__s_catanl,libm,,,,,,,,,,"ccom: <stdin>, line 65: redeclaration of",clang: /home/matthew/claude/openbsd-src/
+libm__s_cbrt,libm,162,426,426,162,430,430,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__s_cbrtf,libm,136,386,386,136,390,390,47,176,176,,
+libm__s_ccos,libm,,,,,,,,,,"ccom: <stdin>, line 65: redeclaration of",clang: /home/matthew/claude/openbsd-src/
+libm__s_ccosf,libm,,,,,,,56,198,180,"ccom: <stdin>, line 65: redeclaration of",
+libm__s_ccosh,libm,,,,,,,,,,"ccom: <stdin>, line 65: redeclaration of",clang: /home/matthew/claude/openbsd-src/
+libm__s_ccoshf,libm,,,,,,,39,126,114,"ccom: <stdin>, line 65: redeclaration of",
+libm__s_ccoshl,libm,,,,,,,39,118,106,"ccom: <stdin>, line 65: redeclaration of",
+libm__s_ccosl,libm,,,,,,,55,174,158,"ccom: <stdin>, line 65: redeclaration of",
+libm__s_ceil,libm,150,412,412,150,416,416,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__s_ceilf,libm,115,326,326,115,328,328,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__s_cexp,libm,,,,,,,,,,"ccom: <stdin>, line 65: redeclaration of",clang: /home/matthew/claude/openbsd-src/
+libm__s_cexpf,libm,,,,,,,34,116,104,"ccom: <stdin>, line 65: redeclaration of",
+libm__s_cexpl,libm,,,,,,,34,108,96,"ccom: <stdin>, line 65: redeclaration of",
+libm__s_cimag,libm,,,,,,,,,,"ccom: <stdin>, line 65: redeclaration of",clang: /home/matthew/claude/openbsd-src/
+libm__s_cimagf,libm,,,,,,,,,,"ccom: <stdin>, line 65: redeclaration of",clang: /home/matthew/claude/openbsd-src/
+libm__s_cimagl,libm,,,,,,,,,,"ccom: <stdin>, line 65: redeclaration of",clang: /home/matthew/claude/openbsd-src/
+libm__s_clog,libm,,,,,,,,,,"ccom: <stdin>, line 65: redeclaration of",clang: /home/matthew/claude/openbsd-src/
+libm__s_clogf,libm,,,,,,,,,,"ccom: <stdin>, line 65: redeclaration of",clang: /home/matthew/claude/openbsd-src/
+libm__s_clogl,libm,,,,,,,,,,"ccom: <stdin>, line 65: redeclaration of",clang: /home/matthew/claude/openbsd-src/
+libm__s_conj,libm,,,,,,,,,,"ccom: <stdin>, line 65: redeclaration of",clang: /home/matthew/claude/openbsd-src/
+libm__s_conjf,libm,,,,,,,2,8,8,"ccom: <stdin>, line 65: redeclaration of",
+libm__s_conjl,libm,,,,,,,2,6,6,"ccom: <stdin>, line 65: redeclaration of",
+libm__s_copysign,libm,84,224,224,84,224,224,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__s_copysignf,libm,83,222,222,83,222,222,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__s_copysignl,libm,73,200,200,73,200,200,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__s_cos,libm,119,340,332,119,346,330,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__s_cosf,libm,119,346,330,119,352,336,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__s_cosl,libm,155,446,430,155,446,430,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__s_cpow,libm,,,,,,,,,,"ccom: <stdin>, line 65: redeclaration of",clang: /home/matthew/claude/openbsd-src/
+libm__s_cpowf,libm,,,,,,,71,228,210,"ccom: <stdin>, line 65: redeclaration of",
+libm__s_cpowl,libm,,,,,,,70,202,184,"ccom: <stdin>, line 65: redeclaration of",
+libm__s_cproj,libm,,,,,,,,,,"ccom: <stdin>, line 65: redeclaration of",clang: /home/matthew/claude/openbsd-src/
+libm__s_cprojf,libm,,,,,,,27,80,74,"ccom: <stdin>, line 65: redeclaration of",
+libm__s_cprojl,libm,,,,,,,27,78,70,"ccom: <stdin>, line 65: redeclaration of",
+libm__s_creal,libm,,,,,,,,,,"ccom: <stdin>, line 65: redeclaration of",clang: /home/matthew/claude/openbsd-src/
+libm__s_crealf,libm,,,,,,,,,,"ccom: <stdin>, line 65: redeclaration of",clang: /home/matthew/claude/openbsd-src/
+libm__s_creall,libm,,,,,,,,,,"ccom: <stdin>, line 65: redeclaration of",clang: /home/matthew/claude/openbsd-src/
+libm__s_csin,libm,,,,,,,,,,"ccom: <stdin>, line 65: redeclaration of",clang: /home/matthew/claude/openbsd-src/
+libm__s_csinf,libm,,,,,,,55,192,174,"ccom: <stdin>, line 65: redeclaration of",
+libm__s_csinh,libm,,,,,,,,,,"ccom: <stdin>, line 65: redeclaration of",clang: /home/matthew/claude/openbsd-src/
+libm__s_csinhf,libm,,,,,,,39,126,114,"ccom: <stdin>, line 65: redeclaration of",
+libm__s_csinhl,libm,,,,,,,39,118,106,"ccom: <stdin>, line 65: redeclaration of",
+libm__s_csinl,libm,,,,,,,55,172,156,"ccom: <stdin>, line 65: redeclaration of",
+libm__s_csqrt,libm,,,,,,,,,,"ccom: <stdin>, line 65: redeclaration of",clang: /home/matthew/claude/openbsd-src/
+libm__s_csqrtf,libm,,,,,,,,,,"ccom: <stdin>, line 65: redeclaration of",clang: /home/matthew/claude/openbsd-src/
+libm__s_csqrtl,libm,,,,,,,,,,"ccom: <stdin>, line 65: redeclaration of",clang: /home/matthew/claude/openbsd-src/
+libm__s_ctan,libm,,,,,,,,,,"ccom: <stdin>, line 65: redeclaration of",clang: /home/matthew/claude/openbsd-src/
+libm__s_ctanf,libm,,,,,,,137,514,482,"ccom: <stdin>, line 65: redeclaration of",
+libm__s_ctanh,libm,,,,,,,,,,"ccom: <stdin>, line 65: redeclaration of",clang: /home/matthew/claude/openbsd-src/
+libm__s_ctanhf,libm,,,,,,,42,138,126,"ccom: <stdin>, line 65: redeclaration of",
+libm__s_ctanhl,libm,,,,,,,42,128,116,"ccom: <stdin>, line 65: redeclaration of",
+libm__s_ctanl,libm,,,,,,,132,424,400,"ccom: <stdin>, line 65: redeclaration of",
+libm__s_erf,libm,,,,,,,,,,"ccom: <stdin>, line 570: parameter 0 nam",clang: /home/matthew/claude/openbsd-src/
+libm__s_erff,libm,698,2444,2428,700,2466,2450,541,2368,2352,,
+libm__s_exp2,libm,177,508,508,177,518,518,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__s_exp2f,libm,157,458,458,157,462,462,75,254,254,,
+libm__s_expm1,libm,271,750,750,271,758,758,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__s_expm1f,libm,277,894,894,277,902,902,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__s_fabsf,libm,79,210,210,79,210,210,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__s_fabsl,libm,72,192,192,72,192,192,1,2,2,,
+libm__s_fdim,libm,55,148,144,55,148,144,84,220,208,,
+libm__s_floor,libm,152,416,416,152,420,420,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__s_floorf,libm,117,330,330,117,332,332,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__s_fma,libm,273,842,774,273,842,774,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__s_fmaf,libm,7,22,22,7,22,22,7,22,22,,
+libm__s_fmal,libm,273,844,776,273,844,776,292,828,764,,
+libm__s_fmax,libm,20,64,54,20,64,54,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__s_fmaxf,libm,20,66,56,20,66,56,37,114,102,,
+libm__s_fmaxl,libm,20,64,54,20,64,54,37,112,100,,
+libm__s_fmin,libm,20,64,54,20,64,54,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__s_fminf,libm,20,66,56,20,66,56,37,114,102,,
+libm__s_fminl,libm,20,64,54,20,64,54,37,112,100,,
+libm__s_frexpf,libm,102,290,290,102,292,292,34,112,112,,
+libm__s_frexpl,libm,94,264,264,94,264,264,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__s_ilogb,libm,111,308,308,111,314,314,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__s_ilogbf,libm,99,278,278,99,284,284,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__s_llrint,libm,15,52,42,15,52,42,,,,,clang: In file included from /home/matth
+libm__s_llrintf,libm,16,56,46,16,56,46,,,,,clang: In file included from /home/matth
+libm__s_llrintl,libm,15,52,42,15,52,42,24,78,68,,
+libm__s_llround,libm,134,370,370,134,370,370,,,,,clang: In file included from /home/matth
+libm__s_llroundf,libm,122,334,334,122,334,334,45,154,154,,
+libm__s_llroundl,libm,18,58,50,18,58,50,3,12,10,,
+libm__s_log1p,libm,261,734,734,261,748,748,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__s_log1pf,libm,268,866,866,268,878,878,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__s_logb,libm,98,270,270,98,272,264,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__s_logbf,libm,95,264,256,95,266,266,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__s_logbl,libm,115,314,314,115,314,314,38,102,102,,
+libm__s_lrint,libm,15,52,42,15,52,42,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__s_lrintf,libm,16,56,46,16,56,46,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__s_lrintl,libm,15,52,42,15,52,42,24,78,68,,
+libm__s_lround,libm,134,370,370,134,370,370,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__s_lroundf,libm,122,334,334,122,334,334,45,154,154,,
+libm__s_lroundl,libm,18,58,50,18,58,50,3,12,10,,
+libm__s_modff,libm,116,316,316,116,316,316,33,94,94,,
+libm__s_nan,libm,,,,,,,,,,"ccom: <stdin>, line 690: parameter 0 nam",clang: In file included from /home/matth
+libm__s_nearbyint,libm,30,96,78,30,96,78,60,186,168,,
+libm__s_nextafter,libm,157,422,422,157,430,430,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__s_nextafterf,libm,128,360,360,128,368,368,56,170,170,,
+libm__s_nexttowardf,libm,168,506,506,168,514,514,79,268,268,,
+libm__s_remquo,libm,373,974,974,373,990,990,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__s_remquof,libm,235,662,662,235,674,674,192,594,586,,
+libm__s_rint,libm,171,470,470,171,474,474,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__s_rintf,libm,143,400,400,143,402,402,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__s_rintl,libm,94,272,272,94,272,272,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__s_round,libm,100,278,270,100,278,270,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__s_roundf,libm,108,318,310,108,318,310,41,140,132,,
+libm__s_roundl,libm,27,80,74,27,80,74,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__s_scalbln,libm,33,150,120,33,162,132,36,174,162,,
+libm__s_scalbn,libm,1,6,2,1,6,2,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__s_scalbnf,libm,,,,,,,,,,"ccom: <stdin>, line 486: parameter 0 nam",clang: /home/matthew/claude/openbsd-src/
+libm__s_scalbnl,libm,,,,,,,,,,"ccom: <stdin>, line 439: parameter 0 nam",clang: /home/matthew/claude/openbsd-src/
+libm__s_signgam,libm,71,190,190,71,190,190,0,0,0,,
+libm__s_significand,libm,79,216,216,79,216,216,15,44,40,,
+libm__s_significandf,libm,79,216,216,79,216,216,16,48,44,,
+libm__s_sin,libm,120,340,332,120,346,330,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__s_sincos,libm,226,620,620,226,626,626,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__s_sincosf,libm,224,666,666,224,678,670,,,,,as64: /tmp/flags-work/out/llvm/libm__s_s
+libm__s_sincosl,libm,,,,,,,,,,cpp: /home/matthew/claude/openbsd-src/li,clang: /home/matthew/claude/openbsd-src/
+libm__s_sinf,libm,120,346,338,120,352,344,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__s_sinl,libm,161,466,450,161,466,450,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__s_tan,libm,99,272,264,99,276,268,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__s_tanf,libm,99,274,274,99,278,270,,,,,as64: /tmp/flags-work/out/llvm/libm__s_t
+libm__s_tanh,libm,130,390,382,130,398,390,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__s_tanhf,libm,131,418,410,131,424,416,62,246,240,,
+libm__s_tanl,libm,155,442,426,155,442,426,1,2,2,,
+libm__s_trunc,libm,126,342,342,126,344,344,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__s_truncf,libm,107,298,298,107,300,300,34,112,112,,
+libm__w_drem,libm,1,6,2,1,6,2,2,8,6,,
+libm__w_dremf,libm,72,196,188,72,196,188,2,8,6,,
+libm__w_gamma,libm,73,202,194,73,202,194,3,14,10,,
+libm__w_gamma_r,libm,72,196,188,72,196,188,2,8,6,,
+libm__w_gammaf,libm,73,202,194,73,202,194,3,14,10,,
+libm__w_gammaf_r,libm,72,196,188,72,196,188,2,8,6,,
+libm__w_lgamma,libm,73,202,194,73,202,194,,,,,clang: /home/matthew/claude/openbsd-src/
+libm__w_lgammaf,libm,73,202,194,73,202,194,3,14,10,,
+ub-awk__b,ub-awk,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+ub-awk__lex,ub-awk,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+ub-awk__lib,ub-awk,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+ub-awk__main,ub-awk,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+ub-awk__maketab,ub-awk,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+ub-awk__parse,ub-awk,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+ub-awk__run,ub-awk,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+ub-awk__tran,ub-awk,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+ub-lex__buf,ub-lex,,,,,,,,,,"ccom: <stdin>, line 106: invalid functio",clang: In file included from /home/matth
+ub-lex__ccl,ub-lex,,,,,,,,,,"ccom: <stdin>, line 106: invalid functio",clang: In file included from /home/matth
+ub-lex__dfa,ub-lex,,,,,,,,,,"ccom: <stdin>, line 106: invalid functio",clang: In file included from /home/matth
+ub-lex__ecs,ub-lex,,,,,,,,,,"ccom: <stdin>, line 106: invalid functio",clang: In file included from /home/matth
+ub-lex__filter,ub-lex,,,,,,,,,,"ccom: <stdin>, line 106: invalid functio",clang: In file included from /home/matth
+ub-lex__gen,ub-lex,,,,,,,,,,"ccom: <stdin>, line 106: invalid functio",clang: In file included from /home/matth
+ub-lex__libmain,ub-lex,4,12,10,4,12,10,,,,,llc: LLVM ERROR: pdp64: calls of variadi
+ub-lex__libyywrap,ub-lex,2,4,4,2,4,4,2,4,4,,
+ub-lex__main,ub-lex,,,,,,,,,,"ccom: <stdin>, line 106: invalid functio",clang: In file included from /home/matth
+ub-lex__misc,ub-lex,,,,,,,,,,"ccom: <stdin>, line 106: invalid functio",clang: In file included from /home/matth
+ub-lex__nfa,ub-lex,,,,,,,,,,"ccom: <stdin>, line 106: invalid functio",clang: In file included from /home/matth
+ub-lex__options,ub-lex,,,,,,,,,,"ccom: <stdin>, line 106: invalid functio",clang: In file included from /home/matth
+ub-lex__regex,ub-lex,,,,,,,,,,"ccom: <stdin>, line 106: invalid functio",clang: In file included from /home/matth
+ub-lex__scanflags,ub-lex,,,,,,,,,,"ccom: <stdin>, line 106: invalid functio",clang: In file included from /home/matth
+ub-lex__scanopt,ub-lex,,,,,,,,,,"ccom: <stdin>, line 106: invalid functio",clang: In file included from /home/matth
+ub-lex__sym,ub-lex,,,,,,,,,,"ccom: <stdin>, line 106: invalid functio",clang: In file included from /home/matth
+ub-lex__tables,ub-lex,,,,,,,,,,"ccom: <stdin>, line 106: invalid functio",clang: In file included from /home/matth
+ub-lex__tables_shared,ub-lex,,,,,,,,,,"ccom: <stdin>, line 106: invalid functio",clang: In file included from /home/matth
+ub-lex__tblcmp,ub-lex,,,,,,,,,,"ccom: <stdin>, line 106: invalid functio",clang: In file included from /home/matth
+ub-lex__yylex,ub-lex,,,,,,,,,,cpp: /home/matthew/claude/openbsd-src/us,clang: In file included from /home/matth
+ub-yacc__closure,ub-yacc,401,1322,1186,402,1326,1198,307,1042,994,,
+ub-yacc__error,ub-yacc,516,1968,1616,518,1970,1618,,,,,llc: LLVM ERROR: pdp64: calls of variadi
+ub-yacc__lalr,ub-yacc,989,3432,3040,991,3434,3042,1292,4316,4140,,
+ub-yacc__lr0,ub-yacc,624,2294,2014,626,2298,2018,1027,3500,3300,,
+ub-yacc__main,ub-yacc,427,1636,1404,429,1638,1414,,,,,clang: In file included from /home/matth
+ub-yacc__mkpar,ub-yacc,574,2030,1814,575,2034,1826,,,,,llc: LLVM ERROR: pdp64: calls of variadi
+ub-yacc__output,ub-yacc,2096,8532,7092,2095,8530,7090,,,,,llc: LLVM ERROR: pdp64: calls of variadi
+ub-yacc__reader,ub-yacc,2799,10982,9422,2796,10988,9428,,,,,llc: LLVM ERROR: pdp64: calls of variadi
+ub-yacc__skeleton,ub-yacc,190,586,546,192,588,548,,,,,as64: /tmp/flags-work/out/llvm/ub-yacc__
+ub-yacc__symtab,ub-yacc,275,886,822,277,888,832,186,574,542,,
+ub-yacc__verbose,ub-yacc,627,2340,2044,628,2342,2054,,,,,llc: LLVM ERROR: pdp64: calls of variadi
+ub-yacc__warshall,ub-yacc,259,736,712,261,740,716,140,400,400,,
+ub-sort__bwstring,ub-sort,763,2280,2160,765,2298,2178,,,,,llc: LLVM ERROR: pdp64: calls of variadi
+ub-sort__coll,ub-sort,1514,4460,4148,1530,4508,4196,,,,,llc: LLVM ERROR: pdp64: calls of variadi
+ub-sort__file,ub-sort,1334,4260,3860,1333,4282,3882,,,,,clang: In file included from /home/matth
+ub-sort__mem,ub-sort,123,342,318,123,342,318,,,,,llc: LLVM ERROR: pdp64: calls of variadi
+ub-sort__radixsort,ub-sort,495,1582,1478,492,1580,1476,,,,,llc: LLVM ERROR: pdp64: calls of variadi
+ub-sort__sort,ub-sort,1530,5188,4676,1538,5224,4704,,,,,clang: In file included from /home/matth
+ub-sort__vsort,ub-sort,465,1342,1318,473,1356,1324,266,814,814,,
+ub-bc__tty,ub-bc,,,,,,,,,,cpp: /home/matthew/claude/openbsd-src/us,clang: /home/matthew/claude/openbsd-src/
+ub-dc__bcode,ub-dc,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+ub-dc__dc,ub-dc,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+ub-dc__inout,ub-dc,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+ub-dc__main,ub-dc,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+ub-dc__mem,ub-dc,,,,,,,,,,cpp: /home/matthew/claude/openbsd-src/us,clang: In file included from /home/matth
+ub-dc__stack,ub-dc,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+ub-diff__diff,ub-diff,700,2394,2146,701,2400,2152,,,,,llc: LLVM ERROR: pdp64: calls of variadi
+ub-diff__diffdir,ub-diff,444,1474,1346,444,1486,1366,,,,,clang: In file included from /home/matth
+ub-diff__diffreg,ub-diff,2567,8454,7590,2574,8496,7632,,,,,clang: In file included from /home/matth
+ub-diff__xmalloc,ub-diff,133,374,358,133,374,358,,,,,clang: In file included from /home/matth
+ub-sed__compile,ub-sed,1510,4622,4398,1512,4628,4396,,,,,clang: In file included from /home/matth
+ub-sed__main,ub-sed,814,3110,2702,816,3118,2710,,,,,clang: In file included from /home/matth
+ub-sed__misc,ub-sed,158,496,440,158,496,440,,,,,llc: LLVM ERROR: pdp64: calls of variadi
+ub-sed__process,ub-sed,1275,4612,4036,1277,4640,4056,,,,,clang: In file included from /home/matth
+ub-grep__binary,ub-grep,,,,,,,,,,cpp: /home/matthew/claude/openbsd-src/us,clang: In file included from /home/matth
+ub-grep__file,ub-grep,,,,,,,,,,cpp: /home/matthew/claude/openbsd-src/us,clang: In file included from /home/matth
+ub-grep__grep,ub-grep,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+ub-grep__mmfile,ub-grep,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+ub-grep__queue,ub-grep,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+ub-grep__util,ub-grep,,,,,,,,,,cpp: /home/matthew/claude/openbsd-src/us,clang: In file included from /home/matth
+ub-m4__eval,ub-m4,1047,3844,3388,1046,3852,3396,,,,,clang: In file included from /home/matth
+ub-m4__expr,ub-m4,71,216,200,71,216,200,,,,,clang: In file included from /home/matth
+ub-m4__gnum4,ub-m4,1031,3268,3012,1031,3276,3020,,,,,clang: In file included from /home/matth
+ub-m4__look,ub-m4,,,,,,,,,,cpp: /home/matthew/claude/openbsd-src/us,clang: In file included from /home/matth
+ub-m4__main,ub-m4,,,,,,,,,,cpp: /home/matthew/claude/openbsd-src/us,clang: In file included from /home/matth
+ub-m4__misc,ub-m4,606,2108,1860,607,2114,1866,,,,,clang: In file included from /home/matth
+ub-m4__trace,ub-m4,287,1034,906,287,1036,908,,,,,clang: In file included from /home/matth
+ub-cmp__cmp,ub-cmp,276,842,778,276,852,788,,,,,clang: In file included from /home/matth
+ub-cmp__misc,ub-cmp,121,346,322,119,342,310,,,,,llc: LLVM ERROR: pdp64: calls of variadi
+ub-cmp__regular,ub-cmp,214,574,542,214,584,560,,,,,clang: In file included from /home/matth
+ub-cmp__special,ub-cmp,145,450,410,145,450,410,,,,,llc: LLVM ERROR: pdp64: calls of variadi
+ub-tsort__tsort,ub-tsort,,,,,,,,,,cpp: /home/matthew/claude/openbsd-src/us,clang: In file included from /home/matth
+libcrypto__aes,libcrypto,,,,,,,,,,cpp: /home/matthew/claude/openbsd-src/li,clang: In file included from /home/matth
+libcrypto__aes_amd64,libcrypto,,,,,,,,,,cpp: /home/matthew/claude/openbsd-src/li,clang: /home/matthew/claude/openbsd-src/
+libcrypto__aes_core,libcrypto,,,,,,,,,,cpp: /home/matthew/claude/openbsd-src/li,clang: In file included from /home/matth
+libcrypto__aes_i386,libcrypto,,,,,,,,,,cpp: /home/matthew/claude/openbsd-src/li,clang: /home/matthew/claude/openbsd-src/
+libcrypto__bn_add,libcrypto,,,,,,,,,,cpp: /home/matthew/claude/openbsd-src/li,clang: /home/matthew/claude/openbsd-src/
+libcrypto__bn_add_sub,libcrypto,,,,,,,,,,cpp: /home/matthew/claude/openbsd-src/li,clang: In file included from /home/matth
+libcrypto__bn_bpsw,libcrypto,,,,,,,,,,cpp: /home/matthew/claude/openbsd-src/li,clang: In file included from /home/matth
+libcrypto__bn_const,libcrypto,,,,,,,,,,cpp: /home/matthew/claude/openbsd-src/li,clang: In file included from /home/matth
+libcrypto__bn_convert,libcrypto,,,,,,,,,,cpp: /home/matthew/claude/openbsd-src/li,clang: In file included from /home/matth
+libcrypto__bn_ctx,libcrypto,,,,,,,,,,cpp: /home/matthew/claude/openbsd-src/li,clang: In file included from /home/matth
+libcrypto__bn_div,libcrypto,,,,,,,,,,cpp: /home/matthew/claude/openbsd-src/li,clang: In file included from /home/matth
+libcrypto__bn_err,libcrypto,,,,,,,,,,cpp: /home/matthew/claude/openbsd-src/li,clang: In file included from /home/matth
+libcrypto__bn_exp,libcrypto,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libcrypto__bn_gcd,libcrypto,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libcrypto__bn_isqrt,libcrypto,,,,,,,,,,cpp: /home/matthew/claude/openbsd-src/li,clang: In file included from /home/matth
+libcrypto__bn_kron,libcrypto,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libcrypto__bn_lib,libcrypto,,,,,,,,,,cpp: /home/matthew/claude/openbsd-src/li,clang: In file included from /home/matth
+libcrypto__bn_mod,libcrypto,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libcrypto__bn_mod_sqrt,libcrypto,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libcrypto__bn_mod_words,libcrypto,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libcrypto__bn_mont,libcrypto,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libcrypto__bn_mul,libcrypto,,,,,,,,,,cpp: /home/matthew/claude/openbsd-src/li,clang: /home/matthew/claude/openbsd-src/
+libcrypto__bn_prime,libcrypto,,,,,,,,,,cpp: /home/matthew/claude/openbsd-src/li,clang: In file included from /home/matth
+libcrypto__bn_primitives,libcrypto,,,,,,,,,,cpp: /home/matthew/claude/openbsd-src/li,clang: In file included from /home/matth
+libcrypto__bn_print,libcrypto,,,,,,,,,,cpp: /home/matthew/claude/openbsd-src/li,clang: In file included from /home/matth
+libcrypto__bn_rand,libcrypto,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libcrypto__bn_recp,libcrypto,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libcrypto__bn_shift,libcrypto,,,,,,,,,,cpp: /home/matthew/claude/openbsd-src/li,clang: In file included from /home/matth
+libcrypto__bn_small_primes,libcrypto,0,0,0,0,0,0,,,,,clang: In file included from /home/matth
+libcrypto__bn_sqr,libcrypto,,,,,,,,,,cpp: /home/matthew/claude/openbsd-src/li,clang: /home/matthew/claude/openbsd-src/
+libcrypto__bn_word,libcrypto,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libcrypto__md5,libcrypto,,,,,,,,,,cpp: /home/matthew/claude/openbsd-src/li,clang: In file included from /home/matth
+libcrypto__sha1,libcrypto,,,,,,,,,,cpp: /home/matthew/claude/openbsd-src/li,clang: In file included from /home/matth
+libcrypto__sha1_aarch64,libcrypto,,,,,,,,,,cpp: /home/matthew/claude/openbsd-src/li,clang: In file included from /home/matth
+libcrypto__sha1_amd64,libcrypto,,,,,,,,,,cpp: /home/matthew/claude/openbsd-src/li,clang: In file included from /home/matth
+libcrypto__sha256,libcrypto,,,,,,,,,,cpp: /home/matthew/claude/openbsd-src/li,clang: In file included from /home/matth
+libcrypto__sha256_aarch64,libcrypto,,,,,,,,,,cpp: /home/matthew/claude/openbsd-src/li,clang: In file included from /home/matth
+libcrypto__sha256_amd64,libcrypto,,,,,,,,,,cpp: /home/matthew/claude/openbsd-src/li,clang: In file included from /home/matth
+libcrypto__sha3,libcrypto,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libcrypto__sha512,libcrypto,,,,,,,,,,cpp: /home/matthew/claude/openbsd-src/li,clang: In file included from /home/matth
+libcrypto__sha512_aarch64,libcrypto,,,,,,,,,,cpp: /home/matthew/claude/openbsd-src/li,clang: In file included from /home/matth
+libcrypto__sha512_amd64,libcrypto,,,,,,,,,,cpp: /home/matthew/claude/openbsd-src/li,clang: In file included from /home/matth
+libcrypto__des,libcrypto,,,,,,,,,,cpp: /home/matthew/claude/openbsd-src/li,clang: In file included from /home/matth
+libcrypto__des_cksum,libcrypto,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libcrypto__des_enc,libcrypto,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libcrypto__des_fcrypt,libcrypto,,,,,,,,,,cpp: In file included from /home/matthew,clang: In file included from /home/matth
+libcrypto__des_key,libcrypto,,,,,,,,,,cpp: /home/matthew/claude/openbsd-src/li,clang: In file included from /home/matth
+libcrypto__blowfish,libcrypto,,,,,,,,,,cpp: /home/matthew/claude/openbsd-src/li,clang: In file included from /home/matth
+libcrypto__chacha-merged,libcrypto,,,,,,,,,,"ccom: <stdin>, line 125: NULL undefined",clang: /home/matthew/claude/openbsd-src/
+libcrypto__chacha,libcrypto,,,,,,,,,,cpp: /home/matthew/claude/openbsd-src/li,clang: /home/matthew/claude/openbsd-src/
+libcrypto__curve25519-generic,libcrypto,1,6,2,1,6,2,,,,,clang: In file included from /home/matth
+libcrypto__curve25519,libcrypto,,,,,,,,,,cpp: /home/matthew/claude/openbsd-src/li,clang: /home/matthew/claude/openbsd-src/
+libcrypto__rc4,libcrypto,,,,,,,,,,cpp: /home/matthew/claude/openbsd-src/li,clang: In file included from /home/matth
+tests-c__cbr,tests-c,251,726,726,275,774,774,89,218,218,,
+tests-c__extend,tests-c,175,550,526,175,570,538,118,386,386,,
+tests-c__flagfree,tests-c,186,530,514,192,538,522,86,210,210,,
+tests-c__rotate32,tests-c,138,442,434,140,466,458,95,250,250,,
+tests-c__rotate64,tests-c,49,148,148,49,154,154,8,22,22,,
+tests-c-new__autoinc,tests-c-new,246,732,730,246,732,730,202,568,568,,
+tests-c-new__avail_chase,tests-c-new,117,342,342,119,346,346,61,166,166,,
+tests-c-new__avail_volatile,tests-c-new,104,322,306,104,324,308,71,176,176,,
+tests-c-new__ccp,tests-c-new,146,420,420,146,420,420,49,114,114,,
+tests-c-new__ccp_signedness,tests-c-new,2,4,4,2,4,4,2,4,4,,
+tests-c-new__divmagic,tests-c-new,412,1198,1198,412,1198,1198,1231,3672,3672,,
+tests-c-new__divp2,tests-c-new,383,1068,1068,383,1068,1068,183,468,468,,
+tests-c-new__fields,tests-c-new,327,1010,1010,327,1018,1018,102,270,270,,
+tests-c-new__fuse_calls,tests-c-new,135,352,352,135,352,352,84,222,222,,
+tests-c-new__hoist,tests-c-new,241,616,614,241,618,616,140,348,348,,
+tests-c-new__index,tests-c-new,116,352,352,116,354,354,56,150,150,,
+tests-c-new__jtab,tests-c-new,348,992,992,341,978,978,250,738,738,,
+tests-c-new__leaf_lea,tests-c-new,56,172,172,56,172,172,42,110,110,,
+tests-c-new__minmax,tests-c-new,164,484,484,164,496,496,126,350,350,,
+tests-c-new__modes,tests-c-new,342,1118,1098,342,1122,1102,281,726,726,,
+tests-c-new__mullea,tests-c-new,84,260,260,84,260,260,44,130,130,,
+tests-c-new__regs32,tests-c-new,102,264,264,104,268,268,14,36,36,,
+tests-c-new__setcc,tests-c-new,365,1054,1054,418,1148,1148,151,372,372,,
+tests-c-new__switch_tree,tests-c-new,,,,,,,139,384,384,as64: /tmp/flags-work/out/base/tests-c-n,
+tests-c-new__tailcall,tests-c-new,154,428,428,154,428,428,109,290,290,,
+tests-c-new__thread_bool,tests-c-new,160,428,428,163,432,432,130,326,326,,
+bench-sc__copy,bench-sc,37,130,126,37,130,126,26,92,92,,
+bench-sc__hash,bench-sc,51,186,178,51,186,178,53,204,204,,
+bench-sc__hist,bench-sc,47,164,160,47,172,168,49,158,158,,
+bench-sc__list,bench-sc,61,184,184,61,184,184,61,176,176,,
+bench-sc__lz,bench-sc,111,360,346,111,370,356,102,342,342,,
+bench-sc__matmul,bench-sc,82,224,216,82,224,216,50,170,170,,
+bench-sc__sha,bench-sc,193,660,620,192,664,624,187,544,544,,
+bench-sc__sort,bench-sc,81,276,252,81,278,262,115,364,364,,
