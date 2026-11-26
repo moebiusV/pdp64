@@ -43,6 +43,7 @@ These are not goals. They apply to every decision.
 
 ## The method
 
+* **Precedent is neutral.** That another architecture does something is not a point in its favor; history and precedent are where I find ideas, not how I rank them. An idea from precedent is judged on the principles like any other.
 * **Best of breed first.** I start from what other architectures do, verified in their own documents, and amend minimally so that the hole closes by construction, in the way OpenBSD does. I make a bold change only for a measured big win. I am not afraid to revive ideas and practices from the past, even from the 1960s.
 * **Learn from the past's flaws and mistakes,** in hardware and software, and design to dodge them all: processor errata and vulnerabilities, kernel and hypervisor bugs and their fixes, and my own earlier mistakes. Each flaw found becomes a design rule and a test.
 * **One source of truth, generated.** The grammar and the status and decisions document are authoritative. Everything else is generated from them or checked against them, so that nothing drifts.
