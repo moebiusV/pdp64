@@ -29,10 +29,10 @@
 | **`LPAD`** | marks a legal target of an indirect jump or call; optional in ABI version 1 (appendix {{r:page-bit-that-enforces-landing-pads}}) |
 | **`CLMUL`** | carry-less multiply, the primitive under every CRC and Galois-field operation ({{r:bits-bytes-and-text}}) |
 | **`XNORPOP`, `POPCNT`** | bit-population instructions used by binary operations and bitsets ({{r:inference-array-languages-and-the-bit}}) |
-| **`SETCC`** | compare two values and set a register to 0 or 1: a comparison used as a value, and the carry of an addition (`SETLO`) ({{r:set-cc-rd-write-1}}) |
-| **`DP`** | the direct pointer: in user mode it is the thread pointer, in kernel mode the per-CPU pointer; a descendant of the 6502's zero page ({{r:state-registers-and-flags}}, {{r:position-independent-code}}) |
+| **`SETCC`** | compare two values and set a register to 0 or 1: a comparison used as a value, and the carry of an addition (`SETLO`) ({{r:setcc-writes-zero-or-one}}) |
+| **`DP`** | the direct pointer: in user mode it is the thread pointer, in kernel mode the per-CPU pointer; a descendant of the 6502's zero page ({{r:state-registers-and-status-word}}, {{r:position-independent-code}}) |
 | **`PSW`** | the processor status word: trace bit, mode, priority and the guard bit ({{r:modes-and-the-status-word}}) |
-| **`N Z V C`** | the PDP-11's four condition codes: negative, zero, overflow, carry; the pdp64 has none ({{r:flags-form-two-groups-c}}) |
+| **`N Z V C`** | the PDP-11's four condition codes: negative, zero, overflow, carry; the pdp64 has none ({{r:status-word-has-no-condition-codes}}) |
 | **canonical address** | a 64-bit address whose bits above the top bit of the virtual address (bit 38, 47 or 56 with three, four or five levels) equal that bit; any other value faults, so software cannot hide tags in the high bits ({{r:from-segments-to-pages-virtual-memory}}) |
 | **`lowtag`** | a type tag stored in the low bits of a pointer, free because objects are quad-aligned (instruction-set text, section {{r:modes-and-the-status-word}}; not otherwise used in this manual) |
 | **SWAR** | SIMD within a register: using one wide scalar register as several narrow lanes through masking and carry-aware arithmetic (instruction-set text, glossary; the manual's bit and byte instructions of {{r:bits-bytes-and-text}} make it effective) |

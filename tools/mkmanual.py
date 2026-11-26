@@ -2,7 +2,7 @@
 """Generate the instruction dictionary of the manual (docs/manual/dictionary/).
 
 Every number comes from spec/grammars.d, the one place the architecture's numbers are written, so the dictionary
-cannot drift from the assembler and the simulators; the words (operation, flags, exceptions) are in tools/manual/isa_entries.py.
+cannot drift from the assembler and the simulators; the words (operation, exceptions) are in tools/manual/isa_entries.py.
 Whether an instruction is implemented in the reference executor is read from common/pdp64exec.c.
 
     tools/mkmanual.py                  write the manual of the pdp64 into docs/manual/: the hand-written text of docs/manual-src/ (tools/manual/assemble.py),
@@ -301,7 +301,7 @@ def words_section(e, real):
         out += ['#### %s' % n.upper(), ''] + forms_block(n)
         if syn:
             out += ['```', uni('\n'.join(syn)), '```', '']
-        out += ['Operation, flags and exceptions as for the entry %s above; %d layout form%s, each a chart of its own (above).' % (e['id'], len(WORDCH[n]), '' if len(WORDCH[n]) == 1 else 's'), '']
+        out += ['Operation and exceptions as for the entry %s above; %d layout form%s, each a chart of its own (above).' % (e['id'], len(WORDCH[n]), '' if len(WORDCH[n]) == 1 else 's'), '']
     return out
 
 
@@ -332,8 +332,9 @@ def render_entry(e):
     out.append('**Operation**\n')
     out.append('```\n' + uni(e['op'].strip('\n')) + '\n```')
     out.append('')
-    out.append('**Flags** ' + e['flags'])
-    out.append('')
+    if e['flags']:
+        out.append(('**Exception flags** ' if ('FPSR' in e['flags'] or 'exception flag' in e['flags']) else '**Result** ') + e['flags'])
+        out.append('')
     out.append('**Exceptions** ' + prose(e, 'exc'))
     out.append('')
     if prose(e, 'notes'):
@@ -648,9 +649,14 @@ def build():
     for (fn, sec), parts in sorted(heads.items()):
         texts[fn] = embed(texts[fn], 'entries:' + sec, '\n\n'.join(p.strip('\n') + '\n' for p in parts))
     texts['09-isa.md'] = embed(texts['09-isa.md'], 'notation', notation(), after_heading=True)
+    # the counts of the instruction set are never typed: @@COUNT:words@@, @@COUNT:leaves@@ and @@COUNT:vector@@ in the chapters
+    _vec = [n for e in D.ENTRIES if e in D.isa_vec.ENTRIES for n in e['names'] if not MN[n]['alias_of']]
+    _count = {'words': sum(1 for m in MN.values() if not m['alias_of']), 'leaves': len(CH.charts), 'vector': len(_vec)}
+    for _fn in texts:
+        texts[_fn] = re.sub(r'@@COUNT:(\w+)@@', lambda m: '{:,}'.format(_count[m.group(1)]) if m.group(1) in _count else m.group(0), texts[_fn])
     # the official entries live in the instruction chapter; the chapters that give the rationale list them and link to them
     for fn, sec, home in (('06-kernel.md', R('kernel-system-instructions-exceptions'), 'isa-system-instructions-exceptions'), ('07-smp.md', R('atomic-operations'), 'atomics-and-ordering')):
-        rows = ['**The instruction entries for this section are in chapter {{c:id01009|n}}, section %s:** each entry there is complete (syntax, encoding diagram, operation, flags, exceptions, status); the commentary above gives the reasons and the use.' % R(home), '',
+        rows = ['**The instruction entries for this section are in chapter {{c:id01009|n}}, section %s:** each entry there is complete (syntax, encoding diagram, operation, exceptions, status); the commentary above gives the reasons and the use.' % R(home), '',
                 '| Entry | Mnemonics |', '|---|---|']
         for e in ents:
             if HOME[e['id']] == ('09-isa.md', home):

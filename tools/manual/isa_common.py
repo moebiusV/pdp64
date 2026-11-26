@@ -7,9 +7,24 @@ NONE = 'None.'
 PRIV = 'Privileged: outside kernel mode the instruction aborts with the privileged-instruction vector.'
 ILL = 'A reserved encoding aborts with the illegal-instruction vector.'
 
-NOFLAGS = 'No flags.'
+NOFLAGS = ''
+
+# The `flags` slot of an entry holds only what is left to say about the result besides the destination register:
+# the sticky exception flags of FPSR that a floating-point instruction raises ("Exception flags"), or a result
+# that is reported in a register ("Result").  The machine has no condition codes, so for every other entry the slot
+# is empty and the entry has no such line.
+_NOTHING = ('', 'No flags.', 'None.', 'None written.', 'None written (rotates write no flags).')
+
+
+def _clean(f):
+    if f in _NOTHING or f.startswith(('As for `ADD`', 'Those of the instruction')):
+        return ''
+    for pre in ('None written. ', 'None. '):
+        if f.startswith(pre):
+            return f[len(pre):]
+    return f
 
 
 def E(id, page, names, title, syntax, op, flags, exc, notes='', cf='', xnote='', alias=''):
-    return dict(id=id, page=page, names=names, title=title, syntax=syntax, op=op, flags=flags, exc=exc,
+    return dict(id=id, page=page, names=names, title=title, syntax=syntax, op=op, flags=_clean(flags), exc=exc,
                 notes=notes, cf=cf, xnote=xnote, alias=alias)

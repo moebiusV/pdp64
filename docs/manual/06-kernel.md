@@ -568,7 +568,7 @@ This section collects, in the vocabulary of the kernel, the statements of 6.2 to
 The modes and exceptions are 6.2 to 6.4 and the multiprocessor instructions are chapter 7. `PROBER` and `PROBEW` replace the `nofault` idiom for address checks, and `ISYNC` follows a write to the page-table base or the vector base. The compiler never emits these instructions except through intrinsics. This is the kernel's whole instruction vocabulary: `MFSR`, `MTSR`, `TLBI`, `RTI`, `SPL`, `ISYNC` and the probes, and, on a machine with a hypervisor, `GENTER`. *Hardware:* the system group takes its sub-opcode from the register field, and the privilege check is one comparison on the current mode.
 
 <!-- entries:6.13 -->
-**The instruction entries for this section are in chapter 9, section 9.14:** each entry there is complete (syntax, encoding diagram, operation, flags, exceptions, status); the commentary above gives the reasons and the use.
+**The instruction entries for this section are in chapter 9, section 9.14:** each entry there is complete (syntax, encoding diagram, operation, exceptions, status); the commentary above gives the reasons and the use.
 
 | Entry | Mnemonics |
 |---|---|

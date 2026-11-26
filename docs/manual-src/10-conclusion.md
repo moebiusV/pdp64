@@ -60,7 +60,7 @@ What you know: the PDP-11 executed one instruction at a time, in the order writt
 
 **{{#first-implementations-on-the-fpga}}** The first implementations, on the FPGA and in silicon, are small in-order cores without speculation; the architecture is kept ready for a large out-of-order design. ("i'm ok with the fpga/asic being in order, but want to be ready for the out of order large scale design")
 
-**{{#condition-flags-were-the-structural}}** The condition flags were the structural obstacle: with the PDP-11 rule 68.2% of compiled instructions wrote a flag and 1.5% read one, a hidden register on almost every path. The pdp64 has no condition codes: every decision is a compare-and-branch, and an ALU instruction writes only its result.
+**{{#no-condition-codes-for-out-of-order}}** The condition flags were the structural obstacle: with the PDP-11 rule 68.2% of compiled instructions wrote a flag and 1.5% read one, a hidden register on almost every path. The pdp64 has no condition codes: every decision is a compare-and-branch, and an ALU instruction writes only its result.
 
 **{{#conclusion-order-and-out-of-order}}** In-order and out-of-order cores may share a die if software can tell which is which; the architectural memory model and the instruction semantics are the same on every core.
 

@@ -2,7 +2,7 @@
 
 [← manual index](00-index.md)
 
-**The instruction set is built around one idea: the first parcel of an instruction says both what the instruction is and how long it is, so the commonest instructions are two bytes and nothing is longer than six, one literal excepted.** The chapter covers how the opcode space is divided into prefix-coded leaves, the properties and principles that hold throughout, the registers, the format and the addressing modes, each group of instructions, faults, restart and memory management, position-independent code, what is rejected, the idioms of the PDP-11 and VAX that are restored, lost or replaced and the idioms of the compiler, the comparison with the PDP-11 and VAX, and what is taken from LoongArch. Every instruction has its entry (syntax, bit-layout chart, operation, flags, exceptions) in the section of its group below; the atomic instructions are in section 9.13 and the system instructions in section 9.14; the [reference tables](dictionary/index.md) hold the aliases, the constants, the lists of mnemonics and the chart of every leaf. The grammars the tools are generated from are described in [`../../spec/README.md`](../../spec/README.md); every number here comes from them or from the measurements cited.
+**The instruction set is built around one idea: the first parcel of an instruction says both what the instruction is and how long it is, so the commonest instructions are two bytes and nothing is longer than six, one literal excepted.** The chapter covers how the opcode space is divided into prefix-coded leaves, the properties and principles that hold throughout, the registers, the format and the addressing modes, each group of instructions, faults, restart and memory management, position-independent code, what is rejected, the idioms of the PDP-11 and VAX that are restored, lost or replaced and the idioms of the compiler, the comparison with the PDP-11 and VAX, and what is taken from LoongArch. Every instruction has its entry (syntax, bit-layout chart, operation, exceptions) in the section of its group below; the atomic instructions are in section 9.13 and the system instructions in section 9.14; the [reference tables](dictionary/index.md) hold the aliases, the constants, the lists of mnemonics and the chart of every leaf. The grammars the tools are generated from are described in [`../../spec/README.md`](../../spec/README.md); every number here comes from them or from the measurements cited.
 
 ## 9.1 How the opcode space is divided
 
@@ -16,7 +16,7 @@
 
 **9.1.5** 3,278 of the 65,536 patterns of a first parcel (5.0%) match no prefix and are illegal instructions; so is a sub-opcode that no mnemonic uses and a hot-register index beyond the table (9.4.6), so that a wild jump fails early and nothing is undefined.
 
-**9.1.6** The assembly language and the mnemonics of the base specification are kept. The leaves add 32 words to them: the four fused pairs (`MOVCALL`, `POPRET`, `POPMRET`, `MOV2`), `MASKEQZ` and `MASKNEZ`, `BSEL`, the checked arithmetic `ADDV`, `SUBV` and `MULV`, the user-qualified moves (`.U`, seven words), and the seven AES and eight SHA words. Each entry says what is still to be worked out.
+**9.1.6** The assembly language and the mnemonics of the PDP-11 are kept for the instructions that the machine keeps; `CMP`, `TST`, `BIT`, `ADC`, `SBC`, the flag branches and the instructions that set and clear flags are not among them, because there are no flags (9.10.1). The leaves add words to them: the compare-and-branch family (`CBCC` for integers, `FCBCC` for floating point) and the compare into a register (`SETCC`), the four fused pairs (`MOVCALL`, `POPRET`, `POPMRET`, `MOV2`), `MASKEQZ` and `MASKNEZ`, `BSEL`, the checked arithmetic `ADDV`, `SUBV` and `MULV`, the user-qualified moves (`.U`, seven words), and the seven AES and eight SHA words.
 
 *Commentary.* **Precedent.** The PDP-11 partitioned its opcodes by the addressing modes of the first word; the VAX by operand specifiers parsed in sequence; x86 by prefixes, opcode, ModR/M and SIB read one after another. The prefix code is the device of a Huffman code (the commonest symbols get the shortest strings) applied to the first parcel, with the length of the instruction as a by-product of the match. **Trade-offs.** The decoder reads up to 16 bits to find the length. In the timing model the decoder pays one cycle of length-decode latency on every taken branch and refill, and fetch-wait is 7.2% of the cycles at four bytes per cycle. What the prefix buys is density: the 841-file corpus is 964,158 bytes, 3.26 bytes an instruction, and the instructions executed fall with the compiler and the fused pairs (appendix E, E.4). **Improvements.** Every bit is a prefix, sub-opcode or operand bit, so an unused code is an illegal instruction and not a silent no-op; the fields of every leaf come from the grammar, so no table is written twice. **Benefits.** The common operations, a register move, a load from the stack, a branch on a register against zero, cost two bytes with no look at a second parcel, and the rare ones are as long as they need to be. **Modern comparables.** Thumb-2 and RISC-V's compressed instructions mix 16- and 32-bit forms with the length in a few bits; x86 finds the length by parsing; the prefix code here is the general case of the first and avoids the second. **Impact.** *Kernel:* nothing in the kernel depends on the opcode map; a debugger and the fault handler's step-over read the same generated table as the assembler. *Compiler:* the cost model charges 2, 4 or 6 bytes (10 for `MOVQ` of a 64-bit constant) and knows which operands fit a one-parcel form, the hot registers above all (9.4.6). *Hardware:* the length is a function of up to 16 bits of the first parcel, a lookup in the fetch path; a front end that decodes several instructions a cycle needs such a lookup at each parcel position, a cost that the timing model does not measure beyond the one cycle above.
 
@@ -50,7 +50,7 @@
 
 *Commentary.* **Precedent.** 9.2.2 is x86's ModR/M idea made architectural; it is also what lets the exception machinery be small (the PDP-11 recorded at most two register side effects per instruction because it had two specifiers; with one memory operand there is at most one). 9.2.6 exists because the Motorola 68000, which was very nearly this machine, could not restart an instruction after a bus error and so could not do demand paging until its successor retrofitted a fault model. 9.2.4 is the rule x86-64 adopted for 32-bit writes and failed to apply to the 8- and 16-bit forms. 9.2.7 is the arrangement RISC-V standardised as Zfinx. **Trade-offs.** 9.2.9 means narrow arithmetic is done wide and converted, which costs an extension instruction after some narrow operations. 9.2.8 is the cheapest model on a small in-order core and the most expensive on a large speculative one. 9.2.10 lets the page table have three levels, as RISC-V's Sv39 does, or four or five as x86-64, AArch64 and Sv48 and Sv57 do, at a longer walk for each level. **Improvements.** The rules are soft defaults: each says what it protects and what breaking it costs. **Benefits.** Together they make the machine small, restartable and easy for a compiler; the measured code size is in chapter 1. **Modern comparables.** AArch64 and RISC-V have fixed-length register-to-register encodings and weak memory models; x86-64 has memory operands and total store order; the pdp64 takes memory operands, strong ordering and a bounded fault surface. **Impact.** *Kernel:* Restartable instructions and precise exceptions mean a page-fault handler repairs the mapping and returns, with no instruction-specific cases, and sequential consistency means no barrier code. *Compiler:* One memory operand keeps instruction selection and register allocation simple; a register written in full removes partial-register merges; the single ALU width costs an extension instruction after some narrow arithmetic. *Hardware:* One address generator, at most one register side effect, a single-entry undo buffer, no byte-lane multiplexing and a length that is a lookup on one parcel are what keep the die small.
 
-## 9.3 State: registers and flags
+## 9.3 State: registers and the status word
 
 **9.3.1** There are thirty-two 64-bit general registers, `R0` to `R31`. `R14` is the stack pointer `SP`, with three copies (kernel, supervisor, user) chosen by the current mode; `R13` is the frame pointer by convention only; the others carry no meaning to the hardware.
 
@@ -122,11 +122,11 @@
 ## 9.6 Moves, conversions and address formation
 
 <!-- notation -->
-**The instructions.** Every instruction has an entry in the section of its group, laid out as in a processor reference manual: its mnemonics, its syntax, its encoding (the chart of its layout and the list of all its layouts, each with a chart of its own), its operation in pseudocode, the flags it writes, the exceptions it can take, and where the manual explains the matter it touches (*Cf.*). Every instruction, the atomic and the system instructions included, has its official entry below (sections 9.13 and 9.14 for those two groups); the chapters on the kernel and on several processors give the reasons, and an entry may point back to them for a fuller explanation. In the pseudocode, ← is assignment, = and ≠ compare, × and ÷ multiply and divide, and `M[a]` is memory at address `a`. Numbers that are encodings (prefixes, sub-opcodes, field values) are written in binary. Masks are binary too, with a subscript 2 to mark the base (`Rn & 111₂` keeps the low three bits). The layouts are generated from the grammars of the encodings, `spec/grammars.d/22-enc-vocabulary.hbnf` and the grammar of the CPU, so a chart here cannot disagree with the assembler, the linker or the simulator. The aliases, the constants, the lists of the mnemonics and the bit layouts of every opcode are in the [reference tables](dictionary/index.md).
+**The instructions.** Every instruction has an entry in the section of its group, laid out as in a processor reference manual: its mnemonics, its syntax, its encoding (the chart of its layout and the list of all its layouts, each with a chart of its own), its operation in pseudocode, the exception flags it raises if it is a floating-point instruction, the exceptions it can take, and where the manual explains the matter it touches (*Cf.*). Every instruction, the atomic and the system instructions included, has its official entry below (sections 9.13 and 9.14 for those two groups); the chapters on the kernel and on several processors give the reasons, and an entry may point back to them for a fuller explanation. In the pseudocode, ← is assignment, = and ≠ compare, × and ÷ multiply and divide, and `M[a]` is memory at address `a`. Numbers that are encodings (prefixes, sub-opcodes, field values) are written in binary. Masks are binary too, with a subscript 2 to mark the base (`Rn & 111₂` keeps the low three bits). The layouts are generated from the grammars of the encodings, `spec/grammars.d/22-enc-vocabulary.hbnf` and the grammar of the CPU, so a chart here cannot disagree with the assembler, the linker or the simulator. The aliases, the constants, the lists of the mnemonics and the bit layouts of every opcode are in the [reference tables](dictionary/index.md).
 
 **The stories.** An instruction that is not common (the PDP-11 core and the operations every architecture has carry none) is followed by *Why it is here*: the machine the idea came from and the reason it was chosen, with the measurements that bear on it. Where no reason is recorded, the paragraph says so. The documents behind the paragraphs are listed in [appendix E](appendix-e-evidence.md).
 
-**Notation.** `Rd` is the destination register, `Rs` the first source, `Rt` the second, `Ru` the third; the assembler writes the destination last, and the operands of a chart are numbered `op1`, `op2`, ... in the order of the assembly syntax. `rm` is a general operand: a register, or a memory operand, an immediate, a pc-relative or an absolute address, by the addressing forms that the layouts of the instruction give (section 9.5). `EA(rm)` is its effective address. `M[a]` is memory, `M8[a]` one byte. `sext` and `zext` sign- and zero-extend. `N Z V C` are the condition flags. In the charts the bits of a parcel are numbered from 15 at the left, a shaded box is a fixed value, and a white box is a field that varies.
+**Notation.** `Rd` is the destination register, `Rs` the first source, `Rt` the second, `Ru` the third; the assembler writes the destination last, and the operands of a chart are numbered `op1`, `op2`, ... in the order of the assembly syntax. `rm` is a general operand: a register, or a memory operand, an immediate, a pc-relative or an absolute address, by the addressing forms that the layouts of the instruction give (section 9.5). `EA(rm)` is its effective address. `M[a]` is memory, `M8[a]` one byte. `sext` and `zext` sign- and zero-extend. In the charts the bits of a parcel are numbered from 15 at the left, a shaded box is a fixed value, and a white box is a field that varies.
 
 **Registers.** The pdp64 has 32 registers, `R0` to `R31`. A register field of an instruction is the full number of bits (5), or fewer where the field names one of the hot registers; the entries that name `R0` to `R15` apply to `R16` to `R31` too; the hot-register tables are part of the ABI: the 3-bit fields hold, in order, `R0` `R1` `R8` `R2` `SP` `R3` `R9` `R10`; the 4-bit fields hold, in order, `R0` `R1` `R8` `R2` `SP` `R3` `R9` `R10` `R11` `R4` `R15` `R5` `R24` `R25` `R26` `R6`. `PUSHM` and `POPM` take a 32-bit mask.
 <!-- /notation -->
@@ -183,8 +183,6 @@ size = 8 (MOVQ), 4 (MOVL), 2 (MOVW) or 1 (MOVB) bytes
 load :  Rd ← sext(M[EA(rm)], size)          ; len = 00: Rd ← sext(Rs[8×size-1:0])
 store:  M[EA(rm)] ← Rs[8×size-1:0]          ; len = 00: Rd ← sext(Rs[8×size-1:0])
 ```
-
-**Flags** No flags.
 
 **Exceptions** Memory operand: page fault, protection fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`); there is no alignment fault, and an access that crosses a page changes nothing when either page faults (9.6.5). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
@@ -273,7 +271,7 @@ MOVQ Rs, rm
 MOVQ #imm, Rd
 ```
 
-Operation, flags and exceptions as for the entry MOV above; 35 layout forms, each a chart of its own (above).
+Operation and exceptions as for the entry MOV above; 35 layout forms, each a chart of its own (above).
 
 <a id="w-movl"></a>
 #### MOVL
@@ -344,7 +342,7 @@ Operation, flags and exceptions as for the entry MOV above; 35 layout forms, eac
 MOVL, MOVW, MOVB likewise
 ```
 
-Operation, flags and exceptions as for the entry MOV above; 31 layout forms, each a chart of its own (above).
+Operation and exceptions as for the entry MOV above; 31 layout forms, each a chart of its own (above).
 
 <a id="w-movw"></a>
 #### MOVW
@@ -405,7 +403,7 @@ Operation, flags and exceptions as for the entry MOV above; 31 layout forms, eac
 
 ![MOVW: STHHH1/b, prefix 10111111, sub-opcode 0; operands reg3, b3d1u-xsz; 2 bytes](figures/w/movw/17.svg)
 
-Operation, flags and exceptions as for the entry MOV above; 28 layout forms, each a chart of its own (above).
+Operation and exceptions as for the entry MOV above; 28 layout forms, each a chart of its own (above).
 
 <a id="w-movb"></a>
 #### MOVB
@@ -468,7 +466,7 @@ Operation, flags and exceptions as for the entry MOV above; 28 layout forms, eac
 
 ![MOVB: STHHH1/b, prefix 10111111, sub-opcode 1; operands reg3, b3d1u-xsz; 2 bytes](figures/w/movb/17.svg)
 
-Operation, flags and exceptions as for the entry MOV above; 29 layout forms, each a chart of its own (above).
+Operation and exceptions as for the entry MOV above; 29 layout forms, each a chart of its own (above).
 
 
 ### MOVZ: Move zero-extended (32, 16 and 8 bits)
@@ -496,8 +494,6 @@ The chart is the leaf `LDF-B28-1`, LDF.B28, prefix `011010`. `op1` is `b5d28s-x1
 ```
 Rd ← zext(M[EA(rm)], size)      ; len = 00: Rd ← zext(Rs[8×size-1:0])
 ```
-
-**Flags** No flags.
 
 **Exceptions** Memory operand: page fault, protection fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`); there is no alignment fault, and an access that crosses a page changes nothing when either page faults (9.6.5). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
@@ -542,7 +538,7 @@ There is no zero-extending 64-bit move (it would be `MOVQ`). The register-to-reg
 MOVZL rm, Rd
 ```
 
-Operation, flags and exceptions as for the entry MOVZ above; 16 layout forms, each a chart of its own (above).
+Operation and exceptions as for the entry MOVZ above; 16 layout forms, each a chart of its own (above).
 
 <a id="w-movzw"></a>
 #### MOVZW
@@ -583,7 +579,7 @@ Operation, flags and exceptions as for the entry MOVZ above; 16 layout forms, ea
 MOVZW rm, Rd
 ```
 
-Operation, flags and exceptions as for the entry MOVZ above; 16 layout forms, each a chart of its own (above).
+Operation and exceptions as for the entry MOVZ above; 16 layout forms, each a chart of its own (above).
 
 <a id="w-movzb"></a>
 #### MOVZB
@@ -628,7 +624,7 @@ Operation, flags and exceptions as for the entry MOVZ above; 16 layout forms, ea
 MOVZB rm, Rd
 ```
 
-Operation, flags and exceptions as for the entry MOVZ above; 18 layout forms, each a chart of its own (above).
+Operation and exceptions as for the entry MOVZ above; 18 layout forms, each a chart of its own (above).
 
 
 <a id="w-lea"></a>
@@ -692,8 +688,6 @@ The chart is the leaf `LDF-B28-3`, LDF.B28, prefix `110000110`. `op1` is `b5d28s
 Rd ← EA(rm)          ; no memory access
 ```
 
-**Flags** No flags.
-
 **Exceptions** The operand must name memory (a register or an immediate is not a form). No memory access is made, so the instruction takes no memory fault. A reserved encoding aborts with the illegal-instruction vector.
 
 `LEA 0(PC), Rd` is how the program counter is read: it puts the address of the `LEA` itself in `Rd`. The base of every PC-relative displacement is the address of the first parcel of the instruction.
@@ -728,8 +722,6 @@ The chart is the leaf `FX-MOV2-1`, FX.MOV2, prefix `0011`. `op1` is `reg3`: regi
 Rb ← Ra
 Rd ← Rc           ; in this order
 ```
-
-**Flags** No flags.
 
 **Exceptions** None.
 
@@ -768,8 +760,6 @@ the access of MOVQ, MOVL, MOVW, MOVB and MOVZ* with the operand checked as a use
 the page must be present, have U = 1, and permit R (a load) or W (a store); a kernel page takes the protection abort
 ```
 
-**Flags** No flags.
-
 **Exceptions** The faults of the access, as a user-mode access. In user mode the encoding is a privileged-instruction abort.
 
 Item 18 of `docs/study-proposals.md`: user access is an attribute of one memory operand, so it cannot outlive the instruction, cannot leak across an interrupt, and `RTI` re-executes the instruction with the attribute. I accepted four of the five leanings: a fixup table in place of `pcb_onfault`, the `.U` spelling, `ECAUSE` bit 15 to say that the access was user-qualified, and the atomics taking the user form once the operand placement of `ATOM` is fixed; the fifth, keeping a status bit and two instructions beside `.U`, is gone, because one mechanism that cannot be left open is enough. A kernel-mode data access to a user page that is not `.U` is always a protection fault.
@@ -798,7 +788,7 @@ MOVQ.U d(Rn), Rd
 MOVQ.U Rs, d(Rn)
 ```
 
-Operation, flags and exceptions as for the entry MOVUSER above; 6 layout forms, each a chart of its own (above).
+Operation and exceptions as for the entry MOVUSER above; 6 layout forms, each a chart of its own (above).
 
 <a id="w-movl-u"></a>
 #### MOVL.U
@@ -819,7 +809,7 @@ Operation, flags and exceptions as for the entry MOVUSER above; 6 layout forms, 
 MOVL.U ..., MOVW.U ..., MOVB.U ...
 ```
 
-Operation, flags and exceptions as for the entry MOVUSER above; 6 layout forms, each a chart of its own (above).
+Operation and exceptions as for the entry MOVUSER above; 6 layout forms, each a chart of its own (above).
 
 <a id="w-movw-u"></a>
 #### MOVW.U
@@ -836,7 +826,7 @@ Operation, flags and exceptions as for the entry MOVUSER above; 6 layout forms, 
 
 ![MOVW.U: STU.X6, prefix 1001001, sub-opcode 10; operands reg5, x5-5d6s; 4 bytes](figures/w/movw-u/06.svg)
 
-Operation, flags and exceptions as for the entry MOVUSER above; 6 layout forms, each a chart of its own (above).
+Operation and exceptions as for the entry MOVUSER above; 6 layout forms, each a chart of its own (above).
 
 <a id="w-movb-u"></a>
 #### MOVB.U
@@ -853,7 +843,7 @@ Operation, flags and exceptions as for the entry MOVUSER above; 6 layout forms, 
 
 ![MOVB.U: STU.X6, prefix 1001001, sub-opcode 11; operands reg5, x5-5d6s; 4 bytes](figures/w/movb-u/06.svg)
 
-Operation, flags and exceptions as for the entry MOVUSER above; 6 layout forms, each a chart of its own (above).
+Operation and exceptions as for the entry MOVUSER above; 6 layout forms, each a chart of its own (above).
 
 <a id="w-movzl-u"></a>
 #### MOVZL.U
@@ -868,7 +858,7 @@ Operation, flags and exceptions as for the entry MOVUSER above; 6 layout forms, 
 MOVZL.U ..., MOVZW.U ..., MOVZB.U ...
 ```
 
-Operation, flags and exceptions as for the entry MOVUSER above; 3 layout forms, each a chart of its own (above).
+Operation and exceptions as for the entry MOVUSER above; 3 layout forms, each a chart of its own (above).
 
 <a id="w-movzw-u"></a>
 #### MOVZW.U
@@ -879,7 +869,7 @@ Operation, flags and exceptions as for the entry MOVUSER above; 3 layout forms, 
 
 ![MOVZW.U: LDU.X6, prefix 10110101, sub-opcode 1; operands x5-5d6s, reg5; 4 bytes](figures/w/movzw-u/03.svg)
 
-Operation, flags and exceptions as for the entry MOVUSER above; 3 layout forms, each a chart of its own (above).
+Operation and exceptions as for the entry MOVUSER above; 3 layout forms, each a chart of its own (above).
 
 <a id="w-movzb-u"></a>
 #### MOVZB.U
@@ -890,7 +880,7 @@ Operation, flags and exceptions as for the entry MOVUSER above; 3 layout forms, 
 
 ![MOVZB.U: LDU.X6, prefix 110000101; operands x5-5d6s, reg5; 4 bytes](figures/w/movzb-u/03.svg)
 
-Operation, flags and exceptions as for the entry MOVUSER above; 3 layout forms, each a chart of its own (above).
+Operation and exceptions as for the entry MOVUSER above; 3 layout forms, each a chart of its own (above).
 
 
 ### MCPYU: User-qualified block copy
@@ -920,8 +910,6 @@ MCPY.UR: each byte is read with the privilege of user mode (the page must be pre
 MCPY.UW: each byte is read as any kernel access is and written with the privilege of user mode (the page must have U = 1 and permit W)
 ```
 
-**Flags** No flags.
-
 **Exceptions** The faults of the accesses; a fault on the user side has bit 15 of `ECAUSE` set, as a `.U` move does. A plain `MCPY` of a user page is a protection fault.
 
 The block copy of a copy-in (`MCPY.UR`) and of a copy-out (`MCPY.UW`): the user-memory guard is always on, and these two words are how a kernel block-copies to or from user memory. The registers are updated as for `MCPY`, so a fault leaves them at the byte that failed. There is no form with both sides user (a copy from a user page to a user page is not a kernel job) and none for `MMOV`, `MSET` and `MCMP`: a fill of user memory is a copy from a zero buffer.
@@ -939,7 +927,7 @@ The block copy of a copy-in (`MCPY.UR`) and of a copy-out (`MCPY.UW`): the user-
 MCPY.UR Rd, Rs, Rn
 ```
 
-Operation, flags and exceptions as for the entry MCPYU above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry MCPYU above; 1 layout form, each a chart of its own (above).
 
 <a id="w-mcpy-uw"></a>
 #### MCPY.UW
@@ -950,7 +938,7 @@ Operation, flags and exceptions as for the entry MCPYU above; 1 layout form, eac
 MCPY.UW Rd, Rs, Rn
 ```
 
-Operation, flags and exceptions as for the entry MCPYU above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry MCPYU above; 1 layout form, each a chart of its own (above).
 <!-- /entries:9.6 -->
 
 ## 9.7 Integer arithmetic
@@ -976,7 +964,15 @@ Operation, flags and exceptions as for the entry MCPYU above; 1 layout form, eac
 
 **9.7.7** A range check on a register value, such as an array index, is made with `CBCC` (9.10.5; one unsigned compare tests `0 <= i < n`, because a negative index is a large unsigned number) or with the compare-and-trap words `CT<cc>` (9.14), which keep a table of check sites, with the trap-if-zero and the two-bound check `CHK2`; `ADDV`, `SUBV` and `MULV` check signed overflow.
 
-**9.7.8** A multi-word addition has no carry flag to pass along, so each carry is computed as a number. The PDP-11 added the low words and let `ADC` add the carry it had left in a flag into the next word. Here the carry out of `ADD Rb, Ra` (`Ra` := `Ra` + `Rb`) is 1 exactly when the new sum is lower than an addend, as unsigned numbers, and `SETLO Ra, Rb, Rt` writes that 0 or 1 in one instruction (`CBLO Ra, Rb, L` branches on it instead). A double-word addition (`a1:a0`) += (`b1:b0`) is four instructions (the carry out of the top word is not wanted, so none is computed):
+**9.7.8** A number wider than a register is added a register at a time, and the carry out of one word must reach the next. On the PDP-11 every `ADD` left its carry in the `C` flag, and `ADC` (add carry) added that flag into the next word; a double-word addition `a1:a0 += b1:b0`, with `a1:a0` in `r3:r2` and `b1:b0` in `r5:r4`, was three instructions (the high words first, so that the carry the low words leave is the one `ADC` finds):
+
+```
+        add     r5, r3          / PDP-11: a1 += b1
+        add     r4, r2          / a0 += b0, and C = the carry out of it
+        adc     r3              / a1 += C
+```
+
+Here no instruction leaves a carry behind, so each carry is computed as a number. The carry out of `ADD Rb, Ra` (`Ra` := `Ra` + `Rb`) is 1 exactly when the new sum is lower than an addend, as unsigned numbers (a sum that wrapped past 2^64 is smaller than what was added), and `SETLO Ra, Rb, Rt` writes that 0 or 1 in `Rt` in one instruction (`CBLO Ra, Rb, L` branches on it instead). The same addition is four instructions (the carry out of the top word is not wanted, so none is computed):
 
 ```
         add     r4, r2          ; a0 += b0
@@ -991,13 +987,13 @@ For a third word, or when the carry out of the second is wanted, each word after
         add     r7, r2          ; a_i += carry in (r7)
         setlo   r2, r7, r8      ; carry of that addition
         add     r4, r2          ; a_i += b_i
-        setlo   r2, r4, r9      ; carry of that addition
-        bis     r8, r9          ; carry out, to be the carry in of the next word
+        setlo   r2, r4, r7      ; carry of that addition (r7 is free again)
+        bis     r8, r7          ; carry out, in r7 to be the carry in of the next word
 ```
 
 The borrow of a subtraction `SUB Rb, Ra` is the comparison made before it: `SETLO Ra, Rb, Rt` gives 1 when `Ra` is lower than `Rb`, unsigned, and then `SUB Rb, Ra` follows. `MULH` and `MULHU` give the high half of a product, which is the other part that multi-word multiplication needs.
 
-*Commentary.* **Precedent.** `ADD`, `SUB`, `BIS`, `BIC` and the single-operand set are the PDP-11's, unchanged in name and meaning; the PDP-11's `CMP`, `TST`, `BIT`, `ADC` and `SBC` existed to set or read condition codes, which this machine does not have. MIPS and RISC-V compute a carry the same way, with a set-if-less-than. **Trade-offs.** A carry costs an extra instruction in a multi-word add where `ADC` was free, and multi-word arithmetic is rare. Divide is in the escape group, at four bytes, because compilers turn division by a constant into `MULH` plus a shift, so a real divide is rare. **Improvements.** The high-half multiply that bignum code needs is present; a second unsigned multiply is the same instruction as the first and is not provided. **Benefits.** `SETCC` replaces a branch around a move for the very common "store the truth value of a comparison", and gives the carry of an addition in one instruction; absolute value, minimum and maximum (as aliases) remove a compare-and-branch from small loops. **Modern comparables.** RISC-V has `MULH`, `MULHU` and `MULHSU`, and AArch64 `SMULH` and `UMULH`; x86 has a one-operand multiply that produces both halves; `slt` on MIPS and RISC-V and AArch64's conditional set are the nearest to `SETCC`. **Use.** `MULH` and `MULHU` are for multi-precision arithmetic and for division by constants; `SETLO` carries a multi-word add or subtract; `MIN`, `MAX` and `ABS` (aliases) appear under a tenth of a percent of compiled code but each replaces a branch. **Impact.** *Kernel:* `SETLO` carries multiword arithmetic for the kernel's 128-bit counters and for the bignum code in the base system. *Compiler:* `MULH` turns division by a constant into a multiply and a shift; `SETCC` materialises a comparison without a branch. *Hardware:* One adder on the carry chain; on an FPGA the multiplier is built from two to four multiplier blocks over four to eight cycles; the divide is a sequencer.
+*Commentary.* **Precedent.** `ADD`, `SUB`, `BIS`, `BIC` and the single-operand set are the PDP-11's, unchanged in name and meaning; the PDP-11's `CMP`, `TST`, `BIT`, `ADC` and `SBC` existed to set or read condition codes, which this machine does not have. The specification of RISC-V gives the same test for the carry out of an unsigned addition: the sum is compared with an addend and a branch is taken if it is lower. **Trade-offs.** A carry costs an extra instruction in a multi-word add where `ADC` was free, and multi-word arithmetic is rare. Divide is in the escape group, at four bytes, because compilers turn division by a constant into `MULH` plus a shift, so a real divide is rare. **Improvements.** The high-half multiply that bignum code needs is present; a second unsigned multiply is the same instruction as the first and is not provided. **Benefits.** `SETCC` replaces a branch around a move for the very common "store the truth value of a comparison", and gives the carry of an addition in one instruction; absolute value, minimum and maximum (as aliases) remove a compare-and-branch from small loops. **Modern comparables.** RISC-V has `MULH`, `MULHU` and `MULHSU`, and AArch64 `SMULH` and `UMULH`; x86 has a one-operand multiply that produces both halves; **Use.** `MULH` and `MULHU` are for multi-precision arithmetic and for division by constants; `SETLO` carries a multi-word add or subtract; `MIN`, `MAX` and `ABS` (aliases) appear under a tenth of a percent of compiled code but each replaces a branch. **Impact.** *Kernel:* `SETLO` carries multiword arithmetic for the kernel's 128-bit counters and for the bignum code in the base system. *Compiler:* `MULH` turns division by a constant into a multiply and a shift; `SETCC` materialises a comparison without a branch. *Hardware:* One adder on the carry chain; on an FPGA the multiplier is built from two to four multiplier blocks over four to eight cycles; the divide is a sequencer.
 
 <!-- entries:9.7 -->
 <a id="w-add"></a>
@@ -1064,8 +1060,6 @@ The chart is the leaf `LDF-B28-1`, LDF.B28, prefix `011010`. `op1` is `b5d28s-x1
 ```
 Rd ← Rd + rm
 ```
-
-**Flags** No flags.
 
 **Exceptions** Memory operand: page fault, protection fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`); there is no alignment fault, and an access that crosses a page changes nothing when either page faults (9.6.5). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
@@ -1137,8 +1131,6 @@ The chart is the leaf `LDF-B28-1`, LDF.B28, prefix `011010`. `op1` is `b5d28s-x1
 Rd ← Rd - rm
 ```
 
-**Flags** No flags.
-
 **Exceptions** Memory operand: page fault, protection fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`); there is no alignment fault, and an access that crosses a page changes nothing when either page faults (9.6.5). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
 
@@ -1193,8 +1185,6 @@ The chart is the leaf `LDF-B28-1`, LDF.B28, prefix `011010`. `op1` is `b5d28s-x1
 ```
 Rd ← (Rd × rm)[63:0]         ; sign-agnostic
 ```
-
-**Flags** No flags.
 
 **Exceptions** Memory operand: page fault, protection fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`); there is no alignment fault, and an access that crosses a page changes nothing when either page faults (9.6.5). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
@@ -1251,8 +1241,6 @@ The chart is the leaf `LDF-B28-1`, LDF.B28, prefix `011010`. `op1` is `b5d28s-x1
 Rd ← (sext(Rd) × sext(rm))[127:64]
 ```
 
-**Flags** No flags.
-
 **Exceptions** Memory operand: page fault, protection fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`); there is no alignment fault, and an access that crosses a page changes nothing when either page faults (9.6.5). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
 With `MULH`, division by a constant is a multiply by a reciprocal and a shift, which is what compilers emit.
@@ -1290,8 +1278,6 @@ BICM: M[EA] ← M[EA] AND NOT Rs
 BISM: M[EA] ← M[EA] OR Rs
 ```
 
-**Flags** As for `ADD`, `SUB`, `BIC` and `BIS`.
-
 **Exceptions** Memory operand: page fault, protection fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`); there is no alignment fault, and an access that crosses a page changes nothing when either page faults (9.6.5). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires. Write permission is checked during the read access, so the write cannot fault after the read has succeeded.
 
 The forms with a memory destination are in the ordinary memory families of the encoding, with every addressing form.
@@ -1317,7 +1303,7 @@ The forms with a memory destination are in the ordinary memory families of the e
 ADDM Rs, rm
 ```
 
-Operation, flags and exceptions as for the entry ADDM above; 6 layout forms, each a chart of its own (above).
+Operation and exceptions as for the entry ADDM above; 6 layout forms, each a chart of its own (above).
 
 <a id="w-subm"></a>
 #### SUBM
@@ -1338,7 +1324,7 @@ Operation, flags and exceptions as for the entry ADDM above; 6 layout forms, eac
 SUBM Rs, rm
 ```
 
-Operation, flags and exceptions as for the entry ADDM above; 6 layout forms, each a chart of its own (above).
+Operation and exceptions as for the entry ADDM above; 6 layout forms, each a chart of its own (above).
 
 <a id="w-bicm"></a>
 #### BICM
@@ -1359,7 +1345,7 @@ Operation, flags and exceptions as for the entry ADDM above; 6 layout forms, eac
 BICM Rs, rm
 ```
 
-Operation, flags and exceptions as for the entry ADDM above; 6 layout forms, each a chart of its own (above).
+Operation and exceptions as for the entry ADDM above; 6 layout forms, each a chart of its own (above).
 
 <a id="w-bism"></a>
 #### BISM
@@ -1380,7 +1366,7 @@ Operation, flags and exceptions as for the entry ADDM above; 6 layout forms, eac
 BISM Rs, rm
 ```
 
-Operation, flags and exceptions as for the entry ADDM above; 6 layout forms, each a chart of its own (above).
+Operation and exceptions as for the entry ADDM above; 6 layout forms, each a chart of its own (above).
 
 
 <a id="w-inc"></a>
@@ -1427,8 +1413,6 @@ The chart is the leaf `SOF-B28-1`, SOF.B28, prefix `110100000110`. `op1` is `b5d
 ```
 rm ← rm + 1
 ```
-
-**Flags** No flags.
 
 **Exceptions** Memory operand: page fault, protection fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`); there is no alignment fault, and an access that crosses a page changes nothing when either page faults (9.6.5). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
@@ -1478,8 +1462,6 @@ The chart is the leaf `SOF-B28-1`, SOF.B28, prefix `110100000110`. `op1` is `b5d
 rm ← rm - 1
 ```
 
-**Flags** No flags.
-
 **Exceptions** Memory operand: page fault, protection fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`); there is no alignment fault, and an access that crosses a page changes nothing when either page faults (9.6.5). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
 
@@ -1522,8 +1504,6 @@ The chart is the leaf `SOF-B28-1`, SOF.B28, prefix `110100000110`. `op1` is `b5d
 rm ← 0 - rm
 ```
 
-**Flags** No flags.
-
 **Exceptions** Memory operand: page fault, protection fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`); there is no alignment fault, and an access that crosses a page changes nothing when either page faults (9.6.5). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
 
@@ -1558,8 +1538,6 @@ MOD : Rd ← Ra mod Rb (signed, the sign of Ra; any value mod -1 = 0)
 MODU: Rd ← Ra mod Rb (unsigned)
 ```
 
-**Flags** No flags.
-
 **Exceptions** Division by zero aborts with the divide-by-zero vector (cause `DIVZERO`). There is no overflow trap: `INT_MIN / -1` returns `INT_MIN`.
 
 Division by a constant is a `MULH` and a shift, so a real divide is rare; this is why divide has no two-byte form.
@@ -1575,7 +1553,7 @@ Division by a constant is a `MULH` and a shift, so a real divide is rare; this i
 DIV Ra, Rb, Rd
 ```
 
-Operation, flags and exceptions as for the entry DIV above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry DIV above; 1 layout form, each a chart of its own (above).
 
 <a id="w-divu"></a>
 #### DIVU
@@ -1586,7 +1564,7 @@ Operation, flags and exceptions as for the entry DIV above; 1 layout form, each 
 DIVU Ra, Rb, Rd
 ```
 
-Operation, flags and exceptions as for the entry DIV above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry DIV above; 1 layout form, each a chart of its own (above).
 
 <a id="w-mod"></a>
 #### MOD
@@ -1597,7 +1575,7 @@ Operation, flags and exceptions as for the entry DIV above; 1 layout form, each 
 MOD Ra, Rb, Rd
 ```
 
-Operation, flags and exceptions as for the entry DIV above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry DIV above; 1 layout form, each a chart of its own (above).
 
 <a id="w-modu"></a>
 #### MODU
@@ -1608,7 +1586,7 @@ Operation, flags and exceptions as for the entry DIV above; 1 layout form, each 
 MODU Ra, Rb, Rd
 ```
 
-Operation, flags and exceptions as for the entry DIV above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry DIV above; 1 layout form, each a chart of its own (above).
 
 
 <a id="w-mulhu"></a>
@@ -1638,8 +1616,6 @@ The chart is the leaf `R3-1`, R3, prefix `1100101000`. `op1` is `reg5`: register
 Rd ← (Ra × Rb)[127:64]    ; unsigned
 ```
 
-**Flags** No flags.
-
 **Exceptions** None.
 
 **Why it is here.** The unsigned partner of `MULH`, for the same reason (the high half of the product). `MULHSU`, signed times unsigned for a bignum's top limb, is reserved because it can be built from `MULH` with one correction.
@@ -1665,8 +1641,6 @@ ABS Rs, Rd
 ```
 Rd ← |Rs|
 ```
-
-**Flags** Those of the instructions it expands to.
 
 **Exceptions** None.
 
@@ -1701,8 +1675,6 @@ MIN : Rd ← smaller of Ra, Rb (signed)         MINU: unsigned
 MAX : Rd ← larger of Ra, Rb (signed)          MAXU: unsigned
 ```
 
-**Flags** Those of the instructions they expand to.
-
 **Exceptions** None.
 
 **Why it is here.** The integer counterparts of `FMIN` and `FMAX`, provided with `ABS`; I decided (2026-11-10) that they are assembler aliases, not native instructions. The corpus has 171 uses of `MIN` and 52 of `MAX` across 95 files, under 0.1% of code in all.
@@ -1733,13 +1705,11 @@ The chart is the leaf `SETCCR-1`, SETCCR, prefix `1101001001001`. `op1` is `reg5
 Rd ← 1 if the comparison of Ra with Rb (or with the signed immediate) holds, else 0
 ```
 
-**Flags** No flags.
-
 **Exceptions** None.
 
 The conditions are equal, not equal, the signed less, less-or-equal, greater and greater-or-equal, and the unsigned lower (`SETCS`, also `SETLO`), higher-or-the-same (`SETCC`, also `SETHIS`), higher and lower-or-the-same, as the compare-and-branch words have them. `SETLT Ra, Rb, Rd` is `Rd <- (Ra < Rb)`, the first operand the left of the comparison. The immediate is an 8-bit signed number, sign-extended to 64 bits before the comparison, for the unsigned conditions as well; a wider constant is loaded into a register first. The destination may be one of the sources; they are read before it is written. Four bytes. A carry out of an addition is `ADD Rb, Ra` then `SETLO Ra, Rb, Rt`: the sum is lower than an addend exactly when the addition carried.
 
-**Why it is here.** A comparison used as a value, the way `slt` does it on MIPS and RISC-V and `setcc` on the x86, with the condition in the word's name instead of a condition register: one instruction writes 0 or 1 into a register from a comparison of two registers or of a register and a small constant, for the ten conditions that the compare-and-branch has. It replaced `SET`, which read the condition codes, when the machine lost them: a comparison in the compiled corpus is a compare-and-branch nine times in ten, and the rest is this instruction. It also gives the carry of an addition without a carry flag (`ADD Rb, Ra` then `SETLO Ra, Rb, Rt`), which is why the machine has no `ADC`.
+**Why it is here.** A comparison used as a value, with the condition in the word's name instead of a condition register: one instruction writes 0 or 1 into a register from a comparison of two registers or of a register and a small constant, for the ten conditions that the compare-and-branch has. A comparison in the compiled corpus is a compare-and-branch nine times in ten, and the rest is this instruction. It also gives the carry of an addition without a carry flag (`ADD Rb, Ra` then `SETLO Ra, Rb, Rt`), which is why the machine has no `ADC`.
 
 <a id="w-seteq"></a>
 #### SETEQ
@@ -1752,7 +1722,7 @@ The conditions are equal, not equal, the signed less, less-or-equal, greater and
 SETEQ Ra, #imm, Rd ... and the rest
 ```
 
-Operation, flags and exceptions as for the entry SETCC above; 2 layout forms, each a chart of its own (above).
+Operation and exceptions as for the entry SETCC above; 2 layout forms, each a chart of its own (above).
 
 <a id="w-setne"></a>
 #### SETNE
@@ -1761,7 +1731,7 @@ Operation, flags and exceptions as for the entry SETCC above; 2 layout forms, ea
 
 ![SETNE: SETCCI, prefix 1100111001, sub-opcode 0001; operands reg5, imm8s, reg5; 4 bytes](figures/w/setne/02.svg)
 
-Operation, flags and exceptions as for the entry SETCC above; 2 layout forms, each a chart of its own (above).
+Operation and exceptions as for the entry SETCC above; 2 layout forms, each a chart of its own (above).
 
 <a id="w-setlt"></a>
 #### SETLT
@@ -1774,7 +1744,7 @@ Operation, flags and exceptions as for the entry SETCC above; 2 layout forms, ea
 SETLT Ra, Rb, Rd
 ```
 
-Operation, flags and exceptions as for the entry SETCC above; 2 layout forms, each a chart of its own (above).
+Operation and exceptions as for the entry SETCC above; 2 layout forms, each a chart of its own (above).
 
 <a id="w-setle"></a>
 #### SETLE
@@ -1783,7 +1753,7 @@ Operation, flags and exceptions as for the entry SETCC above; 2 layout forms, ea
 
 ![SETLE: SETCCI, prefix 1100111001, sub-opcode 0011; operands reg5, imm8s, reg5; 4 bytes](figures/w/setle/02.svg)
 
-Operation, flags and exceptions as for the entry SETCC above; 2 layout forms, each a chart of its own (above).
+Operation and exceptions as for the entry SETCC above; 2 layout forms, each a chart of its own (above).
 
 <a id="w-setgt"></a>
 #### SETGT
@@ -1792,7 +1762,7 @@ Operation, flags and exceptions as for the entry SETCC above; 2 layout forms, ea
 
 ![SETGT: SETCCI, prefix 1100111001, sub-opcode 0100; operands reg5, imm8s, reg5; 4 bytes](figures/w/setgt/02.svg)
 
-Operation, flags and exceptions as for the entry SETCC above; 2 layout forms, each a chart of its own (above).
+Operation and exceptions as for the entry SETCC above; 2 layout forms, each a chart of its own (above).
 
 <a id="w-setge"></a>
 #### SETGE
@@ -1801,7 +1771,7 @@ Operation, flags and exceptions as for the entry SETCC above; 2 layout forms, ea
 
 ![SETGE: SETCCI, prefix 1100111001, sub-opcode 0101; operands reg5, imm8s, reg5; 4 bytes](figures/w/setge/02.svg)
 
-Operation, flags and exceptions as for the entry SETCC above; 2 layout forms, each a chart of its own (above).
+Operation and exceptions as for the entry SETCC above; 2 layout forms, each a chart of its own (above).
 
 <a id="w-setcs"></a>
 #### SETCS
@@ -1810,7 +1780,7 @@ Operation, flags and exceptions as for the entry SETCC above; 2 layout forms, ea
 
 ![SETCS: SETCCI, prefix 1100111001, sub-opcode 0110; operands reg5, imm8s, reg5; 4 bytes](figures/w/setcs/02.svg)
 
-Operation, flags and exceptions as for the entry SETCC above; 2 layout forms, each a chart of its own (above).
+Operation and exceptions as for the entry SETCC above; 2 layout forms, each a chart of its own (above).
 
 <a id="w-setcc"></a>
 #### SETCC
@@ -1819,7 +1789,7 @@ Operation, flags and exceptions as for the entry SETCC above; 2 layout forms, ea
 
 ![SETCC: SETCCI, prefix 1100111001, sub-opcode 0111; operands reg5, imm8s, reg5; 4 bytes](figures/w/setcc/02.svg)
 
-Operation, flags and exceptions as for the entry SETCC above; 2 layout forms, each a chart of its own (above).
+Operation and exceptions as for the entry SETCC above; 2 layout forms, each a chart of its own (above).
 
 <a id="w-sethi"></a>
 #### SETHI
@@ -1828,7 +1798,7 @@ Operation, flags and exceptions as for the entry SETCC above; 2 layout forms, ea
 
 ![SETHI: SETCCI, prefix 1100111001, sub-opcode 1000; operands reg5, imm8s, reg5; 4 bytes](figures/w/sethi/02.svg)
 
-Operation, flags and exceptions as for the entry SETCC above; 2 layout forms, each a chart of its own (above).
+Operation and exceptions as for the entry SETCC above; 2 layout forms, each a chart of its own (above).
 
 <a id="w-setlos"></a>
 #### SETLOS
@@ -1837,7 +1807,7 @@ Operation, flags and exceptions as for the entry SETCC above; 2 layout forms, ea
 
 ![SETLOS: SETCCI, prefix 1100111001, sub-opcode 1001; operands reg5, imm8s, reg5; 4 bytes](figures/w/setlos/02.svg)
 
-Operation, flags and exceptions as for the entry SETCC above; 2 layout forms, each a chart of its own (above).
+Operation and exceptions as for the entry SETCC above; 2 layout forms, each a chart of its own (above).
 
 
 ### MASK: Mask by a condition register
@@ -1866,15 +1836,13 @@ MASKEQZ: Rd ← (Rc = 0) ? 0 : Ra
 MASKNEZ: Rd ← (Rc ≠ 0) ? 0 : Ra
 ```
 
-**Flags** No flags.
-
 **Exceptions** None.
 
-The branch-free select is adopted. `Rc` is tested whole, all 64 bits, so any non-zero value is true; no flag is read or written, and the latency is fixed. `Rd` may be `Ra` or `Rc`. A constant-time select `d = c ? a : b` is `MASKEQZ a, c, t`, `MASKNEZ b, c, d`, `BIS t, d`. The semantics are those of LoongArch `maskeqz` and `masknez` and of RISC-V Zicond (the crypto study states this from memory).
+The branch-free select is adopted. `Rc` is tested whole, all 64 bits, so any non-zero value is true, and the latency is fixed. `Rd` may be `Ra` or `Rc`. A constant-time select `d = c ? a : b` is `MASKEQZ a, c, t`, `MASKNEZ b, c, d`, `BIS t, d`. The semantics are those of LoongArch `maskeqz` and `masknez` and of RISC-V Zicond (the crypto study states this from memory).
 
 **Why it is here.** I adopted the branch-free select when the crypto study asked for it: constant-time code must choose between two values without a branch, and a flag-reading conditional move would put a secret in a flag. `MASKEQZ` and `MASKNEZ` are the select of LoongArch and of RISC-V Zicond (stated from memory in the study, not checked against a manual); the pair and an `OR` make `c ? a : b` in three instructions, against two for `CMP` and a conditional move, but the conditional move would be used at 783 sites in 284,641 instructions (0.28%), and the case for the pair is the constant-time idiom, where the condition is already a register. I confirmed the pair and wrote "looks good" on the section. About 100 look-up tables, one cycle (the study's estimate).
 
-**Cf.** 9.7 (SET), docs/crypto-secure-core.md section 2.
+**Cf.** 9.7 (SETCC), docs/crypto-secure-core.md section 2.
 
 <a id="w-maskeqz"></a>
 #### MASKEQZ
@@ -1885,7 +1853,7 @@ The branch-free select is adopted. `Rc` is tested whole, all 64 bits, so any non
 MASKEQZ Ra, Rc, Rd
 ```
 
-Operation, flags and exceptions as for the entry MASK above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry MASK above; 1 layout form, each a chart of its own (above).
 
 <a id="w-masknez"></a>
 #### MASKNEZ
@@ -1896,7 +1864,7 @@ Operation, flags and exceptions as for the entry MASK above; 1 layout form, each
 MASKNEZ Ra, Rc, Rd
 ```
 
-Operation, flags and exceptions as for the entry MASK above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry MASK above; 1 layout form, each a chart of its own (above).
 
 
 ### OVF: Add, subtract and multiply, trapping on signed overflow
@@ -1927,8 +1895,6 @@ if t does not fit in 64 bits then abort at this instruction (vector CHECK), Rd u
 else Rd ← t
 ```
 
-**Flags** None written.
-
 **Exceptions** Aborts with the `CHECK` vector on signed overflow, with `EPC` at the instruction and the destination unwritten; a blind restart faults again unless the handler changed an operand.
 
 The fused add, subtract and multiply that check for overflow. The tables of the grammars hold the two-register form (`Rd <- Rd op Rs`, like `ADD`, `SUB`, `MUL`) and no immediate or memory form.
@@ -1946,7 +1912,7 @@ The fused add, subtract and multiply that check for overflow. The tables of the 
 ADDV Rs, Rd
 ```
 
-Operation, flags and exceptions as for the entry OVF above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry OVF above; 1 layout form, each a chart of its own (above).
 
 <a id="w-subv"></a>
 #### SUBV
@@ -1957,7 +1923,7 @@ Operation, flags and exceptions as for the entry OVF above; 1 layout form, each 
 SUBV Rs, Rd
 ```
 
-Operation, flags and exceptions as for the entry OVF above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry OVF above; 1 layout form, each a chart of its own (above).
 
 <a id="w-mulv"></a>
 #### MULV
@@ -1968,7 +1934,7 @@ Operation, flags and exceptions as for the entry OVF above; 1 layout form, each 
 MULV Rs, Rd
 ```
 
-Operation, flags and exceptions as for the entry OVF above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry OVF above; 1 layout form, each a chart of its own (above).
 <!-- /entries:9.7 -->
 
 ## 9.8 Logic, shifts and rotates
@@ -2037,8 +2003,6 @@ The chart is the leaf `LDF-B28-1`, LDF.B28, prefix `011010`. `op1` is `b5d28s-x1
 Rd ← Rd AND NOT rm
 ```
 
-**Flags** No flags.
-
 **Exceptions** Memory operand: page fault, protection fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`); there is no alignment fault, and an access that crosses a page changes nothing when either page faults (9.6.5). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
 The assembler also accepts `BIC #imm, rm` as `AND #~imm, rm`.
@@ -2101,8 +2065,6 @@ The chart is the leaf `LDF-B28-1`, LDF.B28, prefix `011010`. `op1` is `b5d28s-x1
 Rd ← Rd OR rm
 ```
 
-**Flags** No flags.
-
 **Exceptions** Memory operand: page fault, protection fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`); there is no alignment fault, and an access that crosses a page changes nothing when either page faults (9.6.5). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
 
@@ -2163,8 +2125,6 @@ The chart is the leaf `LDF-B28-1`, LDF.B28, prefix `011010`. `op1` is `b5d28s-x1
 ```
 Rd ← Rd XOR rm
 ```
-
-**Flags** No flags.
 
 **Exceptions** Memory operand: page fault, protection fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`); there is no alignment fault, and an access that crosses a page changes nothing when either page faults (9.6.5). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
@@ -2234,8 +2194,6 @@ The chart is the leaf `LDF-B28-1`, LDF.B28, prefix `011010`. `op1` is `b5d28s-x1
 Rd ← Rd AND rm
 ```
 
-**Flags** No flags.
-
 **Exceptions** Memory operand: page fault, protection fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`); there is no alignment fault, and an access that crosses a page changes nothing when either page faults (9.6.5). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
 <a id="w-fabs32"></a>
@@ -2270,8 +2228,6 @@ SHL: Rd ← (n ≥ 64) ? 0 : Rd << n
 SHR: Rd ← (n ≥ 64) ? 0 : Rd >>u n
 SAR: Rd ← (n ≥ 64) ? (Rd < 0 ? -1 : 0) : Rd >>s n
 ```
-
-**Flags** No flags.
 
 **Exceptions** Memory operand: page fault, protection fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`); there is no alignment fault, and an access that crosses a page changes nothing when either page faults (9.6.5). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
@@ -2312,7 +2268,7 @@ The count is read as an unsigned 64-bit value, so a count of 64 or more shifts t
 SHL rm, Rd
 ```
 
-Operation, flags and exceptions as for the entry SHIFT above; 14 layout forms, each a chart of its own (above).
+Operation and exceptions as for the entry SHIFT above; 14 layout forms, each a chart of its own (above).
 
 <a id="w-shr"></a>
 #### SHR
@@ -2347,7 +2303,7 @@ Operation, flags and exceptions as for the entry SHIFT above; 14 layout forms, e
 SHR rm, Rd
 ```
 
-Operation, flags and exceptions as for the entry SHIFT above; 13 layout forms, each a chart of its own (above).
+Operation and exceptions as for the entry SHIFT above; 13 layout forms, each a chart of its own (above).
 
 <a id="w-sar"></a>
 #### SAR
@@ -2382,7 +2338,7 @@ Operation, flags and exceptions as for the entry SHIFT above; 13 layout forms, e
 SAR rm, Rd
 ```
 
-Operation, flags and exceptions as for the entry SHIFT above; 13 layout forms, each a chart of its own (above).
+Operation and exceptions as for the entry SHIFT above; 13 layout forms, each a chart of its own (above).
 
 
 <a id="w-clr"></a>
@@ -2430,8 +2386,6 @@ The chart is the leaf `SOF-B28-1`, SOF.B28, prefix `110100000110`. `op1` is `b5d
 rm ← 0
 ```
 
-**Flags** No flags.
-
 **Exceptions** Memory operand: page fault, protection fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`); there is no alignment fault, and an access that crosses a page changes nothing when either page faults (9.6.5). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
 
@@ -2473,8 +2427,6 @@ The chart is the leaf `SOF-B28-1`, SOF.B28, prefix `110100000110`. `op1` is `b5d
 ```
 rm ← NOT rm
 ```
-
-**Flags** No flags.
 
 **Exceptions** Memory operand: page fault, protection fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`); there is no alignment fault, and an access that crosses a page changes nothing when either page faults (9.6.5). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
@@ -2520,8 +2472,6 @@ The chart is the leaf `SOF-B28-1`, SOF.B28, prefix `110100000110`. `op1` is `b5d
 C ← rm[63] ; rm ← rm << 1
 ```
 
-**Flags** No flags.
-
 **Exceptions** Memory operand: page fault, protection fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`); there is no alignment fault, and an access that crosses a page changes nothing when either page faults (9.6.5). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
 The by-one form of `SHL`.
@@ -2565,8 +2515,6 @@ The chart is the leaf `SOF-B28-1`, SOF.B28, prefix `110100000110`. `op1` is `b5d
 ```
 C ← rm[0] ; rm ← rm >>s 1
 ```
-
-**Flags** No flags.
 
 **Exceptions** Memory operand: page fault, protection fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`); there is no alignment fault, and an access that crosses a page changes nothing when either page faults (9.6.5). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
@@ -2622,8 +2570,6 @@ CLO: Rd ← number of leading one bits of Rs         (64 if Rs = all ones)
 CTO: Rd ← number of trailing one bits of Rs        (64 if Rs = all ones)
 ```
 
-**Flags** No flags.
-
 **Exceptions** None.
 
 `CTZ` is the VAX `FFS`. Bit manipulation is core on a machine that does filesystem and bignum work, not an extension.
@@ -2639,7 +2585,7 @@ CTO: Rd ← number of trailing one bits of Rs        (64 if Rs = all ones)
 CLZ Rs, Rd
 ```
 
-Operation, flags and exceptions as for the entry COUNT above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry COUNT above; 1 layout form, each a chart of its own (above).
 
 <a id="w-ctz"></a>
 #### CTZ
@@ -2650,7 +2596,7 @@ Operation, flags and exceptions as for the entry COUNT above; 1 layout form, eac
 CTZ Rs, Rd
 ```
 
-Operation, flags and exceptions as for the entry COUNT above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry COUNT above; 1 layout form, each a chart of its own (above).
 
 <a id="w-clo"></a>
 #### CLO
@@ -2661,7 +2607,7 @@ Operation, flags and exceptions as for the entry COUNT above; 1 layout form, eac
 CLO Rs, Rd
 ```
 
-Operation, flags and exceptions as for the entry COUNT above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry COUNT above; 1 layout form, each a chart of its own (above).
 
 <a id="w-cto"></a>
 #### CTO
@@ -2672,7 +2618,7 @@ Operation, flags and exceptions as for the entry COUNT above; 1 layout form, eac
 CTO Rs, Rd
 ```
 
-Operation, flags and exceptions as for the entry COUNT above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry COUNT above; 1 layout form, each a chart of its own (above).
 
 
 <a id="w-popcnt"></a>
@@ -2701,8 +2647,6 @@ The chart is the leaf `R2-1`, R2, prefix `110100000100`. `op1` is `reg5`: regist
 ```
 Rd ← number of one bits in Rs
 ```
-
-**Flags** No flags.
 
 **Exceptions** None.
 
@@ -2737,8 +2681,6 @@ BSWAPW: Rd ← Rs with the bytes of each 16-bit word reversed
 BSWAPL: Rd ← Rs with the bytes of each 32-bit long reversed
 ```
 
-**Flags** No flags.
-
 **Exceptions** None.
 
 The generalisation of the PDP-11 `SWAB` to 64 bits.
@@ -2754,7 +2696,7 @@ The generalisation of the PDP-11 `SWAB` to 64 bits.
 BSWAP Rs, Rd
 ```
 
-Operation, flags and exceptions as for the entry BSWAP above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry BSWAP above; 1 layout form, each a chart of its own (above).
 
 <a id="w-bswapw"></a>
 #### BSWAPW
@@ -2765,7 +2707,7 @@ Operation, flags and exceptions as for the entry BSWAP above; 1 layout form, eac
 BSWAPW Rs, Rd
 ```
 
-Operation, flags and exceptions as for the entry BSWAP above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry BSWAP above; 1 layout form, each a chart of its own (above).
 
 <a id="w-bswapl"></a>
 #### BSWAPL
@@ -2776,7 +2718,7 @@ Operation, flags and exceptions as for the entry BSWAP above; 1 layout form, eac
 BSWAPL Rs, Rd
 ```
 
-Operation, flags and exceptions as for the entry BSWAP above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry BSWAP above; 1 layout form, each a chart of its own (above).
 
 
 <a id="w-bitrev"></a>
@@ -2805,8 +2747,6 @@ The chart is the leaf `R2-1`, R2, prefix `110100000100`. `op1` is `reg5`: regist
 ```
 Rd ← Rs with bit i moved to bit 63-i
 ```
-
-**Flags** No flags.
 
 **Exceptions** None.
 
@@ -2849,13 +2789,11 @@ The chart is the leaf `R3-1`, R3, prefix `1100101000`. `op1` is `reg5`: register
 Rd ← Ra rotated right by (Rb mod 64), or by (n mod 64) with a constant; ROL rotates left by the constant (an assembler mapping)
 ```
 
-**Flags** None written (rotates write no flags).
-
 **Exceptions** None.
 
 `ROL` is an assembler mapping, not an instruction: a rotate left by n is a rotate right by 64 - n, so `ROL Rs, #n, Rd` assembles to `ROR Rs, #(64-n), Rd` and `ROL #n, Rd` to `ROR #(64-n), Rd`, in the two-byte form when the count of the right rotation fits it (a rotate left by 1 to 8) and in the four-byte form otherwise; the disassembler prints `ROR`, with a negative count for the short form. `ROL` takes a constant only: the count of `ROR` is taken modulo 64, so a rotate left by a register count is `ROR` by the negated register, which the program makes with `NEG` (a mapping is one instruction, and the assembler does not invent a scratch register). There is no `ROL32`: `ROR32` by 32 minus n is the same rotation. No rotate is through carry; multi-word shifting uses `DSHR`.
 
-**Why it is here.** One rotate direction suffices and `ROR` is the one to keep: `ROL x, #n` is `ROR x, #(64-n)` (an assembler mapping), and a funnel shifter yields `ROR` directly. No rotate is through carry (see `DSHR`). `ROR` is a bit operation and not an ALU operation: cryptographic code rotates by compile-time constants, so an immediate form is needed either way, and the register-count form has almost no users. Rotates write no flags.
+**Why it is here.** One rotate direction suffices and `ROR` is the one to keep: `ROL x, #n` is `ROR x, #(64-n)` (an assembler mapping), and a funnel shifter yields `ROR` directly. No rotate is through carry (see `DSHR`). `ROR` is a bit operation and not an ALU operation: cryptographic code rotates by compile-time constants, so an immediate form is needed either way, and the register-count form has almost no users.
 
 <a id="w-rol"></a>
 **`ROL`** is an alias of `ROR`: the assembler writes it as that word.
@@ -2887,8 +2825,6 @@ The chart is the leaf `RRI-1`, RRI, prefix `110100000101`. `op1` is `reg5`: regi
 ```
 Rd ← sext32(ror32(Rs[31:0], n mod 32))
 ```
-
-**Flags** None written.
 
 **Exceptions** None.
 
@@ -2925,13 +2861,11 @@ t ← Ra:Rb                    ; 128 bits, Ra the high half
 Rd ← (t >> n)[63:0]          ; n = 0..63
 ```
 
-**Flags** None written.
-
 **Exceptions** None.
 
 x86 `SHRD`, ARM `EXTR`. A 128-bit left shift by k is `DSHR hi, hi, lo, #(64-k)` then `SHL #k, lo`.
 
-**Why it is here.** A double-width funnel shift (x86 `SHRD`, ARM `EXTR`), the right primitive for multi-word shifting. Two instructions shift a 128-bit value by any distance, where rotate-through-carry takes one bit per instruction, and that is why no rotate is through carry. It also subsumes `ROR` when both sources are the same register. It leaves every flag alone.
+**Why it is here.** A double-width funnel shift (x86 `SHRD`, ARM `EXTR`), the right primitive for multi-word shifting. Two instructions shift a 128-bit value by any distance, where rotate-through-carry takes one bit per instruction, and that is why no rotate is through carry. It also subsumes `ROR` when both sources are the same register.
 
 
 ### EXTB: Extract a bit field
@@ -2959,8 +2893,6 @@ The chart is the leaf `BFy-1`, BFy, prefix `10110000`. `op1` is `reg5`: register
 Rd ← ext((Rs >> pos)[width-1:0])          ; sext for EXTB, zext for EXTZB; width 0 or > 64 means 64
 ```
 
-**Flags** None written.
-
 **Exceptions** None.
 
 Position and width are immediate operands; a width of 64 cannot be encoded.
@@ -2976,7 +2908,7 @@ Position and width are immediate operands; a width of 64 cannot be encoded.
 EXTB Rs, #pos, #width, Rd
 ```
 
-Operation, flags and exceptions as for the entry EXTB above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry EXTB above; 1 layout form, each a chart of its own (above).
 
 <a id="w-extzb"></a>
 #### EXTZB
@@ -2987,7 +2919,7 @@ Operation, flags and exceptions as for the entry EXTB above; 1 layout form, each
 EXTZB Rs, #pos, #width, Rd
 ```
 
-Operation, flags and exceptions as for the entry EXTB above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry EXTB above; 1 layout form, each a chart of its own (above).
 
 
 <a id="w-insb"></a>
@@ -3017,8 +2949,6 @@ The chart is the leaf `BFy-1`, BFy, prefix `10110000`. `op1` is `reg5`: register
 mask ← ((1 << width) - 1) << pos
 Rd ← (Rd AND NOT mask) OR ((Rs << pos) AND mask)
 ```
-
-**Flags** None written.
 
 **Exceptions** None.
 
@@ -3054,8 +2984,6 @@ The chart is the leaf `R3-1`, R3, prefix `1100101000`. `op1` is `reg5`: register
 Rd ← popcount(NOT (Ra XOR Rb))
 ```
 
-**Flags** None written.
-
 **Exceptions** None.
 
 For binary-activation networks, Hamming distance and bitset intersection cardinality. It does **not** serve sub-1-bit language models (section 8.5).
@@ -3090,8 +3018,6 @@ CLMULL: Rd ← p[63:0]
 CLMULH: Rd ← p[127:64]
 ```
 
-**Flags** None written.
-
 **Exceptions** None.
 
 The primitive under every CRC (with a Barrett reduction), GF(2^k) arithmetic and GCM; no polynomial is committed to the architecture.
@@ -3107,7 +3033,7 @@ The primitive under every CRC (with a Barrett reduction), GF(2^k) arithmetic and
 CLMULL Ra, Rb, Rd
 ```
 
-Operation, flags and exceptions as for the entry CLMUL above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry CLMUL above; 1 layout form, each a chart of its own (above).
 
 <a id="w-clmulh"></a>
 #### CLMULH
@@ -3118,7 +3044,7 @@ Operation, flags and exceptions as for the entry CLMUL above; 1 layout form, eac
 CLMULH Ra, Rb, Rd
 ```
 
-Operation, flags and exceptions as for the entry CLMUL above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry CLMUL above; 1 layout form, each a chart of its own (above).
 
 
 <a id="w-utf8len"></a>
@@ -3147,8 +3073,6 @@ The chart is the leaf `R2-1`, R2, prefix `110100000100`. `op1` is `reg5`: regist
 ```
 Rd ← length (1 to 4) implied by the leading byte Rs[7:0]; 0 if it cannot begin a valid sequence
 ```
-
-**Flags** None written.
 
 **Exceptions** None.
 
@@ -3184,7 +3108,7 @@ Rd ← the scalar value
 If the sequence is not a valid encoding, Rd ← -1
 ```
 
-**Flags** None written. An invalid sequence (a bad continuation byte, an overlong form, a surrogate (U+D800 to U+DFFF), a value above U+10FFFF, or a leading byte of `11000000 (0xC0)`, `11000001 (0xC1)` or `11110101 (0xF5)` to `11111111 (0xFF)`) gives all ones in `Rd`, which is not a scalar value; the length of a valid sequence is `UTF8LEN` of its leading byte.
+**Result** An invalid sequence (a bad continuation byte, an overlong form, a surrogate (U+D800 to U+DFFF), a value above U+10FFFF, or a leading byte of `11000000 (0xC0)`, `11000001 (0xC1)` or `11110101 (0xF5)` to `11111111 (0xFF)`) gives all ones in `Rd`, which is not a scalar value; the length of a valid sequence is `UTF8LEN` of its leading byte.
 
 **Exceptions** None.
 
@@ -3219,7 +3143,7 @@ Rd ← the UTF-8 bytes of the scalar value Rs, leading byte in bits 7..0
 If Rs is not a Unicode scalar value, Rd ← -1
 ```
 
-**Flags** None written. A surrogate or a value above U+10FFFF gives all ones in `Rd`, which no valid encoding is.
+**Result** A surrogate or a value above U+10FFFF gives all ones in `Rd`, which no valid encoding is.
 
 **Exceptions** None.
 
@@ -3252,8 +3176,6 @@ The chart is the leaf `R4-1`, R4, prefix `10101111`. `op1` is `reg5`: register, 
 ```
 Rd ← (Rm AND Ra) OR (NOT Rm AND Rb)       ; bit by bit
 ```
-
-**Flags** No flags.
 
 **Exceptions** None.
 
@@ -3294,8 +3216,6 @@ AESDSM : inverse ShiftRows, inverse SubBytes, then inverse MixColumns
 Rd ← the 8 bytes of the new state that belong to columns 0 and 1; with Ra and Rb exchanged, columns 2 and 3
 ```
 
-**Flags** No flags.
-
 **Exceptions** None.
 
 I asked for constant-time AES and SHA instructions "or whichever opcodes would speed up and enable aes and sha" for the secure core and approved its design; the words are those of `docs/crypto-secure-core.md` section 3.2. Any two registers hold a block (no even-odd pairing): a round on one block is `AESESM Ra, Rb, T` and `AESESM Rb, Ra, Rb`, with the round key XORed by `XOR` with a memory operand. The latency is fixed and the instruction reads and writes no memory, so it has no cache-timing channel. The definitions are those of FIPS 197.
@@ -3313,7 +3233,7 @@ I asked for constant-time AES and SHA instructions "or whichever opcodes would s
 AESES Ra, Rb, Rd
 ```
 
-Operation, flags and exceptions as for the entry AESR above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry AESR above; 1 layout form, each a chart of its own (above).
 
 <a id="w-aesesm"></a>
 #### AESESM
@@ -3324,7 +3244,7 @@ Operation, flags and exceptions as for the entry AESR above; 1 layout form, each
 AESESM Ra, Rb, Rd
 ```
 
-Operation, flags and exceptions as for the entry AESR above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry AESR above; 1 layout form, each a chart of its own (above).
 
 <a id="w-aesds"></a>
 #### AESDS
@@ -3335,7 +3255,7 @@ Operation, flags and exceptions as for the entry AESR above; 1 layout form, each
 AESDS Ra, Rb, Rd
 ```
 
-Operation, flags and exceptions as for the entry AESR above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry AESR above; 1 layout form, each a chart of its own (above).
 
 <a id="w-aesdsm"></a>
 #### AESDSM
@@ -3346,7 +3266,7 @@ Operation, flags and exceptions as for the entry AESR above; 1 layout form, each
 AESDSM Ra, Rb, Rd
 ```
 
-Operation, flags and exceptions as for the entry AESR above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry AESR above; 1 layout form, each a chart of its own (above).
 
 
 ### AESK: AES key schedule steps
@@ -3377,8 +3297,6 @@ AESKS2: Rd[31:0] ← Ra[31:0] XOR Rb[63:32] ; Rd[63:32] ← Ra[63:32] XOR Rd[31:
 AESIM : Rd ← InvMixColumns of the two columns in Rs         ; for the decryption key schedule
 ```
 
-**Flags** No flags.
-
 **Exceptions** None.
 
 As `AESR`. The key schedule of AES-128 takes three instructions per round.
@@ -3394,7 +3312,7 @@ As `AESR`. The key schedule of AES-128 takes three instructions per round.
 AESKS1 Rs, #n, Rd
 ```
 
-Operation, flags and exceptions as for the entry AESK above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry AESK above; 1 layout form, each a chart of its own (above).
 
 <a id="w-aesks2"></a>
 #### AESKS2
@@ -3405,7 +3323,7 @@ Operation, flags and exceptions as for the entry AESK above; 1 layout form, each
 AESKS2 Ra, Rb, Rd
 ```
 
-Operation, flags and exceptions as for the entry AESK above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry AESK above; 1 layout form, each a chart of its own (above).
 
 <a id="w-aesim"></a>
 #### AESIM
@@ -3416,7 +3334,7 @@ Operation, flags and exceptions as for the entry AESK above; 1 layout form, each
 AESIM Rs, Rd
 ```
 
-Operation, flags and exceptions as for the entry AESK above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry AESK above; 1 layout form, each a chart of its own (above).
 
 
 ### SHA256: The SHA-256 functions
@@ -3450,8 +3368,6 @@ SUM0: ror(x,2)  XOR ror(x,13) XOR ror(x,22)
 SUM1: ror(x,6)  XOR ror(x,11) XOR ror(x,25)
 ```
 
-**Flags** No flags.
-
 **Exceptions** None.
 
 As `AESR`. Rotations and three-input exclusive ors, one cycle in hardware, no data-dependent timing.
@@ -3467,7 +3383,7 @@ As `AESR`. Rotations and three-input exclusive ors, one cycle in hardware, no da
 SHA256SIG0 Rs, Rd
 ```
 
-Operation, flags and exceptions as for the entry SHA256 above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry SHA256 above; 1 layout form, each a chart of its own (above).
 
 <a id="w-sha256sig1"></a>
 #### SHA256SIG1
@@ -3478,7 +3394,7 @@ Operation, flags and exceptions as for the entry SHA256 above; 1 layout form, ea
 SHA256SIG1 Rs, Rd
 ```
 
-Operation, flags and exceptions as for the entry SHA256 above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry SHA256 above; 1 layout form, each a chart of its own (above).
 
 <a id="w-sha256sum0"></a>
 #### SHA256SUM0
@@ -3489,7 +3405,7 @@ Operation, flags and exceptions as for the entry SHA256 above; 1 layout form, ea
 SHA256SUM0 Rs, Rd
 ```
 
-Operation, flags and exceptions as for the entry SHA256 above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry SHA256 above; 1 layout form, each a chart of its own (above).
 
 <a id="w-sha256sum1"></a>
 #### SHA256SUM1
@@ -3500,7 +3416,7 @@ Operation, flags and exceptions as for the entry SHA256 above; 1 layout form, ea
 SHA256SUM1 Rs, Rd
 ```
 
-Operation, flags and exceptions as for the entry SHA256 above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry SHA256 above; 1 layout form, each a chart of its own (above).
 
 
 ### SHA512: The SHA-512 functions
@@ -3534,8 +3450,6 @@ SUM0: ror(x,28) XOR ror(x,34) XOR ror(x,39)
 SUM1: ror(x,14) XOR ror(x,18) XOR ror(x,41)
 ```
 
-**Flags** No flags.
-
 **Exceptions** None.
 
 As `SHA256`. The definitions are those of FIPS 180-4.
@@ -3551,7 +3465,7 @@ As `SHA256`. The definitions are those of FIPS 180-4.
 SHA512SIG0 Rs, Rd
 ```
 
-Operation, flags and exceptions as for the entry SHA512 above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry SHA512 above; 1 layout form, each a chart of its own (above).
 
 <a id="w-sha512sig1"></a>
 #### SHA512SIG1
@@ -3562,7 +3476,7 @@ Operation, flags and exceptions as for the entry SHA512 above; 1 layout form, ea
 SHA512SIG1 Rs, Rd
 ```
 
-Operation, flags and exceptions as for the entry SHA512 above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry SHA512 above; 1 layout form, each a chart of its own (above).
 
 <a id="w-sha512sum0"></a>
 #### SHA512SUM0
@@ -3573,7 +3487,7 @@ Operation, flags and exceptions as for the entry SHA512 above; 1 layout form, ea
 SHA512SUM0 Rs, Rd
 ```
 
-Operation, flags and exceptions as for the entry SHA512 above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry SHA512 above; 1 layout form, each a chart of its own (above).
 
 <a id="w-sha512sum1"></a>
 #### SHA512SUM1
@@ -3584,35 +3498,37 @@ Operation, flags and exceptions as for the entry SHA512 above; 1 layout form, ea
 SHA512SUM1 Rs, Rd
 ```
 
-Operation, flags and exceptions as for the entry SHA512 above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry SHA512 above; 1 layout form, each a chart of its own (above).
 <!-- /entries:9.9 -->
 
 ## 9.10 Branches and control flow
 
 *Cf. section 6.13 for `TRAP`, `RTI #mask` and `RTT #mask`, and section 6.3 for how a trap enters the kernel; section 9.16 for `CALLI` and `JMPI` in position-independent code.*
 
-**9.10.1** The machine has no condition codes. On the PDP-11 a branch looked at the flags that the previous instruction had left, so a decision was two instructions, a compare and a branch, joined by a hidden register:
+**9.10.1** The machine has no condition codes. On the PDP-11 almost every instruction left four one-bit **flags** behind (`N` the result was negative, `Z` zero, `V` signed overflow, `C` carry out), and a branch looked at the flags that the previous instruction had left, so a decision was two instructions joined by a hidden register:
 
 ```
-        cmp     r0, r1          ; PDP-11: sets N, Z, V, C from r0 - r1
-        blt     L               ; reads them
+        cmp     r0, r1          / PDP-11: sets N, Z, V, C from r0 - r1
+        blt     L               / reads them: branch if r0 < r1 (signed)
 ```
 
-Here it is one instruction that compares two values, branches and writes nothing:
+Here a decision is one instruction that compares two values, branches and writes nothing:
 
 ```
-        cblt    r0, r1, L
+        cblt    r0, r1, L       ; branch if r0 < r1 (signed)
 ```
 
-The reason is measured. Of about 14,000 comparisons in a corpus of 622 compiled files, nine in ten were already a compare-and-branch; the rest, done without any instruction that reads flags, cost half a percent more code (0.54%) and no more instructions executed (0.04% fewer), and 0.2% to 0.9% fewer cycles on the timing model. The flags were a hidden register that every arithmetic instruction might write, and the unit that keeps them (178 gates) is smaller than the comparator that the compare-and-branch needs in any case.
+The same holds for a test against a constant, `cbeq r3, #5, L`, and for an unsigned comparison, `cblo r0, sp, L`. A comparison that is wanted as a number, not as a branch, is `SETLT`, `SETLO` and their relatives (9.7.5), which write 0 or 1 into a register; floating point has its own compare-and-branch with the unordered case (9.10.8).
+
+I took the flags out because they were state that every arithmetic instruction might write and any later instruction might read. A core must keep that state in order, the status word must save it, a fast core must rename it, and every instruction needs a rule for which flags it writes (does a move set `Z`? does a shift set `V`?). Without them an instruction writes its result and nothing else. What it costs was measured on the output of the compiler, made to use no instruction that reads a flag, over 622 files (the C library, zlib, the kernel's cryptography, the math library and the tests of the compiler) and 36 programs. About nine comparisons in ten were already a compare-and-branch; the rest, a comparison against a constant wider than 16 bits or against memory, and a comparison kept as a value, cost half a percent more code (0.54%) and executed 0.04% fewer instructions (70.65 million, against 70.62 million). The programs ran in 0.2% to 0.9% fewer cycles on the timing model, which does not charge for the comparison inside a compare-and-branch; hardware pays for it with a comparator in the branch unit (548 gates of logic), where the unit that kept the flags was 178 gates and four flip-flops. The case for removing the flags is the simpler specification and the shorter list of what an instruction may leave behind, not the area.
 
 **9.10.2** There is one unconditional branch, `BR`; `JMP label` is `BR label`. It is two bytes with a field of 6 to 9 bits, four with 16 bits or six with 32 bits, counting two-byte parcels from the first parcel of the branch: ±64 to ±512 bytes, ±64 KiB, ±4 GiB. Every conditional branch is a compare-and-branch (`CBCC` for integers, `FCBCC` for floating point), except `SOB` and the tag branches `BTAG` and `BNTAG`.
 
-**9.10.3** The conditions of `CBCC` are `eq` and `ne`, the signed `lt`, `le`, `gt` and `ge`, and the unsigned `cs` (lower, also written `lo`), `cc` (higher or the same, also `hs`), `hi` and `los` (lower or the same).
+**9.10.3** The conditions of `CBCC` are `eq` and `ne`, the signed `lt`, `le`, `gt` and `ge`, and the unsigned `cs` (lower, also written `lo`), `cc` (higher or the same, also `hs`), `hi` (higher) and `los` (lower or the same). `cs` and `cc` are the PDP-11's names `BCS` and `BCC` (`BLO` and `BHIS`), which tested the carry flag; here no carry is kept and the words `lo` and `hs` say what is compared. In the generic name `CBCC` the letters `CC` stand for a condition, and `cbcc` is the one condition `cc`.
 
 **9.10.4** `SOB Rn, dst` subtracts one from `Rn` and branches if the result is nonzero, forward or backward. It is four bytes, with a 16-bit field of parcels (±64 KiB).
 
-**9.10.5** `CBCC` compares a register with zero, with an immediate or with a second register, branches on the condition, and writes nothing. The left operand is the register first named: `cblt Ra, Rb, L` branches if `Ra < Rb`. The immediate is a signed number of at most 16 bits; a wider constant is loaded into a register first. The compare of `CBEQ` or `CBNE` with zero is two bytes (a reach of 32 bytes); a small immediate or two registers take four bytes; six bytes hold a 12-bit immediate (a reach of 64 KB), a 16-bit immediate (4 KB) or two registers, any of the 32 (16 MB), and for these all ten conditions have the long forms alike, the unsigned ones exactly as the signed.
+**9.10.5** `CBCC` compares a register with zero, with an immediate or with a second register, branches on the condition, and writes nothing. The left operand is the register first named: `cblt Ra, Rb, L` branches if `Ra < Rb`. The immediate is a signed number of at most 16 bits; a wider constant is loaded into a register first. The compare of `CBEQ` or `CBNE` with zero is two bytes (a reach of 32 bytes), or four bytes with a reach of 16 KB; a small immediate or two registers take four bytes (a reach from 256 bytes to 4 KB, by the widths of the immediate and of the register fields); six bytes hold a 12-bit immediate (a reach of 64 KB), a 16-bit immediate (4 KB) or two registers, any of the 32 (16 MB), and for these all ten conditions have the long forms alike, the unsigned ones exactly as the signed.
 
 A range check is one unsigned compare-and-branch, and a `switch` is a bounds check followed by the indexed jump:
 
@@ -3643,9 +3559,9 @@ A range check is one unsigned compare-and-branch, and a `switch` is a bounds che
 1:
 ```
 
-*Commentary.* **Precedent.** The PDP-11 branch set tested its four condition codes, and its long-branch problem (±256 bytes) made it awkward; here `BR` reaches ±4 GB with no long-branch opcode and no trampoline, because the displacement widens with the length. `SOB` was the PDP-11's, which could only branch backward. **Trade-offs.** A compare-and-branch leaves nothing for a second branch to read, so a three-way decision is two compare-and-branches; that, and the comparisons that are kept as values, is the half percent of code the measurement above gives. **Improvements.** The tag branches serve a Lisp or other tagged runtime in one instruction. **Benefits.** Branch relaxation in the assembler is choosing a length. **Modern comparables.** RISC-V and MIPS are compare-and-branch machines with no flags, as the pdp64 is; AArch64 has `CBZ` and `TBZ` beside its flags; x86 uses flags. **Use.** `JMPI` and `CALLI` are the shared-library call and the virtual call; `JTAG` is the dispatch of a dynamic-language interpreter. **Impact.** *Kernel:* `JMPI`, `CALLI` and `JTAG` are the shared-library call, the virtual call and the dispatch of an interpreter; `SOB` and `CBCC` are the loops of the kernel's inner routines. *Compiler:* Branch relaxation is choosing a length; there is no flag-liveness analysis to make, because no instruction writes a flag. *Hardware:* The next-PC mux takes the load-return path for the indirect forms; the compare-and-branch compare runs in the branch unit beside the ALU; displacements count parcels, so no shifter is needed.
+*Commentary.* **Precedent.** The PDP-11 branch set tested its four condition codes, and its long-branch problem (±256 bytes) made it awkward; here `BR` reaches ±4 GB with no long-branch opcode and no trampoline, because the displacement widens with the length. `SOB` was the PDP-11's, which could only branch backward. **Trade-offs.** A compare-and-branch leaves nothing for a second branch to read, so a three-way decision is two compare-and-branches; that, and the comparisons that are kept as values, is the half percent of code the measurement above gives. **Improvements.** The tag branches serve a Lisp or other tagged runtime in one instruction. **Benefits.** Branch relaxation in the assembler is choosing a length. **Modern comparables.** The specification of RISC-V says its conditional branches compare two registers "rather than use condition codes". **Use.** `JMPI` and `CALLI` are the shared-library call and the virtual call; `JTAG` is the dispatch of a dynamic-language interpreter. **Impact.** *Kernel:* `JMPI`, `CALLI` and `JTAG` are the shared-library call, the virtual call and the dispatch of an interpreter; `SOB` and `CBCC` are the loops of the kernel's inner routines. *Compiler:* Branch relaxation is choosing a length; there is no flag-liveness analysis to make, because no instruction writes a flag. *Hardware:* The next-PC mux takes the load-return path for the indirect forms; the compare-and-branch compare runs in the branch unit beside the ALU; displacements count parcels, so no shifter is needed.
 
-*Commentary on 9.10.5, 9.10.9 and 9.10.10.* **Precedent.** The PDP-11 branched on the flags of the previous instruction only; compare-and-branch machines (MIPS, RISC-V) branch on two registers in one instruction, and the long-branch problem of both was solved by a longer encoding, here by the three lengths of `CBCC`. Macro-op fusion in current x86 and ARM cores joins a compare and a branch in the decoder; here the instruction set names the joined instruction, and the compiler joins moves with calls and pops with returns. **Trade-offs.** The reach of the shortest `CBCC` forms was set from the corpus: the optimiser trained on the compiler's own output, priced a `CBCC` that no form reaches as the opposite branch over a `BR` that the assembler substitutes, and offered the three-parcel forms; the cost is that one-parcel `CBCC` reaches less than in the earlier prefix-coded iteration (1.8), and lz4 fetches 1.2% more bytes for it (appendix E). The four fused pairs save two bytes a pair: 39,674 bytes (4.16%) in the corpus when the compiler was first given them. **Improvements.** The fused call has a three-parcel form, so a call beyond ±64 KiB is still one instruction; and the assembler's opposite branch over a `BR` makes every program assemble, so a form that does not reach is a slower program and never an error. **Benefits.** Fusion is a decision of the compiler, so the instruction set stays free of microarchitectural pairing rules, and a core that does not fuse in hardware loses nothing. **Modern comparables.** The fused pairs are the ones the compiled corpus shows most often adjacent: a move before a call, a pop before a return. **Impact.** *Kernel:* `POPRET` and `POPMRET` are the epilogue of every function and `MOVCALL` the call of every wrapper; they are smaller kernel text with no source change. *Compiler:* it fuses after register allocation, and keep a mask of `R24` to `R31` out of `POPMRET` (the field names `R8` to `R15` only). *Hardware:* a fused instruction is decoded as two operations that retire together; a hardware implementation may execute them as one or two.
+*Commentary on 9.10.5, 9.10.9 and 9.10.10.* **Precedent.** The PDP-11 branched on the flags of the previous instruction only. The `CBCC` forms, two, four and six bytes long, trade reach against length: a branch that is near and compares small things is short, and one that is far or compares wide things is longer. The compiler joins moves with calls and pops with returns, as the instruction set names the fused pairs. **Trade-offs.** The reach of the shortest `CBCC` forms was set from the corpus: the optimiser trained on the compiler's own output, priced a `CBCC` that no form reaches as the opposite branch over a `BR` that the assembler substitutes, and offered the three-parcel forms; the cost is that one-parcel `CBCC` reaches less than in the earlier prefix-coded iteration (1.8), and lz4 fetches 1.2% more bytes for it (appendix E). The four fused pairs save two bytes a pair: 39,674 bytes (4.16%) in the corpus when the compiler was first given them. **Improvements.** The fused call has a three-parcel form, so a call beyond ±64 KiB is still one instruction; and the assembler's opposite branch over a `BR` makes every program assemble, so a form that does not reach is a slower program and never an error. **Benefits.** Fusion is a decision of the compiler, so the instruction set stays free of microarchitectural pairing rules, and a core that does not fuse in hardware loses nothing. **Modern comparables.** The fused pairs are the ones the compiled corpus shows most often adjacent: a move before a call, a pop before a return. **Impact.** *Kernel:* `POPRET` and `POPMRET` are the epilogue of every function and `MOVCALL` the call of every wrapper; they are smaller kernel text with no source change. *Compiler:* it fuses after register allocation, and keep a mask of `R24` to `R31` out of `POPMRET` (the field names `R8` to `R15` only). *Hardware:* a fused instruction is decoded as two operations that retire together; a hardware implementation may execute them as one or two.
 
 <!-- entries:9.10 -->
 <a id="w-br"></a>
@@ -3678,8 +3594,6 @@ The chart is the leaf `BRF-1`, BRF, prefix `1101001011011100`. `op1` is `pc32-u2
 ```
 PC ← address of this instruction + 2 × disp
 ```
-
-**Flags** No flags.
 
 **Exceptions** None; a branch to an unmapped or non-executable address faults on the fetch of the target.
 
@@ -3716,8 +3630,6 @@ Rn ← Rn - 1
 if Rn ≠ 0 then PC ← address of this instruction + 2 × disp
 ```
 
-**Flags** No flags.
-
 **Exceptions** None.
 
 From the PDP-11, where it could branch only backward; here the signed displacement goes either way. Four bytes at least.
@@ -3732,8 +3644,9 @@ From the PDP-11, where it could branch only backward; here the signed displaceme
 **Syntax**
 
 ```
-CBNE Rd, #imm, target
-CBEQ Ra, Rb, target ... and the rest
+CBLT Ra, Rb, target        ; two registers: branch if Ra < Rb (signed); the same for each condition
+CBLT Ra, #imm, target      ; a register and a signed immediate of at most 16 bits
+CBEQ Ra, #0, target        ; a register against zero: two bytes (CBEQ and CBNE)
 ```
 
 **Encoding**
@@ -3747,16 +3660,14 @@ The chart is the leaf `CBZ1-5-a-1`, CBZ1_5/a, prefix `01100`. `op1` is `reg5`: r
 **Operation**
 
 ```
-if (Rd compares by cc with (imm or Rb)) then PC ← address of this instruction + 2 × disp
+if (Ra compares by cc with (imm or Rb)) then PC ← address of this instruction + 2 × disp
 ```
-
-**Flags** None written.
 
 **Exceptions** None.
 
 The family has several forms for each condition (the layouts of this entry): the second operand is a register or an immediate of some width, and the reach differs. A `cbCC` that no form reaches (a target beyond the six-byte forms, which reach 16 MB for two registers and 64 KB with an immediate, or a target in another object file) is assembled by `as64` as the opposite `cbCC` over a `br` to the target.
 
-**Why it is here.** A fused compare-and-branch, estimated with `ROR32` at 22 KB (1.3%) of the image. The wide-immediate form removes 11,735 instructions (3.4%) and 1,828 bytes, and the register-register compare-and-branch removes 4,631 instructions (1.4%) and 142 bytes. It is not a replacement for flags: LoongArch and RISC-V chose fused compare-and-branch instead of flags, and this architecture declines that (9.20) because it needs a comparator in the branch unit and a third read port; here the fused form is added beside the flags. `CBCC` writes no flags.
+**Why it is here.** A fused compare-and-branch, estimated with `ROR32` at 22 KB (1.3%) of the image. The wide-immediate form removes 11,735 instructions (3.4%) and 1,828 bytes, and the register-register compare-and-branch removes 4,631 instructions (1.4%) and 142 bytes. It needs a comparator in the branch unit (548 gates of logic) and a third read port, and it is the only integer conditional branch of the machine: leaving the flags out cost 0.54% more code and 0.04% fewer instructions executed (section 9.10.1). `CBCC` writes nothing.
 
 <a id="w-cbne"></a>
 #### CBNE
@@ -3785,11 +3696,7 @@ The family has several forms for each condition (the layouts of this entry): the
 
 ![CBNE: CBZ1_5/a, prefix 01100, sub-opcode 1; operands reg5, k-imm0, pc5-u2; 2 bytes](figures/w/cbne/01.svg)
 
-```
-CBNE Rd, #imm, target
-```
-
-Operation, flags and exceptions as for the entry CBCC above; 12 layout forms, each a chart of its own (above).
+Operation and exceptions as for the entry CBCC above; 12 layout forms, each a chart of its own (above).
 
 <a id="w-cbeq"></a>
 #### CBEQ
@@ -3819,10 +3726,10 @@ Operation, flags and exceptions as for the entry CBCC above; 12 layout forms, ea
 ![CBEQ: CBZ1_5/a, prefix 01100, sub-opcode 0; operands reg5, k-imm0, pc5-u2; 2 bytes](figures/w/cbeq/01.svg)
 
 ```
-CBEQ Ra, Rb, target ... and the rest
+CBEQ Ra, #0, target
 ```
 
-Operation, flags and exceptions as for the entry CBCC above; 12 layout forms, each a chart of its own (above).
+Operation and exceptions as for the entry CBCC above; 12 layout forms, each a chart of its own (above).
 
 <a id="w-cbcc"></a>
 #### CBCC
@@ -3841,7 +3748,7 @@ Operation, flags and exceptions as for the entry CBCC above; 12 layout forms, ea
 
 ![CBCC: CBI8_8H/c, prefix 1100110111, sub-opcode 01; operands reg4, imm8s, pc8-u2; 4 bytes](figures/w/cbcc/05.svg)
 
-Operation, flags and exceptions as for the entry CBCC above; 7 layout forms, each a chart of its own (above).
+Operation and exceptions as for the entry CBCC above; 7 layout forms, each a chart of its own (above).
 
 <a id="w-cbcs"></a>
 #### CBCS
@@ -3860,7 +3767,7 @@ Operation, flags and exceptions as for the entry CBCC above; 7 layout forms, eac
 
 ![CBCS: CBI8_8H/c, prefix 1100110111, sub-opcode 00; operands reg4, imm8s, pc8-u2; 4 bytes](figures/w/cbcs/05.svg)
 
-Operation, flags and exceptions as for the entry CBCC above; 7 layout forms, each a chart of its own (above).
+Operation and exceptions as for the entry CBCC above; 7 layout forms, each a chart of its own (above).
 
 <a id="w-cbge"></a>
 #### CBGE
@@ -3885,7 +3792,7 @@ Operation, flags and exceptions as for the entry CBCC above; 7 layout forms, eac
 
 ![CBGE: CBI8_8H/b, prefix 1100110110, sub-opcode 01; operands reg4, imm8s, pc8-u2; 4 bytes](figures/w/cbge/08.svg)
 
-Operation, flags and exceptions as for the entry CBCC above; 10 layout forms, each a chart of its own (above).
+Operation and exceptions as for the entry CBCC above; 10 layout forms, each a chart of its own (above).
 
 <a id="w-cblt"></a>
 #### CBLT
@@ -3910,7 +3817,12 @@ Operation, flags and exceptions as for the entry CBCC above; 10 layout forms, ea
 
 ![CBLT: CBI8_8H/b, prefix 1100110110, sub-opcode 00; operands reg4, imm8s, pc8-u2; 4 bytes](figures/w/cblt/08.svg)
 
-Operation, flags and exceptions as for the entry CBCC above; 10 layout forms, each a chart of its own (above).
+```
+CBLT Ra, Rb, target
+CBLT Ra, #imm, target
+```
+
+Operation and exceptions as for the entry CBCC above; 10 layout forms, each a chart of its own (above).
 
 <a id="w-cbgt"></a>
 #### CBGT
@@ -3935,7 +3847,7 @@ Operation, flags and exceptions as for the entry CBCC above; 10 layout forms, ea
 
 ![CBGT: CBI8_8H/b, prefix 1100110110, sub-opcode 10; operands reg4, imm8s, pc8-u2; 4 bytes](figures/w/cbgt/08.svg)
 
-Operation, flags and exceptions as for the entry CBCC above; 10 layout forms, each a chart of its own (above).
+Operation and exceptions as for the entry CBCC above; 10 layout forms, each a chart of its own (above).
 
 <a id="w-cble"></a>
 #### CBLE
@@ -3960,7 +3872,7 @@ Operation, flags and exceptions as for the entry CBCC above; 10 layout forms, ea
 
 ![CBLE: CBI8_8H/b, prefix 1100110110, sub-opcode 11; operands reg4, imm8s, pc8-u2; 4 bytes](figures/w/cble/08.svg)
 
-Operation, flags and exceptions as for the entry CBCC above; 10 layout forms, each a chart of its own (above).
+Operation and exceptions as for the entry CBCC above; 10 layout forms, each a chart of its own (above).
 
 <a id="w-cbhi"></a>
 #### CBHI
@@ -3979,7 +3891,7 @@ Operation, flags and exceptions as for the entry CBCC above; 10 layout forms, ea
 
 ![CBHI: CBI8_8H/c, prefix 1100110111, sub-opcode 10; operands reg4, imm8s, pc8-u2; 4 bytes](figures/w/cbhi/05.svg)
 
-Operation, flags and exceptions as for the entry CBCC above; 7 layout forms, each a chart of its own (above).
+Operation and exceptions as for the entry CBCC above; 7 layout forms, each a chart of its own (above).
 
 <a id="w-cblos"></a>
 #### CBLOS
@@ -3998,7 +3910,7 @@ Operation, flags and exceptions as for the entry CBCC above; 7 layout forms, eac
 
 ![CBLOS: CBI8_8H/c, prefix 1100110111, sub-opcode 11; operands reg4, imm8s, pc8-u2; 4 bytes](figures/w/cblos/05.svg)
 
-Operation, flags and exceptions as for the entry CBCC above; 7 layout forms, each a chart of its own (above).
+Operation and exceptions as for the entry CBCC above; 7 layout forms, each a chart of its own (above).
 
 <a id="w-cbhis"></a>
 #### CBHIS
@@ -4042,13 +3954,13 @@ FCBUO: taken if unordered                        FCBOR: taken if not unordered
 if taken then PC ← address of this instruction + 2 × disp
 ```
 
-**Flags** None written. A signaling NaN operand sets the invalid flag of `FPSR`; a quiet one does not.
+**Exception flags** A signaling NaN operand sets the invalid flag of `FPSR`; a quiet one does not.
 
 **Exceptions** None.
 
 The two operands are registers; there is no immediate. `FCBGT` and `FCBGE` are assembler spellings: `FCBGT Ra, Rb, t` is `FCBLT Rb, Ra, t` and `FCBGE Ra, Rb, t` is `FCBLE Rb, Ra, t`, exact because a NaN makes both false. A comparison with a NaN is false for equal, less, less-or-equal, greater and greater-or-equal, and true for not-equal; the negation of a `FCBLT` is not `FCBGE` but a test that is true for the unordered case as well, which is why the unordered test has a word of its own.
 
-**Why it is here.** The floating-point partner of `CBCC`. A floating-point comparison used to set the integer flags and a flag branch read them; now one instruction compares two registers and branches, and nothing is written. The unordered case has words of its own (`FCBUO`, `FCBOR`) because the negation of "less than" is not "greater than or equal" when an operand is a NaN, so a branch cannot be inverted by changing its condition; the greater-than words are the less-than words with the operands exchanged.
+**Why it is here.** The floating-point partner of `CBCC`: one instruction compares two registers and branches, and nothing is written. The unordered case has words of its own (`FCBUO`, `FCBOR`) because the negation of "less than" is not "greater than or equal" when an operand is a NaN, so a branch cannot be inverted by changing its condition; the greater-than words are the less-than words with the operands exchanged.
 
 <a id="w-fcbeq"></a>
 #### FCBEQ
@@ -4061,7 +3973,7 @@ The two operands are registers; there is no immediate. `FCBGT` and `FCBGE` are a
 FCBEQ Ra, Rb, target ... and the rest
 ```
 
-Operation, flags and exceptions as for the entry FCBCC above; 2 layout forms, each a chart of its own (above).
+Operation and exceptions as for the entry FCBCC above; 2 layout forms, each a chart of its own (above).
 
 <a id="w-fcbne"></a>
 #### FCBNE
@@ -4070,7 +3982,7 @@ Operation, flags and exceptions as for the entry FCBCC above; 2 layout forms, ea
 
 ![FCBNE: FCBR10H, prefix 1100111000, sub-opcode 0001; operands reg4, reg4, pc10-u2; 4 bytes](figures/w/fcbne/01.svg)
 
-Operation, flags and exceptions as for the entry FCBCC above; 2 layout forms, each a chart of its own (above).
+Operation and exceptions as for the entry FCBCC above; 2 layout forms, each a chart of its own (above).
 
 <a id="w-fcblt"></a>
 #### FCBLT
@@ -4083,7 +3995,7 @@ Operation, flags and exceptions as for the entry FCBCC above; 2 layout forms, ea
 FCBLT Ra, Rb, target
 ```
 
-Operation, flags and exceptions as for the entry FCBCC above; 2 layout forms, each a chart of its own (above).
+Operation and exceptions as for the entry FCBCC above; 2 layout forms, each a chart of its own (above).
 
 <a id="w-fcble"></a>
 #### FCBLE
@@ -4092,7 +4004,7 @@ Operation, flags and exceptions as for the entry FCBCC above; 2 layout forms, ea
 
 ![FCBLE: FCBR10H, prefix 1100111000, sub-opcode 0011; operands reg4, reg4, pc10-u2; 4 bytes](figures/w/fcble/01.svg)
 
-Operation, flags and exceptions as for the entry FCBCC above; 2 layout forms, each a chart of its own (above).
+Operation and exceptions as for the entry FCBCC above; 2 layout forms, each a chart of its own (above).
 
 <a id="w-fcbuo"></a>
 #### FCBUO
@@ -4101,7 +4013,7 @@ Operation, flags and exceptions as for the entry FCBCC above; 2 layout forms, ea
 
 ![FCBUO: FCBR10H, prefix 1100111000, sub-opcode 0100; operands reg4, reg4, pc10-u2; 4 bytes](figures/w/fcbuo/01.svg)
 
-Operation, flags and exceptions as for the entry FCBCC above; 2 layout forms, each a chart of its own (above).
+Operation and exceptions as for the entry FCBCC above; 2 layout forms, each a chart of its own (above).
 
 <a id="w-fcbor"></a>
 #### FCBOR
@@ -4110,7 +4022,7 @@ Operation, flags and exceptions as for the entry FCBCC above; 2 layout forms, ea
 
 ![FCBOR: FCBR10H, prefix 1100111000, sub-opcode 0101; operands reg4, reg4, pc10-u2; 4 bytes](figures/w/fcbor/01.svg)
 
-Operation, flags and exceptions as for the entry FCBCC above; 2 layout forms, each a chart of its own (above).
+Operation and exceptions as for the entry FCBCC above; 2 layout forms, each a chart of its own (above).
 
 <a id="w-fcbeq32"></a>
 #### FCBEQ32
@@ -4119,7 +4031,7 @@ Operation, flags and exceptions as for the entry FCBCC above; 2 layout forms, ea
 
 ![FCBEQ32: FCBR10H, prefix 1100111000, sub-opcode 0110; operands reg4, reg4, pc10-u2; 4 bytes](figures/w/fcbeq32/01.svg)
 
-Operation, flags and exceptions as for the entry FCBCC above; 2 layout forms, each a chart of its own (above).
+Operation and exceptions as for the entry FCBCC above; 2 layout forms, each a chart of its own (above).
 
 <a id="w-fcbne32"></a>
 #### FCBNE32
@@ -4128,7 +4040,7 @@ Operation, flags and exceptions as for the entry FCBCC above; 2 layout forms, ea
 
 ![FCBNE32: FCBR10H, prefix 1100111000, sub-opcode 0111; operands reg4, reg4, pc10-u2; 4 bytes](figures/w/fcbne32/01.svg)
 
-Operation, flags and exceptions as for the entry FCBCC above; 2 layout forms, each a chart of its own (above).
+Operation and exceptions as for the entry FCBCC above; 2 layout forms, each a chart of its own (above).
 
 <a id="w-fcblt32"></a>
 #### FCBLT32
@@ -4141,7 +4053,7 @@ Operation, flags and exceptions as for the entry FCBCC above; 2 layout forms, ea
 FCBLT32 Ra, Rb, target
 ```
 
-Operation, flags and exceptions as for the entry FCBCC above; 2 layout forms, each a chart of its own (above).
+Operation and exceptions as for the entry FCBCC above; 2 layout forms, each a chart of its own (above).
 
 <a id="w-fcble32"></a>
 #### FCBLE32
@@ -4150,7 +4062,7 @@ Operation, flags and exceptions as for the entry FCBCC above; 2 layout forms, ea
 
 ![FCBLE32: FCBR10H, prefix 1100111000, sub-opcode 1001; operands reg4, reg4, pc10-u2; 4 bytes](figures/w/fcble32/01.svg)
 
-Operation, flags and exceptions as for the entry FCBCC above; 2 layout forms, each a chart of its own (above).
+Operation and exceptions as for the entry FCBCC above; 2 layout forms, each a chart of its own (above).
 
 <a id="w-fcbuo32"></a>
 #### FCBUO32
@@ -4159,7 +4071,7 @@ Operation, flags and exceptions as for the entry FCBCC above; 2 layout forms, ea
 
 ![FCBUO32: FCBR10H, prefix 1100111000, sub-opcode 1010; operands reg4, reg4, pc10-u2; 4 bytes](figures/w/fcbuo32/01.svg)
 
-Operation, flags and exceptions as for the entry FCBCC above; 2 layout forms, each a chart of its own (above).
+Operation and exceptions as for the entry FCBCC above; 2 layout forms, each a chart of its own (above).
 
 <a id="w-fcbor32"></a>
 #### FCBOR32
@@ -4168,7 +4080,7 @@ Operation, flags and exceptions as for the entry FCBCC above; 2 layout forms, ea
 
 ![FCBOR32: FCBR10H, prefix 1100111000, sub-opcode 1011; operands reg4, reg4, pc10-u2; 4 bytes](figures/w/fcbor32/01.svg)
 
-Operation, flags and exceptions as for the entry FCBCC above; 2 layout forms, each a chart of its own (above).
+Operation and exceptions as for the entry FCBCC above; 2 layout forms, each a chart of its own (above).
 
 
 ### BTAG: Branch on pointer tag
@@ -4197,8 +4109,6 @@ BTAG : if (Rn & 111₂) = tag then PC ← address of this instruction + 2 × dis
 BNTAG: if (Rn & 111₂) ≠ tag then PC ← address of this instruction + 2 × disp
 ```
 
-**Flags** No flags.
-
 **Exceptions** None.
 
 For runtimes that keep a 3-bit type tag in the low bits of a pointer (`lowtag`). The displacement is signed and counts parcels.
@@ -4214,7 +4124,7 @@ For runtimes that keep a 3-bit type tag in the low bits of a pointer (`lowtag`).
 BTAG Rn, #tag, target
 ```
 
-Operation, flags and exceptions as for the entry BTAG above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry BTAG above; 1 layout form, each a chart of its own (above).
 
 <a id="w-bntag"></a>
 #### BNTAG
@@ -4225,7 +4135,7 @@ Operation, flags and exceptions as for the entry BTAG above; 1 layout form, each
 BNTAG Rn, #tag, target
 ```
 
-Operation, flags and exceptions as for the entry BTAG above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry BTAG above; 1 layout form, each a chart of its own (above).
 
 
 <a id="w-jmp"></a>
@@ -4271,11 +4181,9 @@ The chart is the leaf `SOF-B28-2`, SOF.B28, prefix `1101000101101`. `op1` is `b5
 PC ← (register operand) ? Rm : EA(rm)
 ```
 
-**Flags** No flags.
-
 **Exceptions** A jump to an unmapped or non-executable address faults on the fetch of the target.
 
-A switch is a `CMP` against the limit, a `BHIS` to the default and a `JMP` through a scaled index.
+A switch is a `CBHIS` against the limit, to the default, and a `JMP` through a scaled index.
 
 
 <a id="w-call"></a>
@@ -4327,8 +4235,6 @@ SP ← SP - 8 ; M[SP] ← address of the next instruction
 PC ← t
 ```
 
-**Flags** No flags.
-
 **Exceptions** Memory operand: page fault, protection fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`); there is no alignment fault, and an access that crosses a page changes nothing when either page faults (9.6.5). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
 The return address is on the data stack where every unwinder and debugger expects it. `RET` pops it.
@@ -4360,8 +4266,6 @@ JMPI : PC ← M[EA(rm)]
 CALLI: t ← M[EA(rm)] ; SP ← SP - 8 ; M[SP] ← address of the next instruction ; PC ← t
 ```
 
-**Flags** No flags.
-
 **Exceptions** Memory operand: page fault, protection fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`); there is no alignment fault, and an access that crosses a page changes nothing when either page faults (9.6.5). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires. For `CALLI` the order is specified: load the target, then push, then transfer; a fault on the load leaves nothing changed.
 
 The one deferred reference the architecture admits, for control transfer only: the PLT stub (`JMPI got_slot(PC)`) and virtual-method dispatch (`CALLI vtbl_off(Robj)`). It needs a memory operand.
@@ -4391,7 +4295,7 @@ The one deferred reference the architecture admits, for control transfer only: t
 JMPI rm
 ```
 
-Operation, flags and exceptions as for the entry JMPI above; 8 layout forms, each a chart of its own (above).
+Operation and exceptions as for the entry JMPI above; 8 layout forms, each a chart of its own (above).
 
 <a id="w-calli"></a>
 #### CALLI
@@ -4416,7 +4320,7 @@ Operation, flags and exceptions as for the entry JMPI above; 8 layout forms, eac
 CALLI rm
 ```
 
-Operation, flags and exceptions as for the entry JMPI above; 8 layout forms, each a chart of its own (above).
+Operation and exceptions as for the entry JMPI above; 8 layout forms, each a chart of its own (above).
 
 
 <a id="w-jtag"></a>
@@ -4447,8 +4351,6 @@ The chart is the leaf `JTAG3-1`, JTAG3, prefix `11010010011111`. `op1` is `x5-5d
 ```
 PC ← M[Rb + d + 8 × (Rx & 111₂)]
 ```
-
-**Flags** No flags.
 
 **Exceptions** Memory operand: page fault, protection fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`); there is no alignment fault, and an access that crosses a page changes nothing when either page faults (9.6.5). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
@@ -4488,8 +4390,6 @@ SP ← SP - 8 ; M[SP] ← address of the next instruction
 PC ← target
 ```
 
-**Flags** No flags.
-
 **Exceptions** The store of the return address can fault (the memory faults of `CALL`): the instruction restarts whole, because the first half reads a register that the second half does not change.
 
 One of the four fused pairs: `MOVQ Rs, Rd` followed by `CALL target`, in one instruction. The target is a pc-relative field in parcels, measured from the first parcel of the fused instruction; the instruction is two parcels (a 16-bit field) or three (a 32-bit field), and the linker grows it from its shortest form like a `CALL` (`docs/relaxation.md`). **The assembler never fuses**: the compiler writes `MOVCALL` where it wants it. An instruction that writes two registers (`Rd` and the stack pointer) and stores to memory is a two-micro-operation instruction for an out-of-order core.
@@ -4527,8 +4427,6 @@ Rd ← M[SP] ; SP ← SP + 8
 PC ← M[SP] ; SP ← SP + 8
 ```
 
-**Flags** No flags.
-
 **Exceptions** Memory operand: page fault, protection fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`); there is no alignment fault, and an access that crosses a page changes nothing when either page faults (9.6.5). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
 `POP Rd` followed by `RET`, fused. The register is the one the function restores last, usually a callee-saved register or the frame pointer. One parcel of 16 bits, with the register in a 5-bit field.
@@ -4564,8 +4462,6 @@ for each bit i set in mask, highest register first:
     Ri ← M[SP] ; SP ← SP + 8
 PC ← M[SP] ; SP ← SP + 8
 ```
-
-**Flags** No flags.
 
 **Exceptions** Memory operand: page fault, protection fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`); there is no alignment fault, and an access that crosses a page changes nothing when either page faults (9.6.5). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires. A fault after some registers have been popped leaves them popped: the instruction restarts whole and pops them again, which is idempotent because the stack pointer is restored with the rest of the state at the start of the instruction.
 
@@ -4625,8 +4521,6 @@ for n = 0 to 15, if mask bit n:
     SP ← SP - 8 ; M[SP] ← Rn
 ```
 
-**Flags** No flags.
-
 **Exceptions** Memory operand: page fault, protection fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`); there is no alignment fault, and an access that crosses a page changes nothing when either page faults (9.6.5). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires. A mask that includes `R14` (`SP`) is reserved.
 
 The registers are pushed in ascending order, so `POPM` with the same mask restores them. The mask is the low 32 bits of the number; the one-parcel form takes an 8-bit mask scaled by 256, which names `R8` to `R15`.
@@ -4667,8 +4561,6 @@ The chart is the leaf `PUSHMF-1`, PUSHMF, prefix `110100101100100`. `op1` is `im
 for n = 15 down to 0, if mask bit n:
     Rn ← M[SP] ; SP ← SP + 8
 ```
-
-**Flags** No flags.
 
 **Exceptions** Memory operand: page fault, protection fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`); there is no alignment fault, and an access that crosses a page changes nothing when either page faults (9.6.5). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
@@ -4724,8 +4616,6 @@ The chart is the leaf `SOF-B28-1`, SOF.B28, prefix `110100000110`. `op1` is `b5d
 v ← rm ; SP ← SP - 8 ; M[SP] ← v
 ```
 
-**Flags** No flags.
-
 **Exceptions** Memory operand: page fault, protection fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`); there is no alignment fault, and an access that crosses a page changes nothing when either page faults (9.6.5). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
 
@@ -4774,8 +4664,6 @@ The chart is the leaf `SOF-B28-2`, SOF.B28, prefix `1101000101101`. `op1` is `b5
 v ← M[SP] ; SP ← SP + 8 ; rm ← v
 ```
 
-**Flags** No flags.
-
 **Exceptions** Memory operand: page fault, protection fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`); there is no alignment fault, and an access that crosses a page changes nothing when either page faults (9.6.5). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
 
@@ -4806,8 +4694,6 @@ MCPY:                            ; ascending; overlap is undefined
 MMOV: as MCPY, but the direction is chosen from the pointers so that an overlapping copy is correct
 ```
 
-**Flags** No flags.
-
 **Exceptions** Memory operand: page fault, protection fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`); there is no alignment fault, and an access that crosses a page changes nothing when either page faults (9.6.5). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires. The three registers are updated as work completes, so a fault leaves a consistent state and the instruction restarts from its registers.
 
 The one granted exception to the one-memory-operand rule. All three registers are architectural state: on completion `Rn` is 0 and `Rd` and `Rs` point one past the end. An implementation may move more than a byte per step, so long as the register state at every point where an exception can be taken is consistent with a byte-at-a-time copy. The accesses made inside one block operation are unordered with respect to each other.
@@ -4825,7 +4711,7 @@ The one granted exception to the one-memory-operand rule. All three registers ar
 MCPY Rd, Rs, Rn
 ```
 
-Operation, flags and exceptions as for the entry MCPY above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry MCPY above; 1 layout form, each a chart of its own (above).
 
 <a id="w-mmov"></a>
 #### MMOV
@@ -4836,7 +4722,7 @@ Operation, flags and exceptions as for the entry MCPY above; 1 layout form, each
 MMOV Rd, Rs, Rn
 ```
 
-Operation, flags and exceptions as for the entry MCPY above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry MCPY above; 1 layout form, each a chart of its own (above).
 
 
 <a id="w-mset"></a>
@@ -4865,8 +4751,6 @@ The chart is the leaf `R3-1`, R3, prefix `1100101000`. `op1` is `reg5`: register
 ```
 while Rn ≠ 0:  M8[Rd] ← Rv[7:0] ; Rd ← Rd + 1 ; Rn ← Rn - 1
 ```
-
-**Flags** No flags.
 
 **Exceptions** Memory operand: page fault, protection fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`); there is no alignment fault, and an access that crosses a page changes nothing when either page faults (9.6.5). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
@@ -4908,8 +4792,6 @@ while Rn ≠ 0:
 if equal:  Rn = 0
 ```
 
-**Flags** No flags.
-
 **Exceptions** Memory operand: page fault, protection fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`); there is no alignment fault, and an access that crosses a page changes nothing when either page faults (9.6.5). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
 **Why it is here.** Seven of the VAX's ten character-string instructions are present (`MOVC3`, `CMPC3`, `LOCC` and `SKPC` among them); the rejected ones are `EDITPC` and packed decimal. `MCMP` is the `CMPC3` equivalent.
@@ -4946,8 +4828,6 @@ while Rn ≠ 0:
 not found: Rn = 0
 ```
 
-**Flags** No flags.
-
 **Exceptions** Memory operand: page fault, protection fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`); there is no alignment fault, and an access that crosses a page changes nothing when either page faults (9.6.5). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
 The report is in the registers: `Rn` is 0 when no byte was found and not 0 when one was, with `Rd` at it. `MSCN` is `memchr`; with an explicit count it gives `strnlen`, and composing it with `MCPY` gives a bounded `strcpy` in two instructions. There are no NUL-terminated string instructions.
@@ -4965,7 +4845,7 @@ The report is in the registers: `Rn` is 0 when no byte was found and not 0 when 
 MSCN Rd, Rv, Rn
 ```
 
-Operation, flags and exceptions as for the entry MSCN above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry MSCN above; 1 layout form, each a chart of its own (above).
 
 <a id="w-mscnn"></a>
 #### MSCNN
@@ -4976,7 +4856,7 @@ Operation, flags and exceptions as for the entry MSCN above; 1 layout form, each
 MSCNN Rd, Rv, Rn
 ```
 
-Operation, flags and exceptions as for the entry MSCN above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry MSCN above; 1 layout form, each a chart of its own (above).
 
 
 <a id="w-mval"></a>
@@ -5006,7 +4886,7 @@ The chart is the leaf `R2-1`, R2, prefix `110100000100`. `op1` is `reg5`: regist
 scan Rn bytes at Rd; stop at the first byte that cannot be part of a valid UTF-8 sequence (the rules of UTF8DEC)
 ```
 
-**Flags** On completion `Rn` is 0 and the buffer is valid; otherwise `Rd` points at the offending sequence and `Rn` counts the bytes remaining (details in the instruction-set text, section 4.7.1).
+**Result** On completion `Rn` is 0 and the buffer is valid; otherwise `Rd` points at the offending sequence and `Rn` counts the bytes remaining (details in the instruction-set text, section 4.7.1).
 
 **Exceptions** Memory operand: page fault, protection fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`); there is no alignment fault, and an access that crosses a page changes nothing when either page faults (9.6.5). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
@@ -5062,7 +4942,7 @@ Rd ← Rd - rm   (FSUB)
 Rd ← Rd × rm   (FMUL)       ; IEEE 754 binary64, round to nearest even
 ```
 
-**Flags** The IEEE exception flags raised are ORed into `FPSR`; no instruction traps.
+**Exception flags** The IEEE exception flags raised are ORed into `FPSR`; no instruction traps.
 
 **Exceptions** Memory operand: page fault, protection fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`); there is no alignment fault, and an access that crosses a page changes nothing when either page faults (9.6.5). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires. Floating-point exceptions never trap.
 
@@ -5097,7 +4977,7 @@ Floating-point values live in the general registers; there is no separate regist
 FADD rm, Rd
 ```
 
-Operation, flags and exceptions as for the entry FADD above; 11 layout forms, each a chart of its own (above).
+Operation and exceptions as for the entry FADD above; 11 layout forms, each a chart of its own (above).
 
 <a id="w-fsub"></a>
 #### FSUB
@@ -5128,7 +5008,7 @@ Operation, flags and exceptions as for the entry FADD above; 11 layout forms, ea
 FSUB rm, Rd
 ```
 
-Operation, flags and exceptions as for the entry FADD above; 11 layout forms, each a chart of its own (above).
+Operation and exceptions as for the entry FADD above; 11 layout forms, each a chart of its own (above).
 
 <a id="w-fmul"></a>
 #### FMUL
@@ -5159,7 +5039,7 @@ Operation, flags and exceptions as for the entry FADD above; 11 layout forms, ea
 FMUL rm, Rd
 ```
 
-Operation, flags and exceptions as for the entry FADD above; 11 layout forms, each a chart of its own (above).
+Operation and exceptions as for the entry FADD above; 11 layout forms, each a chart of its own (above).
 
 
 ### FDIV: Floating divide and square root, binary64
@@ -5188,7 +5068,7 @@ FDIV : Rd ← Rd ÷ Rs
 FSQRT: Rd ← sqrt(Rs)
 ```
 
-**Flags** The IEEE exception flags raised are ORed into `FPSR` (`NX` inexact, `UF` underflow, `OF` overflow, `DZ` divide by zero, `NV` invalid); nothing traps.
+**Exception flags** The IEEE exception flags raised are ORed into `FPSR` (`NX` inexact, `UF` underflow, `OF` overflow, `DZ` divide by zero, `NV` invalid); nothing traps.
 
 **Exceptions** None.
 
@@ -5203,7 +5083,7 @@ FSQRT: Rd ← sqrt(Rs)
 FDIV Rs, Rd
 ```
 
-Operation, flags and exceptions as for the entry FDIV above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry FDIV above; 1 layout form, each a chart of its own (above).
 
 <a id="w-fsqrt"></a>
 #### FSQRT
@@ -5214,7 +5094,7 @@ Operation, flags and exceptions as for the entry FDIV above; 1 layout form, each
 FSQRT Rs, Rd
 ```
 
-Operation, flags and exceptions as for the entry FDIV above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry FDIV above; 1 layout form, each a chart of its own (above).
 
 
 ### FSINGLE: Floating arithmetic, binary32
@@ -5245,7 +5125,7 @@ The chart is the leaf `R2-1`, R2, prefix `110100000100`. `op1` is `reg5`: regist
 Rd ← Rd op Rs  (FADD32 FSUB32 FMUL32 FDIV32); Rd ← sqrt(Rs) (FSQRT32)
 ```
 
-**Flags** The IEEE exception flags raised are ORed into `FPSR` (`NX` inexact, `UF` underflow, `OF` overflow, `DZ` divide by zero, `NV` invalid); nothing traps.
+**Exception flags** The IEEE exception flags raised are ORed into `FPSR` (`NX` inexact, `UF` underflow, `OF` overflow, `DZ` divide by zero, `NV` invalid); nothing traps.
 
 **Exceptions** None.
 
@@ -5262,7 +5142,7 @@ A `binary32` lives in the low 32 bits of a register, sign-extended to 64 like ev
 FADD32 Rs, Rd
 ```
 
-Operation, flags and exceptions as for the entry FSINGLE above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry FSINGLE above; 1 layout form, each a chart of its own (above).
 
 <a id="w-fsub32"></a>
 #### FSUB32
@@ -5273,7 +5153,7 @@ Operation, flags and exceptions as for the entry FSINGLE above; 1 layout form, e
 FSUB32 Rs, Rd
 ```
 
-Operation, flags and exceptions as for the entry FSINGLE above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry FSINGLE above; 1 layout form, each a chart of its own (above).
 
 <a id="w-fmul32"></a>
 #### FMUL32
@@ -5284,7 +5164,7 @@ Operation, flags and exceptions as for the entry FSINGLE above; 1 layout form, e
 FMUL32 Rs, Rd
 ```
 
-Operation, flags and exceptions as for the entry FSINGLE above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry FSINGLE above; 1 layout form, each a chart of its own (above).
 
 <a id="w-fdiv32"></a>
 #### FDIV32
@@ -5295,7 +5175,7 @@ Operation, flags and exceptions as for the entry FSINGLE above; 1 layout form, e
 FDIV32 Rs, Rd
 ```
 
-Operation, flags and exceptions as for the entry FSINGLE above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry FSINGLE above; 1 layout form, each a chart of its own (above).
 
 <a id="w-fsqrt32"></a>
 #### FSQRT32
@@ -5306,7 +5186,7 @@ Operation, flags and exceptions as for the entry FSINGLE above; 1 layout form, e
 FSQRT32 Rs, Rd
 ```
 
-Operation, flags and exceptions as for the entry FSINGLE above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry FSINGLE above; 1 layout form, each a chart of its own (above).
 
 
 ### FMADD: Fused multiply-add, binary64
@@ -5335,7 +5215,7 @@ FMADD : Rd ← Rs×Rt + Ru
 FNMSUB: Rd ← -(Rs×Rt) + Ru          ; each rounded once
 ```
 
-**Flags** The IEEE exception flags raised are ORed into `FPSR` (`NX` inexact, `UF` underflow, `OF` overflow, `DZ` divide by zero, `NV` invalid); nothing traps.
+**Exception flags** The IEEE exception flags raised are ORed into `FPSR` (`NX` inexact, `UF` underflow, `OF` overflow, `DZ` divide by zero, `NV` invalid); nothing traps.
 
 **Exceptions** None.
 
@@ -5350,7 +5230,7 @@ FNMSUB: Rd ← -(Rs×Rt) + Ru          ; each rounded once
 FMADD Rs, Rt, Ru, Rd
 ```
 
-Operation, flags and exceptions as for the entry FMADD above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry FMADD above; 1 layout form, each a chart of its own (above).
 
 <a id="w-fnmsub"></a>
 #### FNMSUB
@@ -5361,7 +5241,7 @@ Operation, flags and exceptions as for the entry FMADD above; 1 layout form, eac
 FNMSUB Rs, Rt, Ru, Rd
 ```
 
-Operation, flags and exceptions as for the entry FMADD above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry FMADD above; 1 layout form, each a chart of its own (above).
 
 
 ### FMADD32: Fused multiply-add, binary32
@@ -5389,11 +5269,11 @@ The chart is the leaf `R4-1`, R4, prefix `10101111`. `op1` is `reg5`: register, 
 As FMADD and FNMSUB, in binary32, rounded once
 ```
 
-**Flags** The IEEE exception flags raised are ORed into `FPSR` (`NX` inexact, `UF` underflow, `OF` overflow, `DZ` divide by zero, `NV` invalid); nothing traps.
+**Exception flags** The IEEE exception flags raised are ORed into `FPSR` (`NX` inexact, `UF` underflow, `OF` overflow, `DZ` divide by zero, `NV` invalid); nothing traps.
 
 **Exceptions** None.
 
-The sign of a `binary32` is flipped exactly by `FNEG32`, which is `XOR #-2147483648` and writes no flag.
+The sign of a `binary32` is flipped exactly by `FNEG32`, which is `XOR #-2147483648` and raises no exception flag.
 
 **Why it is here.** The `binary32` forms of the fused multiply-add family.
 
@@ -5406,7 +5286,7 @@ The sign of a `binary32` is flipped exactly by `FNEG32`, which is `XOR #-2147483
 FMADD32 Rs, Rt, Ru, Rd
 ```
 
-Operation, flags and exceptions as for the entry FMADD32 above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry FMADD32 above; 1 layout form, each a chart of its own (above).
 
 <a id="w-fnmsub32"></a>
 #### FNMSUB32
@@ -5417,7 +5297,7 @@ Operation, flags and exceptions as for the entry FMADD32 above; 1 layout form, e
 FNMSUB32 Rs, Rt, Ru, Rd
 ```
 
-Operation, flags and exceptions as for the entry FMADD32 above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry FMADD32 above; 1 layout form, each a chart of its own (above).
 
 
 ### FSIGN: Sign operations on the bits
@@ -5452,13 +5332,13 @@ FNEG32   : Rd ← Rs with the sign of the binary32 flipped    (XOR #-2147483648,
 FABS32   : Rd ← Rs with the sign of the binary32 cleared    (AND #0x7FFFFFFF, Rd)
 ```
 
-**Flags** None for the three native words: they operate on the bits, do not canonicalise a NaN and raise no exception flag. `FNEG32` and `FABS32` are the instructions they stand for and write no flag.
+**Exception flags** None for the three native words: they operate on the bits, do not canonicalise a NaN and raise no exception flag. `FNEG32` and `FABS32` are the instructions they stand for and raise none either.
 
 **Exceptions** None.
 
-`FNEG32` and `FABS32` are assembler mappings of the sign operations of a `binary32`, not native instructions: `FNEG32 Rs, Rd` assembles to `XOR #-2147483648, Rd` and `FABS32 Rs, Rd` to `AND #0x7FFFFFFF, Rd`, each preceded by `MOVQ Rs, Rd` when the two registers differ. A `binary32` lives in a register sign-extended to 64 bits, so its sign is bits 63 to 31 together and the constant that changes it is `0xFFFFFFFF80000000`; the result is again a sign-extended `binary32`, flipped or cleared exactly (a NaN and a zero included), and nothing is raised. The sign of a `binary64` is the single bit 63, which is why `FNEG` and `FABS` are native and write no flag; no one instruction that writes no flag changes the sign of a sign-extended `binary32`, so the two mappings write `N` and `Z`, and a program that keeps flags across one saves them as it would across any `XOR` or `AND`. There is no `FCOPYSIGN32`: its `binary32` form is several instructions on the bits (and the sign must be extended to 64 bits again), more than a mapping should hide.
+`FNEG32` and `FABS32` are assembler mappings of the sign operations of a `binary32`, not native instructions: `FNEG32 Rs, Rd` assembles to `XOR #-2147483648, Rd` and `FABS32 Rs, Rd` to `AND #0x7FFFFFFF, Rd`, each preceded by `MOVQ Rs, Rd` when the two registers differ. A `binary32` lives in a register sign-extended to 64 bits, so its sign is bits 63 to 31 together and the constant that changes it is `0xFFFFFFFF80000000`; the result is again a sign-extended `binary32`, flipped or cleared exactly (a NaN and a zero included), and nothing is raised. The sign of a `binary64` is the single bit 63, which is why `FNEG` and `FABS` are native; the sign of a sign-extended `binary32` is spread over bits 63 to 31, so no single native instruction changes it and the two mappings are an `XOR` and an `AND` with a constant. There is no `FCOPYSIGN32`: its `binary32` form is several instructions on the bits (and the sign must be extended to 64 bits again), more than a mapping should hide.
 
-**Why it is here.** Sign and selection operations (negate, absolute value and the like) work on the bits, do not canonicalise a NaN and raise no flag, so they cost almost nothing. The PowerPC 601 floating-point set has the same operations (stated from memory, not checked against a manual). No separate reason is recorded for these three.
+**Why it is here.** Sign and selection operations (negate, absolute value and the like) work on the bits, do not canonicalise a NaN and raise no exception flag, so they cost almost nothing. The PowerPC 601 floating-point set has the same operations (stated from memory, not checked against a manual). No separate reason is recorded for these three.
 
 <a id="w-fneg"></a>
 #### FNEG
@@ -5469,7 +5349,7 @@ FABS32   : Rd ← Rs with the sign of the binary32 cleared    (AND #0x7FFFFFFF, 
 FNEG Rs, Rd
 ```
 
-Operation, flags and exceptions as for the entry FSIGN above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry FSIGN above; 1 layout form, each a chart of its own (above).
 
 <a id="w-fabs"></a>
 #### FABS
@@ -5480,7 +5360,7 @@ Operation, flags and exceptions as for the entry FSIGN above; 1 layout form, eac
 FABS Rs, Rd
 ```
 
-Operation, flags and exceptions as for the entry FSIGN above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry FSIGN above; 1 layout form, each a chart of its own (above).
 
 <a id="w-fcopysign"></a>
 #### FCOPYSIGN
@@ -5491,7 +5371,7 @@ Operation, flags and exceptions as for the entry FSIGN above; 1 layout form, eac
 FCOPYSIGN Rs, Rt, Rd
 ```
 
-Operation, flags and exceptions as for the entry FSIGN above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry FSIGN above; 1 layout form, each a chart of its own (above).
 
 <a id="w-fneg32"></a>
 #### FNEG32
@@ -5530,7 +5410,7 @@ if Rs is a NaN then Rd ← Rt ; else if Rt is a NaN then Rd ← Rs ; else Rd ←
 if both are NaNs the result is the canonical quiet NaN
 ```
 
-**Flags** The IEEE exception flags raised are ORed into `FPSR` (`NX` inexact, `UF` underflow, `OF` overflow, `DZ` divide by zero, `NV` invalid); nothing traps.
+**Exception flags** The IEEE exception flags raised are ORed into `FPSR` (`NX` inexact, `UF` underflow, `OF` overflow, `DZ` divide by zero, `NV` invalid); nothing traps.
 
 **Exceptions** None.
 
@@ -5545,7 +5425,7 @@ if both are NaNs the result is the canonical quiet NaN
 FMIN Rs, Rt, Rd
 ```
 
-Operation, flags and exceptions as for the entry FMIN above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry FMIN above; 1 layout form, each a chart of its own (above).
 
 <a id="w-fmax"></a>
 #### FMAX
@@ -5556,7 +5436,7 @@ Operation, flags and exceptions as for the entry FMIN above; 1 layout form, each
 FMAX Rs, Rt, Rd
 ```
 
-Operation, flags and exceptions as for the entry FMIN above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry FMIN above; 1 layout form, each a chart of its own (above).
 
 
 ### FCLASS: Classify a floating-point value
@@ -5587,8 +5467,6 @@ bit 4 +zero          bit 5 +subnormal   bit 6 +normal      bit 7 +infinity
 bit 8 signalling NaN bit 9 quiet NaN
 ```
 
-**Flags** None.
-
 **Exceptions** None.
 
 Every libm function begins with this dispatch.
@@ -5604,7 +5482,7 @@ Every libm function begins with this dispatch.
 FCLASS Rs, Rd
 ```
 
-Operation, flags and exceptions as for the entry FCLASS above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry FCLASS above; 1 layout form, each a chart of its own (above).
 
 <a id="w-fclass32"></a>
 #### FCLASS32
@@ -5615,7 +5493,7 @@ Operation, flags and exceptions as for the entry FCLASS above; 1 layout form, ea
 FCLASS32 Rs, Rd
 ```
 
-Operation, flags and exceptions as for the entry FCLASS above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry FCLASS above; 1 layout form, each a chart of its own (above).
 
 
 ### FRINT: Round to an integral value, binary64
@@ -5648,7 +5526,7 @@ FRINTZ: toward zero         FRINTM: toward -infinity
 FRINTP: toward +infinity    FRINTA: to nearest, ties away from zero (C round())
 ```
 
-**Flags** The IEEE exception flags raised are ORed into `FPSR` (`NX` inexact, `UF` underflow, `OF` overflow, `DZ` divide by zero, `NV` invalid); nothing traps.
+**Exception flags** The IEEE exception flags raised are ORed into `FPSR` (`NX` inexact, `UF` underflow, `OF` overflow, `DZ` divide by zero, `NV` invalid); nothing traps.
 
 **Exceptions** None.
 
@@ -5665,7 +5543,7 @@ The rounding mode is in the instruction, never in a mode bit.
 FRINT Rs, Rd
 ```
 
-Operation, flags and exceptions as for the entry FRINT above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry FRINT above; 1 layout form, each a chart of its own (above).
 
 <a id="w-frintz"></a>
 #### FRINTZ
@@ -5676,7 +5554,7 @@ Operation, flags and exceptions as for the entry FRINT above; 1 layout form, eac
 FRINTZ Rs, Rd
 ```
 
-Operation, flags and exceptions as for the entry FRINT above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry FRINT above; 1 layout form, each a chart of its own (above).
 
 <a id="w-frintm"></a>
 #### FRINTM
@@ -5687,7 +5565,7 @@ Operation, flags and exceptions as for the entry FRINT above; 1 layout form, eac
 FRINTM Rs, Rd
 ```
 
-Operation, flags and exceptions as for the entry FRINT above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry FRINT above; 1 layout form, each a chart of its own (above).
 
 <a id="w-frintp"></a>
 #### FRINTP
@@ -5698,7 +5576,7 @@ Operation, flags and exceptions as for the entry FRINT above; 1 layout form, eac
 FRINTP Rs, Rd
 ```
 
-Operation, flags and exceptions as for the entry FRINT above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry FRINT above; 1 layout form, each a chart of its own (above).
 
 <a id="w-frinta"></a>
 #### FRINTA
@@ -5709,7 +5587,7 @@ Operation, flags and exceptions as for the entry FRINT above; 1 layout form, eac
 FRINTA Rs, Rd
 ```
 
-Operation, flags and exceptions as for the entry FRINT above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry FRINT above; 1 layout form, each a chart of its own (above).
 
 
 ### FCVT: Floating conversions
@@ -5744,7 +5622,7 @@ float to integer: truncate toward zero, then saturate; a NaN gives the largest v
 integer to float: round to nearest even
 ```
 
-**Flags** The IEEE exception flags raised are ORed into `FPSR` (`NX` inexact, `UF` underflow, `OF` overflow, `DZ` divide by zero, `NV` invalid); nothing traps. A NaN or an out-of-range value raises `NV` and saturates.
+**Exception flags** The IEEE exception flags raised are ORed into `FPSR` (`NX` inexact, `UF` underflow, `OF` overflow, `DZ` divide by zero, `NV` invalid); nothing traps. A NaN or an out-of-range value raises `NV` and saturates.
 
 **Exceptions** None.
 
@@ -5761,7 +5639,7 @@ Integer results are 64-bit (`FCVTDQ`, `FCVTDQU`) or 32-bit sign-extended (`FCVTS
 FCVTDQ Rs, Rd
 ```
 
-Operation, flags and exceptions as for the entry FCVT above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry FCVT above; 1 layout form, each a chart of its own (above).
 
 <a id="w-fcvtdqu"></a>
 #### FCVTDQU
@@ -5772,7 +5650,7 @@ Operation, flags and exceptions as for the entry FCVT above; 1 layout form, each
 FCVTDQU Rs, Rd
 ```
 
-Operation, flags and exceptions as for the entry FCVT above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry FCVT above; 1 layout form, each a chart of its own (above).
 
 <a id="w-fcvtqd"></a>
 #### FCVTQD
@@ -5783,7 +5661,7 @@ Operation, flags and exceptions as for the entry FCVT above; 1 layout form, each
 FCVTQD Rs, Rd
 ```
 
-Operation, flags and exceptions as for the entry FCVT above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry FCVT above; 1 layout form, each a chart of its own (above).
 
 <a id="w-fcvtqud"></a>
 #### FCVTQUD
@@ -5794,7 +5672,7 @@ Operation, flags and exceptions as for the entry FCVT above; 1 layout form, each
 FCVTQUD Rs, Rd
 ```
 
-Operation, flags and exceptions as for the entry FCVT above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry FCVT above; 1 layout form, each a chart of its own (above).
 
 <a id="w-fcvtds"></a>
 #### FCVTDS
@@ -5805,7 +5683,7 @@ Operation, flags and exceptions as for the entry FCVT above; 1 layout form, each
 FCVTDS Rs, Rd
 ```
 
-Operation, flags and exceptions as for the entry FCVT above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry FCVT above; 1 layout form, each a chart of its own (above).
 
 <a id="w-fcvtsd"></a>
 #### FCVTSD
@@ -5816,7 +5694,7 @@ Operation, flags and exceptions as for the entry FCVT above; 1 layout form, each
 FCVTSD Rs, Rd
 ```
 
-Operation, flags and exceptions as for the entry FCVT above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry FCVT above; 1 layout form, each a chart of its own (above).
 
 <a id="w-fcvtsl"></a>
 #### FCVTSL
@@ -5827,7 +5705,7 @@ Operation, flags and exceptions as for the entry FCVT above; 1 layout form, each
 FCVTSL Rs, Rd
 ```
 
-Operation, flags and exceptions as for the entry FCVT above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry FCVT above; 1 layout form, each a chart of its own (above).
 
 <a id="w-fcvtls"></a>
 #### FCVTLS
@@ -5838,7 +5716,7 @@ Operation, flags and exceptions as for the entry FCVT above; 1 layout form, each
 FCVTLS Rs, Rd
 ```
 
-Operation, flags and exceptions as for the entry FCVT above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry FCVT above; 1 layout form, each a chart of its own (above).
 
 
 <a id="w-fsflags"></a>
@@ -5869,8 +5747,6 @@ old ← FPSR
 FPSR ← Rs[4:0]
 Rd ← old
 ```
-
-**Flags** None.
 
 **Exceptions** None.
 
@@ -5909,7 +5785,7 @@ narrowing: round to nearest even ; widening: exact
 FCVTHL of a NaN or an infinity is invalid and saturates; truncating a fraction is inexact
 ```
 
-**Flags** The IEEE exception flags raised are ORed into `FPSR` (`NX` inexact, `UF` underflow, `OF` overflow, `DZ` divide by zero, `NV` invalid); nothing traps.
+**Exception flags** The IEEE exception flags raised are ORed into `FPSR` (`NX` inexact, `UF` underflow, `OF` overflow, `DZ` divide by zero, `NV` invalid); nothing traps.
 
 **Exceptions** None.
 
@@ -5926,7 +5802,7 @@ FCVTHL of a NaN or an infinity is invalid and saturates; truncating a fraction i
 FCVTSH Rs, Rd
 ```
 
-Operation, flags and exceptions as for the entry FCVTH above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry FCVTH above; 1 layout form, each a chart of its own (above).
 
 <a id="w-fcvths"></a>
 #### FCVTHS
@@ -5937,7 +5813,7 @@ Operation, flags and exceptions as for the entry FCVTH above; 1 layout form, eac
 FCVTHS Rs, Rd
 ```
 
-Operation, flags and exceptions as for the entry FCVTH above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry FCVTH above; 1 layout form, each a chart of its own (above).
 
 <a id="w-fcvtdh"></a>
 #### FCVTDH
@@ -5948,7 +5824,7 @@ Operation, flags and exceptions as for the entry FCVTH above; 1 layout form, eac
 FCVTDH Rs, Rd
 ```
 
-Operation, flags and exceptions as for the entry FCVTH above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry FCVTH above; 1 layout form, each a chart of its own (above).
 
 <a id="w-fcvthd"></a>
 #### FCVTHD
@@ -5959,7 +5835,7 @@ Operation, flags and exceptions as for the entry FCVTH above; 1 layout form, eac
 FCVTHD Rs, Rd
 ```
 
-Operation, flags and exceptions as for the entry FCVTH above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry FCVTH above; 1 layout form, each a chart of its own (above).
 
 <a id="w-fcvthl"></a>
 #### FCVTHL
@@ -5970,7 +5846,7 @@ Operation, flags and exceptions as for the entry FCVTH above; 1 layout form, eac
 FCVTHL Rs, Rd
 ```
 
-Operation, flags and exceptions as for the entry FCVTH above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry FCVTH above; 1 layout form, each a chart of its own (above).
 
 <a id="w-fcvtlh"></a>
 #### FCVTLH
@@ -5981,7 +5857,7 @@ Operation, flags and exceptions as for the entry FCVTH above; 1 layout form, eac
 FCVTLH Rs, Rd
 ```
 
-Operation, flags and exceptions as for the entry FCVTH above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry FCVTH above; 1 layout form, each a chart of its own (above).
 <!-- /entries:9.12 -->
 
 ## 9.13 Atomics and ordering
@@ -6024,8 +5900,6 @@ if old = Rd then M[Ra] ← Rs                  ; CASL compares and writes the lo
 Rd ← old              ; the program compares Rd with the value it expected to learn whether the swap happened
 ```
 
-**Flags** None. `SC` reports success in `Rd` (0 for success, 1 for failure).
-
 **Exceptions** All precise: nothing has changed, `EPC` is the instruction and `EVA` the address. An address that is not naturally aligned for the size takes the misalignment fault (no atomic is ever split over two words, two blocks or two pages, so nothing takes the bus for it). Memory that is not ordinary cached memory (uncached memory, a device's registers) takes the store protection fault. A page that is not present, or cannot be written, takes the fault of a store: an atomic reads and writes, and `LL` and `SC` check the access as a store too. The access is atomic with respect to every initiator, cores and devices alike.
 
 The sub-opcodes and the semantics of this group are specified.
@@ -6043,7 +5917,7 @@ The sub-opcodes and the semantics of this group are specified.
 CAS Rs, (Ra), Rd
 ```
 
-Operation, flags and exceptions as for the entry CAS above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry CAS above; 1 layout form, each a chart of its own (above).
 
 <a id="w-casl"></a>
 #### CASL
@@ -6054,7 +5928,7 @@ Operation, flags and exceptions as for the entry CAS above; 1 layout form, each 
 CASL ...
 ```
 
-Operation, flags and exceptions as for the entry CAS above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry CAS above; 1 layout form, each a chart of its own (above).
 
 
 ### SWAP: Atomic exchange
@@ -6082,8 +5956,6 @@ The chart is the leaf `ATOM-1`, ATOM, prefix `110100110100`. `op1` is `reg5`: re
 old ← M[Ra] ; M[Ra] ← Rs ; Rd ← old       ; 8 bytes (4 for SWAPL)
 ```
 
-**Flags** None. `SC` reports success in `Rd` (0 for success, 1 for failure).
-
 **Exceptions** All precise: nothing has changed, `EPC` is the instruction and `EVA` the address. An address that is not naturally aligned for the size takes the misalignment fault (no atomic is ever split over two words, two blocks or two pages, so nothing takes the bus for it). Memory that is not ordinary cached memory (uncached memory, a device's registers) takes the store protection fault. A page that is not present, or cannot be written, takes the fault of a store: an atomic reads and writes, and `LL` and `SC` check the access as a store too. The access is atomic with respect to every initiator, cores and devices alike.
 
 The sub-opcodes and the semantics of this group are specified.
@@ -6101,7 +5973,7 @@ The sub-opcodes and the semantics of this group are specified.
 SWAP Rs, (Ra), Rd
 ```
 
-Operation, flags and exceptions as for the entry SWAP above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry SWAP above; 1 layout form, each a chart of its own (above).
 
 <a id="w-swapl"></a>
 #### SWAPL
@@ -6112,7 +5984,7 @@ Operation, flags and exceptions as for the entry SWAP above; 1 layout form, each
 SWAPL ...
 ```
 
-Operation, flags and exceptions as for the entry SWAP above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry SWAP above; 1 layout form, each a chart of its own (above).
 
 
 ### AADD: Atomic fetch and add
@@ -6140,8 +6012,6 @@ The chart is the leaf `ATOM-1`, ATOM, prefix `110100110100`. `op1` is `reg5`: re
 old ← M[Ra] ; M[Ra] ← old + Rs ; Rd ← old     ; 8 bytes (4 for AADDL; the sum wraps in 4 bytes)
 ```
 
-**Flags** None. `SC` reports success in `Rd` (0 for success, 1 for failure).
-
 **Exceptions** All precise: nothing has changed, `EPC` is the instruction and `EVA` the address. An address that is not naturally aligned for the size takes the misalignment fault (no atomic is ever split over two words, two blocks or two pages, so nothing takes the bus for it). Memory that is not ordinary cached memory (uncached memory, a device's registers) takes the store protection fault. A page that is not present, or cannot be written, takes the fault of a store: an atomic reads and writes, and `LL` and `SC` check the access as a store too. The access is atomic with respect to every initiator, cores and devices alike.
 
 The sub-opcodes and the semantics of this group are specified.
@@ -6159,7 +6029,7 @@ The sub-opcodes and the semantics of this group are specified.
 AADD Rs, (Ra), Rd
 ```
 
-Operation, flags and exceptions as for the entry AADD above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry AADD above; 1 layout form, each a chart of its own (above).
 
 <a id="w-aaddl"></a>
 #### AADDL
@@ -6170,7 +6040,7 @@ Operation, flags and exceptions as for the entry AADD above; 1 layout form, each
 AADDL ...
 ```
 
-Operation, flags and exceptions as for the entry AADD above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry AADD above; 1 layout form, each a chart of its own (above).
 
 
 ### AAND: Atomic fetch and and, bit set (or), xor
@@ -6204,8 +6074,6 @@ AXOR: M[Ra] ← old XOR Rs
 Rd ← old
 ```
 
-**Flags** None. `SC` reports success in `Rd` (0 for success, 1 for failure).
-
 **Exceptions** All precise: nothing has changed, `EPC` is the instruction and `EVA` the address. An address that is not naturally aligned for the size takes the misalignment fault (no atomic is ever split over two words, two blocks or two pages, so nothing takes the bus for it). Memory that is not ordinary cached memory (uncached memory, a device's registers) takes the store protection fault. A page that is not present, or cannot be written, takes the fault of a store: an atomic reads and writes, and `LL` and `SC` check the access as a store too. The access is atomic with respect to every initiator, cores and devices alike.
 
 The sub-opcodes and the semantics of this group are specified.
@@ -6223,14 +6091,14 @@ The sub-opcodes and the semantics of this group are specified.
 AAND Rs, (Ra), Rd
 ```
 
-Operation, flags and exceptions as for the entry AAND above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry AAND above; 1 layout form, each a chart of its own (above).
 
 <a id="w-aandl"></a>
 #### AANDL
 
 ![AANDL: ATOM, prefix 110100110100, sub-opcode 00111; operands reg5, b5d0s-x1, reg5; 4 bytes](figures/w/aandl/01.svg)
 
-Operation, flags and exceptions as for the entry AAND above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry AAND above; 1 layout form, each a chart of its own (above).
 
 <a id="w-abis"></a>
 #### ABIS
@@ -6241,14 +6109,14 @@ Operation, flags and exceptions as for the entry AAND above; 1 layout form, each
 ABIS Rs, (Ra), Rd
 ```
 
-Operation, flags and exceptions as for the entry AAND above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry AAND above; 1 layout form, each a chart of its own (above).
 
 <a id="w-abisl"></a>
 #### ABISL
 
 ![ABISL: ATOM, prefix 110100110100, sub-opcode 01001; operands reg5, b5d0s-x1, reg5; 4 bytes](figures/w/abisl/01.svg)
 
-Operation, flags and exceptions as for the entry AAND above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry AAND above; 1 layout form, each a chart of its own (above).
 
 <a id="w-axor"></a>
 #### AXOR
@@ -6259,14 +6127,14 @@ Operation, flags and exceptions as for the entry AAND above; 1 layout form, each
 AXOR Rs, (Ra), Rd
 ```
 
-Operation, flags and exceptions as for the entry AAND above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry AAND above; 1 layout form, each a chart of its own (above).
 
 <a id="w-axorl"></a>
 #### AXORL
 
 ![AXORL: ATOM, prefix 110100110100, sub-opcode 01011; operands reg5, b5d0s-x1, reg5; 4 bytes](figures/w/axorl/01.svg)
 
-Operation, flags and exceptions as for the entry AAND above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry AAND above; 1 layout form, each a chart of its own (above).
 
 
 ### AMAX: Atomic fetch and minimum or maximum
@@ -6296,8 +6164,6 @@ old ← M[Ra] ; M[Ra] ← max(old, Rs) (AMAX, AMAXU) or min (AMIN, AMINU) ; Rd �
 signed for AMAX and AMIN, unsigned for the U forms; the 4-byte forms compare 4-byte numbers
 ```
 
-**Flags** None. `SC` reports success in `Rd` (0 for success, 1 for failure).
-
 **Exceptions** All precise: nothing has changed, `EPC` is the instruction and `EVA` the address. An address that is not naturally aligned for the size takes the misalignment fault (no atomic is ever split over two words, two blocks or two pages, so nothing takes the bus for it). Memory that is not ordinary cached memory (uncached memory, a device's registers) takes the store protection fault. A page that is not present, or cannot be written, takes the fault of a store: an atomic reads and writes, and `LL` and `SC` check the access as a store too. The access is atomic with respect to every initiator, cores and devices alike.
 
 The sub-opcodes and the semantics of this group are specified.
@@ -6315,14 +6181,14 @@ The sub-opcodes and the semantics of this group are specified.
 AMAX Rs, (Ra), Rd
 ```
 
-Operation, flags and exceptions as for the entry AMAX above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry AMAX above; 1 layout form, each a chart of its own (above).
 
 <a id="w-amaxl"></a>
 #### AMAXL
 
 ![AMAXL: ATOM, prefix 110100110100, sub-opcode 01101; operands reg5, b5d0s-x1, reg5; 4 bytes](figures/w/amaxl/01.svg)
 
-Operation, flags and exceptions as for the entry AMAX above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry AMAX above; 1 layout form, each a chart of its own (above).
 
 <a id="w-amin"></a>
 #### AMIN
@@ -6333,42 +6199,42 @@ Operation, flags and exceptions as for the entry AMAX above; 1 layout form, each
 AMIN ..., AMAXU ..., AMINU ...
 ```
 
-Operation, flags and exceptions as for the entry AMAX above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry AMAX above; 1 layout form, each a chart of its own (above).
 
 <a id="w-aminl"></a>
 #### AMINL
 
 ![AMINL: ATOM, prefix 110100110100, sub-opcode 01111; operands reg5, b5d0s-x1, reg5; 4 bytes](figures/w/aminl/01.svg)
 
-Operation, flags and exceptions as for the entry AMAX above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry AMAX above; 1 layout form, each a chart of its own (above).
 
 <a id="w-amaxu"></a>
 #### AMAXU
 
 ![AMAXU: ATOM, prefix 110100110100, sub-opcode 10000; operands reg5, b5d0s-x1, reg5; 4 bytes](figures/w/amaxu/01.svg)
 
-Operation, flags and exceptions as for the entry AMAX above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry AMAX above; 1 layout form, each a chart of its own (above).
 
 <a id="w-amaxul"></a>
 #### AMAXUL
 
 ![AMAXUL: ATOM, prefix 110100110100, sub-opcode 10001; operands reg5, b5d0s-x1, reg5; 4 bytes](figures/w/amaxul/01.svg)
 
-Operation, flags and exceptions as for the entry AMAX above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry AMAX above; 1 layout form, each a chart of its own (above).
 
 <a id="w-aminu"></a>
 #### AMINU
 
 ![AMINU: ATOM, prefix 110100110100, sub-opcode 10010; operands reg5, b5d0s-x1, reg5; 4 bytes](figures/w/aminu/01.svg)
 
-Operation, flags and exceptions as for the entry AMAX above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry AMAX above; 1 layout form, each a chart of its own (above).
 
 <a id="w-aminul"></a>
 #### AMINUL
 
 ![AMINUL: ATOM, prefix 110100110100, sub-opcode 10011; operands reg5, b5d0s-x1, reg5; 4 bytes](figures/w/aminul/01.svg)
 
-Operation, flags and exceptions as for the entry AMAX above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry AMAX above; 1 layout form, each a chart of its own (above).
 
 
 ### LLSC: Load-linked and store-conditional
@@ -6402,7 +6268,7 @@ SC: if the reservation is intact and Ra is the address (and the size) of the LL
     and the reservation is over, whether the SC wrote or not
 ```
 
-**Flags** None. `SC` reports success in `Rd` (0 for success, 1 for failure).
+**Result** `SC` reports success in `Rd` (0 for success, 1 for failure).
 
 **Exceptions** All precise: nothing has changed, `EPC` is the instruction and `EVA` the address. An address that is not naturally aligned for the size takes the misalignment fault (no atomic is ever split over two words, two blocks or two pages, so nothing takes the bus for it). Memory that is not ordinary cached memory (uncached memory, a device's registers) takes the store protection fault. A page that is not present, or cannot be written, takes the fault of a store: an atomic reads and writes, and `LL` and `SC` check the access as a store too. The access is atomic with respect to every initiator, cores and devices alike.
 
@@ -6421,7 +6287,7 @@ A short `LL`/`SC` sequence must eventually succeed if no other initiator keeps w
 LL (Ra), Rd
 ```
 
-Operation, flags and exceptions as for the entry LLSC above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry LLSC above; 1 layout form, each a chart of its own (above).
 
 <a id="w-lll"></a>
 #### LLL
@@ -6432,7 +6298,7 @@ Operation, flags and exceptions as for the entry LLSC above; 1 layout form, each
 LLL (Ra), Rd
 ```
 
-Operation, flags and exceptions as for the entry LLSC above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry LLSC above; 1 layout form, each a chart of its own (above).
 
 <a id="w-sc"></a>
 #### SC
@@ -6443,7 +6309,7 @@ Operation, flags and exceptions as for the entry LLSC above; 1 layout form, each
 SC Rs, (Ra), Rd
 ```
 
-Operation, flags and exceptions as for the entry LLSC above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry LLSC above; 1 layout form, each a chart of its own (above).
 
 <a id="w-scl"></a>
 #### SCL
@@ -6454,7 +6320,7 @@ Operation, flags and exceptions as for the entry LLSC above; 1 layout form, each
 SCL Rs, (Ra), Rd
 ```
 
-Operation, flags and exceptions as for the entry LLSC above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry LLSC above; 1 layout form, each a chart of its own (above).
 <!-- /entries:9.13 -->
 
 ## 9.14 System instructions, exceptions and interrupts
@@ -6491,8 +6357,6 @@ The chart is the leaf `SYS0-1`, SYS0, prefix `1101000101100`. `sub` (3 bits) sel
 nothing
 ```
 
-**Flags** No flags.
-
 **Exceptions** None.
 
 `LPAD` marks a legal target of an indirect jump or call; no instruction enforces it in ABI version 1.
@@ -6510,7 +6374,7 @@ nothing
 NOP
 ```
 
-Operation, flags and exceptions as for the entry NOP above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry NOP above; 1 layout form, each a chart of its own (above).
 
 <a id="w-lpad"></a>
 #### LPAD
@@ -6521,7 +6385,7 @@ Operation, flags and exceptions as for the entry NOP above; 1 layout form, each 
 LPAD
 ```
 
-Operation, flags and exceptions as for the entry NOP above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry NOP above; 1 layout form, each a chart of its own (above).
 
 
 ### RTI: Return from interrupt or exception
@@ -6552,8 +6416,6 @@ if the mode returned to is lesser than the current mode: every Rn (n = 0 to 31, 
 RTT: and then set the trace bit T after the return
 ```
 
-**Flags** No flags.
-
 **Exceptions** Privileged: outside kernel mode the instruction aborts with the privileged-instruction vector.
 
 `R14` is the stack pointer of the mode returned to and is never cleared, so bit 14 names the vector registers and the floating-point flags. To the same mode the mask is ignored. `RTT` sets the trace bit *after* the return rather than before, which is what lets a debugger single-step out of its own trap handler. The constants `RTIMASK_ALL`, `RTIMASK_NONE`, `RTIMASK_CALLEE` and `RTIMASK_SYSCALL` name the usual masks; `RTIMASK_ALL` is the one spelling that leaves the kernel's registers visible.
@@ -6571,7 +6433,7 @@ RTT: and then set the trace bit T after the return
 RTI #mask
 ```
 
-Operation, flags and exceptions as for the entry RTI above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry RTI above; 1 layout form, each a chart of its own (above).
 
 <a id="w-rtt"></a>
 #### RTT
@@ -6582,7 +6444,7 @@ Operation, flags and exceptions as for the entry RTI above; 1 layout form, each 
 RTT #mask
 ```
 
-Operation, flags and exceptions as for the entry RTI above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry RTI above; 1 layout form, each a chart of its own (above).
 
 
 <a id="w-ret"></a>
@@ -6611,8 +6473,6 @@ The chart is the leaf `SYS0-1`, SYS0, prefix `1101000101100`. `sub` (3 bits) sel
 ```
 PC ← M[SP] ; SP ← SP + 8
 ```
-
-**Flags** No flags.
 
 **Exceptions** Memory operand: page fault, protection fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`); there is no alignment fault, and an access that crosses a page changes nothing when either page faults (9.6.5). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
@@ -6646,8 +6506,6 @@ The chart is the leaf `SYS0-1`, SYS0, prefix `1101000101100`. `sub` (3 bits) sel
 stop the processor
 ```
 
-**Flags** No flags.
-
 **Exceptions** Privileged: outside kernel mode the instruction aborts with the privileged-instruction vector.
 
 **Cf.** 6.12.
@@ -6679,8 +6537,6 @@ The chart is the leaf `SYS0-1`, SYS0, prefix `1101000101100`. `sub` (3 bits) sel
 ```
 take the breakpoint vector with EPC = the address of the next instruction
 ```
-
-**Flags** No flags.
 
 **Exceptions** Enters the kernel by the `BPT` vector.
 
@@ -6718,8 +6574,6 @@ The chart is the leaf `SYS0-1`, SYS0, prefix `1101000101100`. `sub` (3 bits) sel
 order the memory accesses before it against those after it, for every initiator that observes them
 ```
 
-**Flags** No flags.
-
 **Exceptions** None.
 
 Owed to devices (one `FENCE` separates writing a device's registers from setting its go bit) and to other cores.
@@ -6756,8 +6610,6 @@ The chart is the leaf `SYS0-1`, SYS0, prefix `1101000101100`. `sub` (3 bits) sel
 sleep until an interrupt is pending or another core executes SEV
 ```
 
-**Flags** No flags.
-
 **Exceptions** Privileged: outside kernel mode the instruction aborts with the privileged-instruction vector.
 
 **Why it is here.** `WAIT` was a PDP-11 instruction (sleep until an interrupt); `WFE` subsumes it: it sleeps until an interrupt or another core's `SEV`, and on a uniprocessor it behaves exactly as `WAIT` did. `WFE` and `SEV` belong to the multiprocessor operations (7.10).
@@ -6791,8 +6643,6 @@ The chart is the leaf `SYS0-1`, SYS0, prefix `1101000101100`. `sub` (3 bits) sel
 ```
 wake every core waiting in WFE
 ```
-
-**Flags** No flags.
 
 **Exceptions** None.
 
@@ -6829,8 +6679,6 @@ TLBSYNC : wait until the invalidations this core started have completed on every
 ICINVA  : invalidate the whole instruction cache
 ```
 
-**Flags** No flags.
-
 **Exceptions** Privileged (`TLBIA`, `TLBSYNC`)
 
 **Why it is here.** `TLBI` and `TLBIA` broadcast, `TLBSYNC` waits for the other cores, and `ICINV` and `ICINVA` invalidate the instruction cache: a Lisp runtime that compiles a function cannot work without an instruction-cache invalidate.
@@ -6846,7 +6694,7 @@ ICINVA  : invalidate the whole instruction cache
 TLBIA
 ```
 
-Operation, flags and exceptions as for the entry TLBA above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry TLBA above; 1 layout form, each a chart of its own (above).
 
 <a id="w-tlbsync"></a>
 #### TLBSYNC
@@ -6857,7 +6705,7 @@ Operation, flags and exceptions as for the entry TLBA above; 1 layout form, each
 TLBSYNC
 ```
 
-Operation, flags and exceptions as for the entry TLBA above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry TLBA above; 1 layout form, each a chart of its own (above).
 
 <a id="w-icinva"></a>
 #### ICINVA
@@ -6868,7 +6716,7 @@ Operation, flags and exceptions as for the entry TLBA above; 1 layout form, each
 ICINVA
 ```
 
-Operation, flags and exceptions as for the entry TLBA above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry TLBA above; 1 layout form, each a chart of its own (above).
 
 
 ### PUSHX: Push and pop the exception state
@@ -6897,8 +6745,6 @@ PUSHX: SP ← SP - 16 ; M[SP] ← EPSW ; M[SP + 8] ← EPC
 POPX : EPSW ← M[SP] ; EPC ← M[SP + 8] ; SP ← SP + 16
 ```
 
-**Flags** No flags.
-
 **Exceptions** Privileged: outside kernel mode the instruction aborts with the privileged-instruction vector. `SP` must be 8-byte aligned (a misaligned-access abort); both words are checked before either is touched.
 
 For a handler that wants to be interrupted: it can save the exception state and lower the priority.
@@ -6916,7 +6762,7 @@ For a handler that wants to be interrupted: it can save the exception state and 
 PUSHX
 ```
 
-Operation, flags and exceptions as for the entry PUSHX above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry PUSHX above; 1 layout form, each a chart of its own (above).
 
 <a id="w-popx"></a>
 #### POPX
@@ -6927,7 +6773,7 @@ Operation, flags and exceptions as for the entry PUSHX above; 1 layout form, eac
 POPX
 ```
 
-Operation, flags and exceptions as for the entry PUSHX above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry PUSHX above; 1 layout form, each a chart of its own (above).
 
 
 <a id="w-isync"></a>
@@ -6956,8 +6802,6 @@ The chart is the leaf `SYS0-3`, SYS0, prefix `110100101011110`. `sub` (1 bit) se
 ```
 make earlier writes to PTBR, ASID, MMUCTL and VBR, and earlier ICINVs, take effect for the instructions that follow
 ```
-
-**Flags** No flags.
 
 **Exceptions** Not privileged (6.2.6). A non-zero pad byte is an illegal instruction.
 
@@ -6995,8 +6839,6 @@ The chart is the leaf `SYSI-2`, SYSI, prefix `10101110`. `op1` is `imm8u`: unsig
 no architectural effect
 ```
 
-**Flags** No flags.
-
 **Exceptions** None.
 
 Defined codes: 0 a plain no-op hint, 1 pause (spin-wait), 2 speculation barrier. Every other code is a reserved hint that executes as a no-op; software shall not use it. Not privileged.
@@ -7033,8 +6875,6 @@ else: ISYNC ; discard the guest's cached translations if the arena's flag or the
       every Rn (n ≠ 14) whose bit n of mask is zero ← 0 ; if bit 14 of mask is zero, the vector registers and FPSR ← 0 ; any LL reservation is cleared
 ```
 
-**Flags** No flags.
-
 **Exceptions** Legal only in the hypervisor mode (H = 1). A guest (H = 0) that executes it, in kernel mode, exits to the hypervisor with exit code 12; in a guest's user mode it is the guest's privileged-instruction exception (the guest's own privilege check comes first). On a machine with no hypervisor (HVE clear) it is an illegal instruction. A reserved mode in `HEPSW` is an illegal instruction and nothing changes.
 
 The one new instruction of the hypervisor mode (6.16). It includes an `ISYNC`: the earlier writes to `PTBR`, `MMUCTL`, `ASID`, `VBR`, `GTBR` and `HTRAP` take effect for what follows. It loads the status word from `HEPSW` and the program counter from `HEPC`, makes the guest's registers the live ones (the ordinary register names mean the guest's own again), clears `H`, and clears every general register whose bit the mask does not name and, with bit 14 of the mask zero, the vector registers and the floating-point flags. There is only this form: the mask is in the instruction and no system register holds it, and the hypervisor keeps nothing in registers across the guest's run. Nothing else is done: no translation-buffer entry is removed unless the arena's flag or the epoch word says so (6.16.25), and no general register is written but the ones the mask clears. If a virtual interrupt line is pending and above the guest's priority, it is taken before the first guest instruction. There is no instruction that leaves a guest: a guest leaves by an exit (a trapped instruction, a hypercall by `TRAP #n`, an interrupt, a stage-2 fault).
@@ -7067,8 +6907,6 @@ The chart is the leaf `MFSR-1`, MFSR, prefix `110100101011111`. `op1` is `reg5`:
 MFSR: Rd ← system register `name`
 MTSR: system register `name` ← Rs         ; read-only registers are an illegal instruction
 ```
-
-**Flags** No flags.
 
 **Exceptions** Privileged: outside kernel mode the instruction aborts with the privileged-instruction vector. An unassigned system register is an illegal instruction.
 
@@ -7121,7 +6959,7 @@ The register is chosen by name. A write to `MMUCTL` that changes bit 0 discards 
 MFSR Rd, name
 ```
 
-Operation, flags and exceptions as for the entry MFSR above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry MFSR above; 1 layout form, each a chart of its own (above).
 
 <a id="w-mtsr"></a>
 #### MTSR
@@ -7132,7 +6970,7 @@ Operation, flags and exceptions as for the entry MFSR above; 1 layout form, each
 MTSR name, Rs
 ```
 
-Operation, flags and exceptions as for the entry MFSR above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry MFSR above; 1 layout form, each a chart of its own (above).
 
 
 ### MTPS: Move to and from the processor status word
@@ -7161,8 +6999,6 @@ MTPS: PSW ← Rs          ; privileged
 MFPS: Rd ← PSW
 ```
 
-**Flags** No flags.
-
 **Exceptions** `MTPS` is privileged. A `MTPS` value with the reserved mode 2 in a mode field aborts.
 
 **Cf.** 6.2 (modes and the status word).
@@ -7176,7 +7012,7 @@ MFPS: Rd ← PSW
 MTPS Rs
 ```
 
-Operation, flags and exceptions as for the entry MTPS above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry MTPS above; 1 layout form, each a chart of its own (above).
 
 <a id="w-mfps"></a>
 #### MFPS
@@ -7187,7 +7023,7 @@ Operation, flags and exceptions as for the entry MTPS above; 1 layout form, each
 MFPS Rd
 ```
 
-Operation, flags and exceptions as for the entry MTPS above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry MTPS above; 1 layout form, each a chart of its own (above).
 
 
 <a id="w-spl"></a>
@@ -7216,8 +7052,6 @@ The chart is the leaf `SYSI-1`, SYSI, prefix `1000110`. `op1` is `imm8u`: unsign
 ```
 PSW.priority ← n
 ```
-
-**Flags** No flags.
 
 **Exceptions** Privileged: outside kernel mode the instruction aborts with the privileged-instruction vector. A priority above 7 is an illegal instruction.
 
@@ -7255,8 +7089,6 @@ The chart is the leaf `SYSI-1`, SYSI, prefix `1000110`. `op1` is `imm8u`: unsign
 enter the kernel by vector (TRAP_BASE + n), with EPC = the address of the next instruction
 ```
 
-**Flags** No flags.
-
 **Exceptions** Enters the kernel; not privileged.
 
 The replacement for the PDP-11 `IOT` and `EMT`. `TRAP` is one word with an 8-bit vector number (`docs/encoding-proposal.md`).
@@ -7293,8 +7125,6 @@ The chart is the leaf `SYSR-1`, SYSR, prefix `110000010`. `op1` is `reg5`: regis
 invalidate the translation-buffer entry for the page containing the address in Rs, on this core and by broadcast on the others
 ```
 
-**Flags** No flags.
-
 **Exceptions** Privileged: outside kernel mode the instruction aborts with the privileged-instruction vector.
 
 **Why it is here.** It broadcasts: a translation changed by one core must be invalidated on all of them, and `TLBSYNC` waits for it.
@@ -7328,8 +7158,6 @@ TLBIAS: invalidate the non-global translations of address-space number Rs[15:0],
 TLBIGP: (H = 1 only) invalidate the translations of the tag in GTBR that used the guest-physical page named by Rs
 ```
 
-**Flags** No flags.
-
 **Exceptions** Privileged: outside kernel mode the instruction aborts with the privileged-instruction vector. `TLBIAS` in a guest exits under the same trap-control bit as `TLBI`. `TLBIGP` is legal only in the hypervisor mode: a guest in kernel mode exits with code 12, in user mode takes its own privileged-instruction exception, and with no hypervisor (HVE clear) it is an illegal instruction.
 
 An implementation may discard more than is asked: one that keeps no guest-physical page discards the whole tag for `TLBIGP`. `TLBIGP` is the invalidate of a hypervisor that has changed one second-stage entry.
@@ -7347,7 +7175,7 @@ An implementation may discard more than is asked: one that keeps no guest-physic
 TLBIAS Rs
 ```
 
-Operation, flags and exceptions as for the entry TLBIAS above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry TLBIAS above; 1 layout form, each a chart of its own (above).
 
 <a id="w-tlbigp"></a>
 #### TLBIGP
@@ -7358,7 +7186,7 @@ Operation, flags and exceptions as for the entry TLBIAS above; 1 layout form, ea
 TLBIGP Rs
 ```
 
-Operation, flags and exceptions as for the entry TLBIAS above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry TLBIAS above; 1 layout form, each a chart of its own (above).
 
 
 ### MTDP: Move to and from the direct pointer
@@ -7387,8 +7215,6 @@ MTDP: DP ← Rs
 MFDP: Rd ← DP
 ```
 
-**Flags** No flags.
-
 **Exceptions** None.
 
 `DP` is the thread pointer in user mode and the per-CPU pointer in kernel mode; there is one copy per mode.
@@ -7406,7 +7232,7 @@ MFDP: Rd ← DP
 MTDP Rs
 ```
 
-Operation, flags and exceptions as for the entry MTDP above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry MTDP above; 1 layout form, each a chart of its own (above).
 
 <a id="w-mfdp"></a>
 #### MFDP
@@ -7417,7 +7243,7 @@ Operation, flags and exceptions as for the entry MTDP above; 1 layout form, each
 MFDP Rd
 ```
 
-Operation, flags and exceptions as for the entry MTDP above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry MTDP above; 1 layout form, each a chart of its own (above).
 
 
 <a id="w-icinv"></a>
@@ -7446,8 +7272,6 @@ The chart is the leaf `SYSR-2`, SYSR, prefix `1100100110`. `op1` is `reg5`: regi
 ```
 invalidate the instruction-cache line containing the address in Rs
 ```
-
-**Flags** No flags.
 
 **Exceptions** Not privileged (6.2.6): a program that generates code needs it.
 
@@ -7482,8 +7306,6 @@ Rd ← 1 if the address in Rs is readable (PROBER) or writable (PROBEW) in the p
 no fault is taken
 ```
 
-**Flags** No flags.
-
 **Exceptions** Privileged: outside kernel mode the instruction aborts with the privileged-instruction vector.
 
 Taken from the VAX `PROBER` and `PROBEW`: the kernel validates a user address before using it.
@@ -7501,7 +7323,7 @@ Taken from the VAX `PROBER` and `PROBEW`: the kernel validates a user address be
 PROBER Rd, Rs
 ```
 
-Operation, flags and exceptions as for the entry PROBE above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry PROBE above; 1 layout form, each a chart of its own (above).
 
 <a id="w-probew"></a>
 #### PROBEW
@@ -7512,7 +7334,7 @@ Operation, flags and exceptions as for the entry PROBE above; 1 layout form, eac
 PROBEW Rd, Rs
 ```
 
-Operation, flags and exceptions as for the entry PROBE above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry PROBE above; 1 layout form, each a chart of its own (above).
 
 
 ### CT: Compare and trap
@@ -7542,11 +7364,9 @@ if Rs compared with the bound satisfies the condition cc then take the CHECK tra
     EPC ← address of this instruction
 ```
 
-**Flags** No flags.
-
 **Exceptions** The `CHECK` trap (vector 16), when the condition holds. A fault: the instruction is annulled and `EPC` is its own address, so that the handler finds the site in the table of check sites (`__bug_table`) by address.
 
-The compare-and-trap of the run-time checks. The condition names are those of `CB<cc>`; `CTHIS` is `CTCC` and `CTLO` is `CTCS` as assembler aliases. `CTCC Ri, #n` traps when `Ri >= n` as an unsigned number, which is the check of an array index of length `n` (a negative index is a large unsigned number). The immediate form has 12 bits, zero-extended, for `CTCC`, `CTHI`, `CTEQ` and `CTNE`; the register form has all ten. `CTEQ Rs` and `CTNE Rs` with no bound are the trap-if-zero of the null check and the trap-if-not-zero of `BUG_ON`, one parcel. No flag is read or written. For every one the assembler writes a record into the section `__bug_table` (the 12-byte `struct bug_entry` of Linux with relative pointers: the address of the instruction, the file, the line, the flags with the kind of check in bits 5 to 7) from the directive `.chk KIND, "file", LINE`. The encodings are the prefix optimiser's.
+The compare-and-trap of the run-time checks. The condition names are those of `CB<cc>`; `CTHIS` is `CTCC` and `CTLO` is `CTCS` as assembler aliases. `CTCC Ri, #n` traps when `Ri >= n` as an unsigned number, which is the check of an array index of length `n` (a negative index is a large unsigned number). The immediate form has 12 bits, zero-extended, for `CTCC`, `CTHI`, `CTEQ` and `CTNE`; the register form has all ten. `CTEQ Rs` and `CTNE Rs` with no bound are the trap-if-zero of the null check and the trap-if-not-zero of `BUG_ON`, one parcel. For every one the assembler writes a record into the section `__bug_table` (the 12-byte `struct bug_entry` of Linux with relative pointers: the address of the instruction, the file, the line, the flags with the kind of check in bits 5 to 7) from the directive `.chk KIND, "file", LINE`. The encodings are the prefix optimiser's.
 
 **Why it is here.** I asked for range checks on a register value and decided a trap-if-zero, a two-bound check and a compare-and-trap with a table of check sites; the names and forms were accepted on 2026-11-17 and the prefix optimiser placed them. The census of the corpus showed that every check of a subscript is an unsigned compare against an immediate that fits 12 bits, which is why the immediate form is 12 bits and why the table, not a stub, says which check failed.
 
@@ -7559,14 +7379,14 @@ The compare-and-trap of the run-time checks. The condition names are those of `C
 
 ![CTCC: CTM12/a, prefix 1101000111010, sub-opcode 00; operands reg5, imm12u; 4 bytes](figures/w/ctcc/02.svg)
 
-Operation, flags and exceptions as for the entry CT above; 2 layout forms, each a chart of its own (above).
+Operation and exceptions as for the entry CT above; 2 layout forms, each a chart of its own (above).
 
 <a id="w-ctcs"></a>
 #### CTCS
 
 ![CTCS: R2, prefix 110100000100, sub-opcode 0000001101; operands reg5, reg5; 4 bytes](figures/w/ctcs/01.svg)
 
-Operation, flags and exceptions as for the entry CT above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry CT above; 1 layout form, each a chart of its own (above).
 
 <a id="w-cthi"></a>
 #### CTHI
@@ -7575,14 +7395,14 @@ Operation, flags and exceptions as for the entry CT above; 1 layout form, each a
 
 ![CTHI: CTM12/a, prefix 1101000111010, sub-opcode 01; operands reg5, imm12u; 4 bytes](figures/w/cthi/02.svg)
 
-Operation, flags and exceptions as for the entry CT above; 2 layout forms, each a chart of its own (above).
+Operation and exceptions as for the entry CT above; 2 layout forms, each a chart of its own (above).
 
 <a id="w-ctlos"></a>
 #### CTLOS
 
 ![CTLOS: R2, prefix 110100000100, sub-opcode 0000001111; operands reg5, reg5; 4 bytes](figures/w/ctlos/01.svg)
 
-Operation, flags and exceptions as for the entry CT above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry CT above; 1 layout form, each a chart of its own (above).
 
 <a id="w-cteq"></a>
 #### CTEQ
@@ -7597,7 +7417,7 @@ Operation, flags and exceptions as for the entry CT above; 1 layout form, each a
 CTEQ Rs  /  CTNE Rs
 ```
 
-Operation, flags and exceptions as for the entry CT above; 3 layout forms, each a chart of its own (above).
+Operation and exceptions as for the entry CT above; 3 layout forms, each a chart of its own (above).
 
 <a id="w-ctne"></a>
 #### CTNE
@@ -7608,35 +7428,35 @@ Operation, flags and exceptions as for the entry CT above; 3 layout forms, each 
 
 ![CTNE: CT1, prefix 1100100111, sub-opcode 1; operands reg5; 2 bytes](figures/w/ctne/01.svg)
 
-Operation, flags and exceptions as for the entry CT above; 3 layout forms, each a chart of its own (above).
+Operation and exceptions as for the entry CT above; 3 layout forms, each a chart of its own (above).
 
 <a id="w-ctge"></a>
 #### CTGE
 
 ![CTGE: R2, prefix 110100000100, sub-opcode 0000010010; operands reg5, reg5; 4 bytes](figures/w/ctge/01.svg)
 
-Operation, flags and exceptions as for the entry CT above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry CT above; 1 layout form, each a chart of its own (above).
 
 <a id="w-ctlt"></a>
 #### CTLT
 
 ![CTLT: R2, prefix 110100000100, sub-opcode 0000010011; operands reg5, reg5; 4 bytes](figures/w/ctlt/01.svg)
 
-Operation, flags and exceptions as for the entry CT above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry CT above; 1 layout form, each a chart of its own (above).
 
 <a id="w-ctgt"></a>
 #### CTGT
 
 ![CTGT: R2, prefix 110100000100, sub-opcode 0000010100; operands reg5, reg5; 4 bytes](figures/w/ctgt/01.svg)
 
-Operation, flags and exceptions as for the entry CT above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry CT above; 1 layout form, each a chart of its own (above).
 
 <a id="w-ctle"></a>
 #### CTLE
 
 ![CTLE: R2, prefix 110100000100, sub-opcode 0000010101; operands reg5, reg5; 4 bytes](figures/w/ctle/01.svg)
 
-Operation, flags and exceptions as for the entry CT above; 1 layout form, each a chart of its own (above).
+Operation and exceptions as for the entry CT above; 1 layout form, each a chart of its own (above).
 
 
 <a id="w-chk2"></a>
@@ -7667,11 +7487,9 @@ if not (Rlo ≤ Rs < Rhi), signed, then take the CHECK trap
     EPC ← address of this instruction
 ```
 
-**Flags** No flags.
-
 **Exceptions** The `CHECK` trap (vector 16), unless the value is in the half-open range.
 
-The two-bound check, for an index whose lower bound is not zero (the Pascal and Ada subscript, a slice, `for i in lo..hi`). Signed, half-open (`Rlo <= Rs < Rhi`, as pcc's `__builtin_chk2` means); the bounds are registers. No flag is read or written; the record in `__bug_table` is as for `CT`.
+The two-bound check, for an index whose lower bound is not zero (the Pascal and Ada subscript, a slice, `for i in lo..hi`). Signed, half-open (`Rlo <= Rs < Rhi`, as pcc's `__builtin_chk2` means); the bounds are registers. The record in `__bug_table` is as for `CT`.
 
 **Why it is here.** The two-bound check: an index with a lower bound other than zero is one instruction instead of a subtraction and a compare. It is signed and half-open, as pcc's built-in and a C range are.
 
@@ -7716,7 +7534,7 @@ The two-bound check, for an index whose lower bound is not zero (the Pascal and 
 
 **9.17.5** It also refuses features of its own invention: NUL-terminated string instructions (`MSCN` with an explicit maximum gives a bounded `strlen`), `CRC32` words (carry-less multiply is the primitive under every CRC), reciprocal-estimate instructions, NaN payload propagation, a 32-bit profile, an eight-byte instruction alignment, `MOVT` and `MOVK` partial-immediate inserts, hardware tag checking, store-with-write-barrier, a self-synchronising encoding, and a scalar instruction for sub-1-bit inference (the accelerator of chapter 8 does it).
 
-*Commentary.* **Precedent.** The VAX's `EDITPC` is a bytecode interpreter in microcode, and DEC needed a separate control chip for the PDP-11's commercial instruction set and shipped none; the VAX's hardware call frames ran slower than the equivalent sequence on later models; ARM32's `PC+8` and MIPS's delay slot expose one implementation's pipeline forever. **Trade-offs.** Each refusal gives up a real convenience: the lost `MOV (R1)+,(R2)+` copy loop, the byte-wide `ADDB`, the inline-argument `JSR`. Section 9.18 says what replaces each. **Improvements.** The common pattern is that a refused feature was either subsumed by a more general one (`MCPY` for the copy loop) or paid its cost in every implementation for a few users (`EDITPC`). **Benefits.** An instruction set a small in-order core can implement completely and a compiler can target without exceptions. **Modern comparables.** RISC-V and AArch64 also refuse memory-to-memory operands and delay slots; AArch64 keeps flags where RISC-V and the pdp64 refuse them. **Impact.** *Kernel:* no instruction has a restart state except the three that keep their progress in architectural registers, so a fault is always restartable. *Compiler:* no special cases: every operand rule is uniform, one memory operand and the rest registers. *Hardware:* no microcode engine, no second operand path, no hidden-state latch, no alignment rotator in the fetch path.
+*Commentary.* **Precedent.** The VAX's `EDITPC` is a bytecode interpreter in microcode, and DEC needed a separate control chip for the PDP-11's commercial instruction set and shipped none; the VAX's hardware call frames ran slower than the equivalent sequence on later models; ARM32's `PC+8` and MIPS's delay slot expose one implementation's pipeline forever. **Trade-offs.** Each refusal gives up a real convenience: the lost `MOV (R1)+,(R2)+` copy loop, the byte-wide `ADDB`, the inline-argument `JSR`. Section 9.18 says what replaces each. **Improvements.** The common pattern is that a refused feature was either subsumed by a more general one (`MCPY` for the copy loop) or paid its cost in every implementation for a few users (`EDITPC`). **Benefits.** An instruction set a small in-order core can implement completely and a compiler can target without exceptions. **Modern comparables.** RISC-V and AArch64 also refuse memory-to-memory operands and delay slots; **Impact.** *Kernel:* no instruction has a restart state except the three that keep their progress in architectural registers, so a fault is always restartable. *Compiler:* no special cases: every operand rule is uniform, one memory operand and the rest registers. *Hardware:* no microcode engine, no second operand path, no hidden-state latch, no alignment rotator in the fetch path.
 
 ## 9.18 Idioms: restored, lost and replaced
 
@@ -7744,7 +7562,7 @@ The two-bound check, for an index whose lower bound is not zero (the Pascal and 
 
 ## 9.19 Side by side: the PDP-11, the VAX and the pdp64
 
-**9.19.1** The word is 64 bits against the PDP-11's 16 and the VAX's 32, the registers are 32, the virtual address is 39, 48 or 57 bits with 40 physical in the present implementation, and the instruction count is 685 instruction words in 240 leaves (365 of them in the vector family), against the VAX's 304.
+**9.19.1** The word is 64 bits against the PDP-11's 16 and the VAX's 32, the registers are 32, the virtual address is 39, 48 or 57 bits with 40 physical in the present implementation, and the instruction count is 623 instruction words in 226 leaves (365 of them in the vector family), against the VAX's 304.
 
 **9.19.2** The program counter is not a register, there is no argument pointer, and the frame pointer and the linker scratch are ordinary software conventions.
 
@@ -7754,16 +7572,16 @@ The two-bound check, for an index whose lower bound is not zero (the Pascal and 
 
 **9.19.5** An instruction is two, four or six bytes (one to three parcels of 16 bits), or ten with a 64-bit literal, against the PDP-11's two to six and the VAX's one to more than fifty.
 
-*Commentary.* **Precedent.** The PDP-11 and VAX instruction formats, with their encodings drawn side by side, are in the instruction-set text, section 13. **Trade-offs.** The pdp64 keeps what made the PDP-11 pleasant, orthogonal addressing and a small register set, and what made the VAX powerful, a register-save mask and string operations, and drops what made both expensive: memory-to-memory operands and unbounded instructions. **Improvements.** The compiler's code averages 3.26 bytes an instruction on the 841-file corpus and 2.93 executed. **Benefits.** A processor that is smaller than either predecessor while running 64-bit code. **Modern comparables.** The closest family is AArch64 in the number of registers and addressing modes and RISC-V compressed in density; RISC-V, like the pdp64, has no flags. **Impact.** *Kernel:* the exception model is the PDP-11's with the VAX's per-mode stacks. *Compiler:* one memory operand makes instruction selection a register-allocation problem, as on a RISC. *Hardware:* a decoder that finds the length from a prefix of the first parcel, and no microcode.
+*Commentary.* **Precedent.** The PDP-11 and VAX instruction formats, with their encodings drawn side by side, are in the instruction-set text, section 13. **Trade-offs.** The pdp64 keeps what made the PDP-11 pleasant, orthogonal addressing and a small register set, and what made the VAX powerful, a register-save mask and string operations, and drops what made both expensive: memory-to-memory operands and unbounded instructions. **Improvements.** The compiler's code averages 3.26 bytes an instruction on the 841-file corpus and 2.93 executed. **Benefits.** A processor that is smaller than either predecessor while running 64-bit code. **Modern comparables.** The closest family is AArch64 in the number of registers and addressing modes and RISC-V compressed in density; **Impact.** *Kernel:* the exception model is the PDP-11's with the VAX's per-mode stacks. *Compiler:* one memory operand makes instruction selection a register-allocation problem, as on a RISC. *Hardware:* a decoder that finds the length from a prefix of the first parcel, and no microcode.
 
 ## 9.20 What was taken from LoongArch, and what was not
 
 **9.20.1** LoongArch64 is the most recent clean-room instruction set designed without an ideological commitment: it borrowed from MIPS, RISC-V and ARM as each had the better answer, which is the posture of the pdp64.
 
-**9.20.2** Adopted from it: bit manipulation in the base (`CLO`, `CLZ`, `CTZ`, bit-field moves, byte reverse), a richer atomic set (fetch-and-minimum and maximum), and memory type as a page attribute, no condition codes (a compare-and-branch and a compare into a register take their place), and 32 registers, which the prefix-coded encoding has the bits for.
+**9.20.2** Adopted from it: bit manipulation in the base (`CLO`, `CLZ`, `CTZ`, bit-field moves, byte reverse), a richer atomic set (fetch-and-minimum and maximum), memory type as a page attribute, and 32 registers, which the prefix-coded encoding has the bits for.
 
 **9.20.3** Declined, with reasons: `R0` hardwired to zero (a thirty-second of a 32-register file, and `CLR` and `NEG` are one parcel already); `FCSR` rounding-mode bits (hidden state that changes other instructions); four PC-relative address-formation instructions (one `LEA` carries 32 bits); and separate vector register files (chapter 8).
 
 **9.20.4** A branch-free conditional select for constant-time code, `MASKEQZ` and `MASKNEZ`, is adopted, and so is the bit select `BSEL` (9.9.6).
 
-*Commentary.* **Precedent.** LoongArch has a fixed 32-bit encoding with room for two register fields and a displacement, so it can afford compare-and-branch (it has no flags either) and needs four instructions to form an address; this machine's variable length reverses both trade-offs. **Improvements.** The same idea is right or wrong depending on the encoding around it, and each adoption is judged against this encoding. **Benefits.** Borrowing the tested parts saves design time and avoids their bugs. **Modern comparables.** LoongArch itself; the RISC-V bit-manipulation extensions (Zbb, Zbs) do much of the same. **Impact.** *Kernel:* atomics with barriers make a lock acquire one instruction. *Compiler:* bit operations in the base mean the compiler can use them without a feature test. *Hardware:* each adopted idea is a few hundred lookup tables and each declined one is a block not built.
+*Commentary.* **Precedent.** LoongArch has a fixed 32-bit encoding with room for two register fields and a displacement, and needs four instructions to form an address; this machine's variable length reverses that trade-off. **Improvements.** The same idea is right or wrong depending on the encoding around it, and each adoption is judged against this encoding. **Benefits.** Borrowing the tested parts saves design time and avoids their bugs. **Modern comparables.** LoongArch itself; the RISC-V bit-manipulation extensions (Zbb, Zbs) do much of the same. **Impact.** *Kernel:* atomics with barriers make a lock acquire one instruction. *Compiler:* bit operations in the base mean the compiler can use them without a feature test. *Hardware:* each adopted idea is a few hundred lookup tables and each declined one is a block not built.

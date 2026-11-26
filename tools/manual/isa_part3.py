@@ -11,22 +11,22 @@ ENTRIES = [
       ['CAS Rs, (Ra), Rd        ; three registers, the destination last: Rd holds the expected value going in and the old value coming out, Rs the new value, Ra the address (no offset); 8 bytes', 'CASL ...                ; the same on 4 bytes'],
       '''old <- M[Ra]                              ; 8 bytes (4 for CASL), naturally aligned, ordinary cached memory
 if old == Rd then M[Ra] <- Rs                  ; CASL compares and writes the low 4 bytes of Rd and Rs
-Rd <- old              ; the program compares Rd with the value it expected to learn whether the swap happened''', ATFLAG, ATEXC, notes=ATNOTE, cf=ATCF, xnote=ATNOTE),
+Rd <- old              ; the program compares Rd with the value it expected to learn whether the swap happened''', NOFLAGS, ATEXC, notes=ATNOTE, cf=ATCF, xnote=ATNOTE),
     E('SWAP', 'atomics', ['swap', 'swapl'], 'Atomic exchange', ['SWAP Rs, (Ra), Rd        ; Ra the address (no offset), Rs the value, Rd the old value', 'SWAPL ...                ; 4 bytes'],
-      '''old <- M[Ra] ; M[Ra] <- Rs ; Rd <- old       ; 8 bytes (4 for SWAPL)''', ATFLAG, ATEXC, notes=ATNOTE, cf=ATCF, xnote=ATNOTE),
+      '''old <- M[Ra] ; M[Ra] <- Rs ; Rd <- old       ; 8 bytes (4 for SWAPL)''', NOFLAGS, ATEXC, notes=ATNOTE, cf=ATCF, xnote=ATNOTE),
     E('AADD', 'atomics', ['aadd', 'aaddl'], 'Atomic fetch and add', ['AADD Rs, (Ra), Rd        ; Ra the address (no offset), Rs the operand, Rd the old value; 8 bytes', 'AADDL ...                ; 4 bytes'],
-      '''old <- M[Ra] ; M[Ra] <- old + Rs ; Rd <- old     ; 8 bytes (4 for AADDL; the sum wraps in 4 bytes)''', ATFLAG, ATEXC, notes=ATNOTE, cf=ATCF, xnote=ATNOTE),
+      '''old <- M[Ra] ; M[Ra] <- old + Rs ; Rd <- old     ; 8 bytes (4 for AADDL; the sum wraps in 4 bytes)''', NOFLAGS, ATEXC, notes=ATNOTE, cf=ATCF, xnote=ATNOTE),
     E('AAND', 'atomics', ['aand', 'aandl', 'abis', 'abisl', 'axor', 'axorl'], 'Atomic fetch and and, bit set (or), xor',
       ['AAND Rs, (Ra), Rd', 'ABIS Rs, (Ra), Rd        ; the machine\'s own BIS, bit set, the inclusive or', 'AXOR Rs, (Ra), Rd', 'each with an L form (AANDL, ABISL, AXORL: 4 bytes)'],
       '''old <- M[Ra]
 AAND: M[Ra] <- old AND Rs
 ABIS: M[Ra] <- old OR Rs
 AXOR: M[Ra] <- old XOR Rs
-Rd <- old''', ATFLAG, ATEXC, notes=ATNOTE, cf=ATCF, xnote=ATNOTE),
+Rd <- old''', NOFLAGS, ATEXC, notes=ATNOTE, cf=ATCF, xnote=ATNOTE),
     E('AMAX', 'atomics', ['amax', 'amaxl', 'amin', 'aminl', 'amaxu', 'amaxul', 'aminu', 'aminul'], 'Atomic fetch and minimum or maximum',
       ['AMAX Rs, (Ra), Rd', 'AMIN ..., AMAXU ..., AMINU ...', 'each with an L form (AMAXL, AMAXUL, AMINL, AMINUL: 4 bytes)'],
       '''old <- M[Ra] ; M[Ra] <- max(old, Rs) (AMAX, AMAXU) or min (AMIN, AMINU) ; Rd <- old
-signed for AMAX and AMIN, unsigned for the U forms; the 4-byte forms compare 4-byte numbers''', ATFLAG, ATEXC, notes=ATNOTE, cf=ATCF, xnote=ATNOTE),
+signed for AMAX and AMIN, unsigned for the U forms; the 4-byte forms compare 4-byte numbers''', NOFLAGS, ATEXC, notes=ATNOTE, cf=ATCF, xnote=ATNOTE),
     E('LLSC', 'atomics', ['ll', 'lll', 'sc', 'scl'], 'Load-linked and store-conditional', ['LL (Ra), Rd        ; 8 bytes', 'LLL (Ra), Rd       ; 4 bytes', 'SC Rs, (Ra), Rd    ; 8 bytes', 'SCL Rs, (Ra), Rd   ; 4 bytes'],
       '''LL: Rd <- M[Ra] ; take a reservation on the aligned 128-byte block that contains the address
 SC: if the reservation is intact and Ra is the address (and the size) of the LL

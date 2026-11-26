@@ -59,7 +59,7 @@ The status word has no bit for the **user-memory guard** (the rule that the kern
 
 **{{#there-are-three-modes}}** There are three modes, with the PDP-11's encoding: kernel 0, supervisor 1, user 3. The supervisor mode exists in the status word and in the banked registers, and no code uses it.
 
-**{{#status-word-holds-the-flags}}** The status word holds the trace bit in bit 4, the interrupt priority in bits 5 to 7, the current mode in bits 8 and 9, and the previous mode in bits 10 and 11; bits 0 to 3 and the other bits are reserved and read as zero. The pdp64 has no condition codes.
+**{{#status-word-bit-layout}}** The status word holds the trace bit in bit 4, the interrupt priority in bits 5 to 7, the current mode in bits 8 and 9, and the previous mode in bits 10 and 11; bits 0 to 3 and the other bits are reserved and read as zero. The pdp64 has no condition codes.
 
 **{{#mtps-in-user-mode-writes}}** `MTPS` is privileged: outside kernel mode it aborts with the privileged-instruction vector, because user mode has no status bit it may write; in kernel mode it writes every writable bit. `MFPS` is not privileged and returns the status word, with bits 0 to 3 zero. `SPL #n` is kernel-only.
 
