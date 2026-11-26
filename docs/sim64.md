@@ -55,7 +55,7 @@ The executor decodes with the table codec `common/pdp64enc.c` (the prefix-coded 
 (`movcall popmret popret mov2`, a fault in the second half restarts the whole instruction, which the saved state at the start of the instruction makes exact), `maskeqz masknez bsel`,
 `addv subv mulv` (the two-register form of the tables, `rd <- rd op rs`;
 overflow is an abort at the instruction, no register written), the MESC words `addm subm bicm bism`
-(each does what the ALU operation does to the memory operand and writes nothing else), `utf8len`, `fclass` with the mark `.32`, the user-qualified moves `mov.u` and the user-qualified block copies `mcpy.ur` and `mcpy.uw` (in a simulator without an MMU they are the ordinary moves and the ordinary copy). A plain load or store works at any address in `sim64` (a store that crosses a page checks both pages before it writes). The register file has 32 registers; `pushm`/`popm`
+(each does what the ALU operation does to the memory operand and writes nothing else), `utf8len`, `fclassf`, the user-qualified moves `movX.u` and the user-qualified block copies `mcpy.ur` and `mcpy.uw` (in a simulator without an MMU they are the ordinary moves and the ordinary copy). A plain load or store works at any address in `sim64` (a store that crosses a page checks both pages before it writes). The register file has 32 registers; `pushm`/`popm`
 take a 32-bit mask; r16 to r31 exist. A word that is in the tables but not in the reference executor traps as
 `unimplemented instruction NAME` (exit 139, or the illegal-instruction exception with `-K`): the AES and SHA words (`aeses aesesm aesds aesdsm aesks1 aesks2 aesim sha256* sha512* msha256 msha512 maesctr`),
 `utf8dec`, `utf8enc` and `mval`. The list is the code's (`common/pdp64exec_enc.inc`).

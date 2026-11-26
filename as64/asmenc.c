@@ -74,6 +74,24 @@ static int marks_resolve(const struct stmt *src, struct stmt *st)
 	if (st->kind != S_INSN || st->mg == MG_SYSREG) { if (marked) { err(st->line, "this instruction takes no width marks"); return -1; } return 0; }
 	const char *w = mn_word[st->mg][st->mnum];
 	if (!w) return 0;
+	/* A word that carries its width in its letter (movb, movzw, aaddl, bswapl, rorl, aaddq): the marks of the operands may repeat the letter and may not contradict it.
+	   `w` becomes the operation, and `expect` the marks that the letter stands for. */
+	int strict = 0;
+	const char *expect = "";
+	for (const struct markletter *l = mark_letters; l->letter; l++)
+		if (!strcmp(l->letter, w)) {
+			int mg, mn;
+			if (!word_find(l->word, &mg, &mn)) { err(st->line, "internal error: the word %s of the letters is not a word of the encoding", l->word); return -1; }
+			st->mg = mg; st->mnum = mn; w = l->word; strict = 1;
+			break;
+		}
+	for (const struct markrow *r = mark_rows; r->word; r++)
+		if (!strcmp(r->word, w)) { w = r->op; expect = r->spec; strict = 1; break; }
+	if (strict && expect[0] == 'm' && expect[1] == 'u' && st->nops == 2 && st->ops[0].kind == OK_REG && is_memop(&st->ops[1])) {
+		err(st->line, "%s: a store does not extend: there is no zero-extending store (movb, movw, movl store the low bits)", mn_word[src->mg][src->mnum]);
+		return -1;
+	}
+	if (strict && !marked) return 0;
 	const struct markrow *first = NULL;
 	for (const struct markrow *r = mark_rows; r->word; r++) if (!strcmp(r->op, w)) { first = r; break; }
 	if (!first) {
@@ -143,6 +161,12 @@ static int marks_resolve(const struct stmt *src, struct stmt *st)
 			else { err(st->line, "fcvt: no %s: the formats are .16 .32 .64, the integers .s32, .s64 (no mark) and .u64", mark_text(o)); return -1; }
 		}
 		snprintf(spec, sizeof spec, "c:%s:%s", t[0], t[1]);
+	}
+	if (strict && strcmp(spec, expect)) {
+		const struct oper *o = NULL;
+		for (int k = 0; k < st->nops; k++) if (st->ops[k].mark) o = &st->ops[k];
+		err(st->line, "%s: the mark %s says a width that the letter of the word does not: the letter and the mark disagree", mn_word[src->mg][src->mnum], o ? mark_text(o) : "");
+		return -1;
 	}
 	const struct markrow *row = NULL;
 	for (const struct markrow *r = mark_rows; r->word; r++) if (!strcmp(r->op, w) && !strcmp(r->spec, spec)) { row = r; break; }

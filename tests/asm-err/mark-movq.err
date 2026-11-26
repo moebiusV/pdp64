@@ -1,1 +1,1 @@
-movq: no operand of this instruction takes a width mark
+movq: the mark .8 says a width that the letter of the word does not

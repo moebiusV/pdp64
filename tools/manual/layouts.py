@@ -171,14 +171,15 @@ def shape_describe(s):
 
 
 def _shown(mn):
-    """a word of the encoding as the assembly language writes it: the operation and its marks (tools/marks.py reads the rows of spec/grammars.d/61-asm-marks.hbnf)"""
+    """a word of the encoding as the assembly language writes it: a letter word as it is, a word with marks only as the operation and its marks (tools/marks.py reads the rows of spec/grammars.d/61-asm-marks.hbnf)"""
     import marks
+    if mn in marks.words():
+        lt = [l for l, w in marks.letters().items() if w == mn]
+        if lt: return '`%s`' % lt[0]
     r = marks.rows().get(mn)
-    if not r or not r[1] and mn == r[0]: return '`%s`' % mn
+    if not r or mn not in marks.words(): return '`%s`' % mn
     spec = r[1]
-    if not spec: return '`%s`' % (r[0] if mn != 'movq' else mn)
-    tag = {'m': lambda x: x[1:] if x[0] != 'u' else 'u' + x[2:]}.get(spec[0], lambda x: x[1:])(spec) if spec[0] != 'c' else '%s to %s' % tuple(spec[2:].split(':'))
-    if spec[0] != 'c': return '`%s` with the mark `.%s`' % (r[0], tag)
+    if spec[0] != 'c': return '`%s` with the mark `.%s`' % (r[0], spec[1:])
     a, b = spec[2:].split(':')
     t = lambda x: 'no mark' if x == 'i' else '`.%s`' % x
     return '`%s` with %s on the source and %s on the destination' % (r[0], t(a), t(b))

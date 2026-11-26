@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
-"""marks.py -- the width marks of the assembly language, for the tools that write assembly source (the checks, the generators of the tests, the dictionary of the manual).
+"""marks.py -- the width letters and marks of the assembly language, for the tools that write assembly source (the checks, the generators of the tests, the dictionary of the manual).
 
-The rows of spec/grammars.d/61-asm-marks.hbnf say, for each word of the encoding that the assembly language does not have (movb, aaddl, fadd32, fcvtds ...), the operation that
-is written instead and the marks of its operands (tools/mkgrammar.py reads them; as64 and tools/encdis.c use the same rows).  `spell(word, operands)` is the other direction of
-`as64`: from a word of the encoding and its operands to the source line's operation and operands, with the marks put on.
+The integer words carry their width in a letter (movb, movzw, aaddl, bswapl: b 8 bits, w 16, l 32, q 64, z zero-extends) and the same widths are marks on the operand
+(`mov (r1).8, r2`); the floating-point words (fadd32, fcvtds ...) have marks only.  The rows of spec/grammars.d/61-asm-marks.hbnf say, for each word of the encoding that has a width,
+the operation that is written with marks and the marks of its operands (tools/mkgrammar.py reads them; as64 and tools/encdis.c use the same rows).  `spell(word, operands)` is the
+other direction of `as64`: from a word of the encoding and its operands to the source line's operation and operands, with the marks put on (the tools that write source write marks:
+both spellings assemble to the same bytes).
 
     python3 tools/marks.py WORD OPERAND...      print the spelling, for a try
 """
@@ -25,8 +27,13 @@ def rows(root=None):
 
 
 def words(root=None):
-    """the words of the encoding that are not words of the assembly language"""
+    """the words of the encoding that are not words of the assembly language: the ones that have no letter spelling (the floating-point precisions, the formats of fcvt, ror32)"""
     return mkgrammar.marks_rows(root)[1]
+
+
+def letters(root=None):
+    """{letter spelling: word of the encoding} for the spellings that are not words of the encoding (rorl, aaddq)"""
+    return dict(mkgrammar.marks_letters(root))
 
 
 REG = re.compile(r'^(%?r\d+|%?sp|%?fp)$')
@@ -90,6 +97,7 @@ _MARK = re.compile(r'\.[us]?(?:8|16|32|64)$')
 def unspell(op, ops):
     """the other direction: the word of the encoding and the operands without marks, for an operation and operands as the assembly language writes them (a tool that reads the assembly a
     compiler or the disassembler wrote and thinks in the words of the encoding).  An operation that no row names is returned as it is."""
+    if op in letters(): return letters()[op], list(ops)		# rorl is the word ror32 of the encoding, aaddq is aadd
     plain = [_MARK.sub('', o) if _MARK.search(o) else o for o in ops]
     for w, (rop, spec) in rows().items():
         if rop != op: continue

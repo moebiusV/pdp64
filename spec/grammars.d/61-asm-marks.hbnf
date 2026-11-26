@@ -1,22 +1,35 @@
 ; targets: asm spec
-; The operand width marks and the words they replace (docs/asm-syntax.md, "Width marks").  The mnemonic names the operation and the width is a mark on the operand, in bits: `.8 .16 .32 .64`,
-; `.u8 .u16 .u32 .u64` (zero-extending) and `.s8 .s16 .s32 .s64` (signed, the default for the integer widths; `.s32` and `.u64` name the integer side of `fcvt`).  The encoding keeps its words
-; (movb, aaddl, fadd32, fcvtds: the names in the tables of the encoding); this part says which operation and which marks each of them is, and tools/mkgrammar.py writes it for as64 (which turns a mark into
-; the word), for the disassembler (which turns a word into a mark) and for the dictionary of the manual.
+; The width of an operand, in two spellings that are the same instruction (docs/asm-syntax.md, "Width letters and marks").  The machine's word is 16 bits, so the integer words take the
+; letters of the PDP-11, the VAX and the Alpha as a suffix: b is 8 bits, w 16, l 32, q 64, and z (movzb, movzw, movzl) zero-extends.  An operation with no letter is 64 bits.  The same
+; widths are marks on the operand, in bits: `.8 .16 .32 .64`, `.u8 .u16 .u32 .u64` (zero-extending) and `.s8 .s16 .s32 .s64` (signed, the default for the integer widths; `.s32` and `.u64` name the
+; integer side of `fcvt`).  `movb (r1), r2` and `mov (r1).8, r2` are one instruction; `movzb (r1), r2` and `mov (r1).u8, r2` are one instruction.  The letter says it in the word, the mark says it
+; on the operand and is the only spelling where there is no letter: the signedness of an operand and the integer side of `fcvt`.  The floating-point precision has the letters of the PDP-11: `f` is single (binary32),
+; `d` double (binary64, the bare word): `faddf r1, r2, r3` is `fadd r1.32, r2.32, r3.32`, and `fcvtdf` (double to single) and `fcvtfd` are the conversions between the two.  The encoding keeps its words
+; (movb, aaddl, fadd32, fcvtds: the names in the tables of the encoding); this part says which operation and which marks each of them is, and tools/mkgrammar.py writes it for as64 (which turns
+; a mark or a letter into the word), for the disassembler (which turns a word into its letter, or its marks where it has none) and for the dictionary of the manual.
 
 ; the words the operations are written with that the encoding does not have
 mn-surface = "mov"@0 | "mov.u"@1 | "fcvt"@2
+           | "rorl"@3
+           | "casq" | "swapq" | "aaddq" | "aandq" | "abisq" | "axorq" | "amaxq" | "aminq" | "amaxuq" | "aminuq" | "scq" | "llq"
+           | "faddf" | "fsubf" | "fmulf" | "fdivf" | "fsqrtf" | "fmaddf" | "fnmsubf" | "fclassf" | "fabsf" | "fnegf" | "fcbeqf" | "fcbnef" | "fcbltf" | "fcblef" | "fcbgtf" | "fcbgef" | "fcborf" | "fcbuof" | "fcvtdf" | "fcvtfd" | "faddd" | "fsubd" | "fmuld" | "fdivd" | "fsqrtd" | "fmaddd" | "fnmsubd" | "fclassd" | "fabsd" | "fnegd" | "fcbeqd" | "fcbned" | "fcbltd" | "fcbled" | "fcbgtd" | "fcbged" | "fcbord" | "fcbuod"
 
-; the words of the encoding that are not words of the assembly language: `movb r1, r2` is an unknown mnemonic, `mov r1.8, r2` is the instruction
-map-words = "movl" | "movw" | "movb" | "movzl" | "movzw" | "movzb"
-          | "movq.u" | "movl.u" | "movw.u" | "movb.u" | "movzl.u" | "movzw.u" | "movzb.u"
-          | "bswapw" | "bswapl" | "ror32"
-          | "casl" | "swapl" | "aaddl" | "aandl" | "abisl" | "axorl" | "amaxl" | "aminl" | "amaxul" | "aminul" | "scl" | "lll"
+; the words of the encoding that are not words of the assembly language: `fadd32 r1, r2, r3` is an unknown mnemonic; it is written `faddf r1, r2, r3` or `fadd r1.32, r2.32, r3.32`.  The 32-bit
+; rotate is `rorl`, the single-precision floating-point words have the letter `f` (and `d` for the double, the bare word), as the PDP-11's addf and addd had, and the conversions between the two
+; formats are `fcvtdf` and `fcvtfd`; the other conversions (the integer sides, the halves) have marks only (`fcvt r1.64, r2.s32`)
+map-words = "ror32"
           | "fadd32" | "fsub32" | "fmul32" | "fdiv32" | "fsqrt32" | "fmadd32" | "fnmsub32" | "fclass32" | "fabs32" | "fneg32"
           | "fcbeq32" | "fcbne32" | "fcblt32" | "fcble32" | "fcbgt32" | "fcbge32" | "fcbor32" | "fcbuo32"
           | "fcvtdq" | "fcvtdqu" | "fcvtqd" | "fcvtqud" | "fcvtds" | "fcvtsd" | "fcvtsl" | "fcvtls" | "fcvtsh" | "fcvths" | "fcvtdh" | "fcvthd" | "fcvthl" | "fcvtlh"
 
-; the rows: "word of the encoding = operation and the marks".  The marks are given by a letter and a width:
+; the letter spellings that are not a word of the encoding: "spelling=word of the encoding".  `rorl` is the 32-bit rotate; `faddf` is `fadd32` and `faddd` the double `fadd` (and so on); the atomics with the explicit q are the 64-bit words (a letter is
+; accepted where the default is meant, and a mark on the operand may repeat it: `aaddq r1, (r2).64, r3`)
+map-letters = "rorl=ror32"
+            | "casq=cas" | "swapq=swap" | "aaddq=aadd" | "aandq=aand" | "abisq=abis" | "axorq=axor" | "amaxq=amax" | "aminq=amin" | "amaxuq=amaxu" | "aminuq=aminu" | "scq=sc" | "llq=ll"
+            | "faddf=fadd32" | "fsubf=fsub32" | "fmulf=fmul32" | "fdivf=fdiv32" | "fsqrtf=fsqrt32" | "fmaddf=fmadd32" | "fnmsubf=fnmsub32" | "fclassf=fclass32" | "fabsf=fabs32" | "fnegf=fneg32" | "fcbeqf=fcbeq32" | "fcbnef=fcbne32" | "fcbltf=fcblt32" | "fcblef=fcble32" | "fcbgtf=fcbgt32" | "fcbgef=fcbge32" | "fcborf=fcbor32" | "fcbuof=fcbuo32" | "fcvtdf=fcvtds" | "fcvtfd=fcvtsd"
+            | "faddd=fadd" | "fsubd=fsub" | "fmuld=fmul" | "fdivd=fdiv" | "fsqrtd=fsqrt" | "fmaddd=fmadd" | "fnmsubd=fnmsub" | "fclassd=fclass" | "fabsd=fabs" | "fnegd=fneg" | "fcbeqd=fcbeq" | "fcbned=fcbne" | "fcbltd=fcblt" | "fcbled=fcble" | "fcbgtd=fcbgt" | "fcbged=fcbge" | "fcbord=fcbor" | "fcbuod=fcbuo"
+
+; the rows: "word of the encoding = operation and the marks" (a word that is not in map-words is written as it is, and its marks are the other spelling of it).  The marks are given by a letter and a width:
 ;   (none)  the operation with no mark, or with .64 on every operand: the plain word
 ;   m8 m16 m32 mu8 mu16 mu32   the one memory operand of the instruction carries the mark (a load, a store, an atomic); a move between registers carries it on its source register.  mu: zero-extending
 ;   s16 s32                    the first (source) register carries the mark; the destination is written in full and carries none

@@ -69,16 +69,16 @@ The counts of that day, side by side:
 
 | # | Operation | Words in the grammar | Group | Section |
 |---|---|---|---|---|
-| 1 | compare-and-swap | `CAS`, `CAS` with `.32` | atomic (`ATOM`) | 7.4 |
-| 2 | swap | `SWAP`, `SWAP` with `.32` | atomic | 7.4 |
-| 3 | fetch-and-add | `AADD`, `AADD` with `.32` | atomic | 7.4 |
-| 4 | fetch-and-and | `AAND`, `AAND` with `.32` | atomic | 7.4 |
-| 5 | fetch-and-or | `ABIS`, `ABIS` with `.32` | atomic | 7.4 |
-| 6 | fetch-and-exclusive-or | `AXOR`, `AXOR` with `.32` | atomic | 7.4 |
-| 7 | fetch-and-maximum, signed and unsigned | `AMAX`, `AMAXU`, each also with `.32` | atomic | 7.4 |
-| 8 | fetch-and-minimum, signed and unsigned | `AMIN`, `AMINU`, each also with `.32` | atomic | 7.4 |
-| 9 | load-linked | `LL`, `LL` with `.32` | atomic | 7.4 |
-| 10 | store-conditional | `SC`, `SC` with `.32` | atomic | 7.4 |
+| 1 | compare-and-swap | `CAS`, `CASL` | atomic (`ATOM`) | 7.4 |
+| 2 | swap | `SWAP`, `SWAPL` | atomic | 7.4 |
+| 3 | fetch-and-add | `AADD`, `AADDL` | atomic | 7.4 |
+| 4 | fetch-and-and | `AAND`, `AANDL` | atomic | 7.4 |
+| 5 | fetch-and-or | `ABIS`, `ABISL` | atomic | 7.4 |
+| 6 | fetch-and-exclusive-or | `AXOR`, `AXORL` | atomic | 7.4 |
+| 7 | fetch-and-maximum, signed and unsigned | `AMAX`, `AMAXL`, `AMAXU`, `AMAXUL` | atomic | 7.4 |
+| 8 | fetch-and-minimum, signed and unsigned | `AMIN`, `AMINL`, `AMINU`, `AMINUL` | atomic | 7.4 |
+| 9 | load-linked | `LL`, `LLL` | atomic | 7.4 |
+| 10 | store-conditional | `SC`, `SCL` | atomic | 7.4 |
 | 11 | device-access fence | `FENCE` | system (`SYS`) | 7.5.7 |
 | 12 | wait for event | `WFE` | system | 7.10 |
 | 13 | send event | `SEV` | system | 7.10 |
@@ -87,7 +87,7 @@ The counts of that day, side by side:
 | 16 | invalidate the instruction cache | `ICINV`, `ICINVA` | system | 7.9 |
 | 17 | read the core number | `MFSR` of `CPUID` | system | 7.8.1 |
 
-The ten atomics are 24 words of the encoding: 12 for the 8-byte size (ten read-modify-write words, and `LL` and `SC`) and the same 12 for the 4-byte size, written with the mark `.32` on the address (`aadd r1, (r2).32, r3`, `ll (r2).32, r3`); counting the signed and the unsigned maximum and minimum apart they would be twelve. The seven others are nine words, ten with the alias. Six words were added the day after the count (2026-10-22) and are not in it: `MFSR` and `MTSR`, the system-register moves, `PUSHX` and `POPX`, and `ISYNC` and `HINT`, which the discussion of 7.9.3 and 7.10.1 uses. `ISYNC` and `HINT` belong with the twelve system operations that are not multiprocessor, which then number fourteen: like the landing pad or the trap, no second core needs them, and whether `HINT #1`, the spin-wait pause, belongs under the umbrella is a question of classification and not of count. A read of the system register `CPUID` (`MFSR`, 6.5) also gives the core number and is not counted: `MFSR` is the general register move.
+The ten atomics are 24 words: 12 for the 8-byte size (ten read-modify-write words, and `LL` and `SC`) and the same 12 for the 4-byte size, written with an `L` after the operation (`AADDL`, `CASL`, `LLL`, `SCL`; the mark `.32` on the address is the other spelling of the same word); counting the signed and the unsigned maximum and minimum apart they would be twelve. The seven others are nine words, ten with the alias. Six words were added the day after the count (2026-10-22) and are not in it: `MFSR` and `MTSR`, the system-register moves, `PUSHX` and `POPX`, and `ISYNC` and `HINT`, which the discussion of 7.9.3 and 7.10.1 uses. `ISYNC` and `HINT` belong with the twelve system operations that are not multiprocessor, which then number fourteen: like the landing pad or the trap, no second core needs them, and whether `HINT #1`, the spin-wait pause, belongs under the umbrella is a question of classification and not of count. A read of the system register `CPUID` (`MFSR`, 6.5) also gives the core number and is not counted: `MFSR` is the general register move.
 
 **7.3.1** The instructions that exist for multiple processors fall under one umbrella of seventeen operations: ten atomics and seven others (the table above, folded operations).
 
@@ -124,7 +124,7 @@ SC(a, v):        if the reservation is intact: *a = v ; return success   # store
 
 **7.4.5** A device that writes memory shared with a core takes part by clearing reservations: a write by a device to a granule clears its reservation exactly as a core's write does. A device's own buffers are uncached memory, where `LL`, `SC` and every atomic take a precise fault (7.4.6), so no reservation is ever taken on a word that a device is writing as a buffer.
 
-**7.4.6** Every atomic has three register fields, and, like every instruction of the machine that has a destination, is written with the destination last: `AADD Rs, (Ra), Rd`. The address is in `Ra`, with no offset, the old value of the memory word comes back in `Rd`, and `Rs` is the operand. `CAS Rs, (Ra), Rd` has the expected value in `Rd` and the new value in `Rs`, and puts the old value into `Rd`: the destination is the register that is both the expected value going in and the old value coming out, as the destination of `ADD` is both a source and the result, and it is written last. `LL (Ra), Rd` takes no operand, and `SC Rs, (Ra), Rd` returns 0 in `Rd` when it wrote and 1 when it did not. The size is 8 bytes with no mark and 4 bytes with the mark `.32` on the address (`AADD Rs, (Ra).32, Rd`, `LL (Ra).32, Rd`); a 4-byte word works on the low four bytes of its registers and returns the old value sign-extended, as a 4-byte load does.
+**7.4.6** Every atomic has three register fields, and, like every instruction of the machine that has a destination, is written with the destination last: `AADD Rs, (Ra), Rd`. The address is in `Ra`, with no offset, the old value of the memory word comes back in `Rd`, and `Rs` is the operand. `CAS Rs, (Ra), Rd` has the expected value in `Rd` and the new value in `Rs`, and puts the old value into `Rd`: the destination is the register that is both the expected value going in and the old value coming out, as the destination of `ADD` is both a source and the result, and it is written last. `LL (Ra), Rd` takes no operand, and `SC Rs, (Ra), Rd` returns 0 in `Rd` when it wrote and 1 when it did not. The size is 8 bytes for the bare name and 4 bytes for the name with an `L` after the operation (`AADDL`, `CASL`, `LLL`, `SCL`; the mark `.32` on the address, as in `AADD Rs, (Ra).32, Rd`, is the other spelling); a 4-byte word works on the low four bytes of its registers and returns the old value sign-extended, as a 4-byte load does.
 
 **7.4.7** The word must be naturally aligned for its size, and an atomic that is not takes the misalignment fault, with nothing changed and `EPC` at the instruction; no atomic is ever split over two words, two blocks or two pages, so none can take the bus for longer than one access.
 
@@ -158,12 +158,12 @@ atomic_or(a, bits):                       # any operation that is not in the fet
 
 | Entry | Mnemonics |
 |---|---|
-| [Compare and swap](09-isa.md#cas-compare-and-swap) | `CAS` |
-| [Atomic exchange](09-isa.md#swap-atomic-exchange) | `SWAP` |
-| [Atomic fetch and add](09-isa.md#aadd-atomic-fetch-and-add) | `AADD` |
-| [Atomic fetch and and, bit set (or), xor](09-isa.md#aand-atomic-fetch-and-and-bit-set-or-xor) | `AAND`, `ABIS`, `AXOR` |
-| [Atomic fetch and minimum or maximum](09-isa.md#amax-atomic-fetch-and-minimum-or-maximum) | `AMAX`, `AMIN`, `AMAXU`, `AMINU` |
-| [Load-linked and store-conditional](09-isa.md#llsc-load-linked-and-store-conditional) | `LL`, `SC` |
+| [Compare and swap](09-isa.md#cas-compare-and-swap) | `CAS`, `CASL` |
+| [Atomic exchange](09-isa.md#swap-atomic-exchange) | `SWAP`, `SWAPL` |
+| [Atomic fetch and add](09-isa.md#aadd-atomic-fetch-and-add) | `AADD`, `AADDL` |
+| [Atomic fetch and and, bit set (or), xor](09-isa.md#aand-atomic-fetch-and-and-bit-set-or-xor) | `AAND`, `AANDL`, `ABIS`, `ABISL`, `AXOR`, `AXORL` |
+| [Atomic fetch and minimum or maximum](09-isa.md#amax-atomic-fetch-and-minimum-or-maximum) | `AMAX`, `AMAXL`, `AMIN`, `AMINL`, `AMAXU`, `AMAXUL`, `AMINU`, `AMINUL` |
+| [Load-linked and store-conditional](09-isa.md#llsc-load-linked-and-store-conditional) | `LL`, `LLL`, `SC`, `SCL` |
 <!-- /entries:7.4 -->
 
 ## 7.5 Memory ordering: from sequential consistency to the weak models

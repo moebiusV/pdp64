@@ -15,13 +15,14 @@
 #include <string.h>
 #include "pdp64enc.h"
 #include "x/pdp64-marks.h"
-/* the width marks (spec/grammars.d/61-asm-marks.hbnf): a word of the encoding that has a row is printed as its operation, and its marks follow the operands they belong to */
+/* the width letters and marks (spec/grammars.d/61-asm-marks.hbnf): a word of the encoding that has a letter spelling is printed as it is (movb, aaddl, rorl) and its operands carry no marks;
+   a word that has none (the floating-point precisions, fcvt) is printed as its operation, and its marks follow the operands they belong to */
 static const struct markrow *row_of(const char *w)
 {
 	for (const struct markrow *r = mark_rows; r->word; r++) if (!strcmp(r->word, w)) return r;
 	return NULL;
 }
-static const char *shown(const char *w) { const struct markrow *r = row_of(w); return r ? r->op : w; }
+static const char *shown(const char *w) { const struct markrow *r = row_of(w); return r ? (r->show[0] ? r->show : r->op) : w; }
 static void fmtc(char *out, const char *c)		/* one side of a conversion: the mark of a register (i is no mark) */
 {
 	if (!strcmp(c, "i")) out[0] = 0; else sprintf(out, ".%s", c);
@@ -30,7 +31,7 @@ static void marks_of(const struct einsn *in, char mk[6][8])
 {
 	const struct markrow *r = row_of(enc_mn_name(&enc_tab, in->mn));
 	memset(mk, 0, 6 * 8);
-	if (!r || !r->spec[0]) return;
+	if (!r || !r->spec[0] || r->show[0]) return;
 	const char *sp = r->spec;
 	if (sp[0] == 'm') {
 		int m = -1;
@@ -52,7 +53,7 @@ static void put(const struct eop *o, uint64_t pc)
 	case EK_R: printf("%s", rn[o->r]); break;
 	case EK_V: printf("%c%d", o->s ? 't' : 'v', o->r); break;
 	case EK_I: printf("#%lld", (long long)o->v); break;
-	case EK_B: printf("%lld(%s)", (long long)o->v, o->r == EBASE_DP ? "dp" : rn[o->r]); break;
+	case EK_B: if (o->v) printf("%lld", (long long)o->v); printf("(%s)", o->r == EBASE_DP ? "dp" : rn[o->r]); break;
 	case EK_X: printf("%lld(%s)(%s*%d)", (long long)o->v, rn[o->r], rn[o->x], o->s); break;
 	case EK_PI: printf("(%s)+%lld", rn[o->r], (long long)o->v); break;
 	case EK_PD: printf("(%s)-%lld", rn[o->r], (long long)o->v); break;
@@ -112,7 +113,7 @@ static int dis_a(const struct etab *t, const uint16_t *par, int np, long a, cons
 		case EK_R: q += sprintf(q, "%s", RN[o->r]); break;
 		case EK_V: q += sprintf(q, "%c%d", o->s ? 't' : 'v', o->r); break;
 		case EK_I: q += sprintf(q, "#%lld", (long long)o->v); break;
-		case EK_B: q += sprintf(q, "%lld(%s)", (long long)o->v, o->r == EBASE_DP ? "dp" : RN[o->r]); break;
+		case EK_B: if (o->v) q += sprintf(q, "%lld", (long long)o->v); q += sprintf(q, "(%s)", o->r == EBASE_DP ? "dp" : RN[o->r]); break;
 		case EK_X: q += sprintf(q, "%lld(%s)(%s*%d)", (long long)o->v, RN[o->r], RN[o->x], o->s); break;
 		case EK_PI: q += sprintf(q, "(%s)+%lld", RN[o->r], (long long)o->v); break;
 		case EK_PD: q += sprintf(q, "(%s)-%lld", RN[o->r], (long long)o->v); break;

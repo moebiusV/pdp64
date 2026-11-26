@@ -114,7 +114,7 @@ def generate():
     t = [HEADER, '// every mnemonic of the grammar; mangled: non-identifier characters become _\n']
     import marks			# the width marks: the words of the encoding that the assembly language does not have (movb, aaddl, fadd32 ...) are not mnemonics here; their operations (mov, fcvt) are, and the marks are written in the assembly strings
     gone = set(marks.words())
-    ops = sorted({op for op, _ in marks.rows().values()})
+    ops = sorted({op for op, _ in marks.rows().values()} | {l for l in marks.letters() if l[-1] in 'fd' and l[0] == 'f'})		# the operations written with marks, and the f and d letters of the floating-point words (faddf, fcvtdf)
     for m in sorted(set(m for m in mns if m not in gone) | set(ops), key=lambda m: (mns.index(m) if m in mns else len(mns), m)):
         t.append('defvar MN_%s = "%s";\n' % (mangle(m), m))
     mn_td = ''.join(t)
