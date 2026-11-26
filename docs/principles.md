@@ -28,7 +28,7 @@ Four things are part of this principle:
 
 **5. A good compiler target.**
 
-**6. Pleasant in assembler, which is the same thing as a coherent set a programmer can keep in their head,** as the PDP-11 could be kept. Memory-mapped everything, boilerplate sugared away, readable assembly. *Example:* the mnemonic names the operation, not the length of its encoding: where the operands make it obvious, one mnemonic is written and the assembler picks the two-, four- or six-byte form.
+**6. Pleasant in assembler, which is the same thing as a coherent set a programmer can keep in their head,** as the PDP-11 could be kept. Memory-mapped everything, boilerplate sugared away, readable assembly. *Example:* the mnemonic names the operation, not the length of its encoding: where the operands make it obvious, one mnemonic is written and the assembler picks the two-, four- or six-byte form. Mnemonics are cheap: if a mnemonic makes sense to a programmer (a negate for a single-precision float, say), it exists, and the assembler maps it onto an instruction that is already there. A sensible name does not need a new opcode, and the set stays pleasurable to use without growing.
 
 ## The constraints that hold whatever the order
 
