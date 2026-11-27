@@ -1,0 +1,1 @@
+an integer to a float of the same size may be written with the integer suffix alone: fcvt.s32, fcvt.u64, fcvt.s64

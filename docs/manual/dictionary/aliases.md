@@ -71,6 +71,9 @@ A mnemonic that assembles to another instruction (`FNEG.F32` and `FABS.F32` to a
 | `FRINTM.F64` | `FRINTM` | `fesc` |
 | `FRINTP.F64` | `FRINTP` | `fesc` |
 | `FRINTA.F64` | `FRINTA` | `fesc` |
+| `FCVT.S64.F64` | `FCVT.S64` | `fesc` |
+| `FCVT.U64.F64` | `FCVT.U64` | `fesc` |
+| `FCVT.S32.F32` | `FCVT.S32` | `fesc` |
 | `DIV.S64` | `DIV` | `aesc` |
 | `MOD.S64` | `MOD` | `aesc` |
 | `MULH.S64` | `MULH` | `alu` |

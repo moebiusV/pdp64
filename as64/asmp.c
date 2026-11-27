@@ -85,7 +85,7 @@ static int suffix_diag(const char *line, char *err, size_t errsz)
 		if (!strcmp(*w, tok)) { snprintf(err, errsz, "`%s`: unknown mnemonic", tok); return 1; }
 	char *dot = strchr(tok, '.');
 	if (!dot) {
-		if (!strcmp(tok, "fcvt")) { snprintf(err, errsz, "fcvt: a conversion names its two formats as suffixes, the source and then the destination (fcvt.s32.f32 Rs, Rd)"); return 1; }
+		if (!strcmp(tok, "fcvt")) { snprintf(err, errsz, "fcvt: a conversion names its two formats as suffixes, the source and then the destination (fcvt.s32.f32 Rs, Rd); an integer to a float of the same size has the short form fcvt.s32, fcvt.u64 or fcvt.s64 (the same as fcvt.s32.f32, fcvt.u64.f64, fcvt.s64.f64)"); return 1; }
 		return 0;
 	}
 	size_t bn = dot - tok;
@@ -108,7 +108,7 @@ static int suffix_diag(const char *line, char *err, size_t errsz)
 		const char *hint = strstr(tail, "f8") ? "there is no 8-bit floating-point format"
 		    : (strstr(tail, "32") && strstr(tail, "f64")) || strstr(tail, "u32") ? "no instruction converts a 32-bit integer to or from a double, or an unsigned 32-bit integer: use fcvt.s64.f64 on a register that holds the sign-extended integer, or mov.u32 Rs, Rs first"
 		    : "";
-		snprintf(err, errsz, "%s: no such conversion%s%s; fcvt takes the source and then the destination format as suffixes, one of %s", tok, hint[0] ? ": " : "", hint, list);
+		snprintf(err, errsz, "%s: no such conversion%s%s; fcvt takes the source and then the destination format as suffixes (an integer to a float of the same size may be written with the integer suffix alone: fcvt.s32, fcvt.u64, fcvt.s64), one of %s", tok, hint[0] ? ": " : "", hint, list);
 		return 1;
 	}
 	if (!strcmp(tail, "f8")) snprintf(err, errsz, "%s: .f8 is no such format: there is no 8-bit floating-point format (the formats are .f16, .f32 and .f64)", tok);

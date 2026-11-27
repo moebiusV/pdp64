@@ -146,10 +146,13 @@
 | `FCVT.F64.F32` | [FCVT](../09-isa.md#fcvt-floating-conversions) (section 9.12) | [1](by-encoding.md#mn-fcvtds), [entry](../09-isa.md#w-fcvtds) | Floating point (FESC) |
 | `FCVT.F64.S64` | [FCVT](../09-isa.md#fcvt-floating-conversions) (section 9.12) | [1](by-encoding.md#mn-fcvtdq), [entry](../09-isa.md#w-fcvtdq) | Floating point (FESC) |
 | `FCVT.F64.U64` | [FCVT](../09-isa.md#fcvt-floating-conversions) (section 9.12) | [1](by-encoding.md#mn-fcvtdqu), [entry](../09-isa.md#w-fcvtdqu) | Floating point (FESC) |
+| `FCVT.S32` | [FCVT](../09-isa.md#fcvt-floating-conversions) (section 9.12) | [1](by-encoding.md#mn-fcvtls), [entry](../09-isa.md#w-fcvtls) | Floating point (FESC) |
 | `FCVT.S32.F16` | [FCVT](../09-isa.md#fcvt-floating-conversions) (section 9.12) | [1](by-encoding.md#mn-fcvtlh), [entry](../09-isa.md#w-fcvtlh) | Floating point (FESC) |
-| `FCVT.S32.F32` | [FCVT](../09-isa.md#fcvt-floating-conversions) (section 9.12) | [1](by-encoding.md#mn-fcvtls), [entry](../09-isa.md#w-fcvtls) | Floating point (FESC) |
-| `FCVT.S64.F64` | [FCVT](../09-isa.md#fcvt-floating-conversions) (section 9.12) | [1](by-encoding.md#mn-fcvtqd), [entry](../09-isa.md#w-fcvtqd) | Floating point (FESC) |
-| `FCVT.U64.F64` | [FCVT](../09-isa.md#fcvt-floating-conversions) (section 9.12) | [1](by-encoding.md#mn-fcvtqud), [entry](../09-isa.md#w-fcvtqud) | Floating point (FESC) |
+| `FCVT.S32.F32` (the same instruction as `FCVT.S32`) | [FCVT](../09-isa.md#fcvt-floating-conversions) (section 9.12) | [1](by-encoding.md#mn-fcvtls), [entry](../09-isa.md#w-fcvtls) | Floating point (FESC) |
+| `FCVT.S64` | [FCVT](../09-isa.md#fcvt-floating-conversions) (section 9.12) | [1](by-encoding.md#mn-fcvtqd), [entry](../09-isa.md#w-fcvtqd) | Floating point (FESC) |
+| `FCVT.S64.F64` (the same instruction as `FCVT.S64`) | [FCVT](../09-isa.md#fcvt-floating-conversions) (section 9.12) | [1](by-encoding.md#mn-fcvtqd), [entry](../09-isa.md#w-fcvtqd) | Floating point (FESC) |
+| `FCVT.U64` | [FCVT](../09-isa.md#fcvt-floating-conversions) (section 9.12) | [1](by-encoding.md#mn-fcvtqud), [entry](../09-isa.md#w-fcvtqud) | Floating point (FESC) |
+| `FCVT.U64.F64` (the same instruction as `FCVT.U64`) | [FCVT](../09-isa.md#fcvt-floating-conversions) (section 9.12) | [1](by-encoding.md#mn-fcvtqud), [entry](../09-isa.md#w-fcvtqud) | Floating point (FESC) |
 | `FDIV` | [FDIV](../09-isa.md#fdiv-floating-divide-and-square-root-binary64) (section 9.12) | [1](by-encoding.md#mn-fdiv), [entry](../09-isa.md#w-fdiv) | Floating point (FESC) |
 | `FDIV.F32` | [FSINGLE](../09-isa.md#fsingle-floating-arithmetic-binary32) (section 9.12) | [1](by-encoding.md#mn-fdiv32), [entry](../09-isa.md#w-fdiv32) | Floating point (FESC) |
 | `FDIV.F64` (the same instruction as `FDIV`) | [FDIV](../09-isa.md#fdiv-floating-divide-and-square-root-binary64) (section 9.12) | [1](by-encoding.md#mn-fdiv), [entry](../09-isa.md#w-fdiv) | Floating point (FESC) |

@@ -130,7 +130,7 @@
 
 **The stories.** An instruction that is not common (the PDP-11 core and the operations every architecture has carry none) is followed by *Why it is here*: the machine the idea came from and the reason it was chosen, with the measurements that bear on it. Where no reason is recorded, the paragraph says so. The documents behind the paragraphs are listed in [appendix E](appendix-e-evidence.md).
 
-**Notation.** `Rd` is the destination register, `Rs` the first source, `Rt` the second, `Ru` the third; the assembler writes the destination last, and the operands of a chart are numbered `op1`, `op2`, ... in the order of the assembly syntax. `rm` is a general operand: a register, or a memory operand, an immediate, a pc-relative or an absolute address, by the addressing forms that the layouts of the instruction give (section 9.5). `EA(rm)` is its effective address. `M[a]` is memory, `M8[a]` one byte. `sext` and `zext` sign- and zero-extend. In the charts the bits of a parcel are numbered from 15 at the left, a shaded box is a fixed value, and a white box is a field that varies.
+**Notation.** `Rd` is the destination register, `Rs` the first source, `Rt` the second, `Ru` the third; the assembler writes the destination last, and the operands of a chart are numbered `op1`, `op2`, ... in the order of the assembly syntax. A suffix on a mnemonic names the width and the kind that the operands do not show: a memory operand has no width of its own, and a register holds no format. `rm` is a general operand: a register, or a memory operand, an immediate, a pc-relative or an absolute address, by the addressing forms that the layouts of the instruction give (section 9.5). `EA(rm)` is its effective address. `M[a]` is memory, `M8[a]` one byte. `sext` and `zext` sign- and zero-extend. In the charts the bits of a parcel are numbered from 15 at the left, a shaded box is a fixed value, and a white box is a field that varies.
 
 **Registers.** The pdp64 has 32 registers, `R0` to `R31`. A register field of an instruction is the full number of bits (5), or fewer where the field names one of the hot registers; the entries that name `R0` to `R15` apply to `R16` to `R31` too; the hot-register tables are part of the ABI: the 3-bit fields hold, in order, `R0` `R1` `R8` `R2` `SP` `R3` `R9` `R10`; the 4-bit fields hold, in order, `R0` `R1` `R8` `R2` `SP` `R3` `R9` `R10` `R11` `R4` `R15` `R5` `R24` `R25` `R26` `R6`. `PUSHM` and `POPM` take a 32-bit mask.
 <!-- /notation -->
@@ -5527,7 +5527,7 @@ Operation and exceptions as for the entry FRINT above; 1 layout form, each a cha
 
 ### FCVT: Floating conversions
 
-**Mnemonics:** `FCVT.F64.S64`, `FCVT.F64.U64`, `FCVT.S64.F64`, `FCVT.U64.F64`, `FCVT.F64.F32`, `FCVT.F32.F64`, `FCVT.F32.S32`, `FCVT.S32.F32`, `FCVT.F32.F16`, `FCVT.F16.F32`, `FCVT.F64.F16`, `FCVT.F16.F64`, `FCVT.F16.S32`, `FCVT.S32.F16`
+**Mnemonics:** `FCVT.F64.S64`, `FCVT.F64.U64`, `FCVT.S64`, `FCVT.U64`, `FCVT.F64.F32`, `FCVT.F32.F64`, `FCVT.F32.S32`, `FCVT.S32`, `FCVT.F32.F16`, `FCVT.F16.F32`, `FCVT.F64.F16`, `FCVT.F16.F64`, `FCVT.F16.S32`, `FCVT.S32.F16`
 
 **Syntax**
 
@@ -5569,7 +5569,7 @@ a half to an integer of a NaN or an infinity is invalid and saturates; truncatin
 
 **Exceptions** None.
 
-The conversion is one word with two suffixes, the format of the source register and then the format of the destination, in the order of the operands: `FCVT.F64.F32 Rs, Rd` reads `binary64` in `Rs` and writes `binary32` in `Rd`. `.f16`, `.f32` and `.f64` are the floating formats `binary16`, `binary32` and `binary64`, and the integers are `.s32` (signed, 32 bits), `.s64` (signed, 64 bits) and `.u64` (unsigned, 64 bits); the kind letter says at a glance which side is a float. There are fourteen such pairs and each is an instruction. A bare `FCVT` is refused, for it names two formats; a conversion between two equal formats, two integers (that is a `MOV`) or a pair that has no instruction is refused with the list of those that exist. There is no instruction between a 32-bit integer and a binary64, and none for an unsigned 32-bit integer: a 32-bit integer is held sign-extended in its 64-bit register, so `FCVT.S64.F64` converts it, and an unsigned 32-bit value is zero-extended first with `MOV.U32 Rs, Rs`. Integer results are 64-bit or 32-bit sign-extended (`.s32`). Unsigned conversion of a negative value is invalid and gives 0. `binary16` is a storage format: a half lives in the low 16 bits of a register, sign-extended to 64, is loaded and stored with `MOV.S16`, and has these conversions and no arithmetic. Every half is exact in `binary32`, so an operation on halves is made by widening, operating in `binary32` and narrowing once; for add, subtract, multiply, divide and square root that gives the correctly rounded half, because a `binary32` has at least 2 × 11 + 2 bits of significand. A fused multiply-add of halves is not a case of this: widen to `binary64` and the sum may be rounded before it is narrowed. A NaN narrowed to a half is the canonical `0x7E00`; tininess is judged after rounding.
+The conversion is one word with two suffixes, the format of the source register and then the format of the destination, in the order of the operands: `FCVT.F64.F32 Rs, Rd` reads `binary64` in `Rs` and writes `binary32` in `Rd`. `.f16`, `.f32` and `.f64` are the floating formats `binary16`, `binary32` and `binary64`, and the integers are `.s32` (signed, 32 bits), `.s64` (signed, 64 bits) and `.u64` (unsigned, 64 bits); the kind letter says at a glance which side is a float. There are fourteen such pairs and each is an instruction. The common conversion, an integer to a float of the same size, has the short form `FCVT.S32` (the same as `FCVT.S32.F32`), `FCVT.U64` or `FCVT.S64`, which is what compilers write; every other conversion is written in full. A bare `FCVT` is refused, for it names two formats; a conversion between two equal formats, two integers (that is a `MOV`) or a pair that has no instruction is refused with the list of those that exist. There is no instruction between a 32-bit integer and a binary64, and none for an unsigned 32-bit integer: a 32-bit integer is held sign-extended in its 64-bit register, so `FCVT.S64.F64` converts it, and an unsigned 32-bit value is zero-extended first with `MOV.U32 Rs, Rs`. Integer results are 64-bit or 32-bit sign-extended (`.s32`). Unsigned conversion of a negative value is invalid and gives 0. `binary16` is a storage format: a half lives in the low 16 bits of a register, sign-extended to 64, is loaded and stored with `MOV.S16`, and has these conversions and no arithmetic. Every half is exact in `binary32`, so an operation on halves is made by widening, operating in `binary32` and narrowing once; for add, subtract, multiply, divide and square root that gives the correctly rounded half, because a `binary32` has at least 2 × 11 + 2 bits of significand. A fused multiply-add of halves is not a case of this: widen to `binary64` and the sum may be rounded before it is narrowed. A NaN narrowed to a half is the canonical `0x7E00`; tininess is judged after rounding.
 
 **Why it is here.** `FCVT.F64.U64` and `FCVT.U64.F64` convert unsigned 64-bit integers to and from `binary64`. C needs both, and without them each takes a branch and several instructions. Half precision began as a GPU format (NVIDIA's `half`, 2002), spread to machine learning and image formats, and is in CPUs (x86 `F16C` and AVX-512 FP16, ARMv8.2, RISC-V `Zfh` and `Zfhmin`); this account is from memory and not checked against a manual. The architecture has the conversions only, as RISC-V's `Zfhmin` and x86's `F16C` have: a half is a storage format, normally loaded and stored with a move with the mark `.16`, converted, computed in single or double, and converted back, and a core without half-width adders, multipliers and dividers has fewer units to build and to verify. The full arithmetic (add, subtract, multiply, divide, square root, compare, classify and four fused multiply-adds, eleven words) was removed on 2026-11-25: the double rounding through `binary32` is exact for the five basic operations, so the two instructions it costs give the same results. 16-bit *integer* arithmetic is not provided: the ALU has one width (9.2.9).
 
@@ -5596,24 +5596,16 @@ FCVT.F64.U64 Rs, Rd
 Operation and exceptions as for the entry FCVT above; 1 layout form, each a chart of its own (above).
 
 <a id="w-fcvtqd"></a>
-#### FCVT.S64.F64
+#### FCVT.S64
 
-![FCVT.S64.F64: R2, prefix 110100000100, sub-opcode 0000101010; operands reg5, reg5; 4 bytes](figures/w/fcvtqd/01.svg)
-
-```
-FCVT.S64.F64 Rs, Rd
-```
+![FCVT.S64: R2, prefix 110100000100, sub-opcode 0000101010; operands reg5, reg5; 4 bytes](figures/w/fcvtqd/01.svg)
 
 Operation and exceptions as for the entry FCVT above; 1 layout form, each a chart of its own (above).
 
 <a id="w-fcvtqud"></a>
-#### FCVT.U64.F64
+#### FCVT.U64
 
-![FCVT.U64.F64: R2, prefix 110100000100, sub-opcode 0000110000; operands reg5, reg5; 4 bytes](figures/w/fcvtqud/01.svg)
-
-```
-FCVT.U64.F64 Rs, Rd
-```
+![FCVT.U64: R2, prefix 110100000100, sub-opcode 0000110000; operands reg5, reg5; 4 bytes](figures/w/fcvtqud/01.svg)
 
 Operation and exceptions as for the entry FCVT above; 1 layout form, each a chart of its own (above).
 
@@ -5651,13 +5643,9 @@ FCVT.F32.S32 Rs, Rd
 Operation and exceptions as for the entry FCVT above; 1 layout form, each a chart of its own (above).
 
 <a id="w-fcvtls"></a>
-#### FCVT.S32.F32
+#### FCVT.S32
 
-![FCVT.S32.F32: R2, prefix 110100000100, sub-opcode 0000101110; operands reg5, reg5; 4 bytes](figures/w/fcvtls/01.svg)
-
-```
-FCVT.S32.F32 Rs, Rd
-```
+![FCVT.S32: R2, prefix 110100000100, sub-opcode 0000101110; operands reg5, reg5; 4 bytes](figures/w/fcvtls/01.svg)
 
 Operation and exceptions as for the entry FCVT above; 1 layout form, each a chart of its own (above).
 
