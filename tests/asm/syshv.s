@@ -34,4 +34,4 @@
 	mtsr gkdp, r2
 	mtsr gsdp, r2
 	mtsr gudp, r2
-	genter #0
+	genter $0

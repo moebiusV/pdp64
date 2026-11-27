@@ -94,8 +94,8 @@ for mn, ld, sz, enc, model in probes:
     vals = dd if mn == 'vacc.d' else fl
     fps = os.path.join(tmp, 'fp_' + mn + '.s')
     pack = ''.join('\t.%s\t0x%x\n' % ('quad' if sz == 8 else 'long', enc(v)) for v in vals)
-    open(fps, 'w').write("\t.text\n\t.globl\t_start\n_start:\tlea\tsrc, r1\n\tmovq\t#%d, r2\n\tlea\t(r1)(r2*1), r4\n\tmovq\t#0, r10\n\tvec\tr1, r4\n\t%s v0, (r1)+\n\t%s r10, v0\n\tvend\n"
-        "\tlea\tout, r5\n\tmovq\tr10, (r5)\n\tmovq\t#1, r0\n\tlea\tout, r1\n\tmovq\t#8, r2\n\ttrap\t#1\n\tmovq\t#0, r0\n\ttrap\t#0\n\t.data\n\t.align 8\nsrc:\n" % (sz * 1000, ld, mn) + pack + "out:\t.quad\t0\n")
+    open(fps, 'w').write("\t.text\n\t.globl\t_start\n_start:\tlea\tsrc, r1\n\tmovq\t$%d, r2\n\tlea\t(r1)(r2*1), r4\n\tmovq\t$0, r10\n\tvec\tr1, r4\n\t%s v0, (r1)+\n\t%s r10, v0\n\tvend\n"
+        "\tlea\tout, r5\n\tmovq\tr10, (r5)\n\tmovq\t$1, r0\n\tlea\tout, r1\n\tmovq\t$8, r2\n\ttrap\t$1\n\tmovq\t$0, r0\n\ttrap\t$0\n\t.data\n\t.align 8\nsrc:\n" % (sz * 1000, ld, mn) + pack + "out:\t.quad\t0\n")
     sh([os.path.join(B, 'as64'), '-o', fps + '.o', fps]); sh([os.path.join(B, 'ld64'), '-o', fps + '.x', fps + '.o'])
     got = {}
     for st in STRIPS + INFO:

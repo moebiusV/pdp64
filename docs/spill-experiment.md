@@ -35,7 +35,7 @@ Static counts over the 841-file corpus compiled by pcc, with the 16-register bac
 | callee-saved register slots saved (pushm popcount + pushes/pops) | 23,476 | 26,022 | 26,442 | 27,036 | 26,622 |
 | movq reg,reg | 46,197 | 49,859 | 50,477 | 49,868 | 50,626 |
 | register-register extensions (movl/movzb.. r,r) | 8,844 | 9,090 | 9,148 | 9,101 | 9,179 |
-| sub/add #n,sp and fp/sp setup (frame adjust) | 3,661 | 3,309 | 3,277 | 3,299 | 3,269 |
+| sub/add $n,sp and fp/sp setup (frame adjust) | 3,661 | 3,309 | 3,277 | 3,299 | 3,269 |
 | lea of a frame address (address of locals; not a memory access) | 6,593 | 6,131 | 6,072 | 6,131 | 6,046 |
 
 Key reading: 32 registers remove about 8,300 frame loads and stores (35% of them) but only 4,441 instructions net (1.31% of the baseline), because the registers that replace the spills cost moves (+4,280 `movq reg,reg`, +304 extensions) and more callee-saved slots (+2,966 slots saved, +0 to -130 in push/pop instruction count since pushm is one instruction whatever the mask). Net = -8,279 frame mem - 521 lea - 384 frame adjust - 488 frame ALU +4,280 moves +304 ext, etc.

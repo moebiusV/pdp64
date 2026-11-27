@@ -1,2 +1,2 @@
 	.text
-	mov.s8 #5, r1
+	mov.s8 $5, r1

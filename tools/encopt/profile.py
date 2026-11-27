@@ -44,12 +44,12 @@ int main(void)
 CRT = '''	.text
 	.globl	_start
 _start:	call	main
-	trap	#0
+	trap	$0
 	.globl	write
-write:	trap	#1
+write:	trap	$1
 	ret
 	.globl	read
-read:	trap	#2
+read:	trap	$2
 	ret
 %s'''
 CRT_MEM = '''	.globl	memcpy

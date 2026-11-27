@@ -1,33 +1,33 @@
 """Dictionary entries, part 3: atomics and system instructions."""
 from isa_common import *
 
-ATNOTE = ('The size is the suffix of the word: the bare name is the 8-byte word (`AADD` is `AADD.S64`, and `AADD.U64` is the same word), and the 4-byte word has the suffix `.s32` (as `MOV.S32` against `MOV`): `AADD` and `AADD.S32`, `CAS` and `CAS.S32`, `ABIS` and `ABIS.S32`, `LL` and `LL.S32`, `SC` and `SC.S32`. No other width exists: `AADD.S16` is refused as no 8-bit or 16-bit atomic. A 4-byte word reads the low four bytes of `Rs` (and of the expected value in `Rd`) and puts the old value into `Rd` sign-extended, as a 4-byte load does, so the only true kind of a 4-byte atomic that returns a value is `.s32`, and `.u32` is refused on `CAS`, `SWAP`, `AADD`, `AAND`, `ABIS`, `AXOR` and `LL`; the zero-extended old value is `MOV.U32 Rd, Rd` after the instruction. `SC.S32` and `SC.U32` are the same word, for it returns 0 or 1 and not a value. `AMAX` and `AMIN` take both kinds, because the kind is the comparison: `AMAX.U32` and `AMIN.U32` compare unsigned and return the old value sign-extended all the same. There is no offset: the address is the register `Ra` and nothing else. The comparison of `AMAX.U64` and `AMIN.U64` is unsigned and is part of the operation; the suffix is the kind and the width.')
+ATNOTE = ('The size is the suffix of the word: the bare name is the 8-byte word (`AADD` is `AADD.s64`, and `AADD.u64` is the same word), and the 4-byte word has the suffix `.s32` (as `MOV.s32` against `MOV`): `AADD` and `AADD.s32`, `CAS` and `CAS.s32`, `ABIS` and `ABIS.s32`, `LL` and `LL.s32`, `SC` and `SC.s32`. No other width exists: `AADD.s16` is refused as no 8-bit or 16-bit atomic. A 4-byte word reads the low four bytes of `Rs` (and of the expected value in `Rd`) and puts the old value into `Rd` sign-extended, as a 4-byte load does, so the only true kind of a 4-byte atomic that returns a value is `.s32`, and `.u32` is refused on `CAS`, `SWAP`, `AADD`, `AAND`, `ABIS`, `AXOR` and `LL`; the zero-extended old value is `MOV.u32 Rd, Rd` after the instruction. `SC.s32` and `SC.u32` are the same word, for it returns 0 or 1 and not a value. `AMAX` and `AMIN` take both kinds, because the kind is the comparison: `AMAX.u32` and `AMIN.u32` compare unsigned and return the old value sign-extended all the same. There is no offset: the address is the register `Ra` and nothing else. The comparison of `AMAX.u64` and `AMIN.u64` is unsigned and is part of the operation; the suffix is the kind and the width.')
 ATFLAG = 'None. `SC` reports success in `Rd` (0 for success, 1 for failure).'
 ATEXC = 'All precise: nothing has changed, `EPC` is the instruction and `EVA` the address. An address that is not naturally aligned for the size takes the misalignment fault (no atomic is ever split over two words, two blocks or two pages, so nothing takes the bus for it). Memory that is not ordinary cached memory (uncached memory, a device\'s registers) takes the store protection fault. A page that is not present, or cannot be written, takes the fault of a store: an atomic reads and writes, and `LL` and `SC` check the access as a store too. The access is atomic with respect to every initiator, cores and devices alike.'
 ATCF = '{{r:atomic-operations}} (atomic operations: the reservation monitor), {{r:multiprocessor-instructions-at-a-glance}} (the multiprocessor instructions at a glance), {{r:memory-ordering-from-sequential-consistency}} (the memory model).'
 
 ENTRIES = [
     E('CAS', 'atomics', ['cas', 'casl'], 'Compare and swap',
-      ['CAS Rs, (Ra), Rd        ; three registers, the destination last: Rd holds the expected value going in and the old value coming out, Rs the new value, Ra the address (no offset); 8 bytes', 'CAS.S32 ...                ; the same on 4 bytes'],
-      '''old <- M[Ra]                              ; 8 bytes (4 for CAS.S32), naturally aligned, ordinary cached memory
-if old == Rd then M[Ra] <- Rs                  ; CAS.S32 compares and writes the low 4 bytes of Rd and Rs
+      ['CAS Rs, (Ra), Rd        ; three registers, the destination last: Rd holds the expected value going in and the old value coming out, Rs the new value, Ra the address (no offset); 8 bytes', 'CAS.s32 ...                ; the same on 4 bytes'],
+      '''old <- M[Ra]                              ; 8 bytes (4 for CAS.s32), naturally aligned, ordinary cached memory
+if old == Rd then M[Ra] <- Rs                  ; CAS.s32 compares and writes the low 4 bytes of Rd and Rs
 Rd <- old              ; the program compares Rd with the value it expected to learn whether the swap happened''', NOFLAGS, ATEXC, notes=ATNOTE, cf=ATCF, xnote=ATNOTE),
-    E('SWAP', 'atomics', ['swap', 'swapl'], 'Atomic exchange', ['SWAP Rs, (Ra), Rd        ; Ra the address (no offset), Rs the value, Rd the old value', 'SWAP.S32 ...                ; 4 bytes'],
-      '''old <- M[Ra] ; M[Ra] <- Rs ; Rd <- old       ; 8 bytes (4 for SWAP.S32)''', NOFLAGS, ATEXC, notes=ATNOTE, cf=ATCF, xnote=ATNOTE),
-    E('AADD', 'atomics', ['aadd', 'aaddl'], 'Atomic fetch and add', ['AADD Rs, (Ra), Rd        ; Ra the address (no offset), Rs the operand, Rd the old value; 8 bytes', 'AADD.S32 ...                ; 4 bytes'],
-      '''old <- M[Ra] ; M[Ra] <- old + Rs ; Rd <- old     ; 8 bytes (4 for AADD.S32; the sum wraps in 4 bytes)''', NOFLAGS, ATEXC, notes=ATNOTE, cf=ATCF, xnote=ATNOTE),
+    E('SWAP', 'atomics', ['swap', 'swapl'], 'Atomic exchange', ['SWAP Rs, (Ra), Rd        ; Ra the address (no offset), Rs the value, Rd the old value', 'SWAP.s32 ...                ; 4 bytes'],
+      '''old <- M[Ra] ; M[Ra] <- Rs ; Rd <- old       ; 8 bytes (4 for SWAP.s32)''', NOFLAGS, ATEXC, notes=ATNOTE, cf=ATCF, xnote=ATNOTE),
+    E('AADD', 'atomics', ['aadd', 'aaddl'], 'Atomic fetch and add', ['AADD Rs, (Ra), Rd        ; Ra the address (no offset), Rs the operand, Rd the old value; 8 bytes', 'AADD.s32 ...                ; 4 bytes'],
+      '''old <- M[Ra] ; M[Ra] <- old + Rs ; Rd <- old     ; 8 bytes (4 for AADD.s32; the sum wraps in 4 bytes)''', NOFLAGS, ATEXC, notes=ATNOTE, cf=ATCF, xnote=ATNOTE),
     E('AAND', 'atomics', ['aand', 'aandl', 'abis', 'abisl', 'axor', 'axorl'], 'Atomic fetch and and, bit set (or), xor',
-      ['AAND Rs, (Ra), Rd', 'ABIS Rs, (Ra), Rd        ; the machine\'s own BIS, bit set, the inclusive or', 'AXOR Rs, (Ra), Rd', 'each with a 4-byte form (AAND.S32, ABIS.S32, AXOR.S32)'],
+      ['AAND Rs, (Ra), Rd', 'ABIS Rs, (Ra), Rd        ; the machine\'s own BIS, bit set, the inclusive or', 'AXOR Rs, (Ra), Rd', 'each with a 4-byte form (AAND.s32, ABIS.s32, AXOR.s32)'],
       '''old <- M[Ra]
 AAND: M[Ra] <- old AND Rs
 ABIS: M[Ra] <- old OR Rs
 AXOR: M[Ra] <- old XOR Rs
 Rd <- old''', NOFLAGS, ATEXC, notes=ATNOTE, cf=ATCF, xnote=ATNOTE),
     E('AMAX', 'atomics', ['amax', 'amaxl', 'amin', 'aminl', 'amaxu', 'amaxul', 'aminu', 'aminul'], 'Atomic fetch and minimum or maximum',
-      ['AMAX Rs, (Ra), Rd', 'AMIN ..., AMAX.U64 ..., AMIN.U64 ...', 'each with a 4-byte form (AMAX.S32, AMAX.U32, AMIN.S32, AMIN.U32)'],
-      '''old <- M[Ra] ; M[Ra] <- max(old, Rs) (AMAX, AMAX.U64) or min (AMIN, AMIN.U64) ; Rd <- old
+      ['AMAX Rs, (Ra), Rd', 'AMIN ..., AMAX.u64 ..., AMIN.u64 ...', 'each with a 4-byte form (AMAX.s32, AMAX.u32, AMIN.s32, AMIN.u32)'],
+      '''old <- M[Ra] ; M[Ra] <- max(old, Rs) (AMAX, AMAX.u64) or min (AMIN, AMIN.u64) ; Rd <- old
 signed for AMAX and AMIN, unsigned for the U forms; the 4-byte forms compare 4-byte numbers''', NOFLAGS, ATEXC, notes=ATNOTE, cf=ATCF, xnote=ATNOTE),
-    E('LLSC', 'atomics', ['ll', 'lll', 'sc', 'scl'], 'Load-linked and store-conditional', ['LL (Ra), Rd        ; 8 bytes', 'LL.S32 (Ra), Rd       ; 4 bytes', 'SC Rs, (Ra), Rd    ; 8 bytes', 'SC.S32 Rs, (Ra), Rd   ; 4 bytes'],
+    E('LLSC', 'atomics', ['ll', 'lll', 'sc', 'scl'], 'Load-linked and store-conditional', ['LL (Ra), Rd        ; 8 bytes', 'LL.s32 (Ra), Rd       ; 4 bytes', 'SC Rs, (Ra), Rd    ; 8 bytes', 'SC.s32 Rs, (Ra), Rd   ; 4 bytes'],
       '''LL: Rd <- M[Ra] ; take a reservation on the aligned 128-byte block that contains the address
 SC: if the reservation is intact and Ra is the address (and the size) of the LL
     then M[Ra] <- Rs ; Rd <- 0 (success)
@@ -38,7 +38,7 @@ SC: if the reservation is intact and Ra is the address (and the size) of the LL
     # ---- SYS, class 0 ----
     E('NOP', 'system', ['nop', 'lpad'], 'No operation and landing pad', ['NOP', 'LPAD'], 'nothing', NOFLAGS, NONE,
       notes='`LPAD` marks a legal target of an indirect jump or call; no instruction enforces it in ABI version 1.', cf='Appendix {{c:id03001|n}}, section {{r:page-bit-that-enforces-landing-pads}} (landing pads).'),
-    E('RTI', 'system', ['rti', 'rtt'], 'Return from interrupt or exception', ['RTI #mask', 'RTT #mask'],
+    E('RTI', 'system', ['rti', 'rtt'], 'Return from interrupt or exception', ['RTI $mask', 'RTT $mask'],
       '''PC <- EPC ; PSW <- EPSW           ; a PSW with the reserved mode 2 in either mode field aborts
 if the mode returned to is lesser than the current mode: every Rn (n = 0 to 31, n != 14) whose bit n of mask is zero <- 0
     and, if bit 14 of mask is zero, the vector registers and FPSR <- 0
@@ -67,14 +67,14 @@ POPX : EPSW <- M[SP] ; EPC <- M[SP + 8] ; SP <- SP + 16''', NOFLAGS, PRIV + ' `S
     E('ISYNC', 'system', ['isync'], 'Instruction synchronisation', ['ISYNC'],
       'make earlier writes to PTBR, ASID, MMUCTL and VBR, and earlier ICINVs, take effect for the instructions that follow', NOFLAGS, 'Not privileged ({{r:not-privileged-mtdp-and-mfdp}}). A non-zero pad byte is an illegal instruction.',
       notes='The architecture promises the effect only after the next `ISYNC`; an in-order implementation may make it immediate, and software must not rely on that. It is not privileged, so that a program that writes instructions can issue `ICINV` and then `ISYNC` ({{r:makes-new-instructions-visible}}); the writes to `PTBR`, `ASID`, `MMUCTL` and `VBR` that it also covers are themselves privileged.', cf='{{r:memory-ordering-from-sequential-consistency}}, {{r:system-registers-mfsr-and-mtsr}}.'),
-    E('HINT', 'system', ['hint'], 'Hint', ['HINT #n        ; n = 0 to 255'], 'no architectural effect', NOFLAGS, NONE,
+    E('HINT', 'system', ['hint'], 'Hint', ['HINT $n        ; n = 0 to 255'], 'no architectural effect', NOFLAGS, NONE,
       notes='Defined codes: 0 a plain no-op hint, 1 pause (spin-wait), 2 speculation barrier. Every other code is a reserved hint that executes as a no-op; software shall not use it. Not privileged.'),
-    E('GENTER', 'system', ['genter'], 'Enter a guest', ['GENTER #mask'],
+    E('GENTER', 'system', ['genter'], 'Enter a guest', ['GENTER $mask'],
       '''if H = 0: exit to the hypervisor (code 12)
 else: ISYNC ; discard the guest's cached translations if the arena's flag or the epoch word says so ; PSW <- HEPSW ; make the guest's registers the live ones ; PC <- HEPC ; H <- 0
       every Rn (n != 14) whose bit n of mask is zero <- 0 ; if bit 14 of mask is zero, the vector registers and FPSR <- 0 ; any LL reservation is cleared''', NOFLAGS,
       'Legal only in the hypervisor mode (H = 1). A guest (H = 0) that executes it, in kernel mode, exits to the hypervisor with exit code 12; in a guest\'s user mode it is the guest\'s privileged-instruction exception (the guest\'s own privilege check comes first). On a machine with no hypervisor (HVE clear) it is an illegal instruction. A reserved mode in `HEPSW` is an illegal instruction and nothing changes.',
-      notes='The one new instruction of the hypervisor mode ({{r:hypervisor-mode-the-rules}}). It includes an `ISYNC`: the earlier writes to `PTBR`, `MMUCTL`, `ASID`, `VBR`, `GTBR` and `HTRAP` take effect for what follows. It loads the status word from `HEPSW` and the program counter from `HEPC`, makes the guest\'s registers the live ones (the ordinary register names mean the guest\'s own again), clears `H`, and clears every general register whose bit the mask does not name and, with bit 14 of the mask zero, the vector registers and the floating-point flags. There is only this form: the mask is in the instruction and no system register holds it, and the hypervisor keeps nothing in registers across the guest\'s run. Nothing else is done: no translation-buffer entry is removed unless the arena\'s flag or the epoch word says so ({{r:guest-never-sees-a-stale}}), and no general register is written but the ones the mask clears. If a virtual interrupt line is pending and above the guest\'s priority, it is taken before the first guest instruction. There is no instruction that leaves a guest: a guest leaves by an exit (a trapped instruction, a hypercall by `TRAP #n`, an interrupt, a stage-2 fault).', cf='{{r:genter-enters-a-guest-before}}, {{r:rti-mask-is-the-only}}, {{r:kernel-system-instructions-exceptions}}.'),
+      notes='The one new instruction of the hypervisor mode ({{r:hypervisor-mode-the-rules}}). It includes an `ISYNC`: the earlier writes to `PTBR`, `MMUCTL`, `ASID`, `VBR`, `GTBR` and `HTRAP` take effect for what follows. It loads the status word from `HEPSW` and the program counter from `HEPC`, makes the guest\'s registers the live ones (the ordinary register names mean the guest\'s own again), clears `H`, and clears every general register whose bit the mask does not name and, with bit 14 of the mask zero, the vector registers and the floating-point flags. There is only this form: the mask is in the instruction and no system register holds it, and the hypervisor keeps nothing in registers across the guest\'s run. Nothing else is done: no translation-buffer entry is removed unless the arena\'s flag or the epoch word says so ({{r:guest-never-sees-a-stale}}), and no general register is written but the ones the mask clears. If a virtual interrupt line is pending and above the guest\'s priority, it is taken before the first guest instruction. There is no instruction that leaves a guest: a guest leaves by an exit (a trapped instruction, a hypercall by `TRAP $n`, an interrupt, a stage-2 fault).', cf='{{r:genter-enters-a-guest-before}}, {{r:rti-mask-is-the-only}}, {{r:kernel-system-instructions-exceptions}}.'),
     # ---- SYSREG ----
     E('MFSR', 'system', ['mfsr', 'mtsr'], 'Move from and to a system register', ['MFSR Rd, name', 'MTSR name, Rs'],
       '''MFSR: Rd <- system register `name`
@@ -84,11 +84,11 @@ MTSR: system register `name` <- Rs         ; read-only registers are an illegal 
     E('MTPS', 'system', ['mtps', 'mfps'], 'Move to and from the processor status word', ['MTPS Rs', 'MFPS Rd'],
       '''MTPS: PSW <- Rs          ; privileged
 MFPS: Rd <- PSW''', NOFLAGS, '`MTPS` is privileged. A `MTPS` value with the reserved mode 2 in a mode field aborts.', cf='{{r:modes-and-the-status-word}} (modes and the status word).'),
-    E('SPL', 'system', ['spl'], 'Set the interrupt priority level', ['SPL #n        ; n = 0 to 7'], 'PSW.priority <- n', NOFLAGS, PRIV + ' A priority above 7 is an illegal instruction.',
+    E('SPL', 'system', ['spl'], 'Set the interrupt priority level', ['SPL $n        ; n = 0 to 7'], 'PSW.priority <- n', NOFLAGS, PRIV + ' A priority above 7 is an illegal instruction.',
       notes='Kept despite `MTPS` writing the whole word because it sets the priority alone: a kernel raising priority around a critical section leaves the trace bit and the modes as they are.', cf='{{r:exceptions-interrupts-and-traps}}.'),
-    E('TRAP', 'system', ['trap'], 'System call and trap', ['TRAP #n        ; n = 0 to 255, two bytes'],
+    E('TRAP', 'system', ['trap'], 'System call and trap', ['TRAP $n        ; n = 0 to 255, two bytes'],
       '''enter the kernel by vector (TRAP_BASE + n), with EPC = the address of the next instruction''', NOFLAGS, 'Enters the kernel; not privileged.',
-      notes='The replacement for the PDP-11 `IOT` and `EMT`. The 8-bit vector number is in the one parcel, so every `TRAP #n` is two bytes. The sub-opcode 10 is a second encoding of the same instruction; the assembler writes 01 and a disassembler prints `TRAP` for both.', cf='{{r:exceptions-interrupts-and-traps}}, {{r:user-memory-guard-and-system-calls}} (system calls).'),
+      notes='The replacement for the PDP-11 `IOT` and `EMT`. The 8-bit vector number is in the one parcel, so every `TRAP $n` is two bytes. The sub-opcode 10 is a second encoding of the same instruction; the assembler writes 01 and a disassembler prints `TRAP` for both.', cf='{{r:exceptions-interrupts-and-traps}}, {{r:user-memory-guard-and-system-calls}} (system calls).'),
     E('TLBI', 'system', ['tlbi'], 'Invalidate a translation', ['TLBI Rs'], 'invalidate the translation-buffer entry for the page containing the address in Rs, on this core and by broadcast on the others', NOFLAGS, PRIV,
       cf='{{r:memory-ordering-from-sequential-consistency}}, {{r:accessed-dirty-tlb-and-asids}}.'),
     E('TLBIAS', 'system', ['tlbias', 'tlbigp'], 'Invalidate by address-space number; invalidate by guest-physical page', ['TLBIAS Rs', 'TLBIGP Rs'],

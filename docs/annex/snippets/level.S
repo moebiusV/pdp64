@@ -5,9 +5,9 @@ _start:
 	lea	vtab, r1
 	lea	disk_handler, r2
 	mov	r2, 8*100(r1)			; vector 100 is a device's: its level is fixed by the number
-	spl	#3				; a section that must not be disturbed by this device (and the levels below it)
+	spl	$3				; a section that must not be disturbed by this device (and the levels below it)
 	nop
-	spl	#0
+	spl	$0
 	halt
 disk_handler:
 	halt

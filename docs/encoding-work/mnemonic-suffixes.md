@@ -2,6 +2,8 @@
 
 I write this for someone who knows a little PDP-11 assembly. Nothing here is built. The owner decided (errata 230, R552) that the width and kind of an operation is a dotted suffix of the mnemonic, and asked me to work out what that does to every word, to the assembler and to everything that writes assembly. I checked the grammar, the assembler and the disassembler, and I built a scratch copy of the assembler in a private directory (not in the repository) to see what lexes. No file but this one was changed.
 
+**Correction, written after the notation was settled.** A mark on an operand is of two kinds, and this note speaks of only the first. A register mark is a suffix of a register's name and only `fcvt` takes one (`fcvt r1.f16, r2.f32`). A value mark is a suffix of a number or a symbol (`0xff.s8`, `limit.u16`): it says how many bits the value has and how to read them, it is written only where the value deviates, and it is not a width of the operation. The immediate in the examples below, written `#5`, is written `$5` now; `#5` is still read as the same thing.
+
 ## 1. The story
 
 On the PDP-11 you wrote `MOVB` and the "B" said how much to move. Here the same idea has been written four ways in a few days: the letters `b w l q` (errata 227), the operand marks in bits `(r1).8` (errata 223, 226), the floating-point letters `f` and `d` (228), and the float marks `.f32` (229). Each was right about something and wrong about something else. The letters could not say "unsigned" for a rotate or "single" for a conversion, so marks were added. The marks could not be read at a glance (`fcvt r1.32, r2.s32`: is `.32` a float or an integer?), and a mark glued to an operand makes the lexer fight with names (`r1.8` is a perfectly good symbol today).

@@ -55,7 +55,7 @@ class CProg(Prog):
         """the instruction at a label; if `fault` one exception (misalignment, EVA, EPC) else none"""
         s.lab += 1
         n = s.lab
-        s.e('\tmovq\t#0, r10\n\tmovq\tr10, cnt')
+        s.e('\tmovq\t$0, r10\n\tmovq\tr10, cnt')
         if before: s.e(before)
         s.e('\tlea\tN%d, r13' % n)
         s.e('I%d:\t%s' % (n, insn))
@@ -91,7 +91,7 @@ def tables(pages):
 MMU_ON = r"""
 	lea	l2, r1
 	mtsr	ptbr, r1
-	movq	#1, r1
+	movq	$1, r1
 	mtsr	mmuctl, r1
 	isync
 """
@@ -213,7 +213,7 @@ def gen_misaligned():
     p.eq('r4', hx(X), 'it reads back')
     # ---- translation off: the address decides
     p.case('translation off: a quad at an odd address of RAM works')
-    p.e('\tmovq\t#0, r1\n\tmtsr\tmmuctl, r1\n\tisync')
+    p.e('\tmovq\t$0, r1\n\tmtsr\tmmuctl, r1\n\tisync')
     p.setaddr(0xa00000); p.pre('r1', X)
     p.run('movq\tr1, 3(r3)', False)
     p.e('\tmovq\t3(r3), r4')
@@ -245,7 +245,7 @@ def gen_split():
     C = page(0)
     p.case('control: the console is ready with a character (the first of the input), the page is strongly ordered')
     p.setaddr(C)
-    p.e('1:\tmovq\t0(r3), r4\n\tand\t#(1<<CONSOLE_CSR_READY), r4\n\tcbeq\tr4, #0, 1b')
+    p.e('1:\tmovq\t0(r3), r4\n\tand\t$(1<<CONSOLE_CSR_READY), r4\n\tcbeq\tr4, $0, 1b')
     p.case('a quad load at offset 4 (a piece of RXDB at offset 8) is the fault and does not take the character')
     p.pre('r5', 0x5a5a5a5a5a5a5a5a)
     p.run('movq\t4(r3), r5', True, C + 4)
@@ -254,7 +254,7 @@ def gen_split():
     p.run('movl\t6(r3), r5', True, C + 6)
     p.run('movzw\t7(r3), r5', True, C + 7)
     p.case('the receive register is still ready and holds the first character')
-    p.e('\tmovq\t0(r3), r4\n\tand\t#(1<<CONSOLE_CSR_READY), r4')
+    p.e('\tmovq\t0(r3), r4\n\tand\t$(1<<CONSOLE_CSR_READY), r4')
     p.eq('r4', '(1<<CONSOLE_CSR_READY)', 'the ready bit is set: nothing took the character')
     p.e('\tmovq\t8(r3), r5')
     p.eq('r5', '0x78', 'the aligned read gives the first character, once')

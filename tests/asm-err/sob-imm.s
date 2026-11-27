@@ -1,2 +1,2 @@
 	.text
-	sob r1,#5
+	sob r1,$5

@@ -57,7 +57,7 @@ Contents
 Each item is the assistant's statement at the quoted line, which the author then built on.
 
 **Revision 1 (line 5605-5616).**
-* The C64 I/O block `$D000-$DFFF` sits inside the PDP-11 virtual page `$C000-$DFFF` (APR6). Pointing `PAR6` at the device page lets a program see VIC at `$D000`, colour RAM at `$D800`, CIA at `$DC00` at the literal addresses; the lower half of the page holds the extended register bank. The C64's banking poke is one `MOV` to a PAR, per process and MMU-protected.
+* The C64 I/O block `0xD000-0xDFFF` sits inside the PDP-11 virtual page `0xC000-0xDFFF` (APR6). Pointing `PAR6` at the device page lets a program see VIC at `0xD000`, colour RAM at `0xD800`, CIA at `0xDC00` at the literal addresses; the lower half of the page holds the extended register bank. The C64's banking poke is one `MOV` to a PAR, per process and MMU-protected.
 * Prefix word `0076xx` (the dead CIS slot) carries size, two extra mode bits per operand and an aux field: 32- and 64-bit forms and eight new modes without changing an existing encoding. (Superseded by the 64-bit ISA, section 7.)
 * Zero page becomes a 64 KB single-cycle tightly coupled memory.
 * The blitter's primitive is a three-operand `draw` (compositing), not `bitblt`; the image descriptor is shaped like a Plan 9 `Memimage`; layers are display-list entries resolved at scanout, so sprites and windows are one concept.
@@ -78,7 +78,7 @@ Each item is the assistant's statement at the quoted line, which the author then
 * The framebuffer has **no** DMA channel; asking for one is a documented design error.
 * 2 KB maximum burst. Strict priority between classes, round-robin only within a class (an erratum to revision 1: with round-robin the worst wait is (N-1) x burst).
 * DMA bandwidth is a schedulable resource in the eight-way machine: channels bound to partitions, per-frame credit counters, mandatory IOMMU.
-* REU window at `$DF00`: the 8726's six registers widened to 40-bit addresses.
+* REU window at `0xDF00`: the 8726's six registers widened to 40-bit addresses.
 
 **Revision 5 (lines 5805-5819).** The register conventions of section 2, the bitmap `layout` field in the image descriptor (so the compositor swizzles in hardware), and three deliberately preserved C64 warts: badlines, the 6581 ADSR bug, the volume-click channel.
 
@@ -87,13 +87,13 @@ Each item is the assistant's statement at the quoted line, which the author then
 * Word access to a byte-only alias traps (vector 4).
 * A 40-bit register is three words in a 16-bit I/O page; the write to the third word delivers the whole value.
 * Colour RAM is real 1000 x 4-bit storage, one-way patched into the cell foreground.
-* `SPRX` signed 16-bit against the VIC's 9-bit wrap: a `WRAP9` descriptor flag. `C64PTR` makes the sprite pointer an indirection read each frame; there is no aliasing with `screen+$03F8`.
+* `SPRX` signed 16-bit against the VIC's 9-bit wrap: a `WRAP9` descriptor flag. `C64PTR` makes the sprite pointer an indirection read each frame; there is no aliasing with `screen+0x03F8`.
 * `TEXTMODE` enumerates the display modes including the illegal ones; light pen added; 8.8 fixed-point scroll.
 * Nine new vectors with levels and formats; display at BR6.
 * `format` orthogonal to `layout` (indexed 8/4/1, RGB565, RGBA).
 
 **Revision 7 (lines 6002-6024).**
-* `LIVESEL`/`LIVEDAT` (an index and a data port) replace the `+$0800` live-window offset, which collided with other banks.
+* `LIVESEL`/`LIVEDAT` (an index and a data port) replace the `+0x0800` live-window offset, which collided with other banks.
 * `VSEL` plus a window for the 32-voice file.
 * `SHADOWEN` is twelve bits, one per commit group.
 * The island runs on `VICPROF` PHI2 (section 4).
@@ -108,7 +108,7 @@ Each item is the assistant's statement at the quoted line, which the author then
 Accepted at lines 5830-5840 and 5894-5923 (the idea came from a document the author asked the assistant to evaluate), and refined at 5976-6016.
 
 * Held in reset at power-on. By default the PDP-11 drives every VIC/SID/CIA register itself.
-* A soft 8502 (not a socketed 6510), with `IPORT` for the `$00/$01` processor port. In fabric, A, X, Y, S, P and PC are readable at any cycle; `RDY` hold is needed only to guarantee an instruction boundary before a write. Examine, deposit, single-step and hardware breakpoints (the author: "just hold the rdy pin").
+* A soft 8502 (not a socketed 6510), with `IPORT` for the `0x00/0x01` processor port. In fabric, A, X, Y, S, P and PC are readable at any cycle; `RDY` hold is needed only to guarantee an instruction boundary before a write. Examine, deposit, single-step and hardware breakpoints (the author: "just hold the rdy pin").
 * Two windows onto one register file: the island sees 1982, the host sees the extended registers.
 * When `ICSR.RUN` is set the core runs on the `VICPROF` PHI2 (0.985248 or 1.022727 MHz), including badline and sprite-fetch steals; `ICYC` counts PHI2 cycles; `ICSR.FAST` is an option that breaks cycle exactness.
 * `IOWN`, a 12-bit mask, defaults to the voice, filter and output groups while the island runs; a host write to an owned group traps unless `RDY` is held.
@@ -166,7 +166,7 @@ Compiled 2026-11-07 from the repository's own documents. Each is a candidate, no
 | 1 | Devices are a few memory locations and a driver is an ordinary program; no I/O instructions | shared (PDP-11 by design; the C64's devices are memory-mapped registers too) | manual 1.4.6; Multics chat, `c64stuff.txt` lines 5261-5308 ("devices as memory-mapped regions, peek and poke") |
 | 2 | Peek and poke as the programmer's model of the machine | shared (C64 BASIC; PDP-11 console deposit and examine) | `c64stuff.txt` lines 4816-5260 (the c64x terminal "like the old C64"), lines 5261-5308 |
 | 3 | A small page of memory near the base of the address space that is cheap to reach (6502 zero page; PDP-11 short addressing of low memory and the I/O page) | candidate | r20 ISA text, section on `DP` (line 206) and the 6502 passage (line 1182) |
-| 4 | The C64 I/O block `$D000-$DFFF` falls inside the PDP-11 virtual page `$C000-$DFFF` (APR6) | chosen | `docs/c64-devices-from-chat.md`, section 3 (revision 1) |
+| 4 | The C64 I/O block `0xD000-0xDFFF` falls inside the PDP-11 virtual page `0xC000-0xDFFF` (APR6) | chosen | `docs/c64-devices-from-chat.md`, section 3 (revision 1) |
 | 5 | The program counter and stack pointer as ordinary registers, a small register file, autoincrement and autodecrement for `*p++` and `*--p` | inherited from the PDP-11; the 6502's indexed and indirect modes serve the same loops | manual 1.4.5 |
 | 6 | The 6502's decode as a PLA with no microcode ROM, and the T-11's small logic budget, as the model for a minimal implementation | shared (small-gate-count design of the 1970s) | r20 ISA text, lines 1236 and 1367 |
 | 7 | One designer, Velinsky, for DEC and for Commodore | **sourced** (section 8) | the article |

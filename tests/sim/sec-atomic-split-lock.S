@@ -7,7 +7,7 @@ _start:
 	lea	vtab, r1
 	mtsr	vbr, r1
 	lea	hgen, r2
-	mov	#512, r3
+	mov	$512, r3
 kfill:	mov	r2, (r1)+
 	sob	r3, kfill
 	lea	vtab, r1
@@ -19,288 +19,288 @@ kfill:	mov	r2, (r1)+
 	; ---- case 1: across two 8-byte words
 	lea	big+4, r3
 	lea	big, r7
-	mov	#0, r4
+	mov	$0, r4
 	mov	r4, cnt
-	mov	#1, r2
-	mov	#0, r1
+	mov	$1, r2
+	mov	$0, r1
 	lea	N0, r13
 I0:	aadd	r2, (r3), r1
 N0:	mov	cnt, r4
 	mov	=(1), r17
 	cbeq	r4, r17, 1f	; case 1: across two 8-byte words: one fault, not a lock and a split access
-	mov	#1, r0
+	mov	$1, r0
 	halt
 1:
 	mov	last_cause, r4
 	mov	=(VECTOR_MISALIGNED), r17
 	cbeq	r4, r17, 1f	; case 1: across two 8-byte words: the misalignment fault
-	mov	#1, r0
+	mov	$1, r0
 	halt
 1:
 	lea	I0, r5
 	mov	last_epc, r4
 	cbeq	r4, r5, 1f	; case 1: across two 8-byte words: EPC the instruction
-	mov	#1, r0
+	mov	$1, r0
 	halt
 1:
 	lea	big+0, r8
 	mov	(r8), r4
 	mov	=(0), r17
 	cbeq	r4, r17, 1f	; case 1: across two 8-byte words: the first word is untouched
-	mov	#1, r0
+	mov	$1, r0
 	halt
 1:
 	mov	8(r8), r4
 	mov	=(0), r17
 	cbeq	r4, r17, 1f	; case 1: across two 8-byte words: the next word is untouched
-	mov	#1, r0
+	mov	$1, r0
 	halt
 1:
 	mov	=(0), r17
 	cbeq	r1, r17, 1f	; case 1: across two 8-byte words: Rd was not written
-	mov	#1, r0
+	mov	$1, r0
 	halt
 1:
 	; ---- case 2: across a 128-byte block
 	lea	big+124, r3
 	lea	big, r7
-	mov	#0, r4
+	mov	$0, r4
 	mov	r4, cnt
-	mov	#1, r2
-	mov	#0, r1
+	mov	$1, r2
+	mov	$0, r1
 	lea	N1, r13
 I1:	aadd	r2, (r3), r1
 N1:	mov	cnt, r4
 	mov	=(1), r17
 	cbeq	r4, r17, 1f	; case 2: across a 128-byte block: one fault, not a lock and a split access
-	mov	#2, r0
+	mov	$2, r0
 	halt
 1:
 	mov	last_cause, r4
 	mov	=(VECTOR_MISALIGNED), r17
 	cbeq	r4, r17, 1f	; case 2: across a 128-byte block: the misalignment fault
-	mov	#2, r0
+	mov	$2, r0
 	halt
 1:
 	lea	I1, r5
 	mov	last_epc, r4
 	cbeq	r4, r5, 1f	; case 2: across a 128-byte block: EPC the instruction
-	mov	#2, r0
+	mov	$2, r0
 	halt
 1:
 	lea	big+120, r8
 	mov	(r8), r4
 	mov	=(0), r17
 	cbeq	r4, r17, 1f	; case 2: across a 128-byte block: the first word is untouched
-	mov	#2, r0
+	mov	$2, r0
 	halt
 1:
 	mov	8(r8), r4
 	mov	=(0), r17
 	cbeq	r4, r17, 1f	; case 2: across a 128-byte block: the next word is untouched
-	mov	#2, r0
+	mov	$2, r0
 	halt
 1:
 	mov	=(0), r17
 	cbeq	r1, r17, 1f	; case 2: across a 128-byte block: Rd was not written
-	mov	#2, r0
+	mov	$2, r0
 	halt
 1:
 	; ---- case 3: across a page
 	lea	big+4092, r3
 	lea	big, r7
-	mov	#0, r4
+	mov	$0, r4
 	mov	r4, cnt
-	mov	#1, r2
-	mov	#0, r1
+	mov	$1, r2
+	mov	$0, r1
 	lea	N2, r13
 I2:	aadd	r2, (r3), r1
 N2:	mov	cnt, r4
 	mov	=(1), r17
 	cbeq	r4, r17, 1f	; case 3: across a page: one fault, not a lock and a split access
-	mov	#3, r0
+	mov	$3, r0
 	halt
 1:
 	mov	last_cause, r4
 	mov	=(VECTOR_MISALIGNED), r17
 	cbeq	r4, r17, 1f	; case 3: across a page: the misalignment fault
-	mov	#3, r0
+	mov	$3, r0
 	halt
 1:
 	lea	I2, r5
 	mov	last_epc, r4
 	cbeq	r4, r5, 1f	; case 3: across a page: EPC the instruction
-	mov	#3, r0
+	mov	$3, r0
 	halt
 1:
 	lea	big+4088, r8
 	mov	(r8), r4
 	mov	=(0), r17
 	cbeq	r4, r17, 1f	; case 3: across a page: the first word is untouched
-	mov	#3, r0
+	mov	$3, r0
 	halt
 1:
 	mov	8(r8), r4
 	mov	=(0), r17
 	cbeq	r4, r17, 1f	; case 3: across a page: the next word is untouched
-	mov	#3, r0
+	mov	$3, r0
 	halt
 1:
 	mov	=(0), r17
 	cbeq	r1, r17, 1f	; case 3: across a page: Rd was not written
-	mov	#3, r0
+	mov	$3, r0
 	halt
 1:
 	; ---- case 4: 4 bytes across a word
 	lea	big+6, r3
 	lea	big, r7
-	mov	#0, r4
+	mov	$0, r4
 	mov	r4, cnt
-	mov	#1, r2
-	mov	#0, r1
+	mov	$1, r2
+	mov	$0, r1
 	lea	N3, r13
 I3:	aadd.s32	r2, (r3), r1
 N3:	mov	cnt, r4
 	mov	=(1), r17
 	cbeq	r4, r17, 1f	; case 4: 4 bytes across a word: one fault, not a lock and a split access
-	mov	#4, r0
+	mov	$4, r0
 	halt
 1:
 	mov	last_cause, r4
 	mov	=(VECTOR_MISALIGNED), r17
 	cbeq	r4, r17, 1f	; case 4: 4 bytes across a word: the misalignment fault
-	mov	#4, r0
+	mov	$4, r0
 	halt
 1:
 	lea	I3, r5
 	mov	last_epc, r4
 	cbeq	r4, r5, 1f	; case 4: 4 bytes across a word: EPC the instruction
-	mov	#4, r0
+	mov	$4, r0
 	halt
 1:
 	lea	big+0, r8
 	mov	(r8), r4
 	mov	=(0), r17
 	cbeq	r4, r17, 1f	; case 4: 4 bytes across a word: the first word is untouched
-	mov	#4, r0
+	mov	$4, r0
 	halt
 1:
 	mov	8(r8), r4
 	mov	=(0), r17
 	cbeq	r4, r17, 1f	; case 4: 4 bytes across a word: the next word is untouched
-	mov	#4, r0
+	mov	$4, r0
 	halt
 1:
 	mov	=(0), r17
 	cbeq	r1, r17, 1f	; case 4: 4 bytes across a word: Rd was not written
-	mov	#4, r0
+	mov	$4, r0
 	halt
 1:
 	; ---- case 5: 4 bytes across a block
 	lea	big+126, r3
 	lea	big, r7
-	mov	#0, r4
+	mov	$0, r4
 	mov	r4, cnt
-	mov	#1, r2
-	mov	#0, r1
+	mov	$1, r2
+	mov	$0, r1
 	lea	N4, r13
 I4:	swap.s32	r2, (r3), r1
 N4:	mov	cnt, r4
 	mov	=(1), r17
 	cbeq	r4, r17, 1f	; case 5: 4 bytes across a block: one fault, not a lock and a split access
-	mov	#5, r0
+	mov	$5, r0
 	halt
 1:
 	mov	last_cause, r4
 	mov	=(VECTOR_MISALIGNED), r17
 	cbeq	r4, r17, 1f	; case 5: 4 bytes across a block: the misalignment fault
-	mov	#5, r0
+	mov	$5, r0
 	halt
 1:
 	lea	I4, r5
 	mov	last_epc, r4
 	cbeq	r4, r5, 1f	; case 5: 4 bytes across a block: EPC the instruction
-	mov	#5, r0
+	mov	$5, r0
 	halt
 1:
 	lea	big+120, r8
 	mov	(r8), r4
 	mov	=(0), r17
 	cbeq	r4, r17, 1f	; case 5: 4 bytes across a block: the first word is untouched
-	mov	#5, r0
+	mov	$5, r0
 	halt
 1:
 	mov	8(r8), r4
 	mov	=(0), r17
 	cbeq	r4, r17, 1f	; case 5: 4 bytes across a block: the next word is untouched
-	mov	#5, r0
+	mov	$5, r0
 	halt
 1:
 	mov	=(0), r17
 	cbeq	r1, r17, 1f	; case 5: 4 bytes across a block: Rd was not written
-	mov	#5, r0
+	mov	$5, r0
 	halt
 1:
 	; ---- case 6: cas across a page
 	lea	big+4094, r3
 	lea	big, r7
-	mov	#0, r4
+	mov	$0, r4
 	mov	r4, cnt
-	mov	#1, r2
-	mov	#0, r1
+	mov	$1, r2
+	mov	$0, r1
 	lea	N5, r13
 I5:	cas	r2, (r3), r1
 N5:	mov	cnt, r4
 	mov	=(1), r17
 	cbeq	r4, r17, 1f	; case 6: cas across a page: one fault, not a lock and a split access
-	mov	#6, r0
+	mov	$6, r0
 	halt
 1:
 	mov	last_cause, r4
 	mov	=(VECTOR_MISALIGNED), r17
 	cbeq	r4, r17, 1f	; case 6: cas across a page: the misalignment fault
-	mov	#6, r0
+	mov	$6, r0
 	halt
 1:
 	lea	I5, r5
 	mov	last_epc, r4
 	cbeq	r4, r5, 1f	; case 6: cas across a page: EPC the instruction
-	mov	#6, r0
+	mov	$6, r0
 	halt
 1:
 	lea	big+4088, r8
 	mov	(r8), r4
 	mov	=(0), r17
 	cbeq	r4, r17, 1f	; case 6: cas across a page: the first word is untouched
-	mov	#6, r0
+	mov	$6, r0
 	halt
 1:
 	mov	8(r8), r4
 	mov	=(0), r17
 	cbeq	r4, r17, 1f	; case 6: cas across a page: the next word is untouched
-	mov	#6, r0
+	mov	$6, r0
 	halt
 1:
 	mov	=(0), r17
 	cbeq	r1, r17, 1f	; case 6: cas across a page: Rd was not written
-	mov	#6, r0
+	mov	$6, r0
 	halt
 1:
 	; ---- case 7: control
 	lea	big+4096, r3
-	mov	#1, r2
+	mov	$1, r2
 	aadd	r2, (r3), r1
 	mov	(r3), r4
 	mov	=(1), r17
 	cbeq	r4, r17, 1f	; case 7: control: the same instruction on an aligned word works
-	mov	#7, r0
+	mov	$7, r0
 	halt
 1:
-	mov	#0, r0
+	mov	$0, r0
 	halt
 
 hgen:	mov	cnt, r12
-	add	#1, r12
+	add	$1, r12
 	mov	r12, cnt
 	mfsr	r12, ecause
 	mov	r12, last_cause
@@ -311,8 +311,8 @@ hgen:	mov	cnt, r12
 	mfsr	r12, epsw
 	mov	r12, last_epsw
 	mtsr	epc, r13
-	rti	#RTIMASK_ALL
-h_ok:	mov	#0, r0
+	rti	$RTIMASK_ALL
+h_ok:	mov	$0, r0
 h_fail:	halt
 
 	.data

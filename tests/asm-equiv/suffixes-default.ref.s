@@ -3,12 +3,12 @@
 	mov (r1), r2
 	mov r1, 4(r2)
 	mov r1, r2
-	mov #5, r1
+	mov $5, r1
 	mov.user (r1), r2
 	mov.user r1, (r2)
 	bswap r1, r2
 	bswap r1, r2
-	ror r1, #5, r2
+	ror r1, $5, r2
 	ror r1, r2, r3
 	mul r1, r2
 	mul r1, r2

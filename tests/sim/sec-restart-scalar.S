@@ -8,7 +8,7 @@ _start:
 	lea	vtab, r1
 	mtsr	vbr, r1
 	lea	h_bad, r2
-	mov	#512, r3
+	mov	$512, r3
 kfill:	mov	r2, (r1)+
 	sob	r3, kfill
 	lea	vtab, r1
@@ -23,139 +23,139 @@ kfill:	mov	r2, (r1)+
 	mov	r2, 2072(r1)
 	lea	l2, r1
 	mtsr	ptbr, r1
-	mov	#1, r1
+	mov	$1, r1
 	mtsr	mmuctl, r1
 
 	lea	ustack_top, sp
 	mov	=(0x5a5a5a5a5a5a5a5a), r3
 	mov	=(0x810000), r1
-	mov	#0, r10
+	mov	$0, r10
 	mov	r10, cnt
-	mov	#0, r12
+	mov	$0, r12
 	mov	=0x7777, r4
 p0:	mov	(r1)+, r3
 	mov	cnt, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 1 load (r1)+: one fault
-	mov	#1, r0
+	mov	$1, r0
 	halt
 1:
 	lea	p0, r11
 	mov	last_epc, r12
 	cbeq	r12, r11, 1f	; check 2 load (r1)+: EPC is the instruction
-	mov	#2, r0
+	mov	$2, r0
 	halt
 1:
 	mov	hs_r1, r12
 	mov	=(0x810000), r11
 	cbeq	r12, r11, 1f	; check 3 load (r1)+: at the fault the pointer register is as before the instruction
-	mov	#3, r0
+	mov	$3, r0
 	halt
 1:
 	mov	hs_r3, r12
 	mov	=(0x5a5a5a5a5a5a5a5a), r11
 	cbeq	r12, r11, 1f	; check 4 load (r1)+: at the fault the other register is as before
-	mov	#4, r0
+	mov	$4, r0
 	halt
 1:
 	mov	=(0x810008), r11
 	cbeq	r1, r11, 1f	; check 5 load: after the restart the pointer moved once
-	mov	#5, r0
+	mov	$5, r0
 	halt
 1:
-	cbeq	r3, #0, 1f	; check 6 load: the register holds the (zero) memory
-	mov	#6, r0
+	cbeq	r3, $0, 1f	; check 6 load: the register holds the (zero) memory
+	mov	$6, r0
 	halt
 1:
 	mov	=(0x1122334455667788), r3
 	mov	=(0x811008), r1
-	mov	#0, r10
+	mov	$0, r10
 	mov	r10, cnt
-	mov	#0, r12
+	mov	$0, r12
 	mov	=0x7777, r4
 p1:	mov	r3, -(r1)
 	mov	cnt, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 7 store -(r1): one fault
-	mov	#7, r0
+	mov	$7, r0
 	halt
 1:
 	lea	p1, r11
 	mov	last_epc, r12
 	cbeq	r12, r11, 1f	; check 8 store -(r1): EPC is the instruction
-	mov	#8, r0
+	mov	$8, r0
 	halt
 1:
 	mov	hs_r1, r12
 	mov	=(0x811008), r11
 	cbeq	r12, r11, 1f	; check 9 store -(r1): at the fault the pointer register is as before the instruction
-	mov	#9, r0
+	mov	$9, r0
 	halt
 1:
 	mov	hs_r3, r12
 	mov	=(0x1122334455667788), r11
 	cbeq	r12, r11, 1f	; check 10 store -(r1): at the fault the other register is as before
-	mov	#10, r0
+	mov	$10, r0
 	halt
 1:
 	mov	=(0x811000), r11
 	cbeq	r1, r11, 1f	; check 11 store: after the restart the pointer moved once
-	mov	#11, r0
+	mov	$11, r0
 	halt
 1:
 	mov	(r1), r12
 	cbeq	r12, r3, 1f	; check 12 store: the value is in memory
-	mov	#12, r0
+	mov	$12, r0
 	halt
 1:
 	mov	=(0x1122334455667788), r3
 	mov	=(0x812008), r1
 	mov	r14, r9
 	mov	r1, r14
-	mov	#0, r10
+	mov	$0, r10
 	mov	r10, cnt
-	mov	#0, r12
+	mov	$0, r12
 	mov	=0x7777, r4
 p2:	push	r3
 	mov	cnt, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 13 push: one fault
-	mov	#13, r0
+	mov	$13, r0
 	halt
 1:
 	lea	p2, r11
 	mov	last_epc, r12
 	cbeq	r12, r11, 1f	; check 14 push: EPC is the instruction
-	mov	#14, r0
+	mov	$14, r0
 	halt
 1:
 	mov	hs_r1, r12
 	mov	=(0x812008), r11
 	cbeq	r12, r11, 1f	; check 15 push: at the fault the pointer register is as before the instruction
-	mov	#15, r0
+	mov	$15, r0
 	halt
 1:
 	mov	r9, r14
 	mov	hs_r3, r12
 	mov	=(0x1122334455667788), r11
 	cbeq	r12, r11, 1f	; check 16 push: at the fault the other register is as before
-	mov	#16, r0
+	mov	$16, r0
 	halt
 1:
 	mov	=(0x812000), r4
 	mov	(r4), r12
 	cbeq	r12, r3, 1f	; check 17 push: the value is in memory once the page is mapped
-	mov	#17, r0
+	mov	$17, r0
 	halt
 1:
-	mov	#0, r0
+	mov	$0, r0
 	halt
 
 h_fault:
 	mov	r1, hs_r1
 	mov	r3, hs_r3
 	mov	cnt, r12
-	add	#1, r12
+	add	$1, r12
 	mov	r12, cnt
 	mfsr	r12, ecause
 	mov	r12, last_cause
@@ -170,27 +170,27 @@ h_fault:
 	mfsr	r12, eva
 	mov	=(0x800000), r11
 	sub	r11, r12
-	shr	#12, r12
-	shl	#3, r12
+	shr	$12, r12
+	shl	$3, r12
 	lea	wpt, r11
 	add	r11, r12
 	mfsr	r11, eva
-	shr	#12, r11
-	shl	#12, r11
-	bis	#(1<<PTE_V|1<<PTE_R|1<<PTE_W|1<<PTE_A|1<<PTE_D), r11
+	shr	$12, r11
+	shl	$12, r11
+	bis	$(1<<PTE_V|1<<PTE_R|1<<PTE_W|1<<PTE_A|1<<PTE_D), r11
 	mov	r11, (r12)
 	mfsr	r12, eva
 	tlbi	r12
 	mov	redirect, r12
-	cbeq	r12, #0, 1f
+	cbeq	r12, $0, 1f
 	mtsr	epc, r12
-	mov	#0, r12
+	mov	$0, r12
 	mov	r12, redirect
-1:	rti	#RTIMASK_ALL
-h_trap:	rti	#RTIMASK_ALL
-h_bad:	mov	#99, r0
+1:	rti	$RTIMASK_ALL
+h_trap:	rti	$RTIMASK_ALL
+h_bad:	mov	$99, r0
 	halt
-h_ok:	mov	#0, r0
+h_ok:	mov	$0, r0
 h_fail:	halt
 
 	.data

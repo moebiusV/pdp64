@@ -8,28 +8,28 @@ _start:
 	lea	htab, r1
 	mtsr	hvbr, r1
 	lea	xh, r22
-	mov	#512, r23
+	mov	$512, r23
 fill1:	mov	r22, (r1)+
 	sob	r23, fill1
 	lea	gvtab, r1
 	mtsr	vbr, r1
 	lea	gh, r22
-	mov	#512, r23
+	mov	$512, r23
 fill2:	mov	r22, (r1)+
 	sob	r23, fill2
 	lea	gstk_top, r22
 	mtsr	gksp, r22
-	mov	#0, r1
+	mov	$0, r1
 	mtsr	htrap, r1
 	lea	s2l1, r1
-	bis	#(1<<PTE_V), r1
+	bis	$(1<<PTE_V), r1
 	mov	r1, s2root
 	mov	=(LEAF), r1
 	mov	r1, s2l1
 	mov	=(PHYS(0x200000)|LEAF), r1
 	mov	r1, s2l1+8
 	lea	s2l0, r1
-	bis	#(1<<PTE_V), r1
+	bis	$(1<<PTE_V), r1
 	mov	r1, s2l1+16
 	mov	=(PHYS(0x400000)|LEAF), r1
 	mov	r1, s2l0+0
@@ -64,14 +64,14 @@ fill2:	mov	r22, (r1)+
 	mov	=(PHYS(0x40f000)|LEAF), r1
 	mov	r1, s2l0+120
 	lea	s2l1b, r1
-	bis	#(1<<PTE_V), r1
+	bis	$(1<<PTE_V), r1
 	mov	r1, s2rootb
 	mov	=(LEAF), r1
 	mov	r1, s2l1b
 	mov	=(PHYS(0x200000)|LEAF), r1
 	mov	r1, s2l1b+8
 	lea	s2l0b, r1
-	bis	#(1<<PTE_V), r1
+	bis	$(1<<PTE_V), r1
 	mov	r1, s2l1b+16
 	mov	=(PHYS(0x400000)|LEAF), r1
 	mov	r1, s2l0b+0
@@ -108,10 +108,10 @@ fill2:	mov	r22, (r1)+
 	mov	=(LEAF), r1
 	mov	r1, g1root
 	lea	g1l1, r1
-	bis	#(1<<PTE_V), r1
+	bis	$(1<<PTE_V), r1
 	mov	r1, g1root+8
 	lea	g1l0, r1
-	bis	#(1<<PTE_V), r1
+	bis	$(1<<PTE_V), r1
 	mov	r1, g1l1
 	mov	=(0x200000|LEAF), r1
 	mov	r1, g1l0
@@ -122,7 +122,7 @@ fill2:	mov	r22, (r1)+
 	mov	=(0x407000|(1<<PTE_V)), r1
 	mov	r1, g1broot+8
 	lea	g1l0, r1
-	bis	#(1<<PTE_V), r1
+	bis	$(1<<PTE_V), r1
 	mov	=(PHYS(0x407000)), r25
 	mov	r1, (r25)
 	lea	s2root, r22
@@ -134,7 +134,7 @@ fill2:	mov	r22, (r1)+
 	mov	=(1<<GTBR_S2EN|1<<GTBR_TAG), r23
 	bis	r23, r24
 	cbeq	r22, r24, 1f
-	mov	#1, r0
+	mov	$1, r0
 	halt
 1:
 	; --- T1: translation off, stage 2 only: guest-physical 0x200000 is at physical 0x2200000
@@ -149,56 +149,56 @@ fill2:	mov	r22, (r1)+
 	mov	=(0), r22
 	mtsr	hepsw, r22
 	lea	B1, r20
-	mov	#99, r0
-	genter	#RTIMASK_ALL
+	mov	$99, r0
+	genter	$RTIMASK_ALL
 B1:
 	mfsr	r22, hexitr
 	mov	=((XCODE_HALT)|(0)), r11
 	cbeq	r22, r11, 1f
-	mov	#2, r0
+	mov	$2, r0
 	halt
 1:
 	mfsr	r22, hcause
 	mov	=(VECTOR_HEXIT), r11
 	cbeq	r22, r11, 1f
-	mov	#3, r0
+	mov	$3, r0
 	halt
 1:
 	mfsr	r22, heva
 	mov	=(0), r11
 	cbeq	r22, r11, 1f
-	mov	#4, r0
+	mov	$4, r0
 	halt
 1:
 	mfsr	r22, hgpa
 	mov	=(0), r11
 	cbeq	r22, r11, 1f
-	mov	#5, r0
+	mov	$5, r0
 	halt
 1:
 	mfsr	r22, hepc
 	lea	g1e, r23
 	cbeq	r22, r23, 1f
-	mov	#6, r0
+	mov	$6, r0
 	halt
 1:
 	mov	=(PHYS(0x200008)), r25
 	mov	(r25), r27
 	mov	=(0x77), r11
 	cbeq	r27, r11, 1f
-	mov	#7, r0
+	mov	$7, r0
 	halt
 1:
 	mov	=(0xa1a1), r11
 	cbeq	r1, r11, 1f
-	mov	#8, r0
+	mov	$8, r0
 	halt
 1:
 	mov	=(0x200008), r25
 	mov	(r25), r27
 	mov	=(0), r11
 	cbeq	r27, r11, 1f
-	mov	#9, r0
+	mov	$9, r0
 	halt
 1:
 	; --- T2: stage 1 and stage 2 composed
@@ -207,59 +207,59 @@ B1:
 	mov	r26, (r25)
 	lea	g1root, r22
 	mtsr	ptbr, r22
-	mov	#1, r22
+	mov	$1, r22
 	mtsr	mmuctl, r22
 	lea	g2, r22
 	mtsr	hepc, r22
 	mov	=(0), r22
 	mtsr	hepsw, r22
 	lea	B2, r20
-	mov	#99, r0
-	genter	#RTIMASK_ALL
+	mov	$99, r0
+	genter	$RTIMASK_ALL
 B2:
 	mfsr	r22, hexitr
 	mov	=((XCODE_HALT)|(0)), r11
 	cbeq	r22, r11, 1f
-	mov	#10, r0
+	mov	$10, r0
 	halt
 1:
 	mfsr	r22, hcause
 	mov	=(VECTOR_HEXIT), r11
 	cbeq	r22, r11, 1f
-	mov	#11, r0
+	mov	$11, r0
 	halt
 1:
 	mfsr	r22, heva
 	mov	=(0), r11
 	cbeq	r22, r11, 1f
-	mov	#12, r0
+	mov	$12, r0
 	halt
 1:
 	mfsr	r22, hgpa
 	mov	=(0), r11
 	cbeq	r22, r11, 1f
-	mov	#13, r0
+	mov	$13, r0
 	halt
 1:
 	mfsr	r22, hepc
 	lea	g2e, r23
 	cbeq	r22, r23, 1f
-	mov	#14, r0
+	mov	$14, r0
 	halt
 1:
 	mov	=(0xb2b2), r11
 	cbeq	r1, r11, 1f
-	mov	#15, r0
+	mov	$15, r0
 	halt
 1:
 	mov	=(PHYS(0x201010)), r25
 	mov	(r25), r27
 	mov	=(0x88), r11
 	cbeq	r27, r11, 1f
-	mov	#16, r0
+	mov	$16, r0
 	halt
 1:
-	mov	#0, r22
+	mov	$0, r22
 	mtsr	mmuctl, r22
 	; --- T3: stage-2 faults are exits; the hypervisor fills stage 2 and the guest retries
 	mov	=(PHYS(0x401008)), r25
@@ -273,50 +273,50 @@ B2:
 	mov	=(0), r22
 	mtsr	hepsw, r22
 	lea	T3a, r20
-	mov	#99, r0
-	genter	#RTIMASK_ALL
+	mov	$99, r0
+	genter	$RTIMASK_ALL
 T3a:
 	mfsr	r22, hexitr
 	mov	=((XCODE_S2_INVALID)|(0)), r11
 	cbeq	r22, r11, 1f
-	mov	#17, r0
+	mov	$17, r0
 	halt
 1:
 	mfsr	r22, hcause
 	mov	=(VECTOR_GLFAULT), r11
 	cbeq	r22, r11, 1f
-	mov	#18, r0
+	mov	$18, r0
 	halt
 1:
 	mfsr	r22, heva
 	mov	=(0x401008), r11
 	cbeq	r22, r11, 1f
-	mov	#19, r0
+	mov	$19, r0
 	halt
 1:
 	mfsr	r22, hgpa
 	mov	=(0x401008), r11
 	cbeq	r22, r11, 1f
-	mov	#20, r0
+	mov	$20, r0
 	halt
 1:
 	mfsr	r22, hepc
 	lea	g3li, r23
 	cbeq	r22, r23, 1f
-	mov	#21, r0
+	mov	$21, r0
 	halt
 1:
 	mfsr	r22, hinsn
-	shr	#16, r22
+	shr	$16, r22
 	mov.u16	g3li, r23
 	cbeq	r22, r23, 1f
-	mov	#22, r0
+	mov	$22, r0
 	halt
 1:
 	mfsr	r22, epc
 	mov	=(0), r11
 	cbeq	r22, r11, 1f
-	mov	#23, r0
+	mov	$23, r0
 	halt
 1:
 	lea	s2l0+8, r25
@@ -325,18 +325,18 @@ T3a:
 	tlbia
 	tlbsync
 	lea	B3, r20
-	mov	#99, r0
-	genter	#RTIMASK_ALL
+	mov	$99, r0
+	genter	$RTIMASK_ALL
 B3:
 	mfsr	r22, hexitr
 	mov	=(XCODE_HALT), r11
 	cbeq	r22, r11, 1f
-	mov	#24, r0
+	mov	$24, r0
 	halt
 1:
 	mov	=(0xc3c3), r11
 	cbeq	r1, r11, 1f
-	mov	#25, r0
+	mov	$25, r0
 	halt
 1:
 	lea	s2l0+8, r25
@@ -348,44 +348,44 @@ B3:
 	mov	=(0), r22
 	mtsr	hepsw, r22
 	lea	T3b, r20
-	mov	#99, r0
-	genter	#RTIMASK_ALL
+	mov	$99, r0
+	genter	$RTIMASK_ALL
 T3b:
 	mfsr	r22, hexitr
 	mov	=((XCODE_S2_INVALID)|(0)), r11
 	cbeq	r22, r11, 1f
-	mov	#26, r0
+	mov	$26, r0
 	halt
 1:
 	mfsr	r22, hcause
 	mov	=(VECTOR_GSFAULT), r11
 	cbeq	r22, r11, 1f
-	mov	#27, r0
+	mov	$27, r0
 	halt
 1:
 	mfsr	r22, heva
 	mov	=(0x401010), r11
 	cbeq	r22, r11, 1f
-	mov	#28, r0
+	mov	$28, r0
 	halt
 1:
 	mfsr	r22, hgpa
 	mov	=(0x401010), r11
 	cbeq	r22, r11, 1f
-	mov	#29, r0
+	mov	$29, r0
 	halt
 1:
 	mfsr	r22, hepc
 	lea	g3si, r23
 	cbeq	r22, r23, 1f
-	mov	#30, r0
+	mov	$30, r0
 	halt
 1:
 	mfsr	r22, hinsn
-	shr	#16, r22
+	shr	$16, r22
 	mov.u16	g3si, r23
 	cbeq	r22, r23, 1f
-	mov	#31, r0
+	mov	$31, r0
 	halt
 1:
 	lea	s2l0+8, r25
@@ -393,20 +393,20 @@ T3b:
 	mov	r26, (r25)
 	tlbia
 	lea	B4, r20
-	mov	#99, r0
-	genter	#RTIMASK_ALL
+	mov	$99, r0
+	genter	$RTIMASK_ALL
 B4:
 	mfsr	r22, hexitr
 	mov	=(XCODE_HALT), r11
 	cbeq	r22, r11, 1f
-	mov	#32, r0
+	mov	$32, r0
 	halt
 1:
 	mov	=(PHYS(0x401010)), r25
 	mov	(r25), r27
 	mov	=(0xd4d4), r11
 	cbeq	r27, r11, 1f
-	mov	#33, r0
+	mov	$33, r0
 	halt
 1:
 	lea	s2l0+16, r25
@@ -418,42 +418,42 @@ B4:
 	mov	=(0), r22
 	mtsr	hepsw, r22
 	lea	T3c, r20
-	mov	#99, r0
-	genter	#RTIMASK_ALL
+	mov	$99, r0
+	genter	$RTIMASK_ALL
 T3c:
 	mfsr	r22, hexitr
 	mov	=(XCODE_S2_INVALID), r11
 	cbeq	r22, r11, 1f
-	mov	#34, r0
+	mov	$34, r0
 	halt
 1:
 	mfsr	r22, hcause
 	mov	=(VECTOR_GIFAULT), r11
 	cbeq	r22, r11, 1f
-	mov	#35, r0
+	mov	$35, r0
 	halt
 1:
 	mfsr	r22, hepc
 	mov	=(0x402000), r11
 	cbeq	r22, r11, 1f
-	mov	#36, r0
+	mov	$36, r0
 	halt
 1:
 	mfsr	r22, heva
 	mov	=(0x402000), r11
 	cbeq	r22, r11, 1f
-	mov	#37, r0
+	mov	$37, r0
 	halt
 1:
 	mfsr	r22, hgpa
 	mov	=(0x402000), r11
 	cbeq	r22, r11, 1f
-	mov	#38, r0
+	mov	$38, r0
 	halt
 1:
 	mfsr	r22, hinsn
-	cbeq	r22, #0, 1f
-	mov	#39, r0
+	cbeq	r22, $0, 1f
+	mov	$39, r0
 	halt
 1:
 	lea	s2l0+16, r25
@@ -464,18 +464,18 @@ T3c:
 	mov	r26, (r25)
 	tlbia
 	lea	B5, r20
-	mov	#99, r0
-	genter	#RTIMASK_ALL
+	mov	$99, r0
+	genter	$RTIMASK_ALL
 B5:
 	mfsr	r22, hexitr
 	mov	=(XCODE_HALT), r11
 	cbeq	r22, r11, 1f
-	mov	#40, r0
+	mov	$40, r0
 	halt
 1:
 	mov	=(0x99), r11
 	cbeq	r1, r11, 1f
-	mov	#41, r0
+	mov	$41, r0
 	halt
 1:
 	; --- T4: an entry that refuses: A clear, D clear on a store, U set, a reserved bit
@@ -491,44 +491,44 @@ B5:
 	mov	=(0), r22
 	mtsr	hepsw, r22
 	lea	T4a, r20
-	mov	#99, r0
-	genter	#RTIMASK_ALL
+	mov	$99, r0
+	genter	$RTIMASK_ALL
 T4a:
 	mfsr	r22, hexitr
 	mov	=((XCODE_S2_REFUSED)|(0)), r11
 	cbeq	r22, r11, 1f
-	mov	#42, r0
+	mov	$42, r0
 	halt
 1:
 	mfsr	r22, hcause
 	mov	=(VECTOR_GLFAULT), r11
 	cbeq	r22, r11, 1f
-	mov	#43, r0
+	mov	$43, r0
 	halt
 1:
 	mfsr	r22, heva
 	mov	=(0x403008), r11
 	cbeq	r22, r11, 1f
-	mov	#44, r0
+	mov	$44, r0
 	halt
 1:
 	mfsr	r22, hgpa
 	mov	=(0x403008), r11
 	cbeq	r22, r11, 1f
-	mov	#45, r0
+	mov	$45, r0
 	halt
 1:
 	mfsr	r22, hepc
 	lea	g4ai, r23
 	cbeq	r22, r23, 1f
-	mov	#46, r0
+	mov	$46, r0
 	halt
 1:
 	mfsr	r22, hinsn
-	shr	#16, r22
+	shr	$16, r22
 	mov.u16	g4ai, r23
 	cbeq	r22, r23, 1f
-	mov	#47, r0
+	mov	$47, r0
 	halt
 1:
 	lea	s2l0+24, r25
@@ -536,18 +536,18 @@ T4a:
 	mov	r26, (r25)
 	tlbia
 	lea	B6, r20
-	mov	#99, r0
-	genter	#RTIMASK_ALL
+	mov	$99, r0
+	genter	$RTIMASK_ALL
 B6:
 	mfsr	r22, hexitr
 	mov	=(XCODE_HALT), r11
 	cbeq	r22, r11, 1f
-	mov	#48, r0
+	mov	$48, r0
 	halt
 1:
 	mov	=(0xe5e5), r11
 	cbeq	r1, r11, 1f
-	mov	#49, r0
+	mov	$49, r0
 	halt
 1:
 	mov	=(PHYS(0x404008)), r25
@@ -562,49 +562,49 @@ B6:
 	mov	=(0), r22
 	mtsr	hepsw, r22
 	lea	T4b, r20
-	mov	#99, r0
-	genter	#RTIMASK_ALL
+	mov	$99, r0
+	genter	$RTIMASK_ALL
 T4b:
 	mfsr	r22, hexitr
 	mov	=((XCODE_S2_REFUSED)|(0)), r11
 	cbeq	r22, r11, 1f
-	mov	#50, r0
+	mov	$50, r0
 	halt
 1:
 	mfsr	r22, hcause
 	mov	=(VECTOR_GSFAULT), r11
 	cbeq	r22, r11, 1f
-	mov	#51, r0
+	mov	$51, r0
 	halt
 1:
 	mfsr	r22, heva
 	mov	=(0x404010), r11
 	cbeq	r22, r11, 1f
-	mov	#52, r0
+	mov	$52, r0
 	halt
 1:
 	mfsr	r22, hgpa
 	mov	=(0x404010), r11
 	cbeq	r22, r11, 1f
-	mov	#53, r0
+	mov	$53, r0
 	halt
 1:
 	mfsr	r22, hepc
 	lea	g4ds, r23
 	cbeq	r22, r23, 1f
-	mov	#54, r0
+	mov	$54, r0
 	halt
 1:
 	mfsr	r22, hinsn
-	shr	#16, r22
+	shr	$16, r22
 	mov.u16	g4ds, r23
 	cbeq	r22, r23, 1f
-	mov	#55, r0
+	mov	$55, r0
 	halt
 1:
 	mov	=(0xf6f6), r11
 	cbeq	r1, r11, 1f
-	mov	#56, r0
+	mov	$56, r0
 	halt
 1:
 	lea	s2l0+32, r25
@@ -612,20 +612,20 @@ T4b:
 	mov	r26, (r25)
 	tlbia
 	lea	B7, r20
-	mov	#99, r0
-	genter	#RTIMASK_ALL
+	mov	$99, r0
+	genter	$RTIMASK_ALL
 B7:
 	mfsr	r22, hexitr
 	mov	=(XCODE_HALT), r11
 	cbeq	r22, r11, 1f
-	mov	#57, r0
+	mov	$57, r0
 	halt
 1:
 	mov	=(PHYS(0x404010)), r25
 	mov	(r25), r27
 	mov	=(0x5151), r11
 	cbeq	r27, r11, 1f
-	mov	#58, r0
+	mov	$58, r0
 	halt
 1:
 	lea	s2l0+40, r25
@@ -637,44 +637,44 @@ B7:
 	mov	=(0), r22
 	mtsr	hepsw, r22
 	lea	T4c, r20
-	mov	#99, r0
-	genter	#RTIMASK_ALL
+	mov	$99, r0
+	genter	$RTIMASK_ALL
 T4c:
 	mfsr	r22, hexitr
 	mov	=((XCODE_S2_REFUSED)|(0)), r11
 	cbeq	r22, r11, 1f
-	mov	#59, r0
+	mov	$59, r0
 	halt
 1:
 	mfsr	r22, hcause
 	mov	=(VECTOR_GLFAULT), r11
 	cbeq	r22, r11, 1f
-	mov	#60, r0
+	mov	$60, r0
 	halt
 1:
 	mfsr	r22, heva
 	mov	=(0x405008), r11
 	cbeq	r22, r11, 1f
-	mov	#61, r0
+	mov	$61, r0
 	halt
 1:
 	mfsr	r22, hgpa
 	mov	=(0x405008), r11
 	cbeq	r22, r11, 1f
-	mov	#62, r0
+	mov	$62, r0
 	halt
 1:
 	mfsr	r22, hepc
 	lea	g4ui, r23
 	cbeq	r22, r23, 1f
-	mov	#63, r0
+	mov	$63, r0
 	halt
 1:
 	mfsr	r22, hinsn
-	shr	#16, r22
+	shr	$16, r22
 	mov.u16	g4ui, r23
 	cbeq	r22, r23, 1f
-	mov	#64, r0
+	mov	$64, r0
 	halt
 1:
 	lea	s2l0+40, r25
@@ -682,13 +682,13 @@ T4c:
 	mov	r26, (r25)
 	tlbia
 	lea	B8, r20
-	mov	#99, r0
-	genter	#RTIMASK_ALL
+	mov	$99, r0
+	genter	$RTIMASK_ALL
 B8:
 	mfsr	r22, hexitr
 	mov	=(XCODE_S2_REFUSED), r11
 	cbeq	r22, r11, 1f
-	mov	#65, r0
+	mov	$65, r0
 	halt
 1:
 	lea	s2l0+40, r25
@@ -704,51 +704,51 @@ B8:
 	mov	r26, (r25)
 	lea	g1broot, r22
 	mtsr	ptbr, r22
-	mov	#1, r22
+	mov	$1, r22
 	mtsr	mmuctl, r22
 	lea	g5, r22
 	mtsr	hepc, r22
 	mov	=(0), r22
 	mtsr	hepsw, r22
 	lea	T5a, r20
-	mov	#99, r0
-	genter	#RTIMASK_ALL
+	mov	$99, r0
+	genter	$RTIMASK_ALL
 T5a:
 	mfsr	r22, hexitr
 	mov	=((XCODE_S2_INVALID)|(1<<XFLAG_WALK)), r11
 	cbeq	r22, r11, 1f
-	mov	#66, r0
+	mov	$66, r0
 	halt
 1:
 	mfsr	r22, hcause
 	mov	=(VECTOR_GLFAULT), r11
 	cbeq	r22, r11, 1f
-	mov	#67, r0
+	mov	$67, r0
 	halt
 1:
 	mfsr	r22, heva
 	mov	=(0x40000008), r11
 	cbeq	r22, r11, 1f
-	mov	#68, r0
+	mov	$68, r0
 	halt
 1:
 	mfsr	r22, hgpa
 	mov	=(0x407000), r11
 	cbeq	r22, r11, 1f
-	mov	#69, r0
+	mov	$69, r0
 	halt
 1:
 	mfsr	r22, hepc
 	lea	g5i, r23
 	cbeq	r22, r23, 1f
-	mov	#70, r0
+	mov	$70, r0
 	halt
 1:
 	mfsr	r22, hinsn
-	shr	#16, r22
+	shr	$16, r22
 	mov.u16	g5i, r23
 	cbeq	r22, r23, 1f
-	mov	#71, r0
+	mov	$71, r0
 	halt
 1:
 	lea	s2l0+56, r25
@@ -756,21 +756,21 @@ T5a:
 	mov	r26, (r25)
 	tlbia
 	lea	B9, r20
-	mov	#99, r0
-	genter	#RTIMASK_ALL
+	mov	$99, r0
+	genter	$RTIMASK_ALL
 B9:
 	mfsr	r22, hexitr
 	mov	=(XCODE_HALT), r11
 	cbeq	r22, r11, 1f
-	mov	#72, r0
+	mov	$72, r0
 	halt
 1:
 	mov	=(0x7a7a), r11
 	cbeq	r1, r11, 1f
-	mov	#73, r0
+	mov	$73, r0
 	halt
 1:
-	mov	#0, r22
+	mov	$0, r22
 	mtsr	mmuctl, r22
 	; --- T6: a stage-2 miss on the guest's vector fetch: VEC, nothing changed, the instruction is run again
 	lea	s2l0+64, r25
@@ -788,56 +788,56 @@ B9:
 	mov	=(0), r22
 	mtsr	hepsw, r22
 	lea	T6a, r20
-	mov	#99, r0
-	genter	#RTIMASK_ALL
+	mov	$99, r0
+	genter	$RTIMASK_ALL
 T6a:
 	mfsr	r22, hexitr
 	mov	=((XCODE_S2_INVALID)|(1<<XFLAG_VEC)), r11
 	cbeq	r22, r11, 1f
-	mov	#74, r0
+	mov	$74, r0
 	halt
 1:
 	mfsr	r22, hcause
 	mov	=(VECTOR_GLFAULT), r11
 	cbeq	r22, r11, 1f
-	mov	#75, r0
+	mov	$75, r0
 	halt
 1:
 	mfsr	r22, heva
 	mov	=(0), r11
 	cbeq	r22, r11, 1f
-	mov	#76, r0
+	mov	$76, r0
 	halt
 1:
 	mfsr	r22, hgpa
 	mov	=(0x408000+8*(VECTOR_TRAP_BASE+1)), r11
 	cbeq	r22, r11, 1f
-	mov	#77, r0
+	mov	$77, r0
 	halt
 1:
 	mfsr	r22, hepc
 	lea	g6, r23
 	cbeq	r22, r23, 1f
-	mov	#78, r0
+	mov	$78, r0
 	halt
 1:
 	mfsr	r22, hinsn
-	shr	#16, r22
+	shr	$16, r22
 	mov.u16	g6, r23
 	cbeq	r22, r23, 1f
-	mov	#79, r0
+	mov	$79, r0
 	halt
 1:
 	mfsr	r22, epc
 	mov	=(0x5678), r11
 	cbeq	r22, r11, 1f
-	mov	#80, r0
+	mov	$80, r0
 	halt
 1:
 	mfsr	r22, ecause
 	mov	=(0x1234), r11
 	cbeq	r22, r11, 1f
-	mov	#81, r0
+	mov	$81, r0
 	halt
 1:
 	lea	s2l0+64, r25
@@ -848,25 +848,25 @@ T6a:
 	mov	r22, (r25)
 	tlbia
 	lea	B10, r20
-	mov	#99, r0
-	genter	#RTIMASK_ALL
+	mov	$99, r0
+	genter	$RTIMASK_ALL
 B10:
 	mfsr	r22, hexitr
 	mov	=(XCODE_HALT), r11
 	cbeq	r22, r11, 1f
-	mov	#82, r0
+	mov	$82, r0
 	halt
 1:
 	mfsr	r22, ecause
 	mov	=(VECTOR_TRAP_BASE+1), r11
 	cbeq	r22, r11, 1f
-	mov	#83, r0
+	mov	$83, r0
 	halt
 1:
 	mfsr	r22, epc
 	lea	g6e, r23
 	cbeq	r22, r23, 1f
-	mov	#84, r0
+	mov	$84, r0
 	halt
 1:
 	lea	s2l0+64, r25
@@ -875,63 +875,63 @@ B10:
 	tlbia
 	mov	=(100<<16), r22
 	mtsr	vivec, r22
-	mov	#(1<<3), r22
+	mov	$(1<<3), r22
 	mtsr	virq, r22
-	mov	#0, r22
+	mov	$0, r22
 	mtsr	epc, r22
 	lea	g6v, r22
 	mtsr	hepc, r22
 	mov	=(0), r22
 	mtsr	hepsw, r22
 	lea	T6b, r20
-	mov	#99, r0
-	genter	#RTIMASK_ALL
+	mov	$99, r0
+	genter	$RTIMASK_ALL
 T6b:
 	mfsr	r22, hexitr
 	mov	=((XCODE_S2_INVALID)|(1<<XFLAG_VEC)), r11
 	cbeq	r22, r11, 1f
-	mov	#85, r0
+	mov	$85, r0
 	halt
 1:
 	mfsr	r22, hcause
 	mov	=(VECTOR_GLFAULT), r11
 	cbeq	r22, r11, 1f
-	mov	#86, r0
+	mov	$86, r0
 	halt
 1:
 	mfsr	r22, heva
 	mov	=(0), r11
 	cbeq	r22, r11, 1f
-	mov	#87, r0
+	mov	$87, r0
 	halt
 1:
 	mfsr	r22, hgpa
 	mov	=(0x408000+8*100), r11
 	cbeq	r22, r11, 1f
-	mov	#88, r0
+	mov	$88, r0
 	halt
 1:
 	mfsr	r22, hepc
 	lea	g6v, r23
 	cbeq	r22, r23, 1f
-	mov	#89, r0
+	mov	$89, r0
 	halt
 1:
 	mfsr	r22, hinsn
-	cbeq	r22, #0, 1f
-	mov	#90, r0
+	cbeq	r22, $0, 1f
+	mov	$90, r0
 	halt
 1:
 	mfsr	r22, virq
 	mov	=(1<<3), r11
 	cbeq	r22, r11, 1f
-	mov	#91, r0
+	mov	$91, r0
 	halt
 1:
 	mfsr	r22, epc
 	mov	=(0), r11
 	cbeq	r22, r11, 1f
-	mov	#92, r0
+	mov	$92, r0
 	halt
 1:
 	lea	s2l0+64, r25
@@ -942,28 +942,28 @@ T6b:
 	mov	r22, (r25)
 	tlbia
 	lea	B11, r20
-	mov	#99, r0
-	genter	#RTIMASK_ALL
+	mov	$99, r0
+	genter	$RTIMASK_ALL
 B11:
 	mfsr	r22, hexitr
 	mov	=(XCODE_HALT), r11
 	cbeq	r22, r11, 1f
-	mov	#93, r0
+	mov	$93, r0
 	halt
 1:
 	mfsr	r22, virq
 	mov	=(0), r11
 	cbeq	r22, r11, 1f
-	mov	#94, r0
+	mov	$94, r0
 	halt
 1:
 	mfsr	r22, ecause
 	mov	=(100), r11
 	cbeq	r22, r11, 1f
-	mov	#95, r0
+	mov	$95, r0
 	halt
 1:
-	mov	#0, r22
+	mov	$0, r22
 	mtsr	vbr, r22
 	lea	gvtab, r22
 	mtsr	vbr, r22
@@ -977,44 +977,44 @@ B11:
 	mov	=(0), r22
 	mtsr	hepsw, r22
 	lea	T7a, r20
-	mov	#99, r0
-	genter	#RTIMASK_ALL
+	mov	$99, r0
+	genter	$RTIMASK_ALL
 T7a:
 	mfsr	r22, hexitr
 	mov	=((XCODE_S2_INVALID)|(0)), r11
 	cbeq	r22, r11, 1f
-	mov	#96, r0
+	mov	$96, r0
 	halt
 1:
 	mfsr	r22, hcause
 	mov	=(VECTOR_GLFAULT), r11
 	cbeq	r22, r11, 1f
-	mov	#97, r0
+	mov	$97, r0
 	halt
 1:
 	mfsr	r22, heva
 	mov	=(0x409000), r11
 	cbeq	r22, r11, 1f
-	mov	#98, r0
+	mov	$98, r0
 	halt
 1:
 	mfsr	r22, hgpa
 	mov	=(0x409000), r11
 	cbeq	r22, r11, 1f
-	mov	#99, r0
+	mov	$99, r0
 	halt
 1:
 	mfsr	r22, hepc
 	lea	g7ri, r23
 	cbeq	r22, r23, 1f
-	mov	#100, r0
+	mov	$100, r0
 	halt
 1:
 	mfsr	r22, hinsn
-	shr	#16, r22
+	shr	$16, r22
 	mov.u16	g7ri, r23
 	cbeq	r22, r23, 1f
-	mov	#101, r0
+	mov	$101, r0
 	halt
 1:
 	lea	s2l0+72, r25
@@ -1026,44 +1026,44 @@ T7a:
 	mov	=(0), r22
 	mtsr	hepsw, r22
 	lea	T7b, r20
-	mov	#99, r0
-	genter	#RTIMASK_ALL
+	mov	$99, r0
+	genter	$RTIMASK_ALL
 T7b:
 	mfsr	r22, hexitr
 	mov	=((XCODE_S2_REFUSED)|(0)), r11
 	cbeq	r22, r11, 1f
-	mov	#102, r0
+	mov	$102, r0
 	halt
 1:
 	mfsr	r22, hcause
 	mov	=(VECTOR_GSFAULT), r11
 	cbeq	r22, r11, 1f
-	mov	#103, r0
+	mov	$103, r0
 	halt
 1:
 	mfsr	r22, heva
 	mov	=(0x409000), r11
 	cbeq	r22, r11, 1f
-	mov	#104, r0
+	mov	$104, r0
 	halt
 1:
 	mfsr	r22, hgpa
 	mov	=(0x409000), r11
 	cbeq	r22, r11, 1f
-	mov	#105, r0
+	mov	$105, r0
 	halt
 1:
 	mfsr	r22, hepc
 	lea	g7wi, r23
 	cbeq	r22, r23, 1f
-	mov	#106, r0
+	mov	$106, r0
 	halt
 1:
 	mfsr	r22, hinsn
-	shr	#16, r22
+	shr	$16, r22
 	mov.u16	g7wi, r23
 	cbeq	r22, r23, 1f
-	mov	#107, r0
+	mov	$107, r0
 	halt
 1:
 	lea	s2l0+72, r25
@@ -1071,44 +1071,44 @@ T7b:
 	mov	r26, (r25)
 	tlbia
 	lea	B12, r20
-	mov	#99, r0
-	genter	#RTIMASK_ALL
+	mov	$99, r0
+	genter	$RTIMASK_ALL
 B12:
 	mfsr	r22, hexitr
 	mov	=(XCODE_HALT), r11
 	cbeq	r22, r11, 1f
-	mov	#108, r0
+	mov	$108, r0
 	halt
 1:
 	mov	=(1), r11
 	cbeq	r4, r11, 1f
-	mov	#109, r0
+	mov	$109, r0
 	halt
 1:
 	lea	g1root, r22
 	mtsr	ptbr, r22
-	mov	#1, r22
+	mov	$1, r22
 	mtsr	mmuctl, r22
 	lea	g7s, r22
 	mtsr	hepc, r22
 	mov	=(0), r22
 	mtsr	hepsw, r22
 	lea	T7c, r20
-	mov	#99, r0
-	genter	#RTIMASK_ALL
+	mov	$99, r0
+	genter	$RTIMASK_ALL
 T7c:
 	mfsr	r22, hexitr
 	mov	=(XCODE_HALT), r11
 	cbeq	r22, r11, 1f
-	mov	#110, r0
+	mov	$110, r0
 	halt
 1:
 	mov	=(0), r11
 	cbeq	r4, r11, 1f
-	mov	#111, r0
+	mov	$111, r0
 	halt
 1:
-	mov	#0, r22
+	mov	$0, r22
 	mtsr	mmuctl, r22
 	; --- T8: a stage-2 change with no invalidate is not seen; TLBIA at H = 1 (the tag in GTBR) and TLBI of the page make it seen
 	mov	=(PHYS(0x40a000)), r25
@@ -1135,23 +1135,23 @@ T7c:
 	mov	=(0), r22
 	mtsr	hepsw, r22
 	lea	T8a, r20
-	mov	#99, r0
-	genter	#RTIMASK_ALL
+	mov	$99, r0
+	genter	$RTIMASK_ALL
 T8a:
 	mfsr	r22, hexitr
 	mov	=(XCODE_HALT), r11
 	cbeq	r22, r11, 1f
-	mov	#112, r0
+	mov	$112, r0
 	halt
 1:
 	mov	=(0xaaaa), r11
 	cbeq	r1, r11, 1f
-	mov	#113, r0
+	mov	$113, r0
 	halt
 1:
 	mov	=(0xbbbb), r11
 	cbeq	r4, r11, 1f
-	mov	#114, r0
+	mov	$114, r0
 	halt
 1:
 	lea	s2l0+80, r25
@@ -1165,17 +1165,17 @@ T8a:
 	mov	=(0), r22
 	mtsr	hepsw, r22
 	lea	T8b, r20
-	mov	#99, r0
-	genter	#RTIMASK_ALL
+	mov	$99, r0
+	genter	$RTIMASK_ALL
 T8b:
 	mov	=(0xaaaa), r11
 	cbeq	r1, r11, 1f
-	mov	#115, r0
+	mov	$115, r0
 	halt
 1:
 	mov	=(0xbbbb), r11
 	cbeq	r4, r11, 1f
-	mov	#116, r0
+	mov	$116, r0
 	halt
 1:
 	mov	=0x40a000, r22
@@ -1185,17 +1185,17 @@ T8b:
 	mov	=(0), r22
 	mtsr	hepsw, r22
 	lea	T8c, r20
-	mov	#99, r0
-	genter	#RTIMASK_ALL
+	mov	$99, r0
+	genter	$RTIMASK_ALL
 T8c:
 	mov	=(0xcccc), r11
 	cbeq	r1, r11, 1f
-	mov	#117, r0
+	mov	$117, r0
 	halt
 1:
 	mov	=(0xbbbb), r11
 	cbeq	r4, r11, 1f
-	mov	#118, r0
+	mov	$118, r0
 	halt
 1:
 	tlbia
@@ -1204,17 +1204,17 @@ T8c:
 	mov	=(0), r22
 	mtsr	hepsw, r22
 	lea	T8d, r20
-	mov	#99, r0
-	genter	#RTIMASK_ALL
+	mov	$99, r0
+	genter	$RTIMASK_ALL
 T8d:
 	mov	=(0xcccc), r11
 	cbeq	r1, r11, 1f
-	mov	#119, r0
+	mov	$119, r0
 	halt
 1:
 	mov	=(0xdddd), r11
 	cbeq	r4, r11, 1f
-	mov	#120, r0
+	mov	$120, r0
 	halt
 1:
 	; --- T9: the guest tag; rules G-a to G-d
@@ -1244,17 +1244,17 @@ T8d:
 	mov	=(0), r22
 	mtsr	hepsw, r22
 	lea	T9a, r20
-	mov	#99, r0
-	genter	#RTIMASK_ALL
+	mov	$99, r0
+	genter	$RTIMASK_ALL
 T9a:
 	mov	=(0xaaaa), r11
 	cbeq	r1, r11, 1f
-	mov	#121, r0
+	mov	$121, r0
 	halt
 1:
 	mov	=(0xbbbb), r11
 	cbeq	r4, r11, 1f
-	mov	#122, r0
+	mov	$122, r0
 	halt
 1:
 	lea	s2rootb, r22
@@ -1267,17 +1267,17 @@ T9a:
 	mov	=(0), r22
 	mtsr	hepsw, r22
 	lea	T9b, r20
-	mov	#99, r0
-	genter	#RTIMASK_ALL
+	mov	$99, r0
+	genter	$RTIMASK_ALL
 T9b:
 	mov	=(0xeeee), r11
 	cbeq	r1, r11, 1f
-	mov	#123, r0
+	mov	$123, r0
 	halt
 1:
 	mov	=(0xaaaa), r11
 	cbeq	r4, r11, 1f
-	mov	#124, r0
+	mov	$124, r0
 	halt
 1:
 	; (2) two tags on one root: a write that changes only the tag discards nothing, so the entries of a tag survive the run of the other (and go stale)
@@ -1300,17 +1300,17 @@ T9b:
 	mov	=(0), r22
 	mtsr	hepsw, r22
 	lea	T9c, r20
-	mov	#99, r0
-	genter	#RTIMASK_ALL
+	mov	$99, r0
+	genter	$RTIMASK_ALL
 T9c:
 	mov	=(0xaaaa), r11
 	cbeq	r1, r11, 1f
-	mov	#125, r0
+	mov	$125, r0
 	halt
 1:
 	mov	=(0xbbbb), r11
 	cbeq	r4, r11, 1f
-	mov	#126, r0
+	mov	$126, r0
 	halt
 1:
 	lea	s2root, r22
@@ -1322,12 +1322,12 @@ T9c:
 	mov	=(0), r22
 	mtsr	hepsw, r22
 	lea	T9d, r20
-	mov	#99, r0
-	genter	#RTIMASK_ALL
+	mov	$99, r0
+	genter	$RTIMASK_ALL
 T9d:
 	mov	=(0xaaaa), r11
 	cbeq	r1, r11, 1f
-	mov	#127, r0
+	mov	$127, r0
 	halt
 1:
 	lea	s2l0+80, r25
@@ -1345,17 +1345,17 @@ T9d:
 	mov	=(0), r22
 	mtsr	hepsw, r22
 	lea	T9e, r20
-	mov	#99, r0
-	genter	#RTIMASK_ALL
+	mov	$99, r0
+	genter	$RTIMASK_ALL
 T9e:
 	mov	=(0xaaaa), r11
 	cbeq	r1, r11, 1f
-	mov	#128, r0
+	mov	$128, r0
 	halt
 1:
 	mov	=(0xbbbb), r11
 	cbeq	r4, r11, 1f
-	mov	#129, r0
+	mov	$129, r0
 	halt
 1:
 	; (3) G-a: the guest of tag 2 executes TLBIA: its own entries go, tag 1's stay
@@ -1368,12 +1368,12 @@ T9e:
 	mov	=(0), r22
 	mtsr	hepsw, r22
 	lea	T9f, r20
-	mov	#99, r0
-	genter	#RTIMASK_ALL
+	mov	$99, r0
+	genter	$RTIMASK_ALL
 T9f:
 	mov	=(0xcccc), r11
 	cbeq	r1, r11, 1f
-	mov	#130, r0
+	mov	$130, r0
 	halt
 1:
 	lea	s2root, r22
@@ -1385,17 +1385,17 @@ T9f:
 	mov	=(0), r22
 	mtsr	hepsw, r22
 	lea	T9g, r20
-	mov	#99, r0
-	genter	#RTIMASK_ALL
+	mov	$99, r0
+	genter	$RTIMASK_ALL
 T9g:
 	mov	=(0xaaaa), r11
 	cbeq	r1, r11, 1f
-	mov	#131, r0
+	mov	$131, r0
 	halt
 1:
 	mov	=(0xbbbb), r11
 	cbeq	r4, r11, 1f
-	mov	#132, r0
+	mov	$132, r0
 	halt
 1:
 	; (4) G-d: TLBIA at H = 1 with the tag 1 in GTBR discards tag 1's entries and not tag 2's
@@ -1405,17 +1405,17 @@ T9g:
 	mov	=(0), r22
 	mtsr	hepsw, r22
 	lea	T9h, r20
-	mov	#99, r0
-	genter	#RTIMASK_ALL
+	mov	$99, r0
+	genter	$RTIMASK_ALL
 T9h:
 	mov	=(0xcccc), r11
 	cbeq	r1, r11, 1f
-	mov	#133, r0
+	mov	$133, r0
 	halt
 1:
 	mov	=(0xdddd), r11
 	cbeq	r4, r11, 1f
-	mov	#134, r0
+	mov	$134, r0
 	halt
 1:
 	lea	s2l0+80, r25
@@ -1430,17 +1430,17 @@ T9h:
 	mov	=(0), r22
 	mtsr	hepsw, r22
 	lea	T9i, r20
-	mov	#99, r0
-	genter	#RTIMASK_ALL
+	mov	$99, r0
+	genter	$RTIMASK_ALL
 T9i:
 	mov	=(0xcccc), r11
 	cbeq	r1, r11, 1f
-	mov	#135, r0
+	mov	$135, r0
 	halt
 1:
 	mov	=(0xdddd), r11
 	cbeq	r4, r11, 1f
-	mov	#136, r0
+	mov	$136, r0
 	halt
 1:
 	; (5) G-c: a write to GTBR that changes the root discards the entries of the tag written: the new root is seen at once
@@ -1453,20 +1453,20 @@ T9i:
 	mov	=(0), r22
 	mtsr	hepsw, r22
 	lea	T9j, r20
-	mov	#99, r0
-	genter	#RTIMASK_ALL
+	mov	$99, r0
+	genter	$RTIMASK_ALL
 T9j:
 	mov	=(0xeeee), r11
 	cbeq	r1, r11, 1f
-	mov	#137, r0
+	mov	$137, r0
 	halt
 1:
 	mov	=(0xaaaa), r11
 	cbeq	r4, r11, 1f
-	mov	#138, r0
+	mov	$138, r0
 	halt
 1:
-	mov	#0, r0
+	mov	$0, r0
 	halt
 g1:	mov	=0x200000, r13
 	mov	(r13), r1
@@ -1503,7 +1503,7 @@ g4ui:	mov	(r13), r1
 g5:	mov	=0x40000008, r13
 g5i:	mov	(r13), r1
 	halt
-g6:	trap	#1
+g6:	trap	$1
 g6e:	halt
 g6v:	nop
 	nop
@@ -1528,7 +1528,7 @@ g8t:	tlbia
 	halt
 	.align	8
 code_ret_:
-	mov	#0x99, r1
+	mov	$0x99, r1
 	halt
 xh:	jmp	r20
 gh:	halt

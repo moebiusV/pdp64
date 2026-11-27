@@ -4,6 +4,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <ctype.h>
+#include <stdarg.h>
 #include "pdp64-marks.h"
 #include "pdp64-asm-parser.c"
 #include "pdp64-consts.h"
@@ -136,11 +137,76 @@ static int suffix_diag(const char *line, char *err, size_t errsz)
 	return 1;
 }
 
+/* The message for a line that does not parse and has a sigil where it does not belong: a register after `$` or `#`, a `%` before a register, a `$` that is not the marker of an immediate (the old
+   `$` for the location counter, `$$`, a `$` in an expression or in data).  Returns 1 and the message in `err`, or 0 for a line that is none of these. */
+static int idch(int c) { return isalnum(c) || c == '_' || c == '.' || c == '$' || c >= 0x80; }
+static int regtok_at(const char *p)
+{
+	int n;
+	if ((p[0] == 's' || p[0] == 'f') && p[1] == 'p') n = 2;
+	else if (p[0] == 'r' && isdigit((unsigned char)p[1])) {
+		for (n = 1; isdigit((unsigned char)p[n]); n++) ;
+		if (atoi(p + 1) > 31) return 0;
+	} else return 0;
+	return idch((unsigned char)p[n]) ? 0 : n;
+}
+static int sigil_diag(const char *line, char *err, size_t errsz)
+{
+	size_t len = strlen(line), i = 0, ms, me;
+	int q = 0;
+	for (;;) {									/* the mnemonic: the first word after the labels */
+		while (i < len && (line[i] == ' ' || line[i] == '\t')) i++;
+		ms = i;
+		while (i < len && line[i] != ' ' && line[i] != '\t') i++;
+		me = i;
+		if (me > ms && line[me - 1] == ':') continue;
+		break;
+	}
+	for (i = 0; i < len; i++) {
+		char c = line[i];
+		if (q) { if (c == q) q = 0; else if (c == '\\' && q != '\'') i++; continue; }
+		if (c == '"' || c == '\'' || c == '`') { q = c; continue; }
+		if (c == ';' || (c == '/' && line[i + 1] == '/')) break;
+		if (c != '$' && c != '#' && c != '%') continue;
+		if (i > 0 && (idch((unsigned char)line[i - 1]) || (c == '$' && line[i - 1] == '$'))) continue;	/* inside a name; the second of `$$` is reported with the first */
+		size_t k = i + 1;
+		while (k < len && (line[k] == ' ' || line[k] == '\t') && c != '%') k++;
+		int rn = regtok_at(line + k);
+		if (rn) {
+			if (c == '%' && i > 0 && line[i - 1] == ')') continue;
+			snprintf(err, errsz, "a register is written without a sigil: write %.*s, not %c%.*s", rn, line + k, c, (int)(k - i - 1) + rn, line + i + 1);
+			return 1;
+		}
+		if (c != '$') continue;
+		if (line[i + 1] == '$') {
+			snprintf(err, errsz, "`$$` is not a symbol: the start of a section is a label (`$` marks an immediate: `$5`, `$name`)");
+			return 1;
+		}
+		char nx = line[k];
+		if (!(isalnum((unsigned char)nx) || nx == '_' || nx == '.' || nx == '(' || nx == '[' || nx == '\'' || nx == '"' || nx == '`' || nx == '-' || nx == '~' || nx == '!' || nx == '<' || nx == '>' || (unsigned char)nx >= 0x80)) {
+			snprintf(err, errsz, "a `$` alone is not the location counter, which is `.`: `$` marks an immediate (`$5`, `$name`)");
+			return 1;
+		}
+		size_t p = i;
+		while (p > 0 && (line[p - 1] == ' ' || line[p - 1] == '\t')) p--;
+		if (!(p > 0 && (line[p - 1] == ',' || (p == me && me > ms)))) {
+			snprintf(err, errsz, "a `$` marks an immediate and stands at the start of an operand; it is no operator and no part of an expression (a name may contain `$` after its first character, and a name that begins with one is written in double quotes)");
+			return 1;
+		}
+		if (line[ms] == '.' || !strncmp(line + ms, "db", 2) || !strncmp(line + ms, "dw", 2) || !strncmp(line + ms, "dd", 2) || !strncmp(line + ms, "dq", 2) || !strncmp(line + ms, "times", 5)
+		    || !strncmp(line + ms, "DB", 2) || !strncmp(line + ms, "DW", 2) || !strncmp(line + ms, "DD", 2) || !strncmp(line + ms, "DQ", 2) || !strncmp(line + ms, "TIMES", 5)) {
+			snprintf(err, errsz, "a `$` marks the immediate operand of an instruction: it has no place in data (write the expression itself)");
+			return 1;
+		}
+	}
+	return 0;
+}
+
 static const char *cur_text;				/* the line being read: a register is read from its characters */
 static int reg_of(const reg_t *r)
 {
 	const char *p = cur_text + r->_pos;
-	while (*p == '%' || *p == ' ' || *p == '\t') p++;		/* %r1: the percent sign means nothing */
+	while (*p == ' ' || *p == '\t') p++;
 	if ((*p | 0x20) == 's') return 14;			/* sp */
 	if ((*p | 0x20) == 'f') return 13;			/* fp */
 	return atoi(p + 1);					/* r0..r31 */
@@ -171,6 +237,16 @@ static struct xnode *xroot(struct xnode *a, struct slice src)
 }
 
 static struct xnode *build_expr(const char *text, const expr_t *e, int neg);
+static void lex_fail(const char *fmt, ...);
+
+/* `$sp` and `$fp` parse as the immediate of a symbol of that name (`$r1` does not parse at all: sigil_diag); a register is no constant */
+static void reg_in_imm(const struct xnode *x)
+{
+	if (!x) return;
+	if (x->op == XN_NAME && x->tok.n == 2 && ((x->tok.p[0] == 's' && x->tok.p[1] == 'p') || (x->tok.p[0] == 'f' && x->tok.p[1] == 'p')))
+		lex_fail("a register is written without a sigil: write %.2s, not $%.2s (a register is not a constant)", x->tok.p, x->tok.p);
+	reg_in_imm(x->a); reg_in_imm(x->b);
+}
 
 /* The grammar's `!idchar` after a number skips blanks first, so in `times 5 db 0` it sees the `d` of `db` and the 5 falls through to `symbol`.  (The
    `5 h` the same skipping lets into a suffix is refused in build_primary.)  A name that is all digits for some base is that number: the one place
@@ -185,56 +261,111 @@ static int digits(const char *s, int a, int b, int base)
 	return 1;
 }
 
+/* a lexical error with its own message (the walk of the tree has no way to return one): the line is refused with it */
+static const char *lex_err;
+static char lex_msg[400];
+static void lex_fail(const char *fmt, ...)
+{
+	va_list ap;
+	if (lex_err) return;						/* the first one is the one reported */
+	va_start(ap, fmt);
+	vsnprintf(lex_msg, sizeof lex_msg, fmt, ap);
+	va_end(ap);
+	lex_err = lex_msg;
+}
+
+/* A value mark ends a name or a number: `.s8 .u8 .s16 .u16 .s32 .u32 .s64 .u64` and `.f8 .f16 .f32 .f64`, behind something (`limit.u16`, `0xff.s8`).  Returns the length of the mark with its dot, or 0.
+   The grammar has no rule for it: a name may contain dots and digits, so the mark is cut off here, and a name that ends in one is reserved (check_reserved). */
+static int vmark_at(struct slice t)
+{
+	for (int len = 3; len <= 4; len++) {
+		if (t.n <= len || t.p[t.n - len] != '.') continue;
+		char k = t.p[t.n - len + 1];
+		if (k != 's' && k != 'u' && k != 'f') continue;
+		const char *w = t.p + t.n - len + 2;
+		if (len == 3 ? !strncmp(w, "8", 1) : (!strncmp(w, "16", 2) || !strncmp(w, "32", 2) || !strncmp(w, "64", 2))) return len;
+	}
+	return 0;
+}
+
+/* the name of a label, an assignment, a procedure or a global: a name that ends in a value mark cannot be defined (a quoted name can) */
+static void check_reserved(struct slice n)
+{
+	int m;
+	if (n.n > 0 && n.p[0] == '"') return;
+	if ((m = vmark_at(n)) != 0)
+		lex_fail("`%.*s` cannot be a name: a name that ends in a value mark (%.*s) is reserved, because `%.*s%.*s` is the value of %.*s read as %.*s bits (write another name, or put it in double quotes)",
+			n.n, n.p, m, n.p + n.n - m, n.n - m, n.p, m, n.p + n.n - m, n.n - m, n.p, m - 2, n.p + n.n - m + 2);
+}
+
 static struct xnode *digit_name(struct slice t)
 {
 	int n = t.n;
 	char c = n > 0 ? t.p[n - 1] : 0, l = c | 0x20;
 	struct slice d = t, e = t;
 	d.p += 2; d.n -= 2; e.n--;
-	if (digits(t.p, 0, n, 10)) return xtok(XN_NUM, 10, t);
+	if (digits(t.p, 0, n, 10)) {
+		if (n > 1 && t.p[0] == '0') lex_fail("a number with a leading zero: write 0o for octal (%.*s is written 0o%.*s, or %.*s without the zero for a decimal number)", n, t.p, n - 1, t.p + 1, n - 1, t.p + 1);
+		return xtok(XN_NUM, 10, t);
+	}
 	if (n > 2 && t.p[0] == '0') {
-		int b = (t.p[1] | 0x20) == 'x' ? 16 : (t.p[1] | 0x20) == 'b' ? 2 : (t.p[1] | 0x20) == 'o' ? 8 : 0;
+		char p = t.p[1];
+		int b = p == 'x' ? 16 : p == 'b' ? 2 : p == 'o' ? 8 : 0, B = p == 'X' ? 16 : p == 'B' ? 2 : p == 'O' ? 8 : 0;
 		if (b && digits(t.p, 2, n, b)) return xtok(XN_NUM, b, d);
+		if (B && digits(t.p, 2, n, B)) lex_fail("an uppercase number prefix: write 0%c%.*s", p | 0x20, n - 2, t.p + 2);
 	}
 	if (n < 2) return NULL;
-	if (l == 'h' && digits(t.p, 0, n - 1, 16)) return xtok(XN_NUM, 16, e);
-	if (c == 'b' && digits(t.p, 0, n - 1, 2)) return xtok(XN_BINLBL, 2, e);
-	if (c == 'B' && digits(t.p, 0, n - 1, 2)) return xtok(XN_NUM, 2, e);
-	if ((l == 'q' || l == 'o') && digits(t.p, 0, n - 1, 8)) return xtok(XN_NUM, 8, e);
-	if ((l == 'd' || l == 't') && digits(t.p, 0, n - 1, 10)) return xtok(XN_NUM, 10, e);
-	if ((c == 'f' || c == 'b') && digits(t.p, 0, n - 1, 10)) return xtok(c == 'f' ? XN_LFWD : XN_LBACK, 10, e);
+	if ((c == 'f' || c == 'b') && digits(t.p, 0, n - 1, 10)) return xtok(c == 'f' ? XN_LFWD : XN_LBACK, 10, e);	/* 1f, 1b, 10b: a local label */
+	if (l == 'h' && digits(t.p, 0, n - 1, 16)) {
+		int z = 0;
+		while (z < n - 2 && t.p[z] == '0') z++;				/* 0FFh: the 0 only keeps the word from being a name */
+		lex_fail("a number with a suffix: write 0x%.*s", n - 1 - z, t.p + z);
+	}
+	else if (c == 'B' && digits(t.p, 0, n - 1, 2)) lex_fail("a number with a suffix: write 0b%.*s", n - 1, t.p);
+	else if ((l == 'q' || l == 'o') && digits(t.p, 0, n - 1, 8)) lex_fail("a number with a suffix: write 0o%.*s", n - 1, t.p);
+	else if ((l == 'd' || l == 't') && digits(t.p, 0, n - 1, 10)) lex_fail("a number with a suffix: write %.*s (a decimal number has none)", n - 1, t.p);
 	return NULL;
+}
+
+/* a symbol's token, or the word of a number the grammar did not take whole: a number, a local label, or a name */
+static struct xnode *word_x(struct slice t)
+{
+	if (t.n == 1 && t.p[0] == '.') return xn(XN_DOT, NULL, NULL);
+	if (t.p[0] >= '0' && t.p[0] <= '9') { struct xnode *x = digit_name(t); if (x) return x; }
+	return xtok(XN_NAME, 0, t);
 }
 
 static struct xnode *build_primary(const char *text, const primary_t *p)
 {
 	struct slice t = sl(text, p->_pos, p->_end), d = t;
-	if (p->_alt <= 4 && (memchr(t.p, ' ', t.n) || memchr(t.p, '\t', t.n))) return xn(XN_BAD, NULL, NULL);	/* a number with a blank in it: `5 h` */
+	if (p->_alt <= 3 && (memchr(t.p, ' ', t.n) || memchr(t.p, '\t', t.n))) return xn(XN_BAD, NULL, NULL);	/* a number with a blank in it: `5 h` */
 	switch (p->_alt) {
 	case 1: {							/* 0x.. 0b.. 0o..: the digits after the prefix */
 		static const int pb[] = { 0, 16, 2, 8 };
 		d.p += 2; d.n -= 2;
 		return xtok(XN_NUM, pb[p->prefixnum._alt], d);
 	}
-	case 2: {							/* a number with a suffix: h b q o d t */
-		static const int sb[] = { 0, 16, 2, 8, 10 };
-		d.n--;
-		if (p->suffnum._alt == 2 && t.p[t.n - 1] == 'b') return xtok(XN_BINLBL, 2, d);
-		return xtok(XN_NUM, sb[p->suffnum._alt], d);
-	}
-	case 3:							/* 1f, 1b */
+	case 2:							/* 1f, 1b */
 		d.n--;
 		return xtok(t.p[t.n - 1] == 'f' ? XN_LFWD : XN_LBACK, 10, d);
-	case 4: return xtok(XN_NUM, 10, t);
-	case 5: case 6:						/* 'c', 'abcd': the text between the quotes */
+	case 3:
+		if (t.n > 1 && t.p[0] == '0') lex_fail("a number with a leading zero: write 0o for octal (%.*s is written 0o%.*s, or %.*s without the zero for a decimal number)", t.n, t.p, t.n - 1, t.p + 1, t.n - 1, t.p + 1);
+		return xtok(XN_NUM, 10, t);
+	case 4: case 5:						/* 'c', 'abcd': the text between the quotes */
 		d.p++; d.n -= 2;
-		return xtok(p->_alt == 5 ? XN_CHAR : XN_MCHAR, 0, d);
-	case 7: return xn(t.n == 2 ? XN_SECT : XN_DOT, NULL, NULL);
-	case 8:
-		if (t.n == 1 && t.p[0] == '.') return xn(XN_DOT, NULL, NULL);
-		if (t.p[0] >= '0' && t.p[0] <= '9') { struct xnode *x = digit_name(t); if (x) return x; }
-		return xtok(XN_NAME, 0, t);
-	case 9: return xn(XN_DOT, NULL, NULL);
+		return xtok(p->_alt == 4 ? XN_CHAR : XN_MCHAR, 0, d);
+	case 6: {							/* a symbol; or a word that starts with a digit and is a number the grammar did not take whole; either may end in a value mark */
+		int m = t.p[0] == '"' ? 0 : vmark_at(t);
+		if (m) {
+			struct slice b = t;
+			b.n -= m;
+			struct xnode *x = xn(XN_MARK, word_x(b), NULL);
+			x->tok.p = t.p + t.n - m; x->tok.n = m; x->base = atoi(x->tok.p + 2);
+			return x;
+		}
+		return word_x(t);
+	}
+	case 7: return xn(XN_DOT, NULL, NULL);
 	default: return build_expr(text, &p->expr, 0);		/* ( expr ) and [ expr ] group */
 	}
 }
@@ -246,9 +377,12 @@ static struct xnode *build_unary(const char *text, const unary_t *u, int neg)
 	const struct unary_1_s *ops[64];
 	int n = 0;
 	for (const struct unary_1_s *o = u->unary_1.head; o && n < 64; o = o->_link) ops[n++] = o;
-	struct xnode *x = build_primary(text, &u->primary);
+	struct xnode *x = build_primary(text, &u->primary), *mark = NULL;
+	if (x->op == XN_MARK && (n > 0 || neg)) { mark = x; x = x->a; }	/* `-1.u8`: the mark is of the number with its sign, 255 */
 	while (n > 0) x = xn(uop[(int)ops[--n]->kind - UNARY_1_OP1], x, NULL);
-	return neg ? xn(XN_NEG, x, NULL) : x;
+	if (neg) x = xn(XN_NEG, x, NULL);
+	if (mark) { mark->a = x; x = mark; }
+	return x;
 }
 
 static struct xnode *build_term(const char *text, const term_t *t, int neg)
@@ -292,6 +426,11 @@ static void put_darg(const char *text, struct stmt *st, const darg_t *a)
 	st->args[st->nargs].s = sl(text, a->_pos, a->_end);
 	st->args[st->nargs].isstr = a->_alt >= 1 && a->_alt <= 3;		/* "text", `text` and 'text' (two or more characters) are strings */
 	st->args[st->nargs].x = darg_x(text, a);
+	{								/* the names a directive declares cannot end in a value mark either */
+		static const char *const decl[] = { "globl", "global", "extern", "comm" };
+		for (int k = 0; k < 4; k++)
+			if (st->name.n == (int)strlen(decl[k]) && !memcmp(st->name.p, decl[k], st->name.n) && (k < 3 || st->nargs == 0)) check_reserved(st->args[st->nargs].s);
+	}
 	st->nargs++;
 }
 
@@ -311,7 +450,6 @@ static void operand(const char *text, const operand_t *oo, struct oper *r)
 		r->kind = OK_REG;
 		{
 			const char *q = p;
-			if (*q == '%') q++;
 			r->reg = (*q | 0x20) == 's' ? 14 : (*q | 0x20) == 'f' ? 13 : atoi(q + 1);
 		}
 		r->marktext.p = dot;
@@ -323,6 +461,7 @@ static void operand(const char *text, const operand_t *oo, struct oper *r)
 	}
 	case OK_IMM:
 		r->x = expr_x(text, o->immop.expr);
+		reg_in_imm(r->x);
 		break;
 	case OK_ABS:
 		r->x = expr_x(text, o->absop.expr);
@@ -414,6 +553,7 @@ static void fill_stmt(const char *text, stmt_t *s, struct stmt *st)
 			struct slice a = sl(text, s->assign._pos, s->assign._end);	/* name = expression, name equ expression */
 			st->name = a;
 			st->name.n = name_len(a);
+			check_reserved(st->name);
 		}
 		st->expr = sl(text, s->assign.expr->_pos, s->assign.expr->_end);
 		st->x = expr_x(text, s->assign.expr);
@@ -438,6 +578,7 @@ static void fill_stmt(const char *text, stmt_t *s, struct stmt *st)
 		st->kind = S_LABEL;
 		st->name = sl(text, s->procdir._pos, s->procdir._end);
 		st->name.n = name_len(st->name);
+		check_reserved(st->name);
 		break;
 	case 8:								/* name endp: nothing */
 		st->kind = S_DIR;
@@ -580,8 +721,9 @@ int asm_parse(const char *src, struct stmt **out, int *n, char *err, size_t errs
 		if (le) { *le = '\0'; nl = le + 1; } else nl = text + len + 1;
 		lineno++;
 		cur_text = line;
+		lex_err = NULL;
 		if (!parse_text(line, &a, err, errsz, &el, &ec)) {
-			suffix_diag(line, err, errsz);
+			if (!sigil_diag(line, err, errsz)) suffix_diag(line, err, errsz);
 			*errline = lineno;
 			return -1;
 		}
@@ -592,12 +734,14 @@ int asm_parse(const char *src, struct stmt **out, int *n, char *err, size_t errs
 				st->kind = S_LABEL;
 				st->name = sl(line, lb->_pos, lb->_end);
 				while (st->name.n > 0 && st->name.p[st->name.n - 1] == ':') st->name.n--;
+				check_reserved(st->name);
 			}
 			for (struct line_2_s *s2 = ln->line_2.head; s2; s2 = s2->_link) {
 				NEWSTMT();
 				fill_stmt(line, &s2->stmt, st);
 			}
 		}
+		if (lex_err) { snprintf(err, errsz, "%s", lex_err); *errline = lineno; return -1; }
 		for (int i = first; i < cnt; i++)
 			v[i].line = lineno;
 		ls = nl;

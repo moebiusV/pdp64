@@ -10,13 +10,13 @@ lib_pci_up:
 	mov.u32	(r13), r1
 	mov	=((DMATEST_ID_DEVICE<<16)|DMATEST_ID_VENDOR), r2
 	cbeq r1, r2, 1f
-	mov	#101, r0
+	mov	$101, r0
 	halt
 1:	mov	=MAP_PCIE_MMIO, r1
 	mov.s32	r1, 16(r13)
-	shr	#32, r1
+	shr	$32, r1
 	mov.s32	r1, 20(r13)
-	mov	#6, r1
+	mov	$6, r1
 	mov.s16	r1, 4(r13)
 	mov	=MAP_PCIE_MMIO, r12
 	mov	=MAP_IOMMU, r11
@@ -27,13 +27,13 @@ lib_pci_up2:
 	mov.u32	(r1), r2
 	mov	=((DMATEST_ID_DEVICE<<16)|DMATEST_ID_VENDOR), r3
 	cbeq r2, r3, 1f
-	mov	#102, r0
+	mov	$102, r0
 	halt
 1:	mov	=(MAP_PCIE_MMIO+0x10000), r2
 	mov.s32	r2, 16(r1)
-	shr	#32, r2
+	shr	$32, r2
 	mov.s32	r2, 20(r1)
-	mov	#6, r2
+	mov	$6, r2
 	mov.s16	r2, 4(r1)
 	mov	=(MAP_PCIE_MMIO+0x10000), r22
 	ret
@@ -46,69 +46,69 @@ lib_swap12:
 lib_unit_up:
 	lea	fring, r1
 	mov	r1, IOMMU_REG_FAULT_BASE(r11)
-	mov	#16, r1
+	mov	$16, r1
 	mov	r1, IOMMU_REG_FAULT_SIZE(r11)
 	lea	cring, r1
 	mov	r1, IOMMU_REG_RING_BASE(r11)
-	mov	#8, r1
+	mov	$8, r1
 	mov	r1, IOMMU_REG_RING_SIZE(r11)
 	lea	leafpage, r1
-	bis	#(1<<IOMMU_DIR_V), r1
+	bis	$(1<<IOMMU_DIR_V), r1
 	lea	dirpage, r2
 	mov	r1, (r2)
 	lea	dirpage, r1
-	bis	#IOMMU_MODE_TWO_LEVEL, r1
+	bis	$IOMMU_MODE_TWO_LEVEL, r1
 	mov	r1, IOMMU_REG_DEVICE(r11)
-	mov	#CTL_ON, r1
+	mov	$CTL_ON, r1
 	mov	r1, IOMMU_REG_CONTROL(r11)
 	ret
 ; the device entry of the requester identity r4 (its index in the leaf page is the low 7 bits): r1 word 0, r2 the root of stage A, r3 the root of stage B, word 3 zero
 lib_dte:
-	and	#127, r4
-	shl	#5, r4
+	and	$127, r4
+	shl	$5, r4
 	lea	leafpage, r5
 	add	r5, r4
 	mov	r2, 8(r4)
 	mov	r3, 16(r4)
-	mov	#0, r5
+	mov	$0, r5
 	mov	r5, 24(r4)
 	mov	r1, (r4)
 	ret
 ; ---- page tables: a block is three pages (root, level 1, level 0) at the physical address r1; the device addresses are below 2 MiB ----
 lib_tbl_clear:
-	mov	#0, r2
+	mov	$0, r2
 	mov	=1536, r3
 1:	mov	r2, (r1)+
-	sub	#1, r3
-	cbne	r3, #0, 1b
+	sub	$1, r3
+	cbne	r3, $0, 1b
 	ret
 ; r1 the block (where the tables are written), r5 the address that the pointers hold (the same for a table read by the unit; a guest-physical address for stage A of A then B)
 lib_tbl_init:
 	mov	r5, r2
-	add	#4096, r2
-	bis	#PTRL, r2
+	add	$4096, r2
+	bis	$PTRL, r2
 	mov	r2, (r1)
 	mov	r5, r2
-	add	#8192, r2
-	bis	#PTRL, r2
+	add	$8192, r2
+	bis	$PTRL, r2
 	mov	r2, 4096(r1)
 	ret
 ; a 4 KB leaf: r1 the block, r2 the device address, r3 the entry
 lib_map:
-	shr	#12, r2
-	and	#511, r2
-	shl	#3, r2
+	shr	$12, r2
+	and	$511, r2
+	shl	$3, r2
 	add	r1, r2
-	add	#8192, r2
+	add	$8192, r2
 	mov	r3, (r2)
 	ret
 ; a leaf at level 1 (2 MB): r1 the block, r2 the device address, r3 the entry
 lib_map_l1:
-	shr	#21, r2
-	and	#511, r2
-	shl	#3, r2
+	shr	$21, r2
+	and	$511, r2
+	shl	$3, r2
 	add	r1, r2
-	add	#4096, r2
+	add	$4096, r2
 	mov	r3, (r2)
 	ret
 ; ---- transfers: r1 the device address, r2 the length.  A write moves the function buffer to the device address, a read the other way.  They return r1 = the status, and
@@ -116,7 +116,7 @@ lib_map_l1:
 lib_dma_w:
 	mov	r1, DMATEST_REG_DST(r12)
 	mov	r2, DMATEST_REG_LEN(r12)
-	mov	#((1<<DMATEST_CTL_START)|(1<<DMATEST_CTL_WRITE)), r2
+	mov	$((1<<DMATEST_CTL_START)|(1<<DMATEST_CTL_WRITE)), r2
 	mov	r2, DMATEST_REG_CONTROL(r12)
 	mov	DMATEST_REG_STATUS(r12), r1
 	mov	r1, DMATEST_REG_STATUS(r12)
@@ -124,7 +124,7 @@ lib_dma_w:
 lib_dma_r:
 	mov	r1, DMATEST_REG_SRC(r12)
 	mov	r2, DMATEST_REG_LEN(r12)
-	mov	#(1<<DMATEST_CTL_START), r2
+	mov	$(1<<DMATEST_CTL_START), r2
 	mov	r2, DMATEST_REG_CONTROL(r12)
 	mov	DMATEST_REG_STATUS(r12), r1
 	mov	DMATEST_REG_RESULT(r12), r2
@@ -140,12 +140,12 @@ lib_ring:
 	mov	(r3), r4
 	lea	cring, r5
 	mov	r4, r6
-	shl	#4, r6
+	shl	$4, r6
 	add	r5, r6
 	mov	r1, (r6)
 	mov	r2, 8(r6)
-	add	#1, r4
-	and	#7, r4
+	add	$1, r4
+	and	$7, r4
 	mov	r4, (r3)
 	mov	r4, IOMMU_REG_DOORBELL(r11)
 	ret
@@ -153,17 +153,17 @@ lib_ring:
 lib_sync:
 	mov	r3, r18
 	lea	syncflag, r2
-	mov	#0, r4
+	mov	$0, r4
 	mov	r4, (r2)
-	cbne r1, #0, 1f
-	mov	#IOMMU_OP_SYNC, r1
+	cbne r1, $0, 1f
+	mov	$IOMMU_OP_SYNC, r1
 	call	lib_cmd
 	br	2f
-1:	mov	#IOMMU_OP_SYNC, r1
+1:	mov	$IOMMU_OP_SYNC, r1
 	call	lib_ring
 2:	lea	syncflag, r2
 	mov	(r2), r4
-	cbne r4, #1, lib_fail
+	cbne r4, $1, lib_fail
 	ret
 ; ---- the fault ring ----
 lib_drain:
@@ -174,10 +174,10 @@ lib_drain:
 lib_lastrec:
 	mov	IOMMU_REG_FAULT_TAIL(r11), r5
 	mov	IOMMU_REG_FAULT_SIZE(r11), r6
-	sub	#1, r6
-	sub	#1, r5
+	sub	$1, r6
+	sub	$1, r5
 	and	r6, r5
-	shl	#5, r5
+	shl	$5, r5
 	lea	fring, r6
 	add	r6, r5
 	mov	(r5), r1
@@ -197,7 +197,7 @@ lib_expect:
 	ret
 ; map the device address r2 to the page r3 (read and write) in the block r1
 lib_mappage:
-	bis	#RWL, r3
+	bis	$RWL, r3
 	br	lib_map
 ; ---- checks ----
 ; an access of 8 bytes at the device address r1 must be refused: r2 the cause, r3 the number of the check, r4 the stage, r5 the kind (1 a write, 0 a read).  A read must give
@@ -214,49 +214,49 @@ lib_chk_ref:
 	add	r12, r26
 	mov	=0x5a5a5a5a5a5a5a5a, r27
 	mov	r27, (r26)
-	cbne r20, #0, 3f
+	cbne r20, $0, 3f
 	mov	IOMMU_REG_REFUSED_READS(r11), r23
 	mov	r16, r1
-	mov	#8, r2
+	mov	$8, r2
 	call	lib_dma_r
-	cbne r1, #ST_ERR, lib_fail
-	cbeq r2, #0, lib_fail
+	cbne r1, $ST_ERR, lib_fail
+	cbeq r2, $0, lib_fail
 	mov	(r26), r6
 	cbne r6, r27, lib_fail
 	mov	IOMMU_REG_REFUSED_READS(r11), r6
 	sub	r23, r6
-	cbne r6, #1, lib_fail
+	cbne r6, $1, lib_fail
 	br	2f
 3:	mov	IOMMU_REG_DROPPED_WRITES(r11), r23
 	mov	r16, r1
-	mov	#8, r2
+	mov	$8, r2
 	call	lib_dma_w
-	cbne r1, #ST_DONE, lib_fail
+	cbne r1, $ST_DONE, lib_fail
 	mov	IOMMU_REG_DROPPED_WRITES(r11), r6
 	sub	r23, r6
-	cbne r6, #1, lib_fail
+	cbne r6, $1, lib_fail
 2:	mov	IOMMU_REG_FAULT_TAIL(r11), r6
 	sub	r21, r6
 	mov	IOMMU_REG_FAULT_SIZE(r11), r7
-	sub	#1, r7
+	sub	$1, r7
 	and	r7, r6
-	cbne r6, #1, lib_fail
+	cbne r6, $1, lib_fail
 	call	lib_lastrec
 	mov	r1, r5
-	and	#0xff, r5
+	and	$0xff, r5
 	cbne r5, r17, lib_fail
 	mov	r1, r5
-	shr	#8, r5
-	and	#3, r5
+	shr	$8, r5
+	and	$3, r5
 	cbne r5, r19, lib_fail
 	mov	r1, r5
-	shr	#10, r5
-	and	#1, r5
+	shr	$10, r5
+	and	$1, r5
 	cbne r5, r20, lib_fail
 	mov	r1, r5
-	shr	#62, r5
-	and	#1, r5
-	cbne r5, #1, lib_fail
+	shr	$62, r5
+	and	$1, r5
+	cbne r5, $1, lib_fail
 	cbne r3, r16, lib_fail
 	call	lib_drain
 	ret
@@ -271,11 +271,11 @@ lib_chk_rec:
 	mov	r6, r18
 	call	lib_lastrec
 	mov	r1, r5
-	and	#0xff, r5
+	and	$0xff, r5
 	cbne r5, r17, lib_fail
 	mov	r1, r5
-	shr	#8, r5
-	and	#3, r5
+	shr	$8, r5
+	and	$3, r5
 	cbne r5, r19, lib_fail
 	cbne r2, r20, lib_fail
 	cbne r3, r21, lib_fail
@@ -287,7 +287,7 @@ lib_chk_ok_w:
 	mov	r1, r16
 	mov	r2, r17
 	mov	r3, r18
-	mov	#0, r6
+	mov	$0, r6
 	mov	r6, (r17)
 	mov	=DMATEST_MAP_BUFFER, r26
 	add	r12, r26
@@ -296,9 +296,9 @@ lib_chk_ok_w:
 	mov	IOMMU_REG_DROPPED_WRITES(r11), r23
 	mov	IOMMU_REG_FAULT_TAIL(r11), r21
 	mov	r16, r1
-	mov	#8, r2
+	mov	$8, r2
 	call	lib_dma_w
-	cbne r1, #ST_DONE, lib_fail
+	cbne r1, $ST_DONE, lib_fail
 	mov	(r17), r6
 	cbne r6, r27, lib_fail
 	mov	IOMMU_REG_DROPPED_WRITES(r11), r6
@@ -315,15 +315,15 @@ lib_chk_ok_r:
 	mov	r27, (r17)
 	mov	=DMATEST_MAP_BUFFER, r26
 	add	r12, r26
-	mov	#0, r6
+	mov	$0, r6
 	mov	r6, (r26)
 	mov	IOMMU_REG_REFUSED_READS(r11), r23
 	mov	IOMMU_REG_FAULT_TAIL(r11), r21
 	mov	r16, r1
-	mov	#8, r2
+	mov	$8, r2
 	call	lib_dma_r
-	cbne r1, #ST_DONE, lib_fail
-	cbne r2, #0, lib_fail
+	cbne r1, $ST_DONE, lib_fail
+	cbne r2, $0, lib_fail
 	mov	(r26), r6
 	cbne r6, r27, lib_fail
 	mov	IOMMU_REG_REFUSED_READS(r11), r6
@@ -338,7 +338,7 @@ lib_which:
 	add	r12, r26
 	mov	=0x600dcafe00000042, r27
 	mov	r27, (r26)
-	mov	#0, r6
+	mov	$0, r6
 	lea	pg1, r3
 	mov	r6, (r3)
 	lea	pg2, r3
@@ -346,36 +346,36 @@ lib_which:
 	lea	pg3, r3
 	mov	r6, (r3)
 	mov	r16, r1
-	mov	#8, r2
+	mov	$8, r2
 	call	lib_dma_w
-	mov	#0, r6
+	mov	$0, r6
 	lea	pg1, r3
 	mov	(r3), r4
 	cbne r4, r27, 1f
-	bis	#1, r6
+	bis	$1, r6
 1:	lea	pg2, r3
 	mov	(r3), r4
 	cbne r4, r27, 1f
-	bis	#2, r6
+	bis	$2, r6
 1:	lea	pg3, r3
 	mov	(r3), r4
 	cbne r4, r27, 1f
-	bis	#4, r6
+	bis	$4, r6
 1:	mov	r6, r26
 	call	lib_drain
 	mov	r26, r1
 	ret
 ; ---- the interrupt routines and the traps that must never happen ----
 h_iommu:
-	add	#1, r30
-	mov	#CTL_QUIET, r31
+	add	$1, r30
+	mov	$CTL_QUIET, r31
 	mov	r31, IOMMU_REG_CONTROL(r11)
-	rti	#0xffffffff
+	rti	$0xffffffff
 fail_mc:
-	mov	#50, r0			; a machine check: the unit must never cause one
+	mov	$50, r0			; a machine check: the unit must never cause one
 	halt
 fail_bus:
-	mov	#51, r0			; a bus fault
+	mov	$51, r0			; a bus fault
 	halt
 	.data
 	.align	8

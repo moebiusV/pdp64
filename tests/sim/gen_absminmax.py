@@ -24,17 +24,17 @@ def keep(): chk('r5', 0x5a5a5a5a5a5a5a5a); chk('r6', 0xa5a5a5a5a5a5a5a5); chk('r
 for x in VALS:                       # abs: the destination is the source, or another register (the source stays)
     want = x if x == 1 << 63 else (x if not x >> 63 else (-s(x)) & M)
     sentinels(); a('movq\t%s, r1' % c(x), 'abs\tr1, r1'); chk('r1', want); keep()
-    sentinels(); a('movq\t%s, r1' % c(x), 'movq\t#-1, r2', 'abs\tr1, r2'); chk('r2', want); chk('r1', x); keep()
+    sentinels(); a('movq\t%s, r1' % c(x), 'movq\t$-1, r2', 'abs\tr1, r2'); chk('r2', want); chk('r1', x); keep()
     sentinels(); a('movq\t%s, r17' % c(x), 'abs\tr17, r18'); chk('r18', want); chk('r17', x); keep()
 for mn, f in OPS.items():
     for x in VALS:
         for y in VALS:
             w = f(x, y)
-            sentinels(); a('movq\t%s, r1' % c(x), 'movq\t%s, r2' % c(y), 'movq\t#-1, r3', '%s\tr1, r2, r3' % mn); chk('r3', w); chk('r1', x); chk('r2', y); keep()
+            sentinels(); a('movq\t%s, r1' % c(x), 'movq\t%s, r2' % c(y), 'movq\t$-1, r3', '%s\tr1, r2, r3' % mn); chk('r3', w); chk('r1', x); chk('r2', y); keep()
             a('movq\t%s, r1' % c(x), 'movq\t%s, r2' % c(y), '%s\tr1, r2, r1' % mn); chk('r1', w); chk('r2', y)
             a('movq\t%s, r1' % c(x), 'movq\t%s, r2' % c(y), '%s\tr1, r2, r2' % mn); chk('r2', w); chk('r1', x)
             a('movq\t%s, r21' % c(x), 'movq\t%s, r22' % c(y), '%s\tr22, r21, r23' % mn); chk('r23', f(y, x))
-        a('movq\t%s, r1' % c(x), 'movq\t#-1, r3', '%s\tr1, r1, r3' % mn); chk('r3', x); chk('r1', x)
+        a('movq\t%s, r1' % c(x), 'movq\t$-1, r3', '%s\tr1, r1, r3' % mn); chk('r3', x); chk('r1', x)
         a('movq\t%s, r1' % c(x), '%s\tr1, r1, r1' % mn); chk('r1', x)
-a('movq\t#0, r0', 'trap\t#0', 'fail:', 'movq\t#1, r0', 'trap\t#0')
+a('movq\t$0, r0', 'trap\t$0', 'fail:', 'movq\t$1, r0', 'trap\t$0')
 open(os.path.join(sys.argv[1], 'absminmax.s'), 'w').write(marks.spell_text('\n'.join(o)) + '\n')

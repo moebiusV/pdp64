@@ -5,11 +5,11 @@
 	.globl	_start
 _start:
 	lea	wsrc, r1			; 21 words of 16 bits
-	mov	#21, r2
+	mov	$21, r2
 	lea	(r1)(r2*2), r4			; the end pointer
-	mov	#0, r12				; the result register
+	mov	$0, r12				; the result register
 	vec	r1, r4				; the block: the body runs once for each strip
-	vclr.l	v4, #1				; the accumulator starts at zero (only inside the block)
+	vclr.l	v4, $1				; the accumulator starts at zero (only inside the block)
 	vld.w.l	v0, (r1)+			; four 16-bit words widened to 32 bits; the pointer advances
 	vadd.l	v4, v4, v0			; the running sum, by lane
 	vfin					; the epilogue: once, after the last strip
@@ -17,15 +17,15 @@ _start:
 	vend
 	; the same sum, one word at a time
 	lea	wsrc, r1
-	mov	#21, r2
-	mov	#0, r6
+	mov	$21, r2
+	mov	$0, r6
 1:	mov.u16	(r1)+, r3
 	add	r3, r6
 	sob	r2, 1b
 	cbeq	r12, r6, ok
-	mov	#1, r0				; the block and the loop disagree
+	mov	$1, r0				; the block and the loop disagree
 	halt
-ok:	mov	#0, r0
+ok:	mov	$0, r0
 	halt
 	.data
 	.align	8

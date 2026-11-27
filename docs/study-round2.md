@@ -54,7 +54,7 @@ i accept your recommendation.
 Both are exceptions. The difference is whether the instruction that raised it is finished.
 
 * An **abort** is a fault in the middle of an instruction: the instruction did not complete, `EPC` is that instruction, and `RTI` runs it again. Page faults, alignment and protection faults are aborts.
-* A **trap** completes the instruction first: `EPC` is the next instruction, and `RTI` carries on after it. `TRAP #n`, `BPT` and interrupts behave this way.
+* A **trap** completes the instruction first: `EPC` is the next instruction, and `RTI` carries on after it. `TRAP $n`, `BPT` and interrupts behave this way.
 
 For `TRAPCC` as a trap, a handler that returns carries on after the check; as an abort, it would re-execute the check and re-test the flags. A check has nothing to retry, and its handler normally terminates the program or unwinds, so **trap** is the right choice, as proposed. The decision is recorded in errata 85.
 
@@ -73,7 +73,7 @@ Poison is a bit on a register meaning "this value came from a failed operation; 
 |---|---|---|---|
 | a | A comparison of a poisoned value | (1) set a "flag poison" bit so the later branch faults; (2) fault immediately at the instruction that writes the flags | **2.** One fewer state bit and the fault comes one instruction earlier. |
 | b | Who decides a deferred load's fault | (1) the kernel's fault handler decides: repair and restart, or mark the destination register poisoned; (2) the hardware marks guard pages and the null page in the page table and poisons without trapping | **1.** About ten lines of kernel code and no hardware beyond the bit; (2) can follow as an optimisation. |
-| c | Whether `TRAP #n` checks the argument registers | (1) hardware checks `R0` to `R5`; (2) the kernel's dispatcher tests the saved poison mask itself (two instructions) | **2.** Stale poison in unused argument registers would cause false faults under (1). |
+| c | Whether `TRAP $n` checks the argument registers | (1) hardware checks `R0` to `R5`; (2) the kernel's dispatcher tests the saved poison mask itself (two instructions) | **2.** Stale poison in unused argument registers would cause false faults under (1). |
 
 **Your annotations:**
 

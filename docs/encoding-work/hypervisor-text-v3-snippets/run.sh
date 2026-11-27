@@ -1,4 +1,4 @@
-#!/bin/sh
+$!/bin/sh
 # Assemble and, where it can run, run every snippet.  From the top of the repository:  docs/encoding-work/hypervisor-text-v3-snippets/run.sh
 # Needs build/as64, build/ld64, build/sim64 (tools/build-as64.sh, tools/build-sim64.sh).  Scratch files go to $TMPDIR (default /tmp).
 cd "$(dirname "$0")/../../.." || exit 1

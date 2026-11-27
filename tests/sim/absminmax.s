@@ -19,7 +19,7 @@ _start:
 	mov	=0xa5a5a5a5a5a5a5a5, r6
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000000, r1
-	mov	#-1, r2
+	mov	$-1, r2
 	abs	r1, r2
 	mov	=0x8000000000000000, r30
 	cbne	r2, r30, fail
@@ -63,7 +63,7 @@ _start:
 	mov	=0xa5a5a5a5a5a5a5a5, r6
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000001, r1
-	mov	#-1, r2
+	mov	$-1, r2
 	abs	r1, r2
 	mov	=0x7fffffffffffffff, r30
 	cbne	r2, r30, fail
@@ -107,7 +107,7 @@ _start:
 	mov	=0xa5a5a5a5a5a5a5a5, r6
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffff00000000, r1
-	mov	#-1, r2
+	mov	$-1, r2
 	abs	r1, r2
 	mov	=0x100000000, r30
 	cbne	r2, r30, fail
@@ -151,7 +151,7 @@ _start:
 	mov	=0xa5a5a5a5a5a5a5a5, r6
 	mov	=0x1122334455667788, r20
 	mov	=0xfffffffffffffffe, r1
-	mov	#-1, r2
+	mov	$-1, r2
 	abs	r1, r2
 	mov	=0x2, r30
 	cbne	r2, r30, fail
@@ -195,7 +195,7 @@ _start:
 	mov	=0xa5a5a5a5a5a5a5a5, r6
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffffffffffff, r1
-	mov	#-1, r2
+	mov	$-1, r2
 	abs	r1, r2
 	mov	=0x1, r30
 	cbne	r2, r30, fail
@@ -239,7 +239,7 @@ _start:
 	mov	=0xa5a5a5a5a5a5a5a5, r6
 	mov	=0x1122334455667788, r20
 	mov	=0x0, r1
-	mov	#-1, r2
+	mov	$-1, r2
 	abs	r1, r2
 	mov	=0x0, r30
 	cbne	r2, r30, fail
@@ -283,7 +283,7 @@ _start:
 	mov	=0xa5a5a5a5a5a5a5a5, r6
 	mov	=0x1122334455667788, r20
 	mov	=0x1, r1
-	mov	#-1, r2
+	mov	$-1, r2
 	abs	r1, r2
 	mov	=0x1, r30
 	cbne	r2, r30, fail
@@ -327,7 +327,7 @@ _start:
 	mov	=0xa5a5a5a5a5a5a5a5, r6
 	mov	=0x1122334455667788, r20
 	mov	=0x2, r1
-	mov	#-1, r2
+	mov	$-1, r2
 	abs	r1, r2
 	mov	=0x2, r30
 	cbne	r2, r30, fail
@@ -371,7 +371,7 @@ _start:
 	mov	=0xa5a5a5a5a5a5a5a5, r6
 	mov	=0x1122334455667788, r20
 	mov	=0x100000000, r1
-	mov	#-1, r2
+	mov	$-1, r2
 	abs	r1, r2
 	mov	=0x100000000, r30
 	cbne	r2, r30, fail
@@ -415,7 +415,7 @@ _start:
 	mov	=0xa5a5a5a5a5a5a5a5, r6
 	mov	=0x1122334455667788, r20
 	mov	=0x7ffffffffffffffe, r1
-	mov	#-1, r2
+	mov	$-1, r2
 	abs	r1, r2
 	mov	=0x7ffffffffffffffe, r30
 	cbne	r2, r30, fail
@@ -459,7 +459,7 @@ _start:
 	mov	=0xa5a5a5a5a5a5a5a5, r6
 	mov	=0x1122334455667788, r20
 	mov	=0x7fffffffffffffff, r1
-	mov	#-1, r2
+	mov	$-1, r2
 	abs	r1, r2
 	mov	=0x7fffffffffffffff, r30
 	cbne	r2, r30, fail
@@ -491,7 +491,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000000, r1
 	mov	=0x8000000000000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x8000000000000000, r30
 	cbne	r3, r30, fail
@@ -529,7 +529,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000000, r1
 	mov	=0x8000000000000001, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x8000000000000000, r30
 	cbne	r3, r30, fail
@@ -567,7 +567,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000000, r1
 	mov	=0xffffffff00000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x8000000000000000, r30
 	cbne	r3, r30, fail
@@ -605,7 +605,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000000, r1
 	mov	=0xfffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x8000000000000000, r30
 	cbne	r3, r30, fail
@@ -643,7 +643,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000000, r1
 	mov	=0xffffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x8000000000000000, r30
 	cbne	r3, r30, fail
@@ -681,7 +681,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000000, r1
 	mov	=0x0, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x8000000000000000, r30
 	cbne	r3, r30, fail
@@ -719,7 +719,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000000, r1
 	mov	=0x1, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x8000000000000000, r30
 	cbne	r3, r30, fail
@@ -757,7 +757,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000000, r1
 	mov	=0x2, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x8000000000000000, r30
 	cbne	r3, r30, fail
@@ -795,7 +795,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000000, r1
 	mov	=0x100000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x8000000000000000, r30
 	cbne	r3, r30, fail
@@ -833,7 +833,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000000, r1
 	mov	=0x7ffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x8000000000000000, r30
 	cbne	r3, r30, fail
@@ -871,7 +871,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000000, r1
 	mov	=0x7fffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x8000000000000000, r30
 	cbne	r3, r30, fail
@@ -905,7 +905,7 @@ _start:
 	mov	=0x8000000000000000, r30
 	cbne	r23, r30, fail
 	mov	=0x8000000000000000, r1
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r1, r3
 	mov	=0x8000000000000000, r30
 	cbne	r3, r30, fail
@@ -920,7 +920,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000001, r1
 	mov	=0x8000000000000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x8000000000000000, r30
 	cbne	r3, r30, fail
@@ -958,7 +958,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000001, r1
 	mov	=0x8000000000000001, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x8000000000000001, r30
 	cbne	r3, r30, fail
@@ -996,7 +996,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000001, r1
 	mov	=0xffffffff00000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x8000000000000001, r30
 	cbne	r3, r30, fail
@@ -1034,7 +1034,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000001, r1
 	mov	=0xfffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x8000000000000001, r30
 	cbne	r3, r30, fail
@@ -1072,7 +1072,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000001, r1
 	mov	=0xffffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x8000000000000001, r30
 	cbne	r3, r30, fail
@@ -1110,7 +1110,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000001, r1
 	mov	=0x0, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x8000000000000001, r30
 	cbne	r3, r30, fail
@@ -1148,7 +1148,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000001, r1
 	mov	=0x1, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x8000000000000001, r30
 	cbne	r3, r30, fail
@@ -1186,7 +1186,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000001, r1
 	mov	=0x2, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x8000000000000001, r30
 	cbne	r3, r30, fail
@@ -1224,7 +1224,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000001, r1
 	mov	=0x100000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x8000000000000001, r30
 	cbne	r3, r30, fail
@@ -1262,7 +1262,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000001, r1
 	mov	=0x7ffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x8000000000000001, r30
 	cbne	r3, r30, fail
@@ -1300,7 +1300,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000001, r1
 	mov	=0x7fffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x8000000000000001, r30
 	cbne	r3, r30, fail
@@ -1334,7 +1334,7 @@ _start:
 	mov	=0x8000000000000001, r30
 	cbne	r23, r30, fail
 	mov	=0x8000000000000001, r1
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r1, r3
 	mov	=0x8000000000000001, r30
 	cbne	r3, r30, fail
@@ -1349,7 +1349,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffff00000000, r1
 	mov	=0x8000000000000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x8000000000000000, r30
 	cbne	r3, r30, fail
@@ -1387,7 +1387,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffff00000000, r1
 	mov	=0x8000000000000001, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x8000000000000001, r30
 	cbne	r3, r30, fail
@@ -1425,7 +1425,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffff00000000, r1
 	mov	=0xffffffff00000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0xffffffff00000000, r30
 	cbne	r3, r30, fail
@@ -1463,7 +1463,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffff00000000, r1
 	mov	=0xfffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0xffffffff00000000, r30
 	cbne	r3, r30, fail
@@ -1501,7 +1501,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffff00000000, r1
 	mov	=0xffffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0xffffffff00000000, r30
 	cbne	r3, r30, fail
@@ -1539,7 +1539,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffff00000000, r1
 	mov	=0x0, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0xffffffff00000000, r30
 	cbne	r3, r30, fail
@@ -1577,7 +1577,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffff00000000, r1
 	mov	=0x1, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0xffffffff00000000, r30
 	cbne	r3, r30, fail
@@ -1615,7 +1615,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffff00000000, r1
 	mov	=0x2, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0xffffffff00000000, r30
 	cbne	r3, r30, fail
@@ -1653,7 +1653,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffff00000000, r1
 	mov	=0x100000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0xffffffff00000000, r30
 	cbne	r3, r30, fail
@@ -1691,7 +1691,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffff00000000, r1
 	mov	=0x7ffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0xffffffff00000000, r30
 	cbne	r3, r30, fail
@@ -1729,7 +1729,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffff00000000, r1
 	mov	=0x7fffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0xffffffff00000000, r30
 	cbne	r3, r30, fail
@@ -1763,7 +1763,7 @@ _start:
 	mov	=0xffffffff00000000, r30
 	cbne	r23, r30, fail
 	mov	=0xffffffff00000000, r1
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r1, r3
 	mov	=0xffffffff00000000, r30
 	cbne	r3, r30, fail
@@ -1778,7 +1778,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xfffffffffffffffe, r1
 	mov	=0x8000000000000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x8000000000000000, r30
 	cbne	r3, r30, fail
@@ -1816,7 +1816,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xfffffffffffffffe, r1
 	mov	=0x8000000000000001, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x8000000000000001, r30
 	cbne	r3, r30, fail
@@ -1854,7 +1854,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xfffffffffffffffe, r1
 	mov	=0xffffffff00000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0xffffffff00000000, r30
 	cbne	r3, r30, fail
@@ -1892,7 +1892,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xfffffffffffffffe, r1
 	mov	=0xfffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0xfffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -1930,7 +1930,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xfffffffffffffffe, r1
 	mov	=0xffffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0xfffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -1968,7 +1968,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xfffffffffffffffe, r1
 	mov	=0x0, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0xfffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -2006,7 +2006,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xfffffffffffffffe, r1
 	mov	=0x1, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0xfffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -2044,7 +2044,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xfffffffffffffffe, r1
 	mov	=0x2, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0xfffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -2082,7 +2082,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xfffffffffffffffe, r1
 	mov	=0x100000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0xfffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -2120,7 +2120,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xfffffffffffffffe, r1
 	mov	=0x7ffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0xfffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -2158,7 +2158,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xfffffffffffffffe, r1
 	mov	=0x7fffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0xfffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -2192,7 +2192,7 @@ _start:
 	mov	=0xfffffffffffffffe, r30
 	cbne	r23, r30, fail
 	mov	=0xfffffffffffffffe, r1
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r1, r3
 	mov	=0xfffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -2207,7 +2207,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffffffffffff, r1
 	mov	=0x8000000000000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x8000000000000000, r30
 	cbne	r3, r30, fail
@@ -2245,7 +2245,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffffffffffff, r1
 	mov	=0x8000000000000001, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x8000000000000001, r30
 	cbne	r3, r30, fail
@@ -2283,7 +2283,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffffffffffff, r1
 	mov	=0xffffffff00000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0xffffffff00000000, r30
 	cbne	r3, r30, fail
@@ -2321,7 +2321,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffffffffffff, r1
 	mov	=0xfffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0xfffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -2359,7 +2359,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffffffffffff, r1
 	mov	=0xffffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0xffffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -2397,7 +2397,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffffffffffff, r1
 	mov	=0x0, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0xffffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -2435,7 +2435,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffffffffffff, r1
 	mov	=0x1, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0xffffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -2473,7 +2473,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffffffffffff, r1
 	mov	=0x2, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0xffffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -2511,7 +2511,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffffffffffff, r1
 	mov	=0x100000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0xffffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -2549,7 +2549,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffffffffffff, r1
 	mov	=0x7ffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0xffffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -2587,7 +2587,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffffffffffff, r1
 	mov	=0x7fffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0xffffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -2621,7 +2621,7 @@ _start:
 	mov	=0xffffffffffffffff, r30
 	cbne	r23, r30, fail
 	mov	=0xffffffffffffffff, r1
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r1, r3
 	mov	=0xffffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -2636,7 +2636,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x0, r1
 	mov	=0x8000000000000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x8000000000000000, r30
 	cbne	r3, r30, fail
@@ -2674,7 +2674,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x0, r1
 	mov	=0x8000000000000001, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x8000000000000001, r30
 	cbne	r3, r30, fail
@@ -2712,7 +2712,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x0, r1
 	mov	=0xffffffff00000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0xffffffff00000000, r30
 	cbne	r3, r30, fail
@@ -2750,7 +2750,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x0, r1
 	mov	=0xfffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0xfffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -2788,7 +2788,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x0, r1
 	mov	=0xffffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0xffffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -2826,7 +2826,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x0, r1
 	mov	=0x0, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x0, r30
 	cbne	r3, r30, fail
@@ -2864,7 +2864,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x0, r1
 	mov	=0x1, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x0, r30
 	cbne	r3, r30, fail
@@ -2902,7 +2902,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x0, r1
 	mov	=0x2, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x0, r30
 	cbne	r3, r30, fail
@@ -2940,7 +2940,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x0, r1
 	mov	=0x100000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x0, r30
 	cbne	r3, r30, fail
@@ -2978,7 +2978,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x0, r1
 	mov	=0x7ffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x0, r30
 	cbne	r3, r30, fail
@@ -3016,7 +3016,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x0, r1
 	mov	=0x7fffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x0, r30
 	cbne	r3, r30, fail
@@ -3050,7 +3050,7 @@ _start:
 	mov	=0x0, r30
 	cbne	r23, r30, fail
 	mov	=0x0, r1
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r1, r3
 	mov	=0x0, r30
 	cbne	r3, r30, fail
@@ -3065,7 +3065,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x1, r1
 	mov	=0x8000000000000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x8000000000000000, r30
 	cbne	r3, r30, fail
@@ -3103,7 +3103,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x1, r1
 	mov	=0x8000000000000001, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x8000000000000001, r30
 	cbne	r3, r30, fail
@@ -3141,7 +3141,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x1, r1
 	mov	=0xffffffff00000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0xffffffff00000000, r30
 	cbne	r3, r30, fail
@@ -3179,7 +3179,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x1, r1
 	mov	=0xfffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0xfffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -3217,7 +3217,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x1, r1
 	mov	=0xffffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0xffffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -3255,7 +3255,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x1, r1
 	mov	=0x0, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x0, r30
 	cbne	r3, r30, fail
@@ -3293,7 +3293,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x1, r1
 	mov	=0x1, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x1, r30
 	cbne	r3, r30, fail
@@ -3331,7 +3331,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x1, r1
 	mov	=0x2, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x1, r30
 	cbne	r3, r30, fail
@@ -3369,7 +3369,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x1, r1
 	mov	=0x100000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x1, r30
 	cbne	r3, r30, fail
@@ -3407,7 +3407,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x1, r1
 	mov	=0x7ffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x1, r30
 	cbne	r3, r30, fail
@@ -3445,7 +3445,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x1, r1
 	mov	=0x7fffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x1, r30
 	cbne	r3, r30, fail
@@ -3479,7 +3479,7 @@ _start:
 	mov	=0x1, r30
 	cbne	r23, r30, fail
 	mov	=0x1, r1
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r1, r3
 	mov	=0x1, r30
 	cbne	r3, r30, fail
@@ -3494,7 +3494,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x2, r1
 	mov	=0x8000000000000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x8000000000000000, r30
 	cbne	r3, r30, fail
@@ -3532,7 +3532,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x2, r1
 	mov	=0x8000000000000001, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x8000000000000001, r30
 	cbne	r3, r30, fail
@@ -3570,7 +3570,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x2, r1
 	mov	=0xffffffff00000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0xffffffff00000000, r30
 	cbne	r3, r30, fail
@@ -3608,7 +3608,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x2, r1
 	mov	=0xfffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0xfffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -3646,7 +3646,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x2, r1
 	mov	=0xffffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0xffffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -3684,7 +3684,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x2, r1
 	mov	=0x0, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x0, r30
 	cbne	r3, r30, fail
@@ -3722,7 +3722,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x2, r1
 	mov	=0x1, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x1, r30
 	cbne	r3, r30, fail
@@ -3760,7 +3760,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x2, r1
 	mov	=0x2, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x2, r30
 	cbne	r3, r30, fail
@@ -3798,7 +3798,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x2, r1
 	mov	=0x100000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x2, r30
 	cbne	r3, r30, fail
@@ -3836,7 +3836,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x2, r1
 	mov	=0x7ffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x2, r30
 	cbne	r3, r30, fail
@@ -3874,7 +3874,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x2, r1
 	mov	=0x7fffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x2, r30
 	cbne	r3, r30, fail
@@ -3908,7 +3908,7 @@ _start:
 	mov	=0x2, r30
 	cbne	r23, r30, fail
 	mov	=0x2, r1
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r1, r3
 	mov	=0x2, r30
 	cbne	r3, r30, fail
@@ -3923,7 +3923,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x100000000, r1
 	mov	=0x8000000000000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x8000000000000000, r30
 	cbne	r3, r30, fail
@@ -3961,7 +3961,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x100000000, r1
 	mov	=0x8000000000000001, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x8000000000000001, r30
 	cbne	r3, r30, fail
@@ -3999,7 +3999,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x100000000, r1
 	mov	=0xffffffff00000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0xffffffff00000000, r30
 	cbne	r3, r30, fail
@@ -4037,7 +4037,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x100000000, r1
 	mov	=0xfffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0xfffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -4075,7 +4075,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x100000000, r1
 	mov	=0xffffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0xffffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -4113,7 +4113,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x100000000, r1
 	mov	=0x0, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x0, r30
 	cbne	r3, r30, fail
@@ -4151,7 +4151,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x100000000, r1
 	mov	=0x1, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x1, r30
 	cbne	r3, r30, fail
@@ -4189,7 +4189,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x100000000, r1
 	mov	=0x2, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x2, r30
 	cbne	r3, r30, fail
@@ -4227,7 +4227,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x100000000, r1
 	mov	=0x100000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x100000000, r30
 	cbne	r3, r30, fail
@@ -4265,7 +4265,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x100000000, r1
 	mov	=0x7ffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x100000000, r30
 	cbne	r3, r30, fail
@@ -4303,7 +4303,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x100000000, r1
 	mov	=0x7fffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x100000000, r30
 	cbne	r3, r30, fail
@@ -4337,7 +4337,7 @@ _start:
 	mov	=0x100000000, r30
 	cbne	r23, r30, fail
 	mov	=0x100000000, r1
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r1, r3
 	mov	=0x100000000, r30
 	cbne	r3, r30, fail
@@ -4352,7 +4352,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7ffffffffffffffe, r1
 	mov	=0x8000000000000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x8000000000000000, r30
 	cbne	r3, r30, fail
@@ -4390,7 +4390,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7ffffffffffffffe, r1
 	mov	=0x8000000000000001, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x8000000000000001, r30
 	cbne	r3, r30, fail
@@ -4428,7 +4428,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7ffffffffffffffe, r1
 	mov	=0xffffffff00000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0xffffffff00000000, r30
 	cbne	r3, r30, fail
@@ -4466,7 +4466,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7ffffffffffffffe, r1
 	mov	=0xfffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0xfffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -4504,7 +4504,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7ffffffffffffffe, r1
 	mov	=0xffffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0xffffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -4542,7 +4542,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7ffffffffffffffe, r1
 	mov	=0x0, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x0, r30
 	cbne	r3, r30, fail
@@ -4580,7 +4580,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7ffffffffffffffe, r1
 	mov	=0x1, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x1, r30
 	cbne	r3, r30, fail
@@ -4618,7 +4618,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7ffffffffffffffe, r1
 	mov	=0x2, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x2, r30
 	cbne	r3, r30, fail
@@ -4656,7 +4656,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7ffffffffffffffe, r1
 	mov	=0x100000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x100000000, r30
 	cbne	r3, r30, fail
@@ -4694,7 +4694,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7ffffffffffffffe, r1
 	mov	=0x7ffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x7ffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -4732,7 +4732,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7ffffffffffffffe, r1
 	mov	=0x7fffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x7ffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -4766,7 +4766,7 @@ _start:
 	mov	=0x7ffffffffffffffe, r30
 	cbne	r23, r30, fail
 	mov	=0x7ffffffffffffffe, r1
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r1, r3
 	mov	=0x7ffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -4781,7 +4781,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7fffffffffffffff, r1
 	mov	=0x8000000000000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x8000000000000000, r30
 	cbne	r3, r30, fail
@@ -4819,7 +4819,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7fffffffffffffff, r1
 	mov	=0x8000000000000001, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x8000000000000001, r30
 	cbne	r3, r30, fail
@@ -4857,7 +4857,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7fffffffffffffff, r1
 	mov	=0xffffffff00000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0xffffffff00000000, r30
 	cbne	r3, r30, fail
@@ -4895,7 +4895,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7fffffffffffffff, r1
 	mov	=0xfffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0xfffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -4933,7 +4933,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7fffffffffffffff, r1
 	mov	=0xffffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0xffffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -4971,7 +4971,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7fffffffffffffff, r1
 	mov	=0x0, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x0, r30
 	cbne	r3, r30, fail
@@ -5009,7 +5009,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7fffffffffffffff, r1
 	mov	=0x1, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x1, r30
 	cbne	r3, r30, fail
@@ -5047,7 +5047,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7fffffffffffffff, r1
 	mov	=0x2, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x2, r30
 	cbne	r3, r30, fail
@@ -5085,7 +5085,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7fffffffffffffff, r1
 	mov	=0x100000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x100000000, r30
 	cbne	r3, r30, fail
@@ -5123,7 +5123,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7fffffffffffffff, r1
 	mov	=0x7ffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x7ffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -5161,7 +5161,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7fffffffffffffff, r1
 	mov	=0x7fffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r2, r3
 	mov	=0x7fffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -5195,7 +5195,7 @@ _start:
 	mov	=0x7fffffffffffffff, r30
 	cbne	r23, r30, fail
 	mov	=0x7fffffffffffffff, r1
-	mov	#-1, r3
+	mov	$-1, r3
 	min	r1, r1, r3
 	mov	=0x7fffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -5210,7 +5210,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000000, r1
 	mov	=0x8000000000000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x8000000000000000, r30
 	cbne	r3, r30, fail
@@ -5248,7 +5248,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000000, r1
 	mov	=0x8000000000000001, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x8000000000000001, r30
 	cbne	r3, r30, fail
@@ -5286,7 +5286,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000000, r1
 	mov	=0xffffffff00000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0xffffffff00000000, r30
 	cbne	r3, r30, fail
@@ -5324,7 +5324,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000000, r1
 	mov	=0xfffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0xfffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -5362,7 +5362,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000000, r1
 	mov	=0xffffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0xffffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -5400,7 +5400,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000000, r1
 	mov	=0x0, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x0, r30
 	cbne	r3, r30, fail
@@ -5438,7 +5438,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000000, r1
 	mov	=0x1, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x1, r30
 	cbne	r3, r30, fail
@@ -5476,7 +5476,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000000, r1
 	mov	=0x2, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x2, r30
 	cbne	r3, r30, fail
@@ -5514,7 +5514,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000000, r1
 	mov	=0x100000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x100000000, r30
 	cbne	r3, r30, fail
@@ -5552,7 +5552,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000000, r1
 	mov	=0x7ffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x7ffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -5590,7 +5590,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000000, r1
 	mov	=0x7fffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x7fffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -5624,7 +5624,7 @@ _start:
 	mov	=0x7fffffffffffffff, r30
 	cbne	r23, r30, fail
 	mov	=0x8000000000000000, r1
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r1, r3
 	mov	=0x8000000000000000, r30
 	cbne	r3, r30, fail
@@ -5639,7 +5639,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000001, r1
 	mov	=0x8000000000000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x8000000000000001, r30
 	cbne	r3, r30, fail
@@ -5677,7 +5677,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000001, r1
 	mov	=0x8000000000000001, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x8000000000000001, r30
 	cbne	r3, r30, fail
@@ -5715,7 +5715,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000001, r1
 	mov	=0xffffffff00000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0xffffffff00000000, r30
 	cbne	r3, r30, fail
@@ -5753,7 +5753,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000001, r1
 	mov	=0xfffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0xfffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -5791,7 +5791,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000001, r1
 	mov	=0xffffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0xffffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -5829,7 +5829,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000001, r1
 	mov	=0x0, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x0, r30
 	cbne	r3, r30, fail
@@ -5867,7 +5867,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000001, r1
 	mov	=0x1, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x1, r30
 	cbne	r3, r30, fail
@@ -5905,7 +5905,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000001, r1
 	mov	=0x2, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x2, r30
 	cbne	r3, r30, fail
@@ -5943,7 +5943,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000001, r1
 	mov	=0x100000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x100000000, r30
 	cbne	r3, r30, fail
@@ -5981,7 +5981,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000001, r1
 	mov	=0x7ffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x7ffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -6019,7 +6019,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000001, r1
 	mov	=0x7fffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x7fffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -6053,7 +6053,7 @@ _start:
 	mov	=0x7fffffffffffffff, r30
 	cbne	r23, r30, fail
 	mov	=0x8000000000000001, r1
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r1, r3
 	mov	=0x8000000000000001, r30
 	cbne	r3, r30, fail
@@ -6068,7 +6068,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffff00000000, r1
 	mov	=0x8000000000000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0xffffffff00000000, r30
 	cbne	r3, r30, fail
@@ -6106,7 +6106,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffff00000000, r1
 	mov	=0x8000000000000001, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0xffffffff00000000, r30
 	cbne	r3, r30, fail
@@ -6144,7 +6144,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffff00000000, r1
 	mov	=0xffffffff00000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0xffffffff00000000, r30
 	cbne	r3, r30, fail
@@ -6182,7 +6182,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffff00000000, r1
 	mov	=0xfffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0xfffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -6220,7 +6220,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffff00000000, r1
 	mov	=0xffffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0xffffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -6258,7 +6258,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffff00000000, r1
 	mov	=0x0, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x0, r30
 	cbne	r3, r30, fail
@@ -6296,7 +6296,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffff00000000, r1
 	mov	=0x1, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x1, r30
 	cbne	r3, r30, fail
@@ -6334,7 +6334,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffff00000000, r1
 	mov	=0x2, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x2, r30
 	cbne	r3, r30, fail
@@ -6372,7 +6372,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffff00000000, r1
 	mov	=0x100000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x100000000, r30
 	cbne	r3, r30, fail
@@ -6410,7 +6410,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffff00000000, r1
 	mov	=0x7ffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x7ffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -6448,7 +6448,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffff00000000, r1
 	mov	=0x7fffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x7fffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -6482,7 +6482,7 @@ _start:
 	mov	=0x7fffffffffffffff, r30
 	cbne	r23, r30, fail
 	mov	=0xffffffff00000000, r1
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r1, r3
 	mov	=0xffffffff00000000, r30
 	cbne	r3, r30, fail
@@ -6497,7 +6497,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xfffffffffffffffe, r1
 	mov	=0x8000000000000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0xfffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -6535,7 +6535,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xfffffffffffffffe, r1
 	mov	=0x8000000000000001, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0xfffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -6573,7 +6573,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xfffffffffffffffe, r1
 	mov	=0xffffffff00000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0xfffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -6611,7 +6611,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xfffffffffffffffe, r1
 	mov	=0xfffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0xfffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -6649,7 +6649,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xfffffffffffffffe, r1
 	mov	=0xffffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0xffffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -6687,7 +6687,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xfffffffffffffffe, r1
 	mov	=0x0, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x0, r30
 	cbne	r3, r30, fail
@@ -6725,7 +6725,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xfffffffffffffffe, r1
 	mov	=0x1, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x1, r30
 	cbne	r3, r30, fail
@@ -6763,7 +6763,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xfffffffffffffffe, r1
 	mov	=0x2, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x2, r30
 	cbne	r3, r30, fail
@@ -6801,7 +6801,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xfffffffffffffffe, r1
 	mov	=0x100000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x100000000, r30
 	cbne	r3, r30, fail
@@ -6839,7 +6839,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xfffffffffffffffe, r1
 	mov	=0x7ffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x7ffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -6877,7 +6877,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xfffffffffffffffe, r1
 	mov	=0x7fffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x7fffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -6911,7 +6911,7 @@ _start:
 	mov	=0x7fffffffffffffff, r30
 	cbne	r23, r30, fail
 	mov	=0xfffffffffffffffe, r1
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r1, r3
 	mov	=0xfffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -6926,7 +6926,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffffffffffff, r1
 	mov	=0x8000000000000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0xffffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -6964,7 +6964,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffffffffffff, r1
 	mov	=0x8000000000000001, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0xffffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -7002,7 +7002,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffffffffffff, r1
 	mov	=0xffffffff00000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0xffffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -7040,7 +7040,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffffffffffff, r1
 	mov	=0xfffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0xffffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -7078,7 +7078,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffffffffffff, r1
 	mov	=0xffffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0xffffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -7116,7 +7116,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffffffffffff, r1
 	mov	=0x0, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x0, r30
 	cbne	r3, r30, fail
@@ -7154,7 +7154,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffffffffffff, r1
 	mov	=0x1, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x1, r30
 	cbne	r3, r30, fail
@@ -7192,7 +7192,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffffffffffff, r1
 	mov	=0x2, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x2, r30
 	cbne	r3, r30, fail
@@ -7230,7 +7230,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffffffffffff, r1
 	mov	=0x100000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x100000000, r30
 	cbne	r3, r30, fail
@@ -7268,7 +7268,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffffffffffff, r1
 	mov	=0x7ffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x7ffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -7306,7 +7306,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffffffffffff, r1
 	mov	=0x7fffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x7fffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -7340,7 +7340,7 @@ _start:
 	mov	=0x7fffffffffffffff, r30
 	cbne	r23, r30, fail
 	mov	=0xffffffffffffffff, r1
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r1, r3
 	mov	=0xffffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -7355,7 +7355,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x0, r1
 	mov	=0x8000000000000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x0, r30
 	cbne	r3, r30, fail
@@ -7393,7 +7393,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x0, r1
 	mov	=0x8000000000000001, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x0, r30
 	cbne	r3, r30, fail
@@ -7431,7 +7431,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x0, r1
 	mov	=0xffffffff00000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x0, r30
 	cbne	r3, r30, fail
@@ -7469,7 +7469,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x0, r1
 	mov	=0xfffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x0, r30
 	cbne	r3, r30, fail
@@ -7507,7 +7507,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x0, r1
 	mov	=0xffffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x0, r30
 	cbne	r3, r30, fail
@@ -7545,7 +7545,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x0, r1
 	mov	=0x0, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x0, r30
 	cbne	r3, r30, fail
@@ -7583,7 +7583,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x0, r1
 	mov	=0x1, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x1, r30
 	cbne	r3, r30, fail
@@ -7621,7 +7621,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x0, r1
 	mov	=0x2, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x2, r30
 	cbne	r3, r30, fail
@@ -7659,7 +7659,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x0, r1
 	mov	=0x100000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x100000000, r30
 	cbne	r3, r30, fail
@@ -7697,7 +7697,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x0, r1
 	mov	=0x7ffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x7ffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -7735,7 +7735,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x0, r1
 	mov	=0x7fffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x7fffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -7769,7 +7769,7 @@ _start:
 	mov	=0x7fffffffffffffff, r30
 	cbne	r23, r30, fail
 	mov	=0x0, r1
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r1, r3
 	mov	=0x0, r30
 	cbne	r3, r30, fail
@@ -7784,7 +7784,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x1, r1
 	mov	=0x8000000000000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x1, r30
 	cbne	r3, r30, fail
@@ -7822,7 +7822,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x1, r1
 	mov	=0x8000000000000001, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x1, r30
 	cbne	r3, r30, fail
@@ -7860,7 +7860,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x1, r1
 	mov	=0xffffffff00000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x1, r30
 	cbne	r3, r30, fail
@@ -7898,7 +7898,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x1, r1
 	mov	=0xfffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x1, r30
 	cbne	r3, r30, fail
@@ -7936,7 +7936,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x1, r1
 	mov	=0xffffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x1, r30
 	cbne	r3, r30, fail
@@ -7974,7 +7974,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x1, r1
 	mov	=0x0, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x1, r30
 	cbne	r3, r30, fail
@@ -8012,7 +8012,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x1, r1
 	mov	=0x1, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x1, r30
 	cbne	r3, r30, fail
@@ -8050,7 +8050,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x1, r1
 	mov	=0x2, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x2, r30
 	cbne	r3, r30, fail
@@ -8088,7 +8088,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x1, r1
 	mov	=0x100000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x100000000, r30
 	cbne	r3, r30, fail
@@ -8126,7 +8126,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x1, r1
 	mov	=0x7ffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x7ffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -8164,7 +8164,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x1, r1
 	mov	=0x7fffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x7fffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -8198,7 +8198,7 @@ _start:
 	mov	=0x7fffffffffffffff, r30
 	cbne	r23, r30, fail
 	mov	=0x1, r1
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r1, r3
 	mov	=0x1, r30
 	cbne	r3, r30, fail
@@ -8213,7 +8213,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x2, r1
 	mov	=0x8000000000000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x2, r30
 	cbne	r3, r30, fail
@@ -8251,7 +8251,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x2, r1
 	mov	=0x8000000000000001, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x2, r30
 	cbne	r3, r30, fail
@@ -8289,7 +8289,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x2, r1
 	mov	=0xffffffff00000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x2, r30
 	cbne	r3, r30, fail
@@ -8327,7 +8327,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x2, r1
 	mov	=0xfffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x2, r30
 	cbne	r3, r30, fail
@@ -8365,7 +8365,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x2, r1
 	mov	=0xffffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x2, r30
 	cbne	r3, r30, fail
@@ -8403,7 +8403,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x2, r1
 	mov	=0x0, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x2, r30
 	cbne	r3, r30, fail
@@ -8441,7 +8441,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x2, r1
 	mov	=0x1, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x2, r30
 	cbne	r3, r30, fail
@@ -8479,7 +8479,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x2, r1
 	mov	=0x2, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x2, r30
 	cbne	r3, r30, fail
@@ -8517,7 +8517,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x2, r1
 	mov	=0x100000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x100000000, r30
 	cbne	r3, r30, fail
@@ -8555,7 +8555,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x2, r1
 	mov	=0x7ffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x7ffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -8593,7 +8593,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x2, r1
 	mov	=0x7fffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x7fffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -8627,7 +8627,7 @@ _start:
 	mov	=0x7fffffffffffffff, r30
 	cbne	r23, r30, fail
 	mov	=0x2, r1
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r1, r3
 	mov	=0x2, r30
 	cbne	r3, r30, fail
@@ -8642,7 +8642,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x100000000, r1
 	mov	=0x8000000000000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x100000000, r30
 	cbne	r3, r30, fail
@@ -8680,7 +8680,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x100000000, r1
 	mov	=0x8000000000000001, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x100000000, r30
 	cbne	r3, r30, fail
@@ -8718,7 +8718,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x100000000, r1
 	mov	=0xffffffff00000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x100000000, r30
 	cbne	r3, r30, fail
@@ -8756,7 +8756,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x100000000, r1
 	mov	=0xfffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x100000000, r30
 	cbne	r3, r30, fail
@@ -8794,7 +8794,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x100000000, r1
 	mov	=0xffffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x100000000, r30
 	cbne	r3, r30, fail
@@ -8832,7 +8832,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x100000000, r1
 	mov	=0x0, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x100000000, r30
 	cbne	r3, r30, fail
@@ -8870,7 +8870,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x100000000, r1
 	mov	=0x1, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x100000000, r30
 	cbne	r3, r30, fail
@@ -8908,7 +8908,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x100000000, r1
 	mov	=0x2, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x100000000, r30
 	cbne	r3, r30, fail
@@ -8946,7 +8946,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x100000000, r1
 	mov	=0x100000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x100000000, r30
 	cbne	r3, r30, fail
@@ -8984,7 +8984,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x100000000, r1
 	mov	=0x7ffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x7ffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -9022,7 +9022,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x100000000, r1
 	mov	=0x7fffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x7fffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -9056,7 +9056,7 @@ _start:
 	mov	=0x7fffffffffffffff, r30
 	cbne	r23, r30, fail
 	mov	=0x100000000, r1
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r1, r3
 	mov	=0x100000000, r30
 	cbne	r3, r30, fail
@@ -9071,7 +9071,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7ffffffffffffffe, r1
 	mov	=0x8000000000000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x7ffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -9109,7 +9109,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7ffffffffffffffe, r1
 	mov	=0x8000000000000001, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x7ffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -9147,7 +9147,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7ffffffffffffffe, r1
 	mov	=0xffffffff00000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x7ffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -9185,7 +9185,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7ffffffffffffffe, r1
 	mov	=0xfffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x7ffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -9223,7 +9223,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7ffffffffffffffe, r1
 	mov	=0xffffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x7ffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -9261,7 +9261,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7ffffffffffffffe, r1
 	mov	=0x0, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x7ffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -9299,7 +9299,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7ffffffffffffffe, r1
 	mov	=0x1, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x7ffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -9337,7 +9337,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7ffffffffffffffe, r1
 	mov	=0x2, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x7ffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -9375,7 +9375,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7ffffffffffffffe, r1
 	mov	=0x100000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x7ffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -9413,7 +9413,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7ffffffffffffffe, r1
 	mov	=0x7ffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x7ffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -9451,7 +9451,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7ffffffffffffffe, r1
 	mov	=0x7fffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x7fffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -9485,7 +9485,7 @@ _start:
 	mov	=0x7fffffffffffffff, r30
 	cbne	r23, r30, fail
 	mov	=0x7ffffffffffffffe, r1
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r1, r3
 	mov	=0x7ffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -9500,7 +9500,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7fffffffffffffff, r1
 	mov	=0x8000000000000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x7fffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -9538,7 +9538,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7fffffffffffffff, r1
 	mov	=0x8000000000000001, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x7fffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -9576,7 +9576,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7fffffffffffffff, r1
 	mov	=0xffffffff00000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x7fffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -9614,7 +9614,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7fffffffffffffff, r1
 	mov	=0xfffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x7fffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -9652,7 +9652,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7fffffffffffffff, r1
 	mov	=0xffffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x7fffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -9690,7 +9690,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7fffffffffffffff, r1
 	mov	=0x0, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x7fffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -9728,7 +9728,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7fffffffffffffff, r1
 	mov	=0x1, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x7fffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -9766,7 +9766,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7fffffffffffffff, r1
 	mov	=0x2, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x7fffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -9804,7 +9804,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7fffffffffffffff, r1
 	mov	=0x100000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x7fffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -9842,7 +9842,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7fffffffffffffff, r1
 	mov	=0x7ffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x7fffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -9880,7 +9880,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7fffffffffffffff, r1
 	mov	=0x7fffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r2, r3
 	mov	=0x7fffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -9914,7 +9914,7 @@ _start:
 	mov	=0x7fffffffffffffff, r30
 	cbne	r23, r30, fail
 	mov	=0x7fffffffffffffff, r1
-	mov	#-1, r3
+	mov	$-1, r3
 	max	r1, r1, r3
 	mov	=0x7fffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -9929,7 +9929,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000000, r1
 	mov	=0x8000000000000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x8000000000000000, r30
 	cbne	r3, r30, fail
@@ -9967,7 +9967,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000000, r1
 	mov	=0x8000000000000001, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x8000000000000000, r30
 	cbne	r3, r30, fail
@@ -10005,7 +10005,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000000, r1
 	mov	=0xffffffff00000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x8000000000000000, r30
 	cbne	r3, r30, fail
@@ -10043,7 +10043,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000000, r1
 	mov	=0xfffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x8000000000000000, r30
 	cbne	r3, r30, fail
@@ -10081,7 +10081,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000000, r1
 	mov	=0xffffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x8000000000000000, r30
 	cbne	r3, r30, fail
@@ -10119,7 +10119,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000000, r1
 	mov	=0x0, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x0, r30
 	cbne	r3, r30, fail
@@ -10157,7 +10157,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000000, r1
 	mov	=0x1, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x1, r30
 	cbne	r3, r30, fail
@@ -10195,7 +10195,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000000, r1
 	mov	=0x2, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x2, r30
 	cbne	r3, r30, fail
@@ -10233,7 +10233,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000000, r1
 	mov	=0x100000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x100000000, r30
 	cbne	r3, r30, fail
@@ -10271,7 +10271,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000000, r1
 	mov	=0x7ffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x7ffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -10309,7 +10309,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000000, r1
 	mov	=0x7fffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x7fffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -10343,7 +10343,7 @@ _start:
 	mov	=0x7fffffffffffffff, r30
 	cbne	r23, r30, fail
 	mov	=0x8000000000000000, r1
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r1, r3
 	mov	=0x8000000000000000, r30
 	cbne	r3, r30, fail
@@ -10358,7 +10358,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000001, r1
 	mov	=0x8000000000000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x8000000000000000, r30
 	cbne	r3, r30, fail
@@ -10396,7 +10396,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000001, r1
 	mov	=0x8000000000000001, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x8000000000000001, r30
 	cbne	r3, r30, fail
@@ -10434,7 +10434,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000001, r1
 	mov	=0xffffffff00000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x8000000000000001, r30
 	cbne	r3, r30, fail
@@ -10472,7 +10472,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000001, r1
 	mov	=0xfffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x8000000000000001, r30
 	cbne	r3, r30, fail
@@ -10510,7 +10510,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000001, r1
 	mov	=0xffffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x8000000000000001, r30
 	cbne	r3, r30, fail
@@ -10548,7 +10548,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000001, r1
 	mov	=0x0, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x0, r30
 	cbne	r3, r30, fail
@@ -10586,7 +10586,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000001, r1
 	mov	=0x1, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x1, r30
 	cbne	r3, r30, fail
@@ -10624,7 +10624,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000001, r1
 	mov	=0x2, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x2, r30
 	cbne	r3, r30, fail
@@ -10662,7 +10662,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000001, r1
 	mov	=0x100000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x100000000, r30
 	cbne	r3, r30, fail
@@ -10700,7 +10700,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000001, r1
 	mov	=0x7ffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x7ffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -10738,7 +10738,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000001, r1
 	mov	=0x7fffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x7fffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -10772,7 +10772,7 @@ _start:
 	mov	=0x7fffffffffffffff, r30
 	cbne	r23, r30, fail
 	mov	=0x8000000000000001, r1
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r1, r3
 	mov	=0x8000000000000001, r30
 	cbne	r3, r30, fail
@@ -10787,7 +10787,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffff00000000, r1
 	mov	=0x8000000000000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x8000000000000000, r30
 	cbne	r3, r30, fail
@@ -10825,7 +10825,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffff00000000, r1
 	mov	=0x8000000000000001, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x8000000000000001, r30
 	cbne	r3, r30, fail
@@ -10863,7 +10863,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffff00000000, r1
 	mov	=0xffffffff00000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0xffffffff00000000, r30
 	cbne	r3, r30, fail
@@ -10901,7 +10901,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffff00000000, r1
 	mov	=0xfffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0xffffffff00000000, r30
 	cbne	r3, r30, fail
@@ -10939,7 +10939,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffff00000000, r1
 	mov	=0xffffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0xffffffff00000000, r30
 	cbne	r3, r30, fail
@@ -10977,7 +10977,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffff00000000, r1
 	mov	=0x0, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x0, r30
 	cbne	r3, r30, fail
@@ -11015,7 +11015,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffff00000000, r1
 	mov	=0x1, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x1, r30
 	cbne	r3, r30, fail
@@ -11053,7 +11053,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffff00000000, r1
 	mov	=0x2, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x2, r30
 	cbne	r3, r30, fail
@@ -11091,7 +11091,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffff00000000, r1
 	mov	=0x100000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x100000000, r30
 	cbne	r3, r30, fail
@@ -11129,7 +11129,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffff00000000, r1
 	mov	=0x7ffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x7ffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -11167,7 +11167,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffff00000000, r1
 	mov	=0x7fffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x7fffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -11201,7 +11201,7 @@ _start:
 	mov	=0x7fffffffffffffff, r30
 	cbne	r23, r30, fail
 	mov	=0xffffffff00000000, r1
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r1, r3
 	mov	=0xffffffff00000000, r30
 	cbne	r3, r30, fail
@@ -11216,7 +11216,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xfffffffffffffffe, r1
 	mov	=0x8000000000000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x8000000000000000, r30
 	cbne	r3, r30, fail
@@ -11254,7 +11254,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xfffffffffffffffe, r1
 	mov	=0x8000000000000001, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x8000000000000001, r30
 	cbne	r3, r30, fail
@@ -11292,7 +11292,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xfffffffffffffffe, r1
 	mov	=0xffffffff00000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0xffffffff00000000, r30
 	cbne	r3, r30, fail
@@ -11330,7 +11330,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xfffffffffffffffe, r1
 	mov	=0xfffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0xfffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -11368,7 +11368,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xfffffffffffffffe, r1
 	mov	=0xffffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0xfffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -11406,7 +11406,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xfffffffffffffffe, r1
 	mov	=0x0, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x0, r30
 	cbne	r3, r30, fail
@@ -11444,7 +11444,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xfffffffffffffffe, r1
 	mov	=0x1, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x1, r30
 	cbne	r3, r30, fail
@@ -11482,7 +11482,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xfffffffffffffffe, r1
 	mov	=0x2, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x2, r30
 	cbne	r3, r30, fail
@@ -11520,7 +11520,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xfffffffffffffffe, r1
 	mov	=0x100000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x100000000, r30
 	cbne	r3, r30, fail
@@ -11558,7 +11558,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xfffffffffffffffe, r1
 	mov	=0x7ffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x7ffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -11596,7 +11596,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xfffffffffffffffe, r1
 	mov	=0x7fffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x7fffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -11630,7 +11630,7 @@ _start:
 	mov	=0x7fffffffffffffff, r30
 	cbne	r23, r30, fail
 	mov	=0xfffffffffffffffe, r1
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r1, r3
 	mov	=0xfffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -11645,7 +11645,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffffffffffff, r1
 	mov	=0x8000000000000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x8000000000000000, r30
 	cbne	r3, r30, fail
@@ -11683,7 +11683,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffffffffffff, r1
 	mov	=0x8000000000000001, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x8000000000000001, r30
 	cbne	r3, r30, fail
@@ -11721,7 +11721,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffffffffffff, r1
 	mov	=0xffffffff00000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0xffffffff00000000, r30
 	cbne	r3, r30, fail
@@ -11759,7 +11759,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffffffffffff, r1
 	mov	=0xfffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0xfffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -11797,7 +11797,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffffffffffff, r1
 	mov	=0xffffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0xffffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -11835,7 +11835,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffffffffffff, r1
 	mov	=0x0, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x0, r30
 	cbne	r3, r30, fail
@@ -11873,7 +11873,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffffffffffff, r1
 	mov	=0x1, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x1, r30
 	cbne	r3, r30, fail
@@ -11911,7 +11911,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffffffffffff, r1
 	mov	=0x2, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x2, r30
 	cbne	r3, r30, fail
@@ -11949,7 +11949,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffffffffffff, r1
 	mov	=0x100000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x100000000, r30
 	cbne	r3, r30, fail
@@ -11987,7 +11987,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffffffffffff, r1
 	mov	=0x7ffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x7ffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -12025,7 +12025,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffffffffffff, r1
 	mov	=0x7fffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x7fffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -12059,7 +12059,7 @@ _start:
 	mov	=0x7fffffffffffffff, r30
 	cbne	r23, r30, fail
 	mov	=0xffffffffffffffff, r1
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r1, r3
 	mov	=0xffffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -12074,7 +12074,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x0, r1
 	mov	=0x8000000000000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x0, r30
 	cbne	r3, r30, fail
@@ -12112,7 +12112,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x0, r1
 	mov	=0x8000000000000001, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x0, r30
 	cbne	r3, r30, fail
@@ -12150,7 +12150,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x0, r1
 	mov	=0xffffffff00000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x0, r30
 	cbne	r3, r30, fail
@@ -12188,7 +12188,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x0, r1
 	mov	=0xfffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x0, r30
 	cbne	r3, r30, fail
@@ -12226,7 +12226,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x0, r1
 	mov	=0xffffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x0, r30
 	cbne	r3, r30, fail
@@ -12264,7 +12264,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x0, r1
 	mov	=0x0, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x0, r30
 	cbne	r3, r30, fail
@@ -12302,7 +12302,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x0, r1
 	mov	=0x1, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x0, r30
 	cbne	r3, r30, fail
@@ -12340,7 +12340,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x0, r1
 	mov	=0x2, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x0, r30
 	cbne	r3, r30, fail
@@ -12378,7 +12378,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x0, r1
 	mov	=0x100000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x0, r30
 	cbne	r3, r30, fail
@@ -12416,7 +12416,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x0, r1
 	mov	=0x7ffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x0, r30
 	cbne	r3, r30, fail
@@ -12454,7 +12454,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x0, r1
 	mov	=0x7fffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x0, r30
 	cbne	r3, r30, fail
@@ -12488,7 +12488,7 @@ _start:
 	mov	=0x0, r30
 	cbne	r23, r30, fail
 	mov	=0x0, r1
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r1, r3
 	mov	=0x0, r30
 	cbne	r3, r30, fail
@@ -12503,7 +12503,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x1, r1
 	mov	=0x8000000000000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x1, r30
 	cbne	r3, r30, fail
@@ -12541,7 +12541,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x1, r1
 	mov	=0x8000000000000001, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x1, r30
 	cbne	r3, r30, fail
@@ -12579,7 +12579,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x1, r1
 	mov	=0xffffffff00000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x1, r30
 	cbne	r3, r30, fail
@@ -12617,7 +12617,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x1, r1
 	mov	=0xfffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x1, r30
 	cbne	r3, r30, fail
@@ -12655,7 +12655,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x1, r1
 	mov	=0xffffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x1, r30
 	cbne	r3, r30, fail
@@ -12693,7 +12693,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x1, r1
 	mov	=0x0, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x0, r30
 	cbne	r3, r30, fail
@@ -12731,7 +12731,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x1, r1
 	mov	=0x1, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x1, r30
 	cbne	r3, r30, fail
@@ -12769,7 +12769,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x1, r1
 	mov	=0x2, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x1, r30
 	cbne	r3, r30, fail
@@ -12807,7 +12807,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x1, r1
 	mov	=0x100000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x1, r30
 	cbne	r3, r30, fail
@@ -12845,7 +12845,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x1, r1
 	mov	=0x7ffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x1, r30
 	cbne	r3, r30, fail
@@ -12883,7 +12883,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x1, r1
 	mov	=0x7fffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x1, r30
 	cbne	r3, r30, fail
@@ -12917,7 +12917,7 @@ _start:
 	mov	=0x1, r30
 	cbne	r23, r30, fail
 	mov	=0x1, r1
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r1, r3
 	mov	=0x1, r30
 	cbne	r3, r30, fail
@@ -12932,7 +12932,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x2, r1
 	mov	=0x8000000000000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x2, r30
 	cbne	r3, r30, fail
@@ -12970,7 +12970,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x2, r1
 	mov	=0x8000000000000001, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x2, r30
 	cbne	r3, r30, fail
@@ -13008,7 +13008,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x2, r1
 	mov	=0xffffffff00000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x2, r30
 	cbne	r3, r30, fail
@@ -13046,7 +13046,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x2, r1
 	mov	=0xfffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x2, r30
 	cbne	r3, r30, fail
@@ -13084,7 +13084,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x2, r1
 	mov	=0xffffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x2, r30
 	cbne	r3, r30, fail
@@ -13122,7 +13122,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x2, r1
 	mov	=0x0, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x0, r30
 	cbne	r3, r30, fail
@@ -13160,7 +13160,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x2, r1
 	mov	=0x1, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x1, r30
 	cbne	r3, r30, fail
@@ -13198,7 +13198,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x2, r1
 	mov	=0x2, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x2, r30
 	cbne	r3, r30, fail
@@ -13236,7 +13236,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x2, r1
 	mov	=0x100000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x2, r30
 	cbne	r3, r30, fail
@@ -13274,7 +13274,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x2, r1
 	mov	=0x7ffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x2, r30
 	cbne	r3, r30, fail
@@ -13312,7 +13312,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x2, r1
 	mov	=0x7fffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x2, r30
 	cbne	r3, r30, fail
@@ -13346,7 +13346,7 @@ _start:
 	mov	=0x2, r30
 	cbne	r23, r30, fail
 	mov	=0x2, r1
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r1, r3
 	mov	=0x2, r30
 	cbne	r3, r30, fail
@@ -13361,7 +13361,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x100000000, r1
 	mov	=0x8000000000000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x100000000, r30
 	cbne	r3, r30, fail
@@ -13399,7 +13399,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x100000000, r1
 	mov	=0x8000000000000001, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x100000000, r30
 	cbne	r3, r30, fail
@@ -13437,7 +13437,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x100000000, r1
 	mov	=0xffffffff00000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x100000000, r30
 	cbne	r3, r30, fail
@@ -13475,7 +13475,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x100000000, r1
 	mov	=0xfffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x100000000, r30
 	cbne	r3, r30, fail
@@ -13513,7 +13513,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x100000000, r1
 	mov	=0xffffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x100000000, r30
 	cbne	r3, r30, fail
@@ -13551,7 +13551,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x100000000, r1
 	mov	=0x0, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x0, r30
 	cbne	r3, r30, fail
@@ -13589,7 +13589,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x100000000, r1
 	mov	=0x1, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x1, r30
 	cbne	r3, r30, fail
@@ -13627,7 +13627,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x100000000, r1
 	mov	=0x2, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x2, r30
 	cbne	r3, r30, fail
@@ -13665,7 +13665,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x100000000, r1
 	mov	=0x100000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x100000000, r30
 	cbne	r3, r30, fail
@@ -13703,7 +13703,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x100000000, r1
 	mov	=0x7ffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x100000000, r30
 	cbne	r3, r30, fail
@@ -13741,7 +13741,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x100000000, r1
 	mov	=0x7fffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x100000000, r30
 	cbne	r3, r30, fail
@@ -13775,7 +13775,7 @@ _start:
 	mov	=0x100000000, r30
 	cbne	r23, r30, fail
 	mov	=0x100000000, r1
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r1, r3
 	mov	=0x100000000, r30
 	cbne	r3, r30, fail
@@ -13790,7 +13790,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7ffffffffffffffe, r1
 	mov	=0x8000000000000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x7ffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -13828,7 +13828,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7ffffffffffffffe, r1
 	mov	=0x8000000000000001, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x7ffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -13866,7 +13866,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7ffffffffffffffe, r1
 	mov	=0xffffffff00000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x7ffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -13904,7 +13904,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7ffffffffffffffe, r1
 	mov	=0xfffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x7ffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -13942,7 +13942,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7ffffffffffffffe, r1
 	mov	=0xffffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x7ffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -13980,7 +13980,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7ffffffffffffffe, r1
 	mov	=0x0, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x0, r30
 	cbne	r3, r30, fail
@@ -14018,7 +14018,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7ffffffffffffffe, r1
 	mov	=0x1, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x1, r30
 	cbne	r3, r30, fail
@@ -14056,7 +14056,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7ffffffffffffffe, r1
 	mov	=0x2, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x2, r30
 	cbne	r3, r30, fail
@@ -14094,7 +14094,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7ffffffffffffffe, r1
 	mov	=0x100000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x100000000, r30
 	cbne	r3, r30, fail
@@ -14132,7 +14132,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7ffffffffffffffe, r1
 	mov	=0x7ffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x7ffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -14170,7 +14170,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7ffffffffffffffe, r1
 	mov	=0x7fffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x7ffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -14204,7 +14204,7 @@ _start:
 	mov	=0x7ffffffffffffffe, r30
 	cbne	r23, r30, fail
 	mov	=0x7ffffffffffffffe, r1
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r1, r3
 	mov	=0x7ffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -14219,7 +14219,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7fffffffffffffff, r1
 	mov	=0x8000000000000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x7fffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -14257,7 +14257,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7fffffffffffffff, r1
 	mov	=0x8000000000000001, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x7fffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -14295,7 +14295,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7fffffffffffffff, r1
 	mov	=0xffffffff00000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x7fffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -14333,7 +14333,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7fffffffffffffff, r1
 	mov	=0xfffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x7fffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -14371,7 +14371,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7fffffffffffffff, r1
 	mov	=0xffffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x7fffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -14409,7 +14409,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7fffffffffffffff, r1
 	mov	=0x0, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x0, r30
 	cbne	r3, r30, fail
@@ -14447,7 +14447,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7fffffffffffffff, r1
 	mov	=0x1, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x1, r30
 	cbne	r3, r30, fail
@@ -14485,7 +14485,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7fffffffffffffff, r1
 	mov	=0x2, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x2, r30
 	cbne	r3, r30, fail
@@ -14523,7 +14523,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7fffffffffffffff, r1
 	mov	=0x100000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x100000000, r30
 	cbne	r3, r30, fail
@@ -14561,7 +14561,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7fffffffffffffff, r1
 	mov	=0x7ffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x7ffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -14599,7 +14599,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7fffffffffffffff, r1
 	mov	=0x7fffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r2, r3
 	mov	=0x7fffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -14633,7 +14633,7 @@ _start:
 	mov	=0x7fffffffffffffff, r30
 	cbne	r23, r30, fail
 	mov	=0x7fffffffffffffff, r1
-	mov	#-1, r3
+	mov	$-1, r3
 	min.u64	r1, r1, r3
 	mov	=0x7fffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -14648,7 +14648,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000000, r1
 	mov	=0x8000000000000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0x8000000000000000, r30
 	cbne	r3, r30, fail
@@ -14686,7 +14686,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000000, r1
 	mov	=0x8000000000000001, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0x8000000000000001, r30
 	cbne	r3, r30, fail
@@ -14724,7 +14724,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000000, r1
 	mov	=0xffffffff00000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0xffffffff00000000, r30
 	cbne	r3, r30, fail
@@ -14762,7 +14762,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000000, r1
 	mov	=0xfffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0xfffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -14800,7 +14800,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000000, r1
 	mov	=0xffffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0xffffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -14838,7 +14838,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000000, r1
 	mov	=0x0, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0x8000000000000000, r30
 	cbne	r3, r30, fail
@@ -14876,7 +14876,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000000, r1
 	mov	=0x1, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0x8000000000000000, r30
 	cbne	r3, r30, fail
@@ -14914,7 +14914,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000000, r1
 	mov	=0x2, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0x8000000000000000, r30
 	cbne	r3, r30, fail
@@ -14952,7 +14952,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000000, r1
 	mov	=0x100000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0x8000000000000000, r30
 	cbne	r3, r30, fail
@@ -14990,7 +14990,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000000, r1
 	mov	=0x7ffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0x8000000000000000, r30
 	cbne	r3, r30, fail
@@ -15028,7 +15028,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000000, r1
 	mov	=0x7fffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0x8000000000000000, r30
 	cbne	r3, r30, fail
@@ -15062,7 +15062,7 @@ _start:
 	mov	=0x8000000000000000, r30
 	cbne	r23, r30, fail
 	mov	=0x8000000000000000, r1
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r1, r3
 	mov	=0x8000000000000000, r30
 	cbne	r3, r30, fail
@@ -15077,7 +15077,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000001, r1
 	mov	=0x8000000000000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0x8000000000000001, r30
 	cbne	r3, r30, fail
@@ -15115,7 +15115,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000001, r1
 	mov	=0x8000000000000001, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0x8000000000000001, r30
 	cbne	r3, r30, fail
@@ -15153,7 +15153,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000001, r1
 	mov	=0xffffffff00000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0xffffffff00000000, r30
 	cbne	r3, r30, fail
@@ -15191,7 +15191,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000001, r1
 	mov	=0xfffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0xfffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -15229,7 +15229,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000001, r1
 	mov	=0xffffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0xffffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -15267,7 +15267,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000001, r1
 	mov	=0x0, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0x8000000000000001, r30
 	cbne	r3, r30, fail
@@ -15305,7 +15305,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000001, r1
 	mov	=0x1, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0x8000000000000001, r30
 	cbne	r3, r30, fail
@@ -15343,7 +15343,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000001, r1
 	mov	=0x2, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0x8000000000000001, r30
 	cbne	r3, r30, fail
@@ -15381,7 +15381,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000001, r1
 	mov	=0x100000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0x8000000000000001, r30
 	cbne	r3, r30, fail
@@ -15419,7 +15419,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000001, r1
 	mov	=0x7ffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0x8000000000000001, r30
 	cbne	r3, r30, fail
@@ -15457,7 +15457,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x8000000000000001, r1
 	mov	=0x7fffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0x8000000000000001, r30
 	cbne	r3, r30, fail
@@ -15491,7 +15491,7 @@ _start:
 	mov	=0x8000000000000001, r30
 	cbne	r23, r30, fail
 	mov	=0x8000000000000001, r1
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r1, r3
 	mov	=0x8000000000000001, r30
 	cbne	r3, r30, fail
@@ -15506,7 +15506,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffff00000000, r1
 	mov	=0x8000000000000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0xffffffff00000000, r30
 	cbne	r3, r30, fail
@@ -15544,7 +15544,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffff00000000, r1
 	mov	=0x8000000000000001, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0xffffffff00000000, r30
 	cbne	r3, r30, fail
@@ -15582,7 +15582,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffff00000000, r1
 	mov	=0xffffffff00000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0xffffffff00000000, r30
 	cbne	r3, r30, fail
@@ -15620,7 +15620,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffff00000000, r1
 	mov	=0xfffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0xfffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -15658,7 +15658,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffff00000000, r1
 	mov	=0xffffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0xffffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -15696,7 +15696,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffff00000000, r1
 	mov	=0x0, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0xffffffff00000000, r30
 	cbne	r3, r30, fail
@@ -15734,7 +15734,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffff00000000, r1
 	mov	=0x1, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0xffffffff00000000, r30
 	cbne	r3, r30, fail
@@ -15772,7 +15772,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffff00000000, r1
 	mov	=0x2, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0xffffffff00000000, r30
 	cbne	r3, r30, fail
@@ -15810,7 +15810,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffff00000000, r1
 	mov	=0x100000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0xffffffff00000000, r30
 	cbne	r3, r30, fail
@@ -15848,7 +15848,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffff00000000, r1
 	mov	=0x7ffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0xffffffff00000000, r30
 	cbne	r3, r30, fail
@@ -15886,7 +15886,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffff00000000, r1
 	mov	=0x7fffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0xffffffff00000000, r30
 	cbne	r3, r30, fail
@@ -15920,7 +15920,7 @@ _start:
 	mov	=0xffffffff00000000, r30
 	cbne	r23, r30, fail
 	mov	=0xffffffff00000000, r1
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r1, r3
 	mov	=0xffffffff00000000, r30
 	cbne	r3, r30, fail
@@ -15935,7 +15935,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xfffffffffffffffe, r1
 	mov	=0x8000000000000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0xfffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -15973,7 +15973,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xfffffffffffffffe, r1
 	mov	=0x8000000000000001, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0xfffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -16011,7 +16011,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xfffffffffffffffe, r1
 	mov	=0xffffffff00000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0xfffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -16049,7 +16049,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xfffffffffffffffe, r1
 	mov	=0xfffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0xfffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -16087,7 +16087,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xfffffffffffffffe, r1
 	mov	=0xffffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0xffffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -16125,7 +16125,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xfffffffffffffffe, r1
 	mov	=0x0, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0xfffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -16163,7 +16163,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xfffffffffffffffe, r1
 	mov	=0x1, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0xfffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -16201,7 +16201,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xfffffffffffffffe, r1
 	mov	=0x2, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0xfffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -16239,7 +16239,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xfffffffffffffffe, r1
 	mov	=0x100000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0xfffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -16277,7 +16277,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xfffffffffffffffe, r1
 	mov	=0x7ffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0xfffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -16315,7 +16315,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xfffffffffffffffe, r1
 	mov	=0x7fffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0xfffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -16349,7 +16349,7 @@ _start:
 	mov	=0xfffffffffffffffe, r30
 	cbne	r23, r30, fail
 	mov	=0xfffffffffffffffe, r1
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r1, r3
 	mov	=0xfffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -16364,7 +16364,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffffffffffff, r1
 	mov	=0x8000000000000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0xffffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -16402,7 +16402,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffffffffffff, r1
 	mov	=0x8000000000000001, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0xffffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -16440,7 +16440,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffffffffffff, r1
 	mov	=0xffffffff00000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0xffffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -16478,7 +16478,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffffffffffff, r1
 	mov	=0xfffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0xffffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -16516,7 +16516,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffffffffffff, r1
 	mov	=0xffffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0xffffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -16554,7 +16554,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffffffffffff, r1
 	mov	=0x0, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0xffffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -16592,7 +16592,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffffffffffff, r1
 	mov	=0x1, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0xffffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -16630,7 +16630,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffffffffffff, r1
 	mov	=0x2, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0xffffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -16668,7 +16668,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffffffffffff, r1
 	mov	=0x100000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0xffffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -16706,7 +16706,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffffffffffff, r1
 	mov	=0x7ffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0xffffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -16744,7 +16744,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0xffffffffffffffff, r1
 	mov	=0x7fffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0xffffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -16778,7 +16778,7 @@ _start:
 	mov	=0xffffffffffffffff, r30
 	cbne	r23, r30, fail
 	mov	=0xffffffffffffffff, r1
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r1, r3
 	mov	=0xffffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -16793,7 +16793,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x0, r1
 	mov	=0x8000000000000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0x8000000000000000, r30
 	cbne	r3, r30, fail
@@ -16831,7 +16831,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x0, r1
 	mov	=0x8000000000000001, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0x8000000000000001, r30
 	cbne	r3, r30, fail
@@ -16869,7 +16869,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x0, r1
 	mov	=0xffffffff00000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0xffffffff00000000, r30
 	cbne	r3, r30, fail
@@ -16907,7 +16907,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x0, r1
 	mov	=0xfffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0xfffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -16945,7 +16945,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x0, r1
 	mov	=0xffffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0xffffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -16983,7 +16983,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x0, r1
 	mov	=0x0, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0x0, r30
 	cbne	r3, r30, fail
@@ -17021,7 +17021,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x0, r1
 	mov	=0x1, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0x1, r30
 	cbne	r3, r30, fail
@@ -17059,7 +17059,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x0, r1
 	mov	=0x2, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0x2, r30
 	cbne	r3, r30, fail
@@ -17097,7 +17097,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x0, r1
 	mov	=0x100000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0x100000000, r30
 	cbne	r3, r30, fail
@@ -17135,7 +17135,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x0, r1
 	mov	=0x7ffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0x7ffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -17173,7 +17173,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x0, r1
 	mov	=0x7fffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0x7fffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -17207,7 +17207,7 @@ _start:
 	mov	=0x7fffffffffffffff, r30
 	cbne	r23, r30, fail
 	mov	=0x0, r1
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r1, r3
 	mov	=0x0, r30
 	cbne	r3, r30, fail
@@ -17222,7 +17222,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x1, r1
 	mov	=0x8000000000000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0x8000000000000000, r30
 	cbne	r3, r30, fail
@@ -17260,7 +17260,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x1, r1
 	mov	=0x8000000000000001, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0x8000000000000001, r30
 	cbne	r3, r30, fail
@@ -17298,7 +17298,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x1, r1
 	mov	=0xffffffff00000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0xffffffff00000000, r30
 	cbne	r3, r30, fail
@@ -17336,7 +17336,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x1, r1
 	mov	=0xfffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0xfffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -17374,7 +17374,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x1, r1
 	mov	=0xffffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0xffffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -17412,7 +17412,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x1, r1
 	mov	=0x0, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0x1, r30
 	cbne	r3, r30, fail
@@ -17450,7 +17450,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x1, r1
 	mov	=0x1, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0x1, r30
 	cbne	r3, r30, fail
@@ -17488,7 +17488,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x1, r1
 	mov	=0x2, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0x2, r30
 	cbne	r3, r30, fail
@@ -17526,7 +17526,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x1, r1
 	mov	=0x100000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0x100000000, r30
 	cbne	r3, r30, fail
@@ -17564,7 +17564,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x1, r1
 	mov	=0x7ffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0x7ffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -17602,7 +17602,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x1, r1
 	mov	=0x7fffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0x7fffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -17636,7 +17636,7 @@ _start:
 	mov	=0x7fffffffffffffff, r30
 	cbne	r23, r30, fail
 	mov	=0x1, r1
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r1, r3
 	mov	=0x1, r30
 	cbne	r3, r30, fail
@@ -17651,7 +17651,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x2, r1
 	mov	=0x8000000000000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0x8000000000000000, r30
 	cbne	r3, r30, fail
@@ -17689,7 +17689,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x2, r1
 	mov	=0x8000000000000001, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0x8000000000000001, r30
 	cbne	r3, r30, fail
@@ -17727,7 +17727,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x2, r1
 	mov	=0xffffffff00000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0xffffffff00000000, r30
 	cbne	r3, r30, fail
@@ -17765,7 +17765,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x2, r1
 	mov	=0xfffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0xfffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -17803,7 +17803,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x2, r1
 	mov	=0xffffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0xffffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -17841,7 +17841,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x2, r1
 	mov	=0x0, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0x2, r30
 	cbne	r3, r30, fail
@@ -17879,7 +17879,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x2, r1
 	mov	=0x1, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0x2, r30
 	cbne	r3, r30, fail
@@ -17917,7 +17917,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x2, r1
 	mov	=0x2, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0x2, r30
 	cbne	r3, r30, fail
@@ -17955,7 +17955,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x2, r1
 	mov	=0x100000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0x100000000, r30
 	cbne	r3, r30, fail
@@ -17993,7 +17993,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x2, r1
 	mov	=0x7ffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0x7ffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -18031,7 +18031,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x2, r1
 	mov	=0x7fffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0x7fffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -18065,7 +18065,7 @@ _start:
 	mov	=0x7fffffffffffffff, r30
 	cbne	r23, r30, fail
 	mov	=0x2, r1
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r1, r3
 	mov	=0x2, r30
 	cbne	r3, r30, fail
@@ -18080,7 +18080,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x100000000, r1
 	mov	=0x8000000000000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0x8000000000000000, r30
 	cbne	r3, r30, fail
@@ -18118,7 +18118,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x100000000, r1
 	mov	=0x8000000000000001, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0x8000000000000001, r30
 	cbne	r3, r30, fail
@@ -18156,7 +18156,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x100000000, r1
 	mov	=0xffffffff00000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0xffffffff00000000, r30
 	cbne	r3, r30, fail
@@ -18194,7 +18194,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x100000000, r1
 	mov	=0xfffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0xfffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -18232,7 +18232,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x100000000, r1
 	mov	=0xffffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0xffffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -18270,7 +18270,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x100000000, r1
 	mov	=0x0, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0x100000000, r30
 	cbne	r3, r30, fail
@@ -18308,7 +18308,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x100000000, r1
 	mov	=0x1, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0x100000000, r30
 	cbne	r3, r30, fail
@@ -18346,7 +18346,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x100000000, r1
 	mov	=0x2, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0x100000000, r30
 	cbne	r3, r30, fail
@@ -18384,7 +18384,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x100000000, r1
 	mov	=0x100000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0x100000000, r30
 	cbne	r3, r30, fail
@@ -18422,7 +18422,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x100000000, r1
 	mov	=0x7ffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0x7ffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -18460,7 +18460,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x100000000, r1
 	mov	=0x7fffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0x7fffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -18494,7 +18494,7 @@ _start:
 	mov	=0x7fffffffffffffff, r30
 	cbne	r23, r30, fail
 	mov	=0x100000000, r1
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r1, r3
 	mov	=0x100000000, r30
 	cbne	r3, r30, fail
@@ -18509,7 +18509,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7ffffffffffffffe, r1
 	mov	=0x8000000000000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0x8000000000000000, r30
 	cbne	r3, r30, fail
@@ -18547,7 +18547,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7ffffffffffffffe, r1
 	mov	=0x8000000000000001, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0x8000000000000001, r30
 	cbne	r3, r30, fail
@@ -18585,7 +18585,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7ffffffffffffffe, r1
 	mov	=0xffffffff00000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0xffffffff00000000, r30
 	cbne	r3, r30, fail
@@ -18623,7 +18623,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7ffffffffffffffe, r1
 	mov	=0xfffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0xfffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -18661,7 +18661,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7ffffffffffffffe, r1
 	mov	=0xffffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0xffffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -18699,7 +18699,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7ffffffffffffffe, r1
 	mov	=0x0, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0x7ffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -18737,7 +18737,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7ffffffffffffffe, r1
 	mov	=0x1, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0x7ffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -18775,7 +18775,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7ffffffffffffffe, r1
 	mov	=0x2, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0x7ffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -18813,7 +18813,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7ffffffffffffffe, r1
 	mov	=0x100000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0x7ffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -18851,7 +18851,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7ffffffffffffffe, r1
 	mov	=0x7ffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0x7ffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -18889,7 +18889,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7ffffffffffffffe, r1
 	mov	=0x7fffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0x7fffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -18923,7 +18923,7 @@ _start:
 	mov	=0x7fffffffffffffff, r30
 	cbne	r23, r30, fail
 	mov	=0x7ffffffffffffffe, r1
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r1, r3
 	mov	=0x7ffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -18938,7 +18938,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7fffffffffffffff, r1
 	mov	=0x8000000000000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0x8000000000000000, r30
 	cbne	r3, r30, fail
@@ -18976,7 +18976,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7fffffffffffffff, r1
 	mov	=0x8000000000000001, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0x8000000000000001, r30
 	cbne	r3, r30, fail
@@ -19014,7 +19014,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7fffffffffffffff, r1
 	mov	=0xffffffff00000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0xffffffff00000000, r30
 	cbne	r3, r30, fail
@@ -19052,7 +19052,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7fffffffffffffff, r1
 	mov	=0xfffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0xfffffffffffffffe, r30
 	cbne	r3, r30, fail
@@ -19090,7 +19090,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7fffffffffffffff, r1
 	mov	=0xffffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0xffffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -19128,7 +19128,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7fffffffffffffff, r1
 	mov	=0x0, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0x7fffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -19166,7 +19166,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7fffffffffffffff, r1
 	mov	=0x1, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0x7fffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -19204,7 +19204,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7fffffffffffffff, r1
 	mov	=0x2, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0x7fffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -19242,7 +19242,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7fffffffffffffff, r1
 	mov	=0x100000000, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0x7fffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -19280,7 +19280,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7fffffffffffffff, r1
 	mov	=0x7ffffffffffffffe, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0x7fffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -19318,7 +19318,7 @@ _start:
 	mov	=0x1122334455667788, r20
 	mov	=0x7fffffffffffffff, r1
 	mov	=0x7fffffffffffffff, r2
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r2, r3
 	mov	=0x7fffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -19352,7 +19352,7 @@ _start:
 	mov	=0x7fffffffffffffff, r30
 	cbne	r23, r30, fail
 	mov	=0x7fffffffffffffff, r1
-	mov	#-1, r3
+	mov	$-1, r3
 	max.u64	r1, r1, r3
 	mov	=0x7fffffffffffffff, r30
 	cbne	r3, r30, fail
@@ -19362,8 +19362,8 @@ _start:
 	max.u64	r1, r1, r1
 	mov	=0x7fffffffffffffff, r30
 	cbne	r1, r30, fail
-	mov	#0, r0
-	trap	#0
+	mov	$0, r0
+	trap	$0
 	fail:
-	mov	#1, r0
-	trap	#0
+	mov	$1, r0
+	trap	$0

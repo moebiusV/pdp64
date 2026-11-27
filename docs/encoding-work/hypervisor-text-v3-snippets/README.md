@@ -14,11 +14,11 @@ The command line of each, by hand (NAME.S is preprocessed so that it can use the
 
 | file | text | flags | result | what it shows |
 |---|---|---|---|---|
-| `story-spl-caught.S` | 6.14 story | `-H` | exit 0 | a guest's `SPL #7` exits (code 6); the handler puts the priority in the saved status word; the guest's `MFPS` sees 7; the handler counts the exit, and the check fails if the `SPL` never exited |
-| `ex01-02-guest.S` | 6.15 examples 1, 2 | `-H` | exit 0 | `GENTER #0` starts the guest; its `WFE` exits (code 3) with `HEPC` after the instruction; the hypervisor's counter is in memory because `GENTER #0` clears the registers; the guest's `HALT` exits |
-| `ex03-hypercall.S` | 6.15 example 3 | `-H` | exit 0 | `TRAP #40` with bit 1 of the hypercall mask: exit code 22, vector 256 + 40, argument in `R0`; `GENTER #1` keeps `R0` |
+| `story-spl-caught.S` | 6.14 story | `-H` | exit 0 | a guest's `SPL $7` exits (code 6); the handler puts the priority in the saved status word; the guest's `MFPS` sees 7; the handler counts the exit, and the check fails if the `SPL` never exited |
+| `ex01-02-guest.S` | 6.15 examples 1, 2 | `-H` | exit 0 | `GENTER $0` starts the guest; its `WFE` exits (code 3) with `HEPC` after the instruction; the hypervisor's counter is in memory because `GENTER #0` clears the registers; the guest's `HALT` exits |
+| `ex03-hypercall.S` | 6.15 example 3 | `-H` | exit 0 | `TRAP $40` with bit 1 of the hypercall mask: exit code 22, vector 256 + 40, argument in `R0`; `GENTER #1` keeps `R0` |
 | `ex05-virtual-line.S` | 6.15 example 5 | `-H` | exit 0 | line 6 pending at priority 7 is held off; `SPL #0` takes the guest's own exception entry; the handler ran once |
-| `ex08-return-mask.S` | 6.15 example 8 | `-K` | exit 0 | `RTI #(1<<8)` to user mode clears the kernel's `R5` and keeps `R8` |
+| `ex08-return-mask.S` | 6.15 example 8 | `-K` | exit 0 | `RTI $(1<<8)` to user mode clears the kernel's `R5` and keeps `R8` |
 | `ex08-vector-sum.S` | 6.15 example 8 | none; `-S 32`; `-S 64` | exit 0 each | a `VEC` block with a `VCLR` accumulator and a `VFIN` epilogue gives the scalar sum with strips of 16, 32 and 64 bytes |
 
 | `ex10-spinlock.S` | 6.15 example 10 | none | exit 0 | `CAS` takes a free lock word (0 to 1, the old value 0 comes back in `Rd`), the release is an ordinary store, and the lock can be taken again |

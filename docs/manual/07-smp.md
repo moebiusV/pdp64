@@ -69,16 +69,16 @@ The counts of that day, side by side:
 
 | # | Operation | Words in the grammar | Group | Section |
 |---|---|---|---|---|
-| 1 | compare-and-swap | `CAS`, `CAS.S32` | atomic (`ATOM`) | 7.4 |
-| 2 | swap | `SWAP`, `SWAP.S32` | atomic | 7.4 |
-| 3 | fetch-and-add | `AADD`, `AADD.S32` | atomic | 7.4 |
-| 4 | fetch-and-and | `AAND`, `AAND.S32` | atomic | 7.4 |
-| 5 | fetch-and-or | `ABIS`, `ABIS.S32` | atomic | 7.4 |
-| 6 | fetch-and-exclusive-or | `AXOR`, `AXOR.S32` | atomic | 7.4 |
-| 7 | fetch-and-maximum, signed and unsigned | `AMAX`, `AMAX.S32`, `AMAX.U64`, `AMAX.U32` | atomic | 7.4 |
-| 8 | fetch-and-minimum, signed and unsigned | `AMIN`, `AMIN.S32`, `AMIN.U64`, `AMIN.U32` | atomic | 7.4 |
-| 9 | load-linked | `LL`, `LL.S32` | atomic | 7.4 |
-| 10 | store-conditional | `SC`, `SC.S32` | atomic | 7.4 |
+| 1 | compare-and-swap | `CAS`, `CAS.s32` | atomic (`ATOM`) | 7.4 |
+| 2 | swap | `SWAP`, `SWAP.s32` | atomic | 7.4 |
+| 3 | fetch-and-add | `AADD`, `AADD.s32` | atomic | 7.4 |
+| 4 | fetch-and-and | `AAND`, `AAND.s32` | atomic | 7.4 |
+| 5 | fetch-and-or | `ABIS`, `ABIS.s32` | atomic | 7.4 |
+| 6 | fetch-and-exclusive-or | `AXOR`, `AXOR.s32` | atomic | 7.4 |
+| 7 | fetch-and-maximum, signed and unsigned | `AMAX`, `AMAX.s32`, `AMAX.u64`, `AMAX.u32` | atomic | 7.4 |
+| 8 | fetch-and-minimum, signed and unsigned | `AMIN`, `AMIN.s32`, `AMIN.u64`, `AMIN.u32` | atomic | 7.4 |
+| 9 | load-linked | `LL`, `LL.s32` | atomic | 7.4 |
+| 10 | store-conditional | `SC`, `SC.s32` | atomic | 7.4 |
 | 11 | device-access fence | `FENCE` | system (`SYS`) | 7.5.7 |
 | 12 | wait for event | `WFE` | system | 7.10 |
 | 13 | send event | `SEV` | system | 7.10 |
@@ -87,7 +87,7 @@ The counts of that day, side by side:
 | 16 | invalidate the instruction cache | `ICINV`, `ICINVA` | system | 7.9 |
 | 17 | read the core number | `MFSR` of `CPUID` | system | 7.8.1 |
 
-The ten atomics are 24 words: 12 for the 8-byte size (ten read-modify-write words, and `LL` and `SC`) and the same 12 for the 4-byte size, written with the suffix `.s32` (`AADD.S32`, `CAS.S32`, `LL.S32`, `SC.S32`); counting the signed and the unsigned maximum and minimum apart they would be twelve. The seven others are nine words, ten with the alias. Six words were added the day after the count (2026-10-22) and are not in it: `MFSR` and `MTSR`, the system-register moves, `PUSHX` and `POPX`, and `ISYNC` and `HINT`, which the discussion of 7.9.3 and 7.10.1 uses. `ISYNC` and `HINT` belong with the twelve system operations that are not multiprocessor, which then number fourteen: like the landing pad or the trap, no second core needs them, and whether `HINT #1`, the spin-wait pause, belongs under the umbrella is a question of classification and not of count. A read of the system register `CPUID` (`MFSR`, 6.5) also gives the core number and is not counted: `MFSR` is the general register move.
+The ten atomics are 24 words: 12 for the 8-byte size (ten read-modify-write words, and `LL` and `SC`) and the same 12 for the 4-byte size, written with the suffix `.s32` (`AADD.s32`, `CAS.s32`, `LL.s32`, `SC.s32`); counting the signed and the unsigned maximum and minimum apart they would be twelve. The seven others are nine words, ten with the alias. Six words were added the day after the count (2026-10-22) and are not in it: `MFSR` and `MTSR`, the system-register moves, `PUSHX` and `POPX`, and `ISYNC` and `HINT`, which the discussion of 7.9.3 and 7.10.1 uses. `ISYNC` and `HINT` belong with the twelve system operations that are not multiprocessor, which then number fourteen: like the landing pad or the trap, no second core needs them, and whether `HINT $1`, the spin-wait pause, belongs under the umbrella is a question of classification and not of count. A read of the system register `CPUID` (`MFSR`, 6.5) also gives the core number and is not counted: `MFSR` is the general register move.
 
 **7.3.1** The instructions that exist for multiple processors fall under one umbrella of seventeen operations: ten atomics and seven others (the table above, folded operations).
 
@@ -110,7 +110,7 @@ SC(a, v):        if the reservation is intact: *a = v ; return success   # store
                  else: write nothing ; return failure
 ```
 
-`AAND`, `ABIS`, `AXOR`, `AMAX`, `AMIN` and the unsigned `AMAX.U64` and `AMIN.U64` have the shape of `AADD` with another operation. `CAS` and `AADD` are the same idea as `SWAP`, extended: `CAS` writes only if the word still has the value the program expected, which is how a lock-free list changes a pointer (if two cores race, one `CAS` fails and the loser retries). The weakness of `CAS` is the **ABA problem**: it compares values, so a word that changed from A to B and back to A looks untouched, though the structure behind it may have changed. `LL` and `SC` do not have it, because `SC` fails if anything wrote the word in between, even if it wrote the same value. `CAS` operates on 4 or 8 bytes, and an aligned 8-byte `CAS` may cover two adjacent 4-byte fields (9.13.3). In the assembler the address is a register in parentheses, as `CAS Rs, (Ra), Rd` (7.4.6).
+`AAND`, `ABIS`, `AXOR`, `AMAX`, `AMIN` and the unsigned `AMAX.u64` and `AMIN.u64` have the shape of `AADD` with another operation. `CAS` and `AADD` are the same idea as `SWAP`, extended: `CAS` writes only if the word still has the value the program expected, which is how a lock-free list changes a pointer (if two cores race, one `CAS` fails and the loser retries). The weakness of `CAS` is the **ABA problem**: it compares values, so a word that changed from A to B and back to A looks untouched, though the structure behind it may have changed. `LL` and `SC` do not have it, because `SC` fails if anything wrote the word in between, even if it wrote the same value. `CAS` operates on 4 or 8 bytes, and an aligned 8-byte `CAS` may cover two adjacent 4-byte fields (9.13.3). In the assembler the address is a register in parentheses, as `CAS Rs, (Ra), Rd` (7.4.6).
 
 **The reservation.** `LL` does not lock anything. It marks a piece of memory as reserved by this core: the **marked block**, the naturally aligned 128 bytes that hold the word. A write to the block by any other core, by a device, or by an atomic clears the mark, and `SC` writes only if the mark is still there. This is called a **monitor**, in the word of the bus designs it maps onto, as against the PDP-11's bus lock, which stops everyone else's access for the duration of the instruction pair. A lock is simple and a bottleneck as cores multiply; a monitor lets other cores go on with other addresses. The block is a fixed 128 bytes and no register reports it: an implementation may mark less (never less than the word), so software that keeps the word that it protects alone in its block never fails because of a neighbour, on any implementation, and a mark cleared by a neighbour's write costs a loop one more try and nothing else. A monitor needs a **progress rule**: with two cores each doing `LL`, then writing, then `SC`, both reservations could be cleared forever. I take the rule that RISC-V gives (checked in the RISC-V manual in an earlier review: `docs/decisions-pending.md`) and make the machine enforce it: the **constrained loop** is an `LL`, then at most 16 instructions that work on registers only (no load, no store, no other atomic, no system instruction) with any branch between them going forward, then an `SC` for the same address and size as the `LL`. A loop of that shape must eventually succeed if no other initiator keeps writing the block. A sequence that breaks the shape is not left to hang: the reservation is lost at the first instruction that breaks it, so its `SC` fails.
 
@@ -124,7 +124,7 @@ SC(a, v):        if the reservation is intact: *a = v ; return success   # store
 
 **7.4.5** A device that writes memory shared with a core takes part by clearing reservations: a write by a device to a granule clears its reservation exactly as a core's write does. A device's own buffers are uncached memory, where `LL`, `SC` and every atomic take a precise fault (7.4.6), so no reservation is ever taken on a word that a device is writing as a buffer.
 
-**7.4.6** Every atomic has three register fields, and, like every instruction of the machine that has a destination, is written with the destination last: `AADD Rs, (Ra), Rd`. The address is in `Ra`, with no offset, the old value of the memory word comes back in `Rd`, and `Rs` is the operand. `CAS Rs, (Ra), Rd` has the expected value in `Rd` and the new value in `Rs`, and puts the old value into `Rd`: the destination is the register that is both the expected value going in and the old value coming out, as the destination of `ADD` is both a source and the result, and it is written last. `LL (Ra), Rd` takes no operand, and `SC Rs, (Ra), Rd` returns 0 in `Rd` when it wrote and 1 when it did not. The size is 8 bytes for the bare name and 4 bytes for the name with the suffix `.s32` (`AADD.S32`, `CAS.S32`, `LL.S32`, `SC.S32`); a 4-byte word works on the low four bytes of its registers and returns the old value sign-extended, as a 4-byte load does, which is why the suffix of a 4-byte atomic that returns a value is `.s32` only: `AADD.U32` is refused, and the zero-extended old value is `MOV.U32 Rd, Rd` after the instruction. `AMAX.U32` and `AMIN.U32` compare unsigned and return the old value sign-extended all the same; `SC.S32` and `SC.U32` are the same word, for it returns 0 or 1.
+**7.4.6** Every atomic has three register fields, and, like every instruction of the machine that has a destination, is written with the destination last: `AADD Rs, (Ra), Rd`. The address is in `Ra`, with no offset, the old value of the memory word comes back in `Rd`, and `Rs` is the operand. `CAS Rs, (Ra), Rd` has the expected value in `Rd` and the new value in `Rs`, and puts the old value into `Rd`: the destination is the register that is both the expected value going in and the old value coming out, as the destination of `ADD` is both a source and the result, and it is written last. `LL (Ra), Rd` takes no operand, and `SC Rs, (Ra), Rd` returns 0 in `Rd` when it wrote and 1 when it did not. The size is 8 bytes for the bare name and 4 bytes for the name with the suffix `.s32` (`AADD.s32`, `CAS.s32`, `LL.s32`, `SC.s32`); a 4-byte word works on the low four bytes of its registers and returns the old value sign-extended, as a 4-byte load does, which is why the suffix of a 4-byte atomic that returns a value is `.s32` only: `AADD.u32` is refused, and the zero-extended old value is `MOV.u32 Rd, Rd` after the instruction. `AMAX.u32` and `AMIN.u32` compare unsigned and return the old value sign-extended all the same; `SC.s32` and `SC.u32` are the same word, for it returns 0 or 1.
 
 **7.4.7** The word must be naturally aligned for its size, and an atomic that is not takes the misalignment fault, with nothing changed and `EPC` at the instruction; no atomic is ever split over two words, two blocks or two pages, so none can take the bus for longer than one access.
 
@@ -135,13 +135,13 @@ SC(a, v):        if the reservation is intact: *a = v ; return success   # store
 ```
 lock_acquire(l):                          # l holds 0 (free) or 1 (held)
     while CAS(l, 0, 1) != 0:              # one instruction
-        HINT #1                           # tell the core this is a spin (7.10)
+        HINT $1                           # tell the core this is a spin (7.10)
 lock_release(l):
     *l = 0                                # an ordinary store
 
 ticket_acquire(t):                        # t has two counters: next, serving
     mine = AADD(&t->next, 1)              # take a number
-    while t->serving != mine: HINT #1
+    while t->serving != mine: HINT $1
 ticket_release(t):
     t->serving = t->serving + 1           # serve the next number
 
@@ -158,12 +158,12 @@ atomic_or(a, bits):                       # any operation that is not in the fet
 
 | Entry | Mnemonics |
 |---|---|
-| [Compare and swap](09-isa.md#cas-compare-and-swap) | `CAS`, `CAS.S32` |
-| [Atomic exchange](09-isa.md#swap-atomic-exchange) | `SWAP`, `SWAP.S32` |
-| [Atomic fetch and add](09-isa.md#aadd-atomic-fetch-and-add) | `AADD`, `AADD.S32` |
-| [Atomic fetch and and, bit set (or), xor](09-isa.md#aand-atomic-fetch-and-and-bit-set-or-xor) | `AAND`, `AAND.S32`, `ABIS`, `ABIS.S32`, `AXOR`, `AXOR.S32` |
-| [Atomic fetch and minimum or maximum](09-isa.md#amax-atomic-fetch-and-minimum-or-maximum) | `AMAX`, `AMAX.S32`, `AMIN`, `AMIN.S32`, `AMAX.U64`, `AMAX.U32`, `AMIN.U64`, `AMIN.U32` |
-| [Load-linked and store-conditional](09-isa.md#llsc-load-linked-and-store-conditional) | `LL`, `LL.S32`, `SC`, `SC.S32` |
+| [Compare and swap](09-isa.md#cas-compare-and-swap) | `CAS`, `CAS.s32` |
+| [Atomic exchange](09-isa.md#swap-atomic-exchange) | `SWAP`, `SWAP.s32` |
+| [Atomic fetch and add](09-isa.md#aadd-atomic-fetch-and-add) | `AADD`, `AADD.s32` |
+| [Atomic fetch and and, bit set (or), xor](09-isa.md#aand-atomic-fetch-and-and-bit-set-or-xor) | `AAND`, `AAND.s32`, `ABIS`, `ABIS.s32`, `AXOR`, `AXOR.s32` |
+| [Atomic fetch and minimum or maximum](09-isa.md#amax-atomic-fetch-and-minimum-or-maximum) | `AMAX`, `AMAX.s32`, `AMIN`, `AMIN.s32`, `AMAX.u64`, `AMAX.u32`, `AMIN.u64`, `AMIN.u32` |
+| [Load-linked and store-conditional](09-isa.md#llsc-load-linked-and-store-conditional) | `LL`, `LL.s32`, `SC`, `SC.s32` |
 <!-- /entries:7.4 -->
 
 ## 7.5 Memory ordering: from sequential consistency to the weak models
@@ -297,23 +297,23 @@ curcpu():       MFDP Rd                      # kernel mode: DP is the address of
 ```
 idle():
     loop:
-        SPL #7                       # mask everything while looking
-        if run_queue is not empty:  SPL #0 ; return
+        SPL $7                       # mask everything while looking
+        if run_queue is not empty:  SPL $0 ; return
         WFE                          # an interrupt that arrives after the test ends the sleep at once
-        SPL #0                       # now take the interrupt that woke us
+        SPL $0                       # now take the interrupt that woke us
 ```
 
 **Interrupting another core.** A core wakes another by `SEV`, or interrupts it: an **inter-processor interrupt** (IPI), an interrupt raised by one core on another. It reschedules a core that is running a low-priority process, stops a core, or runs a function on it; a core in secure mode is stopped and preempted by one (7.11). x86 writes to the other core's local APIC (`CALL_FUNCTION_VECTOR`, read), the NetBSD VAX port writes a processor register (`PR_IPIR`, read), and OpenBSD's riscv64 port needs two kinds of IPI, `IPI_NOP` and `IPI_DDB` (`intr.h`, read).
 
-**7.10.1** `WFE` sleeps until another core executes `SEV` or an interrupt arrives, and it may also return with no event at all (for example after an exit to a hypervisor), so software tests its condition again when it returns; `HINT #1` is the spin-wait pause; `HINT #n` has no other architectural effect (2 is a speculation barrier, the rest are reserved).
+**7.10.1** `WFE` sleeps until another core executes `SEV` or an interrupt arrives, and it may also return with no event at all (for example after an exit to a hypervisor), so software tests its condition again when it returns; `HINT $1` is the spin-wait pause; `HINT $n` has no other architectural effect (2 is a speculation barrier, the rest are reserved).
 
-**7.10.2** `WFE` ends its sleep when an interrupt is pending, even if the priority masks it, so that an idle loop is `SPL #7`, check for work, `WFE`, `SPL #0`, with no gap in which a wake-up can be lost. In a guest the pending interrupts that count are the virtual lines (6.16.27): a pending virtual line ends the sleep even if the guest's priority masks it.
+**7.10.2** `WFE` ends its sleep when an interrupt is pending, even if the priority masks it, so that an idle loop is `SPL $7`, check for work, `WFE`, `SPL $0`, with no gap in which a wake-up can be lost. In a guest the pending interrupts that count are the virtual lines (6.16.27): a pending virtual line ends the sleep even if the guest's priority masks it.
 
 **7.10.3** On one core `WFE` is the idle instruction.
 
 **7.10.4** One core can interrupt another: an inter-processor interrupt. A core in secure mode is stopped and preempted by one (7.11.3).
 
-*Commentary.* **Chain.** PDP-11: `wait` at priority 0 in a loop that retests the run queue, a lost wake-up costing one tick. VAX: an idle loop that spins; in the NetBSD port a message bit and a processor-register write. x86: `PAUSE`, `MWAIT` and an APIC write. ARM: `WFE`/`SEV`. RISC-V: `wfi`. pdp64: `WFE` with the wake on pending. **Trade-offs.** On an FPGA a spinning core consumes memory bandwidth the other cores want, which is the reason to prefer a real wait; a rule that wakes for a masked interrupt costs the core one extra instruction after the wake. **Benefits.** An idle core costs nothing and wakes on a signal. **Modern comparables.** ARM `WFE` and `SEV`, RISC-V `WFI`. **Impact.** *Kernel:* an idle core waits on `WFE` and costs no bandwidth. *Compiler:* spin-wait loops use `HINT #1`. *Hardware:* `WFE` stalls or gates the core's clock until an event or an interrupt.
+*Commentary.* **Chain.** PDP-11: `wait` at priority 0 in a loop that retests the run queue, a lost wake-up costing one tick. VAX: an idle loop that spins; in the NetBSD port a message bit and a processor-register write. x86: `PAUSE`, `MWAIT` and an APIC write. ARM: `WFE`/`SEV`. RISC-V: `wfi`. pdp64: `WFE` with the wake on pending. **Trade-offs.** On an FPGA a spinning core consumes memory bandwidth the other cores want, which is the reason to prefer a real wait; a rule that wakes for a masked interrupt costs the core one extra instruction after the wake. **Benefits.** An idle core costs nothing and wakes on a signal. **Modern comparables.** ARM `WFE` and `SEV`, RISC-V `WFI`. **Impact.** *Kernel:* an idle core waits on `WFE` and costs no bandwidth. *Compiler:* spin-wait loops use `HINT $1`. *Hardware:* `WFE` stalls or gates the core's clock until an event or an interrupt.
 
 ## 7.11 Cores that differ: classes and the secure mode
 
@@ -357,7 +357,7 @@ The idioms of 7.3 to 7.11, in the order a kernel meets them. Illustration, not a
 lock       :  CAS(l, 0, 1) until it returns 0                         # 7.4
 unmap page :  pte = 0 ; TLBI va ; TLBSYNC                             # 7.9, listing in 6.8
 new code   :  write the instructions ; ICINV line ; ISYNC             # 7.9
-idle       :  SPL #7 ; test ; WFE ; SPL #0                            # 7.10
+idle       :  SPL $7 ; test ; WFE ; SPL $0                            # 7.10
 wake a core:  SEV, or an inter-processor interrupt                    # 7.10
 my data    :  MOV d(DP), Rd                                          # 7
 ```

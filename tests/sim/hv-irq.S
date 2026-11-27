@@ -10,114 +10,114 @@ _start:
 	lea	htab, r1
 	mtsr	hvbr, r1
 	lea	xh, r2
-	mov	#512, r3
+	mov	$512, r3
 fill:	mov	r2, (r1)+
 	sob	r3, fill
 	lea	hh, r2			; the hypervisor's own interrupt (vector 41)
 	lea	htab+8*41, r1
 	mov	r2, (r1)
-	mov	#0, r1
+	mov	$0, r1
 	mtsr	htrap, r1		; nothing trapped (WFE runs in the guest)
 	; --- 1
 	lea	loop, r2
 	mtsr	hepc, r2
-	mov	#(7<<PSW_PRI), r2
+	mov	$(7<<PSW_PRI), r2
 	mtsr	hepsw, r2
 	lea	back1, r20
-	mov	#99, r0			; a HALT of the guest that stops the machine ends the run with a status that is not 0
-	genter	#RTIMASK_ALL
-loop:	add	#1, r1
+	mov	$99, r0			; a HALT of the guest that stops the machine ends the run with a status that is not 0
+	genter	$RTIMASK_ALL
+loop:	add	$1, r1
 loop2:	br	loop
 back1:
 	mfsr	r2, hexitr
-	cbeq	r2, #XCODE_IRQ, 1f
-	mov	#1, r0
+	cbeq	r2, $XCODE_IRQ, 1f
+	mov	$1, r0
 	halt
 1:	mfsr	r2, hcause
-	cbeq	r2, #40, 1f
-	mov	#2, r0
+	cbeq	r2, $40, 1f
+	mov	$2, r0
 	halt
 1:	mfsr	r2, hepc
 	lea	loop, r3
 	lea	loop2, r4		; the request came between two instructions of the loop: at one or the other
 	cbeq	r2, r3, 1f
 	cbeq	r2, r4, 1f
-	mov	#3, r0
+	mov	$3, r0
 	halt
 1:	mfsr	r2, hinsn
-	cbeq	r2, #0, 1f
-	mov	#4, r0
+	cbeq	r2, $0, 1f
+	mov	$4, r0
 	halt
 1:	mfsr	r2, heva
 	mfsr	r3, hgpa
 	bis	r3, r2
-	cbeq	r2, #0, 1f
-	mov	#5, r0
+	cbeq	r2, $0, 1f
+	mov	$5, r0
 	halt
 1:	mfsr	r2, hepsw
-	bic	#15, r2
-	cbeq	r2, #(7<<PSW_PRI), 1f
-	mov	#6, r0
+	bic	$15, r2
+	cbeq	r2, $(7<<PSW_PRI), 1f
+	mov	$6, r0
 	halt
 1:	mfps	r2
-	bic	#15, r2
-	cbeq	r2, #(MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|7<<PSW_PRI), 1f
-	mov	#7, r0
+	bic	$15, r2
+	cbeq	r2, $(MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|7<<PSW_PRI), 1f
+	mov	$7, r0
 	halt
 	; --- 2: the request of level 2 (injected at instruction 400) waits for the priority
-1:	mov	#0, r10
-	mov	#2000, r3
+1:	mov	$0, r10
+	mov	$2000, r3
 wait7:	sob	r3, wait7		; priority 7: not taken
-	cbeq	r10, #0, 1f
-	mov	#8, r0
+	cbeq	r10, $0, 1f
+	mov	$8, r0
 	halt
-1:	spl	#0
-	mov	#2000, r3
-wait0:	cbne	r10, #0, got
+1:	spl	$0
+	mov	$2000, r3
+wait0:	cbne	r10, $0, got
 	sob	r3, wait0
-	mov	#9, r0			; never taken
+	mov	$9, r0			; never taken
 	halt
-got:	spl	#7
-	cbeq	r10, #1, 1f
-	mov	#10, r0
+got:	spl	$7
+	cbeq	r10, $1, 1f
+	mov	$10, r0
 	halt
-1:	cbeq	r6, #41, 1f
-	mov	#11, r0
+1:	cbeq	r6, $41, 1f
+	mov	$11, r0
 	halt
-1:	cbeq	r7, #XCODE_TAKEN_AT_H, 1f
-	mov	#12, r0
+1:	cbeq	r7, $XCODE_TAKEN_AT_H, 1f
+	mov	$12, r0
 	halt
 	; --- 3: WFE in a guest
 1:	lea	g3, r2
 	mtsr	hepc, r2
-	mov	#0, r2
+	mov	$0, r2
 	mtsr	hepsw, r2
 	lea	back3, r20
-	mov	#99, r0
-	genter	#RTIMASK_ALL
+	mov	$99, r0
+	genter	$RTIMASK_ALL
 g3:	wfe
 g3e:	halt
 back3:
 	mfsr	r2, hexitr
-	cbeq	r2, #XCODE_IRQ, 1f
-	mov	#13, r0
+	cbeq	r2, $XCODE_IRQ, 1f
+	mov	$13, r0
 	halt
 1:	mfsr	r2, hcause
-	cbeq	r2, #42, 1f
-	mov	#14, r0
+	cbeq	r2, $42, 1f
+	mov	$14, r0
 	halt
 1:	mfsr	r2, hepc
 	lea	g3e, r3
 	cbeq	r2, r3, 1f
-	mov	#15, r0
+	mov	$15, r0
 	halt
-1:	mov	#0, r0
+1:	mov	$0, r0
 	halt
 xh:	jmp	r20
 hh:	mfsr	r6, hcause		; the hypervisor's own interrupt handler
 	mfsr	r7, hexitr
-	add	#1, r10
-	rti	#RTIMASK_ALL
+	add	$1, r10
+	rti	$RTIMASK_ALL
 	.data
 	.align	8
 htab:	.space	4096

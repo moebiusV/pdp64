@@ -1,2 +1,2 @@
 	.text
-	tlbigp #1
+	tlbigp $1

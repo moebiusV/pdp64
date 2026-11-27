@@ -42,7 +42,7 @@ darg = string | bqstring | sqstring | expr
 ;   global a, b = .globl      extern a = nothing (an undefined symbol is external)     bits 64      default rel, cpu x = nothing
 ;   align n, alignb n = .align       resb|resw|resd|resq n = .space n, 2n, 4n, 8n       dd, dq = .long, .quad (db and dw are above)
 ;   section .text|.data|.bss (and .rodata, .rdata = .data; options after the name are ignored)
-;   times n db|dw|dd|dq v = .fill n, size, v     (n may use $ and $$: times 510-($-$$) db 0)
+;   times n db|dw|dd|dq v = .fill n, size, v
 nasmdir  = nname [ dargs ]
 nname    = "global" | "extern" | "bits" | "default" | "cpu" | "align" | "alignb" | "resb" | "resw" | "resd" | "resq"
          | "GLOBAL" | "EXTERN" | "BITS" | "DEFAULT" | "CPU" | "ALIGN" | "ALIGNB" | "RESB" | "RESW" | "RESD" | "RESQ"
@@ -71,9 +71,10 @@ operand = opbody
 ; a register with a format mark directly after it, `r1.f32`, `sp.s64`: the register name and the mark are one token, so a symbol that merely looks like it (`buf.f32`, `x.s8`, a label `r1.f32:`) is not one,
 ; and the mark is a letter and digits (the sizes are checked where the instruction is read, as64: only `fcvt` accepts a mark).  First among the operands, before `bare`, which would take `r1.f32` as a symbol
 markop  = markreg !idchar
-markreg = r"%?(r([12][0-9]|3[01]|[0-9])|sp|fp)\.[a-z][0-9]+"
-; `#expr`, or `$expr` as AT&T and the Microsoft assemblers write it
-immop   = ( "#" | "$" ) expr
+markreg = r"(r([12][0-9]|3[01]|[0-9])|sp|fp)\.[a-z][0-9]+"
+; an immediate is `$expr`, as the V7 assembler writes it; `#expr`, the spelling of MACRO-11, is accepted too.  A register after the marker (`$r1`, `$sp`) is no expression: as64 refuses it
+; with a message (a register is written without a sigil), and so it does a `$` that stands anywhere else (asmp.c)
+immop   = ( "$" | "#" ) expr
 absop   = "@" expr
 regop   = reg
 ; a vector register v0..v15 (the vec block), only in `voperand`
@@ -93,7 +94,7 @@ poolop  = "=" expr
 
 ; R0..R15; SP is R14 and FP is R13 (ISA 2.1); PC and DP only as a base register
 ; (a register is recognized by its characters, not as a word: the whole-word scan counts `.` and `-` as word characters, so `r5-8` would not be seen; `sp-8` is a register and a displacement)
-reg      = regtok | "%" regtok
+reg      = regtok
 regtok   = rbody !idchar
 rbody    = r"r([0-9]|[12][0-9]|3[01])|sp|fp"
 basereg  = reg | basespec
@@ -106,37 +107,31 @@ term    = unary *( mulop unary )
 mulop   = "*" | "/" | "%" | "&" | "<<" | ">>"
 ; `<x` is the low byte of x and `>x` its high byte (the 6502 assemblers' operators); `a ! b` is `a | ~b`, the V7 assembler's or-not
 unary   = *( "-" | "~" | "!" | "<" | ">" ) primary
-; a number is a whole bareword: 3dfx is a name, 3 and 0x3d and 1f are not
-primary = prefixnum !idchar | suffnum !idchar | localref !idchar | decnum !idchar | charlit | mcharlit | dollar | symbol | "." | "(" expr ")" | "[" expr "]"
+; a number is a whole bareword: 3dfx is a name, 3 and 0x3d and 1f are not.  A number is decimal, or 0x hexadecimal, 0o octal, 0b binary, the prefixes in lower case; a decimal number with a leading
+; zero (`077`) and every number of an older spelling (`0FFh`, `17q`, `10d`, `0X1F`) is read by as64 (asmp.c) so that it can say what to write instead.  A value mark (`.s8 .u8 ... .u64`, `.f8 ... .f64`) after a number or a
+; symbol is read by as64 too: `limit.u16` is one word to this grammar, and a name that ends in a mark is reserved (as64 refuses to define it)
+primary = prefixnum !idchar | localref !idchar | decnum !idchar | charlit | mcharlit | symbol | "." | "(" expr ")" | "[" expr "]"
 
 prefixnum = hexnum | binnum | octnum
 hexnum   = "0" xch 1*HEXDIG
-xch      = 0x78 | 0x58
+xch      = 0x78
 binnum   = "0" bch 1*( "0" | "1" )
-bch      = 0x62 | 0x42
+bch      = 0x62
 octnum   = "0" och 1*( "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" )
-och      = 0x6F | 0x4F
+och      = 0x6F
 decnum   = 1*DIGIT
 charlit  = 0x27 chch 0x27
-; NASM's numbers with a suffix: 0A6h, 1001b, 17q or 17o, 10d or 10t.  They overlap two things, which as64 settles when it evaluates (as64.c): `1b` is also the nearest numeric
-; label 1 before this line, and a name such as `A6h` may be a symbol.  A label that is defined wins in both; with none, the token is the number.
-suffnum  = hexsuf | binsuf | octsuf | decsuf
-hexsuf   = 1*HEXDIG ( "h" | "H" )
-binsuf   = 1*( "0" | "1" ) ( "b" | "B" )
-octsuf   = 1*OCT ( "q" | "Q" | "o" | "O" )
-decsuf   = 1*DIGIT ( "d" | "D" | "t" | "T" )
-; NASM's `'abcd'`: up to eight characters, the first the lowest byte; `$` is the location counter and `$$` the start of the section (a `$` that is not followed by a name)
+; NASM's `'abcd'`: up to eight characters, the first the lowest byte
 mcharlit = 0x27 chch 1*chch 0x27
-dollar   = ( "$$" | "$" ) !idchar
 chch     = 0x20..0x26 | 0x28..0x5B | 0x5D..0x7E | uni | escape
 localref = 1*DIGIT fbch
 fbch     = 0x66 | 0x62
 ; a name cannot be `r` followed only by digits: r0..r31 are registers (05-registers.hbnf) and anything else of that shape (r32, r99) is an error,
 ; not a name.  So a name either starts with something other than `r`, or is `r` followed by digits and then something that is not a digit.
-; a name is never a valid number (the author, errata 163): `A6h`, `1001b`, `0x1f`, `17q` are numbers and cannot be labels, assigned or declared; `3dfx` is a name.  The one thing that
-; looks like a number and is a label is the numeric local label, digits only (`1:`, referenced as `1b` and `1f`).  A name that must have such a spelling is written in double quotes.
+; a name is never a valid number: `0x1f` is a number and cannot be a label, assigned or declared; `3dfx` is a name.  The one thing that looks like a number and is a label is the numeric local
+; label, digits only (`1:`, referenced as `1b` and `1f`).  A name that must have such a spelling is written in double quotes.
 symbol   = !numtok ( ( oidstart | DIGIT ) *idchar | rname | qname )
-numtok   = ( prefixnum | suffnum ) !idchar
+numtok   = prefixnum !idchar
 oidstart = 0x41..0x5A | 0x61..0x71 | 0x73..0x7A | 0x5F | 0x2E | uni
 rname    = 0x72 *DIGIT nodig *idchar | 0x72
 nodig    = ALPHA | 0x5F | 0x2E | 0x24 | uni

@@ -8,7 +8,7 @@ _start:
 	lea	vtab, r1
 	mtsr	vbr, r1
 	lea	hgen, r2
-	mov	#512, r3
+	mov	$512, r3
 kfill:	mov	r2, (r1)+
 	sob	r3, kfill
 	lea	vtab, r1
@@ -20,7 +20,7 @@ kfill:	mov	r2, (r1)+
 	mov	r2, 2104(r1)
 
 	lea	dst0, r3
-	vclr.l	v0, #1
+	vclr.l	v0, $1
 	lea	src, r1
 	lea	src+32, r5
 	vec	r1, r5
@@ -29,9 +29,9 @@ kfill:	mov	r2, (r1)+
 	vst.l	v0, (r3)+
 	vend
 	lea	dst1, r3
-	vclr.l	v0, #1
+	vclr.l	v0, $1
 	lea	Nx, r13
-	trap	#7
+	trap	$7
 Nx:
 	lea	src, r1
 	lea	src+32, r5
@@ -42,19 +42,19 @@ Nx:
 	vend
 	lea	dst0, r1
 	lea	dst1, r2
-	mov	#4, r3
+	mov	$4, r3
 cmpl:	mov	(r1)+, r4
 	mov	(r2)+, r5
 	cbeq	r4, r5, 1f
-	mov	#1, r0
+	mov	$1, r0
 	halt
 1:	sob	r3, cmpl	; check 1: the result with an exception between vclr and vec equals the result without
-	mov	#0, r0
+	mov	$0, r0
 	halt
 
-h_ret:	rti	#RTIMASK_ALL
+h_ret:	rti	$RTIMASK_ALL
 hgen:	mov	cnt, r12
-	add	#1, r12
+	add	$1, r12
 	mov	r12, cnt
 	mfsr	r12, ecause
 	mov	r12, last_cause
@@ -65,8 +65,8 @@ hgen:	mov	cnt, r12
 	mfsr	r12, epsw
 	mov	r12, last_epsw
 	mtsr	epc, r13
-	rti	#RTIMASK_ALL
-h_ok:	mov	#0, r0
+	rti	$RTIMASK_ALL
+h_ok:	mov	$0, r0
 h_fail:	halt
 
 	.data

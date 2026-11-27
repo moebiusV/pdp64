@@ -19,7 +19,7 @@ For the author's annotation. This follows the author's decisions on `security-ro
 | `BSEL rm, ra, rb, rd` | bitwise select: `rd ← (rm & ra) \| (~rm & rb)` | 4 (`BESC` `0x33`) | 1 |
 | `AESES`, `AESESM ra, rb, rd` | AES encryption half-round on a 128-bit state held in `ra`:`rb`: ShiftRows and SubBytes (the `M` form adds MixColumns); writes the low 64 bits of the new state | 4 (`BESC` `0x50`, `0x51`) | 1 |
 | `AESDS`, `AESDSM ra, rb, rd` | the decryption half-round (inverse ShiftRows, inverse SubBytes; `M` adds inverse MixColumns) | 4 (`0x52`, `0x53`) | 1 |
-| `AESKS1 rs, #n, rd` | key expansion step 1: SubWord of the rotated top word of `rs`, xor round constant `n` | 4 (`0x54`) | 1 |
+| `AESKS1 rs, $n, rd` | key expansion step 1: SubWord of the rotated top word of `rs`, xor round constant `n` | 4 (`0x54`) | 1 |
 | `AESKS2 ra, rb, rd` | key expansion step 2: the two xor-chained words | 4 (`0x55`) | 1 |
 | `AESIM rs, rd` | InvMixColumns of a round-key half, for the decryption key schedule | 4 (`0x56`) | 1 |
 | `SHA256SIG0`, `SIG1`, `SUM0`, `SUM1 rs, rd` | the four SHA-256 rotate-xor functions on a 32-bit word | 4 (`0x60`-`0x63`) | 1 |
@@ -245,7 +245,7 @@ All stage-1 instructions are four bytes, one destination register, no flags writ
 |---|---|---|---|
 | `AESES`, `AESESM ra, rb, rd` | take the 16 bytes `rb:ra`, apply ShiftRows, SubBytes (and MixColumns for `M`), write the 8 bytes belonging to columns 0 and 1; swapped operands give columns 2 and 3 | + + 0 0 0 0 | adopt |
 | `AESDS`, `AESDSM` | the inverses (equivalent inverse cipher) | + + 0 0 0 0 | adopt |
-| `AESKS1 rs, #n, rd` | `rd ← (SubWord(RotWord(rs[63:32])) xor rcon(n)) replicated in both halves`; `n` in `x` (0-10; 10 means no round constant, for AES-256) | + + 0 0 0 0 | adopt |
+| `AESKS1 rs, $n, rd` | `rd ← (SubWord(RotWord(rs[63:32])) xor rcon(n)) replicated in both halves`; `n` in `x` (0-10; 10 means no round constant, for AES-256) | + + 0 0 0 0 | adopt |
 | `AESKS2 ra, rb, rd` | `rd[31:0] ← ra[31:0] xor rb[63:32]`; `rd[63:32] ← ra[63:32] xor rd[31:0]` | + + 0 0 0 0 | adopt |
 | `AESIM rs, rd` | InvMixColumns of two columns (a round-key half) | + 0 0 0 0 0 | adopt |
 | `SHA256SIG0/1 rs, rd` | σ0, σ1 of the low 32 bits of `rs`: `ror7 xor ror18 xor shr3`; `ror17 xor ror19 xor shr10`; result in the low 32 bits, upper bits zero | + + 0 0 0 0 | adopt |
@@ -288,7 +288,7 @@ An AES S-box is the inversion in GF(2^8) followed by an affine map. In hardware 
 
 **SHA-3 and Keccak.** Not in stage 1. The permutation has 25 lanes of 64 bits against 13 usable registers, so a software round spills (estimated 200 instructions per round, 4,800 per permutation, 35 per byte at the 136-byte rate); it is naturally constant-time (add-free, rotate and xor and and-not), so correctness needs no instruction, only speed does. ARM has it in vector form; RISC-V scalar does not. The right form here is the stage-2 `MKECCAK Rd`, a whole permutation on the 200-byte state in memory, 24 rounds in about 24 to 30 cycles (estimate), roughly 150x. Wanted when ML-KEM or ML-DSA are *(from memory)* hash-bound; not before. Reserve `MBLK` `0x23`.
 
-**ChaCha20.** Existing instructions suffice: `ADD`, `XOR` and `RORI32` (the rotate is already there for exactly this, ISA section 4.5.1, and sign-extends its result, which is harmless because the next add and xor use the low 32 bits). A quarter-round is 12 instructions. A fused `XORROR32 rd, ra, rb, #n` (xor, then rotate) would cut it to 8 and the count to 20 or so, 33%; it needs a 5-bit immediate beside three registers, so a 6-byte form. The cost is spills, not the rotate, and ChaCha20 is already faster than constant-time AES in software (`hardware-vulnerabilities.md:141`). **Not recommended.**
+**ChaCha20.** Existing instructions suffice: `ADD`, `XOR` and `RORI32` (the rotate is already there for exactly this, ISA section 4.5.1, and sign-extends its result, which is harmless because the next add and xor use the low 32 bits). A quarter-round is 12 instructions. A fused `XORROR32 rd, ra, rb, $n` (xor, then rotate) would cut it to 8 and the count to 20 or so, 33%; it needs a 5-bit immediate beside three registers, so a 6-byte form. The cost is spills, not the rotate, and ChaCha20 is already faster than constant-time AES in software (`hardware-vulnerabilities.md:141`). **Not recommended.**
 
 **Poly1305 and X25519.** What exists: `MUL` (low 64 bits), `MULH`/`MULHU` (high 64 bits), `ADD` setting `C`, and `ADC`/`SBC` (`SOP` slots 6 and 7: `ADC rd` adds the carry into `rd`). A 64x64 to 128 product is `MUL` and `MULHU`; accumulating it into a 128-bit pair is `ADD lo` then `ADC hi`, four instructions per product. Nothing is missing. **Two checks the specification owes:** `MUL`, `MULH` and `MULHU` must write no flags (or at least not `C`), or an `ADD`/`ADC` pair cannot straddle a multiply; and on the secure class they must be fixed-latency (section 1.1), because an early-out multiplier on secret limbs is the classic leak. A fused multiply-accumulate-high (`rd ← high(ra*rb) + rc + C`) would save one instruction in four (x86's `MULX`/`ADCX` and ARM's `UMADDL` in spirit); it needs a fourth register and a second output, so no. A constant-time modular reduction helper: not warranted; the Mersenne-like primes of the two curves reduce with shifts and one multiply by 19, and Barrett or Montgomery reductions use `MULHU`.
 

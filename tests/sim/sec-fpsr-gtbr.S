@@ -4,27 +4,27 @@
 	.text
 	.globl	_start
 _start:
-	mov	#0x1f, r1
+	mov	$0x1f, r1
 	fsflags	r1, r2
-	mov	#0, r1
+	mov	$0, r1
 	mtsr	vtoff, r1
-	mov	#0, r1
+	mov	$0, r1
 	fsflags	r1, r2
 	mov	=(0x1f), r17
 	cbeq	r2, r17, 1f	; check 1 control: a write of VTOFF leaves the floating-point flags (the probe sees them)
-	mov	#1, r0
+	mov	$1, r0
 	halt
 1:
-	mov	#0x1f, r1
+	mov	$0x1f, r1
 	fsflags	r1, r2
-	mov	#0, r1
+	mov	$0, r1
 	mtsr	gtbr, r1
-	mov	#0, r1
+	mov	$0, r1
 	fsflags	r1, r2
 	mov	=(0), r17
 	cbeq	r2, r17, 1f	; check 2 the floating-point flags are clear after a write of GTBR
-	mov	#2, r0
+	mov	$2, r0
 	halt
 1:
-	mov	#0, r0
+	mov	$0, r0
 	halt

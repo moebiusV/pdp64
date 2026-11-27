@@ -1,2 +1,2 @@
 	.text
-	aadd #2, (r3), r1
+	aadd $2, (r3), r1

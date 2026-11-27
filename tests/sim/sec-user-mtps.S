@@ -7,7 +7,7 @@ _start:
 	lea	vtab, r1
 	mtsr	vbr, r1
 	lea	hgen, r2
-	mov	#512, r3
+	mov	$512, r3
 kfill:	mov	r2, (r1)+
 	sob	r3, kfill
 	lea	vtab, r1
@@ -20,10 +20,10 @@ kfill:	mov	r2, (r1)+
 	mtsr	usp, r1
 	lea	user, r1
 	mtsr	epc, r1
-	mov	#((MODE_USER<<PSW_MODE)|(MODE_USER<<PSW_PREV)), r1
+	mov	$((MODE_USER<<PSW_MODE)|(MODE_USER<<PSW_PREV)), r1
 	mtsr	epsw, r1
-	mov	#0, r1
-	rti	#RTIMASK_ALL
+	mov	$0, r1
+	rti	$RTIMASK_ALL
 user:
 	lea	Nm0, r13
 	mov	cnt, r10
@@ -33,20 +33,20 @@ Nm0:	mov	cnt, r11
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 1 mtps of 0 from user mode faults (one exception)
-	mov	#1, r0
-	trap	#1
+	mov	$1, r0
+	trap	$1
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_PRIVILEGED), r17
 	cbeq	r11, r17, 1f	; check 2 the fault of mtps of 0 is the privileged-instruction vector
-	mov	#2, r0
-	trap	#1
+	mov	$2, r0
+	trap	$1
 1:
 	mfps	r5
 	mov	=((MODE_USER<<PSW_MODE)|(MODE_USER<<PSW_PREV)), r17
 	cbeq	r5, r17, 1f	; check 3 after mtps of 0 the mode, previous mode, priority, T and the reserved low bits are unchanged
-	mov	#3, r0
-	trap	#1
+	mov	$3, r0
+	trap	$1
 1:
 	lea	Nm1, r13
 	mov	cnt, r10
@@ -56,20 +56,20 @@ Nm1:	mov	cnt, r11
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 4 mtps of 0xf from user mode faults (one exception)
-	mov	#4, r0
-	trap	#1
+	mov	$4, r0
+	trap	$1
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_PRIVILEGED), r17
 	cbeq	r11, r17, 1f	; check 5 the fault of mtps of 0xf is the privileged-instruction vector
-	mov	#5, r0
-	trap	#1
+	mov	$5, r0
+	trap	$1
 1:
 	mfps	r5
 	mov	=((MODE_USER<<PSW_MODE)|(MODE_USER<<PSW_PREV)), r17
 	cbeq	r5, r17, 1f	; check 6 after mtps of 0xf the mode, previous mode, priority, T and the reserved low bits are unchanged
-	mov	#6, r0
-	trap	#1
+	mov	$6, r0
+	trap	$1
 1:
 	lea	Nm2, r13
 	mov	cnt, r10
@@ -79,20 +79,20 @@ Nm2:	mov	cnt, r11
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 7 mtps of 0x1f from user mode faults (one exception)
-	mov	#7, r0
-	trap	#1
+	mov	$7, r0
+	trap	$1
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_PRIVILEGED), r17
 	cbeq	r11, r17, 1f	; check 8 the fault of mtps of 0x1f is the privileged-instruction vector
-	mov	#8, r0
-	trap	#1
+	mov	$8, r0
+	trap	$1
 1:
 	mfps	r5
 	mov	=((MODE_USER<<PSW_MODE)|(MODE_USER<<PSW_PREV)), r17
 	cbeq	r5, r17, 1f	; check 9 after mtps of 0x1f the mode, previous mode, priority, T and the reserved low bits are unchanged
-	mov	#9, r0
-	trap	#1
+	mov	$9, r0
+	trap	$1
 1:
 	lea	Nm3, r13
 	mov	cnt, r10
@@ -102,20 +102,20 @@ Nm3:	mov	cnt, r11
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 10 mtps of 0xe0 from user mode faults (one exception)
-	mov	#10, r0
-	trap	#1
+	mov	$10, r0
+	trap	$1
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_PRIVILEGED), r17
 	cbeq	r11, r17, 1f	; check 11 the fault of mtps of 0xe0 is the privileged-instruction vector
-	mov	#11, r0
-	trap	#1
+	mov	$11, r0
+	trap	$1
 1:
 	mfps	r5
 	mov	=((MODE_USER<<PSW_MODE)|(MODE_USER<<PSW_PREV)), r17
 	cbeq	r5, r17, 1f	; check 12 after mtps of 0xe0 the mode, previous mode, priority, T and the reserved low bits are unchanged
-	mov	#12, r0
-	trap	#1
+	mov	$12, r0
+	trap	$1
 1:
 	lea	Nm4, r13
 	mov	cnt, r10
@@ -125,20 +125,20 @@ Nm4:	mov	cnt, r11
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 13 mtps of 0x300 from user mode faults (one exception)
-	mov	#13, r0
-	trap	#1
+	mov	$13, r0
+	trap	$1
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_PRIVILEGED), r17
 	cbeq	r11, r17, 1f	; check 14 the fault of mtps of 0x300 is the privileged-instruction vector
-	mov	#14, r0
-	trap	#1
+	mov	$14, r0
+	trap	$1
 1:
 	mfps	r5
 	mov	=((MODE_USER<<PSW_MODE)|(MODE_USER<<PSW_PREV)), r17
 	cbeq	r5, r17, 1f	; check 15 after mtps of 0x300 the mode, previous mode, priority, T and the reserved low bits are unchanged
-	mov	#15, r0
-	trap	#1
+	mov	$15, r0
+	trap	$1
 1:
 	lea	Nm5, r13
 	mov	cnt, r10
@@ -148,20 +148,20 @@ Nm5:	mov	cnt, r11
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 16 mtps of 0xc00 from user mode faults (one exception)
-	mov	#16, r0
-	trap	#1
+	mov	$16, r0
+	trap	$1
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_PRIVILEGED), r17
 	cbeq	r11, r17, 1f	; check 17 the fault of mtps of 0xc00 is the privileged-instruction vector
-	mov	#17, r0
-	trap	#1
+	mov	$17, r0
+	trap	$1
 1:
 	mfps	r5
 	mov	=((MODE_USER<<PSW_MODE)|(MODE_USER<<PSW_PREV)), r17
 	cbeq	r5, r17, 1f	; check 18 after mtps of 0xc00 the mode, previous mode, priority, T and the reserved low bits are unchanged
-	mov	#18, r0
-	trap	#1
+	mov	$18, r0
+	trap	$1
 1:
 	lea	Nm6, r13
 	mov	cnt, r10
@@ -171,20 +171,20 @@ Nm6:	mov	cnt, r11
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 19 mtps of 0x1000 from user mode faults (one exception)
-	mov	#19, r0
-	trap	#1
+	mov	$19, r0
+	trap	$1
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_PRIVILEGED), r17
 	cbeq	r11, r17, 1f	; check 20 the fault of mtps of 0x1000 is the privileged-instruction vector
-	mov	#20, r0
-	trap	#1
+	mov	$20, r0
+	trap	$1
 1:
 	mfps	r5
 	mov	=((MODE_USER<<PSW_MODE)|(MODE_USER<<PSW_PREV)), r17
 	cbeq	r5, r17, 1f	; check 21 after mtps of 0x1000 the mode, previous mode, priority, T and the reserved low bits are unchanged
-	mov	#21, r0
-	trap	#1
+	mov	$21, r0
+	trap	$1
 1:
 	lea	Nm7, r13
 	mov	cnt, r10
@@ -194,20 +194,20 @@ Nm7:	mov	cnt, r11
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 22 mtps of 0x1fff from user mode faults (one exception)
-	mov	#22, r0
-	trap	#1
+	mov	$22, r0
+	trap	$1
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_PRIVILEGED), r17
 	cbeq	r11, r17, 1f	; check 23 the fault of mtps of 0x1fff is the privileged-instruction vector
-	mov	#23, r0
-	trap	#1
+	mov	$23, r0
+	trap	$1
 1:
 	mfps	r5
 	mov	=((MODE_USER<<PSW_MODE)|(MODE_USER<<PSW_PREV)), r17
 	cbeq	r5, r17, 1f	; check 24 after mtps of 0x1fff the mode, previous mode, priority, T and the reserved low bits are unchanged
-	mov	#24, r0
-	trap	#1
+	mov	$24, r0
+	trap	$1
 1:
 	lea	Nm8, r13
 	mov	cnt, r10
@@ -217,20 +217,20 @@ Nm8:	mov	cnt, r11
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 25 mtps of 0xffff from user mode faults (one exception)
-	mov	#25, r0
-	trap	#1
+	mov	$25, r0
+	trap	$1
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_PRIVILEGED), r17
 	cbeq	r11, r17, 1f	; check 26 the fault of mtps of 0xffff is the privileged-instruction vector
-	mov	#26, r0
-	trap	#1
+	mov	$26, r0
+	trap	$1
 1:
 	mfps	r5
 	mov	=((MODE_USER<<PSW_MODE)|(MODE_USER<<PSW_PREV)), r17
 	cbeq	r5, r17, 1f	; check 27 after mtps of 0xffff the mode, previous mode, priority, T and the reserved low bits are unchanged
-	mov	#27, r0
-	trap	#1
+	mov	$27, r0
+	trap	$1
 1:
 	lea	Nm9, r13
 	mov	cnt, r10
@@ -240,20 +240,20 @@ Nm9:	mov	cnt, r11
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 28 mtps of 0xffffffffffffffff from user mode faults (one exception)
-	mov	#28, r0
-	trap	#1
+	mov	$28, r0
+	trap	$1
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_PRIVILEGED), r17
 	cbeq	r11, r17, 1f	; check 29 the fault of mtps of 0xffffffffffffffff is the privileged-instruction vector
-	mov	#29, r0
-	trap	#1
+	mov	$29, r0
+	trap	$1
 1:
 	mfps	r5
 	mov	=((MODE_USER<<PSW_MODE)|(MODE_USER<<PSW_PREV)), r17
 	cbeq	r5, r17, 1f	; check 30 after mtps of 0xffffffffffffffff the mode, previous mode, priority, T and the reserved low bits are unchanged
-	mov	#30, r0
-	trap	#1
+	mov	$30, r0
+	trap	$1
 1:
 	lea	Nm10, r13
 	mov	cnt, r10
@@ -263,20 +263,20 @@ Nm10:	mov	cnt, r11
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 31 mtps of (7<<PSW_PRI)|(MODE_KERNEL<<PSW_MODE) from user mode faults (one exception)
-	mov	#31, r0
-	trap	#1
+	mov	$31, r0
+	trap	$1
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_PRIVILEGED), r17
 	cbeq	r11, r17, 1f	; check 32 the fault of mtps of (7<<PSW_PRI)|(MODE_KERNEL<<PSW_MODE) is the privileged-instruction vector
-	mov	#32, r0
-	trap	#1
+	mov	$32, r0
+	trap	$1
 1:
 	mfps	r5
 	mov	=((MODE_USER<<PSW_MODE)|(MODE_USER<<PSW_PREV)), r17
 	cbeq	r5, r17, 1f	; check 33 after mtps of (7<<PSW_PRI)|(MODE_KERNEL<<PSW_MODE) the mode, previous mode, priority, T and the reserved low bits are unchanged
-	mov	#33, r0
-	trap	#1
+	mov	$33, r0
+	trap	$1
 1:
 	lea	Nm11, r13
 	mov	cnt, r10
@@ -286,26 +286,26 @@ Nm11:	mov	cnt, r11
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 34 mtps of 0x1000|(1<<PSW_T) from user mode faults (one exception)
-	mov	#34, r0
-	trap	#1
+	mov	$34, r0
+	trap	$1
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_PRIVILEGED), r17
 	cbeq	r11, r17, 1f	; check 35 the fault of mtps of 0x1000|(1<<PSW_T) is the privileged-instruction vector
-	mov	#35, r0
-	trap	#1
+	mov	$35, r0
+	trap	$1
 1:
 	mfps	r5
 	mov	=((MODE_USER<<PSW_MODE)|(MODE_USER<<PSW_PREV)), r17
 	cbeq	r5, r17, 1f	; check 36 after mtps of 0x1000|(1<<PSW_T) the mode, previous mode, priority, T and the reserved low bits are unchanged
-	mov	#36, r0
-	trap	#1
+	mov	$36, r0
+	trap	$1
 1:
-	mov	#0, r0
-	trap	#0
+	mov	$0, r0
+	trap	$0
 
 hgen:	mov	cnt, r12
-	add	#1, r12
+	add	$1, r12
 	mov	r12, cnt
 	mfsr	r12, ecause
 	mov	r12, last_cause
@@ -316,8 +316,8 @@ hgen:	mov	cnt, r12
 	mfsr	r12, epsw
 	mov	r12, last_epsw
 	mtsr	epc, r13
-	rti	#RTIMASK_ALL
-h_ok:	mov	#0, r0
+	rti	$RTIMASK_ALL
+h_ok:	mov	$0, r0
 h_fail:	halt
 
 	.data

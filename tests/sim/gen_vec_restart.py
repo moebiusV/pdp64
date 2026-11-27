@@ -152,7 +152,7 @@ for mn, lane, how in (('vsarr', 'w', 'reg3'), ('vshrr', 'w', 'imm5'), ('vsarr', 
              model=mapk(lambda i, N, a=a, c=c, rr=rr: rr(a[i], c)))
     else:
         c = int(how[3:])
-        kern('%s.%s by an immediate' % (mn, lane), LB[lane], ['vld.%s v0, (r1)+' % m, '%s.%s v1, v0, #%d' % (mn, lane, c), 'vst.%s v1, (r3)+' % lane], (LB[lane], a), eo=LB[lane],
+        kern('%s.%s by an immediate' % (mn, lane), LB[lane], ['vld.%s v0, (r1)+' % m, '%s.%s v1, v0, $%d' % (mn, lane, c), 'vst.%s v1, (r3)+' % lane], (LB[lane], a), eo=LB[lane],
              model=mapk(lambda i, N, a=a, c=c, rr=rr: rr(a[i], c)))
 # vmla vector by vector (the accumulator is loaded each strip: a visible destination)
 for lane in ('w', 'l'):
@@ -206,7 +206,7 @@ for lane, m, sh in (('l', 'w', 15), ('w', 'bu', 1), ('l', 'bu', 8)):
         x = sx(a[i], bits)
         x = (x + (1 << (sh - 1))) >> sh if sh else x
         return ux(max(lo_, min(hi_, x)), mb)
-    kern('vsts.%s.%s rounding shift %d' % (lane, m, sh), LB[lane], ['vld.%s v0, (r1)+' % lane, 'vsts.%s.%s v0, (r3)+, #%d' % (lane, m, sh)], (LB[lane], a), eo=msz, model=mapk(vs))
+    kern('vsts.%s.%s rounding shift %d' % (lane, m, sh), LB[lane], ['vld.%s v0, (r1)+' % lane, 'vsts.%s.%s v0, (r3)+, $%d' % (lane, m, sh)], (LB[lane], a), eo=msz, model=mapk(vs))
 
 # ---------------------------------------------------------------- wave 2
 CMPNAME = {'vceq': lambda x, y, bits: ux(x, bits) == ux(y, bits), 'vcgt': lambda x, y, bits: sx(x, bits) > sx(y, bits), 'vcgtu': lambda x, y, bits: ux(x, bits) > ux(y, bits)}
@@ -313,7 +313,7 @@ def h1(N):
     return out, None
 
 
-kern('hidden: vclr.l + vadd.l (running sums by lane)', 4, ['vclr.l v4, #1', 'vld.l v0, (r1)+', 'vadd.l v4, v4, v0', 'vst.l v4, (r3)+'], (4, a), eo=4, hidden=True, model=h1)
+kern('hidden: vclr.l + vadd.l (running sums by lane)', 4, ['vclr.l v4, $1', 'vld.l v0, (r1)+', 'vadd.l v4, v4, v0', 'vst.l v4, (r3)+'], (4, a), eo=4, hidden=True, model=h1)
 a = rnd(16, NMAX); b = rnd(16, NMAX)
 
 
@@ -327,7 +327,7 @@ def h2(N):
     return [], [0] * N + [r]
 
 
-kern('hidden: vclr.l + vdot.w + vacc.l.q', 4, ['vclr.l v4, #1', 'vld.w v0, (r1)+', 'vld.w v1, (r2)+', 'vdot.w v4, v0, v1', 'vacc.l.q r10, v4'], (2, a), B=(2, b), hidden=True, init=0, model=h2)
+kern('hidden: vclr.l + vdot.w + vacc.l.q', 4, ['vclr.l v4, $1', 'vld.w v0, (r1)+', 'vld.w v1, (r2)+', 'vdot.w v4, v0, v1', 'vacc.l.q r10, v4'], (2, a), B=(2, b), hidden=True, init=0, model=h2)
 
 
 
@@ -391,15 +391,15 @@ def hepi(N):
     return [], [0] * N + [fin]
 
 
-kern('hidden: vclr.l + vadd.l, vfin, a table load and vacc.l.q', 4, ['vclr.l v4, #1', 'vld.l v0, (r1)+', 'vadd.l v4, v4, v0', 'vfin', 'vld.l v5, (r6)', 'vadd.l v4, v4, v5', 'vacc.l.q r10, v4'],
+kern('hidden: vclr.l + vadd.l, vfin, a table load and vacc.l.q', 4, ['vclr.l v4, $1', 'vld.l v0, (r1)+', 'vadd.l v4, v4, v0', 'vfin', 'vld.l v5, (r6)', 'vadd.l v4, v4, v5', 'vacc.l.q r10, v4'],
      (4, a), T=(pack(tw, 4), 'mem'), hidden=True, init=0, model=hepi)
 
 # an in-place kernel (the stream is read and written: a restart that repeats the strips before the fault would add 1 twice) and a block whose accumulator is named
 # before the block (the hand-written micro-kernels do this: vclr, then vec)
 a = rnd(32, NMAX)
-kern('in place: a[i] += 1', 4, ['vld.l v0, (r1)+', 'vadd.l v1, v0, #1', 'vst.l v1, (r3)+'], (4, a), eo=4, inplace=True, model=mapk(lambda i, N: ux(a[i] + 1, 32)))
+kern('in place: a[i] += 1', 4, ['vld.l v0, (r1)+', 'vadd.l v1, v0, $1', 'vst.l v1, (r3)+'], (4, a), eo=4, inplace=True, model=mapk(lambda i, N: ux(a[i] + 1, 32)))
 a = rnd(32, NMAX)
-kern('hidden: vclr before the block', 4, ['vld.l v0, (r1)+', 'vadd.l v4, v4, v0', 'vst.l v4, (r3)+'], (4, a), eo=4, hidden=True, pre=['vclr.l v4, #1'], model=h1)
+kern('hidden: vclr before the block', 4, ['vld.l v0, (r1)+', 'vadd.l v4, v4, v0', 'vst.l v4, (r3)+'], (4, a), eo=4, hidden=True, pre=['vclr.l v4, $1'], model=h1)
 
 # ---------------------------------------------------------------- scenarios
 # the registers of a kernel: r1 stream A, r2 B, r7 C, r3 out O, r6 table T, r5 the end of A, r10 the scalar, r8 a register operand
@@ -608,7 +608,7 @@ w('\tlea\tvtab, r1')
 w('\tmtsr\tvbr, r1')
 w('\tlea\tl2, r1')
 w('\tmtsr\tptbr, r1')
-w('\tmovq\t#1, r1')
+w('\tmovq\t$1, r1')
 w('\tmtsr\tmmuctl, r1')
 w('\tlea\trows, r12')
 w('\tlea\trows_end, r13')
@@ -617,40 +617,40 @@ rowloop:
 	cbeq	r12, r13, alldone
 ; the normal streams: copy the image, or fill the destination with 0xa5
 	movq	r12, r11
-	add	#96, r11
+	add	$96, r11
 	movq	r12, r10
-	add	#256, r10
+	add	$256, r10
 prep:	cbeq	r11, r10, prepdone
 	movq	8(r11), r4
-	cbeq	r4, #0, pnext
+	cbeq	r4, $0, pnext
 	movq	24(r11), r3
-	cbne	r3, #0, pnext
+	cbne	r3, $0, pnext
 	movq	(r11), r2
 	movq	16(r11), r1
-	cbeq	r1, #0, pfill
+	cbeq	r1, $0, pfill
 	mcpy	r2, r1, r4
 	br	pnext
-pfill:	movq	#0xa5, r1
+pfill:	movq	$0xa5, r1
 	mset	r2, r1, r4
-pnext:	add	#32, r11
+pnext:	add	$32, r11
 	br	prep
 prepdone:
 ; the page before the one that will fault is touched first (it is paged in by the handler)
-	movq	#0, r1
+	movq	$0, r1
 	movq	r1, expect
 	movq	256(r12), r1
-	cbeq	r1, #0, nopre
+	cbeq	r1, $0, nopre
 	movzb	(r1), r2
 nopre:
 	movq	504(r12), r1
-	cbeq	r1, #0, nopre2
+	cbeq	r1, $0, nopre2
 	movzb	(r1), r2
 nopre2:
-	movq	#0, r1
+	movq	$0, r1
 	movq	r1, hcount
 	movq	r1, hr_epc
 	movq	16(r12), r1
-	setne	r1, #0, r1
+	setne	r1, $0, r1
 	movq	r1, expect
 	movq	40(r12), r1
 	movq	48(r12), r2
@@ -668,7 +668,7 @@ nopre2:
 	movq	r3, fin_r3
 	movq	r6, fin_r6
 	movq	r10, fin_r10
-	movq	#0, r1
+	movq	$0, r1
 	movq	r1, expect
 '''
 w(DRV)
@@ -677,7 +677,7 @@ checks = []
 
 def chk(n, lines):
     out = list(lines)
-    out += ['\tcbeq\tr1, r2, 1f', '\tmovq\t#%d, r0' % n, '\thalt', '1:']
+    out += ['\tcbeq\tr1, r2, 1f', '\tmovq\t$%d, r0' % n, '\thalt', '1:']
     return out
 
 
@@ -686,7 +686,7 @@ def cmpq(n, mem, off):
 
 
 w('\tmovq\t16(r12), r1')
-w('\tcbeq\tr1, #0, noflt')
+w('\tcbeq\tr1, $0, noflt')
 # a faulting row: exactly one fault, and its state
 for l in chk(1, ['\tmovq\thcount, r1', '\tmovq\t488(r12), r2']):
     w(l)
@@ -694,7 +694,7 @@ for n, (mem, off) in enumerate([('hr_cause', 264), ('hr_eva1', 272), ('hr_epc', 
     for l in cmpq(2 + n, mem, off):
         w(l)
 w('\tmovq\t24(r12), r1')
-w('\tcbeq\tr1, #3, snapdone')             # clob 3: the handler read EVA, EPC and ECAUSE only and returned; it has no registers to check
+w('\tcbeq\tr1, $3, snapdone')             # clob 3: the handler read EVA, EPC and ECAUSE only and returned; it has no registers to check
 # the state the handler saw (errata 173): the implementation's progress is an element boundary e' no later than the faulting element e0.  e' from the pointer of stream A.
 w('\tmovq\thr_r1, r1')
 w('\tmovq\t40(r12), r2')
@@ -705,44 +705,44 @@ w('\tshr\tr3, r4')                     # e'
 w('\tmovq\tr4, r5')
 w('\tshl\tr3, r5')
 w('\tcbeq\tr5, r1, pg1')
-w('\tmovq\t#5, r0')
+w('\tmovq\t$5, r0')
 w('\thalt')
 w('pg1:\tmovq\t472(r12), r2')          # e0, the faulting element
 w('\tcblos\tr4, r2, pg2')              # e' <= e0
-w('\tmovq\t#5, r0')
+w('\tmovq\t$5, r0')
 w('\thalt')
 w('pg2:\tmovq\t480(r12), r2')          # a block with hidden accumulation restarts from its entry
-w('\tcbeq\tr2, #0, pg3')
-w('\tcbeq\tr4, #0, pg3')
-w('\tmovq\t#5, r0')
+w('\tcbeq\tr2, $0, pg3')
+w('\tcbeq\tr4, $0, pg3')
+w('\tmovq\t$5, r0')
 w('\thalt')
 w('pg3:')
 for n, (hr, ini, shoff) in enumerate([('hr_r1', 40, 288), ('hr_r2', 48, 296), ('hr_r7', 56, 304), ('hr_r3', 64, 312), ('hr_r6', 72, 320)]):
     w('\tmovq\t%d(r12), r3' % shoff)
     w('\tmovq\t%d(r12), r2' % ini)
-    w('\tcbeq\tr3, #-1, pq%d' % n)
+    w('\tcbeq\tr3, $-1, pq%d' % n)
     w('\tmovq\tr4, r5')
     w('\tshl\tr3, r5')
     w('\tadd\tr5, r2')
     w('pq%d:\tmovq\t%s, r1' % (n, hr))
     w('\tcbeq\tr1, r2, pr%d' % n)
-    w('\tmovq\t#%d, r0' % (5 + n))
+    w('\tmovq\t$%d, r0' % (5 + n))
     w('\thalt')
     w('pr%d:' % n)
 # r10: the model's scalar after exactly e' elements
 w('\tmovq\t328(r12), r3')
 w('\tmovq\tr4, r5')
-w('\tshl\t#3, r5')
+w('\tshl\t$3, r5')
 w('\tadd\tr5, r3')
 w('\tmovq\t(r3), r2')
 w('\tmovq\thr_r10, r1')
 w('\tcbeq\tr1, r2, ps1')
-w('\tmovq\t#10, r0')
+w('\tmovq\t$10, r0')
 w('\thalt')
 w('ps1:')
 # the memory: the model before e', the initial bytes from e0, either in between
 w('\tmovq\t344(r12), r3')
-w('\tcbeq\tr3, #0, snapdone')
+w('\tcbeq\tr3, $0, snapdone')
 w('\tmovq\t312(r12), r5')
 w('\tmovq\tr4, r8')
 w('\tshl\tr5, r8')                     # lo: the bytes of the elements before e\'
@@ -750,7 +750,7 @@ w('\tmovq\t496(r12), r9')              # hi: the bytes of the elements before e0
 w('\tlea\thsnap, r1')
 w('\tmovq\t376(r12), r2')
 w('\tmovq\t352(r12), r6')
-w('\tmovq\t#0, r7')
+w('\tmovq\t$0, r7')
 w('snl:\tmovzb\t(r1)+, r4')
 w('\tmovzb\t(r2)+, r5')
 w('\tmovzb\t(r6)+, r0')
@@ -762,14 +762,14 @@ w('\tcbeq\tr4, r5, snn')
 w('\tcbeq\tr4, r0, snn')
 w('\tbr\tsnbad')
 w('sn3:\tcbeq\tr4, r0, snn')
-w('snbad:\tmovq\t#11, r0')
+w('snbad:\tmovq\t$11, r0')
 w('\thalt')
-w('snn:\tadd\t#1, r7')
+w('snn:\tadd\t$1, r7')
 w('\tcbne\tr7, r3, snl')
 w('snapdone:')
 w('\tbr\tfltdone')
 w('noflt:')
-for l in chk(12, ['\tmovq\thcount, r1', '\tmovq\t#0, r2']):
+for l in chk(12, ['\tmovq\thcount, r1', '\tmovq\t$0, r2']):
     w(l)
 w('fltdone:')
 # final state: memory and registers against the model
@@ -777,8 +777,8 @@ w('\tmovq\t360(r12), r1')
 w('\tmovq\t376(r12), r2')
 w('\tmovq\t368(r12), r3')
 w('\tcall\tmemeq')
-w('\tcbeq\tr0, #0, 1f')
-w('\tmovq\t#13, r0')
+w('\tcbeq\tr0, $0, 1f')
+w('\tmovq\t$13, r0')
 w('\thalt')
 w('1:')
 for n, (mem, off) in enumerate([('fin_r1', 384), ('fin_r2', 392), ('fin_r7', 400), ('fin_r3', 408), ('fin_r6', 416), ('fin_r10', 424)]):
@@ -786,9 +786,9 @@ for n, (mem, off) in enumerate([('fin_r1', 384), ('fin_r2', 392), ('fin_r7', 400
         w(l)
 # against the reference run (kind 0 saves it; the misaligned rows compare the memory and the scalar only)
 w('\tmovq\t16(r12), r1')
-w('\tcbne\tr1, #0, vsref')
+w('\tcbne\tr1, $0, vsref')
 w('\tmovq\t368(r12), r3')
-w('\tcbeq\tr3, #0, 1f')
+w('\tcbeq\tr3, $0, 1f')
 w('\tlea\trefbuf, r2')
 w('\tmovq\t360(r12), r1')
 w('\tmcpy\tr2, r1, r3')
@@ -806,50 +806,50 @@ w('\tmovq\t360(r12), r1')
 w('\tlea\trefbuf, r2')
 w('\tmovq\t368(r12), r3')
 w('\tcall\tmemeq')
-w('\tcbeq\tr0, #0, 1f')
-w('\tmovq\t#20, r0')
+w('\tcbeq\tr0, $0, 1f')
+w('\tmovq\t$20, r0')
 w('\thalt')
 w('1:')
 w('\tmovq\tfin_r10, r1')
 w('\tmovq\trefd5, r2')
 w('\tcbeq\tr1, r2, 1f')
-w('\tmovq\t#21, r0')
+w('\tmovq\t$21, r0')
 w('\thalt')
 w('1:')
 w('\tmovq\t16(r12), r1')
-w('\tcbeq\tr1, #2, rownext')
+w('\tcbeq\tr1, $2, rownext')
 for nm, (src, ini) in enumerate([('fin_r1', 40), ('fin_r2', 48), ('fin_r7', 56), ('fin_r3', 64), ('fin_r6', 72)]):
     w('\tmovq\t%s, r1' % src)
     w('\tmovq\t%d(r12), r2' % ini)
     w('\tsub\tr2, r1')
     w('\tmovq\trefd%d, r2' % nm)
     w('\tcbeq\tr1, r2, 1f')
-    w('\tmovq\t#%d, r0' % (22 + nm))
+    w('\tmovq\t$%d, r0' % (22 + nm))
     w('\thalt')
     w('1:')
 w('rownext:')
-w('\tadd\t#512, r12')
+w('\tadd\t$512, r12')
 w('\tbr\trowloop')
 w('alldone:')
-w('\tmovq\t#0, r0')
+w('\tmovq\t$0, r0')
 w('\thalt')
 HAND = r'''
-memeq:	cbeq	r3, #0, me_ok
+memeq:	cbeq	r3, $0, me_ok
 me_l:	movzb	(r1)+, r0
 	movzb	(r2)+, r4
 	cbne	r0, r4, me_bad
 	sob	r3, me_l
-me_ok:	movq	#0, r0
+me_ok:	movq	$0, r0
 	ret
-me_bad:	movq	#1, r0
+me_bad:	movq	$1, r0
 	ret
 
-h_bad:	movq	#99, r0
+h_bad:	movq	$99, r0
 	halt
 h_fault:
-	pushm	#0x3fff
+	pushm	$0x3fff
 	movq	24(r12), r0
-	cbeq	r0, #3, h_min
+	cbeq	r0, $3, h_min
 	movq	r1, hr_r1
 	movq	r2, hr_r2
 	movq	r7, hr_r7
@@ -864,48 +864,48 @@ h_min:
 	mfsr	r1, eva
 	movq	r1, hr_eva
 	movq	expect, r2
-	cbeq	r2, #0, h_page
+	cbeq	r2, $0, h_page
 	movq	hcount, r2
-	cbne	r2, #0, h_nf
+	cbne	r2, $0, h_nf
 	movq	r1, hr_eva1
-h_nf:	add	#1, r2
+h_nf:	add	$1, r2
 	movq	r2, hcount
 	movq	344(r12), r3
-	cbeq	r3, #0, h_nosnap
+	cbeq	r3, $0, h_nosnap
 	lea	hsnap, r2
 	movq	336(r12), r4
 	mcpy	r2, r4, r3
 h_nosnap:
 	movq	hr_cause, r2
-	cbeq	r2, #VECTOR_MISALIGNED, h_mis
+	cbeq	r2, $VECTOR_MISALIGNED, h_mis
 h_page:
 	mfsr	r1, eva
-	shr	#12, r1
-	shl	#12, r1
+	shr	$12, r1
+	shl	$12, r1
 	movq	r1, r2
 	movq	=0x800000, r3
 	sub	r3, r2
-	shr	#12, r2
-	shl	#3, r2
+	shr	$12, r2
+	shl	$3, r2
 	lea	wpt, r3
 	add	r3, r2
 	movq	r1, r3
-	bis	#(1<<PTE_V|1<<PTE_R|1<<PTE_W|1<<PTE_A|1<<PTE_D), r3
+	bis	$(1<<PTE_V|1<<PTE_R|1<<PTE_W|1<<PTE_A|1<<PTE_D), r3
 	movq	r3, (r2)
 	tlbi	r1
 	movq	r12, r4
-	add	#96, r4
+	add	$96, r4
 	movq	r12, r5
-	add	#256, r5
+	add	$256, r5
 hp_s:	cbeq	r4, r5, h_pdone
 	movq	8(r4), r6
-	cbeq	r6, #0, hp_next
+	cbeq	r6, $0, hp_next
 	movq	24(r4), r7
-	cbeq	r7, #0, hp_next
+	cbeq	r7, $0, hp_next
 	movq	(r4), r2
 	add	r2, r6
 	movq	r1, r3
-	add	#4096, r3
+	add	$4096, r3
 	cbhis	r2, r1, 1f
 	movq	r1, r2
 1:	cblo	r6, r3, 1f
@@ -914,7 +914,7 @@ hp_s:	cbeq	r4, r5, h_pdone
 	movq	r6, r7
 	sub	r2, r7
 	movq	16(r4), r3
-	cbeq	r3, #0, hp_fill
+	cbeq	r3, $0, hp_fill
 	movq	r2, r0
 	movq	(r4), r8
 	sub	r8, r0
@@ -922,22 +922,22 @@ hp_s:	cbeq	r4, r5, h_pdone
 	mcpy	r2, r3, r7
 	br	hp_next
 hp_fill:
-	movq	#0xa5, r0
+	movq	$0xa5, r0
 	mset	r2, r0, r7
 hp_next:
-	add	#32, r4
+	add	$32, r4
 	br	hp_s
 h_pdone:
 	movq	expect, r2
-	cbeq	r2, #0, h_ret
+	cbeq	r2, $0, h_ret
 	movq	24(r12), r2
-	cbeq	r2, #0, h_ret
-	cbeq	r2, #3, h_ret
-	cbne	r2, #4, h_garb
+	cbeq	r2, $0, h_ret
+	cbeq	r2, $3, h_ret
+	cbne	r2, $4, h_garb
 ; clob 4: the handler names accumulators with vclr OUTSIDE any block (all sixteen registers) and returns: the exception return clears the naming (errata 186 decision 13, 6.14.9;
 ; the open item of errata 172), so the restarted block of the interrupted program finds nothing named and gives the result of a run with no fault
-	vclr.l	v0, #8
-	vclr.l	v8, #8
+	vclr.l	v0, $8
+	vclr.l	v8, $8
 	br	h_ret
 h_garb:
 ; the context switch that does not save the hidden registers: other blocks overwrite v0..v15 (and name accumulators)
@@ -962,11 +962,11 @@ h_garb:
 	vld.l	v15, (r1)+
 	vend
 	movq	24(r12), r2
-	cblo	r2, #2, h_ret
+	cblo	r2, $2, h_ret
 	lea	gdata, r1
 	lea	gdata+32, r5
 	vec	r1, r5
-	vclr.l	v0, #8
+	vclr.l	v0, $8
 	vld.l	v8, (r1)+
 	vadd.l	v0, v0, v8
 	vadd.l	v1, v1, v8
@@ -978,14 +978,14 @@ h_garb:
 	vadd.l	v7, v7, v8
 	vend
 h_ret:
-	popm	#0x3fff
-	rti	#RTIMASK_ALL
+	popm	$0x3fff
+	rti	$RTIMASK_ALL
 h_mis:
 	movq	24(r12), r2
 	lea	fixtramp, r1
 	mtsr	epc, r1
-	popm	#0x3fff
-	rti	#RTIMASK_ALL
+	popm	$0x3fff
+	rti	$RTIMASK_ALL
 fixtramp:
 	movq	432(r12), r1
 	movq	440(r12), r2

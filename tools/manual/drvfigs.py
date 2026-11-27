@@ -26,8 +26,8 @@ def fig_structures():
     c.box(20, 48, 300, 48, 'bdevsw[6]: rkopen, rkclose, rkstrategy, ...', GREY, 10, mono=True, sub='the device switch: the major number picks the row')
     c.box(20, 116, 300, 40, 'rkstrategy, rkstart', PINK, 11, bold=True, sub='queue the buf, load the registers')
     c.box(20, 176, 300, 108, '', '#fff')
-    lines(c, 28, 192, ['registers at 0177400 (set by switches):', '  RKDS  RKER  RKCS  RKWC  RKBA  RKDA', '', 'RKCS: GO 01, IDE 0100, RDY 0200, ERR 0100000'], 9, mono=True)
-    c.box(20, 304, 300, 40, 'vector 0220: rkintr, priority 5', YELLOW, 11, mono=True, sub='the device supplies it; BR5')
+    lines(c, 28, 192, ['registers at 0o177400 (set by switches):', '  RKDS  RKER  RKCS  RKWC  RKBA  RKDA', '', 'RKCS: GO 0o1, IDE 0o100, RDY 0o200, ERR 0o100000'], 9, mono=True)
+    c.box(20, 304, 300, 40, 'vector 0o220: rkintr, priority 5', YELLOW, 11, mono=True, sub='the device supplies it; BR5')
     c.line([(170, 96), (170, 116)])
     c.line([(170, 156), (170, 176)])
     c.line([(170, 284), (170, 304)], dash=True)
@@ -112,7 +112,7 @@ def fig_interrupt_path():
     c = Canvas(330)
     c.text(20, 16, 'the interrupt path from the device to the handler', 12, 'start', bold=True)
     c.text(20, 38, 'PDP-11', 11, 'start', bold=True)
-    row1 = [('RK11 done', 'asserts BR5', GREY), ('processor', 'priority below 5?', GREY), ('vector 0220', 'new PC and PS (br5)', YELLOW), ('rkintr', 'reads RKCS, iodone', PINK), ('RTI', 'old PC and PS back', GREY)]
+    row1 = [('RK11 done', 'asserts BR5', GREY), ('processor', 'priority below 5?', GREY), ('vector 0o220', 'new PC and PS (br5)', YELLOW), ('rkintr', 'reads RKCS, iodone', PINK), ('RTI', 'old PC and PS back', GREY)]
     bw, gap = 108, 22
     for i, (a, b, f) in enumerate(row1):
         x = 20 + i * (bw + gap)

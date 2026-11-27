@@ -3,16 +3,16 @@
 	.globl	_start
 _start:
 	lea	buf, r8
-	mov	#0, r1
+	mov	$0, r1
 1:
 	mov	r1, r2
-	mov	#37, r3
+	mov	$37, r3
 	mul	r3, r2
-	add	#11, r2
+	add	$11, r2
 	mov.s8	r2, (r8)
-	add	#1, r8
-	add	#1, r1
-	cbne	r1, #8192, 1b
+	add	$1, r8
+	add	$1, r1
+	cbne	r1, $8192, 1b
 	lea	buf, r8
 	mov	0(r8), r2
 	mov	=0xee9c49f7a55300b, r6
@@ -94,7 +94,7 @@ _start:
 	mov	=0xe9c49f7a55300be6, r6
 	cbne	r2, r6, f20
 	lea	buf, r8
-	mov	#4088, r9
+	mov	$4088, r9
 	mov	3(r8)(r9*1), r2
 	mov	=0x55300be6c19c7752, r6
 	cbne	r2, r6, f21
@@ -185,7 +185,7 @@ _start:
 	mov	=0x55300be6, r6
 	cbne	r2, r6, f43
 	lea	buf, r8
-	mov	#4090, r9
+	mov	$4090, r9
 	mov.s32	3(r8)(r9*1), r2
 	mov	=0xbe6c19c, r6
 	cbne	r2, r6, f44
@@ -276,7 +276,7 @@ _start:
 	mov	=0xbe6, r6
 	cbne	r2, r6, f66
 	lea	buf, r8
-	mov	#4091, r9
+	mov	$4091, r9
 	mov.s16	3(r8)(r9*1), r2
 	mov	=0xffffffffffffe6c1, r6
 	cbne	r2, r6, f67
@@ -367,7 +367,7 @@ _start:
 	mov	=0xffffffffffffffe6, r6
 	cbne	r2, r6, f89
 	lea	buf, r8
-	mov	#4092, r9
+	mov	$4092, r9
 	mov.s8	3(r8)(r9*1), r2
 	mov	=0xffffffffffffffe6, r6
 	cbne	r2, r6, f90
@@ -458,7 +458,7 @@ _start:
 	mov	=0x55300be6, r6
 	cbne	r2, r6, f112
 	lea	buf, r8
-	mov	#4090, r9
+	mov	$4090, r9
 	mov.u32	3(r8)(r9*1), r2
 	mov	=0xbe6c19c, r6
 	cbne	r2, r6, f113
@@ -549,7 +549,7 @@ _start:
 	mov	=0xbe6, r6
 	cbne	r2, r6, f135
 	lea	buf, r8
-	mov	#4091, r9
+	mov	$4091, r9
 	mov.u16	3(r8)(r9*1), r2
 	mov	=0xe6c1, r6
 	cbne	r2, r6, f136
@@ -640,7 +640,7 @@ _start:
 	mov	=0xe6, r6
 	cbne	r2, r6, f158
 	lea	buf, r8
-	mov	#4092, r9
+	mov	$4092, r9
 	mov.u8	3(r8)(r9*1), r2
 	mov	=0xe6, r6
 	cbne	r2, r6, f159
@@ -683,21 +683,21 @@ _start:
 	mov.u8	9(r8), r2
 	mov	=0x58, r6
 	cbne	r2, r6, f171
-	mov	#48, r3
+	mov	$48, r3
 	mov.s8	r3, 1(r8)
-	mov	#85, r3
+	mov	$85, r3
 	mov.s8	r3, 2(r8)
-	mov	#122, r3
+	mov	$122, r3
 	mov.s8	r3, 3(r8)
-	mov	#-97, r3
+	mov	$-97, r3
 	mov.s8	r3, 4(r8)
-	mov	#-60, r3
+	mov	$-60, r3
 	mov.s8	r3, 5(r8)
-	mov	#-23, r3
+	mov	$-23, r3
 	mov.s8	r3, 6(r8)
-	mov	#14, r3
+	mov	$14, r3
 	mov.s8	r3, 7(r8)
-	mov	#51, r3
+	mov	$51, r3
 	mov.s8	r3, 8(r8)
 	lea	buf, r8
 	mov	=0x1122334455667788, r1
@@ -732,21 +732,21 @@ _start:
 	mov.u8	10(r8), r2
 	mov	=0x7d, r6
 	cbne	r2, r6, f181
-	mov	#85, r3
+	mov	$85, r3
 	mov.s8	r3, 2(r8)
-	mov	#122, r3
+	mov	$122, r3
 	mov.s8	r3, 3(r8)
-	mov	#-97, r3
+	mov	$-97, r3
 	mov.s8	r3, 4(r8)
-	mov	#-60, r3
+	mov	$-60, r3
 	mov.s8	r3, 5(r8)
-	mov	#-23, r3
+	mov	$-23, r3
 	mov.s8	r3, 6(r8)
-	mov	#14, r3
+	mov	$14, r3
 	mov.s8	r3, 7(r8)
-	mov	#51, r3
+	mov	$51, r3
 	mov.s8	r3, 8(r8)
-	mov	#88, r3
+	mov	$88, r3
 	mov.s8	r3, 9(r8)
 	lea	buf, r8
 	mov	=0x1122334455667788, r1
@@ -781,21 +781,21 @@ _start:
 	mov.u8	11(r8), r2
 	mov	=0xa2, r6
 	cbne	r2, r6, f191
-	mov	#122, r3
+	mov	$122, r3
 	mov.s8	r3, 3(r8)
-	mov	#-97, r3
+	mov	$-97, r3
 	mov.s8	r3, 4(r8)
-	mov	#-60, r3
+	mov	$-60, r3
 	mov.s8	r3, 5(r8)
-	mov	#-23, r3
+	mov	$-23, r3
 	mov.s8	r3, 6(r8)
-	mov	#14, r3
+	mov	$14, r3
 	mov.s8	r3, 7(r8)
-	mov	#51, r3
+	mov	$51, r3
 	mov.s8	r3, 8(r8)
-	mov	#88, r3
+	mov	$88, r3
 	mov.s8	r3, 9(r8)
-	mov	#125, r3
+	mov	$125, r3
 	mov.s8	r3, 10(r8)
 	lea	buf, r8
 	mov	=0x1122334455667788, r1
@@ -830,21 +830,21 @@ _start:
 	mov.u8	12(r8), r2
 	mov	=0xc7, r6
 	cbne	r2, r6, f201
-	mov	#-97, r3
+	mov	$-97, r3
 	mov.s8	r3, 4(r8)
-	mov	#-60, r3
+	mov	$-60, r3
 	mov.s8	r3, 5(r8)
-	mov	#-23, r3
+	mov	$-23, r3
 	mov.s8	r3, 6(r8)
-	mov	#14, r3
+	mov	$14, r3
 	mov.s8	r3, 7(r8)
-	mov	#51, r3
+	mov	$51, r3
 	mov.s8	r3, 8(r8)
-	mov	#88, r3
+	mov	$88, r3
 	mov.s8	r3, 9(r8)
-	mov	#125, r3
+	mov	$125, r3
 	mov.s8	r3, 10(r8)
-	mov	#-94, r3
+	mov	$-94, r3
 	mov.s8	r3, 11(r8)
 	lea	buf, r8
 	mov	=0x1122334455667788, r1
@@ -879,21 +879,21 @@ _start:
 	mov.u8	13(r8), r2
 	mov	=0xec, r6
 	cbne	r2, r6, f211
-	mov	#-60, r3
+	mov	$-60, r3
 	mov.s8	r3, 5(r8)
-	mov	#-23, r3
+	mov	$-23, r3
 	mov.s8	r3, 6(r8)
-	mov	#14, r3
+	mov	$14, r3
 	mov.s8	r3, 7(r8)
-	mov	#51, r3
+	mov	$51, r3
 	mov.s8	r3, 8(r8)
-	mov	#88, r3
+	mov	$88, r3
 	mov.s8	r3, 9(r8)
-	mov	#125, r3
+	mov	$125, r3
 	mov.s8	r3, 10(r8)
-	mov	#-94, r3
+	mov	$-94, r3
 	mov.s8	r3, 11(r8)
-	mov	#-57, r3
+	mov	$-57, r3
 	mov.s8	r3, 12(r8)
 	lea	buf, r8
 	mov	=0x1122334455667788, r1
@@ -928,21 +928,21 @@ _start:
 	mov.u8	14(r8), r2
 	mov	=0x11, r6
 	cbne	r2, r6, f221
-	mov	#-23, r3
+	mov	$-23, r3
 	mov.s8	r3, 6(r8)
-	mov	#14, r3
+	mov	$14, r3
 	mov.s8	r3, 7(r8)
-	mov	#51, r3
+	mov	$51, r3
 	mov.s8	r3, 8(r8)
-	mov	#88, r3
+	mov	$88, r3
 	mov.s8	r3, 9(r8)
-	mov	#125, r3
+	mov	$125, r3
 	mov.s8	r3, 10(r8)
-	mov	#-94, r3
+	mov	$-94, r3
 	mov.s8	r3, 11(r8)
-	mov	#-57, r3
+	mov	$-57, r3
 	mov.s8	r3, 12(r8)
-	mov	#-20, r3
+	mov	$-20, r3
 	mov.s8	r3, 13(r8)
 	lea	buf, r8
 	mov	=0x1122334455667788, r1
@@ -977,21 +977,21 @@ _start:
 	mov.u8	15(r8), r2
 	mov	=0x36, r6
 	cbne	r2, r6, f231
-	mov	#14, r3
+	mov	$14, r3
 	mov.s8	r3, 7(r8)
-	mov	#51, r3
+	mov	$51, r3
 	mov.s8	r3, 8(r8)
-	mov	#88, r3
+	mov	$88, r3
 	mov.s8	r3, 9(r8)
-	mov	#125, r3
+	mov	$125, r3
 	mov.s8	r3, 10(r8)
-	mov	#-94, r3
+	mov	$-94, r3
 	mov.s8	r3, 11(r8)
-	mov	#-57, r3
+	mov	$-57, r3
 	mov.s8	r3, 12(r8)
-	mov	#-20, r3
+	mov	$-20, r3
 	mov.s8	r3, 13(r8)
-	mov	#17, r3
+	mov	$17, r3
 	mov.s8	r3, 14(r8)
 	lea	buf, r8
 	mov	=0x1122334455667788, r1
@@ -1026,21 +1026,21 @@ _start:
 	mov.u8	4097(r8), r2
 	mov	=0x30, r6
 	cbne	r2, r6, f241
-	mov	#8, r3
+	mov	$8, r3
 	mov.s8	r3, 4089(r8)
-	mov	#45, r3
+	mov	$45, r3
 	mov.s8	r3, 4090(r8)
-	mov	#82, r3
+	mov	$82, r3
 	mov.s8	r3, 4091(r8)
-	mov	#119, r3
+	mov	$119, r3
 	mov.s8	r3, 4092(r8)
-	mov	#-100, r3
+	mov	$-100, r3
 	mov.s8	r3, 4093(r8)
-	mov	#-63, r3
+	mov	$-63, r3
 	mov.s8	r3, 4094(r8)
-	mov	#-26, r3
+	mov	$-26, r3
 	mov.s8	r3, 4095(r8)
-	mov	#11, r3
+	mov	$11, r3
 	mov.s8	r3, 4096(r8)
 	lea	buf, r8
 	mov	=0x1122334455667788, r1
@@ -1075,21 +1075,21 @@ _start:
 	mov.u8	4098(r8), r2
 	mov	=0x55, r6
 	cbne	r2, r6, f251
-	mov	#45, r3
+	mov	$45, r3
 	mov.s8	r3, 4090(r8)
-	mov	#82, r3
+	mov	$82, r3
 	mov.s8	r3, 4091(r8)
-	mov	#119, r3
+	mov	$119, r3
 	mov.s8	r3, 4092(r8)
-	mov	#-100, r3
+	mov	$-100, r3
 	mov.s8	r3, 4093(r8)
-	mov	#-63, r3
+	mov	$-63, r3
 	mov.s8	r3, 4094(r8)
-	mov	#-26, r3
+	mov	$-26, r3
 	mov.s8	r3, 4095(r8)
-	mov	#11, r3
+	mov	$11, r3
 	mov.s8	r3, 4096(r8)
-	mov	#48, r3
+	mov	$48, r3
 	mov.s8	r3, 4097(r8)
 	lea	buf, r8
 	mov	=0x1122334455667788, r1
@@ -1124,21 +1124,21 @@ _start:
 	mov.u8	4099(r8), r2
 	mov	=0x7a, r6
 	cbne	r2, r6, f261
-	mov	#82, r3
+	mov	$82, r3
 	mov.s8	r3, 4091(r8)
-	mov	#119, r3
+	mov	$119, r3
 	mov.s8	r3, 4092(r8)
-	mov	#-100, r3
+	mov	$-100, r3
 	mov.s8	r3, 4093(r8)
-	mov	#-63, r3
+	mov	$-63, r3
 	mov.s8	r3, 4094(r8)
-	mov	#-26, r3
+	mov	$-26, r3
 	mov.s8	r3, 4095(r8)
-	mov	#11, r3
+	mov	$11, r3
 	mov.s8	r3, 4096(r8)
-	mov	#48, r3
+	mov	$48, r3
 	mov.s8	r3, 4097(r8)
-	mov	#85, r3
+	mov	$85, r3
 	mov.s8	r3, 4098(r8)
 	lea	buf, r8
 	mov	=0x1122334455667788, r1
@@ -1173,21 +1173,21 @@ _start:
 	mov.u8	4100(r8), r2
 	mov	=0x9f, r6
 	cbne	r2, r6, f271
-	mov	#119, r3
+	mov	$119, r3
 	mov.s8	r3, 4092(r8)
-	mov	#-100, r3
+	mov	$-100, r3
 	mov.s8	r3, 4093(r8)
-	mov	#-63, r3
+	mov	$-63, r3
 	mov.s8	r3, 4094(r8)
-	mov	#-26, r3
+	mov	$-26, r3
 	mov.s8	r3, 4095(r8)
-	mov	#11, r3
+	mov	$11, r3
 	mov.s8	r3, 4096(r8)
-	mov	#48, r3
+	mov	$48, r3
 	mov.s8	r3, 4097(r8)
-	mov	#85, r3
+	mov	$85, r3
 	mov.s8	r3, 4098(r8)
-	mov	#122, r3
+	mov	$122, r3
 	mov.s8	r3, 4099(r8)
 	lea	buf, r8
 	mov	=0x1122334455667788, r1
@@ -1222,21 +1222,21 @@ _start:
 	mov.u8	4101(r8), r2
 	mov	=0xc4, r6
 	cbne	r2, r6, f281
-	mov	#-100, r3
+	mov	$-100, r3
 	mov.s8	r3, 4093(r8)
-	mov	#-63, r3
+	mov	$-63, r3
 	mov.s8	r3, 4094(r8)
-	mov	#-26, r3
+	mov	$-26, r3
 	mov.s8	r3, 4095(r8)
-	mov	#11, r3
+	mov	$11, r3
 	mov.s8	r3, 4096(r8)
-	mov	#48, r3
+	mov	$48, r3
 	mov.s8	r3, 4097(r8)
-	mov	#85, r3
+	mov	$85, r3
 	mov.s8	r3, 4098(r8)
-	mov	#122, r3
+	mov	$122, r3
 	mov.s8	r3, 4099(r8)
-	mov	#-97, r3
+	mov	$-97, r3
 	mov.s8	r3, 4100(r8)
 	lea	buf, r8
 	mov	=0x1122334455667788, r1
@@ -1271,21 +1271,21 @@ _start:
 	mov.u8	4102(r8), r2
 	mov	=0xe9, r6
 	cbne	r2, r6, f291
-	mov	#-63, r3
+	mov	$-63, r3
 	mov.s8	r3, 4094(r8)
-	mov	#-26, r3
+	mov	$-26, r3
 	mov.s8	r3, 4095(r8)
-	mov	#11, r3
+	mov	$11, r3
 	mov.s8	r3, 4096(r8)
-	mov	#48, r3
+	mov	$48, r3
 	mov.s8	r3, 4097(r8)
-	mov	#85, r3
+	mov	$85, r3
 	mov.s8	r3, 4098(r8)
-	mov	#122, r3
+	mov	$122, r3
 	mov.s8	r3, 4099(r8)
-	mov	#-97, r3
+	mov	$-97, r3
 	mov.s8	r3, 4100(r8)
-	mov	#-60, r3
+	mov	$-60, r3
 	mov.s8	r3, 4101(r8)
 	lea	buf, r8
 	mov	=0x1122334455667788, r1
@@ -1320,21 +1320,21 @@ _start:
 	mov.u8	4103(r8), r2
 	mov	=0xe, r6
 	cbne	r2, r6, f301
-	mov	#-26, r3
+	mov	$-26, r3
 	mov.s8	r3, 4095(r8)
-	mov	#11, r3
+	mov	$11, r3
 	mov.s8	r3, 4096(r8)
-	mov	#48, r3
+	mov	$48, r3
 	mov.s8	r3, 4097(r8)
-	mov	#85, r3
+	mov	$85, r3
 	mov.s8	r3, 4098(r8)
-	mov	#122, r3
+	mov	$122, r3
 	mov.s8	r3, 4099(r8)
-	mov	#-97, r3
+	mov	$-97, r3
 	mov.s8	r3, 4100(r8)
-	mov	#-60, r3
+	mov	$-60, r3
 	mov.s8	r3, 4101(r8)
-	mov	#-23, r3
+	mov	$-23, r3
 	mov.s8	r3, 4102(r8)
 	lea	buf, r8
 	mov	=0x1122334455667788, r1
@@ -1369,21 +1369,21 @@ _start:
 	mov.u8	4103(r8), r2
 	mov	=0xe, r6
 	cbne	r2, r6, f311
-	mov	#-26, r3
+	mov	$-26, r3
 	mov.s8	r3, 4095(r8)
-	mov	#11, r3
+	mov	$11, r3
 	mov.s8	r3, 4096(r8)
-	mov	#48, r3
+	mov	$48, r3
 	mov.s8	r3, 4097(r8)
-	mov	#85, r3
+	mov	$85, r3
 	mov.s8	r3, 4098(r8)
-	mov	#122, r3
+	mov	$122, r3
 	mov.s8	r3, 4099(r8)
-	mov	#-97, r3
+	mov	$-97, r3
 	mov.s8	r3, 4100(r8)
-	mov	#-60, r3
+	mov	$-60, r3
 	mov.s8	r3, 4101(r8)
-	mov	#-23, r3
+	mov	$-23, r3
 	mov.s8	r3, 4102(r8)
 	lea	buf, r8
 	mov	=0x55667788, r1
@@ -1406,13 +1406,13 @@ _start:
 	mov.u8	5(r8), r2
 	mov	=0xc4, r6
 	cbne	r2, r6, f317
-	mov	#48, r3
+	mov	$48, r3
 	mov.s8	r3, 1(r8)
-	mov	#85, r3
+	mov	$85, r3
 	mov.s8	r3, 2(r8)
-	mov	#122, r3
+	mov	$122, r3
 	mov.s8	r3, 3(r8)
-	mov	#-97, r3
+	mov	$-97, r3
 	mov.s8	r3, 4(r8)
 	lea	buf, r8
 	mov	=0x55667788, r1
@@ -1435,13 +1435,13 @@ _start:
 	mov.u8	6(r8), r2
 	mov	=0xe9, r6
 	cbne	r2, r6, f323
-	mov	#85, r3
+	mov	$85, r3
 	mov.s8	r3, 2(r8)
-	mov	#122, r3
+	mov	$122, r3
 	mov.s8	r3, 3(r8)
-	mov	#-97, r3
+	mov	$-97, r3
 	mov.s8	r3, 4(r8)
-	mov	#-60, r3
+	mov	$-60, r3
 	mov.s8	r3, 5(r8)
 	lea	buf, r8
 	mov	=0x55667788, r1
@@ -1464,13 +1464,13 @@ _start:
 	mov.u8	7(r8), r2
 	mov	=0xe, r6
 	cbne	r2, r6, f329
-	mov	#122, r3
+	mov	$122, r3
 	mov.s8	r3, 3(r8)
-	mov	#-97, r3
+	mov	$-97, r3
 	mov.s8	r3, 4(r8)
-	mov	#-60, r3
+	mov	$-60, r3
 	mov.s8	r3, 5(r8)
-	mov	#-23, r3
+	mov	$-23, r3
 	mov.s8	r3, 6(r8)
 	lea	buf, r8
 	mov	=0x55667788, r1
@@ -1493,13 +1493,13 @@ _start:
 	mov.u8	8(r8), r2
 	mov	=0x33, r6
 	cbne	r2, r6, f335
-	mov	#-97, r3
+	mov	$-97, r3
 	mov.s8	r3, 4(r8)
-	mov	#-60, r3
+	mov	$-60, r3
 	mov.s8	r3, 5(r8)
-	mov	#-23, r3
+	mov	$-23, r3
 	mov.s8	r3, 6(r8)
-	mov	#14, r3
+	mov	$14, r3
 	mov.s8	r3, 7(r8)
 	lea	buf, r8
 	mov	=0x55667788, r1
@@ -1522,13 +1522,13 @@ _start:
 	mov.u8	9(r8), r2
 	mov	=0x58, r6
 	cbne	r2, r6, f341
-	mov	#-60, r3
+	mov	$-60, r3
 	mov.s8	r3, 5(r8)
-	mov	#-23, r3
+	mov	$-23, r3
 	mov.s8	r3, 6(r8)
-	mov	#14, r3
+	mov	$14, r3
 	mov.s8	r3, 7(r8)
-	mov	#51, r3
+	mov	$51, r3
 	mov.s8	r3, 8(r8)
 	lea	buf, r8
 	mov	=0x55667788, r1
@@ -1551,13 +1551,13 @@ _start:
 	mov.u8	10(r8), r2
 	mov	=0x7d, r6
 	cbne	r2, r6, f347
-	mov	#-23, r3
+	mov	$-23, r3
 	mov.s8	r3, 6(r8)
-	mov	#14, r3
+	mov	$14, r3
 	mov.s8	r3, 7(r8)
-	mov	#51, r3
+	mov	$51, r3
 	mov.s8	r3, 8(r8)
-	mov	#88, r3
+	mov	$88, r3
 	mov.s8	r3, 9(r8)
 	lea	buf, r8
 	mov	=0x55667788, r1
@@ -1580,13 +1580,13 @@ _start:
 	mov.u8	11(r8), r2
 	mov	=0xa2, r6
 	cbne	r2, r6, f353
-	mov	#14, r3
+	mov	$14, r3
 	mov.s8	r3, 7(r8)
-	mov	#51, r3
+	mov	$51, r3
 	mov.s8	r3, 8(r8)
-	mov	#88, r3
+	mov	$88, r3
 	mov.s8	r3, 9(r8)
-	mov	#125, r3
+	mov	$125, r3
 	mov.s8	r3, 10(r8)
 	lea	buf, r8
 	mov	=0x55667788, r1
@@ -1609,13 +1609,13 @@ _start:
 	mov.u8	4093(r8), r2
 	mov	=0x9c, r6
 	cbne	r2, r6, f359
-	mov	#8, r3
+	mov	$8, r3
 	mov.s8	r3, 4089(r8)
-	mov	#45, r3
+	mov	$45, r3
 	mov.s8	r3, 4090(r8)
-	mov	#82, r3
+	mov	$82, r3
 	mov.s8	r3, 4091(r8)
-	mov	#119, r3
+	mov	$119, r3
 	mov.s8	r3, 4092(r8)
 	lea	buf, r8
 	mov	=0x55667788, r1
@@ -1638,13 +1638,13 @@ _start:
 	mov.u8	4094(r8), r2
 	mov	=0xc1, r6
 	cbne	r2, r6, f365
-	mov	#45, r3
+	mov	$45, r3
 	mov.s8	r3, 4090(r8)
-	mov	#82, r3
+	mov	$82, r3
 	mov.s8	r3, 4091(r8)
-	mov	#119, r3
+	mov	$119, r3
 	mov.s8	r3, 4092(r8)
-	mov	#-100, r3
+	mov	$-100, r3
 	mov.s8	r3, 4093(r8)
 	lea	buf, r8
 	mov	=0x55667788, r1
@@ -1667,13 +1667,13 @@ _start:
 	mov.u8	4095(r8), r2
 	mov	=0xe6, r6
 	cbne	r2, r6, f371
-	mov	#82, r3
+	mov	$82, r3
 	mov.s8	r3, 4091(r8)
-	mov	#119, r3
+	mov	$119, r3
 	mov.s8	r3, 4092(r8)
-	mov	#-100, r3
+	mov	$-100, r3
 	mov.s8	r3, 4093(r8)
-	mov	#-63, r3
+	mov	$-63, r3
 	mov.s8	r3, 4094(r8)
 	lea	buf, r8
 	mov	=0x55667788, r1
@@ -1696,13 +1696,13 @@ _start:
 	mov.u8	4096(r8), r2
 	mov	=0xb, r6
 	cbne	r2, r6, f377
-	mov	#119, r3
+	mov	$119, r3
 	mov.s8	r3, 4092(r8)
-	mov	#-100, r3
+	mov	$-100, r3
 	mov.s8	r3, 4093(r8)
-	mov	#-63, r3
+	mov	$-63, r3
 	mov.s8	r3, 4094(r8)
-	mov	#-26, r3
+	mov	$-26, r3
 	mov.s8	r3, 4095(r8)
 	lea	buf, r8
 	mov	=0x55667788, r1
@@ -1725,13 +1725,13 @@ _start:
 	mov.u8	4097(r8), r2
 	mov	=0x30, r6
 	cbne	r2, r6, f383
-	mov	#-100, r3
+	mov	$-100, r3
 	mov.s8	r3, 4093(r8)
-	mov	#-63, r3
+	mov	$-63, r3
 	mov.s8	r3, 4094(r8)
-	mov	#-26, r3
+	mov	$-26, r3
 	mov.s8	r3, 4095(r8)
-	mov	#11, r3
+	mov	$11, r3
 	mov.s8	r3, 4096(r8)
 	lea	buf, r8
 	mov	=0x55667788, r1
@@ -1754,13 +1754,13 @@ _start:
 	mov.u8	4098(r8), r2
 	mov	=0x55, r6
 	cbne	r2, r6, f389
-	mov	#-63, r3
+	mov	$-63, r3
 	mov.s8	r3, 4094(r8)
-	mov	#-26, r3
+	mov	$-26, r3
 	mov.s8	r3, 4095(r8)
-	mov	#11, r3
+	mov	$11, r3
 	mov.s8	r3, 4096(r8)
-	mov	#48, r3
+	mov	$48, r3
 	mov.s8	r3, 4097(r8)
 	lea	buf, r8
 	mov	=0x55667788, r1
@@ -1783,13 +1783,13 @@ _start:
 	mov.u8	4099(r8), r2
 	mov	=0x7a, r6
 	cbne	r2, r6, f395
-	mov	#-26, r3
+	mov	$-26, r3
 	mov.s8	r3, 4095(r8)
-	mov	#11, r3
+	mov	$11, r3
 	mov.s8	r3, 4096(r8)
-	mov	#48, r3
+	mov	$48, r3
 	mov.s8	r3, 4097(r8)
-	mov	#85, r3
+	mov	$85, r3
 	mov.s8	r3, 4098(r8)
 	lea	buf, r8
 	mov	=0x55667788, r1
@@ -1812,13 +1812,13 @@ _start:
 	mov.u8	4099(r8), r2
 	mov	=0x7a, r6
 	cbne	r2, r6, f401
-	mov	#-26, r3
+	mov	$-26, r3
 	mov.s8	r3, 4095(r8)
-	mov	#11, r3
+	mov	$11, r3
 	mov.s8	r3, 4096(r8)
-	mov	#48, r3
+	mov	$48, r3
 	mov.s8	r3, 4097(r8)
-	mov	#85, r3
+	mov	$85, r3
 	mov.s8	r3, 4098(r8)
 	lea	buf, r8
 	mov	=0x7788, r1
@@ -1835,9 +1835,9 @@ _start:
 	mov.u8	3(r8), r2
 	mov	=0x7a, r6
 	cbne	r2, r6, f405
-	mov	#48, r3
+	mov	$48, r3
 	mov.s8	r3, 1(r8)
-	mov	#85, r3
+	mov	$85, r3
 	mov.s8	r3, 2(r8)
 	lea	buf, r8
 	mov	=0x7788, r1
@@ -1854,9 +1854,9 @@ _start:
 	mov.u8	4(r8), r2
 	mov	=0x9f, r6
 	cbne	r2, r6, f409
-	mov	#85, r3
+	mov	$85, r3
 	mov.s8	r3, 2(r8)
-	mov	#122, r3
+	mov	$122, r3
 	mov.s8	r3, 3(r8)
 	lea	buf, r8
 	mov	=0x7788, r1
@@ -1873,9 +1873,9 @@ _start:
 	mov.u8	5(r8), r2
 	mov	=0xc4, r6
 	cbne	r2, r6, f413
-	mov	#122, r3
+	mov	$122, r3
 	mov.s8	r3, 3(r8)
-	mov	#-97, r3
+	mov	$-97, r3
 	mov.s8	r3, 4(r8)
 	lea	buf, r8
 	mov	=0x7788, r1
@@ -1892,9 +1892,9 @@ _start:
 	mov.u8	6(r8), r2
 	mov	=0xe9, r6
 	cbne	r2, r6, f417
-	mov	#-97, r3
+	mov	$-97, r3
 	mov.s8	r3, 4(r8)
-	mov	#-60, r3
+	mov	$-60, r3
 	mov.s8	r3, 5(r8)
 	lea	buf, r8
 	mov	=0x7788, r1
@@ -1911,9 +1911,9 @@ _start:
 	mov.u8	7(r8), r2
 	mov	=0xe, r6
 	cbne	r2, r6, f421
-	mov	#-60, r3
+	mov	$-60, r3
 	mov.s8	r3, 5(r8)
-	mov	#-23, r3
+	mov	$-23, r3
 	mov.s8	r3, 6(r8)
 	lea	buf, r8
 	mov	=0x7788, r1
@@ -1930,9 +1930,9 @@ _start:
 	mov.u8	8(r8), r2
 	mov	=0x33, r6
 	cbne	r2, r6, f425
-	mov	#-23, r3
+	mov	$-23, r3
 	mov.s8	r3, 6(r8)
-	mov	#14, r3
+	mov	$14, r3
 	mov.s8	r3, 7(r8)
 	lea	buf, r8
 	mov	=0x7788, r1
@@ -1949,9 +1949,9 @@ _start:
 	mov.u8	9(r8), r2
 	mov	=0x58, r6
 	cbne	r2, r6, f429
-	mov	#14, r3
+	mov	$14, r3
 	mov.s8	r3, 7(r8)
-	mov	#51, r3
+	mov	$51, r3
 	mov.s8	r3, 8(r8)
 	lea	buf, r8
 	mov	=0x7788, r1
@@ -1968,9 +1968,9 @@ _start:
 	mov.u8	4091(r8), r2
 	mov	=0x52, r6
 	cbne	r2, r6, f433
-	mov	#8, r3
+	mov	$8, r3
 	mov.s8	r3, 4089(r8)
-	mov	#45, r3
+	mov	$45, r3
 	mov.s8	r3, 4090(r8)
 	lea	buf, r8
 	mov	=0x7788, r1
@@ -1987,9 +1987,9 @@ _start:
 	mov.u8	4092(r8), r2
 	mov	=0x77, r6
 	cbne	r2, r6, f437
-	mov	#45, r3
+	mov	$45, r3
 	mov.s8	r3, 4090(r8)
-	mov	#82, r3
+	mov	$82, r3
 	mov.s8	r3, 4091(r8)
 	lea	buf, r8
 	mov	=0x7788, r1
@@ -2006,9 +2006,9 @@ _start:
 	mov.u8	4093(r8), r2
 	mov	=0x9c, r6
 	cbne	r2, r6, f441
-	mov	#82, r3
+	mov	$82, r3
 	mov.s8	r3, 4091(r8)
-	mov	#119, r3
+	mov	$119, r3
 	mov.s8	r3, 4092(r8)
 	lea	buf, r8
 	mov	=0x7788, r1
@@ -2025,9 +2025,9 @@ _start:
 	mov.u8	4094(r8), r2
 	mov	=0xc1, r6
 	cbne	r2, r6, f445
-	mov	#119, r3
+	mov	$119, r3
 	mov.s8	r3, 4092(r8)
-	mov	#-100, r3
+	mov	$-100, r3
 	mov.s8	r3, 4093(r8)
 	lea	buf, r8
 	mov	=0x7788, r1
@@ -2044,9 +2044,9 @@ _start:
 	mov.u8	4095(r8), r2
 	mov	=0xe6, r6
 	cbne	r2, r6, f449
-	mov	#-100, r3
+	mov	$-100, r3
 	mov.s8	r3, 4093(r8)
-	mov	#-63, r3
+	mov	$-63, r3
 	mov.s8	r3, 4094(r8)
 	lea	buf, r8
 	mov	=0x7788, r1
@@ -2063,9 +2063,9 @@ _start:
 	mov.u8	4096(r8), r2
 	mov	=0xb, r6
 	cbne	r2, r6, f453
-	mov	#-63, r3
+	mov	$-63, r3
 	mov.s8	r3, 4094(r8)
-	mov	#-26, r3
+	mov	$-26, r3
 	mov.s8	r3, 4095(r8)
 	lea	buf, r8
 	mov	=0x7788, r1
@@ -2082,9 +2082,9 @@ _start:
 	mov.u8	4097(r8), r2
 	mov	=0x30, r6
 	cbne	r2, r6, f457
-	mov	#-26, r3
+	mov	$-26, r3
 	mov.s8	r3, 4095(r8)
-	mov	#11, r3
+	mov	$11, r3
 	mov.s8	r3, 4096(r8)
 	lea	buf, r8
 	mov	=0x7788, r1
@@ -2101,9 +2101,9 @@ _start:
 	mov.u8	4097(r8), r2
 	mov	=0x30, r6
 	cbne	r2, r6, f461
-	mov	#-26, r3
+	mov	$-26, r3
 	mov.s8	r3, 4095(r8)
-	mov	#11, r3
+	mov	$11, r3
 	mov.s8	r3, 4096(r8)
 	lea	buf, r8
 	mov	=0x88, r1
@@ -2117,7 +2117,7 @@ _start:
 	mov.u8	2(r8), r2
 	mov	=0x55, r6
 	cbne	r2, r6, f464
-	mov	#48, r3
+	mov	$48, r3
 	mov.s8	r3, 1(r8)
 	lea	buf, r8
 	mov	=0x88, r1
@@ -2131,7 +2131,7 @@ _start:
 	mov.u8	3(r8), r2
 	mov	=0x7a, r6
 	cbne	r2, r6, f467
-	mov	#85, r3
+	mov	$85, r3
 	mov.s8	r3, 2(r8)
 	lea	buf, r8
 	mov	=0x88, r1
@@ -2145,7 +2145,7 @@ _start:
 	mov.u8	4(r8), r2
 	mov	=0x9f, r6
 	cbne	r2, r6, f470
-	mov	#122, r3
+	mov	$122, r3
 	mov.s8	r3, 3(r8)
 	lea	buf, r8
 	mov	=0x88, r1
@@ -2159,7 +2159,7 @@ _start:
 	mov.u8	5(r8), r2
 	mov	=0xc4, r6
 	cbne	r2, r6, f473
-	mov	#-97, r3
+	mov	$-97, r3
 	mov.s8	r3, 4(r8)
 	lea	buf, r8
 	mov	=0x88, r1
@@ -2173,7 +2173,7 @@ _start:
 	mov.u8	6(r8), r2
 	mov	=0xe9, r6
 	cbne	r2, r6, f476
-	mov	#-60, r3
+	mov	$-60, r3
 	mov.s8	r3, 5(r8)
 	lea	buf, r8
 	mov	=0x88, r1
@@ -2187,7 +2187,7 @@ _start:
 	mov.u8	7(r8), r2
 	mov	=0xe, r6
 	cbne	r2, r6, f479
-	mov	#-23, r3
+	mov	$-23, r3
 	mov.s8	r3, 6(r8)
 	lea	buf, r8
 	mov	=0x88, r1
@@ -2201,7 +2201,7 @@ _start:
 	mov.u8	8(r8), r2
 	mov	=0x33, r6
 	cbne	r2, r6, f482
-	mov	#14, r3
+	mov	$14, r3
 	mov.s8	r3, 7(r8)
 	lea	buf, r8
 	mov	=0x88, r1
@@ -2215,7 +2215,7 @@ _start:
 	mov.u8	4090(r8), r2
 	mov	=0x2d, r6
 	cbne	r2, r6, f485
-	mov	#8, r3
+	mov	$8, r3
 	mov.s8	r3, 4089(r8)
 	lea	buf, r8
 	mov	=0x88, r1
@@ -2229,7 +2229,7 @@ _start:
 	mov.u8	4091(r8), r2
 	mov	=0x52, r6
 	cbne	r2, r6, f488
-	mov	#45, r3
+	mov	$45, r3
 	mov.s8	r3, 4090(r8)
 	lea	buf, r8
 	mov	=0x88, r1
@@ -2243,7 +2243,7 @@ _start:
 	mov.u8	4092(r8), r2
 	mov	=0x77, r6
 	cbne	r2, r6, f491
-	mov	#82, r3
+	mov	$82, r3
 	mov.s8	r3, 4091(r8)
 	lea	buf, r8
 	mov	=0x88, r1
@@ -2257,7 +2257,7 @@ _start:
 	mov.u8	4093(r8), r2
 	mov	=0x9c, r6
 	cbne	r2, r6, f494
-	mov	#119, r3
+	mov	$119, r3
 	mov.s8	r3, 4092(r8)
 	lea	buf, r8
 	mov	=0x88, r1
@@ -2271,7 +2271,7 @@ _start:
 	mov.u8	4094(r8), r2
 	mov	=0xc1, r6
 	cbne	r2, r6, f497
-	mov	#-100, r3
+	mov	$-100, r3
 	mov.s8	r3, 4093(r8)
 	lea	buf, r8
 	mov	=0x88, r1
@@ -2285,7 +2285,7 @@ _start:
 	mov.u8	4095(r8), r2
 	mov	=0xe6, r6
 	cbne	r2, r6, f500
-	mov	#-63, r3
+	mov	$-63, r3
 	mov.s8	r3, 4094(r8)
 	lea	buf, r8
 	mov	=0x88, r1
@@ -2299,7 +2299,7 @@ _start:
 	mov.u8	4096(r8), r2
 	mov	=0xb, r6
 	cbne	r2, r6, f503
-	mov	#-26, r3
+	mov	$-26, r3
 	mov.s8	r3, 4095(r8)
 	lea	buf, r8
 	mov	=0x88, r1
@@ -2313,7 +2313,7 @@ _start:
 	mov.u8	4096(r8), r2
 	mov	=0xb, r6
 	cbne	r2, r6, f506
-	mov	#-26, r3
+	mov	$-26, r3
 	mov.s8	r3, 4095(r8)
 	lea	buf+4100, r8
 	mov	=0x0102030405060708, r1
@@ -2347,1045 +2347,1045 @@ _start:
 	lea	buf+4093, r8
 	mov	=0x00000000ffffffff, r1
 	mov	r1, (r8)
-	mov	#1, r2
+	mov	$1, r2
 	addm	r2, (r8)
 	mov	(r8), r3
 	mov	=0x100000000, r6
 	cbne	r3, r6, f516
 	clr	r0
-	trap	#0
-f1:	mov	#1, r0
-	trap	#0
-f2:	mov	#2, r0
-	trap	#0
-f3:	mov	#3, r0
-	trap	#0
-f4:	mov	#4, r0
-	trap	#0
-f5:	mov	#5, r0
-	trap	#0
-f6:	mov	#6, r0
-	trap	#0
-f7:	mov	#7, r0
-	trap	#0
-f8:	mov	#8, r0
-	trap	#0
-f9:	mov	#9, r0
-	trap	#0
-f10:	mov	#10, r0
-	trap	#0
-f11:	mov	#11, r0
-	trap	#0
-f12:	mov	#12, r0
-	trap	#0
-f13:	mov	#13, r0
-	trap	#0
-f14:	mov	#14, r0
-	trap	#0
-f15:	mov	#15, r0
-	trap	#0
-f16:	mov	#16, r0
-	trap	#0
-f17:	mov	#17, r0
-	trap	#0
-f18:	mov	#18, r0
-	trap	#0
-f19:	mov	#19, r0
-	trap	#0
-f20:	mov	#20, r0
-	trap	#0
-f21:	mov	#21, r0
-	trap	#0
-f22:	mov	#22, r0
-	trap	#0
-f23:	mov	#23, r0
-	trap	#0
-f24:	mov	#24, r0
-	trap	#0
-f25:	mov	#25, r0
-	trap	#0
-f26:	mov	#26, r0
-	trap	#0
-f27:	mov	#27, r0
-	trap	#0
-f28:	mov	#28, r0
-	trap	#0
-f29:	mov	#29, r0
-	trap	#0
-f30:	mov	#30, r0
-	trap	#0
-f31:	mov	#31, r0
-	trap	#0
-f32:	mov	#32, r0
-	trap	#0
-f33:	mov	#33, r0
-	trap	#0
-f34:	mov	#34, r0
-	trap	#0
-f35:	mov	#35, r0
-	trap	#0
-f36:	mov	#36, r0
-	trap	#0
-f37:	mov	#37, r0
-	trap	#0
-f38:	mov	#38, r0
-	trap	#0
-f39:	mov	#39, r0
-	trap	#0
-f40:	mov	#40, r0
-	trap	#0
-f41:	mov	#41, r0
-	trap	#0
-f42:	mov	#42, r0
-	trap	#0
-f43:	mov	#43, r0
-	trap	#0
-f44:	mov	#44, r0
-	trap	#0
-f45:	mov	#45, r0
-	trap	#0
-f46:	mov	#46, r0
-	trap	#0
-f47:	mov	#47, r0
-	trap	#0
-f48:	mov	#48, r0
-	trap	#0
-f49:	mov	#49, r0
-	trap	#0
-f50:	mov	#50, r0
-	trap	#0
-f51:	mov	#51, r0
-	trap	#0
-f52:	mov	#52, r0
-	trap	#0
-f53:	mov	#53, r0
-	trap	#0
-f54:	mov	#54, r0
-	trap	#0
-f55:	mov	#55, r0
-	trap	#0
-f56:	mov	#56, r0
-	trap	#0
-f57:	mov	#57, r0
-	trap	#0
-f58:	mov	#58, r0
-	trap	#0
-f59:	mov	#59, r0
-	trap	#0
-f60:	mov	#60, r0
-	trap	#0
-f61:	mov	#61, r0
-	trap	#0
-f62:	mov	#62, r0
-	trap	#0
-f63:	mov	#63, r0
-	trap	#0
-f64:	mov	#64, r0
-	trap	#0
-f65:	mov	#65, r0
-	trap	#0
-f66:	mov	#66, r0
-	trap	#0
-f67:	mov	#67, r0
-	trap	#0
-f68:	mov	#68, r0
-	trap	#0
-f69:	mov	#69, r0
-	trap	#0
-f70:	mov	#70, r0
-	trap	#0
-f71:	mov	#71, r0
-	trap	#0
-f72:	mov	#72, r0
-	trap	#0
-f73:	mov	#73, r0
-	trap	#0
-f74:	mov	#74, r0
-	trap	#0
-f75:	mov	#75, r0
-	trap	#0
-f76:	mov	#76, r0
-	trap	#0
-f77:	mov	#77, r0
-	trap	#0
-f78:	mov	#78, r0
-	trap	#0
-f79:	mov	#79, r0
-	trap	#0
-f80:	mov	#80, r0
-	trap	#0
-f81:	mov	#81, r0
-	trap	#0
-f82:	mov	#82, r0
-	trap	#0
-f83:	mov	#83, r0
-	trap	#0
-f84:	mov	#84, r0
-	trap	#0
-f85:	mov	#85, r0
-	trap	#0
-f86:	mov	#86, r0
-	trap	#0
-f87:	mov	#87, r0
-	trap	#0
-f88:	mov	#88, r0
-	trap	#0
-f89:	mov	#89, r0
-	trap	#0
-f90:	mov	#90, r0
-	trap	#0
-f91:	mov	#91, r0
-	trap	#0
-f92:	mov	#92, r0
-	trap	#0
-f93:	mov	#93, r0
-	trap	#0
-f94:	mov	#94, r0
-	trap	#0
-f95:	mov	#95, r0
-	trap	#0
-f96:	mov	#96, r0
-	trap	#0
-f97:	mov	#97, r0
-	trap	#0
-f98:	mov	#98, r0
-	trap	#0
-f99:	mov	#99, r0
-	trap	#0
-f100:	mov	#100, r0
-	trap	#0
-f101:	mov	#101, r0
-	trap	#0
-f102:	mov	#102, r0
-	trap	#0
-f103:	mov	#103, r0
-	trap	#0
-f104:	mov	#104, r0
-	trap	#0
-f105:	mov	#105, r0
-	trap	#0
-f106:	mov	#106, r0
-	trap	#0
-f107:	mov	#107, r0
-	trap	#0
-f108:	mov	#108, r0
-	trap	#0
-f109:	mov	#109, r0
-	trap	#0
-f110:	mov	#110, r0
-	trap	#0
-f111:	mov	#111, r0
-	trap	#0
-f112:	mov	#112, r0
-	trap	#0
-f113:	mov	#113, r0
-	trap	#0
-f114:	mov	#114, r0
-	trap	#0
-f115:	mov	#115, r0
-	trap	#0
-f116:	mov	#116, r0
-	trap	#0
-f117:	mov	#117, r0
-	trap	#0
-f118:	mov	#118, r0
-	trap	#0
-f119:	mov	#119, r0
-	trap	#0
-f120:	mov	#120, r0
-	trap	#0
-f121:	mov	#121, r0
-	trap	#0
-f122:	mov	#122, r0
-	trap	#0
-f123:	mov	#123, r0
-	trap	#0
-f124:	mov	#124, r0
-	trap	#0
-f125:	mov	#125, r0
-	trap	#0
-f126:	mov	#126, r0
-	trap	#0
-f127:	mov	#127, r0
-	trap	#0
-f128:	mov	#128, r0
-	trap	#0
-f129:	mov	#129, r0
-	trap	#0
-f130:	mov	#130, r0
-	trap	#0
-f131:	mov	#131, r0
-	trap	#0
-f132:	mov	#132, r0
-	trap	#0
-f133:	mov	#133, r0
-	trap	#0
-f134:	mov	#134, r0
-	trap	#0
-f135:	mov	#135, r0
-	trap	#0
-f136:	mov	#136, r0
-	trap	#0
-f137:	mov	#137, r0
-	trap	#0
-f138:	mov	#138, r0
-	trap	#0
-f139:	mov	#139, r0
-	trap	#0
-f140:	mov	#140, r0
-	trap	#0
-f141:	mov	#141, r0
-	trap	#0
-f142:	mov	#142, r0
-	trap	#0
-f143:	mov	#143, r0
-	trap	#0
-f144:	mov	#144, r0
-	trap	#0
-f145:	mov	#145, r0
-	trap	#0
-f146:	mov	#146, r0
-	trap	#0
-f147:	mov	#147, r0
-	trap	#0
-f148:	mov	#148, r0
-	trap	#0
-f149:	mov	#149, r0
-	trap	#0
-f150:	mov	#150, r0
-	trap	#0
-f151:	mov	#151, r0
-	trap	#0
-f152:	mov	#152, r0
-	trap	#0
-f153:	mov	#153, r0
-	trap	#0
-f154:	mov	#154, r0
-	trap	#0
-f155:	mov	#155, r0
-	trap	#0
-f156:	mov	#156, r0
-	trap	#0
-f157:	mov	#157, r0
-	trap	#0
-f158:	mov	#158, r0
-	trap	#0
-f159:	mov	#159, r0
-	trap	#0
-f160:	mov	#160, r0
-	trap	#0
-f161:	mov	#161, r0
-	trap	#0
-f162:	mov	#162, r0
-	trap	#0
-f163:	mov	#163, r0
-	trap	#0
-f164:	mov	#164, r0
-	trap	#0
-f165:	mov	#165, r0
-	trap	#0
-f166:	mov	#166, r0
-	trap	#0
-f167:	mov	#167, r0
-	trap	#0
-f168:	mov	#168, r0
-	trap	#0
-f169:	mov	#169, r0
-	trap	#0
-f170:	mov	#170, r0
-	trap	#0
-f171:	mov	#171, r0
-	trap	#0
-f172:	mov	#172, r0
-	trap	#0
-f173:	mov	#173, r0
-	trap	#0
-f174:	mov	#174, r0
-	trap	#0
-f175:	mov	#175, r0
-	trap	#0
-f176:	mov	#176, r0
-	trap	#0
-f177:	mov	#177, r0
-	trap	#0
-f178:	mov	#178, r0
-	trap	#0
-f179:	mov	#179, r0
-	trap	#0
-f180:	mov	#180, r0
-	trap	#0
-f181:	mov	#181, r0
-	trap	#0
-f182:	mov	#182, r0
-	trap	#0
-f183:	mov	#183, r0
-	trap	#0
-f184:	mov	#184, r0
-	trap	#0
-f185:	mov	#185, r0
-	trap	#0
-f186:	mov	#186, r0
-	trap	#0
-f187:	mov	#187, r0
-	trap	#0
-f188:	mov	#188, r0
-	trap	#0
-f189:	mov	#189, r0
-	trap	#0
-f190:	mov	#190, r0
-	trap	#0
-f191:	mov	#191, r0
-	trap	#0
-f192:	mov	#192, r0
-	trap	#0
-f193:	mov	#193, r0
-	trap	#0
-f194:	mov	#194, r0
-	trap	#0
-f195:	mov	#195, r0
-	trap	#0
-f196:	mov	#196, r0
-	trap	#0
-f197:	mov	#197, r0
-	trap	#0
-f198:	mov	#198, r0
-	trap	#0
-f199:	mov	#199, r0
-	trap	#0
-f200:	mov	#200, r0
-	trap	#0
-f201:	mov	#201, r0
-	trap	#0
-f202:	mov	#202, r0
-	trap	#0
-f203:	mov	#203, r0
-	trap	#0
-f204:	mov	#204, r0
-	trap	#0
-f205:	mov	#205, r0
-	trap	#0
-f206:	mov	#206, r0
-	trap	#0
-f207:	mov	#207, r0
-	trap	#0
-f208:	mov	#208, r0
-	trap	#0
-f209:	mov	#209, r0
-	trap	#0
-f210:	mov	#210, r0
-	trap	#0
-f211:	mov	#211, r0
-	trap	#0
-f212:	mov	#212, r0
-	trap	#0
-f213:	mov	#213, r0
-	trap	#0
-f214:	mov	#214, r0
-	trap	#0
-f215:	mov	#215, r0
-	trap	#0
-f216:	mov	#216, r0
-	trap	#0
-f217:	mov	#217, r0
-	trap	#0
-f218:	mov	#218, r0
-	trap	#0
-f219:	mov	#219, r0
-	trap	#0
-f220:	mov	#220, r0
-	trap	#0
-f221:	mov	#221, r0
-	trap	#0
-f222:	mov	#222, r0
-	trap	#0
-f223:	mov	#223, r0
-	trap	#0
-f224:	mov	#224, r0
-	trap	#0
-f225:	mov	#225, r0
-	trap	#0
-f226:	mov	#226, r0
-	trap	#0
-f227:	mov	#227, r0
-	trap	#0
-f228:	mov	#228, r0
-	trap	#0
-f229:	mov	#229, r0
-	trap	#0
-f230:	mov	#230, r0
-	trap	#0
-f231:	mov	#231, r0
-	trap	#0
-f232:	mov	#232, r0
-	trap	#0
-f233:	mov	#233, r0
-	trap	#0
-f234:	mov	#234, r0
-	trap	#0
-f235:	mov	#235, r0
-	trap	#0
-f236:	mov	#236, r0
-	trap	#0
-f237:	mov	#237, r0
-	trap	#0
-f238:	mov	#238, r0
-	trap	#0
-f239:	mov	#239, r0
-	trap	#0
-f240:	mov	#240, r0
-	trap	#0
-f241:	mov	#241, r0
-	trap	#0
-f242:	mov	#242, r0
-	trap	#0
-f243:	mov	#243, r0
-	trap	#0
-f244:	mov	#244, r0
-	trap	#0
-f245:	mov	#245, r0
-	trap	#0
-f246:	mov	#246, r0
-	trap	#0
-f247:	mov	#247, r0
-	trap	#0
-f248:	mov	#248, r0
-	trap	#0
-f249:	mov	#249, r0
-	trap	#0
-f250:	mov	#250, r0
-	trap	#0
-f251:	mov	#251, r0
-	trap	#0
-f252:	mov	#252, r0
-	trap	#0
-f253:	mov	#253, r0
-	trap	#0
-f254:	mov	#254, r0
-	trap	#0
-f255:	mov	#255, r0
-	trap	#0
-f256:	mov	#1, r0
-	trap	#0
-f257:	mov	#2, r0
-	trap	#0
-f258:	mov	#3, r0
-	trap	#0
-f259:	mov	#4, r0
-	trap	#0
-f260:	mov	#5, r0
-	trap	#0
-f261:	mov	#6, r0
-	trap	#0
-f262:	mov	#7, r0
-	trap	#0
-f263:	mov	#8, r0
-	trap	#0
-f264:	mov	#9, r0
-	trap	#0
-f265:	mov	#10, r0
-	trap	#0
-f266:	mov	#11, r0
-	trap	#0
-f267:	mov	#12, r0
-	trap	#0
-f268:	mov	#13, r0
-	trap	#0
-f269:	mov	#14, r0
-	trap	#0
-f270:	mov	#15, r0
-	trap	#0
-f271:	mov	#16, r0
-	trap	#0
-f272:	mov	#17, r0
-	trap	#0
-f273:	mov	#18, r0
-	trap	#0
-f274:	mov	#19, r0
-	trap	#0
-f275:	mov	#20, r0
-	trap	#0
-f276:	mov	#21, r0
-	trap	#0
-f277:	mov	#22, r0
-	trap	#0
-f278:	mov	#23, r0
-	trap	#0
-f279:	mov	#24, r0
-	trap	#0
-f280:	mov	#25, r0
-	trap	#0
-f281:	mov	#26, r0
-	trap	#0
-f282:	mov	#27, r0
-	trap	#0
-f283:	mov	#28, r0
-	trap	#0
-f284:	mov	#29, r0
-	trap	#0
-f285:	mov	#30, r0
-	trap	#0
-f286:	mov	#31, r0
-	trap	#0
-f287:	mov	#32, r0
-	trap	#0
-f288:	mov	#33, r0
-	trap	#0
-f289:	mov	#34, r0
-	trap	#0
-f290:	mov	#35, r0
-	trap	#0
-f291:	mov	#36, r0
-	trap	#0
-f292:	mov	#37, r0
-	trap	#0
-f293:	mov	#38, r0
-	trap	#0
-f294:	mov	#39, r0
-	trap	#0
-f295:	mov	#40, r0
-	trap	#0
-f296:	mov	#41, r0
-	trap	#0
-f297:	mov	#42, r0
-	trap	#0
-f298:	mov	#43, r0
-	trap	#0
-f299:	mov	#44, r0
-	trap	#0
-f300:	mov	#45, r0
-	trap	#0
-f301:	mov	#46, r0
-	trap	#0
-f302:	mov	#47, r0
-	trap	#0
-f303:	mov	#48, r0
-	trap	#0
-f304:	mov	#49, r0
-	trap	#0
-f305:	mov	#50, r0
-	trap	#0
-f306:	mov	#51, r0
-	trap	#0
-f307:	mov	#52, r0
-	trap	#0
-f308:	mov	#53, r0
-	trap	#0
-f309:	mov	#54, r0
-	trap	#0
-f310:	mov	#55, r0
-	trap	#0
-f311:	mov	#56, r0
-	trap	#0
-f312:	mov	#57, r0
-	trap	#0
-f313:	mov	#58, r0
-	trap	#0
-f314:	mov	#59, r0
-	trap	#0
-f315:	mov	#60, r0
-	trap	#0
-f316:	mov	#61, r0
-	trap	#0
-f317:	mov	#62, r0
-	trap	#0
-f318:	mov	#63, r0
-	trap	#0
-f319:	mov	#64, r0
-	trap	#0
-f320:	mov	#65, r0
-	trap	#0
-f321:	mov	#66, r0
-	trap	#0
-f322:	mov	#67, r0
-	trap	#0
-f323:	mov	#68, r0
-	trap	#0
-f324:	mov	#69, r0
-	trap	#0
-f325:	mov	#70, r0
-	trap	#0
-f326:	mov	#71, r0
-	trap	#0
-f327:	mov	#72, r0
-	trap	#0
-f328:	mov	#73, r0
-	trap	#0
-f329:	mov	#74, r0
-	trap	#0
-f330:	mov	#75, r0
-	trap	#0
-f331:	mov	#76, r0
-	trap	#0
-f332:	mov	#77, r0
-	trap	#0
-f333:	mov	#78, r0
-	trap	#0
-f334:	mov	#79, r0
-	trap	#0
-f335:	mov	#80, r0
-	trap	#0
-f336:	mov	#81, r0
-	trap	#0
-f337:	mov	#82, r0
-	trap	#0
-f338:	mov	#83, r0
-	trap	#0
-f339:	mov	#84, r0
-	trap	#0
-f340:	mov	#85, r0
-	trap	#0
-f341:	mov	#86, r0
-	trap	#0
-f342:	mov	#87, r0
-	trap	#0
-f343:	mov	#88, r0
-	trap	#0
-f344:	mov	#89, r0
-	trap	#0
-f345:	mov	#90, r0
-	trap	#0
-f346:	mov	#91, r0
-	trap	#0
-f347:	mov	#92, r0
-	trap	#0
-f348:	mov	#93, r0
-	trap	#0
-f349:	mov	#94, r0
-	trap	#0
-f350:	mov	#95, r0
-	trap	#0
-f351:	mov	#96, r0
-	trap	#0
-f352:	mov	#97, r0
-	trap	#0
-f353:	mov	#98, r0
-	trap	#0
-f354:	mov	#99, r0
-	trap	#0
-f355:	mov	#100, r0
-	trap	#0
-f356:	mov	#101, r0
-	trap	#0
-f357:	mov	#102, r0
-	trap	#0
-f358:	mov	#103, r0
-	trap	#0
-f359:	mov	#104, r0
-	trap	#0
-f360:	mov	#105, r0
-	trap	#0
-f361:	mov	#106, r0
-	trap	#0
-f362:	mov	#107, r0
-	trap	#0
-f363:	mov	#108, r0
-	trap	#0
-f364:	mov	#109, r0
-	trap	#0
-f365:	mov	#110, r0
-	trap	#0
-f366:	mov	#111, r0
-	trap	#0
-f367:	mov	#112, r0
-	trap	#0
-f368:	mov	#113, r0
-	trap	#0
-f369:	mov	#114, r0
-	trap	#0
-f370:	mov	#115, r0
-	trap	#0
-f371:	mov	#116, r0
-	trap	#0
-f372:	mov	#117, r0
-	trap	#0
-f373:	mov	#118, r0
-	trap	#0
-f374:	mov	#119, r0
-	trap	#0
-f375:	mov	#120, r0
-	trap	#0
-f376:	mov	#121, r0
-	trap	#0
-f377:	mov	#122, r0
-	trap	#0
-f378:	mov	#123, r0
-	trap	#0
-f379:	mov	#124, r0
-	trap	#0
-f380:	mov	#125, r0
-	trap	#0
-f381:	mov	#126, r0
-	trap	#0
-f382:	mov	#127, r0
-	trap	#0
-f383:	mov	#128, r0
-	trap	#0
-f384:	mov	#129, r0
-	trap	#0
-f385:	mov	#130, r0
-	trap	#0
-f386:	mov	#131, r0
-	trap	#0
-f387:	mov	#132, r0
-	trap	#0
-f388:	mov	#133, r0
-	trap	#0
-f389:	mov	#134, r0
-	trap	#0
-f390:	mov	#135, r0
-	trap	#0
-f391:	mov	#136, r0
-	trap	#0
-f392:	mov	#137, r0
-	trap	#0
-f393:	mov	#138, r0
-	trap	#0
-f394:	mov	#139, r0
-	trap	#0
-f395:	mov	#140, r0
-	trap	#0
-f396:	mov	#141, r0
-	trap	#0
-f397:	mov	#142, r0
-	trap	#0
-f398:	mov	#143, r0
-	trap	#0
-f399:	mov	#144, r0
-	trap	#0
-f400:	mov	#145, r0
-	trap	#0
-f401:	mov	#146, r0
-	trap	#0
-f402:	mov	#147, r0
-	trap	#0
-f403:	mov	#148, r0
-	trap	#0
-f404:	mov	#149, r0
-	trap	#0
-f405:	mov	#150, r0
-	trap	#0
-f406:	mov	#151, r0
-	trap	#0
-f407:	mov	#152, r0
-	trap	#0
-f408:	mov	#153, r0
-	trap	#0
-f409:	mov	#154, r0
-	trap	#0
-f410:	mov	#155, r0
-	trap	#0
-f411:	mov	#156, r0
-	trap	#0
-f412:	mov	#157, r0
-	trap	#0
-f413:	mov	#158, r0
-	trap	#0
-f414:	mov	#159, r0
-	trap	#0
-f415:	mov	#160, r0
-	trap	#0
-f416:	mov	#161, r0
-	trap	#0
-f417:	mov	#162, r0
-	trap	#0
-f418:	mov	#163, r0
-	trap	#0
-f419:	mov	#164, r0
-	trap	#0
-f420:	mov	#165, r0
-	trap	#0
-f421:	mov	#166, r0
-	trap	#0
-f422:	mov	#167, r0
-	trap	#0
-f423:	mov	#168, r0
-	trap	#0
-f424:	mov	#169, r0
-	trap	#0
-f425:	mov	#170, r0
-	trap	#0
-f426:	mov	#171, r0
-	trap	#0
-f427:	mov	#172, r0
-	trap	#0
-f428:	mov	#173, r0
-	trap	#0
-f429:	mov	#174, r0
-	trap	#0
-f430:	mov	#175, r0
-	trap	#0
-f431:	mov	#176, r0
-	trap	#0
-f432:	mov	#177, r0
-	trap	#0
-f433:	mov	#178, r0
-	trap	#0
-f434:	mov	#179, r0
-	trap	#0
-f435:	mov	#180, r0
-	trap	#0
-f436:	mov	#181, r0
-	trap	#0
-f437:	mov	#182, r0
-	trap	#0
-f438:	mov	#183, r0
-	trap	#0
-f439:	mov	#184, r0
-	trap	#0
-f440:	mov	#185, r0
-	trap	#0
-f441:	mov	#186, r0
-	trap	#0
-f442:	mov	#187, r0
-	trap	#0
-f443:	mov	#188, r0
-	trap	#0
-f444:	mov	#189, r0
-	trap	#0
-f445:	mov	#190, r0
-	trap	#0
-f446:	mov	#191, r0
-	trap	#0
-f447:	mov	#192, r0
-	trap	#0
-f448:	mov	#193, r0
-	trap	#0
-f449:	mov	#194, r0
-	trap	#0
-f450:	mov	#195, r0
-	trap	#0
-f451:	mov	#196, r0
-	trap	#0
-f452:	mov	#197, r0
-	trap	#0
-f453:	mov	#198, r0
-	trap	#0
-f454:	mov	#199, r0
-	trap	#0
-f455:	mov	#200, r0
-	trap	#0
-f456:	mov	#201, r0
-	trap	#0
-f457:	mov	#202, r0
-	trap	#0
-f458:	mov	#203, r0
-	trap	#0
-f459:	mov	#204, r0
-	trap	#0
-f460:	mov	#205, r0
-	trap	#0
-f461:	mov	#206, r0
-	trap	#0
-f462:	mov	#207, r0
-	trap	#0
-f463:	mov	#208, r0
-	trap	#0
-f464:	mov	#209, r0
-	trap	#0
-f465:	mov	#210, r0
-	trap	#0
-f466:	mov	#211, r0
-	trap	#0
-f467:	mov	#212, r0
-	trap	#0
-f468:	mov	#213, r0
-	trap	#0
-f469:	mov	#214, r0
-	trap	#0
-f470:	mov	#215, r0
-	trap	#0
-f471:	mov	#216, r0
-	trap	#0
-f472:	mov	#217, r0
-	trap	#0
-f473:	mov	#218, r0
-	trap	#0
-f474:	mov	#219, r0
-	trap	#0
-f475:	mov	#220, r0
-	trap	#0
-f476:	mov	#221, r0
-	trap	#0
-f477:	mov	#222, r0
-	trap	#0
-f478:	mov	#223, r0
-	trap	#0
-f479:	mov	#224, r0
-	trap	#0
-f480:	mov	#225, r0
-	trap	#0
-f481:	mov	#226, r0
-	trap	#0
-f482:	mov	#227, r0
-	trap	#0
-f483:	mov	#228, r0
-	trap	#0
-f484:	mov	#229, r0
-	trap	#0
-f485:	mov	#230, r0
-	trap	#0
-f486:	mov	#231, r0
-	trap	#0
-f487:	mov	#232, r0
-	trap	#0
-f488:	mov	#233, r0
-	trap	#0
-f489:	mov	#234, r0
-	trap	#0
-f490:	mov	#235, r0
-	trap	#0
-f491:	mov	#236, r0
-	trap	#0
-f492:	mov	#237, r0
-	trap	#0
-f493:	mov	#238, r0
-	trap	#0
-f494:	mov	#239, r0
-	trap	#0
-f495:	mov	#240, r0
-	trap	#0
-f496:	mov	#241, r0
-	trap	#0
-f497:	mov	#242, r0
-	trap	#0
-f498:	mov	#243, r0
-	trap	#0
-f499:	mov	#244, r0
-	trap	#0
-f500:	mov	#245, r0
-	trap	#0
-f501:	mov	#246, r0
-	trap	#0
-f502:	mov	#247, r0
-	trap	#0
-f503:	mov	#248, r0
-	trap	#0
-f504:	mov	#249, r0
-	trap	#0
-f505:	mov	#250, r0
-	trap	#0
-f506:	mov	#251, r0
-	trap	#0
-f507:	mov	#252, r0
-	trap	#0
-f508:	mov	#253, r0
-	trap	#0
-f509:	mov	#254, r0
-	trap	#0
-f510:	mov	#255, r0
-	trap	#0
-f511:	mov	#1, r0
-	trap	#0
-f512:	mov	#2, r0
-	trap	#0
-f513:	mov	#3, r0
-	trap	#0
-f514:	mov	#4, r0
-	trap	#0
-f515:	mov	#5, r0
-	trap	#0
-f516:	mov	#6, r0
-	trap	#0
+	trap	$0
+f1:	mov	$1, r0
+	trap	$0
+f2:	mov	$2, r0
+	trap	$0
+f3:	mov	$3, r0
+	trap	$0
+f4:	mov	$4, r0
+	trap	$0
+f5:	mov	$5, r0
+	trap	$0
+f6:	mov	$6, r0
+	trap	$0
+f7:	mov	$7, r0
+	trap	$0
+f8:	mov	$8, r0
+	trap	$0
+f9:	mov	$9, r0
+	trap	$0
+f10:	mov	$10, r0
+	trap	$0
+f11:	mov	$11, r0
+	trap	$0
+f12:	mov	$12, r0
+	trap	$0
+f13:	mov	$13, r0
+	trap	$0
+f14:	mov	$14, r0
+	trap	$0
+f15:	mov	$15, r0
+	trap	$0
+f16:	mov	$16, r0
+	trap	$0
+f17:	mov	$17, r0
+	trap	$0
+f18:	mov	$18, r0
+	trap	$0
+f19:	mov	$19, r0
+	trap	$0
+f20:	mov	$20, r0
+	trap	$0
+f21:	mov	$21, r0
+	trap	$0
+f22:	mov	$22, r0
+	trap	$0
+f23:	mov	$23, r0
+	trap	$0
+f24:	mov	$24, r0
+	trap	$0
+f25:	mov	$25, r0
+	trap	$0
+f26:	mov	$26, r0
+	trap	$0
+f27:	mov	$27, r0
+	trap	$0
+f28:	mov	$28, r0
+	trap	$0
+f29:	mov	$29, r0
+	trap	$0
+f30:	mov	$30, r0
+	trap	$0
+f31:	mov	$31, r0
+	trap	$0
+f32:	mov	$32, r0
+	trap	$0
+f33:	mov	$33, r0
+	trap	$0
+f34:	mov	$34, r0
+	trap	$0
+f35:	mov	$35, r0
+	trap	$0
+f36:	mov	$36, r0
+	trap	$0
+f37:	mov	$37, r0
+	trap	$0
+f38:	mov	$38, r0
+	trap	$0
+f39:	mov	$39, r0
+	trap	$0
+f40:	mov	$40, r0
+	trap	$0
+f41:	mov	$41, r0
+	trap	$0
+f42:	mov	$42, r0
+	trap	$0
+f43:	mov	$43, r0
+	trap	$0
+f44:	mov	$44, r0
+	trap	$0
+f45:	mov	$45, r0
+	trap	$0
+f46:	mov	$46, r0
+	trap	$0
+f47:	mov	$47, r0
+	trap	$0
+f48:	mov	$48, r0
+	trap	$0
+f49:	mov	$49, r0
+	trap	$0
+f50:	mov	$50, r0
+	trap	$0
+f51:	mov	$51, r0
+	trap	$0
+f52:	mov	$52, r0
+	trap	$0
+f53:	mov	$53, r0
+	trap	$0
+f54:	mov	$54, r0
+	trap	$0
+f55:	mov	$55, r0
+	trap	$0
+f56:	mov	$56, r0
+	trap	$0
+f57:	mov	$57, r0
+	trap	$0
+f58:	mov	$58, r0
+	trap	$0
+f59:	mov	$59, r0
+	trap	$0
+f60:	mov	$60, r0
+	trap	$0
+f61:	mov	$61, r0
+	trap	$0
+f62:	mov	$62, r0
+	trap	$0
+f63:	mov	$63, r0
+	trap	$0
+f64:	mov	$64, r0
+	trap	$0
+f65:	mov	$65, r0
+	trap	$0
+f66:	mov	$66, r0
+	trap	$0
+f67:	mov	$67, r0
+	trap	$0
+f68:	mov	$68, r0
+	trap	$0
+f69:	mov	$69, r0
+	trap	$0
+f70:	mov	$70, r0
+	trap	$0
+f71:	mov	$71, r0
+	trap	$0
+f72:	mov	$72, r0
+	trap	$0
+f73:	mov	$73, r0
+	trap	$0
+f74:	mov	$74, r0
+	trap	$0
+f75:	mov	$75, r0
+	trap	$0
+f76:	mov	$76, r0
+	trap	$0
+f77:	mov	$77, r0
+	trap	$0
+f78:	mov	$78, r0
+	trap	$0
+f79:	mov	$79, r0
+	trap	$0
+f80:	mov	$80, r0
+	trap	$0
+f81:	mov	$81, r0
+	trap	$0
+f82:	mov	$82, r0
+	trap	$0
+f83:	mov	$83, r0
+	trap	$0
+f84:	mov	$84, r0
+	trap	$0
+f85:	mov	$85, r0
+	trap	$0
+f86:	mov	$86, r0
+	trap	$0
+f87:	mov	$87, r0
+	trap	$0
+f88:	mov	$88, r0
+	trap	$0
+f89:	mov	$89, r0
+	trap	$0
+f90:	mov	$90, r0
+	trap	$0
+f91:	mov	$91, r0
+	trap	$0
+f92:	mov	$92, r0
+	trap	$0
+f93:	mov	$93, r0
+	trap	$0
+f94:	mov	$94, r0
+	trap	$0
+f95:	mov	$95, r0
+	trap	$0
+f96:	mov	$96, r0
+	trap	$0
+f97:	mov	$97, r0
+	trap	$0
+f98:	mov	$98, r0
+	trap	$0
+f99:	mov	$99, r0
+	trap	$0
+f100:	mov	$100, r0
+	trap	$0
+f101:	mov	$101, r0
+	trap	$0
+f102:	mov	$102, r0
+	trap	$0
+f103:	mov	$103, r0
+	trap	$0
+f104:	mov	$104, r0
+	trap	$0
+f105:	mov	$105, r0
+	trap	$0
+f106:	mov	$106, r0
+	trap	$0
+f107:	mov	$107, r0
+	trap	$0
+f108:	mov	$108, r0
+	trap	$0
+f109:	mov	$109, r0
+	trap	$0
+f110:	mov	$110, r0
+	trap	$0
+f111:	mov	$111, r0
+	trap	$0
+f112:	mov	$112, r0
+	trap	$0
+f113:	mov	$113, r0
+	trap	$0
+f114:	mov	$114, r0
+	trap	$0
+f115:	mov	$115, r0
+	trap	$0
+f116:	mov	$116, r0
+	trap	$0
+f117:	mov	$117, r0
+	trap	$0
+f118:	mov	$118, r0
+	trap	$0
+f119:	mov	$119, r0
+	trap	$0
+f120:	mov	$120, r0
+	trap	$0
+f121:	mov	$121, r0
+	trap	$0
+f122:	mov	$122, r0
+	trap	$0
+f123:	mov	$123, r0
+	trap	$0
+f124:	mov	$124, r0
+	trap	$0
+f125:	mov	$125, r0
+	trap	$0
+f126:	mov	$126, r0
+	trap	$0
+f127:	mov	$127, r0
+	trap	$0
+f128:	mov	$128, r0
+	trap	$0
+f129:	mov	$129, r0
+	trap	$0
+f130:	mov	$130, r0
+	trap	$0
+f131:	mov	$131, r0
+	trap	$0
+f132:	mov	$132, r0
+	trap	$0
+f133:	mov	$133, r0
+	trap	$0
+f134:	mov	$134, r0
+	trap	$0
+f135:	mov	$135, r0
+	trap	$0
+f136:	mov	$136, r0
+	trap	$0
+f137:	mov	$137, r0
+	trap	$0
+f138:	mov	$138, r0
+	trap	$0
+f139:	mov	$139, r0
+	trap	$0
+f140:	mov	$140, r0
+	trap	$0
+f141:	mov	$141, r0
+	trap	$0
+f142:	mov	$142, r0
+	trap	$0
+f143:	mov	$143, r0
+	trap	$0
+f144:	mov	$144, r0
+	trap	$0
+f145:	mov	$145, r0
+	trap	$0
+f146:	mov	$146, r0
+	trap	$0
+f147:	mov	$147, r0
+	trap	$0
+f148:	mov	$148, r0
+	trap	$0
+f149:	mov	$149, r0
+	trap	$0
+f150:	mov	$150, r0
+	trap	$0
+f151:	mov	$151, r0
+	trap	$0
+f152:	mov	$152, r0
+	trap	$0
+f153:	mov	$153, r0
+	trap	$0
+f154:	mov	$154, r0
+	trap	$0
+f155:	mov	$155, r0
+	trap	$0
+f156:	mov	$156, r0
+	trap	$0
+f157:	mov	$157, r0
+	trap	$0
+f158:	mov	$158, r0
+	trap	$0
+f159:	mov	$159, r0
+	trap	$0
+f160:	mov	$160, r0
+	trap	$0
+f161:	mov	$161, r0
+	trap	$0
+f162:	mov	$162, r0
+	trap	$0
+f163:	mov	$163, r0
+	trap	$0
+f164:	mov	$164, r0
+	trap	$0
+f165:	mov	$165, r0
+	trap	$0
+f166:	mov	$166, r0
+	trap	$0
+f167:	mov	$167, r0
+	trap	$0
+f168:	mov	$168, r0
+	trap	$0
+f169:	mov	$169, r0
+	trap	$0
+f170:	mov	$170, r0
+	trap	$0
+f171:	mov	$171, r0
+	trap	$0
+f172:	mov	$172, r0
+	trap	$0
+f173:	mov	$173, r0
+	trap	$0
+f174:	mov	$174, r0
+	trap	$0
+f175:	mov	$175, r0
+	trap	$0
+f176:	mov	$176, r0
+	trap	$0
+f177:	mov	$177, r0
+	trap	$0
+f178:	mov	$178, r0
+	trap	$0
+f179:	mov	$179, r0
+	trap	$0
+f180:	mov	$180, r0
+	trap	$0
+f181:	mov	$181, r0
+	trap	$0
+f182:	mov	$182, r0
+	trap	$0
+f183:	mov	$183, r0
+	trap	$0
+f184:	mov	$184, r0
+	trap	$0
+f185:	mov	$185, r0
+	trap	$0
+f186:	mov	$186, r0
+	trap	$0
+f187:	mov	$187, r0
+	trap	$0
+f188:	mov	$188, r0
+	trap	$0
+f189:	mov	$189, r0
+	trap	$0
+f190:	mov	$190, r0
+	trap	$0
+f191:	mov	$191, r0
+	trap	$0
+f192:	mov	$192, r0
+	trap	$0
+f193:	mov	$193, r0
+	trap	$0
+f194:	mov	$194, r0
+	trap	$0
+f195:	mov	$195, r0
+	trap	$0
+f196:	mov	$196, r0
+	trap	$0
+f197:	mov	$197, r0
+	trap	$0
+f198:	mov	$198, r0
+	trap	$0
+f199:	mov	$199, r0
+	trap	$0
+f200:	mov	$200, r0
+	trap	$0
+f201:	mov	$201, r0
+	trap	$0
+f202:	mov	$202, r0
+	trap	$0
+f203:	mov	$203, r0
+	trap	$0
+f204:	mov	$204, r0
+	trap	$0
+f205:	mov	$205, r0
+	trap	$0
+f206:	mov	$206, r0
+	trap	$0
+f207:	mov	$207, r0
+	trap	$0
+f208:	mov	$208, r0
+	trap	$0
+f209:	mov	$209, r0
+	trap	$0
+f210:	mov	$210, r0
+	trap	$0
+f211:	mov	$211, r0
+	trap	$0
+f212:	mov	$212, r0
+	trap	$0
+f213:	mov	$213, r0
+	trap	$0
+f214:	mov	$214, r0
+	trap	$0
+f215:	mov	$215, r0
+	trap	$0
+f216:	mov	$216, r0
+	trap	$0
+f217:	mov	$217, r0
+	trap	$0
+f218:	mov	$218, r0
+	trap	$0
+f219:	mov	$219, r0
+	trap	$0
+f220:	mov	$220, r0
+	trap	$0
+f221:	mov	$221, r0
+	trap	$0
+f222:	mov	$222, r0
+	trap	$0
+f223:	mov	$223, r0
+	trap	$0
+f224:	mov	$224, r0
+	trap	$0
+f225:	mov	$225, r0
+	trap	$0
+f226:	mov	$226, r0
+	trap	$0
+f227:	mov	$227, r0
+	trap	$0
+f228:	mov	$228, r0
+	trap	$0
+f229:	mov	$229, r0
+	trap	$0
+f230:	mov	$230, r0
+	trap	$0
+f231:	mov	$231, r0
+	trap	$0
+f232:	mov	$232, r0
+	trap	$0
+f233:	mov	$233, r0
+	trap	$0
+f234:	mov	$234, r0
+	trap	$0
+f235:	mov	$235, r0
+	trap	$0
+f236:	mov	$236, r0
+	trap	$0
+f237:	mov	$237, r0
+	trap	$0
+f238:	mov	$238, r0
+	trap	$0
+f239:	mov	$239, r0
+	trap	$0
+f240:	mov	$240, r0
+	trap	$0
+f241:	mov	$241, r0
+	trap	$0
+f242:	mov	$242, r0
+	trap	$0
+f243:	mov	$243, r0
+	trap	$0
+f244:	mov	$244, r0
+	trap	$0
+f245:	mov	$245, r0
+	trap	$0
+f246:	mov	$246, r0
+	trap	$0
+f247:	mov	$247, r0
+	trap	$0
+f248:	mov	$248, r0
+	trap	$0
+f249:	mov	$249, r0
+	trap	$0
+f250:	mov	$250, r0
+	trap	$0
+f251:	mov	$251, r0
+	trap	$0
+f252:	mov	$252, r0
+	trap	$0
+f253:	mov	$253, r0
+	trap	$0
+f254:	mov	$254, r0
+	trap	$0
+f255:	mov	$255, r0
+	trap	$0
+f256:	mov	$1, r0
+	trap	$0
+f257:	mov	$2, r0
+	trap	$0
+f258:	mov	$3, r0
+	trap	$0
+f259:	mov	$4, r0
+	trap	$0
+f260:	mov	$5, r0
+	trap	$0
+f261:	mov	$6, r0
+	trap	$0
+f262:	mov	$7, r0
+	trap	$0
+f263:	mov	$8, r0
+	trap	$0
+f264:	mov	$9, r0
+	trap	$0
+f265:	mov	$10, r0
+	trap	$0
+f266:	mov	$11, r0
+	trap	$0
+f267:	mov	$12, r0
+	trap	$0
+f268:	mov	$13, r0
+	trap	$0
+f269:	mov	$14, r0
+	trap	$0
+f270:	mov	$15, r0
+	trap	$0
+f271:	mov	$16, r0
+	trap	$0
+f272:	mov	$17, r0
+	trap	$0
+f273:	mov	$18, r0
+	trap	$0
+f274:	mov	$19, r0
+	trap	$0
+f275:	mov	$20, r0
+	trap	$0
+f276:	mov	$21, r0
+	trap	$0
+f277:	mov	$22, r0
+	trap	$0
+f278:	mov	$23, r0
+	trap	$0
+f279:	mov	$24, r0
+	trap	$0
+f280:	mov	$25, r0
+	trap	$0
+f281:	mov	$26, r0
+	trap	$0
+f282:	mov	$27, r0
+	trap	$0
+f283:	mov	$28, r0
+	trap	$0
+f284:	mov	$29, r0
+	trap	$0
+f285:	mov	$30, r0
+	trap	$0
+f286:	mov	$31, r0
+	trap	$0
+f287:	mov	$32, r0
+	trap	$0
+f288:	mov	$33, r0
+	trap	$0
+f289:	mov	$34, r0
+	trap	$0
+f290:	mov	$35, r0
+	trap	$0
+f291:	mov	$36, r0
+	trap	$0
+f292:	mov	$37, r0
+	trap	$0
+f293:	mov	$38, r0
+	trap	$0
+f294:	mov	$39, r0
+	trap	$0
+f295:	mov	$40, r0
+	trap	$0
+f296:	mov	$41, r0
+	trap	$0
+f297:	mov	$42, r0
+	trap	$0
+f298:	mov	$43, r0
+	trap	$0
+f299:	mov	$44, r0
+	trap	$0
+f300:	mov	$45, r0
+	trap	$0
+f301:	mov	$46, r0
+	trap	$0
+f302:	mov	$47, r0
+	trap	$0
+f303:	mov	$48, r0
+	trap	$0
+f304:	mov	$49, r0
+	trap	$0
+f305:	mov	$50, r0
+	trap	$0
+f306:	mov	$51, r0
+	trap	$0
+f307:	mov	$52, r0
+	trap	$0
+f308:	mov	$53, r0
+	trap	$0
+f309:	mov	$54, r0
+	trap	$0
+f310:	mov	$55, r0
+	trap	$0
+f311:	mov	$56, r0
+	trap	$0
+f312:	mov	$57, r0
+	trap	$0
+f313:	mov	$58, r0
+	trap	$0
+f314:	mov	$59, r0
+	trap	$0
+f315:	mov	$60, r0
+	trap	$0
+f316:	mov	$61, r0
+	trap	$0
+f317:	mov	$62, r0
+	trap	$0
+f318:	mov	$63, r0
+	trap	$0
+f319:	mov	$64, r0
+	trap	$0
+f320:	mov	$65, r0
+	trap	$0
+f321:	mov	$66, r0
+	trap	$0
+f322:	mov	$67, r0
+	trap	$0
+f323:	mov	$68, r0
+	trap	$0
+f324:	mov	$69, r0
+	trap	$0
+f325:	mov	$70, r0
+	trap	$0
+f326:	mov	$71, r0
+	trap	$0
+f327:	mov	$72, r0
+	trap	$0
+f328:	mov	$73, r0
+	trap	$0
+f329:	mov	$74, r0
+	trap	$0
+f330:	mov	$75, r0
+	trap	$0
+f331:	mov	$76, r0
+	trap	$0
+f332:	mov	$77, r0
+	trap	$0
+f333:	mov	$78, r0
+	trap	$0
+f334:	mov	$79, r0
+	trap	$0
+f335:	mov	$80, r0
+	trap	$0
+f336:	mov	$81, r0
+	trap	$0
+f337:	mov	$82, r0
+	trap	$0
+f338:	mov	$83, r0
+	trap	$0
+f339:	mov	$84, r0
+	trap	$0
+f340:	mov	$85, r0
+	trap	$0
+f341:	mov	$86, r0
+	trap	$0
+f342:	mov	$87, r0
+	trap	$0
+f343:	mov	$88, r0
+	trap	$0
+f344:	mov	$89, r0
+	trap	$0
+f345:	mov	$90, r0
+	trap	$0
+f346:	mov	$91, r0
+	trap	$0
+f347:	mov	$92, r0
+	trap	$0
+f348:	mov	$93, r0
+	trap	$0
+f349:	mov	$94, r0
+	trap	$0
+f350:	mov	$95, r0
+	trap	$0
+f351:	mov	$96, r0
+	trap	$0
+f352:	mov	$97, r0
+	trap	$0
+f353:	mov	$98, r0
+	trap	$0
+f354:	mov	$99, r0
+	trap	$0
+f355:	mov	$100, r0
+	trap	$0
+f356:	mov	$101, r0
+	trap	$0
+f357:	mov	$102, r0
+	trap	$0
+f358:	mov	$103, r0
+	trap	$0
+f359:	mov	$104, r0
+	trap	$0
+f360:	mov	$105, r0
+	trap	$0
+f361:	mov	$106, r0
+	trap	$0
+f362:	mov	$107, r0
+	trap	$0
+f363:	mov	$108, r0
+	trap	$0
+f364:	mov	$109, r0
+	trap	$0
+f365:	mov	$110, r0
+	trap	$0
+f366:	mov	$111, r0
+	trap	$0
+f367:	mov	$112, r0
+	trap	$0
+f368:	mov	$113, r0
+	trap	$0
+f369:	mov	$114, r0
+	trap	$0
+f370:	mov	$115, r0
+	trap	$0
+f371:	mov	$116, r0
+	trap	$0
+f372:	mov	$117, r0
+	trap	$0
+f373:	mov	$118, r0
+	trap	$0
+f374:	mov	$119, r0
+	trap	$0
+f375:	mov	$120, r0
+	trap	$0
+f376:	mov	$121, r0
+	trap	$0
+f377:	mov	$122, r0
+	trap	$0
+f378:	mov	$123, r0
+	trap	$0
+f379:	mov	$124, r0
+	trap	$0
+f380:	mov	$125, r0
+	trap	$0
+f381:	mov	$126, r0
+	trap	$0
+f382:	mov	$127, r0
+	trap	$0
+f383:	mov	$128, r0
+	trap	$0
+f384:	mov	$129, r0
+	trap	$0
+f385:	mov	$130, r0
+	trap	$0
+f386:	mov	$131, r0
+	trap	$0
+f387:	mov	$132, r0
+	trap	$0
+f388:	mov	$133, r0
+	trap	$0
+f389:	mov	$134, r0
+	trap	$0
+f390:	mov	$135, r0
+	trap	$0
+f391:	mov	$136, r0
+	trap	$0
+f392:	mov	$137, r0
+	trap	$0
+f393:	mov	$138, r0
+	trap	$0
+f394:	mov	$139, r0
+	trap	$0
+f395:	mov	$140, r0
+	trap	$0
+f396:	mov	$141, r0
+	trap	$0
+f397:	mov	$142, r0
+	trap	$0
+f398:	mov	$143, r0
+	trap	$0
+f399:	mov	$144, r0
+	trap	$0
+f400:	mov	$145, r0
+	trap	$0
+f401:	mov	$146, r0
+	trap	$0
+f402:	mov	$147, r0
+	trap	$0
+f403:	mov	$148, r0
+	trap	$0
+f404:	mov	$149, r0
+	trap	$0
+f405:	mov	$150, r0
+	trap	$0
+f406:	mov	$151, r0
+	trap	$0
+f407:	mov	$152, r0
+	trap	$0
+f408:	mov	$153, r0
+	trap	$0
+f409:	mov	$154, r0
+	trap	$0
+f410:	mov	$155, r0
+	trap	$0
+f411:	mov	$156, r0
+	trap	$0
+f412:	mov	$157, r0
+	trap	$0
+f413:	mov	$158, r0
+	trap	$0
+f414:	mov	$159, r0
+	trap	$0
+f415:	mov	$160, r0
+	trap	$0
+f416:	mov	$161, r0
+	trap	$0
+f417:	mov	$162, r0
+	trap	$0
+f418:	mov	$163, r0
+	trap	$0
+f419:	mov	$164, r0
+	trap	$0
+f420:	mov	$165, r0
+	trap	$0
+f421:	mov	$166, r0
+	trap	$0
+f422:	mov	$167, r0
+	trap	$0
+f423:	mov	$168, r0
+	trap	$0
+f424:	mov	$169, r0
+	trap	$0
+f425:	mov	$170, r0
+	trap	$0
+f426:	mov	$171, r0
+	trap	$0
+f427:	mov	$172, r0
+	trap	$0
+f428:	mov	$173, r0
+	trap	$0
+f429:	mov	$174, r0
+	trap	$0
+f430:	mov	$175, r0
+	trap	$0
+f431:	mov	$176, r0
+	trap	$0
+f432:	mov	$177, r0
+	trap	$0
+f433:	mov	$178, r0
+	trap	$0
+f434:	mov	$179, r0
+	trap	$0
+f435:	mov	$180, r0
+	trap	$0
+f436:	mov	$181, r0
+	trap	$0
+f437:	mov	$182, r0
+	trap	$0
+f438:	mov	$183, r0
+	trap	$0
+f439:	mov	$184, r0
+	trap	$0
+f440:	mov	$185, r0
+	trap	$0
+f441:	mov	$186, r0
+	trap	$0
+f442:	mov	$187, r0
+	trap	$0
+f443:	mov	$188, r0
+	trap	$0
+f444:	mov	$189, r0
+	trap	$0
+f445:	mov	$190, r0
+	trap	$0
+f446:	mov	$191, r0
+	trap	$0
+f447:	mov	$192, r0
+	trap	$0
+f448:	mov	$193, r0
+	trap	$0
+f449:	mov	$194, r0
+	trap	$0
+f450:	mov	$195, r0
+	trap	$0
+f451:	mov	$196, r0
+	trap	$0
+f452:	mov	$197, r0
+	trap	$0
+f453:	mov	$198, r0
+	trap	$0
+f454:	mov	$199, r0
+	trap	$0
+f455:	mov	$200, r0
+	trap	$0
+f456:	mov	$201, r0
+	trap	$0
+f457:	mov	$202, r0
+	trap	$0
+f458:	mov	$203, r0
+	trap	$0
+f459:	mov	$204, r0
+	trap	$0
+f460:	mov	$205, r0
+	trap	$0
+f461:	mov	$206, r0
+	trap	$0
+f462:	mov	$207, r0
+	trap	$0
+f463:	mov	$208, r0
+	trap	$0
+f464:	mov	$209, r0
+	trap	$0
+f465:	mov	$210, r0
+	trap	$0
+f466:	mov	$211, r0
+	trap	$0
+f467:	mov	$212, r0
+	trap	$0
+f468:	mov	$213, r0
+	trap	$0
+f469:	mov	$214, r0
+	trap	$0
+f470:	mov	$215, r0
+	trap	$0
+f471:	mov	$216, r0
+	trap	$0
+f472:	mov	$217, r0
+	trap	$0
+f473:	mov	$218, r0
+	trap	$0
+f474:	mov	$219, r0
+	trap	$0
+f475:	mov	$220, r0
+	trap	$0
+f476:	mov	$221, r0
+	trap	$0
+f477:	mov	$222, r0
+	trap	$0
+f478:	mov	$223, r0
+	trap	$0
+f479:	mov	$224, r0
+	trap	$0
+f480:	mov	$225, r0
+	trap	$0
+f481:	mov	$226, r0
+	trap	$0
+f482:	mov	$227, r0
+	trap	$0
+f483:	mov	$228, r0
+	trap	$0
+f484:	mov	$229, r0
+	trap	$0
+f485:	mov	$230, r0
+	trap	$0
+f486:	mov	$231, r0
+	trap	$0
+f487:	mov	$232, r0
+	trap	$0
+f488:	mov	$233, r0
+	trap	$0
+f489:	mov	$234, r0
+	trap	$0
+f490:	mov	$235, r0
+	trap	$0
+f491:	mov	$236, r0
+	trap	$0
+f492:	mov	$237, r0
+	trap	$0
+f493:	mov	$238, r0
+	trap	$0
+f494:	mov	$239, r0
+	trap	$0
+f495:	mov	$240, r0
+	trap	$0
+f496:	mov	$241, r0
+	trap	$0
+f497:	mov	$242, r0
+	trap	$0
+f498:	mov	$243, r0
+	trap	$0
+f499:	mov	$244, r0
+	trap	$0
+f500:	mov	$245, r0
+	trap	$0
+f501:	mov	$246, r0
+	trap	$0
+f502:	mov	$247, r0
+	trap	$0
+f503:	mov	$248, r0
+	trap	$0
+f504:	mov	$249, r0
+	trap	$0
+f505:	mov	$250, r0
+	trap	$0
+f506:	mov	$251, r0
+	trap	$0
+f507:	mov	$252, r0
+	trap	$0
+f508:	mov	$253, r0
+	trap	$0
+f509:	mov	$254, r0
+	trap	$0
+f510:	mov	$255, r0
+	trap	$0
+f511:	mov	$1, r0
+	trap	$0
+f512:	mov	$2, r0
+	trap	$0
+f513:	mov	$3, r0
+	trap	$0
+f514:	mov	$4, r0
+	trap	$0
+f515:	mov	$5, r0
+	trap	$0
+f516:	mov	$6, r0
+	trap	$0
 	.data
 	.align	4096
 buf:	.space	8192

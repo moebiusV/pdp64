@@ -63,7 +63,7 @@ The table has 512 entries of eight bytes at the physical address `VBR + 8 * vect
 | `PCIE_INTC` | 37 | PCI Express interrupt pin C (level 5) |
 | `PCIE_INTD` | 38 | PCI Express interrupt pin D (level 5) |
 | `IOMMU` | 39 | the IOMMU unit's own interrupt, a wired line (level 5; 2.11.11) |
-| `TRAP_BASE` | 256 | `TRAP #n` enters vector 256 + n |
+| `TRAP_BASE` | 256 | `TRAP $n` enters vector 256 + n |
 | `COUNT` | 512 | the number of vectors; the table has this many eight-byte entries |
 
 ## The page-table entry (64 bits)
@@ -144,7 +144,7 @@ The numbers of the exit-reason codes, the trap-control bits and the stage-2 regi
 
 | Rule | Name | Number | What the rule is |
 |---|---|---|---|
-| `htrap` | `wfe` | 0 | the bits of HTRAP, the trap-control register: a set bit sends the event to the hypervisor as an exit; `mask` is the position of the 8-bit hypercall mask, bit k routing `TRAP #n` for n from 32k to 32k + 31 |
+| `htrap` | `wfe` | 0 | the bits of HTRAP, the trap-control register: a set bit sends the event to the hypervisor as an exit; `mask` is the position of the 8-bit hypercall mask, bit k routing `TRAP $n` for n from 32k to 32k + 31 |
 | `htrap` | `sev` | 1 |  |
 | `htrap` | `pause` | 2 |  |
 | `htrap` | `prio` | 3 |  |

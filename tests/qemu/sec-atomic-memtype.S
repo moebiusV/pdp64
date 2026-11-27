@@ -8,7 +8,7 @@ _start:
 	lea	vtab, r1
 	mtsr	vbr, r1
 	lea	hgen, r2
-	mov	#512, r3
+	mov	$512, r3
 kfill:	mov	r2, (r1)+
 	sob	r3, kfill
 	lea	vtab, r1
@@ -19,11 +19,11 @@ kfill:	mov	r2, (r1)+
 
 	lea	l2, r1
 	mtsr	ptbr, r1
-	mov	#1, r1
+	mov	$1, r1
 	mtsr	mmuctl, r1
 	isync
 
-		; ---- case 1: control: ordinary accesses to the four pages, and an atomic on the cached writable page
+	; ---- case 1: control: ordinary accesses to the four pages, and an atomic on the cached writable page
 	mov	=(0x800000), r6
 	mov	=(0x0123456789abcdef), r17
 	mov	r17, (r6)
@@ -36,1086 +36,1086 @@ kfill:	mov	r2, (r1)+
 	mov	=(0x801000), r6
 	mov	(r6), r4
 	mov	=(0), r17
-	cbeq	r4, r17, 1f		; case 1: the read-only page reads
-	mov	#1, r0
+	cbeq	r4, r17, 1f	; case 1: the read-only page reads
+	mov	$1, r0
 	halt
 1:
 	mov	=(0x800000), r6
 	mov	=(0x1000), r17
-	mov	#1, r2
+	mov	$1, r2
 	aadd	r2, (r6), r1
 	mov	(r6), r4
 	mov	=(0x0123456789abcdef), r17
-	cbeq	r1, r17, 1f		; case 1: aadd on cached writable memory: the old value
-	mov	#1, r0
+	cbeq	r1, r17, 1f	; case 1: aadd on cached writable memory: the old value
+	mov	$1, r0
 	halt
 1:
 	mov	=(0x0123456789abcdf0), r17
-	cbeq	r4, r17, 1f		; case 1: aadd on cached writable memory: the new value
-	mov	#1, r0
+	cbeq	r4, r17, 1f	; case 1: aadd on cached writable memory: the new value
+	mov	$1, r0
 	halt
 1:
-		; ---- case 2: aadd on a read-only page
+	; ---- case 2: aadd on a read-only page
 	mov	=(0x801000), r3
 	mov	=(0x1111111111111111), r1
-	mov	#0, r4
+	mov	$0, r4
 	mov	r4, cnt
-	mov	#9, r2
+	mov	$9, r2
 	lea	N1, r13
 I1:
 	aadd	r2, (r3), r1
 N1:	mov	cnt, r4
 	mov	=(1), r17
-	cbeq	r4, r17, 1f		; case 2: one exception
-	mov	#2, r0
+	cbeq	r4, r17, 1f	; case 2: one exception
+	mov	$2, r0
 	halt
 1:
 	mov	last_cause, r4
 	mov	=(VECTOR_SPROT), r17
-	cbeq	r4, r17, 1f		; case 2: it is the store protection fault (for LL too)
-	mov	#2, r0
+	cbeq	r4, r17, 1f	; case 2: it is the store protection fault (for LL too)
+	mov	$2, r0
 	halt
 1:
 	mov	last_eva, r4
 	mov	=(0x801000), r5
-	cbeq	r4, r5, 1f		; case 2: EVA is the address
-	mov	#2, r0
+	cbeq	r4, r5, 1f	; case 2: EVA is the address
+	mov	$2, r0
 	halt
 1:
 	mov	last_epc, r4
 	lea	I1, r5
-	cbeq	r4, r5, 1f		; case 2: EPC is the instruction
-	mov	#2, r0
+	cbeq	r4, r5, 1f	; case 2: EPC is the instruction
+	mov	$2, r0
 	halt
 1:
 	mov	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f		; case 2: Rd unchanged
-	mov	#2, r0
+	cbeq	r1, r17, 1f	; case 2: Rd unchanged
+	mov	$2, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0x0), r17
-	cbeq	r4, r17, 1f		; case 2: the memory is as it was: the atomic did not run, not even half
-	mov	#2, r0
+	cbeq	r4, r17, 1f	; case 2: the memory is as it was: the atomic did not run, not even half
+	mov	$2, r0
 	halt
 1:
-		; ---- case 3: swap on a read-only page
+	; ---- case 3: swap on a read-only page
 	mov	=(0x801000), r3
 	mov	=(0x1111111111111111), r1
-	mov	#0, r4
+	mov	$0, r4
 	mov	r4, cnt
-	mov	#9, r2
+	mov	$9, r2
 	lea	N2, r13
 I2:
 	swap	r2, (r3), r1
 N2:	mov	cnt, r4
 	mov	=(1), r17
-	cbeq	r4, r17, 1f		; case 3: one exception
-	mov	#3, r0
+	cbeq	r4, r17, 1f	; case 3: one exception
+	mov	$3, r0
 	halt
 1:
 	mov	last_cause, r4
 	mov	=(VECTOR_SPROT), r17
-	cbeq	r4, r17, 1f		; case 3: it is the store protection fault (for LL too)
-	mov	#3, r0
+	cbeq	r4, r17, 1f	; case 3: it is the store protection fault (for LL too)
+	mov	$3, r0
 	halt
 1:
 	mov	last_eva, r4
 	mov	=(0x801000), r5
-	cbeq	r4, r5, 1f		; case 3: EVA is the address
-	mov	#3, r0
+	cbeq	r4, r5, 1f	; case 3: EVA is the address
+	mov	$3, r0
 	halt
 1:
 	mov	last_epc, r4
 	lea	I2, r5
-	cbeq	r4, r5, 1f		; case 3: EPC is the instruction
-	mov	#3, r0
+	cbeq	r4, r5, 1f	; case 3: EPC is the instruction
+	mov	$3, r0
 	halt
 1:
 	mov	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f		; case 3: Rd unchanged
-	mov	#3, r0
+	cbeq	r1, r17, 1f	; case 3: Rd unchanged
+	mov	$3, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0x0), r17
-	cbeq	r4, r17, 1f		; case 3: the memory is as it was: the atomic did not run, not even half
-	mov	#3, r0
+	cbeq	r4, r17, 1f	; case 3: the memory is as it was: the atomic did not run, not even half
+	mov	$3, r0
 	halt
 1:
-		; ---- case 4: cas .32 on a read-only page
+	; ---- case 4: cas.s32 on a read-only page
 	mov	=(0x801000), r3
 	mov	=(0x1111111111111111), r1
-	mov	#0, r4
+	mov	$0, r4
 	mov	r4, cnt
-	mov	#9, r2
+	mov	$9, r2
 	lea	N3, r13
 I3:
 	cas.s32	r2, (r3), r1
 N3:	mov	cnt, r4
 	mov	=(1), r17
-	cbeq	r4, r17, 1f		; case 4: one exception
-	mov	#4, r0
+	cbeq	r4, r17, 1f	; case 4: one exception
+	mov	$4, r0
 	halt
 1:
 	mov	last_cause, r4
 	mov	=(VECTOR_SPROT), r17
-	cbeq	r4, r17, 1f		; case 4: it is the store protection fault (for LL too)
-	mov	#4, r0
+	cbeq	r4, r17, 1f	; case 4: it is the store protection fault (for LL too)
+	mov	$4, r0
 	halt
 1:
 	mov	last_eva, r4
 	mov	=(0x801000), r5
-	cbeq	r4, r5, 1f		; case 4: EVA is the address
-	mov	#4, r0
+	cbeq	r4, r5, 1f	; case 4: EVA is the address
+	mov	$4, r0
 	halt
 1:
 	mov	last_epc, r4
 	lea	I3, r5
-	cbeq	r4, r5, 1f		; case 4: EPC is the instruction
-	mov	#4, r0
+	cbeq	r4, r5, 1f	; case 4: EPC is the instruction
+	mov	$4, r0
 	halt
 1:
 	mov	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f		; case 4: Rd unchanged
-	mov	#4, r0
+	cbeq	r1, r17, 1f	; case 4: Rd unchanged
+	mov	$4, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0x0), r17
-	cbeq	r4, r17, 1f		; case 4: the memory is as it was: the atomic did not run, not even half
-	mov	#4, r0
+	cbeq	r4, r17, 1f	; case 4: the memory is as it was: the atomic did not run, not even half
+	mov	$4, r0
 	halt
 1:
-		; ---- case 5: amaxu .32 on a read-only page
+	; ---- case 5: amax.u32 on a read-only page
 	mov	=(0x801000), r3
 	mov	=(0x1111111111111111), r1
-	mov	#0, r4
+	mov	$0, r4
 	mov	r4, cnt
-	mov	#9, r2
+	mov	$9, r2
 	lea	N4, r13
 I4:
 	amax.u32	r2, (r3), r1
 N4:	mov	cnt, r4
 	mov	=(1), r17
-	cbeq	r4, r17, 1f		; case 5: one exception
-	mov	#5, r0
+	cbeq	r4, r17, 1f	; case 5: one exception
+	mov	$5, r0
 	halt
 1:
 	mov	last_cause, r4
 	mov	=(VECTOR_SPROT), r17
-	cbeq	r4, r17, 1f		; case 5: it is the store protection fault (for LL too)
-	mov	#5, r0
+	cbeq	r4, r17, 1f	; case 5: it is the store protection fault (for LL too)
+	mov	$5, r0
 	halt
 1:
 	mov	last_eva, r4
 	mov	=(0x801000), r5
-	cbeq	r4, r5, 1f		; case 5: EVA is the address
-	mov	#5, r0
+	cbeq	r4, r5, 1f	; case 5: EVA is the address
+	mov	$5, r0
 	halt
 1:
 	mov	last_epc, r4
 	lea	I4, r5
-	cbeq	r4, r5, 1f		; case 5: EPC is the instruction
-	mov	#5, r0
+	cbeq	r4, r5, 1f	; case 5: EPC is the instruction
+	mov	$5, r0
 	halt
 1:
 	mov	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f		; case 5: Rd unchanged
-	mov	#5, r0
+	cbeq	r1, r17, 1f	; case 5: Rd unchanged
+	mov	$5, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0x0), r17
-	cbeq	r4, r17, 1f		; case 5: the memory is as it was: the atomic did not run, not even half
-	mov	#5, r0
+	cbeq	r4, r17, 1f	; case 5: the memory is as it was: the atomic did not run, not even half
+	mov	$5, r0
 	halt
 1:
-		; ---- case 6: ll on a read-only page
+	; ---- case 6: ll on a read-only page
 	mov	=(0x801000), r3
 	mov	=(0x1111111111111111), r1
-	mov	#0, r4
+	mov	$0, r4
 	mov	r4, cnt
-	mov	#9, r2
+	mov	$9, r2
 	lea	N5, r13
 I5:
 	ll	(r3), r1
 N5:	mov	cnt, r4
 	mov	=(1), r17
-	cbeq	r4, r17, 1f		; case 6: one exception
-	mov	#6, r0
+	cbeq	r4, r17, 1f	; case 6: one exception
+	mov	$6, r0
 	halt
 1:
 	mov	last_cause, r4
 	mov	=(VECTOR_SPROT), r17
-	cbeq	r4, r17, 1f		; case 6: it is the store protection fault (for LL too)
-	mov	#6, r0
+	cbeq	r4, r17, 1f	; case 6: it is the store protection fault (for LL too)
+	mov	$6, r0
 	halt
 1:
 	mov	last_eva, r4
 	mov	=(0x801000), r5
-	cbeq	r4, r5, 1f		; case 6: EVA is the address
-	mov	#6, r0
+	cbeq	r4, r5, 1f	; case 6: EVA is the address
+	mov	$6, r0
 	halt
 1:
 	mov	last_epc, r4
 	lea	I5, r5
-	cbeq	r4, r5, 1f		; case 6: EPC is the instruction
-	mov	#6, r0
+	cbeq	r4, r5, 1f	; case 6: EPC is the instruction
+	mov	$6, r0
 	halt
 1:
 	mov	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f		; case 6: Rd unchanged
-	mov	#6, r0
+	cbeq	r1, r17, 1f	; case 6: Rd unchanged
+	mov	$6, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0x0), r17
-	cbeq	r4, r17, 1f		; case 6: the memory is as it was: the atomic did not run, not even half
-	mov	#6, r0
+	cbeq	r4, r17, 1f	; case 6: the memory is as it was: the atomic did not run, not even half
+	mov	$6, r0
 	halt
 1:
-		; ---- case 7: ll .32 on a read-only page
+	; ---- case 7: ll.s32 on a read-only page
 	mov	=(0x801000), r3
 	mov	=(0x1111111111111111), r1
-	mov	#0, r4
+	mov	$0, r4
 	mov	r4, cnt
-	mov	#9, r2
+	mov	$9, r2
 	lea	N6, r13
 I6:
 	ll.s32	(r3), r1
 N6:	mov	cnt, r4
 	mov	=(1), r17
-	cbeq	r4, r17, 1f		; case 7: one exception
-	mov	#7, r0
+	cbeq	r4, r17, 1f	; case 7: one exception
+	mov	$7, r0
 	halt
 1:
 	mov	last_cause, r4
 	mov	=(VECTOR_SPROT), r17
-	cbeq	r4, r17, 1f		; case 7: it is the store protection fault (for LL too)
-	mov	#7, r0
+	cbeq	r4, r17, 1f	; case 7: it is the store protection fault (for LL too)
+	mov	$7, r0
 	halt
 1:
 	mov	last_eva, r4
 	mov	=(0x801000), r5
-	cbeq	r4, r5, 1f		; case 7: EVA is the address
-	mov	#7, r0
+	cbeq	r4, r5, 1f	; case 7: EVA is the address
+	mov	$7, r0
 	halt
 1:
 	mov	last_epc, r4
 	lea	I6, r5
-	cbeq	r4, r5, 1f		; case 7: EPC is the instruction
-	mov	#7, r0
+	cbeq	r4, r5, 1f	; case 7: EPC is the instruction
+	mov	$7, r0
 	halt
 1:
 	mov	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f		; case 7: Rd unchanged
-	mov	#7, r0
+	cbeq	r1, r17, 1f	; case 7: Rd unchanged
+	mov	$7, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0x0), r17
-	cbeq	r4, r17, 1f		; case 7: the memory is as it was: the atomic did not run, not even half
-	mov	#7, r0
+	cbeq	r4, r17, 1f	; case 7: the memory is as it was: the atomic did not run, not even half
+	mov	$7, r0
 	halt
 1:
-		; ---- case 8: sc on a read-only page
+	; ---- case 8: sc on a read-only page
 	mov	=(0x801000), r3
 	mov	=(0x1111111111111111), r1
-	mov	#0, r4
+	mov	$0, r4
 	mov	r4, cnt
-	mov	#9, r2
+	mov	$9, r2
 	lea	N7, r13
 I7:
 	sc	r2, (r3), r1
 N7:	mov	cnt, r4
 	mov	=(1), r17
-	cbeq	r4, r17, 1f		; case 8: one exception
-	mov	#8, r0
+	cbeq	r4, r17, 1f	; case 8: one exception
+	mov	$8, r0
 	halt
 1:
 	mov	last_cause, r4
 	mov	=(VECTOR_SPROT), r17
-	cbeq	r4, r17, 1f		; case 8: it is the store protection fault (for LL too)
-	mov	#8, r0
+	cbeq	r4, r17, 1f	; case 8: it is the store protection fault (for LL too)
+	mov	$8, r0
 	halt
 1:
 	mov	last_eva, r4
 	mov	=(0x801000), r5
-	cbeq	r4, r5, 1f		; case 8: EVA is the address
-	mov	#8, r0
+	cbeq	r4, r5, 1f	; case 8: EVA is the address
+	mov	$8, r0
 	halt
 1:
 	mov	last_epc, r4
 	lea	I7, r5
-	cbeq	r4, r5, 1f		; case 8: EPC is the instruction
-	mov	#8, r0
+	cbeq	r4, r5, 1f	; case 8: EPC is the instruction
+	mov	$8, r0
 	halt
 1:
 	mov	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f		; case 8: Rd unchanged
-	mov	#8, r0
+	cbeq	r1, r17, 1f	; case 8: Rd unchanged
+	mov	$8, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0x0), r17
-	cbeq	r4, r17, 1f		; case 8: the memory is as it was: the atomic did not run, not even half
-	mov	#8, r0
+	cbeq	r4, r17, 1f	; case 8: the memory is as it was: the atomic did not run, not even half
+	mov	$8, r0
 	halt
 1:
-		; ---- case 9: sc .32 on a read-only page
+	; ---- case 9: sc.s32 on a read-only page
 	mov	=(0x801000), r3
 	mov	=(0x1111111111111111), r1
-	mov	#0, r4
+	mov	$0, r4
 	mov	r4, cnt
-	mov	#9, r2
+	mov	$9, r2
 	lea	N8, r13
 I8:
 	sc.s32	r2, (r3), r1
 N8:	mov	cnt, r4
 	mov	=(1), r17
-	cbeq	r4, r17, 1f		; case 9: one exception
-	mov	#9, r0
+	cbeq	r4, r17, 1f	; case 9: one exception
+	mov	$9, r0
 	halt
 1:
 	mov	last_cause, r4
 	mov	=(VECTOR_SPROT), r17
-	cbeq	r4, r17, 1f		; case 9: it is the store protection fault (for LL too)
-	mov	#9, r0
+	cbeq	r4, r17, 1f	; case 9: it is the store protection fault (for LL too)
+	mov	$9, r0
 	halt
 1:
 	mov	last_eva, r4
 	mov	=(0x801000), r5
-	cbeq	r4, r5, 1f		; case 9: EVA is the address
-	mov	#9, r0
+	cbeq	r4, r5, 1f	; case 9: EVA is the address
+	mov	$9, r0
 	halt
 1:
 	mov	last_epc, r4
 	lea	I8, r5
-	cbeq	r4, r5, 1f		; case 9: EPC is the instruction
-	mov	#9, r0
+	cbeq	r4, r5, 1f	; case 9: EPC is the instruction
+	mov	$9, r0
 	halt
 1:
 	mov	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f		; case 9: Rd unchanged
-	mov	#9, r0
+	cbeq	r1, r17, 1f	; case 9: Rd unchanged
+	mov	$9, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0x0), r17
-	cbeq	r4, r17, 1f		; case 9: the memory is as it was: the atomic did not run, not even half
-	mov	#9, r0
+	cbeq	r4, r17, 1f	; case 9: the memory is as it was: the atomic did not run, not even half
+	mov	$9, r0
 	halt
 1:
-		; ---- case 10: aadd on an uncached page
+	; ---- case 10: aadd on an uncached page
 	mov	=(0x802000), r3
 	mov	=(0x1111111111111111), r1
-	mov	#0, r4
+	mov	$0, r4
 	mov	r4, cnt
-	mov	#9, r2
+	mov	$9, r2
 	lea	N9, r13
 I9:
 	aadd	r2, (r3), r1
 N9:	mov	cnt, r4
 	mov	=(1), r17
-	cbeq	r4, r17, 1f		; case 10: one exception
-	mov	#10, r0
+	cbeq	r4, r17, 1f	; case 10: one exception
+	mov	$10, r0
 	halt
 1:
 	mov	last_cause, r4
 	mov	=(VECTOR_SPROT), r17
-	cbeq	r4, r17, 1f		; case 10: it is the store protection fault (for LL too)
-	mov	#10, r0
+	cbeq	r4, r17, 1f	; case 10: it is the store protection fault (for LL too)
+	mov	$10, r0
 	halt
 1:
 	mov	last_eva, r4
 	mov	=(0x802000), r5
-	cbeq	r4, r5, 1f		; case 10: EVA is the address
-	mov	#10, r0
+	cbeq	r4, r5, 1f	; case 10: EVA is the address
+	mov	$10, r0
 	halt
 1:
 	mov	last_epc, r4
 	lea	I9, r5
-	cbeq	r4, r5, 1f		; case 10: EPC is the instruction
-	mov	#10, r0
+	cbeq	r4, r5, 1f	; case 10: EPC is the instruction
+	mov	$10, r0
 	halt
 1:
 	mov	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f		; case 10: Rd unchanged
-	mov	#10, r0
+	cbeq	r1, r17, 1f	; case 10: Rd unchanged
+	mov	$10, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0x1111222233334444), r17
-	cbeq	r4, r17, 1f		; case 10: the memory is as it was: the atomic did not run, not even half
-	mov	#10, r0
+	cbeq	r4, r17, 1f	; case 10: the memory is as it was: the atomic did not run, not even half
+	mov	$10, r0
 	halt
 1:
-		; ---- case 11: swap on an uncached page
+	; ---- case 11: swap on an uncached page
 	mov	=(0x802000), r3
 	mov	=(0x1111111111111111), r1
-	mov	#0, r4
+	mov	$0, r4
 	mov	r4, cnt
-	mov	#9, r2
+	mov	$9, r2
 	lea	N10, r13
 I10:
 	swap	r2, (r3), r1
 N10:	mov	cnt, r4
 	mov	=(1), r17
-	cbeq	r4, r17, 1f		; case 11: one exception
-	mov	#11, r0
+	cbeq	r4, r17, 1f	; case 11: one exception
+	mov	$11, r0
 	halt
 1:
 	mov	last_cause, r4
 	mov	=(VECTOR_SPROT), r17
-	cbeq	r4, r17, 1f		; case 11: it is the store protection fault (for LL too)
-	mov	#11, r0
+	cbeq	r4, r17, 1f	; case 11: it is the store protection fault (for LL too)
+	mov	$11, r0
 	halt
 1:
 	mov	last_eva, r4
 	mov	=(0x802000), r5
-	cbeq	r4, r5, 1f		; case 11: EVA is the address
-	mov	#11, r0
+	cbeq	r4, r5, 1f	; case 11: EVA is the address
+	mov	$11, r0
 	halt
 1:
 	mov	last_epc, r4
 	lea	I10, r5
-	cbeq	r4, r5, 1f		; case 11: EPC is the instruction
-	mov	#11, r0
+	cbeq	r4, r5, 1f	; case 11: EPC is the instruction
+	mov	$11, r0
 	halt
 1:
 	mov	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f		; case 11: Rd unchanged
-	mov	#11, r0
+	cbeq	r1, r17, 1f	; case 11: Rd unchanged
+	mov	$11, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0x1111222233334444), r17
-	cbeq	r4, r17, 1f		; case 11: the memory is as it was: the atomic did not run, not even half
-	mov	#11, r0
+	cbeq	r4, r17, 1f	; case 11: the memory is as it was: the atomic did not run, not even half
+	mov	$11, r0
 	halt
 1:
-		; ---- case 12: cas .32 on an uncached page
+	; ---- case 12: cas.s32 on an uncached page
 	mov	=(0x802000), r3
 	mov	=(0x1111111111111111), r1
-	mov	#0, r4
+	mov	$0, r4
 	mov	r4, cnt
-	mov	#9, r2
+	mov	$9, r2
 	lea	N11, r13
 I11:
 	cas.s32	r2, (r3), r1
 N11:	mov	cnt, r4
 	mov	=(1), r17
-	cbeq	r4, r17, 1f		; case 12: one exception
-	mov	#12, r0
+	cbeq	r4, r17, 1f	; case 12: one exception
+	mov	$12, r0
 	halt
 1:
 	mov	last_cause, r4
 	mov	=(VECTOR_SPROT), r17
-	cbeq	r4, r17, 1f		; case 12: it is the store protection fault (for LL too)
-	mov	#12, r0
+	cbeq	r4, r17, 1f	; case 12: it is the store protection fault (for LL too)
+	mov	$12, r0
 	halt
 1:
 	mov	last_eva, r4
 	mov	=(0x802000), r5
-	cbeq	r4, r5, 1f		; case 12: EVA is the address
-	mov	#12, r0
+	cbeq	r4, r5, 1f	; case 12: EVA is the address
+	mov	$12, r0
 	halt
 1:
 	mov	last_epc, r4
 	lea	I11, r5
-	cbeq	r4, r5, 1f		; case 12: EPC is the instruction
-	mov	#12, r0
+	cbeq	r4, r5, 1f	; case 12: EPC is the instruction
+	mov	$12, r0
 	halt
 1:
 	mov	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f		; case 12: Rd unchanged
-	mov	#12, r0
+	cbeq	r1, r17, 1f	; case 12: Rd unchanged
+	mov	$12, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0x1111222233334444), r17
-	cbeq	r4, r17, 1f		; case 12: the memory is as it was: the atomic did not run, not even half
-	mov	#12, r0
+	cbeq	r4, r17, 1f	; case 12: the memory is as it was: the atomic did not run, not even half
+	mov	$12, r0
 	halt
 1:
-		; ---- case 13: amaxu .32 on an uncached page
+	; ---- case 13: amax.u32 on an uncached page
 	mov	=(0x802000), r3
 	mov	=(0x1111111111111111), r1
-	mov	#0, r4
+	mov	$0, r4
 	mov	r4, cnt
-	mov	#9, r2
+	mov	$9, r2
 	lea	N12, r13
 I12:
 	amax.u32	r2, (r3), r1
 N12:	mov	cnt, r4
 	mov	=(1), r17
-	cbeq	r4, r17, 1f		; case 13: one exception
-	mov	#13, r0
+	cbeq	r4, r17, 1f	; case 13: one exception
+	mov	$13, r0
 	halt
 1:
 	mov	last_cause, r4
 	mov	=(VECTOR_SPROT), r17
-	cbeq	r4, r17, 1f		; case 13: it is the store protection fault (for LL too)
-	mov	#13, r0
+	cbeq	r4, r17, 1f	; case 13: it is the store protection fault (for LL too)
+	mov	$13, r0
 	halt
 1:
 	mov	last_eva, r4
 	mov	=(0x802000), r5
-	cbeq	r4, r5, 1f		; case 13: EVA is the address
-	mov	#13, r0
+	cbeq	r4, r5, 1f	; case 13: EVA is the address
+	mov	$13, r0
 	halt
 1:
 	mov	last_epc, r4
 	lea	I12, r5
-	cbeq	r4, r5, 1f		; case 13: EPC is the instruction
-	mov	#13, r0
+	cbeq	r4, r5, 1f	; case 13: EPC is the instruction
+	mov	$13, r0
 	halt
 1:
 	mov	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f		; case 13: Rd unchanged
-	mov	#13, r0
+	cbeq	r1, r17, 1f	; case 13: Rd unchanged
+	mov	$13, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0x1111222233334444), r17
-	cbeq	r4, r17, 1f		; case 13: the memory is as it was: the atomic did not run, not even half
-	mov	#13, r0
+	cbeq	r4, r17, 1f	; case 13: the memory is as it was: the atomic did not run, not even half
+	mov	$13, r0
 	halt
 1:
-		; ---- case 14: ll on an uncached page
+	; ---- case 14: ll on an uncached page
 	mov	=(0x802000), r3
 	mov	=(0x1111111111111111), r1
-	mov	#0, r4
+	mov	$0, r4
 	mov	r4, cnt
-	mov	#9, r2
+	mov	$9, r2
 	lea	N13, r13
 I13:
 	ll	(r3), r1
 N13:	mov	cnt, r4
 	mov	=(1), r17
-	cbeq	r4, r17, 1f		; case 14: one exception
-	mov	#14, r0
+	cbeq	r4, r17, 1f	; case 14: one exception
+	mov	$14, r0
 	halt
 1:
 	mov	last_cause, r4
 	mov	=(VECTOR_SPROT), r17
-	cbeq	r4, r17, 1f		; case 14: it is the store protection fault (for LL too)
-	mov	#14, r0
+	cbeq	r4, r17, 1f	; case 14: it is the store protection fault (for LL too)
+	mov	$14, r0
 	halt
 1:
 	mov	last_eva, r4
 	mov	=(0x802000), r5
-	cbeq	r4, r5, 1f		; case 14: EVA is the address
-	mov	#14, r0
+	cbeq	r4, r5, 1f	; case 14: EVA is the address
+	mov	$14, r0
 	halt
 1:
 	mov	last_epc, r4
 	lea	I13, r5
-	cbeq	r4, r5, 1f		; case 14: EPC is the instruction
-	mov	#14, r0
+	cbeq	r4, r5, 1f	; case 14: EPC is the instruction
+	mov	$14, r0
 	halt
 1:
 	mov	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f		; case 14: Rd unchanged
-	mov	#14, r0
+	cbeq	r1, r17, 1f	; case 14: Rd unchanged
+	mov	$14, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0x1111222233334444), r17
-	cbeq	r4, r17, 1f		; case 14: the memory is as it was: the atomic did not run, not even half
-	mov	#14, r0
+	cbeq	r4, r17, 1f	; case 14: the memory is as it was: the atomic did not run, not even half
+	mov	$14, r0
 	halt
 1:
-		; ---- case 15: ll .32 on an uncached page
+	; ---- case 15: ll.s32 on an uncached page
 	mov	=(0x802000), r3
 	mov	=(0x1111111111111111), r1
-	mov	#0, r4
+	mov	$0, r4
 	mov	r4, cnt
-	mov	#9, r2
+	mov	$9, r2
 	lea	N14, r13
 I14:
 	ll.s32	(r3), r1
 N14:	mov	cnt, r4
 	mov	=(1), r17
-	cbeq	r4, r17, 1f		; case 15: one exception
-	mov	#15, r0
+	cbeq	r4, r17, 1f	; case 15: one exception
+	mov	$15, r0
 	halt
 1:
 	mov	last_cause, r4
 	mov	=(VECTOR_SPROT), r17
-	cbeq	r4, r17, 1f		; case 15: it is the store protection fault (for LL too)
-	mov	#15, r0
+	cbeq	r4, r17, 1f	; case 15: it is the store protection fault (for LL too)
+	mov	$15, r0
 	halt
 1:
 	mov	last_eva, r4
 	mov	=(0x802000), r5
-	cbeq	r4, r5, 1f		; case 15: EVA is the address
-	mov	#15, r0
+	cbeq	r4, r5, 1f	; case 15: EVA is the address
+	mov	$15, r0
 	halt
 1:
 	mov	last_epc, r4
 	lea	I14, r5
-	cbeq	r4, r5, 1f		; case 15: EPC is the instruction
-	mov	#15, r0
+	cbeq	r4, r5, 1f	; case 15: EPC is the instruction
+	mov	$15, r0
 	halt
 1:
 	mov	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f		; case 15: Rd unchanged
-	mov	#15, r0
+	cbeq	r1, r17, 1f	; case 15: Rd unchanged
+	mov	$15, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0x1111222233334444), r17
-	cbeq	r4, r17, 1f		; case 15: the memory is as it was: the atomic did not run, not even half
-	mov	#15, r0
+	cbeq	r4, r17, 1f	; case 15: the memory is as it was: the atomic did not run, not even half
+	mov	$15, r0
 	halt
 1:
-		; ---- case 16: sc on an uncached page
+	; ---- case 16: sc on an uncached page
 	mov	=(0x802000), r3
 	mov	=(0x1111111111111111), r1
-	mov	#0, r4
+	mov	$0, r4
 	mov	r4, cnt
-	mov	#9, r2
+	mov	$9, r2
 	lea	N15, r13
 I15:
 	sc	r2, (r3), r1
 N15:	mov	cnt, r4
 	mov	=(1), r17
-	cbeq	r4, r17, 1f		; case 16: one exception
-	mov	#16, r0
+	cbeq	r4, r17, 1f	; case 16: one exception
+	mov	$16, r0
 	halt
 1:
 	mov	last_cause, r4
 	mov	=(VECTOR_SPROT), r17
-	cbeq	r4, r17, 1f		; case 16: it is the store protection fault (for LL too)
-	mov	#16, r0
+	cbeq	r4, r17, 1f	; case 16: it is the store protection fault (for LL too)
+	mov	$16, r0
 	halt
 1:
 	mov	last_eva, r4
 	mov	=(0x802000), r5
-	cbeq	r4, r5, 1f		; case 16: EVA is the address
-	mov	#16, r0
+	cbeq	r4, r5, 1f	; case 16: EVA is the address
+	mov	$16, r0
 	halt
 1:
 	mov	last_epc, r4
 	lea	I15, r5
-	cbeq	r4, r5, 1f		; case 16: EPC is the instruction
-	mov	#16, r0
+	cbeq	r4, r5, 1f	; case 16: EPC is the instruction
+	mov	$16, r0
 	halt
 1:
 	mov	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f		; case 16: Rd unchanged
-	mov	#16, r0
+	cbeq	r1, r17, 1f	; case 16: Rd unchanged
+	mov	$16, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0x1111222233334444), r17
-	cbeq	r4, r17, 1f		; case 16: the memory is as it was: the atomic did not run, not even half
-	mov	#16, r0
+	cbeq	r4, r17, 1f	; case 16: the memory is as it was: the atomic did not run, not even half
+	mov	$16, r0
 	halt
 1:
-		; ---- case 17: sc .32 on an uncached page
+	; ---- case 17: sc.s32 on an uncached page
 	mov	=(0x802000), r3
 	mov	=(0x1111111111111111), r1
-	mov	#0, r4
+	mov	$0, r4
 	mov	r4, cnt
-	mov	#9, r2
+	mov	$9, r2
 	lea	N16, r13
 I16:
 	sc.s32	r2, (r3), r1
 N16:	mov	cnt, r4
 	mov	=(1), r17
-	cbeq	r4, r17, 1f		; case 17: one exception
-	mov	#17, r0
+	cbeq	r4, r17, 1f	; case 17: one exception
+	mov	$17, r0
 	halt
 1:
 	mov	last_cause, r4
 	mov	=(VECTOR_SPROT), r17
-	cbeq	r4, r17, 1f		; case 17: it is the store protection fault (for LL too)
-	mov	#17, r0
+	cbeq	r4, r17, 1f	; case 17: it is the store protection fault (for LL too)
+	mov	$17, r0
 	halt
 1:
 	mov	last_eva, r4
 	mov	=(0x802000), r5
-	cbeq	r4, r5, 1f		; case 17: EVA is the address
-	mov	#17, r0
+	cbeq	r4, r5, 1f	; case 17: EVA is the address
+	mov	$17, r0
 	halt
 1:
 	mov	last_epc, r4
 	lea	I16, r5
-	cbeq	r4, r5, 1f		; case 17: EPC is the instruction
-	mov	#17, r0
+	cbeq	r4, r5, 1f	; case 17: EPC is the instruction
+	mov	$17, r0
 	halt
 1:
 	mov	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f		; case 17: Rd unchanged
-	mov	#17, r0
+	cbeq	r1, r17, 1f	; case 17: Rd unchanged
+	mov	$17, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0x1111222233334444), r17
-	cbeq	r4, r17, 1f		; case 17: the memory is as it was: the atomic did not run, not even half
-	mov	#17, r0
+	cbeq	r4, r17, 1f	; case 17: the memory is as it was: the atomic did not run, not even half
+	mov	$17, r0
 	halt
 1:
-		; ---- case 18: aadd on a device page
+	; ---- case 18: aadd on a device page
 	mov	=(0x803008), r3
 	mov	=(0x1111111111111111), r1
-	mov	#0, r4
+	mov	$0, r4
 	mov	r4, cnt
-	mov	#9, r2
+	mov	$9, r2
 	lea	N17, r13
 I17:
 	aadd	r2, (r3), r1
 N17:	mov	cnt, r4
 	mov	=(1), r17
-	cbeq	r4, r17, 1f		; case 18: one exception
-	mov	#18, r0
+	cbeq	r4, r17, 1f	; case 18: one exception
+	mov	$18, r0
 	halt
 1:
 	mov	last_cause, r4
 	mov	=(VECTOR_SPROT), r17
-	cbeq	r4, r17, 1f		; case 18: it is the store protection fault (for LL too)
-	mov	#18, r0
+	cbeq	r4, r17, 1f	; case 18: it is the store protection fault (for LL too)
+	mov	$18, r0
 	halt
 1:
 	mov	last_eva, r4
 	mov	=(0x803008), r5
-	cbeq	r4, r5, 1f		; case 18: EVA is the address
-	mov	#18, r0
+	cbeq	r4, r5, 1f	; case 18: EVA is the address
+	mov	$18, r0
 	halt
 1:
 	mov	last_epc, r4
 	lea	I17, r5
-	cbeq	r4, r5, 1f		; case 18: EPC is the instruction
-	mov	#18, r0
+	cbeq	r4, r5, 1f	; case 18: EPC is the instruction
+	mov	$18, r0
 	halt
 1:
 	mov	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f		; case 18: Rd unchanged
-	mov	#18, r0
+	cbeq	r1, r17, 1f	; case 18: Rd unchanged
+	mov	$18, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0x5555666677778888), r17
-	cbeq	r4, r17, 1f		; case 18: the memory is as it was: the atomic did not run, not even half
-	mov	#18, r0
+	cbeq	r4, r17, 1f	; case 18: the memory is as it was: the atomic did not run, not even half
+	mov	$18, r0
 	halt
 1:
-		; ---- case 19: swap on a device page
+	; ---- case 19: swap on a device page
 	mov	=(0x803008), r3
 	mov	=(0x1111111111111111), r1
-	mov	#0, r4
+	mov	$0, r4
 	mov	r4, cnt
-	mov	#9, r2
+	mov	$9, r2
 	lea	N18, r13
 I18:
 	swap	r2, (r3), r1
 N18:	mov	cnt, r4
 	mov	=(1), r17
-	cbeq	r4, r17, 1f		; case 19: one exception
-	mov	#19, r0
+	cbeq	r4, r17, 1f	; case 19: one exception
+	mov	$19, r0
 	halt
 1:
 	mov	last_cause, r4
 	mov	=(VECTOR_SPROT), r17
-	cbeq	r4, r17, 1f		; case 19: it is the store protection fault (for LL too)
-	mov	#19, r0
+	cbeq	r4, r17, 1f	; case 19: it is the store protection fault (for LL too)
+	mov	$19, r0
 	halt
 1:
 	mov	last_eva, r4
 	mov	=(0x803008), r5
-	cbeq	r4, r5, 1f		; case 19: EVA is the address
-	mov	#19, r0
+	cbeq	r4, r5, 1f	; case 19: EVA is the address
+	mov	$19, r0
 	halt
 1:
 	mov	last_epc, r4
 	lea	I18, r5
-	cbeq	r4, r5, 1f		; case 19: EPC is the instruction
-	mov	#19, r0
+	cbeq	r4, r5, 1f	; case 19: EPC is the instruction
+	mov	$19, r0
 	halt
 1:
 	mov	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f		; case 19: Rd unchanged
-	mov	#19, r0
+	cbeq	r1, r17, 1f	; case 19: Rd unchanged
+	mov	$19, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0x5555666677778888), r17
-	cbeq	r4, r17, 1f		; case 19: the memory is as it was: the atomic did not run, not even half
-	mov	#19, r0
+	cbeq	r4, r17, 1f	; case 19: the memory is as it was: the atomic did not run, not even half
+	mov	$19, r0
 	halt
 1:
-		; ---- case 20: cas .32 on a device page
+	; ---- case 20: cas.s32 on a device page
 	mov	=(0x803008), r3
 	mov	=(0x1111111111111111), r1
-	mov	#0, r4
+	mov	$0, r4
 	mov	r4, cnt
-	mov	#9, r2
+	mov	$9, r2
 	lea	N19, r13
 I19:
 	cas.s32	r2, (r3), r1
 N19:	mov	cnt, r4
 	mov	=(1), r17
-	cbeq	r4, r17, 1f		; case 20: one exception
-	mov	#20, r0
+	cbeq	r4, r17, 1f	; case 20: one exception
+	mov	$20, r0
 	halt
 1:
 	mov	last_cause, r4
 	mov	=(VECTOR_SPROT), r17
-	cbeq	r4, r17, 1f		; case 20: it is the store protection fault (for LL too)
-	mov	#20, r0
+	cbeq	r4, r17, 1f	; case 20: it is the store protection fault (for LL too)
+	mov	$20, r0
 	halt
 1:
 	mov	last_eva, r4
 	mov	=(0x803008), r5
-	cbeq	r4, r5, 1f		; case 20: EVA is the address
-	mov	#20, r0
+	cbeq	r4, r5, 1f	; case 20: EVA is the address
+	mov	$20, r0
 	halt
 1:
 	mov	last_epc, r4
 	lea	I19, r5
-	cbeq	r4, r5, 1f		; case 20: EPC is the instruction
-	mov	#20, r0
+	cbeq	r4, r5, 1f	; case 20: EPC is the instruction
+	mov	$20, r0
 	halt
 1:
 	mov	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f		; case 20: Rd unchanged
-	mov	#20, r0
+	cbeq	r1, r17, 1f	; case 20: Rd unchanged
+	mov	$20, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0x5555666677778888), r17
-	cbeq	r4, r17, 1f		; case 20: the memory is as it was: the atomic did not run, not even half
-	mov	#20, r0
+	cbeq	r4, r17, 1f	; case 20: the memory is as it was: the atomic did not run, not even half
+	mov	$20, r0
 	halt
 1:
-		; ---- case 21: amaxu .32 on a device page
+	; ---- case 21: amax.u32 on a device page
 	mov	=(0x803008), r3
 	mov	=(0x1111111111111111), r1
-	mov	#0, r4
+	mov	$0, r4
 	mov	r4, cnt
-	mov	#9, r2
+	mov	$9, r2
 	lea	N20, r13
 I20:
 	amax.u32	r2, (r3), r1
 N20:	mov	cnt, r4
 	mov	=(1), r17
-	cbeq	r4, r17, 1f		; case 21: one exception
-	mov	#21, r0
+	cbeq	r4, r17, 1f	; case 21: one exception
+	mov	$21, r0
 	halt
 1:
 	mov	last_cause, r4
 	mov	=(VECTOR_SPROT), r17
-	cbeq	r4, r17, 1f		; case 21: it is the store protection fault (for LL too)
-	mov	#21, r0
+	cbeq	r4, r17, 1f	; case 21: it is the store protection fault (for LL too)
+	mov	$21, r0
 	halt
 1:
 	mov	last_eva, r4
 	mov	=(0x803008), r5
-	cbeq	r4, r5, 1f		; case 21: EVA is the address
-	mov	#21, r0
+	cbeq	r4, r5, 1f	; case 21: EVA is the address
+	mov	$21, r0
 	halt
 1:
 	mov	last_epc, r4
 	lea	I20, r5
-	cbeq	r4, r5, 1f		; case 21: EPC is the instruction
-	mov	#21, r0
+	cbeq	r4, r5, 1f	; case 21: EPC is the instruction
+	mov	$21, r0
 	halt
 1:
 	mov	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f		; case 21: Rd unchanged
-	mov	#21, r0
+	cbeq	r1, r17, 1f	; case 21: Rd unchanged
+	mov	$21, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0x5555666677778888), r17
-	cbeq	r4, r17, 1f		; case 21: the memory is as it was: the atomic did not run, not even half
-	mov	#21, r0
+	cbeq	r4, r17, 1f	; case 21: the memory is as it was: the atomic did not run, not even half
+	mov	$21, r0
 	halt
 1:
-		; ---- case 22: ll on a device page
+	; ---- case 22: ll on a device page
 	mov	=(0x803008), r3
 	mov	=(0x1111111111111111), r1
-	mov	#0, r4
+	mov	$0, r4
 	mov	r4, cnt
-	mov	#9, r2
+	mov	$9, r2
 	lea	N21, r13
 I21:
 	ll	(r3), r1
 N21:	mov	cnt, r4
 	mov	=(1), r17
-	cbeq	r4, r17, 1f		; case 22: one exception
-	mov	#22, r0
+	cbeq	r4, r17, 1f	; case 22: one exception
+	mov	$22, r0
 	halt
 1:
 	mov	last_cause, r4
 	mov	=(VECTOR_SPROT), r17
-	cbeq	r4, r17, 1f		; case 22: it is the store protection fault (for LL too)
-	mov	#22, r0
+	cbeq	r4, r17, 1f	; case 22: it is the store protection fault (for LL too)
+	mov	$22, r0
 	halt
 1:
 	mov	last_eva, r4
 	mov	=(0x803008), r5
-	cbeq	r4, r5, 1f		; case 22: EVA is the address
-	mov	#22, r0
+	cbeq	r4, r5, 1f	; case 22: EVA is the address
+	mov	$22, r0
 	halt
 1:
 	mov	last_epc, r4
 	lea	I21, r5
-	cbeq	r4, r5, 1f		; case 22: EPC is the instruction
-	mov	#22, r0
+	cbeq	r4, r5, 1f	; case 22: EPC is the instruction
+	mov	$22, r0
 	halt
 1:
 	mov	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f		; case 22: Rd unchanged
-	mov	#22, r0
+	cbeq	r1, r17, 1f	; case 22: Rd unchanged
+	mov	$22, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0x5555666677778888), r17
-	cbeq	r4, r17, 1f		; case 22: the memory is as it was: the atomic did not run, not even half
-	mov	#22, r0
+	cbeq	r4, r17, 1f	; case 22: the memory is as it was: the atomic did not run, not even half
+	mov	$22, r0
 	halt
 1:
-		; ---- case 23: ll .32 on a device page
+	; ---- case 23: ll.s32 on a device page
 	mov	=(0x803008), r3
 	mov	=(0x1111111111111111), r1
-	mov	#0, r4
+	mov	$0, r4
 	mov	r4, cnt
-	mov	#9, r2
+	mov	$9, r2
 	lea	N22, r13
 I22:
 	ll.s32	(r3), r1
 N22:	mov	cnt, r4
 	mov	=(1), r17
-	cbeq	r4, r17, 1f		; case 23: one exception
-	mov	#23, r0
+	cbeq	r4, r17, 1f	; case 23: one exception
+	mov	$23, r0
 	halt
 1:
 	mov	last_cause, r4
 	mov	=(VECTOR_SPROT), r17
-	cbeq	r4, r17, 1f		; case 23: it is the store protection fault (for LL too)
-	mov	#23, r0
+	cbeq	r4, r17, 1f	; case 23: it is the store protection fault (for LL too)
+	mov	$23, r0
 	halt
 1:
 	mov	last_eva, r4
 	mov	=(0x803008), r5
-	cbeq	r4, r5, 1f		; case 23: EVA is the address
-	mov	#23, r0
+	cbeq	r4, r5, 1f	; case 23: EVA is the address
+	mov	$23, r0
 	halt
 1:
 	mov	last_epc, r4
 	lea	I22, r5
-	cbeq	r4, r5, 1f		; case 23: EPC is the instruction
-	mov	#23, r0
+	cbeq	r4, r5, 1f	; case 23: EPC is the instruction
+	mov	$23, r0
 	halt
 1:
 	mov	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f		; case 23: Rd unchanged
-	mov	#23, r0
+	cbeq	r1, r17, 1f	; case 23: Rd unchanged
+	mov	$23, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0x5555666677778888), r17
-	cbeq	r4, r17, 1f		; case 23: the memory is as it was: the atomic did not run, not even half
-	mov	#23, r0
+	cbeq	r4, r17, 1f	; case 23: the memory is as it was: the atomic did not run, not even half
+	mov	$23, r0
 	halt
 1:
-		; ---- case 24: sc on a device page
+	; ---- case 24: sc on a device page
 	mov	=(0x803008), r3
 	mov	=(0x1111111111111111), r1
-	mov	#0, r4
+	mov	$0, r4
 	mov	r4, cnt
-	mov	#9, r2
+	mov	$9, r2
 	lea	N23, r13
 I23:
 	sc	r2, (r3), r1
 N23:	mov	cnt, r4
 	mov	=(1), r17
-	cbeq	r4, r17, 1f		; case 24: one exception
-	mov	#24, r0
+	cbeq	r4, r17, 1f	; case 24: one exception
+	mov	$24, r0
 	halt
 1:
 	mov	last_cause, r4
 	mov	=(VECTOR_SPROT), r17
-	cbeq	r4, r17, 1f		; case 24: it is the store protection fault (for LL too)
-	mov	#24, r0
+	cbeq	r4, r17, 1f	; case 24: it is the store protection fault (for LL too)
+	mov	$24, r0
 	halt
 1:
 	mov	last_eva, r4
 	mov	=(0x803008), r5
-	cbeq	r4, r5, 1f		; case 24: EVA is the address
-	mov	#24, r0
+	cbeq	r4, r5, 1f	; case 24: EVA is the address
+	mov	$24, r0
 	halt
 1:
 	mov	last_epc, r4
 	lea	I23, r5
-	cbeq	r4, r5, 1f		; case 24: EPC is the instruction
-	mov	#24, r0
+	cbeq	r4, r5, 1f	; case 24: EPC is the instruction
+	mov	$24, r0
 	halt
 1:
 	mov	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f		; case 24: Rd unchanged
-	mov	#24, r0
+	cbeq	r1, r17, 1f	; case 24: Rd unchanged
+	mov	$24, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0x5555666677778888), r17
-	cbeq	r4, r17, 1f		; case 24: the memory is as it was: the atomic did not run, not even half
-	mov	#24, r0
+	cbeq	r4, r17, 1f	; case 24: the memory is as it was: the atomic did not run, not even half
+	mov	$24, r0
 	halt
 1:
-		; ---- case 25: sc .32 on a device page
+	; ---- case 25: sc.s32 on a device page
 	mov	=(0x803008), r3
 	mov	=(0x1111111111111111), r1
-	mov	#0, r4
+	mov	$0, r4
 	mov	r4, cnt
-	mov	#9, r2
+	mov	$9, r2
 	lea	N24, r13
 I24:
 	sc.s32	r2, (r3), r1
 N24:	mov	cnt, r4
 	mov	=(1), r17
-	cbeq	r4, r17, 1f		; case 25: one exception
-	mov	#25, r0
+	cbeq	r4, r17, 1f	; case 25: one exception
+	mov	$25, r0
 	halt
 1:
 	mov	last_cause, r4
 	mov	=(VECTOR_SPROT), r17
-	cbeq	r4, r17, 1f		; case 25: it is the store protection fault (for LL too)
-	mov	#25, r0
+	cbeq	r4, r17, 1f	; case 25: it is the store protection fault (for LL too)
+	mov	$25, r0
 	halt
 1:
 	mov	last_eva, r4
 	mov	=(0x803008), r5
-	cbeq	r4, r5, 1f		; case 25: EVA is the address
-	mov	#25, r0
+	cbeq	r4, r5, 1f	; case 25: EVA is the address
+	mov	$25, r0
 	halt
 1:
 	mov	last_epc, r4
 	lea	I24, r5
-	cbeq	r4, r5, 1f		; case 25: EPC is the instruction
-	mov	#25, r0
+	cbeq	r4, r5, 1f	; case 25: EPC is the instruction
+	mov	$25, r0
 	halt
 1:
 	mov	=(0x1111111111111111), r17
-	cbeq	r1, r17, 1f		; case 25: Rd unchanged
-	mov	#25, r0
+	cbeq	r1, r17, 1f	; case 25: Rd unchanged
+	mov	$25, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0x5555666677778888), r17
-	cbeq	r4, r17, 1f		; case 25: the memory is as it was: the atomic did not run, not even half
-	mov	#25, r0
+	cbeq	r4, r17, 1f	; case 25: the memory is as it was: the atomic did not run, not even half
+	mov	$25, r0
 	halt
 1:
-	mov	#0, r0
+	mov	$0, r0
 	halt
 
 hgen:	mov	cnt, r12
-	add	#1, r12
+	add	$1, r12
 	mov	r12, cnt
 	mfsr	r12, ecause
 	mov	r12, last_cause
@@ -1126,8 +1126,8 @@ hgen:	mov	cnt, r12
 	mfsr	r12, epsw
 	mov	r12, last_epsw
 	mtsr	epc, r13
-	rti	#RTIMASK_ALL
-h_ok:	mov	#0, r0
+	rti	$RTIMASK_ALL
+h_ok:	mov	$0, r0
 h_fail:	halt
 
 	.data

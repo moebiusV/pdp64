@@ -26,25 +26,25 @@ for c in counts:
         s, d = srcdst
         for mn, fn in (('rol', rol), ('ror', ror)):
             load(s)
-            if s != d: a('movq\t#-1, %s' % d)
-            a('%s\t%s, #%d, %s' % (mn, s, c, d)); chk(d, fn(V, c))
+            if s != d: a('movq\t$-1, %s' % d)
+            a('%s\t%s, $%d, %s' % (mn, s, c, d)); chk(d, fn(V, c))
             if s == d:
-                load(s); a('%s\t#%d, %s' % (mn, c, d)); chk(d, fn(V, c))
+                load(s); a('%s\t$%d, %s' % (mn, c, d)); chk(d, fn(V, c))
     # the neighbour is untouched by an in-place rotate
-    load('r4'); a('movq\t#77, r5', 'ror\t#%d, r4' % c); chk('r5', 77)
+    load('r4'); a('movq\t$77, r5', 'ror\t$%d, r4' % c); chk('r5', 77)
 # negative counts: rotate left; a count beyond the short form's range
 for c in (-1, -3, -8, -9, -33, -63, -64):
-    load('r6'); a('ror\t#%d, r6' % c); chk('r6', ror(V, c))
-    load('r6'); a('rol\t#%d, r6' % c); chk('r6', rol(V, c))
+    load('r6'); a('ror\t$%d, r6' % c); chk('r6', ror(V, c))
+    load('r6'); a('rol\t$%d, r6' % c); chk('r6', rol(V, c))
 # a register count of ror is taken modulo 64: the negated register rotates left
 for cnt in (0, 1, 7, 64, 65, -1, -64):
-    load('r1'); a('movq\t#%d, r2' % cnt, 'ror\tr1, r2, r3'); chk('r3', ror(V, cnt))
-    load('r1'); a('movq\t#%d, r2' % cnt, 'neg\tr2', 'ror\tr1, r2, r3'); chk('r3', rol(V, cnt))
+    load('r1'); a('movq\t$%d, r2' % cnt, 'ror\tr1, r2, r3'); chk('r3', ror(V, cnt))
+    load('r1'); a('movq\t$%d, r2' % cnt, 'neg\tr2', 'ror\tr1, r2, r3'); chk('r3', rol(V, cnt))
 # the 32-bit rotate is not touched
-load('r1'); a('ror32\tr1, #8, r2'); chk('r2', ((0x89abcdef >> 8 | 0x89abcdef << 24) & 0xffffffff) - (1 << 32))
-a('movq\t#0, r0', 'trap\t#0')
+load('r1'); a('ror32\tr1, $8, r2'); chk('r2', ((0x89abcdef >> 8 | 0x89abcdef << 24) & 0xffffffff) - (1 << 32))
+a('movq\t$0, r0', 'trap\t$0')
 for i in range(1, n[0] + 1):
-    o.append('f%d:\tmovq\t#%d, r0\n\ttrap\t#0' % (i, i))
+    o.append('f%d:\tmovq\t$%d, r0\n\ttrap\t$0' % (i, i))
 assert n[0] < 250
 open(os.path.join(sys.argv[1], 'rotate-map.s'), 'w').write(marks.spell_text('\n'.join(o)) + '\n')
 print('gen_rotate: rotate-map.s (%d checks)' % n[0])

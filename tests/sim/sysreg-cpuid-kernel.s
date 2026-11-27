@@ -5,7 +5,7 @@ _start:
 	mfsr	r1, cpuid
 	mfsr	r2, cpuid
 	cbne r1, r2, F1
-	mov	#0, r0
+	mov	$0, r0
 	halt
-F1:	mov	#1, r0
+F1:	mov	$1, r0
 	halt

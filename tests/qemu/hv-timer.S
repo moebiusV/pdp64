@@ -9,99 +9,99 @@ _start:
 	lea	htab, r1
 	mtsr	hvbr, r1
 	lea	xh, r2
-	mov	#512, r3
+	mov	$512, r3
 fill:	mov	r2, (r1)+
 	sob	r3, fill
-	mov	#0, r1
+	mov	$0, r1
 	mtsr	htrap, r1
 	mov	=MAP_TIMER, r13
 	mov	(r13), r2
-	add	#50000, r2
+	add	$50000, r2
 	mov	r2, TIMER_REG_COMPARE(r13)
-	mov	#(1<<TIMER_CTL_ENABLE), r2
+	mov	$(1<<TIMER_CTL_ENABLE), r2
 	mov	r2, TIMER_REG_CONTROL(r13)
 	lea	loop, r2
 	mtsr	hepc, r2
-	mov	#(7<<PSW_PRI), r2
+	mov	$(7<<PSW_PRI), r2
 	mtsr	hepsw, r2
 	lea	back1, r20
-	mov	#99, r0			; a HALT of the guest that stops the machine ends the run with a status that is not 0
-	genter	#RTIMASK_ALL
-loop:	add	#1, r1
+	mov	$99, r0			; a HALT of the guest that stops the machine ends the run with a status that is not 0
+	genter	$RTIMASK_ALL
+loop:	add	$1, r1
 loop2:	br	loop
 back1:
-	mov	#0, r2
+	mov	$0, r2
 	mov	r2, TIMER_REG_CONTROL(r13)		; stop the timer: the line goes down
 	mfsr	r2, hexitr
-	cbeq	r2, #XCODE_IRQ, 1f
-	mov	#1, r0
+	cbeq	r2, $XCODE_IRQ, 1f
+	mov	$1, r0
 	halt
 1:	mfsr	r2, hcause
-	cbeq	r2, #VECTOR_TIMER, 1f
-	mov	#2, r0
+	cbeq	r2, $VECTOR_TIMER, 1f
+	mov	$2, r0
 	halt
 1:	mfsr	r2, hepc
 	lea	loop, r3
 	lea	loop2, r4
 	cbeq	r2, r3, 1f
 	cbeq	r2, r4, 1f
-	mov	#3, r0
+	mov	$3, r0
 	halt
 1:	mfsr	r2, hinsn
 	mfsr	r3, heva
 	bis	r3, r2
 	mfsr	r3, hgpa
 	bis	r3, r2
-	cbeq	r2, #0, 1f
-	mov	#4, r0
+	cbeq	r2, $0, 1f
+	mov	$4, r0
 	halt
 1:	mfsr	r2, hepsw
-	bic	#15, r2
-	cbeq	r2, #(7<<PSW_PRI), 1f
-	mov	#5, r0
+	bic	$15, r2
+	cbeq	r2, $(7<<PSW_PRI), 1f
+	mov	$5, r0
 	halt
 1:	mfps	r2
-	bic	#15, r2
-	cbeq	r2, #(MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|7<<PSW_PRI), 1f
-	mov	#6, r0
+	bic	$15, r2
+	cbeq	r2, $(MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|7<<PSW_PRI), 1f
+	mov	$6, r0
 	halt
 	; --- the hypervisor's own timer interrupt: masked at priority 7, taken after spl #0
-1:	mov	#0, r10
+1:	mov	$0, r10
 	mov	(r13), r2
-	add	#20000, r2
+	add	$20000, r2
 	mov	r2, TIMER_REG_COMPARE(r13)
-	mov	#(1<<TIMER_CTL_ENABLE), r2
+	mov	$(1<<TIMER_CTL_ENABLE), r2
 	mov	r2, TIMER_REG_CONTROL(r13)
 2:	mov	TIMER_REG_CONTROL(r13), r2
-	and	#(1<<TIMER_CTL_PENDING), r2
-	cbeq	r2, #0, 2b ; wait until it is pending
+	and	$(1<<TIMER_CTL_PENDING), r2
+	cbeq	r2, $0, 2b ; wait until it is pending
 	nop
 	nop
-	cbeq	r10, #0, 1f		; priority 7: not taken
-	mov	#7, r0
+	cbeq	r10, $0, 1f		; priority 7: not taken
+	mov	$7, r0
 	halt
-1:	spl	#0
+1:	spl	$0
 	nop
 	nop
-	spl	#7
-	cbeq	r10, #1, 1f
-	mov	#8, r0
+	spl	$7
+	cbeq	r10, $1, 1f
+	mov	$8, r0
 	halt
-1:	cbeq	r6, #VECTOR_TIMER, 1f
-	mov	#9, r0
+1:	cbeq	r6, $VECTOR_TIMER, 1f
+	mov	$9, r0
 	halt
-1:	cbeq	r7, #XCODE_TAKEN_AT_H, 1f
-	mov	#10, r0
+1:	cbeq	r7, $XCODE_TAKEN_AT_H, 1f
+	mov	$10, r0
 	halt
-1:	mov	#0, r0
+1:	mov	$0, r0
 	halt
 xh:	mfsr	r7, hexitr
-	cbne	r7, #0, 1f
+	cbne	r7, $0, 1f
 	mfsr	r6, hcause		; the hypervisor's own interrupt
-	add	#1, r10
-	mov	#0, r5
+	add	$1, r10
+	mov	$0, r5
 	mov	r5, TIMER_REG_CONTROL(r13)
-	rti	#RTIMASK_ALL
+	rti	$RTIMASK_ALL
 1:	jmp	r20
 	.data
 	.align	8

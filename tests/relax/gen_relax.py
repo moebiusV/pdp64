@@ -18,16 +18,16 @@ NF = 40
 M = (1 << 64) - 1
 lib = ['\t.text']
 for i in range(NF):
-    lib += ['\t.globl f%d' % i, 'f%d:' % i, '\tadd #%d, r6' % (i + 1), '\tret']
+    lib += ['\t.globl f%d' % i, 'f%d:' % i, '\tadd $%d, r6' % (i + 1), '\tret']
 lib += ['\t.globl fhook', 'fhook:\tcall hook', '\tret']      # a global of main.s, behind its relaxed code
-lib += ['\t.globl farf', '\t.space 700000', 'farf:\tadd #7, r6', '\tret']      # beyond the reach of the 16- and 18-bit calls
+lib += ['\t.globl farf', '\t.space 700000', 'farf:\tadd $7, r6', '\tret']      # beyond the reach of the 16- and 18-bit calls
 lib += ['\t.data']
 for i in range(NF):
     lib += ['\t.globl d%d' % i, 'd%d:\t.quad %d' % (i, (i + 1) * 1000 + 5)]
 lib += ['\t.comm cbuf, 64']
 open(d + '/lib.s', 'w').write(marks.spell_text('\n'.join(lib)) + '\n')
 
-m = ['\t.text', '\t.globl _start', '_start:', '\tmovq #0, r6', '\tmovq #0, r7']
+m = ['\t.text', '\t.globl _start', '_start:', '\tmovq $0, r6', '\tmovq $0, r7']
 acc = 0
 nl = [0]
 def lab():
@@ -49,17 +49,17 @@ def skip_block(k, kind):
     l = lab()
     dead, _ = calls(k)
     head = {'br': ['\tbr %s' % l], 'jmp': ['\tjmp %s' % l], 'beq': ['\tcbeq r6, r6, %s' % l],
-            'cbeq': ['\tmovq #5, r5', '\tcbeq r5, #5, %s' % l], 'cbne': ['\tmovq #5, r5', '\tcbne r5, #6, %s' % l]}[kind]
+            'cbeq': ['\tmovq $5, r5', '\tcbeq r5, $5, %s' % l], 'cbne': ['\tmovq $5, r5', '\tcbne r5, $6, %s' % l]}[kind]
     return head + dead + [l + ':'] + exec_calls(1)
 def loop_block(k, kind):
     l = lab()
     body, s = calls(k)
     add(3 * s)
     if kind == 'bne':
-        return ['\tmovq #3, r9', l + ':'] + body + ['\tsub #1, r9', '\tcbne r9, #0, %s' % l]
+        return ['\tmovq $3, r9', l + ':'] + body + ['\tsub $1, r9', '\tcbne r9, $0, %s' % l]
     if kind == 'cbne':
-        return ['\tmovq #3, r9', l + ':'] + body + ['\tsub #1, r9', '\tcbne r9, #0, %s' % l]
-    return ['\tmovq #3, r9', l + ':'] + body + ['\tsob r9, %s' % l]
+        return ['\tmovq $3, r9', l + ':'] + body + ['\tsub $1, r9', '\tcbne r9, $0, %s' % l]
+    return ['\tmovq $3, r9', l + ':'] + body + ['\tsob r9, %s' % l]
 
 body = []
 for k in range(0, 151):
@@ -85,11 +85,11 @@ for r in range(120):
         l = lab(); k = rnd.getrandbits(48) + (1 << 40)
         body += ['\tbr %s' % l, '\t.pool', l + ':', '\tmovq =%d, r2' % k, '\tadd r2, r6']; add(k)
     elif t == 4:
-        body += ['\t.align %d' % rnd.choice((4, 8, 16, 32)), '\tadd #1, r6']; add(1)
+        body += ['\t.align %d' % rnd.choice((4, 8, 16, 32)), '\tadd $1, r6']; add(1)
     elif t == 5:
-        l = lab(); body += ['\tbr %s' % l, '\t.byte 1, 2, 3', '\t.even', l + ':', '\tadd #2, r6']; add(2)
+        l = lab(); body += ['\tbr %s' % l, '\t.byte 1, 2, 3', '\t.even', l + ':', '\tadd $2, r6']; add(2)
     elif t == 6:
-        l = lab(); body += ['\tbr %s' % l, '\t.byte 9', '\t.align 8', '\t.quad 0x1122334455667788', l + ':', '\tadd #3, r6']; add(3)
+        l = lab(); body += ['\tbr %s' % l, '\t.byte 9', '\t.align 8', '\t.quad 0x1122334455667788', l + ':', '\tadd $3, r6']; add(3)
     elif t == 7:
         i = rnd.randrange(NF)
         body += ['\tlea ftab, r0', '\tcalli %d(r0)' % (8 * i)]; add(i + 1)
@@ -101,7 +101,7 @@ for r in range(120):
     elif t == 12:
         i = rnd.randrange(NF); body += ['\tmovcall r1, r2, f%d' % i]; add(i + 1)
     elif t == 10:
-        body += ['\tlea cbuf, r0', '\tmovq #%d, r1' % r, '\tmovq r1, (r0)', '\tadd (r0), r6']; add(r)
+        body += ['\tlea cbuf, r0', '\tmovq $%d, r1' % r, '\tmovq r1, (r0)', '\tadd (r0), r6']; add(r)
     else:
         body += ['\tmovq =%d, r3' % (r + 12345678901), '\tadd r3, r6']; add(r + 12345678901)
 # the local functions called above add a fixed amount; count them now
@@ -113,10 +113,10 @@ for line in text:
     if line.startswith('\tcall lf'): tot += lfs[int(line[8:])]
 add(tot)
 m += text
-m += ['\tmovq =%d, r8' % acc, '\tcbeq r6, r8, ok', '\tbr fail', 'ok:\tmovq #0, r0', '\ttrap #0', 'fail:\tmovq #1, r0', '\ttrap #0']
-m += ['\t.globl hook', 'hook:\tadd #11, r6', '\tret']
+m += ['\tmovq =%d, r8' % acc, '\tcbeq r6, r8, ok', '\tbr fail', 'ok:\tmovq $0, r0', '\ttrap $0', 'fail:\tmovq $1, r0', '\ttrap $0']
+m += ['\t.globl hook', 'hook:\tadd $11, r6', '\tret']
 for i, v in enumerate(lfs):
-    m += ['lf%d:\tadd #%d, r6' % (i, v), '\tret']
+    m += ['lf%d:\tadd $%d, r6' % (i, v), '\tret']
 m += ['\t.align 8', 'codetab:\t.quad lf0, lf1, lf2', '\t.pool']
 m += data
 m += ['ftab:'] + ['\t.quad f%d' % i for i in range(NF)]

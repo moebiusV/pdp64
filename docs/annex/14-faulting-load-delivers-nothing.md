@@ -34,7 +34,7 @@ Xsyscall_trampback:
 ...
 hbf:    mov    =0x1111, r6
         cbne    r4, r6, hbad                    ; the handler finds r4 unchanged
-        mov    #0, r0
+        mov    $0, r0
         halt
 ```
 

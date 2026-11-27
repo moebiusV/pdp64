@@ -53,7 +53,7 @@ def buf(label, content):
 
 
 def block(k, nbytes_a, body, loads, out=('O', 'r3'), extra=()):
-    o = ['\tmovq\t#%d, r9' % k]
+    o = ['\tmovq\t$%d, r9' % k]
     have = {l for l, _ in data}
     o += ['\tlea\t%s%d, %s' % (lab, k, r) for lab, r in list(loads) + [out] if lab + str(k) in have]
     o += ['\t' + e for e in extra]
@@ -62,7 +62,7 @@ def block(k, nbytes_a, body, loads, out=('O', 'r3'), extra=()):
 
 
 def compare(k, nbytes):
-    return ['\tlea\tO%d, r1' % k, '\tlea\tE%d, r2' % k, '\tmovq\t#%d, r4' % nbytes, 'c%d:' % k, '\tmovzb\t(r1)+, r5', '\tmovzb\t(r2)+, r6', '\tcbne\tr5, r6, fail', '\tsob\tr4, c%d' % k]
+    return ['\tlea\tO%d, r1' % k, '\tlea\tE%d, r2' % k, '\tmovq\t$%d, r4' % nbytes, 'c%d:' % k, '\tmovzb\t(r1)+, r5', '\tmovzb\t(r2)+, r6', '\tcbne\tr5, r6, fail', '\tsob\tr4, c%d' % k]
 
 
 def cmpreg(reg, val):
@@ -143,7 +143,7 @@ for mn, lanes in LANES.items():
                        [f(x, ux(reg, bits)) for x in a], LB[lane], extra=['movq\t=0x%x, r8' % reg])
         imm = 5 if mn in SHIFT else -2
         k = newtest()
-        T += lane_test('%s.%s by the immediate %d' % (mn, lane, imm), k, LB[lane], ['vld.%s v0, (r1)+' % lane, '%s.%s v2, v0, #%d' % (mn, lane, imm), 'vst.%s v2, (r3)+' % lane], a, None, None,
+        T += lane_test('%s.%s by the immediate %d' % (mn, lane, imm), k, LB[lane], ['vld.%s v0, (r1)+' % lane, '%s.%s v2, v0, $%d' % (mn, lane, imm), 'vst.%s v2, (r3)+' % lane], a, None, None,
                        [f(x, ux(imm, bits)) for x in a], LB[lane])
 
 # ---- vneg: 0 - x in the lane (the most negative value stays)
@@ -172,7 +172,7 @@ for mn, pa, pb in (('vdotu', lambda x: x, lambda y: y), ('vdotsu', lambda x: sx(
     buf('A%d' % k, pack(da, 1)); buf('B%d' % k, pack(db, 1)); buf('O%d' % k, bytes(8))
     want = 1000 + sum(pa(x) * pb(y) for x, y in zip(da, db))
     T += [';; test %d: %s.b over 77 bytes, the lanes summed by vacc.l.q (the last lane has one product)' % (k, mn)] + \
-         block(k, N, ['vld.b v0, (r1)+', 'vld.b v1, (r2)+', '%s.b v2, v0, v1' % mn, 'vacc.l.q r10, v2'], [('A', 'r1'), ('B', 'r2')], ('O', 'r3'), ['movq\t#1000, r10']) + cmpreg('r10', want)
+         block(k, N, ['vld.b v0, (r1)+', 'vld.b v1, (r2)+', '%s.b v2, v0, v1' % mn, 'vacc.l.q r10, v2'], [('A', 'r1'), ('B', 'r2')], ('O', 'r3'), ['movq\t$1000, r10']) + cmpreg('r10', want)
 
 # ---- vstt.b vS, (Ra)+, #3: every third byte of the output (the others stay zero)
 a = rnd(8)
@@ -181,7 +181,7 @@ want = bytearray(N * 3)
 for i, x in enumerate(a):
     want[3 * i] = x
 buf('A%d' % k, pack(a, 1)); buf('E%d' % k, bytes(want)); buf('O%d' % k, bytes(N * 3))
-T += [';; test %d: vstt.b with a stride of 3' % k] + block(k, N, ['vld.b v0, (r1)+', 'vstt.b v0, (r3)+, #3'], [('A', 'r1')]) + compare(k, N * 3)
+T += [';; test %d: vstt.b with a stride of 3' % k] + block(k, N, ['vld.b v0, (r1)+', 'vstt.b v0, (r3)+, $3'], [('A', 'r1')]) + compare(k, N * 3)
 
 # ---- vlseg4.b: four interleaved bytes (a record of four fields) into v0..v3, each stored to its own plane
 recs = [rnd(8, 4) for _ in range(N)]
@@ -189,10 +189,10 @@ k = newtest()
 buf('A%d' % k, bytes(x for r in recs for x in r))
 for f in range(4):
     buf('E%d_%d' % (k, f), bytes(r[f] for r in recs)); buf('O%d_%d' % (k, f), bytes(N))
-T += [';; test %d: vlseg4.b: 77 records of four bytes de-interleaved into v0 .. v3' % k, '\tmovq\t#%d, r9' % k, '\tlea\tA%d, r1' % k] + ['\tlea\tO%d_%d, r%d' % (k, f, (3, 6, 7, 8)[f]) for f in range(4)] + \
+T += [';; test %d: vlseg4.b: 77 records of four bytes de-interleaved into v0 .. v3' % k, '\tmovq\t$%d, r9' % k, '\tlea\tA%d, r1' % k] + ['\tlea\tO%d_%d, r%d' % (k, f, (3, 6, 7, 8)[f]) for f in range(4)] + \
      ['\tlea\tA%d+%d, r5' % (k, 4 * N), '\tvec\tr1, r5', '\tvlseg4.b v0, (r1)+'] + ['\tvst.b v%d, (r%d)+' % (f, (3, 6, 7, 8)[f]) for f in range(4)] + ['\tvend']
 for f in range(4):
-    T += ['\tlea\tO%d_%d, r1' % (k, f), '\tlea\tE%d_%d, r2' % (k, f), '\tmovq\t#%d, r4' % N, 'c%d_%d:' % (k, f), '\tmovzb\t(r1)+, r5', '\tmovzb\t(r2)+, r6', '\tcbne\tr5, r6, fail', '\tsob\tr4, c%d_%d' % (k, f)]
+    T += ['\tlea\tO%d_%d, r1' % (k, f), '\tlea\tE%d_%d, r2' % (k, f), '\tmovq\t$%d, r4' % N, 'c%d_%d:' % (k, f), '\tmovzb\t(r1)+, r5', '\tmovzb\t(r2)+, r6', '\tcbne\tr5, r6, fail', '\tsob\tr4, c%d_%d' % (k, f)]
 
 # ---- vsseg3.b and vsseg4.b: planes of bytes interleaved into records of three and four bytes
 for nf in (3, 4):
@@ -202,7 +202,7 @@ for nf in (3, 4):
         buf('P%d_%d' % (k, f), bytes(planes[f]))
     buf('A%d' % k, bytes(planes[0]))
     buf('E%d' % k, bytes(planes[f][i] for i in range(N) for f in range(nf))); buf('O%d' % k, bytes(N * nf))
-    T += [';; test %d: vsseg%d.b: %d planes of 77 bytes interleaved into records' % (k, nf, nf), '\tmovq\t#%d, r9' % k, '\tlea\tA%d, r1' % k, '\tlea\tO%d, r3' % k] + \
+    T += [';; test %d: vsseg%d.b: %d planes of 77 bytes interleaved into records' % (k, nf, nf), '\tmovq\t$%d, r9' % k, '\tlea\tA%d, r1' % k, '\tlea\tO%d, r3' % k] + \
          ['\tlea\tP%d_%d, r%d' % (k, f, 6 + f) for f in range(1, nf)] + ['\tlea\tA%d+%d, r5' % (k, N), '\tvec\tr1, r5', '\tvld.b v0, (r1)+'] + \
          ['\tvld.b v%d, (r%d)+' % (f, 6 + f) for f in range(1, nf)] + ['\tvsseg%d.b v0, (r3)+' % nf, '\tvend'] + compare(k, N * nf)
 
@@ -210,7 +210,7 @@ out = ['; GENERATED by tests/sim/gen_vec_lane.py -- do not edit.  The lane words
        '; vminu vmaxu vneg vsubs vaddsu vsubsu vfnma vdotu vdotsu vstt vlseg4 vsseg3 vsseg4, each over 77 elements (the last strip short) against an independent model; a failed test n exits with n.',
        '\t.text', '\t.globl\t_start', '_start:']
 out += T
-out += ['\tmovq\t#0, r0', '\ttrap\t#0', 'fail:\tmovq\tr9, r0', '\ttrap\t#0', '', '\t.data']
+out += ['\tmovq\t$0, r0', '\ttrap\t$0', 'fail:\tmovq\tr9, r0', '\ttrap\t$0', '', '\t.data']
 for lab, content in data:
     out.append('\t.align\t8')
     out.append('%s:' % lab)

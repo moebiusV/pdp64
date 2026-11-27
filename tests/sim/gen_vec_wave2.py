@@ -58,7 +58,7 @@ def lines_ptr(k, regs):
 
 
 def block(k, nbytes_a, body, loads=(('A', 'r1'),), out=('O', 'r3'), extra=()):
-    out_l = ['\tmovq\t#%d, r9' % k]
+    out_l = ['\tmovq\t$%d, r9' % k]
     have = {l for l, _ in data}
     out_l += lines_ptr(k, [x for x in list(loads) + [out] if x[0] + str(k) in have])
     out_l += list(extra)
@@ -67,7 +67,7 @@ def block(k, nbytes_a, body, loads=(('A', 'r1'),), out=('O', 'r3'), extra=()):
 
 
 def compare(k, nbytes):
-    return ['\tlea\tO%d, r1' % k, '\tlea\tE%d, r2' % k, '\tmovq\t#%d, r4' % nbytes, 'c%d:' % k, '\tmovzb\t(r1)+, r5', '\tmovzb\t(r2)+, r6',
+    return ['\tlea\tO%d, r1' % k, '\tlea\tE%d, r2' % k, '\tmovq\t$%d, r4' % nbytes, 'c%d:' % k, '\tmovzb\t(r1)+, r5', '\tmovzb\t(r2)+, r6',
             '\tcbne\tr5, r6, fail', '\tsob\tr4, c%d' % k]
 
 
@@ -140,7 +140,7 @@ for lane in ('b', 'w', 'l'):
         add(lane_test('%s.%s by a register holding the sign bit of the lane' % (mn, lane), k, LB[lane], ['vld.%s v0, (r1)+' % lane, '%s.%s v2, v0, r8' % (mn, lane), 'vst.%s v2, (r3)+' % lane],
                       a, None, None, [mk(pred(x, top)) for x in a], lane, LB[lane], extra=['movq\t=0x%x, r8' % (top | (0xabcd << bits))]))
         k = newtest(mn)
-        add(lane_test('%s.%s by the immediate -2 (the lane value 2^n - 2 for the unsigned compare)' % (mn, lane), k, LB[lane], ['vld.%s v0, (r1)+' % lane, '%s.%s v2, v0, #-2' % (mn, lane), 'vst.%s v2, (r3)+' % lane],
+        add(lane_test('%s.%s by the immediate -2 (the lane value 2^n - 2 for the unsigned compare)' % (mn, lane), k, LB[lane], ['vld.%s v0, (r1)+' % lane, '%s.%s v2, v0, $-2' % (mn, lane), 'vst.%s v2, (r3)+' % lane],
                       a, None, None, [mk(pred(x, ux(-2, bits))) for x in a], lane, LB[lane]))
 
 # ---- the floating-point compares: a NaN compares false (also with itself), -0.0 equals +0.0, the infinities order; the mask is an integer lane of 32 bits
@@ -158,7 +158,7 @@ for mn in ('vceq', 'vcgt'):
     add(lane_test('%s.f by a register (2.5)' % mn, k, 4, ['vld.f v0, (r1)+', '%s.f v2, v0, r8' % mn, 'vst.l v2, (r3)+'], fa, None, None,
                   [M32 if pr(b2f(x), 2.5) else 0 for x in fa], 'f', 4, extra=['movq\t=0x%x, r8' % f2b(2.5)]))
     k = newtest(mn)
-    add(lane_test('%s.f by the immediate -1 (the value -1.0)' % mn, k, 4, ['vld.f v0, (r1)+', '%s.f v2, v0, #-1' % mn, 'vst.l v2, (r3)+'], fa, None, None,
+    add(lane_test('%s.f by the immediate -1 (the value -1.0)' % mn, k, 4, ['vld.f v0, (r1)+', '%s.f v2, v0, $-1' % mn, 'vst.l v2, (r3)+'], fa, None, None,
                   [M32 if pr(b2f(x), -1.0) else 0 for x in fa], 'f', 4))
 
 # ---- vbsl vD, vM, vA, vB: (M & A) | (~M & B) bit by bit, vD the same register as the mask, as A, as B, or another; random bits (not a lane mask)
@@ -178,13 +178,13 @@ add(lane_test('vcgtu.b and vbsl: the unsigned maximum of bytes', k, 1, ['vld.b v
 # the clamp x > 100 ? 100 : x on signed words (the immediate form of the compare, a broadcast constant, the select)
 wa = corners(rnd(16), 16, [100, 101, 99, -32768, 32767, 0xffff, 0x8000])
 k = newtest('vbsl')
-add(lane_test('clamp: vcgt.w by an immediate, vmov.w constant, vbsl', k, 2, ['vld.w v0, (r1)+', 'vcgt.w v1, v0, #100', 'vmov.w v2, #100', 'vbsl v3, v1, v2, v0', 'vst.w v3, (r3)+'], wa, None, None,
+add(lane_test('clamp: vcgt.w by an immediate, vmov.w constant, vbsl', k, 2, ['vld.w v0, (r1)+', 'vcgt.w v1, v0, $100', 'vmov.w v2, $100', 'vbsl v3, v1, v2, v0', 'vst.w v3, (r3)+'], wa, None, None,
               [ux(min(sx(x, 16), 100), 16) for x in wa], 'w', 2))
 # relu on binary32 (a NaN gives 0.0: the compare is false): x > 0 ? x : 0
 pool2 = [0.0, -0.0, 1.0, -1.0, float('nan'), float('inf'), float('-inf'), 3.5, -3.5, 1e-45, -1e-45]
 fr = [f2b(rng.choice(pool2)) for _ in range(N)]
 k = newtest('vbsl')
-add(lane_test('relu on floats: vcgt.f by an immediate 0, vbsl with 0.0 (NaN and -0.0 give +0.0)', k, 4, ['vld.f v0, (r1)+', 'vcgt.f v1, v0, #0', 'vmov.f v2, #0', 'vbsl v3, v1, v0, v2', 'vst.f v3, (r3)+'], fr, None, None,
+add(lane_test('relu on floats: vcgt.f by an immediate 0, vbsl with 0.0 (NaN and -0.0 give +0.0)', k, 4, ['vld.f v0, (r1)+', 'vcgt.f v1, v0, $0', 'vmov.f v2, $0', 'vbsl v3, v1, v0, v2', 'vst.f v3, (r3)+'], fr, None, None,
               [f2b(b2f(x)) if b2f(x) > 0 else 0 for x in fr], 'f', 4))
 
 # ---- vcvt.l.f and vcvt.lu.f: int32 to binary32, round to nearest even (2^24 + 1 is not representable and rounds to 2^24; 2^24 + 3 is a tie that goes to 2^24 + 4)
@@ -231,7 +231,7 @@ for x in qa:
     g = 1000.0 if f > 1000.0 else f
     want.append(ux(int(g), 32))
 k = newtest('vcvt')
-add(lane_test('int32 to float, clamp to 1000.0 (vcgt.f, vbsl), back to int32', k, 4, ['vld.l v0, (r1)+', 'vcvt.l.f v1, v0', 'vcgt.f v2, v1, #1000', 'vmov.f v3, #1000', 'vbsl v4, v2, v3, v1',
+add(lane_test('int32 to float, clamp to 1000.0 (vcgt.f, vbsl), back to int32', k, 4, ['vld.l v0, (r1)+', 'vcvt.l.f v1, v0', 'vcgt.f v2, v1, $1000', 'vmov.f v3, $1000', 'vbsl v4, v2, v3, v1',
               'vcvt.f.l v5, v4', 'vst.l v5, (r3)+'], qa, None, None, want, 'l', 4))
 
 # ---- write the program
@@ -239,7 +239,7 @@ out = ['; GENERATED by tests/sim/gen_vec_wave2.py -- do not edit.  Wave 2 of the
        '; each over 77 elements (the last strip short) against the expected values of an independent model (docs/encoding-work/vec-isa.md, "wave 2"); a failed test n exits with n.',
        '\t.text', '\t.globl\t_start', '_start:']
 out += T
-out += ['\tmovq\t#0, r0', '\ttrap\t#0', 'fail:\tmovq\tr9, r0', '\ttrap\t#0', '', '\t.data']
+out += ['\tmovq\t$0, r0', '\ttrap\t$0', 'fail:\tmovq\tr9, r0', '\ttrap\t$0', '', '\t.data']
 for lab, content in data:
     out.append('\t.align\t8')
     out.append('%s:' % lab)

@@ -142,14 +142,14 @@ of 32 bits or more and a relocation; the relocation types are those of `as64/rel
 ## Operand notation and the choices the tables imply
 
 * `(r)+` and `-(r)` without a stride write stride 0, which means the size of the access (8 outside the moves); `(r)+8` writes 8.
-* `pushm`, `popm`, `popmret` take a register mask; a mask is the low 32 bits of the number (so `#-16740608` is a mask of r31...).
-* `setCC ra, rb, rd` and `setCC ra, #imm, rd` (an 8-bit signed immediate): 4 bytes. `trap #n`, `spl #n`, `hint #n`: one parcel with an 8-bit number.
+* `pushm`, `popm`, `popmret` take a register mask; a mask is the low 32 bits of the number (so `$-16740608` is a mask of r31...).
+* `setCC ra, rb, rd` and `setCC ra, $imm, rd` (an 8-bit signed immediate): 4 bytes. `trap $n`, `spl $n`, `hint $n`: one parcel with an 8-bit number.
 * ATOM: three register fields (`aadd`... `sc`; `cas` shares one register between the expected value and the old value) and, for `ll`, two; the memory address is `(Ra)`, and the destination is written last: `aadd rs, (ra), rd`, `ll (ra), rd`.
 * `cbCC` for which no form reaches (an external label, a target beyond 16 MB) is assembled as the opposite `cbCC` over a `br` to the target; neither writes anything (the machine has no flags), so the program is the same, longer by the `br`. The forms are two, four and six bytes: the compare of `eq` or `ne` with zero is two bytes, a small immediate or two registers four, and six bytes hold a 12-bit immediate (64 KB), a 16-bit immediate (4 KB) or two registers (16 MB), for all ten conditions alike (manual 9.10.5; the generated tables list every form and its reach). `fcbCC` is the floating-point twin, four bytes or six.
-* `mov #imm, rd` whose constant fits no shorter form is the ten-byte form (form `MOVQ64`, five parcels) with the 64-bit immediate.  One word names an operation and never its length: the assembler chooses the form from the operands (`jmp label` is `br label`), and `.encode N` forces a form of at least N parcels.
-* The 22 meaningless shapes the original assembler accepts (`clr/com/inc/dec/neg/asl/asr/jmp/call/pop/jmpi/calli #imm`, `mov.s8/mov.s16/mov.s32 r,#imm`, `lea #imm,r`, `sob r,#imm`, ...) are refused.
+* `mov $imm, rd` whose constant fits no shorter form is the ten-byte form (form `MOVQ64`, five parcels) with the 64-bit immediate.  One word names an operation and never its length: the assembler chooses the form from the operands (`jmp label` is `br label`), and `.encode N` forces a form of at least N parcels.
+* The 22 meaningless shapes the original assembler accepts (`clr/com/inc/dec/neg/asl/asr/jmp/call/pop/jmpi/calli $imm`, `mov.s8/mov.s16/mov.s32 r,$imm`, `lea $imm,r`, `sob r,$imm`, ...) are refused.
 * The assembler never fuses. The fused instructions are ordinary mnemonics with operands: `movcall rs, rd, label` (`mov rs,rd ; call label`, the target measured from the first parcel of the fused instruction),
-  `popmret #mask`, `popret rd`, `mov2 ra, rb, rc, rd` (`mov ra,rb ; mov rc,rd`, all four in the hot-8 table). Choosing them is the compiler's job.
+  `popmret $mask`, `popret rd`, `mov2 ra, rb, rc, rd` (`mov ra,rb ; mov rc,rd`, all four in the hot-8 table). Choosing them is the compiler's job.
 * `extb/extzb/insb` have 6-bit position and width: a width of 64 is refused. The MESC words (`addm... bism`) exist only in the 3-parcel memory forms (the optimiser selected no narrower one: no use in the corpus).
 
 ## The hot-register tables (part of the ABI, docs/abi.md)

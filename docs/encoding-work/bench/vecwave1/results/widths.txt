@@ -1,0 +1,10 @@
+width  cycles(16x16x64, kernel only)   speedup vs width 1
+1      5568      1.00
+2      3448      1.61
+4      2424      2.30
+32-byte tile (8x8 per call, 4 calls, single issue): 2812 1.98
+pack instructions per element (measured): 6.15
+M=N=K=  16: packing 3148 instructions, micro-kernel 1280 cycles at width 1: packing is 246.0% of it
+M=N=K=  64: packing 50372 instructions, micro-kernel 81920 cycles at width 1: packing is 61.5% of it
+M=N=K= 256: packing 805952 instructions, micro-kernel 5242880 cycles at width 1: packing is 15.4% of it
+M=N=K=1024: packing 12895232 instructions, micro-kernel 335544320 cycles at width 1: packing is 3.8% of it

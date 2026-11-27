@@ -16,18 +16,18 @@ CONSOLE_VA = DEVVA + MAP_CONSOLE - MAP_DEV
 _start:
 	; ---- page tables (translation is off: addresses are physical) ----
 	lea	l2, r2
-	mov	#(1<<PTE_V|1<<PTE_R|1<<PTE_W|1<<PTE_X|1<<PTE_A|1<<PTE_D), r3
+	mov	$(1<<PTE_V|1<<PTE_R|1<<PTE_W|1<<PTE_X|1<<PTE_A|1<<PTE_D), r3
 	mov	r3, (r2)				; l2[0]: the first gigabyte maps itself, kernel only
 	lea	l1a, r3
-	bis	#(1<<PTE_V), r3
+	bis	$(1<<PTE_V), r3
 	mov	r3, 8(r2)				; l2[1] -> l1a (0x40000000: the user's region)
-	mov	#(1<<PTE_V|1<<PTE_R|1<<PTE_W|1<<PTE_X|1<<PTE_U|1<<PTE_A|1<<PTE_D), r3
+	mov	$(1<<PTE_V|1<<PTE_R|1<<PTE_W|1<<PTE_X|1<<PTE_U|1<<PTE_A|1<<PTE_D), r3
 	mov	r3, 16(r2)				; l2[2]: the user alias of the first gigabyte
 	mov	=(MAP_DEV | 1<<PTE_V | 1<<PTE_R | 1<<PTE_W | 1<<PTE_A | 1<<PTE_D | MT_DEVICE<<PTE_MT), r3
 	mov	r3, 24(r2)				; l2[3]: device space (physical bit 39 set, memory type device), kernel only
 	lea	l1a, r2
 	lea	l0a, r3
-	bis	#(1<<PTE_V), r3
+	bis	$(1<<PTE_V), r3
 	mov	r3, (r2)				; l1a[0] -> l0a; its 16 entries start invalid
 	lea	pool, r2
 	mov	r2, nextpg
@@ -35,14 +35,14 @@ _start:
 	mtsr	vbr, r1
 	lea	l2, r1
 	mtsr	ptbr, r1
-	mov	#(1<<MMUCTL_ENABLE), r1
+	mov	$(1<<MMUCTL_ENABLE), r1
 	mtsr	mmuctl, r1
 	; ---- the timer ----
 	mov	=TIMER_VA, r13
 	mov	(r13), r2
-	add	#PERIOD, r2
+	add	$PERIOD, r2
 	mov	r2, TIMER_REG_COMPARE(r13)
-	mov	#(1<<TIMER_CTL_ENABLE), r2
+	mov	$(1<<TIMER_CTL_ENABLE), r2
 	mov	r2, TIMER_REG_CONTROL(r13)
 	; ---- to user mode ----
 	lea	ustk_top, r1
@@ -52,93 +52,93 @@ _start:
 	lea	user, r1
 	add	r2, r1
 	mtsr	epc, r1
-	mov	#(MODE_USER<<PSW_MODE), r1		; priority 0: the timer can interrupt the user
+	mov	$(MODE_USER<<PSW_MODE), r1		; priority 0: the timer can interrupt the user
 	mtsr	epsw, r1
-	rti	#RTIMASK_ALL
+	rti	$RTIMASK_ALL
 
 ; ---- the handlers ----
 h_exit:	halt					; exit(r0)
 h_write:					; write(r1 = buffer, r2 = length); the entry has set the priority to 7
 	pushx					; EPSW and EPC on the kernel stack: after the spl #0 below the handler may be interrupted
-	pushm	#0x3E				; r1..r5
-	spl	#0
+	pushm	$0x3E				; r1..r5
+	spl	$0
 	mov	r2, r0
 	mov	=CONSOLE_VA, r3
-1:	cbeq r2, #0, 3f
+1:	cbeq r2, $0, 3f
 	mov.user.s8	(r1), r4 ; the user's byte: a .U load, the only way for the kernel to read a U page
-	add	#1, r1
+	add	$1, r1
 2:	mov	CONSOLE_REG_TXCS(r3), r5
-	and	#(1<<CONSOLE_CSR_READY), r5
-	cbeq	r5, #0, 2b
+	and	$(1<<CONSOLE_CSR_READY), r5
+	cbeq	r5, $0, 2b
 	mov	r4, CONSOLE_REG_TXDB(r3)
-	sub	#1, r2
+	sub	$1, r2
 	br	1b
-3:	spl	#7
-	popm	#0x3E
+3:	spl	$7
+	popm	$0x3E
 	popx
-	rti	#RTIMASK_ALL
+	rti	$RTIMASK_ALL
 h_pf:						; a page fault: the user's region maps a fresh page; anything else ends the machine
 	pushx
-	pushm	#0x0E				; r1..r3
-	spl	#0
+	pushm	$0x0E				; r1..r3
+	spl	$0
 	mfsr	r1, eva
-	mov	#(0x40000000), r2
+	mov	$(0x40000000), r2
 	sub	r2, r1
-	shr	#12, r1
-	cbhis r1, #USER_PAGES, kill
-	shl	#3, r1
+	shr	$12, r1
+	cbhis r1, $USER_PAGES, kill
+	shl	$3, r1
 	lea	l0a, r2
 	add	r2, r1				; the address of the page-table entry
 	mov	nextpg, r2
 	mov	r2, r3
-	bis	#(1<<PTE_V|1<<PTE_R|1<<PTE_W|1<<PTE_U|1<<PTE_A|1<<PTE_D), r3
+	bis	$(1<<PTE_V|1<<PTE_R|1<<PTE_W|1<<PTE_U|1<<PTE_A|1<<PTE_D), r3
 	mov	r3, (r1)
-	add	#4096, r2
+	add	$4096, r2
 	mov	r2, nextpg
 	mfsr	r1, eva
 	tlbi	r1
-	spl	#7
-	popm	#0x0E
+	spl	$7
+	popm	$0x0E
 	popx
-	rti	#RTIMASK_ALL
-kill:	mov	#99, r0
+	rti	$RTIMASK_ALL
+kill:	mov	$99, r0
 	halt
 h_timer:					; level 6: counts a tick and sets the next compare.  EPC and EPSW are not touched by anything that can interrupt it (it runs at priority 6).
-	pushm	#0x06				; r1, r2
+	pushm	$0x06				; r1, r2
 	mov	=TIMER_VA, r1
 	mov	TIMER_REG_COMPARE(r1), r2
-	add	#PERIOD, r2
+	add	$PERIOD, r2
 	mov	r2, TIMER_REG_COMPARE(r1)
 	mov	ticks, r2
-	add	#1, r2
+	add	$1, r2
 	mov	r2, ticks
-	popm	#0x06
-	rti	#RTIMASK_ALL
+	popm	$0x06
+	rti	$RTIMASK_ALL
 
 ; ---- the user program (at the alias address) ----
 user:
 	lea	msg1, r1
-	mov	#(msg1_end - msg1), r2
-	trap	#1
+	mov	$(msg1_end - msg1), r2
+	trap	$1
 	; demand paging: this page is not mapped; the store faults, the kernel maps a page, the store is retried
 	mov	=0x40003000, r3
-	mov	#0x42, r5
+	mov	$0x42, r5
 	mov	r5, (r3)
 	mov	(r3), r6
-	cbne r6, #0x42, bad
+	cbne r6, $0x42, bad
 	lea	msg2, r1
-	mov	#(msg2_end - msg2), r2
-	trap	#1
+	mov	$(msg2_end - msg2), r2
+	trap	$1
 	; wait for three ticks of the timer (the kernel's counter is a word in memory)
 1:	mov	ticks, r4
-	cblo r4, #3, 1b
+	cblo r4, $3, 1b
 	lea	msg3, r1
-	mov	#(msg3_end - msg3), r2
-	trap	#1
-	mov	#0, r0
-	trap	#0
-bad:	mov	#1, r0
-	trap	#0
+	mov	$(msg3_end - msg3), r2
+	trap	$1
+	mov	$0, r0
+	trap	$0
+bad:	mov	$1, r0
+	trap	$0
 
 	.data
 msg1:	.ascii	"hello from user mode\n"

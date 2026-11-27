@@ -1,2 +1,2 @@
 	.text
-a:	setlt r1,#200,r2
+a:	setlt r1,$200,r2

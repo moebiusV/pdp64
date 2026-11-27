@@ -1,2 +1,2 @@
 	.text
-	rorl r1, #5, r2
+	rorl r1, $5, r2

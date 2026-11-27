@@ -8,7 +8,7 @@ _start:
 	lea	vtab, r1
 	mtsr	vbr, r1
 	lea	hbad, r2
-	mov	#512, r3
+	mov	$512, r3
 kfill:	mov	r2, (r1)+
 	sob	r3, kfill
 	lea	vtab, r1
@@ -20,22 +20,22 @@ kfill:	mov	r2, (r1)+
 	mtsr	usp, r1
 	lea	user, r1
 	mtsr	epc, r1
-	mov	#((MODE_USER<<PSW_MODE)|(MODE_USER<<PSW_PREV)), r1
+	mov	$((MODE_USER<<PSW_MODE)|(MODE_USER<<PSW_PREV)), r1
 	mtsr	epsw, r1
 	mov	=0x1234, r5			; a value of the kernel's own: a secret
 	mov	=0x77, r8			; a value of the user's that the kernel restored
-	rti	#(1<<8)				; keep R8; every other register is cleared, R5 included
-user:	cbeq	r5, #0, 1f			; the secret must be gone
-	mov	#1, r0
-	trap	#1
-1:	cbeq	r8, #0x77, 1f			; the named register must be kept
-	mov	#2, r0
-	trap	#1
-1:	trap	#0
-h_ok:	mov	#0, r0
+	rti	$(1<<8)				; keep R8; every other register is cleared, R5 included
+user:	cbeq	r5, $0, 1f			; the secret must be gone
+	mov	$1, r0
+	trap	$1
+1:	cbeq	r8, $0x77, 1f			; the named register must be kept
+	mov	$2, r0
+	trap	$1
+1:	trap	$0
+h_ok:	mov	$0, r0
 	halt
 h_fail:	halt
-hbad:	mov	#98, r0
+hbad:	mov	$98, r0
 	halt
 	.data
 	.align	4096

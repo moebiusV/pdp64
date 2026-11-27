@@ -60,7 +60,7 @@ about equal and the instruction count is lower. A table that must be at a physic
 | VAX | `CHMK` and friends: change mode with a code operand, through the System Control Block |
 | x86-64 | `SYSCALL`: entry address and masks in model-specific registers; does not touch the stack; a separate fast path from interrupts |
 | AArch64, RISC-V | `SVC`, `ecall`: an ordinary exception; the number is a register; software dispatches |
-| pdp64 System v1 | `TRAP #n` / `TRAPL #n` enter vector 256 + n: 256 system-call entry points in the same table as every other exception |
+| pdp64 System v1 | `TRAP $n` / `TRAPL $n` enter vector 256 + n: 256 system-call entry points in the same table as every other exception |
 
 Chosen: the same mechanism as every other exception, with the call number selecting the handler. Why: nothing special to build or specify (G1); and the system-call table is the vector table, so a kernel that wants one handler per call has no dispatch code at all
 (G3). A kernel with a single entry reads the number back from `ECAUSE`. *Cost:* there is no dedicated fast path that skips the vector fetch, as x86-64 has.
@@ -134,7 +134,7 @@ cannot fault (D1). This is the one area where System v1 follows the ISA to the l
 |---|---|---|---|
 | D1 registers (`EPC`, `EPSW`) | one saved state | entry cannot fault; `RTI` is registers | − about 4 handler instructions per nesting entry |
 | D2 vector table by cause | one mechanism, one number space | the table fetch is the only entry memory access | no software dispatch; one 8-byte fetch |
-| D3 `TRAP #n` = vector 256 + n | no special system-call path | same | no dispatch code with one handler per call; − no fast path past the fetch |
+| D3 `TRAP $n` = vector 256 + n | no special system-call path | same | no dispatch code with one handler per call; − no fast path past the fetch |
 | D4 three modes | PDP-11 compatible | n/a | − an unused bank |
 | D5 eight priority levels | one place to look | n/a | the V7/3BSD model, no controller code |
 | D6 three-level tree | Sv39-like | precise walk | 3 fetches per miss |

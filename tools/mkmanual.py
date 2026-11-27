@@ -13,6 +13,12 @@ Whether an instruction is implemented in the reference executor is read from com
 """
 import os, re, sys
 
+def mnup(sp):
+    """the mnemonic in upper case, its suffixes as they are written: MOV.s8, FADD.f32, MOV.user.u8"""
+    stem, dot, rest = sp.partition('.')
+    return stem.upper() + dot + rest
+
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, 'tools', 'manual'))
 import isa_entries as D
@@ -142,7 +148,7 @@ SPELLINGS = [r[0] for r in ROWS]                    # the spellings the assemble
 
 
 def wlabel(n):
-    """how a word of the encoding is shown in the headings of its layouts: as the assembly language writes it, in capitals (movb is MOV.S8)"""
+    """how a word of the encoding is shown in the headings of its layouts: as the assembly language writes it, in capitals (movb is MOV.s8)"""
     return MK.display(n)
 
 
@@ -411,7 +417,7 @@ VEC = {'reset': 'processor reset: the first instruction fetch', 'machine-check':
        'pcie-inta': 'PCI Express interrupt pin A of the model host bridge (level 5)', 'pcie-intb': 'PCI Express interrupt pin B (level 5)', 'pcie-intc': 'PCI Express interrupt pin C (level 5)', 'pcie-intd': 'PCI Express interrupt pin D (level 5)',
        'hexit': 'the instruction exit of a guest, in the hypervisor\'s vector table only ({{r:exit-enters-the-hypervisor-through}})', 'gifault': 'a guest-physical instruction fault (stage 2), in the hypervisor\'s table only',
        'glfault': 'a guest-physical load fault (stage 2), in the hypervisor\'s table only', 'gsfault': 'a guest-physical store fault (stage 2), in the hypervisor\'s table only',
-       'iommu': 'the IOMMU unit\'s own interrupt, a wired line (level 5; {{r:unit-own-interrupt}})', 'trap-base': '`TRAP #n` enters vector 256 + n', 'count': 'the number of vectors; the table has this many eight-byte entries'}
+       'iommu': 'the IOMMU unit\'s own interrupt, a wired line (level 5; {{r:unit-own-interrupt}})', 'trap-base': '`TRAP $n` enters vector 256 + n', 'count': 'the number of vectors; the table has this many eight-byte entries'}
 PSWD = {'t': 'trace: take a trace trap after the next instruction', 'pri': 'interrupt priority level, 0 to 7', 'mode': 'current mode', 'prev': 'previous mode (the mode before the last exception)'}
 PTED = {'v': 'valid', 'r': 'readable', 'w': 'writable', 'x': 'executable', 'u': 'accessible from user mode', 'g': 'global: ignores the ASID', 'a': 'accessed (managed by software)', 'd': 'dirty (managed by software)', 'mt': 'memory type', 'ppn': 'physical page number: physical address bits 12 to 39, in place'}
 
@@ -433,7 +439,7 @@ DMATEST_MEANING = {'reg': 'the registers of the test function, a byte offset eac
 
 
 HV_MEANING = {
-    'htrap': 'the bits of HTRAP, the trap-control register: a set bit sends the event to the hypervisor as an exit; `mask` is the position of the 8-bit hypercall mask, bit k routing `TRAP #n` for n from 32k to 32k + 31',
+    'htrap': 'the bits of HTRAP, the trap-control register: a set bit sends the event to the hypervisor as an exit; `mask` is the position of the 8-bit hypercall mask, bit k routing `TRAP $n` for n from 32k to 32k + 31',
     'htrap-width': 'the width of the hypercall mask', 'htrap-reset': 'the value of HTRAP after a machine reset (`WFE` and `SEV` set)', 'hcall': 'the hypercall mask: one bit covers 32 trap numbers, as a shift',
     'xcode': 'the exit-reason codes (bits 7 to 0 of HEXITR)', 'xflag': 'the flag bits of HEXITR (a stage-2 fault on a page-table read; on the vector fetch)',
     'gtbr': 'the fields of GTBR: stage-2 enable, root page number, guest tag', 'gtbr-width': 'the widths of the root and the tag',
@@ -713,15 +719,15 @@ def build():
         m = re.search(r'(?m)^## %s (.*)$' % re.escape(sec), texts[fn])
         return '../%s#%s' % (fn, slug('%s %s' % (sec, m.group(1))))
     # aliases
-    EXPANDS = {'rol': ' with the count `#n` complemented to `#(64-n)` (a constant count only)'}
-    SEQ = {'abs': '`MOV Rs, R12`, `SAR #63, R12`, `MOV Rs, Rd` (left out when `Rd` is `Rs`), `XOR R12, Rd`, `SUB R12, Rd`',
+    EXPANDS = {'rol': ' with the count `$n` complemented to `$(64-n)` (a constant count only)'}
+    SEQ = {'abs': '`MOV Rs, R12`, `SAR $63, R12`, `MOV Rs, Rd` (left out when `Rd` is `Rs`), `XOR R12, Rd`, `SUB R12, Rd`',
            'min': '`SETLT Ra, Rb, R12`, `NEG R12`, `BSEL R12, Ra, Rb, Rd`', 'minu': '`SETLO Ra, Rb, R12`, `NEG R12`, `BSEL R12, Ra, Rb, Rd`',
            'max': '`SETGT Ra, Rb, R12`, `NEG R12`, `BSEL R12, Ra, Rb, Rd`', 'maxu': '`SETHI Ra, Rb, R12`, `NEG R12`, `BSEL R12, Ra, Rb, Rd`'}
     A = ['# Assembler aliases', '', '[← dictionary index](index.md)', '',
-         'A mnemonic that assembles to another instruction (`FNEG.F32` and `FABS.F32` to an instruction with an operand of their own, and a `MOV` before it when the registers differ; `ROL` to `ROR` with the count complemented) or to a short fixed sequence of instructions (`ABS`, `MIN.S64`, `MIN.U64`, `MAX.S64` and `MAX.U64`, which write the scratch register `R12`). One mnemonic is one instruction (section {{r:idioms-restored-lost-and-replaced}}); the disassembler never prints an alias. A width and kind suffix (`MOV.S8`, `AADD.S32`, `ROR.S32`) is not an alias: it is the notation of the width and kind of one operation. The table ends with the explicit spellings that say what the bare name says (`MOV.S64` is `MOV`), and the spellings where the kind means nothing (`MOV.U8` as a store is `MOV.S8`).', '',
+         'A mnemonic that assembles to another instruction (`FNEG.f32` and `FABS.f32` to an instruction with an operand of their own, and a `MOV` before it when the registers differ; `ROL` to `ROR` with the count complemented) or to a short fixed sequence of instructions (`ABS`, `MIN.s64`, `MIN.u64`, `MAX.s64` and `MAX.u64`, which write the scratch register `R12`). One mnemonic is one instruction (section {{r:idioms-restored-lost-and-replaced}}); the disassembler never prints an alias. A width and kind suffix (`MOV.s8`, `AADD.s32`, `ROR.s32`) is not an alias: it is the notation of the width and kind of one operation. The table ends with the explicit spellings that say what the bare name says (`MOV.s64` is `MOV`), and the spellings where the kind means nothing (`MOV.u8` as a store is `MOV.s8`).', '',
          '*Generated by `tools/mkmanual.py` from `spec/grammars.d`; do not edit.*', '', '| Written | Assembles to | Group |', '|---|---|---|']
-    A.append('| `FNEG.F32` | `XOR` with the operand `#-2147483648` (after `MOV Rs, Rd` if the registers differ) | `alu` |')
-    A.append('| `FABS.F32` | `AND` with the operand `#0x7FFFFFFF` (after `MOV Rs, Rd` if the registers differ) | `alu` |')
+    A.append('| `FNEG.f32` | `XOR` with the operand `$-2147483648` (after `MOV Rs, Rd` if the registers differ) | `alu` |')
+    A.append('| `FABS.f32` | `AND` with the operand `$0x7FFFFFFF` (after `MOV Rs, Rd` if the registers differ) | `alu` |')
     for n, m in sorted(MN.items()):
         if n in INTERNAL and n not in SEQ: continue
         if m['alias_of']:
@@ -729,9 +735,9 @@ def build():
             else: A.append('| `%s` | `%s`%s | `%s` |' % (n.upper(), wlabel(m['alias_of']), EXPANDS.get(n, ''), m['group'][3:]))
     for sp, w, fl, shown in ROWS:
         if not shown and w in MN and sp != wlabel(w).lower() and w not in INTERNAL | {'minu', 'maxu'}:
-            A.append('| `%s` | `%s` | `%s` |' % (sp.upper(), wlabel(w), MN[w]['group'][3:]))
+            A.append('| `%s` | `%s` | `%s` |' % (mnup(sp), wlabel(w), MN[w]['group'][3:]))
         elif not shown and w in MN:
-            A.append('| `%s` | `%s` | `%s` |' % (sp.upper(), wlabel(w), MN[w]['group'][3:]))
+            A.append('| `%s` | `%s` | `%s` |' % (mnup(sp), wlabel(w), MN[w]['group'][3:]))
     A.append('')
     files['aliases.md'] = '\n'.join(A)
     # by mnemonic
@@ -739,7 +745,7 @@ def build():
     by = ['# The mnemonics, alphabetically', '', '[← dictionary index](index.md)', '',
           '*Generated by `tools/mkmanual.py`; do not edit.*', '']
     by += ['| Mnemonic | Entry | Layouts | Group |', '|---|---|---|---|']
-    spell_rows = [(sp.upper(), w) for sp, w, fl, shown in ROWS if w in MN]
+    spell_rows = [(mnup(sp), w) for sp, w, fl, shown in ROWS if w in MN]
     spell_rows += [(MK.display(w), w) for w in MK.conversions() if w in MN]	# the conversions are named by their official form, the format on each operand (the words of the encoding are not words of the language)
     for label, n in sorted([(wlabel(n), n) for n in MN if n not in INTERNAL or n in SEQ] + spell_rows):
         if n in D.HELD_NAMES:

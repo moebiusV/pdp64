@@ -35,7 +35,7 @@ site like any other.
 position.  Each such padding gets `R_PDP64_ALIGN` (type 6): `r_offset` is where the padding starts, the symbol is 0 and the addend is
 `(bytes of padding) << 32 | alignment`.  A padding of 0 bytes that only asks for 2-byte alignment is not recorded (positions in `.text` change by even amounts).
 
-**Position-dependent constants.**  A number the assembler computes from the position of two labels of `.text` (`.word L1 - L0`, `#L1 - L0`, an assignment
+**Position-dependent constants.**  A number the assembler computes from the position of two labels of `.text` (`.word L1 - L0`, `$L1 - L0`, an assignment
 `x = L1 - L0`) is correct only if nothing between the labels changes length, and it carries no relocation.  Likewise a `d(pc)` written as a number, and an
 instruction that has two operands with an address (so that one relocation cannot cover it).  `as64` sets `NOADJ_TEXT` when it meets one of them.  The
 linker then does not change that object's `.text` at all; its relocations are applied at the lengths the assembler chose.  (Differences of labels of `.data`
@@ -120,7 +120,7 @@ Historical table (2026-11-04, taken from the grammars of the r20 / pdp64/16 / pd
   data symbol reaches +-32 KiB only; in a program whose `.text` is longer than that, the data `lea` stays long for most of the data.  `.data` begins on the page after `.text`.
 * There is no 2-byte `call`, `jmp`, `lea` or pc-relative load.  The shortest external call is 4 bytes.
 * Indirect calls (`calli`, `jmpi` through a pointer, a call through a register) are one parcel plus a pointer in memory and are not touched; there is no PLT, no GOT and no shared object.
-* The absolute forms (`@sym`, `#sym`) are relaxed when their value fits a shorter signed field (they do not, at `.text` 0x10000, below 2 KiB).
+* The absolute forms (`@sym`, `$sym`) are relaxed when their value fits a shorter signed field (they do not, at `.text` 0x10000, below 2 KiB).
 * A `cbCC` that the assembler had to expand (the opposite `cbCC` over a `br` to the target, because the target was external or beyond the reach of the six-byte form) stays expanded: the linker does not turn two
   instructions back into one. (Unverified against `ld64` for the current encoding, where `cbCC` has long forms of its own; the machine has no flag branch, so no `cmp` + `bCC` pair exists.)
 * An object with `NOADJ_TEXT` is not adjusted.  Only `.text` is adjusted; `.data` and `.bss` do not hold instructions.

@@ -29,7 +29,7 @@ the per-CPU pointer (§17.4); in user mode it is the thread pointer, which makes
 ## 2. The processor status word
 
 *Established* (ISA §2.2): a 16-bit `PSW` holding the condition flags `N Z V C`, the current mode, the previous mode, the interrupt priority and the
-trace bit `T`. `MTPS` writes all of it, `MFPS` reads it, `SPL #n` sets the priority field alone and leaves the flags alone (ISA §4.11.1). `FPSR`, the five-bit
+trace bit `T`. `MTPS` writes all of it, `MFPS` reads it, `SPL $n` sets the priority field alone and leaves the flags alone (ISA §4.11.1). `FPSR`, the five-bit
 sticky floating-point flag word, is saved with the `PSW` as part of the thread context (§2.2).
 
 *Decided* (section 15): the bit layout, the number of priority levels (eight), and what `MTPS` does in user mode (it writes only the flags). Nothing in this section is open.
@@ -85,15 +85,15 @@ never trap: they set flags in `FPSR` (§4.10.1).
 
 ## 5. System calls
 
-*Established*: `TRAP #n` (two bytes, `n < 16`) and `TRAPL #n` (four bytes, `n` up to 255) enter the kernel through trap vector `n` (vector 256 + `n` of the table, section 15). `BPT` is the two-byte breakpoint. The user-level
+*Established*: `TRAP $n` (two bytes, `n < 16`) and `TRAPL $n` (four bytes, `n` up to 255) enter the kernel through trap vector `n` (vector 256 + `n` of the table, section 15). `BPT` is the two-byte breakpoint. The user-level
 calling convention is [`abi.md`](abi.md).
 
-*Open*: the system-call convention beyond the vector choice (which registers carry the arguments, how errors are returned). The `trap #0`, `#1`, `#2`
+*Open*: the system-call convention beyond the vector choice (which registers carry the arguments, how errors are returned). The `trap $0`, `$1`, `$2`
 (exit, write, read) of the emulator [`sim64`](sim64.md) and of the default QEMU machine are a stand-in for testing, not an operating-system interface.
 
 ## 6. Interrupts
 
-*Established*: the `PSW` has an interrupt priority field and `SPL #n` sets it (§4.11.1). `WFE` sleeps until an interrupt or another core's `SEV`; `WAIT` is its alias on one core
+*Established*: the `PSW` has an interrupt priority field and `SPL $n` sets it (§4.11.1). `WFE` sleeps until an interrupt or another core's `SEV`; `WAIT` is its alias on one core
 (§4.11.1, §17.2). A device raises an interrupt when a DMA transfer is done ([`pdp64-q64-bus.md`](pdp64-q64-bus.md) §6).
 
 *Decided* (section 15): eight priority levels; a device asserts a level and a vector, and the processor takes the interrupt between instructions when the level is greater than the `PSW` priority; the virt machine has a timer and a console.
@@ -179,7 +179,7 @@ Paging, from the 32V headers in the toolchain repository's corpus. The 32V kerne
 
 | What the port needs (32V, and so 3BSD) | What the pdp64 has | State |
 |---|---|---|
-| A way into the kernel for a system call, with the call number and arguments in registers or on the stack | `TRAP #n`, `TRAPL #n`, a banked kernel stack (sections 1, 5) | the entry sequence is defined (section 15); the call convention is open (section 5) |
+| A way into the kernel for a system call, with the call number and arguments in registers or on the stack | `TRAP $n`, `TRAPL $n`, a banked kernel stack (sections 1, 5) | the entry sequence is defined (section 15); the call convention is open (section 5) |
 | Separate address spaces, swapped as whole images, with per-process page tables | a three-level page table, `ASID`, broadcast `TLBI` (section 7) | `PTBR` is written by `mtsr` (section 3); the entry layout is defined (section 15) |
 | Mode, interrupt priority levels | the `PSW` priority field and `SPL` (section 6) | eight levels and the `PSW` layout are defined (section 15) |
 | A periodic clock interrupt | the timer of the virt machine (section 15) | the timer of real hardware is open (section 6) |
@@ -256,7 +256,7 @@ Results (`llvm/check.sh` in full):
 Cost on this machine (3 GB, 2 cores, `ninja -j1`, `nice`, assertions on): `llvm-tblgen` 5.5 minutes and 383 MB; the MC libraries, the PDP64 target and `llvm-mc` 7 minutes and 437 MB; never out of memory. `llvm-objdump` and `llvm-readobj` need 389 more compile steps and were not built (the patch for them is in place and untested). The
 milestone took about 75 minutes of work.
 
-The oracle runs against the current ISA, and the generator absorbs ISA changes (new instructions, page-2 rows, register-register `cbCC`) with small edits; that is the point of generating the target. `isync` (SYSX sub 2) and `hint #n` (SYSX sub 3, `n` in the pad byte) are records with two page-2 rows (0x2C, 0x2D). `hint` is the first SYSX word with an operand and its page-2 word carries `n` in `reg:low`, so the generator reads the `XN(...)` rows of `p2.c` and `PDP64P2.cpp` keys the SYSX words by the pad byte. The oracle accepts a disassembly round trip whose reassembled bytes disassemble to the same listing, because tests such as `tests/sim/hint.s` and `isync.s` write the four-byte form of `hint #n` with `.word` on purpose and the reassembly chooses the page-2 word.
+The oracle runs against the current ISA, and the generator absorbs ISA changes (new instructions, page-2 rows, register-register `cbCC`) with small edits; that is the point of generating the target. `isync` (SYSX sub 2) and `hint $n` (SYSX sub 3, `n` in the pad byte) are records with two page-2 rows (0x2C, 0x2D). `hint` is the first SYSX word with an operand and its page-2 word carries `n` in `reg:low`, so the generator reads the `XN(...)` rows of `p2.c` and `PDP64P2.cpp` keys the SYSX words by the pad byte. The oracle accepts a disassembly round trip whose reassembled bytes disassemble to the same listing, because tests such as `tests/sim/hint.s` and `isync.s` write the four-byte form of `hint $n` with `.word` on purpose and the reassembly chooses the page-2 word.
 
 ### 14.3 How each feature of the machine maps to LLVM
 
@@ -319,7 +319,7 @@ the oracle; the second would be better as an annotation in the mnemonic grammar 
 ### 14.7 What the next milestones need decided
 
 * Tied operands for the two-address forms (item 1 above). * A condition-code model: `cmp` and the arithmetic instructions set `N Z V C`, `set cc` reads them, and `cbCC` and moves, loads and stores write none (the flag-group invariant helps: two groups, `C` and `{N, Z, V}`).
-* The lowering of 64-bit constants and of the addresses of globals: a constant-pool entry plus a PC-relative `movq`, and which of `lea sym(pc)` and `movq #sym` is the canonical address load (both exist). * A frame description: a call pushes the return address and there is no link register, so the DWARF return-address column and the call-frame rules are undecided
+* The lowering of 64-bit constants and of the addresses of globals: a constant-pool entry plus a PC-relative `movq`, and which of `lea sym(pc)` and `movq $sym` is the canonical address load (both exist). * A frame description: a call pushes the return address and there is no link register, so the DWARF return-address column and the call-frame rules are undecided
 (a placeholder register is used now). * A selection policy for the compare-and-branch forms and their range limits. * Whether `long double` is binary128 before clang (the ABI says `long double` is `double`). * A `TargetMachine`, the calling convention (from `abi.md`), and the clang triple and data-layout string. * The encodings of the atomics in `as64`.
 
 ### 14.8 Re-checking against the ISA
@@ -360,7 +360,7 @@ Status: the design implemented in the QEMU target and the one to write the first
 memory-management unit and privileged mode, and a Unix/32V port, need, with the defaults most in the spirit of the PDP-11 and of the rest of this ISA.
 
 PSW (16 bits). Bit 0 `C`, bit 1 `V`, bit 2 `Z`, bit 3 `N` (the PDP-11 order), bit 4 `T` (trace), bits 5 to 7 the interrupt priority (0 to 7), bits 8 and 9 the current mode, bits 10 and 11 the previous mode, bits 12 to 15 reserved, zero.
-Mode encoding as on the PDP-11: kernel 0, supervisor 1, user 3. `MTPS` in user mode writes only the flags (bits 0 to 3); in kernel mode all writable bits. `SPL #n` is kernel only.
+Mode encoding as on the PDP-11: kernel 0, supervisor 1, user 3. `MTPS` in user mode writes only the flags (bits 0 to 3); in kernel mode all writable bits. `SPL $n` is kernel only.
 
 Exception entry (every exception and every interrupt). Entry writes no memory except the fetch of the vector, and writes registers only: `EPC` is the address of the faulting instruction for an abort or progress exception and of the next instruction for a trap or
 interrupt; `EPSW` (a system register) receives the old PSW; `EVA` the faulting address (aborts; zero otherwise); `ECAUSE` the vector number. The new PSW is: current mode kernel, previous mode the old current mode, priority 7 for every exception and every interrupt, `T` and the flags cleared. The new PC is the 64-bit word at the physical address `VBR + 8 * vector` (`VBR`, a system register). A bus error on that fetch is a machine check that halts. Nothing is pushed by the hardware: a handler that can be interrupted saves
@@ -370,7 +370,7 @@ and it is ready to be interrupted. Throwback to the PDP-11: there the processor 
 
 Vector numbers (the table has 512 entries; `ECAUSE` equals the vector number): 0 reset (unused by the QEMU machine), 1 machine check, 2 illegal instruction, 3 privileged instruction, 4 misaligned access, 5 non-canonical address, 6 instruction page fault,
 7 load page fault, 8 store page fault, 9 protection (instruction), 10 protection (load), 11 protection (store), 12 divide by zero, 13 bus fault, 14 landing-pad violation, 15 breakpoint (`BPT`), 16 to 31 reserved, 32 to 63 interrupts (the virt machine: 32 timer, 33 console input, 34 console output),
-64 to 255 reserved; `TRAP #n` and `TRAPL #n` use vector 256 + n (0 to 255). An instruction page fault has `EPC` = the faulting fetch address and `EVA` the same.
+64 to 255 reserved; `TRAP $n` and `TRAPL $n` use vector 256 + n (0 to 255). An instruction page fault has `EPC` = the faulting fetch address and `EVA` the same.
 
 Page-table entry (64 bits). Bit 0 `V` valid, 1 `R`, 2 `W`, 3 `X`, 4 `U`, 5 `G`, 6 `A`, 7 `D`, bits 8 and 9 the memory type `MT`, bits 12 to 39 the physical page number (physical address bits 12 to 39, in place; the present implementation, 40-bit physical address), all other bits zero (a set reserved bit is a page fault). The format for a physical address of up to 64 bits (errata 102) is open *(S)*: a 52-bit page number in place would fill bits 12 to 63 and leave no spare bit above bit 11.
 A non-leaf entry has `V` = 1 and `R` = `W` = `X` = 0 and points to the next table; a leaf at level 2 maps 1 GB, at level 1 maps 2 MB, at level 0 maps 4 KB. Virtual address bits 38 to 30 index level 2, 29 to 21 level 1, 20 to 12 level 0. `PTBR` holds the physical address of the level-2 table.
@@ -391,7 +391,7 @@ counter, a 64-bit compare, and a control/status register with an enable and a pe
 transmit status, transmit data). `WFE` (kernel) sleeps until an interrupt is taken.
 
 Reset and the QEMU machine. The machine starts in kernel mode, priority 7, `MMUCTL` 0, at the entry point of the ELF given with `-kernel`; the stack pointer of the kernel bank is the top of RAM. (The architectural reset vector, vector 0, is not modelled by the virt machine.)
-The system-call stand-in (`trap #0` to `#2`) of `sim64` and of the default QEMU machine serves user programs run without a kernel (`-M pdp64-virt`); the machine option `kernel-mode=on` turns it off, so that `TRAP` enters the kernel through vector 256 + n.
+The system-call stand-in (`trap $0` to `$2`) of `sim64` and of the default QEMU machine serves user programs run without a kernel (`-M pdp64-virt`); the machine option `kernel-mode=on` turns it off, so that `TRAP` enters the kernel through vector 256 + n.
 
 Not in v1: `DMW0` and `DMW1` have no defined register format yet, so they are stored by `mfsr`/`mtsr` and have no translation effect (kernels use ordinary page tables, for instance 1 GB leaf pages); the supervisor mode exists in the `PSW` and the banked registers and nothing uses it.
 

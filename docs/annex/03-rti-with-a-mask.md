@@ -29,11 +29,11 @@ Intel's processors made the idea concrete in 2018 and 2019. A mistaken load coul
 **After** (pdp64, `snippets/rti-syscall.S`, assembled):
 
 ```
-        rti     #RTIMASK_SYSCALL        ; keep r0 and the callee-saved registers; every other register reads zero
-        rti     #(RTIMASK_SYSCALL | (1<<2))     ; the same, and keep r2
+        rti     $RTIMASK_SYSCALL        ; keep r0 and the callee-saved registers; every other register reads zero
+        rti     $(RTIMASK_SYSCALL | (1<<2))     ; the same, and keep r2
 ```
 
-*(One instruction, six bytes, of which four are the mask. The runnable test, `docs/encoding-work/hypervisor-text-v3-snippets/ex08-return-mask.S`, leaves a secret in `R5` and a user value in `R8`, returns with `RTI #(1<<8)`, and checks that the user finds zero and the value.)*
+*(One instruction, six bytes, of which four are the mask. The runnable test, `docs/encoding-work/hypervisor-text-v3-snippets/ex08-return-mask.S`, leaves a secret in `R5` and a user value in `R8`, returns with `RTI $(1<<8)`, and checks that the user finds zero and the value.)*
 
 ### What it enables
 

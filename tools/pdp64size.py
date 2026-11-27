@@ -103,7 +103,7 @@ def shape(op):
     op = op.strip()
     if re.fullmatch(REG, op):
         return 'reg'
-    if op.startswith('#'):
+    if op.startswith(('#', '$')):
         return 'imm'
     if op.startswith('@'):
         return 'abs'

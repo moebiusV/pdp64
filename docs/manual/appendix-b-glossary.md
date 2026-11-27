@@ -19,7 +19,7 @@
 | **relaxation** | the linker's choice, after the sections are laid out, of the shortest form that reaches for a call or an address; on by default (9.5) |
 | **`CBCC`** | compare-and-branch on condition: compares a register with zero, an immediate or a second register and branches in one instruction, writing nothing; the integer conditional branch of a machine with no condition codes (9.10) |
 | **`FCBCC`** | the floating-point compare-and-branch: compares two binary64 (or, with the suffix `.f32`, binary32) registers and branches, with the words `uo` and `or` for the unordered case (9.10.8) |
-| **`ROR.S32`** | rotate right by an immediate, 32-bit, sign-extended result (`ror.s32 r1, #5, r2`) |
+| **`ROR.s32`** | rotate right by an immediate, 32-bit, sign-extended result (`ror.s32 r1, $5, r2`) |
 | **`SOB`** | subtract one and branch, either direction (9.10) |
 | **`MCPY`, `MMOV`, `MSET`, `MCMP`, `MSCN`, `MSCNN`** | the block operations: copy, move (overlap-safe), fill, compare, scan for a byte, scan for the first byte not equal; progress is held in registers so a fault restarts for free (9.11) |
 | **`MVAL`** | block scan of valid UTF-8, one of the string instructions of the same family (9.9) |
@@ -64,7 +64,7 @@
 | **PIE** | position-independent executable: loadable at any address; costs nothing here (9.16) |
 | **GOT, PLT** | global offset table and procedure linkage table: the indirection that lets position-independent code reach imported symbols (9.16) |
 | **ABI** | application binary interface: calling convention, register use, data layout; version 1 is given in appendix C |
-| **trap, exception, interrupt** | a deliberate entry (`TRAP #n`), a fault raised by an instruction, and a signal from a device; all enter through the vector table (6.3) |
+| **trap, exception, interrupt** | a deliberate entry (`TRAP $n`), a fault raised by an instruction, and a signal from a device; all enter through the vector table (6.3) |
 | **precise fault** | a fault after which every earlier instruction has completed and no later one has changed state (6.4) |
 | **`SPL`** | set the interrupt priority level (6.3) |
 | **`WFE`, `SEV`** | wait for an event and send an event: the idle and wake-up pair (7.10) |
@@ -82,7 +82,7 @@
 | **exit** | the event by which a guest stops and the hypervisor starts: a trapped instruction, a hypercall, an interrupt or a fault in stage 2; `HEXITR` says which (6.16.14) |
 | **hypercall** | a `TRAP` number routed to the hypervisor by the trap-control register; the guest's system call to the hypervisor (6.16.11) |
 | **world switch** | the exit of one guest and the entry of the next, with the hypervisor saving and loading the guest's state between them (6.16.20) |
-| **`GENTER`** | `GENTER #mask` enters a guest from the hypervisor; the mask names the registers it keeps (6.16.17, 6.16.18) |
+| **`GENTER`** | `GENTER $mask` enters a guest from the hypervisor; the mask names the registers it keeps (6.16.17, 6.16.18) |
 | **stage 1, stage 2** | the guest's own page tables, and the hypervisor's tables that turn a guest-physical address into a real one (6.16.21) |
 | **guest tag** | the 16-bit number, allocated by the hardware, that marks the translation-buffer entries of one guest (6.16.22) |
 | **arena** | the one run of real pages in which the hypervisor keeps its stage-2 tables, so that the hardware knows when a table has changed (6.16.25) |

@@ -67,14 +67,14 @@ maskeqz is confirmed in; do it. approved. branchless select is needed.  so, let'
 * *An exception for the load at the next address.* An execute-only page would allow a data load whose address is exactly the byte after the instruction. This weakens execute-only (a data path touches the page), needs the permission check to compare addresses, and leaves the processor to skip over the literal afterwards. In effect it is an inline literal done the hard way.
 * *An instruction that carries the literal.* The 64 bits follow the opcode and are fetched with the instruction, on the instruction side. No data load touches the page, so execute-only needs no exception and no pool exists. This is the second half of the annotation, and it is better.
 
-**Proposal.** `MOVQL #imm64, Rd`: the opcode parcel (with `Rd`), then four parcels of literal; 10 bytes, 5 parcels. Binary64 constants load with the same instruction, since floating-point values live in the general registers.
+**Proposal.** `MOVQL $imm64, Rd`: the opcode parcel (with `Rd`), then four parcels of literal; 10 bytes, 5 parcels. Binary64 constants load with the same instruction, since floating-point values live in the general registers.
 
 | Way to load a 64-bit constant | Bytes | Instructions | Data-side read of code |
 |---|---|---|---|
 | Pool in text, `MOVQ d(PC)` | 4 + 8 | 1 | yes |
 | Separate read-only pool, long form | 6 + 8 | 1 | no (other page) |
 | Build from two 32-bit pieces | 12 | 2 | no |
-| **`MOVQL #imm64`** | **10** | **1** | **no** |
+| **`MOVQL $imm64`** | **10** | **1** | **no** |
 
 It wins on priority 2 (one instruction) and priority 3 (10 bytes against 12 or 14) and satisfies priority 1 (execute-only is clean, one less section, no pool to flush).
 

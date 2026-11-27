@@ -7,20 +7,20 @@ _start:
 	lea	htab, r1
 	mtsr	hvbr, r1
 	lea	xh, r2
-	mov	#512, r3
+	mov	$512, r3
 fill1:	mov	r2, (r1)+
 	sob	r3, fill1
 	lea	gvtab, r1
 	mtsr	vbr, r1
 	lea	gh, r2
-	mov	#512, r3
+	mov	$512, r3
 fill2:	mov	r2, (r1)+
 	sob	r3, fill2
 	lea	log, r28
 	lea	gstk_top, r2
 	mtsr	gksp, r2
 	lea	cases, r26
-	mov	#17, r29
+	mov	$17, r29
 next:	mov	(r26)+, r1
 	mtsr	hepc, r1
 	mov	(r26)+, r1
@@ -31,14 +31,14 @@ next:	mov	(r26)+, r1
 	mtsr	vivec, r1
 	mov	(r26)+, r1
 	mtsr	htrap, r1
-	mov	#0, r1
+	mov	$0, r1
 	mtsr	epc, r1
 	mtsr	gecause, r1
-	mov	#99, r0
-	genter	#RTIMASK_ALL
+	mov	$99, r0
+	genter	$RTIMASK_ALL
 xh:	mfsr	r22, hexitr
 	mfsr	r20, virq
-	mov	#0x7e57, r21
+	mov	$0x7e57, r21
 	mov	r21, (r28)+
 	mov	r22, (r28)+
 	mov	r20, (r28)+
@@ -48,13 +48,13 @@ gh:	mfsr	r20, ecause
 	mfsr	r21, epc
 	mfsr	r22, epsw
 	mfps	r23
-	bic	#15, r23
-	bic	#15, r22
+	bic	$15, r23
+	bic	$15, r22
 	mov	r20, (r28)+
 	mov	r21, (r28)+
 	mov	r22, (r28)+
 	mov	r23, (r28)+
-	rti	#RTIMASK_ALL
+	rti	$RTIMASK_ALL
 	.align	2
 c0:
 c0a0:
@@ -130,7 +130,7 @@ c10:
 c10a0:
 	nop
 c10a1:
-	spl	#2
+	spl	$2
 c10a2:
 	nop
 c10a3:
@@ -139,7 +139,7 @@ c10a4:
 	halt
 c11:
 c11a0:
-	spl	#0
+	spl	$0
 c11a1:
 	nop
 c11a2:
@@ -148,7 +148,7 @@ c11a3:
 	halt
 c12:
 c12a0:
-	spl	#3
+	spl	$3
 c12a1:
 	nop
 c12a2:
@@ -184,13 +184,13 @@ c16a2:
 compare:
 	lea	log, r1
 	lea	exp, r2
-	mov	#1, r6
+	mov	$1, r6
 cw:	mov	(r1)+, r4
 	mov	(r2)+, r5
 	cbne	r4, r5, bad
-	add	#1, r6
-	cbne	r6, #(103+1), cw
-	mov	#0, r0
+	add	$1, r6
+	cbne	r6, $(103+1), cw
+	mov	$0, r0
 	halt
 bad:	mov	r6, r0
 	halt

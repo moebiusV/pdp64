@@ -26,8 +26,8 @@ reload_time:
 **After** (pdp64, `snippets/user-time.S`, assembled; the call number 7 is the example's own):
 
 ```
-        mov    #7, r0
-        trap    #0                      ; r0 comes back holding the time
+        mov    $7, r0
+        trap    $0                      ; r0 comes back holding the time
 ```
 
 *(Two instructions, four bytes. There is nothing to put in the place of `rdtscp`.)*

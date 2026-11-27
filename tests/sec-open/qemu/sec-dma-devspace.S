@@ -9,7 +9,7 @@ _start:
 	mtsr	vbr, r1
 	call	lib_pci_up
 	call	lib_unit_up
-	mov	#0, r30
+	mov	$0, r30
 	lea	ts_a, r1
 	call	lib_tbl_clear
 	lea	ts_a, r1
@@ -17,29 +17,29 @@ _start:
 	call	lib_tbl_init
 	mov	=DTE0(IOMMU_STAGES_A, 3, 0, 0, 0), r1
 	lea	ts_a, r2
-	mov	#0, r3
-	mov	#RID1, r4
+	mov	$0, r3
+	mov	$RID1, r4
 	call	lib_dte
 	; the kernel maps device address 0x1000 onto the page of the timer (a mistake, or a hostile guest's request through a virtual unit): the unit must not let the write reach the timer
 	lea	ts_a, r1
-	mov	#0x1000, r2
+	mov	$0x1000, r2
 	mov	=(MAP_TIMER|RWL), r3
 	call	lib_map
 	mov	=MAP_TIMER, r13
-	mov	#0, r6
+	mov	$0, r6
 	mov	r6, TIMER_REG_COMPARE(r13)
 	mov	=DMATEST_MAP_BUFFER, r26
 	add	r12, r26
 	mov	=0x6b6c6d6e6f707172, r27
 	mov	r27, (r26)
 	mov	=(0x1000+TIMER_REG_COMPARE), r1
-	mov	#8, r2
+	mov	$8, r2
 	call	lib_dma_w
 	mov	TIMER_REG_COMPARE(r13), r6
-	cbeq	r6, #0, 1f
-	mov	#1, r0			; check 1: the DMA write reached the timer's compare register
+	cbeq	r6, $0, 1f
+	mov	$1, r0			; check 1: the DMA write reached the timer's compare register
 	halt
-1:	mov	#0, r0
+1:	mov	$0, r0
 	halt
 	.text
 #include "iommu-lib.inc"

@@ -65,7 +65,7 @@ def fig_words():
     c.text(W / 2, 16, 'one instruction word of the PDP-11, and the same kind of instruction on the pdp64', 12, bold=True)
     u = 19
     x0 = 20
-    c.text(x0, 40, 'PDP-11:  mov (r1)+,(r0)+   = 012120 octal, 16 bits, memory to memory', 10.5, 'start', bold=True, mono=True)
+    c.text(x0, 40, 'PDP-11:  mov (r1)+,(r0)+   = 0o12120 octal, 16 bits, memory to memory', 10.5, 'start', bold=True, mono=True)
     bits(c, x0, 50, [4, 3, 3, 3, 3], ['opcode 01', 'mode 2', 'reg 1', 'mode 2', 'reg 0'], [GREY, YELLOW, PINK, YELLOW, PINK], unit=u)
     c.text(x0, 100, 'source: mode 2 is autoincrement, register 1;  destination: mode 2, register 0;  an extra word follows only for the modes 6 and 7,', 9, 'start', '#333')
     c.text(x0, 112, 'and for modes 2 and 3 on register 7 (immediate, absolute); so the length, 2, 4 or 6 bytes, depends on both six-bit fields.', 9, 'start', '#333')

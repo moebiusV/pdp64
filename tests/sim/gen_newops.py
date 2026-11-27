@@ -25,8 +25,8 @@ class T:
         self.a('%s\t%s, r15' % (mn, addr), 'movq\t=0x%x, r12' % (val & ((1 << (8 * size)) - 1)), 'cbne\tr15, r12, F%d' % self.n)
     def write(self, name, tail=''):
         self.a('clr\tr0', 'halt')
-        for k in range(1, self.n + 1): self.a('F%d:' % k, 'movq\t#%d, r0' % k, 'halt')
-        self.a('F9999:', 'movq\t#99, r0', 'halt')
+        for k in range(1, self.n + 1): self.a('F%d:' % k, 'movq\t$%d, r0' % k, 'halt')
+        self.a('F9999:', 'movq\t$99, r0', 'halt')
         self.l.append(tail)
         self.l += ['\t.data', '\t.align 8', 'ubuf:\t.space 32', '\t.bss', '\t.align 16', '\t.space 256', 'stack_top:', '\t.space 64']
         open('%s/%s' % (out, name), 'w').write(marks.spell_text('\n'.join(self.l)) + '\n')
@@ -42,31 +42,31 @@ for cv in (0, 1, 0x8000000000000000, 0xffffffff00000000, Cv):
     t.a('movq\t=0x%x, r4' % cv)
     t.a('maskeqz\tr1, r4, r5'); t.chk('r5', 0 if cv == 0 else A)
     t.a('masknez\tr1, r4, r5'); t.chk('r5', A if cv == 0 else 0)
-t.a('movq\t#0, r4', 'maskeqz\tr1, r4, r1'); t.chk('r1', 0)          # rd == ra
-t.a('movq\t=0x%x, r1' % A, 'movq\t#5, r4', 'masknez\tr1, r4, r4'); t.chk('r4', 0)   # rd == rc
-t.a('movq\t=0x%x, r1' % A, 'movq\t#0, r4', 'masknez\tr1, r4, r4'); t.chk('r4', A)
+t.a('movq\t$0, r4', 'maskeqz\tr1, r4, r1'); t.chk('r1', 0)          # rd == ra
+t.a('movq\t=0x%x, r1' % A, 'movq\t$5, r4', 'masknez\tr1, r4, r4'); t.chk('r4', 0)   # rd == rc
+t.a('movq\t=0x%x, r1' % A, 'movq\t$0, r4', 'masknez\tr1, r4, r4'); t.chk('r4', A)
 # bsel rm, ra, rb, rd:  rd <- (rm & ra) | (~rm & rb)
 def bsel(m, a, b): return (m & a) | (~m & M & b)
 t.a('bsel\tr3, r1, r2, r5'); t.chk('r5', bsel(Cv, A, B))
 t.a('bsel\tr1, r2, r3, r5'); t.chk('r5', bsel(A, B, Cv))
-t.a('movq\t#0, r4', 'bsel\tr4, r1, r2, r5'); t.chk('r5', B)
-t.a('movq\t#-1, r4', 'bsel\tr4, r1, r2, r5'); t.chk('r5', A)
+t.a('movq\t$0, r4', 'bsel\tr4, r1, r2, r5'); t.chk('r5', B)
+t.a('movq\t$-1, r4', 'bsel\tr4, r1, r2, r5'); t.chk('r5', A)
 t.a('movq\tr3, r5', 'bsel\tr5, r1, r2, r5'); t.chk('r5', bsel(Cv, A, B))          # rd == rm
 # movq #imm64, rd in its ten-byte form (.encode 5 asks for five parcels: -1 and the others that fit a shorter form are written the long way too)
 for v in (0x123456789abcdef0, M, 0x8000000000000000, 0x00000001ffffffff, 0x7fffffffffffffff, 0x0000800000000000):
-    t.a('.encode\t5', 'movq\t#0x%x, r6' % v, '.encode\t0'); t.chk('r6', v)
+    t.a('.encode\t5', 'movq\t$0x%x, r6' % v, '.encode\t0'); t.chk('r6', v)
 # the same constant without .encode: the assembler chooses the form (the ten-byte one for what no shorter form holds, a short one for -1)
 for v in (0x123456789abcdef0, M, 0x1ffffffff, 5):
-    t.a('movq\t#0x%x, r6' % v); t.chk('r6', v)
+    t.a('movq\t$0x%x, r6' % v); t.chk('r6', v)
 # addv / subv / mulv rs, rd: rd <- rd op rs (like add, sub, mul); signed overflow aborts (checked in the system-mode test), no flags
 for a, b in ((5, 7), (M - 4, 3), (0x7ffffffffffffffe, 1), (0x8000000000000001, 0x7fffffffffffffff), (0x4000000000000000, 0xc000000000000000), (7, 5), (0x8000000000000000, 1)):
     sa, sb = s64(a), s64(b)
     for mn, f in (('addv', lambda x, y: x + y), ('subv', lambda x, y: x - y), ('mulv', lambda x, y: x * y)):
         if -(1 << 63) <= f(sb, sa) < (1 << 63):                     # rd = b, rs = a: rd <- b op a
             t.a('movq\t=0x%x, r1' % a, 'movq\t=0x%x, r2' % b, '%s\tr1, r2' % mn); t.chk('r2', f(b, a)); t.chk('r1', a)
-t.a('movq\t#6, r1', 'addv\tr1, r1'); t.chk('r1', 12)
-t.a('movq\t#6, r1', 'movq\t#7, r2', 'subv\tr1, r2'); t.chk('r2', 1)
-t.a('movq\t#6, r1', 'movq\t#7, r2', 'mulv\tr1, r2'); t.chk('r2', 42)
+t.a('movq\t$6, r1', 'addv\tr1, r1'); t.chk('r1', 12)
+t.a('movq\t$6, r1', 'movq\t$7, r2', 'subv\tr1, r2'); t.chk('r2', 1)
+t.a('movq\t$6, r1', 'movq\t$7, r2', 'mulv\tr1, r2'); t.chk('r2', 42)
 for (a, b) in ((1, 1), (1, 2), (2, 1), (0x8000000000000000, 1), (1, 0x8000000000000000)):   # the set-on-compare words give the signed and the unsigned order
     t.a('movq\t=0x%x, r1' % a, 'movq\t=0x%x, r2' % b)
     sa, sb = s64(a), s64(b)
@@ -74,11 +74,11 @@ for (a, b) in ((1, 1), (1, 2), (2, 1), (0x8000000000000000, 1), (1, 0x8000000000
     t.a('seteq\tr1, r2, r3'); t.chk('r3', int(a == b)); t.a('setge\tr1, r2, r3'); t.chk('r3', int(sa >= sb))
     t.a('sethi\tr1, r2, r3'); t.chk('r3', int(a > b))
 # mov2 ra, rb, rc, rd: movq ra,rb ; movq rc,rd, in that order (hot registers)
-t.a('movq\t#11, r0', 'movq\t#22, r1', 'movq\t#33, r2', 'movq\t#44, r3', 'mov2\tr0, r1, r2, r3'); t.chk('r1', 11); t.chk('r3', 33); t.chk('r0', 11); t.chk('r2', 33)
-t.a('movq\t#11, r0', 'movq\t#22, r1', 'movq\t#33, r2', 'mov2\tr0, r1, r1, r2'); t.chk('r1', 11); t.chk('r2', 11)       # the second move sees the first
-t.a('movq\t#11, r0', 'movq\t#22, r1', 'movq\t#33, r2', 'mov2\tr0, r1, r2, r0'); t.chk('r1', 11); t.chk('r0', 33)
-t.a('movq\t#11, r8', 'movq\t#22, r9', 'movq\t#33, r10', 'mov2\tr8, r9, r9, r10'); t.chk('r9', 11); t.chk('r10', 11)
-t.a('movq\t#11, r0', 'movq\t#22, r1', 'mov2\tr0, r1, r1, r0'); t.chk('r1', 11); t.chk('r0', 11)                       # swap attempt: r1 <- r0, r0 <- (new r1)
+t.a('movq\t$11, r0', 'movq\t$22, r1', 'movq\t$33, r2', 'movq\t$44, r3', 'mov2\tr0, r1, r2, r3'); t.chk('r1', 11); t.chk('r3', 33); t.chk('r0', 11); t.chk('r2', 33)
+t.a('movq\t$11, r0', 'movq\t$22, r1', 'movq\t$33, r2', 'mov2\tr0, r1, r1, r2'); t.chk('r1', 11); t.chk('r2', 11)       # the second move sees the first
+t.a('movq\t$11, r0', 'movq\t$22, r1', 'movq\t$33, r2', 'mov2\tr0, r1, r2, r0'); t.chk('r1', 11); t.chk('r0', 33)
+t.a('movq\t$11, r8', 'movq\t$22, r9', 'movq\t$33, r10', 'mov2\tr8, r9, r9, r10'); t.chk('r9', 11); t.chk('r10', 11)
+t.a('movq\t$11, r0', 'movq\t$22, r1', 'mov2\tr0, r1, r1, r0'); t.chk('r1', 11); t.chk('r0', 11)                       # swap attempt: r1 <- r0, r0 <- (new r1)
 # the plain moves at addresses that are not aligned (no alignment fault), and the read-modify-write forms on memory
 t.a('lea\tubuf, r8', 'movq\t=0x1122334455667788, r1', 'movq\tr1, 1(r8)')
 t.chkmem('1(r8)', 0x88, 1); t.chkmem('2(r8)', 0x77, 1); t.chkmem('8(r8)', 0x11, 1)
@@ -90,17 +90,17 @@ t.a('movb\t1(r8), r2'); t.chk('r2', 0x88 - 256)                       # sign-ext
 t.a('movq\t=0xaabbccdd, r1', 'movl\tr1, 5(r8)'); t.chkmem('5(r8)', 0xdd, 1); t.chkmem('8(r8)', 0xaa, 1)
 t.a('movl\t5(r8), r2'); t.chk('r2', 0xaabbccdd - (1 << 32))
 t.a('movq\t=0x8000, r1', 'movw\tr1, 7(r8)', 'movw\t7(r8), r2'); t.chk('r2', -0x8000)
-t.a('movq\t#0x1ff, r1', 'movb\tr1, 9(r8)', 'movzb\t9(r8), r2'); t.chk('r2', 0xff)
-t.a('lea\tubuf, r8', 'movq\t#100, r1', 'movq\tr1, (r8)', 'movq\t#5, r2', 'addm\tr2, (r8)'); t.chkmem('(r8)', 105)
+t.a('movq\t$0x1ff, r1', 'movb\tr1, 9(r8)', 'movzb\t9(r8), r2'); t.chk('r2', 0xff)
+t.a('lea\tubuf, r8', 'movq\t$100, r1', 'movq\tr1, (r8)', 'movq\t$5, r2', 'addm\tr2, (r8)'); t.chkmem('(r8)', 105)
 t.a('subm\tr2, (r8)'); t.chkmem('(r8)', 100)
 t.a('movq\t=0xff, r2', 'bicm\tr2, (r8)'); t.chkmem('(r8)', 100 & ~0xff & M)
 t.a('movq\t=0xf0f0, r2', 'bism\tr2, (r8)'); t.chkmem('(r8)', 0xf0f0)
-t.a('movq\t#-1, r1', 'movq\tr1, (r8)', 'movq\t#1, r2', 'addm\tr2, (r8)'); t.chkmem('(r8)', 0)         # as ADD: wraps to 0
+t.a('movq\t$-1, r1', 'movq\tr1, (r8)', 'movq\t$1, r2', 'addm\tr2, (r8)'); t.chkmem('(r8)', 0)         # as ADD: wraps to 0
 t.a('movq\t=0x7fffffffffffffff, r1', 'movq\tr1, (r8)', 'addm\tr2, (r8)'); t.chkmem('(r8)', 0x8000000000000000)   # no overflow trap
-t.a('movq\t#0, r1', 'movq\tr1, (r8)', 'subm\tr2, (r8)'); t.chkmem('(r8)', M)                                   # 0 - 1 wraps
-t.a('movq\t#3, r1', 'movq\tr1, 8(r8)', 'movq\t#2, r5', 'addm\tr5, 8(r8)'); t.chkmem('8(r8)', 5)
-t.a('lea\tubuf, r8', 'movq\t#1, r9', 'movq\t#9, r1', 'movq\tr1, 8(r8)', 'addm\tr5, (r8)(r9*8)'); t.chkmem('8(r8)', 11)
-t.a('lea\tubuf, r8', 'movq\t#20, r1', 'movq\tr1, (r8)', 'subm\tr5, (r8)+'); t.chkmem('ubuf', 18)                          # post-increment applies after the access
+t.a('movq\t$0, r1', 'movq\tr1, (r8)', 'subm\tr2, (r8)'); t.chkmem('(r8)', M)                                   # 0 - 1 wraps
+t.a('movq\t$3, r1', 'movq\tr1, 8(r8)', 'movq\t$2, r5', 'addm\tr5, 8(r8)'); t.chkmem('8(r8)', 5)
+t.a('lea\tubuf, r8', 'movq\t$1, r9', 'movq\t$9, r1', 'movq\tr1, 8(r8)', 'addm\tr5, (r8)(r9*8)'); t.chkmem('8(r8)', 11)
+t.a('lea\tubuf, r8', 'movq\t$20, r1', 'movq\tr1, (r8)', 'subm\tr5, (r8)+'); t.chkmem('ubuf', 18)                          # post-increment applies after the access
 t.a('lea\tubuf, r8')
 # utf8len rs, rd
 for b, ln in ((0x41, 1), (0x7f, 1), (0x80, 0), (0xbf, 0), (0xc0, 0), (0xc1, 0), (0xc2, 2), (0xdf, 2), (0xe0, 3), (0xef, 3), (0xf0, 4), (0xf4, 4), (0xf5, 0), (0xff, 0)):
@@ -120,40 +120,40 @@ for i in range(16, 32):
     vals[i] = (0x1111111111111111 * (i - 15)) & M
     t.a('movq\t=0x%x, r%d' % (vals[i], i))
 for i in range(16, 32): t.chk('r%d' % i, vals[i])
-t.a('movq\tr17, r30', 'movq\tr31, r16', 'add\tr20, r16', 'sub\tr18, r30', 'xor\tr19, r21', 'and\tr22, r23', 'bis\tr24, r25', 'mul\tr26, r27', 'shl\t#4, r28')
+t.a('movq\tr17, r30', 'movq\tr31, r16', 'add\tr20, r16', 'sub\tr18, r30', 'xor\tr19, r21', 'and\tr22, r23', 'bis\tr24, r25', 'mul\tr26, r27', 'shl\t$4, r28')
 t.chk('r30', vals[17] - vals[18]); t.chk('r16', vals[31] + vals[20]); t.chk('r21', vals[21] ^ vals[19]); t.chk('r23', vals[23] & vals[22])
 t.chk('r25', vals[25] | vals[24]); t.chk('r27', vals[27] * vals[26]); t.chk('r28', vals[28] << 4)
 # addressing with high registers: base, index, post-increment, pre-decrement
-t.a('lea\tubuf, r24', 'lea\tubuf, r25', 'movq\t#1, r29', 'movq\t=0x1122334455667788, r17', 'movq\tr17, 8(r24)')
+t.a('lea\tubuf, r24', 'lea\tubuf, r25', 'movq\t$1, r29', 'movq\t=0x1122334455667788, r17', 'movq\tr17, 8(r24)')
 t.a('movq\t8(r24), r18'); t.chk('r18', 0x1122334455667788)
 t.a('movq\t(r25)(r29*8), r19'); t.chk('r19', 0x1122334455667788)
-t.a('movq\t#2, r20', 'movq\t-8(r25)(r29*8), r21', 'movq\tr20, 16(r24)(r29*8)')
+t.a('movq\t$2, r20', 'movq\t-8(r25)(r29*8), r21', 'movq\tr20, 16(r24)(r29*8)')
 t.a('lea\tubuf, r26', 'movq\t(r26)+, r27', 'movq\t(r26)+, r27'); t.chk('r27', 0x1122334455667788)
 t.a('lea\tubuf+24, r26', 'movq\t-(r26), r27', 'lea\tubuf+16, r28', 'cbne\tr26, r28, F9999')
 # cmp / branches / sob with high registers
-t.a('movq\t#3, r31', 'clr\tr30', '1:', 'add\t#1, r30', 'sob\tr31, 1b'); t.chk('r30', 3)
-t.a('movq\t#5, r16', 'movq\t#9, r17', 'cbgt\tr17, r16, 1f', 'br\tF9999', '1:', 'cblt\tr17, #20, 1f', 'br\tF9999', '1:')
-t.a('movq\t=0x8000000000000000, r22', 'cblt\tr22, #0, 1f', 'br\tF9999', '1:', 'cbeq\tr22, #0, F9999')
+t.a('movq\t$3, r31', 'clr\tr30', '1:', 'add\t$1, r30', 'sob\tr31, 1b'); t.chk('r30', 3)
+t.a('movq\t$5, r16', 'movq\t$9, r17', 'cbgt\tr17, r16, 1f', 'br\tF9999', '1:', 'cblt\tr17, $20, 1f', 'br\tF9999', '1:')
+t.a('movq\t=0x8000000000000000, r22', 'cblt\tr22, $0, 1f', 'br\tF9999', '1:', 'cbeq\tr22, $0, F9999')
 # call and return through a high register, push/pop of a high register
-t.a('lea\t2f, r29', 'call\tr29', 'br\t3f', '2:', 'movq\t#77, r30', 'ret', '3:'); t.chk('r30', 77)
+t.a('lea\t2f, r29', 'call\tr29', 'br\t3f', '2:', 'movq\t$77, r30', 'ret', '3:'); t.chk('r30', 77)
 t.a('movq\t=0x5566778899aabbcc, r31', 'push\tr31', 'pop\tr16'); t.chk('r16', 0x5566778899aabbcc)
 # pushm / popm with the high registers: ascending register order pushed (r2 first), so the lowest register number sits at the highest address
-t.a('movq\t#2, r2', 'movq\t=0x%x, r16' % vals[16], 'movq\t=0x%x, r31' % vals[31], 'movq\tsp, r8')
-t.a('pushm\t#0x%x' % ((1 << 31) | (1 << 16) | (1 << 2)))
+t.a('movq\t$2, r2', 'movq\t=0x%x, r16' % vals[16], 'movq\t=0x%x, r31' % vals[31], 'movq\tsp, r8')
+t.a('pushm\t$0x%x' % ((1 << 31) | (1 << 16) | (1 << 2)))
 t.chkmem('(sp)', vals[31]); t.chkmem('8(sp)', vals[16]); t.chkmem('16(sp)', 2)
 t.a('movq\tr8, r9', 'sub\tsp, r9'); t.chk('r9', 24)
-t.a('movq\t#0, r2', 'movq\t#0, r16', 'movq\t#0, r31', 'popm\t#0x%x' % ((1 << 31) | (1 << 16) | (1 << 2)), 'cbne\tsp, r8, F9999'); t.chk('r2', 2); t.chk('r16', vals[16]); t.chk('r31', vals[31])
+t.a('movq\t$0, r2', 'movq\t$0, r16', 'movq\t$0, r31', 'popm\t$0x%x' % ((1 << 31) | (1 << 16) | (1 << 2)), 'cbne\tsp, r8, F9999'); t.chk('r2', 2); t.chk('r16', vals[16]); t.chk('r31', vals[31])
 t.a('lea\tubuf, r8')
 # a mask of every register but sp: all of r0 to r13, r15 to r31 round trip
 mask = 0xffffffff & ~(1 << 14)
 t.a('movq\tsp, r8')
 for i in list(range(0, 14)) + list(range(15, 32)):
-    if i not in (8,): t.a('movq\t#%d, r%d' % (1000 + i, i))
-t.a('movq\tsp, r8', 'pushm\t#0x%x' % mask)
+    if i not in (8,): t.a('movq\t$%d, r%d' % (1000 + i, i))
+t.a('movq\tsp, r8', 'pushm\t$0x%x' % mask)
 for i in list(range(0, 14)) + list(range(15, 32)):
-    if i != 8: t.a('movq\t#0, r%d' % i)
+    if i != 8: t.a('movq\t$0, r%d' % i)
 t.a('movq\tr8, r9')
-t.a('popm\t#0x%x' % mask)
+t.a('popm\t$0x%x' % mask)
 for i in list(range(0, 14)) + list(range(15, 32)):
     if i not in (8, 9, 12, 15): t.chk('r%d' % i, 1000 + i)
 t.write('newops32.s')
@@ -174,7 +174,7 @@ class K(T):
             self.n += 1; self.a('lea\t%s, r15' % eva, 'cbne\tr9, r15, F%d' % self.n)
 k = K()
 # 1. movcall: the push of the return address faults (nothing is mapped at the stack pointer); the handler repairs sp and resumes at the same instruction
-k.a('movq\t#0x1111, r1', 'movq\t#0x2222, r2', 'lea\tstack_top, r4', 'movq\t=%d, sp' % DEV_END)
+k.a('movq\t$0x1111, r1', 'movq\t$0x2222, r2', 'lea\tstack_top, r4', 'movq\t=%d, sp' % DEV_END)
 k.a('un1:', 'movcall\tr1, r2, tgt1', 'back1:')
 k.fault_checks('un1', 13)
 k.chkmem('cap', 0x2222)                    # r2 as the handler saw it: the movq half had been undone
@@ -185,7 +185,7 @@ k.a('br\tafter1', 'tgt1:', 'movq\t(sp), r13', 'ret', 'after1:')
 k.a('lea\tback1, r15', 'cbne\tr13, r15, FSP')                  # the return address that was pushed is the address after the whole fused instruction
 # 2. the target of the call is not mapped: the movcall itself completes (the return address is pushed), the fault is the fetch at the target
 k.handler_reset()
-k.a('movq\t#0x1111, r1', 'movq\t#0x2222, r2', 'lea\tafter2, r7', 'lea\tstack_top, sp')
+k.a('movq\t$0x1111, r1', 'movq\t$0x2222, r2', 'lea\tafter2, r7', 'lea\tstack_top, sp')
 k.a('un2:', 'movcall\tr1, r2, stack_top+0x1000000', 'back2:')
 k.a('after2:')
 k.chk('r10', 1); k.chk('r8', 13)
@@ -195,7 +195,7 @@ k.a('lea\tstack_top-8, r15', 'movq\tcap+32, r12', 'cbne\tr12, r15, FSP')       #
 k.a('movq\tstack_top-8, r13', 'lea\tback2, r15', 'cbne\tr13, r15, FSP')   # and the return address is there
 # 3. popret: the second pop (the return) faults, the first (pop r3) is undone, the restart pops both
 k.handler_reset()
-k.a('movq\t=0x7fffffeff8, r13', 'movq\t=0x5555, r15', 'movq\tr15, (r13)', 'movq\t#0x3333, r3', 'lea\tpopstk, r4', 'lea\tback3, r5', 'movq\tr5, popstk+8', 'movq\t=0x7fffffeff8, sp')
+k.a('movq\t=0x7fffffeff8, r13', 'movq\t=0x5555, r15', 'movq\tr15, (r13)', 'movq\t$0x3333, r3', 'lea\tpopstk, r4', 'lea\tback3, r5', 'movq\tr5, popstk+8', 'movq\t=0x7fffffeff8, sp')
 k.a('un3:', 'popret\tr3', 'back3:')
 k.fault_checks('un3', 13)
 k.chkmem('cap+8', 0x3333)                  # r3 as the handler saw it
@@ -204,8 +204,8 @@ k.chk('r3', 0x5555)
 k.a('lea\tpopstk+16, r15', 'cbne\tsp, r15, FSP')
 # 4. popmret (a mask of r8 to r15): two registers popped, then the return faults
 k.handler_reset()
-k.a('movq\t#0x22, r13', 'movq\t#0x33, r15', 'movq\t=0x7fffffeff0, r12', 'movq\t#0x33, r2', 'movq\tr2, (r12)', 'movq\t#0x22, r2', 'movq\tr2, 8(r12)', 'lea\tpopmstk, r4', 'lea\tback4, r5', 'movq\tr5, popmstk+16', 'movq\t=0x7fffffeff0, sp')
-k.a('un4:', 'popmret\t#0xa000', 'back4:')
+k.a('movq\t$0x22, r13', 'movq\t$0x33, r15', 'movq\t=0x7fffffeff0, r12', 'movq\t$0x33, r2', 'movq\tr2, (r12)', 'movq\t$0x22, r2', 'movq\tr2, 8(r12)', 'lea\tpopmstk, r4', 'lea\tback4, r5', 'movq\tr5, popmstk+16', 'movq\t=0x7fffffeff0, sp')
+k.a('un4:', 'popmret\t$0xa000', 'back4:')
 k.fault_checks('un4', 13)
 k.chkmem('cap+16', 0x22); k.chkmem('cap+24', 0x33)        # r13, r15 as the handler saw them
 k.chkmem('cap+32', 0x7fffffeff0)
@@ -218,10 +218,10 @@ for mn, a, b in (('addv', 1, 0x7fffffffffffffff), ('subv', 1, 0x8000000000000000
     k.chk('r10', 1); k.chk('r8', 16); k.chk('r2', b); k.chkmem('cap', b)
     k.a('lea\tun_%s, r15' % mn, 'cbne\tr6, r15, FSP')
 k.a('clr\tr0', 'halt')
-for i in range(1, k.n + 1): k.a('F%d:' % i, 'movq\t#%d, r0' % i, 'halt')
-k.a('FSP:', 'movq\t#98, r0', 'halt')
-k.a('h_gen:', 'mfsr\tr6, epc', 'mfsr\tr8, ecause', 'mfsr\tr9, eva', 'movq\tr2, cap', 'movq\tr3, cap+8', 'movq\tr13, cap+16', 'movq\tr15, cap+24', 'movq\tr14, cap+32', 'add\t#1, r10',
-    'cbeq\tr4, #0, 1f', 'movq\tr4, sp', '1:', 'cbeq\tr7, #0, 1f', 'mtsr\tepc, r7', '1:', 'rti\t#0xffffffff')
+for i in range(1, k.n + 1): k.a('F%d:' % i, 'movq\t$%d, r0' % i, 'halt')
+k.a('FSP:', 'movq\t$98, r0', 'halt')
+k.a('h_gen:', 'mfsr\tr6, epc', 'mfsr\tr8, ecause', 'mfsr\tr9, eva', 'movq\tr2, cap', 'movq\tr3, cap+8', 'movq\tr13, cap+16', 'movq\tr15, cap+24', 'movq\tr14, cap+32', 'add\t$1, r10',
+    'cbeq\tr4, $0, 1f', 'movq\tr4, sp', '1:', 'cbeq\tr7, $0, 1f', 'mtsr\tepc, r7', '1:', 'rti\t$0xffffffff')
 k.l += ['\t.data', '\t.align 8', 'cap:\t.space 48', 'popstk:\t.quad 0x5555, 0', 'popmstk:\t.quad 0xbb, 0xaa, 0', 'vtab:', '\t.space 16', '\t.quad h_gen', '\t.space 8', '\t.quad h_gen', '\t.space 64', '\t.quad h_gen',
         '\t.space 16', '\t.quad h_gen', '\t.space 3900', '\t.bss', '\t.align 16', '\t.space 256', 'stack_top:', '\t.space 64']
 open(out + '/fused.s', 'w').write(marks.spell_text('\n'.join(k.l)).replace('movq\tr14, r12', 'movq\tsp, r12') + '\n')

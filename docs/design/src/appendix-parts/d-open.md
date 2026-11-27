@@ -20,7 +20,7 @@
 * The PDP-11 kept the stack pointer even (a word) and trapped on an odd one *(unverified: general knowledge)*; the VAX stack pointer is longword-aligned by convention *(unverified)*.
 * 32-bit ARM before its EABI and early i386 ABIs used 4 *(unverified)*.
 * x86-64 System V: 16 at the call instruction, 8 after the return address is pushed; AArch64 AAPCS64: 16, enforced by hardware at stack-pointer-based accesses if enabled; RISC-V psABI: 16 *(all unverified: general knowledge)*.
-* gcc `-mstackrealign` and `__attribute__((force_align_arg_pointer))`, with the `AND SP,#-16` prologue *(unverified)*.
+* gcc `-mstackrealign` and `__attribute__((force_align_arg_pointer))`, with the `AND SP,$-16` prologue *(unverified)*.
 
 **My referents.** The PDP-11 as the base ("update and refresh of the pdp-11 instruction set and architecture", "upgrade it to 32/64 bit keeping nice properties"). On alignment: "only 2 byte memory alignment; don't put 8 byte memory alignment constraints that would be horrible", and later "align 64 bit values the natural way; as long as we have circuitry to access individual bytes i'm ok with loading in 64 bits". "Stack alignment why not 2 bytes instead of 8?" The VAX-11 register roles ("SP is R14 and FP is R13 to match it"). Ockham: "don't multiply entities without benefit".
 

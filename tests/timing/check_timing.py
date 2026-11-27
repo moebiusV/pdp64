@@ -5,7 +5,7 @@ usage: check_timing.py BUILD_DIR      (exits 1 if any differs)
 
 The pipeline (docs/timing-model.md): fetch request at cycle R, bytes in the buffer at R+fl, decode at R+fl+ldec, ready to issue dl cycles after that.  So with the
 program starting at cycle 0 the first instruction issues at t0 = fl + ldec + dl (2 with the base parameters).  The cycle count is the cycle of the last issue (the
-exit `trap #0`, held for `sys` cycles) plus 1.  Each expectation below is a closed formula in the parameters; the formula is derived on paper from that
+exit `trap $0`, held for `sys` cycles) plus 1.  Each expectation below is a closed formula in the parameters; the formula is derived on paper from that
 description, not from the code.  The base configuration has an ideal memory system, perfect branch prediction, ldec=0 and a wide fetch, so that
 the count does not depend on the lengths of the instructions unless the test is about fetch.
 """
@@ -54,12 +54,12 @@ def check(name, what, got, want):
     else: print('FAIL %s %s: got %d, expected %d' % (name, what, int(got), want)); fails += 1
 
 def prog(body, data=''):
-    return '\t.text\n\t.globl _start\n_start:\n' + body + '\tmovq\t#0, r0\n\ttrap\t#0\n' + ('\t.data\n' + data if data else '')
+    return '\t.text\n\t.globl _start\n_start:\n' + body + '\tmovq\t$0, r0\n\ttrap\t$0\n' + ('\t.data\n' + data if data else '')
 
 # ---- 1. a chain of N dependent adds, ALU latency A: movq at t0, add_k at t0+1+(k-1)A, `movq #0,r0` the cycle after the last add (in order), trap the cycle after that
 def t_chain():
     N = 8
-    src = prog('\tmovq\t#1, r1\n' + '\tadd\t#1, r1\n' * N)
+    src = prog('\tmovq\t$1, r1\n' + '\tadd\t$1, r1\n' * N)
     for A in (1, 2, 3, 5):
         for enc in ENCS:
             res, _ = run(src, enc, 'chain', [spec(alu=A)])
@@ -69,7 +69,7 @@ def t_chain():
 # ---- 2. independent adds: 4 registers in rotation; iw=1 one per cycle; iw=2 two per cycle (the trap, dependent on the movq before it, goes alone)
 def t_indep():
     N = 40
-    src = prog(''.join('\tmovq\t#0, r%d\n' % k for k in (1, 2, 3, 4)) + ''.join('\tadd\t#1, r%d\n' % (1 + i % 4) for i in range(N)))
+    src = prog(''.join('\tmovq\t$0, r%d\n' % k for k in (1, 2, 3, 4)) + ''.join('\tadd\t$1, r%d\n' % (1 + i % 4) for i in range(N)))
     M = 4 + N + 2                                   # instructions in all: 4 movq, N add, movq r0, trap
     for enc in ENCS:
         res, _ = run(src, enc, 'indep', [spec(iw=1), spec(iw=2)])
@@ -79,7 +79,7 @@ def t_indep():
 # ---- 3. a load-use chain: p = *p, N times, load-use latency L (the pointer cell points at itself)
 def t_loadchain():
     N = 10
-    src = prog('\tmovq\t#p, r1\n' + '\tmovq\t(r1), r1\n' * N, 'p:\t.quad\tp\n')
+    src = prog('\tmovq\t$p, r1\n' + '\tmovq\t(r1), r1\n' * N, 'p:\t.quad\tp\n')
     for L in (2, 3, 4, 6):
         for enc in ENCS:
             res, _ = run(src, enc, 'ldchain', [spec(ld=L)])
@@ -88,7 +88,7 @@ def t_loadchain():
 # ---- 4. a multiply chain
 def t_mulchain():
     N = 8
-    src = prog('\tmovq\t#3, r1\n' + '\tmul\t#3, r1\n' * N)
+    src = prog('\tmovq\t$3, r1\n' + '\tmul\t$3, r1\n' * N)
     for M in (2, 3, 4, 8):
         for enc in ENCS:
             res, _ = run(src, enc, 'mulchain', [spec(mul=M)])
@@ -97,7 +97,7 @@ def t_mulchain():
 # ---- 5. a non-pipelined divider: four independent divides to different registers issue D apart; the exit does not wait for their results
 def t_div():
     N = 4
-    src = prog('\tmovq\t#100, r7\n\tmovq\t#7, r8\n' + ''.join('\tdiv\tr7, r8, r%d\n' % (9 + k) for k in range(N)))
+    src = prog('\tmovq\t$100, r7\n\tmovq\t$7, r8\n' + ''.join('\tdiv\tr7, r8, r%d\n' % (9 + k) for k in range(N)))
     for D in (6, 20, 35):
         for enc in ENCS:
             res, _ = run(src, enc, 'div', [spec(div=D)])
@@ -108,7 +108,7 @@ def t_div():
 #         is decoded at R+fl+ldec, issues dl later: the next add issues at s + tkb + fl + ldec + dl - dl + dl... worked out below
 def t_loop():
     N = 20
-    src = prog('\tmovq\t#%d, r1\n\tmovq\t#0, r2\n1:\tadd\t#1, r2\n\tsob\tr1, 1b\n' % N)
+    src = prog('\tmovq\t$%d, r1\n\tmovq\t$0, r2\n1:\tadd\t$1, r2\n\tsob\tr1, 1b\n' % N)
     for tkb, ldec, fl, dl in ((1, 0, 1, 1), (0, 0, 1, 1), (2, 0, 1, 1), (1, 1, 1, 1), (1, 0, 2, 1), (1, 0, 1, 2)):
         for enc in ENCS:
             res, _ = run(src, enc, 'loop', [spec(tkb=tkb, ldec=ldec, fl=fl, dl=dl)])
@@ -126,7 +126,7 @@ def t_loop():
 #         brlat + fl + ldec + dl cycles after the sob
 def t_mispredict():
     N = 20
-    src = prog('\tmovq\t#%d, r1\n\tmovq\t#0, r2\n1:\tadd\t#1, r2\n\tsob\tr1, 1b\n' % N)
+    src = prog('\tmovq\t$%d, r1\n\tmovq\t$0, r2\n1:\tadd\t$1, r2\n\tsob\tr1, 1b\n' % N)
     for brlat, mpx, ldec in ((1, 0, 0), (2, 0, 0), (1, 3, 0), (1, 0, 2), (3, 2, 1)):
         for enc in ENCS:
             res, _ = run(src, enc, 'misp', [spec(pred='none', brlat=brlat, mpx=mpx, ldec=ldec)])
@@ -142,7 +142,7 @@ def t_mispredict():
 #         Instruction i ends in window floor((end_i - 1)/W) of the stream, which arrives at (window index - first window index + 1)... computed from the real addresses of the profile
 def t_fetch():
     N = 30
-    body = ''.join('\tmovq\t#0x1234%04x, r%d\n' % (i, 1 + i % 8) for i in range(N))
+    body = ''.join('\tmovq\t$0x1234%04x, r%d\n' % (i, 1 + i % 8) for i in range(N))
     src = prog(body)
     for W in (2, 4, 8, 16):
         for enc in ENCS:
@@ -164,7 +164,7 @@ def t_fetch():
 #         Without the BTB (tkb=1) each iteration costs 1 + tkb + fl = 3 cycles ... (see 6); with the BTB, the next window request is made the cycle after the branch window's request
 def t_btb():
     N = 40
-    src = prog('\tmovq\t#%d, r1\n\tmovq\t#0, r2\n1:\tadd\t#1, r2\n\tsob\tr1, 1b\n' % N)
+    src = prog('\tmovq\t$%d, r1\n\tmovq\t$0, r2\n1:\tadd\t$1, r2\n\tsob\tr1, 1b\n' % N)
     for enc in ENCS:
         res, _ = run(src, enc, 'btb', [spec(iw=2, btb=64, W=16), spec(iw=2, btb=0, W=16, tkb=0)])
         # iw=2: the two movq issue at t0=2 together; the first (add, sob) pair at 3 (sob reads r1, ready at 3).  The first taken sob misses in the BTB (cold): redirect
@@ -181,7 +181,7 @@ def t_btb():
 #          mov2 r0,r1,r3,r2 (independent halves) 1 cycle.  movq r0 at 2, mov2 at 3, `add r2,r4` waits for r2: issue 3+2 = 5 (dependent) or 3+1 = 4; movq r0 and trap follow.
 def t_fused():
     for dep, ready in ((True, 2), (False, 1)):
-        src = prog('\tmovq\t#1, r0\n\tmov2\tr0, r1, %s, r2\n\tadd\tr2, r4\n' % ('r1' if dep else 'r3'))
+        src = prog('\tmovq\t$1, r0\n\tmov2\tr0, r1, %s, r2\n\tadd\tr2, r4\n' % ('r1' if dep else 'r3'))
         for enc in ENCS:
             res, _ = run(src, enc, 'fused', [spec()])
             check('fused', 'mov2 %s %s' % ('dependent' if dep else 'independent', enc[0]), res[0]['cycles'], 3 + ready + 3)

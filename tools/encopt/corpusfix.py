@@ -8,7 +8,7 @@ pc-relative operand).  Two groups of instructions take a word of their own as an
   mtsr SREG, rs     the numbers are those of spec/grammars.d
 
 The old reader took the word for a label, so `set eq,r0` had a label operand and no form fitted it: 342 instructions of the corpus counted as unencodable in every
-figure.  Here the word becomes its number as an immediate (`#2` for eq: the form SETF has the condition as a 4-bit unsigned field in the numbering of the
+figure.  Here the word becomes its number as an immediate (`$2` for eq: the form SETF has the condition as a 4-bit unsigned field in the numbering of the
 branches, which is the grammar's `cc` numbering) and the operand kind `imm`; the `cbCC` instructions carry the condition in the mnemonic and have no
 such operand, `cb` forms have a label as their last operand and no condition word.  No other mnemonic of the grammar has a word operand.
 
@@ -52,7 +52,7 @@ def _word(r, i, table):
     """operand i of the record r is a word of `table`: make it the number, as an immediate"""
     o = r['ops'][i]
     if r['k'][i] == 'pcrel' and o in table:
-        r['ops'][i] = '#%d' % table[o]; r['k'][i] = 'imm'
+        r['ops'][i] = '$%d' % table[o]; r['k'][i] = 'imm'
         r['lab'] = None; r['off'] = 0
         return True
     return False

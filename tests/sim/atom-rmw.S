@@ -17,30 +17,30 @@ _start:
 	swap	r2, (r3), r1
 	mov	=(0xfffffffffffffff0), r17
 	cbeq	r1, r17, 1f	; case 1: swap case 0: Rd is the old value
-	mov	#1, r0
+	mov	$1, r0
 	halt
 1:
 	mov	=(0x10), r17
 	cbeq	r2, r17, 1f	; case 1: swap case 0: Rs unchanged
-	mov	#1, r0
+	mov	$1, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0x10), r17
 	cbeq	r4, r17, 1f	; case 1: swap case 0: the word is the result
-	mov	#1, r0
+	mov	$1, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 1: swap case 0: the word below is untouched
-	mov	#1, r0
+	mov	$1, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 1: swap case 0: the word above is untouched
-	mov	#1, r0
+	mov	$1, r0
 	halt
 1:
 	; ---- case 2: swap case 1
@@ -55,30 +55,30 @@ _start:
 	swap	r2, (r3), r1
 	mov	=(0x7ffffff0), r17
 	cbeq	r1, r17, 1f	; case 2: swap case 1: Rd is the old value
-	mov	#2, r0
+	mov	$2, r0
 	halt
 1:
 	mov	=(0x8000000000000020), r17
 	cbeq	r2, r17, 1f	; case 2: swap case 1: Rs unchanged
-	mov	#2, r0
+	mov	$2, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0x8000000000000020), r17
 	cbeq	r4, r17, 1f	; case 2: swap case 1: the word is the result
-	mov	#2, r0
+	mov	$2, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 2: swap case 1: the word below is untouched
-	mov	#2, r0
+	mov	$2, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 2: swap case 1: the word above is untouched
-	mov	#2, r0
+	mov	$2, r0
 	halt
 1:
 	; ---- case 3: swap case 2
@@ -93,30 +93,30 @@ _start:
 	swap	r2, (r3), r1
 	mov	=(0x8000000000000000), r17
 	cbeq	r1, r17, 1f	; case 3: swap case 2: Rd is the old value
-	mov	#3, r0
+	mov	$3, r0
 	halt
 1:
 	mov	=(0xffffffffffffffff), r17
 	cbeq	r2, r17, 1f	; case 3: swap case 2: Rs unchanged
-	mov	#3, r0
+	mov	$3, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0xffffffffffffffff), r17
 	cbeq	r4, r17, 1f	; case 3: swap case 2: the word is the result
-	mov	#3, r0
+	mov	$3, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 3: swap case 2: the word below is untouched
-	mov	#3, r0
+	mov	$3, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 3: swap case 2: the word above is untouched
-	mov	#3, r0
+	mov	$3, r0
 	halt
 1:
 	; ---- case 4: swap case 3
@@ -131,30 +131,30 @@ _start:
 	swap	r2, (r3), r1
 	mov	=(0x123456789abcdef0), r17
 	cbeq	r1, r17, 1f	; case 4: swap case 3: Rd is the old value
-	mov	#4, r0
+	mov	$4, r0
 	halt
 1:
 	mov	=(0xf0f0f0f0f0f0f0f), r17
 	cbeq	r2, r17, 1f	; case 4: swap case 3: Rs unchanged
-	mov	#4, r0
+	mov	$4, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0xf0f0f0f0f0f0f0f), r17
 	cbeq	r4, r17, 1f	; case 4: swap case 3: the word is the result
-	mov	#4, r0
+	mov	$4, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 4: swap case 3: the word below is untouched
-	mov	#4, r0
+	mov	$4, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 4: swap case 3: the word above is untouched
-	mov	#4, r0
+	mov	$4, r0
 	halt
 1:
 	; ---- case 5: aadd case 0
@@ -169,30 +169,30 @@ _start:
 	aadd	r2, (r3), r1
 	mov	=(0xfffffffffffffff0), r17
 	cbeq	r1, r17, 1f	; case 5: aadd case 0: Rd is the old value
-	mov	#5, r0
+	mov	$5, r0
 	halt
 1:
 	mov	=(0x10), r17
 	cbeq	r2, r17, 1f	; case 5: aadd case 0: Rs unchanged
-	mov	#5, r0
+	mov	$5, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0x0), r17
 	cbeq	r4, r17, 1f	; case 5: aadd case 0: the word is the result
-	mov	#5, r0
+	mov	$5, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 5: aadd case 0: the word below is untouched
-	mov	#5, r0
+	mov	$5, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 5: aadd case 0: the word above is untouched
-	mov	#5, r0
+	mov	$5, r0
 	halt
 1:
 	; ---- case 6: aadd case 1
@@ -207,30 +207,30 @@ _start:
 	aadd	r2, (r3), r1
 	mov	=(0x7ffffff0), r17
 	cbeq	r1, r17, 1f	; case 6: aadd case 1: Rd is the old value
-	mov	#6, r0
+	mov	$6, r0
 	halt
 1:
 	mov	=(0x8000000000000020), r17
 	cbeq	r2, r17, 1f	; case 6: aadd case 1: Rs unchanged
-	mov	#6, r0
+	mov	$6, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0x8000000080000010), r17
 	cbeq	r4, r17, 1f	; case 6: aadd case 1: the word is the result
-	mov	#6, r0
+	mov	$6, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 6: aadd case 1: the word below is untouched
-	mov	#6, r0
+	mov	$6, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 6: aadd case 1: the word above is untouched
-	mov	#6, r0
+	mov	$6, r0
 	halt
 1:
 	; ---- case 7: aadd case 2
@@ -245,30 +245,30 @@ _start:
 	aadd	r2, (r3), r1
 	mov	=(0x8000000000000000), r17
 	cbeq	r1, r17, 1f	; case 7: aadd case 2: Rd is the old value
-	mov	#7, r0
+	mov	$7, r0
 	halt
 1:
 	mov	=(0xffffffffffffffff), r17
 	cbeq	r2, r17, 1f	; case 7: aadd case 2: Rs unchanged
-	mov	#7, r0
+	mov	$7, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0x7fffffffffffffff), r17
 	cbeq	r4, r17, 1f	; case 7: aadd case 2: the word is the result
-	mov	#7, r0
+	mov	$7, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 7: aadd case 2: the word below is untouched
-	mov	#7, r0
+	mov	$7, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 7: aadd case 2: the word above is untouched
-	mov	#7, r0
+	mov	$7, r0
 	halt
 1:
 	; ---- case 8: aadd case 3
@@ -283,30 +283,30 @@ _start:
 	aadd	r2, (r3), r1
 	mov	=(0x123456789abcdef0), r17
 	cbeq	r1, r17, 1f	; case 8: aadd case 3: Rd is the old value
-	mov	#8, r0
+	mov	$8, r0
 	halt
 1:
 	mov	=(0xf0f0f0f0f0f0f0f), r17
 	cbeq	r2, r17, 1f	; case 8: aadd case 3: Rs unchanged
-	mov	#8, r0
+	mov	$8, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0x21436587a9cbedff), r17
 	cbeq	r4, r17, 1f	; case 8: aadd case 3: the word is the result
-	mov	#8, r0
+	mov	$8, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 8: aadd case 3: the word below is untouched
-	mov	#8, r0
+	mov	$8, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 8: aadd case 3: the word above is untouched
-	mov	#8, r0
+	mov	$8, r0
 	halt
 1:
 	; ---- case 9: aand case 0
@@ -321,30 +321,30 @@ _start:
 	aand	r2, (r3), r1
 	mov	=(0xfffffffffffffff0), r17
 	cbeq	r1, r17, 1f	; case 9: aand case 0: Rd is the old value
-	mov	#9, r0
+	mov	$9, r0
 	halt
 1:
 	mov	=(0x10), r17
 	cbeq	r2, r17, 1f	; case 9: aand case 0: Rs unchanged
-	mov	#9, r0
+	mov	$9, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0x10), r17
 	cbeq	r4, r17, 1f	; case 9: aand case 0: the word is the result
-	mov	#9, r0
+	mov	$9, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 9: aand case 0: the word below is untouched
-	mov	#9, r0
+	mov	$9, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 9: aand case 0: the word above is untouched
-	mov	#9, r0
+	mov	$9, r0
 	halt
 1:
 	; ---- case 10: aand case 1
@@ -359,30 +359,30 @@ _start:
 	aand	r2, (r3), r1
 	mov	=(0x7ffffff0), r17
 	cbeq	r1, r17, 1f	; case 10: aand case 1: Rd is the old value
-	mov	#10, r0
+	mov	$10, r0
 	halt
 1:
 	mov	=(0x8000000000000020), r17
 	cbeq	r2, r17, 1f	; case 10: aand case 1: Rs unchanged
-	mov	#10, r0
+	mov	$10, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0x20), r17
 	cbeq	r4, r17, 1f	; case 10: aand case 1: the word is the result
-	mov	#10, r0
+	mov	$10, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 10: aand case 1: the word below is untouched
-	mov	#10, r0
+	mov	$10, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 10: aand case 1: the word above is untouched
-	mov	#10, r0
+	mov	$10, r0
 	halt
 1:
 	; ---- case 11: aand case 2
@@ -397,30 +397,30 @@ _start:
 	aand	r2, (r3), r1
 	mov	=(0x8000000000000000), r17
 	cbeq	r1, r17, 1f	; case 11: aand case 2: Rd is the old value
-	mov	#11, r0
+	mov	$11, r0
 	halt
 1:
 	mov	=(0xffffffffffffffff), r17
 	cbeq	r2, r17, 1f	; case 11: aand case 2: Rs unchanged
-	mov	#11, r0
+	mov	$11, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0x8000000000000000), r17
 	cbeq	r4, r17, 1f	; case 11: aand case 2: the word is the result
-	mov	#11, r0
+	mov	$11, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 11: aand case 2: the word below is untouched
-	mov	#11, r0
+	mov	$11, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 11: aand case 2: the word above is untouched
-	mov	#11, r0
+	mov	$11, r0
 	halt
 1:
 	; ---- case 12: aand case 3
@@ -435,30 +435,30 @@ _start:
 	aand	r2, (r3), r1
 	mov	=(0x123456789abcdef0), r17
 	cbeq	r1, r17, 1f	; case 12: aand case 3: Rd is the old value
-	mov	#12, r0
+	mov	$12, r0
 	halt
 1:
 	mov	=(0xf0f0f0f0f0f0f0f), r17
 	cbeq	r2, r17, 1f	; case 12: aand case 3: Rs unchanged
-	mov	#12, r0
+	mov	$12, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0x20406080a0c0e00), r17
 	cbeq	r4, r17, 1f	; case 12: aand case 3: the word is the result
-	mov	#12, r0
+	mov	$12, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 12: aand case 3: the word below is untouched
-	mov	#12, r0
+	mov	$12, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 12: aand case 3: the word above is untouched
-	mov	#12, r0
+	mov	$12, r0
 	halt
 1:
 	; ---- case 13: abis case 0
@@ -473,30 +473,30 @@ _start:
 	abis	r2, (r3), r1
 	mov	=(0xfffffffffffffff0), r17
 	cbeq	r1, r17, 1f	; case 13: abis case 0: Rd is the old value
-	mov	#13, r0
+	mov	$13, r0
 	halt
 1:
 	mov	=(0x10), r17
 	cbeq	r2, r17, 1f	; case 13: abis case 0: Rs unchanged
-	mov	#13, r0
+	mov	$13, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0xfffffffffffffff0), r17
 	cbeq	r4, r17, 1f	; case 13: abis case 0: the word is the result
-	mov	#13, r0
+	mov	$13, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 13: abis case 0: the word below is untouched
-	mov	#13, r0
+	mov	$13, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 13: abis case 0: the word above is untouched
-	mov	#13, r0
+	mov	$13, r0
 	halt
 1:
 	; ---- case 14: abis case 1
@@ -511,30 +511,30 @@ _start:
 	abis	r2, (r3), r1
 	mov	=(0x7ffffff0), r17
 	cbeq	r1, r17, 1f	; case 14: abis case 1: Rd is the old value
-	mov	#14, r0
+	mov	$14, r0
 	halt
 1:
 	mov	=(0x8000000000000020), r17
 	cbeq	r2, r17, 1f	; case 14: abis case 1: Rs unchanged
-	mov	#14, r0
+	mov	$14, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0x800000007ffffff0), r17
 	cbeq	r4, r17, 1f	; case 14: abis case 1: the word is the result
-	mov	#14, r0
+	mov	$14, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 14: abis case 1: the word below is untouched
-	mov	#14, r0
+	mov	$14, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 14: abis case 1: the word above is untouched
-	mov	#14, r0
+	mov	$14, r0
 	halt
 1:
 	; ---- case 15: abis case 2
@@ -549,30 +549,30 @@ _start:
 	abis	r2, (r3), r1
 	mov	=(0x8000000000000000), r17
 	cbeq	r1, r17, 1f	; case 15: abis case 2: Rd is the old value
-	mov	#15, r0
+	mov	$15, r0
 	halt
 1:
 	mov	=(0xffffffffffffffff), r17
 	cbeq	r2, r17, 1f	; case 15: abis case 2: Rs unchanged
-	mov	#15, r0
+	mov	$15, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0xffffffffffffffff), r17
 	cbeq	r4, r17, 1f	; case 15: abis case 2: the word is the result
-	mov	#15, r0
+	mov	$15, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 15: abis case 2: the word below is untouched
-	mov	#15, r0
+	mov	$15, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 15: abis case 2: the word above is untouched
-	mov	#15, r0
+	mov	$15, r0
 	halt
 1:
 	; ---- case 16: abis case 3
@@ -587,30 +587,30 @@ _start:
 	abis	r2, (r3), r1
 	mov	=(0x123456789abcdef0), r17
 	cbeq	r1, r17, 1f	; case 16: abis case 3: Rd is the old value
-	mov	#16, r0
+	mov	$16, r0
 	halt
 1:
 	mov	=(0xf0f0f0f0f0f0f0f), r17
 	cbeq	r2, r17, 1f	; case 16: abis case 3: Rs unchanged
-	mov	#16, r0
+	mov	$16, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0x1f3f5f7f9fbfdfff), r17
 	cbeq	r4, r17, 1f	; case 16: abis case 3: the word is the result
-	mov	#16, r0
+	mov	$16, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 16: abis case 3: the word below is untouched
-	mov	#16, r0
+	mov	$16, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 16: abis case 3: the word above is untouched
-	mov	#16, r0
+	mov	$16, r0
 	halt
 1:
 	; ---- case 17: axor case 0
@@ -625,30 +625,30 @@ _start:
 	axor	r2, (r3), r1
 	mov	=(0xfffffffffffffff0), r17
 	cbeq	r1, r17, 1f	; case 17: axor case 0: Rd is the old value
-	mov	#17, r0
+	mov	$17, r0
 	halt
 1:
 	mov	=(0x10), r17
 	cbeq	r2, r17, 1f	; case 17: axor case 0: Rs unchanged
-	mov	#17, r0
+	mov	$17, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0xffffffffffffffe0), r17
 	cbeq	r4, r17, 1f	; case 17: axor case 0: the word is the result
-	mov	#17, r0
+	mov	$17, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 17: axor case 0: the word below is untouched
-	mov	#17, r0
+	mov	$17, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 17: axor case 0: the word above is untouched
-	mov	#17, r0
+	mov	$17, r0
 	halt
 1:
 	; ---- case 18: axor case 1
@@ -663,30 +663,30 @@ _start:
 	axor	r2, (r3), r1
 	mov	=(0x7ffffff0), r17
 	cbeq	r1, r17, 1f	; case 18: axor case 1: Rd is the old value
-	mov	#18, r0
+	mov	$18, r0
 	halt
 1:
 	mov	=(0x8000000000000020), r17
 	cbeq	r2, r17, 1f	; case 18: axor case 1: Rs unchanged
-	mov	#18, r0
+	mov	$18, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0x800000007fffffd0), r17
 	cbeq	r4, r17, 1f	; case 18: axor case 1: the word is the result
-	mov	#18, r0
+	mov	$18, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 18: axor case 1: the word below is untouched
-	mov	#18, r0
+	mov	$18, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 18: axor case 1: the word above is untouched
-	mov	#18, r0
+	mov	$18, r0
 	halt
 1:
 	; ---- case 19: axor case 2
@@ -701,30 +701,30 @@ _start:
 	axor	r2, (r3), r1
 	mov	=(0x8000000000000000), r17
 	cbeq	r1, r17, 1f	; case 19: axor case 2: Rd is the old value
-	mov	#19, r0
+	mov	$19, r0
 	halt
 1:
 	mov	=(0xffffffffffffffff), r17
 	cbeq	r2, r17, 1f	; case 19: axor case 2: Rs unchanged
-	mov	#19, r0
+	mov	$19, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0x7fffffffffffffff), r17
 	cbeq	r4, r17, 1f	; case 19: axor case 2: the word is the result
-	mov	#19, r0
+	mov	$19, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 19: axor case 2: the word below is untouched
-	mov	#19, r0
+	mov	$19, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 19: axor case 2: the word above is untouched
-	mov	#19, r0
+	mov	$19, r0
 	halt
 1:
 	; ---- case 20: axor case 3
@@ -739,30 +739,30 @@ _start:
 	axor	r2, (r3), r1
 	mov	=(0x123456789abcdef0), r17
 	cbeq	r1, r17, 1f	; case 20: axor case 3: Rd is the old value
-	mov	#20, r0
+	mov	$20, r0
 	halt
 1:
 	mov	=(0xf0f0f0f0f0f0f0f), r17
 	cbeq	r2, r17, 1f	; case 20: axor case 3: Rs unchanged
-	mov	#20, r0
+	mov	$20, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0x1d3b597795b3d1ff), r17
 	cbeq	r4, r17, 1f	; case 20: axor case 3: the word is the result
-	mov	#20, r0
+	mov	$20, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 20: axor case 3: the word below is untouched
-	mov	#20, r0
+	mov	$20, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 20: axor case 3: the word above is untouched
-	mov	#20, r0
+	mov	$20, r0
 	halt
 1:
 	; ---- case 21: amax case 0
@@ -777,30 +777,30 @@ _start:
 	amax	r2, (r3), r1
 	mov	=(0xfffffffffffffff0), r17
 	cbeq	r1, r17, 1f	; case 21: amax case 0: Rd is the old value
-	mov	#21, r0
+	mov	$21, r0
 	halt
 1:
 	mov	=(0x10), r17
 	cbeq	r2, r17, 1f	; case 21: amax case 0: Rs unchanged
-	mov	#21, r0
+	mov	$21, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0x10), r17
 	cbeq	r4, r17, 1f	; case 21: amax case 0: the word is the result
-	mov	#21, r0
+	mov	$21, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 21: amax case 0: the word below is untouched
-	mov	#21, r0
+	mov	$21, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 21: amax case 0: the word above is untouched
-	mov	#21, r0
+	mov	$21, r0
 	halt
 1:
 	; ---- case 22: amax case 1
@@ -815,30 +815,30 @@ _start:
 	amax	r2, (r3), r1
 	mov	=(0x7ffffff0), r17
 	cbeq	r1, r17, 1f	; case 22: amax case 1: Rd is the old value
-	mov	#22, r0
+	mov	$22, r0
 	halt
 1:
 	mov	=(0x8000000000000020), r17
 	cbeq	r2, r17, 1f	; case 22: amax case 1: Rs unchanged
-	mov	#22, r0
+	mov	$22, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0x7ffffff0), r17
 	cbeq	r4, r17, 1f	; case 22: amax case 1: the word is the result
-	mov	#22, r0
+	mov	$22, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 22: amax case 1: the word below is untouched
-	mov	#22, r0
+	mov	$22, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 22: amax case 1: the word above is untouched
-	mov	#22, r0
+	mov	$22, r0
 	halt
 1:
 	; ---- case 23: amax case 2
@@ -853,30 +853,30 @@ _start:
 	amax	r2, (r3), r1
 	mov	=(0x8000000000000000), r17
 	cbeq	r1, r17, 1f	; case 23: amax case 2: Rd is the old value
-	mov	#23, r0
+	mov	$23, r0
 	halt
 1:
 	mov	=(0xffffffffffffffff), r17
 	cbeq	r2, r17, 1f	; case 23: amax case 2: Rs unchanged
-	mov	#23, r0
+	mov	$23, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0xffffffffffffffff), r17
 	cbeq	r4, r17, 1f	; case 23: amax case 2: the word is the result
-	mov	#23, r0
+	mov	$23, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 23: amax case 2: the word below is untouched
-	mov	#23, r0
+	mov	$23, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 23: amax case 2: the word above is untouched
-	mov	#23, r0
+	mov	$23, r0
 	halt
 1:
 	; ---- case 24: amax case 3
@@ -891,30 +891,30 @@ _start:
 	amax	r2, (r3), r1
 	mov	=(0x123456789abcdef0), r17
 	cbeq	r1, r17, 1f	; case 24: amax case 3: Rd is the old value
-	mov	#24, r0
+	mov	$24, r0
 	halt
 1:
 	mov	=(0xf0f0f0f0f0f0f0f), r17
 	cbeq	r2, r17, 1f	; case 24: amax case 3: Rs unchanged
-	mov	#24, r0
+	mov	$24, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0x123456789abcdef0), r17
 	cbeq	r4, r17, 1f	; case 24: amax case 3: the word is the result
-	mov	#24, r0
+	mov	$24, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 24: amax case 3: the word below is untouched
-	mov	#24, r0
+	mov	$24, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 24: amax case 3: the word above is untouched
-	mov	#24, r0
+	mov	$24, r0
 	halt
 1:
 	; ---- case 25: amin case 0
@@ -929,30 +929,30 @@ _start:
 	amin	r2, (r3), r1
 	mov	=(0xfffffffffffffff0), r17
 	cbeq	r1, r17, 1f	; case 25: amin case 0: Rd is the old value
-	mov	#25, r0
+	mov	$25, r0
 	halt
 1:
 	mov	=(0x10), r17
 	cbeq	r2, r17, 1f	; case 25: amin case 0: Rs unchanged
-	mov	#25, r0
+	mov	$25, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0xfffffffffffffff0), r17
 	cbeq	r4, r17, 1f	; case 25: amin case 0: the word is the result
-	mov	#25, r0
+	mov	$25, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 25: amin case 0: the word below is untouched
-	mov	#25, r0
+	mov	$25, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 25: amin case 0: the word above is untouched
-	mov	#25, r0
+	mov	$25, r0
 	halt
 1:
 	; ---- case 26: amin case 1
@@ -967,30 +967,30 @@ _start:
 	amin	r2, (r3), r1
 	mov	=(0x7ffffff0), r17
 	cbeq	r1, r17, 1f	; case 26: amin case 1: Rd is the old value
-	mov	#26, r0
+	mov	$26, r0
 	halt
 1:
 	mov	=(0x8000000000000020), r17
 	cbeq	r2, r17, 1f	; case 26: amin case 1: Rs unchanged
-	mov	#26, r0
+	mov	$26, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0x8000000000000020), r17
 	cbeq	r4, r17, 1f	; case 26: amin case 1: the word is the result
-	mov	#26, r0
+	mov	$26, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 26: amin case 1: the word below is untouched
-	mov	#26, r0
+	mov	$26, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 26: amin case 1: the word above is untouched
-	mov	#26, r0
+	mov	$26, r0
 	halt
 1:
 	; ---- case 27: amin case 2
@@ -1005,30 +1005,30 @@ _start:
 	amin	r2, (r3), r1
 	mov	=(0x8000000000000000), r17
 	cbeq	r1, r17, 1f	; case 27: amin case 2: Rd is the old value
-	mov	#27, r0
+	mov	$27, r0
 	halt
 1:
 	mov	=(0xffffffffffffffff), r17
 	cbeq	r2, r17, 1f	; case 27: amin case 2: Rs unchanged
-	mov	#27, r0
+	mov	$27, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0x8000000000000000), r17
 	cbeq	r4, r17, 1f	; case 27: amin case 2: the word is the result
-	mov	#27, r0
+	mov	$27, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 27: amin case 2: the word below is untouched
-	mov	#27, r0
+	mov	$27, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 27: amin case 2: the word above is untouched
-	mov	#27, r0
+	mov	$27, r0
 	halt
 1:
 	; ---- case 28: amin case 3
@@ -1043,30 +1043,30 @@ _start:
 	amin	r2, (r3), r1
 	mov	=(0x123456789abcdef0), r17
 	cbeq	r1, r17, 1f	; case 28: amin case 3: Rd is the old value
-	mov	#28, r0
+	mov	$28, r0
 	halt
 1:
 	mov	=(0xf0f0f0f0f0f0f0f), r17
 	cbeq	r2, r17, 1f	; case 28: amin case 3: Rs unchanged
-	mov	#28, r0
+	mov	$28, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0xf0f0f0f0f0f0f0f), r17
 	cbeq	r4, r17, 1f	; case 28: amin case 3: the word is the result
-	mov	#28, r0
+	mov	$28, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 28: amin case 3: the word below is untouched
-	mov	#28, r0
+	mov	$28, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 28: amin case 3: the word above is untouched
-	mov	#28, r0
+	mov	$28, r0
 	halt
 1:
 	; ---- case 29: amax.u64 case 0
@@ -1081,30 +1081,30 @@ _start:
 	amax.u64	r2, (r3), r1
 	mov	=(0xfffffffffffffff0), r17
 	cbeq	r1, r17, 1f	; case 29: amax.u64 case 0: Rd is the old value
-	mov	#29, r0
+	mov	$29, r0
 	halt
 1:
 	mov	=(0x10), r17
 	cbeq	r2, r17, 1f	; case 29: amax.u64 case 0: Rs unchanged
-	mov	#29, r0
+	mov	$29, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0xfffffffffffffff0), r17
 	cbeq	r4, r17, 1f	; case 29: amax.u64 case 0: the word is the result
-	mov	#29, r0
+	mov	$29, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 29: amax.u64 case 0: the word below is untouched
-	mov	#29, r0
+	mov	$29, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 29: amax.u64 case 0: the word above is untouched
-	mov	#29, r0
+	mov	$29, r0
 	halt
 1:
 	; ---- case 30: amax.u64 case 1
@@ -1119,30 +1119,30 @@ _start:
 	amax.u64	r2, (r3), r1
 	mov	=(0x7ffffff0), r17
 	cbeq	r1, r17, 1f	; case 30: amax.u64 case 1: Rd is the old value
-	mov	#30, r0
+	mov	$30, r0
 	halt
 1:
 	mov	=(0x8000000000000020), r17
 	cbeq	r2, r17, 1f	; case 30: amax.u64 case 1: Rs unchanged
-	mov	#30, r0
+	mov	$30, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0x8000000000000020), r17
 	cbeq	r4, r17, 1f	; case 30: amax.u64 case 1: the word is the result
-	mov	#30, r0
+	mov	$30, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 30: amax.u64 case 1: the word below is untouched
-	mov	#30, r0
+	mov	$30, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 30: amax.u64 case 1: the word above is untouched
-	mov	#30, r0
+	mov	$30, r0
 	halt
 1:
 	; ---- case 31: amax.u64 case 2
@@ -1157,30 +1157,30 @@ _start:
 	amax.u64	r2, (r3), r1
 	mov	=(0x8000000000000000), r17
 	cbeq	r1, r17, 1f	; case 31: amax.u64 case 2: Rd is the old value
-	mov	#31, r0
+	mov	$31, r0
 	halt
 1:
 	mov	=(0xffffffffffffffff), r17
 	cbeq	r2, r17, 1f	; case 31: amax.u64 case 2: Rs unchanged
-	mov	#31, r0
+	mov	$31, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0xffffffffffffffff), r17
 	cbeq	r4, r17, 1f	; case 31: amax.u64 case 2: the word is the result
-	mov	#31, r0
+	mov	$31, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 31: amax.u64 case 2: the word below is untouched
-	mov	#31, r0
+	mov	$31, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 31: amax.u64 case 2: the word above is untouched
-	mov	#31, r0
+	mov	$31, r0
 	halt
 1:
 	; ---- case 32: amax.u64 case 3
@@ -1195,30 +1195,30 @@ _start:
 	amax.u64	r2, (r3), r1
 	mov	=(0x123456789abcdef0), r17
 	cbeq	r1, r17, 1f	; case 32: amax.u64 case 3: Rd is the old value
-	mov	#32, r0
+	mov	$32, r0
 	halt
 1:
 	mov	=(0xf0f0f0f0f0f0f0f), r17
 	cbeq	r2, r17, 1f	; case 32: amax.u64 case 3: Rs unchanged
-	mov	#32, r0
+	mov	$32, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0x123456789abcdef0), r17
 	cbeq	r4, r17, 1f	; case 32: amax.u64 case 3: the word is the result
-	mov	#32, r0
+	mov	$32, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 32: amax.u64 case 3: the word below is untouched
-	mov	#32, r0
+	mov	$32, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 32: amax.u64 case 3: the word above is untouched
-	mov	#32, r0
+	mov	$32, r0
 	halt
 1:
 	; ---- case 33: amin.u64 case 0
@@ -1233,30 +1233,30 @@ _start:
 	amin.u64	r2, (r3), r1
 	mov	=(0xfffffffffffffff0), r17
 	cbeq	r1, r17, 1f	; case 33: amin.u64 case 0: Rd is the old value
-	mov	#33, r0
+	mov	$33, r0
 	halt
 1:
 	mov	=(0x10), r17
 	cbeq	r2, r17, 1f	; case 33: amin.u64 case 0: Rs unchanged
-	mov	#33, r0
+	mov	$33, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0x10), r17
 	cbeq	r4, r17, 1f	; case 33: amin.u64 case 0: the word is the result
-	mov	#33, r0
+	mov	$33, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 33: amin.u64 case 0: the word below is untouched
-	mov	#33, r0
+	mov	$33, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 33: amin.u64 case 0: the word above is untouched
-	mov	#33, r0
+	mov	$33, r0
 	halt
 1:
 	; ---- case 34: amin.u64 case 1
@@ -1271,30 +1271,30 @@ _start:
 	amin.u64	r2, (r3), r1
 	mov	=(0x7ffffff0), r17
 	cbeq	r1, r17, 1f	; case 34: amin.u64 case 1: Rd is the old value
-	mov	#34, r0
+	mov	$34, r0
 	halt
 1:
 	mov	=(0x8000000000000020), r17
 	cbeq	r2, r17, 1f	; case 34: amin.u64 case 1: Rs unchanged
-	mov	#34, r0
+	mov	$34, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0x7ffffff0), r17
 	cbeq	r4, r17, 1f	; case 34: amin.u64 case 1: the word is the result
-	mov	#34, r0
+	mov	$34, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 34: amin.u64 case 1: the word below is untouched
-	mov	#34, r0
+	mov	$34, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 34: amin.u64 case 1: the word above is untouched
-	mov	#34, r0
+	mov	$34, r0
 	halt
 1:
 	; ---- case 35: amin.u64 case 2
@@ -1309,30 +1309,30 @@ _start:
 	amin.u64	r2, (r3), r1
 	mov	=(0x8000000000000000), r17
 	cbeq	r1, r17, 1f	; case 35: amin.u64 case 2: Rd is the old value
-	mov	#35, r0
+	mov	$35, r0
 	halt
 1:
 	mov	=(0xffffffffffffffff), r17
 	cbeq	r2, r17, 1f	; case 35: amin.u64 case 2: Rs unchanged
-	mov	#35, r0
+	mov	$35, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0x8000000000000000), r17
 	cbeq	r4, r17, 1f	; case 35: amin.u64 case 2: the word is the result
-	mov	#35, r0
+	mov	$35, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 35: amin.u64 case 2: the word below is untouched
-	mov	#35, r0
+	mov	$35, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 35: amin.u64 case 2: the word above is untouched
-	mov	#35, r0
+	mov	$35, r0
 	halt
 1:
 	; ---- case 36: amin.u64 case 3
@@ -1347,30 +1347,30 @@ _start:
 	amin.u64	r2, (r3), r1
 	mov	=(0x123456789abcdef0), r17
 	cbeq	r1, r17, 1f	; case 36: amin.u64 case 3: Rd is the old value
-	mov	#36, r0
+	mov	$36, r0
 	halt
 1:
 	mov	=(0xf0f0f0f0f0f0f0f), r17
 	cbeq	r2, r17, 1f	; case 36: amin.u64 case 3: Rs unchanged
-	mov	#36, r0
+	mov	$36, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0xf0f0f0f0f0f0f0f), r17
 	cbeq	r4, r17, 1f	; case 36: amin.u64 case 3: the word is the result
-	mov	#36, r0
+	mov	$36, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 36: amin.u64 case 3: the word below is untouched
-	mov	#36, r0
+	mov	$36, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 36: amin.u64 case 3: the word above is untouched
-	mov	#36, r0
+	mov	$36, r0
 	halt
 1:
 	; ---- case 37: swap.s32 case 0
@@ -1385,30 +1385,30 @@ _start:
 	swap.s32	r2, (r3), r1
 	mov	=(0xffffffff80000010), r17
 	cbeq	r1, r17, 1f	; case 37: swap.s32 case 0: Rd is the old value sign-extended
-	mov	#37, r0
+	mov	$37, r0
 	halt
 1:
 	mov	=(0xdeadbeef00000010), r17
 	cbeq	r2, r17, 1f	; case 37: swap.s32 case 0: Rs unchanged
-	mov	#37, r0
+	mov	$37, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0xc3c3c3c300000010), r17
 	cbeq	r4, r17, 1f	; case 37: swap.s32 case 0: the word is the result; the neighbour half is untouched
-	mov	#37, r0
+	mov	$37, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 37: swap.s32 case 0: the word below is untouched
-	mov	#37, r0
+	mov	$37, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 37: swap.s32 case 0: the word above is untouched
-	mov	#37, r0
+	mov	$37, r0
 	halt
 1:
 	; ---- case 38: swap.s32 case 1
@@ -1423,30 +1423,30 @@ _start:
 	swap.s32	r2, (r3), r1
 	mov	=(0x7ffffff0), r17
 	cbeq	r1, r17, 1f	; case 38: swap.s32 case 1: Rd is the old value sign-extended
-	mov	#38, r0
+	mov	$38, r0
 	halt
 1:
 	mov	=(0x1234567800000020), r17
 	cbeq	r2, r17, 1f	; case 38: swap.s32 case 1: Rs unchanged
-	mov	#38, r0
+	mov	$38, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0xc3c3c3c300000020), r17
 	cbeq	r4, r17, 1f	; case 38: swap.s32 case 1: the word is the result; the neighbour half is untouched
-	mov	#38, r0
+	mov	$38, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 38: swap.s32 case 1: the word below is untouched
-	mov	#38, r0
+	mov	$38, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 38: swap.s32 case 1: the word above is untouched
-	mov	#38, r0
+	mov	$38, r0
 	halt
 1:
 	; ---- case 39: swap.s32 case 2
@@ -1461,30 +1461,30 @@ _start:
 	swap.s32	r2, (r3), r1
 	mov	=(0xffffffff80000000), r17
 	cbeq	r1, r17, 1f	; case 39: swap.s32 case 2: Rd is the old value sign-extended
-	mov	#39, r0
+	mov	$39, r0
 	halt
 1:
 	mov	=(0xffffffffffffffff), r17
 	cbeq	r2, r17, 1f	; case 39: swap.s32 case 2: Rs unchanged
-	mov	#39, r0
+	mov	$39, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0xc3c3c3c3ffffffff), r17
 	cbeq	r4, r17, 1f	; case 39: swap.s32 case 2: the word is the result; the neighbour half is untouched
-	mov	#39, r0
+	mov	$39, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 39: swap.s32 case 2: the word below is untouched
-	mov	#39, r0
+	mov	$39, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 39: swap.s32 case 2: the word above is untouched
-	mov	#39, r0
+	mov	$39, r0
 	halt
 1:
 	; ---- case 40: swap.s32 case 3
@@ -1499,30 +1499,30 @@ _start:
 	swap.s32	r2, (r3), r1
 	mov	=(0xffffffff89abcdef), r17
 	cbeq	r1, r17, 1f	; case 40: swap.s32 case 3: Rd is the old value sign-extended
-	mov	#40, r0
+	mov	$40, r0
 	halt
 1:
 	mov	=(0xf0f0f0f), r17
 	cbeq	r2, r17, 1f	; case 40: swap.s32 case 3: Rs unchanged
-	mov	#40, r0
+	mov	$40, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0xc3c3c3c30f0f0f0f), r17
 	cbeq	r4, r17, 1f	; case 40: swap.s32 case 3: the word is the result; the neighbour half is untouched
-	mov	#40, r0
+	mov	$40, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 40: swap.s32 case 3: the word below is untouched
-	mov	#40, r0
+	mov	$40, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 40: swap.s32 case 3: the word above is untouched
-	mov	#40, r0
+	mov	$40, r0
 	halt
 1:
 	; ---- case 41: aadd.s32 case 0
@@ -1537,30 +1537,30 @@ _start:
 	aadd.s32	r2, (r3), r1
 	mov	=(0xffffffff80000010), r17
 	cbeq	r1, r17, 1f	; case 41: aadd.s32 case 0: Rd is the old value sign-extended
-	mov	#41, r0
+	mov	$41, r0
 	halt
 1:
 	mov	=(0xdeadbeef00000010), r17
 	cbeq	r2, r17, 1f	; case 41: aadd.s32 case 0: Rs unchanged
-	mov	#41, r0
+	mov	$41, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0xc3c3c3c380000020), r17
 	cbeq	r4, r17, 1f	; case 41: aadd.s32 case 0: the word is the result; the neighbour half is untouched
-	mov	#41, r0
+	mov	$41, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 41: aadd.s32 case 0: the word below is untouched
-	mov	#41, r0
+	mov	$41, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 41: aadd.s32 case 0: the word above is untouched
-	mov	#41, r0
+	mov	$41, r0
 	halt
 1:
 	; ---- case 42: aadd.s32 case 1
@@ -1575,30 +1575,30 @@ _start:
 	aadd.s32	r2, (r3), r1
 	mov	=(0x7ffffff0), r17
 	cbeq	r1, r17, 1f	; case 42: aadd.s32 case 1: Rd is the old value sign-extended
-	mov	#42, r0
+	mov	$42, r0
 	halt
 1:
 	mov	=(0x1234567800000020), r17
 	cbeq	r2, r17, 1f	; case 42: aadd.s32 case 1: Rs unchanged
-	mov	#42, r0
+	mov	$42, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0xc3c3c3c380000010), r17
 	cbeq	r4, r17, 1f	; case 42: aadd.s32 case 1: the word is the result; the neighbour half is untouched
-	mov	#42, r0
+	mov	$42, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 42: aadd.s32 case 1: the word below is untouched
-	mov	#42, r0
+	mov	$42, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 42: aadd.s32 case 1: the word above is untouched
-	mov	#42, r0
+	mov	$42, r0
 	halt
 1:
 	; ---- case 43: aadd.s32 case 2
@@ -1613,30 +1613,30 @@ _start:
 	aadd.s32	r2, (r3), r1
 	mov	=(0xffffffff80000000), r17
 	cbeq	r1, r17, 1f	; case 43: aadd.s32 case 2: Rd is the old value sign-extended
-	mov	#43, r0
+	mov	$43, r0
 	halt
 1:
 	mov	=(0xffffffffffffffff), r17
 	cbeq	r2, r17, 1f	; case 43: aadd.s32 case 2: Rs unchanged
-	mov	#43, r0
+	mov	$43, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0xc3c3c3c37fffffff), r17
 	cbeq	r4, r17, 1f	; case 43: aadd.s32 case 2: the word is the result; the neighbour half is untouched
-	mov	#43, r0
+	mov	$43, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 43: aadd.s32 case 2: the word below is untouched
-	mov	#43, r0
+	mov	$43, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 43: aadd.s32 case 2: the word above is untouched
-	mov	#43, r0
+	mov	$43, r0
 	halt
 1:
 	; ---- case 44: aadd.s32 case 3
@@ -1651,30 +1651,30 @@ _start:
 	aadd.s32	r2, (r3), r1
 	mov	=(0xffffffff89abcdef), r17
 	cbeq	r1, r17, 1f	; case 44: aadd.s32 case 3: Rd is the old value sign-extended
-	mov	#44, r0
+	mov	$44, r0
 	halt
 1:
 	mov	=(0xf0f0f0f), r17
 	cbeq	r2, r17, 1f	; case 44: aadd.s32 case 3: Rs unchanged
-	mov	#44, r0
+	mov	$44, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0xc3c3c3c398badcfe), r17
 	cbeq	r4, r17, 1f	; case 44: aadd.s32 case 3: the word is the result; the neighbour half is untouched
-	mov	#44, r0
+	mov	$44, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 44: aadd.s32 case 3: the word below is untouched
-	mov	#44, r0
+	mov	$44, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 44: aadd.s32 case 3: the word above is untouched
-	mov	#44, r0
+	mov	$44, r0
 	halt
 1:
 	; ---- case 45: aand.s32 case 0
@@ -1689,30 +1689,30 @@ _start:
 	aand.s32	r2, (r3), r1
 	mov	=(0xffffffff80000010), r17
 	cbeq	r1, r17, 1f	; case 45: aand.s32 case 0: Rd is the old value sign-extended
-	mov	#45, r0
+	mov	$45, r0
 	halt
 1:
 	mov	=(0xdeadbeef00000010), r17
 	cbeq	r2, r17, 1f	; case 45: aand.s32 case 0: Rs unchanged
-	mov	#45, r0
+	mov	$45, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0xc3c3c3c300000010), r17
 	cbeq	r4, r17, 1f	; case 45: aand.s32 case 0: the word is the result; the neighbour half is untouched
-	mov	#45, r0
+	mov	$45, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 45: aand.s32 case 0: the word below is untouched
-	mov	#45, r0
+	mov	$45, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 45: aand.s32 case 0: the word above is untouched
-	mov	#45, r0
+	mov	$45, r0
 	halt
 1:
 	; ---- case 46: aand.s32 case 1
@@ -1727,30 +1727,30 @@ _start:
 	aand.s32	r2, (r3), r1
 	mov	=(0x7ffffff0), r17
 	cbeq	r1, r17, 1f	; case 46: aand.s32 case 1: Rd is the old value sign-extended
-	mov	#46, r0
+	mov	$46, r0
 	halt
 1:
 	mov	=(0x1234567800000020), r17
 	cbeq	r2, r17, 1f	; case 46: aand.s32 case 1: Rs unchanged
-	mov	#46, r0
+	mov	$46, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0xc3c3c3c300000020), r17
 	cbeq	r4, r17, 1f	; case 46: aand.s32 case 1: the word is the result; the neighbour half is untouched
-	mov	#46, r0
+	mov	$46, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 46: aand.s32 case 1: the word below is untouched
-	mov	#46, r0
+	mov	$46, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 46: aand.s32 case 1: the word above is untouched
-	mov	#46, r0
+	mov	$46, r0
 	halt
 1:
 	; ---- case 47: aand.s32 case 2
@@ -1765,30 +1765,30 @@ _start:
 	aand.s32	r2, (r3), r1
 	mov	=(0xffffffff80000000), r17
 	cbeq	r1, r17, 1f	; case 47: aand.s32 case 2: Rd is the old value sign-extended
-	mov	#47, r0
+	mov	$47, r0
 	halt
 1:
 	mov	=(0xffffffffffffffff), r17
 	cbeq	r2, r17, 1f	; case 47: aand.s32 case 2: Rs unchanged
-	mov	#47, r0
+	mov	$47, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0xc3c3c3c380000000), r17
 	cbeq	r4, r17, 1f	; case 47: aand.s32 case 2: the word is the result; the neighbour half is untouched
-	mov	#47, r0
+	mov	$47, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 47: aand.s32 case 2: the word below is untouched
-	mov	#47, r0
+	mov	$47, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 47: aand.s32 case 2: the word above is untouched
-	mov	#47, r0
+	mov	$47, r0
 	halt
 1:
 	; ---- case 48: aand.s32 case 3
@@ -1803,30 +1803,30 @@ _start:
 	aand.s32	r2, (r3), r1
 	mov	=(0xffffffff89abcdef), r17
 	cbeq	r1, r17, 1f	; case 48: aand.s32 case 3: Rd is the old value sign-extended
-	mov	#48, r0
+	mov	$48, r0
 	halt
 1:
 	mov	=(0xf0f0f0f), r17
 	cbeq	r2, r17, 1f	; case 48: aand.s32 case 3: Rs unchanged
-	mov	#48, r0
+	mov	$48, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0xc3c3c3c3090b0d0f), r17
 	cbeq	r4, r17, 1f	; case 48: aand.s32 case 3: the word is the result; the neighbour half is untouched
-	mov	#48, r0
+	mov	$48, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 48: aand.s32 case 3: the word below is untouched
-	mov	#48, r0
+	mov	$48, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 48: aand.s32 case 3: the word above is untouched
-	mov	#48, r0
+	mov	$48, r0
 	halt
 1:
 	; ---- case 49: abis.s32 case 0
@@ -1841,30 +1841,30 @@ _start:
 	abis.s32	r2, (r3), r1
 	mov	=(0xffffffff80000010), r17
 	cbeq	r1, r17, 1f	; case 49: abis.s32 case 0: Rd is the old value sign-extended
-	mov	#49, r0
+	mov	$49, r0
 	halt
 1:
 	mov	=(0xdeadbeef00000010), r17
 	cbeq	r2, r17, 1f	; case 49: abis.s32 case 0: Rs unchanged
-	mov	#49, r0
+	mov	$49, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0xc3c3c3c380000010), r17
 	cbeq	r4, r17, 1f	; case 49: abis.s32 case 0: the word is the result; the neighbour half is untouched
-	mov	#49, r0
+	mov	$49, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 49: abis.s32 case 0: the word below is untouched
-	mov	#49, r0
+	mov	$49, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 49: abis.s32 case 0: the word above is untouched
-	mov	#49, r0
+	mov	$49, r0
 	halt
 1:
 	; ---- case 50: abis.s32 case 1
@@ -1879,30 +1879,30 @@ _start:
 	abis.s32	r2, (r3), r1
 	mov	=(0x7ffffff0), r17
 	cbeq	r1, r17, 1f	; case 50: abis.s32 case 1: Rd is the old value sign-extended
-	mov	#50, r0
+	mov	$50, r0
 	halt
 1:
 	mov	=(0x1234567800000020), r17
 	cbeq	r2, r17, 1f	; case 50: abis.s32 case 1: Rs unchanged
-	mov	#50, r0
+	mov	$50, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0xc3c3c3c37ffffff0), r17
 	cbeq	r4, r17, 1f	; case 50: abis.s32 case 1: the word is the result; the neighbour half is untouched
-	mov	#50, r0
+	mov	$50, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 50: abis.s32 case 1: the word below is untouched
-	mov	#50, r0
+	mov	$50, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 50: abis.s32 case 1: the word above is untouched
-	mov	#50, r0
+	mov	$50, r0
 	halt
 1:
 	; ---- case 51: abis.s32 case 2
@@ -1917,30 +1917,30 @@ _start:
 	abis.s32	r2, (r3), r1
 	mov	=(0xffffffff80000000), r17
 	cbeq	r1, r17, 1f	; case 51: abis.s32 case 2: Rd is the old value sign-extended
-	mov	#51, r0
+	mov	$51, r0
 	halt
 1:
 	mov	=(0xffffffffffffffff), r17
 	cbeq	r2, r17, 1f	; case 51: abis.s32 case 2: Rs unchanged
-	mov	#51, r0
+	mov	$51, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0xc3c3c3c3ffffffff), r17
 	cbeq	r4, r17, 1f	; case 51: abis.s32 case 2: the word is the result; the neighbour half is untouched
-	mov	#51, r0
+	mov	$51, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 51: abis.s32 case 2: the word below is untouched
-	mov	#51, r0
+	mov	$51, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 51: abis.s32 case 2: the word above is untouched
-	mov	#51, r0
+	mov	$51, r0
 	halt
 1:
 	; ---- case 52: abis.s32 case 3
@@ -1955,30 +1955,30 @@ _start:
 	abis.s32	r2, (r3), r1
 	mov	=(0xffffffff89abcdef), r17
 	cbeq	r1, r17, 1f	; case 52: abis.s32 case 3: Rd is the old value sign-extended
-	mov	#52, r0
+	mov	$52, r0
 	halt
 1:
 	mov	=(0xf0f0f0f), r17
 	cbeq	r2, r17, 1f	; case 52: abis.s32 case 3: Rs unchanged
-	mov	#52, r0
+	mov	$52, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0xc3c3c3c38fafcfef), r17
 	cbeq	r4, r17, 1f	; case 52: abis.s32 case 3: the word is the result; the neighbour half is untouched
-	mov	#52, r0
+	mov	$52, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 52: abis.s32 case 3: the word below is untouched
-	mov	#52, r0
+	mov	$52, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 52: abis.s32 case 3: the word above is untouched
-	mov	#52, r0
+	mov	$52, r0
 	halt
 1:
 	; ---- case 53: axor.s32 case 0
@@ -1993,30 +1993,30 @@ _start:
 	axor.s32	r2, (r3), r1
 	mov	=(0xffffffff80000010), r17
 	cbeq	r1, r17, 1f	; case 53: axor.s32 case 0: Rd is the old value sign-extended
-	mov	#53, r0
+	mov	$53, r0
 	halt
 1:
 	mov	=(0xdeadbeef00000010), r17
 	cbeq	r2, r17, 1f	; case 53: axor.s32 case 0: Rs unchanged
-	mov	#53, r0
+	mov	$53, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0xc3c3c3c380000000), r17
 	cbeq	r4, r17, 1f	; case 53: axor.s32 case 0: the word is the result; the neighbour half is untouched
-	mov	#53, r0
+	mov	$53, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 53: axor.s32 case 0: the word below is untouched
-	mov	#53, r0
+	mov	$53, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 53: axor.s32 case 0: the word above is untouched
-	mov	#53, r0
+	mov	$53, r0
 	halt
 1:
 	; ---- case 54: axor.s32 case 1
@@ -2031,30 +2031,30 @@ _start:
 	axor.s32	r2, (r3), r1
 	mov	=(0x7ffffff0), r17
 	cbeq	r1, r17, 1f	; case 54: axor.s32 case 1: Rd is the old value sign-extended
-	mov	#54, r0
+	mov	$54, r0
 	halt
 1:
 	mov	=(0x1234567800000020), r17
 	cbeq	r2, r17, 1f	; case 54: axor.s32 case 1: Rs unchanged
-	mov	#54, r0
+	mov	$54, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0xc3c3c3c37fffffd0), r17
 	cbeq	r4, r17, 1f	; case 54: axor.s32 case 1: the word is the result; the neighbour half is untouched
-	mov	#54, r0
+	mov	$54, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 54: axor.s32 case 1: the word below is untouched
-	mov	#54, r0
+	mov	$54, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 54: axor.s32 case 1: the word above is untouched
-	mov	#54, r0
+	mov	$54, r0
 	halt
 1:
 	; ---- case 55: axor.s32 case 2
@@ -2069,30 +2069,30 @@ _start:
 	axor.s32	r2, (r3), r1
 	mov	=(0xffffffff80000000), r17
 	cbeq	r1, r17, 1f	; case 55: axor.s32 case 2: Rd is the old value sign-extended
-	mov	#55, r0
+	mov	$55, r0
 	halt
 1:
 	mov	=(0xffffffffffffffff), r17
 	cbeq	r2, r17, 1f	; case 55: axor.s32 case 2: Rs unchanged
-	mov	#55, r0
+	mov	$55, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0xc3c3c3c37fffffff), r17
 	cbeq	r4, r17, 1f	; case 55: axor.s32 case 2: the word is the result; the neighbour half is untouched
-	mov	#55, r0
+	mov	$55, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 55: axor.s32 case 2: the word below is untouched
-	mov	#55, r0
+	mov	$55, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 55: axor.s32 case 2: the word above is untouched
-	mov	#55, r0
+	mov	$55, r0
 	halt
 1:
 	; ---- case 56: axor.s32 case 3
@@ -2107,30 +2107,30 @@ _start:
 	axor.s32	r2, (r3), r1
 	mov	=(0xffffffff89abcdef), r17
 	cbeq	r1, r17, 1f	; case 56: axor.s32 case 3: Rd is the old value sign-extended
-	mov	#56, r0
+	mov	$56, r0
 	halt
 1:
 	mov	=(0xf0f0f0f), r17
 	cbeq	r2, r17, 1f	; case 56: axor.s32 case 3: Rs unchanged
-	mov	#56, r0
+	mov	$56, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0xc3c3c3c386a4c2e0), r17
 	cbeq	r4, r17, 1f	; case 56: axor.s32 case 3: the word is the result; the neighbour half is untouched
-	mov	#56, r0
+	mov	$56, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 56: axor.s32 case 3: the word below is untouched
-	mov	#56, r0
+	mov	$56, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 56: axor.s32 case 3: the word above is untouched
-	mov	#56, r0
+	mov	$56, r0
 	halt
 1:
 	; ---- case 57: amax.s32 case 0
@@ -2145,30 +2145,30 @@ _start:
 	amax.s32	r2, (r3), r1
 	mov	=(0xffffffff80000010), r17
 	cbeq	r1, r17, 1f	; case 57: amax.s32 case 0: Rd is the old value sign-extended
-	mov	#57, r0
+	mov	$57, r0
 	halt
 1:
 	mov	=(0xdeadbeef00000010), r17
 	cbeq	r2, r17, 1f	; case 57: amax.s32 case 0: Rs unchanged
-	mov	#57, r0
+	mov	$57, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0xc3c3c3c300000010), r17
 	cbeq	r4, r17, 1f	; case 57: amax.s32 case 0: the word is the result; the neighbour half is untouched
-	mov	#57, r0
+	mov	$57, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 57: amax.s32 case 0: the word below is untouched
-	mov	#57, r0
+	mov	$57, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 57: amax.s32 case 0: the word above is untouched
-	mov	#57, r0
+	mov	$57, r0
 	halt
 1:
 	; ---- case 58: amax.s32 case 1
@@ -2183,30 +2183,30 @@ _start:
 	amax.s32	r2, (r3), r1
 	mov	=(0x7ffffff0), r17
 	cbeq	r1, r17, 1f	; case 58: amax.s32 case 1: Rd is the old value sign-extended
-	mov	#58, r0
+	mov	$58, r0
 	halt
 1:
 	mov	=(0x1234567800000020), r17
 	cbeq	r2, r17, 1f	; case 58: amax.s32 case 1: Rs unchanged
-	mov	#58, r0
+	mov	$58, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0xc3c3c3c37ffffff0), r17
 	cbeq	r4, r17, 1f	; case 58: amax.s32 case 1: the word is the result; the neighbour half is untouched
-	mov	#58, r0
+	mov	$58, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 58: amax.s32 case 1: the word below is untouched
-	mov	#58, r0
+	mov	$58, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 58: amax.s32 case 1: the word above is untouched
-	mov	#58, r0
+	mov	$58, r0
 	halt
 1:
 	; ---- case 59: amax.s32 case 2
@@ -2221,30 +2221,30 @@ _start:
 	amax.s32	r2, (r3), r1
 	mov	=(0xffffffff80000000), r17
 	cbeq	r1, r17, 1f	; case 59: amax.s32 case 2: Rd is the old value sign-extended
-	mov	#59, r0
+	mov	$59, r0
 	halt
 1:
 	mov	=(0xffffffffffffffff), r17
 	cbeq	r2, r17, 1f	; case 59: amax.s32 case 2: Rs unchanged
-	mov	#59, r0
+	mov	$59, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0xc3c3c3c3ffffffff), r17
 	cbeq	r4, r17, 1f	; case 59: amax.s32 case 2: the word is the result; the neighbour half is untouched
-	mov	#59, r0
+	mov	$59, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 59: amax.s32 case 2: the word below is untouched
-	mov	#59, r0
+	mov	$59, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 59: amax.s32 case 2: the word above is untouched
-	mov	#59, r0
+	mov	$59, r0
 	halt
 1:
 	; ---- case 60: amax.s32 case 3
@@ -2259,30 +2259,30 @@ _start:
 	amax.s32	r2, (r3), r1
 	mov	=(0xffffffff89abcdef), r17
 	cbeq	r1, r17, 1f	; case 60: amax.s32 case 3: Rd is the old value sign-extended
-	mov	#60, r0
+	mov	$60, r0
 	halt
 1:
 	mov	=(0xf0f0f0f), r17
 	cbeq	r2, r17, 1f	; case 60: amax.s32 case 3: Rs unchanged
-	mov	#60, r0
+	mov	$60, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0xc3c3c3c30f0f0f0f), r17
 	cbeq	r4, r17, 1f	; case 60: amax.s32 case 3: the word is the result; the neighbour half is untouched
-	mov	#60, r0
+	mov	$60, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 60: amax.s32 case 3: the word below is untouched
-	mov	#60, r0
+	mov	$60, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 60: amax.s32 case 3: the word above is untouched
-	mov	#60, r0
+	mov	$60, r0
 	halt
 1:
 	; ---- case 61: amin.s32 case 0
@@ -2297,30 +2297,30 @@ _start:
 	amin.s32	r2, (r3), r1
 	mov	=(0xffffffff80000010), r17
 	cbeq	r1, r17, 1f	; case 61: amin.s32 case 0: Rd is the old value sign-extended
-	mov	#61, r0
+	mov	$61, r0
 	halt
 1:
 	mov	=(0xdeadbeef00000010), r17
 	cbeq	r2, r17, 1f	; case 61: amin.s32 case 0: Rs unchanged
-	mov	#61, r0
+	mov	$61, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0xc3c3c3c380000010), r17
 	cbeq	r4, r17, 1f	; case 61: amin.s32 case 0: the word is the result; the neighbour half is untouched
-	mov	#61, r0
+	mov	$61, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 61: amin.s32 case 0: the word below is untouched
-	mov	#61, r0
+	mov	$61, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 61: amin.s32 case 0: the word above is untouched
-	mov	#61, r0
+	mov	$61, r0
 	halt
 1:
 	; ---- case 62: amin.s32 case 1
@@ -2335,30 +2335,30 @@ _start:
 	amin.s32	r2, (r3), r1
 	mov	=(0x7ffffff0), r17
 	cbeq	r1, r17, 1f	; case 62: amin.s32 case 1: Rd is the old value sign-extended
-	mov	#62, r0
+	mov	$62, r0
 	halt
 1:
 	mov	=(0x1234567800000020), r17
 	cbeq	r2, r17, 1f	; case 62: amin.s32 case 1: Rs unchanged
-	mov	#62, r0
+	mov	$62, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0xc3c3c3c300000020), r17
 	cbeq	r4, r17, 1f	; case 62: amin.s32 case 1: the word is the result; the neighbour half is untouched
-	mov	#62, r0
+	mov	$62, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 62: amin.s32 case 1: the word below is untouched
-	mov	#62, r0
+	mov	$62, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 62: amin.s32 case 1: the word above is untouched
-	mov	#62, r0
+	mov	$62, r0
 	halt
 1:
 	; ---- case 63: amin.s32 case 2
@@ -2373,30 +2373,30 @@ _start:
 	amin.s32	r2, (r3), r1
 	mov	=(0xffffffff80000000), r17
 	cbeq	r1, r17, 1f	; case 63: amin.s32 case 2: Rd is the old value sign-extended
-	mov	#63, r0
+	mov	$63, r0
 	halt
 1:
 	mov	=(0xffffffffffffffff), r17
 	cbeq	r2, r17, 1f	; case 63: amin.s32 case 2: Rs unchanged
-	mov	#63, r0
+	mov	$63, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0xc3c3c3c380000000), r17
 	cbeq	r4, r17, 1f	; case 63: amin.s32 case 2: the word is the result; the neighbour half is untouched
-	mov	#63, r0
+	mov	$63, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 63: amin.s32 case 2: the word below is untouched
-	mov	#63, r0
+	mov	$63, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 63: amin.s32 case 2: the word above is untouched
-	mov	#63, r0
+	mov	$63, r0
 	halt
 1:
 	; ---- case 64: amin.s32 case 3
@@ -2411,30 +2411,30 @@ _start:
 	amin.s32	r2, (r3), r1
 	mov	=(0xffffffff89abcdef), r17
 	cbeq	r1, r17, 1f	; case 64: amin.s32 case 3: Rd is the old value sign-extended
-	mov	#64, r0
+	mov	$64, r0
 	halt
 1:
 	mov	=(0xf0f0f0f), r17
 	cbeq	r2, r17, 1f	; case 64: amin.s32 case 3: Rs unchanged
-	mov	#64, r0
+	mov	$64, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0xc3c3c3c389abcdef), r17
 	cbeq	r4, r17, 1f	; case 64: amin.s32 case 3: the word is the result; the neighbour half is untouched
-	mov	#64, r0
+	mov	$64, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 64: amin.s32 case 3: the word below is untouched
-	mov	#64, r0
+	mov	$64, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 64: amin.s32 case 3: the word above is untouched
-	mov	#64, r0
+	mov	$64, r0
 	halt
 1:
 	; ---- case 65: amax.u32 case 0
@@ -2449,30 +2449,30 @@ _start:
 	amax.u32	r2, (r3), r1
 	mov	=(0xffffffff80000010), r17
 	cbeq	r1, r17, 1f	; case 65: amax.u32 case 0: Rd is the old value sign-extended
-	mov	#65, r0
+	mov	$65, r0
 	halt
 1:
 	mov	=(0xdeadbeef00000010), r17
 	cbeq	r2, r17, 1f	; case 65: amax.u32 case 0: Rs unchanged
-	mov	#65, r0
+	mov	$65, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0xc3c3c3c380000010), r17
 	cbeq	r4, r17, 1f	; case 65: amax.u32 case 0: the word is the result; the neighbour half is untouched
-	mov	#65, r0
+	mov	$65, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 65: amax.u32 case 0: the word below is untouched
-	mov	#65, r0
+	mov	$65, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 65: amax.u32 case 0: the word above is untouched
-	mov	#65, r0
+	mov	$65, r0
 	halt
 1:
 	; ---- case 66: amax.u32 case 1
@@ -2487,30 +2487,30 @@ _start:
 	amax.u32	r2, (r3), r1
 	mov	=(0x7ffffff0), r17
 	cbeq	r1, r17, 1f	; case 66: amax.u32 case 1: Rd is the old value sign-extended
-	mov	#66, r0
+	mov	$66, r0
 	halt
 1:
 	mov	=(0x1234567800000020), r17
 	cbeq	r2, r17, 1f	; case 66: amax.u32 case 1: Rs unchanged
-	mov	#66, r0
+	mov	$66, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0xc3c3c3c37ffffff0), r17
 	cbeq	r4, r17, 1f	; case 66: amax.u32 case 1: the word is the result; the neighbour half is untouched
-	mov	#66, r0
+	mov	$66, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 66: amax.u32 case 1: the word below is untouched
-	mov	#66, r0
+	mov	$66, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 66: amax.u32 case 1: the word above is untouched
-	mov	#66, r0
+	mov	$66, r0
 	halt
 1:
 	; ---- case 67: amax.u32 case 2
@@ -2525,30 +2525,30 @@ _start:
 	amax.u32	r2, (r3), r1
 	mov	=(0xffffffff80000000), r17
 	cbeq	r1, r17, 1f	; case 67: amax.u32 case 2: Rd is the old value sign-extended
-	mov	#67, r0
+	mov	$67, r0
 	halt
 1:
 	mov	=(0xffffffffffffffff), r17
 	cbeq	r2, r17, 1f	; case 67: amax.u32 case 2: Rs unchanged
-	mov	#67, r0
+	mov	$67, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0xc3c3c3c3ffffffff), r17
 	cbeq	r4, r17, 1f	; case 67: amax.u32 case 2: the word is the result; the neighbour half is untouched
-	mov	#67, r0
+	mov	$67, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 67: amax.u32 case 2: the word below is untouched
-	mov	#67, r0
+	mov	$67, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 67: amax.u32 case 2: the word above is untouched
-	mov	#67, r0
+	mov	$67, r0
 	halt
 1:
 	; ---- case 68: amax.u32 case 3
@@ -2563,30 +2563,30 @@ _start:
 	amax.u32	r2, (r3), r1
 	mov	=(0xffffffff89abcdef), r17
 	cbeq	r1, r17, 1f	; case 68: amax.u32 case 3: Rd is the old value sign-extended
-	mov	#68, r0
+	mov	$68, r0
 	halt
 1:
 	mov	=(0xf0f0f0f), r17
 	cbeq	r2, r17, 1f	; case 68: amax.u32 case 3: Rs unchanged
-	mov	#68, r0
+	mov	$68, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0xc3c3c3c389abcdef), r17
 	cbeq	r4, r17, 1f	; case 68: amax.u32 case 3: the word is the result; the neighbour half is untouched
-	mov	#68, r0
+	mov	$68, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 68: amax.u32 case 3: the word below is untouched
-	mov	#68, r0
+	mov	$68, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 68: amax.u32 case 3: the word above is untouched
-	mov	#68, r0
+	mov	$68, r0
 	halt
 1:
 	; ---- case 69: amin.u32 case 0
@@ -2601,30 +2601,30 @@ _start:
 	amin.u32	r2, (r3), r1
 	mov	=(0xffffffff80000010), r17
 	cbeq	r1, r17, 1f	; case 69: amin.u32 case 0: Rd is the old value sign-extended
-	mov	#69, r0
+	mov	$69, r0
 	halt
 1:
 	mov	=(0xdeadbeef00000010), r17
 	cbeq	r2, r17, 1f	; case 69: amin.u32 case 0: Rs unchanged
-	mov	#69, r0
+	mov	$69, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0xc3c3c3c300000010), r17
 	cbeq	r4, r17, 1f	; case 69: amin.u32 case 0: the word is the result; the neighbour half is untouched
-	mov	#69, r0
+	mov	$69, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 69: amin.u32 case 0: the word below is untouched
-	mov	#69, r0
+	mov	$69, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 69: amin.u32 case 0: the word above is untouched
-	mov	#69, r0
+	mov	$69, r0
 	halt
 1:
 	; ---- case 70: amin.u32 case 1
@@ -2639,30 +2639,30 @@ _start:
 	amin.u32	r2, (r3), r1
 	mov	=(0x7ffffff0), r17
 	cbeq	r1, r17, 1f	; case 70: amin.u32 case 1: Rd is the old value sign-extended
-	mov	#70, r0
+	mov	$70, r0
 	halt
 1:
 	mov	=(0x1234567800000020), r17
 	cbeq	r2, r17, 1f	; case 70: amin.u32 case 1: Rs unchanged
-	mov	#70, r0
+	mov	$70, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0xc3c3c3c300000020), r17
 	cbeq	r4, r17, 1f	; case 70: amin.u32 case 1: the word is the result; the neighbour half is untouched
-	mov	#70, r0
+	mov	$70, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 70: amin.u32 case 1: the word below is untouched
-	mov	#70, r0
+	mov	$70, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 70: amin.u32 case 1: the word above is untouched
-	mov	#70, r0
+	mov	$70, r0
 	halt
 1:
 	; ---- case 71: amin.u32 case 2
@@ -2677,30 +2677,30 @@ _start:
 	amin.u32	r2, (r3), r1
 	mov	=(0xffffffff80000000), r17
 	cbeq	r1, r17, 1f	; case 71: amin.u32 case 2: Rd is the old value sign-extended
-	mov	#71, r0
+	mov	$71, r0
 	halt
 1:
 	mov	=(0xffffffffffffffff), r17
 	cbeq	r2, r17, 1f	; case 71: amin.u32 case 2: Rs unchanged
-	mov	#71, r0
+	mov	$71, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0xc3c3c3c380000000), r17
 	cbeq	r4, r17, 1f	; case 71: amin.u32 case 2: the word is the result; the neighbour half is untouched
-	mov	#71, r0
+	mov	$71, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 71: amin.u32 case 2: the word below is untouched
-	mov	#71, r0
+	mov	$71, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 71: amin.u32 case 2: the word above is untouched
-	mov	#71, r0
+	mov	$71, r0
 	halt
 1:
 	; ---- case 72: amin.u32 case 3
@@ -2715,30 +2715,30 @@ _start:
 	amin.u32	r2, (r3), r1
 	mov	=(0xffffffff89abcdef), r17
 	cbeq	r1, r17, 1f	; case 72: amin.u32 case 3: Rd is the old value sign-extended
-	mov	#72, r0
+	mov	$72, r0
 	halt
 1:
 	mov	=(0xf0f0f0f), r17
 	cbeq	r2, r17, 1f	; case 72: amin.u32 case 3: Rs unchanged
-	mov	#72, r0
+	mov	$72, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0xc3c3c3c30f0f0f0f), r17
 	cbeq	r4, r17, 1f	; case 72: amin.u32 case 3: the word is the result; the neighbour half is untouched
-	mov	#72, r0
+	mov	$72, r0
 	halt
 1:
 	mov	-8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 72: amin.u32 case 3: the word below is untouched
-	mov	#72, r0
+	mov	$72, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xa5a5a5a5a5a5a5a5), r17
 	cbeq	r4, r17, 1f	; case 72: amin.u32 case 3: the word above is untouched
-	mov	#72, r0
+	mov	$72, r0
 	halt
 1:
 	; ---- case 73: aadd and swap with Rd the same register as Rs and as Ra
@@ -2750,26 +2750,26 @@ _start:
 	aadd	r2, (r3), r2
 	mov	=(0x100), r17
 	cbeq	r2, r17, 1f	; case 73: aadd Rd = Rs: Rd is the old value
-	mov	#73, r0
+	mov	$73, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0x123), r17
 	cbeq	r4, r17, 1f	; case 73: aadd Rd = Rs: the operand was read first
-	mov	#73, r0
+	mov	$73, r0
 	halt
 1:
 	mov	=(0x23), r2
 	swap	r2, (r3), r3
 	mov	=(0x123), r17
 	cbeq	r3, r17, 1f	; case 73: swap Rd = Ra: Rd is the old value
-	mov	#73, r0
+	mov	$73, r0
 	halt
 1:
 	mov	(r5), r4
 	mov	=(0x23), r17
 	cbeq	r4, r17, 1f	; case 73: swap Rd = Ra: the address was read first
-	mov	#73, r0
+	mov	$73, r0
 	halt
 1:
 	; ---- case 74: aadd.s32 and swap.s32 with Rd the same register as Rs and as Ra
@@ -2781,29 +2781,29 @@ _start:
 	aadd.s32	r2, (r3), r2
 	mov	=(0xffffffff80000100), r17
 	cbeq	r2, r17, 1f	; case 74: aadd.s32 Rd = Rs: Rd is the old value
-	mov	#74, r0
+	mov	$74, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0xc3c3c3c380000123), r17
 	cbeq	r4, r17, 1f	; case 74: aadd.s32 Rd = Rs: the operand was read first
-	mov	#74, r0
+	mov	$74, r0
 	halt
 1:
 	mov	=(0xffffffff00000023), r2
 	swap.s32	r2, (r3), r3
 	mov	=(0xffffffff80000123), r17
 	cbeq	r3, r17, 1f	; case 74: swap.s32 Rd = Ra: Rd is the old value
-	mov	#74, r0
+	mov	$74, r0
 	halt
 1:
 	mov	(r5), r4
 	mov	=(0xc3c3c3c300000023), r17
 	cbeq	r4, r17, 1f	; case 74: swap.s32 Rd = Ra: the address was read first
-	mov	#74, r0
+	mov	$74, r0
 	halt
 1:
-	mov	#0, r0
+	mov	$0, r0
 	halt
 	.data
 	.align	128

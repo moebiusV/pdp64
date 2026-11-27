@@ -7,5 +7,5 @@
 	mov @1000, r3
 	mov @abs, r3
 	call printf
-	cbeq r1,#0,printf
+	cbeq r1,$0,printf
 	ret

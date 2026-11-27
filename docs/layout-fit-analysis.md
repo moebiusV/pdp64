@@ -17,7 +17,7 @@ This is an allocation, not an estimate: all 234 instructions are assigned to opc
 * **153 of 234 instructions fit unchanged** (same length, every field at full width): all branches `Bcc`, all of `BESC`, `MBLK`, `AESC`, the 42 non-fused `FESC` words, `ATOM`, `SYS`, `SYSX`. Their sub-opcodes are renumbered (8 bits become 5 or 10) and the counts fit.
 * **81 do not fit as drawn**: 52 instructions with a memory operand (moves, `LEA`, ALU, `SOP`, `XFER`, `MESC`, `PUSHM`, `POPM`), 17 compare-and-branch instructions (`cbCC` 14, `SOB`, `BTAG`, `BNTAG`) and the 12 fused multiply-adds.
 * **Opcode slots: 177 of 190 used** (one parcel 62 of 62, two parcels 61 of 64, three parcels 54 of 64). The one-parcel map is exactly full: 68 forms compete for 62 slots, so six page-2 abbreviations lose their two-byte form (734 corpus uses, 1,468 bytes).
-* **Five things have no encoding in three parcels or fewer**: a 28-to-32-bit immediate (1,204 corpus sites), an absolute or PC-relative operand beyond 64 MB, a wide `cbCC` beyond 2 KB (194 sites, with one condition slot), a displacement that is not a multiple of the operand size (the tagged-pointer `MOVQ -1(R1)`), and the 5-parcel `MOVQL #imm64`.
+* **Five things have no encoding in three parcels or fewer**: a 28-to-32-bit immediate (1,204 corpus sites), an absolute or PC-relative operand beyond 64 MB, a wide `cbCC` beyond 2 KB (194 sites, with one condition slot), a displacement that is not a multiple of the operand size (the tagged-pointer `MOVQ -1(R1)`), and the 5-parcel `MOVQL $imm64`.
 * **Code size** on the corpus: +44,812 bytes (+4.13%) for the layout as described with my allocation; +21,816 (+2.01%) once `CALL label` and `LEA label` get branch-format opcodes; +14,966 (+1.38%) with four condition slots for `cbCC`. The estimated saving from 32 registers is about 1.0% (`spill-experiment.md`), so code size grows by 0.4% to 3%.
 * **Decisions the author must make** (section 6): the unscaled displacement mode, a four-parcel length (or a pool) for large immediates, the `cbCC` condition-slot count, which six abbreviations lose their slot, the mode-field budget, the `PUSHM` window and the saved-register frame.
 
@@ -35,9 +35,9 @@ The grammar (`spec/pdp64.hbnf.in`) gives the fields; `as64` was run on every wor
 
 | Group | Instructions | Operand shapes today (length in parcels) |
 |---|---|---|
-| Moves, `MOVZ` | 7 | reg,reg (1); `(Rn)` etc. and small SP offsets (1, page 2); d(Rn) rm4 d12 (2, 3); index rm4 rx4 s2 d6 (2, 3); PC-relative, immediate, absolute d16/d32 (2, 3); d(DP) d12/d28; post/pre-decrement stride d12/d28; `MOVQ #imm4` (1) |
+| Moves, `MOVZ` | 7 | reg,reg (1); `(Rn)` etc. and small SP offsets (1, page 2); d(Rn) rm4 d12 (2, 3); index rm4 rx4 s2 d6 (2, 3); PC-relative, immediate, absolute d16/d32 (2, 3); d(DP) d12/d28; post/pre-decrement stride d12/d28; `MOVQ $imm4` (1) |
 | `LEA` | 1 | the memory shapes without reg,reg; `lea 8*d(SP)` d 0 to 15 (1, page 2) |
-| ALU, FP ALU | 17 | reg,reg (1); every memory shape (2, 3); `#imm4` for ADD, AND, BIS, XOR; counts 0 to 15 for SHL, SHR, SAR; `ADD/SUB #8n,SP` n to 255 (1, page 2) |
+| ALU, FP ALU | 17 | reg,reg (1); every memory shape (2, 3); `$imm4` for ADD, AND, BIS, XOR; counts 0 to 15 for SHL, SHR, SAR; `ADD/SUB $8n,SP` n to 255 (1, page 2) |
 | `SOP` | 14 | `reg` = 4-bit sub-opcode, `low` = register (1) or mode (2, 3) |
 | `PUSHM`, `POPM` | 2 | 16-bit mask in the immediate mode (2); mask of R8 to R15 in `reg:low` (1, page 2) |
 | `XFER` | 3 | sub-opcode in `reg`; `JTAG` only in the scaled-index mode (2, 3) |
@@ -50,7 +50,7 @@ The grammar (`spec/pdp64.hbnf.in`) gives the fields; `as64` was run on every wor
 | `FESC` | 54 | 2-reg (39), 3-reg (3), 4-reg fused multiply-add (12) |
 | `ATOM` | 22 | `reg`, `low`, `t`, `x`: four register fields; placement not fixed |
 | `MESC` | 8 | sub4 rm4 disp8 (2), disp24 (3); 8 loads/stores and 4 read-modify-write forms |
-| `SYS` | 30 | 13 no-operand minors; 12 classes with reg or imm4 (`TRAP #n`, `SPL #n`); `PROBER`/`PROBEW` rd in parcel 2; `TRAPL` n8; `MFSR`/`MTSR` sr8 r4 |
+| `SYS` | 30 | 13 no-operand minors; 12 classes with reg or imm4 (`TRAP $n`, `SPL $n`); `PROBER`/`PROBEW` rd in parcel 2; `TRAPL` n8; `MFSR`/`MTSR` sr8 r4 |
 | `SYSX` | 4 | sub8 and a pad byte (2); page-2 abbreviations (1) |
 
 ### 3. The allocation
@@ -70,9 +70,9 @@ Notation: **a** and **b** are the two 5-bit fields of the first parcel (bits 9..
 | 5 | stack form: `MOVQ ld`, `MOVQ st`, `MOVL ld`, `MOVL st`, `LEA` | a=reg, b = entry (0 to 31, unsigned, scaled by 8, 4, 4, 4, 8): reach 248 and 124 bytes | (moves, `LEA`) | 20,308 |
 | 10 | fixed-offset: `ldq.d1` to `d4`, `stq.d1`, `d2`, `ldl.d1` to `d4` | a=reg, b=rn, offset in the opcode | (moves) | 5,984 |
 | 2 | `PUSHM`/`POPM` window | a:b = 10-bit mask (today 8) | 2 | 4,836 |
-| 2 | `ADD/SUB #8n,SP` | a:b = n (10 bits; today 8) | (ALU) | 3,586 |
-| 3 | `MOVQ #imm`, `AND #imm`, `ADD #imm` | a=rd, b = signed 5-bit immediate (today 4) | (moves, ALU) | 9,809 |
-| 3 | `SHL/SHR/SAR #n` | a=rd, b = count 0 to 31 (today 0 to 15) | (ALU) | 4,161 |
+| 2 | `ADD/SUB $8n,SP` | a:b = n (10 bits; today 8) | (ALU) | 3,586 |
+| 3 | `MOVQ $imm`, `AND $imm`, `ADD $imm` | a=rd, b = signed 5-bit immediate (today 4) | (moves, ALU) | 9,809 |
+| 3 | `SHL/SHR/SAR $n` | a=rd, b = count 0 to 31 (today 0 to 15) | (ALU) | 4,161 |
 | **62** | | | all 85 instructions that have a one-parcel form today keep one | |
 
 **Slots lost.** The page-1 and page-2 maps hold 24 + 1 + 1 + 4 + 38 = 68 forms (page 2 has 45 opcodes: the three two-bank stack pairs merge into three slots, giving 5 stack slots with `stq.sp` and `lea.sp`; the four `SYSX` words move into `SYS`). Six are dropped, lowest static use first: `ld.w` 29, `bis.i` 84, `xor.i` 92, `st.w` 104, `ldz.l` 156, `ldz.w` 269 (734 uses, 1,468 bytes; **the choice rests on static counts**, which under-weight floating point and kernel code).
@@ -138,8 +138,8 @@ All other fields of all forms in `fit/tables.md` fit (registers 5 bits, `RORI` c
 | `d(Rn)` | 3 | disp | 28 | 22, scaled | ±2M entries |
 | `d(SP)` implied | 2 | disp | 12 | 11, scaled | ±1,024 entries (quad ±8 KB) |
 | `d(PC)` | 2 | disp (bytes) | 16 | 11 | ±1 KB (was ±32 KB) |
-| `#imm`, `@abs` | 2 | payload | 16 | 11 | ±1,024 (was ±32,768) |
-| PC-relative, `#imm`, `@abs` | 3 | payload | 32 | 27 | ±64 M (was ±2 G) |
+| `$imm`, `@abs` | 2 | payload | 16 | 11 | ±1,024 (was ±32,768) |
+| PC-relative, `$imm`, `@abs` | 3 | payload | 32 | 27 | ±64 M (was ±2 G) |
 | `d(DP)` | 2, 3 | disp | 12, 28 | 11, 27 scaled | fits scaled (quad ±8 KB) |
 | `(Rn)(Rx*s)` | 2 | disp | 6 | 0 | no displacement; 3 parcels give 16 bits (was 22) |
 | `(Rn)+`, `-(Rn)` | 2 | stride | 12 | 6 | ±32 (was ±2,048) |
@@ -169,7 +169,7 @@ Byte figures are from `fit/model.py` on the 1,083,870-byte corpus. The model cha
 | 11 | `PUSHM`/`POPM` 16-bit mask to 32 registers | 4,836 | window of 10 bits (one parcel), 19 (two), 35 (three) | 0 inside the window |
 | 12 | `SOB`, `BTAG`, `BNTAG` | 0 in the corpus | accept the shorter reach, or one more parcel | 0 measured |
 | 13 | Unscaled displacement (tag adjust `-1`, `7`) | 0 in the corpus (no tags in pcc) | an unscaled mode (6 bits, ±32 bytes) | 0 measured |
-| 14 | `MOVQL #imm64`, five parcels | 49 per 373,635 instructions at present | two-parcel opcode with four literal parcels, 12 bytes (10 today) | +2 per use |
+| 14 | `MOVQL $imm64`, five parcels | 49 per 373,635 instructions at present | two-parcel opcode with four literal parcels, 12 bytes (10 today) | +2 per use |
 
 **Rolled up** (one run of the model, same corpus):
 
@@ -220,8 +220,8 @@ Status: **ADDRESSED** (decided by something in this allocation), **PARTLY** (a m
 | 27 | `SET cc,rd` uses `b` as the condition: breaks ISA 4.14's second rule (fixed per escape opcode) | PARTLY | Give `SET` its own two-parcel slot (3 free). |
 | 28 | Candidates: `MASKEQZ`, `MASKNEZ`, `ADDV`, `SUBV`, `MULV`, `AES*`, `SHA*` fit as `R3`/`R2`/`RRI` (10 sub-opcodes fill `R3`'s first slot: 22 + 10 = 32; the second slot is free); AES state "any two registers" needs no pairing | ADDRESSED | `TRAPCC` is four bytes (`SYS2B`), not the two-byte page-2 form proposed (no free one-parcel slot). |
 | 29 | Granule colouring and reserved-colour instructions | OPEN | No instruction is specified; nothing to place yet. |
-| 30 | `MOVQL #imm64` and the three-parcel cap (errata 31): the cap exists to keep length a function of the first parcel; a trailing literal needs the P2 opcode to know its length. 5 parcels is not expressible (`ESC2`, `ESC3` only) | OPEN | Two-parcel opcode with four literal parcels (6 parcels, 12 bytes). It is the only instruction that breaks the cap; issue 8 would add the 32-bit immediates. |
-| 31 | `TRAP #n` now 0 to 31 in two bytes (was 0 to 15); `SPL #n` 0 to 7; `HINT n` 0 to 31 in two bytes | ADDRESSED | The assembler picks. |
+| 30 | `MOVQL $imm64` and the three-parcel cap (errata 31): the cap exists to keep length a function of the first parcel; a trailing literal needs the P2 opcode to know its length. 5 parcels is not expressible (`ESC2`, `ESC3` only) | OPEN | Two-parcel opcode with four literal parcels (6 parcels, 12 bytes). It is the only instruction that breaks the cap; issue 8 would add the 32-bit immediates. |
+| 31 | `TRAP $n` now 0 to 31 in two bytes (was 0 to 15); `SPL $n` 0 to 7; `HINT n` 0 to 31 in two bytes | ADDRESSED | The assembler picks. |
 | 32 | `SYS` page bits, `STUA`, `CLUA` | ADDRESSED | `SYS` classes 17 and up, `SYS2B` sub-opcodes. |
 | 33 | Tools that change | OPEN | `spec/pdp64.hbnf.in`, `pdp64-mnemonics.hbnf` (all sub-opcode numbers), `tools/mkgrammar.py`, `check-drift.py`, `as64` (relaxation, field widths, scaled relocations), `ld64` (new relocations with range and divisibility checks), `common/pdp64exec.c`, `p2.c`, `sim64`, QEMU, `gen-llvm-td.py` and the LLVM tables, every test in `tests/`, `docs/opcode-layouts.html`. |
 | 34 | Dynamic evidence: every byte figure is static; the 4.3% executed-instruction saving of 32 registers is an estimate (`dynamic-spill-estimate.md`) | PARTLY | Re-run the six programs once 32-register code assembles. |

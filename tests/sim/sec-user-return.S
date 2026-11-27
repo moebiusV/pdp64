@@ -7,7 +7,7 @@ _start:
 	lea	vtab, r1
 	mtsr	vbr, r1
 	lea	hgen, r2
-	mov	#512, r3
+	mov	$512, r3
 kfill:	mov	r2, (r1)+
 	sob	r3, kfill
 	lea	vtab, r1
@@ -20,103 +20,103 @@ kfill:	mov	r2, (r1)+
 	mtsr	usp, r1
 	lea	user, r1
 	mtsr	epc, r1
-	mov	#((MODE_USER<<PSW_MODE)|(MODE_USER<<PSW_PREV)), r1
+	mov	$((MODE_USER<<PSW_MODE)|(MODE_USER<<PSW_PREV)), r1
 	mtsr	epsw, r1
-	mov	#0, r1
-	rti	#RTIMASK_ALL
+	mov	$0, r1
+	rti	$RTIMASK_ALL
 user:
 	lea	Nx_rti, r13
 	mov	cnt, r10
 	mov	=0x5a5a5a5a5a5a, r2
 	mov	r2, r3
 x_rti:
-rti	#0
+rti	$0
 Nx_rti:
 	mov	cnt, r11
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 1 exactly one exception for x_rti
-	mov	#1, r0
-	trap	#1
+	mov	$1, r0
+	trap	$1
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_PRIVILEGED), r17
 	cbeq	r11, r17, 1f	; check 2 vector of x_rti
-	mov	#2, r0
-	trap	#1
+	mov	$2, r0
+	trap	$1
 1:
 	lea	x_rti, r11
 	mov	last_epc, r12
 	cbeq	r12, r11, 1f	; check 3 EPC of x_rti
-	mov	#3, r0
-	trap	#1
+	mov	$3, r0
+	trap	$1
 1:
 	mov	=(0x5a5a5a5a5a5a), r17
 	cbeq	r2, r17, 1f	; check 4 destination of x_rti unchanged
-	mov	#4, r0
-	trap	#1
+	mov	$4, r0
+	trap	$1
 1:
 	lea	Nx_rti_all, r13
 	mov	cnt, r10
 	mov	=0x5a5a5a5a5a5a, r2
 	mov	r2, r3
 x_rti_all:
-rti	#RTIMASK_ALL
+rti	$RTIMASK_ALL
 Nx_rti_all:
 	mov	cnt, r11
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 5 exactly one exception for x_rti_all
-	mov	#5, r0
-	trap	#1
+	mov	$5, r0
+	trap	$1
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_PRIVILEGED), r17
 	cbeq	r11, r17, 1f	; check 6 vector of x_rti_all
-	mov	#6, r0
-	trap	#1
+	mov	$6, r0
+	trap	$1
 1:
 	lea	x_rti_all, r11
 	mov	last_epc, r12
 	cbeq	r12, r11, 1f	; check 7 EPC of x_rti_all
-	mov	#7, r0
-	trap	#1
+	mov	$7, r0
+	trap	$1
 1:
 	mov	=(0x5a5a5a5a5a5a), r17
 	cbeq	r2, r17, 1f	; check 8 destination of x_rti_all unchanged
-	mov	#8, r0
-	trap	#1
+	mov	$8, r0
+	trap	$1
 1:
 	lea	Nx_rtt, r13
 	mov	cnt, r10
 	mov	=0x5a5a5a5a5a5a, r2
 	mov	r2, r3
 x_rtt:
-rtt	#0
+rtt	$0
 Nx_rtt:
 	mov	cnt, r11
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 9 exactly one exception for x_rtt
-	mov	#9, r0
-	trap	#1
+	mov	$9, r0
+	trap	$1
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_PRIVILEGED), r17
 	cbeq	r11, r17, 1f	; check 10 vector of x_rtt
-	mov	#10, r0
-	trap	#1
+	mov	$10, r0
+	trap	$1
 1:
 	lea	x_rtt, r11
 	mov	last_epc, r12
 	cbeq	r12, r11, 1f	; check 11 EPC of x_rtt
-	mov	#11, r0
-	trap	#1
+	mov	$11, r0
+	trap	$1
 1:
 	mov	=(0x5a5a5a5a5a5a), r17
 	cbeq	r2, r17, 1f	; check 12 destination of x_rtt unchanged
-	mov	#12, r0
-	trap	#1
+	mov	$12, r0
+	trap	$1
 1:
 	lea	Nx_tlbias, r13
 	mov	cnt, r10
@@ -129,56 +129,56 @@ Nx_tlbias:
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 13 exactly one exception for x_tlbias
-	mov	#13, r0
-	trap	#1
+	mov	$13, r0
+	trap	$1
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_PRIVILEGED), r17
 	cbeq	r11, r17, 1f	; check 14 vector of x_tlbias
-	mov	#14, r0
-	trap	#1
+	mov	$14, r0
+	trap	$1
 1:
 	lea	x_tlbias, r11
 	mov	last_epc, r12
 	cbeq	r12, r11, 1f	; check 15 EPC of x_tlbias
-	mov	#15, r0
-	trap	#1
+	mov	$15, r0
+	trap	$1
 1:
 	mov	=(0x5a5a5a5a5a5a), r17
 	cbeq	r2, r17, 1f	; check 16 destination of x_tlbias unchanged
-	mov	#16, r0
-	trap	#1
+	mov	$16, r0
+	trap	$1
 1:
 	lea	Nx_genter, r13
 	mov	cnt, r10
 	mov	=0x5a5a5a5a5a5a, r2
 	mov	r2, r3
 x_genter:
-genter	#0
+genter	$0
 Nx_genter:
 	mov	cnt, r11
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 17 exactly one exception for x_genter
-	mov	#17, r0
-	trap	#1
+	mov	$17, r0
+	trap	$1
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_ILLEGAL), r17
 	cbeq	r11, r17, 1f	; check 18 vector of x_genter
-	mov	#18, r0
-	trap	#1
+	mov	$18, r0
+	trap	$1
 1:
 	lea	x_genter, r11
 	mov	last_epc, r12
 	cbeq	r12, r11, 1f	; check 19 EPC of x_genter
-	mov	#19, r0
-	trap	#1
+	mov	$19, r0
+	trap	$1
 1:
 	mov	=(0x5a5a5a5a5a5a), r17
 	cbeq	r2, r17, 1f	; check 20 destination of x_genter unchanged
-	mov	#20, r0
-	trap	#1
+	mov	$20, r0
+	trap	$1
 1:
 	lea	Nx_tlbigp, r13
 	mov	cnt, r10
@@ -191,31 +191,31 @@ Nx_tlbigp:
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 21 exactly one exception for x_tlbigp
-	mov	#21, r0
-	trap	#1
+	mov	$21, r0
+	trap	$1
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_ILLEGAL), r17
 	cbeq	r11, r17, 1f	; check 22 vector of x_tlbigp
-	mov	#22, r0
-	trap	#1
+	mov	$22, r0
+	trap	$1
 1:
 	lea	x_tlbigp, r11
 	mov	last_epc, r12
 	cbeq	r12, r11, 1f	; check 23 EPC of x_tlbigp
-	mov	#23, r0
-	trap	#1
+	mov	$23, r0
+	trap	$1
 1:
 	mov	=(0x5a5a5a5a5a5a), r17
 	cbeq	r2, r17, 1f	; check 24 destination of x_tlbigp unchanged
-	mov	#24, r0
-	trap	#1
+	mov	$24, r0
+	trap	$1
 1:
-	mov	#0, r0
-	trap	#0
+	mov	$0, r0
+	trap	$0
 
 hgen:	mov	cnt, r12
-	add	#1, r12
+	add	$1, r12
 	mov	r12, cnt
 	mfsr	r12, ecause
 	mov	r12, last_cause
@@ -226,8 +226,8 @@ hgen:	mov	cnt, r12
 	mfsr	r12, epsw
 	mov	r12, last_epsw
 	mtsr	epc, r13
-	rti	#RTIMASK_ALL
-h_ok:	mov	#0, r0
+	rti	$RTIMASK_ALL
+h_ok:	mov	$0, r0
 h_fail:	halt
 
 	.data

@@ -1,2 +1,2 @@
 	.text
-	hint #256
+	hint $256

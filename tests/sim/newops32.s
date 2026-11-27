@@ -60,7 +60,7 @@ _start:
 	and	r22, r23
 	bis	r24, r25
 	mul	r26, r27
-	shl	#4, r28
+	shl	$4, r28
 	mov	=0xeeeeeeeeeeeeeeef, r15
 	cbne	r30, r15, F17
 	mov	=0x6666666666666665, r15
@@ -77,7 +77,7 @@ _start:
 	cbne	r28, r15, F23
 	lea	ubuf, r24
 	lea	ubuf, r25
-	mov	#1, r29
+	mov	$1, r29
 	mov	=0x1122334455667788, r17
 	mov	r17, 8(r24)
 	mov	8(r24), r18
@@ -86,7 +86,7 @@ _start:
 	mov	(r25)(r29*8), r19
 	mov	=0x1122334455667788, r15
 	cbne	r19, r15, F25
-	mov	#2, r20
+	mov	$2, r20
 	mov	-8(r25)(r29*8), r21
 	mov	r20, 16(r24)(r29*8)
 	lea	ubuf, r26
@@ -98,31 +98,31 @@ _start:
 	mov	-(r26), r27
 	lea	ubuf+16, r28
 	cbne	r26, r28, F9999
-	mov	#3, r31
+	mov	$3, r31
 	clr	r30
 1:
-	add	#1, r30
+	add	$1, r30
 	sob	r31, 1b
 	mov	=0x3, r15
 	cbne	r30, r15, F27
-	mov	#5, r16
-	mov	#9, r17
+	mov	$5, r16
+	mov	$9, r17
 	cbgt	r17, r16, 1f
 	br	F9999
 1:
-	cblt	r17, #20, 1f
+	cblt	r17, $20, 1f
 	br	F9999
 1:
 	mov	=0x8000000000000000, r22
-	cblt	r22, #0, 1f
+	cblt	r22, $0, 1f
 	br	F9999
 1:
-	cbeq	r22, #0, F9999
+	cbeq	r22, $0, F9999
 	lea	2f, r29
 	call	r29
 	br	3f
 2:
-	mov	#77, r30
+	mov	$77, r30
 	ret
 3:
 	mov	=0x4d, r15
@@ -132,11 +132,11 @@ _start:
 	pop	r16
 	mov	=0x5566778899aabbcc, r15
 	cbne	r16, r15, F29
-	mov	#2, r2
+	mov	$2, r2
 	mov	=0x1111111111111111, r16
 	mov	=0x1111111111111110, r31
 	mov	sp, r8
-	pushm	#0x80010004
+	pushm	$0x80010004
 	mov	(sp), r15
 	mov	=0x1111111111111110, r12
 	cbne	r15, r12, F30
@@ -150,10 +150,10 @@ _start:
 	sub	sp, r9
 	mov	=0x18, r15
 	cbne	r9, r15, F33
-	mov	#0, r2
-	mov	#0, r16
-	mov	#0, r31
-	popm	#0x80010004
+	mov	$0, r2
+	mov	$0, r16
+	mov	$0, r31
+	popm	$0x80010004
 	cbne	sp, r8, F9999
 	mov	=0x2, r15
 	cbne	r2, r15, F34
@@ -163,70 +163,70 @@ _start:
 	cbne	r31, r15, F36
 	lea	ubuf, r8
 	mov	sp, r8
-	mov	#1000, r0
-	mov	#1001, r1
-	mov	#1002, r2
-	mov	#1003, r3
-	mov	#1004, r4
-	mov	#1005, r5
-	mov	#1006, r6
-	mov	#1007, r7
-	mov	#1009, r9
-	mov	#1010, r10
-	mov	#1011, r11
-	mov	#1012, r12
-	mov	#1013, r13
-	mov	#1015, r15
-	mov	#1016, r16
-	mov	#1017, r17
-	mov	#1018, r18
-	mov	#1019, r19
-	mov	#1020, r20
-	mov	#1021, r21
-	mov	#1022, r22
-	mov	#1023, r23
-	mov	#1024, r24
-	mov	#1025, r25
-	mov	#1026, r26
-	mov	#1027, r27
-	mov	#1028, r28
-	mov	#1029, r29
-	mov	#1030, r30
-	mov	#1031, r31
+	mov	$1000, r0
+	mov	$1001, r1
+	mov	$1002, r2
+	mov	$1003, r3
+	mov	$1004, r4
+	mov	$1005, r5
+	mov	$1006, r6
+	mov	$1007, r7
+	mov	$1009, r9
+	mov	$1010, r10
+	mov	$1011, r11
+	mov	$1012, r12
+	mov	$1013, r13
+	mov	$1015, r15
+	mov	$1016, r16
+	mov	$1017, r17
+	mov	$1018, r18
+	mov	$1019, r19
+	mov	$1020, r20
+	mov	$1021, r21
+	mov	$1022, r22
+	mov	$1023, r23
+	mov	$1024, r24
+	mov	$1025, r25
+	mov	$1026, r26
+	mov	$1027, r27
+	mov	$1028, r28
+	mov	$1029, r29
+	mov	$1030, r30
+	mov	$1031, r31
 	mov	sp, r8
-	pushm	#0xffffbfff
-	mov	#0, r0
-	mov	#0, r1
-	mov	#0, r2
-	mov	#0, r3
-	mov	#0, r4
-	mov	#0, r5
-	mov	#0, r6
-	mov	#0, r7
-	mov	#0, r9
-	mov	#0, r10
-	mov	#0, r11
-	mov	#0, r12
-	mov	#0, r13
-	mov	#0, r15
-	mov	#0, r16
-	mov	#0, r17
-	mov	#0, r18
-	mov	#0, r19
-	mov	#0, r20
-	mov	#0, r21
-	mov	#0, r22
-	mov	#0, r23
-	mov	#0, r24
-	mov	#0, r25
-	mov	#0, r26
-	mov	#0, r27
-	mov	#0, r28
-	mov	#0, r29
-	mov	#0, r30
-	mov	#0, r31
+	pushm	$0xffffbfff
+	mov	$0, r0
+	mov	$0, r1
+	mov	$0, r2
+	mov	$0, r3
+	mov	$0, r4
+	mov	$0, r5
+	mov	$0, r6
+	mov	$0, r7
+	mov	$0, r9
+	mov	$0, r10
+	mov	$0, r11
+	mov	$0, r12
+	mov	$0, r13
+	mov	$0, r15
+	mov	$0, r16
+	mov	$0, r17
+	mov	$0, r18
+	mov	$0, r19
+	mov	$0, r20
+	mov	$0, r21
+	mov	$0, r22
+	mov	$0, r23
+	mov	$0, r24
+	mov	$0, r25
+	mov	$0, r26
+	mov	$0, r27
+	mov	$0, r28
+	mov	$0, r29
+	mov	$0, r30
+	mov	$0, r31
 	mov	r8, r9
-	popm	#0xffffbfff
+	popm	$0xffffbfff
 	mov	=0x3e8, r15
 	cbne	r0, r15, F37
 	mov	=0x3e9, r15
@@ -284,196 +284,196 @@ _start:
 	clr	r0
 	halt
 F1:
-	mov	#1, r0
+	mov	$1, r0
 	halt
 F2:
-	mov	#2, r0
+	mov	$2, r0
 	halt
 F3:
-	mov	#3, r0
+	mov	$3, r0
 	halt
 F4:
-	mov	#4, r0
+	mov	$4, r0
 	halt
 F5:
-	mov	#5, r0
+	mov	$5, r0
 	halt
 F6:
-	mov	#6, r0
+	mov	$6, r0
 	halt
 F7:
-	mov	#7, r0
+	mov	$7, r0
 	halt
 F8:
-	mov	#8, r0
+	mov	$8, r0
 	halt
 F9:
-	mov	#9, r0
+	mov	$9, r0
 	halt
 F10:
-	mov	#10, r0
+	mov	$10, r0
 	halt
 F11:
-	mov	#11, r0
+	mov	$11, r0
 	halt
 F12:
-	mov	#12, r0
+	mov	$12, r0
 	halt
 F13:
-	mov	#13, r0
+	mov	$13, r0
 	halt
 F14:
-	mov	#14, r0
+	mov	$14, r0
 	halt
 F15:
-	mov	#15, r0
+	mov	$15, r0
 	halt
 F16:
-	mov	#16, r0
+	mov	$16, r0
 	halt
 F17:
-	mov	#17, r0
+	mov	$17, r0
 	halt
 F18:
-	mov	#18, r0
+	mov	$18, r0
 	halt
 F19:
-	mov	#19, r0
+	mov	$19, r0
 	halt
 F20:
-	mov	#20, r0
+	mov	$20, r0
 	halt
 F21:
-	mov	#21, r0
+	mov	$21, r0
 	halt
 F22:
-	mov	#22, r0
+	mov	$22, r0
 	halt
 F23:
-	mov	#23, r0
+	mov	$23, r0
 	halt
 F24:
-	mov	#24, r0
+	mov	$24, r0
 	halt
 F25:
-	mov	#25, r0
+	mov	$25, r0
 	halt
 F26:
-	mov	#26, r0
+	mov	$26, r0
 	halt
 F27:
-	mov	#27, r0
+	mov	$27, r0
 	halt
 F28:
-	mov	#28, r0
+	mov	$28, r0
 	halt
 F29:
-	mov	#29, r0
+	mov	$29, r0
 	halt
 F30:
-	mov	#30, r0
+	mov	$30, r0
 	halt
 F31:
-	mov	#31, r0
+	mov	$31, r0
 	halt
 F32:
-	mov	#32, r0
+	mov	$32, r0
 	halt
 F33:
-	mov	#33, r0
+	mov	$33, r0
 	halt
 F34:
-	mov	#34, r0
+	mov	$34, r0
 	halt
 F35:
-	mov	#35, r0
+	mov	$35, r0
 	halt
 F36:
-	mov	#36, r0
+	mov	$36, r0
 	halt
 F37:
-	mov	#37, r0
+	mov	$37, r0
 	halt
 F38:
-	mov	#38, r0
+	mov	$38, r0
 	halt
 F39:
-	mov	#39, r0
+	mov	$39, r0
 	halt
 F40:
-	mov	#40, r0
+	mov	$40, r0
 	halt
 F41:
-	mov	#41, r0
+	mov	$41, r0
 	halt
 F42:
-	mov	#42, r0
+	mov	$42, r0
 	halt
 F43:
-	mov	#43, r0
+	mov	$43, r0
 	halt
 F44:
-	mov	#44, r0
+	mov	$44, r0
 	halt
 F45:
-	mov	#45, r0
+	mov	$45, r0
 	halt
 F46:
-	mov	#46, r0
+	mov	$46, r0
 	halt
 F47:
-	mov	#47, r0
+	mov	$47, r0
 	halt
 F48:
-	mov	#48, r0
+	mov	$48, r0
 	halt
 F49:
-	mov	#49, r0
+	mov	$49, r0
 	halt
 F50:
-	mov	#50, r0
+	mov	$50, r0
 	halt
 F51:
-	mov	#51, r0
+	mov	$51, r0
 	halt
 F52:
-	mov	#52, r0
+	mov	$52, r0
 	halt
 F53:
-	mov	#53, r0
+	mov	$53, r0
 	halt
 F54:
-	mov	#54, r0
+	mov	$54, r0
 	halt
 F55:
-	mov	#55, r0
+	mov	$55, r0
 	halt
 F56:
-	mov	#56, r0
+	mov	$56, r0
 	halt
 F57:
-	mov	#57, r0
+	mov	$57, r0
 	halt
 F58:
-	mov	#58, r0
+	mov	$58, r0
 	halt
 F59:
-	mov	#59, r0
+	mov	$59, r0
 	halt
 F60:
-	mov	#60, r0
+	mov	$60, r0
 	halt
 F61:
-	mov	#61, r0
+	mov	$61, r0
 	halt
 F62:
-	mov	#62, r0
+	mov	$62, r0
 	halt
 F63:
-	mov	#63, r0
+	mov	$63, r0
 	halt
 F9999:
-	mov	#99, r0
+	mov	$99, r0
 	halt
 
 	.data

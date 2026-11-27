@@ -1,2 +1,2 @@
 	.text
-a:	fcblt r1,#5,a
+a:	fcblt r1,$5,a

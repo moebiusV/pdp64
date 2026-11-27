@@ -8,7 +8,7 @@ HEADER = '#include "pdp64-consts.h"\n'
 
 
 class Prog:
-    """lines of assembly; chk() emits a check that exits with its own number if it fails (user mode: trap #1; kernel mode: halt)"""
+    """lines of assembly; chk() emits a check that exits with its own number if it fails (user mode: trap $1; kernel mode: halt)"""
 
     def __init__(s, user=False):
         s.t = []
@@ -20,10 +20,10 @@ class Prog:
         s.t.append(line)
 
     def fail(s, n):
-        return '\tmovq\t#%d, r0\n\t%s' % (n, 'trap\t#1' if s.user else 'halt')
+        return '\tmovq\t$%d, r0\n\t%s' % (n, 'trap\t$1' if s.user else 'halt')
 
     def chk(s, a, b, what=''):
-        """fail unless a == b (b a register or an immediate #n)"""
+        """fail unless a == b (b a register or an immediate $n)"""
         s.n += 1
         assert s.n < 250
         s.e('\tcbeq\t%s, %s, 1f%s\n%s\n1:' % (a, b, '\t; check %d %s' % (s.n, what) if what else '', s.fail(s.n)))
@@ -44,7 +44,7 @@ class Prog:
         return s.chkne(reg, 'r17', what)
 
     def done(s):
-        s.e('\tmovq\t#0, r0\n\t%s' % ('trap\t#0' if s.user else 'halt'))
+        s.e('\tmovq\t$0, r0\n\t%s' % ('trap\t$0' if s.user else 'halt'))
 
     def text(s):
         return '\n'.join(s.t) + '\n'
@@ -56,7 +56,7 @@ KVEC = r'''
 	lea	vtab, r1
 	mtsr	vbr, r1
 	lea	hgen, r2
-	movq	#512, r3
+	movq	$512, r3
 kfill:	movq	r2, (r1)+
 	sob	r3, kfill
 	lea	vtab, r1
@@ -68,7 +68,7 @@ kfill:	movq	r2, (r1)+
 
 KHANDLERS = r'''
 hgen:	movq	cnt, r12
-	add	#1, r12
+	add	$1, r12
 	movq	r12, cnt
 	mfsr	r12, ecause
 	movq	r12, last_cause
@@ -79,8 +79,8 @@ hgen:	movq	cnt, r12
 	mfsr	r12, epsw
 	movq	r12, last_epsw
 	mtsr	epc, r13
-	rti	#RTIMASK_ALL
-h_ok:	movq	#0, r0
+	rti	$RTIMASK_ALL
+h_ok:	movq	$0, r0
 h_fail:	halt
 '''
 
@@ -107,9 +107,9 @@ def enter_user(mask='RTIMASK_ALL', clear_r1=True):
 	mtsr	usp, r1
 	lea	user, r1
 	mtsr	epc, r1
-	movq	#((MODE_USER<<PSW_MODE)|(MODE_USER<<PSW_PREV)), r1
+	movq	$((MODE_USER<<PSW_MODE)|(MODE_USER<<PSW_PREV)), r1
 	mtsr	epsw, r1
-''' + ('\tmovq\t#0, r1\n' if clear_r1 else '') + '\trti\t#%s\n' % mask
+''' + ('\tmovq\t$0, r1\n' if clear_r1 else '') + '\trti\t$%s\n' % mask
 
 
 ENTER_USER = enter_user()
@@ -126,7 +126,7 @@ FSETUP = r'''
 	lea	vtab, r1
 	mtsr	vbr, r1
 	lea	h_bad, r2
-	movq	#512, r3
+	movq	$512, r3
 kfill:	movq	r2, (r1)+
 	sob	r3, kfill
 	lea	vtab, r1
@@ -141,13 +141,13 @@ kfill:	movq	r2, (r1)+
 	movq	r2, 2072(r1)
 	lea	l2, r1
 	mtsr	ptbr, r1
-	movq	#1, r1
+	movq	$1, r1
 	mtsr	mmuctl, r1
 '''
 FHANDLERS = r'''
 h_fault:
 	movq	cnt, r12
-	add	#1, r12
+	add	$1, r12
 	movq	r12, cnt
 	mfsr	r12, ecause
 	movq	r12, last_cause
@@ -162,27 +162,27 @@ h_fault:
 	mfsr	r12, eva
 	movq	=(0x800000), r11
 	sub	r11, r12
-	shr	#12, r12
-	shl	#3, r12
+	shr	$12, r12
+	shl	$3, r12
 	lea	wpt, r11
 	add	r11, r12
 	mfsr	r11, eva
-	shr	#12, r11
-	shl	#12, r11
-	bis	#(1<<PTE_V|1<<PTE_R|1<<PTE_W|1<<PTE_A|1<<PTE_D), r11
+	shr	$12, r11
+	shl	$12, r11
+	bis	$(1<<PTE_V|1<<PTE_R|1<<PTE_W|1<<PTE_A|1<<PTE_D), r11
 	movq	r11, (r12)
 	mfsr	r12, eva
 	tlbi	r12
 	movq	redirect, r12
-	cbeq	r12, #0, 1f
+	cbeq	r12, $0, 1f
 	mtsr	epc, r12
-	movq	#0, r12
+	movq	$0, r12
 	movq	r12, redirect
-1:	rti	#RTIMASK_ALL
-h_trap:	rti	#RTIMASK_ALL
-h_bad:	movq	#99, r0
+1:	rti	$RTIMASK_ALL
+h_trap:	rti	$RTIMASK_ALL
+h_bad:	movq	$99, r0
 	halt
-h_ok:	movq	#0, r0
+h_ok:	movq	$0, r0
 h_fail:	halt
 '''
 FDATA = r'''

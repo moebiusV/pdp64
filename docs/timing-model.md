@@ -67,7 +67,7 @@ tm name=LABEL prog=image.x enc=pdp64 insns=... bytes=... cycles=... ipc=... bpc=
   (request of the target window in cycle *d + tkb*), or with no bubble if it hits the BTB (`btb` entries, direct mapped, filled by taken transfers): the next request follows the branch window's request. A misprediction
   redirects when the branch resolves: `brlat` cycles after it issues (for a `ret` through the stack, after the loaded address arrives) plus `mpx`; the wrong path is not fetched or charged. All the penalties are therefore the
   *length of the pipeline* (`fl + ldec + dl + brlat`), not constants: a longer length decode makes every misprediction and every taken-branch bubble longer.
-* **Cycles** = (the cycle of the last issue) + 1; the exit `trap #0` is the last instruction (with `sys=1` it adds nothing).
+* **Cycles** = (the cycle of the last issue) + 1; the exit `trap $0` is the last instruction (with `sys=1` it adds nothing).
 
 ## 3. Where the cycles go
 

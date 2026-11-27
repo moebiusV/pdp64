@@ -15,7 +15,7 @@ _start:
 	lea	htab, r1
 	mtsr	hvbr, r1
 	lea	hbad, r2
-	mov	#512, r3
+	mov	$512, r3
 fillh:	mov	r2, (r1)+
 	sob	r3, fillh
 	lea	hx, r2
@@ -28,25 +28,25 @@ fillh:	mov	r2, (r1)+
 	mov	r2, 16(r1)
 	lea	hx, r2
 	lea	htab+8*(VECTOR_TRAP_BASE+224), r1
-	mov	#32, r3
+	mov	$32, r3
 fillc:	mov	r2, (r1)+
 	sob	r3, fillc
 	; ---- stage 2: root (two pages) -> l1 -> 2 MiB leaves and the demand region; the device page of the virtual timer
 	lea	hl1, r1
-	bis	#(1<<PTE_V), r1
+	bis	$(1<<PTE_V), r1
 	mov	r1, hroot
 	lea	hvl1, r1
-	bis	#(1<<PTE_V), r1
+	bis	$(1<<PTE_V), r1
 	mov	r1, hroot+8*512		; guest-physical bit 39 (device space): root index 512
 	mov	=(LEAF), r1
 	mov	r1, hl1			; guest-physical 0 .. 2 MiB: the image, identity
 	mov	=(0x2200000|LEAF), r1
 	mov	r1, hl1+8		; 2 .. 4 MiB at + 32 MiB
 	lea	hdl0, r1
-	bis	#(1<<PTE_V), r1
+	bis	$(1<<PTE_V), r1
 	mov	r1, hl1+24		; 6 .. 8 MiB: the demand region, mapped by the hypervisor when the guest touches it
 	lea	hvl0, r1
-	bis	#(1<<PTE_V), r1
+	bis	$(1<<PTE_V), r1
 	mov	r1, hvl1
 	mov	=(MAP_VTIMER|1<<PTE_V|1<<PTE_R|1<<PTE_W|1<<PTE_A|1<<PTE_D|MT_DEVICE<<PTE_MT), r1
 	mov	r1, hvl0+8*3		; the core's virtual timer page, at the same guest-physical address as the physical one
@@ -57,7 +57,7 @@ fillc:	mov	r2, (r1)+
 	; ---- the trap control, the virtual core number, the virtual timer offset and the line of the timer
 	mov	=((1<<HTRAP_WFE)|(1<<HTRAP_SEV)|(1<<HTRAP_PTBR)|(0x80<<HTRAP_MASK)), r1
 	mtsr	htrap, r1
-	mov	#7, r1
+	mov	$7, r1
 	mtsr	vcpuid, r1
 	mov	=MAP_TIMER, r1
 	mov	(r1), r2
@@ -66,33 +66,33 @@ fillc:	mov	r2, (r1)+
 	mtsr	vivec, r1
 	lea	gstk_top, r1
 	mtsr	gksp, r1
-	mov	#0, r10
-	mov	#0, r11
-	mov	#0, r12
+	mov	$0, r10
+	mov	$0, r11
+	mov	$0, r12
 	lea	gk, r1
 	mtsr	hepc, r1
-	mov	#0, r1
+	mov	$0, r1
 	mtsr	hepsw, r1
-	mov	#99, r0			; a HALT of the guest that stops the machine with this status would be a bug
-	genter	#RTIMASK_ALL
+	mov	$99, r0			; a HALT of the guest that stops the machine with this status would be a bug
+	genter	$RTIMASK_ALL
 	; ---- the exits.  r10: hypercalls, r11: writes of PTBR, r12: stage-2 faults
 hx:	mfsr	r20, hexitr
-	cbeq	r20, #XCODE_HYPERCALL, hc
-	cbeq	r20, #XCODE_PTBR, hp
-	cbeq	r20, #XCODE_HALT, hh
+	cbeq	r20, $XCODE_HYPERCALL, hc
+	cbeq	r20, $XCODE_PTBR, hp
+	cbeq	r20, $XCODE_HALT, hh
 	br	hbad
 hc:	mfsr	r21, hcause		; TRAP #224: put the character in r0 on the console
-	cbne	r21, #(VECTOR_TRAP_BASE+224), hbad
+	cbne	r21, $(VECTOR_TRAP_BASE+224), hbad
 	mov	=MAP_CONSOLE, r22
 	mov	r0, CONSOLE_REG_TXDB(r22)
-	add	#1, r10
-	genter	#RTIMASK_ALL
+	add	$1, r10
+	genter	$RTIMASK_ALL
 hp:	mtsr	ptbr, r1		; the guest's MTSR PTBR, r1: emulated (at H = 1 PTBR is the guest's register)
 	tlbia
-	add	#1, r11
-	genter	#RTIMASK_ALL
+	add	$1, r11
+	genter	$RTIMASK_ALL
 hs:	mfsr	r20, hexitr		; a stage-2 fault: map the page of the demand region (physical = guest-physical + 32 MiB) and enter again
-	cbne	r20, #XCODE_S2_INVALID, hbad
+	cbne	r20, $XCODE_S2_INVALID, hbad
 	mfsr	r21, hgpa
 	mov	=0x600000, r22
 	cbcs	r21, r22, hbad		; below the demand region
@@ -101,47 +101,47 @@ hs:	mfsr	r20, hexitr		; a stage-2 fault: map the page of the demand region (phys
 	mov	=0xfffffffff000, r22
 	and	r21, r22		; the page
 	mov	r22, r23
-	sub	#0x600000, r23
-	shr	#12, r23
-	shl	#3, r23
+	sub	$0x600000, r23
+	shr	$12, r23
+	shl	$3, r23
 	lea	hdl0, r24
 	add	r24, r23		; the entry
 	mov	=0x2000000, r24
 	add	r24, r22
-	bis	#LEAF, r22
+	bis	$LEAF, r22
 	mov	r22, (r23)
 	tlbia
-	add	#1, r12
-	genter	#RTIMASK_ALL
-hh:	cbeq	r10, #0, hbad		; the guest halted: it printed, wrote PTBR once, faulted once, took its tick and made the system calls
-	cbeq	r11, #1, 1f
-	mov	#2, r0
+	add	$1, r12
+	genter	$RTIMASK_ALL
+hh:	cbeq	r10, $0, hbad		; the guest halted: it printed, wrote PTBR once, faulted once, took its tick and made the system calls
+	cbeq	r11, $1, 1f
+	mov	$2, r0
 	halt
-1:	cbeq	r12, #1, 1f
-	mov	#3, r0
+1:	cbeq	r12, $1, 1f
+	mov	$3, r0
 	halt
 1:	mov	ticks, r1
-	cbeq	r1, #1, 1f
-	mov	#4, r0
+	cbeq	r1, $1, 1f
+	mov	$4, r0
 	halt
-1:	cbeq	r0, #0, 1f		; the guest's r0 is its status
+1:	cbeq	r0, $0, 1f		; the guest's r0 is its status
 	halt
 1:	lea	hvmsg, r1
 	mov	=MAP_CONSOLE, r22
 2:	mov.u8	(r1)+, r0
-	cbeq	r0, #0, 3f
+	cbeq	r0, $0, 3f
 	mov	r0, CONSOLE_REG_TXDB(r22)
 	br	2b
-3:	mov	#0, r0
+3:	mov	$0, r0
 	halt
-hbad:	mov	#98, r0
+hbad:	mov	$98, r0
 	halt
 
 	; ---------------------------------------------------------------------------------------------------------------- the guest kernel
 gk:	lea	gvtab, r1
 	mtsr	vbr, r1
 	lea	g_bad, r2
-	mov	#512, r3
+	mov	$512, r3
 fillg:	mov	r2, (r1)+
 	sob	r3, fillg
 	lea	g_sys, r2
@@ -156,8 +156,8 @@ fillg:	mov	r2, (r1)+
 	lea	msg1, r1
 	call	puts
 	mfsr	r1, cpuid		; the virtual core number: the hardware gives it, no exit
-	cbeq	r1, #7, 1f
-	mov	#10, r0
+	cbeq	r1, $7, 1f
+	mov	$10, r0
 	halt
 1:	; the guest's own page tables (guest-physical = the image): 1 GiB identity for the kernel, a user alias of it, device space for the timer page
 	mov	=(LEAF), r1
@@ -168,7 +168,7 @@ fillg:	mov	r2, (r1)+
 	mov	r1, gpt_root+24
 	lea	gpt_root, r1
 	mtsr	ptbr, r1		; trapped by the hypervisor (HTRAP bit PTBR): emulated, the write is made at H = 1
-	mov	#1, r1
+	mov	$1, r1
 	mtsr	mmuctl, r1		; not trapped
 	isync
 	; a page that stage 2 does not map: the store exits, the hypervisor maps it, the store is retried
@@ -177,20 +177,20 @@ fillg:	mov	r2, (r1)+
 	mov	r1, (r13)
 	mov	(r13), r2
 	cbeq	r2, r1, 1f
-	mov	#11, r0
+	mov	$11, r0
 	halt
 1:	lea	msg2, r1
 	call	puts
 	; the virtual timer: its page is in the guest's stage 2; priority 0, so line 6 is taken
 	mov	=VTIMER_VA, r13
 	mov	(r13), r1		; the counter, about 0
-	add	#3000, r1
+	add	$3000, r1
 	mov	r1, TIMER_REG_COMPARE(r13)
-	mov	#(1<<TIMER_CTL_ENABLE), r2
+	mov	$(1<<TIMER_CTL_ENABLE), r2
 	mov	r2, TIMER_REG_CONTROL(r13)
-	spl	#0
+	spl	$0
 2:	mov	ticks, r3
-	cbeq	r3, #0, 2b
+	cbeq	r3, $0, 2b
 	lea	msg3, r1
 	call	puts
 	; to user mode: the user alias of the image, a user stack, priority 0
@@ -201,37 +201,37 @@ fillg:	mov	r2, (r1)+
 	lea	ustk_top, r1
 	add	r2, r1
 	mtsr	usp, r1
-	mov	#(MODE_USER<<PSW_MODE|MODE_USER<<PSW_PREV), r1
+	mov	$(MODE_USER<<PSW_MODE|MODE_USER<<PSW_PREV), r1
 	mtsr	epsw, r1
-	rti	#RTIMASK_ALL
+	rti	$RTIMASK_ALL
 puts:	mov.u8	(r1)+, r0 ; r1: the string, to the console by hypercall (a routed TRAP: no vector of the guest is taken)
-	cbeq	r0, #0, 3f
-	trap	#224
+	cbeq	r0, $0, 3f
+	trap	$224
 	br	puts
 3:	ret
 g_sys:					; system call 1: write(r1 = user buffer, r2 = length); the user's page is read with .U moves; no exit happens here
 1:	mov.user.u8	(r1), r0
-	add	#1, r1
-	trap	#224
+	add	$1, r1
+	trap	$224
 	sob	r2, 1b
-	rti	#RTIMASK_ALL
+	rti	$RTIMASK_ALL
 g_exit:	lea	msg5, r1
 	call	puts
-	mov	#0, r0
+	mov	$0, r0
 	halt				; the guest stops: an exit with code HALT
 g_tick:	mov	=VTIMER_VA, r20		; the virtual timer's interrupt (vector 0x60): stop the timer, count
-	mov	#0, r21
+	mov	$0, r21
 	mov	r21, TIMER_REG_CONTROL(r20)
 	mov	ticks, r21
-	add	#1, r21
+	add	$1, r21
 	mov	r21, ticks
-	rti	#RTIMASK_ALL
-g_bad:	mov	#77, r0
+	rti	$RTIMASK_ALL
+g_bad:	mov	$77, r0
 	halt
 user:	lea	msg4, r1		; the user program, at the alias address (lea is relative to the PC, so this is the alias address of the text): it writes a line and exits
-	mov	#(msg4_end - msg4), r2
-	trap	#1
-	trap	#0
+	mov	$(msg4_end - msg4), r2
+	trap	$1
+	trap	$0
 msg1:	.ascii	"guest kernel up\n"
 	.byte	0
 msg2:	.ascii	"demand page ok\n"

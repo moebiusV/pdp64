@@ -23,9 +23,9 @@ FZ = ('movcall', 'popmret', 'popret', 'mov2')
 COMMON = {
 'basic': ('', """\t.text
 start:\tmovq r1,r2
-\tmovq #5,r3
-\tmovq #300,r4
-\tmovq #70000,r5
+\tmovq $5,r3
+\tmovq $300,r4
+\tmovq $70000,r5
 \tmovq 8(sp),r6
 \tmovq r6,16(sp)
 \tmovq (r2),r3
@@ -35,32 +35,32 @@ start:\tmovq r1,r2
 \tlea 32(sp),r1
 \tlea start,r2
 \tadd r1,r2
-\tsub #1,r2
-\tand #255,r3
-\tshl #3,r4
+\tsub $1,r2
+\tand $255,r3
+\tshl $3,r4
 \txor r8,r9
 \tsub r1,r2
-\tsub #7,r5
+\tsub $7,r5
 \tpush r2
 \tpop r3
 \tinc r1
 \tclr r2
 \tcom r3
 \tneg r4
-\tadd #16,sp
-\tsub #4096,sp
+\tadd $16,sp
+\tsub $4096,sp
 \tmovq 100000(r1),r2
 \tmovl r2,-20(r3)
 \tret
 """),
 'branch': ('', """\t.text
-a:\tcbeq r1,#0,z
+a:\tcbeq r1,$0,z
 \tcbne r1,r2,a
-\tcblt r3,#100,z
-\tcbge r1,#-3,a
-\tcbhi r2,#5000,z
-\tcbeq r1,#30000,z
-\tcbcc r1,#7,a
+\tcblt r3,$100,z
+\tcbge r1,$-3,a
+\tcbhi r2,$5000,z
+\tcbeq r1,$30000,z
+\tcbcc r1,$7,a
 \tcbeq r1,r2,a
 \tcbne r1,r2,z
 \tbr z
@@ -72,10 +72,10 @@ a:\tcbeq r1,#0,z
 z:\tret
 """),
 'far': ('', """\t.text
-a:\tcbeq r1,#0,z
+a:\tcbeq r1,$0,z
 \tcbne r1,r2,z
 \tcbhi r1,r2,z
-\tcbge r1,#0,z
+\tcbge r1,$0,z
 \tbr z
 \tcbeq r1,r2,z
 \t.space 70000
@@ -90,7 +90,7 @@ z:\tret
 \tmovq @1000,r3
 \tmovq @abs,r3
 \tcall printf
-\tcbeq r1,#0,printf
+\tcbeq r1,$0,printf
 \tret
 """),
 'modes': ('', """\t.text
@@ -112,31 +112,31 @@ lab:\tret
 d:\t.quad 1
 """),
 'misc': ('', """\t.text
-\tmovq #0x123456789abcdef0,r1
-\tror32 r1,#5,r2
-\tror r1,#61,r2
+\tmovq $0x123456789abcdef0,r1
+\tror32 r1,$5,r2
+\tror r1,$61,r2
 \tclz r1,r2
 \tdiv r1,r2,r3
 \tfmadd r1,r2,r3,r4
-\textb r1,#4,#8,r2
-\tdshr r1,r2,#3,r4
+\textb r1,$4,$8,r2
+\tdshr r1,r2,$3,r4
 \tmaskeqz r1,r2,r3
 \tbsel r1,r2,r3,r4
-\taesks1 r1,#3,r2
+\taesks1 r1,$3,r2
 \tnop
 \thalt
-\tpushm #0x8F00
-\tpopm #0x0100
+\tpushm $0x8F00
+\tpopm $0x0100
 \tsob r1,lb
-lb:\tbtag r1,#2,lb
+lb:\tbtag r1,$2,lb
 \tmovw 9(r3),r2
 \taddm r1,16(r2)
 \tmovq.u 8(r1),r2
 \tmovb.u (r3),r4
 \tfadd r1,r2
 \tfadd r2,r3
-\tmul #6,r1
-\tshr #40,r2
+\tmul $6,r1
+\tshr $40,r2
 \tsar r3,r4
 \tmulh r1,r2
 \tret
@@ -148,8 +148,8 @@ f:\tmovcall r1,r2,g
 \tmov2 r1,r2,r3,r8
 \tmov2 r9,r10,r0,r2
 \tmov2 r3,r2,r9,r10
-\tpopm #0x0300
-\tpopmret #0x0300
+\tpopm $0x0300
+\tpopmret $0x0300
 \tpopret r3
 g:\tpopret r12
 \tmovcall r5,r6,printf
@@ -163,10 +163,10 @@ EXTRA32 = {
 \tmovq 8(r24),r25
 \tmovq r26,16(sp)
 \tmovq (r16)(r31*8),r18
-\tpushm #0xFF000000
-\tpopm #-16740608
+\tpushm $0xFF000000
+\tpopm $-16740608
 \tlea 8(r28),r29
-\tcbeq r19,#0,x
+\tcbeq r19,$0,x
 \tcbne r30,r31,x
 \txor r27,r26
 x:\tret

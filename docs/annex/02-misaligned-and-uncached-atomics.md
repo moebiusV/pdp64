@@ -23,7 +23,7 @@ The second half is the uncached case. A page can be marked as not cacheable (a f
 
 ```
         lea     buf+2, r3               ; a 4-byte word at an address that is 2 mod 4
-        mov    #1, r2
+        mov    $1, r2
         aadd.s32   r2, (r3), r1            ; never runs half: the misalignment fault
 ...
 hmis:   mfsr    r5, eva                 ; the address that was refused

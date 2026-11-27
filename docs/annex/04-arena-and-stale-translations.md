@@ -29,13 +29,13 @@ What software has to do is what OpenBSD's hypervisor (`vmm`) does on x86. Before
 
 ```
         lea     arena, r1
-        shr     #12, r1
-        shl     #28, r1                 ; first page of the arena in bits 55 to 28
-        bis     #16, r1                 ; 16 pages in bits 27 to 0
+        shr     $12, r1
+        shl     $28, r1                 ; first page of the arena in bits 55 to 28
+        bis     $16, r1                 ; 16 pages in bits 27 to 0
         mtsr    harena, r1
         ...
         mov    r3, (r2)                ; edit a stage-2 entry: an ordinary store into the arena
-        genter  #0                      ; the entry discards the guest's translations if it must
+        genter  $0                      ; the entry discards the guest's translations if it must
 ```
 
 *(Setup once; then no flush instruction anywhere.)*

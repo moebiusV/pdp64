@@ -1,2 +1,2 @@
 	.text
-	isync #1
+	isync $1

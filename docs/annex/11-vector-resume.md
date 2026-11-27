@@ -34,7 +34,7 @@ loop:   vsetvli t0, a1, e16, m1, ta, ma
 
 ```
         vec     r1, r4                  ; the block: the body runs once for each strip
-        vclr.l  v4, #1                  ; the accumulator starts at zero (only inside the block)
+        vclr.l  v4, $1                  ; the accumulator starts at zero (only inside the block)
         vld.w.l v0, (r1)+               ; four 16-bit words widened to 32 bits; the pointer advances
         vadd.l  v4, v4, v0              ; the running sum, by lane
         vfin                            ; the epilogue: once, after the last strip

@@ -1,2 +1,2 @@
 	.text
-	jmp #5
+	jmp $5

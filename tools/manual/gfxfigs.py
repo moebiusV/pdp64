@@ -17,22 +17,22 @@ def fig_c64_map():
     x, w = 20, 190
     c.text(x + w / 2, 16, 'the C64 address space (64 KB)', 12, bold=True)
     rows = [
-        (30, 34, 'Kernal ROM', SOFT, '$E000-$FFFF'),
-        (64, 70, 'I/O and colour RAM', BLUE, '$D000-$DFFF'),
-        (134, 34, 'BASIC ROM', SOFT, '$A000-$BFFF'),
-        (168, 80, 'free RAM (programs)', '#fff', '$0800-$9FFF'),
-        (248, 44, 'screen memory', GREEN, '$0400-$07E7, 1000 bytes'),
-        (292, 36, 'zero page, stack, system', GREY, '$0000-$03FF'),
+        (30, 34, 'Kernal ROM', SOFT, '0xE000-0xFFFF'),
+        (64, 70, 'I/O and colour RAM', BLUE, '0xD000-0xDFFF'),
+        (134, 34, 'BASIC ROM', SOFT, '0xA000-0xBFFF'),
+        (168, 80, 'free RAM (programs)', '#fff', '0x0800-0x9FFF'),
+        (248, 44, 'screen memory', GREEN, '0x0400-0x07E7, 1000 bytes'),
+        (292, 36, 'zero page, stack, system', GREY, '0x0000-0x03FF'),
     ]
     for y, h, lab, fill, sub in rows:
         c.box(x, y, w, h, lab, fill, 11, sub=sub)
-    c.text(x + w + 6, 38, '$FFFF', 9, 'start', '#555', True)
-    c.text(x + w + 6, 336, '$0000', 9, 'start', '#555', True)
+    c.text(x + w + 6, 38, '0xFFFF', 9, 'start', '#555', True)
+    c.text(x + w + 6, 336, '0x0000', 9, 'start', '#555', True)
     # the I/O block
     ix = 250
     c.text(ix, 58, 'inside the I/O block', 10, 'start', bold=True)
-    for i, (n, d, f) in enumerate([('VIC-II', '$D000: 47 registers; $D020 border, $D021 background', PINK), ('SID', '$D400: sound registers', PINK),
-                                   ('colour RAM', '$D800-$DBE7: 1000 nibbles, one per cell', GREEN), ('CIA 1, 2', '$DC00, $DD00: keyboard, timers', SOFT)]):
+    for i, (n, d, f) in enumerate([('VIC-II', '0xD000: 47 registers; 0xD020 border, 0xD021 background', PINK), ('SID', '0xD400: sound registers', PINK),
+                                   ('colour RAM', '0xD800-0xDBE7: 1000 nibbles, one per cell', GREEN), ('CIA 1, 2', '0xDC00, 0xDD00: keyboard, timers', SOFT)]):
         c.box(ix, 66 + i * 22, 78, 22, n, f, 10)
         c.text(ix + 84, 81 + i * 22, d, 9, 'start', '#333')
     c.line([(x + w, 99), (ix - 6, 99), (ix - 6, 99), (ix, 99)], arrow=False, dash=True)

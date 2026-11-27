@@ -1,15 +1,15 @@
-; NASM's spellings of the directives, the numbers with a suffix, and $ and $$ (errata 162)
+; NASM's spellings of the directives (bits, default, section, global, extern, align, db dw dd dq, times, resb resq)
 	bits 64
 	default rel
 	SECTION .text
 	global _start, f
 	extern ext
-_start:	mov	#0FFh, r1
-	mov	#101b, r2
-	mov	#17q, r3
-	mov	#0x1f, r4
-	mov	#10d, r5
-	mov	#1010b, r6
+_start:	mov	$0xFF, r1
+	mov	$0b101, r2
+	mov	$0o17, r3
+	mov	$0x1f, r4
+	mov	$10, r5
+	mov	$0b1010, r6
 f:	ret
 	align 8
 	section .data
@@ -20,8 +20,8 @@ msg	db 'hello', 0
 	dw 'ab'
 	db `tab\t`
 	times 5 db 0xAA
-	times 64-($-$$) db 0
-here:	dq $
+	times 64-(. - tab) db 0
+here:	dq .
 	section .bss
 buf:	resb 16
 	resq 2

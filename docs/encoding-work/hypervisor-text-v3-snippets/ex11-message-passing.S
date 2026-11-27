@@ -17,33 +17,33 @@ _start:
 	mtsr	htrap, r1
 	lea	guest, r1
 	mtsr	hepc, r1
-	mov	#0, r1
+	mov	$0, r1
 	mtsr	hepsw, r1
-	genter	#0
+	genter	$0
 guest:	lea	data, r3
 	lea	flag, r4
-	mov	#42, r1
+	mov	$42, r1
 	mov	r1, (r3)			; first the data ...
-	mov	#1, r1
+	mov	$1, r1
 	mov	r1, (r4)			; ... then the flag: "the data is ready"
-	trap	#40				; tell the hypervisor to look (the reader needs no fence between its two loads)
+	trap	$40				; tell the hypervisor to look (the reader needs no fence between its two loads)
 	halt
 hcall:	lea	flag, r4
 	lea	data, r3
 	mov	(r4), r1			; the reader: first the flag ...
-	cbne	r1, #1, hbad			; not set: nothing to read yet
+	cbne	r1, $1, hbad			; not set: nothing to read yet
 	mov	(r3), r2			; ... then the data
-	cbeq	r2, #42, 1f			; the flag was set, so the data is the new data, never the old
-	mov	#1, r0
+	cbeq	r2, $42, 1f			; the flag was set, so the data is the new data, never the old
+	mov	$1, r0
 	halt
-1:	mov	#0, r0
-	genter	#RTIMASK_NONE
+1:	mov	$0, r0
+	genter	$RTIMASK_NONE
 hhalt:	mfsr	r20, hexitr
-	cbeq	r20, #XCODE_HALT, 1f
+	cbeq	r20, $XCODE_HALT, 1f
 	br	hbad
-1:	mov	#0, r0
+1:	mov	$0, r0
 	halt
-hbad:	mov	#98, r0
+hbad:	mov	$98, r0
 	halt
 	.data
 	.align	4096

@@ -202,7 +202,7 @@ def fig_exception():
     c.box(vx, 44, 90, 28, 'VBR', YELLOW, 11, mono=True, bold=True, sub='system register')
     rows = [('0', 'reset'), ('1', 'machine check'), ('2-5', 'illegal, privileged, align, non-canon.'), ('6-8', 'instruction, load, store page fault'),
             ('9-11', 'protection violation'), ('12-15', 'divide, bus fault, landing pad, break'), ('32-63', 'interrupts (32 timer, 33-34 console)'),
-            ('256+n', 'TRAP #n  (system calls)')]
+            ('256+n', 'TRAP $n  (system calls)')]
     for i, (n, d) in enumerate(rows):
         y = 90 + i * 28
         c.box(vx + 90, y, 50, 28, n, '#fff', 10, mono=True)
@@ -309,7 +309,7 @@ def fig_firstpages():
     c.text(x + w + 18, 246, 'pages is not decided)', 9, 'start', '#222')
     c.text(20, 300, '(not to scale; the place and size of the boot-information block are not specified)', 9, 'start', '#444')
     c.text(20, 314, 'After reset: kernel mode, priority 7, translation off (every address physical), VBR 0, guard clear.', 9, 'start', '#444')
-    c.text(20, 328, 'The PDP-11 kept its vectors in the low few hundred bytes (V7 goes past octal 0224) and booted from elsewhere; here the table is one whole page at 0.', 9, 'start', '#444')
+    c.text(20, 328, 'The PDP-11 kept its vectors in the low few hundred bytes (V7 goes past octal 0o224) and booted from elsewhere; here the table is one whole page at 0.', 9, 'start', '#444')
     return c.svg()
 
 

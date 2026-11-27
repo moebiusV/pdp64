@@ -4,7 +4,7 @@
 	.text
 	.globl	_start
 _start:
-	mov	#1, r9
+	mov	$1, r9
 	lea	A1, r1
 	lea	A1+4000, r5
 	mov	=0x3f000000, r10
@@ -14,7 +14,7 @@ _start:
 	vend
 	mov	=0x4df180fd, r11
 	cbne	r10, r11, fail
-	mov	#2, r9
+	mov	$2, r9
 	lea	A2, r1
 	lea	A2+3996, r5
 	mov	=0xbfa00000, r10
@@ -24,7 +24,7 @@ _start:
 	vend
 	mov	=0x4df17fe5, r11
 	cbne	r10, r11, fail
-	mov	#3, r9
+	mov	$3, r9
 	lea	A3, r1
 	lea	A3+4000, r5
 	mov	=0x3fd0000000000000, r10
@@ -34,7 +34,7 @@ _start:
 	vend
 	mov	=0x41be301fcdbe240f, r11
 	cbne	r10, r11, fail
-	mov	#4, r9
+	mov	$4, r9
 	lea	A4, r1
 	lea	A4+8000, r5
 	mov	=0x3ff0000000000000, r10
@@ -44,12 +44,12 @@ _start:
 	vend
 	mov	=0xc1c2e1bc7092d218, r11
 	cbne	r10, r11, fail
-	mov	#5, r9
+	mov	$5, r9
 	lea	A5, r1
 	lea	O5, r3
 	lea	A5+4000, r5
-	mov	#0, r10
-	mov	#0, r11
+	mov	$0, r10
+	mov	$0, r11
 	vec	r1, r5
 	vld.f v0, (r1)+
 	vacc.f r10, v0
@@ -62,13 +62,13 @@ _start:
 	cbne	r11, r11, fail
 	lea	O5, r1
 	lea	E5, r2
-	mov	#4000, r4
+	mov	$4000, r4
 c5:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c5
-	mov	#6, r9
+	mov	$6, r9
 	lea	A6, r1
 	lea	A6+4000, r5
 	mov	=0xff800000, r10
@@ -78,7 +78,7 @@ c5:
 	vend
 	mov	=0x0, r11
 	cbne	r10, r11, fail
-	mov	#7, r9
+	mov	$7, r9
 	lea	A7, r1
 	lea	A7+4000, r5
 	mov	=0x7f800000, r10
@@ -88,7 +88,7 @@ c5:
 	vend
 	mov	=0xc2c9bfc9, r11
 	cbne	r10, r11, fail
-	mov	#8, r9
+	mov	$8, r9
 	lea	A8, r1
 	lea	A8+4000, r5
 	mov	=0xff800000, r10
@@ -98,21 +98,21 @@ c5:
 	vend
 	mov	=0x80000000, r11
 	cbne	r10, r11, fail
-	mov	#9, r9
+	mov	$9, r9
 	lea	A9, r1
 	lea	A9+4000, r5
-	mov	#7, r10
+	mov	$7, r10
 	vec	r1, r5
 	vld.l v0, (r1)+
 	vacc.l.q r10, v0
 	vend
 	mov	=0xfffffff83a245b45, r11
 	cbne	r10, r11, fail
-	mov	#10, r9
+	mov	$10, r9
 	lea	A10, r1
 	lea	B10, r2
 	lea	A10+2000, r5
-	mov	#-5, r10
+	mov	$-5, r10
 	vec	r1, r5
 	vld.w v0, (r1)+
 	vld.w v1, (r2)+
@@ -120,11 +120,11 @@ c5:
 	vend
 	mov	=0x59e39a4c, r11
 	cbne	r10, r11, fail
-	mov	#11, r9
+	mov	$11, r9
 	lea	A10, r1
 	lea	B10, r2
 	lea	A10+2000, r5
-	mov	#1000, r10
+	mov	$1000, r10
 	vec	r1, r5
 	vld.w v0, (r1)+
 	vld.w v1, (r2)+
@@ -133,11 +133,11 @@ c5:
 	vend
 	mov	=0xffffffff59e39e39, r11
 	cbne	r10, r11, fail
-	mov	#12, r9
+	mov	$12, r9
 	lea	A12, r1
 	lea	B12, r2
 	lea	A12+1000, r5
-	mov	#3, r10
+	mov	$3, r10
 	vec	r1, r5
 	vld.bu v0, (r1)+
 	vld.bu v1, (r2)+
@@ -145,7 +145,7 @@ c5:
 	vend
 	mov	=0x14f6e, r11
 	cbne	r10, r11, fail
-	mov	#13, r9
+	mov	$13, r9
 	lea	A13, r1
 	lea	B13, r2
 	lea	C13, r7
@@ -160,13 +160,13 @@ c5:
 	vend
 	lea	O13, r1
 	lea	E13, r2
-	mov	#4000, r4
+	mov	$4000, r4
 c13:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c13
-	mov	#14, r9
+	mov	$14, r9
 	lea	A14+16, r1
 	lea	O14, r3
 	lea	A14+4016, r5
@@ -175,18 +175,18 @@ c13:
 	mov	=0xbe000000, r22
 	vec	r1, r5
 	vld.f v0, (r1)+
-	vfir.f v1, v0, r20, #3
+	vfir.f v1, v0, r20, $3
 	vst.f v1, (r3)+
 	vend
 	lea	O14, r1
 	lea	E14, r2
-	mov	#4000, r4
+	mov	$4000, r4
 c14:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c14
-	mov	#15, r9
+	mov	$15, r9
 	lea	A15, r1
 	lea	O15, r3
 	lea	A15+999, r5
@@ -198,13 +198,13 @@ c14:
 	vend
 	lea	O15, r1
 	lea	E15, r2
-	mov	#666, r4
+	mov	$666, r4
 c15:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c15
-	mov	#16, r9
+	mov	$16, r9
 	lea	A16, r1
 	lea	O16, r3
 	lea	A16+2000, r5
@@ -216,29 +216,29 @@ c15:
 	vend
 	lea	O16, r1
 	lea	E16, r2
-	mov	#2000, r4
+	mov	$2000, r4
 c16:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c16
-	mov	#17, r9
+	mov	$17, r9
 	lea	A17, r1
 	lea	O17, r3
 	lea	A17+999, r5
 	vec	r1, r5
-	vldt.bu.w v0, (r1)+, #3
+	vldt.bu.w v0, (r1)+, $3
 	vst.w v0, (r3)+
 	vend
 	lea	O17, r1
 	lea	E17, r2
-	mov	#666, r4
+	mov	$666, r4
 c17:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c17
-	mov	#18, r9
+	mov	$18, r9
 	lea	A18, r1
 	lea	T18, r6
 	lea	O18, r3
@@ -250,13 +250,13 @@ c17:
 	vend
 	lea	O18, r1
 	lea	E18, r2
-	mov	#1000, r4
+	mov	$1000, r4
 c18:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c18
-	mov	#19, r9
+	mov	$19, r9
 	lea	A19, r1
 	lea	B19, r2
 	lea	O19, r3
@@ -271,53 +271,53 @@ c18:
 	vend
 	lea	O19, r1
 	lea	E19, r2
-	mov	#4000, r4
+	mov	$4000, r4
 c19:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c19
-	mov	#20, r9
+	mov	$20, r9
 	lea	A20, r1
 	lea	O20, r3
 	lea	A20+4000, r5
 	vec	r1, r5
 	vld.l v0, (r1)+
-	vsts.l.bu v0, (r3)+, #4
+	vsts.l.bu v0, (r3)+, $4
 	vend
 	lea	O20, r1
 	lea	E20, r2
-	mov	#1000, r4
+	mov	$1000, r4
 c20:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c20
-	mov	#21, r9
+	mov	$21, r9
 	lea	A21, r1
 	lea	O21, r3
 	lea	A21+4000, r5
 	vec	r1, r5
-	vclr.l v4, #1
+	vclr.l v4, $1
 	vld.l v0, (r1)+
 	vadd.l v4, v4, v0
 	vst.l v4, (r3)+
 	vend
 	lea	O21, r1
 	lea	E21, r2
-	mov	#4000, r4
+	mov	$4000, r4
 c21:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c21
-	mov	#22, r9
+	mov	$22, r9
 	lea	A22, r1
 	lea	B22, r2
 	lea	A22+4000, r5
-	mov	#0, r10
+	mov	$0, r10
 	vec	r1, r5
-	vclr.f v4, #1
+	vclr.f v4, $1
 	vld.f v0, (r1)+
 	vld.f v1, (r2)+
 	vfma.f v4, v0, v1
@@ -326,7 +326,7 @@ c21:
 	vend
 	mov	=0x5b224949, r11
 	cbne	r10, r11, fail
-	mov	#23, r9
+	mov	$23, r9
 	lea	A23, r0
 	lea	B23, r1
 	lea	B23+800, r5
@@ -339,7 +339,7 @@ c21:
 	lea	C23+192, r22
 	lea	C23+224, r23
 	vec	r1, r5
-	vclr.f v0, #8
+	vclr.f v0, $8
 	vld.f v8, (r1)+
 	vfmab.f v0, v8, (r0)+
 	vfmab.f v1, v8, (r0)+
@@ -377,16 +377,16 @@ c21:
 	vend
 	lea	C23, r1
 	lea	E23, r2
-	mov	#256, r4
+	mov	$256, r4
 c23:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c23
-	mov	#0, r0
-	trap	#0
+	mov	$0, r0
+	trap	$0
 fail:	mov	r9, r0
-	trap	#0
+	trap	$0
 
 	.data
 	.align	8

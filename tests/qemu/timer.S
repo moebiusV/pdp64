@@ -6,122 +6,122 @@ _start:
 	lea	vtab, r1
 	mtsr	vbr, r1
 	mov	=MAP_TIMER, r13
-	mov	#0, r10
+	mov	$0, r10
 	mov	(r13), r2
 	mov	r2, r3
-	add	#1000, r3
+	add	$1000, r3
 1:	mov	(r13), r4
 	cblo r4, r3, 1b
-	mov	#0, r6
-	mov	#0, r7
-	mov	#0, r12
+	mov	$0, r6
+	mov	$0, r7
+	mov	$0, r12
 	mov	(r13), r2
-	add	#200000, r2
+	add	$200000, r2
 	mov	r2, TIMER_REG_COMPARE(r13)
-	mov	#(1<<TIMER_CTL_ENABLE), r2
+	mov	$(1<<TIMER_CTL_ENABLE), r2
 	mov	r2, TIMER_REG_CONTROL(r13)
 1:	mov	TIMER_REG_CONTROL(r13), r2
-	and	#(1<<TIMER_CTL_PENDING), r2
-	cbeq	r2, #0, 1b
-	cbeq r10, #(0), 1f
-	mov	#2, r0	; check 1
+	and	$(1<<TIMER_CTL_PENDING), r2
+	cbeq	r2, $0, 1b
+	cbeq r10, $(0), 1f
+	mov	$2, r0	; check 1
 	halt
 1:
-	spl	#6
+	spl	$6
 	nop
 	nop
-	cbeq r10, #(0), 1f
-	mov	#3, r0	; check 2
+	cbeq r10, $(0), 1f
+	mov	$3, r0	; check 2
 	halt
 1:
-	spl	#5
+	spl	$5
 after5:
 	nop
-	cbeq r10, #(1), 1f
-	mov	#4, r0	; check 3
+	cbeq r10, $(1), 1f
+	mov	$4, r0	; check 3
 	halt
 1:
 	lea	after5, r11
 	cbeq r6, r11, 1f
-	mov	#5, r0	; check 4
+	mov	$5, r0	; check 4
 	halt
 1:
-	bic	#15, r7
-	cbeq r7, #((MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|5<<PSW_PRI)), 1f
-	mov	#6, r0	; check 5
+	bic	$15, r7
+	cbeq r7, $((MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|5<<PSW_PRI)), 1f
+	mov	$6, r0	; check 5
 	halt
 1:
-	cbeq r12, #((MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|7<<PSW_PRI)), 1f
-	mov	#7, r0	; check 6
+	cbeq r12, $((MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|7<<PSW_PRI)), 1f
+	mov	$7, r0	; check 6
 	halt
 1:
-	cbeq r8, #(VECTOR_TIMER), 1f
-	mov	#8, r0	; check 7
+	cbeq r8, $(VECTOR_TIMER), 1f
+	mov	$8, r0	; check 7
 	halt
 1:
 	mov	TIMER_REG_CONTROL(r13), r2
-	cbeq r2, #((1<<TIMER_CTL_PENDING)), 1f
-	mov	#9, r0	; check 8
+	cbeq r2, $((1<<TIMER_CTL_PENDING)), 1f
+	mov	$9, r0	; check 8
 	halt
 1:
-	spl	#7
+	spl	$7
 	mov	(r13), r2
-	add	#20000, r2
+	add	$20000, r2
 	mov	r2, TIMER_REG_COMPARE(r13)
-	mov	#(1<<TIMER_CTL_ENABLE), r2
+	mov	$(1<<TIMER_CTL_ENABLE), r2
 	mov	r2, TIMER_REG_CONTROL(r13)
-	spl	#0
+	spl	$0
 	wfe
 afterw:
 	nop
-	cbeq r10, #(2), 1f
-	mov	#10, r0	; check 9
+	cbeq r10, $(2), 1f
+	mov	$10, r0	; check 9
 	halt
 1:
 	lea	afterw, r11
 	cbeq r6, r11, 1f
-	mov	#11, r0	; check 10
+	mov	$11, r0	; check 10
 	halt
 1:
-	spl	#7
+	spl	$7
 	mov	(r13), r2
-	add	#0, r2
+	add	$0, r2
 	mov	r2, TIMER_REG_COMPARE(r13)
-	mov	#(1<<TIMER_CTL_ENABLE), r2
+	mov	$(1<<TIMER_CTL_ENABLE), r2
 	mov	r2, TIMER_REG_CONTROL(r13)
-	spl	#3
+	spl	$3
 	nop
-	cbeq r10, #(3), 1f
-	mov	#12, r0	; check 11
+	cbeq r10, $(3), 1f
+	mov	$12, r0	; check 11
 	halt
 1:
-	mov	#-1, r2
+	mov	$-1, r2
 	mov	r2, TIMER_REG_COMPARE(r13)
-	mov	#(1<<TIMER_CTL_ENABLE), r2
+	mov	$(1<<TIMER_CTL_ENABLE), r2
 	mov	r2, TIMER_REG_CONTROL(r13)
 	nop
 	nop
-	cbeq r10, #(3), 1f
-	mov	#13, r0	; check 12
+	cbeq r10, $(3), 1f
+	mov	$13, r0	; check 12
 	halt
 1:
-	mov	#0, r3
+	mov	$0, r3
 	mov	r3, (r13)
 	mov	(r13), r3
-	cbhi r3, #1000, 1f
-	mov	#14, r0
+	cbhi r3, $1000, 1f
+	mov	$14, r0
 	halt
 1:
-	mov	#0, r0
+	mov	$0, r0
 	halt
 h_timer:	mfps	r12
 	mfsr	r6, epc
 	mfsr	r7, epsw
 	mfsr	r8, ecause
-	add	#1, r10
-	mov	#0, r9
+	add	$1, r10
+	mov	$0, r9
 	mov	r9, TIMER_REG_CONTROL(r13)
-	rti	#RTIMASK_ALL
+	rti	$RTIMASK_ALL
 	.data
 	.align	8
 vtab:

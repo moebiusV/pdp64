@@ -1,10 +1,10 @@
 	.text
 	mov r1, r12
-	sar #63, r12
+	sar $63, r12
 	xor r12, r1
 	sub r12, r1
 	mov r1, r12
-	sar #63, r12
+	sar $63, r12
 	mov r1, r2
 	xor r12, r2
 	sub r12, r2

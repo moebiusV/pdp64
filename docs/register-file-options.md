@@ -316,7 +316,7 @@ opcode(6) | rd(5) | s(1) c(4)
 * `s = 0`: `c` is an inline immediate, 0 to 15, and the instruction is one parcel (2 bytes), as today's 4-bit immediates.
 * `s = 1`: `c`'s low 2 bits give the literal size (16, 32, 48 or 64 bits) and the literal follows: 4, 6, 8 or 10 bytes in all.
 
-No extra opcodes are needed: every immediate-taking instruction (53 of the 234) uses the same field. `MOVQ #imm64, Rd` is the same instruction with the 64-bit size.
+No extra opcodes are needed: every immediate-taking instruction (53 of the 234) uses the same field. `MOVQ $imm64, Rd` is the same instruction with the 64-bit size.
 
 **What it fixes** (items from [`layout-fit-analysis.md`](layout-fit-analysis.md) section 4):
 
@@ -324,7 +324,7 @@ No extra opcodes are needed: every immediate-taking instruction (53 of the 234) 
 |---|---|---|
 | 5. Immediates 16 to 11 bits at two parcels (4,432 sites) | three parcels, +6,120 bytes | 4 bytes, as today: the 16-bit literal is one parcel after a one-parcel base. **0** |
 | 6. Immediates beyond 27 bits (1,204 sites) | no form; four parcels, +2,408 | the 32 or 48-bit size: 6 or 8 bytes, as the four-parcel repair, but a regular mechanism |
-| 14. `MOVQL #imm64` | five parcels, impossible with only `ESC2`/`ESC3` | the 64-bit size, 10 bytes, no new opcode |
+| 14. `MOVQL $imm64` | five parcels, impossible with only `ESC2`/`ESC3` | the 64-bit size, 10 bytes, no new opcode |
 | 4. PC-relative reach (19,183 sites, +20,658 unrepaired) | dedicated opcodes for `CALL label` and `LEA label` | a 16 or 32-bit trailing displacement after a one-parcel base: reach ±64 KB or ±8 GB (in parcels), 4 or 6 bytes |
 
 The same mechanism can carry an absolute address (32, 48 or 64 bits) and a long displacement for a memory operand or a branch.
@@ -345,7 +345,7 @@ The same mechanism can carry an absolute address (32, 48 or 64 bits) and a long 
 | Code bytes, layout as allocated (items 1, 2, 3, 4, 5, 6 and `cbCC` with one condition slot) | +44,812 (+4.13%) | immediates (items 5, 6) cost 0, saving 8,528; PC-relative (item 4) is repaired to a gain of 2,338 instead of costing 20,658: about **+13,200 (+1.2%)**; with four `cbCC` condition slots about **+6,400 (+0.6%)** |
 | Against the 32-register saving (about 1.0% of bytes) | net cost 0.4% to 3% | net **0.4% gain to 0.2% cost** |
 | Mode-field values (13 needed, 3 spare) | immediate, absolute and PC-relative each take a mode | those three leave the mode field if they become trailing-literal forms: **3 modes freed**, 6 spare against 5 to 8 wanted |
-| Opcode slots (one parcel 62 of 62, two parcels 61 of 64, three parcels 54 of 64) | immediate, absolute and PC-relative forms live inside the ALU and move slots as modes | the literal-bearing instructions need base opcodes: the three one-parcel immediate slots already exist (`MOVQ`, `AND`, `ADD #imm`), but every further instruction that takes an immediate (the other 14 ALU operations among them) needs a slot of its own, and **no slot is free in the one-parcel map** |
+| Opcode slots (one parcel 62 of 62, two parcels 61 of 64, three parcels 54 of 64) | immediate, absolute and PC-relative forms live inside the ALU and move slots as modes | the literal-bearing instructions need base opcodes: the three one-parcel immediate slots already exist (`MOVQ`, `AND`, `ADD $imm`), but every further instruction that takes an immediate (the other 14 ALU operations among them) needs a slot of its own, and **no slot is free in the one-parcel map** |
 | Longest instruction | 6 bytes (14 for `MOVQL`) | 14 bytes, a three-deep fetch buffer |
 
 So the mechanism frees mode values and about 7,000 to 31,000 code bytes (the two figures depend on whether the PC-relative opcodes are counted), and spends opcode slots, which are the resource that is already exhausted. To avoid spending them, the immediate forms for the other ALU operations would live in the two-parcel map as a mode, at 4 bytes plus the literal (2 bytes more than today for a 16-bit immediate), which brings back a part of the cost item 5.

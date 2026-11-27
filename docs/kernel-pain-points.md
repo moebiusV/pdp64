@@ -252,7 +252,7 @@ How measured: `grep -rPIc` per category per tree, summed over files of kind code
 | Register-save length | **MITIGATED BY DESIGN** | 4 to 5 instructions entry, 4 exit (paper estimate, survey 8); wins (a) code size and (c) hot path |
 | `swapgs`-style kernel base | **DESIGNED AWAY** | banked `DP`; wins (b): no "which mode" test, no paranoid path |
 | Entry can fault (bad kernel stack, double fault) | **DESIGNED AWAY** | entry writes only registers; wins (b): no recovery code for a failed push. Cost: a second exception before the save overwrites `EPC`/`EPSW`, closed by priority 7 (E40) but **not covered: an exception in the handler's own first instructions** (the entry code and kernel stack must be pinned) |
-| Fast system call past the vector fetch | **SAME PROBLEM** (small) | one 8-byte table fetch per exception, `TRAP #n` through vector 256 + n (D3); x86's `syscall` avoids a memory fetch |
+| Fast system call past the vector fetch | **SAME PROBLEM** (small) | one 8-byte table fetch per exception, `TRAP $n` through vector 256 + n (D3); x86's `syscall` avoids a memory fetch |
 | Page-table switch for isolation | **UNKNOWN** | not needed now; see chapter 4 |
 | Nested exceptions in the handler | **MITIGATED** | the handler runs at priority 7 until the 2-instruction save; recovery code is the discipline itself (E40, E37) |
 
@@ -340,7 +340,7 @@ How measured: `grep -rPIc` per category per tree, summed over files of kind code
 | LL/SC livelock and fairness | **MITIGATED BY DESIGN** | constrained-sequence guarantee in E45; unmeasured, and only when a second initiator exists |
 | Lock fairness and cache-line bouncing (ticket, queued) | **SAME PROBLEM** | a test-and-set lock bounces a line between cores regardless of memory model; 2 to 4 cores snooping MSI (ISA 17.3) keep it small; beyond that R3 (coherence scaling) and queued locks return |
 | Atomics for devices (doorbells, descriptors) | **UNKNOWN** | monitor semantics defined (E45) but the Q64 bus mapping is R4/P11 |
-| Spin-wait hint | **MITIGATED** | `HINT #1` pause and `WFE`; the lost-wake race of the idle loop is P1 |
+| Spin-wait hint | **MITIGATED** | `HINT $1` pause and `WFE`; the lost-wake race of the idle loop is P1 |
 | RCU, per-CPU, lockless techniques | **SAME PROBLEM, easier** | a software discipline on any memory model, but with SC the proofs are shorter and the dependency-ordering rule disappears |
 | Double-width CAS for lock-free lists | **UNKNOWN** | P8 (not adding now) |
 
@@ -1854,7 +1854,7 @@ All measured on the trees of B.1; the value is what the command printed on 2026-
 | `hw-vuln-doc-lines` | linux | lines in Documentation/admin-guide/hw-vuln | 4164 | `cat Documentation/admin-guide/hw-vuln/*.rst \| wc -l` |
 | `arm64-errata-kconfig` | linux | ARM64_ERRATUM_* Kconfig options | 41 | `grep -c 'config ARM64_ERRATUM_' arch/arm64/Kconfig` |
 | `arm64-workaround-caps` | linux | ARM64_WORKAROUND_* capabilities in the capability table | 41 | `grep -cE '^WORKAROUND_' arch/arm64/tools/cpucaps` |
-| `arm64-silicon-errata-rows` | linux | rows of Documentation/arch/arm64/silicon-errata.rst naming an erratum | 145 | `grep -cE '^\\| [A-Za-z].*(#\|ID\|errata\|Erratum\|[0-9]{5,})' Documentation/arch/arm64/silicon-errata.rst` |
+| `arm64-silicon-errata-rows` | linux | rows of Documentation/arch/arm64/silicon-errata.rst naming an erratum | 145 | `grep -cE '^\\| [A-Za-z].*($\|ID\|errata\|Erratum\|[0-9]{5,})' Documentation/arch/arm64/silicon-errata.rst` |
 | `memory-barriers-lines` | linux | lines of Documentation/memory-barriers.txt | 3016 | `wc -l < Documentation/memory-barriers.txt` |
 | `rcu-doc-lines` | linux | lines under Documentation/RCU | 36824 | `find Documentation/RCU -type f \| xargs cat \| wc -l` |
 | `locking-doc-lines` | linux | lines under Documentation/locking | 4554 | `find Documentation/locking -type f \| xargs cat \| wc -l` |

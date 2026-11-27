@@ -9,7 +9,7 @@ _start:
 	bis	r2, r1
 	mtsr	gtbr, r1			; every entry under the next number is thrown away, then the number is handed out
 	mfsr	r3, gtbr
-	shr	#48, r3				; r3 is the guest's tag; the hypervisor never chose it
+	shr	$48, r3				; r3 is the guest's tag; the hypervisor never chose it
 	halt
 	.data
 	.align	4096

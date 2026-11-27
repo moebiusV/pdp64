@@ -8,7 +8,7 @@ _start:
 	lea	vtab, r1
 	mtsr	vbr, r1
 	lea	hgen, r2
-	mov	#512, r3
+	mov	$512, r3
 kfill:	mov	r2, (r1)+
 	sob	r3, kfill
 	lea	vtab, r1
@@ -19,288 +19,288 @@ kfill:	mov	r2, (r1)+
 
 	lea	l2, r1
 	mtsr	ptbr, r1
-	mov	#1, r1
+	mov	$1, r1
 	mtsr	mmuctl, r1
 	isync
 
 	; ---- case 1: mov store at offset 3 of normal cached memory: it works
 	mov	=(0x800000), r3
 	mov	=(0x1122334455667788), r1
-	mov	#0, r10
+	mov	$0, r10
 	mov	r10, cnt
 	lea	N1, r13
 I1:	mov	r1, 3(r3)
 N1:	mov	cnt, r12
 	mov	=(0), r17
 	cbeq	r12, r17, 1f	; case 1: no exception
-	mov	#1, r0
+	mov	$1, r0
 	halt
 1:
 	mov	3(r3), r4
 	mov	=(0x1122334455667788), r17
 	cbeq	r4, r17, 1f	; case 1: it reads back what was stored
-	mov	#1, r0
+	mov	$1, r0
 	halt
 1:
 	; ---- case 2: mov load at offset 3 of normal cached memory: it works
-	mov	#0, r10
+	mov	$0, r10
 	mov	r10, cnt
 	lea	N2, r13
 I2:	mov	3(r3), r5
 N2:	mov	cnt, r12
 	mov	=(0), r17
 	cbeq	r12, r17, 1f	; case 2: no exception
-	mov	#2, r0
+	mov	$2, r0
 	halt
 1:
 	mov	=(0x1122334455667788), r17
 	cbeq	r5, r17, 1f	; case 2: the load reads it
-	mov	#2, r0
+	mov	$2, r0
 	halt
 1:
 	; ---- case 3: mov store at offset 5 of normal cached memory: it works
 	mov	=(0x800000), r3
 	mov	=(0x8877665544332211), r1
-	mov	#0, r10
+	mov	$0, r10
 	mov	r10, cnt
 	lea	N3, r13
 I3:	mov	r1, 5(r3)
 N3:	mov	cnt, r12
 	mov	=(0), r17
 	cbeq	r12, r17, 1f	; case 3: no exception
-	mov	#3, r0
+	mov	$3, r0
 	halt
 1:
 	mov	5(r3), r4
 	mov	=(0x8877665544332211), r17
 	cbeq	r4, r17, 1f	; case 3: it reads back what was stored
-	mov	#3, r0
+	mov	$3, r0
 	halt
 1:
 	; ---- case 4: mov load at offset 5 of normal cached memory: it works
-	mov	#0, r10
+	mov	$0, r10
 	mov	r10, cnt
 	lea	N4, r13
 I4:	mov	5(r3), r5
 N4:	mov	cnt, r12
 	mov	=(0), r17
 	cbeq	r12, r17, 1f	; case 4: no exception
-	mov	#4, r0
+	mov	$4, r0
 	halt
 1:
 	mov	=(0x8877665544332211), r17
 	cbeq	r5, r17, 1f	; case 4: the load reads it
-	mov	#4, r0
+	mov	$4, r0
 	halt
 1:
 	; ---- case 5: mov.s32 store at offset 1 of normal cached memory: it works
 	mov	=(0x800000), r3
 	mov	=(0x44332211), r1
-	mov	#0, r10
+	mov	$0, r10
 	mov	r10, cnt
 	lea	N5, r13
 I5:	mov.s32	r1, 1(r3)
 N5:	mov	cnt, r12
 	mov	=(0), r17
 	cbeq	r12, r17, 1f	; case 5: no exception
-	mov	#5, r0
+	mov	$5, r0
 	halt
 1:
 	mov.u32	1(r3), r4
 	mov	=(0x44332211), r17
 	cbeq	r4, r17, 1f	; case 5: it reads back what was stored
-	mov	#5, r0
+	mov	$5, r0
 	halt
 1:
 	; ---- case 6: mov.s32 load at offset 1 of normal cached memory: it works
-	mov	#0, r10
+	mov	$0, r10
 	mov	r10, cnt
 	lea	N6, r13
 I6:	mov.u32	1(r3), r5
 N6:	mov	cnt, r12
 	mov	=(0), r17
 	cbeq	r12, r17, 1f	; case 6: no exception
-	mov	#6, r0
+	mov	$6, r0
 	halt
 1:
 	mov	=(0x44332211), r17
 	cbeq	r5, r17, 1f	; case 6: the load reads it
-	mov	#6, r0
+	mov	$6, r0
 	halt
 1:
 	; ---- case 7: mov.s16 store at offset 1 of normal cached memory: it works
 	mov	=(0x800000), r3
 	mov	=(0x2211), r1
-	mov	#0, r10
+	mov	$0, r10
 	mov	r10, cnt
 	lea	N7, r13
 I7:	mov.s16	r1, 1(r3)
 N7:	mov	cnt, r12
 	mov	=(0), r17
 	cbeq	r12, r17, 1f	; case 7: no exception
-	mov	#7, r0
+	mov	$7, r0
 	halt
 1:
 	mov.u16	1(r3), r4
 	mov	=(0x2211), r17
 	cbeq	r4, r17, 1f	; case 7: it reads back what was stored
-	mov	#7, r0
+	mov	$7, r0
 	halt
 1:
 	; ---- case 8: mov.s16 load at offset 1 of normal cached memory: it works
-	mov	#0, r10
+	mov	$0, r10
 	mov	r10, cnt
 	lea	N8, r13
 I8:	mov.u16	1(r3), r5
 N8:	mov	cnt, r12
 	mov	=(0), r17
 	cbeq	r12, r17, 1f	; case 8: no exception
-	mov	#8, r0
+	mov	$8, r0
 	halt
 1:
 	mov	=(0x2211), r17
 	cbeq	r5, r17, 1f	; case 8: the load reads it
-	mov	#8, r0
+	mov	$8, r0
 	halt
 1:
 	; ---- case 9: mov store at offset 3 of normal uncached memory: it works
 	mov	=(0x802000), r3
 	mov	=(0x1122334455667788), r1
-	mov	#0, r10
+	mov	$0, r10
 	mov	r10, cnt
 	lea	N9, r13
 I9:	mov	r1, 3(r3)
 N9:	mov	cnt, r12
 	mov	=(0), r17
 	cbeq	r12, r17, 1f	; case 9: no exception
-	mov	#9, r0
+	mov	$9, r0
 	halt
 1:
 	mov	3(r3), r4
 	mov	=(0x1122334455667788), r17
 	cbeq	r4, r17, 1f	; case 9: it reads back what was stored
-	mov	#9, r0
+	mov	$9, r0
 	halt
 1:
 	; ---- case 10: mov load at offset 3 of normal uncached memory: it works
-	mov	#0, r10
+	mov	$0, r10
 	mov	r10, cnt
 	lea	N10, r13
 I10:	mov	3(r3), r5
 N10:	mov	cnt, r12
 	mov	=(0), r17
 	cbeq	r12, r17, 1f	; case 10: no exception
-	mov	#10, r0
+	mov	$10, r0
 	halt
 1:
 	mov	=(0x1122334455667788), r17
 	cbeq	r5, r17, 1f	; case 10: the load reads it
-	mov	#10, r0
+	mov	$10, r0
 	halt
 1:
 	; ---- case 11: mov store at offset 5 of normal uncached memory: it works
 	mov	=(0x802000), r3
 	mov	=(0x8877665544332211), r1
-	mov	#0, r10
+	mov	$0, r10
 	mov	r10, cnt
 	lea	N11, r13
 I11:	mov	r1, 5(r3)
 N11:	mov	cnt, r12
 	mov	=(0), r17
 	cbeq	r12, r17, 1f	; case 11: no exception
-	mov	#11, r0
+	mov	$11, r0
 	halt
 1:
 	mov	5(r3), r4
 	mov	=(0x8877665544332211), r17
 	cbeq	r4, r17, 1f	; case 11: it reads back what was stored
-	mov	#11, r0
+	mov	$11, r0
 	halt
 1:
 	; ---- case 12: mov load at offset 5 of normal uncached memory: it works
-	mov	#0, r10
+	mov	$0, r10
 	mov	r10, cnt
 	lea	N12, r13
 I12:	mov	5(r3), r5
 N12:	mov	cnt, r12
 	mov	=(0), r17
 	cbeq	r12, r17, 1f	; case 12: no exception
-	mov	#12, r0
+	mov	$12, r0
 	halt
 1:
 	mov	=(0x8877665544332211), r17
 	cbeq	r5, r17, 1f	; case 12: the load reads it
-	mov	#12, r0
+	mov	$12, r0
 	halt
 1:
 	; ---- case 13: mov.s32 store at offset 1 of normal uncached memory: it works
 	mov	=(0x802000), r3
 	mov	=(0x44332211), r1
-	mov	#0, r10
+	mov	$0, r10
 	mov	r10, cnt
 	lea	N13, r13
 I13:	mov.s32	r1, 1(r3)
 N13:	mov	cnt, r12
 	mov	=(0), r17
 	cbeq	r12, r17, 1f	; case 13: no exception
-	mov	#13, r0
+	mov	$13, r0
 	halt
 1:
 	mov.u32	1(r3), r4
 	mov	=(0x44332211), r17
 	cbeq	r4, r17, 1f	; case 13: it reads back what was stored
-	mov	#13, r0
+	mov	$13, r0
 	halt
 1:
 	; ---- case 14: mov.s32 load at offset 1 of normal uncached memory: it works
-	mov	#0, r10
+	mov	$0, r10
 	mov	r10, cnt
 	lea	N14, r13
 I14:	mov.u32	1(r3), r5
 N14:	mov	cnt, r12
 	mov	=(0), r17
 	cbeq	r12, r17, 1f	; case 14: no exception
-	mov	#14, r0
+	mov	$14, r0
 	halt
 1:
 	mov	=(0x44332211), r17
 	cbeq	r5, r17, 1f	; case 14: the load reads it
-	mov	#14, r0
+	mov	$14, r0
 	halt
 1:
 	; ---- case 15: mov.s16 store at offset 1 of normal uncached memory: it works
 	mov	=(0x802000), r3
 	mov	=(0x2211), r1
-	mov	#0, r10
+	mov	$0, r10
 	mov	r10, cnt
 	lea	N15, r13
 I15:	mov.s16	r1, 1(r3)
 N15:	mov	cnt, r12
 	mov	=(0), r17
 	cbeq	r12, r17, 1f	; case 15: no exception
-	mov	#15, r0
+	mov	$15, r0
 	halt
 1:
 	mov.u16	1(r3), r4
 	mov	=(0x2211), r17
 	cbeq	r4, r17, 1f	; case 15: it reads back what was stored
-	mov	#15, r0
+	mov	$15, r0
 	halt
 1:
 	; ---- case 16: mov.s16 load at offset 1 of normal uncached memory: it works
-	mov	#0, r10
+	mov	$0, r10
 	mov	r10, cnt
 	lea	N16, r13
 I16:	mov.u16	1(r3), r5
 N16:	mov	cnt, r12
 	mov	=(0), r17
 	cbeq	r12, r17, 1f	; case 16: no exception
-	mov	#16, r0
+	mov	$16, r0
 	halt
 1:
 	mov	=(0x2211), r17
 	cbeq	r5, r17, 1f	; case 16: the load reads it
-	mov	#16, r0
+	mov	$16, r0
 	halt
 1:
 	; ---- case 17: control: an aligned store and load of the timer's COMPARE through the strongly ordered page
@@ -310,481 +310,481 @@ N16:	mov	cnt, r12
 	mov	8(r3), r4
 	mov	=(0x1122334455667788), r17
 	cbeq	r4, r17, 1f	; case 17: aligned access to a strongly ordered page works
-	mov	#17, r0
+	mov	$17, r0
 	halt
 1:
 	; ---- case 18: mov load at offset 4 of a strongly ordered device page: the misalignment fault, nothing performed
 	mov	=(0x805000), r3
 	mov	=(0x5a5a5a5a5a5a5a5a), r4
-	mov	#0, r10
+	mov	$0, r10
 	mov	r10, cnt
 	lea	N17, r13
 I17:	mov	4(r3), r4
 N17:	mov	cnt, r12
 	mov	=(1), r17
 	cbeq	r12, r17, 1f	; case 18: one exception
-	mov	#18, r0
+	mov	$18, r0
 	halt
 1:
 	mov	last_cause, r12
 	mov	=(VECTOR_MISALIGNED), r17
 	cbeq	r12, r17, 1f	; case 18: it is the misalignment fault
-	mov	#18, r0
+	mov	$18, r0
 	halt
 1:
 	mov	last_eva, r12
 	mov	=(0x805004), r17
 	cbeq	r12, r17, 1f	; case 18: EVA is the address of the access
-	mov	#18, r0
+	mov	$18, r0
 	halt
 1:
 	mov	last_epc, r12
 	lea	I17, r11
 	cbeq	r12, r11, 1f	; case 18: EPC is the instruction
-	mov	#18, r0
+	mov	$18, r0
 	halt
 1:
 	mov	=(0x5a5a5a5a5a5a5a5a), r17
 	cbeq	r4, r17, 1f	; case 18: the destination is as it was
-	mov	#18, r0
+	mov	$18, r0
 	halt
 1:
 	mov	8(r3), r5
 	mov	=(0x1122334455667788), r17
 	cbeq	r5, r17, 1f	; case 18: COMPARE is as it was
-	mov	#18, r0
+	mov	$18, r0
 	halt
 1:
 	; ---- case 19: mov store at offset 4 of a strongly ordered device page: the misalignment fault, nothing performed
 	mov	=(0x805000), r3
 	mov	=(0xaabbccdd99887766), r1
-	mov	#0, r10
+	mov	$0, r10
 	mov	r10, cnt
 	lea	N18, r13
 I18:	mov	r1, 4(r3)
 N18:	mov	cnt, r12
 	mov	=(1), r17
 	cbeq	r12, r17, 1f	; case 19: one exception
-	mov	#19, r0
+	mov	$19, r0
 	halt
 1:
 	mov	last_cause, r12
 	mov	=(VECTOR_MISALIGNED), r17
 	cbeq	r12, r17, 1f	; case 19: it is the misalignment fault
-	mov	#19, r0
+	mov	$19, r0
 	halt
 1:
 	mov	last_eva, r12
 	mov	=(0x805004), r17
 	cbeq	r12, r17, 1f	; case 19: EVA is the address of the access
-	mov	#19, r0
+	mov	$19, r0
 	halt
 1:
 	mov	last_epc, r12
 	lea	I18, r11
 	cbeq	r12, r11, 1f	; case 19: EPC is the instruction
-	mov	#19, r0
+	mov	$19, r0
 	halt
 1:
 	mov	8(r3), r5
 	mov	=(0x1122334455667788), r17
 	cbeq	r5, r17, 1f	; case 19: COMPARE is as it was: no piece of the store reached the device
-	mov	#19, r0
+	mov	$19, r0
 	halt
 1:
 	; ---- case 20: mov load at offset 1 of a strongly ordered device page: the misalignment fault, nothing performed
 	mov	=(0x805000), r3
 	mov	=(0x5a5a5a5a5a5a5a5a), r4
-	mov	#0, r10
+	mov	$0, r10
 	mov	r10, cnt
 	lea	N19, r13
 I19:	mov	1(r3), r4
 N19:	mov	cnt, r12
 	mov	=(1), r17
 	cbeq	r12, r17, 1f	; case 20: one exception
-	mov	#20, r0
+	mov	$20, r0
 	halt
 1:
 	mov	last_cause, r12
 	mov	=(VECTOR_MISALIGNED), r17
 	cbeq	r12, r17, 1f	; case 20: it is the misalignment fault
-	mov	#20, r0
+	mov	$20, r0
 	halt
 1:
 	mov	last_eva, r12
 	mov	=(0x805001), r17
 	cbeq	r12, r17, 1f	; case 20: EVA is the address of the access
-	mov	#20, r0
+	mov	$20, r0
 	halt
 1:
 	mov	last_epc, r12
 	lea	I19, r11
 	cbeq	r12, r11, 1f	; case 20: EPC is the instruction
-	mov	#20, r0
+	mov	$20, r0
 	halt
 1:
 	mov	=(0x5a5a5a5a5a5a5a5a), r17
 	cbeq	r4, r17, 1f	; case 20: the destination is as it was
-	mov	#20, r0
+	mov	$20, r0
 	halt
 1:
 	mov	8(r3), r5
 	mov	=(0x1122334455667788), r17
 	cbeq	r5, r17, 1f	; case 20: COMPARE is as it was
-	mov	#20, r0
+	mov	$20, r0
 	halt
 1:
 	; ---- case 21: mov store at offset 1 of a strongly ordered device page: the misalignment fault, nothing performed
 	mov	=(0x805000), r3
 	mov	=(0xaabbccdd99887766), r1
-	mov	#0, r10
+	mov	$0, r10
 	mov	r10, cnt
 	lea	N20, r13
 I20:	mov	r1, 1(r3)
 N20:	mov	cnt, r12
 	mov	=(1), r17
 	cbeq	r12, r17, 1f	; case 21: one exception
-	mov	#21, r0
+	mov	$21, r0
 	halt
 1:
 	mov	last_cause, r12
 	mov	=(VECTOR_MISALIGNED), r17
 	cbeq	r12, r17, 1f	; case 21: it is the misalignment fault
-	mov	#21, r0
+	mov	$21, r0
 	halt
 1:
 	mov	last_eva, r12
 	mov	=(0x805001), r17
 	cbeq	r12, r17, 1f	; case 21: EVA is the address of the access
-	mov	#21, r0
+	mov	$21, r0
 	halt
 1:
 	mov	last_epc, r12
 	lea	I20, r11
 	cbeq	r12, r11, 1f	; case 21: EPC is the instruction
-	mov	#21, r0
+	mov	$21, r0
 	halt
 1:
 	mov	8(r3), r5
 	mov	=(0x1122334455667788), r17
 	cbeq	r5, r17, 1f	; case 21: COMPARE is as it was: no piece of the store reached the device
-	mov	#21, r0
+	mov	$21, r0
 	halt
 1:
 	; ---- case 22: mov.s32 load at offset 10 of a strongly ordered device page: the misalignment fault, nothing performed
 	mov	=(0x805000), r3
 	mov	=(0x5a5a5a5a5a5a5a5a), r4
-	mov	#0, r10
+	mov	$0, r10
 	mov	r10, cnt
 	lea	N21, r13
 I21:	mov.s32	10(r3), r4
 N21:	mov	cnt, r12
 	mov	=(1), r17
 	cbeq	r12, r17, 1f	; case 22: one exception
-	mov	#22, r0
+	mov	$22, r0
 	halt
 1:
 	mov	last_cause, r12
 	mov	=(VECTOR_MISALIGNED), r17
 	cbeq	r12, r17, 1f	; case 22: it is the misalignment fault
-	mov	#22, r0
+	mov	$22, r0
 	halt
 1:
 	mov	last_eva, r12
 	mov	=(0x80500a), r17
 	cbeq	r12, r17, 1f	; case 22: EVA is the address of the access
-	mov	#22, r0
+	mov	$22, r0
 	halt
 1:
 	mov	last_epc, r12
 	lea	I21, r11
 	cbeq	r12, r11, 1f	; case 22: EPC is the instruction
-	mov	#22, r0
+	mov	$22, r0
 	halt
 1:
 	mov	=(0x5a5a5a5a5a5a5a5a), r17
 	cbeq	r4, r17, 1f	; case 22: the destination is as it was
-	mov	#22, r0
+	mov	$22, r0
 	halt
 1:
 	mov	8(r3), r5
 	mov	=(0x1122334455667788), r17
 	cbeq	r5, r17, 1f	; case 22: COMPARE is as it was
-	mov	#22, r0
+	mov	$22, r0
 	halt
 1:
 	; ---- case 23: mov.s32 store at offset 10 of a strongly ordered device page: the misalignment fault, nothing performed
 	mov	=(0x805000), r3
 	mov	=(0xaabbccdd99887766), r1
-	mov	#0, r10
+	mov	$0, r10
 	mov	r10, cnt
 	lea	N22, r13
 I22:	mov.s32	r1, 10(r3)
 N22:	mov	cnt, r12
 	mov	=(1), r17
 	cbeq	r12, r17, 1f	; case 23: one exception
-	mov	#23, r0
+	mov	$23, r0
 	halt
 1:
 	mov	last_cause, r12
 	mov	=(VECTOR_MISALIGNED), r17
 	cbeq	r12, r17, 1f	; case 23: it is the misalignment fault
-	mov	#23, r0
+	mov	$23, r0
 	halt
 1:
 	mov	last_eva, r12
 	mov	=(0x80500a), r17
 	cbeq	r12, r17, 1f	; case 23: EVA is the address of the access
-	mov	#23, r0
+	mov	$23, r0
 	halt
 1:
 	mov	last_epc, r12
 	lea	I22, r11
 	cbeq	r12, r11, 1f	; case 23: EPC is the instruction
-	mov	#23, r0
+	mov	$23, r0
 	halt
 1:
 	mov	8(r3), r5
 	mov	=(0x1122334455667788), r17
 	cbeq	r5, r17, 1f	; case 23: COMPARE is as it was: no piece of the store reached the device
-	mov	#23, r0
+	mov	$23, r0
 	halt
 1:
 	; ---- case 24: mov.s32 load at offset 2 of a strongly ordered device page: the misalignment fault, nothing performed
 	mov	=(0x805000), r3
 	mov	=(0x5a5a5a5a5a5a5a5a), r4
-	mov	#0, r10
+	mov	$0, r10
 	mov	r10, cnt
 	lea	N23, r13
 I23:	mov.s32	2(r3), r4
 N23:	mov	cnt, r12
 	mov	=(1), r17
 	cbeq	r12, r17, 1f	; case 24: one exception
-	mov	#24, r0
+	mov	$24, r0
 	halt
 1:
 	mov	last_cause, r12
 	mov	=(VECTOR_MISALIGNED), r17
 	cbeq	r12, r17, 1f	; case 24: it is the misalignment fault
-	mov	#24, r0
+	mov	$24, r0
 	halt
 1:
 	mov	last_eva, r12
 	mov	=(0x805002), r17
 	cbeq	r12, r17, 1f	; case 24: EVA is the address of the access
-	mov	#24, r0
+	mov	$24, r0
 	halt
 1:
 	mov	last_epc, r12
 	lea	I23, r11
 	cbeq	r12, r11, 1f	; case 24: EPC is the instruction
-	mov	#24, r0
+	mov	$24, r0
 	halt
 1:
 	mov	=(0x5a5a5a5a5a5a5a5a), r17
 	cbeq	r4, r17, 1f	; case 24: the destination is as it was
-	mov	#24, r0
+	mov	$24, r0
 	halt
 1:
 	mov	8(r3), r5
 	mov	=(0x1122334455667788), r17
 	cbeq	r5, r17, 1f	; case 24: COMPARE is as it was
-	mov	#24, r0
+	mov	$24, r0
 	halt
 1:
 	; ---- case 25: mov.s32 store at offset 2 of a strongly ordered device page: the misalignment fault, nothing performed
 	mov	=(0x805000), r3
 	mov	=(0xaabbccdd99887766), r1
-	mov	#0, r10
+	mov	$0, r10
 	mov	r10, cnt
 	lea	N24, r13
 I24:	mov.s32	r1, 2(r3)
 N24:	mov	cnt, r12
 	mov	=(1), r17
 	cbeq	r12, r17, 1f	; case 25: one exception
-	mov	#25, r0
+	mov	$25, r0
 	halt
 1:
 	mov	last_cause, r12
 	mov	=(VECTOR_MISALIGNED), r17
 	cbeq	r12, r17, 1f	; case 25: it is the misalignment fault
-	mov	#25, r0
+	mov	$25, r0
 	halt
 1:
 	mov	last_eva, r12
 	mov	=(0x805002), r17
 	cbeq	r12, r17, 1f	; case 25: EVA is the address of the access
-	mov	#25, r0
+	mov	$25, r0
 	halt
 1:
 	mov	last_epc, r12
 	lea	I24, r11
 	cbeq	r12, r11, 1f	; case 25: EPC is the instruction
-	mov	#25, r0
+	mov	$25, r0
 	halt
 1:
 	mov	8(r3), r5
 	mov	=(0x1122334455667788), r17
 	cbeq	r5, r17, 1f	; case 25: COMPARE is as it was: no piece of the store reached the device
-	mov	#25, r0
+	mov	$25, r0
 	halt
 1:
 	; ---- case 26: mov.s16 load at offset 7 of a strongly ordered device page: the misalignment fault, nothing performed
 	mov	=(0x805000), r3
 	mov	=(0x5a5a5a5a5a5a5a5a), r4
-	mov	#0, r10
+	mov	$0, r10
 	mov	r10, cnt
 	lea	N25, r13
 I25:	mov.s16	7(r3), r4
 N25:	mov	cnt, r12
 	mov	=(1), r17
 	cbeq	r12, r17, 1f	; case 26: one exception
-	mov	#26, r0
+	mov	$26, r0
 	halt
 1:
 	mov	last_cause, r12
 	mov	=(VECTOR_MISALIGNED), r17
 	cbeq	r12, r17, 1f	; case 26: it is the misalignment fault
-	mov	#26, r0
+	mov	$26, r0
 	halt
 1:
 	mov	last_eva, r12
 	mov	=(0x805007), r17
 	cbeq	r12, r17, 1f	; case 26: EVA is the address of the access
-	mov	#26, r0
+	mov	$26, r0
 	halt
 1:
 	mov	last_epc, r12
 	lea	I25, r11
 	cbeq	r12, r11, 1f	; case 26: EPC is the instruction
-	mov	#26, r0
+	mov	$26, r0
 	halt
 1:
 	mov	=(0x5a5a5a5a5a5a5a5a), r17
 	cbeq	r4, r17, 1f	; case 26: the destination is as it was
-	mov	#26, r0
+	mov	$26, r0
 	halt
 1:
 	mov	8(r3), r5
 	mov	=(0x1122334455667788), r17
 	cbeq	r5, r17, 1f	; case 26: COMPARE is as it was
-	mov	#26, r0
+	mov	$26, r0
 	halt
 1:
 	; ---- case 27: mov.s16 store at offset 7 of a strongly ordered device page: the misalignment fault, nothing performed
 	mov	=(0x805000), r3
 	mov	=(0xaabbccdd99887766), r1
-	mov	#0, r10
+	mov	$0, r10
 	mov	r10, cnt
 	lea	N26, r13
 I26:	mov.s16	r1, 7(r3)
 N26:	mov	cnt, r12
 	mov	=(1), r17
 	cbeq	r12, r17, 1f	; case 27: one exception
-	mov	#27, r0
+	mov	$27, r0
 	halt
 1:
 	mov	last_cause, r12
 	mov	=(VECTOR_MISALIGNED), r17
 	cbeq	r12, r17, 1f	; case 27: it is the misalignment fault
-	mov	#27, r0
+	mov	$27, r0
 	halt
 1:
 	mov	last_eva, r12
 	mov	=(0x805007), r17
 	cbeq	r12, r17, 1f	; case 27: EVA is the address of the access
-	mov	#27, r0
+	mov	$27, r0
 	halt
 1:
 	mov	last_epc, r12
 	lea	I26, r11
 	cbeq	r12, r11, 1f	; case 27: EPC is the instruction
-	mov	#27, r0
+	mov	$27, r0
 	halt
 1:
 	mov	8(r3), r5
 	mov	=(0x1122334455667788), r17
 	cbeq	r5, r17, 1f	; case 27: COMPARE is as it was: no piece of the store reached the device
-	mov	#27, r0
+	mov	$27, r0
 	halt
 1:
 	; ---- case 28: mov.s16 load at offset 1 of a strongly ordered device page: the misalignment fault, nothing performed
 	mov	=(0x805000), r3
 	mov	=(0x5a5a5a5a5a5a5a5a), r4
-	mov	#0, r10
+	mov	$0, r10
 	mov	r10, cnt
 	lea	N27, r13
 I27:	mov.s16	1(r3), r4
 N27:	mov	cnt, r12
 	mov	=(1), r17
 	cbeq	r12, r17, 1f	; case 28: one exception
-	mov	#28, r0
+	mov	$28, r0
 	halt
 1:
 	mov	last_cause, r12
 	mov	=(VECTOR_MISALIGNED), r17
 	cbeq	r12, r17, 1f	; case 28: it is the misalignment fault
-	mov	#28, r0
+	mov	$28, r0
 	halt
 1:
 	mov	last_eva, r12
 	mov	=(0x805001), r17
 	cbeq	r12, r17, 1f	; case 28: EVA is the address of the access
-	mov	#28, r0
+	mov	$28, r0
 	halt
 1:
 	mov	last_epc, r12
 	lea	I27, r11
 	cbeq	r12, r11, 1f	; case 28: EPC is the instruction
-	mov	#28, r0
+	mov	$28, r0
 	halt
 1:
 	mov	=(0x5a5a5a5a5a5a5a5a), r17
 	cbeq	r4, r17, 1f	; case 28: the destination is as it was
-	mov	#28, r0
+	mov	$28, r0
 	halt
 1:
 	mov	8(r3), r5
 	mov	=(0x1122334455667788), r17
 	cbeq	r5, r17, 1f	; case 28: COMPARE is as it was
-	mov	#28, r0
+	mov	$28, r0
 	halt
 1:
 	; ---- case 29: mov.s16 store at offset 1 of a strongly ordered device page: the misalignment fault, nothing performed
 	mov	=(0x805000), r3
 	mov	=(0xaabbccdd99887766), r1
-	mov	#0, r10
+	mov	$0, r10
 	mov	r10, cnt
 	lea	N28, r13
 I28:	mov.s16	r1, 1(r3)
 N28:	mov	cnt, r12
 	mov	=(1), r17
 	cbeq	r12, r17, 1f	; case 29: one exception
-	mov	#29, r0
+	mov	$29, r0
 	halt
 1:
 	mov	last_cause, r12
 	mov	=(VECTOR_MISALIGNED), r17
 	cbeq	r12, r17, 1f	; case 29: it is the misalignment fault
-	mov	#29, r0
+	mov	$29, r0
 	halt
 1:
 	mov	last_eva, r12
 	mov	=(0x805001), r17
 	cbeq	r12, r17, 1f	; case 29: EVA is the address of the access
-	mov	#29, r0
+	mov	$29, r0
 	halt
 1:
 	mov	last_epc, r12
 	lea	I28, r11
 	cbeq	r12, r11, 1f	; case 29: EPC is the instruction
-	mov	#29, r0
+	mov	$29, r0
 	halt
 1:
 	mov	8(r3), r5
 	mov	=(0x1122334455667788), r17
 	cbeq	r5, r17, 1f	; case 29: COMPARE is as it was: no piece of the store reached the device
-	mov	#29, r0
+	mov	$29, r0
 	halt
 1:
 	; ---- case 30: control: COMPARE through the weakly ordered page
@@ -794,57 +794,57 @@ N28:	mov	cnt, r12
 	mov	8(r3), r4
 	mov	=(0x1122334455667788), r17
 	cbeq	r4, r17, 1f	; case 30: aligned access works
-	mov	#30, r0
+	mov	$30, r0
 	halt
 1:
 	; ---- case 31: mov load at offset 4 of a weakly ordered device page: it works (two pieces: nothing at 4, COMPARE's low half at 8)
-	mov	#0, r10
+	mov	$0, r10
 	mov	r10, cnt
 	lea	N29, r13
 I29:	mov	4(r3), r4
 N29:	mov	cnt, r12
 	mov	=(0), r17
 	cbeq	r12, r17, 1f	; case 31: no exception
-	mov	#31, r0
+	mov	$31, r0
 	halt
 1:
 	mov	=(0x5566778800000000), r17
 	cbeq	r4, r17, 1f	; case 31: the access is made, in two pieces
-	mov	#31, r0
+	mov	$31, r0
 	halt
 1:
 	; ---- case 32: mov.s32 load at offset 6 of a weakly ordered device page: it works
-	mov	#0, r10
+	mov	$0, r10
 	mov	r10, cnt
 	lea	N30, r13
 I30:	mov.s32	6(r3), r4
 N30:	mov	cnt, r12
 	mov	=(0), r17
 	cbeq	r12, r17, 1f	; case 32: no exception
-	mov	#32, r0
+	mov	$32, r0
 	halt
 1:
 	mov	=(0x77880000), r17
 	cbeq	r4, r17, 1f	; case 32: the access is made
-	mov	#32, r0
+	mov	$32, r0
 	halt
 1:
 	; ---- case 33: mov store at offset 4 of a weakly ordered device page: it works (the high half reaches COMPARE)
 	mov	=(0xaabbccdd11223344), r1
-	mov	#0, r10
+	mov	$0, r10
 	mov	r10, cnt
 	lea	N31, r13
 I31:	mov	r1, 4(r3)
 N31:	mov	cnt, r12
 	mov	=(0), r17
 	cbeq	r12, r17, 1f	; case 33: no exception
-	mov	#33, r0
+	mov	$33, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xaabbccdd), r17
 	cbeq	r4, r17, 1f	; case 33: the second piece of the store reached COMPARE
-	mov	#33, r0
+	mov	$33, r0
 	halt
 1:
 	; ---- case 34: control: the bytes of RAM page 4 and 6 and 9 and the page boundaries
@@ -871,58 +871,58 @@ N31:	mov	cnt, r12
 	; ---- case 35: a quad store across two normal cached pages (0 into 1): it works
 	mov	=(0x800ffc), r3
 	mov	=(0x1122334455667788), r1
-	mov	#0, r10
+	mov	$0, r10
 	mov	r10, cnt
 	lea	N32, r13
 I32:	mov	r1, (r3)
 N32:	mov	cnt, r12
 	mov	=(0), r17
 	cbeq	r12, r17, 1f	; case 35: no exception
-	mov	#35, r0
+	mov	$35, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0x1122334455667788), r17
 	cbeq	r4, r17, 1f	; case 35: it reads back
-	mov	#35, r0
+	mov	$35, r0
 	halt
 1:
 	; ---- case 36: a quad load across a cached page into an uncached one (1 into 2): it works
 	mov	=(0x801ffc), r3
 	mov	=(0x1122334455667788), r1
 	mov	r1, (r3)
-	mov	#0, r10
+	mov	$0, r10
 	mov	r10, cnt
 	lea	N33, r13
 I33:	mov	(r3), r5
 N33:	mov	cnt, r12
 	mov	=(0), r17
 	cbeq	r12, r17, 1f	; case 36: no exception
-	mov	#36, r0
+	mov	$36, r0
 	halt
 1:
 	mov	=(0x1122334455667788), r17
 	cbeq	r5, r17, 1f	; case 36: the load reads it
-	mov	#36, r0
+	mov	$36, r0
 	halt
 1:
 	; ---- case 37: a quad store from an uncached page into a weakly ordered device page (2 into 3): it works, the RAM half is written
 	mov	=(0x802ffc), r3
 	mov	=(0x1122334455667788), r1
-	mov	#0, r10
+	mov	$0, r10
 	mov	r10, cnt
 	lea	N34, r13
 I34:	mov	r1, (r3)
 N34:	mov	cnt, r12
 	mov	=(0), r17
 	cbeq	r12, r17, 1f	; case 37: no exception
-	mov	#37, r0
+	mov	$37, r0
 	halt
 1:
 	mov.s32	(r3), r4
 	mov	=(0x55667788), r17
 	cbeq	r4, r17, 1f	; case 37: the four bytes in RAM are written
-	mov	#37, r0
+	mov	$37, r0
 	halt
 1:
 	; ---- case 38: a quad load from a weakly ordered device page into a cached page (3 into 4): it works
@@ -930,92 +930,92 @@ N34:	mov	cnt, r12
 	mov	=(0xbadf00d), r1
 	mov.s32	r1, (r3)
 	mov	=(0x803ffc), r3
-	mov	#0, r10
+	mov	$0, r10
 	mov	r10, cnt
 	lea	N35, r13
 I35:	mov	(r3), r4
 N35:	mov	cnt, r12
 	mov	=(0), r17
 	cbeq	r12, r17, 1f	; case 38: no exception
-	mov	#38, r0
+	mov	$38, r0
 	halt
 1:
 	mov	=(0x0badf00d00000000), r17
 	cbeq	r4, r17, 1f	; case 38: zero from the device (no register), then the RAM
-	mov	#38, r0
+	mov	$38, r0
 	halt
 1:
 	; ---- case 39: a quad store from a cached page into a strongly ordered device page (4 into 5): the fault, nothing written
 	mov	=(0x804ffc), r3
 	mov	=(0x1122334455667788), r1
-	mov	#0, r10
+	mov	$0, r10
 	mov	r10, cnt
 	lea	N36, r13
 I36:	mov	r1, (r3)
 N36:	mov	cnt, r12
 	mov	=(1), r17
 	cbeq	r12, r17, 1f	; case 39: one exception
-	mov	#39, r0
+	mov	$39, r0
 	halt
 1:
 	mov	last_cause, r12
 	mov	=(VECTOR_MISALIGNED), r17
 	cbeq	r12, r17, 1f	; case 39: it is the misalignment fault
-	mov	#39, r0
+	mov	$39, r0
 	halt
 1:
 	mov	last_eva, r12
 	mov	=(0x804ffc), r17
 	cbeq	r12, r17, 1f	; case 39: EVA is the address of the access
-	mov	#39, r0
+	mov	$39, r0
 	halt
 1:
 	mov	last_epc, r12
 	lea	I36, r11
 	cbeq	r12, r11, 1f	; case 39: EPC is the instruction
-	mov	#39, r0
+	mov	$39, r0
 	halt
 1:
 	mov.s32	(r3), r4
 	mov	=(0x5a5a5a5a), r17
 	cbeq	r4, r17, 1f	; case 39: the four bytes in RAM are as they were
-	mov	#39, r0
+	mov	$39, r0
 	halt
 1:
 	; ---- case 40: a quad load from a cached page into a strongly ordered device page (4 into 5): the fault, the destination as it was
 	mov	=(0x804ffc), r3
 	mov	=(0x5a5a5a5a5a5a5a5a), r4
-	mov	#0, r10
+	mov	$0, r10
 	mov	r10, cnt
 	lea	N37, r13
 I37:	mov	(r3), r4
 N37:	mov	cnt, r12
 	mov	=(1), r17
 	cbeq	r12, r17, 1f	; case 40: one exception
-	mov	#40, r0
+	mov	$40, r0
 	halt
 1:
 	mov	last_cause, r12
 	mov	=(VECTOR_MISALIGNED), r17
 	cbeq	r12, r17, 1f	; case 40: it is the misalignment fault
-	mov	#40, r0
+	mov	$40, r0
 	halt
 1:
 	mov	last_eva, r12
 	mov	=(0x804ffc), r17
 	cbeq	r12, r17, 1f	; case 40: EVA is the address of the access
-	mov	#40, r0
+	mov	$40, r0
 	halt
 1:
 	mov	last_epc, r12
 	lea	I37, r11
 	cbeq	r12, r11, 1f	; case 40: EPC is the instruction
-	mov	#40, r0
+	mov	$40, r0
 	halt
 1:
 	mov	=(0x5a5a5a5a5a5a5a5a), r17
 	cbeq	r4, r17, 1f	; case 40: the destination is as it was
-	mov	#40, r0
+	mov	$40, r0
 	halt
 1:
 	; ---- case 41: a quad store from a strongly ordered device page into a cached page (5 into 6): the fault, nothing written
@@ -1024,262 +1024,262 @@ N37:	mov	cnt, r12
 	mov.s32	r1, (r3)
 	mov	=(0x805ffc), r3
 	mov	=(0x1122334455667788), r1
-	mov	#0, r10
+	mov	$0, r10
 	mov	r10, cnt
 	lea	N38, r13
 I38:	mov	r1, (r3)
 N38:	mov	cnt, r12
 	mov	=(1), r17
 	cbeq	r12, r17, 1f	; case 41: one exception
-	mov	#41, r0
+	mov	$41, r0
 	halt
 1:
 	mov	last_cause, r12
 	mov	=(VECTOR_MISALIGNED), r17
 	cbeq	r12, r17, 1f	; case 41: it is the misalignment fault
-	mov	#41, r0
+	mov	$41, r0
 	halt
 1:
 	mov	last_eva, r12
 	mov	=(0x805ffc), r17
 	cbeq	r12, r17, 1f	; case 41: EVA is the address of the access
-	mov	#41, r0
+	mov	$41, r0
 	halt
 1:
 	mov	last_epc, r12
 	lea	I38, r11
 	cbeq	r12, r11, 1f	; case 41: EPC is the instruction
-	mov	#41, r0
+	mov	$41, r0
 	halt
 1:
 	mov	=(0x806000), r3
 	mov.s32	(r3), r4
 	mov	=(0x0c0ffee0), r17
 	cbeq	r4, r17, 1f	; case 41: the four bytes in RAM are as they were
-	mov	#41, r0
+	mov	$41, r0
 	halt
 1:
 	; ---- case 42: a quad load from a strongly ordered device page into a cached page (5 into 6): the fault
 	mov	=(0x805ffc), r3
 	mov	=(0x5a5a5a5a5a5a5a5a), r4
-	mov	#0, r10
+	mov	$0, r10
 	mov	r10, cnt
 	lea	N39, r13
 I39:	mov	(r3), r4
 N39:	mov	cnt, r12
 	mov	=(1), r17
 	cbeq	r12, r17, 1f	; case 42: one exception
-	mov	#42, r0
+	mov	$42, r0
 	halt
 1:
 	mov	last_cause, r12
 	mov	=(VECTOR_MISALIGNED), r17
 	cbeq	r12, r17, 1f	; case 42: it is the misalignment fault
-	mov	#42, r0
+	mov	$42, r0
 	halt
 1:
 	mov	last_eva, r12
 	mov	=(0x805ffc), r17
 	cbeq	r12, r17, 1f	; case 42: EVA is the address of the access
-	mov	#42, r0
+	mov	$42, r0
 	halt
 1:
 	mov	last_epc, r12
 	lea	I39, r11
 	cbeq	r12, r11, 1f	; case 42: EPC is the instruction
-	mov	#42, r0
+	mov	$42, r0
 	halt
 1:
 	mov	=(0x5a5a5a5a5a5a5a5a), r17
 	cbeq	r4, r17, 1f	; case 42: the destination is as it was
-	mov	#42, r0
+	mov	$42, r0
 	halt
 1:
 	; ---- case 43: a quad store from a weakly ordered device page into a strongly ordered one (7 into 8): the fault
 	mov	=(0x807ffc), r3
 	mov	=(0x1122334455667788), r1
-	mov	#0, r10
+	mov	$0, r10
 	mov	r10, cnt
 	lea	N40, r13
 I40:	mov	r1, (r3)
 N40:	mov	cnt, r12
 	mov	=(1), r17
 	cbeq	r12, r17, 1f	; case 43: one exception
-	mov	#43, r0
+	mov	$43, r0
 	halt
 1:
 	mov	last_cause, r12
 	mov	=(VECTOR_MISALIGNED), r17
 	cbeq	r12, r17, 1f	; case 43: it is the misalignment fault
-	mov	#43, r0
+	mov	$43, r0
 	halt
 1:
 	mov	last_eva, r12
 	mov	=(0x807ffc), r17
 	cbeq	r12, r17, 1f	; case 43: EVA is the address of the access
-	mov	#43, r0
+	mov	$43, r0
 	halt
 1:
 	mov	last_epc, r12
 	lea	I40, r11
 	cbeq	r12, r11, 1f	; case 43: EPC is the instruction
-	mov	#43, r0
+	mov	$43, r0
 	halt
 1:
 	; ---- case 44: a quad load from a strongly ordered device page into a cached page (8 into 9): the fault
 	mov	=(0x808ffc), r3
 	mov	=(0x5a5a5a5a5a5a5a5a), r4
-	mov	#0, r10
+	mov	$0, r10
 	mov	r10, cnt
 	lea	N41, r13
 I41:	mov	(r3), r4
 N41:	mov	cnt, r12
 	mov	=(1), r17
 	cbeq	r12, r17, 1f	; case 44: one exception
-	mov	#44, r0
+	mov	$44, r0
 	halt
 1:
 	mov	last_cause, r12
 	mov	=(VECTOR_MISALIGNED), r17
 	cbeq	r12, r17, 1f	; case 44: it is the misalignment fault
-	mov	#44, r0
+	mov	$44, r0
 	halt
 1:
 	mov	last_eva, r12
 	mov	=(0x808ffc), r17
 	cbeq	r12, r17, 1f	; case 44: EVA is the address of the access
-	mov	#44, r0
+	mov	$44, r0
 	halt
 1:
 	mov	last_epc, r12
 	lea	I41, r11
 	cbeq	r12, r11, 1f	; case 44: EPC is the instruction
-	mov	#44, r0
+	mov	$44, r0
 	halt
 1:
 	mov	=(0x5a5a5a5a5a5a5a5a), r17
 	cbeq	r4, r17, 1f	; case 44: the destination is as it was
-	mov	#44, r0
+	mov	$44, r0
 	halt
 1:
 	; ---- case 45: an aligned quad at the last eight bytes of a cached page next to a strongly ordered one: it works
 	mov	=(0x804ff8), r3
 	mov	=(0x1122334455667788), r1
-	mov	#0, r10
+	mov	$0, r10
 	mov	r10, cnt
 	lea	N42, r13
 I42:	mov	r1, (r3)
 N42:	mov	cnt, r12
 	mov	=(0), r17
 	cbeq	r12, r17, 1f	; case 45: no exception
-	mov	#45, r0
+	mov	$45, r0
 	halt
 1:
 	mov	(r3), r4
 	mov	=(0x1122334455667788), r17
 	cbeq	r4, r17, 1f	; case 45: it reads back
-	mov	#45, r0
+	mov	$45, r0
 	halt
 1:
 	; ---- case 46: translation off: a quad at an odd address of RAM works
-	mov	#0, r1
+	mov	$0, r1
 	mtsr	mmuctl, r1
 	isync
 	mov	=(0xa00000), r3
 	mov	=(0x1122334455667788), r1
-	mov	#0, r10
+	mov	$0, r10
 	mov	r10, cnt
 	lea	N43, r13
 I43:	mov	r1, 3(r3)
 N43:	mov	cnt, r12
 	mov	=(0), r17
 	cbeq	r12, r17, 1f	; case 46: no exception
-	mov	#46, r0
+	mov	$46, r0
 	halt
 1:
 	mov	3(r3), r4
 	mov	=(0x1122334455667788), r17
 	cbeq	r4, r17, 1f	; case 46: it reads back
-	mov	#46, r0
+	mov	$46, r0
 	halt
 1:
 	; ---- case 47: translation off: a quad load at an odd address of the space of devices (the timer) is the fault
 	mov	=MAP_TIMER, r3
 	mov	=(0x5a5a5a5a5a5a5a5a), r4
-	mov	#0, r10
+	mov	$0, r10
 	mov	r10, cnt
 	lea	N44, r13
 I44:	mov	4(r3), r4
 N44:	mov	cnt, r12
 	mov	=(1), r17
 	cbeq	r12, r17, 1f	; case 47: one exception
-	mov	#47, r0
+	mov	$47, r0
 	halt
 1:
 	mov	last_cause, r12
 	mov	=(VECTOR_MISALIGNED), r17
 	cbeq	r12, r17, 1f	; case 47: it is the misalignment fault
-	mov	#47, r0
+	mov	$47, r0
 	halt
 1:
 	mov	last_eva, r12
 	mov	=(0x8000000004), r17
 	cbeq	r12, r17, 1f	; case 47: EVA is the address of the access
-	mov	#47, r0
+	mov	$47, r0
 	halt
 1:
 	mov	last_epc, r12
 	lea	I44, r11
 	cbeq	r12, r11, 1f	; case 47: EPC is the instruction
-	mov	#47, r0
+	mov	$47, r0
 	halt
 1:
 	mov	=(0x5a5a5a5a5a5a5a5a), r17
 	cbeq	r4, r17, 1f	; case 47: the destination is as it was
-	mov	#47, r0
+	mov	$47, r0
 	halt
 1:
 	; ---- case 48: translation off: the same store is the fault, and the aligned access to COMPARE still works
 	mov	=(0xaabbccdd99887766), r1
-	mov	#0, r10
+	mov	$0, r10
 	mov	r10, cnt
 	lea	N45, r13
 I45:	mov	r1, 4(r3)
 N45:	mov	cnt, r12
 	mov	=(1), r17
 	cbeq	r12, r17, 1f	; case 48: one exception
-	mov	#48, r0
+	mov	$48, r0
 	halt
 1:
 	mov	last_cause, r12
 	mov	=(VECTOR_MISALIGNED), r17
 	cbeq	r12, r17, 1f	; case 48: it is the misalignment fault
-	mov	#48, r0
+	mov	$48, r0
 	halt
 1:
 	mov	last_eva, r12
 	mov	=(0x8000000004), r17
 	cbeq	r12, r17, 1f	; case 48: EVA is the address of the access
-	mov	#48, r0
+	mov	$48, r0
 	halt
 1:
 	mov	last_epc, r12
 	lea	I45, r11
 	cbeq	r12, r11, 1f	; case 48: EPC is the instruction
-	mov	#48, r0
+	mov	$48, r0
 	halt
 1:
 	mov	8(r3), r4
 	mov	=(0xaabbccdd), r17
 	cbeq	r4, r17, 1f	; case 48: COMPARE is as the weak case left it: the store reached nothing
-	mov	#48, r0
+	mov	$48, r0
 	halt
 1:
-	mov	#0, r0
+	mov	$0, r0
 	halt
 
 hgen:	mov	cnt, r12
-	add	#1, r12
+	add	$1, r12
 	mov	r12, cnt
 	mfsr	r12, ecause
 	mov	r12, last_cause
@@ -1290,8 +1290,8 @@ hgen:	mov	cnt, r12
 	mfsr	r12, epsw
 	mov	r12, last_epsw
 	mtsr	epc, r13
-	rti	#RTIMASK_ALL
-h_ok:	mov	#0, r0
+	rti	$RTIMASK_ALL
+h_ok:	mov	$0, r0
 h_fail:	halt
 
 	.data

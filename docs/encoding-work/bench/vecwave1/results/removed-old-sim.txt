@@ -1,0 +1,6 @@
+PASS gemm_tile 8 sim64: vec blocks 4 strips 256 ops 788 elems 21504 #instructions 142
+PASS gemm_unit sim64: vec blocks 0 strips 0 ops 1 elems 16384 #instructions 37
+PASS spmv 4 sim64: vec blocks 256 strips 256 ops 1536 elems 6144 #instructions 1549
+PASS spmv 16 sim64: vec blocks 256 strips 512 ops 3072 elems 24576 #instructions 1549
+PASS spmv 64 sim64: vec blocks 256 strips 2048 ops 12288 elems 98304 #instructions 1549
+PASS lut256 sim64: vec blocks 1 strips 512 ops 1536 elems 12288 #instructions 12

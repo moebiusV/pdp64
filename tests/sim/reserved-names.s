@@ -3,37 +3,37 @@
 	.text
 	.globl	_start
 _start:
-	mov	#1, r9
+	mov	$1, r9
 	lea	dd, r1			; dd, dq, db, dw after an instruction word are the symbols, not a datum
 	mov	(r1), r2
-	mov	#11, r3
+	mov	$11, r3
 	cbne	r2, r3, fail
-	mov	#2, r9
+	mov	$2, r9
 	lea	v0, r1
 	mov	(r1), r2
-	mov	#22, r3
+	mov	$22, r3
 	cbne	r2, r3, fail
-	mov	#3, r9
+	mov	$3, r9
 	lea	t7, r1
 	mov	(r1), r2
-	mov	#33, r3
+	mov	$33, r3
 	cbne	r2, r3, fail
-	mov	#4, r9
+	mov	$4, r9
 	lea	resb, r1
 	mov	(r1), r2
-	mov	#44, r3
+	mov	$44, r3
 	cbne	r2, r3, fail
-	mov	#5, r9
+	mov	$5, r9
 	lea	section, r1
 	mov	(r1), r2
-	mov	#55, r3
+	mov	$55, r3
 	cbne	r2, r3, fail
-	mov	#6, r9
+	mov	$6, r9
 	lea	ptrs, r1			; .quad takes the symbols too
 	mov	8(r1), r1
 	mov	(r1), r2
 	cbne	r2, r3, fail
-	mov	#7, r9
+	mov	$7, r9
 	; a vector block still takes v0 as a vector register
 	lea	vsrc, r1
 	lea	vdst, r0
@@ -44,12 +44,12 @@ _start:
 	vend
 	lea	vdst, r0
 	mov.s8	(r0), r2
-	mov	#9, r3
+	mov	$9, r3
 	cbne	r2, r3, fail
-	mov	#0, r0
-	trap	#0
+	mov	$0, r0
+	trap	$0
 fail:	mov	r9, r0
-	trap	#0
+	trap	$0
 	.data
 	.align	8
 dd:	.quad	11

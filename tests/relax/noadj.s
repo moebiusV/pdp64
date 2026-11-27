@@ -10,13 +10,13 @@ _start:	call	ext
 	mov.u16	tab, r3
 	cbne r3, r4, fail
 	mov.u16	tab+2, r3
-	cbne r3, #0, fail
-	mov	#0, r0
-	trap	#0
-fail:	mov	#1, r0
-	trap	#0
-L0:	add	#1, r1
-	add	#1, r1
-	add	#1, r1
+	cbne r3, $0, fail
+	mov	$0, r0
+	trap	$0
+fail:	mov	$1, r0
+	trap	$0
+L0:	add	$1, r1
+	add	$1, r1
+	add	$1, r1
 L1:	nop
 tab:	.word	L1-L0, 0

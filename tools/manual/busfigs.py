@@ -63,10 +63,10 @@ def fig_unibus():
     # the address space, high addresses at the top
     x, w = 70, 150
     c.text(x + w / 2, 18, 'the 18-bit Unibus address space', 12, bold=True)
-    c.box(x, 28, w, 56, 'I/O page', GREY, 13, sub='top 8 KB: 0760000-0777777')
-    c.box(x, 84, w, 120, 'memory', '#fff', 13, sub='up to 0757777')
+    c.box(x, 28, w, 56, 'I/O page', GREY, 13, sub='top 8 KB: 0o760000-0777777')
+    c.box(x, 84, w, 120, 'memory', '#fff', 13, sub='up to 0o757777')
     c.box(x, 204, w, 30, 'interrupt vectors', SOFT, 11, sub='0-0377')
-    c.text(x - 6, 36, '0777777', 9, 'end', '#555', True)
+    c.text(x - 6, 36, '0o777777', 9, 'end', '#555', True)
     c.text(x - 6, 240, '0', 9, 'end', '#555', True)
     # zoom into the I/O page: the six registers of the RK11
     rx, rw = 330, 120

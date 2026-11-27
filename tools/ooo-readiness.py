@@ -70,7 +70,7 @@ def split_ops(s):
 
 REG = re.compile(r'^(r1[0-5]|r[0-9]|sp|fp)$')
 def is_reg(o): return bool(REG.match(o))
-def is_imm(o): return o.startswith('#')
+def is_imm(o): return o.startswith(('#', '$'))
 def is_pool(o): return o.startswith('=')
 def is_mem(o): return not (is_reg(o) or is_imm(o) or is_pool(o))
 def is_postinc(o): return bool(re.search(r'\)\+', o))
@@ -211,7 +211,7 @@ def main():
             for h in rnd.sample(hits, min(a.samples, len(hits))): P('      %s:%d\t%s' % (h.file[:40], h.line, h.text))
     P('')
     # pushm/popm masks
-    pm = [bin(int(i.ops[0].lstrip('#'), 0)).count('1') for i in ins if i.m in ('pushm', 'popm') and re.match(r'^#-?\d+$', i.ops[0])]
+    pm = [bin(int(i.ops[0].lstrip('#$'), 0)).count('1') for i in ins if i.m in ('pushm', 'popm') and re.match(r'^[#$]-?\d+$', i.ops[0])]
     if pm: P('pushm/popm: %d instructions, registers per instruction: mean %.2f, min %d, max %d' % (len(pm), sum(pm) / len(pm), min(pm), max(pm)))
     P('')
     # ---- flag consumers, backwards to the nearest writer in the same block -------------------------------------------------

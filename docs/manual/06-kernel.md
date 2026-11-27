@@ -15,16 +15,16 @@ Take Unix Version 7 (or 2.11BSD, the same kernel grown up) on a PDP-11/45, 70 or
 **Vectors in low memory.** A **trap** (the machine transferring control to the kernel because something happened) goes through a **vector**: two words at a fixed low address, the new program counter and the new PS. The hardware pushes the old PS and PC on the new mode's stack and loads the pair. This is the start of the V7 table, `conf/l.s` (the octal addresses are added; the file's first two words are a branch and a 4, the vectors follow):
 
 ```
-        trap;  br7+0.           / 004  bus error
-        trap;  br7+1.           / 010  illegal instruction
-        trap;  br7+2.           / 014  bpt-trace trap
-        trap;  br7+3.           / 020  iot trap
-        trap;  br7+4.           / 024  power fail
-        trap;  br7+5.           / 030  emulator trap
-        start; br7+6.           / 034  system call (overlaid by 'trap')
+        trap;  br7+0.           / 0o04  bus error
+        trap;  br7+1.           / 0o10  illegal instruction
+        trap;  br7+2.           / 0o14  bpt-trace trap
+        trap;  br7+3.           / 0o20  iot trap
+        trap;  br7+4.           / 0o24  power fail
+        trap;  br7+5.           / 0o30  emulator trap
+        start; br7+6.           / 0o34  system call (overlaid by 'trap')
         . = ZERO+60
-        klin;  br4              / 060  console keyboard
-        klou;  br4              / 064  console printer
+        klin;  br4              / 0o60  console keyboard
+        klou;  br4              / 0o64  console printer
         . = ZERO+100
         kwlp;  br6              / 100  line clock
 ```
@@ -33,7 +33,7 @@ The first word of each pair is the handler's address. The second is the new PS: 
 
 **`trap()`.** Assembly code at the vector (`call` in the V7 file `mch_i.s`) saves the registers and calls one C function, `trap(dev, sp, r1, nps, r0, pc, ps)`; its arguments are, in the words of the V7 comment, "the words saved on the system stack by the hardware and software during the trap processing". A system call is one of these traps: the program executes `sys n` and `trap()` fetches that instruction back from user memory and uses its low six bits as an index (`callp = &sysent[fuiword((caddr_t)(a-1))&077]`).
 
-**The memory-management unit.** A PDP-11 program uses 16-bit addresses (64 KB) while physical memory is wider: 18 bits (256 KB) on the Unibus machines, 22 bits on later ones (*unverified*, section 6.17). The **KT11** (the memory-management unit: the hardware between processor and memory that turns the program's addresses into memory addresses, a step called **translation**) has for each mode **eight pairs** of **page registers**: a **PAR** (page address register: where the segment starts in physical memory, in units of 64 bytes) and a **PDR** (page descriptor register: how long it is, up to 8 KB, and whether it may be read or written). The top three bits of a program's address pick a pair; the other thirteen are the offset in that 8 KB piece. 2.11BSD names the user's registers `UISA` and `UISD` (0177640 and 0177600) and the kernel's `KISA0` (0172340) and following. With **separate instruction and data space** (code and data each get their own 64 KB) there are sixteen pairs. `estabur()` fills a process's saved pairs from the sizes of its text, data and stack and fails with `ENOMEM` if they need more than eight segments; `sureg()` copies the saved pairs into the hardware registers when the process is switched in. Each pair describes **base and length** (a start and a size, the oldest form of memory protection), so a program's text, data and stack are each one **contiguous** run of memory, handed out by a first-fit allocator (`malloc.c`: "the core map unit is 64 bytes").
+**The memory-management unit.** A PDP-11 program uses 16-bit addresses (64 KB) while physical memory is wider: 18 bits (256 KB) on the Unibus machines, 22 bits on later ones (*unverified*, section 6.17). The **KT11** (the memory-management unit: the hardware between processor and memory that turns the program's addresses into memory addresses, a step called **translation**) has for each mode **eight pairs** of **page registers**: a **PAR** (page address register: where the segment starts in physical memory, in units of 64 bytes) and a **PDR** (page descriptor register: how long it is, up to 8 KB, and whether it may be read or written). The top three bits of a program's address pick a pair; the other thirteen are the offset in that 8 KB piece. 2.11BSD names the user's registers `UISA` and `UISD` (0o177640 and 0o177600) and the kernel's `KISA0` (0o172340) and following. With **separate instruction and data space** (code and data each get their own 64 KB) there are sixteen pairs. `estabur()` fills a process's saved pairs from the sizes of its text, data and stack and fails with `ENOMEM` if they need more than eight segments; `sureg()` copies the saved pairs into the hardware registers when the process is switched in. Each pair describes **base and length** (a start and a size, the oldest form of memory protection), so a program's text, data and stack are each one **contiguous** run of memory, handed out by a first-fit allocator (`malloc.c`: "the core map unit is 64 bytes").
 
 **Reaching the other space.** The kernel's address space is separate from the user's, so a kernel pointer to user memory means something else. `mfpi` and `mtpi` (move from and to the **previous** instruction space; `mfpd` and `mtpd` for data space) take the address from the kernel's registers but use the previous mode's page registers. `fubyte` and `subyte` are built from them, with a global named `nofault` that makes an error in the access return -1 instead of panicking.
 
@@ -61,7 +61,7 @@ The status word has no bit for the **user-memory guard** (the rule that the kern
 
 **6.2.2** The status word holds the trace bit in bit 4, the interrupt priority in bits 5 to 7, the current mode in bits 8 and 9, and the previous mode in bits 10 and 11; bits 0 to 3 and the other bits are reserved and read as zero. The pdp64 has no condition codes.
 
-**6.2.3** `MTPS` is privileged: outside kernel mode it aborts with the privileged-instruction vector, because user mode has no status bit it may write; in kernel mode it writes every writable bit. `MFPS` is not privileged and returns the status word, with bits 0 to 3 zero. `SPL #n` is kernel-only.
+**6.2.3** `MTPS` is privileged: outside kernel mode it aborts with the privileged-instruction vector, because user mode has no status bit it may write; in kernel mode it writes every writable bit. `MFPS` is not privileged and returns the status word, with bits 0 to 3 zero. `SPL $n` is kernel-only.
 
 **6.2.4** The stack pointer `R14` and the direct-page register `DP` each have one copy per mode; the mode selects which one an instruction names.
 
@@ -79,7 +79,7 @@ The status word has no bit for the **user-memory guard** (the rule that the kern
 
 ## 6.3 Exceptions, interrupts and traps: how the machine enters the kernel
 
-The PDP-11 used one word, "trap", for three different events, and the pdp64 names them apart. An **exception** is the machine stopping an instruction because it cannot carry it out (a page that is not in memory, an illegal instruction, a division by zero); it belongs to the instruction. An **interrupt** is a device asking for attention; it belongs to no instruction and is taken between two of them. A **trap**, in the narrow sense used here, is a deliberate entry by an instruction that succeeds (`TRAP #n`, the system call). All three enter the kernel the same way.
+The PDP-11 used one word, "trap", for three different events, and the pdp64 names them apart. An **exception** is the machine stopping an instruction because it cannot carry it out (a page that is not in memory, an illegal instruction, a division by zero); it belongs to the instruction. An **interrupt** is a device asking for attention; it belongs to no instruction and is taken between two of them. A **trap**, in the narrow sense used here, is a deliberate entry by an instruction that succeeds (`TRAP $n`, the system call). All three enter the kernel the same way.
 
 **The PDP-11's way.** The hardware read the new PC and PS from the vector, pushed the old pair on the kernel stack and ran the handler. This is **entry through memory**: two words are written to the stack before one handler instruction runs.
 
@@ -103,7 +103,7 @@ enter(vector, kind):
 
 Three differences from the PDP-11 matter to a kernel writer. Entry **cannot fault**: writing registers cannot meet a missing page, as a push on a kernel stack could. Entry **leaves the saving to the handler**: the hardware pushes nothing, so a handler that may be interrupted first saves `EPC` and `EPSW` (one instruction, `PUSHX`), and one that cannot be interrupted need not save them. Entry is **the same for every cause**: V7's trap vectors say `br7` and its device vectors `br4` and `br6`, each vector choosing its own priority, while the pdp64 always enters at priority 7 and the handler lowers it. A second exception before the handler has saved `EPC` and `EPSW` would overwrite them. The first instructions of every handler, and the memory they touch, therefore must not fault, which is why the kernel's text and stacks are in pages every address space shares or in a direct-mapping window (6.9). (That consequence is this chapter's reading; the architecture document states a related rule, that the entry code and kernel stack are pinned until the save is done.)
 
-**The table.** `ECAUSE` receives the vector number, so one handler can serve several vectors and tell them apart. Vectors 0 to 31 are for the processor, 32 to 63 for interrupts, 64 to 255 are reserved and 256 to 511 are one per `TRAP` number. In V7 every `sys n` shared the single vector at 034 and the number was fetched from the instruction.
+**The table.** `ECAUSE` receives the vector number, so one handler can serve several vectors and tell them apart. Vectors 0 to 31 are for the processor, 32 to 63 for interrupts, 64 to 255 are reserved and 256 to 511 are one per `TRAP` number. In V7 every `sys n` shared the single vector at 0o34 and the number was fetched from the instruction.
 
 **6.3.1** Entry to an exception or an interrupt writes only registers: `EPC` receives the address of the faulting instruction (for an abort or a progress exception) or of the next instruction (for a trap or an interrupt), `EPSW` the old status word, `EVA` the faulting address (zero except for aborts), `ECAUSE` the vector number.
 
@@ -113,7 +113,7 @@ Three differences from the PDP-11 matter to a kernel writer. Entry **cannot faul
 
 **6.3.4** The hardware pushes nothing. A handler that can be interrupted saves `EPC` and `EPSW` with `PUSHX`, lowers the priority with `SPL`, and before returning restores them with `POPX` and executes `RTI`.
 
-**6.3.5** `RTI #mask` loads the program counter from `EPC` and the status word from `EPSW`; `RTT #mask` does the same and sets the trace bit after the return. There is no `RTI` or `RTT` without the mask: each is one six-byte instruction whose last four bytes are the mask of 6.3.8.
+**6.3.5** `RTI $mask` loads the program counter from `EPC` and the status word from `EPSW`; `RTT $mask` does the same and sets the trace bit after the return. There is no `RTI` or `RTT` without the mask: each is one six-byte instruction whose last four bytes are the mask of 6.3.8.
 
 **6.3.6** The vector table has 512 entries and `ECAUSE` equals the vector number.
 
@@ -131,7 +131,7 @@ Three differences from the PDP-11 matter to a kernel writer. Entry **cannot faul
 | 21 to 31 | reserved |
 | 32 to 63 | interrupts (in the virt machine, 32 timer, 33 console input, 34 console output) |
 | 64 to 255 | reserved (device interrupts are message-signalled, section 5.9) |
-| 256 + n | `TRAP #n`, n from 0 to 255 |
+| 256 + n | `TRAP $n`, n from 0 to 255 |
 
 **6.3.7** There are eight interrupt priority levels; the processor takes an interrupt between instructions when its level is greater than the priority in the status word; the timer is at level 6 and the console at level 4. In a guest only the virtual interrupt lines are masked by the priority in the guest's status word; a physical interrupt always leaves the guest (6.16.26, 6.16.27).
 
@@ -150,13 +150,13 @@ I took the remembering out of the programmer's hands. On the pdp64 a return to a
 ```
     # system-call return: the result in R0 and the callee-saved registers belong to the user
     POPX
-    RTI #RTIMASK_SYSCALL
+    RTI $RTIMASK_SYSCALL
     # the return that starts a new process: nothing is kept
     POPX
-    RTI #RTIMASK_NONE
+    RTI $RTIMASK_NONE
 ```
 
-A mask that names too little costs the user a value, and the first test shows it as a zero where a result should be. A mask that names too much is the one spelling that leaks (`RTI #RTIMASK_ALL`), and it is written in plain sight. That is why the mask is in the instruction and not in a register that the kernel sets and may forget to set again.
+A mask that names too little costs the user a value, and the first test shows it as a zero where a result should be. A mask that names too much is the one spelling that leaks (`RTI $RTIMASK_ALL`), and it is written in plain sight. That is why the mask is in the instruction and not in a register that the kernel sets and may forget to set again.
 
 **6.3.8** The mask is 32 bits. Bit n keeps `Rn` for n from 0 to 31 except 14: when the return is to a lesser mode, that is from kernel to supervisor or user, or from supervisor to user, every register whose bit is zero is cleared in the same step as the return. The instruction carries the mask in parcel 1 (the high half) and parcel 2 (the low half).
 
@@ -187,7 +187,7 @@ When an instruction cannot finish (its page is absent, say), the machine must st
 | **progress** | partly done, the progress is in registers | the faulting instruction | yes, by `RTI` |
 | **machine check** | indeterminate | best effort | no |
 
-A **progress** exception belongs to the block instructions (`MCPY` and the others of the `MBLK` group, section 9.7). A copy of a megabyte may take 256 page faults; the instruction keeps its position in its own registers, so `RTI` re-executes it and it carries on from where it stopped. A **machine check** descends from the PDP-11's bus error at vector 004: something happened that the machine cannot repair or locate exactly (an uncorrectable memory error, a posted write that timed out), and the kernel can only stop the process or the machine. A **posted write** (a store the processor has handed on and no longer waits for) is the reason: when the bus reports the failure the instruction retired long ago.
+A **progress** exception belongs to the block instructions (`MCPY` and the others of the `MBLK` group, section 9.7). A copy of a megabyte may take 256 page faults; the instruction keeps its position in its own registers, so `RTI` re-executes it and it carries on from where it stopped. A **machine check** descends from the PDP-11's bus error at vector 0o04: something happened that the machine cannot repair or locate exactly (an uncorrectable memory error, a posted write that timed out), and the kernel can only stop the process or the machine. A **posted write** (a store the processor has handed on and no longer waits for) is the reason: when the bus reports the failure the instruction retired long ago.
 
 **6.4.1** Faults fall in four categories: traps (the instruction completes), aborts (it is annulled and restarted), progress (a block operation stopped part-way, restarted from its registers) and machine checks (not restartable).
 
@@ -202,7 +202,7 @@ Three consequences. The undo buffer is a single entry, and row 3 of the fault ma
 
 ## 6.5 System registers: `MFSR` and `MTSR`
 
-The PDP-11 reached its control registers by address. The KT11's page registers, the status word and the other control and status registers sit in the top 8 KB of the address space, the I/O page (`KISA6` at 0172354, `UISD` at 0177600, the PS at 0177776), and the kernel used ordinary `mov` instructions on them. The pdp64 cannot, because its address space is translated (6.6): a load or store to a control register would itself be translated, and an instruction that changes the translation would change the mapping of the access that reads it. Control registers are **system registers**, numbered 0 to 255, read and written by `MFSR Rd, name` (move from system register) and `MTSR name, Rs` (move to system register). Both are privileged (6.2.5).
+The PDP-11 reached its control registers by address. The KT11's page registers, the status word and the other control and status registers sit in the top 8 KB of the address space, the I/O page (`KISA6` at 0o172354, `UISD` at 0o177600, the PS at 0o177776), and the kernel used ordinary `mov` instructions on them. The pdp64 cannot, because its address space is translated (6.6): a load or store to a control register would itself be translated, and an instruction that changes the translation would change the mapping of the access that reads it. Control registers are **system registers**, numbered 0 to 255, read and written by `MFSR Rd, name` (move from system register) and `MTSR name, Rs` (move to system register). Both are privileged (6.2.5).
 
 **6.5.1** The system registers are reached by `MFSR` and `MTSR` with a 12-bit register number, 0 to 4095; the numbers in use are listed in the tables of this chapter and the rest are reserved.
 
@@ -375,15 +375,15 @@ The **user half** holds the program's text, data, heap and stack, in pages with 
 
 **6.10.1** A kernel-mode data access to a user page faults, with the load or store protection vector, whether the access is a load, a store or an operand of a block instruction; `PROBER`, `PROBEW` and an instruction fetch are not accesses of this kind. There is no status bit that changes this.
 
-**System calls.** A system call is `TRAP #n`. It enters through vector `256 + n`, the next instruction becomes `EPC`, and the call number and arguments travel in registers named by the ABI. In V7, `sys n` entered one vector, `trap()` fetched the number back from the user's instruction with `fuiword`, and the arguments were read from the user's stack by `fuword`.
+**System calls.** A system call is `TRAP $n`. It enters through vector `256 + n`, the next instruction becomes `EPC`, and the call number and arguments travel in registers named by the ABI. In V7, `sys n` entered one vector, `trap()` fetched the number back from the user's instruction with `fuiword`, and the arguments were read from the user's stack by `fuword`.
 
 
 
-**6.10.2** `TRAP #n` (n from 0 to 255, two bytes) enters the kernel through vector 256 + n; the system-call number and arguments travel in registers by the ABI.
+**6.10.2** `TRAP $n` (n from 0 to 255, two bytes) enters the kernel through vector 256 + n; the system-call number and arguments travel in registers by the ABI.
 
 **6.10.3** A copy routine copies with `.U` moves or with `MCPY.UR` and `MCPY.UW`; nothing is opened, so no error path has anything to close.
 
-**6.10.4** A move with the qualifier `.user` (`MOV.USER` for 64 bits, and `MOV.USER.S8`, `MOV.USER.U8` and the other widths and kinds of `MOV`, seven words) accesses its memory operand with user privilege, so that a copy-in or copy-out routine needs no window in the status word. The block copy has the same two forms for its two sides: `MCPY.UR` (the bytes it reads are user memory, the copy-in) and `MCPY.UW` (the bytes it writes are, the copy-out); the other side is kernel memory, accessed as any kernel access is, so a user address in the wrong register faults. A fault on a user side is marked in `ECAUSE` as a `.user` move's is, and the registers stand at the byte that faulted. A block fill of user memory is a copy from a zero buffer, and `copyinstr` is a loop of `MOV.USER.U8` loads. A fault on that operand is attributed to the instruction and recovered through a **fixup table** (a table of recovery addresses, one entry for each instruction that may fault): the handler looks up the faulting `EPC` in the table, and the copy returns an error. Bit 15 of `ECAUSE` marks the fault. The atomics take the user form once the operand placement of `ATOM` is fixed.
+**6.10.4** A move with the qualifier `.user` (`MOV.user` for 64 bits, and `MOV.user.s8`, `MOV.user.u8` and the other widths and kinds of `MOV`, seven words) accesses its memory operand with user privilege, so that a copy-in or copy-out routine needs no window in the status word. The block copy has the same two forms for its two sides: `MCPY.UR` (the bytes it reads are user memory, the copy-in) and `MCPY.UW` (the bytes it writes are, the copy-out); the other side is kernel memory, accessed as any kernel access is, so a user address in the wrong register faults. A fault on a user side is marked in `ECAUSE` as a `.user` move's is, and the registers stand at the byte that faulted. A block fill of user memory is a copy from a zero buffer, and `copyinstr` is a loop of `MOV.user.u8` loads. A fault on that operand is attributed to the instruction and recovered through a **fixup table** (a table of recovery addresses, one entry for each instruction that may fault): the handler looks up the faulting `EPC` in the table, and the copy returns an error. Bit 15 of `ECAUSE` marks the fault. The atomics take the user form once the operand placement of `ATOM` is fixed.
 
 
 
@@ -405,20 +405,20 @@ copyin(user_src, kernel_dst, n):
 
 Everything above is machinery; this section runs it. The pseudocode is **an illustration written for this chapter**, in the style of a V7 kernel, from the statements of this chapter. It is not part of the architecture. Names such as `find_region`, `alloc_frame` and `tick` are what any Unix kernel has and are not specified by the architecture. The mnemonics (`PUSHX`, `POPX`, `SPL`, `MFSR`, `MTSR`, `TLBI`, `TLBSYNC`, `ISYNC`, `WFE`, `RTI`) are real.
 
-**A system call.** The program puts the call number and arguments in the registers the ABI names and executes `TRAP #0` (or whichever number the system uses). The processor does `enter(256 + n, trap)` of 6.3, which makes `EPC` the instruction after the `TRAP`:
+**A system call.** The program puts the call number and arguments in the registers the ABI names and executes `TRAP $0` (or whichever number the system uses). The processor does `enter(256 + n, trap)` of 6.3, which makes `EPC` the instruction after the `TRAP`:
 
 ```
 vector 256+n  ->  syscall_entry:        # kernel mode, priority 7, R14 is the kernel stack
     PUSHX                               # save EPC and EPSW: one instruction
     save the registers the C code will clobber on the kernel stack
-    SPL #0                              # let interrupts in: a system call may take a while
+    SPL $0                              # let interrupts in: a system call may take a while
     number = the register the ABI names
     result = sysent[number].handler(args from the registers)     # copyin/copyout use MCPY.UR and MCPY.UW
     put result and error in the registers the ABI names
     restore the registers
-    SPL #7
+    SPL $7
     POPX                                # EPC and EPSW back
-    RTI #RTIMASK_SYSCALL                # PC = EPC (the instruction after TRAP); PSW = EPSW: user mode again
+    RTI $RTIMASK_SYSCALL                # PC = EPC (the instruction after TRAP); PSW = EPSW: user mode again
 ```
 
 **A page fault.** A load, store or instruction fetch whose translation is not valid, or whose `A` or `D` bit is clear, aborts with vector 7, 8 or 6 (6.3.6). `EVA` holds the address, `EPC` the faulting instruction, `ECAUSE` the kind. The handler below covers the page faults; vectors 9 to 11 (protection violations) are not handled in it.
@@ -429,7 +429,7 @@ page_fault:                               # vectors 6, 7, 8 (instruction, load, 
     save the registers the C code will clobber
     va    = MFSR EVA                      # read both before lowering the priority
     cause = MFSR ECAUSE
-    SPL #0                                # we may sleep, reading the page from disk
+    SPL $0                                # we may sleep, reading the page from disk
     region = find_region(current_process, va)
     if region is none:                    # a wild pointer
         send SIGSEGV; goto leave          # (leave delivers the signal on the way out)
@@ -446,10 +446,10 @@ page_fault:                               # vectors 6, 7, 8 (instruction, load, 
     store pte
     TLBI va ; TLBSYNC                                  # no stale copy of the old entry on any core
 leave:
-    SPL #7
+    SPL $7
     restore the registers
     POPX
-    RTI #RTIMASK_ALL                                   # EPC is the faulting instruction: it runs again (the trap frame restored every register, so none is stale)
+    RTI $RTIMASK_ALL                                   # EPC is the faulting instruction: it runs again (the trap frame restored every register, so none is stale)
 ```
 
 The same handler serves first touch, first write and paging in; only the bits it sets differ. The faulting instruction restarts because the abort was precise (6.4).
@@ -460,16 +460,16 @@ The same handler serves first touch, first write and paging in; only the bits it
 timer_interrupt:                          # vector 32; entered at priority 7
     PUSHX
     save the registers the C code will clobber
-    SPL #6                                # at the device's own level: only a higher one may interrupt
+    SPL $6                                # at the device's own level: only a higher one may interrupt
     tick()                                # advance time; charge the running process; run due timeouts
     MTSR TIMECMP, next_deadline           # the next tick: a periodic tick is the handler adding the period (6.16.28)
     if --current.time_slice <= 0: need_resched = 1
-    SPL #7
+    SPL $7
     restore the registers
     if need_resched and the interrupted mode (EPSW) was user:
         call switch()                     # V7: "runrun"; see below
     POPX
-    RTI #RTIMASK_ALL                      # every register was just restored from the interrupted program's own trap frame: none is the kernel's
+    RTI $RTIMASK_ALL                      # every register was just restored from the interrupted program's own trap frame: none is the kernel's
 ```
 
 The V7 `call` routine does the same test (previous mode user, `_runrun` set) and makes an artificial trap number 12, "give up cpu", before it returns (`mch_i.s`, checked above).
@@ -496,7 +496,7 @@ return_to_user(p):
     MTSR USP, p.usp                       # the user's own stack pointer; R14 is the kernel's
     restore the user registers from p's trap frame
     POPX                                  # EPC and EPSW from p's trap frame
-    RTI #RTIMASK_CALLEE                   # user mode, user PC (the frame restore wrote the registers the user keeps; the hardware clears the rest)
+    RTI $RTIMASK_CALLEE                   # user mode, user PC (the frame restore wrote the registers the user keeps; the hardware clears the rest)
 ```
 
 No entry of either process need be touched (a write to `ASID` flushes nothing, and a write to `PTBR` that comes with a new `ASID` flushes nothing of the new one, 6.8.4): the entries of the process that stopped stay, tagged with its ASID, and are used again if it runs soon, and the kernel's own entries are global and serve both. 
@@ -508,17 +508,17 @@ No entry of either process need be touched (a write to `ASID` flushes nothing, a
 ```
 idle():
     loop:
-        SPL #7                            # mask everything while we look
-        if run_queue is not empty:  SPL #0 ; return
+        SPL $7                            # mask everything while we look
+        if run_queue is not empty:  SPL $0 ; return
         WFE                               # sleep until an event or an interrupt, masked or not
-        SPL #0                            # now take the interrupt that woke us
+        SPL $0                            # now take the interrupt that woke us
 ```
 
 
 
 ## 6.12 Reset and the first kernel
 
-**What the machine contains at power-on.** There is no kernel yet. A boot ROM (chapter 4) reads one block into low memory and starts core 0. The **vector table** is 512 × 8 = 4096 bytes, exactly one page; the kernel places it by writing `VBR` and executing `ISYNC`. The PDP-11 also had its vectors at address 0, but as a fixed table of a few hundred bytes (V7's `l.s` goes past octal 0224), and its boot ROMs lived elsewhere. The first few pages of physical memory hold the boot code and the boot data, with the vector table; no device window is mapped there.
+**What the machine contains at power-on.** There is no kernel yet. A boot ROM (chapter 4) reads one block into low memory and starts core 0. The **vector table** is 512 × 8 = 4096 bytes, exactly one page; the kernel places it by writing `VBR` and executing `ISYNC`. The PDP-11 also had its vectors at address 0, but as a fixed table of a few hundred bytes (V7's `l.s` goes past octal 0o224), and its boot ROMs lived elsewhere. The first few pages of physical memory hold the boot code and the boot data, with the vector table; no device window is mapped there.
 
 **6.12.1** At reset core 0 starts in kernel mode at priority 7 (the entry of the reset vector, 6.3.2) with translation off and `VBR` zero; on a machine with the hypervisor strap `HVE` the core starts with `H` = 1, so the first software is the hypervisor (6.16.3). To turn translation on the kernel sets `VBR`, builds page tables, writes `PTBR`, sets `MMUCTL` bit 0 and executes `ISYNC`.
 
@@ -551,15 +551,15 @@ This section collects, in the vocabulary of the kernel, the statements of 6.2 to
 
 **6.13.1** There are three modes (kernel, supervisor, user); supervisor is defined and unused. On a machine with the strap `HVE` there is also the hypervisor mode, a state bit `H` outside the status word (6.16.3). System instructions executed outside kernel mode abort with the privileged-instruction vector.
 
-**6.13.2** `TRAP #n` (n from 0 to 255, two bytes) enters the kernel through vector 256 + n; `RTI #mask` returns, and `RTT #mask` returns and sets the trace bit after; the mask names the registers kept when the return is to a lesser mode (6.3.8).
+**6.13.2** `TRAP $n` (n from 0 to 255, two bytes) enters the kernel through vector 256 + n; `RTI $mask` returns, and `RTT $mask` returns and sets the trace bit after; the mask names the registers kept when the return is to a lesser mode (6.3.8).
 
 **6.13.3** An exception or interrupt writes only registers: `EPC` receives the address of the faulting instruction (or the next one, for a trap or interrupt), `EPSW` the old status word, `EVA` the faulting address and `ECAUSE` the vector number; the new program counter is the 64-bit word at `VBR + 8 × vector`. At `H` = 1 these names are the hypervisor level's own registers (6.16.4).
 
 **6.13.4** Entry sets the priority to 7 for every exception and every interrupt; the handler lowers it.
 
-**6.13.5** There are eight interrupt priority levels; `SPL #n` sets the priority.
+**6.13.5** There are eight interrupt priority levels; `SPL $n` sets the priority.
 
-**6.13.6** `MFSR` and `MTSR` read and write the system registers by number; `TLBI`, `TLBIA`, `TLBIAS` and `TLBSYNC` invalidate translations (broadcast to other cores); `MTSR` of `ASID` sets the address-space tag; `ICINV` and `ICINVA` invalidate the instruction cache; `PROBER` and `PROBEW` test an address; `MFSR` of `CPUID` identifies the processor; `GENTER #mask` enters a guest from the hypervisor (6.16.17).
+**6.13.6** `MFSR` and `MTSR` read and write the system registers by number; `TLBI`, `TLBIA`, `TLBIAS` and `TLBSYNC` invalidate translations (broadcast to other cores); `MTSR` of `ASID` sets the address-space tag; `ICINV` and `ICINVA` invalidate the instruction cache; `PROBER` and `PROBEW` test an address; `MFSR` of `CPUID` identifies the processor; `GENTER $mask` enters a guest from the hypervisor (6.16.17).
 
 **6.13.7** The compare-and-trap words `CT<cc>` and `CHK2` enter the kernel by the check vector, 16 (6.3), when a check fails; so do `ADDV`, `SUBV` and `MULV` on signed overflow, in the two-register form. All of them are aborts: `EPC` is the instruction itself, so that a handler finds the site in the table of check sites, and nothing is written.
 
@@ -615,20 +615,20 @@ The second answer is to run the other operating system as an ordinary program un
         mov     (r2), (r1)     ; ... an interrupt between these two instructions corrupts the queue
 ```
 
-What is wanted is a layer under the kernel that sees every one of those acts, does for the guest what the instruction would have done, and keeps the guest from touching anything that is not its own. Here is the same `SPL` on the pdp64, run by a guest kernel under a hypervisor that asked to see it. The instruction exits; the handler of the hypervisor (the **exit handler**) does what `SPL` would have done, which is to put the priority in the guest's saved status word, and enters the guest again. The guest's next `MFPS` shows the priority it asked for. (`MFSR` and `MTSR` move a value between a general register and a numbered system register; `HEXITR` and `HEPSW` are two of the hypervisor's; the `#0` after `GENTER` is explained in 6.15, example 1.)
+What is wanted is a layer under the kernel that sees every one of those acts, does for the guest what the instruction would have done, and keeps the guest from touching anything that is not its own. Here is the same `SPL` on the pdp64, run by a guest kernel under a hypervisor that asked to see it. The instruction exits; the handler of the hypervisor (the **exit handler**) does what `SPL` would have done, which is to put the priority in the guest's saved status word, and enters the guest again. The guest's next `MFPS` shows the priority it asked for. (`MFSR` and `MTSR` move a value between a general register and a numbered system register; `HEXITR` and `HEPSW` are two of the hypervisor's; the `$0` after `GENTER` is explained in 6.15, example 1.)
 
 ```
-guest:  spl     #7              ; the guest's instruction: it exits instead of being ignored
+guest:  spl     $7              ; the guest's instruction: it exits instead of being ignored
         mfps    r5              ; later: the guest sees priority 7
 ...
 hx:     mfsr    r20, hexitr     ; the hypervisor's handler: why did the guest stop?
-        cbeq    r20, #XCODE_PRIO, h_prio
+        cbeq    r20, $XCODE_PRIO, h_prio
 ...
 h_prio: mfsr    r21, hepsw      ; the guest's status word, saved by the hardware at the exit
         mov    =(7<<PSW_PRI), r22
-        bis     r22, r21        ; do what SPL #7 would have done
+        bis     r22, r21        ; do what SPL $7 would have done
         mtsr    hepsw, r21
-        genter  #0              ; enter the guest again, just after its SPL
+        genter  $0              ; enter the guest again, just after its SPL
 ```
 
 **What a hypervisor is.** A **hypervisor** is a program that runs other operating systems, each believing that it has the whole machine to itself. The operating systems it runs are its **guests**; the real machine is the **host**; and each guest's imaginary machine is a **virtual machine**. (Popek and Goldberg's name for the same program is the *virtual machine monitor*, and their definition of the machine it makes is "an efficient, isolated duplicate of the real machine".)
@@ -684,9 +684,9 @@ It builds the guest's second-stage tables: a three-level tree of the same page-t
 
 ```
         lea     arena, r1
-        shr     #12, r1             ; the number of the first page of the arena ...
-        shl     #28, r1             ; ... goes in bits 55 to 28 of HARENA ...
-        bis     #16, r1             ; ... and the number of pages, 16, in bits 27 to 0
+        shr     $12, r1             ; the number of the first page of the arena ...
+        shl     $28, r1             ; ... goes in bits 55 to 28 of HARENA ...
+        bis     $16, r1             ; ... and the number of pages, 16, in bits 27 to 0
         mtsr    harena, r1          ; the one run of pages that holds every stage-2 table
         lea     hepoch_word, r1
         mtsr    hepoch, r1          ; the epoch word, inside the arena
@@ -698,12 +698,12 @@ It builds the guest's second-stage tables: a three-level tree of the same page-t
         mtsr    htrap, r1           ; exit on WFE and on writes of PTBR
         lea     guest_entry, r1
         mtsr    hepc, r1
-        mov    #0, r1
+        mov    $0, r1
         mtsr    hepsw, r1           ; kernel mode, priority 0
-        genter  #0                  ; the guest starts; no register of the hypervisor is kept
+        genter  $0                  ; the guest starts; no register of the hypervisor is kept
 ```
 
-`GENTER` ("guest enter") is the one new instruction. It is to the hypervisor what `RTI` is to a kernel returning to a user program: it loads the status word from `HEPSW` and the program counter from `HEPC`, makes the guest's own registers the live ones, and clears the state bit. Like `RTI` it carries a **mask**, here `#0`, that names the registers that keep their values; the hardware clears every other register in the same step. So the guest starts with every register zero and finds nothing of the hypervisor's. From the next instruction on, G is running at the kernel level of its own machine, and what it executes is executed by the real processor, not by the hypervisor. Nothing slows it down. G does not know that a second stage of translation is between it and memory.
+`GENTER` ("guest enter") is the one new instruction. It is to the hypervisor what `RTI` is to a kernel returning to a user program: it loads the status word from `HEPSW` and the program counter from `HEPC`, makes the guest's own registers the live ones, and clears the state bit. Like `RTI` it carries a **mask**, here `$0`, that names the registers that keep their values; the hardware clears every other register in the same step. So the guest starts with every register zero and finds nothing of the hypervisor's. From the next instruction on, G is running at the kernel level of its own machine, and what it executes is executed by the real processor, not by the hypervisor. Nothing slows it down. G does not know that a second stage of translation is between it and memory.
 
 **Example 2. A guest kernel does something privileged.** G is idle. Like a V7 kernel with nothing to run, it executes the instruction that waits for an event, `WFE`. On a real kernel this puts the core to sleep. Under a hypervisor the core is the hypervisor's to share.
 
@@ -718,15 +718,15 @@ guest:  wfe                     ; the guest is idle
 hx:     mfdp    r19             ; DP, the hypervisor's own: its per-core structure
         ; (here the handler would store the guest's r0 to r31 through r19)
         mfsr    r20, hexitr     ; why did the guest stop?
-        cbeq    r20, #XCODE_WFE, h_wfe
-        cbeq    r20, #XCODE_HALT, h_halt
+        cbeq    r20, $XCODE_WFE, h_wfe
+        cbeq    r20, $XCODE_HALT, h_halt
 ...
 h_wfe:  lea     guest+2, r21    ; HEPC is the instruction after the WFE (one parcel, 2 bytes)
         mfsr    r22, hepc
         cbeq    r21, r22, 1f    ; ... as it must be
         ...
 1:      ; mark guest 5 idle, run someone else, or sleep; later, reload the guest's registers, then:
-        genter  #0              ; the mask names every register just reloaded; here none
+        genter  $0              ; the mask names every register just reloaded; here none
 ```
 
 The hypervisor keeps nothing in registers across `GENTER`: whatever it needs after the exit it stores in its own per-core structure before it enters and loads again when it comes back, which is one store and one load a value, per exit.
@@ -742,22 +742,22 @@ A third group are events that the guest could use to *time* its neighbours. Proc
         mtsr    htrap, r1
 ```
 
-**Example 3. A hypercall.** Sometimes G wants something from the hypervisor on purpose: to print a character through the hypervisor's console, to ask for more memory, to tell the hypervisor "this page is free". This is a **hypercall**, the analogue of a system call one level up. (A *system call* is how a user program asks its kernel for a service: it executes a trap instruction, `TRAP #n` here, `trap` and `sys` on the PDP-11, and the kernel looks at `n` to see what is wanted.) As `TRAP #n` is the system call from a user program to a kernel, so a `TRAP` can be the call from a guest kernel to the hypervisor. There is no new instruction. The hypervisor sets a mask in `HTRAP` that routes a range of `TRAP` numbers to itself: bit k of the 8-bit mask routes the thirty-two numbers 32k to 32k + 31. (`TRAP` takes a number from 0 to 255.)
+**Example 3. A hypercall.** Sometimes G wants something from the hypervisor on purpose: to print a character through the hypervisor's console, to ask for more memory, to tell the hypervisor "this page is free". This is a **hypercall**, the analogue of a system call one level up. (A *system call* is how a user program asks its kernel for a service: it executes a trap instruction, `TRAP $n` here, `trap` and `sys` on the PDP-11, and the kernel looks at `n` to see what is wanted.) As `TRAP $n` is the system call from a user program to a kernel, so a `TRAP` can be the call from a guest kernel to the hypervisor. There is no new instruction. The hypervisor sets a mask in `HTRAP` that routes a range of `TRAP` numbers to itself: bit k of the 8-bit mask routes the thirty-two numbers 32k to 32k + 31. (`TRAP` takes a number from 0 to 255.)
 
-Say bit 1 is set and G executes `TRAP #40`. Number 40 is in 32 to 63, so the trap does not go to G's own vector table; it exits. The instruction is complete, so `HEPC` is the next instruction; the exit-reason register says "hypercall"; and the hypervisor's vector is 256 + 40, so the hypervisor's table has one entry for each hypercall number, as the kernel's has one for each system call. The arguments are in registers, as for a system call. The hypervisor does the work, puts the result in `R0`, reloads the registers it saved, and executes `GENTER` with a mask that names them. The pieces, in assembler:
+Say bit 1 is set and G executes `TRAP $40`. Number 40 is in 32 to 63, so the trap does not go to G's own vector table; it exits. The instruction is complete, so `HEPC` is the next instruction; the exit-reason register says "hypercall"; and the hypervisor's vector is 256 + 40, so the hypervisor's table has one entry for each hypercall number, as the kernel's has one for each system call. The arguments are in registers, as for a system call. The hypervisor does the work, puts the result in `R0`, reloads the registers it saved, and executes `GENTER` with a mask that names them. The pieces, in assembler:
 
 ```
         mov    =(2<<HTRAP_MASK), r1    ; the hypervisor: bit 1 of the 8-bit mask (bits 16 to 23 of HTRAP)
         mtsr    htrap, r1
 ...
-guest:  mov    #65, r0         ; the guest: the argument, the character 'A'
-        trap    #40             ; the hypercall; it exits instead of entering the guest's own vector table
+guest:  mov    $65, r0         ; the guest: the argument, the character 'A'
+        trap    $40             ; the hypercall; it exits instead of entering the guest's own vector table
 ...
 hcall:  mfsr    r20, hexitr     ; the hypervisor: reason 17, a hypercall
         mfsr    r20, hcause     ; the vector: VECTOR_TRAP_BASE + 40, that is 256 + 40
         ...                     ; r0 still holds the guest's argument
-        mov    #0, r0          ; the result
-        genter  #1              ; the mask keeps R0 (bit 0) and clears every other register
+        mov    $0, r0          ; the result
+        genter  $1              ; the mask keeps R0 (bit 0) and clears every other register
 ```
 
 G's own system calls, which are `TRAP` numbers outside the routed range, never leave the guest: a user program of G that makes a system call enters G's kernel directly, as on a machine with no hypervisor.
@@ -780,53 +780,53 @@ Here is the hypervisor's side of the demand fill, in assembler. The stage-2 entr
         mfsr    r21, hgpa               ; 0x123A58, the guest-physical address that failed
         mov    =0xfffffffff000, r22
         and     r21, r22                ; its page, 0x123000
-        shr     #12, r22
+        shr     $12, r22
         mov    =0x1ff, r23
         and     r23, r22                ; 0x123 & 0x1ff: the index in the last-level table
-        shl     #3, r22                 ; 8 bytes to an entry
+        shl     $3, r22                 ; 8 bytes to an entry
         lea     s2leaf, r24             ; the last-level stage-2 table, inside the arena
         add     r24, r22
         mov    =(0x8f7000|LEAF), r23   ; real page 0x8F7, readable, writable, executable
         mov    r23, (r22)              ; the entry; a store into the arena
-        genter  #0                      ; the guest runs the load again
+        genter  $0                      ; the guest runs the load again
 ```
 
 A second guest, G2, might use the same guest-virtual address `0x403A58`, and its own stage 2 might put its guest-physical page `0x123` at real page `0x5B2`. The translation buffer must hold both results at once and must never answer one guest with the other's: that is what the **tag** is for. Every entry in the buffer is keyed by the tag of the guest that made it as well as by the address; while G runs, the processor looks up `0x403` under G's tag and finds `0x8F7`; while G2 runs it looks up the same address under G2's tag and finds `0x5B2`. Without a tag, every change of guest would have to throw the whole buffer away, which is what the KT11's users did at each change of process (a PDP-11 reloads its page registers at a context switch) and which makes a guest switch cost a burst of misses. With the tag, a guest's entries can stay in the buffer while other guests run, and the hypervisor can throw away one guest's entries without touching the rest.
 
 There is a third case, which the hardware also tells apart. If the stage-2 entry is valid but points at a physical address where, by the platform's map of memory and devices, nothing answers, it is still the hypervisor's matter, and the exit says "no device answers" instead of "entry invalid"; the hypervisor handles it the same way. If a device does answer and answers with an error, the guest has not made a mistake of mapping but met a failure of the machine, and that is a machine check in the guest.
 
-**Example 5. A timer tick for the guest, and a device interrupt.** A V7 kernel has the line clock at vector 0100 at priority 6; each tick enters `trap()` and calls `clock()`. G needs the same: a clock that ticks. The pdp64 gives a kernel its clock in two system registers: `MFSR TIME` reads a counter that counts at 10 MHz and cannot be written, and `MTSR TIMECMP` writes a **deadline**, an absolute counter value; while the counter is at or past a deadline that is not zero, the timer's interrupt line is asserted (level 6, vector 32). A deadline of zero means "never", which is also the value after reset. The line is a **level**: it stays asserted until the kernel writes a later deadline, as the line of the PDP-11's KW11-L stays set until the program clears it.
+**Example 5. A timer tick for the guest, and a device interrupt.** A V7 kernel has the line clock at vector 0o100 at priority 6; each tick enters `trap()` and calls `clock()`. G needs the same: a clock that ticks. The pdp64 gives a kernel its clock in two system registers: `MFSR TIME` reads a counter that counts at 10 MHz and cannot be written, and `MTSR TIMECMP` writes a **deadline**, an absolute counter value; while the counter is at or past a deadline that is not zero, the timer's interrupt line is asserted (level 6, vector 32). A deadline of zero means "never", which is also the value after reset. The line is a **level**: it stays asserted until the kernel writes a later deadline, as the line of the PDP-11's KW11-L stays set until the program clears it.
 
 G uses the same two registers, with the same handler as on bare metal, and three pieces make a clock of them. The hypervisor offers G a **virtual timer**: when G reads `TIME` it gets the real counter minus an offset the hypervisor chose in `VTOFF` (so the guest's time starts where the hypervisor says); when G writes `TIMECMP` it writes its own comparator, and while the guest's counter is at or past that deadline the hardware holds **virtual interrupt line 6** asserted, the line for the clock's priority. Like the real timer's it is a level, so a handler that forgets to write the next deadline behaves in the guest as it does on bare metal, and a deadline that had passed when the hypervisor reloaded the guest's registers simply fires at once. The hypervisor has, besides, the real timer, which keeps running at the hypervisor level: the same two names reach it there, its expiry is a physical interrupt, and it is how the hypervisor itself gets control to schedule guests. The hypervisor loads and saves the guest's deadline with `GTIMECMP`.
 
 ```
         mfsr    r1, time        ; the guest's time: the real counter minus VTOFF
-        add     #3000, r1       ; 3000 counts from now: 300 microseconds at 10 MHz
+        add     $3000, r1       ; 3000 counts from now: 300 microseconds at 10 MHz
         mtsr    timecmp, r1     ; the guest's own deadline; no exit
 ...
-        mov    #0, r1
+        mov    $0, r1
         mtsr    timecmp, r1     ; zero means never: the handler's way to stop the clock
 ```
 
 ```
 ; in the guest, a tick 3000 counts ahead; no exit happens
         mfsr    r1, time            ; the guest's time: the real counter minus VTOFF
-        add     #3000, r1
+        add     $3000, r1
         mtsr    timecmp, r1         ; the guest's own deadline
 ```
 
 A **virtual interrupt line** is one bit in the register `VIRQ`, set by the hypervisor (for a device it emulates) or held by the timer hardware. There are seven, one for each priority from 1 to 7. Between two instructions of G, if the highest pending line is above the priority in G's status word, the hardware makes G's own exception entry, with the vector number the hypervisor put in `VIVEC` for that line. This is the entry of 6.3, run inside the guest, with no exit: `EPC`, `EPSW` and `ECAUSE` are written, the priority goes to 7, and G's handler runs. The bit that the hypervisor set is cleared by the delivery; line 6's timer part follows the comparator. G's `SPL` and `MTPS` work against these lines in hardware, so G's idea of "interrupts held off" is true and cheap. Here is the whole thing in assembler (the hypervisor's side, then the guest's), and it runs:
 
 ```
-        mov    #(1<<6), r1
+        mov    $(1<<6), r1
         mtsr    virq, r1                ; hypervisor: line 6 is pending
         mov    =(0x60<<40), r1         ; line 6 is the field in bits 47 to 40 of VIVEC: vector 0x60
         mtsr    vivec, r1
         mov    =((MODE_KERNEL<<PSW_MODE)|(MODE_KERNEL<<PSW_PREV)|(7<<PSW_PRI)), r1
         mtsr    hepsw, r1               ; the guest starts at priority 7 ...
-        genter  #0
+        genter  $0
 guest:  nop                             ; ... and the pending line is held off
-        spl     #0                      ; the priority drops: the guest's own exception entry
+        spl     $0                      ; the priority drops: the guest's own exception entry
         nop                             ; follows at once, to the handler at vector 0x60; no exit
 ```
 
@@ -860,13 +860,13 @@ A small hypervisor, like the first one of the project, may leave its own transla
 
 **Example 8. What is saved and what is cleared at the entry and the exit.** When G exits and the hypervisor enters, the hardware saves very little: G's program counter in `HEPC`, G's status word in `HEPSW`, and the facts about the exit (`HEXITR`, `HEVA`, `HGPA`, `HINSN`: the first words of the instruction that caused it). It makes the plain register names mean the hypervisor level's own, so that the first instruction of the handler has a register that is not G's. Everything else that is G's stays where it was: the registers `PTBR`, `VBR`, `EPC` are G's and the hypervisor reaches them by `MFSR` with their explicit names if it is going to run another guest (as a V7 kernel saves a process's PS). This is deliberate: an exit that does not need to touch G's state is as short as the machine can make it.
 
-What the hardware clears is what could leak. At every exit and at `GENTER`, and at every exception entry and return, any `LL` reservation (the marker that `LL` and `SC`, load-linked and store-conditional, use to build an atomic update) is cleared, so that what one guest left behind is not found by another. `RTI` and `GENTER` both carry a **mask**: `RTI #mask` is the only form of `RTI`, and the mask names the registers that are to keep their values; the hardware clears every other register in the same step as the return to a less privileged mode. A kernel that forgets to name a register it used gives the user program a zero, never a secret. Mask bit 14 names the vector registers and the floating-point flags together (register 14 is the stack pointer, which is never cleared, so its bit was free); a mask with that bit clear clears them. The same mask is on `GENTER`, so that a hypervisor cannot hand G a register of another guest by forgetting. Here a kernel leaves a secret in `R5` and a user value in `R8`, and returns to user mode naming only `R8` (bit 8); the user program finds `R5` zero and `R8` intact, and this runs:
+What the hardware clears is what could leak. At every exit and at `GENTER`, and at every exception entry and return, any `LL` reservation (the marker that `LL` and `SC`, load-linked and store-conditional, use to build an atomic update) is cleared, so that what one guest left behind is not found by another. `RTI` and `GENTER` both carry a **mask**: `RTI $mask` is the only form of `RTI`, and the mask names the registers that are to keep their values; the hardware clears every other register in the same step as the return to a less privileged mode. A kernel that forgets to name a register it used gives the user program a zero, never a secret. Mask bit 14 names the vector registers and the floating-point flags together (register 14 is the stack pointer, which is never cleared, so its bit was free); a mask with that bit clear clears them. The same mask is on `GENTER`, so that a hypervisor cannot hand G a register of another guest by forgetting. Here a kernel leaves a secret in `R5` and a user value in `R8`, and returns to user mode naming only `R8` (bit 8); the user program finds `R5` zero and `R8` intact, and this runs:
 
 ```
         mov    =0x1234, r5             ; the kernel's secret
         mov    =0x77, r8               ; a value the kernel restored for the user
-        rti     #(1<<8)                 ; keep R8; every other register is cleared in the same step
-user:   cbeq    r5, #0, 1f              ; the secret is gone
+        rti     $(1<<8)                 ; keep R8; every other register is cleared in the same step
+user:   cbeq    r5, $0, 1f              ; the secret is gone
 ```
 
 The mask is written in the instruction, not kept in a register, so that no stale mask can survive from an earlier return.
@@ -875,11 +875,11 @@ A **vector block** is the pdp64's way of working on a whole array with one short
 
 ```
         lea     wsrc, r1                ; 21 words of 16 bits
-        mov    #21, r2
+        mov    $21, r2
         lea     (r1)(r2*2), r4          ; the end pointer
-        mov    #0, r12
+        mov    $0, r12
         vec     r1, r4                  ; the block: the body runs once for each strip
-        vclr.l  v4, #1                  ; the accumulator starts at zero (only legal inside the block)
+        vclr.l  v4, $1                  ; the accumulator starts at zero (only legal inside the block)
         vld.w.l v0, (r1)+               ; four 16-bit words widened to 32 bits; the pointer advances
         vadd.l  v4, v4, v0              ; the running sum, by lane
         vfin                            ; the epilogue, once
@@ -897,32 +897,32 @@ Take the plain way to add one to a counter in memory:
 
 ```
         mov    (r3), r1        ; read the counter
-        add     #1, r1          ; add one
+        add     $1, r1          ; add one
         mov    r1, (r3)        ; write it back
 ```
 
 Say G runs these three instructions, and after the first one its time slice ends and the hypervisor takes an exit. The hypervisor, which shares the counter, adds one to it and later gives G the core again. G's `R1` still holds the old value, G adds one to that and writes it: the hypervisor's addition is lost, and nothing has gone wrong that anyone could see. A second core would do the same between any two of the three instructions. What is wanted is an **atomic** operation (from the Greek for "that cannot be cut"): one that every other core, every other guest and the hypervisor see either complete or not started, never half done. The PDP-11's `INC` on a memory word had this property against an interrupt, because an interrupt can only come between instructions; the pdp64 gives it to a whole family.
 
-**The family.** There are ten operations, and a pair that works together: `CAS` (compare and swap), `SWAP`, `AADD` (fetch and add), `AAND`, `ABIS`, `AXOR` (fetch and the bit operation), `AMAX`, `AMIN`, `AMAX.U64`, `AMIN.U64` (fetch and the larger or the smaller, signed and unsigned); each fetch-and-operate word is the name of the machine's own ALU instruction (`ADD`, `AND`, `BIS`, `XOR`, `MAX`, `MIN`, `MAX.U64`, `MIN.U64`) with an `A` for atomic in front, and `LL` and `SC` (load-linked and store-conditional, below). Each is one instruction, so that taking a lock is one instruction; example 11 says why nothing more is needed between ordinary accesses.
+**The family.** There are ten operations, and a pair that works together: `CAS` (compare and swap), `SWAP`, `AADD` (fetch and add), `AAND`, `ABIS`, `AXOR` (fetch and the bit operation), `AMAX`, `AMIN`, `AMAX.u64`, `AMIN.u64` (fetch and the larger or the smaller, signed and unsigned); each fetch-and-operate word is the name of the machine's own ALU instruction (`ADD`, `AND`, `BIS`, `XOR`, `MAX`, `MIN`, `MAX.u64`, `MIN.u64`) with an `A` for atomic in front, and `LL` and `SC` (load-linked and store-conditional, below). Each is one instruction, so that taking a lock is one instruction; example 11 says why nothing more is needed between ordinary accesses.
 
 The rules are few, and each exists so that an atomic can never be half done:
 
 * Every one of them has three register fields, and the destination is written last, as everywhere on the machine: `AADD Rs, (Ra), Rd`. The address is in `Ra`, with no offset (the parentheses hold a register and nothing else), the old value of the memory word comes back in `Rd`, and `Rs` is the operand. `CAS Rs, (Ra), Rd` has the **expected** value in `Rd` and the new value in `Rs`, and it puts the old value into `Rd`: the destination register is used for the expected value going in and the old value coming out, as the destination of `ADD` is a source too. If the old value is the expected one, the swap happened.
-* The size is 4 bytes or 8 bytes. The bare name is the 8-byte form; the 4-byte form is the name with the suffix `.s32`: `AADD` and `AADD.S32`, `CAS` and `CAS.S32`, and for the load-linked pair `LL` and `LL.S32`, `SC` and `SC.S32`, as `MOV` and `MOV.S32` are the 8-byte and the 4-byte move. The examples here use the 8-byte form.
+* The size is 4 bytes or 8 bytes. The bare name is the 8-byte form; the 4-byte form is the name with the suffix `.s32`: `AADD` and `AADD.s32`, `CAS` and `CAS.s32`, and for the load-linked pair `LL` and `LL.s32`, `SC` and `SC.s32`, as `MOV` and `MOV.s32` are the 8-byte and the 4-byte move. The examples here use the 8-byte form.
 * The word must be naturally aligned (an 8-byte word at an address that is a multiple of 8). An atomic on a word that is not aligned takes a **precise fault**: the fault happens before the instruction has changed anything, and the saved program counter is the instruction itself.
 * The memory must be ordinary cached memory. An atomic, or an `LL` or `SC`, on uncached memory or on a device's registers also takes a precise fault. The reason is that the machine can make an operation atomic only where it controls the whole path, in the cache; on a device register the choice is a fault, never an operation that is silently not atomic.
 
 **A lock taken and released.** The simplest use of `CAS` is a **spin lock**: a word that is 0 when free and 1 when held, taken by a loop that tries until it succeeds (it "spins"). To take it, the program says: "if the word is 0 make it 1, and tell me what it was". If what it was is 0 the lock is mine; if not, someone else has it and I try again.
 
 ```
-take:   mov    #0, r1                  ; expected: the lock is free
-        mov    #1, r2                  ; new: held
+take:   mov    $0, r1                  ; expected: the lock is free
+        mov    $1, r2                  ; new: held
         cas     r2, (r3), r1            ; one step; r3 holds the address of the lock; r1 is now the old value
-        cbeq    r1, #0, held            ; the old value was 0: the lock is mine
-        hint    #1                      ; it was 1: tell the core this is a wait ...
+        cbeq    r1, $0, held            ; the old value was 0: the lock is mine
+        hint    $1                      ; it was 1: tell the core this is a wait ...
         br      take                    ; ... and try again
 held:   ...                             ; the work on the shared data
-        mov    #0, r1
+        mov    $0, r1
         mov    r1, (r3)                ; the release is an ordinary store
 ```
 
@@ -932,20 +932,20 @@ Taking the lock is one instruction, and the release is an ordinary store because
 
 ```
         lea     count, r3
-        mov    #1, r2
+        mov    $1, r2
         aadd    r2, (r3), r1            ; one step: r1 is the number I took, the counter is one more
 ```
 
 **The pair `LL` and `SC`.** Not every update is one of the ten. A counter that must stop at a limit cannot be a fetch and add: the program must read it, compare, and write only if it is still what it read. `LL` reads the word and puts a **reservation** on it, a mark that the core keeps; `SC` writes the new value only if the mark is still there, and says whether it did, by a register that is 0 when the word was written and not 0 when it was not. A write to the marked memory by another core, or by a device, clears the mark, and so does anything that ends the guest's turn: the reservation is cleared at every exit, at `GENTER`, and at every exception entry and return (example 8), so that a guest cannot leave a mark for another to find. A program therefore never assumes that its `SC` works: it asks and, if it fails, it begins again from the `LL`.
 
 ```
-        mov    #100, r5                ; the limit
+        mov    $100, r5                ; the limit
 retry:  ll      (r3), r1                ; read the word and take the reservation
         cbeq    r1, r5, full            ; at the limit: leave without writing
         mov    r1, r6
-        add     #1, r6                  ; the new value, in a register
+        add     $1, r6                  ; the new value, in a register
         sc      r6, (r3), r4            ; write it only if no one wrote the marked memory since the LL
-        cbne    r4, #0, retry           ; r4 is not 0: the SC did not write; start again
+        cbne    r4, $0, retry           ; r4 is not 0: the SC did not write; start again
 ```
 
 Such a loop could, in principle, fail for ever if two cores keep clearing each other's marks. To forbid this the machine makes a promise for the loop of one shape, called a **constrained loop**: from the `LL` to the `SC` there are at most 16 instructions; between them only instructions that work on registers (no loads, no stores, no backward branches); and the `SC` is to the same address as the `LL`. For a loop of that shape, the machine promises that it succeeds sooner or later unless someone else keeps writing the marked memory. The loop above is of that shape (its only branch before the `SC` is a forward one). The marked memory is the aligned block of 128 bytes that holds the word: the hardware may track less (a piece of 8 bytes), never more, and a mark that is cleared by a neighbour's write only costs the loop another try. A program that wants no such cost keeps each word that it protects in a block of its own, as the snippet does by placing the counter on a 128-byte boundary and leaving the rest of the block empty. The weakness of `CAS` is that it compares values: a word that went from A to B and back to A looks as if no one had touched it, though the structure that it points to may have changed (the **ABA problem**), while an `SC` fails if anyone wrote the marked memory, even with the same value.
@@ -955,16 +955,16 @@ Such a loop could, in principle, fail for ever if two cores keep clearing each o
 **Example 11. What one core sees of another: the memory model.** The atomics of example 10 make one operation indivisible. A different question is what a program sees of the *order* of another's plain loads and stores. Take the commonest exchange there is, **message passing**: one program writes some data and then sets a flag to say "ready"; another waits for the flag and then reads the data. The guest and the hypervisor of the examples do exactly this when G fills a request and the hypervisor looks at it, and so do a driver and a device. On the PDP-11 the order was simple: there was one processor, it did one access after another, and a program saw its own memory as it had written it. Here are the two sides on the pdp64; the first is G's and the second the hypervisor's, after G's hypercall has stopped it:
 
 ```
-guest:  mov    #42, r1
+guest:  mov    $42, r1
         mov    r1, (r3)                ; first the data ...
-        mov    #1, r1
+        mov    $1, r1
         mov    r1, (r4)                ; ... then the flag: "the data is ready"
-        trap    #40                     ; tell the hypervisor to look
+        trap    $40                     ; tell the hypervisor to look
 
 hcall:  mov    (r4), r1                ; first the flag ...
-        cbne    r1, #1, hbad            ; not set: nothing to read yet
+        cbne    r1, $1, hbad            ; not set: nothing to read yet
         mov    (r3), r2                ; ... then the data
-        cbeq    r2, #42, 1f             ; the flag was set, so the data is the new data, never the old
+        cbeq    r2, $42, 1f             ; the flag was set, so the data is the new data, never the old
 ```
 
 Here the reader looks after G's hypercall has stopped G, so the order is plain. What matters is what the architecture promises when the two run at the same time, on two cores: **the pdp64 keeps sequential consistency.** A **memory model** is the promise a machine makes about which values a load may return when other cores are writing; **sequential consistency** (SC) is the simplest promise there is: the result is as if the loads and stores of all the cores had been done one at a time, in one order, with each core's own accesses in its own program order. Under that promise, if the reader sees the flag it sees the data, with no instruction between the reader's two loads and none between the writer's two stores. The program above needs no **fence** (an instruction that tells the core to finish its earlier accesses before it begins the later ones; the same thing as the barrier of example 10). That is why the lock of example 10 is released with an ordinary store.
@@ -1046,7 +1046,7 @@ The guest's registers of the last row are written in this order of numbers: 149 
 |---|---|---|---|---|
 | 0 | `WFE` | `WFE` (3) | the guest sleeps | 1 |
 | 1 | `SEV` | `SEV` (4) | `SEV` is the guest's | 1 |
-| 2 | `PAUSE` | `HINT #1` (5) | a no-op | 0 |
+| 2 | `PAUSE` | `HINT $1` (5) | a no-op | 0 |
 | 3 | `PRIO` | `SPL` and a changing `MTPS` (6) | the priority is the guest's virtual priority | 0 |
 | 4 | `TLBI` | `TLBI` (7) | the invalidate acts on the guest's own tag (6.16.24) | 0 |
 | 5 | `TLBIA` | `TLBIA` (7) | as above | 1 |
@@ -1060,11 +1060,11 @@ The guest's registers of the last row are written in this order of numbers: 149 
 | 13 | `BPT` | `BPT` (15) | the guest's own breakpoint exception | 0 |
 | 14 | `STEP` | an exit after each guest instruction (16) | none | 0 |
 | 15 | | reserved | | 0 |
-| 16 to 23 | `TRAPMASK` | `TRAP #n`, bit k for the numbers 32k to 32k + 31 (22) | the guest's own system call (6.16.11) | 0 |
+| 16 to 23 | `TRAPMASK` | `TRAP $n`, bit k for the numbers 32k to 32k + 31 (22) | the guest's own system call (6.16.11) | 0 |
 
-**6.16.10** Some events have no bit in `HTRAP`. These **always exit**: `HALT` (6.16.11); `PROBER` and `PROBEW` that meet a stage-2 miss (6.16.21); any use of a hypervisor register or of `GENTER` (6.16.30); every stage-2 fault, a stage-2 miss on the vector fetch or the page-table walk, and a machine check (6.16.23); and every physical interrupt (6.16.26). These are **the guest's own** and never exit: an illegal instruction, a privileged instruction, the page faults and protection faults of stage 1, the check words and the overflow checks, `TRAP #n` outside the routed range, an unassigned system-register number, and `ISYNC`. The guest's own privilege check comes first: an instruction that the guest's current mode may not execute (`WFE` in a guest's user mode) raises the guest's privileged-instruction exception, vector 3 in the guest, and never reaches `HTRAP`.
+**6.16.10** Some events have no bit in `HTRAP`. These **always exit**: `HALT` (6.16.11); `PROBER` and `PROBEW` that meet a stage-2 miss (6.16.21); any use of a hypervisor register or of `GENTER` (6.16.30); every stage-2 fault, a stage-2 miss on the vector fetch or the page-table walk, and a machine check (6.16.23); and every physical interrupt (6.16.26). These are **the guest's own** and never exit: an illegal instruction, a privileged instruction, the page faults and protection faults of stage 1, the check words and the overflow checks, `TRAP $n` outside the routed range, an unassigned system-register number, and `ISYNC`. The guest's own privilege check comes first: an instruction that the guest's current mode may not execute (`WFE` in a guest's user mode) raises the guest's privileged-instruction exception, vector 3 in the guest, and never reaches `HTRAP`.
 
-**6.16.11** `HALT` always exits (exit code 2). A range of `TRAP #n` numbers is routed to the hypervisor by the 8-bit **hypercall mask** in bits 16 to 23 of `HTRAP`: bit k routes the numbers 32k to 32k + 31. That is the hypercall; it has no opcode of its own. A routed `TRAP` is a trap: the instruction completes, `HEPC` is the next instruction, the exit code is 22, and the vector in `HCAUSE` is 256 + n. It is routed at any guest mode. The mask is zero at reset. `WFE` traps by default and may be untrapped for a guest that owns a core; `SEV` traps by default so that the hypervisor limits it to the cores of the guest.
+**6.16.11** `HALT` always exits (exit code 2). A range of `TRAP $n` numbers is routed to the hypervisor by the 8-bit **hypercall mask** in bits 16 to 23 of `HTRAP`: bit k routes the numbers 32k to 32k + 31. That is the hypercall; it has no opcode of its own. A routed `TRAP` is a trap: the instruction completes, `HEPC` is the next instruction, the exit code is 22, and the vector in `HCAUSE` is 256 + n. It is routed at any guest mode. The mask is zero at reset. `WFE` traps by default and may be untrapped for a guest that owns a core; `SEV` traps by default so that the hypervisor limits it to the cores of the guest.
 
 **6.16.12** `ICINV` and `ICINVA`, and the unscoped `TLBIA` and `TLBSYNC`, trap by default for a guest (6.16.9) because the time they take shows what the other guests are doing. The bits can be cleared for a guest that owns its core. `ICINV` and `ICINVA` are unprivileged and do not touch data, and a program that generates code needs them.
 
@@ -1081,7 +1081,7 @@ The guest's registers of the last row are written in this order of numbers: 149 
 | 2 | `HALT` | 17 | next |
 | 3 | `WFE` | 17 | next |
 | 4 | `SEV` | 17 | next |
-| 5 | `HINT #1` | 17 | next |
+| 5 | `HINT $1` | 17 | next |
 | 6 | `SPL` or `MTPS` priority change | 17 | next |
 | 7 | `TLBI`, `TLBIA` or `TLBSYNC` | 17 | next |
 | 8 | address-space register (`ASID` by `MFSR` or `MTSR`) | 17 | next |
@@ -1115,7 +1115,7 @@ Flags: bit 8 `WALK`: the failing access was the read of a guest page-table entry
 
 **6.16.17** `GENTER` enters a guest. Before it the hypervisor, at `H` = 1, loads the guest's state (6.16.20) and writes `HEPC` and `HEPSW`. `GENTER` includes an `ISYNC` (6.5.2), discards the guest's cached translations if the arena's flag or the epoch word says so (6.16.25), loads the status word from `HEPSW`, makes the guest's registers the live ones, loads the program counter from `HEPC`, clears `H`, and clears every register that its mask does not name (6.16.18). If a virtual interrupt line is pending and above the guest's priority, it is taken at the boundary before the first guest instruction. There is no operand that asks for a flush: the hardware decides.
 
-**6.16.18** **`RTI #mask` is the only form of `RTI`, and `GENTER #mask` is the only form of `GENTER`.** The mask has one bit for each of `R0` to `R31`; a register whose bit is one keeps its value, and the hardware clears every other register in the same step as the return to a less privileged mode (or the entry of a guest). `R14`, the banked stack pointer, is never cleared, so its bit is free and means: **keep the vector registers**; with it zero, the vector registers (the hidden accumulators included) and the floating-point sticky flags are cleared too. A return to the same mode ignores the mask. `RTT` returns and sets the trace bit after, and takes the mask as `RTI` does. The mask is in the instruction; no system register holds it. The hypervisor keeps nothing in registers across `GENTER`; the callee-saved set of the ABI (chapter 3) says which registers a handler returning to a program must name, and `R16` to `R23` are caller-saved scratch.
+**6.16.18** **`RTI $mask` is the only form of `RTI`, and `GENTER $mask` is the only form of `GENTER`.** The mask has one bit for each of `R0` to `R31`; a register whose bit is one keeps its value, and the hardware clears every other register in the same step as the return to a less privileged mode (or the entry of a guest). `R14`, the banked stack pointer, is never cleared, so its bit is free and means: **keep the vector registers**; with it zero, the vector registers (the hidden accumulators included) and the floating-point sticky flags are cleared too. A return to the same mode ignores the mask. `RTT` returns and sets the trace bit after, and takes the mask as `RTI` does. The mask is in the instruction; no system register holds it. The hypervisor keeps nothing in registers across `GENTER`; the callee-saved set of the ABI (chapter 3) says which registers a handler returning to a program must name, and `R16` to `R23` are caller-saved scratch.
 
 **6.16.19** An exit is made in this order. *(1)* An event that aborts an instruction is undone (6.4). *(2)* The reason and the vector are decided and the word at `VBR + 8 * HCAUSE` is read; a bus error here is a machine check of the hypervisor and nothing has been changed. *(3)* `HEPC` is written with the address of the instruction (an abort) or of the next instruction (a trap or an interrupt); `HEPSW` with the guest's whole status word, and with the token of 6.16.31 in its upper half when a block was suspended; `HEVA`, `HGPA` and `HINSN` as the table of 6.16.14 and 6.16.7 say, else 0; `HEXITR` and `HCAUSE`. *(4)* `H` is set. The status word is made as in 6.3.2: the current mode kernel, the previous mode the guest's current mode, priority 7, the trace bit and the guard clear. The names of 6.16.4 mean the hypervisor level's own registers. *(5)* Any `LL` reservation is cleared, and the vector block's resume record is made as 6.16.31 says. *(6)* The program counter is the word read in step 2. Not written: any register of the guest, and no general register. Not done: no translation-buffer entry is removed and `GTBR` is not changed. A stage-2 fault on the vector fetch of the instruction's own entry (`TRAP`, `BPT`, a check trap) is an exit with `HEPC` at the instruction: it is retried.
 
@@ -1125,7 +1125,7 @@ Flags: bit 8 `WALK`: the failing access was the read of a guest page-table entry
 |---|---|
 | `PTBR`, `EPC`, `EVA`, `ECAUSE`, `USP`, `SSP`, `EPSW`, `VBR`, `MMUCTL`, `ASID` | `MFSR` and `MTSR` of `GPTBR` to `GASID` |
 | `R14` of the kernel mode and `DP` of the three modes | `GKSP`, `GKDP`, `GSDP`, `GUDP` |
-| the general registers other than `R14` | ordinary loads and stores, and `GENTER #mask` naming the ones loaded |
+| the general registers other than `R14` | ordinary loads and stores, and `GENTER $mask` naming the ones loaded |
 | the floating-point status | `FSFLAGS`, an unprivileged instruction |
 | `HTRAP`, `GTBR`, `VIRQ`, `VIVEC`, `VTOFF`, `VCPUID`, `GTIMECMP`, `GTOKEN` | `MFSR` and `MTSR` |
 
@@ -1201,7 +1201,7 @@ Flags: bit 8 `WALK`: the failing access was the read of a guest page-table entry
 
 The rule of the project is to check and not to guess. The handbooks for the PDP-11 and the VAX are not on this machine. What was available, and what each fact rests on:
 
-* **Checked against the Unix sources on this machine** (`<work>/facetlang/unixtree`, files gzipped: the V7M kernel under `V7M/sys` and 2.11BSD under `2.11BSD/sys`): the V7 vector table (`conf/l.s`: the pairs `trap; br7+n`, the console at 060 and 064 at `br4`, the clock at 0100 at `br6`; the file has no `. = ZERO+4` line, the vectors follow a branch and the word 4 at 0 and 2); the processor-status address 0177776 (`PS` in 2.11BSD `mch_iopage.h`) and the status fields in `pdp/psl.h` (`PSL_CURMOD`, `PSL_PRVMOD`, `PSL_IPL`, `PSL_T`, the condition codes); the KT11 register addresses in `pdp/seg.h` (`UISD` 0177600, `UISA` 0177640, `KISA0` 0172340, `KISA6` 0172354); `trap(dev, sp, r1, nps, r0, pc, ps)` and its comment; the system-call dispatch `sysent[fuiword((caddr_t)(a-1))&077]` (V7 `sys/trap.c`); `estabur()` and `sureg()` (eight page-register pairs per mode, sixteen with separate instruction and data space, `ENOMEM` when the segments exceed eight or the image exceeds memory, the segment of at most 128 blocks of 64 bytes); the first-fit core allocator (`malloc.c`: "The core map unit is 64 bytes", "Algorithm is first-fit"); `mfpi`, `mtpi` and the `nofault` global in `mch_i.s`; the `wait` of the V7 and 2.11BSD idle routines; the artificial trap 12 "give up cpu" of the interrupt exit when `_runrun` is set, and the write of 1 to `SSR0` (`mch_i.s`); the comments that the floating exception is an imprecise trap and that `backup()` may fail on the 11/40 (2.11BSD `pdp/trap.c`); supervisor mode used by the 2.11BSD network (`SUPVMODE`); `sched()`, `swapout()` and `swapin()` by name; the comment about "18 bit controllers present in" 22-bit Q-bus systems (2.11BSD `machdep.c`).
+* **Checked against the Unix sources on this machine** (`<work>/facetlang/unixtree`, files gzipped: the V7M kernel under `V7M/sys` and 2.11BSD under `2.11BSD/sys`): the V7 vector table (`conf/l.s`: the pairs `trap; br7+n`, the console at 0o60 and 0o64 at `br4`, the clock at 0o100 at `br6`; the file has no `. = ZERO+4` line, the vectors follow a branch and the word 4 at 0 and 2); the processor-status address 0o177776 (`PS` in 2.11BSD `mch_iopage.h`) and the status fields in `pdp/psl.h` (`PSL_CURMOD`, `PSL_PRVMOD`, `PSL_IPL`, `PSL_T`, the condition codes); the KT11 register addresses in `pdp/seg.h` (`UISD` 0o177600, `UISA` 0o177640, `KISA0` 0o172340, `KISA6` 0o172354); `trap(dev, sp, r1, nps, r0, pc, ps)` and its comment; the system-call dispatch `sysent[fuiword((caddr_t)(a-1))&077]` (V7 `sys/trap.c`); `estabur()` and `sureg()` (eight page-register pairs per mode, sixteen with separate instruction and data space, `ENOMEM` when the segments exceed eight or the image exceeds memory, the segment of at most 128 blocks of 64 bytes); the first-fit core allocator (`malloc.c`: "The core map unit is 64 bytes", "Algorithm is first-fit"); `mfpi`, `mtpi` and the `nofault` global in `mch_i.s`; the `wait` of the V7 and 2.11BSD idle routines; the artificial trap 12 "give up cpu" of the interrupt exit when `_runrun` is set, and the write of 1 to `SSR0` (`mch_i.s`); the comments that the floating exception is an imprecise trap and that `backup()` may fail on the 11/40 (2.11BSD `pdp/trap.c`); supervisor mode used by the 2.11BSD network (`SUPVMODE`); `sched()`, `swapout()` and `swapin()` by name; the comment about "18 bit controllers present in" 22-bit Q-bus systems (2.11BSD `machdep.c`).
 * **Checked against the QEMU sources** (`<work>/qemu-src`): RISC-V's `satp` modes 8, 9 and 10 (Sv39, Sv48, Sv57), its 16-bit address-space field, its entry bits `V R W X U G A D` in bits 0 to 7 and its page number at bit 10, its `SUM` bit; x86's `CPUID` leaf 0x80000008 and the `PCIDE` bit of `CR4`; AArch64's `ID_AA64MMFR0` field `PARange`; LoongArch's `CPUCFG1` fields and `PWCL` register.
 * **Checked against the repository:** the statements of this chapter against `docs/pdp64-isa.md` sections 7 and 8, `docs/pdp64-system-architecture.md`, `docs/kernel-pain-points.md` and `docs/hardware-vulnerabilities.md`. The vector numbers and system-register numbers are those of the generated constants (`qemu/target-pdp64/gen/pdp64-consts.h`), which come from the grammars.
 * **The repository's sizing, not measured:** the kernel survey's estimate of four or five instructions for a system-call entry, against 45 to 70 on RISC kernels (`docs/kernel-pain-points.md`).

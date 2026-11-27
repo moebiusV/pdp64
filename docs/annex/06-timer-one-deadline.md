@@ -48,12 +48,12 @@ agtimer_rearm(void *cookie, uint64_t nsecs)
 
 ```
         mfsr    r1, time                ; arm from now: read, add, write
-        add     #100000, r1             ; 100000 ticks of 100 ns is 10 ms
+        add     $100000, r1             ; 100000 ticks of 100 ns is 10 ms
         mtsr    timecmp, r1
 tick:   mfsr    r1, timecmp             ; a periodic tick: the old deadline plus the period
-        add     #100000, r1
+        add     $100000, r1
         mtsr    timecmp, r1
-        mov    #0, r1                  ; nothing to wait for: zero means never
+        mov    $0, r1                  ; nothing to wait for: zero means never
         mtsr    timecmp, r1
 ```
 

@@ -7,7 +7,7 @@ _start:
 	lea	vtab, r1
 	mtsr	vbr, r1
 	lea	hgen, r2
-	mov	#512, r3
+	mov	$512, r3
 kfill:	mov	r2, (r1)+
 	sob	r3, kfill
 	lea	vtab, r1
@@ -53,170 +53,170 @@ kfill:	mov	r2, (r1)+
 	mtsr	usp, r1
 	lea	user, r1
 	mtsr	epc, r1
-	mov	#((MODE_USER<<PSW_MODE)|(MODE_USER<<PSW_PREV)), r1
+	mov	$((MODE_USER<<PSW_MODE)|(MODE_USER<<PSW_PREV)), r1
 	mtsr	epsw, r1
-	rtt	#0x6000
+	rtt	$0x6000
 user:
-	pushm	#0xffffbfff
+	pushm	$0xffffbfff
 Next:	mov	r14, r16
-	add	#248, r14			; the image is on the stack: take it off
+	add	$248, r14			; the image is on the stack: take it off
 	mov	240(r16), r12
-	cbeq	r12, #0, 1f	; check 1 r0 is zero after RTT (kernel data is not visible)
-	mov	#1, r0
-	trap	#1
+	cbeq	r12, $0, 1f	; check 1 r0 is zero after RTT (kernel data is not visible)
+	mov	$1, r0
+	trap	$1
 1:
 	mov	232(r16), r12
-	cbeq	r12, #0, 1f	; check 2 r1 is zero after RTT (kernel data is not visible)
-	mov	#2, r0
-	trap	#1
+	cbeq	r12, $0, 1f	; check 2 r1 is zero after RTT (kernel data is not visible)
+	mov	$2, r0
+	trap	$1
 1:
 	mov	224(r16), r12
-	cbeq	r12, #0, 1f	; check 3 r2 is zero after RTT (kernel data is not visible)
-	mov	#3, r0
-	trap	#1
+	cbeq	r12, $0, 1f	; check 3 r2 is zero after RTT (kernel data is not visible)
+	mov	$3, r0
+	trap	$1
 1:
 	mov	216(r16), r12
-	cbeq	r12, #0, 1f	; check 4 r3 is zero after RTT (kernel data is not visible)
-	mov	#4, r0
-	trap	#1
+	cbeq	r12, $0, 1f	; check 4 r3 is zero after RTT (kernel data is not visible)
+	mov	$4, r0
+	trap	$1
 1:
 	mov	208(r16), r12
-	cbeq	r12, #0, 1f	; check 5 r4 is zero after RTT (kernel data is not visible)
-	mov	#5, r0
-	trap	#1
+	cbeq	r12, $0, 1f	; check 5 r4 is zero after RTT (kernel data is not visible)
+	mov	$5, r0
+	trap	$1
 1:
 	mov	200(r16), r12
-	cbeq	r12, #0, 1f	; check 6 r5 is zero after RTT (kernel data is not visible)
-	mov	#6, r0
-	trap	#1
+	cbeq	r12, $0, 1f	; check 6 r5 is zero after RTT (kernel data is not visible)
+	mov	$6, r0
+	trap	$1
 1:
 	mov	192(r16), r12
-	cbeq	r12, #0, 1f	; check 7 r6 is zero after RTT (kernel data is not visible)
-	mov	#7, r0
-	trap	#1
+	cbeq	r12, $0, 1f	; check 7 r6 is zero after RTT (kernel data is not visible)
+	mov	$7, r0
+	trap	$1
 1:
 	mov	184(r16), r12
-	cbeq	r12, #0, 1f	; check 8 r7 is zero after RTT (kernel data is not visible)
-	mov	#8, r0
-	trap	#1
+	cbeq	r12, $0, 1f	; check 8 r7 is zero after RTT (kernel data is not visible)
+	mov	$8, r0
+	trap	$1
 1:
 	mov	176(r16), r12
-	cbeq	r12, #0, 1f	; check 9 r8 is zero after RTT (kernel data is not visible)
-	mov	#9, r0
-	trap	#1
+	cbeq	r12, $0, 1f	; check 9 r8 is zero after RTT (kernel data is not visible)
+	mov	$9, r0
+	trap	$1
 1:
 	mov	168(r16), r12
-	cbeq	r12, #0, 1f	; check 10 r9 is zero after RTT (kernel data is not visible)
-	mov	#10, r0
-	trap	#1
+	cbeq	r12, $0, 1f	; check 10 r9 is zero after RTT (kernel data is not visible)
+	mov	$10, r0
+	trap	$1
 1:
 	mov	160(r16), r12
-	cbeq	r12, #0, 1f	; check 11 r10 is zero after RTT (kernel data is not visible)
-	mov	#11, r0
-	trap	#1
+	cbeq	r12, $0, 1f	; check 11 r10 is zero after RTT (kernel data is not visible)
+	mov	$11, r0
+	trap	$1
 1:
 	mov	152(r16), r12
-	cbeq	r12, #0, 1f	; check 12 r11 is zero after RTT (kernel data is not visible)
-	mov	#12, r0
-	trap	#1
+	cbeq	r12, $0, 1f	; check 12 r11 is zero after RTT (kernel data is not visible)
+	mov	$12, r0
+	trap	$1
 1:
 	mov	128(r16), r12
-	cbeq	r12, #0, 1f	; check 13 r15 is zero after RTT (kernel data is not visible)
-	mov	#13, r0
-	trap	#1
+	cbeq	r12, $0, 1f	; check 13 r15 is zero after RTT (kernel data is not visible)
+	mov	$13, r0
+	trap	$1
 1:
 	mov	112(r16), r12
-	cbeq	r12, #0, 1f	; check 14 r17 is zero after RTT (kernel data is not visible)
-	mov	#14, r0
-	trap	#1
+	cbeq	r12, $0, 1f	; check 14 r17 is zero after RTT (kernel data is not visible)
+	mov	$14, r0
+	trap	$1
 1:
 	mov	104(r16), r12
-	cbeq	r12, #0, 1f	; check 15 r18 is zero after RTT (kernel data is not visible)
-	mov	#15, r0
-	trap	#1
+	cbeq	r12, $0, 1f	; check 15 r18 is zero after RTT (kernel data is not visible)
+	mov	$15, r0
+	trap	$1
 1:
 	mov	96(r16), r12
-	cbeq	r12, #0, 1f	; check 16 r19 is zero after RTT (kernel data is not visible)
-	mov	#16, r0
-	trap	#1
+	cbeq	r12, $0, 1f	; check 16 r19 is zero after RTT (kernel data is not visible)
+	mov	$16, r0
+	trap	$1
 1:
 	mov	88(r16), r12
-	cbeq	r12, #0, 1f	; check 17 r20 is zero after RTT (kernel data is not visible)
-	mov	#17, r0
-	trap	#1
+	cbeq	r12, $0, 1f	; check 17 r20 is zero after RTT (kernel data is not visible)
+	mov	$17, r0
+	trap	$1
 1:
 	mov	80(r16), r12
-	cbeq	r12, #0, 1f	; check 18 r21 is zero after RTT (kernel data is not visible)
-	mov	#18, r0
-	trap	#1
+	cbeq	r12, $0, 1f	; check 18 r21 is zero after RTT (kernel data is not visible)
+	mov	$18, r0
+	trap	$1
 1:
 	mov	72(r16), r12
-	cbeq	r12, #0, 1f	; check 19 r22 is zero after RTT (kernel data is not visible)
-	mov	#19, r0
-	trap	#1
+	cbeq	r12, $0, 1f	; check 19 r22 is zero after RTT (kernel data is not visible)
+	mov	$19, r0
+	trap	$1
 1:
 	mov	64(r16), r12
-	cbeq	r12, #0, 1f	; check 20 r23 is zero after RTT (kernel data is not visible)
-	mov	#20, r0
-	trap	#1
+	cbeq	r12, $0, 1f	; check 20 r23 is zero after RTT (kernel data is not visible)
+	mov	$20, r0
+	trap	$1
 1:
 	mov	56(r16), r12
-	cbeq	r12, #0, 1f	; check 21 r24 is zero after RTT (kernel data is not visible)
-	mov	#21, r0
-	trap	#1
+	cbeq	r12, $0, 1f	; check 21 r24 is zero after RTT (kernel data is not visible)
+	mov	$21, r0
+	trap	$1
 1:
 	mov	48(r16), r12
-	cbeq	r12, #0, 1f	; check 22 r25 is zero after RTT (kernel data is not visible)
-	mov	#22, r0
-	trap	#1
+	cbeq	r12, $0, 1f	; check 22 r25 is zero after RTT (kernel data is not visible)
+	mov	$22, r0
+	trap	$1
 1:
 	mov	40(r16), r12
-	cbeq	r12, #0, 1f	; check 23 r26 is zero after RTT (kernel data is not visible)
-	mov	#23, r0
-	trap	#1
+	cbeq	r12, $0, 1f	; check 23 r26 is zero after RTT (kernel data is not visible)
+	mov	$23, r0
+	trap	$1
 1:
 	mov	32(r16), r12
-	cbeq	r12, #0, 1f	; check 24 r27 is zero after RTT (kernel data is not visible)
-	mov	#24, r0
-	trap	#1
+	cbeq	r12, $0, 1f	; check 24 r27 is zero after RTT (kernel data is not visible)
+	mov	$24, r0
+	trap	$1
 1:
 	mov	24(r16), r12
-	cbeq	r12, #0, 1f	; check 25 r28 is zero after RTT (kernel data is not visible)
-	mov	#25, r0
-	trap	#1
+	cbeq	r12, $0, 1f	; check 25 r28 is zero after RTT (kernel data is not visible)
+	mov	$25, r0
+	trap	$1
 1:
 	mov	16(r16), r12
-	cbeq	r12, #0, 1f	; check 26 r29 is zero after RTT (kernel data is not visible)
-	mov	#26, r0
-	trap	#1
+	cbeq	r12, $0, 1f	; check 26 r29 is zero after RTT (kernel data is not visible)
+	mov	$26, r0
+	trap	$1
 1:
 	mov	8(r16), r12
-	cbeq	r12, #0, 1f	; check 27 r30 is zero after RTT (kernel data is not visible)
-	mov	#27, r0
-	trap	#1
+	cbeq	r12, $0, 1f	; check 27 r30 is zero after RTT (kernel data is not visible)
+	mov	$27, r0
+	trap	$1
 1:
 	mov	0(r16), r12
-	cbeq	r12, #0, 1f	; check 28 r31 is zero after RTT (kernel data is not visible)
-	mov	#28, r0
-	trap	#1
+	cbeq	r12, $0, 1f	; check 28 r31 is zero after RTT (kernel data is not visible)
+	mov	$28, r0
+	trap	$1
 1:
 	mov	136(r16), r12
 	lea	Next, r17
 	cbeq	r12, r17, 1f	; check 29 control: r13, named by the mask, keeps its value (the resume address) across RTT
-	mov	#29, r0
-	trap	#1
+	mov	$29, r0
+	trap	$1
 1:
 	mov	cnt, r12
 	mov	=(1), r17
 	cbeq	r12, r17, 1f	; check 30 control: the trace trap was taken once (RTT sets T), so the image was made by the first user instruction
-	mov	#30, r0
-	trap	#1
+	mov	$30, r0
+	trap	$1
 1:
-	mov	#0, r0
-	trap	#0
+	mov	$0, r0
+	trap	$0
 
 hgen:	mov	cnt, r12
-	add	#1, r12
+	add	$1, r12
 	mov	r12, cnt
 	mfsr	r12, ecause
 	mov	r12, last_cause
@@ -228,10 +228,10 @@ hgen:	mov	cnt, r12
 	mov	r12, last_epsw
 	mtsr	epc, r13
 	mfsr	r12, epsw
-	bic	#(1<<PSW_T), r12
+	bic	$(1<<PSW_T), r12
 	mtsr	epsw, r12
-	rti	#RTIMASK_ALL
-h_ok:	mov	#0, r0
+	rti	$RTIMASK_ALL
+h_ok:	mov	$0, r0
 h_fail:	halt
 
 	.data

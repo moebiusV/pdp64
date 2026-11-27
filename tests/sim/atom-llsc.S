@@ -11,340 +11,340 @@ _start:
 	; ---- case 1: ll and sc: success
 	mov	=(0x1122334455667788), r17
 	mov	r17, (r3)
-	mov	#77, r2
+	mov	$77, r2
 	ll	(r3), r1
 	sc	r2, (r3), r4
 	mov	=(0x1122334455667788), r17
 	cbeq	r1, r17, 1f	; case 1: ll: Rd is the word (a 4-byte one sign-extended)
-	mov	#1, r0
+	mov	$1, r0
 	halt
 1:
 	mov	=(0), r17
 	cbeq	r4, r17, 1f	; case 1: sc: success writes 0 to Rd
-	mov	#1, r0
+	mov	$1, r0
 	halt
 1:
 	mov	(r3), r5
 	mov	=(77), r17
 	cbeq	r5, r17, 1f	; case 1: sc: the word is the new value
-	mov	#1, r0
+	mov	$1, r0
 	halt
 1:
 	; ---- case 2: sc with no reservation
-	mov	#88, r2
+	mov	$88, r2
 	sc	r2, (r3), r4
-	cbne	r4, #0, 1f	; case 2: sc with no reservation fails (nonzero in Rd)
-	mov	#2, r0
+	cbne	r4, $0, 1f	; case 2: sc with no reservation fails (nonzero in Rd)
+	mov	$2, r0
 	halt
 1:
 	mov	(r3), r5
 	mov	=(77), r17
 	cbeq	r5, r17, 1f	; case 2: sc that failed writes nothing
-	mov	#2, r0
+	mov	$2, r0
 	halt
 1:
 	; ---- case 3: a store between ll and sc
-	mov	#5, r6
-	mov	#88, r2
+	mov	$5, r6
+	mov	$88, r2
 	ll	(r3), r1
 	mov	r6, (r8)
 	sc	r2, (r3), r4
-	cbne	r4, #0, 1f	; case 3: a store (even to another block) between ll and sc breaks the constrained sequence: the SC fails
-	mov	#3, r0
+	cbne	r4, $0, 1f	; case 3: a store (even to another block) between ll and sc breaks the constrained sequence: the SC fails
+	mov	$3, r0
 	halt
 1:
 	mov	(r3), r5
 	mov	=(77), r17
 	cbeq	r5, r17, 1f	; case 3: the failed SC wrote nothing
-	mov	#3, r0
+	mov	$3, r0
 	halt
 1:
 	; ---- case 4: a load between
 	ll	(r3), r1
 	mov	(r8), r6
 	sc	r2, (r3), r4
-	cbne	r4, #0, 1f	; case 4: a load between breaks it too
-	mov	#4, r0
+	cbne	r4, $0, 1f	; case 4: a load between breaks it too
+	mov	$4, r0
 	halt
 1:
 	; ---- case 5: an SC for another address
 	ll	(r3), r1
 	sc	r2, (r9), r4
-	cbne	r4, #0, 1f	; case 5: sc for another address than the ll fails
-	mov	#5, r0
+	cbne	r4, $0, 1f	; case 5: sc for another address than the ll fails
+	mov	$5, r0
 	halt
 1:
 	; ---- case 6: ll sc: 16 instructions between
-	mov	#106, r2
+	mov	$106, r2
 	ll	(r3), r1
-	add	#1, r7
-	add	#1, r7
-	add	#1, r7
-	add	#1, r7
-	add	#1, r7
-	add	#1, r7
-	add	#1, r7
-	add	#1, r7
-	add	#1, r7
-	add	#1, r7
-	add	#1, r7
-	add	#1, r7
-	add	#1, r7
-	add	#1, r7
-	add	#1, r7
-	add	#1, r7
+	add	$1, r7
+	add	$1, r7
+	add	$1, r7
+	add	$1, r7
+	add	$1, r7
+	add	$1, r7
+	add	$1, r7
+	add	$1, r7
+	add	$1, r7
+	add	$1, r7
+	add	$1, r7
+	add	$1, r7
+	add	$1, r7
+	add	$1, r7
+	add	$1, r7
+	add	$1, r7
 	sc	r2, (r3), r4
 	mov	=(0), r17
 	cbeq	r4, r17, 1f	; case 6: 16 register instructions between ll and sc: the SC may succeed
-	mov	#6, r0
+	mov	$6, r0
 	halt
 1:
 	mov	(r3), r5
 	mov	=(106), r17
 	cbeq	r5, r17, 1f	; case 6: and it wrote
-	mov	#6, r0
+	mov	$6, r0
 	halt
 1:
 	; ---- case 7: ll sc: 17 instructions between
-	mov	#107, r2
+	mov	$107, r2
 	ll	(r3), r1
-	add	#1, r7
-	add	#1, r7
-	add	#1, r7
-	add	#1, r7
-	add	#1, r7
-	add	#1, r7
-	add	#1, r7
-	add	#1, r7
-	add	#1, r7
-	add	#1, r7
-	add	#1, r7
-	add	#1, r7
-	add	#1, r7
-	add	#1, r7
-	add	#1, r7
-	add	#1, r7
-	add	#1, r7
+	add	$1, r7
+	add	$1, r7
+	add	$1, r7
+	add	$1, r7
+	add	$1, r7
+	add	$1, r7
+	add	$1, r7
+	add	$1, r7
+	add	$1, r7
+	add	$1, r7
+	add	$1, r7
+	add	$1, r7
+	add	$1, r7
+	add	$1, r7
+	add	$1, r7
+	add	$1, r7
+	add	$1, r7
 	sc	r2, (r3), r4
-	cbne	r4, #0, 1f	; case 7: 17 instructions between: the sequence is longer than the promise, the SC fails, it does not hang
-	mov	#7, r0
+	cbne	r4, $0, 1f	; case 7: 17 instructions between: the sequence is longer than the promise, the SC fails, it does not hang
+	mov	$7, r0
 	halt
 1:
 	mov	(r3), r5
 	mov	=(106), r17
 	cbeq	r5, r17, 1f	; case 7: and wrote nothing
-	mov	#7, r0
+	mov	$7, r0
 	halt
 1:
 	; ---- case 8: ll sc: a forward branch, a backward branch, a second LL
-	mov	#120, r2
+	mov	$120, r2
 	ll	(r3), r1
 	cbeq	r1, r1, 2f
 	nop
 2:	sc	r2, (r3), r4
 	mov	=(0), r17
 	cbeq	r4, r17, 1f	; case 8: a forward branch between is allowed
-	mov	#8, r0
+	mov	$8, r0
 	halt
 1:
-	mov	#130, r2
-	mov	#2, r6
+	mov	$130, r2
+	mov	$2, r6
 	ll	(r3), r1
 3:	sob	r6, 3b
 	sc	r2, (r3), r4
-	cbne	r4, #0, 1f	; case 8: a backward branch between breaks it: the SC fails
-	mov	#8, r0
+	cbne	r4, $0, 1f	; case 8: a backward branch between breaks it: the SC fails
+	mov	$8, r0
 	halt
 1:
-	mov	#140, r2
+	mov	$140, r2
 	ll	(r3), r1
 	ll	(r9), r1
 	sc	r2, (r3), r4
-	cbne	r4, #0, 1f	; case 8: an LL to another word is not a register instruction: it breaks the sequence
-	mov	#8, r0
+	cbne	r4, $0, 1f	; case 8: an LL to another word is not a register instruction: it breaks the sequence
+	mov	$8, r0
 	halt
 1:
 	; ---- case 9: ll.s32 and sc.s32: success
 	mov	=(0xc3c3c3c380000001), r17
 	mov	r17, (r3)
-	mov	#77, r2
+	mov	$77, r2
 	ll.s32	(r3), r1
 	sc.s32	r2, (r3), r4
 	mov	=(0xffffffff80000001), r17
 	cbeq	r1, r17, 1f	; case 9: ll.s32: Rd is the word (a 4-byte one sign-extended)
-	mov	#9, r0
+	mov	$9, r0
 	halt
 1:
 	mov	=(0), r17
 	cbeq	r4, r17, 1f	; case 9: sc.s32: success writes 0 to Rd
-	mov	#9, r0
+	mov	$9, r0
 	halt
 1:
 	mov.s32	(r3), r5
 	mov	=(77), r17
 	cbeq	r5, r17, 1f	; case 9: sc.s32: the word is the new value
-	mov	#9, r0
+	mov	$9, r0
 	halt
 1:
 	mov	(r3), r5
-	shr	#32, r5
+	shr	$32, r5
 	mov	=(0xC3C3C3C3), r17
 	cbeq	r5, r17, 1f	; case 9: sc.s32: the half beside the word is untouched
-	mov	#9, r0
+	mov	$9, r0
 	halt
 1:
 	; ---- case 10: sc.s32 with no reservation
-	mov	#88, r2
+	mov	$88, r2
 	sc.s32	r2, (r3), r4
-	cbne	r4, #0, 1f	; case 10: sc.s32 with no reservation fails (nonzero in Rd)
-	mov	#10, r0
+	cbne	r4, $0, 1f	; case 10: sc.s32 with no reservation fails (nonzero in Rd)
+	mov	$10, r0
 	halt
 1:
 	mov.s32	(r3), r5
 	mov	=(77), r17
 	cbeq	r5, r17, 1f	; case 10: sc.s32 that failed writes nothing
-	mov	#10, r0
+	mov	$10, r0
 	halt
 1:
 	; ---- case 11: a store between ll.s32 and sc.s32
-	mov	#5, r6
-	mov	#88, r2
+	mov	$5, r6
+	mov	$88, r2
 	ll.s32	(r3), r1
 	mov	r6, (r8)
 	sc.s32	r2, (r3), r4
-	cbne	r4, #0, 1f	; case 11: a store (even to another block) between ll.s32 and sc.s32 breaks the constrained sequence: the SC fails
-	mov	#11, r0
+	cbne	r4, $0, 1f	; case 11: a store (even to another block) between ll.s32 and sc.s32 breaks the constrained sequence: the SC fails
+	mov	$11, r0
 	halt
 1:
 	mov.s32	(r3), r5
 	mov	=(77), r17
 	cbeq	r5, r17, 1f	; case 11: the failed SC wrote nothing
-	mov	#11, r0
+	mov	$11, r0
 	halt
 1:
 	; ---- case 12: a load between
 	ll.s32	(r3), r1
 	mov	(r8), r6
 	sc.s32	r2, (r3), r4
-	cbne	r4, #0, 1f	; case 12: a load between breaks it too
-	mov	#12, r0
+	cbne	r4, $0, 1f	; case 12: a load between breaks it too
+	mov	$12, r0
 	halt
 1:
 	; ---- case 13: an SC for another address
 	ll.s32	(r3), r1
 	sc.s32	r2, (r9), r4
-	cbne	r4, #0, 1f	; case 13: sc.s32 for another address than the ll.s32 fails
-	mov	#13, r0
+	cbne	r4, $0, 1f	; case 13: sc.s32 for another address than the ll.s32 fails
+	mov	$13, r0
 	halt
 1:
 	; ---- case 14: ll.s32 sc.s32: 16 instructions between
-	mov	#106, r2
+	mov	$106, r2
 	ll.s32	(r3), r1
-	add	#1, r7
-	add	#1, r7
-	add	#1, r7
-	add	#1, r7
-	add	#1, r7
-	add	#1, r7
-	add	#1, r7
-	add	#1, r7
-	add	#1, r7
-	add	#1, r7
-	add	#1, r7
-	add	#1, r7
-	add	#1, r7
-	add	#1, r7
-	add	#1, r7
-	add	#1, r7
+	add	$1, r7
+	add	$1, r7
+	add	$1, r7
+	add	$1, r7
+	add	$1, r7
+	add	$1, r7
+	add	$1, r7
+	add	$1, r7
+	add	$1, r7
+	add	$1, r7
+	add	$1, r7
+	add	$1, r7
+	add	$1, r7
+	add	$1, r7
+	add	$1, r7
+	add	$1, r7
 	sc.s32	r2, (r3), r4
 	mov	=(0), r17
 	cbeq	r4, r17, 1f	; case 14: 16 register instructions between ll.s32 and sc.s32: the SC may succeed
-	mov	#14, r0
+	mov	$14, r0
 	halt
 1:
 	mov.s32	(r3), r5
 	mov	=(106), r17
 	cbeq	r5, r17, 1f	; case 14: and it wrote
-	mov	#14, r0
+	mov	$14, r0
 	halt
 1:
 	; ---- case 15: ll.s32 sc.s32: 17 instructions between
-	mov	#107, r2
+	mov	$107, r2
 	ll.s32	(r3), r1
-	add	#1, r7
-	add	#1, r7
-	add	#1, r7
-	add	#1, r7
-	add	#1, r7
-	add	#1, r7
-	add	#1, r7
-	add	#1, r7
-	add	#1, r7
-	add	#1, r7
-	add	#1, r7
-	add	#1, r7
-	add	#1, r7
-	add	#1, r7
-	add	#1, r7
-	add	#1, r7
-	add	#1, r7
+	add	$1, r7
+	add	$1, r7
+	add	$1, r7
+	add	$1, r7
+	add	$1, r7
+	add	$1, r7
+	add	$1, r7
+	add	$1, r7
+	add	$1, r7
+	add	$1, r7
+	add	$1, r7
+	add	$1, r7
+	add	$1, r7
+	add	$1, r7
+	add	$1, r7
+	add	$1, r7
+	add	$1, r7
 	sc.s32	r2, (r3), r4
-	cbne	r4, #0, 1f	; case 15: 17 instructions between: the sequence is longer than the promise, the SC fails, it does not hang
-	mov	#15, r0
+	cbne	r4, $0, 1f	; case 15: 17 instructions between: the sequence is longer than the promise, the SC fails, it does not hang
+	mov	$15, r0
 	halt
 1:
 	mov.s32	(r3), r5
 	mov	=(106), r17
 	cbeq	r5, r17, 1f	; case 15: and wrote nothing
-	mov	#15, r0
+	mov	$15, r0
 	halt
 1:
 	; ---- case 16: ll.s32 sc.s32: a forward branch, a backward branch, a second LL
-	mov	#120, r2
+	mov	$120, r2
 	ll.s32	(r3), r1
 	cbeq	r1, r1, 2f
 	nop
 2:	sc.s32	r2, (r3), r4
 	mov	=(0), r17
 	cbeq	r4, r17, 1f	; case 16: a forward branch between is allowed
-	mov	#16, r0
+	mov	$16, r0
 	halt
 1:
-	mov	#130, r2
-	mov	#2, r6
+	mov	$130, r2
+	mov	$2, r6
 	ll.s32	(r3), r1
 3:	sob	r6, 3b
 	sc.s32	r2, (r3), r4
-	cbne	r4, #0, 1f	; case 16: a backward branch between breaks it: the SC fails
-	mov	#16, r0
+	cbne	r4, $0, 1f	; case 16: a backward branch between breaks it: the SC fails
+	mov	$16, r0
 	halt
 1:
-	mov	#140, r2
+	mov	$140, r2
 	ll.s32	(r3), r1
 	ll.s32	(r9), r1
 	sc.s32	r2, (r3), r4
-	cbne	r4, #0, 1f	; case 16: an LL to another word is not a register instruction: it breaks the sequence
-	mov	#16, r0
+	cbne	r4, $0, 1f	; case 16: an LL to another word is not a register instruction: it breaks the sequence
+	mov	$16, r0
 	halt
 1:
 	; ---- case 17: the counter loop of the manual
-	mov	#97, r5
+	mov	$97, r5
 	mov	r5, (r3)
-	mov	#100, r5
+	mov	$100, r5
 rl:	ll	(r3), r1
 	cbeq	r1, r5, rfull
 	mov	r1, r6
-	add	#1, r6
+	add	$1, r6
 	sc	r6, (r3), r4
-	cbne	r4, #0, rl
+	cbne	r4, $0, rl
 	br	rl
 rfull:	mov	(r3), r4
 	mov	=(100), r17
 	cbeq	r4, r17, 1f	; case 17: the counter that stops at its limit counts 97, 98, 99, 100 and stops
-	mov	#17, r0
+	mov	$17, r0
 	halt
 1:
-	mov	#0, r0
+	mov	$0, r0
 	halt
 	.data
 	.align	128

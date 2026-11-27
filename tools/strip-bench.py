@@ -24,9 +24,9 @@ as64, ld64, sim64 = [os.path.join(bdir, t) for t in ('as64', 'ld64', 'sim64')]
 open(os.path.join(tmp, 'crt.s'), 'w').write("""	.text
 	.globl	_start
 _start:	call	main
-	trap	#0
+	trap	$0
 	.globl	write
-write:	trap	#1
+write:	trap	$1
 	ret
 	.globl	memcpy
 memcpy:	mov	r0, r3

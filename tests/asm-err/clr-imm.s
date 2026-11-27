@@ -1,2 +1,2 @@
 	.text
-	clr #5
+	clr $5

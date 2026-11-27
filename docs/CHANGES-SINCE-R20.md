@@ -63,7 +63,7 @@ Writing the encoding down as something a machine could check turned up the follo
   every `MBLK` instruction carries an 8-bit sub-opcode in parcel 1, so a 16-bit mask leaves no room for the sub-opcode at `len=01`; and §4.14's second
   rule forbids deciding the parcel-0 interpretation per sub-opcode. We moved them (§3).
 * **`SYS` cannot be built three contradictory ways at once (errata 5).** §4.11 says `reg` and `rm` combine into eight bits of sub-opcode; §4.3.1 says
-  `SYS` takes its sub-opcode from the `reg` field alone (that is why `SYS` sits with `XFER` and `SOP` at `0x12`-`0x14`); and §4.11.1 insists `TRAP #n`
+  `SYS` takes its sub-opcode from the `reg` field alone (that is why `SYS` sits with `XFER` and `SOP` at `0x12`-`0x14`); and §4.11.1 insists `TRAP $n`
   is a two-byte instruction with 256 vectors, which needs an 8-bit operand in a two-byte instruction that has only 8 bits left in total. We chose a
   class/minor split (§4.4).
 * **`JTAG Rn, table` has nowhere to put `Rn` (errata 6).** `XFER`'s `reg` field is the sub-opcode, `rm`/mode give the table address, and nothing is
@@ -104,14 +104,14 @@ Writing the encoding down as something a machine could check turned up the follo
 | **`FRECPED`, `FRSQRTED`** (reciprocal and reciprocal-square-root *estimates*) | `FESC`, ISA §4.10 | The machine has `FDIVD`, `FSQRTD` and the fused multiply-add family, so a software Newton loop buys speed only if the hardware divide is slow, which this design does not chase. Each estimate needs a lookup table in hardware **and** an exact specification (ARM and RISC-V fix the algorithm and table; the ISA says only "not correctly rounded", so two implementations would return different bits for the same program). No document names a user, and §1.2 rule 3 says not to multiply entities without benefit. Sub-opcodes `0x40`, `0x41` of `FESC` are free again. (errata 16) |
 | **`CRC32`/`CRC32C`** (added for a short while, eight words) | `BESC` `0x34`-`0x3B` | The user withdrew them: carry-less multiply already covers every polynomial (errata 20). |
 | **`.org`, `.section` directives** | assembler | Never implemented; dropped at the user's direction ("drop those unimplemented things"). |
-| **`IOT`, `EMT` aliases** | ISA §4.15 | The instructions were already gone in r17 (they are `TRAP #n`); only the assembler aliases remained, and they were unimplemented. Dropped at the user's direction. |
+| **`IOT`, `EMT` aliases** | ISA §4.15 | The instructions were already gone in r17 (they are `TRAP $n`); only the assembler aliases remained, and they were unimplemented. Dropped at the user's direction. |
 | V7 `as` warts: octal-by-default numbers, `<string>`, `'\e`, `\/ \< \>` and `[ ]` in expressions, `.if`, `.stabs`, 8-character symbols | assembler | "We don't need to copy asv7 warts or anachronisms." (§6) |
 
 ### 3.2 Moved
 
 | What | From | To | Why |
 |---|---|---|---|
-| **`PUSHM #mask`, `POPM #mask`** | `MBLK` (ISA §4.7) | `SOP` slots `0xA` and `0xB` (`reg` = 10, 11), the mask a 16-bit immediate (mode `0100`) | A 16-bit mask plus a sub-opcode does not fit `MBLK`'s parcel 1 (§2.1). `SOP` had exactly two free slots, the mask-as-immediate form needs no new mechanism, and the instruction stays four bytes. **Cost: `SOP` now has no free slots left.** Mask bit *n* is `Rn`; `PUSHM` stores the lowest-numbered register at the highest address. |
+| **`PUSHM $mask`, `POPM $mask`** | `MBLK` (ISA §4.7) | `SOP` slots `0xA` and `0xB` (`reg` = 10, 11), the mask a 16-bit immediate (mode `0100`) | A 16-bit mask plus a sub-opcode does not fit `MBLK`'s parcel 1 (§2.1). `SOP` had exactly two free slots, the mask-as-immediate form needs no new mechanism, and the instruction stays four bytes. **Cost: `SOP` now has no free slots left.** Mask bit *n* is `Rn`; `PUSHM` stores the lowest-numbered register at the highest address. |
 
 ### 3.3 Changed semantics (the document is silent or ambiguous; we fixed one meaning)
 
@@ -125,12 +125,12 @@ Writing the encoding down as something a machine could check turned up the follo
   tagged register. Rationale: the mode that already carries a base *and* an index register is the only one with a free register slot for the tagged
   value.
 * **`SOB` exists from `len=01` (errata 8).** Displacement 16/32/48 bits, counted in parcels, signed (so it branches either way, as the document says).
-* **`TRAP` is split (errata 5).** `TRAP #n` for `n < 16` is two bytes (`SYS` class 4, `n` in the `rm` nibble); `TRAP #n` for 16 <= `n` < 256 is the new
+* **`TRAP` is split (errata 5).** `TRAP $n` for `n < 16` is two bytes (`SYS` class 4, `n` in the `rm` nibble); `TRAP $n` for 16 <= `n` < 256 is the new
   four-byte `TRAPL` (class 15, `n` in the high byte of parcel 1). The assembler picks. This keeps §4.11.1's goal (256 vectors) and §3.1.1's goal (the
   common case in two bytes) at the cost of a second mnemonic.
 * **`RORI` is its own mnemonic (errata 10).** The document has `ROR` taking "a register or immediate count". Register-count `ROR rs, rt, rd` and
-  immediate-count `RORI rs, #n, rd` are different encodings (the count sits in the low byte of parcel 1, 6 bits used), so they get different sub-opcodes
-  and mnemonics. `ROL rs, #n, rd` assembles to `RORI` with `64-n` (ISA §4.15), and `ROL` with a register count is rejected.
+  immediate-count `RORI rs, $n, rd` are different encodings (the count sits in the low byte of parcel 1, 6 bits used), so they get different sub-opcodes
+  and mnemonics. `ROL rs, $n, rd` assembles to `RORI` with `64-n` (ISA §4.15), and `ROL` with a register count is rejected.
 * **`PROBER`/`PROBEW rd, rs`** carry the second register in parcel 1 (`rd:4 pad:12`), at `len=01`.
 * **`MESC` (errata 11).** Parcel 1 is `sub:4 rm:4 disp:8` at `len=01` (ISA §4.13), widening to 24 / 40 bits at greater lengths; the scaled-index mode
   is not available in `MESC` (no room for `rx`/`s`).
@@ -153,7 +153,7 @@ Writing the encoding down as something a machine could check turned up the follo
 
 **Now one rule (errata 24):** a word numbered 0x100 above another word of its group is an alias of it. The 29 old floating-point spellings use it. The original five aliases (`bhis`, `blo`, `mulu`, `wait`, `rol`) are implemented, as **words of the group they stand for, numbered above the group's own
 encodings** (branch group `bhis`=64, `blo`=65; ALU `mulu`=64; no-operand SYS `wait`=16; BESC `rol`=256). A number above the encoding range cannot be
-confused with an opcode, and the grammar stays one source. **Not implemented:** `BIC #imm, rm` → `AND #~imm, rm` (listed in ISA §4.15).
+confused with an opcode, and the grammar stays one source. **Not implemented:** `BIC $imm, rm` → `AND $~imm, rm` (listed in ISA §4.15).
 
 ---
 
@@ -184,8 +184,8 @@ Immediates are sign-extended; displacement fields are two's complement truncated
 
 For `BESC`, `AESC`, `MBLK` the assembler writes the destination **last**: `op rs, rd`, `op ra, rb, rd`. In the encoding: parcel 0 `reg` = `rd`, `low` =
 the first source; parcel 1 `t` = the second source. `MBLK` is the exception: `mcpy rd, rs, rn` is *destination pointer, source pointer, count*, with
-`reg` = destination pointer, `low` = source pointer, `t` = count (`mval rd, rn` has `low` unused). `DSHR ra, rb, #n, rd`: `low`=`ra`, `t`=`rb`, shift
-count in `pos` of parcel 2 (so it needs `len` 2). `EXTB`/`EXTZB`/`INSB rs, #pos, #width, rd`: `pos`, `width` in parcel 2.
+`reg` = destination pointer, `low` = source pointer, `t` = count (`mval rd, rn` has `low` unused). `DSHR ra, rb, $n, rd`: `low`=`ra`, `t`=`rb`, shift
+count in `pos` of parcel 2 (so it needs `len` 2). `EXTB`/`EXTZB`/`INSB rs, $pos, $width, rd`: `pos`, `width` in parcel 2.
 `TAGOP`: `reg` is the tested register; `low` = sense (1 bit, `BTAG`=0, `BNTAG`=1) in the high bit and the tag (3 bits) below it.
 
 ### 4.4 The `SYS` group (errata 5)
@@ -194,7 +194,7 @@ count in `pos` of parcel 2 (so it needs `len` 2). `EXTB`/`EXTZB`/`INSB rs, #pos,
 
 | Class (`reg`) | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| | no operand (minor in `rm`) | `mtps` | `mfps` | `spl #n` | `trap #n` | `tlbi` | `mtasid` | `mfasid` | `mtdp` | `mfdp` | `mtdmw` | `mfcpuid` | `icinv` | `prober` | `probew` | `trapl #n` |
+| | no operand (minor in `rm`) | `mtps` | `mfps` | `spl $n` | `trap $n` | `tlbi` | `mtasid` | `mfasid` | `mtdp` | `mfdp` | `mtdmw` | `mfcpuid` | `icinv` | `prober` | `probew` | `trapl $n` |
 
 Class 0 minors: 0 `nop`, 1 `rti`, 2 `rtt`, 3 `ret`, 4 `halt`, 5 `bpt`, 6 `fence`, 7 `wfe`, 8 `sev`, 9 `lpad`, 10 `tlbia`, 11 `tlbsync`, 12 `icinva`.
 Two-byte forms where the operand is a register or a 4-bit number; the classes that need a second operand (`prober`, `probew`, `trapl`) are four bytes.
@@ -277,7 +277,7 @@ make numbers, characters and strings C's.* The decisions, in the order the user 
   the ISA's PDP-11 terminology). `.align n` aligns to n bytes (a power of two). Text padding is a one-parcel `nop`.
 * **Mnemonics are lowercase.** (An `hbnf` limitation: numbered enum values are refused under case-insensitive matching.)
 * **Registers** are `r0`-`r15`; `sp` = `r14`, `fp` = `r13`; `pc` and `dp` appear only as a base register. `r` followed only by digits is reserved: `r16` is an error, not a name.
-* **Operand modes** (ISA §5): `rN`; `#expr`; `@expr`; `expr(rN)`, `(rN)`; `expr(rN)(rX*s)`; `expr(pc)`; `expr(dp)`; `(rN)+`, `(rN)+d`; `-(rN)`, `(rN)-d`;
+* **Operand modes** (ISA §5): `rN`; `$expr`; `@expr`; `expr(rN)`, `(rN)`; `expr(rN)(rX*s)`; `expr(pc)`; `expr(dp)`; `(rN)+`, `(rN)+d`; `-(rN)`, `(rN)-d`;
   a bare expression is a PC-relative reference.
 * **Pre-decrement is `-(rN)` / `(rN)-d` (errata 15).** The ISA's `-d(Rn)` is also a negative base displacement; here `-d(rN)` is *always* base+displacement.
 * **Destination last**, except `cmp` (register first; §3.3).
@@ -400,7 +400,7 @@ Recorded because the point of the exercise was to find where designs and tools d
 Built since this section was first written: `ld64`, `sim64` (docs/sim64.md), the pcc back end (`arch/pdp64` in moebiusV/pcc). Not built: the QEMU target
 (`target/pdp64`, a `pdp64-virt` machine, user mode); it is under way, as the `qemu/` directory of this repository plus a QEMU source tree kept outside it.
 
-Assembler gaps: `ATOM` (22), `MESC` (8), `TRAPL`; the `BIC #imm` alias; PIC relocations (GOT, PLT, TLS types are not defined yet); division and
+Assembler gaps: `ATOM` (22), `MESC` (8), `TRAPL`; the `BIC $imm` alias; PIC relocations (GOT, PLT, TLS types are not defined yet); division and
 shifts of symbolic values.
 
 Open design items (ISA §12 plus ours): **IEEE 754 directed rounding for arithmetic**: the standard requires round toward +infinity, -infinity and zero as well as to-nearest for add, subtract, multiply, divide, square root, fused multiply-add and the conversions; the ISA §9.8 says the mode lives in the opcode but gives no such opcodes for arithmetic, only for `FRINT*`. Options: (a) a 2-bit static rounding field in the instruction (the `FESC` two-register forms have a free nibble; the four top-level operations have none), (b) a rounding-mode register, which §1.1 forbids and §12 item 10 already worries about for `fesetround`, (c) three more opcodes per operation. Needs a decision; FP compare vs the signed branches for unordered operands (§2.3); atomics against Q64 (`DATIP`/`DATO` lock vs AXI exclusive
@@ -418,7 +418,7 @@ encode exactly four lengths". Do we need the fourth, and if not, what should the
 displacements and a few others. Hand-written code can use them; the compiler almost never does.
 
 **What it costs the compiler, measured.** On the 841-file fair corpus with the optimizing flags (the pcc back end, 373,635 instructions after the first round of optimization): **49 instructions are eight bytes (0.013%)**
-(the earlier compile of the same corpus, 405,744 instructions, had 49 as well; with the pcctests included there were 255). In the earlier compile they were mostly `cmp reg,#imm` with a constant wider than 32 bits. The compiler
+(the earlier compile of the same corpus, 405,744 instructions, had 49 as well; with the pcctests included there were 255). In the earlier compile they were mostly `cmp reg,$imm` with a constant wider than 32 bits. The compiler
 uses 32-bit PC-relative addresses with a relocation, not 48-bit absolute ones. Replacing each by a PC-relative constant-pool load adds about four bytes: about 200 bytes of 1.25 MB, **0.016%**.
 
 **What dropping it would change.** Immediate, absolute and PC-relative fields shrink from 48 to 32 bits (PC-relative reach stays about ±2 GB in bytes; an absolute address is a 32-bit sign-extended one, so kernel code in
@@ -441,7 +441,7 @@ the assembly output); the second is from [`codegen-analysis.md`](codegen-analysi
 
 | Candidate one-parcel form | Sites | Saving | Share of image | One-parcel opcodes it takes |
 |---|---|---|---|---|
-| small immediates: `movq #imm4,rd` (7,838 sites), `shl` (2,146), `shr` (833), `and` (498), `sar` (97), `xor` (92), `bis` (84), `mul` (43), `add` (34) | 11,665 | 23,330 bytes | 1.4% | about 8 |
+| small immediates: `movq $imm4,rd` (7,838 sites), `shl` (2,146), `shr` (833), `and` (498), `sar` (97), `xor` (92), `bis` (84), `mul` (43), `add` (34) | 11,665 | 23,330 bytes | 1.4% | about 8 |
 | register-deferred load or store `(rN)`, all widths | 12,941 | 25,882 bytes | 1.5% | about 11 (7 loads: `movq movl movw movb movzl movzw movzb`; 4 stores) |
 | quad load or store at `d(sp)`, `d` a multiple of 8 below 512 | 11,928 | 23,856 bytes | 1.4% | about 8 (a 6-bit offset is 4 bits of `low` and 2 bits of the opcode, so each of load and store takes four opcodes) |
 | **Together** | **36,534** | **73,068 bytes** | **4.4%** | **about 27 of 64** |
@@ -453,10 +453,10 @@ Two more candidates are not one-parcel forms and do not compete for those 64 opc
 
 | Candidate | Sites | Saving | Share of image |
 |---|---|---|---|
-| a fused compare-with-5-bit-immediate-and-branch in 4 bytes (`cmp r,#imm ; bCC` is 6 bytes now) | 6,390 of 18,787 pairs (immediate in -16..15) | 12,780 bytes | 0.8% |
-| `rol32 rs,#n,rd`, a 32-bit rotate by a constant (now about 14 bytes and 5 instructions) | 896 | about 8,960 bytes | 0.5%, a third of the code of the hash files (sha1, md5, sha256, ripemd160), the worst in the corpus |
+| a fused compare-with-5-bit-immediate-and-branch in 4 bytes (`cmp r,$imm ; bCC` is 6 bytes now) | 6,390 of 18,787 pairs (immediate in -16..15) | 12,780 bytes | 0.8% |
+| `rol32 rs,$n,rd`, a 32-bit rotate by a constant (now about 14 bytes and 5 instructions) | 896 | about 8,960 bytes | 0.5%, a third of the code of the hash files (sha1, md5, sha256, ripemd160), the worst in the corpus |
 
-**Not to be added:** a 2-byte `cmp #imm4,rd` (3,030 sites) saves the same two bytes at the same sites as the fused compare-and-branch, so only one of them is counted. With the fused form and the three one-parcel
+**Not to be added:** a 2-byte `cmp $imm4,rd` (3,030 sites) saves the same two bytes at the same sites as the fused compare-and-branch, so only one of them is counted. With the fused form and the three one-parcel
 rows the total is **about 86 KB, 5.1% of the image** (73,068 + 12,780 bytes). Two caveats: the groups were counted separately and could overlap in places I have not checked, and none of the forms has been specified.
 It is also an estimate of bytes only: the number of instructions executed does not change for the one-parcel forms, and the fused compare-and-branch removes one.
 
@@ -497,9 +497,9 @@ all 504 C tests pass under `sim64` and under QEMU:
 |---|---|---|---|---|
 | before the second page (compiler of the first round) | 370,115 | 1,672,166 | 1.113 | 1.038 |
 | second-page assembler, compiler unchanged | 370,115 | 1,548,484 | 1.031 | 0.961 |
-| `lea d(rX),rX` becomes `inc`, `dec` or `add #d` when the flags are dead | 370,115 | 1,528,818 | 1.017 | 0.949 |
+| `lea d(rX),rX` becomes `inc`, `dec` or `add $d` when the flags are dead | 370,115 | 1,528,818 | 1.017 | 0.949 |
 | wide constants as the explicit `=K` | 369,376 | 1,526,252 | 1.016 | 0.947 |
-| `cmp rX,#imm ; bCC` and `tst rX ; bCC` become `cbCC` | 354,670 | 1,511,120 | 1.006 | 0.938 |
+| `cmp rX,$imm ; bCC` and `tst rX ; bCC` become `cbCC` | 354,670 | 1,511,120 | 1.006 | 0.938 |
 | `rori32` for unsigned 32-bit rotates by constants | 350,459 | 1,502,024 | 1.000 | 0.932 |
 | `br L` to a bare `ret` becomes `ret` | **350,466** | **1,501,592** | **0.999** | **0.932** |
 
@@ -508,11 +508,11 @@ The compiler is now **level with `gcc -Os` in bytes (0.999) and 7% smaller than 
 What did not pay: a `.pool` after each function (372 bytes worse than one pool at the end of `.text`, because literals stop being shared); getting the frame into the short `sp` forms (about 4,400 accesses are still long, up to 8.8 KB, but it needs
 object boundaries in the frame that pass 1 does not give the back end).
 
-**New open items from the compiler work.** (1) A wider-immediate `cbCC` (a 6-byte form with a 16-bit immediate): 11,821 `cmp reg,imm` remain unfused, mostly with immediates outside -16..15 (`#255`, `#47`).
+**New open items from the compiler work.** (1) A wider-immediate `cbCC` (a 6-byte form with a 16-bit immediate): 11,821 `cmp reg,imm` remain unfused, mostly with immediates outside -16..15 (`$255`, `$47`).
 (2) `rori32` zero-extends while the compiler keeps unsigned 32-bit values sign-extended, so each rotate costs a `movl` unless later code looks only at the low 32 bits (it does in hash code); whether `rori32` should sign-extend is
 a convention question. (3) Aligning address-taken locals to 8 bytes would make 1,247 `lea` of locals short: needs a hook in pass 1.
 
-**A deviation, resolved.** To keep the C tests passing without a compiler change, the first implementation pooled a constant wider than 32 bits silently, which contradicted the rule that one mnemonic assembles to one instruction (ISA §4.14). **Decided by the author (errata 33): the pooling is explicit sugar, `movq =K, rd`; a bare too-wide `#K` is an error.** The assembler has the `=` form and the `.pool` directive; the compiler emits `=K` for such constants.
+**A deviation, resolved.** To keep the C tests passing without a compiler change, the first implementation pooled a constant wider than 32 bits silently, which contradicted the rule that one mnemonic assembles to one instruction (ISA §4.14). **Decided by the author (errata 33): the pooling is explicit sugar, `movq =K, rd`; a bare too-wide `$K` is an error.** The assembler has the `=` form and the `.pool` directive; the compiler emits `=K` for such constants.
 
 The author chose option C with the explicit map (C1), asked for further candidates to be searched for, and asked for the fused compare-and-branch and the 32-bit rotate to be added. This is the specification.
 
@@ -538,26 +538,26 @@ never change what a program does. A mnemonic still assembles to exactly one inst
 | `0x14` to `0x17` | `movq` load from `rn` at offset `8 * (1 + (opc & 3))`, i.e. 8, 16, 24, 32 | `rd` | `rn` | `movq d(rn),rd` |
 | `0x18` `0x19` | `movq` store to `rn` at offset `8 * (1 + (opc & 1))`, i.e. 8, 16 | `rs` | `rn` | `movq rs,d(rn)` |
 | `0x1A` to `0x1D` | `movl` load from `rn` at offset `4 * (1 + (opc - 0x1A))`, i.e. 4, 8, 12, 16 for `0x1A`, `0x1B`, `0x1C`, `0x1D` | `rd` | `rn` | `movl d(rn),rd` |
-| `0x1E` | `pushm8`: push registers `r8` to `r15` named by the 8-bit mask `reg:low` (bit `i` is `r(8+i)`) | mask high | mask low | `pushm #(mask << 8)` |
-| `0x1F` | `popm8`, the mask as for `pushm8` | mask high | mask low | `popm #(mask << 8)` |
-| `0x20` | `sub #(8*n),sp`, `n = reg:low` (0 to 255) | n high | n low | `sub #(8*n),sp` |
-| `0x21` | `add #(8*n),sp` | n high | n low | `add #(8*n),sp` |
-| `0x22` | `movq #imm,rd`, `imm` sign-extended 4 bits (-8 to 7) | `rd` | imm | `movq #imm,rd` |
-| `0x23` `0x24` `0x25` | `shl`, `shr`, `sar` by `low` (0 to 15) | `rd` | count | `shl #n,rd` etc. |
-| `0x26` `0x27` `0x28` | `and`, `bis`, `xor` with `imm` sign-extended 4 bits | `rd` | imm | `and #imm,rd` etc. |
-| `0x29` | `add #imm,rd`, `imm` sign-extended 4 bits | `rd` | imm | `add #imm,rd` |
+| `0x1E` | `pushm8`: push registers `r8` to `r15` named by the 8-bit mask `reg:low` (bit `i` is `r(8+i)`) | mask high | mask low | `pushm $(mask << 8)` |
+| `0x1F` | `popm8`, the mask as for `pushm8` | mask high | mask low | `popm $(mask << 8)` |
+| `0x20` | `sub $(8*n),sp`, `n = reg:low` (0 to 255) | n high | n low | `sub $(8*n),sp` |
+| `0x21` | `add $(8*n),sp` | n high | n low | `add $(8*n),sp` |
+| `0x22` | `movq $imm,rd`, `imm` sign-extended 4 bits (-8 to 7) | `rd` | imm | `movq $imm,rd` |
+| `0x23` `0x24` `0x25` | `shl`, `shr`, `sar` by `low` (0 to 15) | `rd` | count | `shl $n,rd` etc. |
+| `0x26` `0x27` `0x28` | `and`, `bis`, `xor` with `imm` sign-extended 4 bits | `rd` | imm | `and $imm,rd` etc. |
+| `0x29` | `add $imm,rd`, `imm` sign-extended 4 bits | `rd` | imm | `add $imm,rd` |
 
 Reserved in page 2: every opcode not listed (`0x0F`, `0x2C` to `0x3F`, 21 of the 64; `0x2A` and `0x2B` were added for `pushx` and `popx`, errata 37). A reserved opcode is an illegal-instruction abort.
 
 (`0x0C` gives offsets 0 to 120 and `0x0D` offsets 128 to 248 in steps of 8, the low four bits of the offset being `low`. In the same way `0x10`/`0x11` and `0x12`/`0x13` use the opcode's low bit as bit 4 of the offset field.
-The opcode numbers of page 2 are independent of those of page 1: for example `0x28` of page 2 is `xor #imm,rd`, while `0x28` of page 1 is the new `cbCC`.)
+The opcode numbers of page 2 are independent of those of page 1: for example `0x28` of page 2 is `xor $imm,rd`, while `0x28` of page 1 is the new `cbCC`.)
 
 **Two further instructions in page 1:**
-* **`cbCC rd,#imm,target`**: compare-immediate-and-branch, in the reserved top-level opcode **`0x28`**. Meaning: compute `rd - imm` as `cmp rd,#imm` does (same flags), then branch if the condition `CC` holds.
+* **`cbCC rd,$imm,target`**: compare-immediate-and-branch, in the reserved top-level opcode **`0x28`**. Meaning: compute `rd - imm` as `cmp rd,$imm` does (same flags), then branch if the condition `CC` holds.
   `len = 01` (4 bytes): parcel 0 `01 0x28 rd cond` (`low` is the branch condition number, as for `set`); parcel 1 `imm:5 disp:11`, `imm` signed (-16 to 15) and `disp` signed, in parcels from the first parcel of
   the instruction, ±1024 parcels. `len = 10` (6 bytes): parcel 1 `imm:5 disp-high:11`, parcel 2 `disp-low:16`, a 27-bit displacement. The assembler picks the length (as for `bCC`); the immediate must fit 5 bits,
   and the compiler emits `cbCC` only then. Mnemonics: `cbne cbeq cbpl cbmi cbvc cbvs cbcc cbcs cbge cblt cbgt cble cbhi cblos` and the aliases of the branch group. Condition names and numbers are those of `bCC` and `set`.
-* **`rori32 rs,#n,rd`**: a `BESC` sub-opcode with the format of `rori` (`sub:8 count:8` in parcel 1): `rd <- zero-extend( ror32( rs[31:0], n mod 32 ) )` (**superseded by errata 34: sign-extended**). The result was zero-extended because unsigned 32-bit values
+* **`rori32 rs,$n,rd`**: a `BESC` sub-opcode with the format of `rori` (`sub:8 count:8` in parcel 1): `rd <- zero-extend( ror32( rs[31:0], n mod 32 ) )` (**superseded by errata 34: sign-extended**). The result was zero-extended because unsigned 32-bit values
   are kept zero-extended by the compiler and rotates of hash and crypto code are unsigned; a signed rotate is `rori32` followed by `movl rd,rd`.
 
 **Estimated saving**, static counts on the 827-file fair corpus compiled with the optimizing flags (the final output of 2026-10-22, 370,115 instructions, 1,672,166 bytes of image), two bytes per site, from
@@ -571,7 +571,7 @@ a script over the assembly output (`/tmp/p64opt/cand.py`, results in this sectio
 | `movl` at `d(sp)`: load 6,170, store 3,246 | 9,416 | 18.8 KB | 1.1% |
 | `movq`/`movl` at `d(rn)` with the small offsets above | 5,849 | 11.7 KB | 0.7% |
 | `pushm8`, `popm8` (all 2,392 + 2,392 sites use a mask of `r8` to `r15`) | 4,784 | 9.6 KB | 0.6% |
-| `sub`/`add #(8*n),sp` | 3,561 | 7.1 KB | 0.4% |
+| `sub`/`add $(8*n),sp` | 3,561 | 7.1 KB | 0.4% |
 | four-bit immediates (`movq` 7,838, `shl` 2,146, `shr` 833, `and` 498, `sar` 97, `xor` 92, `bis` 84, `add` 34) | 11,622 | 23.2 KB | 1.4% |
 | **Page 2 together** | **59,354** | **118.6 KB** | **7.1%** |
 | `cbCC` (immediate in -16 to 15) | 6,390 | 12.8 KB | 0.8% |
@@ -607,7 +607,7 @@ reach +-64 KB) and the assembler picks the shortest of the three `cbCC` encoding
 | wide-immediate `cbCC` | **338,687** | **1,499,672** | **0.998** | **0.931** | **1.200** | **1.106** |
 
 As predicted in errata 34: **the wide `cbCC` removed 11,735 instructions (3.4%) and only 1,828 bytes (0.12%)**, which fall where the branch was four bytes; sign-extending `rori32` saved 44 instructions (the demand analysis had already removed
-nearly every `movl` after a rotate). 11,821 wide `cbCC` were emitted (26,460 `cbCC` in all); 644 `cmp reg,#imm ; bCC` remain, all with an immediate beyond 16 bits. The compiler emits the wide form only in a function of at most 9,000
+nearly every `movl` after a rotate). 11,821 wide `cbCC` were emitted (26,460 `cbCC` in all); 644 `cmp reg,$imm ; bCC` remain, all with an immediate beyond 16 bits. The compiler emits the wide form only in a function of at most 9,000
 instructions with the label inside it (so that every label is within the 64 KB reach); no function in the corpus was skipped (the largest has fewer than 6,000). Instruction lengths 2 / 4 / 6 bytes = 57.5 / 26.9 / 15.5 %, average
 3.16 bytes (it was 3.06: a six-byte `cbCC` replaces a four-byte and a two-byte instruction). Three files of 827 grew by 2 to 4 bytes (a tie where alignment of nearby code differs). Data: `docs/codegen-data/pdp64-after-cbw.csv`.
 
@@ -630,8 +630,8 @@ As predicted in errata 35: **4,631 fewer instructions (1.4%) and only 142 bytes*
 four bytes). Twelve of the 827 files grew by 2 to 8 bytes. Instruction lengths 2 / 4 / 6 bytes = 185,603 / 95,784 / 52,669, average 3.20 bytes. Data: `docs/codegen-data/pdp64-after-cbr.csv`.
 
 **Correction.** The figure of 5,356 `cmp reg,mem ; bCC` pairs, given in the previous paragraph and in errata 35, was wrong: the script's pattern also matched register-register compares. The real counts of compare-and-branch pairs that remain
-(1,282 `cmp` in all): `cmp reg,mem ; bCC` **611** (cannot be fused: the memory operand has no room); `cmp reg,#imm ; bCC` with an immediate beyond 16 bits **641**; `cmp reg,=K ; bCC` 30; `tst ; bCC` none. Compares that feed a materialized 0/1
-value (compare, branch, `movq #1`, `br`, `clr`): 460 sites, the `set cc,rd` candidates that need the shared pass-1 hook; compares that feed a select: 138. There is no further worthwhile compare-and-branch fusion.
+(1,282 `cmp` in all): `cmp reg,mem ; bCC` **611** (cannot be fused: the memory operand has no room); `cmp reg,$imm ; bCC` with an immediate beyond 16 bits **641**; `cmp reg,=K ; bCC` 30; `tst ; bCC` none. Compares that feed a materialized 0/1
+value (compare, branch, `movq $1`, `br`, `clr`): 460 sites, the `set cc,rd` candidates that need the shared pass-1 hook; compares that feed a select: 138. There is no further worthwhile compare-and-branch fusion.
 
 ### Added: `pushx` and `popx` (2026-10-22, errata 37)
 

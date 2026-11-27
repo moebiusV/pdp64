@@ -52,7 +52,7 @@ The processor is an initiator. A device is a target (its registers) and, if it m
 *Decided* (manual 2.9):
 
 * A read or instruction fetch of non-existent memory is a precise abort with cause `BUSFAULT`, at the faulting instruction. This is a deliberate improvement on the PDP-11, where a read timeout was an unrestartable bus error and fatal to the process.
-* A posted write that times out, and an uncorrectable memory error, are machine checks, imprecise and not restartable (the descendants of the PDP-11's vector 004). A `FENCE` before a probe makes even a posted write precise at a known point.
+* A posted write that times out, and an uncorrectable memory error, are machine checks, imprecise and not restartable (the descendants of the PDP-11's vector 0o04). A `FENCE` before a probe makes even a posted write precise at a known point.
 * `PROBER` and `PROBEW` cover the address-validation case that the PDP-11's `nofault` idiom served.
 * Resetting the bus is a write to a register of the root complex, not an instruction (manual 2.9.4).
 * A read of a configuration position that never held a function returns all ones, not a bus fault, and the root complex records the miss in a sticky status bit (manual 2.4.7, 2.4.8).

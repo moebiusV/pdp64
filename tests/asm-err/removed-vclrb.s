@@ -1,2 +1,2 @@
 	.text
-	vclr.b v0, #2
+	vclr.b v0, $2

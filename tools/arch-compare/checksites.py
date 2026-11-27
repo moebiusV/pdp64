@@ -21,7 +21,7 @@ print('branches', collections.Counter(s[0] for s in sites).most_common())
 imm = []; reg = 0
 for mn, ops in sites:
     last = ops.split(',')[-1].strip()
-    if last.startswith('#'): imm.append(int(last[1:], 0))
+    if last.startswith(('#', '$')): imm.append(int(last[1:], 0))
     elif re.match(r'r\d+$', last): reg += 1
 print('immediate bounds %d, register bounds %d' % (len(imm), reg))
 for lim, name in [(31, '0..31 (5 bits)'), (255, '0..255 (8 bits)'), (4095, '0..4095 (12 bits)'), (65535, '0..65535 (16 bits)')]:

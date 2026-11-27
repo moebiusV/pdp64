@@ -9,12 +9,12 @@
 <text x="170.0" y="135.0" font-size="11" text-anchor="middle" fill="#111" font-family="DejaVu Sans, sans-serif" font-weight="bold">rkstrategy, rkstart</text>
 <text x="170.0" y="147.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">queue the buf, load the registers</text>
 <rect x="20.0" y="176.0" width="300.0" height="108.0" fill="#fff" stroke="#222" stroke-width="1.2"/>
-<text x="28.0" y="192.0" font-size="9" text-anchor="start" fill="#222" font-family="DejaVu Sans Mono, monospace">registers at 0177400 (set by switches):</text>
+<text x="28.0" y="192.0" font-size="9" text-anchor="start" fill="#222" font-family="DejaVu Sans Mono, monospace">registers at 0o177400 (set by switches):</text>
 <text x="28.0" y="204.0" font-size="9" text-anchor="start" fill="#222" font-family="DejaVu Sans Mono, monospace">  RKDS  RKER  RKCS  RKWC  RKBA  RKDA</text>
 <text x="28.0" y="216.0" font-size="9" text-anchor="start" fill="#222" font-family="DejaVu Sans Mono, monospace"></text>
-<text x="28.0" y="228.0" font-size="9" text-anchor="start" fill="#222" font-family="DejaVu Sans Mono, monospace">RKCS: GO 01, IDE 0100, RDY 0200, ERR 0100000</text>
+<text x="28.0" y="228.0" font-size="9" text-anchor="start" fill="#222" font-family="DejaVu Sans Mono, monospace">RKCS: GO 0o1, IDE 0o100, RDY 0o200, ERR 0o100000</text>
 <rect x="20.0" y="304.0" width="300.0" height="40.0" fill="#fbf2cf" stroke="#222" stroke-width="1.2"/>
-<text x="170.0" y="323.0" font-size="11" text-anchor="middle" fill="#111" font-family="DejaVu Sans Mono, monospace">vector 0220: rkintr, priority 5</text>
+<text x="170.0" y="323.0" font-size="11" text-anchor="middle" fill="#111" font-family="DejaVu Sans Mono, monospace">vector 0o220: rkintr, priority 5</text>
 <text x="170.0" y="335.0" font-size="9" text-anchor="middle" fill="#555" font-family="DejaVu Sans, sans-serif">the device supplies it; BR5</text>
 <path d="M170.0,96.0 L170.0,116.0" fill="none" stroke="#222" stroke-width="1.4"/>
 <polygon points="170.0,116.0 166.4,108.0 173.6,108.0" fill="#222"/>

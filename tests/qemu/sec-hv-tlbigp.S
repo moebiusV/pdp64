@@ -10,28 +10,28 @@ _start:
 	lea	htab, r1
 	mtsr	hvbr, r1
 	lea	xh, r22
-	mov	#512, r23
+	mov	$512, r23
 fill1:	mov	r22, (r1)+
 	sob	r23, fill1
 	lea	gvtab, r1
 	mtsr	vbr, r1
 	lea	gh, r22
-	mov	#512, r23
+	mov	$512, r23
 fill2:	mov	r22, (r1)+
 	sob	r23, fill2
 	lea	gstk_top, r22
 	mtsr	gksp, r22
-	mov	#0, r1
+	mov	$0, r1
 	mtsr	htrap, r1
 	lea	s2l1, r1
-	bis	#(1<<PTE_V), r1
+	bis	$(1<<PTE_V), r1
 	mov	r1, s2root
 	mov	=(LEAF), r1
 	mov	r1, s2l1
 	mov	=(PHYS(0x200000)|LEAF), r1
 	mov	r1, s2l1+8
 	lea	s2l0, r1
-	bis	#(1<<PTE_V), r1
+	bis	$(1<<PTE_V), r1
 	mov	r1, s2l1+16
 	mov	=(PHYS(0x400000)|LEAF), r1
 	mov	r1, s2l0+0
@@ -66,14 +66,14 @@ fill2:	mov	r22, (r1)+
 	mov	=(PHYS(0x40f000)|LEAF), r1
 	mov	r1, s2l0+120
 	lea	s2l1b, r1
-	bis	#(1<<PTE_V), r1
+	bis	$(1<<PTE_V), r1
 	mov	r1, s2rootb
 	mov	=(LEAF), r1
 	mov	r1, s2l1b
 	mov	=(PHYS(0x200000)|LEAF), r1
 	mov	r1, s2l1b+8
 	lea	s2l0b, r1
-	bis	#(1<<PTE_V), r1
+	bis	$(1<<PTE_V), r1
 	mov	r1, s2l1b+16
 	mov	=(PHYS(0x400000)|LEAF), r1
 	mov	r1, s2l0b+0
@@ -110,10 +110,10 @@ fill2:	mov	r22, (r1)+
 	mov	=(LEAF), r1
 	mov	r1, g1root
 	lea	g1l1, r1
-	bis	#(1<<PTE_V), r1
+	bis	$(1<<PTE_V), r1
 	mov	r1, g1root+8
 	lea	g1l0, r1
-	bis	#(1<<PTE_V), r1
+	bis	$(1<<PTE_V), r1
 	mov	r1, g1l1
 	mov	=(0x200000|LEAF), r1
 	mov	r1, g1l0
@@ -124,7 +124,7 @@ fill2:	mov	r22, (r1)+
 	mov	=(0x407000|(1<<PTE_V)), r1
 	mov	r1, g1broot+8
 	lea	g1l0, r1
-	bis	#(1<<PTE_V), r1
+	bis	$(1<<PTE_V), r1
 	mov	=(PHYS(0x407000)), r25
 	mov	r1, (r25)
 	lea	s2root, r22
@@ -136,7 +136,7 @@ fill2:	mov	r22, (r1)+
 	mov	=(1<<GTBR_S2EN|1<<GTBR_TAG), r23
 	bis	r23, r24
 	cbeq	r22, r24, 1f
-	mov	#1, r0
+	mov	$1, r0
 	halt
 1:
 	.text
@@ -152,15 +152,15 @@ fill2:	mov	r22, (r1)+
 	tlbia
 	lea	g9, r22
 	mtsr	hepc, r22
-	mov	#0, r22
+	mov	$0, r22
 	mtsr	hepsw, r22
 	lea	R1, r20
-	mov	#99, r0
-	genter	#RTIMASK_ALL
+	mov	$99, r0
+	genter	$RTIMASK_ALL
 R1:
 	mov	=(0xaaaa), r17
 	cbeq	r1, r17, 1f	; check 201 control: the guest reads the first page
-	mov	#201, r0
+	mov	$201, r0
 	halt
 1:
 	lea	s2l0+80, r25
@@ -168,21 +168,21 @@ R1:
 	mov	r26, (r25)
 	mov	=0x40a000, r22
 	tlbigp	r22
-	mov	#0, r1
+	mov	$0, r1
 	lea	g9, r22
 	mtsr	hepc, r22
-	mov	#0, r22
+	mov	$0, r22
 	mtsr	hepsw, r22
 	lea	R2, r20
-	mov	#99, r0
-	genter	#RTIMASK_ALL
+	mov	$99, r0
+	genter	$RTIMASK_ALL
 R2:
 	mov	=(0xcccc), r17
 	cbeq	r1, r17, 1f	; check 202 after the reset in place the guest sees the new stage-2 page, not a cached translation of the old one
-	mov	#202, r0
+	mov	$202, r0
 	halt
 1:
-	mov	#0, r0
+	mov	$0, r0
 	halt
 	.align	8
 g9:	mov	=0x40a000, r13

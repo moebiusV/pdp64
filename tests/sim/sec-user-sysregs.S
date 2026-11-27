@@ -7,7 +7,7 @@ _start:
 	lea	vtab, r1
 	mtsr	vbr, r1
 	lea	hgen, r2
-	mov	#512, r3
+	mov	$512, r3
 kfill:	mov	r2, (r1)+
 	sob	r3, kfill
 	lea	vtab, r1
@@ -20,10 +20,10 @@ kfill:	mov	r2, (r1)+
 	mtsr	usp, r1
 	lea	user, r1
 	mtsr	epc, r1
-	mov	#((MODE_USER<<PSW_MODE)|(MODE_USER<<PSW_PREV)), r1
+	mov	$((MODE_USER<<PSW_MODE)|(MODE_USER<<PSW_PREV)), r1
 	mtsr	epsw, r1
-	mov	#0, r1
-	rti	#RTIMASK_ALL
+	mov	$0, r1
+	rti	$RTIMASK_ALL
 user:
 	lea	Nr_ptbr, r13
 	mov	cnt, r10
@@ -35,25 +35,25 @@ Nr_ptbr:
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 1 exactly one exception for r_ptbr
-	mov	#1, r0
-	trap	#1
+	mov	$1, r0
+	trap	$1
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_PRIVILEGED), r17
 	cbeq	r11, r17, 1f	; check 2 vector of r_ptbr
-	mov	#2, r0
-	trap	#1
+	mov	$2, r0
+	trap	$1
 1:
 	lea	r_ptbr, r11
 	mov	last_epc, r12
 	cbeq	r12, r11, 1f	; check 3 EPC of r_ptbr
-	mov	#3, r0
-	trap	#1
+	mov	$3, r0
+	trap	$1
 1:
 	mov	=(0x5a5a5a5a5a5a), r17
 	cbeq	r2, r17, 1f	; check 4 destination of r_ptbr unchanged
-	mov	#4, r0
-	trap	#1
+	mov	$4, r0
+	trap	$1
 1:
 	lea	Nr_epc, r13
 	mov	cnt, r10
@@ -65,25 +65,25 @@ Nr_epc:
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 5 exactly one exception for r_epc
-	mov	#5, r0
-	trap	#1
+	mov	$5, r0
+	trap	$1
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_PRIVILEGED), r17
 	cbeq	r11, r17, 1f	; check 6 vector of r_epc
-	mov	#6, r0
-	trap	#1
+	mov	$6, r0
+	trap	$1
 1:
 	lea	r_epc, r11
 	mov	last_epc, r12
 	cbeq	r12, r11, 1f	; check 7 EPC of r_epc
-	mov	#7, r0
-	trap	#1
+	mov	$7, r0
+	trap	$1
 1:
 	mov	=(0x5a5a5a5a5a5a), r17
 	cbeq	r2, r17, 1f	; check 8 destination of r_epc unchanged
-	mov	#8, r0
-	trap	#1
+	mov	$8, r0
+	trap	$1
 1:
 	lea	Nr_eva, r13
 	mov	cnt, r10
@@ -95,25 +95,25 @@ Nr_eva:
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 9 exactly one exception for r_eva
-	mov	#9, r0
-	trap	#1
+	mov	$9, r0
+	trap	$1
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_PRIVILEGED), r17
 	cbeq	r11, r17, 1f	; check 10 vector of r_eva
-	mov	#10, r0
-	trap	#1
+	mov	$10, r0
+	trap	$1
 1:
 	lea	r_eva, r11
 	mov	last_epc, r12
 	cbeq	r12, r11, 1f	; check 11 EPC of r_eva
-	mov	#11, r0
-	trap	#1
+	mov	$11, r0
+	trap	$1
 1:
 	mov	=(0x5a5a5a5a5a5a), r17
 	cbeq	r2, r17, 1f	; check 12 destination of r_eva unchanged
-	mov	#12, r0
-	trap	#1
+	mov	$12, r0
+	trap	$1
 1:
 	lea	Nr_ecause, r13
 	mov	cnt, r10
@@ -125,25 +125,25 @@ Nr_ecause:
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 13 exactly one exception for r_ecause
-	mov	#13, r0
-	trap	#1
+	mov	$13, r0
+	trap	$1
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_PRIVILEGED), r17
 	cbeq	r11, r17, 1f	; check 14 vector of r_ecause
-	mov	#14, r0
-	trap	#1
+	mov	$14, r0
+	trap	$1
 1:
 	lea	r_ecause, r11
 	mov	last_epc, r12
 	cbeq	r12, r11, 1f	; check 15 EPC of r_ecause
-	mov	#15, r0
-	trap	#1
+	mov	$15, r0
+	trap	$1
 1:
 	mov	=(0x5a5a5a5a5a5a), r17
 	cbeq	r2, r17, 1f	; check 16 destination of r_ecause unchanged
-	mov	#16, r0
-	trap	#1
+	mov	$16, r0
+	trap	$1
 1:
 	lea	Nr_usp, r13
 	mov	cnt, r10
@@ -155,25 +155,25 @@ Nr_usp:
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 17 exactly one exception for r_usp
-	mov	#17, r0
-	trap	#1
+	mov	$17, r0
+	trap	$1
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_PRIVILEGED), r17
 	cbeq	r11, r17, 1f	; check 18 vector of r_usp
-	mov	#18, r0
-	trap	#1
+	mov	$18, r0
+	trap	$1
 1:
 	lea	r_usp, r11
 	mov	last_epc, r12
 	cbeq	r12, r11, 1f	; check 19 EPC of r_usp
-	mov	#19, r0
-	trap	#1
+	mov	$19, r0
+	trap	$1
 1:
 	mov	=(0x5a5a5a5a5a5a), r17
 	cbeq	r2, r17, 1f	; check 20 destination of r_usp unchanged
-	mov	#20, r0
-	trap	#1
+	mov	$20, r0
+	trap	$1
 1:
 	lea	Nr_ssp, r13
 	mov	cnt, r10
@@ -185,25 +185,25 @@ Nr_ssp:
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 21 exactly one exception for r_ssp
-	mov	#21, r0
-	trap	#1
+	mov	$21, r0
+	trap	$1
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_PRIVILEGED), r17
 	cbeq	r11, r17, 1f	; check 22 vector of r_ssp
-	mov	#22, r0
-	trap	#1
+	mov	$22, r0
+	trap	$1
 1:
 	lea	r_ssp, r11
 	mov	last_epc, r12
 	cbeq	r12, r11, 1f	; check 23 EPC of r_ssp
-	mov	#23, r0
-	trap	#1
+	mov	$23, r0
+	trap	$1
 1:
 	mov	=(0x5a5a5a5a5a5a), r17
 	cbeq	r2, r17, 1f	; check 24 destination of r_ssp unchanged
-	mov	#24, r0
-	trap	#1
+	mov	$24, r0
+	trap	$1
 1:
 	lea	Nr_epsw, r13
 	mov	cnt, r10
@@ -215,25 +215,25 @@ Nr_epsw:
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 25 exactly one exception for r_epsw
-	mov	#25, r0
-	trap	#1
+	mov	$25, r0
+	trap	$1
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_PRIVILEGED), r17
 	cbeq	r11, r17, 1f	; check 26 vector of r_epsw
-	mov	#26, r0
-	trap	#1
+	mov	$26, r0
+	trap	$1
 1:
 	lea	r_epsw, r11
 	mov	last_epc, r12
 	cbeq	r12, r11, 1f	; check 27 EPC of r_epsw
-	mov	#27, r0
-	trap	#1
+	mov	$27, r0
+	trap	$1
 1:
 	mov	=(0x5a5a5a5a5a5a), r17
 	cbeq	r2, r17, 1f	; check 28 destination of r_epsw unchanged
-	mov	#28, r0
-	trap	#1
+	mov	$28, r0
+	trap	$1
 1:
 	lea	Nr_vbr, r13
 	mov	cnt, r10
@@ -245,25 +245,25 @@ Nr_vbr:
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 29 exactly one exception for r_vbr
-	mov	#29, r0
-	trap	#1
+	mov	$29, r0
+	trap	$1
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_PRIVILEGED), r17
 	cbeq	r11, r17, 1f	; check 30 vector of r_vbr
-	mov	#30, r0
-	trap	#1
+	mov	$30, r0
+	trap	$1
 1:
 	lea	r_vbr, r11
 	mov	last_epc, r12
 	cbeq	r12, r11, 1f	; check 31 EPC of r_vbr
-	mov	#31, r0
-	trap	#1
+	mov	$31, r0
+	trap	$1
 1:
 	mov	=(0x5a5a5a5a5a5a), r17
 	cbeq	r2, r17, 1f	; check 32 destination of r_vbr unchanged
-	mov	#32, r0
-	trap	#1
+	mov	$32, r0
+	trap	$1
 1:
 	lea	Nr_mmuctl, r13
 	mov	cnt, r10
@@ -275,25 +275,25 @@ Nr_mmuctl:
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 33 exactly one exception for r_mmuctl
-	mov	#33, r0
-	trap	#1
+	mov	$33, r0
+	trap	$1
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_PRIVILEGED), r17
 	cbeq	r11, r17, 1f	; check 34 vector of r_mmuctl
-	mov	#34, r0
-	trap	#1
+	mov	$34, r0
+	trap	$1
 1:
 	lea	r_mmuctl, r11
 	mov	last_epc, r12
 	cbeq	r12, r11, 1f	; check 35 EPC of r_mmuctl
-	mov	#35, r0
-	trap	#1
+	mov	$35, r0
+	trap	$1
 1:
 	mov	=(0x5a5a5a5a5a5a), r17
 	cbeq	r2, r17, 1f	; check 36 destination of r_mmuctl unchanged
-	mov	#36, r0
-	trap	#1
+	mov	$36, r0
+	trap	$1
 1:
 	lea	Nr_asid, r13
 	mov	cnt, r10
@@ -305,25 +305,25 @@ Nr_asid:
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 37 exactly one exception for r_asid
-	mov	#37, r0
-	trap	#1
+	mov	$37, r0
+	trap	$1
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_PRIVILEGED), r17
 	cbeq	r11, r17, 1f	; check 38 vector of r_asid
-	mov	#38, r0
-	trap	#1
+	mov	$38, r0
+	trap	$1
 1:
 	lea	r_asid, r11
 	mov	last_epc, r12
 	cbeq	r12, r11, 1f	; check 39 EPC of r_asid
-	mov	#39, r0
-	trap	#1
+	mov	$39, r0
+	trap	$1
 1:
 	mov	=(0x5a5a5a5a5a5a), r17
 	cbeq	r2, r17, 1f	; check 40 destination of r_asid unchanged
-	mov	#40, r0
-	trap	#1
+	mov	$40, r0
+	trap	$1
 1:
 	lea	Nr_cpuid, r13
 	mov	cnt, r10
@@ -335,25 +335,25 @@ Nr_cpuid:
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 41 exactly one exception for r_cpuid
-	mov	#41, r0
-	trap	#1
+	mov	$41, r0
+	trap	$1
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_PRIVILEGED), r17
 	cbeq	r11, r17, 1f	; check 42 vector of r_cpuid
-	mov	#42, r0
-	trap	#1
+	mov	$42, r0
+	trap	$1
 1:
 	lea	r_cpuid, r11
 	mov	last_epc, r12
 	cbeq	r12, r11, 1f	; check 43 EPC of r_cpuid
-	mov	#43, r0
-	trap	#1
+	mov	$43, r0
+	trap	$1
 1:
 	mov	=(0x5a5a5a5a5a5a), r17
 	cbeq	r2, r17, 1f	; check 44 destination of r_cpuid unchanged
-	mov	#44, r0
-	trap	#1
+	mov	$44, r0
+	trap	$1
 1:
 	lea	Nw_ptbr, r13
 	mov	cnt, r10
@@ -365,20 +365,20 @@ Nw_ptbr:
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 45 exactly one exception for w_ptbr
-	mov	#45, r0
-	trap	#1
+	mov	$45, r0
+	trap	$1
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_PRIVILEGED), r17
 	cbeq	r11, r17, 1f	; check 46 vector of w_ptbr
-	mov	#46, r0
-	trap	#1
+	mov	$46, r0
+	trap	$1
 1:
 	lea	w_ptbr, r11
 	mov	last_epc, r12
 	cbeq	r12, r11, 1f	; check 47 EPC of w_ptbr
-	mov	#47, r0
-	trap	#1
+	mov	$47, r0
+	trap	$1
 1:
 	lea	Nw_epc, r13
 	mov	cnt, r10
@@ -390,20 +390,20 @@ Nw_epc:
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 48 exactly one exception for w_epc
-	mov	#48, r0
-	trap	#1
+	mov	$48, r0
+	trap	$1
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_PRIVILEGED), r17
 	cbeq	r11, r17, 1f	; check 49 vector of w_epc
-	mov	#49, r0
-	trap	#1
+	mov	$49, r0
+	trap	$1
 1:
 	lea	w_epc, r11
 	mov	last_epc, r12
 	cbeq	r12, r11, 1f	; check 50 EPC of w_epc
-	mov	#50, r0
-	trap	#1
+	mov	$50, r0
+	trap	$1
 1:
 	lea	Nw_usp, r13
 	mov	cnt, r10
@@ -415,20 +415,20 @@ Nw_usp:
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 51 exactly one exception for w_usp
-	mov	#51, r0
-	trap	#1
+	mov	$51, r0
+	trap	$1
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_PRIVILEGED), r17
 	cbeq	r11, r17, 1f	; check 52 vector of w_usp
-	mov	#52, r0
-	trap	#1
+	mov	$52, r0
+	trap	$1
 1:
 	lea	w_usp, r11
 	mov	last_epc, r12
 	cbeq	r12, r11, 1f	; check 53 EPC of w_usp
-	mov	#53, r0
-	trap	#1
+	mov	$53, r0
+	trap	$1
 1:
 	lea	Nw_ssp, r13
 	mov	cnt, r10
@@ -440,20 +440,20 @@ Nw_ssp:
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 54 exactly one exception for w_ssp
-	mov	#54, r0
-	trap	#1
+	mov	$54, r0
+	trap	$1
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_PRIVILEGED), r17
 	cbeq	r11, r17, 1f	; check 55 vector of w_ssp
-	mov	#55, r0
-	trap	#1
+	mov	$55, r0
+	trap	$1
 1:
 	lea	w_ssp, r11
 	mov	last_epc, r12
 	cbeq	r12, r11, 1f	; check 56 EPC of w_ssp
-	mov	#56, r0
-	trap	#1
+	mov	$56, r0
+	trap	$1
 1:
 	lea	Nw_epsw, r13
 	mov	cnt, r10
@@ -465,20 +465,20 @@ Nw_epsw:
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 57 exactly one exception for w_epsw
-	mov	#57, r0
-	trap	#1
+	mov	$57, r0
+	trap	$1
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_PRIVILEGED), r17
 	cbeq	r11, r17, 1f	; check 58 vector of w_epsw
-	mov	#58, r0
-	trap	#1
+	mov	$58, r0
+	trap	$1
 1:
 	lea	w_epsw, r11
 	mov	last_epc, r12
 	cbeq	r12, r11, 1f	; check 59 EPC of w_epsw
-	mov	#59, r0
-	trap	#1
+	mov	$59, r0
+	trap	$1
 1:
 	lea	Nw_vbr, r13
 	mov	cnt, r10
@@ -490,20 +490,20 @@ Nw_vbr:
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 60 exactly one exception for w_vbr
-	mov	#60, r0
-	trap	#1
+	mov	$60, r0
+	trap	$1
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_PRIVILEGED), r17
 	cbeq	r11, r17, 1f	; check 61 vector of w_vbr
-	mov	#61, r0
-	trap	#1
+	mov	$61, r0
+	trap	$1
 1:
 	lea	w_vbr, r11
 	mov	last_epc, r12
 	cbeq	r12, r11, 1f	; check 62 EPC of w_vbr
-	mov	#62, r0
-	trap	#1
+	mov	$62, r0
+	trap	$1
 1:
 	lea	Nw_mmuctl, r13
 	mov	cnt, r10
@@ -515,20 +515,20 @@ Nw_mmuctl:
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 63 exactly one exception for w_mmuctl
-	mov	#63, r0
-	trap	#1
+	mov	$63, r0
+	trap	$1
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_PRIVILEGED), r17
 	cbeq	r11, r17, 1f	; check 64 vector of w_mmuctl
-	mov	#64, r0
-	trap	#1
+	mov	$64, r0
+	trap	$1
 1:
 	lea	w_mmuctl, r11
 	mov	last_epc, r12
 	cbeq	r12, r11, 1f	; check 65 EPC of w_mmuctl
-	mov	#65, r0
-	trap	#1
+	mov	$65, r0
+	trap	$1
 1:
 	lea	Nw_asid, r13
 	mov	cnt, r10
@@ -540,20 +540,20 @@ Nw_asid:
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 66 exactly one exception for w_asid
-	mov	#66, r0
-	trap	#1
+	mov	$66, r0
+	trap	$1
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_PRIVILEGED), r17
 	cbeq	r11, r17, 1f	; check 67 vector of w_asid
-	mov	#67, r0
-	trap	#1
+	mov	$67, r0
+	trap	$1
 1:
 	lea	w_asid, r11
 	mov	last_epc, r12
 	cbeq	r12, r11, 1f	; check 68 EPC of w_asid
-	mov	#68, r0
-	trap	#1
+	mov	$68, r0
+	trap	$1
 1:
 	mov.s32	tmplr, r2
 	mov	=(4<<16), r3
@@ -568,14 +568,14 @@ Npr4:	mov	cnt, r11
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 69 one exception for the patched mfsr of number 4
-	mov	#69, r0
-	trap	#1
+	mov	$69, r0
+	trap	$1
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_PRIVILEGED), r17
 	cbeq	r11, r17, 1f	; check 70 a user program gets vector 3 for number 4 (it cannot learn which numbers are assigned)
-	mov	#70, r0
-	trap	#1
+	mov	$70, r0
+	trap	$1
 1:
 	mov.s32	tmplr, r2
 	mov	=(5<<16), r3
@@ -590,14 +590,14 @@ Npr5:	mov	cnt, r11
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 71 one exception for the patched mfsr of number 5
-	mov	#71, r0
-	trap	#1
+	mov	$71, r0
+	trap	$1
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_PRIVILEGED), r17
 	cbeq	r11, r17, 1f	; check 72 a user program gets vector 3 for number 5 (it cannot learn which numbers are assigned)
-	mov	#72, r0
-	trap	#1
+	mov	$72, r0
+	trap	$1
 1:
 	mov.s32	tmplr, r2
 	mov	=(13<<16), r3
@@ -612,14 +612,14 @@ Npr13:	mov	cnt, r11
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 73 one exception for the patched mfsr of number 13
-	mov	#73, r0
-	trap	#1
+	mov	$73, r0
+	trap	$1
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_PRIVILEGED), r17
 	cbeq	r11, r17, 1f	; check 74 a user program gets vector 3 for number 13 (it cannot learn which numbers are assigned)
-	mov	#74, r0
-	trap	#1
+	mov	$74, r0
+	trap	$1
 1:
 	mov.s32	tmplr, r2
 	mov	=(14<<16), r3
@@ -634,14 +634,14 @@ Npr14:	mov	cnt, r11
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 75 one exception for the patched mfsr of number 14
-	mov	#75, r0
-	trap	#1
+	mov	$75, r0
+	trap	$1
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_PRIVILEGED), r17
 	cbeq	r11, r17, 1f	; check 76 a user program gets vector 3 for number 14 (it cannot learn which numbers are assigned)
-	mov	#76, r0
-	trap	#1
+	mov	$76, r0
+	trap	$1
 1:
 	mov.s32	tmplr, r2
 	mov	=(63<<16), r3
@@ -656,14 +656,14 @@ Npr63:	mov	cnt, r11
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 77 one exception for the patched mfsr of number 63
-	mov	#77, r0
-	trap	#1
+	mov	$77, r0
+	trap	$1
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_PRIVILEGED), r17
 	cbeq	r11, r17, 1f	; check 78 a user program gets vector 3 for number 63 (it cannot learn which numbers are assigned)
-	mov	#78, r0
-	trap	#1
+	mov	$78, r0
+	trap	$1
 1:
 	mov.s32	tmplr, r2
 	mov	=(127<<16), r3
@@ -678,14 +678,14 @@ Npr127:	mov	cnt, r11
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 79 one exception for the patched mfsr of number 127
-	mov	#79, r0
-	trap	#1
+	mov	$79, r0
+	trap	$1
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_PRIVILEGED), r17
 	cbeq	r11, r17, 1f	; check 80 a user program gets vector 3 for number 127 (it cannot learn which numbers are assigned)
-	mov	#80, r0
-	trap	#1
+	mov	$80, r0
+	trap	$1
 1:
 	mov.s32	tmplr, r2
 	mov	=(128<<16), r3
@@ -700,14 +700,14 @@ Npr128:	mov	cnt, r11
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 81 one exception for the patched mfsr of number 128
-	mov	#81, r0
-	trap	#1
+	mov	$81, r0
+	trap	$1
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_PRIVILEGED), r17
 	cbeq	r11, r17, 1f	; check 82 a user program gets vector 3 for number 128 (it cannot learn which numbers are assigned)
-	mov	#82, r0
-	trap	#1
+	mov	$82, r0
+	trap	$1
 1:
 	mov.s32	tmplr, r2
 	mov	=(147<<16), r3
@@ -722,14 +722,14 @@ Npr147:	mov	cnt, r11
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 83 one exception for the patched mfsr of number 147
-	mov	#83, r0
-	trap	#1
+	mov	$83, r0
+	trap	$1
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_PRIVILEGED), r17
 	cbeq	r11, r17, 1f	; check 84 a user program gets vector 3 for number 147 (it cannot learn which numbers are assigned)
-	mov	#84, r0
-	trap	#1
+	mov	$84, r0
+	trap	$1
 1:
 	mov.s32	tmplr, r2
 	mov	=(148<<16), r3
@@ -744,14 +744,14 @@ Npr148:	mov	cnt, r11
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 85 one exception for the patched mfsr of number 148
-	mov	#85, r0
-	trap	#1
+	mov	$85, r0
+	trap	$1
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_PRIVILEGED), r17
 	cbeq	r11, r17, 1f	; check 86 a user program gets vector 3 for number 148 (it cannot learn which numbers are assigned)
-	mov	#86, r0
-	trap	#1
+	mov	$86, r0
+	trap	$1
 1:
 	mov.s32	tmplr, r2
 	mov	=(200<<16), r3
@@ -766,14 +766,14 @@ Npr200:	mov	cnt, r11
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 87 one exception for the patched mfsr of number 200
-	mov	#87, r0
-	trap	#1
+	mov	$87, r0
+	trap	$1
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_PRIVILEGED), r17
 	cbeq	r11, r17, 1f	; check 88 a user program gets vector 3 for number 200 (it cannot learn which numbers are assigned)
-	mov	#88, r0
-	trap	#1
+	mov	$88, r0
+	trap	$1
 1:
 	mov.s32	tmplr, r2
 	mov	=(255<<16), r3
@@ -788,14 +788,14 @@ Npr255:	mov	cnt, r11
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 89 one exception for the patched mfsr of number 255
-	mov	#89, r0
-	trap	#1
+	mov	$89, r0
+	trap	$1
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_PRIVILEGED), r17
 	cbeq	r11, r17, 1f	; check 90 a user program gets vector 3 for number 255 (it cannot learn which numbers are assigned)
-	mov	#90, r0
-	trap	#1
+	mov	$90, r0
+	trap	$1
 1:
 	mov.s32	tmplw, r2
 	mov	=(2<<16), r3
@@ -810,14 +810,14 @@ Npw2:	mov	cnt, r11
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 91 one exception for the patched mtsr of number 2
-	mov	#91, r0
-	trap	#1
+	mov	$91, r0
+	trap	$1
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_PRIVILEGED), r17
 	cbeq	r11, r17, 1f	; check 92 a user program gets vector 3 for number 2 (it cannot learn which numbers are assigned)
-	mov	#92, r0
-	trap	#1
+	mov	$92, r0
+	trap	$1
 1:
 	mov.s32	tmplw, r2
 	mov	=(3<<16), r3
@@ -832,14 +832,14 @@ Npw3:	mov	cnt, r11
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 93 one exception for the patched mtsr of number 3
-	mov	#93, r0
-	trap	#1
+	mov	$93, r0
+	trap	$1
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_PRIVILEGED), r17
 	cbeq	r11, r17, 1f	; check 94 a user program gets vector 3 for number 3 (it cannot learn which numbers are assigned)
-	mov	#94, r0
-	trap	#1
+	mov	$94, r0
+	trap	$1
 1:
 	mov.s32	tmplw, r2
 	mov	=(12<<16), r3
@@ -854,14 +854,14 @@ Npw12:	mov	cnt, r11
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 95 one exception for the patched mtsr of number 12
-	mov	#95, r0
-	trap	#1
+	mov	$95, r0
+	trap	$1
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_PRIVILEGED), r17
 	cbeq	r11, r17, 1f	; check 96 a user program gets vector 3 for number 12 (it cannot learn which numbers are assigned)
-	mov	#96, r0
-	trap	#1
+	mov	$96, r0
+	trap	$1
 1:
 	mov.s32	tmplw, r2
 	mov	=(4<<16), r3
@@ -876,14 +876,14 @@ Npw4:	mov	cnt, r11
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 97 one exception for the patched mtsr of number 4
-	mov	#97, r0
-	trap	#1
+	mov	$97, r0
+	trap	$1
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_PRIVILEGED), r17
 	cbeq	r11, r17, 1f	; check 98 a user program gets vector 3 for number 4 (it cannot learn which numbers are assigned)
-	mov	#98, r0
-	trap	#1
+	mov	$98, r0
+	trap	$1
 1:
 	mov.s32	tmplw, r2
 	mov	=(5<<16), r3
@@ -898,14 +898,14 @@ Npw5:	mov	cnt, r11
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 99 one exception for the patched mtsr of number 5
-	mov	#99, r0
-	trap	#1
+	mov	$99, r0
+	trap	$1
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_PRIVILEGED), r17
 	cbeq	r11, r17, 1f	; check 100 a user program gets vector 3 for number 5 (it cannot learn which numbers are assigned)
-	mov	#100, r0
-	trap	#1
+	mov	$100, r0
+	trap	$1
 1:
 	mov.s32	tmplw, r2
 	mov	=(13<<16), r3
@@ -920,14 +920,14 @@ Npw13:	mov	cnt, r11
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 101 one exception for the patched mtsr of number 13
-	mov	#101, r0
-	trap	#1
+	mov	$101, r0
+	trap	$1
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_PRIVILEGED), r17
 	cbeq	r11, r17, 1f	; check 102 a user program gets vector 3 for number 13 (it cannot learn which numbers are assigned)
-	mov	#102, r0
-	trap	#1
+	mov	$102, r0
+	trap	$1
 1:
 	mov.s32	tmplw, r2
 	mov	=(14<<16), r3
@@ -942,14 +942,14 @@ Npw14:	mov	cnt, r11
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 103 one exception for the patched mtsr of number 14
-	mov	#103, r0
-	trap	#1
+	mov	$103, r0
+	trap	$1
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_PRIVILEGED), r17
 	cbeq	r11, r17, 1f	; check 104 a user program gets vector 3 for number 14 (it cannot learn which numbers are assigned)
-	mov	#104, r0
-	trap	#1
+	mov	$104, r0
+	trap	$1
 1:
 	mov.s32	tmplw, r2
 	mov	=(63<<16), r3
@@ -964,14 +964,14 @@ Npw63:	mov	cnt, r11
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 105 one exception for the patched mtsr of number 63
-	mov	#105, r0
-	trap	#1
+	mov	$105, r0
+	trap	$1
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_PRIVILEGED), r17
 	cbeq	r11, r17, 1f	; check 106 a user program gets vector 3 for number 63 (it cannot learn which numbers are assigned)
-	mov	#106, r0
-	trap	#1
+	mov	$106, r0
+	trap	$1
 1:
 	mov.s32	tmplw, r2
 	mov	=(127<<16), r3
@@ -986,14 +986,14 @@ Npw127:	mov	cnt, r11
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 107 one exception for the patched mtsr of number 127
-	mov	#107, r0
-	trap	#1
+	mov	$107, r0
+	trap	$1
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_PRIVILEGED), r17
 	cbeq	r11, r17, 1f	; check 108 a user program gets vector 3 for number 127 (it cannot learn which numbers are assigned)
-	mov	#108, r0
-	trap	#1
+	mov	$108, r0
+	trap	$1
 1:
 	mov.s32	tmplw, r2
 	mov	=(128<<16), r3
@@ -1008,14 +1008,14 @@ Npw128:	mov	cnt, r11
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 109 one exception for the patched mtsr of number 128
-	mov	#109, r0
-	trap	#1
+	mov	$109, r0
+	trap	$1
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_PRIVILEGED), r17
 	cbeq	r11, r17, 1f	; check 110 a user program gets vector 3 for number 128 (it cannot learn which numbers are assigned)
-	mov	#110, r0
-	trap	#1
+	mov	$110, r0
+	trap	$1
 1:
 	mov.s32	tmplw, r2
 	mov	=(147<<16), r3
@@ -1030,14 +1030,14 @@ Npw147:	mov	cnt, r11
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 111 one exception for the patched mtsr of number 147
-	mov	#111, r0
-	trap	#1
+	mov	$111, r0
+	trap	$1
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_PRIVILEGED), r17
 	cbeq	r11, r17, 1f	; check 112 a user program gets vector 3 for number 147 (it cannot learn which numbers are assigned)
-	mov	#112, r0
-	trap	#1
+	mov	$112, r0
+	trap	$1
 1:
 	mov.s32	tmplw, r2
 	mov	=(148<<16), r3
@@ -1052,14 +1052,14 @@ Npw148:	mov	cnt, r11
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 113 one exception for the patched mtsr of number 148
-	mov	#113, r0
-	trap	#1
+	mov	$113, r0
+	trap	$1
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_PRIVILEGED), r17
 	cbeq	r11, r17, 1f	; check 114 a user program gets vector 3 for number 148 (it cannot learn which numbers are assigned)
-	mov	#114, r0
-	trap	#1
+	mov	$114, r0
+	trap	$1
 1:
 	mov.s32	tmplw, r2
 	mov	=(200<<16), r3
@@ -1074,14 +1074,14 @@ Npw200:	mov	cnt, r11
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 115 one exception for the patched mtsr of number 200
-	mov	#115, r0
-	trap	#1
+	mov	$115, r0
+	trap	$1
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_PRIVILEGED), r17
 	cbeq	r11, r17, 1f	; check 116 a user program gets vector 3 for number 200 (it cannot learn which numbers are assigned)
-	mov	#116, r0
-	trap	#1
+	mov	$116, r0
+	trap	$1
 1:
 	mov.s32	tmplw, r2
 	mov	=(255<<16), r3
@@ -1096,24 +1096,24 @@ Npw255:	mov	cnt, r11
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 117 one exception for the patched mtsr of number 255
-	mov	#117, r0
-	trap	#1
+	mov	$117, r0
+	trap	$1
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_PRIVILEGED), r17
 	cbeq	r11, r17, 1f	; check 118 a user program gets vector 3 for number 255 (it cannot learn which numbers are assigned)
-	mov	#118, r0
-	trap	#1
+	mov	$118, r0
+	trap	$1
 1:
-	mov	#0, r0
-	trap	#0
+	mov	$0, r0
+	trap	$0
 	.align	4
 tmplr:	mfsr	r1, ptbr
 tmplw:	mtsr	ptbr, r1
 	.align 4
 
 hgen:	mov	cnt, r12
-	add	#1, r12
+	add	$1, r12
 	mov	r12, cnt
 	mfsr	r12, ecause
 	mov	r12, last_cause
@@ -1124,8 +1124,8 @@ hgen:	mov	cnt, r12
 	mfsr	r12, epsw
 	mov	r12, last_epsw
 	mtsr	epc, r13
-	rti	#RTIMASK_ALL
-h_ok:	mov	#0, r0
+	rti	$RTIMASK_ALL
+h_ok:	mov	$0, r0
 h_fail:	halt
 
 	.data

@@ -8,8 +8,8 @@ _start:
 	clr	r10
 	clr	r4
 	clr	r7
-	mov	#0x1111, r1
-	mov	#0x2222, r2
+	mov	$0x1111, r1
+	mov	$0x2222, r2
 	lea	stack_top, r4
 	mov	=550024249344, sp
 un1:
@@ -41,8 +41,8 @@ after1:
 	clr	r10
 	clr	r4
 	clr	r7
-	mov	#0x1111, r1
-	mov	#0x2222, r2
+	mov	$0x1111, r1
+	mov	$0x2222, r2
 	lea	after2, r7
 	lea	stack_top, sp
 un2:
@@ -69,7 +69,7 @@ after2:
 	mov	=0x7fffffeff8, r13
 	mov	=0x5555, r15
 	mov	r15, (r13)
-	mov	#0x3333, r3
+	mov	$0x3333, r3
 	lea	popstk, r4
 	lea	back3, r5
 	mov	r5, popstk+8
@@ -96,19 +96,19 @@ back3:
 	clr	r10
 	clr	r4
 	clr	r7
-	mov	#0x22, r13
-	mov	#0x33, r15
+	mov	$0x22, r13
+	mov	$0x33, r15
 	mov	=0x7fffffeff0, r12
-	mov	#0x33, r2
+	mov	$0x33, r2
 	mov	r2, (r12)
-	mov	#0x22, r2
+	mov	$0x22, r2
 	mov	r2, 8(r12)
 	lea	popmstk, r4
 	lea	back4, r5
 	mov	r5, popmstk+16
 	mov	=0x7fffffeff0, sp
 un4:
-	popmret	#0xa000
+	popmret	$0xa000
 back4:
 	mov	=0x1, r15
 	cbne	r10, r15, F16
@@ -194,112 +194,112 @@ after_mulv:
 	clr	r0
 	halt
 F1:
-	mov	#1, r0
+	mov	$1, r0
 	halt
 F2:
-	mov	#2, r0
+	mov	$2, r0
 	halt
 F3:
-	mov	#3, r0
+	mov	$3, r0
 	halt
 F4:
-	mov	#4, r0
+	mov	$4, r0
 	halt
 F5:
-	mov	#5, r0
+	mov	$5, r0
 	halt
 F6:
-	mov	#6, r0
+	mov	$6, r0
 	halt
 F7:
-	mov	#7, r0
+	mov	$7, r0
 	halt
 F8:
-	mov	#8, r0
+	mov	$8, r0
 	halt
 F9:
-	mov	#9, r0
+	mov	$9, r0
 	halt
 F10:
-	mov	#10, r0
+	mov	$10, r0
 	halt
 F11:
-	mov	#11, r0
+	mov	$11, r0
 	halt
 F12:
-	mov	#12, r0
+	mov	$12, r0
 	halt
 F13:
-	mov	#13, r0
+	mov	$13, r0
 	halt
 F14:
-	mov	#14, r0
+	mov	$14, r0
 	halt
 F15:
-	mov	#15, r0
+	mov	$15, r0
 	halt
 F16:
-	mov	#16, r0
+	mov	$16, r0
 	halt
 F17:
-	mov	#17, r0
+	mov	$17, r0
 	halt
 F18:
-	mov	#18, r0
+	mov	$18, r0
 	halt
 F19:
-	mov	#19, r0
+	mov	$19, r0
 	halt
 F20:
-	mov	#20, r0
+	mov	$20, r0
 	halt
 F21:
-	mov	#21, r0
+	mov	$21, r0
 	halt
 F22:
-	mov	#22, r0
+	mov	$22, r0
 	halt
 F23:
-	mov	#23, r0
+	mov	$23, r0
 	halt
 F24:
-	mov	#24, r0
+	mov	$24, r0
 	halt
 F25:
-	mov	#25, r0
+	mov	$25, r0
 	halt
 F26:
-	mov	#26, r0
+	mov	$26, r0
 	halt
 F27:
-	mov	#27, r0
+	mov	$27, r0
 	halt
 F28:
-	mov	#28, r0
+	mov	$28, r0
 	halt
 F29:
-	mov	#29, r0
+	mov	$29, r0
 	halt
 F30:
-	mov	#30, r0
+	mov	$30, r0
 	halt
 F31:
-	mov	#31, r0
+	mov	$31, r0
 	halt
 F32:
-	mov	#32, r0
+	mov	$32, r0
 	halt
 F33:
-	mov	#33, r0
+	mov	$33, r0
 	halt
 F34:
-	mov	#34, r0
+	mov	$34, r0
 	halt
 F35:
-	mov	#35, r0
+	mov	$35, r0
 	halt
 FSP:
-	mov	#98, r0
+	mov	$98, r0
 	halt
 h_gen:
 	mfsr	r6, epc
@@ -310,14 +310,14 @@ h_gen:
 	mov	r13, cap+16
 	mov	r15, cap+24
 	mov	r14, cap+32
-	add	#1, r10
-	cbeq	r4, #0, 1f
+	add	$1, r10
+	cbeq	r4, $0, 1f
 	mov	r4, sp
 1:
-	cbeq	r7, #0, 1f
+	cbeq	r7, $0, 1f
 	mtsr	epc, r7
 1:
-	rti	#0xffffffff
+	rti	$0xffffffff
 	.data
 	.align 8
 cap:	.space 48

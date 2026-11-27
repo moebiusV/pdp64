@@ -42,7 +42,7 @@ def split_ops(s):
 
 
 def is_mem(op):
-    if op.startswith(('#', '=')):
+    if op.startswith(('#', '$', '=')):
         return False
     if REG.match(op):
         return False
@@ -128,7 +128,7 @@ def classify(items, lo, hi):
         if BR.match(mn):
             brs += 1
             continue
-        if mn in ('inc', 'dec', 'add', 'sub', 'lea') and ops and REG.match(ops[-1]) and ops[-1] in tested and (mn in ('inc', 'dec') or ops[0].startswith('#') or REG.match(ops[0])):
+        if mn in ('inc', 'dec', 'add', 'sub', 'lea') and ops and REG.match(ops[-1]) and ops[-1] in tested and (mn in ('inc', 'dec') or ops[0].startswith(('#', '$')) or REG.match(ops[0])):
             continue
         if mn in NODEST:
             alu += 1

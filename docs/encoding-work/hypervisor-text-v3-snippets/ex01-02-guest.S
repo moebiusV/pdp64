@@ -13,30 +13,30 @@ _start:
 	mtsr	htrap, r1			; exit on WFE (HALT always exits)
 	lea	guest, r1
 	mtsr	hepc, r1
-	mov	#0, r1
+	mov	$0, r1
 	mtsr	hepsw, r1			; kernel mode, priority 0
-	genter	#0				; the guest starts with every register zero
+	genter	$0				; the guest starts with every register zero
 guest:	wfe
 	halt
 hx:	mfsr	r20, hexitr			; why did the guest stop?
-	cbeq	r20, #XCODE_WFE, h_wfe
-	cbeq	r20, #XCODE_HALT, h_halt
-	mov	#1, r0				; an exit we did not expect
+	cbeq	r20, $XCODE_WFE, h_wfe
+	cbeq	r20, $XCODE_HALT, h_halt
+	mov	$1, r0				; an exit we did not expect
 	halt
 h_wfe:	lea	guest+2, r21			; HEPC must be the instruction after the WFE (WFE is one parcel)
 	mfsr	r22, hepc
 	cbeq	r21, r22, 1f
-	mov	#2, r0
+	mov	$2, r0
 	halt
 1:	mov	seen, r21
-	add	#1, r21
+	add	$1, r21
 	mov	r21, seen
-	genter	#0				; the guest resumes after its WFE
+	genter	$0				; the guest resumes after its WFE
 h_halt:	mov	seen, r21
-	cbeq	r21, #1, 1f
-	mov	#3, r0
+	cbeq	r21, $1, 1f
+	mov	$3, r0
 	halt
-1:	mov	#0, r0				; the machine ends with status 0
+1:	mov	$0, r0				; the machine ends with status 0
 	halt
 	.data
 	.align	8

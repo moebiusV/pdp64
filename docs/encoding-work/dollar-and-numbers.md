@@ -1,5 +1,7 @@
 # The immediate marker `$` and the numbers: a survey (phase 1, nothing built in the tree)
 
+I decided nothing new here and built what the owner chose after this survey: the immediate is written `$expr` everywhere in the live manual, documents and generators (the assembler still reads `#expr` as the same thing); a number is decimal or `0x`, `0o`, `0b` in lower case and a number with a leading zero is an error that names `0o`; the PDP-11 octal of the manual is written `0o...` and the C64 addresses `0x...`; the NASM suffixes, `$` and `$$` as locations are gone from the assembler and from its description. The text below is the survey as I wrote it, and is not changed.
+
 [← pdp64 index](../../README.md)
 
 This is the survey for errata 233 and R555. I changed no tracked file and committed nothing; this note is the only new file in the tree. Every experiment ran in a scratch copy

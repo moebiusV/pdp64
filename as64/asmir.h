@@ -17,13 +17,12 @@ struct slice { const char *p; int n; };
 /* An expression, as the grammar built it (asmp.c); as64.c evaluates it.  The text in tok is a slice of the source. */
 enum xop {
 	XN_EXPR = 1,		/* the root of an expression: a is the tree, tok the whole text (for the error message) */
-	XN_NUM,			/* tok: the digits (no prefix, no suffix), base 2, 8, 10 or 16 */
-	XN_BINLBL,		/* `1001b`: tok the digits; the numeric label (back) when one is defined before the use, else the binary number */
+	XN_NUM,			/* tok: the digits (no prefix), base 2, 8, 10 or 16 */
 	XN_LBACK, XN_LFWD,	/* `Nb`, `Nf`: the numeric local label N before / after this statement; tok the digits */
 	XN_CHAR, XN_MCHAR,	/* a character constant, a multi-character one: tok the text between the quotes (escapes undecoded) */
 	XN_NAME,		/* a symbol: tok its text (a quoted name with its quotes) */
-	XN_DOT,			/* `.` and `$`: the location counter */
-	XN_SECT,		/* `$$`: the start of the section */
+	XN_DOT,			/* `.`: the location counter */
+	XN_MARK,		/* a value mark on a number or a symbol (`0xff.s8`, `limit.u16`): a is the value, tok the mark with its dot, base its width in bits */
 	XN_BAD,			/* not an expression (`text` in backquotes where a number is wanted) */
 	XN_NEG, XN_NOT, XN_LNOT, XN_LOW, XN_HIGH,		/* unary - ~ ! < >: a is the operand */
 	XN_ADD, XN_SUB, XN_OR, XN_XOR, XN_ORNOT,		/* a + - | ^ ! b */

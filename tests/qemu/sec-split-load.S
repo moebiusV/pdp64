@@ -12,7 +12,7 @@ _start:
 	mtsr	vbr, r1
 	lea	l2, r1
 	mtsr	ptbr, r1
-	mov	#1, r1
+	mov	$1, r1
 	mtsr	mmuctl, r1
 	isync
 	mov	=1073741824, r3		; P0
@@ -26,53 +26,53 @@ _start:
 	mov	r5, (r7)
 ; ---- 1: the load from P0 into P1, which refuses
 	mov	=0x7777777777777777, r6
-	mov	#0, r10
+	mov	$0, r10
 	lea	res1, r13
 at1:	mov	4092(r3), r6
-res1:	cbne r10, #1, F1 ; check 1: exactly one fault
-	cbne r8, #(VECTOR_LPROT), F2 ; check 2: the load protection fault
+res1:	cbne r10, $1, F1 ; check 1: exactly one fault
+	cbne r8, $(VECTOR_LPROT), F2 ; check 2: the load protection fault
 	cbne r9, r11, F3 ; check 3: EVA is the first byte of the second page
 	lea	at1, r2
 	cbne r15, r2, F4 ; check 4: EPC is the instruction
 	mov	=0x7777777777777777, r2
 	cbne r6, r2, F5 ; check 5: the destination is as it was: no bytes of the readable page reached it
 ; ---- 2: the load from P4, which refuses, into P5
-	mov	#0, r10
+	mov	$0, r10
 	lea	res2, r13
 at2:	mov	4092(r12), r6
-res2:	cbne r10, #1, F6 ; check 6: exactly one fault
-	cbne r8, #(VECTOR_LPROT), F7 ; check 7: the load protection fault
+res2:	cbne r10, $1, F6 ; check 6: exactly one fault
+	cbne r8, $(VECTOR_LPROT), F7 ; check 7: the load protection fault
 	lea	4092(r12), r2
 	cbne r9, r2, F8 ; check 8: EVA is the address of the load: the first page refused
 	mov	=0x7777777777777777, r2
 	cbne r6, r2, F9 ; check 9: the destination is as it was
-	mov	#0, r0
+	mov	$0, r0
 	halt
-h_gen:	add	#1, r10
+h_gen:	add	$1, r10
 	mfsr	r8, ecause
 	mfsr	r9, eva
 	mfsr	r15, epc
 	mtsr	epc, r13
-	rti	#RTIMASK_ALL
-h_fail:	mov	#99, r0
+	rti	$RTIMASK_ALL
+h_fail:	mov	$99, r0
 	halt
-F1:	mov	#1, r0
+F1:	mov	$1, r0
 	halt
-F2:	mov	#2, r0
+F2:	mov	$2, r0
 	halt
-F3:	mov	#3, r0
+F3:	mov	$3, r0
 	halt
-F4:	mov	#4, r0
+F4:	mov	$4, r0
 	halt
-F5:	mov	#5, r0
+F5:	mov	$5, r0
 	halt
-F6:	mov	#6, r0
+F6:	mov	$6, r0
 	halt
-F7:	mov	#7, r0
+F7:	mov	$7, r0
 	halt
-F8:	mov	#8, r0
+F8:	mov	$8, r0
 	halt
-F9:	mov	#9, r0
+F9:	mov	$9, r0
 	halt
 	.data
 	.align	8

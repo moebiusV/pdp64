@@ -7,7 +7,7 @@ _start:
 	lea	vtab, r1
 	mtsr	vbr, r1
 	lea	hgen, r2
-	mov	#512, r3
+	mov	$512, r3
 kfill:	mov	r2, (r1)+
 	sob	r3, kfill
 	lea	vtab, r1
@@ -45,159 +45,159 @@ kfill:	mov	r2, (r1)+
 	mov	=0x5ec0de00001d, r29
 	mov	=0x5ec0de00001e, r30
 	mov	=0x5ec0de00001f, r31
-	trap	#4
+	trap	$4
 Next:
 	mov	=(0x5ec0de000000), r17
 	cbeq	r0, r17, 1f	; check 1 r0 keeps its value across a return to the same mode (the mask is ignored)
-	mov	#1, r0
+	mov	$1, r0
 	halt
 1:
 	mov	=(0x5ec0de000001), r17
 	cbeq	r1, r17, 1f	; check 2 r1 keeps its value across a return to the same mode (the mask is ignored)
-	mov	#2, r0
+	mov	$2, r0
 	halt
 1:
 	mov	=(0x5ec0de000002), r17
 	cbeq	r2, r17, 1f	; check 3 r2 keeps its value across a return to the same mode (the mask is ignored)
-	mov	#3, r0
+	mov	$3, r0
 	halt
 1:
 	mov	=(0x5ec0de000003), r17
 	cbeq	r3, r17, 1f	; check 4 r3 keeps its value across a return to the same mode (the mask is ignored)
-	mov	#4, r0
+	mov	$4, r0
 	halt
 1:
 	mov	=(0x5ec0de000004), r17
 	cbeq	r4, r17, 1f	; check 5 r4 keeps its value across a return to the same mode (the mask is ignored)
-	mov	#5, r0
+	mov	$5, r0
 	halt
 1:
 	mov	=(0x5ec0de000005), r17
 	cbeq	r5, r17, 1f	; check 6 r5 keeps its value across a return to the same mode (the mask is ignored)
-	mov	#6, r0
+	mov	$6, r0
 	halt
 1:
 	mov	=(0x5ec0de000006), r17
 	cbeq	r6, r17, 1f	; check 7 r6 keeps its value across a return to the same mode (the mask is ignored)
-	mov	#7, r0
+	mov	$7, r0
 	halt
 1:
 	mov	=(0x5ec0de000007), r17
 	cbeq	r7, r17, 1f	; check 8 r7 keeps its value across a return to the same mode (the mask is ignored)
-	mov	#8, r0
+	mov	$8, r0
 	halt
 1:
 	mov	=(0x5ec0de000008), r17
 	cbeq	r8, r17, 1f	; check 9 r8 keeps its value across a return to the same mode (the mask is ignored)
-	mov	#9, r0
+	mov	$9, r0
 	halt
 1:
 	mov	=(0x5ec0de000009), r17
 	cbeq	r9, r17, 1f	; check 10 r9 keeps its value across a return to the same mode (the mask is ignored)
-	mov	#10, r0
+	mov	$10, r0
 	halt
 1:
 	mov	=(0x5ec0de00000a), r17
 	cbeq	r10, r17, 1f	; check 11 r10 keeps its value across a return to the same mode (the mask is ignored)
-	mov	#11, r0
+	mov	$11, r0
 	halt
 1:
 	mov	=(0x5ec0de00000f), r17
 	cbeq	r15, r17, 1f	; check 12 r15 keeps its value across a return to the same mode (the mask is ignored)
-	mov	#12, r0
+	mov	$12, r0
 	halt
 1:
 	mov	=(0x5ec0de000010), r17
 	cbeq	r16, r17, 1f	; check 13 r16 keeps its value across a return to the same mode (the mask is ignored)
-	mov	#13, r0
+	mov	$13, r0
 	halt
 1:
 	mov	=(0x5ec0de000012), r17
 	cbeq	r18, r17, 1f	; check 14 r18 keeps its value across a return to the same mode (the mask is ignored)
-	mov	#14, r0
+	mov	$14, r0
 	halt
 1:
 	mov	=(0x5ec0de000013), r17
 	cbeq	r19, r17, 1f	; check 15 r19 keeps its value across a return to the same mode (the mask is ignored)
-	mov	#15, r0
+	mov	$15, r0
 	halt
 1:
 	mov	=(0x5ec0de000014), r17
 	cbeq	r20, r17, 1f	; check 16 r20 keeps its value across a return to the same mode (the mask is ignored)
-	mov	#16, r0
+	mov	$16, r0
 	halt
 1:
 	mov	=(0x5ec0de000015), r17
 	cbeq	r21, r17, 1f	; check 17 r21 keeps its value across a return to the same mode (the mask is ignored)
-	mov	#17, r0
+	mov	$17, r0
 	halt
 1:
 	mov	=(0x5ec0de000016), r17
 	cbeq	r22, r17, 1f	; check 18 r22 keeps its value across a return to the same mode (the mask is ignored)
-	mov	#18, r0
+	mov	$18, r0
 	halt
 1:
 	mov	=(0x5ec0de000017), r17
 	cbeq	r23, r17, 1f	; check 19 r23 keeps its value across a return to the same mode (the mask is ignored)
-	mov	#19, r0
+	mov	$19, r0
 	halt
 1:
 	mov	=(0x5ec0de000018), r17
 	cbeq	r24, r17, 1f	; check 20 r24 keeps its value across a return to the same mode (the mask is ignored)
-	mov	#20, r0
+	mov	$20, r0
 	halt
 1:
 	mov	=(0x5ec0de000019), r17
 	cbeq	r25, r17, 1f	; check 21 r25 keeps its value across a return to the same mode (the mask is ignored)
-	mov	#21, r0
+	mov	$21, r0
 	halt
 1:
 	mov	=(0x5ec0de00001a), r17
 	cbeq	r26, r17, 1f	; check 22 r26 keeps its value across a return to the same mode (the mask is ignored)
-	mov	#22, r0
+	mov	$22, r0
 	halt
 1:
 	mov	=(0x5ec0de00001b), r17
 	cbeq	r27, r17, 1f	; check 23 r27 keeps its value across a return to the same mode (the mask is ignored)
-	mov	#23, r0
+	mov	$23, r0
 	halt
 1:
 	mov	=(0x5ec0de00001c), r17
 	cbeq	r28, r17, 1f	; check 24 r28 keeps its value across a return to the same mode (the mask is ignored)
-	mov	#24, r0
+	mov	$24, r0
 	halt
 1:
 	mov	=(0x5ec0de00001d), r17
 	cbeq	r29, r17, 1f	; check 25 r29 keeps its value across a return to the same mode (the mask is ignored)
-	mov	#25, r0
+	mov	$25, r0
 	halt
 1:
 	mov	=(0x5ec0de00001e), r17
 	cbeq	r30, r17, 1f	; check 26 r30 keeps its value across a return to the same mode (the mask is ignored)
-	mov	#26, r0
+	mov	$26, r0
 	halt
 1:
 	mov	=(0x5ec0de00001f), r17
 	cbeq	r31, r17, 1f	; check 27 r31 keeps its value across a return to the same mode (the mask is ignored)
-	mov	#27, r0
+	mov	$27, r0
 	halt
 1:
 	mov	=(0x5ec0de000011), r17
 	cbeq	r17, r17, 1f	; check 28 r17 keeps its value across a return to the same mode (the mask is ignored)
-	mov	#28, r0
+	mov	$28, r0
 	halt
 1:
 	mov	cnt, r12
 	mov	=(1), r17
 	cbeq	r12, r17, 1f	; check 29 control: the exception was taken once, so there was a return
-	mov	#29, r0
+	mov	$29, r0
 	halt
 1:
-	mov	#0, r0
+	mov	$0, r0
 	halt
 
 hgen:	mov	cnt, r12
-	add	#1, r12
+	add	$1, r12
 	mov	r12, cnt
 	mfsr	r12, ecause
 	mov	r12, last_cause
@@ -208,8 +208,8 @@ hgen:	mov	cnt, r12
 	mfsr	r12, epsw
 	mov	r12, last_epsw
 	mtsr	epc, r13
-	rti	#RTIMASK_NONE
-h_ok:	mov	#0, r0
+	rti	$RTIMASK_NONE
+h_ok:	mov	$0, r0
 h_fail:	halt
 
 	.data

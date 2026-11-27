@@ -2,8 +2,8 @@
 	.text
 	.globl	_start
 _start:
-	mov	#4, r1
-	mov	#9, r2
+	mov	$4, r1
+	mov	$9, r2
 	cblt	r1, r2, 3f		; taken, forward 2500 parcels
 	br	fail
 	.space	5000
@@ -15,7 +15,7 @@ _start:
 4:	cbne	r1, r1, fail		; not taken, six bytes
 	cbeq	r1, r1, 5b		; taken, backward 2500 parcels
 	br	fail
-6:	mov	#0, r0
-	trap	#0
-fail:	mov	#1, r0
-	trap	#0
+6:	mov	$0, r0
+	trap	$0
+fail:	mov	$1, r0
+	trap	$0

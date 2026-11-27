@@ -12,1247 +12,1247 @@ _start:
 	mov	=0x0120, r2
 	mtsr	hepsw, r2
 	mov	=(0x0120|0x1), r2
-	mov	#0, r10
+	mov	$0, r10
 	lea	R2, r4
 I1:	mtsr	hepsw, r2			; a one in an unused bit of HEPSW
 R2:
 	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	mov	#1, r0
+	mov	$1, r0
 	halt
 1:
 	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	mov	#2, r0
+	mov	$2, r0
 	halt
 1:
 	mov	=(XCODE_TAKEN_AT_H), r11
 	cbeq	r7, r11, 1f
-	mov	#3, r0
+	mov	$3, r0
 	halt
 1:
 	lea	I1, r11
 	cbeq	r8, r11, 1f
-	mov	#4, r0
+	mov	$4, r0
 	halt
 1:
 	mov	=0x0120, r2
 	mtsr	hepsw, r2
 	mov	=(0x0120|0x8), r2
-	mov	#0, r10
+	mov	$0, r10
 	lea	R4, r4
 I3:	mtsr	hepsw, r2			; a one in an unused bit of HEPSW
 R4:
 	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	mov	#5, r0
+	mov	$5, r0
 	halt
 1:
 	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	mov	#6, r0
+	mov	$6, r0
 	halt
 1:
 	mov	=(XCODE_TAKEN_AT_H), r11
 	cbeq	r7, r11, 1f
-	mov	#7, r0
+	mov	$7, r0
 	halt
 1:
 	lea	I3, r11
 	cbeq	r8, r11, 1f
-	mov	#8, r0
+	mov	$8, r0
 	halt
 1:
 	mov	=0x0120, r2
 	mtsr	hepsw, r2
 	mov	=(0x0120|0x2000), r2
-	mov	#0, r10
+	mov	$0, r10
 	lea	R6, r4
 I5:	mtsr	hepsw, r2			; a one in an unused bit of HEPSW
 R6:
 	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	mov	#9, r0
+	mov	$9, r0
 	halt
 1:
 	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	mov	#10, r0
+	mov	$10, r0
 	halt
 1:
 	mov	=(XCODE_TAKEN_AT_H), r11
 	cbeq	r7, r11, 1f
-	mov	#11, r0
+	mov	$11, r0
 	halt
 1:
 	lea	I5, r11
 	cbeq	r8, r11, 1f
-	mov	#12, r0
+	mov	$12, r0
 	halt
 1:
 	mov	=0x0120, r2
 	mtsr	hepsw, r2
 	mov	=(0x0120|0x8000), r2
-	mov	#0, r10
+	mov	$0, r10
 	lea	R8, r4
 I7:	mtsr	hepsw, r2			; a one in an unused bit of HEPSW
 R8:
 	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	mov	#13, r0
+	mov	$13, r0
 	halt
 1:
 	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	mov	#14, r0
+	mov	$14, r0
 	halt
 1:
 	mov	=(XCODE_TAKEN_AT_H), r11
 	cbeq	r7, r11, 1f
-	mov	#15, r0
+	mov	$15, r0
 	halt
 1:
 	lea	I7, r11
 	cbeq	r8, r11, 1f
-	mov	#16, r0
+	mov	$16, r0
 	halt
 1:
 	mov	=0x0120, r2
 	mtsr	hepsw, r2
 	mov	=(0x0120|0x10000), r2
-	mov	#0, r10
+	mov	$0, r10
 	lea	R10, r4
 I9:	mtsr	hepsw, r2			; a one in an unused bit of HEPSW
 R10:
 	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	mov	#17, r0
+	mov	$17, r0
 	halt
 1:
 	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	mov	#18, r0
+	mov	$18, r0
 	halt
 1:
 	mov	=(XCODE_TAKEN_AT_H), r11
 	cbeq	r7, r11, 1f
-	mov	#19, r0
+	mov	$19, r0
 	halt
 1:
 	lea	I9, r11
 	cbeq	r8, r11, 1f
-	mov	#20, r0
+	mov	$20, r0
 	halt
 1:
 	mov	=0x0120, r2
 	mtsr	hepsw, r2
 	mov	=(0x0120|0x10000000000), r2
-	mov	#0, r10
+	mov	$0, r10
 	lea	R12, r4
 I11:	mtsr	hepsw, r2			; a one in an unused bit of HEPSW
 R12:
 	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	mov	#21, r0
+	mov	$21, r0
 	halt
 1:
 	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	mov	#22, r0
+	mov	$22, r0
 	halt
 1:
 	mov	=(XCODE_TAKEN_AT_H), r11
 	cbeq	r7, r11, 1f
-	mov	#23, r0
+	mov	$23, r0
 	halt
 1:
 	lea	I11, r11
 	cbeq	r8, r11, 1f
-	mov	#24, r0
+	mov	$24, r0
 	halt
 1:
 	mov	=0x0120, r2
 	mtsr	hepsw, r2
 	mov	=(0x0120|0x8000000000000000), r2
-	mov	#0, r10
+	mov	$0, r10
 	lea	R14, r4
 I13:	mtsr	hepsw, r2			; a one in an unused bit of HEPSW
 R14:
 	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	mov	#25, r0
+	mov	$25, r0
 	halt
 1:
 	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	mov	#26, r0
+	mov	$26, r0
 	halt
 1:
 	mov	=(XCODE_TAKEN_AT_H), r11
 	cbeq	r7, r11, 1f
-	mov	#27, r0
+	mov	$27, r0
 	halt
 1:
 	lea	I13, r11
 	cbeq	r8, r11, 1f
-	mov	#28, r0
+	mov	$28, r0
 	halt
 1:
 	mov	=0x0000003456789001, r2
 	mtsr	gtbr, r2
 	mov	=0x2, r2
-	mov	#0, r10
+	mov	$0, r10
 	lea	R16, r4
 I15:	mtsr	gtbr, r2			; a one in an unused bit of GTBR
 R16:
 	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	mov	#29, r0
+	mov	$29, r0
 	halt
 1:
 	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	mov	#30, r0
+	mov	$30, r0
 	halt
 1:
 	mov	=(XCODE_TAKEN_AT_H), r11
 	cbeq	r7, r11, 1f
-	mov	#31, r0
+	mov	$31, r0
 	halt
 1:
 	lea	I15, r11
 	cbeq	r8, r11, 1f
-	mov	#32, r0
+	mov	$32, r0
 	halt
 1:
 	mfsr	r3, gtbr
 	mov	=(0x0000003456789001), r11
 	cbeq	r3, r11, 1f
-	mov	#33, r0
+	mov	$33, r0
 	halt
 1:
 	mov	=0x0000003456789001, r2
 	mtsr	gtbr, r2
 	mov	=0x800, r2
-	mov	#0, r10
+	mov	$0, r10
 	lea	R18, r4
 I17:	mtsr	gtbr, r2			; a one in an unused bit of GTBR
 R18:
 	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	mov	#34, r0
+	mov	$34, r0
 	halt
 1:
 	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	mov	#35, r0
+	mov	$35, r0
 	halt
 1:
 	mov	=(XCODE_TAKEN_AT_H), r11
 	cbeq	r7, r11, 1f
-	mov	#36, r0
+	mov	$36, r0
 	halt
 1:
 	lea	I17, r11
 	cbeq	r8, r11, 1f
-	mov	#37, r0
+	mov	$37, r0
 	halt
 1:
 	mfsr	r3, gtbr
 	mov	=(0x0000003456789001), r11
 	cbeq	r3, r11, 1f
-	mov	#38, r0
+	mov	$38, r0
 	halt
 1:
 	mov	=0x0000003456789001, r2
 	mtsr	gtbr, r2
 	mov	=0x10000000000, r2
-	mov	#0, r10
+	mov	$0, r10
 	lea	R20, r4
 I19:	mtsr	gtbr, r2			; a one in an unused bit of GTBR
 R20:
 	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	mov	#39, r0
+	mov	$39, r0
 	halt
 1:
 	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	mov	#40, r0
+	mov	$40, r0
 	halt
 1:
 	mov	=(XCODE_TAKEN_AT_H), r11
 	cbeq	r7, r11, 1f
-	mov	#41, r0
+	mov	$41, r0
 	halt
 1:
 	lea	I19, r11
 	cbeq	r8, r11, 1f
-	mov	#42, r0
+	mov	$42, r0
 	halt
 1:
 	mfsr	r3, gtbr
 	mov	=(0x0000003456789001), r11
 	cbeq	r3, r11, 1f
-	mov	#43, r0
+	mov	$43, r0
 	halt
 1:
 	mov	=0x0000003456789001, r2
 	mtsr	gtbr, r2
 	mov	=0x800000000000, r2
-	mov	#0, r10
+	mov	$0, r10
 	lea	R22, r4
 I21:	mtsr	gtbr, r2			; a one in an unused bit of GTBR
 R22:
 	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	mov	#44, r0
+	mov	$44, r0
 	halt
 1:
 	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	mov	#45, r0
+	mov	$45, r0
 	halt
 1:
 	mov	=(XCODE_TAKEN_AT_H), r11
 	cbeq	r7, r11, 1f
-	mov	#46, r0
+	mov	$46, r0
 	halt
 1:
 	lea	I21, r11
 	cbeq	r8, r11, 1f
-	mov	#47, r0
+	mov	$47, r0
 	halt
 1:
 	mfsr	r3, gtbr
 	mov	=(0x0000003456789001), r11
 	cbeq	r3, r11, 1f
-	mov	#48, r0
+	mov	$48, r0
 	halt
 1:
 	mov	=0x20, r2
 	mtsr	virq, r2
 	mov	=1, r2
-	mov	#0, r10
+	mov	$0, r10
 	lea	R24, r4
 I23:	mtsr	virq, r2			; a one in an unused bit of VIRQ
 R24:
 	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	mov	#49, r0
+	mov	$49, r0
 	halt
 1:
 	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	mov	#50, r0
+	mov	$50, r0
 	halt
 1:
 	mov	=(XCODE_TAKEN_AT_H), r11
 	cbeq	r7, r11, 1f
-	mov	#51, r0
+	mov	$51, r0
 	halt
 1:
 	lea	I23, r11
 	cbeq	r8, r11, 1f
-	mov	#52, r0
+	mov	$52, r0
 	halt
 1:
 	mfsr	r3, virq
 	mov	=(0x20), r11
 	cbeq	r3, r11, 1f
-	mov	#53, r0
+	mov	$53, r0
 	halt
 1:
 	mov	=0x20, r2
 	mtsr	virq, r2
 	mov	=0x100, r2
-	mov	#0, r10
+	mov	$0, r10
 	lea	R26, r4
 I25:	mtsr	virq, r2			; a one in an unused bit of VIRQ
 R26:
 	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	mov	#54, r0
+	mov	$54, r0
 	halt
 1:
 	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	mov	#55, r0
+	mov	$55, r0
 	halt
 1:
 	mov	=(XCODE_TAKEN_AT_H), r11
 	cbeq	r7, r11, 1f
-	mov	#56, r0
+	mov	$56, r0
 	halt
 1:
 	lea	I25, r11
 	cbeq	r8, r11, 1f
-	mov	#57, r0
+	mov	$57, r0
 	halt
 1:
 	mfsr	r3, virq
 	mov	=(0x20), r11
 	cbeq	r3, r11, 1f
-	mov	#58, r0
+	mov	$58, r0
 	halt
 1:
 	mov	=0x20, r2
 	mtsr	virq, r2
 	mov	=0x8000000000000000, r2
-	mov	#0, r10
+	mov	$0, r10
 	lea	R28, r4
 I27:	mtsr	virq, r2			; a one in an unused bit of VIRQ
 R28:
 	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	mov	#59, r0
+	mov	$59, r0
 	halt
 1:
 	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	mov	#60, r0
+	mov	$60, r0
 	halt
 1:
 	mov	=(XCODE_TAKEN_AT_H), r11
 	cbeq	r7, r11, 1f
-	mov	#61, r0
+	mov	$61, r0
 	halt
 1:
 	lea	I27, r11
 	cbeq	r8, r11, 1f
-	mov	#62, r0
+	mov	$62, r0
 	halt
 1:
 	mfsr	r3, virq
 	mov	=(0x20), r11
 	cbeq	r3, r11, 1f
-	mov	#63, r0
+	mov	$63, r0
 	halt
 1:
 	mov	=0x0022232425262728, r2
 	mtsr	vivec, r2
 	mov	=0x0100000000000000, r2
-	mov	#0, r10
+	mov	$0, r10
 	lea	R30, r4
 I29:	mtsr	vivec, r2			; a one in an unused bit of VIVEC
 R30:
 	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	mov	#64, r0
+	mov	$64, r0
 	halt
 1:
 	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	mov	#65, r0
+	mov	$65, r0
 	halt
 1:
 	mov	=(XCODE_TAKEN_AT_H), r11
 	cbeq	r7, r11, 1f
-	mov	#66, r0
+	mov	$66, r0
 	halt
 1:
 	lea	I29, r11
 	cbeq	r8, r11, 1f
-	mov	#67, r0
+	mov	$67, r0
 	halt
 1:
 	mfsr	r3, vivec
 	mov	=(0x0022232425262728), r11
 	cbeq	r3, r11, 1f
-	mov	#68, r0
+	mov	$68, r0
 	halt
 1:
 	mov	=0x0022232425262728, r2
 	mtsr	vivec, r2
 	mov	=0x8000000000000000, r2
-	mov	#0, r10
+	mov	$0, r10
 	lea	R32, r4
 I31:	mtsr	vivec, r2			; a one in an unused bit of VIVEC
 R32:
 	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	mov	#69, r0
+	mov	$69, r0
 	halt
 1:
 	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	mov	#70, r0
+	mov	$70, r0
 	halt
 1:
 	mov	=(XCODE_TAKEN_AT_H), r11
 	cbeq	r7, r11, 1f
-	mov	#71, r0
+	mov	$71, r0
 	halt
 1:
 	lea	I31, r11
 	cbeq	r8, r11, 1f
-	mov	#72, r0
+	mov	$72, r0
 	halt
 1:
 	mfsr	r3, vivec
 	mov	=(0x0022232425262728), r11
 	cbeq	r3, r11, 1f
-	mov	#73, r0
+	mov	$73, r0
 	halt
 1:
 	mov	=0x1234, r2
 	mtsr	vcpuid, r2
 	mov	=0x10000, r2
-	mov	#0, r10
+	mov	$0, r10
 	lea	R34, r4
 I33:	mtsr	vcpuid, r2			; a one in an unused bit of VCPUID
 R34:
 	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	mov	#74, r0
+	mov	$74, r0
 	halt
 1:
 	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	mov	#75, r0
+	mov	$75, r0
 	halt
 1:
 	mov	=(XCODE_TAKEN_AT_H), r11
 	cbeq	r7, r11, 1f
-	mov	#76, r0
+	mov	$76, r0
 	halt
 1:
 	lea	I33, r11
 	cbeq	r8, r11, 1f
-	mov	#77, r0
+	mov	$77, r0
 	halt
 1:
 	mfsr	r3, vcpuid
 	mov	=(0x1234), r11
 	cbeq	r3, r11, 1f
-	mov	#78, r0
+	mov	$78, r0
 	halt
 1:
 	mov	=0x1234, r2
 	mtsr	vcpuid, r2
 	mov	=0x8000000000000000, r2
-	mov	#0, r10
+	mov	$0, r10
 	lea	R36, r4
 I35:	mtsr	vcpuid, r2			; a one in an unused bit of VCPUID
 R36:
 	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	mov	#79, r0
+	mov	$79, r0
 	halt
 1:
 	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	mov	#80, r0
+	mov	$80, r0
 	halt
 1:
 	mov	=(XCODE_TAKEN_AT_H), r11
 	cbeq	r7, r11, 1f
-	mov	#81, r0
+	mov	$81, r0
 	halt
 1:
 	lea	I35, r11
 	cbeq	r8, r11, 1f
-	mov	#82, r0
+	mov	$82, r0
 	halt
 1:
 	mfsr	r3, vcpuid
 	mov	=(0x1234), r11
 	cbeq	r3, r11, 1f
-	mov	#83, r0
+	mov	$83, r0
 	halt
 1:
 	; --- a vector below 32 in a field of VIVEC is refused at once (zero is "no vector"); 32 is accepted
 	mov	=0x0022232425262728, r2
 	mtsr	vivec, r2
 	mov	=(0x0022232425262728 & ~(0xff << 0) | (1 << 0)), r2
-	mov	#0, r10
+	mov	$0, r10
 	lea	R38, r4
 I37:	mtsr	vivec, r2			; vector 1 for virtual line 1
 R38:
 	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	mov	#84, r0
+	mov	$84, r0
 	halt
 1:
 	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	mov	#85, r0
+	mov	$85, r0
 	halt
 1:
 	mov	=(XCODE_TAKEN_AT_H), r11
 	cbeq	r7, r11, 1f
-	mov	#86, r0
+	mov	$86, r0
 	halt
 1:
 	lea	I37, r11
 	cbeq	r8, r11, 1f
-	mov	#87, r0
+	mov	$87, r0
 	halt
 1:
 	mfsr	r3, vivec
 	mov	=(0x0022232425262728), r11
 	cbeq	r3, r11, 1f
-	mov	#88, r0
+	mov	$88, r0
 	halt
 1:
 	mov	=0x0022232425262728, r2
 	mtsr	vivec, r2
 	mov	=(0x0022232425262728 & ~(0xff << 0) | (2 << 0)), r2
-	mov	#0, r10
+	mov	$0, r10
 	lea	R40, r4
 I39:	mtsr	vivec, r2			; vector 2 for virtual line 1
 R40:
 	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	mov	#89, r0
+	mov	$89, r0
 	halt
 1:
 	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	mov	#90, r0
+	mov	$90, r0
 	halt
 1:
 	mov	=(XCODE_TAKEN_AT_H), r11
 	cbeq	r7, r11, 1f
-	mov	#91, r0
+	mov	$91, r0
 	halt
 1:
 	lea	I39, r11
 	cbeq	r8, r11, 1f
-	mov	#92, r0
+	mov	$92, r0
 	halt
 1:
 	mfsr	r3, vivec
 	mov	=(0x0022232425262728), r11
 	cbeq	r3, r11, 1f
-	mov	#93, r0
+	mov	$93, r0
 	halt
 1:
 	mov	=0x0022232425262728, r2
 	mtsr	vivec, r2
 	mov	=(0x0022232425262728 & ~(0xff << 0) | (31 << 0)), r2
-	mov	#0, r10
+	mov	$0, r10
 	lea	R42, r4
 I41:	mtsr	vivec, r2			; vector 31 for virtual line 1
 R42:
 	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	mov	#94, r0
+	mov	$94, r0
 	halt
 1:
 	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	mov	#95, r0
+	mov	$95, r0
 	halt
 1:
 	mov	=(XCODE_TAKEN_AT_H), r11
 	cbeq	r7, r11, 1f
-	mov	#96, r0
+	mov	$96, r0
 	halt
 1:
 	lea	I41, r11
 	cbeq	r8, r11, 1f
-	mov	#97, r0
+	mov	$97, r0
 	halt
 1:
 	mfsr	r3, vivec
 	mov	=(0x0022232425262728), r11
 	cbeq	r3, r11, 1f
-	mov	#98, r0
+	mov	$98, r0
 	halt
 1:
 	mov	=0x0022232425262728, r2
 	mtsr	vivec, r2
 	mov	=(0x0022232425262728 & ~(0xff << 8) | (1 << 8)), r2
-	mov	#0, r10
+	mov	$0, r10
 	lea	R44, r4
 I43:	mtsr	vivec, r2			; vector 1 for virtual line 2
 R44:
 	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	mov	#99, r0
+	mov	$99, r0
 	halt
 1:
 	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	mov	#100, r0
+	mov	$100, r0
 	halt
 1:
 	mov	=(XCODE_TAKEN_AT_H), r11
 	cbeq	r7, r11, 1f
-	mov	#101, r0
+	mov	$101, r0
 	halt
 1:
 	lea	I43, r11
 	cbeq	r8, r11, 1f
-	mov	#102, r0
+	mov	$102, r0
 	halt
 1:
 	mfsr	r3, vivec
 	mov	=(0x0022232425262728), r11
 	cbeq	r3, r11, 1f
-	mov	#103, r0
+	mov	$103, r0
 	halt
 1:
 	mov	=0x0022232425262728, r2
 	mtsr	vivec, r2
 	mov	=(0x0022232425262728 & ~(0xff << 8) | (2 << 8)), r2
-	mov	#0, r10
+	mov	$0, r10
 	lea	R46, r4
 I45:	mtsr	vivec, r2			; vector 2 for virtual line 2
 R46:
 	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	mov	#104, r0
+	mov	$104, r0
 	halt
 1:
 	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	mov	#105, r0
+	mov	$105, r0
 	halt
 1:
 	mov	=(XCODE_TAKEN_AT_H), r11
 	cbeq	r7, r11, 1f
-	mov	#106, r0
+	mov	$106, r0
 	halt
 1:
 	lea	I45, r11
 	cbeq	r8, r11, 1f
-	mov	#107, r0
+	mov	$107, r0
 	halt
 1:
 	mfsr	r3, vivec
 	mov	=(0x0022232425262728), r11
 	cbeq	r3, r11, 1f
-	mov	#108, r0
+	mov	$108, r0
 	halt
 1:
 	mov	=0x0022232425262728, r2
 	mtsr	vivec, r2
 	mov	=(0x0022232425262728 & ~(0xff << 8) | (31 << 8)), r2
-	mov	#0, r10
+	mov	$0, r10
 	lea	R48, r4
 I47:	mtsr	vivec, r2			; vector 31 for virtual line 2
 R48:
 	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	mov	#109, r0
+	mov	$109, r0
 	halt
 1:
 	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	mov	#110, r0
+	mov	$110, r0
 	halt
 1:
 	mov	=(XCODE_TAKEN_AT_H), r11
 	cbeq	r7, r11, 1f
-	mov	#111, r0
+	mov	$111, r0
 	halt
 1:
 	lea	I47, r11
 	cbeq	r8, r11, 1f
-	mov	#112, r0
+	mov	$112, r0
 	halt
 1:
 	mfsr	r3, vivec
 	mov	=(0x0022232425262728), r11
 	cbeq	r3, r11, 1f
-	mov	#113, r0
+	mov	$113, r0
 	halt
 1:
 	mov	=0x0022232425262728, r2
 	mtsr	vivec, r2
 	mov	=(0x0022232425262728 & ~(0xff << 16) | (1 << 16)), r2
-	mov	#0, r10
+	mov	$0, r10
 	lea	R50, r4
 I49:	mtsr	vivec, r2			; vector 1 for virtual line 3
 R50:
 	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	mov	#114, r0
+	mov	$114, r0
 	halt
 1:
 	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	mov	#115, r0
+	mov	$115, r0
 	halt
 1:
 	mov	=(XCODE_TAKEN_AT_H), r11
 	cbeq	r7, r11, 1f
-	mov	#116, r0
+	mov	$116, r0
 	halt
 1:
 	lea	I49, r11
 	cbeq	r8, r11, 1f
-	mov	#117, r0
+	mov	$117, r0
 	halt
 1:
 	mfsr	r3, vivec
 	mov	=(0x0022232425262728), r11
 	cbeq	r3, r11, 1f
-	mov	#118, r0
+	mov	$118, r0
 	halt
 1:
 	mov	=0x0022232425262728, r2
 	mtsr	vivec, r2
 	mov	=(0x0022232425262728 & ~(0xff << 16) | (2 << 16)), r2
-	mov	#0, r10
+	mov	$0, r10
 	lea	R52, r4
 I51:	mtsr	vivec, r2			; vector 2 for virtual line 3
 R52:
 	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	mov	#119, r0
+	mov	$119, r0
 	halt
 1:
 	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	mov	#120, r0
+	mov	$120, r0
 	halt
 1:
 	mov	=(XCODE_TAKEN_AT_H), r11
 	cbeq	r7, r11, 1f
-	mov	#121, r0
+	mov	$121, r0
 	halt
 1:
 	lea	I51, r11
 	cbeq	r8, r11, 1f
-	mov	#122, r0
+	mov	$122, r0
 	halt
 1:
 	mfsr	r3, vivec
 	mov	=(0x0022232425262728), r11
 	cbeq	r3, r11, 1f
-	mov	#123, r0
+	mov	$123, r0
 	halt
 1:
 	mov	=0x0022232425262728, r2
 	mtsr	vivec, r2
 	mov	=(0x0022232425262728 & ~(0xff << 16) | (31 << 16)), r2
-	mov	#0, r10
+	mov	$0, r10
 	lea	R54, r4
 I53:	mtsr	vivec, r2			; vector 31 for virtual line 3
 R54:
 	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	mov	#124, r0
+	mov	$124, r0
 	halt
 1:
 	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	mov	#125, r0
+	mov	$125, r0
 	halt
 1:
 	mov	=(XCODE_TAKEN_AT_H), r11
 	cbeq	r7, r11, 1f
-	mov	#126, r0
+	mov	$126, r0
 	halt
 1:
 	lea	I53, r11
 	cbeq	r8, r11, 1f
-	mov	#127, r0
+	mov	$127, r0
 	halt
 1:
 	mfsr	r3, vivec
 	mov	=(0x0022232425262728), r11
 	cbeq	r3, r11, 1f
-	mov	#128, r0
+	mov	$128, r0
 	halt
 1:
 	mov	=0x0022232425262728, r2
 	mtsr	vivec, r2
 	mov	=(0x0022232425262728 & ~(0xff << 24) | (1 << 24)), r2
-	mov	#0, r10
+	mov	$0, r10
 	lea	R56, r4
 I55:	mtsr	vivec, r2			; vector 1 for virtual line 4
 R56:
 	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	mov	#129, r0
+	mov	$129, r0
 	halt
 1:
 	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	mov	#130, r0
+	mov	$130, r0
 	halt
 1:
 	mov	=(XCODE_TAKEN_AT_H), r11
 	cbeq	r7, r11, 1f
-	mov	#131, r0
+	mov	$131, r0
 	halt
 1:
 	lea	I55, r11
 	cbeq	r8, r11, 1f
-	mov	#132, r0
+	mov	$132, r0
 	halt
 1:
 	mfsr	r3, vivec
 	mov	=(0x0022232425262728), r11
 	cbeq	r3, r11, 1f
-	mov	#133, r0
+	mov	$133, r0
 	halt
 1:
 	mov	=0x0022232425262728, r2
 	mtsr	vivec, r2
 	mov	=(0x0022232425262728 & ~(0xff << 24) | (2 << 24)), r2
-	mov	#0, r10
+	mov	$0, r10
 	lea	R58, r4
 I57:	mtsr	vivec, r2			; vector 2 for virtual line 4
 R58:
 	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	mov	#134, r0
+	mov	$134, r0
 	halt
 1:
 	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	mov	#135, r0
+	mov	$135, r0
 	halt
 1:
 	mov	=(XCODE_TAKEN_AT_H), r11
 	cbeq	r7, r11, 1f
-	mov	#136, r0
+	mov	$136, r0
 	halt
 1:
 	lea	I57, r11
 	cbeq	r8, r11, 1f
-	mov	#137, r0
+	mov	$137, r0
 	halt
 1:
 	mfsr	r3, vivec
 	mov	=(0x0022232425262728), r11
 	cbeq	r3, r11, 1f
-	mov	#138, r0
+	mov	$138, r0
 	halt
 1:
 	mov	=0x0022232425262728, r2
 	mtsr	vivec, r2
 	mov	=(0x0022232425262728 & ~(0xff << 24) | (31 << 24)), r2
-	mov	#0, r10
+	mov	$0, r10
 	lea	R60, r4
 I59:	mtsr	vivec, r2			; vector 31 for virtual line 4
 R60:
 	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	mov	#139, r0
+	mov	$139, r0
 	halt
 1:
 	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	mov	#140, r0
+	mov	$140, r0
 	halt
 1:
 	mov	=(XCODE_TAKEN_AT_H), r11
 	cbeq	r7, r11, 1f
-	mov	#141, r0
+	mov	$141, r0
 	halt
 1:
 	lea	I59, r11
 	cbeq	r8, r11, 1f
-	mov	#142, r0
+	mov	$142, r0
 	halt
 1:
 	mfsr	r3, vivec
 	mov	=(0x0022232425262728), r11
 	cbeq	r3, r11, 1f
-	mov	#143, r0
+	mov	$143, r0
 	halt
 1:
 	mov	=0x0022232425262728, r2
 	mtsr	vivec, r2
 	mov	=(0x0022232425262728 & ~(0xff << 32) | (1 << 32)), r2
-	mov	#0, r10
+	mov	$0, r10
 	lea	R62, r4
 I61:	mtsr	vivec, r2			; vector 1 for virtual line 5
 R62:
 	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	mov	#144, r0
+	mov	$144, r0
 	halt
 1:
 	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	mov	#145, r0
+	mov	$145, r0
 	halt
 1:
 	mov	=(XCODE_TAKEN_AT_H), r11
 	cbeq	r7, r11, 1f
-	mov	#146, r0
+	mov	$146, r0
 	halt
 1:
 	lea	I61, r11
 	cbeq	r8, r11, 1f
-	mov	#147, r0
+	mov	$147, r0
 	halt
 1:
 	mfsr	r3, vivec
 	mov	=(0x0022232425262728), r11
 	cbeq	r3, r11, 1f
-	mov	#148, r0
+	mov	$148, r0
 	halt
 1:
 	mov	=0x0022232425262728, r2
 	mtsr	vivec, r2
 	mov	=(0x0022232425262728 & ~(0xff << 32) | (2 << 32)), r2
-	mov	#0, r10
+	mov	$0, r10
 	lea	R64, r4
 I63:	mtsr	vivec, r2			; vector 2 for virtual line 5
 R64:
 	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	mov	#149, r0
+	mov	$149, r0
 	halt
 1:
 	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	mov	#150, r0
+	mov	$150, r0
 	halt
 1:
 	mov	=(XCODE_TAKEN_AT_H), r11
 	cbeq	r7, r11, 1f
-	mov	#151, r0
+	mov	$151, r0
 	halt
 1:
 	lea	I63, r11
 	cbeq	r8, r11, 1f
-	mov	#152, r0
+	mov	$152, r0
 	halt
 1:
 	mfsr	r3, vivec
 	mov	=(0x0022232425262728), r11
 	cbeq	r3, r11, 1f
-	mov	#153, r0
+	mov	$153, r0
 	halt
 1:
 	mov	=0x0022232425262728, r2
 	mtsr	vivec, r2
 	mov	=(0x0022232425262728 & ~(0xff << 32) | (31 << 32)), r2
-	mov	#0, r10
+	mov	$0, r10
 	lea	R66, r4
 I65:	mtsr	vivec, r2			; vector 31 for virtual line 5
 R66:
 	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	mov	#154, r0
+	mov	$154, r0
 	halt
 1:
 	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	mov	#155, r0
+	mov	$155, r0
 	halt
 1:
 	mov	=(XCODE_TAKEN_AT_H), r11
 	cbeq	r7, r11, 1f
-	mov	#156, r0
+	mov	$156, r0
 	halt
 1:
 	lea	I65, r11
 	cbeq	r8, r11, 1f
-	mov	#157, r0
+	mov	$157, r0
 	halt
 1:
 	mfsr	r3, vivec
 	mov	=(0x0022232425262728), r11
 	cbeq	r3, r11, 1f
-	mov	#158, r0
+	mov	$158, r0
 	halt
 1:
 	mov	=0x0022232425262728, r2
 	mtsr	vivec, r2
 	mov	=(0x0022232425262728 & ~(0xff << 40) | (1 << 40)), r2
-	mov	#0, r10
+	mov	$0, r10
 	lea	R68, r4
 I67:	mtsr	vivec, r2			; vector 1 for virtual line 6
 R68:
 	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	mov	#159, r0
+	mov	$159, r0
 	halt
 1:
 	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	mov	#160, r0
+	mov	$160, r0
 	halt
 1:
 	mov	=(XCODE_TAKEN_AT_H), r11
 	cbeq	r7, r11, 1f
-	mov	#161, r0
+	mov	$161, r0
 	halt
 1:
 	lea	I67, r11
 	cbeq	r8, r11, 1f
-	mov	#162, r0
+	mov	$162, r0
 	halt
 1:
 	mfsr	r3, vivec
 	mov	=(0x0022232425262728), r11
 	cbeq	r3, r11, 1f
-	mov	#163, r0
+	mov	$163, r0
 	halt
 1:
 	mov	=0x0022232425262728, r2
 	mtsr	vivec, r2
 	mov	=(0x0022232425262728 & ~(0xff << 40) | (2 << 40)), r2
-	mov	#0, r10
+	mov	$0, r10
 	lea	R70, r4
 I69:	mtsr	vivec, r2			; vector 2 for virtual line 6
 R70:
 	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	mov	#164, r0
+	mov	$164, r0
 	halt
 1:
 	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	mov	#165, r0
+	mov	$165, r0
 	halt
 1:
 	mov	=(XCODE_TAKEN_AT_H), r11
 	cbeq	r7, r11, 1f
-	mov	#166, r0
+	mov	$166, r0
 	halt
 1:
 	lea	I69, r11
 	cbeq	r8, r11, 1f
-	mov	#167, r0
+	mov	$167, r0
 	halt
 1:
 	mfsr	r3, vivec
 	mov	=(0x0022232425262728), r11
 	cbeq	r3, r11, 1f
-	mov	#168, r0
+	mov	$168, r0
 	halt
 1:
 	mov	=0x0022232425262728, r2
 	mtsr	vivec, r2
 	mov	=(0x0022232425262728 & ~(0xff << 40) | (31 << 40)), r2
-	mov	#0, r10
+	mov	$0, r10
 	lea	R72, r4
 I71:	mtsr	vivec, r2			; vector 31 for virtual line 6
 R72:
 	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	mov	#169, r0
+	mov	$169, r0
 	halt
 1:
 	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	mov	#170, r0
+	mov	$170, r0
 	halt
 1:
 	mov	=(XCODE_TAKEN_AT_H), r11
 	cbeq	r7, r11, 1f
-	mov	#171, r0
+	mov	$171, r0
 	halt
 1:
 	lea	I71, r11
 	cbeq	r8, r11, 1f
-	mov	#172, r0
+	mov	$172, r0
 	halt
 1:
 	mfsr	r3, vivec
 	mov	=(0x0022232425262728), r11
 	cbeq	r3, r11, 1f
-	mov	#173, r0
+	mov	$173, r0
 	halt
 1:
 	mov	=0x0022232425262728, r2
 	mtsr	vivec, r2
 	mov	=(0x0022232425262728 & ~(0xff << 48) | (1 << 48)), r2
-	mov	#0, r10
+	mov	$0, r10
 	lea	R74, r4
 I73:	mtsr	vivec, r2			; vector 1 for virtual line 7
 R74:
 	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	mov	#174, r0
+	mov	$174, r0
 	halt
 1:
 	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	mov	#175, r0
+	mov	$175, r0
 	halt
 1:
 	mov	=(XCODE_TAKEN_AT_H), r11
 	cbeq	r7, r11, 1f
-	mov	#176, r0
+	mov	$176, r0
 	halt
 1:
 	lea	I73, r11
 	cbeq	r8, r11, 1f
-	mov	#177, r0
+	mov	$177, r0
 	halt
 1:
 	mfsr	r3, vivec
 	mov	=(0x0022232425262728), r11
 	cbeq	r3, r11, 1f
-	mov	#178, r0
+	mov	$178, r0
 	halt
 1:
 	mov	=0x0022232425262728, r2
 	mtsr	vivec, r2
 	mov	=(0x0022232425262728 & ~(0xff << 48) | (2 << 48)), r2
-	mov	#0, r10
+	mov	$0, r10
 	lea	R76, r4
 I75:	mtsr	vivec, r2			; vector 2 for virtual line 7
 R76:
 	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	mov	#179, r0
+	mov	$179, r0
 	halt
 1:
 	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	mov	#180, r0
+	mov	$180, r0
 	halt
 1:
 	mov	=(XCODE_TAKEN_AT_H), r11
 	cbeq	r7, r11, 1f
-	mov	#181, r0
+	mov	$181, r0
 	halt
 1:
 	lea	I75, r11
 	cbeq	r8, r11, 1f
-	mov	#182, r0
+	mov	$182, r0
 	halt
 1:
 	mfsr	r3, vivec
 	mov	=(0x0022232425262728), r11
 	cbeq	r3, r11, 1f
-	mov	#183, r0
+	mov	$183, r0
 	halt
 1:
 	mov	=0x0022232425262728, r2
 	mtsr	vivec, r2
 	mov	=(0x0022232425262728 & ~(0xff << 48) | (31 << 48)), r2
-	mov	#0, r10
+	mov	$0, r10
 	lea	R78, r4
 I77:	mtsr	vivec, r2			; vector 31 for virtual line 7
 R78:
 	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	mov	#184, r0
+	mov	$184, r0
 	halt
 1:
 	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	mov	#185, r0
+	mov	$185, r0
 	halt
 1:
 	mov	=(XCODE_TAKEN_AT_H), r11
 	cbeq	r7, r11, 1f
-	mov	#186, r0
+	mov	$186, r0
 	halt
 1:
 	lea	I77, r11
 	cbeq	r8, r11, 1f
-	mov	#187, r0
+	mov	$187, r0
 	halt
 1:
 	mfsr	r3, vivec
 	mov	=(0x0022232425262728), r11
 	cbeq	r3, r11, 1f
-	mov	#188, r0
+	mov	$188, r0
 	halt
 1:
 	mov	=0x0020202020202020, r2
@@ -1260,7 +1260,7 @@ R78:
 	mfsr	r3, vivec
 	mov	=(0x0020202020202020), r11
 	cbeq	r3, r11, 1f
-	mov	#189, r0
+	mov	$189, r0
 	halt
 1:
 	mov	=0x0000000000000020, r2
@@ -1268,7 +1268,7 @@ R78:
 	mfsr	r3, vivec
 	mov	=(0x0000000000000020), r11
 	cbeq	r3, r11, 1f
-	mov	#190, r0
+	mov	$190, r0
 	halt
 1:
 	mov	=0, r2
@@ -1276,17 +1276,17 @@ R78:
 	mfsr	r3, vivec
 	mov	=(0), r11
 	cbeq	r3, r11, 1f
-	mov	#191, r0
+	mov	$191, r0
 	halt
 1:
-	mov	#0, r0
+	mov	$0, r0
 	halt
 h_ill:	mfsr	r6, hcause
 	mfsr	r7, hexitr
 	mfsr	r8, hepc
-	add	#1, r10
+	add	$1, r10
 	mtsr	hepc, r4
-	rti	#RTIMASK_ALL
+	rti	$RTIMASK_ALL
 	.data
 	.align	8
 htab:	.space	4096

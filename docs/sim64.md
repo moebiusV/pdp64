@@ -68,7 +68,7 @@ take a 32-bit mask; r16 to r31 exist. A word that is in the tables but not in th
 
 ## System interface (a stand-in for an operating system)
 
-`trap #n`, arguments in `r0`..`r2`: `0` exit (status `r0`), `1` write(fd `r0`, buffer `r1`, length `r2`; count returned in `r0`), `2` read (same
+`trap $n`, arguments in `r0`..`r2`: `0` exit (status `r0`), `1` write(fd `r0`, buffer `r1`, length `r2`; count returned in `r0`), `2` read (same
 registers). `halt` stops with the status in `r0`. The emulator's exit status is the program's. A fault (misaligned data, unmapped address,
 unimplemented instruction, divide by zero) prints a message and the registers and exits with 139.
 

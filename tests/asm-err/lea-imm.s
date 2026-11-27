@@ -1,2 +1,2 @@
 	.text
-	lea #5,r1
+	lea $5,r1

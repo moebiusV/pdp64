@@ -45,8 +45,8 @@ class Gen:
         self.n += 1
         if k == 'R': return self.reg(s)
         if k == 'V': return '%s%d' % (s['cls'], self.n % (1 << s['w']))
-        if k == 'K': return '#0'
-        if k == 'I': return '#%d' % (s['scale'] if s['scale'] > 1 else 1)
+        if k == 'K': return '$0'
+        if k == 'I': return '$%d' % (s['scale'] if s['scale'] > 1 else 1)
         if k == 'B':
             sc = SIZE.get(mn.split('.')[0], 1) if s['scale'] == 'sz' else s['scale']
             d = 0 if not s['dw'] else sc

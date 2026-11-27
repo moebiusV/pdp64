@@ -79,7 +79,7 @@ Code space (fraction of first-parcel patterns), 5.0% free, 3,277 patterns (3,283
 | register-register (24 mnemonics: 7 moves, 15 ALU incl. `bit`, `cmp`, `fcmp`) | 1 | 24 | 0.0938 | 4 or 5-bit prefix, `rs=p0[7:4]`, `rd=p0[3:0]` |
 | compare-with-zero and branch, 1 parcel (`cbeq`, `cbne`; 6/5/4-bit parcel offset) | 3 | 6 | 0.1094 | prefix, `disp=p0[10:4]`, `r=p0[3:0]` |
 | compare-with-immediate and branch, 2 parcels (several widths) | ~19 | ~60 | ~0.25 | `r=p0[3:0]`, `imm=p0[7:4]+p1[15:12]` (8-bit), `disp=p1[11:0]` etc. |
-| `movq #imm,r`, `add/sub/and #imm`, shifts, 1 parcel | 8 | 21 | 0.11 | imm 3 to 7 bits at `p0[10:4]`, `r=p0[3:0]` |
+| `movq $imm,r`, `add/sub/and $imm`, shifts, 1 parcel | 8 | 21 | 0.11 | imm 3 to 7 bits at `p0[10:4]`, `r=p0[3:0]` |
 | hot-register load/store with 1-3-bit scaled offset (3-bit register fields) | 6 | 18 | 0.07 | `d=p0[8:6]`, `base=p0[5:3]`, `r=p0[2:0]` |
 | `sp`-relative 4/5/6-bit scaled offset, `lea sp` | 7 | 16 | 0.07 | `d=p0[8:4]`, `r=p0[3:0]` |
 | short branch (6-9 bit parcel offset) | 7 | 21 | 0.04 | `disp=p0[5:0]..[8:0]` |
@@ -88,24 +88,24 @@ Code space (fraction of first-parcel patterns), 5.0% free, 3,277 patterns (3,283
 | 2-parcel PC-relative / absolute / immediate, `call`, `br` with 12-28 bit field | ~60 | ~160 | 0.02 | `field=p1[15:0]` (+ `p0[3:0]` for the widest) |
 | rare groups `R2` (68 mnemonics), `R3` (52), `R4` (16), `RRI` (4), `BFx`, `BFy`, `SYS0` (36), `SYSR`, `SYSI` (8-bit `trap`/`trapl`/`spl`/`hint` merged), `MFSR`/`MTSR` (12-bit register number) | | | 0.03 | `r*` in `p0[7:0]` and `p1`, sub-opcode field `x` |
 | 3-parcel fallbacks (28-bit displacement, 22-bit index, 32-bit PC/abs/imm, `call`/`br` 32-bit parcel offset, `push`/`pushm` 32-bit) | ~20 | ~250 | 0.04 | everything fits, every instruction has one |
-| `MOVQL #imm64,rd` | 1 | 1 | 2^-12 | 5 parcels: `rd=p0[3:0]`, `imm=p1..p4` (10 bytes) |
+| `MOVQL $imm64,rd` | 1 | 1 | 2^-12 | 5 parcels: `rd=p0[3:0]`, `imm=p1..p4` (10 bytes) |
 | user-qualified `.u`, deferred `.d`/`.ud` loads, `.u` stores (base and index modes) | 6 | 63 | 0.01 | |
 
 Free: 5.0% of first-parcel space unassigned, plus unused sub-opcodes in the rare groups (`R2` has 68 of 4,096, `R3` 52 of 256, `R4` exactly 16 of 16 — **no spare sub-opcode in `R4`**; widen it before adding a fused multiply-add or a fourth `BSEL` variant).
 
 ### 3.2 What is assigned where, for the instructions the author named
 
-Every mnemonic/shape of the assembler probe set (`layouts/probe.json`, 234 words, 1,873 source lines) is encoded except 113 lines of 22 shapes, all meaningless combinations that today's encoder accepts and this one refuses (a result, not a loss): `clr/com/inc/dec/neg/tst/adc/sbc/asl/asr/jmp/call/pop/jmpi/calli #imm` (store to or jump through an immediate), `movq/movl/movw/movb r,#imm`, `lea #imm,r`, `sob r,#imm` (probe artefact) and `trapl r` (probe artefact; `TRAPL #n` is the 8-bit `SYSI`). `push #imm` is kept (meaningful, 2 or 3 parcels).
+Every mnemonic/shape of the assembler probe set (`layouts/probe.json`, 234 words, 1,873 source lines) is encoded except 113 lines of 22 shapes, all meaningless combinations that today's encoder accepts and this one refuses (a result, not a loss): `clr/com/inc/dec/neg/tst/adc/sbc/asl/asr/jmp/call/pop/jmpi/calli $imm` (store to or jump through an immediate), `movq/movl/movw/movb r,$imm`, `lea $imm,r`, `sob r,$imm` (probe artefact) and `trapl r` (probe artefact; `TRAPL $n` is the 8-bit `SYSI`). `push $imm` is kept (meaningful, 2 or 3 parcels).
 
 | item | encoding |
 |---|---|
 | 22 ATOM words | `R3` (3-register; `xadd`... `ll`, `sc`) and `R4` (`cas`, `casdb`): operand placement assumed three or four registers, the memory address in a register, because the author's own text says the placement is not yet fixed |
 | 8 MESC words (`movub/uw/ul/uq`, `addm/subm/bicm/bism`) | in the ordinary memory families (load list and store list), so they get all modes and all widths, not the 8-bit disp of today |
 | `TRAPL` | `SYSI`, 8-bit vector, 2 bytes (the `TRAP`/`TRAPL` split disappears) |
-| `MASKEQZ`, `MASKNEZ`, `AES*`, `SHA*`, `MSHA*`, `MAESCTR`, `BSEL` | `R2`/`R3`/`R4`/`RRI` (`AESKS1 rs,#n,rd` is `RRI`) |
+| `MASKEQZ`, `MASKNEZ`, `AES*`, `SHA*`, `MSHA*`, `MAESCTR`, `BSEL` | `R2`/`R3`/`R4`/`RRI` (`AESKS1 rs,$n,rd` is `RRI`) |
 | `TRAPCC` | 14 mnemonics `trapcc.<cond>` in `SYS0`, 2 bytes, no operand (handler vector fixed by the architecture; if it needs a vector, `SYSI`) |
 | `ADDV`/`SUBV`/`MULV` | `R2` (register-register only; no immediate or memory form) |
-| `MOVQL #imm64` | 5 parcels (10 bytes): the 64-bit literal counted inside the instruction here, so the fetch rule is "length known from parcel 0" without a "trailing literal" exception |
+| `MOVQL $imm64` | 5 parcels (10 bytes): the 64-bit literal counted inside the instruction here, so the fetch rule is "length known from parcel 0" without a "trailing literal" exception |
 | `.U`, deferred loads | base and index modes only; other modes need a base register (`lea`) |
 | landing pad, SYS page bit | `lpad` in `SYS0`; six `syspgN` placeholders |
 
@@ -149,9 +149,9 @@ Today's encoding: 1,083,870 bytes (16-register corpus, 3.204 B/instruction, 338,
 
 (With the earlier `fit/` layouts for comparison: the best flat layout was +0.17% to +1.3% over today's.)
 
-**Outlier warning.** One file, `gcc-src_gcc_testsuite_gcc.c-torture_execute_memcpy-a2.c.s`, has 6,144 compare-immediate-and-branch instructions (`cbCC rN,#170` x4,096 and `#88` x2,048) and is **298,034 bytes = 27.5% of today's total**. Re-training and re-measuring without it (`outlier.py`): A16 -5.94% (739,122 vs 785,836 on the remaining 840 files; with the file kept in the measurement the scheme trained without it is still -6.18%); A32 -2.51% vs today's 16-register encoding on the remaining files (766,122 vs 785,836), +3.65% vs A16. So the conclusions hold; the headline is 0.5 point flattered by one synthetic file.
+**Outlier warning.** One file, `gcc-src_gcc_testsuite_gcc.c-torture_execute_memcpy-a2.c.s`, has 6,144 compare-immediate-and-branch instructions (`cbCC rN,$170` x4,096 and `$88` x2,048) and is **298,034 bytes = 27.5% of today's total**. Re-training and re-measuring without it (`outlier.py`): A16 -5.94% (739,122 vs 785,836 on the remaining 840 files; with the file kept in the measurement the scheme trained without it is still -6.18%); A32 -2.51% vs today's 16-register encoding on the remaining files (766,122 vs 785,836), +3.65% vs A16. So the conclusions hold; the headline is 0.5 point flattered by one synthetic file.
 
-Where A16's saving comes from (bytes against today, per class): `cbCC rN,#imm,label` -38,410 (27,931 sites: widths chosen from the measured distributions instead of 5-bit-immediate/11-bit-offset), `movq #imm,r` -10,618, `lea d(r),r` -4,970, `call` -3,790 (a 6-byte external stays 6 bytes), 1-parcel `shr/shl #n` -1,834, `br` -1,802, loads and stores -900 to -1,400 each. The classes that **grow** (all small): conditional branches `bcc blt bcs bhi blos bge ble` +4 to +110 bytes each (their 1-parcel slots are given up to bigger families; 6-bit parcel offset), `movw d(r),r` +34, `bis #imm,r` +26, `add (rn)(rx),r` +20, `sub d(r),r` +16. In A32 the classes that grow are the register-register ones: `movq r,r` +3,872 (3.8% of the 50,518 moves involve a register outside the 16 hot ones and need 4 bytes), `movl d(r),r` +2,378, `xor r,r` +1,312, `add r,r` +1,036.
+Where A16's saving comes from (bytes against today, per class): `cbCC rN,$imm,label` -38,410 (27,931 sites: widths chosen from the measured distributions instead of 5-bit-immediate/11-bit-offset), `movq $imm,r` -10,618, `lea d(r),r` -4,970, `call` -3,790 (a 6-byte external stays 6 bytes), 1-parcel `shr/shl $n` -1,834, `br` -1,802, loads and stores -900 to -1,400 each. The classes that **grow** (all small): conditional branches `bcc blt bcs bhi blos bge ble` +4 to +110 bytes each (their 1-parcel slots are given up to bigger families; 6-bit parcel offset), `movw d(r),r` +34, `bis $imm,r` +26, `add (rn)(rx),r` +20, `sub d(r),r` +16. In A32 the classes that grow are the register-register ones: `movq r,r` +3,872 (3.8% of the 50,518 moves involve a register outside the 16 hot ones and need 4 bytes), `movl d(r),r` +2,378, `xor r,r` +1,312, `add r,r` +1,036.
 
 ### 6.2 Dynamic: bytes fetched per executed instruction (six programs, 755.8 M executed instructions)
 
@@ -198,7 +198,7 @@ B16 and C16 give 2.754 and 2.743, but they were trained on the very profile they
 | none (A16) | 1,013,598 | | 2.822 | |
 | 3-bit hot-register one-parcel `d(rn)` load/store | 1,029,886 | +1.6% | 2.879 | +2.0% |
 | one-parcel `sp`-relative and `lea sp` | 1,035,244 | +2.1% | 2.888 | +2.3% |
-| one-parcel immediates (`movq`, add/sub/and, shifts), `pushm8`, `add #8n,sp` | 1,078,820 | **+6.4%** | 2.982 | +5.7% |
+| one-parcel immediates (`movq`, add/sub/and, shifts), `pushm8`, `add $8n,sp` | 1,078,820 | **+6.4%** | 2.982 | +5.7% |
 | compare-with-zero-and-branch forms | 1,026,908 | +1.3% | 2.870 | +1.7% |
 | compare-with-immediate-and-branch forms (falls to `cmp`+`bcc`) | 1,041,020 | +2.7% | 3.273 | **+16.0%** |
 | both of those | 1,056,260 | +4.2% | 3.321 | +17.7% |
@@ -216,11 +216,11 @@ Fusion (static, A-style objective, round trip verified in each case):
 | fused pair | pairs fused (A16) | 16 registers | 32 registers |
 |---|---|---|---|
 | none | | 1,013,598 | 1,040,280 |
-| `popm #mask ; ret` as `popmret`, `pop r ; ret` as `popret` | 4,862 | 1,004,010 (-0.95%) | 1,029,902 (-1.00%) |
+| `popm $mask ; ret` as `popmret`, `pop r ; ret` as `popret` | 4,862 | 1,004,010 (-0.95%) | 1,029,902 (-1.00%) |
 | `movq r,r ; call` as `movcall` (4 or 6 bytes; the call keeps its reach) | 11,123 | 991,436 (-2.19%) | 1,015,454 (-2.39%) |
 | `movq r,r ; movq r,r` as `mov2` (four 3-bit hot registers, 1 parcel, 2^-4 of code space) | 6,742 | 1,007,370 (-0.61%) | 1,035,104 (-0.50%) |
 | all four | 20,428 | 980,288 (-3.29%) | 1,007,172 (-3.18%) |
-| evaluated, **not built**: `movq #imm,r ; call` 3,799, `clr r ; br` 3,290, `movq #imm,r ; br` 2,872, `lea d(rn),r ; call` 2,259, `movq r,r ; br` 1,116 | up to 2 bytes each: 13,336 sites, at most 26,672 bytes (2.5%) | | |
+| evaluated, **not built**: `movq $imm,r ; call` 3,799, `clr r ; br` 3,290, `movq $imm,r ; br` 2,872, `lea d(rn),r ; call` 2,259, `movq r,r ; br` 1,116 | up to 2 bytes each: 13,336 sites, at most 26,672 bytes (2.5%) | | |
 
 32-register ablations (A32 = 1,040,280): no 4-bit hot tables (5-bit everywhere) 1,079,408 (+3.8%); no 3-bit hot one-parcel `d(rn)` 1,052,590 (+1.2%); no one-parcel immediates/shifts/`pushm` 1,094,036 (+5.2%); no compare-and-branch immediates/zero 1,064,776 (+2.4%); no 4-bit hot variants in the two-parcel families 1,032,144 (**-0.8%**, i.e. the optimiser is noisy at that level: the same scheme family with a different candidate set is better); a 5-bit one-parcel register-register form for 8 mnemonics (A32r) 1,039,442 static, **2.879 dynamic against 2.980**.
 
@@ -243,7 +243,7 @@ Levers examined and not built or found not worth it: trailing literals (earlier 
 2. **Fused instructions** (`movcall`, `popmret`, `popret`, `mov2`): -3.3% size, -1.1% executed instructions; each is a two-µop instruction; a fault in the second part restarts the whole instruction, which is idempotent for `movcall`/`mov2`/`popret`/`popmret` (the first part reads registers it does not change; `popm` is already specified restartable). Costs: new mnemonics, `mov2` uses 2^-4 of the code space and only 8 registers, and one instruction writes two registers (OoO rename width).
 3. **The hot-register tables** (section 6.4) and whether the ABI should be shaped so that the 8 (or 16) hottest are the arguments, the scratch and `sp`.
 4. **Linker relaxation of external references**: worth 6.9% in both encodings; the encoding is ready for it.
-5. **Refusing `SOP #imm`, `mov r,#imm`, `lea #imm`** (22 shapes the assembler currently accepts).
+5. **Refusing `SOP $imm`, `mov r,$imm`, `lea $imm`** (22 shapes the assembler currently accepts).
 6. **ATOM operand placement** and the shape of `TRAPCC`.
 7. **5% of code space left unassigned** (3,277 patterns); the ablation shows spending it is worth only 0.1%.
 8. **32 registers**: see below.
@@ -311,9 +311,9 @@ The executed `cbCC` of the six programs are 10.5% of the instructions (67.7 M, 3
   if both registers are in the 16-entry hot table, in pdp64/32), the immediate and the pc field. A leaf takes 2^-(32-bits of operands) of the first parcels, so one more bit of register field halves the (immediate, pc) combinations a
   given share of the code space buys, and in pdp64/32 every combination exists twice (hot and any register) when it is wanted for both. The optimiser spent the same 95% budget; the loads, stores and moves of
   pdp64/32 won it from the `cbCC`, 9.4% of the space against 29.5%. The widest immediate of a pdp64/32 `cbCC` was 12 bits (`cbeq`, `cbne`, class `c` and the signed comparisons only with an 8-bit pc field), of a pdp64/16 `cbCC` 16 bits for `cbeq` and `cbne` alone; the wide
-  error-code constants of `mbedtls` and `zlib` (`cbne r,#16640`) are the 682 of the 866 (284 of the 328). It is the immediate, not the distance: 58% of the 866 (29% of the 328) are within 256 bytes.
-* **What the old numbers were.** The 38.8 M extra executed instructions of Lua in section 5 of the phase-2 report (68 static sites in a chain of `cbeq r0,#N,far`) are gone with the new compiler's switch dispatch by halves: 6.1 M
-  executed pairs remain in Lua under the old grammar, 3.96 M in pdp64/16. They come from one function, `luaV_execute`: `cbhi r0,#41,L` ... a binary search on the opcode whose targets are the handlers, far inside a large function, one site
+  error-code constants of `mbedtls` and `zlib` (`cbne r,$16640`) are the 682 of the 866 (284 of the 328). It is the immediate, not the distance: 58% of the 866 (29% of the 328) are within 256 bytes.
+* **What the old numbers were.** The 38.8 M extra executed instructions of Lua in section 5 of the phase-2 report (68 static sites in a chain of `cbeq r0,$N,far`) are gone with the new compiler's switch dispatch by halves: 6.1 M
+  executed pairs remain in Lua under the old grammar, 3.96 M in pdp64/16. They come from one function, `luaV_execute`: `cbhi r0,$41,L` ... a binary search on the opcode whose targets are the handlers, far inside a large function, one site
   executed 2.05 M times. The class-`c` conditions (`cbhi`, `cbcs`...) with an immediate of 7 bits or more had an 8-bit pc field (+-256 bytes) in the old pdp64/32, and the `cbeq` chain beyond +-4 KB had none.
 * **The model's 99-byte credit.** `solve.py` credited a `cbCC` form with the difference between 99 bytes and its own size for each site the form made encodable: a `cbCC` that no form reached counted as "unencodable". The real
   cost is what `as64` does: `cmp` (2 to 4 bytes) + `bCC` (2 to 4), the same bytes as a two-parcel `cbCC`, plus an executed instruction and the flags. Priced that way (below) the byte objective *gives away* reach: the same corpus
@@ -375,7 +375,7 @@ Static, 841 files, instruction bytes (`as64 --stats`):
 | pdp64/16 | 951,144 | **944,600** | -0.69%; substituted `cbCC` 328 -> 4 |
 | pdp64/32 | 985,082 | **976,000** | -0.92%; 866 -> 17 |
 | pdp64/32 over pdp64/16 | +3.57% | **+3.32%** | |
-| ... without the outlier file `memcpy-a2.c` (27% of the bytes, 6,144 `cbCC rN,#170/#88`) | 723,894 vs 693,028 = +4.45% | 717,884 vs 686,484 = **+4.57%** | |
+| ... without the outlier file `memcpy-a2.c` (27% of the bytes, 6,144 `cbCC rN,$170/$88`) | 723,894 vs 693,028 = +4.45% | 717,884 vs 686,484 = **+4.57%** | |
 | the 16-register code assembled as pdp64/32 (identical compiler output, only the register fields differ) | 993,680 (+4.47%) | **984,554 (+4.23%)** | |
 
 Six programs (`sim64 -P`, all code: crt, stand-in libc, program; stdout identical to the host's in all 12 runs, before and after; recipe `scratchpad/cb/progs.py`, `dynstats.py`):

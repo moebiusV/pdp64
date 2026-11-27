@@ -1,2 +1,2 @@
 	.text
-	mfsr #5, ptbr
+	mfsr $5, ptbr

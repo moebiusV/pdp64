@@ -5,7 +5,7 @@
 	.globl	_start
 _start:
 ;; test 1: vavg.b
-	mov	#1, r9
+	mov	$1, r9
 	lea	A1, r1
 	lea	B1, r2
 	lea	O1, r3
@@ -18,14 +18,14 @@ _start:
 	vend
 	lea	O1, r1
 	lea	E1, r2
-	mov	#77, r4
+	mov	$77, r4
 c1:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c1
 ;; test 2: vavgu.b
-	mov	#2, r9
+	mov	$2, r9
 	lea	A2, r1
 	lea	B2, r2
 	lea	O2, r3
@@ -38,14 +38,14 @@ c1:
 	vend
 	lea	O2, r1
 	lea	E2, r2
-	mov	#77, r4
+	mov	$77, r4
 c2:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c2
 ;; test 3: vavg.w
-	mov	#3, r9
+	mov	$3, r9
 	lea	A3, r1
 	lea	B3, r2
 	lea	O3, r3
@@ -58,14 +58,14 @@ c2:
 	vend
 	lea	O3, r1
 	lea	E3, r2
-	mov	#154, r4
+	mov	$154, r4
 c3:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c3
 ;; test 4: vavgu.w
-	mov	#4, r9
+	mov	$4, r9
 	lea	A4, r1
 	lea	B4, r2
 	lea	O4, r3
@@ -78,14 +78,14 @@ c3:
 	vend
 	lea	O4, r1
 	lea	E4, r2
-	mov	#154, r4
+	mov	$154, r4
 c4:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c4
 ;; test 5: vmulh.w vector by vector
-	mov	#5, r9
+	mov	$5, r9
 	lea	A5, r1
 	lea	B5, r2
 	lea	O5, r3
@@ -98,17 +98,17 @@ c4:
 	vend
 	lea	O5, r1
 	lea	E5, r2
-	mov	#154, r4
+	mov	$154, r4
 c5:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c5
 ;; test 6: vmulh.w by a register 23168
-	mov	#6, r9
+	mov	$6, r9
 	lea	A6, r1
 	lea	O6, r3
-mov	#23168, r8
+mov	$23168, r8
 	lea	A6+154, r5
 	vec	r1, r5
 	vld.w v0, (r1)+
@@ -117,17 +117,17 @@ mov	#23168, r8
 	vend
 	lea	O6, r1
 	lea	E6, r2
-	mov	#154, r4
+	mov	$154, r4
 c6:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c6
 ;; test 7: vmulh.w by a register -32768
-	mov	#7, r9
+	mov	$7, r9
 	lea	A7, r1
 	lea	O7, r3
-mov	#-32768, r8
+mov	$-32768, r8
 	lea	A7+154, r5
 	vec	r1, r5
 	vld.w v0, (r1)+
@@ -136,50 +136,50 @@ mov	#-32768, r8
 	vend
 	lea	O7, r1
 	lea	E7, r2
-	mov	#154, r4
+	mov	$154, r4
 c7:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c7
 ;; test 8: vmulh.w by a immediate -32768
-	mov	#8, r9
+	mov	$8, r9
 	lea	A8, r1
 	lea	O8, r3
 	lea	A8+154, r5
 	vec	r1, r5
 	vld.w v0, (r1)+
-	vmulh.w v2, v0, #-32768
+	vmulh.w v2, v0, $-32768
 	vst.w v2, (r3)+
 	vend
 	lea	O8, r1
 	lea	E8, r2
-	mov	#154, r4
+	mov	$154, r4
 c8:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c8
 ;; test 9: vmulh.w by a immediate 2896
-	mov	#9, r9
+	mov	$9, r9
 	lea	A9, r1
 	lea	O9, r3
 	lea	A9+154, r5
 	vec	r1, r5
 	vld.w v0, (r1)+
-	vmulh.w v2, v0, #2896
+	vmulh.w v2, v0, $2896
 	vst.w v2, (r3)+
 	vend
 	lea	O9, r1
 	lea	E9, r2
-	mov	#154, r4
+	mov	$154, r4
 c9:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c9
 ;; test 10: vmulhu.w vector by vector
-	mov	#10, r9
+	mov	$10, r9
 	lea	A10, r1
 	lea	B10, r2
 	lea	O10, r3
@@ -192,17 +192,17 @@ c9:
 	vend
 	lea	O10, r1
 	lea	E10, r2
-	mov	#154, r4
+	mov	$154, r4
 c10:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c10
 ;; test 11: vmulhu.w by a register 23168
-	mov	#11, r9
+	mov	$11, r9
 	lea	A11, r1
 	lea	O11, r3
-mov	#23168, r8
+mov	$23168, r8
 	lea	A11+154, r5
 	vec	r1, r5
 	vld.wu v0, (r1)+
@@ -211,17 +211,17 @@ mov	#23168, r8
 	vend
 	lea	O11, r1
 	lea	E11, r2
-	mov	#154, r4
+	mov	$154, r4
 c11:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c11
 ;; test 12: vmulhu.w by a register -32768
-	mov	#12, r9
+	mov	$12, r9
 	lea	A12, r1
 	lea	O12, r3
-mov	#-32768, r8
+mov	$-32768, r8
 	lea	A12+154, r5
 	vec	r1, r5
 	vld.wu v0, (r1)+
@@ -230,50 +230,50 @@ mov	#-32768, r8
 	vend
 	lea	O12, r1
 	lea	E12, r2
-	mov	#154, r4
+	mov	$154, r4
 c12:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c12
 ;; test 13: vmulhu.w by a immediate -32768
-	mov	#13, r9
+	mov	$13, r9
 	lea	A13, r1
 	lea	O13, r3
 	lea	A13+154, r5
 	vec	r1, r5
 	vld.wu v0, (r1)+
-	vmulhu.w v2, v0, #-32768
+	vmulhu.w v2, v0, $-32768
 	vst.w v2, (r3)+
 	vend
 	lea	O13, r1
 	lea	E13, r2
-	mov	#154, r4
+	mov	$154, r4
 c13:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c13
 ;; test 14: vmulhu.w by a immediate 2896
-	mov	#14, r9
+	mov	$14, r9
 	lea	A14, r1
 	lea	O14, r3
 	lea	A14+154, r5
 	vec	r1, r5
 	vld.wu v0, (r1)+
-	vmulhu.w v2, v0, #2896
+	vmulhu.w v2, v0, $2896
 	vst.w v2, (r3)+
 	vend
 	lea	O14, r1
 	lea	E14, r2
-	mov	#154, r4
+	mov	$154, r4
 c14:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c14
 ;; test 15: vmulhr.w vector by vector
-	mov	#15, r9
+	mov	$15, r9
 	lea	A15, r1
 	lea	B15, r2
 	lea	O15, r3
@@ -286,17 +286,17 @@ c14:
 	vend
 	lea	O15, r1
 	lea	E15, r2
-	mov	#154, r4
+	mov	$154, r4
 c15:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c15
 ;; test 16: vmulhr.w by a register 23168
-	mov	#16, r9
+	mov	$16, r9
 	lea	A16, r1
 	lea	O16, r3
-mov	#23168, r8
+mov	$23168, r8
 	lea	A16+154, r5
 	vec	r1, r5
 	vld.w v0, (r1)+
@@ -305,17 +305,17 @@ mov	#23168, r8
 	vend
 	lea	O16, r1
 	lea	E16, r2
-	mov	#154, r4
+	mov	$154, r4
 c16:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c16
 ;; test 17: vmulhr.w by a register -32768
-	mov	#17, r9
+	mov	$17, r9
 	lea	A17, r1
 	lea	O17, r3
-mov	#-32768, r8
+mov	$-32768, r8
 	lea	A17+154, r5
 	vec	r1, r5
 	vld.w v0, (r1)+
@@ -324,53 +324,53 @@ mov	#-32768, r8
 	vend
 	lea	O17, r1
 	lea	E17, r2
-	mov	#154, r4
+	mov	$154, r4
 c17:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c17
 ;; test 18: vmulhr.w by a immediate -32768
-	mov	#18, r9
+	mov	$18, r9
 	lea	A18, r1
 	lea	O18, r3
 	lea	A18+154, r5
 	vec	r1, r5
 	vld.w v0, (r1)+
-	vmulhr.w v2, v0, #-32768
+	vmulhr.w v2, v0, $-32768
 	vst.w v2, (r3)+
 	vend
 	lea	O18, r1
 	lea	E18, r2
-	mov	#154, r4
+	mov	$154, r4
 c18:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c18
 ;; test 19: vmulhr.w by a immediate 2896
-	mov	#19, r9
+	mov	$19, r9
 	lea	A19, r1
 	lea	O19, r3
 	lea	A19+154, r5
 	vec	r1, r5
 	vld.w v0, (r1)+
-	vmulhr.w v2, v0, #2896
+	vmulhr.w v2, v0, $2896
 	vst.w v2, (r3)+
 	vend
 	lea	O19, r1
 	lea	E19, r2
-	mov	#154, r4
+	mov	$154, r4
 c19:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c19
 ;; test 20: vsarr.w by 0 (a register)
-	mov	#20, r9
+	mov	$20, r9
 	lea	A20, r1
 	lea	O20, r3
-mov	#0, r10
+mov	$0, r10
 	lea	A20+154, r5
 	vec	r1, r5
 	vld.w v0, (r1)+
@@ -379,17 +379,17 @@ mov	#0, r10
 	vend
 	lea	O20, r1
 	lea	E20, r2
-	mov	#154, r4
+	mov	$154, r4
 c20:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c20
 ;; test 21: vsarr.w by 1 (a register)
-	mov	#21, r9
+	mov	$21, r9
 	lea	A21, r1
 	lea	O21, r3
-mov	#1, r10
+mov	$1, r10
 	lea	A21+154, r5
 	vec	r1, r5
 	vld.w v0, (r1)+
@@ -398,17 +398,17 @@ mov	#1, r10
 	vend
 	lea	O21, r1
 	lea	E21, r2
-	mov	#154, r4
+	mov	$154, r4
 c21:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c21
 ;; test 22: vsarr.w by 3 (a register)
-	mov	#22, r9
+	mov	$22, r9
 	lea	A22, r1
 	lea	O22, r3
-mov	#3, r10
+mov	$3, r10
 	lea	A22+154, r5
 	vec	r1, r5
 	vld.w v0, (r1)+
@@ -417,17 +417,17 @@ mov	#3, r10
 	vend
 	lea	O22, r1
 	lea	E22, r2
-	mov	#154, r4
+	mov	$154, r4
 c22:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c22
 ;; test 23: vsarr.w by 15 (a register)
-	mov	#23, r9
+	mov	$23, r9
 	lea	A23, r1
 	lea	O23, r3
-mov	#15, r10
+mov	$15, r10
 	lea	A23+154, r5
 	vec	r1, r5
 	vld.w v0, (r1)+
@@ -436,17 +436,17 @@ mov	#15, r10
 	vend
 	lea	O23, r1
 	lea	E23, r2
-	mov	#154, r4
+	mov	$154, r4
 c23:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c23
 ;; test 24: vsarr.w by 16 (a register)
-	mov	#24, r9
+	mov	$24, r9
 	lea	A24, r1
 	lea	O24, r3
-mov	#16, r10
+mov	$16, r10
 	lea	A24+154, r5
 	vec	r1, r5
 	vld.w v0, (r1)+
@@ -455,17 +455,17 @@ mov	#16, r10
 	vend
 	lea	O24, r1
 	lea	E24, r2
-	mov	#154, r4
+	mov	$154, r4
 c24:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c24
 ;; test 25: vsarr.w by 17 (a register)
-	mov	#25, r9
+	mov	$25, r9
 	lea	A25, r1
 	lea	O25, r3
-mov	#17, r10
+mov	$17, r10
 	lea	A25+154, r5
 	vec	r1, r5
 	vld.w v0, (r1)+
@@ -474,32 +474,32 @@ mov	#17, r10
 	vend
 	lea	O25, r1
 	lea	E25, r2
-	mov	#154, r4
+	mov	$154, r4
 c25:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c25
 ;; test 26: vsarr.w by the immediate 5
-	mov	#26, r9
+	mov	$26, r9
 	lea	A26, r1
 	lea	O26, r3
 	lea	A26+154, r5
 	vec	r1, r5
 	vld.w v0, (r1)+
-	vsarr.w v1, v0, #5
+	vsarr.w v1, v0, $5
 	vst.w v1, (r3)+
 	vend
 	lea	O26, r1
 	lea	E26, r2
-	mov	#154, r4
+	mov	$154, r4
 c26:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c26
 ;; test 27: vsarr.w, a count in every lane (vector by vector)
-	mov	#27, r9
+	mov	$27, r9
 	lea	A27, r1
 	lea	B27, r2
 	lea	O27, r3
@@ -512,17 +512,17 @@ c26:
 	vend
 	lea	O27, r1
 	lea	E27, r2
-	mov	#154, r4
+	mov	$154, r4
 c27:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c27
 ;; test 28: vshrr.w by 0 (a register)
-	mov	#28, r9
+	mov	$28, r9
 	lea	A28, r1
 	lea	O28, r3
-mov	#0, r10
+mov	$0, r10
 	lea	A28+154, r5
 	vec	r1, r5
 	vld.wu v0, (r1)+
@@ -531,17 +531,17 @@ mov	#0, r10
 	vend
 	lea	O28, r1
 	lea	E28, r2
-	mov	#154, r4
+	mov	$154, r4
 c28:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c28
 ;; test 29: vshrr.w by 1 (a register)
-	mov	#29, r9
+	mov	$29, r9
 	lea	A29, r1
 	lea	O29, r3
-mov	#1, r10
+mov	$1, r10
 	lea	A29+154, r5
 	vec	r1, r5
 	vld.wu v0, (r1)+
@@ -550,17 +550,17 @@ mov	#1, r10
 	vend
 	lea	O29, r1
 	lea	E29, r2
-	mov	#154, r4
+	mov	$154, r4
 c29:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c29
 ;; test 30: vshrr.w by 3 (a register)
-	mov	#30, r9
+	mov	$30, r9
 	lea	A30, r1
 	lea	O30, r3
-mov	#3, r10
+mov	$3, r10
 	lea	A30+154, r5
 	vec	r1, r5
 	vld.wu v0, (r1)+
@@ -569,17 +569,17 @@ mov	#3, r10
 	vend
 	lea	O30, r1
 	lea	E30, r2
-	mov	#154, r4
+	mov	$154, r4
 c30:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c30
 ;; test 31: vshrr.w by 15 (a register)
-	mov	#31, r9
+	mov	$31, r9
 	lea	A31, r1
 	lea	O31, r3
-mov	#15, r10
+mov	$15, r10
 	lea	A31+154, r5
 	vec	r1, r5
 	vld.wu v0, (r1)+
@@ -588,17 +588,17 @@ mov	#15, r10
 	vend
 	lea	O31, r1
 	lea	E31, r2
-	mov	#154, r4
+	mov	$154, r4
 c31:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c31
 ;; test 32: vshrr.w by 16 (a register)
-	mov	#32, r9
+	mov	$32, r9
 	lea	A32, r1
 	lea	O32, r3
-mov	#16, r10
+mov	$16, r10
 	lea	A32+154, r5
 	vec	r1, r5
 	vld.wu v0, (r1)+
@@ -607,17 +607,17 @@ mov	#16, r10
 	vend
 	lea	O32, r1
 	lea	E32, r2
-	mov	#154, r4
+	mov	$154, r4
 c32:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c32
 ;; test 33: vshrr.w by 17 (a register)
-	mov	#33, r9
+	mov	$33, r9
 	lea	A33, r1
 	lea	O33, r3
-mov	#17, r10
+mov	$17, r10
 	lea	A33+154, r5
 	vec	r1, r5
 	vld.wu v0, (r1)+
@@ -626,32 +626,32 @@ mov	#17, r10
 	vend
 	lea	O33, r1
 	lea	E33, r2
-	mov	#154, r4
+	mov	$154, r4
 c33:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c33
 ;; test 34: vshrr.w by the immediate 5
-	mov	#34, r9
+	mov	$34, r9
 	lea	A34, r1
 	lea	O34, r3
 	lea	A34+154, r5
 	vec	r1, r5
 	vld.wu v0, (r1)+
-	vshrr.w v1, v0, #5
+	vshrr.w v1, v0, $5
 	vst.w v1, (r3)+
 	vend
 	lea	O34, r1
 	lea	E34, r2
-	mov	#154, r4
+	mov	$154, r4
 c34:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c34
 ;; test 35: vshrr.w, a count in every lane (vector by vector)
-	mov	#35, r9
+	mov	$35, r9
 	lea	A35, r1
 	lea	B35, r2
 	lea	O35, r3
@@ -664,17 +664,17 @@ c34:
 	vend
 	lea	O35, r1
 	lea	E35, r2
-	mov	#154, r4
+	mov	$154, r4
 c35:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c35
 ;; test 36: vsarr.l by 0 (a register)
-	mov	#36, r9
+	mov	$36, r9
 	lea	A36, r1
 	lea	O36, r3
-mov	#0, r10
+mov	$0, r10
 	lea	A36+308, r5
 	vec	r1, r5
 	vld.l v0, (r1)+
@@ -683,17 +683,17 @@ mov	#0, r10
 	vend
 	lea	O36, r1
 	lea	E36, r2
-	mov	#308, r4
+	mov	$308, r4
 c36:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c36
 ;; test 37: vsarr.l by 1 (a register)
-	mov	#37, r9
+	mov	$37, r9
 	lea	A37, r1
 	lea	O37, r3
-mov	#1, r10
+mov	$1, r10
 	lea	A37+308, r5
 	vec	r1, r5
 	vld.l v0, (r1)+
@@ -702,17 +702,17 @@ mov	#1, r10
 	vend
 	lea	O37, r1
 	lea	E37, r2
-	mov	#308, r4
+	mov	$308, r4
 c37:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c37
 ;; test 38: vsarr.l by 13 (a register)
-	mov	#38, r9
+	mov	$38, r9
 	lea	A38, r1
 	lea	O38, r3
-mov	#13, r10
+mov	$13, r10
 	lea	A38+308, r5
 	vec	r1, r5
 	vld.l v0, (r1)+
@@ -721,17 +721,17 @@ mov	#13, r10
 	vend
 	lea	O38, r1
 	lea	E38, r2
-	mov	#308, r4
+	mov	$308, r4
 c38:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c38
 ;; test 39: vsarr.l by 31 (a register)
-	mov	#39, r9
+	mov	$39, r9
 	lea	A39, r1
 	lea	O39, r3
-mov	#31, r10
+mov	$31, r10
 	lea	A39+308, r5
 	vec	r1, r5
 	vld.l v0, (r1)+
@@ -740,17 +740,17 @@ mov	#31, r10
 	vend
 	lea	O39, r1
 	lea	E39, r2
-	mov	#308, r4
+	mov	$308, r4
 c39:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c39
 ;; test 40: vsarr.l by 32 (a register)
-	mov	#40, r9
+	mov	$40, r9
 	lea	A40, r1
 	lea	O40, r3
-mov	#32, r10
+mov	$32, r10
 	lea	A40+308, r5
 	vec	r1, r5
 	vld.l v0, (r1)+
@@ -759,17 +759,17 @@ mov	#32, r10
 	vend
 	lea	O40, r1
 	lea	E40, r2
-	mov	#308, r4
+	mov	$308, r4
 c40:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c40
 ;; test 41: vsarr.l by 33 (a register)
-	mov	#41, r9
+	mov	$41, r9
 	lea	A41, r1
 	lea	O41, r3
-mov	#33, r10
+mov	$33, r10
 	lea	A41+308, r5
 	vec	r1, r5
 	vld.l v0, (r1)+
@@ -778,32 +778,32 @@ mov	#33, r10
 	vend
 	lea	O41, r1
 	lea	E41, r2
-	mov	#308, r4
+	mov	$308, r4
 c41:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c41
 ;; test 42: vsarr.l by the immediate 13
-	mov	#42, r9
+	mov	$42, r9
 	lea	A42, r1
 	lea	O42, r3
 	lea	A42+308, r5
 	vec	r1, r5
 	vld.l v0, (r1)+
-	vsarr.l v1, v0, #13
+	vsarr.l v1, v0, $13
 	vst.l v1, (r3)+
 	vend
 	lea	O42, r1
 	lea	E42, r2
-	mov	#308, r4
+	mov	$308, r4
 c42:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c42
 ;; test 43: vsarr.l, a count in every lane (vector by vector)
-	mov	#43, r9
+	mov	$43, r9
 	lea	A43, r1
 	lea	B43, r2
 	lea	O43, r3
@@ -816,17 +816,17 @@ c42:
 	vend
 	lea	O43, r1
 	lea	E43, r2
-	mov	#308, r4
+	mov	$308, r4
 c43:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c43
 ;; test 44: vshrr.l by 0 (a register)
-	mov	#44, r9
+	mov	$44, r9
 	lea	A44, r1
 	lea	O44, r3
-mov	#0, r10
+mov	$0, r10
 	lea	A44+308, r5
 	vec	r1, r5
 	vld.lu v0, (r1)+
@@ -835,17 +835,17 @@ mov	#0, r10
 	vend
 	lea	O44, r1
 	lea	E44, r2
-	mov	#308, r4
+	mov	$308, r4
 c44:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c44
 ;; test 45: vshrr.l by 1 (a register)
-	mov	#45, r9
+	mov	$45, r9
 	lea	A45, r1
 	lea	O45, r3
-mov	#1, r10
+mov	$1, r10
 	lea	A45+308, r5
 	vec	r1, r5
 	vld.lu v0, (r1)+
@@ -854,17 +854,17 @@ mov	#1, r10
 	vend
 	lea	O45, r1
 	lea	E45, r2
-	mov	#308, r4
+	mov	$308, r4
 c45:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c45
 ;; test 46: vshrr.l by 13 (a register)
-	mov	#46, r9
+	mov	$46, r9
 	lea	A46, r1
 	lea	O46, r3
-mov	#13, r10
+mov	$13, r10
 	lea	A46+308, r5
 	vec	r1, r5
 	vld.lu v0, (r1)+
@@ -873,17 +873,17 @@ mov	#13, r10
 	vend
 	lea	O46, r1
 	lea	E46, r2
-	mov	#308, r4
+	mov	$308, r4
 c46:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c46
 ;; test 47: vshrr.l by 31 (a register)
-	mov	#47, r9
+	mov	$47, r9
 	lea	A47, r1
 	lea	O47, r3
-mov	#31, r10
+mov	$31, r10
 	lea	A47+308, r5
 	vec	r1, r5
 	vld.lu v0, (r1)+
@@ -892,17 +892,17 @@ mov	#31, r10
 	vend
 	lea	O47, r1
 	lea	E47, r2
-	mov	#308, r4
+	mov	$308, r4
 c47:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c47
 ;; test 48: vshrr.l by 32 (a register)
-	mov	#48, r9
+	mov	$48, r9
 	lea	A48, r1
 	lea	O48, r3
-mov	#32, r10
+mov	$32, r10
 	lea	A48+308, r5
 	vec	r1, r5
 	vld.lu v0, (r1)+
@@ -911,17 +911,17 @@ mov	#32, r10
 	vend
 	lea	O48, r1
 	lea	E48, r2
-	mov	#308, r4
+	mov	$308, r4
 c48:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c48
 ;; test 49: vshrr.l by 33 (a register)
-	mov	#49, r9
+	mov	$49, r9
 	lea	A49, r1
 	lea	O49, r3
-mov	#33, r10
+mov	$33, r10
 	lea	A49+308, r5
 	vec	r1, r5
 	vld.lu v0, (r1)+
@@ -930,32 +930,32 @@ mov	#33, r10
 	vend
 	lea	O49, r1
 	lea	E49, r2
-	mov	#308, r4
+	mov	$308, r4
 c49:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c49
 ;; test 50: vshrr.l by the immediate 13
-	mov	#50, r9
+	mov	$50, r9
 	lea	A50, r1
 	lea	O50, r3
 	lea	A50+308, r5
 	vec	r1, r5
 	vld.lu v0, (r1)+
-	vshrr.l v1, v0, #13
+	vshrr.l v1, v0, $13
 	vst.l v1, (r3)+
 	vend
 	lea	O50, r1
 	lea	E50, r2
-	mov	#308, r4
+	mov	$308, r4
 c50:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c50
 ;; test 51: vshrr.l, a count in every lane (vector by vector)
-	mov	#51, r9
+	mov	$51, r9
 	lea	A51, r1
 	lea	B51, r2
 	lea	O51, r3
@@ -968,14 +968,14 @@ c50:
 	vend
 	lea	O51, r1
 	lea	E51, r2
-	mov	#308, r4
+	mov	$308, r4
 c51:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c51
 ;; test 52: vmla.w vD, vA, vB (D += A * B)
-	mov	#52, r9
+	mov	$52, r9
 	lea	A52, r1
 	lea	B52, r2
 	lea	C52, r7
@@ -990,18 +990,18 @@ c51:
 	vend
 	lea	O52, r1
 	lea	E52, r2
-	mov	#154, r4
+	mov	$154, r4
 c52:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c52
 ;; test 53: vmla.w vD, vA, Rs (the form that was already there)
-	mov	#53, r9
+	mov	$53, r9
 	lea	A53, r1
 	lea	C53, r7
 	lea	O53, r3
-mov	#12345, r8
+mov	$12345, r8
 	lea	A53+154, r5
 	vec	r1, r5
 	vld.w v2, (r7)+
@@ -1011,14 +1011,14 @@ mov	#12345, r8
 	vend
 	lea	O53, r1
 	lea	E53, r2
-	mov	#154, r4
+	mov	$154, r4
 c53:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c53
 ;; test 54: vmla.l vD, vA, vB (D += A * B)
-	mov	#54, r9
+	mov	$54, r9
 	lea	A54, r1
 	lea	B54, r2
 	lea	C54, r7
@@ -1033,18 +1033,18 @@ c53:
 	vend
 	lea	O54, r1
 	lea	E54, r2
-	mov	#308, r4
+	mov	$308, r4
 c54:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c54
 ;; test 55: vmla.l vD, vA, Rs (the form that was already there)
-	mov	#55, r9
+	mov	$55, r9
 	lea	A55, r1
 	lea	C55, r7
 	lea	O55, r3
-mov	#12345, r8
+mov	$12345, r8
 	lea	A55+308, r5
 	vec	r1, r5
 	vld.l v2, (r7)+
@@ -1054,17 +1054,17 @@ mov	#12345, r8
 	vend
 	lea	O55, r1
 	lea	E55, r2
-	mov	#308, r4
+	mov	$308, r4
 c55:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c55
 ;; test 56: vdot.w, 77 words (an odd tail: the last lane has one product), the lanes summed by vacc.l.q; the lane of the first two pairs wraps (-32768 x -32768 twice)
-	mov	#56, r9
+	mov	$56, r9
 	lea	A56, r1
 	lea	B56, r2
-mov	#1000, r10
+mov	$1000, r10
 	lea	A56+154, r5
 	vec	r1, r5
 	vld.w v0, (r1)+
@@ -1075,9 +1075,9 @@ mov	#1000, r10
 	mov	=0xffffffff72be1adc, r11
 	cbne	r10, r11, fail
 ;; test 57: 16 words of -32768 squared: vdot.w wraps every lane (8 x -2^31 = -2^34), vdacc.w is exact (+2^34)
-	mov	#57, r9
+	mov	$57, r9
 	lea	A57, r1
-mov	#0, r10
+mov	$0, r10
 	lea	A57+32, r5
 	vec	r1, r5
 	vld.w v0, (r1)+
@@ -1088,7 +1088,7 @@ mov	#0, r10
 	cbne	r10, r11, fail
 	lea	A57, r1
 	lea	A57+32, r5
-	mov	#0, r10
+	mov	$0, r10
 	vec	r1, r5
 	vld.w v0, (r1)+
 	vdacc.w r10, v0, v0
@@ -1096,10 +1096,10 @@ mov	#0, r10
 	mov	=0x400000000, r11
 	cbne	r10, r11, fail
 ;; test 58: vsad.bu over 77 bytes (strips of 32, 32, 13), added to a register that starts at 1000
-	mov	#58, r9
+	mov	$58, r9
 	lea	A58, r1
 	lea	B58, r2
-mov	#1000, r10
+mov	$1000, r10
 	lea	A58+77, r5
 	vec	r1, r5
 	vld.bu v0, (r1)+
@@ -1109,10 +1109,10 @@ mov	#1000, r10
 	mov	=0x1d4f, r11
 	cbne	r10, r11, fail
 ;; test 59: vdacc.b over 77 elements, added to a register that starts at -5
-	mov	#59, r9
+	mov	$59, r9
 	lea	A59, r1
 	lea	B59, r2
-mov	#-5, r10
+mov	$-5, r10
 	lea	A59+77, r5
 	vec	r1, r5
 	vld.b v0, (r1)+
@@ -1122,10 +1122,10 @@ mov	#-5, r10
 	mov	=0x5997, r11
 	cbne	r10, r11, fail
 ;; test 60: vdacc.bu over 77 elements, added to a register that starts at -5
-	mov	#60, r9
+	mov	$60, r9
 	lea	A60, r1
 	lea	B60, r2
-mov	#-5, r10
+mov	$-5, r10
 	lea	A60+77, r5
 	vec	r1, r5
 	vld.bu v0, (r1)+
@@ -1135,10 +1135,10 @@ mov	#-5, r10
 	mov	=0x10e61a, r11
 	cbne	r10, r11, fail
 ;; test 61: vdacc.bsu over 77 elements, added to a register that starts at -5
-	mov	#61, r9
+	mov	$61, r9
 	lea	A61, r1
 	lea	B61, r2
-mov	#-5, r10
+mov	$-5, r10
 	lea	A61+77, r5
 	vec	r1, r5
 	vld.b v0, (r1)+
@@ -1148,10 +1148,10 @@ mov	#-5, r10
 	mov	=0xffffffffffff8cf5, r11
 	cbne	r10, r11, fail
 ;; test 62: vdacc.w over 77 elements, added to a register that starts at -5
-	mov	#62, r9
+	mov	$62, r9
 	lea	A62, r1
 	lea	B62, r2
-mov	#-5, r10
+mov	$-5, r10
 	lea	A62+154, r5
 	vec	r1, r5
 	vld.w v0, (r1)+
@@ -1161,7 +1161,7 @@ mov	#-5, r10
 	mov	=0x7d2b6722, r11
 	cbne	r10, r11, fail
 ;; test 63: vtbl.b vD, (Ra), vI: the table is exactly 16 bytes at (Ra), the same for every lane and every strip, also in the strip of 13
-	mov	#63, r9
+	mov	$63, r9
 	lea	A63, r1
 	lea	T63, r6
 	lea	O63, r3
@@ -1173,169 +1173,169 @@ mov	#-5, r10
 	vend
 	lea	O63, r1
 	lea	E63, r2
-	mov	#77, r4
+	mov	$77, r4
 c63:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c63
 ;; test 64: vsts.w.b with a rounding shift of 4
-	mov	#64, r9
+	mov	$64, r9
 	lea	A64, r1
 	lea	O64, r3
 	lea	A64+154, r5
 	vec	r1, r5
 	vld.w v0, (r1)+
-	vsts.w.b v0, (r3)+, #4
+	vsts.w.b v0, (r3)+, $4
 	vend
 	lea	O64, r1
 	lea	E64, r2
-	mov	#77, r4
+	mov	$77, r4
 c64:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c64
 ;; test 65: vsts.w.bu with a rounding shift of 1
-	mov	#65, r9
+	mov	$65, r9
 	lea	A65, r1
 	lea	O65, r3
 	lea	A65+154, r5
 	vec	r1, r5
 	vld.w v0, (r1)+
-	vsts.w.bu v0, (r3)+, #1
+	vsts.w.bu v0, (r3)+, $1
 	vend
 	lea	O65, r1
 	lea	E65, r2
-	mov	#77, r4
+	mov	$77, r4
 c65:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c65
 ;; test 66: vsts.w.b with a rounding shift of 0
-	mov	#66, r9
+	mov	$66, r9
 	lea	A66, r1
 	lea	O66, r3
 	lea	A66+154, r5
 	vec	r1, r5
 	vld.w v0, (r1)+
-	vsts.w.b v0, (r3)+, #0
+	vsts.w.b v0, (r3)+, $0
 	vend
 	lea	O66, r1
 	lea	E66, r2
-	mov	#77, r4
+	mov	$77, r4
 c66:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c66
 ;; test 67: vsts.l.w with a rounding shift of 15
-	mov	#67, r9
+	mov	$67, r9
 	lea	A67, r1
 	lea	O67, r3
 	lea	A67+308, r5
 	vec	r1, r5
 	vld.l v0, (r1)+
-	vsts.l.w v0, (r3)+, #15
+	vsts.l.w v0, (r3)+, $15
 	vend
 	lea	O67, r1
 	lea	E67, r2
-	mov	#154, r4
+	mov	$154, r4
 c67:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c67
 ;; test 68: vsts.l.wu with a rounding shift of 3
-	mov	#68, r9
+	mov	$68, r9
 	lea	A68, r1
 	lea	O68, r3
 	lea	A68+308, r5
 	vec	r1, r5
 	vld.l v0, (r1)+
-	vsts.l.wu v0, (r3)+, #3
+	vsts.l.wu v0, (r3)+, $3
 	vend
 	lea	O68, r1
 	lea	E68, r2
-	mov	#154, r4
+	mov	$154, r4
 c68:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c68
 ;; test 69: vsts.l.bu with a rounding shift of 8
-	mov	#69, r9
+	mov	$69, r9
 	lea	A69, r1
 	lea	O69, r3
 	lea	A69+308, r5
 	vec	r1, r5
 	vld.l v0, (r1)+
-	vsts.l.bu v0, (r3)+, #8
+	vsts.l.bu v0, (r3)+, $8
 	vend
 	lea	O69, r1
 	lea	E69, r2
-	mov	#77, r4
+	mov	$77, r4
 c69:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c69
 ;; test 70: vsts.l.b with a rounding shift of 0
-	mov	#70, r9
+	mov	$70, r9
 	lea	A70, r1
 	lea	O70, r3
 	lea	A70+308, r5
 	vec	r1, r5
 	vld.l v0, (r1)+
-	vsts.l.b v0, (r3)+, #0
+	vsts.l.b v0, (r3)+, $0
 	vend
 	lea	O70, r1
 	lea	E70, r2
-	mov	#77, r4
+	mov	$77, r4
 c70:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c70
 ;; test 71: vsts.q.l with a rounding shift of 40
-	mov	#71, r9
+	mov	$71, r9
 	lea	A71, r1
 	lea	O71, r3
 	lea	A71+616, r5
 	vec	r1, r5
 	vld.q v0, (r1)+
-	vsts.q.l v0, (r3)+, #40
+	vsts.q.l v0, (r3)+, $40
 	vend
 	lea	O71, r1
 	lea	E71, r2
-	mov	#308, r4
+	mov	$308, r4
 c71:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c71
 ;; test 72: vsts.q.w with a rounding shift of 1
-	mov	#72, r9
+	mov	$72, r9
 	lea	A72, r1
 	lea	O72, r3
 	lea	A72+616, r5
 	vec	r1, r5
 	vld.q v0, (r1)+
-	vsts.q.w v0, (r3)+, #1
+	vsts.q.w v0, (r3)+, $1
 	vend
 	lea	O72, r1
 	lea	E72, r2
-	mov	#154, r4
+	mov	$154, r4
 c72:
 	mov.u8	(r1)+, r5
 	mov.u8	(r2)+, r6
 	cbne	r5, r6, fail
 	sob	r4, c72
-	mov	#0, r0
-	trap	#0
+	mov	$0, r0
+	trap	$0
 fail:	mov	r9, r0
-	trap	#0
+	trap	$0
 
 	.data
 	.align	8

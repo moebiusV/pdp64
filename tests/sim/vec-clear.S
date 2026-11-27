@@ -14,48 +14,48 @@ _start:
 	mtsr	vbr, r1
 	; 1
 	call	clear_dst
-	vclr.l	v0, #1
+	vclr.l	v0, $1
 	call	runblock
 	call	expect_sums
-	cbeq	r0, #0, 1f
-	mov	#1, r0
+	cbeq	r0, $0, 1f
+	mov	$1, r0
 	halt
 1:
 	; 2
 	call	clear_dst
-	vclr.l	v0, #1
-	trap	#1
+	vclr.l	v0, $1
+	trap	$1
 	call	runblock
 	call	expect_copy
-	cbeq	r0, #0, 1f
-	mov	#2, r0
+	cbeq	r0, $0, 1f
+	mov	$2, r0
 	halt
 1:
 	; 3
 	call	clear_dst
-	trap	#2
+	trap	$2
 	call	runblock
 	call	expect_copy
-	cbeq	r0, #0, 1f
-	mov	#3, r0
+	cbeq	r0, $0, 1f
+	mov	$3, r0
 	halt
 1:
 	; 4
 	call	clear_dst
-	vclr.l	v0, #1
-	trap	#3			; the handler runs the block at once: the entry cleared the naming, so v0 is an ordinary register there (the return would be too late)
+	vclr.l	v0, $1
+	trap	$3			; the handler runs the block at once: the entry cleared the naming, so v0 is an ordinary register there (the return would be too late)
 	call	expect_copy
-	cbeq	r0, #0, 1f
-	mov	#4, r0
+	cbeq	r0, $0, 1f
+	mov	$4, r0
 	halt
 1:
-	mov	#0, r0
+	mov	$0, r0
 	halt
 
 clear_dst:
 	lea	dst, r1
-	mov	#0xa5, r2
-	mov	#32, r3
+	mov	$0xa5, r2
+	mov	$32, r3
 	mset	r1, r2, r3
 	ret
 runblock:
@@ -72,48 +72,48 @@ runblock:
 expect_copy:
 	lea	src, r1
 	lea	dst, r2
-	mov	#32, r3
+	mov	$32, r3
 1:	mov.u8	(r1)+, r4
 	mov.u8	(r2)+, r5
 	cbne	r4, r5, 2f
 	sob	r3, 1b
-	mov	#0, r0
+	mov	$0, r0
 	ret
-2:	mov	#1, r0
+2:	mov	$1, r0
 	ret
 ; r0 = 0 if dst holds the running sums over the strips of 16 bytes (four 32-bit lanes): strip 0 = src[0..3], strip 1 = src[0..3] + src[4..7]
 expect_sums:
 	lea	src, r1
 	lea	dst, r2
-	mov	#4, r3
+	mov	$4, r3
 1:	mov.s32	(r1)+, r4
 	mov.s32	(r2)+, r5
 	cbne	r4, r5, 2f
 	sob	r3, 1b
 	lea	src, r1
 	lea	dst+16, r2
-	mov	#4, r3
+	mov	$4, r3
 3:	mov.s32	(r1), r4
 	mov.s32	16(r1), r6
 	add	r6, r4
 	mov.s32	(r2)+, r5
 	cbne	r4, r5, 2f
-	add	#4, r1
+	add	$4, r1
 	sob	r3, 3b
-	mov	#0, r0
+	mov	$0, r0
 	ret
-2:	mov	#1, r0
+2:	mov	$1, r0
 	ret
 h_trap1:
-	rti	#RTIMASK_ALL
+	rti	$RTIMASK_ALL
 h_trap3:
 	call	runblock
-	rti	#RTIMASK_ALL
+	rti	$RTIMASK_ALL
 h_trap2:
-	vclr.l	v0, #8
-	vclr.l	v8, #8
-	rti	#RTIMASK_ALL
-h_bad:	mov	#99, r0
+	vclr.l	v0, $8
+	vclr.l	v8, $8
+	rti	$RTIMASK_ALL
+h_bad:	mov	$99, r0
 	halt
 	.data
 	.align	8

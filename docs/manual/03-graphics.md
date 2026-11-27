@@ -22,7 +22,7 @@ After the terminal come the problems that made graphics programming annoying (3.
 
 A PDP-11 in 1975 talked to a person through a **teletype** (a keyboard and a printer on one machine, joined to the computer by a serial line: characters go one after another along a single wire pair, each as a short burst of bits). The machine knew nothing about the page. A character went out and the printer put it to the right of the last one; a carriage-return character moved the print head back to the left margin and a line-feed character moved the paper up one line. Nothing could be erased, because the ink was on paper. This is **line-at-a-time output**: the program's only notion of position is "the end of what I have printed".
 
-The hardware was a Unibus device like those of chapter 2: a few registers. The console of 2.11BSD is a KL11/DL11, declared in `sys/pdp/cons.h` as four words (receive status, receive buffer, transmit status, transmit buffer) at address 0177560 (`cnaddr` in `cons.c`); the transmitter-ready bit of the transmit status word is `DLXCSR_TRDY`, 0200 (both checked in the 2.11BSD tree on this machine, where the files are stored gzipped). Printing a line was a loop that waits for ready and stores a byte:
+The hardware was a Unibus device like those of chapter 2: a few registers. The console of 2.11BSD is a KL11/DL11, declared in `sys/pdp/cons.h` as four words (receive status, receive buffer, transmit status, transmit buffer) at address 0o177560 (`cnaddr` in `cons.c`); the transmitter-ready bit of the transmit status word is `DLXCSR_TRDY`, 0o200 (both checked in the 2.11BSD tree on this machine, where the files are stored gzipped). Printing a line was a loop that waits for ready and stores a byte:
 
 ```
 print_line(string):
@@ -33,15 +33,15 @@ print_line(string):
     poke(XBUF, CR); poke(XBUF, LF)          # carriage return, line feed
 ```
 
-and in PDP-11 assembly, with the console's register addresses (transmit status 0177564, transmit buffer 0177566, the third and fourth words of the structure; the loop is in the style of the `rk` driver of chapter 2, not copied from a driver):
+and in PDP-11 assembly, with the console's register addresses (transmit status 0o177564, transmit buffer 0o177566, the third and fourth words of the structure; the loop is in the style of the `rk` driver of chapter 2, not copied from a driver):
 
 ```
         MOV  #msg, R0
-1$:     MOV.S8 (R0)+, R1        ; next character; R0 now points at the one after
+1$:     MOV.s8 (R0)+, R1        ; next character; R0 now points at the one after
         BEQ  3$               ; a zero byte ends the string
 2$:     TSTB @#177564         ; XCSR: bit 7 is READY
         BPL  2$               ; plus: not ready, look again
-        MOV.S8 R1, @#177566     ; XBUF: this sends it
+        MOV.s8 R1, @#177566     ; XBUF: this sends it
         BR   1$
 3$:
 ```
@@ -93,20 +93,20 @@ The Commodore 64 (1982) was a home computer with a 6510 processor (a 6502 with a
 
 ![The C64 address space](figures/gfx-c64-map.svg)
 
-**Text mode.** The standard screen is 40 columns by 25 rows, 1000 cells. The picture is *two* arrays in memory: screen memory, 1000 bytes, normally at $0400 (the number of the glyph for each cell), and **colour RAM**, 1000 four-bit entries at $D800 (the colour of each cell, one of 16). The shape of each glyph is not in these arrays; it is in the **character ROM** (a read-only memory of 8 bytes a glyph, one byte a row of eight dots, 256 glyphs: 2 KB for one set), which the video chip reads, and which a program can also replace by pointing the chip at glyphs it has made in RAM. To put an A at the top left, in red, the BASIC programmer writes two pokes, and the video chip, which reads screen memory sixty times a second by itself, shows it (screen codes, colour numbers and addresses *unverified*):
+**Text mode.** The standard screen is 40 columns by 25 rows, 1000 cells. The picture is *two* arrays in memory: screen memory, 1000 bytes, normally at 0x0400 (the number of the glyph for each cell), and **colour RAM**, 1000 four-bit entries at 0xD800 (the colour of each cell, one of 16). The shape of each glyph is not in these arrays; it is in the **character ROM** (a read-only memory of 8 bytes a glyph, one byte a row of eight dots, 256 glyphs: 2 KB for one set), which the video chip reads, and which a program can also replace by pointing the chip at glyphs it has made in RAM. To put an A at the top left, in red, the BASIC programmer writes two pokes, and the video chip, which reads screen memory sixty times a second by itself, shows it (screen codes, colour numbers and addresses *unverified*):
 
 ```
-poke(1024, 1)          # $0400: screen code 1 is the letter A
-poke(55296, 2)         # $D800: colour 2 is red
-poke(53280, 0)         # $D020: the border colour, black
-poke(53281, 6)         # $D021: the background colour, blue
+poke(1024, 1)          # 0x0400: screen code 1 is the letter A
+poke(55296, 2)         # 0xD800: colour 2 is red
+poke(53280, 0)         # 0xD020: the border colour, black
+poke(53281, 6)         # 0xD021: the background colour, blue
 ```
 
 This is the "peek poke" model: the screen is memory, a cell is an address, and the chip does the display. There are no escape codes and no stream; a program that pokes address 1024 + 40 * row + column has put a character there, at any time, in any order.
 
 **Bitmap mode.** The same chip could show a bitmap of 320 by 200 dots in memory, with colour attributes per 8 by 8 block, and **multicolour** modes that trade width for colour. These were modes of one chip, and a program could mix them, text in one band of the screen and graphics in another, by changing mode at a chosen line (the raster interrupt below).
 
-**Sprites.** The VIC-II had eight **sprites**: movable objects of 24 by 21 dots, each described by 63 bytes of data in memory, a pointer byte (the last eight bytes of screen memory, $07F8 to $07FF, say which 64-byte block holds each sprite's shape) and a few registers (x position, y position, colour, enable, size, priority; collision registers that say which sprites touched). The chip draws the sprites over the background as the picture is read out; to move a sprite, the program changes two registers, and the picture underneath is never disturbed. A ship, a bullet and an enemy are each a sprite, and a game's movement is a handful of pokes per frame.
+**Sprites.** The VIC-II had eight **sprites**: movable objects of 24 by 21 dots, each described by 63 bytes of data in memory, a pointer byte (the last eight bytes of screen memory, 0x07F8 to 0x07FF, say which 64-byte block holds each sprite's shape) and a few registers (x position, y position, colour, enable, size, priority; collision registers that say which sprites touched). The chip draws the sprites over the background as the picture is read out; to move a sprite, the program changes two registers, and the picture underneath is never disturbed. A ship, a bullet and an enemy are each a sprite, and a game's movement is a handful of pokes per frame.
 
 **The raster and the raster interrupt.** The VIC-II draws the screen by reading it in order, row by row, while an electron beam sweeps the tube (the **raster**; the whole sweep is a **frame**, 50 or 60 times a second depending on the television standard). A register holds the number of the line being drawn, and another can be set to a line number so that the chip interrupts the processor when the beam reaches it: the **raster interrupt**. Programs used it to change a register mid-screen, such as the background colour or a sprite position, and to make changes while the beam was elsewhere (3.15).
 
@@ -446,6 +446,6 @@ The chain for windows: the PDP-11's teletype had none; the Blit's `mux` (termina
 
 * **Checked against the Linux headers on this machine:** `virtio_gpu.h` (command names and structures, formats and their values, the fence flag, cursor commands, `VIRTIO_GPU_MAX_SCANOUTS`, feature bits; no vertical-blank or flip command), `virtio_snd.h` (queues, formats, rates, `PCM_SET_PARAMS`, events, features), `/usr/include/drm/drm.h` and `drm_mode.h` (the page-flip and add-framebuffer ioctls and their flags, the mode structure) and `GL/glext.h` (the OpenGL entry points named).
 * **Checked against QEMU sources** (`<work>/qemu-src`): `transfer_to_host_2d` and `resource_flush` and what they reject (`hw/display/virtio-gpu.c`); the `refresh_rate` field (`include/hw/virtio/virtio-gpu.h`); the audio backends (`audio/`).
-* **Checked against 2.11BSD** (`<work>/facetlang/unixtree/2.11BSD/sys/pdp/cons.h.gz` and `cons.c.gz`): the KL11/DL11 register structure, address 0177560 and `DLXCSR_TRDY`.
+* **Checked against 2.11BSD** (`<work>/facetlang/unixtree/2.11BSD/sys/pdp/cons.h.gz` and `cons.c.gz`): the KL11/DL11 register structure, address 0o177560 and `DLXCSR_TRDY`.
 * **Checked against the repository's records:** the Blit's statements and numbers (the Blit and Tradeoffs papers as recorded in `docs/kernel-pain-points.md` section 14I; the Handbook quotations in section 14G); the VT52 `ESC Y` code and the "VT100/ANSI" and "xterm-256color" remarks (`c64stuff.txt`, lines 218, 4875, 4888, my words).
 * **Unverified** (general knowledge; no manual of these machines is on this computer): everything about the C64 chips (addresses, sizes, sprite size and count, colours, the SID's voices, the processor) and the IBM PC adapters (VGA text addresses and attributes, mode 13h and the planar modes, the 64 KB window, VBE, the palette, Mode X); the details of VT52 and VT100 sequences beyond the records; **what "vt55" refers to**; the speed of a teletype; which terminal emulators use the GPU; the Valve signed-distance-field paper; the titles, dates and page counts of Michael Abrash's books; GPU lane group sizes; variable refresh and its names; the Vulkan names; EDID as a data block; the Amiga's blitter; the C128's chips; NeWS as Sun's, in PostScript, by Gosling; the toolkit comparison; the real mixers on other systems; the Cyclone V and Zynq 7020 lacking a hard PCI Express block; and the line counts of boilerplate (illustrative throughout).

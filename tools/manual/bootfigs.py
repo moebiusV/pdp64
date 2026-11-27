@@ -83,7 +83,7 @@ def fig_block0_memory():
     lines(c, rx, 252, ['the other cores: held in reset by the', 'controller until core 0 writes their', 'start registers ({{r:starting-the-other-cores}})'], 9, fill='#222')
     c.text(20, 340, '0x1000 and the 64 KB stack top follow the proposal of {{r:reset-state-and-the-first-block}} and the figure of chapter {{c:id01006|n}}; how many pages are reserved is not decided.', 9, 'start', '#444')
     c.text(20, 354, 'Not to scale.  The ROM itself is not in this memory: it sits in the controller chip, outside the address space the kernel uses.', 9, 'start', '#444')
-    c.text(20, 368, 'On the PDP-11 the vectors sat at 0 to 0377 and the bootstrap was loaded elsewhere, often high in memory ({{r:boot-what-you-already-know}}).', 9, 'start', '#555')
+    c.text(20, 368, 'On the PDP-11 the vectors sat at 0 to 0o377 and the bootstrap was loaded elsewhere, often high in memory ({{r:boot-what-you-already-know}}).', 9, 'start', '#555')
     return c.svg()
 
 

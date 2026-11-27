@@ -7,7 +7,7 @@ _start:
 	lea	vtab, r1
 	mtsr	vbr, r1
 	lea	hgen, r2
-	mov	#512, r3
+	mov	$512, r3
 kfill:	mov	r2, (r1)+
 	sob	r3, kfill
 	lea	vtab, r1
@@ -20,7 +20,7 @@ kfill:	mov	r2, (r1)+
 	lea	src+32, r5
 	lea	dst, r3
 	vec	r1, r5
-	vclr.l	v5, #1
+	vclr.l	v5, $1
 	vld.l	v3, (r1)+
 	vadd.l	v5, v5, v3
 	vadd.l	v9, v3, v3
@@ -31,10 +31,10 @@ kfill:	mov	r2, (r1)+
 	mtsr	usp, r1
 	lea	user, r1
 	mtsr	epc, r1
-	mov	#((MODE_USER<<PSW_MODE)|(MODE_USER<<PSW_PREV)), r1
+	mov	$((MODE_USER<<PSW_MODE)|(MODE_USER<<PSW_PREV)), r1
 	mtsr	epsw, r1
-	mov	#0, r1
-	rti	#RTIMASK_ALL
+	mov	$0, r1
+	rti	$RTIMASK_ALL
 user:
 	lea	src, r1
 	lea	src+32, r5
@@ -47,8 +47,8 @@ user:
 	mov	(r4), r5
 	mov	src_q, r6
 	cbeq	r5, r6, 1f	; check 1 control: a loaded register stores what was loaded
-	mov	#1, r0
-	trap	#1
+	mov	$1, r0
+	trap	$1
 1:
 	lea	dst, r3
 	mov	=0xa5a5a5a5a5a5a5a5, r2
@@ -63,11 +63,11 @@ user:
 	vst.l	v3, (r3)+
 	vend
 	lea	dst, r4
-	mov	#4, r6
+	mov	$4, r6
 zc2:	mov	(r4)+, r5	; check 2 a user block stores v3 (the kernel left data in it) that it never wrote: zero
-	cbeq	r5, #0, 1f
-	mov	#2, r0
-	trap	#1
+	cbeq	r5, $0, 1f
+	mov	$2, r0
+	trap	$1
 1:
 	sob	r6, zc2
 	lea	dst, r3
@@ -83,11 +83,11 @@ zc2:	mov	(r4)+, r5	; check 2 a user block stores v3 (the kernel left data in it)
 	vst.l	v5, (r3)+
 	vend
 	lea	dst, r4
-	mov	#4, r6
+	mov	$4, r6
 zc3:	mov	(r4)+, r5	; check 3 a user block stores v5 (an accumulator of the kernel) that it never wrote: zero
-	cbeq	r5, #0, 1f
-	mov	#3, r0
-	trap	#1
+	cbeq	r5, $0, 1f
+	mov	$3, r0
+	trap	$1
 1:
 	sob	r6, zc3
 	lea	dst, r3
@@ -103,14 +103,14 @@ zc3:	mov	(r4)+, r5	; check 3 a user block stores v5 (an accumulator of the kerne
 	vst.l	v9, (r3)+
 	vend
 	lea	dst, r4
-	mov	#4, r6
+	mov	$4, r6
 zc4:	mov	(r4)+, r5	; check 4 a user block stores v9 (computed by the kernel) that it never wrote: zero
-	cbeq	r5, #0, 1f
-	mov	#4, r0
-	trap	#1
+	cbeq	r5, $0, 1f
+	mov	$4, r0
+	trap	$1
 1:
 	sob	r6, zc4
-	vclr.l	v5, #1
+	vclr.l	v5, $1
 	lea	dst, r3
 	mov	=0xa5a5a5a5a5a5a5a5, r2
 	mov	r2, (r3)
@@ -124,18 +124,18 @@ zc4:	mov	(r4)+, r5	; check 4 a user block stores v9 (computed by the kernel) tha
 	vst.l	v5, (r3)+
 	vend
 	lea	dst, r4
-	mov	#4, r6
+	mov	$4, r6
 zc5:	mov	(r4)+, r5	; check 5 an accumulator named by vclr starts at zero, not at the kernel's sums
-	cbeq	r5, #0, 1f
-	mov	#5, r0
-	trap	#1
+	cbeq	r5, $0, 1f
+	mov	$5, r0
+	trap	$1
 1:
 	sob	r6, zc5
-	mov	#0, r0
-	trap	#0
+	mov	$0, r0
+	trap	$0
 
 hgen:	mov	cnt, r12
-	add	#1, r12
+	add	$1, r12
 	mov	r12, cnt
 	mfsr	r12, ecause
 	mov	r12, last_cause
@@ -146,8 +146,8 @@ hgen:	mov	cnt, r12
 	mfsr	r12, epsw
 	mov	r12, last_epsw
 	mtsr	epc, r13
-	rti	#RTIMASK_ALL
-h_ok:	mov	#0, r0
+	rti	$RTIMASK_ALL
+h_ok:	mov	$0, r0
 h_fail:	halt
 
 	.data

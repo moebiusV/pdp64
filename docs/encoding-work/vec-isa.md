@@ -18,7 +18,7 @@ The words below are those of the grammar (365 words, 65 base mnemonics: `vec2` a
 | `vfin` | (none) | split a block: what follows runs once after the last strip (the epilogue), on the final accumulators | errata 173 | hand-written only (k_sgemm_nt) |
 | `vld` | 22 words (`vld.<m>[.<lane>]`) | load a strip, widening on the way in (`vld.<m>[.<lane>]`) | original | LLVM lowering (12 of 22 words; both builds) |
 | `vst` | 13 words (`vst.<lane>[.<m>]`) | store a strip, truncating on the way out (`vst.<lane>[.<m>]`) | original | LLVM lowering (9 of 13 words; both builds) |
-| `vsts` | .l.b .l.bu .l.w .l.wu .q.b .q.bu .q.l .q.lu .q.w .q.wu .w.b .w.bu | narrowing store with clamping; with `#sh` a rounding shift first (the `#sh` form: wave 1) | original | LLVM lowering (3 of 12 words; both builds) |
+| `vsts` | .l.b .l.bu .l.w .l.wu .q.b .q.bu .q.l .q.lu .q.w .q.wu .w.b .w.bu | narrowing store with clamping; with `$sh` a rounding shift first (the `$sh` form: wave 1) | original | LLVM lowering (3 of 12 words; both builds) |
 | `vldt` | 22 words (`vldt.<m>[.<lane>]`) | strided load (one field of an array of structures) | original | LLVM lowering (3 of 22 words; scalar-loop recogniser only) |
 | `vstt` | 13 words (`vstt.<lane>[.<m>]`) | strided store | original | LLVM lowering (3 of 13 words; scalar-loop recogniser only) |
 | `vlseg2` | 22 words (`vlseg2.<m>[.<lane>]`) | load 2 interleaved fields into `vD`, `vD+1` | original | LLVM lowering (2 of 22 words; LoopVectorize build only) |

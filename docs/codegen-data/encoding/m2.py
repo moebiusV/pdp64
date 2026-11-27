@@ -17,7 +17,7 @@ ESC4=set('clz ctz clo cto popcnt bswap bswapw bswapl bitrev utf8len utf8dec utf8
 BF6=set('dshr extb extzb insb'.split())
 def kind(o):
     if rreg.match(o): return 'reg'
-    if o.startswith('#'): return 'imm'
+    if o.startswith(('#','$')): return 'imm'
     if o.startswith('@'): return 'abs'
     if index_re.match(o): return 'index'
     if base_re.match(o): return 'base'

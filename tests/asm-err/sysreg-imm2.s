@@ -1,2 +1,2 @@
 	.text
-	mtsr ptbr, #3
+	mtsr ptbr, $3

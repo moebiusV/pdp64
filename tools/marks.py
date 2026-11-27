@@ -64,13 +64,16 @@ def marked(root=None):
 
 
 def display(word, upper=True, root=None):
-    """a word of the encoding as the manual names it: the spelling that is printed for it (movb is MOV.S8); a conversion is named by its official form, the format on each operand, source
-    first (fcvtds is `FCVT Rs.F64, Rd.F32`), even where it has a short form"""
+    """a word of the encoding as the manual names it: the spelling that is printed for it (movb is MOV.s8); a conversion is named by its official form, the format on each operand, source
+    first (fcvtds is `FCVT Rs.f64, Rd.f32`), even where it has a short form"""
     cv = conversions(root).get(word)
     if cv:
-        return 'FCVT Rs.%s, Rd.%s' % (cv[0].upper(), cv[1].upper()) if upper else 'fcvt rs.%s, rd.%s' % cv
+        return 'FCVT Rs.%s, Rd.%s' % cv if upper else 'fcvt rs.%s, rd.%s' % cv
     sp = shown(root).get(word, word)
-    return sp.upper() if upper else sp
+    if not upper:
+        return sp
+    stem, dot, rest = sp.partition('.')
+    return stem.upper() + dot + rest       # the mnemonic is upper case, its suffixes are not: MOV.s8, FADD.f32
 
 
 def spellings(root=None):

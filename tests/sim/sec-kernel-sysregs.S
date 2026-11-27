@@ -7,7 +7,7 @@ _start:
 	lea	vtab, r1
 	mtsr	vbr, r1
 	lea	hgen, r2
-	mov	#512, r3
+	mov	$512, r3
 kfill:	mov	r2, (r1)+
 	sob	r3, kfill
 	lea	vtab, r1
@@ -29,24 +29,24 @@ Npr13:	mov	cnt, r11
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 1 one exception for the patched mfsr of number 13
-	mov	#1, r0
+	mov	$1, r0
 	halt
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_ILLEGAL), r17
 	cbeq	r11, r17, 1f	; check 2 number 13 is an illegal instruction
-	mov	#2, r0
+	mov	$2, r0
 	halt
 1:
 	lea	ubuf, r11
 	mov	last_epc, r12
 	cbeq	r12, r11, 1f	; check 3 EPC of number 13 is the instruction
-	mov	#3, r0
+	mov	$3, r0
 	halt
 1:
 	mov	=(0x5a5a5a5a5a5a), r17
 	cbeq	r1, r17, 1f	; check 4 the destination register of the read of number 13 is unchanged
-	mov	#4, r0
+	mov	$4, r0
 	halt
 1:
 	mov.s32	tmplr, r2
@@ -62,24 +62,24 @@ Npr14:	mov	cnt, r11
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 5 one exception for the patched mfsr of number 14
-	mov	#5, r0
+	mov	$5, r0
 	halt
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_ILLEGAL), r17
 	cbeq	r11, r17, 1f	; check 6 number 14 is an illegal instruction
-	mov	#6, r0
+	mov	$6, r0
 	halt
 1:
 	lea	ubuf, r11
 	mov	last_epc, r12
 	cbeq	r12, r11, 1f	; check 7 EPC of number 14 is the instruction
-	mov	#7, r0
+	mov	$7, r0
 	halt
 1:
 	mov	=(0x5a5a5a5a5a5a), r17
 	cbeq	r1, r17, 1f	; check 8 the destination register of the read of number 14 is unchanged
-	mov	#8, r0
+	mov	$8, r0
 	halt
 1:
 	mov.s32	tmplr, r2
@@ -95,24 +95,24 @@ Npr63:	mov	cnt, r11
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 9 one exception for the patched mfsr of number 63
-	mov	#9, r0
+	mov	$9, r0
 	halt
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_ILLEGAL), r17
 	cbeq	r11, r17, 1f	; check 10 number 63 is an illegal instruction
-	mov	#10, r0
+	mov	$10, r0
 	halt
 1:
 	lea	ubuf, r11
 	mov	last_epc, r12
 	cbeq	r12, r11, 1f	; check 11 EPC of number 63 is the instruction
-	mov	#11, r0
+	mov	$11, r0
 	halt
 1:
 	mov	=(0x5a5a5a5a5a5a), r17
 	cbeq	r1, r17, 1f	; check 12 the destination register of the read of number 63 is unchanged
-	mov	#12, r0
+	mov	$12, r0
 	halt
 1:
 	mov.s32	tmplr, r2
@@ -128,24 +128,24 @@ Npr127:	mov	cnt, r11
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 13 one exception for the patched mfsr of number 127
-	mov	#13, r0
+	mov	$13, r0
 	halt
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_ILLEGAL), r17
 	cbeq	r11, r17, 1f	; check 14 number 127 is an illegal instruction
-	mov	#14, r0
+	mov	$14, r0
 	halt
 1:
 	lea	ubuf, r11
 	mov	last_epc, r12
 	cbeq	r12, r11, 1f	; check 15 EPC of number 127 is the instruction
-	mov	#15, r0
+	mov	$15, r0
 	halt
 1:
 	mov	=(0x5a5a5a5a5a5a), r17
 	cbeq	r1, r17, 1f	; check 16 the destination register of the read of number 127 is unchanged
-	mov	#16, r0
+	mov	$16, r0
 	halt
 1:
 	mov.s32	tmplr, r2
@@ -161,24 +161,24 @@ Npr128:	mov	cnt, r11
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 17 one exception for the patched mfsr of number 128
-	mov	#17, r0
+	mov	$17, r0
 	halt
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_ILLEGAL), r17
 	cbeq	r11, r17, 1f	; check 18 number 128 is an illegal instruction
-	mov	#18, r0
+	mov	$18, r0
 	halt
 1:
 	lea	ubuf, r11
 	mov	last_epc, r12
 	cbeq	r12, r11, 1f	; check 19 EPC of number 128 is the instruction
-	mov	#19, r0
+	mov	$19, r0
 	halt
 1:
 	mov	=(0x5a5a5a5a5a5a), r17
 	cbeq	r1, r17, 1f	; check 20 the destination register of the read of number 128 is unchanged
-	mov	#20, r0
+	mov	$20, r0
 	halt
 1:
 	mov.s32	tmplr, r2
@@ -194,24 +194,24 @@ Npr129:	mov	cnt, r11
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 21 one exception for the patched mfsr of number 129
-	mov	#21, r0
+	mov	$21, r0
 	halt
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_ILLEGAL), r17
 	cbeq	r11, r17, 1f	; check 22 number 129 is an illegal instruction
-	mov	#22, r0
+	mov	$22, r0
 	halt
 1:
 	lea	ubuf, r11
 	mov	last_epc, r12
 	cbeq	r12, r11, 1f	; check 23 EPC of number 129 is the instruction
-	mov	#23, r0
+	mov	$23, r0
 	halt
 1:
 	mov	=(0x5a5a5a5a5a5a), r17
 	cbeq	r1, r17, 1f	; check 24 the destination register of the read of number 129 is unchanged
-	mov	#24, r0
+	mov	$24, r0
 	halt
 1:
 	mov.s32	tmplr, r2
@@ -227,24 +227,24 @@ Npr147:	mov	cnt, r11
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 25 one exception for the patched mfsr of number 147
-	mov	#25, r0
+	mov	$25, r0
 	halt
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_ILLEGAL), r17
 	cbeq	r11, r17, 1f	; check 26 number 147 is an illegal instruction
-	mov	#26, r0
+	mov	$26, r0
 	halt
 1:
 	lea	ubuf, r11
 	mov	last_epc, r12
 	cbeq	r12, r11, 1f	; check 27 EPC of number 147 is the instruction
-	mov	#27, r0
+	mov	$27, r0
 	halt
 1:
 	mov	=(0x5a5a5a5a5a5a), r17
 	cbeq	r1, r17, 1f	; check 28 the destination register of the read of number 147 is unchanged
-	mov	#28, r0
+	mov	$28, r0
 	halt
 1:
 	mov.s32	tmplr, r2
@@ -260,24 +260,24 @@ Npr148:	mov	cnt, r11
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 29 one exception for the patched mfsr of number 148
-	mov	#29, r0
+	mov	$29, r0
 	halt
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_ILLEGAL), r17
 	cbeq	r11, r17, 1f	; check 30 number 148 is an illegal instruction
-	mov	#30, r0
+	mov	$30, r0
 	halt
 1:
 	lea	ubuf, r11
 	mov	last_epc, r12
 	cbeq	r12, r11, 1f	; check 31 EPC of number 148 is the instruction
-	mov	#31, r0
+	mov	$31, r0
 	halt
 1:
 	mov	=(0x5a5a5a5a5a5a), r17
 	cbeq	r1, r17, 1f	; check 32 the destination register of the read of number 148 is unchanged
-	mov	#32, r0
+	mov	$32, r0
 	halt
 1:
 	mov.s32	tmplr, r2
@@ -293,24 +293,24 @@ Npr200:	mov	cnt, r11
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 33 one exception for the patched mfsr of number 200
-	mov	#33, r0
+	mov	$33, r0
 	halt
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_ILLEGAL), r17
 	cbeq	r11, r17, 1f	; check 34 number 200 is an illegal instruction
-	mov	#34, r0
+	mov	$34, r0
 	halt
 1:
 	lea	ubuf, r11
 	mov	last_epc, r12
 	cbeq	r12, r11, 1f	; check 35 EPC of number 200 is the instruction
-	mov	#35, r0
+	mov	$35, r0
 	halt
 1:
 	mov	=(0x5a5a5a5a5a5a), r17
 	cbeq	r1, r17, 1f	; check 36 the destination register of the read of number 200 is unchanged
-	mov	#36, r0
+	mov	$36, r0
 	halt
 1:
 	mov.s32	tmplr, r2
@@ -326,24 +326,24 @@ Npr255:	mov	cnt, r11
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 37 one exception for the patched mfsr of number 255
-	mov	#37, r0
+	mov	$37, r0
 	halt
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_ILLEGAL), r17
 	cbeq	r11, r17, 1f	; check 38 number 255 is an illegal instruction
-	mov	#38, r0
+	mov	$38, r0
 	halt
 1:
 	lea	ubuf, r11
 	mov	last_epc, r12
 	cbeq	r12, r11, 1f	; check 39 EPC of number 255 is the instruction
-	mov	#39, r0
+	mov	$39, r0
 	halt
 1:
 	mov	=(0x5a5a5a5a5a5a), r17
 	cbeq	r1, r17, 1f	; check 40 the destination register of the read of number 255 is unchanged
-	mov	#40, r0
+	mov	$40, r0
 	halt
 1:
 	mov.s32	tmplw, r2
@@ -359,19 +359,19 @@ Npw2:	mov	cnt, r11
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 41 one exception for the patched mtsr of number 2
-	mov	#41, r0
+	mov	$41, r0
 	halt
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_ILLEGAL), r17
 	cbeq	r11, r17, 1f	; check 42 number 2 is an illegal instruction
-	mov	#42, r0
+	mov	$42, r0
 	halt
 1:
 	lea	ubuf, r11
 	mov	last_epc, r12
 	cbeq	r12, r11, 1f	; check 43 EPC of number 2 is the instruction
-	mov	#43, r0
+	mov	$43, r0
 	halt
 1:
 	mov.s32	tmplw, r2
@@ -387,19 +387,19 @@ Npw3:	mov	cnt, r11
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 44 one exception for the patched mtsr of number 3
-	mov	#44, r0
+	mov	$44, r0
 	halt
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_ILLEGAL), r17
 	cbeq	r11, r17, 1f	; check 45 number 3 is an illegal instruction
-	mov	#45, r0
+	mov	$45, r0
 	halt
 1:
 	lea	ubuf, r11
 	mov	last_epc, r12
 	cbeq	r12, r11, 1f	; check 46 EPC of number 3 is the instruction
-	mov	#46, r0
+	mov	$46, r0
 	halt
 1:
 	mov.s32	tmplw, r2
@@ -415,19 +415,19 @@ Npw12:	mov	cnt, r11
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 47 one exception for the patched mtsr of number 12
-	mov	#47, r0
+	mov	$47, r0
 	halt
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_ILLEGAL), r17
 	cbeq	r11, r17, 1f	; check 48 number 12 is an illegal instruction
-	mov	#48, r0
+	mov	$48, r0
 	halt
 1:
 	lea	ubuf, r11
 	mov	last_epc, r12
 	cbeq	r12, r11, 1f	; check 49 EPC of number 12 is the instruction
-	mov	#49, r0
+	mov	$49, r0
 	halt
 1:
 	mov.s32	tmplw, r2
@@ -443,19 +443,19 @@ Npw13:	mov	cnt, r11
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 50 one exception for the patched mtsr of number 13
-	mov	#50, r0
+	mov	$50, r0
 	halt
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_ILLEGAL), r17
 	cbeq	r11, r17, 1f	; check 51 number 13 is an illegal instruction
-	mov	#51, r0
+	mov	$51, r0
 	halt
 1:
 	lea	ubuf, r11
 	mov	last_epc, r12
 	cbeq	r12, r11, 1f	; check 52 EPC of number 13 is the instruction
-	mov	#52, r0
+	mov	$52, r0
 	halt
 1:
 	mov.s32	tmplw, r2
@@ -471,19 +471,19 @@ Npw14:	mov	cnt, r11
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 53 one exception for the patched mtsr of number 14
-	mov	#53, r0
+	mov	$53, r0
 	halt
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_ILLEGAL), r17
 	cbeq	r11, r17, 1f	; check 54 number 14 is an illegal instruction
-	mov	#54, r0
+	mov	$54, r0
 	halt
 1:
 	lea	ubuf, r11
 	mov	last_epc, r12
 	cbeq	r12, r11, 1f	; check 55 EPC of number 14 is the instruction
-	mov	#55, r0
+	mov	$55, r0
 	halt
 1:
 	mov.s32	tmplw, r2
@@ -499,19 +499,19 @@ Npw63:	mov	cnt, r11
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 56 one exception for the patched mtsr of number 63
-	mov	#56, r0
+	mov	$56, r0
 	halt
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_ILLEGAL), r17
 	cbeq	r11, r17, 1f	; check 57 number 63 is an illegal instruction
-	mov	#57, r0
+	mov	$57, r0
 	halt
 1:
 	lea	ubuf, r11
 	mov	last_epc, r12
 	cbeq	r12, r11, 1f	; check 58 EPC of number 63 is the instruction
-	mov	#58, r0
+	mov	$58, r0
 	halt
 1:
 	mov.s32	tmplw, r2
@@ -527,19 +527,19 @@ Npw127:	mov	cnt, r11
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 59 one exception for the patched mtsr of number 127
-	mov	#59, r0
+	mov	$59, r0
 	halt
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_ILLEGAL), r17
 	cbeq	r11, r17, 1f	; check 60 number 127 is an illegal instruction
-	mov	#60, r0
+	mov	$60, r0
 	halt
 1:
 	lea	ubuf, r11
 	mov	last_epc, r12
 	cbeq	r12, r11, 1f	; check 61 EPC of number 127 is the instruction
-	mov	#61, r0
+	mov	$61, r0
 	halt
 1:
 	mov.s32	tmplw, r2
@@ -555,19 +555,19 @@ Npw128:	mov	cnt, r11
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 62 one exception for the patched mtsr of number 128
-	mov	#62, r0
+	mov	$62, r0
 	halt
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_ILLEGAL), r17
 	cbeq	r11, r17, 1f	; check 63 number 128 is an illegal instruction
-	mov	#63, r0
+	mov	$63, r0
 	halt
 1:
 	lea	ubuf, r11
 	mov	last_epc, r12
 	cbeq	r12, r11, 1f	; check 64 EPC of number 128 is the instruction
-	mov	#64, r0
+	mov	$64, r0
 	halt
 1:
 	mov.s32	tmplw, r2
@@ -583,19 +583,19 @@ Npw129:	mov	cnt, r11
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 65 one exception for the patched mtsr of number 129
-	mov	#65, r0
+	mov	$65, r0
 	halt
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_ILLEGAL), r17
 	cbeq	r11, r17, 1f	; check 66 number 129 is an illegal instruction
-	mov	#66, r0
+	mov	$66, r0
 	halt
 1:
 	lea	ubuf, r11
 	mov	last_epc, r12
 	cbeq	r12, r11, 1f	; check 67 EPC of number 129 is the instruction
-	mov	#67, r0
+	mov	$67, r0
 	halt
 1:
 	mov.s32	tmplw, r2
@@ -611,19 +611,19 @@ Npw147:	mov	cnt, r11
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 68 one exception for the patched mtsr of number 147
-	mov	#68, r0
+	mov	$68, r0
 	halt
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_ILLEGAL), r17
 	cbeq	r11, r17, 1f	; check 69 number 147 is an illegal instruction
-	mov	#69, r0
+	mov	$69, r0
 	halt
 1:
 	lea	ubuf, r11
 	mov	last_epc, r12
 	cbeq	r12, r11, 1f	; check 70 EPC of number 147 is the instruction
-	mov	#70, r0
+	mov	$70, r0
 	halt
 1:
 	mov.s32	tmplw, r2
@@ -639,19 +639,19 @@ Npw148:	mov	cnt, r11
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 71 one exception for the patched mtsr of number 148
-	mov	#71, r0
+	mov	$71, r0
 	halt
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_ILLEGAL), r17
 	cbeq	r11, r17, 1f	; check 72 number 148 is an illegal instruction
-	mov	#72, r0
+	mov	$72, r0
 	halt
 1:
 	lea	ubuf, r11
 	mov	last_epc, r12
 	cbeq	r12, r11, 1f	; check 73 EPC of number 148 is the instruction
-	mov	#73, r0
+	mov	$73, r0
 	halt
 1:
 	mov.s32	tmplw, r2
@@ -667,19 +667,19 @@ Npw200:	mov	cnt, r11
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 74 one exception for the patched mtsr of number 200
-	mov	#74, r0
+	mov	$74, r0
 	halt
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_ILLEGAL), r17
 	cbeq	r11, r17, 1f	; check 75 number 200 is an illegal instruction
-	mov	#75, r0
+	mov	$75, r0
 	halt
 1:
 	lea	ubuf, r11
 	mov	last_epc, r12
 	cbeq	r12, r11, 1f	; check 76 EPC of number 200 is the instruction
-	mov	#76, r0
+	mov	$76, r0
 	halt
 1:
 	mov.s32	tmplw, r2
@@ -695,22 +695,22 @@ Npw255:	mov	cnt, r11
 	sub	r10, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 77 one exception for the patched mtsr of number 255
-	mov	#77, r0
+	mov	$77, r0
 	halt
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_ILLEGAL), r17
 	cbeq	r11, r17, 1f	; check 78 number 255 is an illegal instruction
-	mov	#78, r0
+	mov	$78, r0
 	halt
 1:
 	lea	ubuf, r11
 	mov	last_epc, r12
 	cbeq	r12, r11, 1f	; check 79 EPC of number 255 is the instruction
-	mov	#79, r0
+	mov	$79, r0
 	halt
 1:
-	mov	#0, r0
+	mov	$0, r0
 	halt
 	.align	4
 tmplr:	mfsr	r1, ptbr
@@ -718,7 +718,7 @@ tmplw:	mtsr	ptbr, r1
 	.align 4
 
 hgen:	mov	cnt, r12
-	add	#1, r12
+	add	$1, r12
 	mov	r12, cnt
 	mfsr	r12, ecause
 	mov	r12, last_cause
@@ -729,8 +729,8 @@ hgen:	mov	cnt, r12
 	mfsr	r12, epsw
 	mov	r12, last_epsw
 	mtsr	epc, r13
-	rti	#RTIMASK_ALL
-h_ok:	mov	#0, r0
+	rti	$RTIMASK_ALL
+h_ok:	mov	$0, r0
 h_fail:	halt
 
 	.data

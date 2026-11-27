@@ -9,7 +9,7 @@ _start:
 	mtsr	vbr, r1
 	lea	l2, r1
 	mtsr	ptbr, r1
-	mov	#1, r1
+	mov	$1, r1
 	mtsr	mmuctl, r1
 	lea	rows, r12
 	lea	rows_end, r13
@@ -18,40 +18,40 @@ rowloop:
 	cbeq	r12, r13, alldone
 ; the normal streams: copy the image, or fill the destination with 0xa5
 	mov	r12, r11
-	add	#96, r11
+	add	$96, r11
 	mov	r12, r10
-	add	#256, r10
+	add	$256, r10
 prep:	cbeq	r11, r10, prepdone
 	mov	8(r11), r4
-	cbeq	r4, #0, pnext
+	cbeq	r4, $0, pnext
 	mov	24(r11), r3
-	cbne	r3, #0, pnext
+	cbne	r3, $0, pnext
 	mov	(r11), r2
 	mov	16(r11), r1
-	cbeq	r1, #0, pfill
+	cbeq	r1, $0, pfill
 	mcpy	r2, r1, r4
 	br	pnext
-pfill:	mov	#0xa5, r1
+pfill:	mov	$0xa5, r1
 	mset	r2, r1, r4
-pnext:	add	#32, r11
+pnext:	add	$32, r11
 	br	prep
 prepdone:
 ; the page before the one that will fault is touched first (it is paged in by the handler)
-	mov	#0, r1
+	mov	$0, r1
 	mov	r1, expect
 	mov	256(r12), r1
-	cbeq	r1, #0, nopre
+	cbeq	r1, $0, nopre
 	mov.u8	(r1), r2
 nopre:
 	mov	504(r12), r1
-	cbeq	r1, #0, nopre2
+	cbeq	r1, $0, nopre2
 	mov.u8	(r1), r2
 nopre2:
-	mov	#0, r1
+	mov	$0, r1
 	mov	r1, hcount
 	mov	r1, hr_epc
 	mov	16(r12), r1
-	setne	r1, #0, r1
+	setne	r1, $0, r1
 	mov	r1, expect
 	mov	40(r12), r1
 	mov	48(r12), r2
@@ -69,37 +69,37 @@ nopre2:
 	mov	r3, fin_r3
 	mov	r6, fin_r6
 	mov	r10, fin_r10
-	mov	#0, r1
+	mov	$0, r1
 	mov	r1, expect
 
 	mov	16(r12), r1
-	cbeq	r1, #0, noflt
+	cbeq	r1, $0, noflt
 	mov	hcount, r1
 	mov	488(r12), r2
 	cbeq	r1, r2, 1f
-	mov	#1, r0
+	mov	$1, r0
 	halt
 1:
 	mov	hr_cause, r1
 	mov	264(r12), r2
 	cbeq	r1, r2, 1f
-	mov	#2, r0
+	mov	$2, r0
 	halt
 1:
 	mov	hr_eva1, r1
 	mov	272(r12), r2
 	cbeq	r1, r2, 1f
-	mov	#3, r0
+	mov	$3, r0
 	halt
 1:
 	mov	hr_epc, r1
 	mov	280(r12), r2
 	cbeq	r1, r2, 1f
-	mov	#4, r0
+	mov	$4, r0
 	halt
 1:
 	mov	24(r12), r1
-	cbeq	r1, #3, snapdone
+	cbeq	r1, $3, snapdone
 	mov	hr_r1, r1
 	mov	40(r12), r2
 	sub	r2, r1
@@ -109,85 +109,85 @@ nopre2:
 	mov	r4, r5
 	shl	r3, r5
 	cbeq	r5, r1, pg1
-	mov	#5, r0
+	mov	$5, r0
 	halt
 pg1:	mov	472(r12), r2
 	cblos	r4, r2, pg2
-	mov	#5, r0
+	mov	$5, r0
 	halt
 pg2:	mov	480(r12), r2
-	cbeq	r2, #0, pg3
-	cbeq	r4, #0, pg3
-	mov	#5, r0
+	cbeq	r2, $0, pg3
+	cbeq	r4, $0, pg3
+	mov	$5, r0
 	halt
 pg3:
 	mov	288(r12), r3
 	mov	40(r12), r2
-	cbeq	r3, #-1, pq0
+	cbeq	r3, $-1, pq0
 	mov	r4, r5
 	shl	r3, r5
 	add	r5, r2
 pq0:	mov	hr_r1, r1
 	cbeq	r1, r2, pr0
-	mov	#5, r0
+	mov	$5, r0
 	halt
 pr0:
 	mov	296(r12), r3
 	mov	48(r12), r2
-	cbeq	r3, #-1, pq1
+	cbeq	r3, $-1, pq1
 	mov	r4, r5
 	shl	r3, r5
 	add	r5, r2
 pq1:	mov	hr_r2, r1
 	cbeq	r1, r2, pr1
-	mov	#6, r0
+	mov	$6, r0
 	halt
 pr1:
 	mov	304(r12), r3
 	mov	56(r12), r2
-	cbeq	r3, #-1, pq2
+	cbeq	r3, $-1, pq2
 	mov	r4, r5
 	shl	r3, r5
 	add	r5, r2
 pq2:	mov	hr_r7, r1
 	cbeq	r1, r2, pr2
-	mov	#7, r0
+	mov	$7, r0
 	halt
 pr2:
 	mov	312(r12), r3
 	mov	64(r12), r2
-	cbeq	r3, #-1, pq3
+	cbeq	r3, $-1, pq3
 	mov	r4, r5
 	shl	r3, r5
 	add	r5, r2
 pq3:	mov	hr_r3, r1
 	cbeq	r1, r2, pr3
-	mov	#8, r0
+	mov	$8, r0
 	halt
 pr3:
 	mov	320(r12), r3
 	mov	72(r12), r2
-	cbeq	r3, #-1, pq4
+	cbeq	r3, $-1, pq4
 	mov	r4, r5
 	shl	r3, r5
 	add	r5, r2
 pq4:	mov	hr_r6, r1
 	cbeq	r1, r2, pr4
-	mov	#9, r0
+	mov	$9, r0
 	halt
 pr4:
 	mov	328(r12), r3
 	mov	r4, r5
-	shl	#3, r5
+	shl	$3, r5
 	add	r5, r3
 	mov	(r3), r2
 	mov	hr_r10, r1
 	cbeq	r1, r2, ps1
-	mov	#10, r0
+	mov	$10, r0
 	halt
 ps1:
 	mov	344(r12), r3
-	cbeq	r3, #0, snapdone
+	cbeq	r3, $0, snapdone
 	mov	312(r12), r5
 	mov	r4, r8
 	shl	r5, r8
@@ -195,7 +195,7 @@ ps1:
 	lea	hsnap, r1
 	mov	376(r12), r2
 	mov	352(r12), r6
-	mov	#0, r7
+	mov	$0, r7
 snl:	mov.u8	(r1)+, r4
 	mov.u8	(r2)+, r5
 	mov.u8	(r6)+, r0
@@ -207,17 +207,17 @@ sn2:	cbhis	r7, r9, sn3
 	cbeq	r4, r0, snn
 	br	snbad
 sn3:	cbeq	r4, r0, snn
-snbad:	mov	#11, r0
+snbad:	mov	$11, r0
 	halt
-snn:	add	#1, r7
+snn:	add	$1, r7
 	cbne	r7, r3, snl
 snapdone:
 	br	fltdone
 noflt:
 	mov	hcount, r1
-	mov	#0, r2
+	mov	$0, r2
 	cbeq	r1, r2, 1f
-	mov	#12, r0
+	mov	$12, r0
 	halt
 1:
 fltdone:
@@ -225,50 +225,50 @@ fltdone:
 	mov	376(r12), r2
 	mov	368(r12), r3
 	call	memeq
-	cbeq	r0, #0, 1f
-	mov	#13, r0
+	cbeq	r0, $0, 1f
+	mov	$13, r0
 	halt
 1:
 	mov	fin_r1, r1
 	mov	384(r12), r2
 	cbeq	r1, r2, 1f
-	mov	#14, r0
+	mov	$14, r0
 	halt
 1:
 	mov	fin_r2, r1
 	mov	392(r12), r2
 	cbeq	r1, r2, 1f
-	mov	#15, r0
+	mov	$15, r0
 	halt
 1:
 	mov	fin_r7, r1
 	mov	400(r12), r2
 	cbeq	r1, r2, 1f
-	mov	#16, r0
+	mov	$16, r0
 	halt
 1:
 	mov	fin_r3, r1
 	mov	408(r12), r2
 	cbeq	r1, r2, 1f
-	mov	#17, r0
+	mov	$17, r0
 	halt
 1:
 	mov	fin_r6, r1
 	mov	416(r12), r2
 	cbeq	r1, r2, 1f
-	mov	#18, r0
+	mov	$18, r0
 	halt
 1:
 	mov	fin_r10, r1
 	mov	424(r12), r2
 	cbeq	r1, r2, 1f
-	mov	#19, r0
+	mov	$19, r0
 	halt
 1:
 	mov	16(r12), r1
-	cbne	r1, #0, vsref
+	cbne	r1, $0, vsref
 	mov	368(r12), r3
-	cbeq	r3, #0, 1f
+	cbeq	r3, $0, 1f
 	lea	refbuf, r2
 	mov	360(r12), r1
 	mcpy	r2, r1, r3
@@ -301,24 +301,24 @@ vsref:
 	lea	refbuf, r2
 	mov	368(r12), r3
 	call	memeq
-	cbeq	r0, #0, 1f
-	mov	#20, r0
+	cbeq	r0, $0, 1f
+	mov	$20, r0
 	halt
 1:
 	mov	fin_r10, r1
 	mov	refd5, r2
 	cbeq	r1, r2, 1f
-	mov	#21, r0
+	mov	$21, r0
 	halt
 1:
 	mov	16(r12), r1
-	cbeq	r1, #2, rownext
+	cbeq	r1, $2, rownext
 	mov	fin_r1, r1
 	mov	40(r12), r2
 	sub	r2, r1
 	mov	refd0, r2
 	cbeq	r1, r2, 1f
-	mov	#22, r0
+	mov	$22, r0
 	halt
 1:
 	mov	fin_r2, r1
@@ -326,7 +326,7 @@ vsref:
 	sub	r2, r1
 	mov	refd1, r2
 	cbeq	r1, r2, 1f
-	mov	#23, r0
+	mov	$23, r0
 	halt
 1:
 	mov	fin_r7, r1
@@ -334,7 +334,7 @@ vsref:
 	sub	r2, r1
 	mov	refd2, r2
 	cbeq	r1, r2, 1f
-	mov	#24, r0
+	mov	$24, r0
 	halt
 1:
 	mov	fin_r3, r1
@@ -342,7 +342,7 @@ vsref:
 	sub	r2, r1
 	mov	refd3, r2
 	cbeq	r1, r2, 1f
-	mov	#25, r0
+	mov	$25, r0
 	halt
 1:
 	mov	fin_r6, r1
@@ -350,32 +350,32 @@ vsref:
 	sub	r2, r1
 	mov	refd4, r2
 	cbeq	r1, r2, 1f
-	mov	#26, r0
+	mov	$26, r0
 	halt
 1:
 rownext:
-	add	#512, r12
+	add	$512, r12
 	br	rowloop
 alldone:
-	mov	#0, r0
+	mov	$0, r0
 	halt
 
-memeq:	cbeq	r3, #0, me_ok
+memeq:	cbeq	r3, $0, me_ok
 me_l:	mov.u8	(r1)+, r0
 	mov.u8	(r2)+, r4
 	cbne	r0, r4, me_bad
 	sob	r3, me_l
-me_ok:	mov	#0, r0
+me_ok:	mov	$0, r0
 	ret
-me_bad:	mov	#1, r0
+me_bad:	mov	$1, r0
 	ret
 
-h_bad:	mov	#99, r0
+h_bad:	mov	$99, r0
 	halt
 h_fault:
-	pushm	#0x3fff
+	pushm	$0x3fff
 	mov	24(r12), r0
-	cbeq	r0, #3, h_min
+	cbeq	r0, $3, h_min
 	mov	r1, hr_r1
 	mov	r2, hr_r2
 	mov	r7, hr_r7
@@ -390,48 +390,48 @@ h_min:
 	mfsr	r1, eva
 	mov	r1, hr_eva
 	mov	expect, r2
-	cbeq	r2, #0, h_page
+	cbeq	r2, $0, h_page
 	mov	hcount, r2
-	cbne	r2, #0, h_nf
+	cbne	r2, $0, h_nf
 	mov	r1, hr_eva1
-h_nf:	add	#1, r2
+h_nf:	add	$1, r2
 	mov	r2, hcount
 	mov	344(r12), r3
-	cbeq	r3, #0, h_nosnap
+	cbeq	r3, $0, h_nosnap
 	lea	hsnap, r2
 	mov	336(r12), r4
 	mcpy	r2, r4, r3
 h_nosnap:
 	mov	hr_cause, r2
-	cbeq	r2, #VECTOR_MISALIGNED, h_mis
+	cbeq	r2, $VECTOR_MISALIGNED, h_mis
 h_page:
 	mfsr	r1, eva
-	shr	#12, r1
-	shl	#12, r1
+	shr	$12, r1
+	shl	$12, r1
 	mov	r1, r2
 	mov	=0x800000, r3
 	sub	r3, r2
-	shr	#12, r2
-	shl	#3, r2
+	shr	$12, r2
+	shl	$3, r2
 	lea	wpt, r3
 	add	r3, r2
 	mov	r1, r3
-	bis	#(1<<PTE_V|1<<PTE_R|1<<PTE_W|1<<PTE_A|1<<PTE_D), r3
+	bis	$(1<<PTE_V|1<<PTE_R|1<<PTE_W|1<<PTE_A|1<<PTE_D), r3
 	mov	r3, (r2)
 	tlbi	r1
 	mov	r12, r4
-	add	#96, r4
+	add	$96, r4
 	mov	r12, r5
-	add	#256, r5
+	add	$256, r5
 hp_s:	cbeq	r4, r5, h_pdone
 	mov	8(r4), r6
-	cbeq	r6, #0, hp_next
+	cbeq	r6, $0, hp_next
 	mov	24(r4), r7
-	cbeq	r7, #0, hp_next
+	cbeq	r7, $0, hp_next
 	mov	(r4), r2
 	add	r2, r6
 	mov	r1, r3
-	add	#4096, r3
+	add	$4096, r3
 	cbhis	r2, r1, 1f
 	mov	r1, r2
 1:	cblo	r6, r3, 1f
@@ -440,7 +440,7 @@ hp_s:	cbeq	r4, r5, h_pdone
 	mov	r6, r7
 	sub	r2, r7
 	mov	16(r4), r3
-	cbeq	r3, #0, hp_fill
+	cbeq	r3, $0, hp_fill
 	mov	r2, r0
 	mov	(r4), r8
 	sub	r8, r0
@@ -448,22 +448,22 @@ hp_s:	cbeq	r4, r5, h_pdone
 	mcpy	r2, r3, r7
 	br	hp_next
 hp_fill:
-	mov	#0xa5, r0
+	mov	$0xa5, r0
 	mset	r2, r0, r7
 hp_next:
-	add	#32, r4
+	add	$32, r4
 	br	hp_s
 h_pdone:
 	mov	expect, r2
-	cbeq	r2, #0, h_ret
+	cbeq	r2, $0, h_ret
 	mov	24(r12), r2
-	cbeq	r2, #0, h_ret
-	cbeq	r2, #3, h_ret
-	cbne	r2, #4, h_garb
+	cbeq	r2, $0, h_ret
+	cbeq	r2, $3, h_ret
+	cbne	r2, $4, h_garb
 ; clob 4: the handler names accumulators with vclr OUTSIDE any block (all sixteen registers) and returns: the exception return clears the naming (errata 186 decision 13, 6.14.9;
 ; the open item of errata 172), so the restarted block of the interrupted program finds nothing named and gives the result of a run with no fault
-	vclr.l	v0, #8
-	vclr.l	v8, #8
+	vclr.l	v0, $8
+	vclr.l	v8, $8
 	br	h_ret
 h_garb:
 ; the context switch that does not save the hidden registers: other blocks overwrite v0..v15 (and name accumulators)
@@ -488,11 +488,11 @@ h_garb:
 	vld.l	v15, (r1)+
 	vend
 	mov	24(r12), r2
-	cblo	r2, #2, h_ret
+	cblo	r2, $2, h_ret
 	lea	gdata, r1
 	lea	gdata+32, r5
 	vec	r1, r5
-	vclr.l	v0, #8
+	vclr.l	v0, $8
 	vld.l	v8, (r1)+
 	vadd.l	v0, v0, v8
 	vadd.l	v1, v1, v8
@@ -504,14 +504,14 @@ h_garb:
 	vadd.l	v7, v7, v8
 	vend
 h_ret:
-	popm	#0x3fff
-	rti	#RTIMASK_ALL
+	popm	$0x3fff
+	rti	$RTIMASK_ALL
 h_mis:
 	mov	24(r12), r2
 	lea	fixtramp, r1
 	mtsr	epc, r1
-	popm	#0x3fff
-	rti	#RTIMASK_ALL
+	popm	$0x3fff
+	rti	$RTIMASK_ALL
 fixtramp:
 	mov	432(r12), r1
 	mov	440(r12), r2
@@ -585,7 +585,7 @@ kern6:
 kvec6:
 	vec	r1, r5
 	vld.wu v0, (r1)+
-	vshrr.w v1, v0, #5
+	vshrr.w v1, v0, $5
 	vst.w v1, (r3)+
 	vend
 	ret
@@ -699,7 +699,7 @@ kern18:
 kvec18:
 	vec	r1, r5
 	vld.l v0, (r1)+
-	vsts.l.w v0, (r3)+, #15
+	vsts.l.w v0, (r3)+, $15
 	vend
 	ret
 	.align 2
@@ -707,7 +707,7 @@ kern19:
 kvec19:
 	vec	r1, r5
 	vld.w v0, (r1)+
-	vsts.w.bu v0, (r3)+, #1
+	vsts.w.bu v0, (r3)+, $1
 	vend
 	ret
 	.align 2
@@ -715,7 +715,7 @@ kern20:
 kvec20:
 	vec	r1, r5
 	vld.l v0, (r1)+
-	vsts.l.bu v0, (r3)+, #8
+	vsts.l.bu v0, (r3)+, $8
 	vend
 	ret
 	.align 2
@@ -976,7 +976,7 @@ kvec46:
 kern47:
 kvec47:
 	vec	r1, r5
-	vclr.l v4, #1
+	vclr.l v4, $1
 	vld.l v0, (r1)+
 	vadd.l v4, v4, v0
 	vst.l v4, (r3)+
@@ -986,7 +986,7 @@ kvec47:
 kern48:
 kvec48:
 	vec	r1, r5
-	vclr.l v4, #1
+	vclr.l v4, $1
 	vld.w v0, (r1)+
 	vld.w v1, (r2)+
 	vdot.w v4, v0, v1
@@ -1030,7 +1030,7 @@ kvec52:
 kern53:
 kvec53:
 	vec	r1, r5
-	vclr.l v4, #1
+	vclr.l v4, $1
 	vld.l v0, (r1)+
 	vadd.l v4, v4, v0
 	vfin
@@ -1044,13 +1044,13 @@ kern54:
 kvec54:
 	vec	r1, r5
 	vld.l v0, (r1)+
-	vadd.l v1, v0, #1
+	vadd.l v1, v0, $1
 	vst.l v1, (r3)+
 	vend
 	ret
 	.align 2
 kern55:
-	vclr.l v4, #1
+	vclr.l v4, $1
 kvec55:
 	vec	r1, r5
 	vld.l v0, (r1)+

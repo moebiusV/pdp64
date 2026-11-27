@@ -8,7 +8,7 @@ _start:
 	lea	vtab, r1
 	mtsr	vbr, r1
 	lea	hgen, r2
-	mov	#512, r3
+	mov	$512, r3
 kfill:	mov	r2, (r1)+
 	sob	r3, kfill
 	lea	vtab, r1
@@ -23,70 +23,70 @@ kfill:	mov	r2, (r1)+
 	mtsr	usp, r1
 	lea	user, r1
 	mtsr	epc, r1
-	mov	#((MODE_USER<<PSW_MODE)|(MODE_USER<<PSW_PREV)), r1
+	mov	$((MODE_USER<<PSW_MODE)|(MODE_USER<<PSW_PREV)), r1
 	mtsr	epsw, r1
-	mov	#0, r1
-	rti	#RTIMASK_ALL
+	mov	$0, r1
+	rti	$RTIMASK_ALL
 user:
-	mov	#0x1f, r1
+	mov	$0x1f, r1
 	fsflags	r1, r2
-	trap	#3
-	mov	#0, r1
+	trap	$3
+	mov	$0, r1
 	fsflags	r1, r2
 	mov	=(0x0), r17
 	cbeq	r2, r17, 1f	; check 1 context B finds the floating-point flags clear after RTI with the mask bit 14 clear
-	mov	#1, r0
-	trap	#1
+	mov	$1, r0
+	trap	$1
 1:
-	mov	#0x1f, r1
+	mov	$0x1f, r1
 	fsflags	r1, r2
-	trap	#3
-	mov	#0, r1
+	trap	$3
+	mov	$0, r1
 	fsflags	r1, r2
 	mov	=(0x0), r17
 	cbeq	r2, r17, 1f	; check 2 context B finds the floating-point flags clear after a write of ASID
-	mov	#2, r0
-	trap	#1
+	mov	$2, r0
+	trap	$1
 1:
-	mov	#0x1f, r1
+	mov	$0x1f, r1
 	fsflags	r1, r2
-	trap	#3
-	mov	#0, r1
+	trap	$3
+	mov	$0, r1
 	fsflags	r1, r2
 	mov	=(0x0), r17
 	cbeq	r2, r17, 1f	; check 3 context B finds the floating-point flags clear after a write of PTBR
-	mov	#3, r0
-	trap	#1
+	mov	$3, r0
+	trap	$1
 1:
-	mov	#0x1f, r1
+	mov	$0x1f, r1
 	fsflags	r1, r2
-	trap	#3
-	mov	#0, r1
+	trap	$3
+	mov	$0, r1
 	fsflags	r1, r2
 	mov	=(0x1f), r17
 	cbeq	r2, r17, 1f	; check 4 context B finds the floating-point flags as A left them after the control: a write of SSP, return with every register kept
-	mov	#4, r0
-	trap	#1
+	mov	$4, r0
+	trap	$1
 1:
-	mov	#0, r0
-	trap	#0
+	mov	$0, r0
+	trap	$0
 
 h_sw:	mov	scen, r12
-	add	#1, r12
+	add	$1, r12
 	mov	r12, scen
-	mov	#0, r11
-	cbeq	r12, #1, s1
-	cbeq	r12, #2, s2
-	cbeq	r12, #3, s3
+	mov	$0, r11
+	cbeq	r12, $1, s1
+	cbeq	r12, $2, s2
+	cbeq	r12, $3, s3
 	mtsr	ssp, r11
-	rti	#RTIMASK_ALL
-s1:	rti	#(RTIMASK_ALL & ~(1<<RTIMASK_VECTOR))
+	rti	$RTIMASK_ALL
+s1:	rti	$(RTIMASK_ALL & ~(1<<RTIMASK_VECTOR))
 s2:	mtsr	asid, r11
-	rti	#RTIMASK_ALL
+	rti	$RTIMASK_ALL
 s3:	mtsr	ptbr, r11
-	rti	#RTIMASK_ALL
+	rti	$RTIMASK_ALL
 hgen:	mov	cnt, r12
-	add	#1, r12
+	add	$1, r12
 	mov	r12, cnt
 	mfsr	r12, ecause
 	mov	r12, last_cause
@@ -97,8 +97,8 @@ hgen:	mov	cnt, r12
 	mfsr	r12, epsw
 	mov	r12, last_epsw
 	mtsr	epc, r13
-	rti	#RTIMASK_ALL
-h_ok:	mov	#0, r0
+	rti	$RTIMASK_ALL
+h_ok:	mov	$0, r0
 h_fail:	halt
 
 	.data

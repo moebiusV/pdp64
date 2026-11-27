@@ -29,7 +29,7 @@ allocation should prefer them, and `mov2` (two register moves in one parcel) tak
 |---|---|
 | `r0 r1 r8 r2 sp r3 r9 r10` | `r0 r1 r8 r2 sp r3 r9 r10 r11 r4 r15 r5 r24 r25 r26 r6` |
 
-`r16`-`r31` are ordinary registers to the hardware; `r24`-`r26` are among the sixteen hot registers (appendix C.4.2). `r16`-`r23` are caller-saved scratch and `r24`-`r31` are callee-saved (appendix C.4.2); the default mask of a system-call return (`RTI #RTIMASK_SYSCALL`) keeps `r0` and the callee-saved registers (appendix C.4.3).
+`r16`-`r31` are ordinary registers to the hardware; `r24`-`r26` are among the sixteen hot registers (appendix C.4.2). `r16`-`r23` are caller-saved scratch and `r24`-`r31` are callee-saved (appendix C.4.2); the default mask of a system-call return (`RTI $RTIMASK_SYSCALL`) keeps `r0` and the callee-saved registers (appendix C.4.3).
 
 ## Variadic calls
 

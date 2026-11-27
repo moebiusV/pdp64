@@ -4,10 +4,10 @@
 	mov 8(r24), r25
 	mov r26, 16(sp)
 	mov (r16)(r31*8), r18
-	pushm #0xFF000000
-	popm #-16740608
+	pushm $0xFF000000
+	popm $-16740608
 	lea 8(r28),r29
-	cbeq r19,#0,x
+	cbeq r19,$0,x
 	cbne r30,r31,x
 	xor r27,r26
 x:	ret

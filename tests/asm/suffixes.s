@@ -27,4 +27,4 @@
 	aadd r4,(r5),r6
 	ll (r7),r8
 	sc r1,(r2),r3
-	ror.s32 r1,#5,r2
+	ror.s32 r1,$5,r2

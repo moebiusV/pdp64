@@ -60,5 +60,5 @@
 <text x="420.0" y="276.0" font-size="9" text-anchor="start" fill="#222" font-family="DejaVu Sans, sans-serif">start registers (4.7)</text>
 <text x="20.0" y="340.0" font-size="9" text-anchor="start" fill="#444" font-family="DejaVu Sans, sans-serif">0x1000 and the 64 KB stack top follow the proposal of 4.4 and the figure of chapter 6; how many pages are reserved is not decided.</text>
 <text x="20.0" y="354.0" font-size="9" text-anchor="start" fill="#444" font-family="DejaVu Sans, sans-serif">Not to scale.  The ROM itself is not in this memory: it sits in the controller chip, outside the address space the kernel uses.</text>
-<text x="20.0" y="368.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">On the PDP-11 the vectors sat at 0 to 0377 and the bootstrap was loaded elsewhere, often high in memory (4.1).</text>
+<text x="20.0" y="368.0" font-size="9" text-anchor="start" fill="#555" font-family="DejaVu Sans, sans-serif">On the PDP-11 the vectors sat at 0 to 0o377 and the bootstrap was loaded elsewhere, often high in memory (4.1).</text>
 </svg>

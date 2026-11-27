@@ -1,0 +1,10 @@
+tile_gemm  16x16x64 strip 32 (4 tiles), one-cycle outer product: (1580, 4)
+tile_gemm  16x16x64 strip 32, row-a-cycle outer product        : (3116, 4)
+tile_gemm strip 16 4720 7792
+tile_gemm strip 32 1580 3116
+tile_gemm strip 64 795 1435
+gemm_unit  (with tile reloads, compulsory only, compute, traffic, compulsory): (1125, 613, 256, 1088, 576)
+spmv gather nnz/row 4 lane/cycle 4352 4 lanes/cycle 3584
+spmv gather nnz/row 16 lane/cycle 9472 4 lanes/cycle 6400
+spmv gather nnz/row 64 lane/cycle 32512 4 lanes/cycle 20224
+lut256 gather 6157 3085

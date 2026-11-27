@@ -59,10 +59,10 @@ int main(void){
   bad+=try("// comment",       "clr r1 // and a comment\n// nothing here\n", 1);
   bad+=try("// in a string",   ".ascii \"a//b\"\n", 1);
   bad+=try("$ immediate",      "mov $5, r1\nadd $[1+2], r2\n", 1);
-  bad+=try("% before a register","mov %r1, %sp\nmov (%r1), r2\n", 1);
-  bad+=try("r32 with %",       "add %r32, r2\n", 0);
-  bad+=try("AT&T indexed",     "mov (%r1,%r2,4), r3\nmov 8(%r1,%r2), r3\n", 1);
-  bad+=try("AT&T bad scale",   "mov (%r1,%r2,3), r3\n", 0);
+  bad+=try("$ alone is no location","dq $\n", 0);
+  bad+=try("no % before a register","mov %r1, %sp\n", 0);
+  bad+=try("AT&T indexed",     "mov (r1,r2,4), r3\nmov 8(r1,r2), r3\n", 1);
+  bad+=try("AT&T bad scale",   "mov (r1,r2,3), r3\n", 0);
   bad+=try("base plus disp",   "mov r5+8, r1\nmov r5 - 8, r1\nmov sp+x, r1\n", 1);
   bad+=try("equ",              "N equ 4\nM = N*2\n", 1);
   bad+=try("db and dw",        "db 1, 2, \"ab\"\ndw 1000\nlab: db 0\n", 1);
@@ -72,11 +72,11 @@ int main(void){
   bad+=try(".if .else .endif", ".if 1\n.else\n.endif\n", 1);
   bad+=try("base minus disp, sp",  "mov r5-8, r1\nmov sp-8, r1\n", 1);
   bad+=try("registers keep names","r5: ret\n", 0);
-  bad+=try("suffixed words",    "mov.s8 (r1), r2\nmov.user.u16 r1, 4(r2)\nfcvt r1.s32, r2.f32\nfcvt r1.f16, r2.f32\nfcvt sp.f64, %r3.s64\nfcvt.s32 r1, r2\nfcvt.u64 r1, r2\naadd.s32 r1, (r2), r3\nfadd.f32 r1, r2\nmov.u64 r1, r2\n", 1);
-  bad+=try("names like suffixes","x.s8: br x.s8\nbuf.u8 = 5\nfoo.16 = 7\nmov #buf.u8, r1\n", 1);
+  bad+=try("suffixed words",    "mov.s8 (r1), r2\nmov.user.u16 r1, 4(r2)\nfcvt r1.s32, r2.f32\nfcvt r1.f16, r2.f32\nfcvt sp.f64, r3.s64\nfcvt.s32 r1, r2\nfcvt.u64 r1, r2\naadd.s32 r1, (r2), r3\nfadd.f32 r1, r2\nmov.u64 r1, r2\n", 1);
+  bad+=try("names like suffixes","x.s7: br x.s7\nbuf.u7 = 5\nfoo.16 = 7\nmov $buf.u7, r1\n", 1);
   bad+=try("a suffix is a whole word","mov.s9 r1, r2\n", 0);
-  bad+=try("label like a marked reg","r1.f32: ret\nx.s8: br x.s8\n", 1);
+  bad+=try("label like a marked reg","r1.f7: ret\nx.s7: br x.s7\n", 1);
   bad+=try("a mark on a register","fcvt r1.f32, r2.s32\n", 1);
-  bad+=try("a mark on a name","fcvt buf.f32, r2\n", 1);
+  bad+=try("a mark on a name","fcvt buf.f7, r2\n", 1);
   bad+=try("two suffixes are no word","fcvt.s32.f16 r1, r2\n", 0);
   return bad!=0;}

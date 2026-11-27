@@ -180,7 +180,6 @@ static int c_char(const char **pp, const char *e, int *iscp)
 }
 
 static int dot_sym = -1;
-static int sect_sym[8];			/* NASM's $$: a symbol at the start of each section */
 
 static struct val vconst(int64_t c) { struct val v = { c, -1, -1 }; return v; }
 
@@ -240,7 +239,13 @@ static struct val ev(const struct xnode *x);
 static struct val ev_lref(const struct xnode *x, int back)
 {
 	int best = lloc_find(lloc_num(x->tok), back);
-	if (best < 0) { err(xline, "undefined local label %.*s%c", x->tok.n, x->tok.p, back ? 'b' : 'f'); xbad = 1; return vconst(0); }
+	if (best < 0) {
+		int bin = back && x->tok.n > 1;
+		for (int i = 0; bin && i < x->tok.n; i++) if (x->tok.p[i] != '0' && x->tok.p[i] != '1') bin = 0;
+		if (bin) err(xline, "undefined local label %.*sb (a binary number is written 0b%.*s)", x->tok.n, x->tok.p, x->tok.n, x->tok.p);
+		else err(xline, "undefined local label %.*s%c", x->tok.n, x->tok.p, back ? 'b' : 'f');
+		xbad = 1; return vconst(0);
+	}
 	struct val v = { 0, lloc[best].sym, -1 };
 	return v;
 }
@@ -303,14 +308,46 @@ static struct val ev_binary(const struct xnode *x)
 	return a;
 }
 
+/* A value mark (`0xff.s8`, `limit.u16`, `-1.u8`) says how many bits the value has and how to read them.  The value must be known now (a number, or a symbol that is a constant here), and must fit
+   as either reading of the width: -2^(w-1) .. 2^(w-1)-1 or 0 .. 2^w-1.  Its low w bits are then read as the kind says: .s sign-extends them, .u zero-extends them (so 0xff.s8 is -1, 0xff.u8 is 255,
+   -1.u8 is 255, 200.s8 is -56), and .f passes them through as they were written (the value is not converted: the bits are read as a float by whoever uses them).  A value that fits neither reading,
+   or a symbol whose value is not known at assembly time (an external, a label: there is no relocation that checks a range of 8 or 16 bits), is refused. */
+static const char *xmsg;
+static struct val ev_mark(const struct xnode *x)
+{
+	struct val v = ev(x->a);
+	int w = x->base, kind = x->tok.p[1];
+	if (xbad) return vconst(0);
+	v = deref(v);
+	if (!CONST(v)) {
+		if (final_pass) {
+			static char m[300];
+			snprintf(m, sizeof m, "a value mark on a symbol whose value is not known at assembly time: `%.*s` is %s (the mark %.*s needs the value now; as64 has no relocation that checks a range of %d bits)",
+				x->a->tok.n, x->a->tok.p, v.p >= 0 && syms[v.p].sect != SC_UNDEF ? "an address" : "undefined or external", x->tok.n, x->tok.p, w);
+			xmsg = m; xbad = 1; return vconst(0);
+		}
+		return v;
+	}
+	int64_t c = v.c;
+	int fs = w >= 64 || (c >= -((int64_t)1 << (w - 1)) && c < ((int64_t)1 << (w - 1)));
+	int fu = w >= 64 || (c >= 0 && c < ((int64_t)1 << w));
+	if (!fs && !fu) {
+		static char m[300];
+		snprintf(m, sizeof m, "the value %lld does not fit %d bits, read as signed (%lld to %lld) or as unsigned (0 to %llu): %.*s",
+			(long long)c, w, (long long)(-((int64_t)1 << (w - 1))), (long long)(((int64_t)1 << (w - 1)) - 1), (unsigned long long)(((uint64_t)1 << w) - 1), x->tok.n, x->tok.p);
+		xmsg = m; xbad = 1; return vconst(0);
+	}
+	if (kind == 'f' || w >= 64) return vconst(c);
+	uint64_t bits = (uint64_t)c & (((uint64_t)1 << w) - 1);
+	if (kind == 's' && (bits >> (w - 1)) & 1) bits |= ~(uint64_t)0 << w;
+	return vconst((int64_t)bits);
+}
+
 static struct val ev(const struct xnode *x)
 {
 	switch (x->op) {
 	case XN_NUM:
 		return vconst((int64_t)xdigits(x->tok, x->base));
-	case XN_BINLBL:						/* `Nb`: the label N if one is defined before this statement, else the binary number */
-		if (lloc_find(lloc_num(x->tok), 1) >= 0) return ev_lref(x, 1);
-		return vconst((int64_t)xdigits(x->tok, 2));
 	case XN_LBACK: return ev_lref(x, 1);
 	case XN_LFWD: return ev_lref(x, 0);
 	case XN_CHAR: case XN_MCHAR: {				/* 'c', and (NASM) 'abcd': up to eight characters, the first the lowest byte */
@@ -326,7 +363,7 @@ static struct val ev(const struct xnode *x)
 	}
 	case XN_NAME: { struct val v = { 0, symget(x->tok.p, x->tok.n), -1 }; return v; }
 	case XN_DOT: { struct val v = { 0, dot_sym, -1 }; return v; }
-	case XN_SECT: { struct val v = { 0, sect_sym[cur_sec], -1 }; return v; }
+	case XN_MARK: return ev_mark(x);
 	case XN_NEG: case XN_NOT: case XN_LNOT: case XN_LOW: case XN_HIGH:
 		return ev_unary(x);
 	case XN_ADD: case XN_SUB: case XN_OR: case XN_XOR: case XN_ORNOT:
@@ -340,10 +377,11 @@ static struct val ev(const struct xnode *x)
 /* evaluate an expression (the root XN_EXPR); a bad expression is reported once, only in the final pass */
 static struct val eval(const struct xnode *r, int line)
 {
-	xbad = 0; xline = line;
+	xbad = 0; xline = line; xmsg = NULL;
 	struct val v = ev(r->a);
 	if (xbad) {
-		if (final_pass) err(line, "bad expression %.*s", r->tok.n, r->tok.p);
+		if (final_pass && xmsg) err(line, "%s", xmsg);
+		else if (final_pass) err(line, "bad expression %.*s", r->tok.n, r->tok.p);
 		return vconst(0);
 	}
 	return deref(v);
@@ -1118,12 +1156,6 @@ int main(int argc, char **argv)
 	}
 	dot_sym = symadd(".", 1);
 	syms[dot_sym].islocal = 1;
-	for (int i = 0; i < NSEC && i < 8; i++) {
-		char nm[16];
-		snprintf(nm, sizeof nm, ".$$%d", i);
-		sect_sym[i] = symadd(nm, (int)strlen(nm));
-		syms[sect_sym[i]].islocal = 1; syms[sect_sym[i]].sect = i; syms[sect_sym[i]].val = 0;
-	}
 	/* every label is known before the first pass, so a forward reference to it is not taken for an external symbol; so are the names an assignment or a
 	   .globl, global, extern or .comm gives (an extern name is in the object whether or not it is used) */
 	for (int i = 0; i < nprog; i++) {

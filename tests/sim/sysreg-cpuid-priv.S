@@ -13,39 +13,39 @@ _start:
 	mtsr	usp, r1
 	lea	user, r1
 	mtsr	epc, r1
-	mov	#(MODE_USER<<PSW_MODE), r1
+	mov	$(MODE_USER<<PSW_MODE), r1
 	mtsr	epsw, r1
-	mov	#0, r10
-	rti	#RTIMASK_ALL
+	mov	$0, r10
+	rti	$RTIMASK_ALL
 user:
-	mov	#0x5a5a, r1
+	mov	$0x5a5a, r1
 	lea	pi0, r4
 pi0:
 	mfsr	r1, cpuid
 pr0:
-	cbne r10, #1, F2
-	cbne r8, #(VECTOR_PRIVILEGED), F3
+	cbne r10, $1, F2
+	cbne r8, $(VECTOR_PRIVILEGED), F3
 	lea	pi0, r11
 	cbne r6, r11, F4
-	cbne r1, #0x5a5a, F5
-	trap	#0			; done: vector 256 exits with 0
-F1:	mov	#1, r0
-	trap	#1
-F2:	mov	#2, r0
-	trap	#1
-F3:	mov	#3, r0
-	trap	#1
-F4:	mov	#4, r0
-	trap	#1
-F5:	mov	#5, r0
-	trap	#1
+	cbne r1, $0x5a5a, F5
+	trap	$0			; done: vector 256 exits with 0
+F1:	mov	$1, r0
+	trap	$1
+F2:	mov	$2, r0
+	trap	$1
+F3:	mov	$3, r0
+	trap	$1
+F4:	mov	$4, r0
+	trap	$1
+F5:	mov	$5, r0
+	trap	$1
 h_gen:	mfsr	r6, epc
 	mfsr	r8, ecause
-	add	#1, r10
+	add	$1, r10
 	lea	pr0, r4
 	mtsr	epc, r4
-	rti	#RTIMASK_ALL
-h_ok:	mov	#0, r0
+	rti	$RTIMASK_ALL
+h_ok:	mov	$0, r0
 h_fail:	halt
 	.data
 	.align	8

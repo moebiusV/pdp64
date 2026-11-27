@@ -13,7 +13,7 @@ _start:
 	mtsr	vbr, r1
 	lea	l2, r1
 	mtsr	ptbr, r1
-	mov	#1, r1
+	mov	$1, r1
 	mtsr	mmuctl, r1
 	isync
 	mov	=1073741824, r3		; P0
@@ -27,11 +27,11 @@ _start:
 	mov	r5, (r7)
 	mov	=0x2222222222222222, r1
 ; ---- 1: the store from P0 into P1, which refuses
-	mov	#0, r10
+	mov	$0, r10
 	lea	res1, r13
 at1:	mov	r1, 4092(r3)
-res1:	cbne r10, #1, F1 ; check 1: exactly one fault
-	cbne r8, #(VECTOR_SPROT), F2 ; check 2: the store protection fault
+res1:	cbne r10, $1, F1 ; check 1: exactly one fault
+	cbne r8, $(VECTOR_SPROT), F2 ; check 2: the store protection fault
 	cbne r9, r11, F3 ; check 3: EVA is the first byte of the second page
 	lea	at1, r2
 	cbne r6, r2, F4 ; check 4: EPC is the instruction
@@ -46,11 +46,11 @@ res1:	cbne r10, #1, F1 ; check 1: exactly one fault
 	mov	=0x1111111111111111, r5
 	lea	pg5, r7
 	mov	r5, (r7)
-	mov	#0, r10
+	mov	$0, r10
 	lea	res2, r13
 at2:	mov	r1, 4092(r12)
-res2:	cbne r10, #1, F7 ; check 7: exactly one fault
-	cbne r8, #(VECTOR_SPROT), F8 ; check 8: the store protection fault
+res2:	cbne r10, $1, F7 ; check 7: exactly one fault
+	cbne r8, $(VECTOR_SPROT), F8 ; check 8: the store protection fault
 	lea	4092(r12), r2
 	cbne r9, r2, F9 ; check 9: EVA is the address of the store: the first page refused
 	lea	at2, r2
@@ -59,37 +59,37 @@ res2:	cbne r10, #1, F7 ; check 7: exactly one fault
 	mov	(r7), r2
 	mov	=0x1111111111111111, r4
 	cbne r2, r4, F11 ; check 11: P5 is as it was
-	mov	#0, r0
+	mov	$0, r0
 	halt
-h_gen:	add	#1, r10
+h_gen:	add	$1, r10
 	mfsr	r8, ecause
 	mfsr	r9, eva
 	mfsr	r6, epc
 	mtsr	epc, r13
-	rti	#RTIMASK_ALL
-h_fail:	mov	#99, r0
+	rti	$RTIMASK_ALL
+h_fail:	mov	$99, r0
 	halt
-F1:	mov	#1, r0
+F1:	mov	$1, r0
 	halt
-F2:	mov	#2, r0
+F2:	mov	$2, r0
 	halt
-F3:	mov	#3, r0
+F3:	mov	$3, r0
 	halt
-F4:	mov	#4, r0
+F4:	mov	$4, r0
 	halt
-F5:	mov	#5, r0
+F5:	mov	$5, r0
 	halt
-F6:	mov	#6, r0
+F6:	mov	$6, r0
 	halt
-F7:	mov	#7, r0
+F7:	mov	$7, r0
 	halt
-F8:	mov	#8, r0
+F8:	mov	$8, r0
 	halt
-F9:	mov	#9, r0
+F9:	mov	$9, r0
 	halt
-F10:	mov	#10, r0
+F10:	mov	$10, r0
 	halt
-F11:	mov	#11, r0
+F11:	mov	$11, r0
 	halt
 	.data
 	.align	8

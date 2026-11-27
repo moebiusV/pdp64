@@ -4,10 +4,10 @@
 	.globl _start
 _start:
 	lea buf, r8
-	mov #1, r1
-	mov #2, r2
-	mov #3, r3
-	mov #4, r4
+	mov $1, r1
+	mov $2, r2
+	mov $3, r3
+	mov $4, r4
 	.word 0xffff
 	clr r0
 	halt

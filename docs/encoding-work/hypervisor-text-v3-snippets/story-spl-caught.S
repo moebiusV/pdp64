@@ -14,33 +14,33 @@ _start:
 	mtsr	htrap, r1			; SPL and a priority-changing MTPS of the guest exit
 	lea	guest, r1
 	mtsr	hepc, r1
-	mov	#0, r1
+	mov	$0, r1
 	mtsr	hepsw, r1			; the guest starts at priority 0
-	genter	#0
-guest:	spl	#7				; keep interrupts out of the run-queue code
+	genter	$0
+guest:	spl	$7				; keep interrupts out of the run-queue code
 	mfps	r5				; what priority does the guest believe it has?
 	mov	=(7<<PSW_PRI), r6
 	and	r6, r5
 	cbeq	r5, r6, 1f
-	mov	#1, r0
+	mov	$1, r0
 	halt
-1:	mov	#0, r0
+1:	mov	$0, r0
 	halt
 hx:	mfsr	r20, hexitr
-	cbeq	r20, #XCODE_PRIO, h_prio
-	cbeq	r20, #XCODE_HALT, h_halt
-	mov	#98, r0
+	cbeq	r20, $XCODE_PRIO, h_prio
+	cbeq	r20, $XCODE_HALT, h_halt
+	mov	$98, r0
 	halt
 h_prio:	mfsr	r21, hepsw			; the guest's status word at the exit; HEPC is already the next instruction
 	mov	=(7<<PSW_PRI), r22		; the hypervisor would read the new level from HINSN; this example knows it is 7
 	bis	r22, r21
 	mtsr	hepsw, r21
-	mov	#1, r22
+	mov	$1, r22
 	mov	r22, caught			; the hypervisor saw the SPL
-	genter	#0
+	genter	$0
 h_halt:	mov	caught, r22
-	cbeq	r22, #1, 1f
-	mov	#2, r0				; the SPL never exited
+	cbeq	r22, $1, 1f
+	mov	$2, r0				; the SPL never exited
 1:	halt
 	.data
 	.align	8

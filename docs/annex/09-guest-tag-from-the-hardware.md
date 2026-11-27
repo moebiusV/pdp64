@@ -38,7 +38,7 @@ The number has to be unique among the guests that exist, and when a guest is des
         bis     r2, r1
         mtsr    gtbr, r1                        ; entries under the next number are thrown away, then it is handed out
         mfsr    r3, gtbr
-        shr     #48, r3                         ; r3 is the guest's tag; the hypervisor never chose it
+        shr     $48, r3                         ; r3 is the guest's tag; the hypervisor never chose it
 ```
 
 *(Six instructions in all, and no allocator, lock or free routine in the hypervisor.)*

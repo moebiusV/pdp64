@@ -1,2 +1,2 @@
 	.text
-a:	cbeq r1,#100000,a
+a:	cbeq r1,$100000,a

@@ -7,7 +7,7 @@ _start:
 	lea	vtab, r1
 	mtsr	vbr, r1
 	lea	hgen, r2
-	mov	#512, r3
+	mov	$512, r3
 kfill:	mov	r2, (r1)+
 	sob	r3, kfill
 	lea	vtab, r1
@@ -18,187 +18,187 @@ kfill:	mov	r2, (r1)+
 
 	lea	l2, r1
 	mtsr	ptbr, r1
-	mov	#1, r1
+	mov	$1, r1
 	mtsr	mmuctl, r1
 	isync
 
 	; ---- case 1: control: the console is ready with a character (the first of the input), the page is strongly ordered
 	mov	=(0x800000), r3
 1:	mov	0(r3), r4
-	and	#(1<<CONSOLE_CSR_READY), r4
-	cbeq	r4, #0, 1b
+	and	$(1<<CONSOLE_CSR_READY), r4
+	cbeq	r4, $0, 1b
 	; ---- case 2: a quad load at offset 4 (a piece of RXDB at offset 8) is the fault and does not take the character
 	mov	=(0x5a5a5a5a5a5a5a5a), r5
-	mov	#0, r10
+	mov	$0, r10
 	mov	r10, cnt
 	lea	N1, r13
 I1:	mov	4(r3), r5
 N1:	mov	cnt, r12
 	mov	=(1), r17
 	cbeq	r12, r17, 1f	; case 2: one exception
-	mov	#2, r0
+	mov	$2, r0
 	halt
 1:
 	mov	last_cause, r12
 	mov	=(VECTOR_MISALIGNED), r17
 	cbeq	r12, r17, 1f	; case 2: it is the misalignment fault
-	mov	#2, r0
+	mov	$2, r0
 	halt
 1:
 	mov	last_eva, r12
 	mov	=(0x800004), r17
 	cbeq	r12, r17, 1f	; case 2: EVA is the address of the access
-	mov	#2, r0
+	mov	$2, r0
 	halt
 1:
 	mov	last_epc, r12
 	lea	I1, r11
 	cbeq	r12, r11, 1f	; case 2: EPC is the instruction
-	mov	#2, r0
+	mov	$2, r0
 	halt
 1:
 	mov	=(0x5a5a5a5a5a5a5a5a), r17
 	cbeq	r5, r17, 1f	; case 2: the destination is as it was
-	mov	#2, r0
+	mov	$2, r0
 	halt
 1:
 	; ---- case 3: a word load at offset 6 and a half-word load at offset 7 (pieces of RXDB) are the fault and do not take it
-	mov	#0, r10
+	mov	$0, r10
 	mov	r10, cnt
 	lea	N2, r13
 I2:	mov.s32	6(r3), r5
 N2:	mov	cnt, r12
 	mov	=(1), r17
 	cbeq	r12, r17, 1f	; case 3: one exception
-	mov	#3, r0
+	mov	$3, r0
 	halt
 1:
 	mov	last_cause, r12
 	mov	=(VECTOR_MISALIGNED), r17
 	cbeq	r12, r17, 1f	; case 3: it is the misalignment fault
-	mov	#3, r0
+	mov	$3, r0
 	halt
 1:
 	mov	last_eva, r12
 	mov	=(0x800006), r17
 	cbeq	r12, r17, 1f	; case 3: EVA is the address of the access
-	mov	#3, r0
+	mov	$3, r0
 	halt
 1:
 	mov	last_epc, r12
 	lea	I2, r11
 	cbeq	r12, r11, 1f	; case 3: EPC is the instruction
-	mov	#3, r0
+	mov	$3, r0
 	halt
 1:
-	mov	#0, r10
+	mov	$0, r10
 	mov	r10, cnt
 	lea	N3, r13
 I3:	mov.u16	7(r3), r5
 N3:	mov	cnt, r12
 	mov	=(1), r17
 	cbeq	r12, r17, 1f	; case 3: one exception
-	mov	#3, r0
+	mov	$3, r0
 	halt
 1:
 	mov	last_cause, r12
 	mov	=(VECTOR_MISALIGNED), r17
 	cbeq	r12, r17, 1f	; case 3: it is the misalignment fault
-	mov	#3, r0
+	mov	$3, r0
 	halt
 1:
 	mov	last_eva, r12
 	mov	=(0x800007), r17
 	cbeq	r12, r17, 1f	; case 3: EVA is the address of the access
-	mov	#3, r0
+	mov	$3, r0
 	halt
 1:
 	mov	last_epc, r12
 	lea	I3, r11
 	cbeq	r12, r11, 1f	; case 3: EPC is the instruction
-	mov	#3, r0
+	mov	$3, r0
 	halt
 1:
 	; ---- case 4: the receive register is still ready and holds the first character
 	mov	0(r3), r4
-	and	#(1<<CONSOLE_CSR_READY), r4
+	and	$(1<<CONSOLE_CSR_READY), r4
 	mov	=((1<<CONSOLE_CSR_READY)), r17
 	cbeq	r4, r17, 1f	; case 4: the ready bit is set: nothing took the character
-	mov	#4, r0
+	mov	$4, r0
 	halt
 1:
 	mov	8(r3), r5
 	mov	=(0x78), r17
 	cbeq	r5, r17, 1f	; case 4: the aligned read gives the first character, once
-	mov	#4, r0
+	mov	$4, r0
 	halt
 1:
 	; ---- case 5: a quad store at offset 20 (a piece at TXDB, offset 24) is the fault and sends nothing
 	mov	=(0x4141414141414141), r1
-	mov	#0, r10
+	mov	$0, r10
 	mov	r10, cnt
 	lea	N4, r13
 I4:	mov	r1, 20(r3)
 N4:	mov	cnt, r12
 	mov	=(1), r17
 	cbeq	r12, r17, 1f	; case 5: one exception
-	mov	#5, r0
+	mov	$5, r0
 	halt
 1:
 	mov	last_cause, r12
 	mov	=(VECTOR_MISALIGNED), r17
 	cbeq	r12, r17, 1f	; case 5: it is the misalignment fault
-	mov	#5, r0
+	mov	$5, r0
 	halt
 1:
 	mov	last_eva, r12
 	mov	=(0x800014), r17
 	cbeq	r12, r17, 1f	; case 5: EVA is the address of the access
-	mov	#5, r0
+	mov	$5, r0
 	halt
 1:
 	mov	last_epc, r12
 	lea	I4, r11
 	cbeq	r12, r11, 1f	; case 5: EPC is the instruction
-	mov	#5, r0
+	mov	$5, r0
 	halt
 1:
-	mov	#0, r10
+	mov	$0, r10
 	mov	r10, cnt
 	lea	N5, r13
 I5:	mov.s32	r1, 22(r3)
 N5:	mov	cnt, r12
 	mov	=(1), r17
 	cbeq	r12, r17, 1f	; case 5: one exception
-	mov	#5, r0
+	mov	$5, r0
 	halt
 1:
 	mov	last_cause, r12
 	mov	=(VECTOR_MISALIGNED), r17
 	cbeq	r12, r17, 1f	; case 5: it is the misalignment fault
-	mov	#5, r0
+	mov	$5, r0
 	halt
 1:
 	mov	last_eva, r12
 	mov	=(0x800016), r17
 	cbeq	r12, r17, 1f	; case 5: EVA is the address of the access
-	mov	#5, r0
+	mov	$5, r0
 	halt
 1:
 	mov	last_epc, r12
 	lea	I5, r11
 	cbeq	r12, r11, 1f	; case 5: EPC is the instruction
-	mov	#5, r0
+	mov	$5, r0
 	halt
 1:
 	; ---- case 6: an aligned write to the transmit register sends exactly one character
 	mov	=(0x5a), r1
 	mov	r1, 24(r3)
-	mov	#0, r0
+	mov	$0, r0
 	halt
 
 hgen:	mov	cnt, r12
-	add	#1, r12
+	add	$1, r12
 	mov	r12, cnt
 	mfsr	r12, ecause
 	mov	r12, last_cause
@@ -209,8 +209,8 @@ hgen:	mov	cnt, r12
 	mfsr	r12, epsw
 	mov	r12, last_epsw
 	mtsr	epc, r13
-	rti	#RTIMASK_ALL
-h_ok:	mov	#0, r0
+	rti	$RTIMASK_ALL
+h_ok:	mov	$0, r0
 h_fail:	halt
 
 	.data

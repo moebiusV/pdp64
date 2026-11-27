@@ -394,6 +394,8 @@ def parse(path, name):
             continue
         if fam == 'pdp64' or True:
             w = ln.split(None, 1)
+            if fam == 'pdp64' and len(w) > 1:		# the pdp64 immediate is written $n; the rest of this tool reads the marker as #n (the other families' own marker, as in the survey tables)
+                w[1] = re.sub(r'(^|[\s,(])\$(?=[-\w(.\'])', r'\1#', w[1])
             items.append(('i', w[0], w[1].strip() if len(w) > 1 else ''))
     return items
 

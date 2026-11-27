@@ -97,14 +97,14 @@ longjmp: MOVQ (R0), R2          ; PC                          2   R0 = buf, R1 =
          MOVQ 16(R0), R8        ; ... six loads               4 each
          TST  R1                ;                             2
          BNE  1f                ;                             2
-         MOVQ #1, R1            ;                             2
+         MOVQ $1, R1            ;                             2
 1:       MOVQ R1, R0            ;                             2
          JMP  (R2)              ; indirect jump, not a RET    2   target has an LPAD (compiler inserts one after a call to a returns-twice function)
                                 ; shadow stack: 0 instructions
-swtch:  PUSHM #0xAF             ; R8-R11,R13,R15 (page-2 PUSHM8) 2   R0 = &old_sp, R1 = &new_sp
+swtch:  PUSHM $0xAF             ; R8-R11,R13,R15 (page-2 PUSHM8) 2   R0 = &old_sp, R1 = &new_sp
         MOVQ  SP, (R0)          ;                             2
         MOVQ  (R1), SP          ;                             4   new stack, new shadow
-        POPM  #0xAF             ;                             2
+        POPM  $0xAF             ;                             2
         RET                     ; resumes the other context   2   its alias was written when it called swtch
 ```
 A brand-new context starts with `CALL entry` from a small stub on the new stack, so its first return slot is written by hardware and no forged frame is needed. C++ unwinding: the unwinder sets `SP` to the target frame and `JMP`s to the landing pad; nothing else. Signal return: the kernel writes the frame (the alias of the trampoline return slot by the stage-2 `SSSTORE` or by kernel-mode store to a user `SS` page) and `sigreturn` restores registers from the frame as now. `fork` and `rfork` copy both halves.
@@ -137,7 +137,7 @@ i approve the mirror, didn't understand what dense did differently.  i acccept y
 | `TRAPCC` | `cc` | if condition `cc` holds on the current flags, take trap `CHECK`; else nothing. `cc` numbered as the branch low nibble (ISA 4.4). Assembler aliases `TRAPV` (= `TRAPCC vs`), `TRAPC` (`cs`), `TRAPLT`, `TRAPHIS` and so on | 4 (`SYSX` sub-opcode 6, `cc` in the pad byte); 2 (page-2 `0x2E`, `cc` in `low`) |
 | `ADDV`, `SUBV`, `MULV` | `Ra, Rb, Rd` | stage 2: `Rd` = `Ra` op `Rb`; if signed overflow, no register written, trap `CHECK` as an abort at the instruction | 4 (`AESC`, three sub-opcodes in the free range above `0x20`) |
 
-`TRAPCC` fits the page-2 rule (it abbreviates a `SYSX` word exactly, as `PUSHX` and `HINT` do) and uses one of 19 free page-2 slots and one of 250 free `SYSX` sub-opcodes. It composes with every operand shape of `ADD`, `SUB`, `MUL`, `ADDM`, `NEG`, `INC`, `DEC`, `ASL`: `ADD #1, 8(R2); TRAPV` is 4 + 2 bytes and the add keeps its immediate and memory forms, which the register-only `AESC` fused forms cannot. It also checks things that are not overflow: `CMP R1, R2; TRAPHIS` is a bounds check with no branch and no out-of-line stub (Ada index checks, Java-style array checks, Rust slice indexing), and unsigned overflow (`ADD; TRAPC`). Where the fused three-register form wins (one instruction, non-destructive), a front end can fuse `ADD`+`TRAPCC` into one micro-operation; that is the coalescing the author wants without a new opcode. Fused `ADDV`/`SUBV`/`MULV` are stage 2, decided by the measurement.
+`TRAPCC` fits the page-2 rule (it abbreviates a `SYSX` word exactly, as `PUSHX` and `HINT` do) and uses one of 19 free page-2 slots and one of 250 free `SYSX` sub-opcodes. It composes with every operand shape of `ADD`, `SUB`, `MUL`, `ADDM`, `NEG`, `INC`, `DEC`, `ASL`: `ADD $1, 8(R2); TRAPV` is 4 + 2 bytes and the add keeps its immediate and memory forms, which the register-only `AESC` fused forms cannot. It also checks things that are not overflow: `CMP R1, R2; TRAPHIS` is a bounds check with no branch and no out-of-line stub (Ada index checks, Java-style array checks, Rust slice indexing), and unsigned overflow (`ADD; TRAPC`). Where the fused three-register form wins (one instruction, non-destructive), a front end can fuse `ADD`+`TRAPCC` into one micro-operation; that is the coalescing the author wants without a new opcode. Fused `ADDV`/`SUBV`/`MULV` are stage 2, decided by the measurement.
 
 **The fault.** A `TRAPCC` that fires takes a *trap* (ISA 7.1 category: completes, `EPC` = next instruction), vector 16 (`CHECK`), `EVA` = the address of the `TRAPCC` itself (the one case where a trap defines `EVA`, so the handler need not decode backwards from `EPC`). Restartable: `RTI` resumes after the check, so a handler that promotes a fixnum to a bignum (Lisp, Smalltalk) can repair the register and continue. The fused forms are aborts: `EPC` at the instruction, destination unwritten, so a blind restart re-faults unless the handler changed an operand. Precise in both: the condition comes from the flags written by older instructions, and in an out-of-order core the overflow travels in the reorder-buffer entry with the result, so a mis-speculated overflow never traps.
 
@@ -190,7 +190,7 @@ with the fused forms. no need for cbcc style. how are trap and abort different?
 - *Data operations* (ALU, `MOV`, `LEA`, shifts, `SET`, `MULH`): the result's P is the OR of the P bits of the register sources. A memory source contributes nothing (memory carries no poison).
 - *Writing the flags* from a poisoned source sets `PSW.FP`; a flag write from clean sources clears it. `SET cc` and the `AESC` selects propagate `FP` into the result.
 - *Faults at use, vector 17 (`POISON`):* a poisoned register (or `FP`) as (a) a base or index of any load, store, atomic or `MBLK` pointer; (b) the data of a store, `PUSH`, `PUSHM` or atomic (so poison cannot be written to memory and lost); (c) the condition of a branch: any conditional branch with `FP` set, `CBCC`/`CBRR`/`SOB` with a poisoned register; (d) the target of `JMP`, `CALL` and `RET`. `EVA` holds the mask of poisoned source registers.
-- *Not a fault:* `TRAP #n` (the kernel reads the poison mask from the saved `EPSW` and checks the argument registers of the call it is about to service: two instructions in the dispatcher, no hardware guess about which registers are arguments), `ISP Rs, Rd` (`AESC`: `Rd` = 1 if `Rs` is poisoned, else 0; a clean result; it is how recovery code tests), writing a register from a clean source (`CLR`, immediates, loads), and any instruction that does not read the poisoned register.
+- *Not a fault:* `TRAP $n` (the kernel reads the poison mask from the saved `EPSW` and checks the argument registers of the call it is about to service: two instructions in the dispatcher, no hardware guess about which registers are arguments), `ISP Rs, Rd` (`AESC`: `Rd` = 1 if `Rs` is poisoned, else 0; a clean result; it is how recovery code tests), writing a register from a clean source (`CLR`, immediates, loads), and any instruction that does not read the poisoned register.
 
 **Saving.** Poison does not go to memory. Registers poisoned in a trap frame travel in `EPSW` bits 31..16, so a context switch, a signal and `fork` cost no instruction. The ABI rule that keeps ordinary spills trivial: **callee-saved registers (`R8`-`R11`, `R13`, `R15`) are never poisoned at a call or return**, so `PUSHM`/`POPM`, `setjmp` and thread switches never see poison; poison may live in caller-saved registers across a call as an argument, and the callee faults at the first use that stores it. A compiler that must spill a poisoned value resolves it first (`ISP` and branch, or `TRAPCC`-style check). A memory-side poison bit (one per 8 bytes, as in item 3) is the alternative; it turns poison into pervasive data-flow tracking with DMA and cache cost and is not proposed for item 10 alone.
 
@@ -204,7 +204,7 @@ with the fused forms. no need for cbcc style. how are trap and abort different?
 
 **Fit with the priorities.** P1: an error cannot be silently used. P2: fewer instructions for checked chains and no guard branches. P3: 2 sub-opcodes. P4: tiny. P5: modest, needs a compiler pass; the ABI rule is simple. P6: neutral.
 
-**Open choices for the author.** Faulting on flag writes from poisoned sources instead of the `FP` bit (fewer states, fewer chains). Whether the deferred-load policy lives in the kernel (proposed) or hardware. Whether `TRAP #n` itself checks `R0`-`R5` (rejected: stale poison in unused argument registers would be a false fault).
+**Open choices for the author.** Faulting on flag writes from poisoned sources instead of the `FP` bit (fewer states, fewer chains). Whether the deferred-load policy lives in the kernel (proposed) or hardware. Whether `TRAP $n` itself checks `R0`-`R5` (rejected: stale poison in unused argument registers would be a false fault).
 
 **Your annotations:**
 
@@ -333,13 +333,13 @@ copyin: LEA     cf(PC), R3              ; 4   handler
         RET                             ; 2   7 instructions, 24 bytes, no STUA/CLUA, no range check
 cf:     MOVQ    CURPCB(DP), R4
         CLR     PCB_ONFAULT(R4)
-        MOVQ    #EFAULT, R0
+        MOVQ    $EFAULT, R0
         RET
 ; int copyin32(const void *uaddr, void *kaddr)
 copyin32: ...; MOVL.U (R0), R3 ; MOVL R3, (R1) ; the alignment check of the arm64 routine is the ALIGN abort
 ; copyout is MCPYOUT R1, R0, R2 with R0 = kernel source, R1 = user destination
 ```
-Option B, no `pcb_onfault` at all: because user-qualified instructions are the only kernel instructions allowed to fault on a user address, the trap handler can look `EPC` up in a table of fixup addresses in read-only kernel text and resume at the fixup. `copyin` becomes `MCPYIN; CLR R0; RET` (3 instructions) with the fixup `MOVQ #EFAULT, R0; RET`. OpenBSD's amd64 trap code already checks that `pcb_onfault` is one of a table of valid handlers (read: `amd64/trap.c`, `__nofault_start`), so a table is consistent with it. Hardware may set `ECAUSE` bit 15 (`UQ`) on an abort whose faulting access was user-qualified, so a fault on a user address from an unqualified instruction is a kernel bug the handler can name.
+Option B, no `pcb_onfault` at all: because user-qualified instructions are the only kernel instructions allowed to fault on a user address, the trap handler can look `EPC` up in a table of fixup addresses in read-only kernel text and resume at the fixup. `copyin` becomes `MCPYIN; CLR R0; RET` (3 instructions) with the fixup `MOVQ $EFAULT, R0; RET`. OpenBSD's amd64 trap code already checks that `pcb_onfault` is one of a table of valid handlers (read: `amd64/trap.c`, `__nofault_start`), so a table is consistent with it. Hardware may set `ECAUSE` bit 15 (`UQ`) on an abort whose faulting access was user-qualified, so a fault on a user address from an unqualified instruction is a kernel bug the handler can name.
 
 **Faults and recovery.** Abort, `EPC` at the instruction, `EVA` the user address, `ECAUSE` the ordinary cause (7, 8 page fault; 10, 11 protection; 4 `ALIGN`; 5 `NONCANON`; 13 `BUSFAULT`) with `UQ`. A not-present page that the kernel can fill (`uvm_fault`, copy on write) is resolved by the handler and `RTI` re-executes the instruction. **Composition with `MBLK` restarts (ISA 7.5):** progress is in `Rd`, `Rs`, `Rn`; `PC` addresses the `MBLK`; the attribute is part of the instruction word, so a resumption after a page fault, a timer interrupt or a preemption is the same instruction with the same attribute, and nothing needs saving. A copy that fails partway leaves the bytes copied in the kernel buffer and `Rn` = bytes left, which `uiomove`-style callers can use. Nothing in the `PSW` changes, so error paths need no `CLUA` and entry-clears-`UA` is unneeded by this path.
 

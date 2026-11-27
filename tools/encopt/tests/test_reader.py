@@ -49,12 +49,12 @@ print('reader: %d word instructions read as numbers, all encodable; the study\'s
 # the weights file: the notation of encdis -k, and the profile of the repository (tests/profile.weights) has no line that cannot be read
 import weightsfile
 P = weightsfile.parse_key
-check(P('cbeq r3,#5,pc+12') == ('cbeq', (('R', 3), ('I', 5), ('PC', 12, 'sym'))), 'parse cb')
+check(P('cbeq r3,$5,pc+12') == ('cbeq', (('R', 3), ('I', 5), ('PC', 12, 'sym'))), 'parse cb')
 check(P('movq -8(sp),r1') == ('movq', (('B', -8, 14), ('R', 1))), 'parse based')
 check(P('movq 4(r2)(r3*8),fp') == ('movq', (('X', 4, 2, 3, 8), ('R', 13))), 'parse indexed')
 check(P('movq (r2)+8,r1') == ('movq', (('PI', 2, 8), ('R', 1))) and P('movq r1,(r2)-8') == ('movq', (('R', 1), ('PD', 2, 8))), 'parse postinc/predec')
 check(P('movq 8(dp),r1') == ('movq', (('B', 8, 255), ('R', 1))), 'parse dp base')
-check(P('movq @4096,r1') == ('movq', (('A', 4096), ('R', 1))) and P('ret') == ('ret', ()) and P('set #2,r0') == ('set', (('I', 2), ('R', 0))), 'parse absolute, none, set')
+check(P('movq @4096,r1') == ('movq', (('A', 4096), ('R', 1))) and P('ret') == ('ret', ()) and P('set $2,r0') == ('set', (('I', 2), ('R', 0))), 'parse absolute, none, set')
 check(P('call foo') is None, 'a label is not an operand of a weights file')
 st, dy = weightsfile.read_weights([os.path.join(HERE, 'profile.weights')])
 check(not st and len(dy) == 5069 and sum(dy.values()) == 135177729, 'tests/profile.weights: %d keys %d executed' % (len(dy), sum(dy.values())))

@@ -6,7 +6,7 @@ _start:
 	lea	vtab, r1
 	mtsr	vbr, r1
 	lea	h_bad, r2
-	mov	#512, r3
+	mov	$512, r3
 kfill:	mov	r2, (r1)+
 	sob	r3, kfill
 	lea	vtab, r1
@@ -21,7 +21,7 @@ kfill:	mov	r2, (r1)+
 	mov	r2, 2072(r1)
 	lea	l2, r1
 	mtsr	ptbr, r1
-	mov	#1, r1
+	mov	$1, r1
 	mtsr	mmuctl, r1
 
 	lea	ustack_top, sp
@@ -29,51 +29,51 @@ kfill:	mov	r2, (r1)+
 	mov	=(0x820000), r3
 	mov	=(0x44332211), r1
 	mov.s32	r1, 4092(r3)
-	mov	#0, r4
+	mov	$0, r4
 	mov	r4, cnt
 	mov	=(0x820ffc), r4
 	mov	r4, watch
 	mov	=(0x8877665544332211), r1
-	mov	#0, r4
+	mov	$0, r4
 	mov	r4, cnt
 	s1:
 	mov	r1, 4092(r3)
-	mov	#0, r4
+	mov	$0, r4
 	mov	r4, watch
 	mov	cnt, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 1 case 1: a split store, B absent: one fault
-	mov	#1, r0
+	mov	$1, r0
 	halt
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_SFAULT), r17
 	cbeq	r11, r17, 1f	; check 2 case 1: a split store, B absent: the vector
-	mov	#2, r0
+	mov	$2, r0
 	halt
 1:
 	mov	last_eva, r11
 	mov	=(0x821000), r17
 	cbeq	r11, r17, 1f	; check 3 case 1: a split store, B absent: EVA
-	mov	#3, r0
+	mov	$3, r0
 	halt
 1:
 	lea	s1, r11
 	mov	last_epc, r12
 	cbeq	r12, r11, 1f	; check 4 case 1: a split store, B absent: EPC is the instruction
-	mov	#4, r0
+	mov	$4, r0
 	halt
 1:
 	mov	seen, r11
 	mov	=(0x44332211), r17
 	cbeq	r11, r17, 1f	; check 5 case 1: at the fault the four bytes of A are as they were
-	mov	#5, r0
+	mov	$5, r0
 	halt
 1:
 	mov	4092(r3), r11
 	mov	=(0x8877665544332211), r17
 	cbeq	r11, r17, 1f	; check 6 case 1: after the restart all eight bytes are there
-	mov	#6, r0
+	mov	$6, r0
 	halt
 1:
 	; ---- 2: the same store with A absent and B present
@@ -83,46 +83,46 @@ kfill:	mov	r2, (r1)+
 	mov	=(0x823000), r4
 	mov	r4, watch
 	mov	=(0x8877665544332211), r1
-	mov	#0, r4
+	mov	$0, r4
 	mov	r4, cnt
 	s2:
 	mov	r1, 4092(r3)
-	mov	#0, r4
+	mov	$0, r4
 	mov	r4, watch
 	mov	cnt, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 7 case 2: a split store, A absent: one fault
-	mov	#7, r0
+	mov	$7, r0
 	halt
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_SFAULT), r17
 	cbeq	r11, r17, 1f	; check 8 case 2: a split store, A absent: the vector
-	mov	#8, r0
+	mov	$8, r0
 	halt
 1:
 	mov	last_eva, r11
 	mov	=(0x822ffc), r17
 	cbeq	r11, r17, 1f	; check 9 case 2: a split store, A absent: EVA
-	mov	#9, r0
+	mov	$9, r0
 	halt
 1:
 	lea	s2, r11
 	mov	last_epc, r12
 	cbeq	r12, r11, 1f	; check 10 case 2: a split store, A absent: EPC is the instruction
-	mov	#10, r0
+	mov	$10, r0
 	halt
 1:
 	mov	seen, r11
 	mov	=(0x55667788), r17
 	cbeq	r11, r17, 1f	; check 11 case 2: at the fault the bytes of B are as they were
-	mov	#11, r0
+	mov	$11, r0
 	halt
 1:
 	mov	4092(r3), r11
 	mov	=(0x8877665544332211), r17
 	cbeq	r11, r17, 1f	; check 12 case 2: after the restart all eight bytes are there
-	mov	#12, r0
+	mov	$12, r0
 	halt
 1:
 	; ---- 3: a quad load across A (present) and B (absent)
@@ -130,7 +130,7 @@ kfill:	mov	r2, (r1)+
 	mov	=(0x44332211), r1
 	mov.s32	r1, 4092(r3)
 	mov	=(99), r5
-	mov	#0, r4
+	mov	$0, r4
 	mov	r4, cnt
 	mov	r4, watch
 	s3:
@@ -138,36 +138,36 @@ kfill:	mov	r2, (r1)+
 	mov	cnt, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 13 case 3: a split load, B absent: one fault
-	mov	#13, r0
+	mov	$13, r0
 	halt
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_LFAULT), r17
 	cbeq	r11, r17, 1f	; check 14 case 3: a split load, B absent: the vector
-	mov	#14, r0
+	mov	$14, r0
 	halt
 1:
 	mov	last_eva, r11
 	mov	=(0x825000), r17
 	cbeq	r11, r17, 1f	; check 15 case 3: a split load, B absent: EVA
-	mov	#15, r0
+	mov	$15, r0
 	halt
 1:
 	lea	s3, r11
 	mov	last_epc, r12
 	cbeq	r12, r11, 1f	; check 16 case 3: a split load, B absent: EPC is the instruction
-	mov	#16, r0
+	mov	$16, r0
 	halt
 1:
 	mov	hr5, r11
 	mov	=(99), r17
 	cbeq	r11, r17, 1f	; check 17 case 3: at the fault the destination is as it was
-	mov	#17, r0
+	mov	$17, r0
 	halt
 1:
 	mov	=(0x44332211), r17
 	cbeq	r5, r17, 1f	; check 18 case 3: after the restart it holds the quad (the new page is zero)
-	mov	#18, r0
+	mov	$18, r0
 	halt
 1:
 	; ---- 4: a four-byte store across A (present) and B (absent)
@@ -177,60 +177,60 @@ kfill:	mov	r2, (r1)+
 	mov	=(0x826ffc), r4
 	mov	r4, watch
 	mov	=(0x1122ccdd), r1
-	mov	#0, r4
+	mov	$0, r4
 	mov	r4, cnt
 	s4:
 	mov.s32	r1, 4094(r3)
-	mov	#0, r4
+	mov	$0, r4
 	mov	r4, watch
 	mov	cnt, r11
 	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 19 case 4: a split four-byte store, B absent: one fault
-	mov	#19, r0
+	mov	$19, r0
 	halt
 1:
 	mov	last_cause, r11
 	mov	=(VECTOR_SFAULT), r17
 	cbeq	r11, r17, 1f	; check 20 case 4: a split four-byte store, B absent: the vector
-	mov	#20, r0
+	mov	$20, r0
 	halt
 1:
 	mov	last_eva, r11
 	mov	=(0x827000), r17
 	cbeq	r11, r17, 1f	; check 21 case 4: a split four-byte store, B absent: EVA
-	mov	#21, r0
+	mov	$21, r0
 	halt
 1:
 	lea	s4, r11
 	mov	last_epc, r12
 	cbeq	r12, r11, 1f	; check 22 case 4: a split four-byte store, B absent: EPC is the instruction
-	mov	#22, r0
+	mov	$22, r0
 	halt
 1:
 	mov	seen, r11
 	mov	=(0x44332211), r17
 	cbeq	r11, r17, 1f	; check 23 case 4: at the fault the last four bytes of A are as they were
-	mov	#23, r0
+	mov	$23, r0
 	halt
 1:
 	mov.s32	4094(r3), r11
 	mov	=(0x1122ccdd), r17
 	cbeq	r11, r17, 1f	; check 24 case 4: after the restart all four bytes are there
-	mov	#24, r0
+	mov	$24, r0
 	halt
 1:
-	mov	#0, r0
+	mov	$0, r0
 	halt
 h_fault:
 	mov	r1, hr1
 	mov	r5, hr5
 	mov	watch, r12
-	cbeq	r12, #0, 1f
+	cbeq	r12, $0, 1f
 	mov.s32	(r12), r11
 	mov	r11, seen
 1:
 	mov	cnt, r12
-	add	#1, r12
+	add	$1, r12
 	mov	r12, cnt
 	mfsr	r12, ecause
 	mov	r12, last_cause
@@ -245,27 +245,27 @@ h_fault:
 	mfsr	r12, eva
 	mov	=(0x800000), r11
 	sub	r11, r12
-	shr	#12, r12
-	shl	#3, r12
+	shr	$12, r12
+	shl	$3, r12
 	lea	wpt, r11
 	add	r11, r12
 	mfsr	r11, eva
-	shr	#12, r11
-	shl	#12, r11
-	bis	#(1<<PTE_V|1<<PTE_R|1<<PTE_W|1<<PTE_A|1<<PTE_D), r11
+	shr	$12, r11
+	shl	$12, r11
+	bis	$(1<<PTE_V|1<<PTE_R|1<<PTE_W|1<<PTE_A|1<<PTE_D), r11
 	mov	r11, (r12)
 	mfsr	r12, eva
 	tlbi	r12
 	mov	redirect, r12
-	cbeq	r12, #0, 1f
+	cbeq	r12, $0, 1f
 	mtsr	epc, r12
-	mov	#0, r12
+	mov	$0, r12
 	mov	r12, redirect
-1:	rti	#RTIMASK_ALL
-h_trap:	rti	#RTIMASK_ALL
-h_bad:	mov	#99, r0
+1:	rti	$RTIMASK_ALL
+h_trap:	rti	$RTIMASK_ALL
+h_bad:	mov	$99, r0
 	halt
-h_ok:	mov	#0, r0
+h_ok:	mov	$0, r0
 h_fail:	halt
 
 	.data

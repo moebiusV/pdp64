@@ -1,6 +1,6 @@
 	.text
 	.chk 1, "a.c", 10
-	cthis r1, #16
+	cthis r1, $16
 	cteq r2
 	ctne r3
 	.chk 3, "a.c", 12

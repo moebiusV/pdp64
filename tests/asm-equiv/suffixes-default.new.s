@@ -3,12 +3,12 @@
 	mov.s64 (r1), r2
 	mov.u64 r1, 4(r2)
 	mov.s64 r1, r2
-	mov.s64 #5, r1
+	mov.s64 $5, r1
 	mov.user.s64 (r1), r2
 	mov.user.u64 r1, (r2)
 	bswap.s64 r1, r2
 	bswap.u64 r1, r2
-	ror.s64 r1, #5, r2
+	ror.s64 r1, $5, r2
 	ror.u64 r1, r2, r3
 	mul.s64 r1, r2
 	mul.u64 r1, r2

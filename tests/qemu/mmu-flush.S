@@ -18,19 +18,19 @@ _start:
 	mtsr	vbr, r1
 	lea	l2, r1
 	mtsr	ptbr, r1
-	mov	#0, r1
+	mov	$0, r1
 	mtsr	asid, r1
-	mov	#1, r1
+	mov	$1, r1
 	mtsr	mmuctl, r1
 	isync
 	mov	=1073741824, r3
 	mov	8(r3), r5		; P is now cached: it maps pgA
-	cbeq r5, #(4369), 1f
-	mov	#1, r0
+	cbeq r5, $(4369), 1f
+	mov	$1, r0
 	halt
 1:
 ; (i) translation off, change the entry, translation on: P must read pgC, not the cached pgA
-	mov	#0, r1
+	mov	$0, r1
 	mtsr	mmuctl, r1
 	isync
 	lea	pgC, r2
@@ -38,16 +38,16 @@ _start:
 	add	r1, r2
 	lea	l0a, r1
 	mov	r2, 0(r1)
-	mov	#1, r1
+	mov	$1, r1
 	mtsr	mmuctl, r1
 	isync
 	mov	8(r3), r5
-	cbeq r5, #(13107), 1f
-	mov	#2, r0			; a translation cached before translation was off was used
+	cbeq r5, $(13107), 1f
+	mov	$2, r0			; a translation cached before translation was off was used
 	halt
 1:
 ; (i) again with the entry changed back while translation is on and P cached (pgC), then off, on: pgA
-	mov	#0, r1
+	mov	$0, r1
 	mtsr	mmuctl, r1
 	isync
 	lea	pgA, r2
@@ -55,12 +55,12 @@ _start:
 	add	r1, r2
 	lea	l0a, r1
 	mov	r2, 0(r1)
-	mov	#1, r1
+	mov	$1, r1
 	mtsr	mmuctl, r1
 	isync
 	mov	8(r3), r5
-	cbeq r5, #(4369), 1f
-	mov	#3, r0
+	cbeq r5, $(4369), 1f
+	mov	$3, r0
 	halt
 1:
 ; (ii) PTBR: P is cached (pgA, table l2); a new table that maps P to pgB must be used at once, and when l2 is loaded again, pgB must not answer
@@ -68,16 +68,16 @@ _start:
 	mtsr	ptbr, r1
 	isync
 	mov	8(r3), r5
-	cbeq r5, #(8738), 1f
-	mov	#4, r0			; an entry walked from the old table was used under the new one
+	cbeq r5, $(8738), 1f
+	mov	$4, r0			; an entry walked from the old table was used under the new one
 	halt
 1:
 	lea	l2, r1
 	mtsr	ptbr, r1
 	isync
 	mov	8(r3), r5
-	cbeq r5, #(4369), 1f
-	mov	#5, r0			; the entry of l2b was used under l2
+	cbeq r5, $(4369), 1f
+	mov	$5, r0			; the entry of l2b was used under l2
 	halt
 1:
 ; (iii) ASID: P is cached with tag 0 (pgA).  The entry is changed without any TLBI; under ASID 1 the entry tagged 0 must not answer
@@ -86,12 +86,12 @@ _start:
 	add	r1, r2
 	lea	l0a, r1
 	mov	r2, 0(r1)
-	mov	#1, r1
+	mov	$1, r1
 	mtsr	asid, r1
 	isync
 	mov	8(r3), r5
-	cbeq r5, #(13107), 1f
-	mov	#6, r0			; an entry tagged ASID 0 answered under ASID 1
+	cbeq r5, $(13107), 1f
+	mov	$6, r0			; an entry tagged ASID 0 answered under ASID 1
 	halt
 1:
 ; the same from tag 1 (pgC) to ASID 2 (pgA)
@@ -100,26 +100,26 @@ _start:
 	add	r1, r2
 	lea	l0a, r1
 	mov	r2, 0(r1)
-	mov	#2, r1
+	mov	$2, r1
 	mtsr	asid, r1
 	isync
 	mov	8(r3), r5
-	cbeq r5, #(4369), 1f
-	mov	#7, r0			; an entry tagged ASID 1 answered under ASID 2
+	cbeq r5, $(4369), 1f
+	mov	$7, r0			; an entry tagged ASID 1 answered under ASID 2
 	halt
 1:
 ; a write of the same value to MMUCTL, PTBR and ASID does not break anything (whether it flushes is not specified: only the value read is checked)
-	mov	#1, r1
+	mov	$1, r1
 	mtsr	mmuctl, r1
 	isync
 	mov	8(r3), r5
-	cbeq r5, #(4369), 1f
-	mov	#8, r0
+	cbeq r5, $(4369), 1f
+	mov	$8, r0
 	halt
 1:
-	mov	#0, r0
+	mov	$0, r0
 	halt
-h_fail:	mov	#99, r0			; an unexpected exception
+h_fail:	mov	$99, r0			; an unexpected exception
 	halt
 	.data
 	.align	8

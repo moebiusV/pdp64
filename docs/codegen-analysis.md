@@ -417,12 +417,12 @@ What the pairs suggest (the sections after this one price them):
 
 * **Compare and branch** (`cmp`/`tst` followed by a conditional branch) is 32427 pairs, 8.8% of all instructions. There is no fused instruction.
 * **Argument set-up** (`movq reg,reg ; call`, `lea ... ; call`) is the largest group after that: a call is often preceded by one to three moves of arguments into `r0`-`r5`.
-* **A narrow load followed by a compare with a constant** (`movzb ...; cmp r,#n`): 4997 sites. The compare cannot take the narrow operand because ALU operands in memory are always 64-bit (decision, errata 28) and an instruction has at most one memory operand, which would also have to hold the constant.
+* **A narrow load followed by a compare with a constant** (`movzb ...; cmp r,$n`): 4997 sites. The compare cannot take the narrow operand because ALU operands in memory are always 64-bit (decision, errata 28) and an instruction has at most one memory operand, which would also have to hold the constant.
 * **`lea sym,r ; movq r,r`** and **`movq imm,r`** are address and constant materialisation: the cost of a machine with no 64-bit immediate and with pc-relative data.
 
 ## 7. Where the bytes go
 
-Every instruction of the 827 files in one cost centre (static; "frame" is `push fp`/`movq sp,fp`/`pushm`/`popm`/`sub`/`add` on `sp` and the other frame set-up; "constant" is `clr r` and `movq #n,r`; "address-of-symbol-N" is `lea sym,r` in an N-byte encoding, 6 when the symbol is in another section; "re-extension" is `movl r,r` and the like on the same register; "call-external" is a 6-byte `call`, i.e. to another section or an undefined symbol):
+Every instruction of the 827 files in one cost centre (static; "frame" is `push fp`/`movq sp,fp`/`pushm`/`popm`/`sub`/`add` on `sp` and the other frame set-up; "constant" is `clr r` and `movq $n,r`; "address-of-symbol-N" is `lea sym,r` in an N-byte encoding, 6 when the symbol is in another section; "re-extension" is `movl r,r` and the like on the same register; "call-external" is a 6-byte `call`, i.e. to another section or an undefined symbol):
 
 | cost centre | instructions | share | bytes | share of instruction bytes |
 |---|---|---|---|---|
@@ -451,7 +451,7 @@ Reading the table:
 * **Cross-section references.** `call-external` plus the 6-byte `address-of-symbol` and `global-access` forms are 36555 instructions and cost 73110 bytes more than the 4-byte forms would (4.4% of the image). `as64` resolves a pc-relative reference inside a section itself (4 bytes) but must emit a 32-bit relocation for anything else (6 bytes); the compiler already keeps strings and constants in `.text` for this reason (that change alone cut the 6-byte `lea` count by a third), but cannot do anything about external functions and writable data.
 * **Frame and return** are 4.7% of the instruction bytes. With no frame pointer a function that saves callee-saved registers costs `pushm` + `sub` + `add` + `popm` + `ret` = 18 bytes; with a frame pointer it was 24.
 * **Re-extension** (`movl r,r`) is 0.9% of the bytes. Before this round's policy change it was 4.3% of the instructions.
-* **Constants** are 7.8% of the instruction bytes: `movq #n,r` is 4 bytes for 16-bit values and 6 or 8 above, and there is no shorter form.
+* **Constants** are 7.8% of the instruction bytes: `movq $n,r` is 4 bytes for 16-bit values and 6 or 8 above, and there is no shorter form.
 * **Compare** (`cmp`/`tst`) 8.5%, **branch** 9.4%: together a fifth of the bytes.
 * **Block moves** are negligible in C: 154 `mcpy` in the whole corpus (the compiler uses it only for struct copies of three or more words).
 * The loads and stores are the largest group, 22.0% of the instruction bytes, and nearly all are 4 bytes: any memory operand costs a second parcel, which is the encoding's central trade (section 9 prices a short form).
@@ -474,10 +474,10 @@ Each item is the count of sites in the 827 files where the pattern occurs in the
 
 | pattern in the pdp64 output | sites | estimated bytes saved |
 |---|---|---|
-| narrow load; cmp reg,#imm (a sized compare with memory) | 4997 | n/a |
+| narrow load; cmp reg,$imm (a sized compare with memory) | 4997 | n/a |
 | movl mem,r; op: a 32-bit load fused into the operation | 4690 | n/a |
 | immediate beyond 16 bits (a 6- or 8-byte instruction) | 3094 | 6286 |
-| movzl r,r; shr #n,r (extzb) | 2112 | n/a |
+| movzl r,r; shr $n,r (extzb) | 2112 | n/a |
 | rotate left by a constant: shl, shr, bis (32/64-bit) | 898 | n/a |
 | set cc,rd (a comparison as a value) | 561 | 4488 |
 | inc/dec on a quad in memory | 468 | 2808 |
@@ -487,7 +487,7 @@ Each item is the count of sites in the 827 files where the pattern occurs in the
 | min/max/minu/maxu ra,rb,rd | 82 | 328 |
 | and/xor on a quad in memory (no memory-destination form) | 55 | n/a |
 | abs rs,rd | 6 | 24 |
-| shl #a; shr/sar #b (a bit-field extract: extb/extzb) | 4 | n/a |
+| shl $a; shr/sar $b (a bit-field extract: extb/extzb) | 4 | n/a |
 
 
 and from the operand statistics:
@@ -496,11 +496,11 @@ and from the operand statistics:
 |---|---|---|
 | A 2-byte load/store with a register-deferred operand `(rN)` (PDP-11 mode 1) | 12941 loads and stores use `0(rN)` as the whole operand | 2 bytes each = 25882 bytes, 1.5% of the image |
 | A 2-byte load/store of a quad at a small multiple of 8 from `sp` (the d6(sp) form the ISA mentions) | 11928 quad loads and stores at `d(sp)` with 0 <= d < 512 and d a multiple of 8 | 2 bytes each = 23856 bytes, 1.4% |
-| Compare-register-with-5-bit-immediate-and-branch in 4 bytes | 18787 `cmp r,#imm ; bCC` pairs, of which 6390 have the immediate in -16..15 and 12832 in -128..127 | 2 bytes and 1 instruction each for the first group = 12780 bytes (0.8%) |
+| Compare-register-with-5-bit-immediate-and-branch in 4 bytes | 18787 `cmp r,$imm ; bCC` pairs, of which 6390 have the immediate in -16..15 and 12832 in -128..127 | 2 bytes and 1 instruction each for the first group = 12780 bytes (0.8%) |
 | `tst r ; bCC` fused (compare with zero and branch) | 8327 pairs | 1 instruction each; the bytes are equal (2 + 2) |
-| 32-bit rotate by a constant (`rol32 rs,#n,rd`) | 896 rotates in the output, each now 5 instructions and about 14 bytes (`mov`, `shl`, `movzl`, `shr`, `bis`) | about 10 bytes and 4 instructions each = 8960 bytes (0.5%); the SHA-1, MD5, SHA-256 and RIPEMD-160 files, the worst in the corpus (1.7-2.3x gcc), spend a third of their code on these |
+| 32-bit rotate by a constant (`rol32 rs,$n,rd`) | 896 rotates in the output, each now 5 instructions and about 14 bytes (`mov`, `shl`, `movzl`, `shr`, `bis`) | about 10 bytes and 4 instructions each = 8960 bytes (0.5%); the SHA-1, MD5, SHA-256 and RIPEMD-160 files, the worst in the corpus (1.7-2.3x gcc), spend a third of their code on these |
 | Linker relaxation or a 16-bit section-relative relocation, so that an external `call` or `lea sym` is 4 bytes when it is in range | 36555 six-byte pc-relative forms | 2 bytes each = 73110 bytes, 4.4%. By far the largest single item |
-| Sized ALU memory operands (the decision of errata 28 refuses these) | `movl mem,r ; op` 4690 sites; `narrow load ; cmp r,#imm` 4997 sites (these need two operands in memory/immediate and would not fit anyway) | about 2 bytes each for the first group = 9380 bytes (0.6%): supports the decision |
+| Sized ALU memory operands (the decision of errata 28 refuses these) | `movl mem,r ; op` 4690 sites; `narrow load ; cmp r,$imm` 4997 sites (these need two operands in memory/immediate and would not fit anyway) | about 2 bytes each for the first group = 9380 bytes (0.6%): supports the decision |
 
 ## 10. Conclusions
 

@@ -37,7 +37,7 @@ static void put(const struct eop *o, uint64_t pc)
 	switch (o->k) {
 	case EK_R: printf("%s", rn[o->r]); break;
 	case EK_V: printf("%c%d", o->s ? 't' : 'v', o->r); break;
-	case EK_I: printf("#%lld", (long long)o->v); break;
+	case EK_I: printf("$%lld", (long long)o->v); break;
 	case EK_B: if (o->v) printf("%lld", (long long)o->v); printf("(%s)", o->r == EBASE_DP ? "dp" : rn[o->r]); break;
 	case EK_X: printf("%lld(%s)(%s*%d)", (long long)o->v, rn[o->r], rn[o->x], o->s); break;
 	case EK_PI: printf("(%s)+%lld", rn[o->r], (long long)o->v); break;
@@ -57,7 +57,7 @@ static char *key(const struct einsn *in, char *out)
 		switch (o->k) {
 		case EK_R: p += sprintf(p, "%s", rn[o->r]); break;
 		case EK_V: p += sprintf(p, "%c%d", o->s ? 't' : 'v', o->r); break;
-		case EK_I: p += sprintf(p, "#%lld", (long long)o->v); break;
+		case EK_I: p += sprintf(p, "$%lld", (long long)o->v); break;
 		case EK_B: p += sprintf(p, "%lld(%s)", (long long)o->v, b); break;
 		case EK_X: p += sprintf(p, "%lld(%s)(%s*%d)", (long long)o->v, b, rn[o->x], o->s); break;
 		case EK_PI: p += sprintf(p, "(%s)+%lld", b, (long long)o->v); break;
@@ -98,7 +98,7 @@ static int dis_a(const struct etab *t, const uint16_t *par, int np, long a, cons
 			if (mk && k < 2) q += sprintf(q, ".%s", k ? mk->dst : mk->src);
 			break;
 		case EK_V: q += sprintf(q, "%c%d", o->s ? 't' : 'v', o->r); break;
-		case EK_I: q += sprintf(q, "#%lld", (long long)o->v); break;
+		case EK_I: q += sprintf(q, "$%lld", (long long)o->v); break;
 		case EK_B: if (o->v) q += sprintf(q, "%lld", (long long)o->v); q += sprintf(q, "(%s)", o->r == EBASE_DP ? "dp" : RN[o->r]); break;
 		case EK_X: q += sprintf(q, "%lld(%s)(%s*%d)", (long long)o->v, RN[o->r], RN[o->x], o->s); break;
 		case EK_PI: q += sprintf(q, "(%s)+%lld", RN[o->r], (long long)o->v); break;

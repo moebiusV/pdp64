@@ -1,2 +1,2 @@
 	.text
-	popx #1
+	popx $1

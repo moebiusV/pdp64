@@ -19,7 +19,7 @@ A processor that has just been powered on has a problem that no program can solv
 ```
 / UNIX/v7m RM02/3 and RP04/5/6 block 0 bootstrap
 / Can only boot from unit zero.
-/ Assumes disk at standard address (0176700).
+/ Assumes disk at standard address (0o176700).
 
 core = 28.
 .. = [core*2048.]-512.          / 28 K words = 56 KB, less 512 bytes: high in memory
@@ -174,7 +174,7 @@ rom_entry():                                  # core 0; every other core is held
     monitor()                                 # nothing booted: the monitor (4.10)
 ```
 
-**The first few pages of memory.** The **vector table** (the table of handlers that an exception or an interrupt jumps through, chapter {{c:id01006|n}}) is **one whole page**, 512 entries of 8 bytes, at address 0, because the system register `VBR` (vector base register) is zero at reset ({{r:reset-and-the-first-kernel}}). The PDP-11's was a fixed table of a few hundred bytes at 0 to 0377, and its boot programs lived elsewhere. Block 0 is therefore loaded above the table, so that the first stage runs without overwriting the vectors. My rule is that no device window is mapped in **the first few pages**, where "the boot stuff is loaded" ({{r:no-bit-of-the-physical}}).
+**The first few pages of memory.** The **vector table** (the table of handlers that an exception or an interrupt jumps through, chapter {{c:id01006|n}}) is **one whole page**, 512 entries of 8 bytes, at address 0, because the system register `VBR` (vector base register) is zero at reset ({{r:reset-and-the-first-kernel}}). The PDP-11's was a fixed table of a few hundred bytes at 0 to 0o377, and its boot programs lived elsewhere. Block 0 is therefore loaded above the table, so that the first stage runs without overwriting the vectors. My rule is that no device window is mapped in **the first few pages**, where "the boot stuff is loaded" ({{r:no-bit-of-the-physical}}).
 
 *Commentary.* **Chain.** PDP-11: ROM or keys read block 0 and jump, the boot device in registers. VAX: a console or a boot ROM does the same with the boot block and registers `r1` to `r5` ({{r:boot-what-came-between}}). PC: the BIOS reads one 512-byte sector to a fixed address (unverified: the address); the IBM mainframes' IPL record and the Alpha console's boot block are the same idea (unverified); ARM boards load a first-stage loader from the boot medium (unverified). UEFI: no block 0, a file run from a FAT partition. pdp64: the PDP-11 step again.
 

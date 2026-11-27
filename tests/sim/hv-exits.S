@@ -6,13 +6,13 @@ _start:
 	lea	htab, r1
 	mtsr	hvbr, r1
 	lea	xh, r2
-	mov	#512, r3
+	mov	$512, r3
 fill1:	mov	r2, (r1)+
 	sob	r3, fill1
 	lea	gvtab, r1
 	mtsr	vbr, r1
 	lea	gh, r2
-	mov	#512, r3
+	mov	$512, r3
 fill2:	mov	r2, (r1)+
 	sob	r3, fill2
 	mov	=0x1234, r1
@@ -91,7 +91,7 @@ fill2:	mov	r2, (r1)+
 	mov.s16	r1, ub255w+4
 	lea	log, r27
 	lea	cases, r28
-	mov	#119, r29
+	mov	$119, r29
 next:	mov	(r28)+, r1
 	mtsr	htrap, r1
 	mov	(r28)+, r1
@@ -100,15 +100,15 @@ next:	mov	(r28)+, r1
 	mtsr	hepsw, r1
 	mov	(r28)+, r3
 	lea	gvtab, r2
-	mov	#0, r1
+	mov	$0, r1
 	mtsr	epc, r1
 	mtsr	gecause, r1
 	mtsr	geva, r1
 	mtsr	asid, r1
 	mtsr	ptbr, r1
 	mtsr	mmuctl, r1
-	mov	#99, r0			; a HALT that stops the machine (not an exit) ends the run with a status that is not 0
-	genter	#RTIMASK_ALL
+	mov	$99, r0			; a HALT that stops the machine (not an exit) ends the run with a status that is not 0
+	genter	$RTIMASK_ALL
 xh:	mfsr	r20, hexitr
 	mfsr	r21, hcause
 	mfsr	r22, hepc
@@ -116,22 +116,22 @@ xh:	mfsr	r20, hexitr
 	mfsr	r24, hinsn
 	mov.u16	-2(r22), r11
 	mov.u16	-4(r22), r12
-	shl	#16, r12
+	shl	$16, r12
 	bis	r11, r12
-	shl	#16, r11
-	mov	#0, r25
+	shl	$16, r11
+	mov	$0, r25
 	cbne	r24, r12, 1f
-	mov	#1, r25
+	mov	$1, r25
 1:	cbne	r24, r11, 1f
-	mov	#1, r25
+	mov	$1, r25
 1:
 	mov.u16	-4(r22), r11
 	mov.u16	-6(r22), r12
-	shl	#16, r12
+	shl	$16, r12
 	bis	r11, r12
 	cbne	r24, r12, 1f
-	mov	#1, r25
-1:			; a three-parcel instruction (genter #mask): HINSN is its first two parcels
+	mov	$1, r25
+1:			; a three-parcel instruction (genter $mask): HINSN is its first two parcels
 	mfsr	r15, heva
 	mfsr	r16, hgpa
 	bis	r16, r15
@@ -146,8 +146,8 @@ xh:	mfsr	r20, hexitr
 	mov	r17, (r27)+
 	mov	r18, (r27)+
 	mov	r1, (r27)+
-	cbeq	r20, #XCODE_HALT, 2f
-	genter	#RTIMASK_ALL
+	cbeq	r20, $XCODE_HALT, 2f
+	genter	$RTIMASK_ALL
 2:	sob	r29, next
 	br	compare
 	.align	2
@@ -162,22 +162,22 @@ c1a1:
 	halt
 c1a2:
 c2:
-c2i1:	hint	#1
+c2i1:	hint	$1
 c2a1:
 	halt
 c2a2:
 c3:
-c3i1:	hint	#1
+c3i1:	hint	$1
 c3a1:
 	halt
 c3a2:
 c4:
-c4i1:	hint	#0
+c4i1:	hint	$0
 c4a1:
 	halt
 c4a2:
 c5:
-c5i1:	hint	#2
+c5i1:	hint	$2
 c5a1:
 	halt
 c5a2:
@@ -192,12 +192,12 @@ c7a1:
 	halt
 c7a2:
 c8:
-c8i1:	spl	#3
+c8i1:	spl	$3
 c8a1:
 	halt
 c8a2:
 c9:
-c9i1:	spl	#3
+c9i1:	spl	$3
 c9a1:
 	halt
 c9a2:
@@ -362,124 +362,124 @@ c41a1:
 	halt
 c41a2:
 c42:
-c42i1:	mov	#1, r1
+c42i1:	mov	$1, r1
 c42a1:
-c42i2:	mov	#2, r3
+c42i2:	mov	$2, r3
 c42a2:
 	halt
 c42a3:
 c43:
-c43i1:	trap	#0
+c43i1:	trap	$0
 c43a1:
 	halt
 c43a2:
 c44:
-c44i1:	trap	#0
+c44i1:	trap	$0
 c44a1:
 	halt
 c44a2:
 c45:
-c45i1:	trap	#31
+c45i1:	trap	$31
 c45a1:
 	halt
 c45a2:
 c46:
-c46i1:	trap	#31
+c46i1:	trap	$31
 c46a1:
 	halt
 c46a2:
 c47:
-c47i1:	trap	#32
+c47i1:	trap	$32
 c47a1:
 	halt
 c47a2:
 c48:
-c48i1:	trap	#32
+c48i1:	trap	$32
 c48a1:
 	halt
 c48a2:
 c49:
-c49i1:	trap	#63
+c49i1:	trap	$63
 c49a1:
 	halt
 c49a2:
 c50:
-c50i1:	trap	#63
+c50i1:	trap	$63
 c50a1:
 	halt
 c50a2:
 c51:
-c51i1:	trap	#64
+c51i1:	trap	$64
 c51a1:
 	halt
 c51a2:
 c52:
-c52i1:	trap	#64
+c52i1:	trap	$64
 c52a1:
 	halt
 c52a2:
 c53:
-c53i1:	trap	#100
+c53i1:	trap	$100
 c53a1:
 	halt
 c53a2:
 c54:
-c54i1:	trap	#100
+c54i1:	trap	$100
 c54a1:
 	halt
 c54a2:
 c55:
-c55i1:	trap	#128
+c55i1:	trap	$128
 c55a1:
 	halt
 c55a2:
 c56:
-c56i1:	trap	#128
+c56i1:	trap	$128
 c56a1:
 	halt
 c56a2:
 c57:
-c57i1:	trap	#223
+c57i1:	trap	$223
 c57a1:
 	halt
 c57a2:
 c58:
-c58i1:	trap	#223
+c58i1:	trap	$223
 c58a1:
 	halt
 c58a2:
 c59:
-c59i1:	trap	#224
+c59i1:	trap	$224
 c59a1:
 	halt
 c59a2:
 c60:
-c60i1:	trap	#224
+c60i1:	trap	$224
 c60a1:
 	halt
 c60a2:
 c61:
-c61i1:	trap	#255
+c61i1:	trap	$255
 c61a1:
 	halt
 c61a2:
 c62:
-c62i1:	trap	#255
+c62i1:	trap	$255
 c62a1:
 	halt
 c62a2:
 c63:
-c63i1:	trap	#40
+c63i1:	trap	$40
 c63a1:
 	halt
 c63a2:
 c64:
-c64i1:	trap	#40
+c64i1:	trap	$40
 c64a1:
 	halt
 c64a2:
 c65:
-c65i1:	trap	#40
+c65i1:	trap	$40
 c65a1:
 	halt
 c65a2:
@@ -529,7 +529,7 @@ c74a1:
 	halt
 c74a2:
 c75:
-c75i1:	genter	#RTIMASK_ALL
+c75i1:	genter	$RTIMASK_ALL
 c75a1:
 	halt
 c75a2:
@@ -584,7 +584,7 @@ c85a1:
 	halt
 c85a2:
 c86:
-c86i1:	genter	#RTIMASK_ALL
+c86i1:	genter	$RTIMASK_ALL
 c86a1:
 	halt
 c86a2:
@@ -614,7 +614,7 @@ c91a1:
 	halt
 c91a2:
 c92:
-c92i1:	genter	#RTIMASK_ALL
+c92i1:	genter	$RTIMASK_ALL
 c92a1:
 	halt
 c92a2:
@@ -644,7 +644,7 @@ c97a1:
 	halt
 c97a2:
 c98:
-c98i1:	spl	#2
+c98i1:	spl	$2
 c98a1:
 	halt
 c98a2:
@@ -669,7 +669,7 @@ c102a1:
 	halt
 c102a2:
 c103:
-c103i1:	hint	#1
+c103i1:	hint	$1
 c103a1:
 	halt
 c103a2:
@@ -753,15 +753,15 @@ gha:
 compare:
 	lea	log, r1
 	lea	exp, r2
-	mov	#1, r6
-ce:	mov	#9, r3
+	mov	$1, r6
+ce:	mov	$9, r3
 cw:	mov	(r1)+, r4
 	mov	(r2)+, r5
 	cbne	r4, r5, bad
 	sob	r3, cw
-	add	#1, r6
-	cbne	r6, #177, ce
-	mov	#0, r0
+	add	$1, r6
+	cbne	r6, $177, ce
+	mov	$0, r0
 	halt
 bad:	mov	r6, r0
 	halt

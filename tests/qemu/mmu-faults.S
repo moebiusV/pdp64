@@ -7,415 +7,415 @@ _start:
 	mtsr	vbr, r1
 	lea	l2, r1
 	mtsr	ptbr, r1
-	mov	#1, r1
+	mov	$1, r1
 	mtsr	mmuctl, r1
-	mov	#0, r4
-	mov	#0, r10
-	mov	#0, r6
-	mov	#0, r7
-	mov	#0, r8
-	mov	#0, r9
-	mov	#0, r12
+	mov	$0, r4
+	mov	$0, r10
+	mov	$0, r6
+	mov	$0, r7
+	mov	$0, r8
+	mov	$0, r9
+	mov	$0, r12
 	lea	res_l2inv, r4
 	mov	=0xC0000000, r3
 ins_l2inv:
 	mov	(r3), r5
 res_l2inv:
 	mov	r7, r1
-	bic	#15, r7
-	cbeq r10, #(1), 1f
-	mov	#2, r0	; check 1
+	bic	$15, r7
+	cbeq r10, $(1), 1f
+	mov	$2, r0	; check 1
 	halt
 1:
-	cbeq r8, #(VECTOR_LFAULT), 1f
-	mov	#3, r0	; check 2
+	cbeq r8, $(VECTOR_LFAULT), 1f
+	mov	$3, r0	; check 2
 	halt
 1:
 	lea	ins_l2inv, r11
 	cbeq r6, r11, 1f
-	mov	#4, r0	; check 3
+	mov	$4, r0	; check 3
 	halt
 1:
 	mov	=3221225472, r2
 	cbeq r9, r2, 1f
-	mov	#5, r0	; check 4
+	mov	$5, r0	; check 4
 	halt
 1:
-	mov	#0, r4
-	mov	#0, r10
-	mov	#0, r6
-	mov	#0, r7
-	mov	#0, r8
-	mov	#0, r9
-	mov	#0, r12
+	mov	$0, r4
+	mov	$0, r10
+	mov	$0, r6
+	mov	$0, r7
+	mov	$0, r8
+	mov	$0, r9
+	mov	$0, r12
 	lea	res_l1inv, r4
 	mov	=1075838976, r3
 ins_l1inv:
 	mov	(r3), r5
 res_l1inv:
 	mov	r7, r1
-	bic	#15, r7
-	cbeq r10, #(1), 1f
-	mov	#6, r0	; check 5
+	bic	$15, r7
+	cbeq r10, $(1), 1f
+	mov	$6, r0	; check 5
 	halt
 1:
-	cbeq r8, #(VECTOR_LFAULT), 1f
-	mov	#7, r0	; check 6
+	cbeq r8, $(VECTOR_LFAULT), 1f
+	mov	$7, r0	; check 6
 	halt
 1:
 	lea	ins_l1inv, r11
 	cbeq r6, r11, 1f
-	mov	#8, r0	; check 7
+	mov	$8, r0	; check 7
 	halt
 1:
 	mov	=1075838976, r2
 	cbeq r9, r2, 1f
-	mov	#9, r0	; check 8
+	mov	$9, r0	; check 8
 	halt
 1:
-	mov	#0, r4
-	mov	#0, r10
-	mov	#0, r6
-	mov	#0, r7
-	mov	#0, r8
-	mov	#0, r9
-	mov	#0, r12
+	mov	$0, r4
+	mov	$0, r10
+	mov	$0, r6
+	mov	$0, r7
+	mov	$0, r8
+	mov	$0, r9
+	mov	$0, r12
 	lea	res_l1inv_s, r4
 	mov	=1075838976, r3
 ins_l1inv_s:
 	mov	r5, (r3)
 res_l1inv_s:
 	mov	r7, r1
-	bic	#15, r7
-	cbeq r10, #(1), 1f
-	mov	#10, r0	; check 9
+	bic	$15, r7
+	cbeq r10, $(1), 1f
+	mov	$10, r0	; check 9
 	halt
 1:
-	cbeq r8, #(VECTOR_SFAULT), 1f
-	mov	#11, r0	; check 10
+	cbeq r8, $(VECTOR_SFAULT), 1f
+	mov	$11, r0	; check 10
 	halt
 1:
 	lea	ins_l1inv_s, r11
 	cbeq r6, r11, 1f
-	mov	#12, r0	; check 11
+	mov	$12, r0	; check 11
 	halt
 1:
 	mov	=1075838976, r2
 	cbeq r9, r2, 1f
-	mov	#13, r0	; check 12
+	mov	$13, r0	; check 12
 	halt
 1:
-	mov	#0, r4
-	mov	#0, r10
-	mov	#0, r6
-	mov	#0, r7
-	mov	#0, r8
-	mov	#0, r9
-	mov	#0, r12
+	mov	$0, r4
+	mov	$0, r10
+	mov	$0, r6
+	mov	$0, r7
+	mov	$0, r8
+	mov	$0, r9
+	mov	$0, r12
 	lea	res_l1mis, r4
 	mov	=1077936128, r3
 ins_l1mis:
 	mov	(r3), r5
 res_l1mis:
 	mov	r7, r1
-	bic	#15, r7
-	cbeq r10, #(1), 1f
-	mov	#14, r0	; check 13
+	bic	$15, r7
+	cbeq r10, $(1), 1f
+	mov	$14, r0	; check 13
 	halt
 1:
-	cbeq r8, #(VECTOR_LFAULT), 1f
-	mov	#15, r0	; check 14
+	cbeq r8, $(VECTOR_LFAULT), 1f
+	mov	$15, r0	; check 14
 	halt
 1:
 	lea	ins_l1mis, r11
 	cbeq r6, r11, 1f
-	mov	#16, r0	; check 15
+	mov	$16, r0	; check 15
 	halt
 1:
 	mov	=1077936128, r2
 	cbeq r9, r2, 1f
-	mov	#17, r0	; check 16
+	mov	$17, r0	; check 16
 	halt
 1:
-	mov	#0, r4
-	mov	#0, r10
-	mov	#0, r6
-	mov	#0, r7
-	mov	#0, r8
-	mov	#0, r9
-	mov	#0, r12
+	mov	$0, r4
+	mov	$0, r10
+	mov	$0, r6
+	mov	$0, r7
+	mov	$0, r8
+	mov	$0, r9
+	mov	$0, r12
 	lea	res_l2mis, r4
 	mov	=0x100000000, r3
 ins_l2mis:
 	mov	(r3), r5
 res_l2mis:
 	mov	r7, r1
-	bic	#15, r7
-	cbeq r10, #(1), 1f
-	mov	#18, r0	; check 17
+	bic	$15, r7
+	cbeq r10, $(1), 1f
+	mov	$18, r0	; check 17
 	halt
 1:
-	cbeq r8, #(VECTOR_LFAULT), 1f
-	mov	#19, r0	; check 18
+	cbeq r8, $(VECTOR_LFAULT), 1f
+	mov	$19, r0	; check 18
 	halt
 1:
 	lea	ins_l2mis, r11
 	cbeq r6, r11, 1f
-	mov	#20, r0	; check 19
+	mov	$20, r0	; check 19
 	halt
 1:
 	mov	=4294967296, r2
 	cbeq r9, r2, 1f
-	mov	#21, r0	; check 20
+	mov	$21, r0	; check 20
 	halt
 1:
-	mov	#0, r4
-	mov	#0, r10
-	mov	#0, r6
-	mov	#0, r7
-	mov	#0, r8
-	mov	#0, r9
-	mov	#0, r12
+	mov	$0, r4
+	mov	$0, r10
+	mov	$0, r6
+	mov	$0, r7
+	mov	$0, r8
+	mov	$0, r9
+	mov	$0, r12
 	lea	res_l2res, r4
 	mov	=0x140000000, r3
 ins_l2res:
 	mov	(r3), r5
 res_l2res:
 	mov	r7, r1
-	bic	#15, r7
-	cbeq r10, #(1), 1f
-	mov	#22, r0	; check 21
+	bic	$15, r7
+	cbeq r10, $(1), 1f
+	mov	$22, r0	; check 21
 	halt
 1:
-	cbeq r8, #(VECTOR_LFAULT), 1f
-	mov	#23, r0	; check 22
+	cbeq r8, $(VECTOR_LFAULT), 1f
+	mov	$23, r0	; check 22
 	halt
 1:
 	lea	ins_l2res, r11
 	cbeq r6, r11, 1f
-	mov	#24, r0	; check 23
+	mov	$24, r0	; check 23
 	halt
 1:
 	mov	=5368709120, r2
 	cbeq r9, r2, 1f
-	mov	#25, r0	; check 24
+	mov	$25, r0	; check 24
 	halt
 1:
-	mov	#0, r4
-	mov	#0, r10
-	mov	#0, r6
-	mov	#0, r7
-	mov	#0, r8
-	mov	#0, r9
-	mov	#0, r12
+	mov	$0, r4
+	mov	$0, r10
+	mov	$0, r6
+	mov	$0, r7
+	mov	$0, r8
+	mov	$0, r9
+	mov	$0, r12
 	lea	res_l1res, r4
 	mov	=1080033280, r3
 ins_l1res:
 	mov	(r3), r5
 res_l1res:
 	mov	r7, r1
-	bic	#15, r7
-	cbeq r10, #(1), 1f
-	mov	#26, r0	; check 25
+	bic	$15, r7
+	cbeq r10, $(1), 1f
+	mov	$26, r0	; check 25
 	halt
 1:
-	cbeq r8, #(VECTOR_LFAULT), 1f
-	mov	#27, r0	; check 26
+	cbeq r8, $(VECTOR_LFAULT), 1f
+	mov	$27, r0	; check 26
 	halt
 1:
 	lea	ins_l1res, r11
 	cbeq r6, r11, 1f
-	mov	#28, r0	; check 27
+	mov	$28, r0	; check 27
 	halt
 1:
 	mov	=1080033280, r2
 	cbeq r9, r2, 1f
-	mov	#29, r0	; check 28
+	mov	$29, r0	; check 28
 	halt
 1:
-	mov	#0, r4
-	mov	#0, r10
-	mov	#0, r6
-	mov	#0, r7
-	mov	#0, r8
-	mov	#0, r9
-	mov	#0, r12
+	mov	$0, r4
+	mov	$0, r10
+	mov	$0, r6
+	mov	$0, r7
+	mov	$0, r8
+	mov	$0, r9
+	mov	$0, r12
 	lea	res_l0ptr, r4
 	mov	=1082130432, r3
 ins_l0ptr:
 	mov	(r3), r5
 res_l0ptr:
 	mov	r7, r1
-	bic	#15, r7
-	cbeq r10, #(1), 1f
-	mov	#30, r0	; check 29
+	bic	$15, r7
+	cbeq r10, $(1), 1f
+	mov	$30, r0	; check 29
 	halt
 1:
-	cbeq r8, #(VECTOR_LFAULT), 1f
-	mov	#31, r0	; check 30
+	cbeq r8, $(VECTOR_LFAULT), 1f
+	mov	$31, r0	; check 30
 	halt
 1:
 	lea	ins_l0ptr, r11
 	cbeq r6, r11, 1f
-	mov	#32, r0	; check 31
+	mov	$32, r0	; check 31
 	halt
 1:
 	mov	=1082130432, r2
 	cbeq r9, r2, 1f
-	mov	#33, r0	; check 32
+	mov	$33, r0	; check 32
 	halt
 1:
-	mov	#0, r4
-	mov	#0, r10
-	mov	#0, r6
-	mov	#0, r7
-	mov	#0, r8
-	mov	#0, r9
-	mov	#0, r12
+	mov	$0, r4
+	mov	$0, r10
+	mov	$0, r6
+	mov	$0, r7
+	mov	$0, r8
+	mov	$0, r9
+	mov	$0, r12
 	lea	res_tbus, r4
 	mov	=0x180000000, r3
 ins_tbus:
 	mov	(r3), r5
 res_tbus:
 	mov	r7, r1
-	bic	#15, r7
-	cbeq r10, #(1), 1f
-	mov	#34, r0	; check 33
+	bic	$15, r7
+	cbeq r10, $(1), 1f
+	mov	$34, r0	; check 33
 	halt
 1:
-	cbeq r8, #(VECTOR_BUSFAULT), 1f
-	mov	#35, r0	; check 34
+	cbeq r8, $(VECTOR_BUSFAULT), 1f
+	mov	$35, r0	; check 34
 	halt
 1:
 	lea	ins_tbus, r11
 	cbeq r6, r11, 1f
-	mov	#36, r0	; check 35
+	mov	$36, r0	; check 35
 	halt
 1:
 	mov	=6442450944, r2
 	cbeq r9, r2, 1f
-	mov	#37, r0	; check 36
+	mov	$37, r0	; check 36
 	halt
 1:
-	mov	#0, r4
-	mov	#0, r10
-	mov	#0, r6
-	mov	#0, r7
-	mov	#0, r8
-	mov	#0, r9
-	mov	#0, r12
+	mov	$0, r4
+	mov	$0, r10
+	mov	$0, r6
+	mov	$0, r7
+	mov	$0, r8
+	mov	$0, r9
+	mov	$0, r12
 	lea	res_dbus, r4
 	mov	=1084227584, r3
 ins_dbus:
 	mov	8(r3), r5
 res_dbus:
 	mov	r7, r1
-	bic	#15, r7
-	cbeq r10, #(1), 1f
-	mov	#38, r0	; check 37
+	bic	$15, r7
+	cbeq r10, $(1), 1f
+	mov	$38, r0	; check 37
 	halt
 1:
-	cbeq r8, #(VECTOR_BUSFAULT), 1f
-	mov	#39, r0	; check 38
+	cbeq r8, $(VECTOR_BUSFAULT), 1f
+	mov	$39, r0	; check 38
 	halt
 1:
 	lea	ins_dbus, r11
 	cbeq r6, r11, 1f
-	mov	#40, r0	; check 39
+	mov	$40, r0	; check 39
 	halt
 1:
 	mov	=1084227592, r2
 	cbeq r9, r2, 1f
-	mov	#41, r0	; check 40
+	mov	$41, r0	; check 40
 	halt
 1:
-	mov	#0, r4
-	mov	#0, r10
-	mov	#0, r6
-	mov	#0, r7
-	mov	#0, r8
-	mov	#0, r9
-	mov	#0, r12
+	mov	$0, r4
+	mov	$0, r10
+	mov	$0, r6
+	mov	$0, r7
+	mov	$0, r8
+	mov	$0, r9
+	mov	$0, r12
 	lea	res_sbus, r4
 	mov	=1084227584, r3
 ins_sbus:
 	mov	r5, 8(r3)
 res_sbus:
 	mov	r7, r1
-	bic	#15, r7
-	cbeq r10, #(1), 1f
-	mov	#42, r0	; check 41
+	bic	$15, r7
+	cbeq r10, $(1), 1f
+	mov	$42, r0	; check 41
 	halt
 1:
-	cbeq r8, #(VECTOR_BUSFAULT), 1f
-	mov	#43, r0	; check 42
+	cbeq r8, $(VECTOR_BUSFAULT), 1f
+	mov	$43, r0	; check 42
 	halt
 1:
 	lea	ins_sbus, r11
 	cbeq r6, r11, 1f
-	mov	#44, r0	; check 43
+	mov	$44, r0	; check 43
 	halt
 1:
 	mov	=1084227592, r2
 	cbeq r9, r2, 1f
-	mov	#45, r0	; check 44
+	mov	$45, r0	; check 44
 	halt
 1:
-	mov	#0, r4
-	mov	#0, r10
-	mov	#0, r6
-	mov	#0, r7
-	mov	#0, r8
-	mov	#0, r9
-	mov	#0, r12
+	mov	$0, r4
+	mov	$0, r10
+	mov	$0, r6
+	mov	$0, r7
+	mov	$0, r8
+	mov	$0, r9
+	mov	$0, r12
 	mov	=1084227584, r3
 	lea	res_fbus, r4
 ins_fbus:
 	call	r3
 res_fbus:
-	add	#8, sp
-	cbeq r10, #(1), 1f
-	mov	#46, r0	; check 45
+	add	$8, sp
+	cbeq r10, $(1), 1f
+	mov	$46, r0	; check 45
 	halt
 1:
-	cbeq r8, #(VECTOR_BUSFAULT), 1f
-	mov	#47, r0	; check 46
+	cbeq r8, $(VECTOR_BUSFAULT), 1f
+	mov	$47, r0	; check 46
 	halt
 1:
 	mov	=1084227584, r2
 	cbeq r9, r2, 1f
-	mov	#48, r0	; check 47
+	mov	$48, r0	; check 47
 	halt
 1:
-	mov	#0, r4
-	mov	#0, r10
-	mov	#0, r6
-	mov	#0, r7
-	mov	#0, r8
-	mov	#0, r9
-	mov	#0, r12
+	mov	$0, r4
+	mov	$0, r10
+	mov	$0, r6
+	mov	$0, r7
+	mov	$0, r8
+	mov	$0, r9
+	mov	$0, r12
 	mov	=1086324736, r3
 	mov	8(r3), r5
-	cbeq r10, #(0), 1f
-	mov	#49, r0	; check 48
+	cbeq r10, $(0), 1f
+	mov	$49, r0	; check 48
 	halt
 1:
-	cbeq r5, #(4660), 1f
-	mov	#50, r0	; check 49
+	cbeq r5, $(4660), 1f
+	mov	$50, r0	; check 49
 	halt
 1:
-	mov	#0, r0
+	mov	$0, r0
 	halt
 h_gen:	mfps	r12
 	mfsr	r6, epc
 	mfsr	r7, epsw
 	mfsr	r8, ecause
 	mfsr	r9, eva
-	add	#1, r10
-	cbeq	r4, #0, 1f
+	add	$1, r10
+	cbeq	r4, $0, 1f
 	mtsr	epc, r4
-1:	rti	#RTIMASK_ALL
-h_ok:	mov	#0, r0
+1:	rti	$RTIMASK_ALL
+h_ok:	mov	$0, r0
 h_fail:	halt
 	.data
 	.align	4096

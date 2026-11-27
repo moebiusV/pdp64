@@ -3,16 +3,16 @@
 	.text
 	.globl	_start
 _start:
-	mov	#5, r1
-	mov	#5, r2
-	mov	#7, r3
-	mov	#-1, r4
-	mov	#1, r5
-	shl	#15, r5
-	shl	#16, r5
-	shl	#16, r5
-	shl	#16, r5			; r5 = 0x8000000000000000, the most negative number
-	mov	#0, r6
+	mov	$5, r1
+	mov	$5, r2
+	mov	$7, r3
+	mov	$-1, r4
+	mov	$1, r5
+	shl	$15, r5
+	shl	$16, r5
+	shl	$16, r5
+	shl	$16, r5			; r5 = 0x8000000000000000, the most negative number
+	mov	$0, r6
 	cbne	r1, r2, f1
 	cbeq	r1, r2, 1f
 	br	f2
@@ -233,205 +233,205 @@ _start:
 	br	f139
 1:
 	cblos	r5, r6, f140
-	mov	#0, r0
-	trap	#0
-f1:	mov	#1, r0
-	trap	#0
-f2:	mov	#2, r0
-	trap	#0
-f7:	mov	#7, r0
-	trap	#0
-f8:	mov	#8, r0
-	trap	#0
-f9:	mov	#9, r0
-	trap	#0
-f10:	mov	#10, r0
-	trap	#0
-f11:	mov	#11, r0
-	trap	#0
-f12:	mov	#12, r0
-	trap	#0
-f13:	mov	#13, r0
-	trap	#0
-f14:	mov	#14, r0
-	trap	#0
-f15:	mov	#15, r0
-	trap	#0
-f16:	mov	#16, r0
-	trap	#0
-f21:	mov	#21, r0
-	trap	#0
-f22:	mov	#22, r0
-	trap	#0
-f23:	mov	#23, r0
-	trap	#0
-f24:	mov	#24, r0
-	trap	#0
-f25:	mov	#25, r0
-	trap	#0
-f26:	mov	#26, r0
-	trap	#0
-f27:	mov	#27, r0
-	trap	#0
-f28:	mov	#28, r0
-	trap	#0
-f29:	mov	#29, r0
-	trap	#0
-f30:	mov	#30, r0
-	trap	#0
-f35:	mov	#35, r0
-	trap	#0
-f36:	mov	#36, r0
-	trap	#0
-f37:	mov	#37, r0
-	trap	#0
-f38:	mov	#38, r0
-	trap	#0
-f39:	mov	#39, r0
-	trap	#0
-f40:	mov	#40, r0
-	trap	#0
-f41:	mov	#41, r0
-	trap	#0
-f42:	mov	#42, r0
-	trap	#0
-f43:	mov	#43, r0
-	trap	#0
-f44:	mov	#44, r0
-	trap	#0
-f49:	mov	#49, r0
-	trap	#0
-f50:	mov	#50, r0
-	trap	#0
-f51:	mov	#51, r0
-	trap	#0
-f52:	mov	#52, r0
-	trap	#0
-f53:	mov	#53, r0
-	trap	#0
-f54:	mov	#54, r0
-	trap	#0
-f55:	mov	#55, r0
-	trap	#0
-f56:	mov	#56, r0
-	trap	#0
-f57:	mov	#57, r0
-	trap	#0
-f58:	mov	#58, r0
-	trap	#0
-f63:	mov	#63, r0
-	trap	#0
-f64:	mov	#64, r0
-	trap	#0
-f65:	mov	#65, r0
-	trap	#0
-f66:	mov	#66, r0
-	trap	#0
-f67:	mov	#67, r0
-	trap	#0
-f68:	mov	#68, r0
-	trap	#0
-f69:	mov	#69, r0
-	trap	#0
-f70:	mov	#70, r0
-	trap	#0
-f71:	mov	#71, r0
-	trap	#0
-f72:	mov	#72, r0
-	trap	#0
-f77:	mov	#77, r0
-	trap	#0
-f78:	mov	#78, r0
-	trap	#0
-f79:	mov	#79, r0
-	trap	#0
-f80:	mov	#80, r0
-	trap	#0
-f81:	mov	#81, r0
-	trap	#0
-f82:	mov	#82, r0
-	trap	#0
-f83:	mov	#83, r0
-	trap	#0
-f84:	mov	#84, r0
-	trap	#0
-f85:	mov	#85, r0
-	trap	#0
-f86:	mov	#86, r0
-	trap	#0
-f91:	mov	#91, r0
-	trap	#0
-f92:	mov	#92, r0
-	trap	#0
-f93:	mov	#93, r0
-	trap	#0
-f94:	mov	#94, r0
-	trap	#0
-f95:	mov	#95, r0
-	trap	#0
-f96:	mov	#96, r0
-	trap	#0
-f97:	mov	#97, r0
-	trap	#0
-f98:	mov	#98, r0
-	trap	#0
-f99:	mov	#99, r0
-	trap	#0
-f100:	mov	#100, r0
-	trap	#0
-f105:	mov	#105, r0
-	trap	#0
-f106:	mov	#106, r0
-	trap	#0
-f107:	mov	#107, r0
-	trap	#0
-f108:	mov	#108, r0
-	trap	#0
-f109:	mov	#109, r0
-	trap	#0
-f110:	mov	#110, r0
-	trap	#0
-f111:	mov	#111, r0
-	trap	#0
-f112:	mov	#112, r0
-	trap	#0
-f113:	mov	#113, r0
-	trap	#0
-f114:	mov	#114, r0
-	trap	#0
-f119:	mov	#119, r0
-	trap	#0
-f120:	mov	#120, r0
-	trap	#0
-f121:	mov	#121, r0
-	trap	#0
-f122:	mov	#122, r0
-	trap	#0
-f123:	mov	#123, r0
-	trap	#0
-f124:	mov	#124, r0
-	trap	#0
-f125:	mov	#125, r0
-	trap	#0
-f126:	mov	#126, r0
-	trap	#0
-f127:	mov	#127, r0
-	trap	#0
-f128:	mov	#128, r0
-	trap	#0
-f133:	mov	#133, r0
-	trap	#0
-f134:	mov	#134, r0
-	trap	#0
-f135:	mov	#135, r0
-	trap	#0
-f136:	mov	#136, r0
-	trap	#0
-f137:	mov	#137, r0
-	trap	#0
-f138:	mov	#138, r0
-	trap	#0
-f139:	mov	#139, r0
-	trap	#0
-f140:	mov	#140, r0
-	trap	#0
+	mov	$0, r0
+	trap	$0
+f1:	mov	$1, r0
+	trap	$0
+f2:	mov	$2, r0
+	trap	$0
+f7:	mov	$7, r0
+	trap	$0
+f8:	mov	$8, r0
+	trap	$0
+f9:	mov	$9, r0
+	trap	$0
+f10:	mov	$10, r0
+	trap	$0
+f11:	mov	$11, r0
+	trap	$0
+f12:	mov	$12, r0
+	trap	$0
+f13:	mov	$13, r0
+	trap	$0
+f14:	mov	$14, r0
+	trap	$0
+f15:	mov	$15, r0
+	trap	$0
+f16:	mov	$16, r0
+	trap	$0
+f21:	mov	$21, r0
+	trap	$0
+f22:	mov	$22, r0
+	trap	$0
+f23:	mov	$23, r0
+	trap	$0
+f24:	mov	$24, r0
+	trap	$0
+f25:	mov	$25, r0
+	trap	$0
+f26:	mov	$26, r0
+	trap	$0
+f27:	mov	$27, r0
+	trap	$0
+f28:	mov	$28, r0
+	trap	$0
+f29:	mov	$29, r0
+	trap	$0
+f30:	mov	$30, r0
+	trap	$0
+f35:	mov	$35, r0
+	trap	$0
+f36:	mov	$36, r0
+	trap	$0
+f37:	mov	$37, r0
+	trap	$0
+f38:	mov	$38, r0
+	trap	$0
+f39:	mov	$39, r0
+	trap	$0
+f40:	mov	$40, r0
+	trap	$0
+f41:	mov	$41, r0
+	trap	$0
+f42:	mov	$42, r0
+	trap	$0
+f43:	mov	$43, r0
+	trap	$0
+f44:	mov	$44, r0
+	trap	$0
+f49:	mov	$49, r0
+	trap	$0
+f50:	mov	$50, r0
+	trap	$0
+f51:	mov	$51, r0
+	trap	$0
+f52:	mov	$52, r0
+	trap	$0
+f53:	mov	$53, r0
+	trap	$0
+f54:	mov	$54, r0
+	trap	$0
+f55:	mov	$55, r0
+	trap	$0
+f56:	mov	$56, r0
+	trap	$0
+f57:	mov	$57, r0
+	trap	$0
+f58:	mov	$58, r0
+	trap	$0
+f63:	mov	$63, r0
+	trap	$0
+f64:	mov	$64, r0
+	trap	$0
+f65:	mov	$65, r0
+	trap	$0
+f66:	mov	$66, r0
+	trap	$0
+f67:	mov	$67, r0
+	trap	$0
+f68:	mov	$68, r0
+	trap	$0
+f69:	mov	$69, r0
+	trap	$0
+f70:	mov	$70, r0
+	trap	$0
+f71:	mov	$71, r0
+	trap	$0
+f72:	mov	$72, r0
+	trap	$0
+f77:	mov	$77, r0
+	trap	$0
+f78:	mov	$78, r0
+	trap	$0
+f79:	mov	$79, r0
+	trap	$0
+f80:	mov	$80, r0
+	trap	$0
+f81:	mov	$81, r0
+	trap	$0
+f82:	mov	$82, r0
+	trap	$0
+f83:	mov	$83, r0
+	trap	$0
+f84:	mov	$84, r0
+	trap	$0
+f85:	mov	$85, r0
+	trap	$0
+f86:	mov	$86, r0
+	trap	$0
+f91:	mov	$91, r0
+	trap	$0
+f92:	mov	$92, r0
+	trap	$0
+f93:	mov	$93, r0
+	trap	$0
+f94:	mov	$94, r0
+	trap	$0
+f95:	mov	$95, r0
+	trap	$0
+f96:	mov	$96, r0
+	trap	$0
+f97:	mov	$97, r0
+	trap	$0
+f98:	mov	$98, r0
+	trap	$0
+f99:	mov	$99, r0
+	trap	$0
+f100:	mov	$100, r0
+	trap	$0
+f105:	mov	$105, r0
+	trap	$0
+f106:	mov	$106, r0
+	trap	$0
+f107:	mov	$107, r0
+	trap	$0
+f108:	mov	$108, r0
+	trap	$0
+f109:	mov	$109, r0
+	trap	$0
+f110:	mov	$110, r0
+	trap	$0
+f111:	mov	$111, r0
+	trap	$0
+f112:	mov	$112, r0
+	trap	$0
+f113:	mov	$113, r0
+	trap	$0
+f114:	mov	$114, r0
+	trap	$0
+f119:	mov	$119, r0
+	trap	$0
+f120:	mov	$120, r0
+	trap	$0
+f121:	mov	$121, r0
+	trap	$0
+f122:	mov	$122, r0
+	trap	$0
+f123:	mov	$123, r0
+	trap	$0
+f124:	mov	$124, r0
+	trap	$0
+f125:	mov	$125, r0
+	trap	$0
+f126:	mov	$126, r0
+	trap	$0
+f127:	mov	$127, r0
+	trap	$0
+f128:	mov	$128, r0
+	trap	$0
+f133:	mov	$133, r0
+	trap	$0
+f134:	mov	$134, r0
+	trap	$0
+f135:	mov	$135, r0
+	trap	$0
+f136:	mov	$136, r0
+	trap	$0
+f137:	mov	$137, r0
+	trap	$0
+f138:	mov	$138, r0
+	trap	$0
+f139:	mov	$139, r0
+	trap	$0
+f140:	mov	$140, r0
+	trap	$0

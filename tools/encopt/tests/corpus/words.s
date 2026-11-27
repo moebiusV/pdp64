@@ -10,7 +10,7 @@ f:	set	eq, r0
 	mfsr	r1, ptbr
 	mfsr	r2, cpuid
 	mtsr	vbr, r3
-	cbeq	r3, #5, f
+	cbeq	r3, $5, f
 	cbne	r1, r2, f
 	call	foo
 	ret

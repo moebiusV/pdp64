@@ -108,7 +108,7 @@ def newtest():
 
 
 def cmpmem(k, lab_o, lab_e, nbytes):
-    return ['\tlea\t%s, r1' % lab_o, '\tlea\t%s, r2' % lab_e, '\tmovq\t#%d, r4' % nbytes, 'c%d:' % k, '\tmovzb\t(r1)+, r5', '\tmovzb\t(r2)+, r6', '\tcbne\tr5, r6, fail', '\tsob\tr4, c%d' % k]
+    return ['\tlea\t%s, r1' % lab_o, '\tlea\t%s, r2' % lab_e, '\tmovq\t$%d, r4' % nbytes, 'c%d:' % k, '\tmovzb\t(r1)+, r5', '\tmovzb\t(r2)+, r6', '\tcbne\tr5, r6, fail', '\tsob\tr4, c%d' % k]
 
 
 def cmpreg(reg, val):
@@ -120,7 +120,7 @@ def addt(lines):
 
 
 def begin(k):
-    return ['\tmovq\t#%d, r9' % k]
+    return ['\tmovq\t$%d, r9' % k]
 
 
 # ---- the floating-point sums in the canonical order
@@ -143,7 +143,7 @@ addt(begin(k) + ['\tlea\tA%d, r1' % k, '\tlea\tA%d+%d, r5' % (k, 8 * N), '\tmovq
 # several reductions of different precision in one block, and a float sum beside a store of the same lanes
 k = newtest()
 buf('A%d' % k, pack(fbits, 4)); buf('O%d' % k, bytes(4 * N), True); buf('E%d' % k, pack(fbits, 4))
-addt(begin(k) + ['\tlea\tA%d, r1' % k, '\tlea\tO%d, r3' % k, '\tlea\tA%d+%d, r5' % (k, 4 * N), '\tmovq\t#0, r10', '\tmovq\t#0, r11', '\tvec\tr1, r5', '\tvld.f v0, (r1)+', '\tvacc.f r10, v0', '\tvacc.f.d r11, v0',
+addt(begin(k) + ['\tlea\tA%d, r1' % k, '\tlea\tO%d, r3' % k, '\tlea\tA%d+%d, r5' % (k, 4 * N), '\tmovq\t$0, r10', '\tmovq\t$0, r11', '\tvec\tr1, r5', '\tvld.f v0, (r1)+', '\tvacc.f r10, v0', '\tvacc.f.d r11, v0',
                  '\tvst.f v0, (r3)+', '\tvend'] + cmpreg('r10', f2b(chunks(fa, 0.0, 32))) + cmpreg('r11', d2b(chunks(fa, 0.0, 64, 4))) + cmpmem(k, 'O%d' % k, 'E%d' % k, 4 * N))
 
 # ---- the maximum and minimum with signed zeros: the order is the stream's (a comparison is exact, so only the sign of a zero and a NaN can show the order)
@@ -170,22 +170,22 @@ addt(begin(k) + ['\tlea\tA%d, r1' % k, '\tlea\tA%d+%d, r5' % (k, 4 * N), '\tmovq
 ia = [rng.getrandbits(32) for _ in range(N)]
 k = newtest()
 buf('A%d' % k, pack(ia, 4))
-addt(begin(k) + ['\tlea\tA%d, r1' % k, '\tlea\tA%d+%d, r5' % (k, 4 * N), '\tmovq\t#7, r10', '\tvec\tr1, r5', '\tvld.l v0, (r1)+', '\tvacc.l.q r10, v0', '\tvend'] + cmpreg('r10', 7 + sum(sx(x, 32) for x in ia)))
+addt(begin(k) + ['\tlea\tA%d, r1' % k, '\tlea\tA%d+%d, r5' % (k, 4 * N), '\tmovq\t$7, r10', '\tvec\tr1, r5', '\tvld.l v0, (r1)+', '\tvacc.l.q r10, v0', '\tvend'] + cmpreg('r10', 7 + sum(sx(x, 32) for x in ia)))
 wa = [rng.getrandbits(16) for _ in range(N)]; wb = [rng.getrandbits(16) for _ in range(N)]
 wa[0] = wb[0] = wa[1] = wb[1] = 0x8000
 k = newtest()
 buf('A%d' % k, pack(wa, 2)); buf('B%d' % k, pack(wb, 2))
-addt(begin(k) + ['\tlea\tA%d, r1' % k, '\tlea\tB%d, r2' % k, '\tlea\tA%d+%d, r5' % (k, 2 * N), '\tmovq\t#-5, r10', '\tvec\tr1, r5', '\tvld.w v0, (r1)+', '\tvld.w v1, (r2)+', '\tvdacc.w r10, v0, v1', '\tvend'] +
+addt(begin(k) + ['\tlea\tA%d, r1' % k, '\tlea\tB%d, r2' % k, '\tlea\tA%d+%d, r5' % (k, 2 * N), '\tmovq\t$-5, r10', '\tvec\tr1, r5', '\tvld.w v0, (r1)+', '\tvld.w v1, (r2)+', '\tvdacc.w r10, v0, v1', '\tvend'] +
      cmpreg('r10', -5 + sum(sx(x, 16) * sx(y, 16) for x, y in zip(wa, wb))))
 k = newtest()
 pr = [sx(x, 16) * sx(y, 16) for x, y in zip(wa, wb)]
 lanes = [sx(pr[j] + (pr[j + 1] if j + 1 < N else 0), 32) for j in range(0, N, 2)]
-addt(begin(k) + ['\tlea\tA%d, r1' % (k - 1), '\tlea\tB%d, r2' % (k - 1), '\tlea\tA%d+%d, r5' % (k - 1, 2 * N), '\tmovq\t#1000, r10', '\tvec\tr1, r5', '\tvld.w v0, (r1)+', '\tvld.w v1, (r2)+', '\tvdot.w v2, v0, v1',
+addt(begin(k) + ['\tlea\tA%d, r1' % (k - 1), '\tlea\tB%d, r2' % (k - 1), '\tlea\tA%d+%d, r5' % (k - 1, 2 * N), '\tmovq\t$1000, r10', '\tvec\tr1, r5', '\tvld.w v0, (r1)+', '\tvld.w v1, (r2)+', '\tvdot.w v2, v0, v1',
                  '\tvacc.l.q r10, v2', '\tvend'] + cmpreg('r10', 1000 + sum(lanes)))
 ba = [rng.getrandbits(8) for _ in range(N)]; bb = [rng.getrandbits(8) for _ in range(N)]
 k = newtest()
 buf('A%d' % k, pack(ba, 1)); buf('B%d' % k, pack(bb, 1))
-addt(begin(k) + ['\tlea\tA%d, r1' % k, '\tlea\tB%d, r2' % k, '\tlea\tA%d+%d, r5' % (k, N), '\tmovq\t#3, r10', '\tvec\tr1, r5', '\tvld.bu v0, (r1)+', '\tvld.bu v1, (r2)+', '\tvsad.bu r10, v0, v1', '\tvend'] +
+addt(begin(k) + ['\tlea\tA%d, r1' % k, '\tlea\tB%d, r2' % k, '\tlea\tA%d+%d, r5' % (k, N), '\tmovq\t$3, r10', '\tvec\tr1, r5', '\tvld.bu v0, (r1)+', '\tvld.bu v1, (r2)+', '\tvsad.bu r10, v0, v1', '\tvend'] +
      cmpreg('r10', 3 + sum(abs(x - y) for x, y in zip(ba, bb))))
 
 # ---- lane operations on floats: a multiply, an add, a fused multiply-add into a register loaded from memory, stored
@@ -212,7 +212,7 @@ for i in range(N):
     want.append(f2b(struct.unpack('<f', struct.pack('<f', fs))[0]))
 buf('E%d' % k, pack(want, 4))
 addt(begin(k) + ['\tlea\tA%d+%d, r1' % (k, 4 * pad), '\tlea\tO%d, r3' % k, '\tlea\tA%d+%d, r5' % (k, 4 * (pad + N)), '\tmovq\t=0x%x, r20' % f2b(co[0]), '\tmovq\t=0x%x, r21' % f2b(co[1]), '\tmovq\t=0x%x, r22' % f2b(co[2]),
-                 '\tvec\tr1, r5', '\tvld.f v0, (r1)+', '\tvfir.f v1, v0, r20, #3', '\tvst.f v1, (r3)+', '\tvend'] + cmpmem(k, 'O%d' % k, 'E%d' % k, 4 * N))
+                 '\tvec\tr1, r5', '\tvld.f v0, (r1)+', '\tvfir.f v1, v0, r20, $3', '\tvst.f v1, (r3)+', '\tvend'] + cmpmem(k, 'O%d' % k, 'E%d' % k, 4 * N))
 
 # ---- segments, a strided load, the table lookup
 rgb = [rng.getrandbits(8) for _ in range(3 * 333)]
@@ -233,7 +233,7 @@ addt(begin(k) + ['\tlea\tA%d, r1' % k, '\tlea\tO%d, r3' % k, '\tlea\tA%d+%d, r5'
 k = newtest()
 sb = [rng.getrandbits(8) for _ in range(3 * 333 + 3)]
 buf('A%d' % k, pack(sb, 1)); buf('O%d' % k, bytes(2 * 333), True); buf('E%d' % k, pack([sb[3 * i] for i in range(333)], 2))
-addt(begin(k) + ['\tlea\tA%d, r1' % k, '\tlea\tO%d, r3' % k, '\tlea\tA%d+%d, r5' % (k, 3 * 333), '\tvec\tr1, r5', '\tvldt.bu.w v0, (r1)+, #3', '\tvst.w v0, (r3)+', '\tvend'] + cmpmem(k, 'O%d' % k, 'E%d' % k, 2 * 333))
+addt(begin(k) + ['\tlea\tA%d, r1' % k, '\tlea\tO%d, r3' % k, '\tlea\tA%d+%d, r5' % (k, 3 * 333), '\tvec\tr1, r5', '\tvldt.bu.w v0, (r1)+, $3', '\tvst.w v0, (r3)+', '\tvend'] + cmpmem(k, 'O%d' % k, 'E%d' % k, 2 * 333))
 idx = [rng.getrandbits(5) for _ in range(N)]
 tab = [rng.getrandbits(8) for _ in range(16)]
 k = newtest()
@@ -251,7 +251,7 @@ addt(begin(k) + ['\tlea\tA%d, r1' % k, '\tlea\tB%d, r2' % k, '\tlea\tO%d, r3' % 
 k = newtest()
 buf('A%d' % k, pack(la, 4)); buf('O%d' % k, bytes(N), True)
 buf('E%d' % k, pack([max(0, min(255, (x + 8) >> 4)) for x in la], 1))
-addt(begin(k) + ['\tlea\tA%d, r1' % k, '\tlea\tO%d, r3' % k, '\tlea\tA%d+%d, r5' % (k, 4 * N), '\tvec\tr1, r5', '\tvld.l v0, (r1)+', '\tvsts.l.bu v0, (r3)+, #4', '\tvend'] + cmpmem(k, 'O%d' % k, 'E%d' % k, N))
+addt(begin(k) + ['\tlea\tA%d, r1' % k, '\tlea\tO%d, r3' % k, '\tlea\tA%d+%d, r5' % (k, 4 * N), '\tvec\tr1, r5', '\tvld.l v0, (r1)+', '\tvsts.l.bu v0, (r3)+, $4', '\tvend'] + cmpmem(k, 'O%d' % k, 'E%d' % k, N))
 
 # ---- accumulator blocks: the strip is 16 bytes on every implementation (the lanes of an accumulator are the program's)
 # (a) the running sums by lane, read inside the block (a vst of the accumulator in every strip)
@@ -262,7 +262,7 @@ for i in range(N):
     acc[i % 4] = ux(acc[i % 4] + la[i], 32)
     out.append(acc[i % 4])
 buf('E%d' % k, pack(out, 4))
-addt(begin(k) + ['\tlea\tA%d, r1' % k, '\tlea\tO%d, r3' % k, '\tlea\tA%d+%d, r5' % (k, 4 * N), '\tvec\tr1, r5', '\tvclr.l v4, #1', '\tvld.l v0, (r1)+', '\tvadd.l v4, v4, v0', '\tvst.l v4, (r3)+', '\tvend'] +
+addt(begin(k) + ['\tlea\tA%d, r1' % k, '\tlea\tO%d, r3' % k, '\tlea\tA%d+%d, r5' % (k, 4 * N), '\tvec\tr1, r5', '\tvclr.l v4, $1', '\tvld.l v0, (r1)+', '\tvadd.l v4, v4, v0', '\tvst.l v4, (r3)+', '\tvend'] +
      cmpmem(k, 'O%d' % k, 'E%d' % k, 4 * N))
 # (b) floating-point lanes accumulated by vfma, the lanes read once, after the last strip, by vfin: the sum of the four lanes by the fixed tree is vacc.f of the accumulator
 k = newtest()
@@ -271,7 +271,7 @@ acc = [0.0] * 4
 for i in range(N):
     acc[i % 4] = fma32(fa[i], fb2[i], acc[i % 4])
 tot = add32(0.0, add32(add32(acc[0], acc[1]), add32(acc[2], acc[3])))
-addt(begin(k) + ['\tlea\tA%d, r1' % k, '\tlea\tB%d, r2' % k, '\tlea\tA%d+%d, r5' % (k, 4 * N), '\tmovq\t#0, r10', '\tvec\tr1, r5', '\tvclr.f v4, #1', '\tvld.f v0, (r1)+', '\tvld.f v1, (r2)+', '\tvfma.f v4, v0, v1',
+addt(begin(k) + ['\tlea\tA%d, r1' % k, '\tlea\tB%d, r2' % k, '\tlea\tA%d+%d, r5' % (k, 4 * N), '\tmovq\t$0, r10', '\tvec\tr1, r5', '\tvclr.f v4, $1', '\tvld.f v0, (r1)+', '\tvld.f v1, (r2)+', '\tvfma.f v4, v0, v1',
                  '\tvfin', '\tvacc.f r10, v4', '\tvend'] + cmpreg('r10', f2b(tot)))
 # (c) the GEMM micro-kernel: C[8 x 4] += A_panel . B_panel over K steps, eight accumulators, vfmab (the pointer of A moves one float for each vfmab and each strip: a strip is one k step on every implementation)
 K = 50
@@ -288,7 +288,7 @@ for r in range(8):
         want[r * 8 + c] = add32(c0[r * 8 + c], a)
 buf('E%d' % k, pack([f2b(x) for x in want], 4))
 setup = ['\tlea\tA%d, r0' % k, '\tlea\tB%d, r1' % k, '\tlea\tB%d+%d, r5' % (k, 16 * K)] + ['\tlea\tC%d+%d, r%d' % (k, 32 * r, 16 + r) for r in range(8)]
-body = ['vclr.f v0, #8', 'vld.f v8, (r1)+'] + ['vfmab.f v%d, v8, (r0)+' % r for r in range(8)] + ['vfin']
+body = ['vclr.f v0, $8', 'vld.f v8, (r1)+'] + ['vfmab.f v%d, v8, (r0)+' % r for r in range(8)] + ['vfin']
 for r in range(8):
     body += ['vld.f v9, (r%d)' % (16 + r), 'vadd.f v9, v9, v%d' % r, 'vst.f v9, (r%d)' % (16 + r)]
 addt(begin(k) + setup + ['\tvec\tr1, r5'] + ['\t' + b for b in body] + ['\tvend'] + cmpmem(k, 'C%d' % k, 'E%d' % k, 4 * 64))
@@ -297,7 +297,7 @@ out = ['; GENERATED by tests/sim/gen_vec_strip.py -- do not edit.  The strip of 
        '; (vec-strip.strips) and gives the expected values of a model written from the architecture alone, at each: the floating-point sums in the canonical order, the sliding window, the accumulator',
        '; blocks, the integer reductions and the lane operations.  %d checks; a failed check n exits with n.' % cnt[0], '\t.text', '\t.globl\t_start', '_start:']
 out += T
-out += ['\tmovq\t#0, r0', '\ttrap\t#0', 'fail:\tmovq\tr9, r0', '\ttrap\t#0', '', '\t.data']
+out += ['\tmovq\t$0, r0', '\ttrap\t$0', 'fail:\tmovq\tr9, r0', '\ttrap\t$0', '', '\t.data']
 for lab, content, space in data:
     out.append('\t.align\t8')
     out.append('%s:' % lab)

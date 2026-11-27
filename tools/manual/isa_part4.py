@@ -25,11 +25,11 @@ PC <- target''', NOFLAGS,
       '''Rd <- M[SP] ; SP <- SP + 8
 PC <- M[SP] ; SP <- SP + 8''', NOFLAGS, MEMX,
       notes='`POP Rd` followed by `RET`, fused. The register is the one the function restores last, usually a callee-saved register or the frame pointer. One parcel of 16 bits, with the register in a 5-bit field.'),
-    X('POPMRET', 'branches', ['popmret'], 'Pop several registers and return', ['POPMRET #mask'],
+    X('POPMRET', 'branches', ['popmret'], 'Pop several registers and return', ['POPMRET $mask'],
       '''for each bit i set in mask, highest register first:
     Ri <- M[SP] ; SP <- SP + 8
 PC <- M[SP] ; SP <- SP + 8''', NOFLAGS, MEMX + ' A fault after some registers have been popped leaves them popped: the instruction restarts whole and pops them again, which is idempotent because the stack pointer is restored with the rest of the state at the start of the instruction.',
-      notes='`POPM #mask` followed by `RET`, fused: the epilogue of every function that saved registers with `PUSHM`. The mask is an 8-bit field scaled by 256, so the instruction names `R8` to `R15`; any other set of registers is `POPM` and `RET`. One parcel.'),
+      notes='`POPM $mask` followed by `RET`, fused: the epilogue of every function that saved registers with `PUSHM`. The mask is an 8-bit field scaled by 256, so the instruction names `R8` to `R15`; any other set of registers is `POPM` and `RET`. One parcel.'),
     X('MOV2', 'moves', ['mov2'], 'Two register moves', ['MOV2 Ra, Rb, Rc, Rd'],
       '''Rb <- Ra
 Rd <- Rc           ; in this order''', NOFLAGS, NONE,
@@ -52,11 +52,11 @@ else Rd <- t''', 'None written.', 'Aborts with the `CHECK` vector on signed over
       notes='The fused add, subtract and multiply that check for overflow. The tables of the grammars hold the two-register form (`Rd <- Rd op Rs`, like `ADD`, `SUB`, `MUL`) and no immediate or memory form.',
       cf='{{r:isa-system-instructions-exceptions}} (the check words), docs/study-proposals.md item 9.'),
     X('CT', 'system', ['ctcc', 'ctcs', 'cthi', 'ctlos', 'cteq', 'ctne', 'ctge', 'ctlt', 'ctgt', 'ctle'],
-      'Compare and trap', ['CT<cc> Rs, Rb', 'CT<cc> Rs, #imm12   ; CTCC, CTHI, CTEQ, CTNE only', 'CTEQ Rs  /  CTNE Rs   ; trap if zero, if not zero'],
+      'Compare and trap', ['CT<cc> Rs, Rb', 'CT<cc> Rs, $imm12   ; CTCC, CTHI, CTEQ, CTNE only', 'CTEQ Rs  /  CTNE Rs   ; trap if zero, if not zero'],
       '''if Rs compared with the bound satisfies the condition cc then take the CHECK trap
     EPC <- address of this instruction''', NOFLAGS,
       'The `CHECK` trap (vector 16), when the condition holds. A fault: the instruction is annulled and `EPC` is its own address, so that the handler finds the site in the table of check sites (`__bug_table`) by address.',
-      notes='The compare-and-trap of the run-time checks. The condition names are those of `CB<cc>`; `CTHIS` is `CTCC` and `CTLO` is `CTCS` as assembler aliases. `CTCC Ri, #n` traps when `Ri >= n` as an unsigned number, which is the check of an array index of length `n` (a negative index is a large unsigned number). The immediate form has 12 bits, zero-extended, for `CTCC`, `CTHI`, `CTEQ` and `CTNE`; the register form has all ten. `CTEQ Rs` and `CTNE Rs` with no bound are the trap-if-zero of the null check and the trap-if-not-zero of `BUG_ON`, one parcel. For every one the assembler writes a record into the section `__bug_table` (the 12-byte `struct bug_entry` of Linux with relative pointers: the address of the instruction, the file, the line, the flags with the kind of check in bits 5 to 7) from the directive `.chk KIND, "file", LINE`. The encodings are the prefix optimiser\'s.',
+      notes='The compare-and-trap of the run-time checks. The condition names are those of `CB<cc>`; `CTHIS` is `CTCC` and `CTLO` is `CTCS` as assembler aliases. `CTCC Ri, $n` traps when `Ri >= n` as an unsigned number, which is the check of an array index of length `n` (a negative index is a large unsigned number). The immediate form has 12 bits, zero-extended, for `CTCC`, `CTHI`, `CTEQ` and `CTNE`; the register form has all ten. `CTEQ Rs` and `CTNE Rs` with no bound are the trap-if-zero of the null check and the trap-if-not-zero of `BUG_ON`, one parcel. For every one the assembler writes a record into the section `__bug_table` (the 12-byte `struct bug_entry` of Linux with relative pointers: the address of the instruction, the file, the line, the flags with the kind of check in bits 5 to 7) from the directive `.chk KIND, "file", LINE`. The encodings are the prefix optimiser\'s.',
       cf='{{r:isa-system-instructions-exceptions}} (the check words), docs/encoding-work/check-instructions.md.'),
     X('CHK2', 'system', ['chk2'], 'Two-bound check', ['CHK2 Rs, Rlo, Rhi'],
       '''if not (Rlo <= Rs < Rhi), signed, then take the CHECK trap
@@ -82,7 +82,7 @@ AESDSM : inverse ShiftRows, inverse SubBytes, then inverse MixColumns
 Rd <- the 8 bytes of the new state that belong to columns 0 and 1; with Ra and Rb exchanged, columns 2 and 3''', NOFLAGS, NONE,
       notes='I asked for constant-time AES and SHA instructions "or whichever opcodes would speed up and enable aes and sha" for the secure core and approved its design; the words are those of `docs/crypto-secure-core.md` section 3.2. Any two registers hold a block (no even-odd pairing): a round on one block is `AESESM Ra, Rb, T` and `AESESM Rb, Ra, Rb`, with the round key XORed by `XOR` with a memory operand. The latency is fixed and the instruction reads and writes no memory, so it has no cache-timing channel. The definitions are those of FIPS 197.',
       cf='docs/crypto-secure-core.md section 3.'),
-    X('AESK', 'bits', ['aesks1', 'aesks2', 'aesim'], 'AES key schedule steps', ['AESKS1 Rs, #n, Rd', 'AESKS2 Ra, Rb, Rd', 'AESIM Rs, Rd'],
+    X('AESK', 'bits', ['aesks1', 'aesks2', 'aesim'], 'AES key schedule steps', ['AESKS1 Rs, $n, Rd', 'AESKS2 Ra, Rb, Rd', 'AESIM Rs, Rd'],
       '''AESKS1: Rd <- (SubWord(RotWord(Rs[63:32])) XOR rcon(n)), replicated in both halves   ; n = 10: no round constant (AES-256)
 AESKS2: Rd[31:0] <- Ra[31:0] XOR Rb[63:32] ; Rd[63:32] <- Ra[63:32] XOR Rd[31:0]
 AESIM : Rd <- InvMixColumns of the two columns in Rs         ; for the decryption key schedule''', NOFLAGS, NONE,
