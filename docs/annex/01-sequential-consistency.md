@@ -35,13 +35,13 @@ I took the code of OpenBSD's lock-free ring buffers on three machines. Here is t
 **After** (pdp64: `snippets/spsc-ring.S`, assembled and run on `sim64`; one core cannot test the order, but the code is the whole of it):
 
 ```
-        movq    r4, (r1)(r3*8)      ; 1. store the data
+        mov    r4, (r1)(r3*8)      ; 1. store the data
         ...
-        movq    r3, (r2)            ; 2. publish: store the new tail
+        mov    r3, (r2)            ; 2. publish: store the new tail
         ...
-        movq    (r2), r7            ; 1. load the tail
+        mov    (r2), r7            ; 1. load the tail
         cbeq    r6, r7, empty
-        movq    (r1)(r6*8), r8      ; 2. load the data: it cannot be the old word
+        mov    (r1)(r6*8), r8      ; 2. load the data: it cannot be the old word
 ```
 
 *(No fence; the two sides are ordinary loads and stores.)*

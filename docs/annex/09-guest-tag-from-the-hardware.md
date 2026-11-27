@@ -34,7 +34,7 @@ The number has to be unique among the guests that exist, and when a guest is des
 
 ```
         lea     hroot, r1                       ; the stage-2 root (one page)
-        movq    =(1<<GTBR_S2EN | 1<<GTBR_NEW), r2
+        mov    =(1<<GTBR_S2EN | 1<<GTBR_NEW), r2
         bis     r2, r1
         mtsr    gtbr, r1                        ; entries under the next number are thrown away, then it is handed out
         mfsr    r3, gtbr

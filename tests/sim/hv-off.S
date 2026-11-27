@@ -7,1066 +7,1066 @@ _start:
 	lea	vtab, r1
 	mtsr	vbr, r1
 	lea	ubuf, r15
-	mov	retw.u16, r2
-	mov	r2, 4(r15).16
+	mov.u16	retw, r2
+	mov.s16	r2, 4(r15)
 	mfsr	r2, cpuid
 	mfsr	r3, vbr
-	movq	=(0), r11
+	mov	=(0), r11
 	cbeq	r2, r11, 1f
-	movq	#1, r0
+	mov	#1, r0
 	halt
 1:
-	mov	tmplr.32, r2
-	movq	=(128<<16), r3
+	mov.s32	tmplr, r2
+	mov	=(128<<16), r3
 	bis	r3, r2
-	mov	r2, (r15).32
-	movq	#0, r10
+	mov.s32	r2, (r15)
+	mov	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
-	movq	=(1), r11
+	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	movq	#2, r0
+	mov	#2, r0
 	halt
 1:
-	movq	=(VECTOR_ILLEGAL), r11
+	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	movq	#3, r0
+	mov	#3, r0
 	halt
 1:
 	lea	ubuf, r11
 	cbeq	r8, r11, 1f
-	movq	#4, r0
+	mov	#4, r0
 	halt
 1:
-	mov	tmplw.32, r2
-	movq	=(128<<16), r3
+	mov.s32	tmplw, r2
+	mov	=(128<<16), r3
 	bis	r3, r2
-	mov	r2, (r15).32
-	movq	#0, r10
+	mov.s32	r2, (r15)
+	mov	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
-	movq	=(1), r11
+	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	movq	#5, r0
+	mov	#5, r0
 	halt
 1:
-	movq	=(VECTOR_ILLEGAL), r11
+	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	movq	#6, r0
+	mov	#6, r0
 	halt
 1:
 	lea	ubuf, r11
 	cbeq	r8, r11, 1f
-	movq	#7, r0
+	mov	#7, r0
 	halt
 1:
-	mov	tmplr.32, r2
-	movq	=(129<<16), r3
+	mov.s32	tmplr, r2
+	mov	=(129<<16), r3
 	bis	r3, r2
-	mov	r2, (r15).32
-	movq	#0, r10
+	mov.s32	r2, (r15)
+	mov	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
-	movq	=(1), r11
+	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	movq	#8, r0
+	mov	#8, r0
 	halt
 1:
-	movq	=(VECTOR_ILLEGAL), r11
+	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	movq	#9, r0
+	mov	#9, r0
 	halt
 1:
 	lea	ubuf, r11
 	cbeq	r8, r11, 1f
-	movq	#10, r0
+	mov	#10, r0
 	halt
 1:
-	mov	tmplw.32, r2
-	movq	=(129<<16), r3
+	mov.s32	tmplw, r2
+	mov	=(129<<16), r3
 	bis	r3, r2
-	mov	r2, (r15).32
-	movq	#0, r10
+	mov.s32	r2, (r15)
+	mov	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
-	movq	=(1), r11
+	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	movq	#11, r0
+	mov	#11, r0
 	halt
 1:
-	movq	=(VECTOR_ILLEGAL), r11
+	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	movq	#12, r0
+	mov	#12, r0
 	halt
 1:
 	lea	ubuf, r11
 	cbeq	r8, r11, 1f
-	movq	#13, r0
+	mov	#13, r0
 	halt
 1:
-	mov	tmplr.32, r2
-	movq	=(130<<16), r3
+	mov.s32	tmplr, r2
+	mov	=(130<<16), r3
 	bis	r3, r2
-	mov	r2, (r15).32
-	movq	#0, r10
+	mov.s32	r2, (r15)
+	mov	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
-	movq	=(1), r11
+	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	movq	#14, r0
+	mov	#14, r0
 	halt
 1:
-	movq	=(VECTOR_ILLEGAL), r11
+	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	movq	#15, r0
+	mov	#15, r0
 	halt
 1:
 	lea	ubuf, r11
 	cbeq	r8, r11, 1f
-	movq	#16, r0
+	mov	#16, r0
 	halt
 1:
-	mov	tmplw.32, r2
-	movq	=(130<<16), r3
+	mov.s32	tmplw, r2
+	mov	=(130<<16), r3
 	bis	r3, r2
-	mov	r2, (r15).32
-	movq	#0, r10
+	mov.s32	r2, (r15)
+	mov	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
-	movq	=(1), r11
+	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	movq	#17, r0
+	mov	#17, r0
 	halt
 1:
-	movq	=(VECTOR_ILLEGAL), r11
+	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	movq	#18, r0
+	mov	#18, r0
 	halt
 1:
 	lea	ubuf, r11
 	cbeq	r8, r11, 1f
-	movq	#19, r0
+	mov	#19, r0
 	halt
 1:
-	mov	tmplr.32, r2
-	movq	=(131<<16), r3
+	mov.s32	tmplr, r2
+	mov	=(131<<16), r3
 	bis	r3, r2
-	mov	r2, (r15).32
-	movq	#0, r10
+	mov.s32	r2, (r15)
+	mov	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
-	movq	=(1), r11
+	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	movq	#20, r0
+	mov	#20, r0
 	halt
 1:
-	movq	=(VECTOR_ILLEGAL), r11
+	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	movq	#21, r0
+	mov	#21, r0
 	halt
 1:
 	lea	ubuf, r11
 	cbeq	r8, r11, 1f
-	movq	#22, r0
+	mov	#22, r0
 	halt
 1:
-	mov	tmplw.32, r2
-	movq	=(131<<16), r3
+	mov.s32	tmplw, r2
+	mov	=(131<<16), r3
 	bis	r3, r2
-	mov	r2, (r15).32
-	movq	#0, r10
+	mov.s32	r2, (r15)
+	mov	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
-	movq	=(1), r11
+	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	movq	#23, r0
+	mov	#23, r0
 	halt
 1:
-	movq	=(VECTOR_ILLEGAL), r11
+	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	movq	#24, r0
+	mov	#24, r0
 	halt
 1:
 	lea	ubuf, r11
 	cbeq	r8, r11, 1f
-	movq	#25, r0
+	mov	#25, r0
 	halt
 1:
-	mov	tmplr.32, r2
-	movq	=(132<<16), r3
+	mov.s32	tmplr, r2
+	mov	=(132<<16), r3
 	bis	r3, r2
-	mov	r2, (r15).32
-	movq	#0, r10
+	mov.s32	r2, (r15)
+	mov	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
-	movq	=(1), r11
+	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	movq	#26, r0
+	mov	#26, r0
 	halt
 1:
-	movq	=(VECTOR_ILLEGAL), r11
+	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	movq	#27, r0
+	mov	#27, r0
 	halt
 1:
 	lea	ubuf, r11
 	cbeq	r8, r11, 1f
-	movq	#28, r0
+	mov	#28, r0
 	halt
 1:
-	mov	tmplw.32, r2
-	movq	=(132<<16), r3
+	mov.s32	tmplw, r2
+	mov	=(132<<16), r3
 	bis	r3, r2
-	mov	r2, (r15).32
-	movq	#0, r10
+	mov.s32	r2, (r15)
+	mov	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
-	movq	=(1), r11
+	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	movq	#29, r0
+	mov	#29, r0
 	halt
 1:
-	movq	=(VECTOR_ILLEGAL), r11
+	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	movq	#30, r0
+	mov	#30, r0
 	halt
 1:
 	lea	ubuf, r11
 	cbeq	r8, r11, 1f
-	movq	#31, r0
+	mov	#31, r0
 	halt
 1:
-	mov	tmplr.32, r2
-	movq	=(133<<16), r3
+	mov.s32	tmplr, r2
+	mov	=(133<<16), r3
 	bis	r3, r2
-	mov	r2, (r15).32
-	movq	#0, r10
+	mov.s32	r2, (r15)
+	mov	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
-	movq	=(1), r11
+	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	movq	#32, r0
+	mov	#32, r0
 	halt
 1:
-	movq	=(VECTOR_ILLEGAL), r11
+	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	movq	#33, r0
+	mov	#33, r0
 	halt
 1:
 	lea	ubuf, r11
 	cbeq	r8, r11, 1f
-	movq	#34, r0
+	mov	#34, r0
 	halt
 1:
-	mov	tmplw.32, r2
-	movq	=(133<<16), r3
+	mov.s32	tmplw, r2
+	mov	=(133<<16), r3
 	bis	r3, r2
-	mov	r2, (r15).32
-	movq	#0, r10
+	mov.s32	r2, (r15)
+	mov	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
-	movq	=(1), r11
+	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	movq	#35, r0
+	mov	#35, r0
 	halt
 1:
-	movq	=(VECTOR_ILLEGAL), r11
+	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	movq	#36, r0
+	mov	#36, r0
 	halt
 1:
 	lea	ubuf, r11
 	cbeq	r8, r11, 1f
-	movq	#37, r0
+	mov	#37, r0
 	halt
 1:
-	mov	tmplr.32, r2
-	movq	=(134<<16), r3
+	mov.s32	tmplr, r2
+	mov	=(134<<16), r3
 	bis	r3, r2
-	mov	r2, (r15).32
-	movq	#0, r10
+	mov.s32	r2, (r15)
+	mov	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
-	movq	=(1), r11
+	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	movq	#38, r0
+	mov	#38, r0
 	halt
 1:
-	movq	=(VECTOR_ILLEGAL), r11
+	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	movq	#39, r0
+	mov	#39, r0
 	halt
 1:
 	lea	ubuf, r11
 	cbeq	r8, r11, 1f
-	movq	#40, r0
+	mov	#40, r0
 	halt
 1:
-	mov	tmplw.32, r2
-	movq	=(134<<16), r3
+	mov.s32	tmplw, r2
+	mov	=(134<<16), r3
 	bis	r3, r2
-	mov	r2, (r15).32
-	movq	#0, r10
+	mov.s32	r2, (r15)
+	mov	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
-	movq	=(1), r11
+	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	movq	#41, r0
+	mov	#41, r0
 	halt
 1:
-	movq	=(VECTOR_ILLEGAL), r11
+	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	movq	#42, r0
+	mov	#42, r0
 	halt
 1:
 	lea	ubuf, r11
 	cbeq	r8, r11, 1f
-	movq	#43, r0
+	mov	#43, r0
 	halt
 1:
-	mov	tmplr.32, r2
-	movq	=(135<<16), r3
+	mov.s32	tmplr, r2
+	mov	=(135<<16), r3
 	bis	r3, r2
-	mov	r2, (r15).32
-	movq	#0, r10
+	mov.s32	r2, (r15)
+	mov	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
-	movq	=(1), r11
+	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	movq	#44, r0
+	mov	#44, r0
 	halt
 1:
-	movq	=(VECTOR_ILLEGAL), r11
+	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	movq	#45, r0
+	mov	#45, r0
 	halt
 1:
 	lea	ubuf, r11
 	cbeq	r8, r11, 1f
-	movq	#46, r0
+	mov	#46, r0
 	halt
 1:
-	mov	tmplw.32, r2
-	movq	=(135<<16), r3
+	mov.s32	tmplw, r2
+	mov	=(135<<16), r3
 	bis	r3, r2
-	mov	r2, (r15).32
-	movq	#0, r10
+	mov.s32	r2, (r15)
+	mov	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
-	movq	=(1), r11
+	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	movq	#47, r0
+	mov	#47, r0
 	halt
 1:
-	movq	=(VECTOR_ILLEGAL), r11
+	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	movq	#48, r0
+	mov	#48, r0
 	halt
 1:
 	lea	ubuf, r11
 	cbeq	r8, r11, 1f
-	movq	#49, r0
+	mov	#49, r0
 	halt
 1:
-	mov	tmplr.32, r2
-	movq	=(136<<16), r3
+	mov.s32	tmplr, r2
+	mov	=(136<<16), r3
 	bis	r3, r2
-	mov	r2, (r15).32
-	movq	#0, r10
+	mov.s32	r2, (r15)
+	mov	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
-	movq	=(1), r11
+	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	movq	#50, r0
+	mov	#50, r0
 	halt
 1:
-	movq	=(VECTOR_ILLEGAL), r11
+	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	movq	#51, r0
+	mov	#51, r0
 	halt
 1:
 	lea	ubuf, r11
 	cbeq	r8, r11, 1f
-	movq	#52, r0
+	mov	#52, r0
 	halt
 1:
-	mov	tmplw.32, r2
-	movq	=(136<<16), r3
+	mov.s32	tmplw, r2
+	mov	=(136<<16), r3
 	bis	r3, r2
-	mov	r2, (r15).32
-	movq	#0, r10
+	mov.s32	r2, (r15)
+	mov	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
-	movq	=(1), r11
+	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	movq	#53, r0
+	mov	#53, r0
 	halt
 1:
-	movq	=(VECTOR_ILLEGAL), r11
+	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	movq	#54, r0
+	mov	#54, r0
 	halt
 1:
 	lea	ubuf, r11
 	cbeq	r8, r11, 1f
-	movq	#55, r0
+	mov	#55, r0
 	halt
 1:
-	mov	tmplr.32, r2
-	movq	=(137<<16), r3
+	mov.s32	tmplr, r2
+	mov	=(137<<16), r3
 	bis	r3, r2
-	mov	r2, (r15).32
-	movq	#0, r10
+	mov.s32	r2, (r15)
+	mov	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
-	movq	=(1), r11
+	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	movq	#56, r0
+	mov	#56, r0
 	halt
 1:
-	movq	=(VECTOR_ILLEGAL), r11
+	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	movq	#57, r0
+	mov	#57, r0
 	halt
 1:
 	lea	ubuf, r11
 	cbeq	r8, r11, 1f
-	movq	#58, r0
+	mov	#58, r0
 	halt
 1:
-	mov	tmplw.32, r2
-	movq	=(137<<16), r3
+	mov.s32	tmplw, r2
+	mov	=(137<<16), r3
 	bis	r3, r2
-	mov	r2, (r15).32
-	movq	#0, r10
+	mov.s32	r2, (r15)
+	mov	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
-	movq	=(1), r11
+	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	movq	#59, r0
+	mov	#59, r0
 	halt
 1:
-	movq	=(VECTOR_ILLEGAL), r11
+	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	movq	#60, r0
+	mov	#60, r0
 	halt
 1:
 	lea	ubuf, r11
 	cbeq	r8, r11, 1f
-	movq	#61, r0
+	mov	#61, r0
 	halt
 1:
-	mov	tmplr.32, r2
-	movq	=(138<<16), r3
+	mov.s32	tmplr, r2
+	mov	=(138<<16), r3
 	bis	r3, r2
-	mov	r2, (r15).32
-	movq	#0, r10
+	mov.s32	r2, (r15)
+	mov	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
-	movq	=(1), r11
+	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	movq	#62, r0
+	mov	#62, r0
 	halt
 1:
-	movq	=(VECTOR_ILLEGAL), r11
+	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	movq	#63, r0
+	mov	#63, r0
 	halt
 1:
 	lea	ubuf, r11
 	cbeq	r8, r11, 1f
-	movq	#64, r0
+	mov	#64, r0
 	halt
 1:
-	mov	tmplw.32, r2
-	movq	=(138<<16), r3
+	mov.s32	tmplw, r2
+	mov	=(138<<16), r3
 	bis	r3, r2
-	mov	r2, (r15).32
-	movq	#0, r10
+	mov.s32	r2, (r15)
+	mov	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
-	movq	=(1), r11
+	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	movq	#65, r0
+	mov	#65, r0
 	halt
 1:
-	movq	=(VECTOR_ILLEGAL), r11
+	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	movq	#66, r0
+	mov	#66, r0
 	halt
 1:
 	lea	ubuf, r11
 	cbeq	r8, r11, 1f
-	movq	#67, r0
+	mov	#67, r0
 	halt
 1:
-	mov	tmplr.32, r2
-	movq	=(139<<16), r3
+	mov.s32	tmplr, r2
+	mov	=(139<<16), r3
 	bis	r3, r2
-	mov	r2, (r15).32
-	movq	#0, r10
+	mov.s32	r2, (r15)
+	mov	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
-	movq	=(1), r11
+	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	movq	#68, r0
+	mov	#68, r0
 	halt
 1:
-	movq	=(VECTOR_ILLEGAL), r11
+	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	movq	#69, r0
+	mov	#69, r0
 	halt
 1:
 	lea	ubuf, r11
 	cbeq	r8, r11, 1f
-	movq	#70, r0
+	mov	#70, r0
 	halt
 1:
-	mov	tmplw.32, r2
-	movq	=(139<<16), r3
+	mov.s32	tmplw, r2
+	mov	=(139<<16), r3
 	bis	r3, r2
-	mov	r2, (r15).32
-	movq	#0, r10
+	mov.s32	r2, (r15)
+	mov	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
-	movq	=(1), r11
+	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	movq	#71, r0
+	mov	#71, r0
 	halt
 1:
-	movq	=(VECTOR_ILLEGAL), r11
+	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	movq	#72, r0
+	mov	#72, r0
 	halt
 1:
 	lea	ubuf, r11
 	cbeq	r8, r11, 1f
-	movq	#73, r0
+	mov	#73, r0
 	halt
 1:
-	mov	tmplr.32, r2
-	movq	=(140<<16), r3
+	mov.s32	tmplr, r2
+	mov	=(140<<16), r3
 	bis	r3, r2
-	mov	r2, (r15).32
-	movq	#0, r10
+	mov.s32	r2, (r15)
+	mov	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
-	movq	=(1), r11
+	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	movq	#74, r0
+	mov	#74, r0
 	halt
 1:
-	movq	=(VECTOR_ILLEGAL), r11
+	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	movq	#75, r0
+	mov	#75, r0
 	halt
 1:
 	lea	ubuf, r11
 	cbeq	r8, r11, 1f
-	movq	#76, r0
+	mov	#76, r0
 	halt
 1:
-	mov	tmplw.32, r2
-	movq	=(140<<16), r3
+	mov.s32	tmplw, r2
+	mov	=(140<<16), r3
 	bis	r3, r2
-	mov	r2, (r15).32
-	movq	#0, r10
+	mov.s32	r2, (r15)
+	mov	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
-	movq	=(1), r11
+	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	movq	#77, r0
+	mov	#77, r0
 	halt
 1:
-	movq	=(VECTOR_ILLEGAL), r11
+	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	movq	#78, r0
+	mov	#78, r0
 	halt
 1:
 	lea	ubuf, r11
 	cbeq	r8, r11, 1f
-	movq	#79, r0
+	mov	#79, r0
 	halt
 1:
-	mov	tmplr.32, r2
-	movq	=(141<<16), r3
+	mov.s32	tmplr, r2
+	mov	=(141<<16), r3
 	bis	r3, r2
-	mov	r2, (r15).32
-	movq	#0, r10
+	mov.s32	r2, (r15)
+	mov	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
-	movq	=(1), r11
+	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	movq	#80, r0
+	mov	#80, r0
 	halt
 1:
-	movq	=(VECTOR_ILLEGAL), r11
+	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	movq	#81, r0
+	mov	#81, r0
 	halt
 1:
 	lea	ubuf, r11
 	cbeq	r8, r11, 1f
-	movq	#82, r0
+	mov	#82, r0
 	halt
 1:
-	mov	tmplw.32, r2
-	movq	=(141<<16), r3
+	mov.s32	tmplw, r2
+	mov	=(141<<16), r3
 	bis	r3, r2
-	mov	r2, (r15).32
-	movq	#0, r10
+	mov.s32	r2, (r15)
+	mov	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
-	movq	=(1), r11
+	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	movq	#83, r0
+	mov	#83, r0
 	halt
 1:
-	movq	=(VECTOR_ILLEGAL), r11
+	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	movq	#84, r0
+	mov	#84, r0
 	halt
 1:
 	lea	ubuf, r11
 	cbeq	r8, r11, 1f
-	movq	#85, r0
+	mov	#85, r0
 	halt
 1:
-	mov	tmplr.32, r2
-	movq	=(142<<16), r3
+	mov.s32	tmplr, r2
+	mov	=(142<<16), r3
 	bis	r3, r2
-	mov	r2, (r15).32
-	movq	#0, r10
+	mov.s32	r2, (r15)
+	mov	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
-	movq	=(1), r11
+	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	movq	#86, r0
+	mov	#86, r0
 	halt
 1:
-	movq	=(VECTOR_ILLEGAL), r11
+	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	movq	#87, r0
+	mov	#87, r0
 	halt
 1:
 	lea	ubuf, r11
 	cbeq	r8, r11, 1f
-	movq	#88, r0
+	mov	#88, r0
 	halt
 1:
-	mov	tmplw.32, r2
-	movq	=(142<<16), r3
+	mov.s32	tmplw, r2
+	mov	=(142<<16), r3
 	bis	r3, r2
-	mov	r2, (r15).32
-	movq	#0, r10
+	mov.s32	r2, (r15)
+	mov	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
-	movq	=(1), r11
+	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	movq	#89, r0
+	mov	#89, r0
 	halt
 1:
-	movq	=(VECTOR_ILLEGAL), r11
+	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	movq	#90, r0
+	mov	#90, r0
 	halt
 1:
 	lea	ubuf, r11
 	cbeq	r8, r11, 1f
-	movq	#91, r0
+	mov	#91, r0
 	halt
 1:
-	mov	tmplr.32, r2
-	movq	=(143<<16), r3
+	mov.s32	tmplr, r2
+	mov	=(143<<16), r3
 	bis	r3, r2
-	mov	r2, (r15).32
-	movq	#0, r10
+	mov.s32	r2, (r15)
+	mov	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
-	movq	=(1), r11
+	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	movq	#92, r0
+	mov	#92, r0
 	halt
 1:
-	movq	=(VECTOR_ILLEGAL), r11
+	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	movq	#93, r0
+	mov	#93, r0
 	halt
 1:
 	lea	ubuf, r11
 	cbeq	r8, r11, 1f
-	movq	#94, r0
+	mov	#94, r0
 	halt
 1:
-	mov	tmplw.32, r2
-	movq	=(143<<16), r3
+	mov.s32	tmplw, r2
+	mov	=(143<<16), r3
 	bis	r3, r2
-	mov	r2, (r15).32
-	movq	#0, r10
+	mov.s32	r2, (r15)
+	mov	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
-	movq	=(1), r11
+	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	movq	#95, r0
+	mov	#95, r0
 	halt
 1:
-	movq	=(VECTOR_ILLEGAL), r11
+	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	movq	#96, r0
+	mov	#96, r0
 	halt
 1:
 	lea	ubuf, r11
 	cbeq	r8, r11, 1f
-	movq	#97, r0
+	mov	#97, r0
 	halt
 1:
-	mov	tmplr.32, r2
-	movq	=(144<<16), r3
+	mov.s32	tmplr, r2
+	mov	=(144<<16), r3
 	bis	r3, r2
-	mov	r2, (r15).32
-	movq	#0, r10
+	mov.s32	r2, (r15)
+	mov	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
-	movq	=(1), r11
+	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	movq	#98, r0
+	mov	#98, r0
 	halt
 1:
-	movq	=(VECTOR_ILLEGAL), r11
+	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	movq	#99, r0
+	mov	#99, r0
 	halt
 1:
 	lea	ubuf, r11
 	cbeq	r8, r11, 1f
-	movq	#100, r0
+	mov	#100, r0
 	halt
 1:
-	mov	tmplw.32, r2
-	movq	=(144<<16), r3
+	mov.s32	tmplw, r2
+	mov	=(144<<16), r3
 	bis	r3, r2
-	mov	r2, (r15).32
-	movq	#0, r10
+	mov.s32	r2, (r15)
+	mov	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
-	movq	=(1), r11
+	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	movq	#101, r0
+	mov	#101, r0
 	halt
 1:
-	movq	=(VECTOR_ILLEGAL), r11
+	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	movq	#102, r0
+	mov	#102, r0
 	halt
 1:
 	lea	ubuf, r11
 	cbeq	r8, r11, 1f
-	movq	#103, r0
+	mov	#103, r0
 	halt
 1:
-	mov	tmplr.32, r2
-	movq	=(145<<16), r3
+	mov.s32	tmplr, r2
+	mov	=(145<<16), r3
 	bis	r3, r2
-	mov	r2, (r15).32
-	movq	#0, r10
+	mov.s32	r2, (r15)
+	mov	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
-	movq	=(1), r11
+	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	movq	#104, r0
+	mov	#104, r0
 	halt
 1:
-	movq	=(VECTOR_ILLEGAL), r11
+	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	movq	#105, r0
+	mov	#105, r0
 	halt
 1:
 	lea	ubuf, r11
 	cbeq	r8, r11, 1f
-	movq	#106, r0
+	mov	#106, r0
 	halt
 1:
-	mov	tmplw.32, r2
-	movq	=(145<<16), r3
+	mov.s32	tmplw, r2
+	mov	=(145<<16), r3
 	bis	r3, r2
-	mov	r2, (r15).32
-	movq	#0, r10
+	mov.s32	r2, (r15)
+	mov	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
-	movq	=(1), r11
+	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	movq	#107, r0
+	mov	#107, r0
 	halt
 1:
-	movq	=(VECTOR_ILLEGAL), r11
+	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	movq	#108, r0
+	mov	#108, r0
 	halt
 1:
 	lea	ubuf, r11
 	cbeq	r8, r11, 1f
-	movq	#109, r0
+	mov	#109, r0
 	halt
 1:
-	mov	tmplr.32, r2
-	movq	=(146<<16), r3
+	mov.s32	tmplr, r2
+	mov	=(146<<16), r3
 	bis	r3, r2
-	mov	r2, (r15).32
-	movq	#0, r10
+	mov.s32	r2, (r15)
+	mov	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
-	movq	=(1), r11
+	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	movq	#110, r0
+	mov	#110, r0
 	halt
 1:
-	movq	=(VECTOR_ILLEGAL), r11
+	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	movq	#111, r0
+	mov	#111, r0
 	halt
 1:
 	lea	ubuf, r11
 	cbeq	r8, r11, 1f
-	movq	#112, r0
+	mov	#112, r0
 	halt
 1:
-	mov	tmplw.32, r2
-	movq	=(146<<16), r3
+	mov.s32	tmplw, r2
+	mov	=(146<<16), r3
 	bis	r3, r2
-	mov	r2, (r15).32
-	movq	#0, r10
+	mov.s32	r2, (r15)
+	mov	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
-	movq	=(1), r11
+	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	movq	#113, r0
+	mov	#113, r0
 	halt
 1:
-	movq	=(VECTOR_ILLEGAL), r11
+	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	movq	#114, r0
+	mov	#114, r0
 	halt
 1:
 	lea	ubuf, r11
 	cbeq	r8, r11, 1f
-	movq	#115, r0
+	mov	#115, r0
 	halt
 1:
-	mov	tmplr.32, r2
-	movq	=(147<<16), r3
+	mov.s32	tmplr, r2
+	mov	=(147<<16), r3
 	bis	r3, r2
-	mov	r2, (r15).32
-	movq	#0, r10
+	mov.s32	r2, (r15)
+	mov	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
-	movq	=(1), r11
+	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	movq	#116, r0
+	mov	#116, r0
 	halt
 1:
-	movq	=(VECTOR_ILLEGAL), r11
+	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	movq	#117, r0
+	mov	#117, r0
 	halt
 1:
 	lea	ubuf, r11
 	cbeq	r8, r11, 1f
-	movq	#118, r0
+	mov	#118, r0
 	halt
 1:
-	mov	tmplw.32, r2
-	movq	=(147<<16), r3
+	mov.s32	tmplw, r2
+	mov	=(147<<16), r3
 	bis	r3, r2
-	mov	r2, (r15).32
-	movq	#0, r10
+	mov.s32	r2, (r15)
+	mov	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
-	movq	=(1), r11
+	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	movq	#119, r0
+	mov	#119, r0
 	halt
 1:
-	movq	=(VECTOR_ILLEGAL), r11
+	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	movq	#120, r0
+	mov	#120, r0
 	halt
 1:
 	lea	ubuf, r11
 	cbeq	r8, r11, 1f
-	movq	#121, r0
+	mov	#121, r0
 	halt
 1:
-	mov	tmplr.32, r2
-	movq	=(13<<16), r3
+	mov.s32	tmplr, r2
+	mov	=(13<<16), r3
 	bis	r3, r2
-	mov	r2, (r15).32
-	movq	#0, r10
+	mov.s32	r2, (r15)
+	mov	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
-	movq	=(1), r11
+	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	movq	#122, r0
+	mov	#122, r0
 	halt
 1:
-	movq	=(VECTOR_ILLEGAL), r11
+	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	movq	#123, r0
+	mov	#123, r0
 	halt
 1:
 	lea	ubuf, r11
 	cbeq	r8, r11, 1f
-	movq	#124, r0
+	mov	#124, r0
 	halt
 1:
-	mov	tmplw.32, r2
-	movq	=(13<<16), r3
+	mov.s32	tmplw, r2
+	mov	=(13<<16), r3
 	bis	r3, r2
-	mov	r2, (r15).32
-	movq	#0, r10
+	mov.s32	r2, (r15)
+	mov	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
-	movq	=(1), r11
+	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	movq	#125, r0
+	mov	#125, r0
 	halt
 1:
-	movq	=(VECTOR_ILLEGAL), r11
+	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	movq	#126, r0
+	mov	#126, r0
 	halt
 1:
 	lea	ubuf, r11
 	cbeq	r8, r11, 1f
-	movq	#127, r0
+	mov	#127, r0
 	halt
 1:
-	mov	tmplr.32, r2
-	movq	=(148<<16), r3
+	mov.s32	tmplr, r2
+	mov	=(148<<16), r3
 	bis	r3, r2
-	mov	r2, (r15).32
-	movq	#0, r10
+	mov.s32	r2, (r15)
+	mov	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
-	movq	=(1), r11
+	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	movq	#128, r0
+	mov	#128, r0
 	halt
 1:
-	movq	=(VECTOR_ILLEGAL), r11
+	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	movq	#129, r0
+	mov	#129, r0
 	halt
 1:
 	lea	ubuf, r11
 	cbeq	r8, r11, 1f
-	movq	#130, r0
+	mov	#130, r0
 	halt
 1:
-	mov	tmplw.32, r2
-	movq	=(148<<16), r3
+	mov.s32	tmplw, r2
+	mov	=(148<<16), r3
 	bis	r3, r2
-	mov	r2, (r15).32
-	movq	#0, r10
+	mov.s32	r2, (r15)
+	mov	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
-	movq	=(1), r11
+	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	movq	#131, r0
+	mov	#131, r0
 	halt
 1:
-	movq	=(VECTOR_ILLEGAL), r11
+	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	movq	#132, r0
+	mov	#132, r0
 	halt
 1:
 	lea	ubuf, r11
 	cbeq	r8, r11, 1f
-	movq	#133, r0
+	mov	#133, r0
 	halt
 1:
-	mov	tmplr.32, r2
-	movq	=(255<<16), r3
+	mov.s32	tmplr, r2
+	mov	=(255<<16), r3
 	bis	r3, r2
-	mov	r2, (r15).32
-	movq	#0, r10
+	mov.s32	r2, (r15)
+	mov	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
-	movq	=(1), r11
+	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	movq	#134, r0
+	mov	#134, r0
 	halt
 1:
-	movq	=(VECTOR_ILLEGAL), r11
+	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	movq	#135, r0
+	mov	#135, r0
 	halt
 1:
 	lea	ubuf, r11
 	cbeq	r8, r11, 1f
-	movq	#136, r0
+	mov	#136, r0
 	halt
 1:
-	mov	tmplw.32, r2
-	movq	=(255<<16), r3
+	mov.s32	tmplw, r2
+	mov	=(255<<16), r3
 	bis	r3, r2
-	mov	r2, (r15).32
-	movq	#0, r10
+	mov.s32	r2, (r15)
+	mov	#0, r10
 	lea	ubuf+4, r4
 	call	ubuf
-	movq	=(1), r11
+	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	movq	#137, r0
+	mov	#137, r0
 	halt
 1:
-	movq	=(VECTOR_ILLEGAL), r11
+	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	movq	#138, r0
+	mov	#138, r0
 	halt
 1:
 	lea	ubuf, r11
 	cbeq	r8, r11, 1f
-	movq	#139, r0
+	mov	#139, r0
 	halt
 1:
-	movq	#0, r10
+	mov	#0, r10
 	lea	R2, r4
 I1:	genter	#RTIMASK_ALL
 R2:
-	movq	=(1), r11
+	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	movq	#140, r0
+	mov	#140, r0
 	halt
 1:
-	movq	=(VECTOR_ILLEGAL), r11
+	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	movq	#141, r0
+	mov	#141, r0
 	halt
 1:
 	lea	I1, r11
 	cbeq	r8, r11, 1f
-	movq	#142, r0
+	mov	#142, r0
 	halt
 1:
-	movq	#0, r10
+	mov	#0, r10
 	lea	R4, r4
 I3:	tlbigp	r2
 R4:
-	movq	=(1), r11
+	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	movq	#143, r0
+	mov	#143, r0
 	halt
 1:
-	movq	=(VECTOR_ILLEGAL), r11
+	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	movq	#144, r0
+	mov	#144, r0
 	halt
 1:
 	lea	I3, r11
 	cbeq	r8, r11, 1f
-	movq	#145, r0
+	mov	#145, r0
 	halt
 1:
-	movq	#0, r0
+	mov	#0, r0
 	halt
 h_ill:	mfsr	r6, ecause
 	mfsr	r8, epc

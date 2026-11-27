@@ -6,6 +6,9 @@ here in Python integers (the semantics of docs/encoding-work/vec-isa.md section 
 and a count of the lane width or more gives 0, or the sign for vsar; the saturating words clamp; the unsigned words compare as unsigned).  The corners (the sign boundary,
 all ones, zero, a shift count at and above the width) are put in by hand.  The result of a test is compared byte for byte (or register for register); a failed test n exits with n.
 usage: gen_vec_lane.py OUT.s"""
+import sys as _sys, os as _os
+_sys.path.insert(0, _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..', '..', 'tools'))
+import marks		# the words of the encoding written with the width suffixes (tools/marks.py)
 import random, struct, sys
 
 N = 77
@@ -216,5 +219,5 @@ for lab, content in data:
     else:
         for i in range(0, len(content), 24):
             out.append('\t.byte\t' + ', '.join(str(x) for x in content[i:i + 24]))
-open(sys.argv[1], 'w').write('\n'.join(out) + '\n')
+open(sys.argv[1], 'w').write(marks.spell_text('\n'.join(out)) + '\n')
 print('%d tests' % cnt[0])

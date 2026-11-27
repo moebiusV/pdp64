@@ -1,2 +1,2 @@
 	.text
-	movq r32, r2
+	mov r32, r2

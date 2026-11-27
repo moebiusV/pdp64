@@ -98,7 +98,7 @@ prints the sites by category and the bytes they gained; `--dump-map` writes, per
 
 ## 4. The reaches
 
-The reach of each form is the signed field of its leaf in the grammar `spec/pdp64/pdp64.hbnf` times the unit; the generated tables (`spec/pdp64/tables.md`, the manual dictionary) list every form and its field, and this note does not repeat them, because the encoding may still change. A pc-relative field counts parcels (2 bytes) for calls and branches and bytes for memory operands.  The shape of the answer, which is what the linker relies on: `call`, `br` (and `jmp label`, which is `br label`), `movcall`, `cbCC` and `sob` have 2-byte (some), 4-byte and 6-byte forms with growing reach, the 6-byte forms reaching +-2 GB; `lea sym`, `movq sym, rd` and the ALU `sym, rd` forms have 4-byte forms of short reach and a 6-byte form with a 32-bit pc-relative or absolute field; `cbCC` has no 2-byte external form.
+The reach of each form is the signed field of its leaf in the grammar `spec/pdp64/pdp64.hbnf` times the unit; the generated tables (`spec/pdp64/tables.md`, the manual dictionary) list every form and its field, and this note does not repeat them, because the encoding may still change. A pc-relative field counts parcels (2 bytes) for calls and branches and bytes for memory operands.  The shape of the answer, which is what the linker relies on: `call`, `br` (and `jmp label`, which is `br label`), `movcall`, `cbCC` and `sob` have 2-byte (some), 4-byte and 6-byte forms with growing reach, the 6-byte forms reaching +-2 GB; `lea sym`, `mov sym, rd` and the ALU `sym, rd` forms have 4-byte forms of short reach and a 6-byte form with a 32-bit pc-relative or absolute field; `cbCC` has no 2-byte external form.
 
 Historical table (2026-11-04, taken from the grammars of the r20 / pdp64/16 / pdp64/32 period, before the `cbCC` re-optimisation of `docs/encoding-work/cbreach.md` and before the flags and the flag branches (`bCC`) were removed; superseded, kept for the arithmetic of section 7):
 
@@ -110,7 +110,7 @@ Historical table (2026-11-04, taken from the grammars of the r20 / pdp64/16 / pd
 | `bCC` | 2: 64, 128, 256 B; 4: 64 KiB; 6 | 2: 64 B; 4: 64 KiB; 6 |
 | `cbCC` | 2: 32, 64 B; 4: 256 B, 1 KiB, 4 KiB, 16 KiB; no 6-byte form (the assembler expands to `cmp` + `bCC`) | 2: 32 B; 4: 256 B to 16 KiB |
 | `sob` | 4: 64 KiB | same |
-| `lea sym`, `movq sym, rd`, ALU `sym, rd` | 4: PC12 2 KiB, PC14 8 KiB, PC16 32 KiB; 6: PC32 or absolute A32 | same |
+| `lea sym`, `mov sym, rd`, ALU `sym, rd` | 4: PC12 2 KiB, PC14 8 KiB, PC16 32 KiB; 6: PC32 or absolute A32 | same |
 
 (In that period the reach of the 4-byte `call` was +-1 MiB, not the +-2 MB of the encoding proposal. Manual 9.5.5 gives +-256 KiB for the current grammar: the manual and the tables win.)
 
@@ -211,7 +211,7 @@ The bytes are the file's `.text` (instructions, pools, constants in text and pad
 | without `memcpy-a2.c` (258 KB of text, 12,288 of the 12,787 data `lea`) | 916,960 -> 889,124 (-3.04%) | 948,068 -> 920,188 (-2.94%) |
 | external `call`: sites, bytes saved | 20,342, 40,684 (3.46% of the text) | 20,343, 40,686 |
 | `lea` of data/bss: sites, bytes saved | 12,787, 1,802 (0.15%) | 12,787, 1,810 |
-| pc-relative loads, `movq sym` etc.: bytes saved | 1,604 | 1,410 |
+| pc-relative loads, `mov sym` etc.: bytes saved | 1,604 | 1,410 |
 | `jmp` to another section: sites, bytes saved | 364, 728 | 364, 728 |
 | branches shortened because the calls between them shrank | 296 | 444 |
 
@@ -228,7 +228,7 @@ Of the 12,787 data `lea` sites 12,288 are in `memcpy-a2.c`, a 258 KB text that t
   returns without a value, so its exit status is whatever `r0` holds, an address (it differs between pdp64/r20, /16 and /32 too, as errata 88 records).  Text of these links, all programs added: 704,308 -> 695,178 (c-testsuite, pdp64/16), 811,616 -> 786,806 (gcc-torture, 16); 742,856 -> 735,456 and 848,066 -> 824,628 (32).
 
 * The self-consistency check (`relaxcheck`) on the relaxed image of each of the six programs (12 images: 6,772 to 28,967 instructions each) and on the 840 + 840 relaxed images of the corpus files (312,274 and 308,027 instructions):
-  0 errors.  (The stub objects of the corpus define data in small quads, so `-slack 65536` accepts an address up to 64 KiB behind the data segment there, and `-datasyms` accepts the tables that the programs keep in `.text`; the `lea` and `movq` of an array element that the real object would have are not stubs' fault.)
+  0 errors.  (The stub objects of the corpus define data in small quads, so `-slack 65536` accepts an address up to 64 KiB behind the data segment there, and `-datasyms` accepts the tables that the programs keep in `.text`; the `lea` and `mov` of an array element that the real object would have are not stubs' fault.)
 
 ### 7.4 What the linked programs still have at 6 bytes
 

@@ -16,43 +16,43 @@ CONSOLE_VA = DEVVA + MAP_CONSOLE - MAP_DEV
 _start:
 	; ---- page tables (translation is off: addresses are physical) ----
 	lea	l2, r2
-	movq	#(1<<PTE_V|1<<PTE_R|1<<PTE_W|1<<PTE_X|1<<PTE_A|1<<PTE_D), r3
-	movq	r3, (r2)				; l2[0]: the first gigabyte maps itself, kernel only
+	mov	#(1<<PTE_V|1<<PTE_R|1<<PTE_W|1<<PTE_X|1<<PTE_A|1<<PTE_D), r3
+	mov	r3, (r2)				; l2[0]: the first gigabyte maps itself, kernel only
 	lea	l1a, r3
 	bis	#(1<<PTE_V), r3
-	movq	r3, 8(r2)				; l2[1] -> l1a (0x40000000: the user's region)
-	movq	#(1<<PTE_V|1<<PTE_R|1<<PTE_W|1<<PTE_X|1<<PTE_U|1<<PTE_A|1<<PTE_D), r3
-	movq	r3, 16(r2)				; l2[2]: the user alias of the first gigabyte
-	movq	=(MAP_DEV | 1<<PTE_V | 1<<PTE_R | 1<<PTE_W | 1<<PTE_A | 1<<PTE_D | MT_DEVICE<<PTE_MT), r3
-	movq	r3, 24(r2)				; l2[3]: device space (physical bit 39 set, memory type device), kernel only
+	mov	r3, 8(r2)				; l2[1] -> l1a (0x40000000: the user's region)
+	mov	#(1<<PTE_V|1<<PTE_R|1<<PTE_W|1<<PTE_X|1<<PTE_U|1<<PTE_A|1<<PTE_D), r3
+	mov	r3, 16(r2)				; l2[2]: the user alias of the first gigabyte
+	mov	=(MAP_DEV | 1<<PTE_V | 1<<PTE_R | 1<<PTE_W | 1<<PTE_A | 1<<PTE_D | MT_DEVICE<<PTE_MT), r3
+	mov	r3, 24(r2)				; l2[3]: device space (physical bit 39 set, memory type device), kernel only
 	lea	l1a, r2
 	lea	l0a, r3
 	bis	#(1<<PTE_V), r3
-	movq	r3, (r2)				; l1a[0] -> l0a; its 16 entries start invalid
+	mov	r3, (r2)				; l1a[0] -> l0a; its 16 entries start invalid
 	lea	pool, r2
-	movq	r2, nextpg
+	mov	r2, nextpg
 	lea	vtab, r1
 	mtsr	vbr, r1
 	lea	l2, r1
 	mtsr	ptbr, r1
-	movq	#(1<<MMUCTL_ENABLE), r1
+	mov	#(1<<MMUCTL_ENABLE), r1
 	mtsr	mmuctl, r1
 	; ---- the timer ----
-	movq	=TIMER_VA, r13
-	movq	(r13), r2
+	mov	=TIMER_VA, r13
+	mov	(r13), r2
 	add	#PERIOD, r2
-	movq	r2, TIMER_REG_COMPARE(r13)
-	movq	#(1<<TIMER_CTL_ENABLE), r2
-	movq	r2, TIMER_REG_CONTROL(r13)
+	mov	r2, TIMER_REG_COMPARE(r13)
+	mov	#(1<<TIMER_CTL_ENABLE), r2
+	mov	r2, TIMER_REG_CONTROL(r13)
 	; ---- to user mode ----
 	lea	ustk_top, r1
-	movq	=0x80000000, r2
+	mov	=0x80000000, r2
 	add	r2, r1
 	mtsr	usp, r1
 	lea	user, r1
 	add	r2, r1
 	mtsr	epc, r1
-	movq	#(MODE_USER<<PSW_MODE), r1		; priority 0: the timer can interrupt the user
+	mov	#(MODE_USER<<PSW_MODE), r1		; priority 0: the timer can interrupt the user
 	mtsr	epsw, r1
 	rti	#RTIMASK_ALL
 
@@ -62,15 +62,15 @@ h_write:					; write(r1 = buffer, r2 = length); the entry has set the priority t
 	pushx					; EPSW and EPC on the kernel stack: after the spl #0 below the handler may be interrupted
 	pushm	#0x3E				; r1..r5
 	spl	#0
-	movq	r2, r0
-	movq	=CONSOLE_VA, r3
+	mov	r2, r0
+	mov	=CONSOLE_VA, r3
 1:	cbeq r2, #0, 3f
-	mov.u	(r1).8, r4 ; the user's byte: a .U load, the only way for the kernel to read a U page
+	mov.user.s8	(r1), r4 ; the user's byte: a .U load, the only way for the kernel to read a U page
 	add	#1, r1
-2:	movq	CONSOLE_REG_TXCS(r3), r5
+2:	mov	CONSOLE_REG_TXCS(r3), r5
 	and	#(1<<CONSOLE_CSR_READY), r5
 	cbeq	r5, #0, 2b
-	movq	r4, CONSOLE_REG_TXDB(r3)
+	mov	r4, CONSOLE_REG_TXDB(r3)
 	sub	#1, r2
 	br	1b
 3:	spl	#7
@@ -82,62 +82,62 @@ h_pf:						; a page fault: the user's region maps a fresh page; anything else en
 	pushm	#0x0E				; r1..r3
 	spl	#0
 	mfsr	r1, eva
-	movq	#(0x40000000), r2
+	mov	#(0x40000000), r2
 	sub	r2, r1
 	shr	#12, r1
 	cbhis r1, #USER_PAGES, kill
 	shl	#3, r1
 	lea	l0a, r2
 	add	r2, r1				; the address of the page-table entry
-	movq	nextpg, r2
-	movq	r2, r3
+	mov	nextpg, r2
+	mov	r2, r3
 	bis	#(1<<PTE_V|1<<PTE_R|1<<PTE_W|1<<PTE_U|1<<PTE_A|1<<PTE_D), r3
-	movq	r3, (r1)
+	mov	r3, (r1)
 	add	#4096, r2
-	movq	r2, nextpg
+	mov	r2, nextpg
 	mfsr	r1, eva
 	tlbi	r1
 	spl	#7
 	popm	#0x0E
 	popx
 	rti	#RTIMASK_ALL
-kill:	movq	#99, r0
+kill:	mov	#99, r0
 	halt
 h_timer:					; level 6: counts a tick and sets the next compare.  EPC and EPSW are not touched by anything that can interrupt it (it runs at priority 6).
 	pushm	#0x06				; r1, r2
-	movq	=TIMER_VA, r1
-	movq	TIMER_REG_COMPARE(r1), r2
+	mov	=TIMER_VA, r1
+	mov	TIMER_REG_COMPARE(r1), r2
 	add	#PERIOD, r2
-	movq	r2, TIMER_REG_COMPARE(r1)
-	movq	ticks, r2
+	mov	r2, TIMER_REG_COMPARE(r1)
+	mov	ticks, r2
 	add	#1, r2
-	movq	r2, ticks
+	mov	r2, ticks
 	popm	#0x06
 	rti	#RTIMASK_ALL
 
 ; ---- the user program (at the alias address) ----
 user:
 	lea	msg1, r1
-	movq	#(msg1_end - msg1), r2
+	mov	#(msg1_end - msg1), r2
 	trap	#1
 	; demand paging: this page is not mapped; the store faults, the kernel maps a page, the store is retried
-	movq	=0x40003000, r3
-	movq	#0x42, r5
-	movq	r5, (r3)
-	movq	(r3), r6
+	mov	=0x40003000, r3
+	mov	#0x42, r5
+	mov	r5, (r3)
+	mov	(r3), r6
 	cbne r6, #0x42, bad
 	lea	msg2, r1
-	movq	#(msg2_end - msg2), r2
+	mov	#(msg2_end - msg2), r2
 	trap	#1
 	; wait for three ticks of the timer (the kernel's counter is a word in memory)
-1:	movq	ticks, r4
+1:	mov	ticks, r4
 	cblo r4, #3, 1b
 	lea	msg3, r1
-	movq	#(msg3_end - msg3), r2
+	mov	#(msg3_end - msg3), r2
 	trap	#1
-	movq	#0, r0
+	mov	#0, r0
 	trap	#0
-bad:	movq	#1, r0
+bad:	mov	#1, r0
 	trap	#0
 
 	.data

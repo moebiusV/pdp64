@@ -2,10 +2,10 @@
 	.text
 	.globl	_start
 _start:
-	movq	#5, r1
-	movq	#10, r2
-	movq	#0, r3
-	movq	#7, r4
+	mov	#5, r1
+	mov	#10, r2
+	mov	#0, r3
+	mov	#7, r4
 	ctcc	r1, #16			; 5 < 16 unsigned: no trap
 	ctcc	r1, r2			; 5 < 10
 	cthi	r1, #5			; not 5 > 5
@@ -16,12 +16,12 @@ _start:
 	ctcs	r2, r1			; not 10 < 5 unsigned
 	ctge	r1, r2			; not 5 >= 10 signed
 	ctlt	r2, r1			; not 10 < 5 signed
-	movq	#-3, r6
+	mov	#-3, r6
 	chk2	r1, r3, r2		; 0 <= 5 < 10
 	chk2	r6, r6, r3		; -3 <= -3 < 0
-	movq	#0, r0
+	mov	#0, r0
 	trap	#0
-f1:	movq	#1, r0
+f1:	mov	#1, r0
 	trap	#0
-f2:	movq	#2, r0
+f2:	mov	#2, r0
 	trap	#0

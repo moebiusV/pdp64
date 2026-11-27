@@ -2,7 +2,7 @@
 	.text
 	.globl	_start
 _start:
-	movq	#0, r0
+	mov	#0, r0
 	mtsr	ptbr, r1
-	movq	#1, r0
+	mov	#1, r0
 	trap	#0

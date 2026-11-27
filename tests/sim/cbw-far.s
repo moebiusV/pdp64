@@ -2,7 +2,7 @@
 	.text
 	.globl	_start
 _start:
-	movq	#255, r1
+	mov	#255, r1
 	cbeq	r1, #255, 3f
 	br	fail
 	.space	60000
@@ -12,7 +12,7 @@ _start:
 4:	cbeq	r1, #255, 5b
 	br	fail
 6:
-	movq	#0, r0
+	mov	#0, r0
 	trap	#0
-fail:	movq	#1, r0
+fail:	mov	#1, r0
 	trap	#0

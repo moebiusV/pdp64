@@ -3,1039 +3,1039 @@
 	.globl	_start
 _start:
 	lea	stack_top, sp
-	movq	=0x123456789abcdef, r1
-	movq	=0xfedcba9876543210, r2
-	movq	=0xff00ff00ff00ff, r3
-	movq	=0x0, r4
+	mov	=0x123456789abcdef, r1
+	mov	=0xfedcba9876543210, r2
+	mov	=0xff00ff00ff00ff, r3
+	mov	=0x0, r4
 	maskeqz	r1, r4, r5
-	movq	=0x0, r15
+	mov	=0x0, r15
 	cbne	r5, r15, F1
 	masknez	r1, r4, r5
-	movq	=0x123456789abcdef, r15
+	mov	=0x123456789abcdef, r15
 	cbne	r5, r15, F2
-	movq	=0x1, r4
+	mov	=0x1, r4
 	maskeqz	r1, r4, r5
-	movq	=0x123456789abcdef, r15
+	mov	=0x123456789abcdef, r15
 	cbne	r5, r15, F3
 	masknez	r1, r4, r5
-	movq	=0x0, r15
+	mov	=0x0, r15
 	cbne	r5, r15, F4
-	movq	=0x8000000000000000, r4
+	mov	=0x8000000000000000, r4
 	maskeqz	r1, r4, r5
-	movq	=0x123456789abcdef, r15
+	mov	=0x123456789abcdef, r15
 	cbne	r5, r15, F5
 	masknez	r1, r4, r5
-	movq	=0x0, r15
+	mov	=0x0, r15
 	cbne	r5, r15, F6
-	movq	=0xffffffff00000000, r4
+	mov	=0xffffffff00000000, r4
 	maskeqz	r1, r4, r5
-	movq	=0x123456789abcdef, r15
+	mov	=0x123456789abcdef, r15
 	cbne	r5, r15, F7
 	masknez	r1, r4, r5
-	movq	=0x0, r15
+	mov	=0x0, r15
 	cbne	r5, r15, F8
-	movq	=0xff00ff00ff00ff, r4
+	mov	=0xff00ff00ff00ff, r4
 	maskeqz	r1, r4, r5
-	movq	=0x123456789abcdef, r15
+	mov	=0x123456789abcdef, r15
 	cbne	r5, r15, F9
 	masknez	r1, r4, r5
-	movq	=0x0, r15
+	mov	=0x0, r15
 	cbne	r5, r15, F10
-	movq	#0, r4
+	mov	#0, r4
 	maskeqz	r1, r4, r1
-	movq	=0x0, r15
+	mov	=0x0, r15
 	cbne	r1, r15, F11
-	movq	=0x123456789abcdef, r1
-	movq	#5, r4
+	mov	=0x123456789abcdef, r1
+	mov	#5, r4
 	masknez	r1, r4, r4
-	movq	=0x0, r15
+	mov	=0x0, r15
 	cbne	r4, r15, F12
-	movq	=0x123456789abcdef, r1
-	movq	#0, r4
+	mov	=0x123456789abcdef, r1
+	mov	#0, r4
 	masknez	r1, r4, r4
-	movq	=0x123456789abcdef, r15
+	mov	=0x123456789abcdef, r15
 	cbne	r4, r15, F13
 	bsel	r3, r1, r2, r5
-	movq	=0xfe23ba6776ab32ef, r15
+	mov	=0xfe23ba6776ab32ef, r15
 	cbne	r5, r15, F14
 	bsel	r1, r2, r3, r5
-	movq	=0xdc009800540010, r15
+	mov	=0xdc009800540010, r15
 	cbne	r5, r15, F15
-	movq	#0, r4
+	mov	#0, r4
 	bsel	r4, r1, r2, r5
-	movq	=0xfedcba9876543210, r15
+	mov	=0xfedcba9876543210, r15
 	cbne	r5, r15, F16
-	movq	#-1, r4
+	mov	#-1, r4
 	bsel	r4, r1, r2, r5
-	movq	=0x123456789abcdef, r15
+	mov	=0x123456789abcdef, r15
 	cbne	r5, r15, F17
-	movq	r3, r5
+	mov	r3, r5
 	bsel	r5, r1, r2, r5
-	movq	=0xfe23ba6776ab32ef, r15
+	mov	=0xfe23ba6776ab32ef, r15
 	cbne	r5, r15, F18
 	.encode	5
-	movq	#0x123456789abcdef0, r6
+	mov	#0x123456789abcdef0, r6
 	.encode	0
-	movq	=0x123456789abcdef0, r15
+	mov	=0x123456789abcdef0, r15
 	cbne	r6, r15, F19
 	.encode	5
-	movq	#0xffffffffffffffff, r6
+	mov	#0xffffffffffffffff, r6
 	.encode	0
-	movq	=0xffffffffffffffff, r15
+	mov	=0xffffffffffffffff, r15
 	cbne	r6, r15, F20
 	.encode	5
-	movq	#0x8000000000000000, r6
+	mov	#0x8000000000000000, r6
 	.encode	0
-	movq	=0x8000000000000000, r15
+	mov	=0x8000000000000000, r15
 	cbne	r6, r15, F21
 	.encode	5
-	movq	#0x1ffffffff, r6
+	mov	#0x1ffffffff, r6
 	.encode	0
-	movq	=0x1ffffffff, r15
+	mov	=0x1ffffffff, r15
 	cbne	r6, r15, F22
 	.encode	5
-	movq	#0x7fffffffffffffff, r6
+	mov	#0x7fffffffffffffff, r6
 	.encode	0
-	movq	=0x7fffffffffffffff, r15
+	mov	=0x7fffffffffffffff, r15
 	cbne	r6, r15, F23
 	.encode	5
-	movq	#0x800000000000, r6
+	mov	#0x800000000000, r6
 	.encode	0
-	movq	=0x800000000000, r15
+	mov	=0x800000000000, r15
 	cbne	r6, r15, F24
-	movq	#0x123456789abcdef0, r6
-	movq	=0x123456789abcdef0, r15
+	mov	#0x123456789abcdef0, r6
+	mov	=0x123456789abcdef0, r15
 	cbne	r6, r15, F25
-	movq	#0xffffffffffffffff, r6
-	movq	=0xffffffffffffffff, r15
+	mov	#0xffffffffffffffff, r6
+	mov	=0xffffffffffffffff, r15
 	cbne	r6, r15, F26
-	movq	#0x1ffffffff, r6
-	movq	=0x1ffffffff, r15
+	mov	#0x1ffffffff, r6
+	mov	=0x1ffffffff, r15
 	cbne	r6, r15, F27
-	movq	#0x5, r6
-	movq	=0x5, r15
+	mov	#0x5, r6
+	mov	=0x5, r15
 	cbne	r6, r15, F28
-	movq	=0x5, r1
-	movq	=0x7, r2
+	mov	=0x5, r1
+	mov	=0x7, r2
 	addv	r1, r2
-	movq	=0xc, r15
+	mov	=0xc, r15
 	cbne	r2, r15, F29
-	movq	=0x5, r15
+	mov	=0x5, r15
 	cbne	r1, r15, F30
-	movq	=0x5, r1
-	movq	=0x7, r2
+	mov	=0x5, r1
+	mov	=0x7, r2
 	subv	r1, r2
-	movq	=0x2, r15
+	mov	=0x2, r15
 	cbne	r2, r15, F31
-	movq	=0x5, r15
+	mov	=0x5, r15
 	cbne	r1, r15, F32
-	movq	=0x5, r1
-	movq	=0x7, r2
+	mov	=0x5, r1
+	mov	=0x7, r2
 	mulv	r1, r2
-	movq	=0x23, r15
+	mov	=0x23, r15
 	cbne	r2, r15, F33
-	movq	=0x5, r15
+	mov	=0x5, r15
 	cbne	r1, r15, F34
-	movq	=0xfffffffffffffffb, r1
-	movq	=0x3, r2
+	mov	=0xfffffffffffffffb, r1
+	mov	=0x3, r2
 	addv	r1, r2
-	movq	=0xfffffffffffffffe, r15
+	mov	=0xfffffffffffffffe, r15
 	cbne	r2, r15, F35
-	movq	=0xfffffffffffffffb, r15
+	mov	=0xfffffffffffffffb, r15
 	cbne	r1, r15, F36
-	movq	=0xfffffffffffffffb, r1
-	movq	=0x3, r2
+	mov	=0xfffffffffffffffb, r1
+	mov	=0x3, r2
 	subv	r1, r2
-	movq	=0x8, r15
+	mov	=0x8, r15
 	cbne	r2, r15, F37
-	movq	=0xfffffffffffffffb, r15
+	mov	=0xfffffffffffffffb, r15
 	cbne	r1, r15, F38
-	movq	=0xfffffffffffffffb, r1
-	movq	=0x3, r2
+	mov	=0xfffffffffffffffb, r1
+	mov	=0x3, r2
 	mulv	r1, r2
-	movq	=0xfffffffffffffff1, r15
+	mov	=0xfffffffffffffff1, r15
 	cbne	r2, r15, F39
-	movq	=0xfffffffffffffffb, r15
+	mov	=0xfffffffffffffffb, r15
 	cbne	r1, r15, F40
-	movq	=0x7ffffffffffffffe, r1
-	movq	=0x1, r2
+	mov	=0x7ffffffffffffffe, r1
+	mov	=0x1, r2
 	addv	r1, r2
-	movq	=0x7fffffffffffffff, r15
+	mov	=0x7fffffffffffffff, r15
 	cbne	r2, r15, F41
-	movq	=0x7ffffffffffffffe, r15
+	mov	=0x7ffffffffffffffe, r15
 	cbne	r1, r15, F42
-	movq	=0x7ffffffffffffffe, r1
-	movq	=0x1, r2
+	mov	=0x7ffffffffffffffe, r1
+	mov	=0x1, r2
 	subv	r1, r2
-	movq	=0x8000000000000003, r15
+	mov	=0x8000000000000003, r15
 	cbne	r2, r15, F43
-	movq	=0x7ffffffffffffffe, r15
+	mov	=0x7ffffffffffffffe, r15
 	cbne	r1, r15, F44
-	movq	=0x7ffffffffffffffe, r1
-	movq	=0x1, r2
+	mov	=0x7ffffffffffffffe, r1
+	mov	=0x1, r2
 	mulv	r1, r2
-	movq	=0x7ffffffffffffffe, r15
+	mov	=0x7ffffffffffffffe, r15
 	cbne	r2, r15, F45
-	movq	=0x7ffffffffffffffe, r15
+	mov	=0x7ffffffffffffffe, r15
 	cbne	r1, r15, F46
-	movq	=0x8000000000000001, r1
-	movq	=0x7fffffffffffffff, r2
+	mov	=0x8000000000000001, r1
+	mov	=0x7fffffffffffffff, r2
 	addv	r1, r2
-	movq	=0x0, r15
+	mov	=0x0, r15
 	cbne	r2, r15, F47
-	movq	=0x8000000000000001, r15
+	mov	=0x8000000000000001, r15
 	cbne	r1, r15, F48
-	movq	=0x4000000000000000, r1
-	movq	=0xc000000000000000, r2
+	mov	=0x4000000000000000, r1
+	mov	=0xc000000000000000, r2
 	addv	r1, r2
-	movq	=0x0, r15
+	mov	=0x0, r15
 	cbne	r2, r15, F49
-	movq	=0x4000000000000000, r15
+	mov	=0x4000000000000000, r15
 	cbne	r1, r15, F50
-	movq	=0x4000000000000000, r1
-	movq	=0xc000000000000000, r2
+	mov	=0x4000000000000000, r1
+	mov	=0xc000000000000000, r2
 	subv	r1, r2
-	movq	=0x8000000000000000, r15
+	mov	=0x8000000000000000, r15
 	cbne	r2, r15, F51
-	movq	=0x4000000000000000, r15
+	mov	=0x4000000000000000, r15
 	cbne	r1, r15, F52
-	movq	=0x7, r1
-	movq	=0x5, r2
+	mov	=0x7, r1
+	mov	=0x5, r2
 	addv	r1, r2
-	movq	=0xc, r15
+	mov	=0xc, r15
 	cbne	r2, r15, F53
-	movq	=0x7, r15
+	mov	=0x7, r15
 	cbne	r1, r15, F54
-	movq	=0x7, r1
-	movq	=0x5, r2
+	mov	=0x7, r1
+	mov	=0x5, r2
 	subv	r1, r2
-	movq	=0xfffffffffffffffe, r15
+	mov	=0xfffffffffffffffe, r15
 	cbne	r2, r15, F55
-	movq	=0x7, r15
+	mov	=0x7, r15
 	cbne	r1, r15, F56
-	movq	=0x7, r1
-	movq	=0x5, r2
+	mov	=0x7, r1
+	mov	=0x5, r2
 	mulv	r1, r2
-	movq	=0x23, r15
+	mov	=0x23, r15
 	cbne	r2, r15, F57
-	movq	=0x7, r15
+	mov	=0x7, r15
 	cbne	r1, r15, F58
-	movq	=0x8000000000000000, r1
-	movq	=0x1, r2
+	mov	=0x8000000000000000, r1
+	mov	=0x1, r2
 	addv	r1, r2
-	movq	=0x8000000000000001, r15
+	mov	=0x8000000000000001, r15
 	cbne	r2, r15, F59
-	movq	=0x8000000000000000, r15
+	mov	=0x8000000000000000, r15
 	cbne	r1, r15, F60
-	movq	=0x8000000000000000, r1
-	movq	=0x1, r2
+	mov	=0x8000000000000000, r1
+	mov	=0x1, r2
 	mulv	r1, r2
-	movq	=0x8000000000000000, r15
+	mov	=0x8000000000000000, r15
 	cbne	r2, r15, F61
-	movq	=0x8000000000000000, r15
+	mov	=0x8000000000000000, r15
 	cbne	r1, r15, F62
-	movq	#6, r1
+	mov	#6, r1
 	addv	r1, r1
-	movq	=0xc, r15
+	mov	=0xc, r15
 	cbne	r1, r15, F63
-	movq	#6, r1
-	movq	#7, r2
+	mov	#6, r1
+	mov	#7, r2
 	subv	r1, r2
-	movq	=0x1, r15
+	mov	=0x1, r15
 	cbne	r2, r15, F64
-	movq	#6, r1
-	movq	#7, r2
+	mov	#6, r1
+	mov	#7, r2
 	mulv	r1, r2
-	movq	=0x2a, r15
+	mov	=0x2a, r15
 	cbne	r2, r15, F65
-	movq	=0x1, r1
-	movq	=0x1, r2
+	mov	=0x1, r1
+	mov	=0x1, r2
 	setlt	r1, r2, r3
-	movq	=0x0, r15
+	mov	=0x0, r15
 	cbne	r3, r15, F66
 	setlo	r1, r2, r3
-	movq	=0x0, r15
+	mov	=0x0, r15
 	cbne	r3, r15, F67
 	seteq	r1, r2, r3
-	movq	=0x1, r15
+	mov	=0x1, r15
 	cbne	r3, r15, F68
 	setge	r1, r2, r3
-	movq	=0x1, r15
+	mov	=0x1, r15
 	cbne	r3, r15, F69
 	sethi	r1, r2, r3
-	movq	=0x0, r15
+	mov	=0x0, r15
 	cbne	r3, r15, F70
-	movq	=0x1, r1
-	movq	=0x2, r2
+	mov	=0x1, r1
+	mov	=0x2, r2
 	setlt	r1, r2, r3
-	movq	=0x1, r15
+	mov	=0x1, r15
 	cbne	r3, r15, F71
 	setlo	r1, r2, r3
-	movq	=0x1, r15
+	mov	=0x1, r15
 	cbne	r3, r15, F72
 	seteq	r1, r2, r3
-	movq	=0x0, r15
+	mov	=0x0, r15
 	cbne	r3, r15, F73
 	setge	r1, r2, r3
-	movq	=0x0, r15
+	mov	=0x0, r15
 	cbne	r3, r15, F74
 	sethi	r1, r2, r3
-	movq	=0x0, r15
+	mov	=0x0, r15
 	cbne	r3, r15, F75
-	movq	=0x2, r1
-	movq	=0x1, r2
+	mov	=0x2, r1
+	mov	=0x1, r2
 	setlt	r1, r2, r3
-	movq	=0x0, r15
+	mov	=0x0, r15
 	cbne	r3, r15, F76
 	setlo	r1, r2, r3
-	movq	=0x0, r15
+	mov	=0x0, r15
 	cbne	r3, r15, F77
 	seteq	r1, r2, r3
-	movq	=0x0, r15
+	mov	=0x0, r15
 	cbne	r3, r15, F78
 	setge	r1, r2, r3
-	movq	=0x1, r15
+	mov	=0x1, r15
 	cbne	r3, r15, F79
 	sethi	r1, r2, r3
-	movq	=0x1, r15
+	mov	=0x1, r15
 	cbne	r3, r15, F80
-	movq	=0x8000000000000000, r1
-	movq	=0x1, r2
+	mov	=0x8000000000000000, r1
+	mov	=0x1, r2
 	setlt	r1, r2, r3
-	movq	=0x1, r15
+	mov	=0x1, r15
 	cbne	r3, r15, F81
 	setlo	r1, r2, r3
-	movq	=0x0, r15
+	mov	=0x0, r15
 	cbne	r3, r15, F82
 	seteq	r1, r2, r3
-	movq	=0x0, r15
+	mov	=0x0, r15
 	cbne	r3, r15, F83
 	setge	r1, r2, r3
-	movq	=0x0, r15
+	mov	=0x0, r15
 	cbne	r3, r15, F84
 	sethi	r1, r2, r3
-	movq	=0x1, r15
+	mov	=0x1, r15
 	cbne	r3, r15, F85
-	movq	=0x1, r1
-	movq	=0x8000000000000000, r2
+	mov	=0x1, r1
+	mov	=0x8000000000000000, r2
 	setlt	r1, r2, r3
-	movq	=0x0, r15
+	mov	=0x0, r15
 	cbne	r3, r15, F86
 	setlo	r1, r2, r3
-	movq	=0x1, r15
+	mov	=0x1, r15
 	cbne	r3, r15, F87
 	seteq	r1, r2, r3
-	movq	=0x0, r15
+	mov	=0x0, r15
 	cbne	r3, r15, F88
 	setge	r1, r2, r3
-	movq	=0x1, r15
+	mov	=0x1, r15
 	cbne	r3, r15, F89
 	sethi	r1, r2, r3
-	movq	=0x0, r15
+	mov	=0x0, r15
 	cbne	r3, r15, F90
-	movq	#11, r0
-	movq	#22, r1
-	movq	#33, r2
-	movq	#44, r3
+	mov	#11, r0
+	mov	#22, r1
+	mov	#33, r2
+	mov	#44, r3
 	mov2	r0, r1, r2, r3
-	movq	=0xb, r15
+	mov	=0xb, r15
 	cbne	r1, r15, F91
-	movq	=0x21, r15
+	mov	=0x21, r15
 	cbne	r3, r15, F92
-	movq	=0xb, r15
+	mov	=0xb, r15
 	cbne	r0, r15, F93
-	movq	=0x21, r15
+	mov	=0x21, r15
 	cbne	r2, r15, F94
-	movq	#11, r0
-	movq	#22, r1
-	movq	#33, r2
+	mov	#11, r0
+	mov	#22, r1
+	mov	#33, r2
 	mov2	r0, r1, r1, r2
-	movq	=0xb, r15
+	mov	=0xb, r15
 	cbne	r1, r15, F95
-	movq	=0xb, r15
+	mov	=0xb, r15
 	cbne	r2, r15, F96
-	movq	#11, r0
-	movq	#22, r1
-	movq	#33, r2
+	mov	#11, r0
+	mov	#22, r1
+	mov	#33, r2
 	mov2	r0, r1, r2, r0
-	movq	=0xb, r15
+	mov	=0xb, r15
 	cbne	r1, r15, F97
-	movq	=0x21, r15
+	mov	=0x21, r15
 	cbne	r0, r15, F98
-	movq	#11, r8
-	movq	#22, r9
-	movq	#33, r10
+	mov	#11, r8
+	mov	#22, r9
+	mov	#33, r10
 	mov2	r8, r9, r9, r10
-	movq	=0xb, r15
+	mov	=0xb, r15
 	cbne	r9, r15, F99
-	movq	=0xb, r15
+	mov	=0xb, r15
 	cbne	r10, r15, F100
-	movq	#11, r0
-	movq	#22, r1
+	mov	#11, r0
+	mov	#22, r1
 	mov2	r0, r1, r1, r0
-	movq	=0xb, r15
+	mov	=0xb, r15
 	cbne	r1, r15, F101
-	movq	=0xb, r15
+	mov	=0xb, r15
 	cbne	r0, r15, F102
 	lea	ubuf, r8
-	movq	=0x1122334455667788, r1
-	movq	r1, 1(r8)
-	mov	1(r8).u8, r15
-	movq	=0x88, r12
+	mov	=0x1122334455667788, r1
+	mov	r1, 1(r8)
+	mov.u8	1(r8), r15
+	mov	=0x88, r12
 	cbne	r15, r12, F103
-	mov	2(r8).u8, r15
-	movq	=0x77, r12
+	mov.u8	2(r8), r15
+	mov	=0x77, r12
 	cbne	r15, r12, F104
-	mov	8(r8).u8, r15
-	movq	=0x11, r12
+	mov.u8	8(r8), r15
+	mov	=0x11, r12
 	cbne	r15, r12, F105
-	movq	1(r8), r2
-	movq	=0x1122334455667788, r15
+	mov	1(r8), r2
+	mov	=0x1122334455667788, r15
 	cbne	r2, r15, F106
-	mov	3(r8).32, r2
-	movq	=0x33445566, r15
+	mov.s32	3(r8), r2
+	mov	=0x33445566, r15
 	cbne	r2, r15, F107
-	mov	2(r8).16, r2
-	movq	=0x6677, r15
+	mov.s16	2(r8), r2
+	mov	=0x6677, r15
 	cbne	r2, r15, F108
-	mov	4(r8).32, r2
-	movq	=0x22334455, r15
+	mov.s32	4(r8), r2
+	mov	=0x22334455, r15
 	cbne	r2, r15, F109
-	mov	1(r8).8, r2
-	movq	=0xffffffffffffff88, r15
+	mov.s8	1(r8), r2
+	mov	=0xffffffffffffff88, r15
 	cbne	r2, r15, F110
-	movq	=0xaabbccdd, r1
-	mov	r1, 5(r8).32
-	mov	5(r8).u8, r15
-	movq	=0xdd, r12
+	mov	=0xaabbccdd, r1
+	mov.s32	r1, 5(r8)
+	mov.u8	5(r8), r15
+	mov	=0xdd, r12
 	cbne	r15, r12, F111
-	mov	8(r8).u8, r15
-	movq	=0xaa, r12
+	mov.u8	8(r8), r15
+	mov	=0xaa, r12
 	cbne	r15, r12, F112
-	mov	5(r8).32, r2
-	movq	=0xffffffffaabbccdd, r15
+	mov.s32	5(r8), r2
+	mov	=0xffffffffaabbccdd, r15
 	cbne	r2, r15, F113
-	movq	=0x8000, r1
-	mov	r1, 7(r8).16
-	mov	7(r8).16, r2
-	movq	=0xffffffffffff8000, r15
+	mov	=0x8000, r1
+	mov.s16	r1, 7(r8)
+	mov.s16	7(r8), r2
+	mov	=0xffffffffffff8000, r15
 	cbne	r2, r15, F114
-	movq	#0x1ff, r1
-	mov	r1, 9(r8).8
-	mov	9(r8).u8, r2
-	movq	=0xff, r15
+	mov	#0x1ff, r1
+	mov.s8	r1, 9(r8)
+	mov.u8	9(r8), r2
+	mov	=0xff, r15
 	cbne	r2, r15, F115
 	lea	ubuf, r8
-	movq	#100, r1
-	movq	r1, (r8)
-	movq	#5, r2
+	mov	#100, r1
+	mov	r1, (r8)
+	mov	#5, r2
 	addm	r2, (r8)
-	movq	(r8), r15
-	movq	=0x69, r12
+	mov	(r8), r15
+	mov	=0x69, r12
 	cbne	r15, r12, F116
 	subm	r2, (r8)
-	movq	(r8), r15
-	movq	=0x64, r12
+	mov	(r8), r15
+	mov	=0x64, r12
 	cbne	r15, r12, F117
-	movq	=0xff, r2
+	mov	=0xff, r2
 	bicm	r2, (r8)
-	movq	(r8), r15
-	movq	=0x0, r12
+	mov	(r8), r15
+	mov	=0x0, r12
 	cbne	r15, r12, F118
-	movq	=0xf0f0, r2
+	mov	=0xf0f0, r2
 	bism	r2, (r8)
-	movq	(r8), r15
-	movq	=0xf0f0, r12
+	mov	(r8), r15
+	mov	=0xf0f0, r12
 	cbne	r15, r12, F119
-	movq	#-1, r1
-	movq	r1, (r8)
-	movq	#1, r2
+	mov	#-1, r1
+	mov	r1, (r8)
+	mov	#1, r2
 	addm	r2, (r8)
-	movq	(r8), r15
-	movq	=0x0, r12
+	mov	(r8), r15
+	mov	=0x0, r12
 	cbne	r15, r12, F120
-	movq	=0x7fffffffffffffff, r1
-	movq	r1, (r8)
+	mov	=0x7fffffffffffffff, r1
+	mov	r1, (r8)
 	addm	r2, (r8)
-	movq	(r8), r15
-	movq	=0x8000000000000000, r12
+	mov	(r8), r15
+	mov	=0x8000000000000000, r12
 	cbne	r15, r12, F121
-	movq	#0, r1
-	movq	r1, (r8)
+	mov	#0, r1
+	mov	r1, (r8)
 	subm	r2, (r8)
-	movq	(r8), r15
-	movq	=0xffffffffffffffff, r12
+	mov	(r8), r15
+	mov	=0xffffffffffffffff, r12
 	cbne	r15, r12, F122
-	movq	#3, r1
-	movq	r1, 8(r8)
-	movq	#2, r5
+	mov	#3, r1
+	mov	r1, 8(r8)
+	mov	#2, r5
 	addm	r5, 8(r8)
-	movq	8(r8), r15
-	movq	=0x5, r12
+	mov	8(r8), r15
+	mov	=0x5, r12
 	cbne	r15, r12, F123
 	lea	ubuf, r8
-	movq	#1, r9
-	movq	#9, r1
-	movq	r1, 8(r8)
+	mov	#1, r9
+	mov	#9, r1
+	mov	r1, 8(r8)
 	addm	r5, (r8)(r9*8)
-	movq	8(r8), r15
-	movq	=0xb, r12
+	mov	8(r8), r15
+	mov	=0xb, r12
 	cbne	r15, r12, F124
 	lea	ubuf, r8
-	movq	#20, r1
-	movq	r1, (r8)
+	mov	#20, r1
+	mov	r1, (r8)
 	subm	r5, (r8)+
-	movq	ubuf, r15
-	movq	=0x12, r12
+	mov	ubuf, r15
+	mov	=0x12, r12
 	cbne	r15, r12, F125
 	lea	ubuf, r8
-	movq	=0x1234567841, r1
+	mov	=0x1234567841, r1
 	utf8len	r1, r2
-	movq	=0x1, r15
+	mov	=0x1, r15
 	cbne	r2, r15, F126
-	movq	=0x123456787f, r1
+	mov	=0x123456787f, r1
 	utf8len	r1, r2
-	movq	=0x1, r15
+	mov	=0x1, r15
 	cbne	r2, r15, F127
-	movq	=0x1234567880, r1
+	mov	=0x1234567880, r1
 	utf8len	r1, r2
-	movq	=0x0, r15
+	mov	=0x0, r15
 	cbne	r2, r15, F128
-	movq	=0x12345678bf, r1
+	mov	=0x12345678bf, r1
 	utf8len	r1, r2
-	movq	=0x0, r15
+	mov	=0x0, r15
 	cbne	r2, r15, F129
-	movq	=0x12345678c0, r1
+	mov	=0x12345678c0, r1
 	utf8len	r1, r2
-	movq	=0x0, r15
+	mov	=0x0, r15
 	cbne	r2, r15, F130
-	movq	=0x12345678c1, r1
+	mov	=0x12345678c1, r1
 	utf8len	r1, r2
-	movq	=0x0, r15
+	mov	=0x0, r15
 	cbne	r2, r15, F131
-	movq	=0x12345678c2, r1
+	mov	=0x12345678c2, r1
 	utf8len	r1, r2
-	movq	=0x2, r15
+	mov	=0x2, r15
 	cbne	r2, r15, F132
-	movq	=0x12345678df, r1
+	mov	=0x12345678df, r1
 	utf8len	r1, r2
-	movq	=0x2, r15
+	mov	=0x2, r15
 	cbne	r2, r15, F133
-	movq	=0x12345678e0, r1
+	mov	=0x12345678e0, r1
 	utf8len	r1, r2
-	movq	=0x3, r15
+	mov	=0x3, r15
 	cbne	r2, r15, F134
-	movq	=0x12345678ef, r1
+	mov	=0x12345678ef, r1
 	utf8len	r1, r2
-	movq	=0x3, r15
+	mov	=0x3, r15
 	cbne	r2, r15, F135
-	movq	=0x12345678f0, r1
+	mov	=0x12345678f0, r1
 	utf8len	r1, r2
-	movq	=0x4, r15
+	mov	=0x4, r15
 	cbne	r2, r15, F136
-	movq	=0x12345678f4, r1
+	mov	=0x12345678f4, r1
 	utf8len	r1, r2
-	movq	=0x4, r15
+	mov	=0x4, r15
 	cbne	r2, r15, F137
-	movq	=0x12345678f5, r1
+	mov	=0x12345678f5, r1
 	utf8len	r1, r2
-	movq	=0x0, r15
+	mov	=0x0, r15
 	cbne	r2, r15, F138
-	movq	=0x12345678ff, r1
+	mov	=0x12345678ff, r1
 	utf8len	r1, r2
-	movq	=0x0, r15
+	mov	=0x0, r15
 	cbne	r2, r15, F139
-	movq	=0x3f800000, r1
-	fclass	r1.32, r2
-	movq	=0x40, r15
+	mov	=0x3f800000, r1
+	fclass.f32	r1, r2
+	mov	=0x40, r15
 	cbne	r2, r15, F140
-	movq	=0xbf800000, r1
-	fclass	r1.32, r2
-	movq	=0x2, r15
+	mov	=0xbf800000, r1
+	fclass.f32	r1, r2
+	mov	=0x2, r15
 	cbne	r2, r15, F141
-	movq	=0x0, r1
-	fclass	r1.32, r2
-	movq	=0x10, r15
+	mov	=0x0, r1
+	fclass.f32	r1, r2
+	mov	=0x10, r15
 	cbne	r2, r15, F142
-	movq	=0x80000000, r1
-	fclass	r1.32, r2
-	movq	=0x8, r15
+	mov	=0x80000000, r1
+	fclass.f32	r1, r2
+	mov	=0x8, r15
 	cbne	r2, r15, F143
-	movq	=0x7f800000, r1
-	fclass	r1.32, r2
-	movq	=0x80, r15
+	mov	=0x7f800000, r1
+	fclass.f32	r1, r2
+	mov	=0x80, r15
 	cbne	r2, r15, F144
-	movq	=0xff800000, r1
-	fclass	r1.32, r2
-	movq	=0x1, r15
+	mov	=0xff800000, r1
+	fclass.f32	r1, r2
+	mov	=0x1, r15
 	cbne	r2, r15, F145
-	movq	=0x7fc00000, r1
-	fclass	r1.32, r2
-	movq	=0x200, r15
+	mov	=0x7fc00000, r1
+	fclass.f32	r1, r2
+	mov	=0x200, r15
 	cbne	r2, r15, F146
-	movq	=0x7f800001, r1
-	fclass	r1.32, r2
-	movq	=0x100, r15
+	mov	=0x7f800001, r1
+	fclass.f32	r1, r2
+	mov	=0x100, r15
 	cbne	r2, r15, F147
-	movq	=0x1, r1
-	fclass	r1.32, r2
-	movq	=0x20, r15
+	mov	=0x1, r1
+	fclass.f32	r1, r2
+	mov	=0x20, r15
 	cbne	r2, r15, F148
-	movq	=0x80000001, r1
-	fclass	r1.32, r2
-	movq	=0x4, r15
+	mov	=0x80000001, r1
+	fclass.f32	r1, r2
+	mov	=0x4, r15
 	cbne	r2, r15, F149
 	clr	r0
 	halt
 F1:
-	movq	#1, r0
+	mov	#1, r0
 	halt
 F2:
-	movq	#2, r0
+	mov	#2, r0
 	halt
 F3:
-	movq	#3, r0
+	mov	#3, r0
 	halt
 F4:
-	movq	#4, r0
+	mov	#4, r0
 	halt
 F5:
-	movq	#5, r0
+	mov	#5, r0
 	halt
 F6:
-	movq	#6, r0
+	mov	#6, r0
 	halt
 F7:
-	movq	#7, r0
+	mov	#7, r0
 	halt
 F8:
-	movq	#8, r0
+	mov	#8, r0
 	halt
 F9:
-	movq	#9, r0
+	mov	#9, r0
 	halt
 F10:
-	movq	#10, r0
+	mov	#10, r0
 	halt
 F11:
-	movq	#11, r0
+	mov	#11, r0
 	halt
 F12:
-	movq	#12, r0
+	mov	#12, r0
 	halt
 F13:
-	movq	#13, r0
+	mov	#13, r0
 	halt
 F14:
-	movq	#14, r0
+	mov	#14, r0
 	halt
 F15:
-	movq	#15, r0
+	mov	#15, r0
 	halt
 F16:
-	movq	#16, r0
+	mov	#16, r0
 	halt
 F17:
-	movq	#17, r0
+	mov	#17, r0
 	halt
 F18:
-	movq	#18, r0
+	mov	#18, r0
 	halt
 F19:
-	movq	#19, r0
+	mov	#19, r0
 	halt
 F20:
-	movq	#20, r0
+	mov	#20, r0
 	halt
 F21:
-	movq	#21, r0
+	mov	#21, r0
 	halt
 F22:
-	movq	#22, r0
+	mov	#22, r0
 	halt
 F23:
-	movq	#23, r0
+	mov	#23, r0
 	halt
 F24:
-	movq	#24, r0
+	mov	#24, r0
 	halt
 F25:
-	movq	#25, r0
+	mov	#25, r0
 	halt
 F26:
-	movq	#26, r0
+	mov	#26, r0
 	halt
 F27:
-	movq	#27, r0
+	mov	#27, r0
 	halt
 F28:
-	movq	#28, r0
+	mov	#28, r0
 	halt
 F29:
-	movq	#29, r0
+	mov	#29, r0
 	halt
 F30:
-	movq	#30, r0
+	mov	#30, r0
 	halt
 F31:
-	movq	#31, r0
+	mov	#31, r0
 	halt
 F32:
-	movq	#32, r0
+	mov	#32, r0
 	halt
 F33:
-	movq	#33, r0
+	mov	#33, r0
 	halt
 F34:
-	movq	#34, r0
+	mov	#34, r0
 	halt
 F35:
-	movq	#35, r0
+	mov	#35, r0
 	halt
 F36:
-	movq	#36, r0
+	mov	#36, r0
 	halt
 F37:
-	movq	#37, r0
+	mov	#37, r0
 	halt
 F38:
-	movq	#38, r0
+	mov	#38, r0
 	halt
 F39:
-	movq	#39, r0
+	mov	#39, r0
 	halt
 F40:
-	movq	#40, r0
+	mov	#40, r0
 	halt
 F41:
-	movq	#41, r0
+	mov	#41, r0
 	halt
 F42:
-	movq	#42, r0
+	mov	#42, r0
 	halt
 F43:
-	movq	#43, r0
+	mov	#43, r0
 	halt
 F44:
-	movq	#44, r0
+	mov	#44, r0
 	halt
 F45:
-	movq	#45, r0
+	mov	#45, r0
 	halt
 F46:
-	movq	#46, r0
+	mov	#46, r0
 	halt
 F47:
-	movq	#47, r0
+	mov	#47, r0
 	halt
 F48:
-	movq	#48, r0
+	mov	#48, r0
 	halt
 F49:
-	movq	#49, r0
+	mov	#49, r0
 	halt
 F50:
-	movq	#50, r0
+	mov	#50, r0
 	halt
 F51:
-	movq	#51, r0
+	mov	#51, r0
 	halt
 F52:
-	movq	#52, r0
+	mov	#52, r0
 	halt
 F53:
-	movq	#53, r0
+	mov	#53, r0
 	halt
 F54:
-	movq	#54, r0
+	mov	#54, r0
 	halt
 F55:
-	movq	#55, r0
+	mov	#55, r0
 	halt
 F56:
-	movq	#56, r0
+	mov	#56, r0
 	halt
 F57:
-	movq	#57, r0
+	mov	#57, r0
 	halt
 F58:
-	movq	#58, r0
+	mov	#58, r0
 	halt
 F59:
-	movq	#59, r0
+	mov	#59, r0
 	halt
 F60:
-	movq	#60, r0
+	mov	#60, r0
 	halt
 F61:
-	movq	#61, r0
+	mov	#61, r0
 	halt
 F62:
-	movq	#62, r0
+	mov	#62, r0
 	halt
 F63:
-	movq	#63, r0
+	mov	#63, r0
 	halt
 F64:
-	movq	#64, r0
+	mov	#64, r0
 	halt
 F65:
-	movq	#65, r0
+	mov	#65, r0
 	halt
 F66:
-	movq	#66, r0
+	mov	#66, r0
 	halt
 F67:
-	movq	#67, r0
+	mov	#67, r0
 	halt
 F68:
-	movq	#68, r0
+	mov	#68, r0
 	halt
 F69:
-	movq	#69, r0
+	mov	#69, r0
 	halt
 F70:
-	movq	#70, r0
+	mov	#70, r0
 	halt
 F71:
-	movq	#71, r0
+	mov	#71, r0
 	halt
 F72:
-	movq	#72, r0
+	mov	#72, r0
 	halt
 F73:
-	movq	#73, r0
+	mov	#73, r0
 	halt
 F74:
-	movq	#74, r0
+	mov	#74, r0
 	halt
 F75:
-	movq	#75, r0
+	mov	#75, r0
 	halt
 F76:
-	movq	#76, r0
+	mov	#76, r0
 	halt
 F77:
-	movq	#77, r0
+	mov	#77, r0
 	halt
 F78:
-	movq	#78, r0
+	mov	#78, r0
 	halt
 F79:
-	movq	#79, r0
+	mov	#79, r0
 	halt
 F80:
-	movq	#80, r0
+	mov	#80, r0
 	halt
 F81:
-	movq	#81, r0
+	mov	#81, r0
 	halt
 F82:
-	movq	#82, r0
+	mov	#82, r0
 	halt
 F83:
-	movq	#83, r0
+	mov	#83, r0
 	halt
 F84:
-	movq	#84, r0
+	mov	#84, r0
 	halt
 F85:
-	movq	#85, r0
+	mov	#85, r0
 	halt
 F86:
-	movq	#86, r0
+	mov	#86, r0
 	halt
 F87:
-	movq	#87, r0
+	mov	#87, r0
 	halt
 F88:
-	movq	#88, r0
+	mov	#88, r0
 	halt
 F89:
-	movq	#89, r0
+	mov	#89, r0
 	halt
 F90:
-	movq	#90, r0
+	mov	#90, r0
 	halt
 F91:
-	movq	#91, r0
+	mov	#91, r0
 	halt
 F92:
-	movq	#92, r0
+	mov	#92, r0
 	halt
 F93:
-	movq	#93, r0
+	mov	#93, r0
 	halt
 F94:
-	movq	#94, r0
+	mov	#94, r0
 	halt
 F95:
-	movq	#95, r0
+	mov	#95, r0
 	halt
 F96:
-	movq	#96, r0
+	mov	#96, r0
 	halt
 F97:
-	movq	#97, r0
+	mov	#97, r0
 	halt
 F98:
-	movq	#98, r0
+	mov	#98, r0
 	halt
 F99:
-	movq	#99, r0
+	mov	#99, r0
 	halt
 F100:
-	movq	#100, r0
+	mov	#100, r0
 	halt
 F101:
-	movq	#101, r0
+	mov	#101, r0
 	halt
 F102:
-	movq	#102, r0
+	mov	#102, r0
 	halt
 F103:
-	movq	#103, r0
+	mov	#103, r0
 	halt
 F104:
-	movq	#104, r0
+	mov	#104, r0
 	halt
 F105:
-	movq	#105, r0
+	mov	#105, r0
 	halt
 F106:
-	movq	#106, r0
+	mov	#106, r0
 	halt
 F107:
-	movq	#107, r0
+	mov	#107, r0
 	halt
 F108:
-	movq	#108, r0
+	mov	#108, r0
 	halt
 F109:
-	movq	#109, r0
+	mov	#109, r0
 	halt
 F110:
-	movq	#110, r0
+	mov	#110, r0
 	halt
 F111:
-	movq	#111, r0
+	mov	#111, r0
 	halt
 F112:
-	movq	#112, r0
+	mov	#112, r0
 	halt
 F113:
-	movq	#113, r0
+	mov	#113, r0
 	halt
 F114:
-	movq	#114, r0
+	mov	#114, r0
 	halt
 F115:
-	movq	#115, r0
+	mov	#115, r0
 	halt
 F116:
-	movq	#116, r0
+	mov	#116, r0
 	halt
 F117:
-	movq	#117, r0
+	mov	#117, r0
 	halt
 F118:
-	movq	#118, r0
+	mov	#118, r0
 	halt
 F119:
-	movq	#119, r0
+	mov	#119, r0
 	halt
 F120:
-	movq	#120, r0
+	mov	#120, r0
 	halt
 F121:
-	movq	#121, r0
+	mov	#121, r0
 	halt
 F122:
-	movq	#122, r0
+	mov	#122, r0
 	halt
 F123:
-	movq	#123, r0
+	mov	#123, r0
 	halt
 F124:
-	movq	#124, r0
+	mov	#124, r0
 	halt
 F125:
-	movq	#125, r0
+	mov	#125, r0
 	halt
 F126:
-	movq	#126, r0
+	mov	#126, r0
 	halt
 F127:
-	movq	#127, r0
+	mov	#127, r0
 	halt
 F128:
-	movq	#128, r0
+	mov	#128, r0
 	halt
 F129:
-	movq	#129, r0
+	mov	#129, r0
 	halt
 F130:
-	movq	#130, r0
+	mov	#130, r0
 	halt
 F131:
-	movq	#131, r0
+	mov	#131, r0
 	halt
 F132:
-	movq	#132, r0
+	mov	#132, r0
 	halt
 F133:
-	movq	#133, r0
+	mov	#133, r0
 	halt
 F134:
-	movq	#134, r0
+	mov	#134, r0
 	halt
 F135:
-	movq	#135, r0
+	mov	#135, r0
 	halt
 F136:
-	movq	#136, r0
+	mov	#136, r0
 	halt
 F137:
-	movq	#137, r0
+	mov	#137, r0
 	halt
 F138:
-	movq	#138, r0
+	mov	#138, r0
 	halt
 F139:
-	movq	#139, r0
+	mov	#139, r0
 	halt
 F140:
-	movq	#140, r0
+	mov	#140, r0
 	halt
 F141:
-	movq	#141, r0
+	mov	#141, r0
 	halt
 F142:
-	movq	#142, r0
+	mov	#142, r0
 	halt
 F143:
-	movq	#143, r0
+	mov	#143, r0
 	halt
 F144:
-	movq	#144, r0
+	mov	#144, r0
 	halt
 F145:
-	movq	#145, r0
+	mov	#145, r0
 	halt
 F146:
-	movq	#146, r0
+	mov	#146, r0
 	halt
 F147:
-	movq	#147, r0
+	mov	#147, r0
 	halt
 F148:
-	movq	#148, r0
+	mov	#148, r0
 	halt
 F149:
-	movq	#149, r0
+	mov	#149, r0
 	halt
 F9999:
-	movq	#99, r0
+	mov	#99, r0
 	halt
 
 	.data

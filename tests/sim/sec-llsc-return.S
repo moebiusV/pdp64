@@ -8,158 +8,158 @@ _start:
 	lea	vtab, r1
 	mtsr	vbr, r1
 	lea	hgen, r2
-	movq	#512, r3
-kfill:	movq	r2, (r1)+
+	mov	#512, r3
+kfill:	mov	r2, (r1)+
 	sob	r3, kfill
 	lea	vtab, r1
 	lea	h_ok, r2
-	movq	r2, 2048(r1)
+	mov	r2, 2048(r1)
 	lea	h_fail, r2
-	movq	r2, 2056(r1)
+	mov	r2, 2056(r1)
 	lea	h_t3, r2
-	movq	r2, 2072(r1)
+	mov	r2, 2072(r1)
 	lea	h_t4, r2
-	movq	r2, 2080(r1)
+	mov	r2, 2080(r1)
 	lea	h_t5, r2
-	movq	r2, 2088(r1)
+	mov	r2, 2088(r1)
 	lea	h_t6, r2
-	movq	r2, 2096(r1)
+	mov	r2, 2096(r1)
 	lea	h_t7, r2
-	movq	r2, 2104(r1)
+	mov	r2, 2104(r1)
 	lea	h_t8, r2
-	movq	r2, 2112(r1)
+	mov	r2, 2112(r1)
 	lea	h_t9, r2
-	movq	r2, 2120(r1)
+	mov	r2, 2120(r1)
 
 	lea	word, r3
-	movq	#7, r17
-	movq	r17, (r3)
+	mov	#7, r17
+	mov	r17, (r3)
 	lea	ustack_top, r1
 	mtsr	usp, r1
-		; ---- case 1: RTI to a lesser mode
+	; ---- case 1: RTI to a lesser mode
 	lea	user1, r8
-	movq	#((MODE_USER<<PSW_MODE)|(MODE_USER<<PSW_PREV)), r9
-	movq	#99, r2
+	mov	#((MODE_USER<<PSW_MODE)|(MODE_USER<<PSW_PREV)), r9
+	mov	#99, r2
 	ll	(r3), r1
 	mtsr	epc, r8
 	mtsr	epsw, r9
 	rti	#RTIMASK_ALL
 user1:	sc	r2, (r3), r4
 	trap	#3
-after1:	movq	r4, r20
-	cbne	r20, #0, 1f		; case 1: RTI to a lesser mode: the user's SC after the kernel's LL fails
-	movq	#1, r0
+after1:	mov	r4, r20
+	cbne	r20, #0, 1f	; case 1: RTI to a lesser mode: the user's SC after the kernel's LL fails
+	mov	#1, r0
 	halt
 1:
 	lea	word, r3
-	movq	(r3), r4
-	movq	=(7), r17
-	cbeq	r4, r17, 1f		; case 1: RTI to a lesser mode: nothing was written
-	movq	#1, r0
+	mov	(r3), r4
+	mov	=(7), r17
+	cbeq	r4, r17, 1f	; case 1: RTI to a lesser mode: nothing was written
+	mov	#1, r0
 	halt
 1:
-		; ---- case 2: control
+	; ---- case 2: control
 	lea	user2, r8
 	mtsr	epc, r8
-	movq	#((MODE_USER<<PSW_MODE)|(MODE_USER<<PSW_PREV)), r9
+	mov	#((MODE_USER<<PSW_MODE)|(MODE_USER<<PSW_PREV)), r9
 	mtsr	epsw, r9
 	rti	#RTIMASK_ALL
 user2:	lea	word, r3
-	movq	#55, r2
+	mov	#55, r2
 	ll	(r3), r1
 	sc	r2, (r3), r4
 	trap	#4
-after2:	movq	r4, r20
-	movq	=(0), r17
-	cbeq	r20, r17, 1f		; case 2: control: an LL and an SC in one mode with nothing between: the SC works
-	movq	#2, r0
+after2:	mov	r4, r20
+	mov	=(0), r17
+	cbeq	r20, r17, 1f	; case 2: control: an LL and an SC in one mode with nothing between: the SC works
+	mov	#2, r0
 	halt
 1:
-		; ---- case 3: exception entry
+	; ---- case 3: exception entry
 	lea	user3, r8
 	mtsr	epc, r8
-	movq	#((MODE_USER<<PSW_MODE)|(MODE_USER<<PSW_PREV)), r9
+	mov	#((MODE_USER<<PSW_MODE)|(MODE_USER<<PSW_PREV)), r9
 	mtsr	epsw, r9
 	rti	#RTIMASK_ALL
 user3:	lea	word, r3
-	movq	#33, r2
+	mov	#33, r2
 	ll	(r3), r1
 	trap	#5
-after3:	movq	hsc, r20
-	cbne	r20, #0, 1f		; case 3: exception entry: an SC in the handler, before any return, fails: the entry cleared the reservation
-	movq	#3, r0
+after3:	mov	hsc, r20
+	cbne	r20, #0, 1f	; case 3: exception entry: an SC in the handler, before any return, fails: the entry cleared the reservation
+	mov	#3, r0
 	halt
 1:
 	lea	word, r3
-	movq	(r3), r4
-	movq	=(55), r17
-	cbeq	r4, r17, 1f		; case 3: exception entry: nothing was written
-	movq	#3, r0
+	mov	(r3), r4
+	mov	=(55), r17
+	cbeq	r4, r17, 1f	; case 3: exception entry: nothing was written
+	mov	#3, r0
 	halt
 1:
-		; ---- case 4: a trap between the LL and the SC
+	; ---- case 4: a trap between the LL and the SC
 	lea	user4, r8
 	mtsr	epc, r8
-	movq	#((MODE_USER<<PSW_MODE)|(MODE_USER<<PSW_PREV)), r9
+	mov	#((MODE_USER<<PSW_MODE)|(MODE_USER<<PSW_PREV)), r9
 	mtsr	epsw, r9
 	rti	#RTIMASK_ALL
 user4:	lea	word, r3
-	movq	#66, r2
+	mov	#66, r2
 	ll	(r3), r1
 	trap	#6
 	sc	r2, (r3), r4
 	trap	#7
-after4:	movq	r4, r20
-	cbne	r20, #0, 1f		; case 4: a trap between the LL and the SC: the SC fails
-	movq	#4, r0
+after4:	mov	r4, r20
+	cbne	r20, #0, 1f	; case 4: a trap between the LL and the SC: the SC fails
+	mov	#4, r0
 	halt
 1:
-		; ---- case 5: RTI to the same mode
+	; ---- case 5: RTI to the same mode
 	lea	word, r3
 	lea	same, r8
-	movq	#((MODE_KERNEL<<PSW_MODE)|(MODE_KERNEL<<PSW_PREV)), r9
-	movq	#44, r2
+	mov	#((MODE_KERNEL<<PSW_MODE)|(MODE_KERNEL<<PSW_PREV)), r9
+	mov	#44, r2
 	ll	(r3), r1
 	mtsr	epc, r8
 	mtsr	epsw, r9
 	rti	#RTIMASK_ALL
 same:	sc	r2, (r3), r4
-	cbne	r4, #0, 1f		; case 5: RTI to the same mode also clears the reservation
-	movq	#5, r0
+	cbne	r4, #0, 1f	; case 5: RTI to the same mode also clears the reservation
+	mov	#5, r0
 	halt
 1:
-		; ---- case 6: a context switch
+	; ---- case 6: a context switch
 	lea	userA, r8
 	mtsr	epc, r8
-	movq	#((MODE_USER<<PSW_MODE)|(MODE_USER<<PSW_PREV)), r9
+	mov	#((MODE_USER<<PSW_MODE)|(MODE_USER<<PSW_PREV)), r9
 	mtsr	epsw, r9
 	rti	#RTIMASK_ALL
 userA:	lea	word, r3
-	movq	#77, r2
+	mov	#77, r2
 	ll	(r3), r1
 	trap	#8
 userB:	sc	r2, (r3), r4
 	trap	#9
-after5:	movq	r4, r20
-	cbne	r20, #0, 1f		; case 6: a context switch: B's SC does not use the reservation A took
-	movq	#6, r0
+after5:	mov	r4, r20
+	cbne	r20, #0, 1f	; case 6: a context switch: B's SC does not use the reservation A took
+	mov	#6, r0
 	halt
 1:
 	lea	word, r3
-	movq	(r3), r4
-	movq	=(55), r17
-	cbeq	r4, r17, 1f		; case 6: a context switch: B wrote nothing
-	movq	#6, r0
+	mov	(r3), r4
+	mov	=(55), r17
+	cbeq	r4, r17, 1f	; case 6: a context switch: B wrote nothing
+	mov	#6, r0
 	halt
 1:
-	movq	#0, r0
+	mov	#0, r0
 	halt
 h_t3:	lea	after1, r12
 	br	hres
 h_t4:	lea	after2, r12
 	br	hres
 h_t5:	sc	r2, (r3), r4
-	movq	r4, hsc
+	mov	r4, hsc
 	lea	after3, r12
 	br	hres
 h_t6:	rti	#RTIMASK_ALL
@@ -169,24 +169,24 @@ h_t8:	lea	userB, r12
 	br	hres
 h_t9:	lea	after5, r12
 hres:	mtsr	epc, r12
-	movq	#((MODE_KERNEL<<PSW_MODE)|(MODE_KERNEL<<PSW_PREV)), r12
+	mov	#((MODE_KERNEL<<PSW_MODE)|(MODE_KERNEL<<PSW_PREV)), r12
 	mtsr	epsw, r12
 	rti	#RTIMASK_ALL
 
-hgen:	movq	cnt, r12
+hgen:	mov	cnt, r12
 	add	#1, r12
-	movq	r12, cnt
+	mov	r12, cnt
 	mfsr	r12, ecause
-	movq	r12, last_cause
+	mov	r12, last_cause
 	mfsr	r12, epc
-	movq	r12, last_epc
+	mov	r12, last_epc
 	mfsr	r12, eva
-	movq	r12, last_eva
+	mov	r12, last_eva
 	mfsr	r12, epsw
-	movq	r12, last_epsw
+	mov	r12, last_epsw
 	mtsr	epc, r13
 	rti	#RTIMASK_ALL
-h_ok:	movq	#0, r0
+h_ok:	mov	#0, r0
 h_fail:	halt
 
 	.data

@@ -7,128 +7,128 @@ _start:
 	lea	vtab, r1
 	mtsr	vbr, r1
 	lea	hgen, r2
-	movq	#512, r3
-kfill:	movq	r2, (r1)+
+	mov	#512, r3
+kfill:	mov	r2, (r1)+
 	sob	r3, kfill
 	lea	vtab, r1
 	lea	h_ok, r2
-	movq	r2, 2048(r1)
+	mov	r2, 2048(r1)
 	lea	h_fail, r2
-	movq	r2, 2056(r1)
+	mov	r2, 2056(r1)
 
 	lea	ustack_top, r1
 	mtsr	usp, r1
 	lea	user, r1
 	mtsr	epc, r1
-	movq	#((MODE_USER<<PSW_MODE)|(MODE_USER<<PSW_PREV)), r1
+	mov	#((MODE_USER<<PSW_MODE)|(MODE_USER<<PSW_PREV)), r1
 	mtsr	epsw, r1
-	movq	#0, r1
+	mov	#0, r1
 	rti	#RTIMASK_ALL
 user:
 	lea	N0, r13
-	movq	=MAP_DEV_END, r2
-	movq	(r2), r3
-N0:	movq	last_eva, r4
-	movq	=MAP_DEV_END, r5
+	mov	=MAP_DEV_END, r2
+	mov	(r2), r3
+N0:	mov	last_eva, r4
+	mov	=MAP_DEV_END, r5
 	cbeq	r4, r5, 1f	; check 1 control: the faulting load left its address in EVA
-	movq	#1, r0
+	mov	#1, r0
 	trap	#1
 1:
-	movq	last_cause, r4
-	movq	=(VECTOR_BUSFAULT), r17
+	mov	last_cause, r4
+	mov	=(VECTOR_BUSFAULT), r17
 	cbeq	r4, r17, 1f	; check 2 control: the bus fault
-	movq	#2, r0
+	mov	#2, r0
 	trap	#1
 1:
 	lea	N_priv, r13
 	mfsr	r3, cpuid
-N_priv:	movq	last_eva, r4
-	movq	=MAP_DEV_END, r5
+N_priv:	mov	last_eva, r4
+	mov	=MAP_DEV_END, r5
 	cbne	r4, r5, 1f	; check 3 EVA after priv is not the stale address of the earlier fault
-	movq	#3, r0
+	mov	#3, r0
 	trap	#1
 1:
-	movq	last_cause, r4
-	movq	=(VECTOR_PRIVILEGED), r17
+	mov	last_cause, r4
+	mov	=(VECTOR_PRIVILEGED), r17
 	cbeq	r4, r17, 1f	; check 4 ECAUSE after priv is exactly the vector (no stale bit)
-	movq	#4, r0
+	mov	#4, r0
 	trap	#1
 1:
 	lea	N_bpt, r13
 	bpt
-N_bpt:	movq	last_eva, r4
-	movq	=MAP_DEV_END, r5
+N_bpt:	mov	last_eva, r4
+	mov	=MAP_DEV_END, r5
 	cbne	r4, r5, 1f	; check 5 EVA after bpt is not the stale address of the earlier fault
-	movq	#5, r0
+	mov	#5, r0
 	trap	#1
 1:
-	movq	last_cause, r4
-	movq	=(VECTOR_BPT), r17
+	mov	last_cause, r4
+	mov	=(VECTOR_BPT), r17
 	cbeq	r4, r17, 1f	; check 6 ECAUSE after bpt is exactly the vector (no stale bit)
-	movq	#6, r0
+	mov	#6, r0
 	trap	#1
 1:
 	lea	N_trap, r13
 	trap	#5
-N_trap:	movq	last_eva, r4
-	movq	=MAP_DEV_END, r5
+N_trap:	mov	last_eva, r4
+	mov	=MAP_DEV_END, r5
 	cbne	r4, r5, 1f	; check 7 EVA after trap is not the stale address of the earlier fault
-	movq	#7, r0
+	mov	#7, r0
 	trap	#1
 1:
-	movq	last_cause, r4
-	movq	=(VECTOR_TRAP_BASE+5), r17
+	mov	last_cause, r4
+	mov	=(VECTOR_TRAP_BASE+5), r17
 	cbeq	r4, r17, 1f	; check 8 ECAUSE after trap is exactly the vector (no stale bit)
-	movq	#8, r0
+	mov	#8, r0
 	trap	#1
 1:
 	lea	N_div, r13
-	movq	#0, r2
-	movq	#7, r3
+	mov	#0, r2
+	mov	#7, r3
 	div	r1, r2, r3
-N_div:	movq	last_eva, r4
-	movq	=MAP_DEV_END, r5
+N_div:	mov	last_eva, r4
+	mov	=MAP_DEV_END, r5
 	cbne	r4, r5, 1f	; check 9 EVA after div is not the stale address of the earlier fault
-	movq	#9, r0
+	mov	#9, r0
 	trap	#1
 1:
-	movq	last_cause, r4
-	movq	=(VECTOR_DIVZERO), r17
+	mov	last_cause, r4
+	mov	=(VECTOR_DIVZERO), r17
 	cbeq	r4, r17, 1f	; check 10 ECAUSE after div is exactly the vector (no stale bit)
-	movq	#10, r0
+	mov	#10, r0
 	trap	#1
 1:
 	lea	N_ill, r13
 	.word	0xffff
-N_ill:	movq	last_eva, r4
-	movq	=MAP_DEV_END, r5
+N_ill:	mov	last_eva, r4
+	mov	=MAP_DEV_END, r5
 	cbne	r4, r5, 1f	; check 11 EVA after ill is not the stale address of the earlier fault
-	movq	#11, r0
+	mov	#11, r0
 	trap	#1
 1:
-	movq	last_cause, r4
-	movq	=(VECTOR_ILLEGAL), r17
+	mov	last_cause, r4
+	mov	=(VECTOR_ILLEGAL), r17
 	cbeq	r4, r17, 1f	; check 12 ECAUSE after ill is exactly the vector (no stale bit)
-	movq	#12, r0
+	mov	#12, r0
 	trap	#1
 1:
-	movq	#0, r0
+	mov	#0, r0
 	trap	#0
 
-hgen:	movq	cnt, r12
+hgen:	mov	cnt, r12
 	add	#1, r12
-	movq	r12, cnt
+	mov	r12, cnt
 	mfsr	r12, ecause
-	movq	r12, last_cause
+	mov	r12, last_cause
 	mfsr	r12, epc
-	movq	r12, last_epc
+	mov	r12, last_epc
 	mfsr	r12, eva
-	movq	r12, last_eva
+	mov	r12, last_eva
 	mfsr	r12, epsw
-	movq	r12, last_epsw
+	mov	r12, last_epsw
 	mtsr	epc, r13
 	rti	#RTIMASK_ALL
-h_ok:	movq	#0, r0
+h_ok:	mov	#0, r0
 h_fail:	halt
 
 	.data

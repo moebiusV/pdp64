@@ -1,2 +1,2 @@
 	.text
-	ll r2.32, r1
+	ll.s32 r2, r1

@@ -5,6 +5,9 @@ sources, both sources the same register, all three the same), the most negative 
 expected values are computed here from the manual's meaning, not from the executor.  A failed check jumps to `fail`, which exits with 1.
 
 usage: gen_absminmax.py OUTDIR"""
+import sys as _sys, os as _os
+_sys.path.insert(0, _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..', '..', 'tools'))
+import marks		# the words of the encoding written with the width suffixes (tools/marks.py)
 import os, sys
 M = (1 << 64) - 1
 def s(v): return v - (1 << 64) if v >> 63 else v
@@ -34,4 +37,4 @@ for mn, f in OPS.items():
         a('movq\t%s, r1' % c(x), 'movq\t#-1, r3', '%s\tr1, r1, r3' % mn); chk('r3', x); chk('r1', x)
         a('movq\t%s, r1' % c(x), '%s\tr1, r1, r1' % mn); chk('r1', x)
 a('movq\t#0, r0', 'trap\t#0', 'fail:', 'movq\t#1, r0', 'trap\t#0')
-open(os.path.join(sys.argv[1], 'absminmax.s'), 'w').write('\n'.join(o) + '\n')
+open(os.path.join(sys.argv[1], 'absminmax.s'), 'w').write(marks.spell_text('\n'.join(o)) + '\n')

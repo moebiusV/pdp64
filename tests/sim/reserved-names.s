@@ -3,37 +3,37 @@
 	.text
 	.globl	_start
 _start:
-	movq	#1, r9
+	mov	#1, r9
 	lea	dd, r1			; dd, dq, db, dw after an instruction word are the symbols, not a datum
-	movq	(r1), r2
-	movq	#11, r3
+	mov	(r1), r2
+	mov	#11, r3
 	cbne	r2, r3, fail
-	movq	#2, r9
+	mov	#2, r9
 	lea	v0, r1
-	movq	(r1), r2
-	movq	#22, r3
+	mov	(r1), r2
+	mov	#22, r3
 	cbne	r2, r3, fail
-	movq	#3, r9
+	mov	#3, r9
 	lea	t7, r1
-	movq	(r1), r2
-	movq	#33, r3
+	mov	(r1), r2
+	mov	#33, r3
 	cbne	r2, r3, fail
-	movq	#4, r9
+	mov	#4, r9
 	lea	resb, r1
-	movq	(r1), r2
-	movq	#44, r3
+	mov	(r1), r2
+	mov	#44, r3
 	cbne	r2, r3, fail
-	movq	#5, r9
+	mov	#5, r9
 	lea	section, r1
-	movq	(r1), r2
-	movq	#55, r3
+	mov	(r1), r2
+	mov	#55, r3
 	cbne	r2, r3, fail
-	movq	#6, r9
+	mov	#6, r9
 	lea	ptrs, r1			; .quad takes the symbols too
-	movq	8(r1), r1
-	movq	(r1), r2
+	mov	8(r1), r1
+	mov	(r1), r2
 	cbne	r2, r3, fail
-	movq	#7, r9
+	mov	#7, r9
 	; a vector block still takes v0 as a vector register
 	lea	vsrc, r1
 	lea	vdst, r0
@@ -43,12 +43,12 @@ _start:
 	vst.b	v0, (r0)+
 	vend
 	lea	vdst, r0
-	mov	(r0).8, r2
-	movq	#9, r3
+	mov.s8	(r0), r2
+	mov	#9, r3
 	cbne	r2, r3, fail
-	movq	#0, r0
+	mov	#0, r0
 	trap	#0
-fail:	movq	r9, r0
+fail:	mov	r9, r0
 	trap	#0
 	.data
 	.align	8

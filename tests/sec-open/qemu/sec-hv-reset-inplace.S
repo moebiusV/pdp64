@@ -10,181 +10,181 @@ _start:
 	lea	htab, r1
 	mtsr	hvbr, r1
 	lea	xh, r22
-	movq	#512, r23
-fill1:	movq	r22, (r1)+
+	mov	#512, r23
+fill1:	mov	r22, (r1)+
 	sob	r23, fill1
 	lea	gvtab, r1
 	mtsr	vbr, r1
 	lea	gh, r22
-	movq	#512, r23
-fill2:	movq	r22, (r1)+
+	mov	#512, r23
+fill2:	mov	r22, (r1)+
 	sob	r23, fill2
 	lea	gstk_top, r22
 	mtsr	gksp, r22
-	movq	#0, r1
+	mov	#0, r1
 	mtsr	htrap, r1
 	lea	s2l1, r1
 	bis	#(1<<PTE_V), r1
-	movq	r1, s2root
-	movq	=(LEAF), r1
-	movq	r1, s2l1
-	movq	=(PHYS(0x200000)|LEAF), r1
-	movq	r1, s2l1+8
+	mov	r1, s2root
+	mov	=(LEAF), r1
+	mov	r1, s2l1
+	mov	=(PHYS(0x200000)|LEAF), r1
+	mov	r1, s2l1+8
 	lea	s2l0, r1
 	bis	#(1<<PTE_V), r1
-	movq	r1, s2l1+16
-	movq	=(PHYS(0x400000)|LEAF), r1
-	movq	r1, s2l0+0
-	movq	=(PHYS(0x401000)|LEAF), r1
-	movq	r1, s2l0+8
-	movq	=(PHYS(0x402000)|LEAF), r1
-	movq	r1, s2l0+16
-	movq	=(PHYS(0x403000)|LEAF), r1
-	movq	r1, s2l0+24
-	movq	=(PHYS(0x404000)|LEAF), r1
-	movq	r1, s2l0+32
-	movq	=(PHYS(0x405000)|LEAF), r1
-	movq	r1, s2l0+40
-	movq	=(PHYS(0x406000)|LEAF), r1
-	movq	r1, s2l0+48
-	movq	=(PHYS(0x407000)|LEAF), r1
-	movq	r1, s2l0+56
-	movq	=(PHYS(0x408000)|LEAF), r1
-	movq	r1, s2l0+64
-	movq	=(PHYS(0x409000)|LEAF), r1
-	movq	r1, s2l0+72
-	movq	=(PHYS(0x40a000)|LEAF), r1
-	movq	r1, s2l0+80
-	movq	=(PHYS(0x40b000)|LEAF), r1
-	movq	r1, s2l0+88
-	movq	=(PHYS(0x40c000)|LEAF), r1
-	movq	r1, s2l0+96
-	movq	=(PHYS(0x40d000)|LEAF), r1
-	movq	r1, s2l0+104
-	movq	=(PHYS(0x40e000)|LEAF), r1
-	movq	r1, s2l0+112
-	movq	=(PHYS(0x40f000)|LEAF), r1
-	movq	r1, s2l0+120
+	mov	r1, s2l1+16
+	mov	=(PHYS(0x400000)|LEAF), r1
+	mov	r1, s2l0+0
+	mov	=(PHYS(0x401000)|LEAF), r1
+	mov	r1, s2l0+8
+	mov	=(PHYS(0x402000)|LEAF), r1
+	mov	r1, s2l0+16
+	mov	=(PHYS(0x403000)|LEAF), r1
+	mov	r1, s2l0+24
+	mov	=(PHYS(0x404000)|LEAF), r1
+	mov	r1, s2l0+32
+	mov	=(PHYS(0x405000)|LEAF), r1
+	mov	r1, s2l0+40
+	mov	=(PHYS(0x406000)|LEAF), r1
+	mov	r1, s2l0+48
+	mov	=(PHYS(0x407000)|LEAF), r1
+	mov	r1, s2l0+56
+	mov	=(PHYS(0x408000)|LEAF), r1
+	mov	r1, s2l0+64
+	mov	=(PHYS(0x409000)|LEAF), r1
+	mov	r1, s2l0+72
+	mov	=(PHYS(0x40a000)|LEAF), r1
+	mov	r1, s2l0+80
+	mov	=(PHYS(0x40b000)|LEAF), r1
+	mov	r1, s2l0+88
+	mov	=(PHYS(0x40c000)|LEAF), r1
+	mov	r1, s2l0+96
+	mov	=(PHYS(0x40d000)|LEAF), r1
+	mov	r1, s2l0+104
+	mov	=(PHYS(0x40e000)|LEAF), r1
+	mov	r1, s2l0+112
+	mov	=(PHYS(0x40f000)|LEAF), r1
+	mov	r1, s2l0+120
 	lea	s2l1b, r1
 	bis	#(1<<PTE_V), r1
-	movq	r1, s2rootb
-	movq	=(LEAF), r1
-	movq	r1, s2l1b
-	movq	=(PHYS(0x200000)|LEAF), r1
-	movq	r1, s2l1b+8
+	mov	r1, s2rootb
+	mov	=(LEAF), r1
+	mov	r1, s2l1b
+	mov	=(PHYS(0x200000)|LEAF), r1
+	mov	r1, s2l1b+8
 	lea	s2l0b, r1
 	bis	#(1<<PTE_V), r1
-	movq	r1, s2l1b+16
-	movq	=(PHYS(0x400000)|LEAF), r1
-	movq	r1, s2l0b+0
-	movq	=(PHYS(0x401000)|LEAF), r1
-	movq	r1, s2l0b+8
-	movq	=(PHYS(0x402000)|LEAF), r1
-	movq	r1, s2l0b+16
-	movq	=(PHYS(0x403000)|LEAF), r1
-	movq	r1, s2l0b+24
-	movq	=(PHYS(0x404000)|LEAF), r1
-	movq	r1, s2l0b+32
-	movq	=(PHYS(0x405000)|LEAF), r1
-	movq	r1, s2l0b+40
-	movq	=(PHYS(0x406000)|LEAF), r1
-	movq	r1, s2l0b+48
-	movq	=(PHYS(0x407000)|LEAF), r1
-	movq	r1, s2l0b+56
-	movq	=(PHYS(0x408000)|LEAF), r1
-	movq	r1, s2l0b+64
-	movq	=(PHYS(0x409000)|LEAF), r1
-	movq	r1, s2l0b+72
-	movq	=(PHYS(0x40a000)|LEAF), r1
-	movq	r1, s2l0b+80
-	movq	=(PHYS(0x40b000)|LEAF), r1
-	movq	r1, s2l0b+88
-	movq	=(PHYS(0x40c000)|LEAF), r1
-	movq	r1, s2l0b+96
-	movq	=(PHYS(0x40d000)|LEAF), r1
-	movq	r1, s2l0b+104
-	movq	=(PHYS(0x40e000)|LEAF), r1
-	movq	r1, s2l0b+112
-	movq	=(PHYS(0x40f000)|LEAF), r1
-	movq	r1, s2l0b+120
-	movq	=(LEAF), r1
-	movq	r1, g1root
+	mov	r1, s2l1b+16
+	mov	=(PHYS(0x400000)|LEAF), r1
+	mov	r1, s2l0b+0
+	mov	=(PHYS(0x401000)|LEAF), r1
+	mov	r1, s2l0b+8
+	mov	=(PHYS(0x402000)|LEAF), r1
+	mov	r1, s2l0b+16
+	mov	=(PHYS(0x403000)|LEAF), r1
+	mov	r1, s2l0b+24
+	mov	=(PHYS(0x404000)|LEAF), r1
+	mov	r1, s2l0b+32
+	mov	=(PHYS(0x405000)|LEAF), r1
+	mov	r1, s2l0b+40
+	mov	=(PHYS(0x406000)|LEAF), r1
+	mov	r1, s2l0b+48
+	mov	=(PHYS(0x407000)|LEAF), r1
+	mov	r1, s2l0b+56
+	mov	=(PHYS(0x408000)|LEAF), r1
+	mov	r1, s2l0b+64
+	mov	=(PHYS(0x409000)|LEAF), r1
+	mov	r1, s2l0b+72
+	mov	=(PHYS(0x40a000)|LEAF), r1
+	mov	r1, s2l0b+80
+	mov	=(PHYS(0x40b000)|LEAF), r1
+	mov	r1, s2l0b+88
+	mov	=(PHYS(0x40c000)|LEAF), r1
+	mov	r1, s2l0b+96
+	mov	=(PHYS(0x40d000)|LEAF), r1
+	mov	r1, s2l0b+104
+	mov	=(PHYS(0x40e000)|LEAF), r1
+	mov	r1, s2l0b+112
+	mov	=(PHYS(0x40f000)|LEAF), r1
+	mov	r1, s2l0b+120
+	mov	=(LEAF), r1
+	mov	r1, g1root
 	lea	g1l1, r1
 	bis	#(1<<PTE_V), r1
-	movq	r1, g1root+8
+	mov	r1, g1root+8
 	lea	g1l0, r1
 	bis	#(1<<PTE_V), r1
-	movq	r1, g1l1
-	movq	=(0x200000|LEAF), r1
-	movq	r1, g1l0
-	movq	=(0x201000|LEAF), r1
-	movq	r1, g1l0+8
-	movq	=(LEAF), r1
-	movq	r1, g1broot
-	movq	=(0x407000|(1<<PTE_V)), r1
-	movq	r1, g1broot+8
+	mov	r1, g1l1
+	mov	=(0x200000|LEAF), r1
+	mov	r1, g1l0
+	mov	=(0x201000|LEAF), r1
+	mov	r1, g1l0+8
+	mov	=(LEAF), r1
+	mov	r1, g1broot
+	mov	=(0x407000|(1<<PTE_V)), r1
+	mov	r1, g1broot+8
 	lea	g1l0, r1
 	bis	#(1<<PTE_V), r1
-	movq	=(PHYS(0x407000)), r25
-	movq	r1, (r25)
+	mov	=(PHYS(0x407000)), r25
+	mov	r1, (r25)
 	lea	s2root, r22
-	movq	=(1<<GTBR_TAG|1<<GTBR_S2EN), r23
+	mov	=(1<<GTBR_TAG|1<<GTBR_S2EN), r23
 	bis	r23, r22
 	mtsr	gtbr, r22
 	mfsr	r22, gtbr
 	lea	s2root, r24
-	movq	=(1<<GTBR_S2EN|1<<GTBR_TAG), r23
+	mov	=(1<<GTBR_S2EN|1<<GTBR_TAG), r23
 	bis	r23, r24
 	cbeq	r22, r24, 1f
-	movq	#1, r0
+	mov	#1, r0
 	halt
 1:
 	.text
-	movq	=(PHYS(0x40a000)), r25
-	movq	=0xaaaa, r26
-	movq	r26, (r25)
-	movq	=(PHYS(0x40c000)), r25
-	movq	=0xcccc, r26
-	movq	r26, (r25)
+	mov	=(PHYS(0x40a000)), r25
+	mov	=0xaaaa, r26
+	mov	r26, (r25)
+	mov	=(PHYS(0x40c000)), r25
+	mov	=0xcccc, r26
+	mov	r26, (r25)
 	lea	s2l0+80, r25
-	movq	=(PHYS(0x40a000)|LEAF), r26
-	movq	r26, (r25)
+	mov	=(PHYS(0x40a000)|LEAF), r26
+	mov	r26, (r25)
 	tlbia
 	lea	g9, r22
 	mtsr	hepc, r22
-	movq	#0, r22
+	mov	#0, r22
 	mtsr	hepsw, r22
 	lea	R1, r20
-	movq	#99, r0
+	mov	#99, r0
 	genter	#RTIMASK_ALL
 R1:
-	movq	=(0xaaaa), r17
+	mov	=(0xaaaa), r17
 	cbeq	r1, r17, 1f	; check 201 control: the guest reads the first page
-	movq	#201, r0
+	mov	#201, r0
 	halt
 1:
 	lea	s2l0+80, r25
-	movq	=(PHYS(0x40c000)|LEAF), r26
-	movq	r26, (r25)
-	movq	#0, r1
+	mov	=(PHYS(0x40c000)|LEAF), r26
+	mov	r26, (r25)
+	mov	#0, r1
 	lea	g9, r22
 	mtsr	hepc, r22
-	movq	#0, r22
+	mov	#0, r22
 	mtsr	hepsw, r22
 	lea	R2, r20
-	movq	#99, r0
+	mov	#99, r0
 	genter	#RTIMASK_ALL
 R2:
-	movq	=(0xcccc), r17
+	mov	=(0xcccc), r17
 	cbeq	r1, r17, 1f	; check 202 after the reset in place the guest sees the new stage-2 page, not a cached translation of the old one
-	movq	#202, r0
+	mov	#202, r0
 	halt
 1:
-	movq	#0, r0
+	mov	#0, r0
 	halt
 	.align	8
-g9:	movq	=0x40a000, r13
-	movq	(r13), r1
+g9:	mov	=0x40a000, r13
+	mov	(r13), r1
 	halt
 xh:	jmp	r20
 gh:	halt

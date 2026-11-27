@@ -28,13 +28,13 @@ Xsyscall_trampback:
 **After** (pdp64, `snippets/faulting-load.S`; it runs on `sim64 -K` and exits 0):
 
 ```
-        movq    =0x1111, r4                     ; the old value of the destination
-        movq    =0x0100000000000000, r5         ; an address with nothing behind it
-        movq    (r5), r4                        ; faults; r4 must keep 0x1111
+        mov    =0x1111, r4                     ; the old value of the destination
+        mov    =0x0100000000000000, r5         ; an address with nothing behind it
+        mov    (r5), r4                        ; faults; r4 must keep 0x1111
 ...
-hbf:    movq    =0x1111, r6
+hbf:    mov    =0x1111, r6
         cbne    r4, r6, hbad                    ; the handler finds r4 unchanged
-        movq    #0, r0
+        mov    #0, r0
         halt
 ```
 

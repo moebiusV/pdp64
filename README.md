@@ -5,7 +5,7 @@ Parent: [All Projects](https://moebiusv.github.io/) | Git Repo: [github.com/moeb
 **Digital Equity Collective's Pragmatic Digital Processor, 64 bit.**
 *A 64-bit successor to the PDP-11 instruction set and architecture.*
 
-*It is a 16-bit-word machine in the PDP-11's sense: a **word** is 16 bits, as it was on the PDP-11, a **long** is 32 bits and a **quad** is 64 bits; the width letters of the notation are `b`, `w`, `l` and `q` (8, 16, 32 and 64 bits), the PDP-11's and the VAX's.*
+*It is a 16-bit-word machine in the PDP-11's sense: a **word** is 16 bits, as it was on the PDP-11, a **long** is 32 bits and a **quad** is 64 bits; the notation is a kind letter and a width in bits as a suffix of the mnemonic (`.s8`, `.u16`, `.f32`), and it keeps no `b`, `w`, `l` or `q` letters.*
 
 *It began as a mashup of the PDP-11 and the Commodore 64 with secure extensions, and grew into a 64-bit symmetric-multiprocessing CPU with more security and more convenience: the history is [the evolution of the design](docs/design/evolution.md), a design note outside the manual.*
 
@@ -87,7 +87,7 @@ The C compiler is the `pdp64` back end of [pcc](https://github.com/moebiusV/pcc)
 ## Status
 
 - **Specification:** the manual, the grammars and the research are described above.
-- **Assembler, linker, emulator:** the reference executor implements the integer core, bit and block operations, binary64 floating point with exception flags, and the system instructions; the 24 atomic words (two sizes) with the reservation of `LL` and `SC`; the memory escape (`MESC`), the UTF-8 instructions, `MVAL` and `FCLASS32` are specified and not yet implemented.
+- **Assembler, linker, emulator:** the reference executor implements the integer core, bit and block operations, binary64 floating point with exception flags, and the system instructions; the 24 atomic words (two sizes) with the reservation of `LL` and `SC`; the memory escape (`MESC`), the UTF-8 instructions, `MVAL` and `FCLASS.F32` are specified and not yet implemented.
 - **QEMU target:** boots a kernel image and runs the machine tests (see `tools/check-qemu.sh`) and the C test programs (`PDP64RUN=qemu`).
 - **Compiler:** all 841 files of the benchmark corpus compile and assemble for the pdp64; the code is 11.0% smaller than the first iteration's on the corpus, and the six large programs execute 24% fewer instructions (`docs/encoding-work/integration.md`).
 - **LLVM back end** (now the repository [llvm-pdp64](https://github.com/moebiusV/llvm-pdp64)): a code generator for the pdp64 encoding (scalar code, the check instructions, vector blocks made from loops; stages 1 to 2b), with no integrated assembler yet (`llvm-pdp64/README.md`).

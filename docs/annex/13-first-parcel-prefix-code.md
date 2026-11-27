@@ -28,10 +28,10 @@ movq $5,%rax          7          li a0,5        4      mov x0,#5          4
 
 ```
         add     r1, r2          ; 2 bytes
-        movq    (r3), r4        ; 4
-        movq    8(r3), r4       ; 4
+        mov    (r3), r4        ; 4
+        mov    8(r3), r4       ; 4
         cbeq    r1, r2, 1f      ; 4: compare and branch in one instruction
-1:      movq    #5, r5          ; 2
+1:      mov    #5, r5          ; 2
                                 ; 16 bytes, five instructions
 ```
 

@@ -8,7 +8,7 @@ with the bytes around it, and the add-to-memory form is checked on a quad that c
 usage: gen_unaligned.py OUTDIR"""
 import sys as _sys, os as _os
 _sys.path.insert(0, _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..', '..', 'tools'))
-import marks		# the words of the encoding written with width marks (tools/marks.py)
+import marks		# the words of the encoding written with the width suffixes (tools/marks.py)
 import os, sys
 
 

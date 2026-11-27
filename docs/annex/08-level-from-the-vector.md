@@ -28,7 +28,7 @@ Nothing makes the priority in that second word agree with the priority the devic
 
 ```
         lea     disk_handler, r2
-        movq    r2, 8*100(r1)           ; vector 100: its level is fixed by the number
+        mov    r2, 8*100(r1)           ; vector 100: its level is fixed by the number
         spl     #3                      ; keep out vector 100 and everything at or below its level
 ```
 

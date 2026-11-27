@@ -26,60 +26,60 @@ _start:
 	mtsr	vbr, r1
 	lea	l2, r1
 	mtsr	ptbr, r1
-	movq	#1, r1
+	mov	#1, r1
 	mtsr	mmuctl, r1
 	isync
-	movq	=1073741824, r3		; P_U
-	movq	=1073745920, r11	; P_K
-	movq	=1073750016, r14	; P_R (r14 is the stack pointer: nothing is pushed here)
+	mov	=1073741824, r3		; P_U
+	mov	=1073745920, r11	; P_K
+	mov	=1073750016, r14	; P_R (r14 is the stack pointer: nothing is pushed here)
 	mfps	r1
 	and	#(UA), r1
 	cbeq	r1, #0, 1f
-	movq	#250, r0		; bit 12 of the status word is set
+	mov	#250, r0		; bit 12 of the status word is set
 	halt
 1:
 ; ---- 1: a user page
-	movq	#0, r10
+	mov	#0, r10
 	lea	res1, r13
-at1:	movq	8(r3), r5
+at1:	mov	8(r3), r5
 res1:	lea	at1, r1
-	movq	#(VECTOR_LPROT), r2
-	movq	r3, r4
+	mov	#(VECTOR_LPROT), r2
+	mov	r3, r4
 	add	#8, r4
-	movq	#1, r0
+	mov	#1, r0
 	call	expect_fault
 	and	#(UA), r12		; the handler saw UA clear, and so did EPSW
 	cbeq	r12, #0, 1f
-	movq	#251, r0
+	mov	#251, r0
 	halt
 1:	and	#(UA), r7
 	cbeq	r7, #0, 1f
-	movq	#252, r0
+	mov	#252, r0
 	halt
-1:	movq	#0, r10
+1:	mov	#0, r10
 	lea	res1s, r13
-at1s:	movq	r5, 16(r3)
+at1s:	mov	r5, 16(r3)
 res1s:	lea	at1s, r1
-	movq	#(VECTOR_SPROT), r2
-	movq	r3, r4
+	mov	#(VECTOR_SPROT), r2
+	mov	r3, r4
 	add	#16, r4
-	movq	#2, r0
+	mov	#2, r0
 	call	expect_fault
 ; ---- 2: a kernel page
-	movq	#0, r10
-	movq	#0x7777, r5
-	movq	r5, 16(r11)
-	movq	16(r11), r2
+	mov	#0, r10
+	mov	#0x7777, r5
+	mov	r5, 16(r11)
+	mov	16(r11), r2
 	cbeq r2, r5, 1f
-	movq	#100, r0
+	mov	#100, r0
 	halt
-1:	movq	#3, r0
+1:	mov	#3, r0
 	call	expect_none
 ; ---- 3: no guard in the status word
 	mfps	r1
 	and	#(UA), r1
 	cbeq	r1, #0, 1f
-	movq	#253, r0
+	mov	#253, r0
 	halt
 1:	mfps	r1
 	bis	#(UA), r1
@@ -87,226 +87,226 @@ res1s:	lea	at1s, r1
 	mfps	r1
 	and	#(UA), r1
 	cbeq	r1, #0, 1f
-	movq	#254, r0
+	mov	#254, r0
 	halt
-1:	movq	#0, r10
-	movq	=1073758208, r4		; P_N: not present
+1:	mov	#0, r10
+	mov	=1073758208, r4		; P_N: not present
 	lea	res3, r13
-at3:	movq	(r4), r5
+at3:	mov	(r4), r5
 res3:	and	#(UA), r12		; in the handler
 	cbeq	r12, #0, 1f
-	movq	#251, r0
+	mov	#251, r0
 	halt
 1:	and	#(UA), r7		; EPSW
 	cbeq	r7, #0, 1f
-	movq	#252, r0
+	mov	#252, r0
 	halt
 1:
 ; ---- 4: an instruction fetch from a user page
-	movq	=1073754112, r4		; P_X
-	movq	#0, r10
+	mov	=1073754112, r4		; P_X
+	mov	#0, r10
 	lea	res4, r13
 	jmp	r4
-res4:	movq	r4, r1
-	movq	#(VECTOR_IPROT), r2
-	movq	r4, r4
-	movq	#4, r0
+res4:	mov	r4, r1
+	mov	#(VECTOR_IPROT), r2
+	mov	r4, r4
+	mov	#4, r0
 	call	expect_fault
 ; ---- 5: PROBER and PROBEW
 	prober	r2, r3
 	cbeq r2, #1, 1f
-	movq	#103, r0
+	mov	#103, r0
 	halt
 1:	probew	r2, r3
 	cbeq r2, #1, 1f
-	movq	#104, r0
+	mov	#104, r0
 	halt
 1:	probew	r2, r14
 	cbeq r2, #0, 1f
-	movq	#105, r0
+	mov	#105, r0
 	halt
 1:	prober	r2, r14
 	cbeq r2, #1, 1f
-	movq	#106, r0
+	mov	#106, r0
 	halt
 1:
 ; ---- 6: the `.U` moves
-	movq	#0, r10
-	mov.u	8(r3), r5
+	mov	#0, r10
+	mov.user	8(r3), r5
 	cbeq r5, #0x1234, 1f
-	movq	#107, r0
+	mov	#107, r0
 	halt
-1:	movq	#0x6666, r5
-	mov.u	r5, 24(r3)
-	mov.u	24(r3), r2
+1:	mov	#0x6666, r5
+	mov.user	r5, 24(r3)
+	mov.user	24(r3), r2
 	cbeq r2, r5, 1f
-	movq	#101, r0
+	mov	#101, r0
 	halt
-1:	movq	#5, r0
+1:	mov	#5, r0
 	call	expect_none
-	movq	#0, r10
+	mov	#0, r10
 	lea	res8a, r13
-at8a:	mov.u	8(r11), r5
+at8a:	mov.user	8(r11), r5
 res8a:	lea	at8a, r1
-	movq	#(VECTOR_LPROT|USRBIT), r2
-	movq	r11, r4
+	mov	#(VECTOR_LPROT|USRBIT), r2
+	mov	r11, r4
 	add	#8, r4
-	movq	#6, r0
+	mov	#6, r0
 	call	expect_fault
-	movq	#0, r10
+	mov	#0, r10
 	lea	res8b, r13
-at8b:	mov.u	r5, 8(r11)
+at8b:	mov.user	r5, 8(r11)
 res8b:	lea	at8b, r1
-	movq	#(VECTOR_SPROT|USRBIT), r2
-	movq	r11, r4
+	mov	#(VECTOR_SPROT|USRBIT), r2
+	mov	r11, r4
 	add	#8, r4
-	movq	#7, r0
+	mov	#7, r0
 	call	expect_fault
-	movq	#0, r10
+	mov	#0, r10
 	lea	res8c, r13
-at8c:	mov.u	r5, 8(r14)
+at8c:	mov.user	r5, 8(r14)
 res8c:	lea	at8c, r1
-	movq	#(VECTOR_SPROT|USRBIT), r2
-	movq	r14, r4
+	mov	#(VECTOR_SPROT|USRBIT), r2
+	mov	r14, r4
 	add	#8, r4
-	movq	#8, r0
+	mov	#8, r0
 	call	expect_fault
-	movq	#0, r10			; a plain move's fault after a .U fault has no bit 15
+	mov	#0, r10			; a plain move's fault after a .U fault has no bit 15
 	lea	res8d, r13
-at8d:	movq	8(r3), r5
+at8d:	mov	8(r3), r5
 res8d:	lea	at8d, r1
-	movq	#(VECTOR_LPROT), r2
-	movq	r3, r4
+	mov	#(VECTOR_LPROT), r2
+	mov	r3, r4
 	add	#8, r4
-	movq	#9, r0
+	mov	#9, r0
 	call	expect_fault
 ; ---- 7: MCPY.UR and MCPY.UW
-	movq	#0, r10
-	movq	r11, r20		; to P_K + 32
+	mov	#0, r10
+	mov	r11, r20		; to P_K + 32
 	add	#32, r20
-	movq	r3, r21			; from P_U + 8
+	mov	r3, r21			; from P_U + 8
 	add	#8, r21
-	movq	#8, r22
+	mov	#8, r22
 	mcpy.ur	r20, r21, r22
-	movq	32(r11), r2
+	mov	32(r11), r2
 	cbeq r2, #0x1234, 1f
-	movq	#108, r0
+	mov	#108, r0
 	halt
 1:	cbeq r22, #0, 1f
-	movq	#109, r0
+	mov	#109, r0
 	halt
-1:	movq	#11, r0
+1:	mov	#11, r0
 	call	expect_none
-	movq	r3, r20			; to P_U + 40
+	mov	r3, r20			; to P_U + 40
 	add	#40, r20
-	movq	r11, r21		; from P_K + 8
+	mov	r11, r21		; from P_K + 8
 	add	#8, r21
-	movq	#8, r22
+	mov	#8, r22
 	mcpy.uw	r20, r21, r22
-	mov.u	40(r3), r2
+	mov.user	40(r3), r2
 	cbeq r2, #0x2345, 1f
-	movq	#110, r0
+	mov	#110, r0
 	halt
-1:	movq	#12, r0
+1:	mov	#12, r0
 	call	expect_none
-	movq	#0, r10			; the plain copy reads no user page ...
+	mov	#0, r10			; the plain copy reads no user page ...
 	lea	res7a, r13
-	movq	r11, r20
+	mov	r11, r20
 	add	#32, r20
-	movq	r3, r21
+	mov	r3, r21
 	add	#8, r21
-	movq	#8, r22
+	mov	#8, r22
 at7a:	mcpy	r20, r21, r22
 res7a:	lea	at7a, r1
-	movq	#(VECTOR_LPROT), r2
-	movq	r3, r4
+	mov	#(VECTOR_LPROT), r2
+	mov	r3, r4
 	add	#8, r4
-	movq	#13, r0
+	mov	#13, r0
 	call	expect_fault
-	movq	#0, r10			; ... and writes none
+	mov	#0, r10			; ... and writes none
 	lea	res7b, r13
-	movq	r3, r20
+	mov	r3, r20
 	add	#40, r20
-	movq	r11, r21
+	mov	r11, r21
 	add	#8, r21
-	movq	#8, r22
+	mov	#8, r22
 at7b:	mcpy	r20, r21, r22
 res7b:	lea	at7b, r1
-	movq	#(VECTOR_SPROT), r2
-	movq	r3, r4
+	mov	#(VECTOR_SPROT), r2
+	mov	r3, r4
 	add	#40, r4
-	movq	#14, r0
+	mov	#14, r0
 	call	expect_fault
-	movq	#0, r10			; MCPY.UR of a kernel page: the read is a user access, and fails
+	mov	#0, r10			; MCPY.UR of a kernel page: the read is a user access, and fails
 	lea	res7c, r13
-	movq	r3, r20
+	mov	r3, r20
 	add	#40, r20
-	movq	r11, r21
+	mov	r11, r21
 	add	#8, r21
-	movq	#8, r22
+	mov	#8, r22
 at7c:	mcpy.ur	r20, r21, r22
 res7c:	lea	at7c, r1
-	movq	#(VECTOR_LPROT|USRBIT), r2
-	movq	r11, r4
+	mov	#(VECTOR_LPROT|USRBIT), r2
+	mov	r11, r4
 	add	#8, r4
-	movq	#15, r0
+	mov	#15, r0
 	call	expect_fault
-	movq	#0, r10			; MCPY.UW to a kernel page
+	mov	#0, r10			; MCPY.UW to a kernel page
 	lea	res7d, r13
-	movq	r11, r20
+	mov	r11, r20
 	add	#40, r20
-	movq	r11, r21
+	mov	r11, r21
 	add	#8, r21
-	movq	#8, r22
+	mov	#8, r22
 at7d:	mcpy.uw	r20, r21, r22
 res7d:	lea	at7d, r1
-	movq	#(VECTOR_SPROT|USRBIT), r2
-	movq	r11, r4
+	mov	#(VECTOR_SPROT|USRBIT), r2
+	mov	r11, r4
 	add	#40, r4
-	movq	#16, r0
+	mov	#16, r0
 	call	expect_fault
-	movq	#0, r10			; MCPY.UW to a user page that cannot be written
+	mov	#0, r10			; MCPY.UW to a user page that cannot be written
 	lea	res7e, r13
-	movq	r14, r20
+	mov	r14, r20
 	add	#8, r20
-	movq	r11, r21
+	mov	r11, r21
 	add	#8, r21
-	movq	#8, r22
+	mov	#8, r22
 at7e:	mcpy.uw	r20, r21, r22
 res7e:	lea	at7e, r1
-	movq	#(VECTOR_SPROT|USRBIT), r2
-	movq	r14, r4
+	mov	#(VECTOR_SPROT|USRBIT), r2
+	mov	r14, r4
 	add	#8, r4
-	movq	#17, r0
+	mov	#17, r0
 	call	expect_fault
-	movq	#0, r10			; a copy that meets a fault in the middle: the bytes before it are moved, the registers stand at the byte
+	mov	#0, r10			; a copy that meets a fault in the middle: the bytes before it are moved, the registers stand at the byte
 	lea	res7f, r13
-	movq	r11, r20
+	mov	r11, r20
 	add	#64, r20
-	movq	r3, r21
+	mov	r3, r21
 	add	#4088, r21		; the last 8 bytes of P_U, then P_K
-	movq	#16, r22
+	mov	#16, r22
 at7f:	mcpy.ur	r20, r21, r22
 res7f:	lea	at7f, r1
-	movq	#(VECTOR_LPROT|USRBIT), r2
-	movq	r3, r4
+	mov	#(VECTOR_LPROT|USRBIT), r2
+	mov	r3, r4
 	add	#4096, r4
-	movq	#18, r0
+	mov	#18, r0
 	call	expect_fault
 	cbeq r22, #8, 1f
-	movq	#111, r0
+	mov	#111, r0
 	halt
-1:	movq	r3, r2
+1:	mov	r3, r2
 	add	#4096, r2
 	cbeq r21, r2, 1f
-	movq	#112, r0
+	mov	#112, r0
 	halt
-1:	movq	r11, r2
+1:	mov	r11, r2
 	add	#72, r2
 	cbeq r20, r2, 1f
-	movq	#113, r0
+	mov	#113, r0
 	halt
-1:	movq	#0, r0
+1:	mov	#0, r0
 	halt
 
 ; r10 == 0
@@ -318,23 +318,23 @@ expect_none:
 1:	ret
 ; r0 = the number n of the check, r1 = the EPC, r2 = the ECAUSE, r4 = the EVA that the handler must have seen, exactly once
 expect_fault:
-	movq	r0, r5
+	mov	r0, r5
 	asl	r5
 	asl	r5
 	cbeq r10, #1, 1f
-	movq	r5, r0
+	mov	r5, r0
 	halt
 1:	cbeq r8, r2, 1f
 	add	#1, r5
-	movq	r5, r0
+	mov	r5, r0
 	halt
 1:	cbeq r9, r4, 1f
 	add	#2, r5
-	movq	r5, r0
+	mov	r5, r0
 	halt
 1:	cbeq r6, r1, 1f
 	add	#3, r5
-	movq	r5, r0
+	mov	r5, r0
 	halt
 1:	ret
 h_gen:	mfps	r12
@@ -345,7 +345,7 @@ h_gen:	mfps	r12
 	add	#1, r10
 	mtsr	epc, r13
 	rti	#RTIMASK_ALL
-h_fail:	movq	#249, r0		; an unexpected exception
+h_fail:	mov	#249, r0		; an unexpected exception
 	halt
 	.data
 	.align	8

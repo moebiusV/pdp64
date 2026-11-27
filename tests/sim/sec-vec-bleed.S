@@ -7,14 +7,14 @@ _start:
 	lea	vtab, r1
 	mtsr	vbr, r1
 	lea	hgen, r2
-	movq	#512, r3
-kfill:	movq	r2, (r1)+
+	mov	#512, r3
+kfill:	mov	r2, (r1)+
 	sob	r3, kfill
 	lea	vtab, r1
 	lea	h_ok, r2
-	movq	r2, 2048(r1)
+	mov	r2, 2048(r1)
 	lea	h_fail, r2
-	movq	r2, 2056(r1)
+	mov	r2, 2056(r1)
 
 	lea	src, r1
 	lea	src+32, r5
@@ -31,9 +31,9 @@ kfill:	movq	r2, (r1)+
 	mtsr	usp, r1
 	lea	user, r1
 	mtsr	epc, r1
-	movq	#((MODE_USER<<PSW_MODE)|(MODE_USER<<PSW_PREV)), r1
+	mov	#((MODE_USER<<PSW_MODE)|(MODE_USER<<PSW_PREV)), r1
 	mtsr	epsw, r1
-	movq	#0, r1
+	mov	#0, r1
 	rti	#RTIMASK_ALL
 user:
 	lea	src, r1
@@ -44,18 +44,18 @@ user:
 	vst.l	v3, (r3)+
 	vend
 	lea	dst, r4
-	movq	(r4), r5
-	movq	src_q, r6
+	mov	(r4), r5
+	mov	src_q, r6
 	cbeq	r5, r6, 1f	; check 1 control: a loaded register stores what was loaded
-	movq	#1, r0
+	mov	#1, r0
 	trap	#1
 1:
 	lea	dst, r3
-	movq	=0xa5a5a5a5a5a5a5a5, r2
-	movq	r2, (r3)
-	movq	r2, 8(r3)
-	movq	r2, 16(r3)
-	movq	r2, 24(r3)
+	mov	=0xa5a5a5a5a5a5a5a5, r2
+	mov	r2, (r3)
+	mov	r2, 8(r3)
+	mov	r2, 16(r3)
+	mov	r2, 24(r3)
 	lea	src, r1
 	lea	src+32, r5
 	vec	r1, r5
@@ -63,19 +63,19 @@ user:
 	vst.l	v3, (r3)+
 	vend
 	lea	dst, r4
-	movq	#4, r6
-zc2:	movq	(r4)+, r5	; check 2 a user block stores v3 (the kernel left data in it) that it never wrote: zero
+	mov	#4, r6
+zc2:	mov	(r4)+, r5	; check 2 a user block stores v3 (the kernel left data in it) that it never wrote: zero
 	cbeq	r5, #0, 1f
-	movq	#2, r0
+	mov	#2, r0
 	trap	#1
 1:
 	sob	r6, zc2
 	lea	dst, r3
-	movq	=0xa5a5a5a5a5a5a5a5, r2
-	movq	r2, (r3)
-	movq	r2, 8(r3)
-	movq	r2, 16(r3)
-	movq	r2, 24(r3)
+	mov	=0xa5a5a5a5a5a5a5a5, r2
+	mov	r2, (r3)
+	mov	r2, 8(r3)
+	mov	r2, 16(r3)
+	mov	r2, 24(r3)
 	lea	src, r1
 	lea	src+32, r5
 	vec	r1, r5
@@ -83,19 +83,19 @@ zc2:	movq	(r4)+, r5	; check 2 a user block stores v3 (the kernel left data in it
 	vst.l	v5, (r3)+
 	vend
 	lea	dst, r4
-	movq	#4, r6
-zc3:	movq	(r4)+, r5	; check 3 a user block stores v5 (an accumulator of the kernel) that it never wrote: zero
+	mov	#4, r6
+zc3:	mov	(r4)+, r5	; check 3 a user block stores v5 (an accumulator of the kernel) that it never wrote: zero
 	cbeq	r5, #0, 1f
-	movq	#3, r0
+	mov	#3, r0
 	trap	#1
 1:
 	sob	r6, zc3
 	lea	dst, r3
-	movq	=0xa5a5a5a5a5a5a5a5, r2
-	movq	r2, (r3)
-	movq	r2, 8(r3)
-	movq	r2, 16(r3)
-	movq	r2, 24(r3)
+	mov	=0xa5a5a5a5a5a5a5a5, r2
+	mov	r2, (r3)
+	mov	r2, 8(r3)
+	mov	r2, 16(r3)
+	mov	r2, 24(r3)
 	lea	src, r1
 	lea	src+32, r5
 	vec	r1, r5
@@ -103,20 +103,20 @@ zc3:	movq	(r4)+, r5	; check 3 a user block stores v5 (an accumulator of the kern
 	vst.l	v9, (r3)+
 	vend
 	lea	dst, r4
-	movq	#4, r6
-zc4:	movq	(r4)+, r5	; check 4 a user block stores v9 (computed by the kernel) that it never wrote: zero
+	mov	#4, r6
+zc4:	mov	(r4)+, r5	; check 4 a user block stores v9 (computed by the kernel) that it never wrote: zero
 	cbeq	r5, #0, 1f
-	movq	#4, r0
+	mov	#4, r0
 	trap	#1
 1:
 	sob	r6, zc4
 	vclr.l	v5, #1
 	lea	dst, r3
-	movq	=0xa5a5a5a5a5a5a5a5, r2
-	movq	r2, (r3)
-	movq	r2, 8(r3)
-	movq	r2, 16(r3)
-	movq	r2, 24(r3)
+	mov	=0xa5a5a5a5a5a5a5a5, r2
+	mov	r2, (r3)
+	mov	r2, 8(r3)
+	mov	r2, 16(r3)
+	mov	r2, 24(r3)
 	lea	src, r1
 	lea	src+32, r5
 	vec	r1, r5
@@ -124,30 +124,30 @@ zc4:	movq	(r4)+, r5	; check 4 a user block stores v9 (computed by the kernel) th
 	vst.l	v5, (r3)+
 	vend
 	lea	dst, r4
-	movq	#4, r6
-zc5:	movq	(r4)+, r5	; check 5 an accumulator named by vclr starts at zero, not at the kernel's sums
+	mov	#4, r6
+zc5:	mov	(r4)+, r5	; check 5 an accumulator named by vclr starts at zero, not at the kernel's sums
 	cbeq	r5, #0, 1f
-	movq	#5, r0
+	mov	#5, r0
 	trap	#1
 1:
 	sob	r6, zc5
-	movq	#0, r0
+	mov	#0, r0
 	trap	#0
 
-hgen:	movq	cnt, r12
+hgen:	mov	cnt, r12
 	add	#1, r12
-	movq	r12, cnt
+	mov	r12, cnt
 	mfsr	r12, ecause
-	movq	r12, last_cause
+	mov	r12, last_cause
 	mfsr	r12, epc
-	movq	r12, last_epc
+	mov	r12, last_epc
 	mfsr	r12, eva
-	movq	r12, last_eva
+	mov	r12, last_eva
 	mfsr	r12, epsw
-	movq	r12, last_epsw
+	mov	r12, last_epsw
 	mtsr	epc, r13
 	rti	#RTIMASK_ALL
-h_ok:	movq	#0, r0
+h_ok:	mov	#0, r0
 h_fail:	halt
 
 	.data

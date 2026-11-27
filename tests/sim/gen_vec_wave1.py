@@ -5,6 +5,9 @@ last strip is short) against the expected values of an independent model written
 in Python integers, not by the simulator).  The inputs come from a fixed seed, with the corner values put in by hand (the Q15 case -32768 x -32768, the extremes of
 each lane, saturation, a shift of the width of the lane).  The result of a test is compared byte for byte (or register for register); a failed test n exits with n.
 usage: gen_vec_wave1.py OUT.s"""
+import sys as _sys, os as _os
+_sys.path.insert(0, _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..', '..', 'tools'))
+import marks		# the words of the encoding written with the width suffixes (tools/marks.py)
 import random, sys
 
 N = 77
@@ -247,5 +250,5 @@ for lab, content in data:
     else:
         for i in range(0, len(content), 24):
             out.append('\t.byte\t' + ', '.join(str(x) for x in content[i:i + 24]))
-open(sys.argv[1], 'w').write('\n'.join(out) + '\n')
+open(sys.argv[1], 'w').write(marks.spell_text('\n'.join(out)) + '\n')
 print('%d tests' % cnt[0])

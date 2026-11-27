@@ -4,7 +4,7 @@ long forms of the compare-and-branch for the unsigned conditions (the target far
     python3 tests/sim/gen_nocc.py > tests/sim/nocc.s"""
 import sys as _sys, os as _os
 _sys.path.insert(0, _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..', '..', 'tools'))
-import marks		# the words of the encoding written with width marks (tools/marks.py)
+import marks		# the words of the encoding written with the width suffixes (tools/marks.py)
 import struct, itertools
 M = (1 << 64) - 1
 S = lambda v: v - (1 << 64) if v >> 63 else v

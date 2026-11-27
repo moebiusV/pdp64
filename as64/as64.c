@@ -1111,7 +1111,7 @@ int main(int argc, char **argv)
 	size_t flen;
 	char *text = slurp(in, &flen);
 	if (strlen(text) != flen) { fprintf(stderr, "%s: %s: contains a NUL byte\n", progname, in); return 1; }
-	char em[300]; int el;
+	char em[1600]; int el;
 	if (asm_parse(text, &prog, &nprog, em, sizeof em, &el)) {
 		fprintf(stderr, "%s:%d: %s\n", in, el, em);
 		return 1;

@@ -69,16 +69,16 @@ The counts of that day, side by side:
 
 | # | Operation | Words in the grammar | Group | Section |
 |---|---|---|---|---|
-| 1 | compare-and-swap | `CAS`, `CASL` | atomic (`ATOM`) | 7.4 |
-| 2 | swap | `SWAP`, `SWAPL` | atomic | 7.4 |
-| 3 | fetch-and-add | `AADD`, `AADDL` | atomic | 7.4 |
-| 4 | fetch-and-and | `AAND`, `AANDL` | atomic | 7.4 |
-| 5 | fetch-and-or | `ABIS`, `ABISL` | atomic | 7.4 |
-| 6 | fetch-and-exclusive-or | `AXOR`, `AXORL` | atomic | 7.4 |
-| 7 | fetch-and-maximum, signed and unsigned | `AMAX`, `AMAXL`, `AMAXU`, `AMAXUL` | atomic | 7.4 |
-| 8 | fetch-and-minimum, signed and unsigned | `AMIN`, `AMINL`, `AMINU`, `AMINUL` | atomic | 7.4 |
-| 9 | load-linked | `LL`, `LLL` | atomic | 7.4 |
-| 10 | store-conditional | `SC`, `SCL` | atomic | 7.4 |
+| 1 | compare-and-swap | `CAS`, `CAS.S32` | atomic (`ATOM`) | 7.4 |
+| 2 | swap | `SWAP`, `SWAP.S32` | atomic | 7.4 |
+| 3 | fetch-and-add | `AADD`, `AADD.S32` | atomic | 7.4 |
+| 4 | fetch-and-and | `AAND`, `AAND.S32` | atomic | 7.4 |
+| 5 | fetch-and-or | `ABIS`, `ABIS.S32` | atomic | 7.4 |
+| 6 | fetch-and-exclusive-or | `AXOR`, `AXOR.S32` | atomic | 7.4 |
+| 7 | fetch-and-maximum, signed and unsigned | `AMAX`, `AMAX.S32`, `AMAX.U64`, `AMAX.U32` | atomic | 7.4 |
+| 8 | fetch-and-minimum, signed and unsigned | `AMIN`, `AMIN.S32`, `AMIN.U64`, `AMIN.U32` | atomic | 7.4 |
+| 9 | load-linked | `LL`, `LL.S32` | atomic | 7.4 |
+| 10 | store-conditional | `SC`, `SC.S32` | atomic | 7.4 |
 | 11 | device-access fence | `FENCE` | system (`SYS`) | 7.5.7 |
 | 12 | wait for event | `WFE` | system | 7.10 |
 | 13 | send event | `SEV` | system | 7.10 |
@@ -87,7 +87,7 @@ The counts of that day, side by side:
 | 16 | invalidate the instruction cache | `ICINV`, `ICINVA` | system | 7.9 |
 | 17 | read the core number | `MFSR` of `CPUID` | system | 7.8.1 |
 
-The ten atomics are 24 words: 12 for the 8-byte size (ten read-modify-write words, and `LL` and `SC`) and the same 12 for the 4-byte size, written with an `L` after the operation (`AADDL`, `CASL`, `LLL`, `SCL`; the mark `.32` on the address is the other spelling of the same word); counting the signed and the unsigned maximum and minimum apart they would be twelve. The seven others are nine words, ten with the alias. Six words were added the day after the count (2026-10-22) and are not in it: `MFSR` and `MTSR`, the system-register moves, `PUSHX` and `POPX`, and `ISYNC` and `HINT`, which the discussion of 7.9.3 and 7.10.1 uses. `ISYNC` and `HINT` belong with the twelve system operations that are not multiprocessor, which then number fourteen: like the landing pad or the trap, no second core needs them, and whether `HINT #1`, the spin-wait pause, belongs under the umbrella is a question of classification and not of count. A read of the system register `CPUID` (`MFSR`, 6.5) also gives the core number and is not counted: `MFSR` is the general register move.
+The ten atomics are 24 words: 12 for the 8-byte size (ten read-modify-write words, and `LL` and `SC`) and the same 12 for the 4-byte size, written with the suffix `.s32` (`AADD.S32`, `CAS.S32`, `LL.S32`, `SC.S32`); counting the signed and the unsigned maximum and minimum apart they would be twelve. The seven others are nine words, ten with the alias. Six words were added the day after the count (2026-10-22) and are not in it: `MFSR` and `MTSR`, the system-register moves, `PUSHX` and `POPX`, and `ISYNC` and `HINT`, which the discussion of 7.9.3 and 7.10.1 uses. `ISYNC` and `HINT` belong with the twelve system operations that are not multiprocessor, which then number fourteen: like the landing pad or the trap, no second core needs them, and whether `HINT #1`, the spin-wait pause, belongs under the umbrella is a question of classification and not of count. A read of the system register `CPUID` (`MFSR`, 6.5) also gives the core number and is not counted: `MFSR` is the general register move.
 
 **7.3.1** The instructions that exist for multiple processors fall under one umbrella of seventeen operations: ten atomics and seven others (the table above, folded operations).
 
@@ -110,7 +110,7 @@ SC(a, v):        if the reservation is intact: *a = v ; return success   # store
                  else: write nothing ; return failure
 ```
 
-`AAND`, `ABIS`, `AXOR`, `AMAX`, `AMIN` and the unsigned `AMAXU` and `AMINU` have the shape of `AADD` with another operation. `CAS` and `AADD` are the same idea as `SWAP`, extended: `CAS` writes only if the word still has the value the program expected, which is how a lock-free list changes a pointer (if two cores race, one `CAS` fails and the loser retries). The weakness of `CAS` is the **ABA problem**: it compares values, so a word that changed from A to B and back to A looks untouched, though the structure behind it may have changed. `LL` and `SC` do not have it, because `SC` fails if anything wrote the word in between, even if it wrote the same value. `CAS` operates on 4 or 8 bytes, and an aligned 8-byte `CAS` may cover two adjacent 4-byte fields (9.13.3). In the assembler the address is a register in parentheses, as `CAS Rs, (Ra), Rd` (7.4.6).
+`AAND`, `ABIS`, `AXOR`, `AMAX`, `AMIN` and the unsigned `AMAX.U64` and `AMIN.U64` have the shape of `AADD` with another operation. `CAS` and `AADD` are the same idea as `SWAP`, extended: `CAS` writes only if the word still has the value the program expected, which is how a lock-free list changes a pointer (if two cores race, one `CAS` fails and the loser retries). The weakness of `CAS` is the **ABA problem**: it compares values, so a word that changed from A to B and back to A looks untouched, though the structure behind it may have changed. `LL` and `SC` do not have it, because `SC` fails if anything wrote the word in between, even if it wrote the same value. `CAS` operates on 4 or 8 bytes, and an aligned 8-byte `CAS` may cover two adjacent 4-byte fields (9.13.3). In the assembler the address is a register in parentheses, as `CAS Rs, (Ra), Rd` (7.4.6).
 
 **The reservation.** `LL` does not lock anything. It marks a piece of memory as reserved by this core: the **marked block**, the naturally aligned 128 bytes that hold the word. A write to the block by any other core, by a device, or by an atomic clears the mark, and `SC` writes only if the mark is still there. This is called a **monitor**, in the word of the bus designs it maps onto, as against the PDP-11's bus lock, which stops everyone else's access for the duration of the instruction pair. A lock is simple and a bottleneck as cores multiply; a monitor lets other cores go on with other addresses. The block is a fixed 128 bytes and no register reports it: an implementation may mark less (never less than the word), so software that keeps the word that it protects alone in its block never fails because of a neighbour, on any implementation, and a mark cleared by a neighbour's write costs a loop one more try and nothing else. A monitor needs a **progress rule**: with two cores each doing `LL`, then writing, then `SC`, both reservations could be cleared forever. I take the rule that RISC-V gives (checked in the RISC-V manual in an earlier review: `docs/decisions-pending.md`) and make the machine enforce it: the **constrained loop** is an `LL`, then at most 16 instructions that work on registers only (no load, no store, no other atomic, no system instruction) with any branch between them going forward, then an `SC` for the same address and size as the `LL`. A loop of that shape must eventually succeed if no other initiator keeps writing the block. A sequence that breaks the shape is not left to hang: the reservation is lost at the first instruction that breaks it, so its `SC` fails.
 
@@ -124,7 +124,7 @@ SC(a, v):        if the reservation is intact: *a = v ; return success   # store
 
 **7.4.5** A device that writes memory shared with a core takes part by clearing reservations: a write by a device to a granule clears its reservation exactly as a core's write does. A device's own buffers are uncached memory, where `LL`, `SC` and every atomic take a precise fault (7.4.6), so no reservation is ever taken on a word that a device is writing as a buffer.
 
-**7.4.6** Every atomic has three register fields, and, like every instruction of the machine that has a destination, is written with the destination last: `AADD Rs, (Ra), Rd`. The address is in `Ra`, with no offset, the old value of the memory word comes back in `Rd`, and `Rs` is the operand. `CAS Rs, (Ra), Rd` has the expected value in `Rd` and the new value in `Rs`, and puts the old value into `Rd`: the destination is the register that is both the expected value going in and the old value coming out, as the destination of `ADD` is both a source and the result, and it is written last. `LL (Ra), Rd` takes no operand, and `SC Rs, (Ra), Rd` returns 0 in `Rd` when it wrote and 1 when it did not. The size is 8 bytes for the bare name and 4 bytes for the name with an `L` after the operation (`AADDL`, `CASL`, `LLL`, `SCL`; the mark `.32` on the address, as in `AADD Rs, (Ra).32, Rd`, is the other spelling); a 4-byte word works on the low four bytes of its registers and returns the old value sign-extended, as a 4-byte load does.
+**7.4.6** Every atomic has three register fields, and, like every instruction of the machine that has a destination, is written with the destination last: `AADD Rs, (Ra), Rd`. The address is in `Ra`, with no offset, the old value of the memory word comes back in `Rd`, and `Rs` is the operand. `CAS Rs, (Ra), Rd` has the expected value in `Rd` and the new value in `Rs`, and puts the old value into `Rd`: the destination is the register that is both the expected value going in and the old value coming out, as the destination of `ADD` is both a source and the result, and it is written last. `LL (Ra), Rd` takes no operand, and `SC Rs, (Ra), Rd` returns 0 in `Rd` when it wrote and 1 when it did not. The size is 8 bytes for the bare name and 4 bytes for the name with the suffix `.s32` (`AADD.S32`, `CAS.S32`, `LL.S32`, `SC.S32`); a 4-byte word works on the low four bytes of its registers and returns the old value sign-extended, as a 4-byte load does, which is why the suffix of a 4-byte atomic that returns a value is `.s32` only: `AADD.U32` is refused, and the zero-extended old value is `MOV.U32 Rd, Rd` after the instruction. `AMAX.U32` and `AMIN.U32` compare unsigned and return the old value sign-extended all the same; `SC.S32` and `SC.U32` are the same word, for it returns 0 or 1.
 
 **7.4.7** The word must be naturally aligned for its size, and an atomic that is not takes the misalignment fault, with nothing changed and `EPC` at the instruction; no atomic is ever split over two words, two blocks or two pages, so none can take the bus for longer than one access.
 
@@ -158,12 +158,12 @@ atomic_or(a, bits):                       # any operation that is not in the fet
 
 | Entry | Mnemonics |
 |---|---|
-| [Compare and swap](09-isa.md#cas-compare-and-swap) | `CAS`, `CASL` |
-| [Atomic exchange](09-isa.md#swap-atomic-exchange) | `SWAP`, `SWAPL` |
-| [Atomic fetch and add](09-isa.md#aadd-atomic-fetch-and-add) | `AADD`, `AADDL` |
-| [Atomic fetch and and, bit set (or), xor](09-isa.md#aand-atomic-fetch-and-and-bit-set-or-xor) | `AAND`, `AANDL`, `ABIS`, `ABISL`, `AXOR`, `AXORL` |
-| [Atomic fetch and minimum or maximum](09-isa.md#amax-atomic-fetch-and-minimum-or-maximum) | `AMAX`, `AMAXL`, `AMIN`, `AMINL`, `AMAXU`, `AMAXUL`, `AMINU`, `AMINUL` |
-| [Load-linked and store-conditional](09-isa.md#llsc-load-linked-and-store-conditional) | `LL`, `LLL`, `SC`, `SCL` |
+| [Compare and swap](09-isa.md#cas-compare-and-swap) | `CAS`, `CAS.S32` |
+| [Atomic exchange](09-isa.md#swap-atomic-exchange) | `SWAP`, `SWAP.S32` |
+| [Atomic fetch and add](09-isa.md#aadd-atomic-fetch-and-add) | `AADD`, `AADD.S32` |
+| [Atomic fetch and and, bit set (or), xor](09-isa.md#aand-atomic-fetch-and-and-bit-set-or-xor) | `AAND`, `AAND.S32`, `ABIS`, `ABIS.S32`, `AXOR`, `AXOR.S32` |
+| [Atomic fetch and minimum or maximum](09-isa.md#amax-atomic-fetch-and-minimum-or-maximum) | `AMAX`, `AMAX.S32`, `AMIN`, `AMIN.S32`, `AMAX.U64`, `AMAX.U32`, `AMIN.U64`, `AMIN.U32` |
+| [Load-linked and store-conditional](09-isa.md#llsc-load-linked-and-store-conditional) | `LL`, `LL.S32`, `SC`, `SC.S32` |
 <!-- /entries:7.4 -->
 
 ## 7.5 Memory ordering: from sequential consistency to the weak models
@@ -249,10 +249,10 @@ The tests are part of the work. A declaration of sequential consistency is easy 
 
 **Each architecture's answer.** x86 swaps the `GS` base register with a saved kernel value on entry (`swapgs`, 65 uses in the four kernels of the survey); AArch64 holds the pointer in `tpidr_el1` and the current task in `sp_el0`; RISC-V holds it in the supervisor scratch register `sscratch` and exchanges it with the thread pointer in one `csrrw`, and OpenBSD's riscv64 port keeps `curcpu()` in a register, `register struct cpu_info *__curcpu asm ("tp")` (`cpu.h`, read), with `cpu_number()` as `curcpu()->ci_cpuid`; MIPS reserves two registers, `k0` and `k1`, for the kernel in the ABI; the VAX and the 68000 push everything and need no scratch (the numbers are from `docs/kernel-asm-survey.md`; the OpenBSD and Linux lines were read).
 
-**The pdp64's answer.** `DP`, the direct-page register of chapter 6 (6.2), has a copy for each mode. In kernel mode it is the per-CPU pointer: a field of this core's structure is one `MOVQ d(DP), Rd`, a six-byte load with a 28-bit displacement (9.3.5). In user mode the same register is the thread pointer, so thread-local data costs the same, and the two copies do not interfere. The kernel sets its copy with `MTDP` when it starts the core. A store through `d(DP)` is not in the grammar yet; a store takes the pointer in a register.
+**The pdp64's answer.** `DP`, the direct-page register of chapter 6 (6.2), has a copy for each mode. In kernel mode it is the per-CPU pointer: a field of this core's structure is one `MOV d(DP), Rd`, a six-byte load with a 28-bit displacement (9.3.5). In user mode the same register is the thread pointer, so thread-local data costs the same, and the two copies do not interfere. The kernel sets its copy with `MTDP` when it starts the core. A store through `d(DP)` is not in the grammar yet; a store takes the pointer in a register.
 
 ```
-cpu_number():   MOVQ ci_cpuid(DP), Rd        # a field of this core's structure; `MFSR` of `CPUID` is read once, at start
+cpu_number():   MOV ci_cpuid(DP), Rd        # a field of this core's structure; `MFSR` of `CPUID` is read once, at start
 curcpu():       MFDP Rd                      # kernel mode: DP is the address of this core's struct cpu_info
 ```
 
@@ -260,13 +260,13 @@ curcpu():       MFDP Rd                      # kernel mode: DP is the address of
 
 **7.8.1** `MFSR` of the system register `CPUID` returns the number of the core that executes it. It cannot be synthesised and per-CPU data needs it.
 
-**7.8.2** `DP`, the direct-page register, has a copy per mode; in kernel mode it is the per-CPU pointer and a field of the per-CPU structure is one six-byte instruction, `MOVQ d(DP), Rd`.
+**7.8.2** `DP`, the direct-page register, has a copy per mode; in kernel mode it is the per-CPU pointer and a field of the per-CPU structure is one six-byte instruction, `MOV d(DP), Rd`.
 
 **7.8.3** The address-space tag makes a context switch constant-time, and global page-table entries keep the kernel's own mappings out of the invalidation path.
 
 **7.8.4** The stack pointer is banked by mode, so an interrupt arriving in user mode on any core finds that core's kernel stack without a search.
 
-*Commentary.* **Chain.** PDP-11: globals and one fixed `u`; nothing to find. VAX: the same, with the process pointer in a processor register (`PR_SSP`, as `lock_stubs.S` of the NetBSD VAX port reads it to get `curlwp`, read). x86, ARM, RISC-V, MIPS: a hand-built per-CPU base, a special register or a reserved one, and a rule about who may touch it when. pdp64: `DP`. **Improvements.** `DP` serves code density, and is also what both an SMP kernel and a threaded C runtime need most, in the mode where each needs it. **Benefits.** No `swapgs`, no reserved scratch register, no code spent finding the CPU; the context switch of chapter 6 (6.11) writes two registers. **Impact.** *Kernel:* per-CPU data is one six-byte `MOVQ d(DP), Rd`. *Compiler:* the compiler addresses per-CPU variables relative to `DP`. *Hardware:* three copies of `DP` and of the stack pointer, one per mode.
+*Commentary.* **Chain.** PDP-11: globals and one fixed `u`; nothing to find. VAX: the same, with the process pointer in a processor register (`PR_SSP`, as `lock_stubs.S` of the NetBSD VAX port reads it to get `curlwp`, read). x86, ARM, RISC-V, MIPS: a hand-built per-CPU base, a special register or a reserved one, and a rule about who may touch it when. pdp64: `DP`. **Improvements.** `DP` serves code density, and is also what both an SMP kernel and a threaded C runtime need most, in the mode where each needs it. **Benefits.** No `swapgs`, no reserved scratch register, no code spent finding the CPU; the context switch of chapter 6 (6.11) writes two registers. **Impact.** *Kernel:* per-CPU data is one six-byte `MOV d(DP), Rd`. *Compiler:* the compiler addresses per-CPU variables relative to `DP`. *Hardware:* three copies of `DP` and of the stack pointer, one per mode.
 
 ## 7.9 Translation and instruction-cache coherence
 
@@ -359,7 +359,7 @@ unmap page :  pte = 0 ; TLBI va ; TLBSYNC                             # 7.9, lis
 new code   :  write the instructions ; ICINV line ; ISYNC             # 7.9
 idle       :  SPL #7 ; test ; WFE ; SPL #0                            # 7.10
 wake a core:  SEV, or an inter-processor interrupt                    # 7.10
-my data    :  MOVQ d(DP), Rd                                          # 7.8
+my data    :  MOV d(DP), Rd                                          # 7
 ```
 
 **7.12.1** The kernel keeps its per-CPU structure at the address in `DP` and takes a lock with one atomic.

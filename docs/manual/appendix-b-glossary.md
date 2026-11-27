@@ -9,7 +9,7 @@
 | Term | Meaning |
 |---|---|
 | **pdp64** | the 64-bit extension of the PDP-11 this manual describes, as the PDP-11 extended the PDP-10's ideas down and the VAX extended the PDP-11 up (chapter 1) |
-| **parcel** | a 16-bit unit of instruction encoding; an instruction is one to three parcels, two to six bytes, or five parcels for `MOVQ` of a 64-bit constant (9.4) |
+| **parcel** | a 16-bit unit of instruction encoding; an instruction is one to three parcels, two to six bytes, or five parcels for `MOV` of a 64-bit constant (9.4) |
 | **leaf** | a group of mnemonics with one form, selected by a prefix of the first parcel; a sub-opcode picks the mnemonic (9.1) |
 | **prefix** | the top 3 to 16 bits of the first parcel; the prefixes form a prefix code (no prefix begins another), so the first parcel matches at most one leaf and fixes the length of the instruction (9.1) |
 | **form** | the list of operand shapes of a leaf: how each operand is written in assembly and how many bits each part has (9.1) |
@@ -18,8 +18,8 @@
 | **fused instruction** | `MOVCALL`, `POPRET`, `POPMRET` or `MOV2`: one instruction for a pair that the compiler finds adjacent (9.10) |
 | **relaxation** | the linker's choice, after the sections are laid out, of the shortest form that reaches for a call or an address; on by default (9.5) |
 | **`CBCC`** | compare-and-branch on condition: compares a register with zero, an immediate or a second register and branches in one instruction, writing nothing; the integer conditional branch of a machine with no condition codes (9.10) |
-| **`FCBCC`** | the floating-point compare-and-branch: compares two binary64 (or, with the letter `f` or the mark `.32` on both registers, binary32) registers and branches, with the words `uo` and `or` for the unordered case (9.10.8) |
-| **`RORL`** | rotate right by an immediate, 32-bit, sign-extended result (`ROR` with the mark `.32` is the same instruction) |
+| **`FCBCC`** | the floating-point compare-and-branch: compares two binary64 (or, with the suffix `.f32`, binary32) registers and branches, with the words `uo` and `or` for the unordered case (9.10.8) |
+| **`ROR.S32`** | rotate right by an immediate, 32-bit, sign-extended result (`ror.s32 r1, #5, r2`) |
 | **`SOB`** | subtract one and branch, either direction (9.10) |
 | **`MCPY`, `MMOV`, `MSET`, `MCMP`, `MSCN`, `MSCNN`** | the block operations: copy, move (overlap-safe), fill, compare, scan for a byte, scan for the first byte not equal; progress is held in registers so a fault restarts for free (9.11) |
 | **`MVAL`** | block scan of valid UTF-8, one of the string instructions of the same family (9.9) |

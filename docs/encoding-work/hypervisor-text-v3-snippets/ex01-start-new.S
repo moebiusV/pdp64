@@ -12,14 +12,14 @@ _start:
 	lea	hepoch_word, r1
 	mtsr	hepoch, r1
 	lea	hroot, r1
-	movq	=(1<<GTBR_S2EN | 1<<GTBR_NEW), r2
+	mov	=(1<<GTBR_S2EN | 1<<GTBR_NEW), r2
 	bis	r2, r1
 	mtsr	gtbr, r1
-	movq	=(1<<HTRAP_WFE | 1<<HTRAP_PTBR), r1
+	mov	=(1<<HTRAP_WFE | 1<<HTRAP_PTBR), r1
 	mtsr	htrap, r1
 	lea	_start, r1
 	mtsr	hepc, r1
-	movq	#0, r1
+	mov	#0, r1
 	mtsr	hepsw, r1
 	genter	#0
 	.data

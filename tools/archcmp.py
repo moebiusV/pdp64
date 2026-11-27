@@ -863,7 +863,7 @@ def pparse(path):
             continue
         w = ln.split(None, 1)
         _mn, _ops = w[0], P.split_ops(w[1]) if len(w) > 1 else []
-        _mn, _ops = marks.unspell(_mn, _ops)		# the analysis thinks in the words of the encoding; the source writes width marks
+        _mn, _ops = marks.unspell(_mn, _ops)		# the analysis thinks in the words of the encoding; the source writes the width suffixes
         cur[1].append(Ins(_mn, _ops))
     return funcs
 

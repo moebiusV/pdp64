@@ -8,1527 +8,1527 @@ _start:
 	lea	htab, r1
 	mtsr	hvbr, r1
 	lea	xh, r22
-	movq	#512, r23
-fill1:	movq	r22, (r1)+
+	mov	#512, r23
+fill1:	mov	r22, (r1)+
 	sob	r23, fill1
 	lea	gvtab, r1
 	mtsr	vbr, r1
 	lea	gh, r22
-	movq	#512, r23
-fill2:	movq	r22, (r1)+
+	mov	#512, r23
+fill2:	mov	r22, (r1)+
 	sob	r23, fill2
 	lea	gstk_top, r22
 	mtsr	gksp, r22
-	movq	#0, r1
+	mov	#0, r1
 	mtsr	htrap, r1
 	lea	s2l1, r1
 	bis	#(1<<PTE_V), r1
-	movq	r1, s2root
-	movq	=(LEAF), r1
-	movq	r1, s2l1
-	movq	=(PHYS(0x200000)|LEAF), r1
-	movq	r1, s2l1+8
+	mov	r1, s2root
+	mov	=(LEAF), r1
+	mov	r1, s2l1
+	mov	=(PHYS(0x200000)|LEAF), r1
+	mov	r1, s2l1+8
 	lea	s2l0, r1
 	bis	#(1<<PTE_V), r1
-	movq	r1, s2l1+16
-	movq	=(PHYS(0x400000)|LEAF), r1
-	movq	r1, s2l0+0
-	movq	=(PHYS(0x401000)|LEAF), r1
-	movq	r1, s2l0+8
-	movq	=(PHYS(0x402000)|LEAF), r1
-	movq	r1, s2l0+16
-	movq	=(PHYS(0x403000)|LEAF), r1
-	movq	r1, s2l0+24
-	movq	=(PHYS(0x404000)|LEAF), r1
-	movq	r1, s2l0+32
-	movq	=(PHYS(0x405000)|LEAF), r1
-	movq	r1, s2l0+40
-	movq	=(PHYS(0x406000)|LEAF), r1
-	movq	r1, s2l0+48
-	movq	=(PHYS(0x407000)|LEAF), r1
-	movq	r1, s2l0+56
-	movq	=(PHYS(0x408000)|LEAF), r1
-	movq	r1, s2l0+64
-	movq	=(PHYS(0x409000)|LEAF), r1
-	movq	r1, s2l0+72
-	movq	=(PHYS(0x40a000)|LEAF), r1
-	movq	r1, s2l0+80
-	movq	=(PHYS(0x40b000)|LEAF), r1
-	movq	r1, s2l0+88
-	movq	=(PHYS(0x40c000)|LEAF), r1
-	movq	r1, s2l0+96
-	movq	=(PHYS(0x40d000)|LEAF), r1
-	movq	r1, s2l0+104
-	movq	=(PHYS(0x40e000)|LEAF), r1
-	movq	r1, s2l0+112
-	movq	=(PHYS(0x40f000)|LEAF), r1
-	movq	r1, s2l0+120
+	mov	r1, s2l1+16
+	mov	=(PHYS(0x400000)|LEAF), r1
+	mov	r1, s2l0+0
+	mov	=(PHYS(0x401000)|LEAF), r1
+	mov	r1, s2l0+8
+	mov	=(PHYS(0x402000)|LEAF), r1
+	mov	r1, s2l0+16
+	mov	=(PHYS(0x403000)|LEAF), r1
+	mov	r1, s2l0+24
+	mov	=(PHYS(0x404000)|LEAF), r1
+	mov	r1, s2l0+32
+	mov	=(PHYS(0x405000)|LEAF), r1
+	mov	r1, s2l0+40
+	mov	=(PHYS(0x406000)|LEAF), r1
+	mov	r1, s2l0+48
+	mov	=(PHYS(0x407000)|LEAF), r1
+	mov	r1, s2l0+56
+	mov	=(PHYS(0x408000)|LEAF), r1
+	mov	r1, s2l0+64
+	mov	=(PHYS(0x409000)|LEAF), r1
+	mov	r1, s2l0+72
+	mov	=(PHYS(0x40a000)|LEAF), r1
+	mov	r1, s2l0+80
+	mov	=(PHYS(0x40b000)|LEAF), r1
+	mov	r1, s2l0+88
+	mov	=(PHYS(0x40c000)|LEAF), r1
+	mov	r1, s2l0+96
+	mov	=(PHYS(0x40d000)|LEAF), r1
+	mov	r1, s2l0+104
+	mov	=(PHYS(0x40e000)|LEAF), r1
+	mov	r1, s2l0+112
+	mov	=(PHYS(0x40f000)|LEAF), r1
+	mov	r1, s2l0+120
 	lea	s2l1b, r1
 	bis	#(1<<PTE_V), r1
-	movq	r1, s2rootb
-	movq	=(LEAF), r1
-	movq	r1, s2l1b
-	movq	=(PHYS(0x200000)|LEAF), r1
-	movq	r1, s2l1b+8
+	mov	r1, s2rootb
+	mov	=(LEAF), r1
+	mov	r1, s2l1b
+	mov	=(PHYS(0x200000)|LEAF), r1
+	mov	r1, s2l1b+8
 	lea	s2l0b, r1
 	bis	#(1<<PTE_V), r1
-	movq	r1, s2l1b+16
-	movq	=(PHYS(0x400000)|LEAF), r1
-	movq	r1, s2l0b+0
-	movq	=(PHYS(0x401000)|LEAF), r1
-	movq	r1, s2l0b+8
-	movq	=(PHYS(0x402000)|LEAF), r1
-	movq	r1, s2l0b+16
-	movq	=(PHYS(0x403000)|LEAF), r1
-	movq	r1, s2l0b+24
-	movq	=(PHYS(0x404000)|LEAF), r1
-	movq	r1, s2l0b+32
-	movq	=(PHYS(0x405000)|LEAF), r1
-	movq	r1, s2l0b+40
-	movq	=(PHYS(0x406000)|LEAF), r1
-	movq	r1, s2l0b+48
-	movq	=(PHYS(0x407000)|LEAF), r1
-	movq	r1, s2l0b+56
-	movq	=(PHYS(0x408000)|LEAF), r1
-	movq	r1, s2l0b+64
-	movq	=(PHYS(0x409000)|LEAF), r1
-	movq	r1, s2l0b+72
-	movq	=(PHYS(0x40a000)|LEAF), r1
-	movq	r1, s2l0b+80
-	movq	=(PHYS(0x40b000)|LEAF), r1
-	movq	r1, s2l0b+88
-	movq	=(PHYS(0x40c000)|LEAF), r1
-	movq	r1, s2l0b+96
-	movq	=(PHYS(0x40d000)|LEAF), r1
-	movq	r1, s2l0b+104
-	movq	=(PHYS(0x40e000)|LEAF), r1
-	movq	r1, s2l0b+112
-	movq	=(PHYS(0x40f000)|LEAF), r1
-	movq	r1, s2l0b+120
-	movq	=(LEAF), r1
-	movq	r1, g1root
+	mov	r1, s2l1b+16
+	mov	=(PHYS(0x400000)|LEAF), r1
+	mov	r1, s2l0b+0
+	mov	=(PHYS(0x401000)|LEAF), r1
+	mov	r1, s2l0b+8
+	mov	=(PHYS(0x402000)|LEAF), r1
+	mov	r1, s2l0b+16
+	mov	=(PHYS(0x403000)|LEAF), r1
+	mov	r1, s2l0b+24
+	mov	=(PHYS(0x404000)|LEAF), r1
+	mov	r1, s2l0b+32
+	mov	=(PHYS(0x405000)|LEAF), r1
+	mov	r1, s2l0b+40
+	mov	=(PHYS(0x406000)|LEAF), r1
+	mov	r1, s2l0b+48
+	mov	=(PHYS(0x407000)|LEAF), r1
+	mov	r1, s2l0b+56
+	mov	=(PHYS(0x408000)|LEAF), r1
+	mov	r1, s2l0b+64
+	mov	=(PHYS(0x409000)|LEAF), r1
+	mov	r1, s2l0b+72
+	mov	=(PHYS(0x40a000)|LEAF), r1
+	mov	r1, s2l0b+80
+	mov	=(PHYS(0x40b000)|LEAF), r1
+	mov	r1, s2l0b+88
+	mov	=(PHYS(0x40c000)|LEAF), r1
+	mov	r1, s2l0b+96
+	mov	=(PHYS(0x40d000)|LEAF), r1
+	mov	r1, s2l0b+104
+	mov	=(PHYS(0x40e000)|LEAF), r1
+	mov	r1, s2l0b+112
+	mov	=(PHYS(0x40f000)|LEAF), r1
+	mov	r1, s2l0b+120
+	mov	=(LEAF), r1
+	mov	r1, g1root
 	lea	g1l1, r1
 	bis	#(1<<PTE_V), r1
-	movq	r1, g1root+8
+	mov	r1, g1root+8
 	lea	g1l0, r1
 	bis	#(1<<PTE_V), r1
-	movq	r1, g1l1
-	movq	=(0x200000|LEAF), r1
-	movq	r1, g1l0
-	movq	=(0x201000|LEAF), r1
-	movq	r1, g1l0+8
-	movq	=(LEAF), r1
-	movq	r1, g1broot
-	movq	=(0x407000|(1<<PTE_V)), r1
-	movq	r1, g1broot+8
+	mov	r1, g1l1
+	mov	=(0x200000|LEAF), r1
+	mov	r1, g1l0
+	mov	=(0x201000|LEAF), r1
+	mov	r1, g1l0+8
+	mov	=(LEAF), r1
+	mov	r1, g1broot
+	mov	=(0x407000|(1<<PTE_V)), r1
+	mov	r1, g1broot+8
 	lea	g1l0, r1
 	bis	#(1<<PTE_V), r1
-	movq	=(PHYS(0x407000)), r25
-	movq	r1, (r25)
+	mov	=(PHYS(0x407000)), r25
+	mov	r1, (r25)
 	lea	s2root, r22
-	movq	=(1<<GTBR_TAG|1<<GTBR_S2EN), r23
+	mov	=(1<<GTBR_TAG|1<<GTBR_S2EN), r23
 	bis	r23, r22
 	mtsr	gtbr, r22
 	mfsr	r22, gtbr
 	lea	s2root, r24
-	movq	=(1<<GTBR_S2EN|1<<GTBR_TAG), r23
+	mov	=(1<<GTBR_S2EN|1<<GTBR_TAG), r23
 	bis	r23, r24
 	cbeq	r22, r24, 1f
-	movq	#1, r0
+	mov	#1, r0
 	halt
 1:
 	; --- T1: translation off, stage 2 only: guest-physical 0x200000 is at physical 0x2200000
-	movq	=(PHYS(0x200000)), r25
-	movq	=(0xa1a1), r26
-	movq	r26, (r25)
-	movq	=(0x200008), r25
-	movq	=(0), r26
-	movq	r26, (r25)
+	mov	=(PHYS(0x200000)), r25
+	mov	=(0xa1a1), r26
+	mov	r26, (r25)
+	mov	=(0x200008), r25
+	mov	=(0), r26
+	mov	r26, (r25)
 	lea	g1, r22
 	mtsr	hepc, r22
-	movq	=(0), r22
+	mov	=(0), r22
 	mtsr	hepsw, r22
 	lea	B1, r20
-	movq	#99, r0
+	mov	#99, r0
 	genter	#RTIMASK_ALL
 B1:
 	mfsr	r22, hexitr
-	movq	=((XCODE_HALT)|(0)), r11
+	mov	=((XCODE_HALT)|(0)), r11
 	cbeq	r22, r11, 1f
-	movq	#2, r0
+	mov	#2, r0
 	halt
 1:
 	mfsr	r22, hcause
-	movq	=(VECTOR_HEXIT), r11
+	mov	=(VECTOR_HEXIT), r11
 	cbeq	r22, r11, 1f
-	movq	#3, r0
+	mov	#3, r0
 	halt
 1:
 	mfsr	r22, heva
-	movq	=(0), r11
+	mov	=(0), r11
 	cbeq	r22, r11, 1f
-	movq	#4, r0
+	mov	#4, r0
 	halt
 1:
 	mfsr	r22, hgpa
-	movq	=(0), r11
+	mov	=(0), r11
 	cbeq	r22, r11, 1f
-	movq	#5, r0
+	mov	#5, r0
 	halt
 1:
 	mfsr	r22, hepc
 	lea	g1e, r23
 	cbeq	r22, r23, 1f
-	movq	#6, r0
+	mov	#6, r0
 	halt
 1:
-	movq	=(PHYS(0x200008)), r25
-	movq	(r25), r27
-	movq	=(0x77), r11
+	mov	=(PHYS(0x200008)), r25
+	mov	(r25), r27
+	mov	=(0x77), r11
 	cbeq	r27, r11, 1f
-	movq	#7, r0
+	mov	#7, r0
 	halt
 1:
-	movq	=(0xa1a1), r11
+	mov	=(0xa1a1), r11
 	cbeq	r1, r11, 1f
-	movq	#8, r0
+	mov	#8, r0
 	halt
 1:
-	movq	=(0x200008), r25
-	movq	(r25), r27
-	movq	=(0), r11
+	mov	=(0x200008), r25
+	mov	(r25), r27
+	mov	=(0), r11
 	cbeq	r27, r11, 1f
-	movq	#9, r0
+	mov	#9, r0
 	halt
 1:
 	; --- T2: stage 1 and stage 2 composed
-	movq	=(PHYS(0x201000)), r25
-	movq	=(0xb2b2), r26
-	movq	r26, (r25)
+	mov	=(PHYS(0x201000)), r25
+	mov	=(0xb2b2), r26
+	mov	r26, (r25)
 	lea	g1root, r22
 	mtsr	ptbr, r22
-	movq	#1, r22
+	mov	#1, r22
 	mtsr	mmuctl, r22
 	lea	g2, r22
 	mtsr	hepc, r22
-	movq	=(0), r22
+	mov	=(0), r22
 	mtsr	hepsw, r22
 	lea	B2, r20
-	movq	#99, r0
+	mov	#99, r0
 	genter	#RTIMASK_ALL
 B2:
 	mfsr	r22, hexitr
-	movq	=((XCODE_HALT)|(0)), r11
+	mov	=((XCODE_HALT)|(0)), r11
 	cbeq	r22, r11, 1f
-	movq	#10, r0
+	mov	#10, r0
 	halt
 1:
 	mfsr	r22, hcause
-	movq	=(VECTOR_HEXIT), r11
+	mov	=(VECTOR_HEXIT), r11
 	cbeq	r22, r11, 1f
-	movq	#11, r0
+	mov	#11, r0
 	halt
 1:
 	mfsr	r22, heva
-	movq	=(0), r11
+	mov	=(0), r11
 	cbeq	r22, r11, 1f
-	movq	#12, r0
+	mov	#12, r0
 	halt
 1:
 	mfsr	r22, hgpa
-	movq	=(0), r11
+	mov	=(0), r11
 	cbeq	r22, r11, 1f
-	movq	#13, r0
+	mov	#13, r0
 	halt
 1:
 	mfsr	r22, hepc
 	lea	g2e, r23
 	cbeq	r22, r23, 1f
-	movq	#14, r0
+	mov	#14, r0
 	halt
 1:
-	movq	=(0xb2b2), r11
+	mov	=(0xb2b2), r11
 	cbeq	r1, r11, 1f
-	movq	#15, r0
+	mov	#15, r0
 	halt
 1:
-	movq	=(PHYS(0x201010)), r25
-	movq	(r25), r27
-	movq	=(0x88), r11
+	mov	=(PHYS(0x201010)), r25
+	mov	(r25), r27
+	mov	=(0x88), r11
 	cbeq	r27, r11, 1f
-	movq	#16, r0
+	mov	#16, r0
 	halt
 1:
-	movq	#0, r22
+	mov	#0, r22
 	mtsr	mmuctl, r22
 	; --- T3: stage-2 faults are exits; the hypervisor fills stage 2 and the guest retries
-	movq	=(PHYS(0x401008)), r25
-	movq	=(0xc3c3), r26
-	movq	r26, (r25)
+	mov	=(PHYS(0x401008)), r25
+	mov	=(0xc3c3), r26
+	mov	r26, (r25)
 	lea	s2l0+8, r25
-	movq	=(0), r26
-	movq	r26, (r25)
+	mov	=(0), r26
+	mov	r26, (r25)
 	lea	g3l, r22
 	mtsr	hepc, r22
-	movq	=(0), r22
+	mov	=(0), r22
 	mtsr	hepsw, r22
 	lea	T3a, r20
-	movq	#99, r0
+	mov	#99, r0
 	genter	#RTIMASK_ALL
 T3a:
 	mfsr	r22, hexitr
-	movq	=((XCODE_S2_INVALID)|(0)), r11
+	mov	=((XCODE_S2_INVALID)|(0)), r11
 	cbeq	r22, r11, 1f
-	movq	#17, r0
+	mov	#17, r0
 	halt
 1:
 	mfsr	r22, hcause
-	movq	=(VECTOR_GLFAULT), r11
+	mov	=(VECTOR_GLFAULT), r11
 	cbeq	r22, r11, 1f
-	movq	#18, r0
+	mov	#18, r0
 	halt
 1:
 	mfsr	r22, heva
-	movq	=(0x401008), r11
+	mov	=(0x401008), r11
 	cbeq	r22, r11, 1f
-	movq	#19, r0
+	mov	#19, r0
 	halt
 1:
 	mfsr	r22, hgpa
-	movq	=(0x401008), r11
+	mov	=(0x401008), r11
 	cbeq	r22, r11, 1f
-	movq	#20, r0
+	mov	#20, r0
 	halt
 1:
 	mfsr	r22, hepc
 	lea	g3li, r23
 	cbeq	r22, r23, 1f
-	movq	#21, r0
+	mov	#21, r0
 	halt
 1:
 	mfsr	r22, hinsn
 	shr	#16, r22
-	mov	g3li.u16, r23
+	mov.u16	g3li, r23
 	cbeq	r22, r23, 1f
-	movq	#22, r0
+	mov	#22, r0
 	halt
 1:
 	mfsr	r22, epc
-	movq	=(0), r11
+	mov	=(0), r11
 	cbeq	r22, r11, 1f
-	movq	#23, r0
+	mov	#23, r0
 	halt
 1:
 	lea	s2l0+8, r25
-	movq	=((PHYS(0x401000)|LEAF)), r26
-	movq	r26, (r25)
+	mov	=((PHYS(0x401000)|LEAF)), r26
+	mov	r26, (r25)
 	tlbia
 	tlbsync
 	lea	B3, r20
-	movq	#99, r0
+	mov	#99, r0
 	genter	#RTIMASK_ALL
 B3:
 	mfsr	r22, hexitr
-	movq	=(XCODE_HALT), r11
+	mov	=(XCODE_HALT), r11
 	cbeq	r22, r11, 1f
-	movq	#24, r0
+	mov	#24, r0
 	halt
 1:
-	movq	=(0xc3c3), r11
+	mov	=(0xc3c3), r11
 	cbeq	r1, r11, 1f
-	movq	#25, r0
+	mov	#25, r0
 	halt
 1:
 	lea	s2l0+8, r25
-	movq	=(0), r26
-	movq	r26, (r25)
+	mov	=(0), r26
+	mov	r26, (r25)
 	tlbia
 	lea	g3s, r22
 	mtsr	hepc, r22
-	movq	=(0), r22
+	mov	=(0), r22
 	mtsr	hepsw, r22
 	lea	T3b, r20
-	movq	#99, r0
+	mov	#99, r0
 	genter	#RTIMASK_ALL
 T3b:
 	mfsr	r22, hexitr
-	movq	=((XCODE_S2_INVALID)|(0)), r11
+	mov	=((XCODE_S2_INVALID)|(0)), r11
 	cbeq	r22, r11, 1f
-	movq	#26, r0
+	mov	#26, r0
 	halt
 1:
 	mfsr	r22, hcause
-	movq	=(VECTOR_GSFAULT), r11
+	mov	=(VECTOR_GSFAULT), r11
 	cbeq	r22, r11, 1f
-	movq	#27, r0
+	mov	#27, r0
 	halt
 1:
 	mfsr	r22, heva
-	movq	=(0x401010), r11
+	mov	=(0x401010), r11
 	cbeq	r22, r11, 1f
-	movq	#28, r0
+	mov	#28, r0
 	halt
 1:
 	mfsr	r22, hgpa
-	movq	=(0x401010), r11
+	mov	=(0x401010), r11
 	cbeq	r22, r11, 1f
-	movq	#29, r0
+	mov	#29, r0
 	halt
 1:
 	mfsr	r22, hepc
 	lea	g3si, r23
 	cbeq	r22, r23, 1f
-	movq	#30, r0
+	mov	#30, r0
 	halt
 1:
 	mfsr	r22, hinsn
 	shr	#16, r22
-	mov	g3si.u16, r23
+	mov.u16	g3si, r23
 	cbeq	r22, r23, 1f
-	movq	#31, r0
+	mov	#31, r0
 	halt
 1:
 	lea	s2l0+8, r25
-	movq	=((PHYS(0x401000)|LEAF)), r26
-	movq	r26, (r25)
+	mov	=((PHYS(0x401000)|LEAF)), r26
+	mov	r26, (r25)
 	tlbia
 	lea	B4, r20
-	movq	#99, r0
+	mov	#99, r0
 	genter	#RTIMASK_ALL
 B4:
 	mfsr	r22, hexitr
-	movq	=(XCODE_HALT), r11
+	mov	=(XCODE_HALT), r11
 	cbeq	r22, r11, 1f
-	movq	#32, r0
+	mov	#32, r0
 	halt
 1:
-	movq	=(PHYS(0x401010)), r25
-	movq	(r25), r27
-	movq	=(0xd4d4), r11
+	mov	=(PHYS(0x401010)), r25
+	mov	(r25), r27
+	mov	=(0xd4d4), r11
 	cbeq	r27, r11, 1f
-	movq	#33, r0
+	mov	#33, r0
 	halt
 1:
 	lea	s2l0+16, r25
-	movq	=(0), r26
-	movq	r26, (r25)
+	mov	=(0), r26
+	mov	r26, (r25)
 	tlbia
 	lea	g3f, r22
 	mtsr	hepc, r22
-	movq	=(0), r22
+	mov	=(0), r22
 	mtsr	hepsw, r22
 	lea	T3c, r20
-	movq	#99, r0
+	mov	#99, r0
 	genter	#RTIMASK_ALL
 T3c:
 	mfsr	r22, hexitr
-	movq	=(XCODE_S2_INVALID), r11
+	mov	=(XCODE_S2_INVALID), r11
 	cbeq	r22, r11, 1f
-	movq	#34, r0
+	mov	#34, r0
 	halt
 1:
 	mfsr	r22, hcause
-	movq	=(VECTOR_GIFAULT), r11
+	mov	=(VECTOR_GIFAULT), r11
 	cbeq	r22, r11, 1f
-	movq	#35, r0
+	mov	#35, r0
 	halt
 1:
 	mfsr	r22, hepc
-	movq	=(0x402000), r11
+	mov	=(0x402000), r11
 	cbeq	r22, r11, 1f
-	movq	#36, r0
+	mov	#36, r0
 	halt
 1:
 	mfsr	r22, heva
-	movq	=(0x402000), r11
+	mov	=(0x402000), r11
 	cbeq	r22, r11, 1f
-	movq	#37, r0
+	mov	#37, r0
 	halt
 1:
 	mfsr	r22, hgpa
-	movq	=(0x402000), r11
+	mov	=(0x402000), r11
 	cbeq	r22, r11, 1f
-	movq	#38, r0
+	mov	#38, r0
 	halt
 1:
 	mfsr	r22, hinsn
 	cbeq	r22, #0, 1f
-	movq	#39, r0
+	mov	#39, r0
 	halt
 1:
 	lea	s2l0+16, r25
-	movq	=((PHYS(0x402000)|LEAF)), r26
-	movq	r26, (r25)
-	movq	=(PHYS(0x402000)), r25
-	movq	code_ret_, r26
-	movq	r26, (r25)
+	mov	=((PHYS(0x402000)|LEAF)), r26
+	mov	r26, (r25)
+	mov	=(PHYS(0x402000)), r25
+	mov	code_ret_, r26
+	mov	r26, (r25)
 	tlbia
 	lea	B5, r20
-	movq	#99, r0
+	mov	#99, r0
 	genter	#RTIMASK_ALL
 B5:
 	mfsr	r22, hexitr
-	movq	=(XCODE_HALT), r11
+	mov	=(XCODE_HALT), r11
 	cbeq	r22, r11, 1f
-	movq	#40, r0
+	mov	#40, r0
 	halt
 1:
-	movq	=(0x99), r11
+	mov	=(0x99), r11
 	cbeq	r1, r11, 1f
-	movq	#41, r0
+	mov	#41, r0
 	halt
 1:
 	; --- T4: an entry that refuses: A clear, D clear on a store, U set, a reserved bit
-	movq	=(PHYS(0x403008)), r25
-	movq	=(0xe5e5), r26
-	movq	r26, (r25)
+	mov	=(PHYS(0x403008)), r25
+	mov	=(0xe5e5), r26
+	mov	r26, (r25)
 	lea	s2l0+24, r25
-	movq	=((PHYS(0x403000)|(LEAF&~(1<<PTE_A)))), r26
-	movq	r26, (r25)
+	mov	=((PHYS(0x403000)|(LEAF&~(1<<PTE_A)))), r26
+	mov	r26, (r25)
 	tlbia
 	lea	g4a, r22
 	mtsr	hepc, r22
-	movq	=(0), r22
+	mov	=(0), r22
 	mtsr	hepsw, r22
 	lea	T4a, r20
-	movq	#99, r0
+	mov	#99, r0
 	genter	#RTIMASK_ALL
 T4a:
 	mfsr	r22, hexitr
-	movq	=((XCODE_S2_REFUSED)|(0)), r11
+	mov	=((XCODE_S2_REFUSED)|(0)), r11
 	cbeq	r22, r11, 1f
-	movq	#42, r0
+	mov	#42, r0
 	halt
 1:
 	mfsr	r22, hcause
-	movq	=(VECTOR_GLFAULT), r11
+	mov	=(VECTOR_GLFAULT), r11
 	cbeq	r22, r11, 1f
-	movq	#43, r0
+	mov	#43, r0
 	halt
 1:
 	mfsr	r22, heva
-	movq	=(0x403008), r11
+	mov	=(0x403008), r11
 	cbeq	r22, r11, 1f
-	movq	#44, r0
+	mov	#44, r0
 	halt
 1:
 	mfsr	r22, hgpa
-	movq	=(0x403008), r11
+	mov	=(0x403008), r11
 	cbeq	r22, r11, 1f
-	movq	#45, r0
+	mov	#45, r0
 	halt
 1:
 	mfsr	r22, hepc
 	lea	g4ai, r23
 	cbeq	r22, r23, 1f
-	movq	#46, r0
+	mov	#46, r0
 	halt
 1:
 	mfsr	r22, hinsn
 	shr	#16, r22
-	mov	g4ai.u16, r23
+	mov.u16	g4ai, r23
 	cbeq	r22, r23, 1f
-	movq	#47, r0
+	mov	#47, r0
 	halt
 1:
 	lea	s2l0+24, r25
-	movq	=((PHYS(0x403000)|LEAF)), r26
-	movq	r26, (r25)
+	mov	=((PHYS(0x403000)|LEAF)), r26
+	mov	r26, (r25)
 	tlbia
 	lea	B6, r20
-	movq	#99, r0
+	mov	#99, r0
 	genter	#RTIMASK_ALL
 B6:
 	mfsr	r22, hexitr
-	movq	=(XCODE_HALT), r11
+	mov	=(XCODE_HALT), r11
 	cbeq	r22, r11, 1f
-	movq	#48, r0
+	mov	#48, r0
 	halt
 1:
-	movq	=(0xe5e5), r11
+	mov	=(0xe5e5), r11
 	cbeq	r1, r11, 1f
-	movq	#49, r0
+	mov	#49, r0
 	halt
 1:
-	movq	=(PHYS(0x404008)), r25
-	movq	=(0xf6f6), r26
-	movq	r26, (r25)
+	mov	=(PHYS(0x404008)), r25
+	mov	=(0xf6f6), r26
+	mov	r26, (r25)
 	lea	s2l0+32, r25
-	movq	=((PHYS(0x404000)|(LEAF&~(1<<PTE_D)))), r26
-	movq	r26, (r25)
+	mov	=((PHYS(0x404000)|(LEAF&~(1<<PTE_D)))), r26
+	mov	r26, (r25)
 	tlbia
 	lea	g4d, r22
 	mtsr	hepc, r22
-	movq	=(0), r22
+	mov	=(0), r22
 	mtsr	hepsw, r22
 	lea	T4b, r20
-	movq	#99, r0
+	mov	#99, r0
 	genter	#RTIMASK_ALL
 T4b:
 	mfsr	r22, hexitr
-	movq	=((XCODE_S2_REFUSED)|(0)), r11
+	mov	=((XCODE_S2_REFUSED)|(0)), r11
 	cbeq	r22, r11, 1f
-	movq	#50, r0
+	mov	#50, r0
 	halt
 1:
 	mfsr	r22, hcause
-	movq	=(VECTOR_GSFAULT), r11
+	mov	=(VECTOR_GSFAULT), r11
 	cbeq	r22, r11, 1f
-	movq	#51, r0
+	mov	#51, r0
 	halt
 1:
 	mfsr	r22, heva
-	movq	=(0x404010), r11
+	mov	=(0x404010), r11
 	cbeq	r22, r11, 1f
-	movq	#52, r0
+	mov	#52, r0
 	halt
 1:
 	mfsr	r22, hgpa
-	movq	=(0x404010), r11
+	mov	=(0x404010), r11
 	cbeq	r22, r11, 1f
-	movq	#53, r0
+	mov	#53, r0
 	halt
 1:
 	mfsr	r22, hepc
 	lea	g4ds, r23
 	cbeq	r22, r23, 1f
-	movq	#54, r0
+	mov	#54, r0
 	halt
 1:
 	mfsr	r22, hinsn
 	shr	#16, r22
-	mov	g4ds.u16, r23
+	mov.u16	g4ds, r23
 	cbeq	r22, r23, 1f
-	movq	#55, r0
+	mov	#55, r0
 	halt
 1:
-	movq	=(0xf6f6), r11
+	mov	=(0xf6f6), r11
 	cbeq	r1, r11, 1f
-	movq	#56, r0
+	mov	#56, r0
 	halt
 1:
 	lea	s2l0+32, r25
-	movq	=((PHYS(0x404000)|LEAF)), r26
-	movq	r26, (r25)
+	mov	=((PHYS(0x404000)|LEAF)), r26
+	mov	r26, (r25)
 	tlbia
 	lea	B7, r20
-	movq	#99, r0
+	mov	#99, r0
 	genter	#RTIMASK_ALL
 B7:
 	mfsr	r22, hexitr
-	movq	=(XCODE_HALT), r11
+	mov	=(XCODE_HALT), r11
 	cbeq	r22, r11, 1f
-	movq	#57, r0
+	mov	#57, r0
 	halt
 1:
-	movq	=(PHYS(0x404010)), r25
-	movq	(r25), r27
-	movq	=(0x5151), r11
+	mov	=(PHYS(0x404010)), r25
+	mov	(r25), r27
+	mov	=(0x5151), r11
 	cbeq	r27, r11, 1f
-	movq	#58, r0
+	mov	#58, r0
 	halt
 1:
 	lea	s2l0+40, r25
-	movq	=((PHYS(0x405000)|LEAF|(1<<PTE_U))), r26
-	movq	r26, (r25)
+	mov	=((PHYS(0x405000)|LEAF|(1<<PTE_U))), r26
+	mov	r26, (r25)
 	tlbia
 	lea	g4u, r22
 	mtsr	hepc, r22
-	movq	=(0), r22
+	mov	=(0), r22
 	mtsr	hepsw, r22
 	lea	T4c, r20
-	movq	#99, r0
+	mov	#99, r0
 	genter	#RTIMASK_ALL
 T4c:
 	mfsr	r22, hexitr
-	movq	=((XCODE_S2_REFUSED)|(0)), r11
+	mov	=((XCODE_S2_REFUSED)|(0)), r11
 	cbeq	r22, r11, 1f
-	movq	#59, r0
+	mov	#59, r0
 	halt
 1:
 	mfsr	r22, hcause
-	movq	=(VECTOR_GLFAULT), r11
+	mov	=(VECTOR_GLFAULT), r11
 	cbeq	r22, r11, 1f
-	movq	#60, r0
+	mov	#60, r0
 	halt
 1:
 	mfsr	r22, heva
-	movq	=(0x405008), r11
+	mov	=(0x405008), r11
 	cbeq	r22, r11, 1f
-	movq	#61, r0
+	mov	#61, r0
 	halt
 1:
 	mfsr	r22, hgpa
-	movq	=(0x405008), r11
+	mov	=(0x405008), r11
 	cbeq	r22, r11, 1f
-	movq	#62, r0
+	mov	#62, r0
 	halt
 1:
 	mfsr	r22, hepc
 	lea	g4ui, r23
 	cbeq	r22, r23, 1f
-	movq	#63, r0
+	mov	#63, r0
 	halt
 1:
 	mfsr	r22, hinsn
 	shr	#16, r22
-	mov	g4ui.u16, r23
+	mov.u16	g4ui, r23
 	cbeq	r22, r23, 1f
-	movq	#64, r0
+	mov	#64, r0
 	halt
 1:
 	lea	s2l0+40, r25
-	movq	=((PHYS(0x405000)|LEAF|(1<<62))), r26
-	movq	r26, (r25)
+	mov	=((PHYS(0x405000)|LEAF|(1<<62))), r26
+	mov	r26, (r25)
 	tlbia
 	lea	B8, r20
-	movq	#99, r0
+	mov	#99, r0
 	genter	#RTIMASK_ALL
 B8:
 	mfsr	r22, hexitr
-	movq	=(XCODE_S2_REFUSED), r11
+	mov	=(XCODE_S2_REFUSED), r11
 	cbeq	r22, r11, 1f
-	movq	#65, r0
+	mov	#65, r0
 	halt
 1:
 	lea	s2l0+40, r25
-	movq	=((PHYS(0x405000)|LEAF)), r26
-	movq	r26, (r25)
+	mov	=((PHYS(0x405000)|LEAF)), r26
+	mov	r26, (r25)
 	tlbia
 	; --- T5: the guest's stage-1 walk reads a table at guest-physical 0x407000, which stage 2 does not map: WALK
-	movq	=(PHYS(0x200008)), r25
-	movq	=(0x7a7a), r26
-	movq	r26, (r25)
+	mov	=(PHYS(0x200008)), r25
+	mov	=(0x7a7a), r26
+	mov	r26, (r25)
 	lea	s2l0+56, r25
-	movq	=(0), r26
-	movq	r26, (r25)
+	mov	=(0), r26
+	mov	r26, (r25)
 	lea	g1broot, r22
 	mtsr	ptbr, r22
-	movq	#1, r22
+	mov	#1, r22
 	mtsr	mmuctl, r22
 	lea	g5, r22
 	mtsr	hepc, r22
-	movq	=(0), r22
+	mov	=(0), r22
 	mtsr	hepsw, r22
 	lea	T5a, r20
-	movq	#99, r0
+	mov	#99, r0
 	genter	#RTIMASK_ALL
 T5a:
 	mfsr	r22, hexitr
-	movq	=((XCODE_S2_INVALID)|(1<<XFLAG_WALK)), r11
+	mov	=((XCODE_S2_INVALID)|(1<<XFLAG_WALK)), r11
 	cbeq	r22, r11, 1f
-	movq	#66, r0
+	mov	#66, r0
 	halt
 1:
 	mfsr	r22, hcause
-	movq	=(VECTOR_GLFAULT), r11
+	mov	=(VECTOR_GLFAULT), r11
 	cbeq	r22, r11, 1f
-	movq	#67, r0
+	mov	#67, r0
 	halt
 1:
 	mfsr	r22, heva
-	movq	=(0x40000008), r11
+	mov	=(0x40000008), r11
 	cbeq	r22, r11, 1f
-	movq	#68, r0
+	mov	#68, r0
 	halt
 1:
 	mfsr	r22, hgpa
-	movq	=(0x407000), r11
+	mov	=(0x407000), r11
 	cbeq	r22, r11, 1f
-	movq	#69, r0
+	mov	#69, r0
 	halt
 1:
 	mfsr	r22, hepc
 	lea	g5i, r23
 	cbeq	r22, r23, 1f
-	movq	#70, r0
+	mov	#70, r0
 	halt
 1:
 	mfsr	r22, hinsn
 	shr	#16, r22
-	mov	g5i.u16, r23
+	mov.u16	g5i, r23
 	cbeq	r22, r23, 1f
-	movq	#71, r0
+	mov	#71, r0
 	halt
 1:
 	lea	s2l0+56, r25
-	movq	=((PHYS(0x407000)|LEAF)), r26
-	movq	r26, (r25)
+	mov	=((PHYS(0x407000)|LEAF)), r26
+	mov	r26, (r25)
 	tlbia
 	lea	B9, r20
-	movq	#99, r0
+	mov	#99, r0
 	genter	#RTIMASK_ALL
 B9:
 	mfsr	r22, hexitr
-	movq	=(XCODE_HALT), r11
+	mov	=(XCODE_HALT), r11
 	cbeq	r22, r11, 1f
-	movq	#72, r0
+	mov	#72, r0
 	halt
 1:
-	movq	=(0x7a7a), r11
+	mov	=(0x7a7a), r11
 	cbeq	r1, r11, 1f
-	movq	#73, r0
+	mov	#73, r0
 	halt
 1:
-	movq	#0, r22
+	mov	#0, r22
 	mtsr	mmuctl, r22
 	; --- T6: a stage-2 miss on the guest's vector fetch: VEC, nothing changed, the instruction is run again
 	lea	s2l0+64, r25
-	movq	=(0), r26
-	movq	r26, (r25)
-	movq	=0x408000, r22
+	mov	=(0), r26
+	mov	r26, (r25)
+	mov	=0x408000, r22
 	mtsr	vbr, r22
-	movq	=0x1234, r22
+	mov	=0x1234, r22
 	mtsr	gecause, r22
-	movq	=0x5678, r22
+	mov	=0x5678, r22
 	mtsr	epc, r22
 	tlbia
 	lea	g6, r22
 	mtsr	hepc, r22
-	movq	=(0), r22
+	mov	=(0), r22
 	mtsr	hepsw, r22
 	lea	T6a, r20
-	movq	#99, r0
+	mov	#99, r0
 	genter	#RTIMASK_ALL
 T6a:
 	mfsr	r22, hexitr
-	movq	=((XCODE_S2_INVALID)|(1<<XFLAG_VEC)), r11
+	mov	=((XCODE_S2_INVALID)|(1<<XFLAG_VEC)), r11
 	cbeq	r22, r11, 1f
-	movq	#74, r0
+	mov	#74, r0
 	halt
 1:
 	mfsr	r22, hcause
-	movq	=(VECTOR_GLFAULT), r11
+	mov	=(VECTOR_GLFAULT), r11
 	cbeq	r22, r11, 1f
-	movq	#75, r0
+	mov	#75, r0
 	halt
 1:
 	mfsr	r22, heva
-	movq	=(0), r11
+	mov	=(0), r11
 	cbeq	r22, r11, 1f
-	movq	#76, r0
+	mov	#76, r0
 	halt
 1:
 	mfsr	r22, hgpa
-	movq	=(0x408000+8*(VECTOR_TRAP_BASE+1)), r11
+	mov	=(0x408000+8*(VECTOR_TRAP_BASE+1)), r11
 	cbeq	r22, r11, 1f
-	movq	#77, r0
+	mov	#77, r0
 	halt
 1:
 	mfsr	r22, hepc
 	lea	g6, r23
 	cbeq	r22, r23, 1f
-	movq	#78, r0
+	mov	#78, r0
 	halt
 1:
 	mfsr	r22, hinsn
 	shr	#16, r22
-	mov	g6.u16, r23
+	mov.u16	g6, r23
 	cbeq	r22, r23, 1f
-	movq	#79, r0
+	mov	#79, r0
 	halt
 1:
 	mfsr	r22, epc
-	movq	=(0x5678), r11
+	mov	=(0x5678), r11
 	cbeq	r22, r11, 1f
-	movq	#80, r0
+	mov	#80, r0
 	halt
 1:
 	mfsr	r22, ecause
-	movq	=(0x1234), r11
+	mov	=(0x1234), r11
 	cbeq	r22, r11, 1f
-	movq	#81, r0
+	mov	#81, r0
 	halt
 1:
 	lea	s2l0+64, r25
-	movq	=((PHYS(0x408000)|LEAF)), r26
-	movq	r26, (r25)
+	mov	=((PHYS(0x408000)|LEAF)), r26
+	mov	r26, (r25)
 	lea	gh, r22
-	movq	=(PHYS(0x408000+8*(VECTOR_TRAP_BASE+1))), r25
-	movq	r22, (r25)
+	mov	=(PHYS(0x408000+8*(VECTOR_TRAP_BASE+1))), r25
+	mov	r22, (r25)
 	tlbia
 	lea	B10, r20
-	movq	#99, r0
+	mov	#99, r0
 	genter	#RTIMASK_ALL
 B10:
 	mfsr	r22, hexitr
-	movq	=(XCODE_HALT), r11
+	mov	=(XCODE_HALT), r11
 	cbeq	r22, r11, 1f
-	movq	#82, r0
+	mov	#82, r0
 	halt
 1:
 	mfsr	r22, ecause
-	movq	=(VECTOR_TRAP_BASE+1), r11
+	mov	=(VECTOR_TRAP_BASE+1), r11
 	cbeq	r22, r11, 1f
-	movq	#83, r0
+	mov	#83, r0
 	halt
 1:
 	mfsr	r22, epc
 	lea	g6e, r23
 	cbeq	r22, r23, 1f
-	movq	#84, r0
+	mov	#84, r0
 	halt
 1:
 	lea	s2l0+64, r25
-	movq	=(0), r26
-	movq	r26, (r25)
+	mov	=(0), r26
+	mov	r26, (r25)
 	tlbia
-	movq	=(100<<16), r22
+	mov	=(100<<16), r22
 	mtsr	vivec, r22
-	movq	#(1<<3), r22
+	mov	#(1<<3), r22
 	mtsr	virq, r22
-	movq	#0, r22
+	mov	#0, r22
 	mtsr	epc, r22
 	lea	g6v, r22
 	mtsr	hepc, r22
-	movq	=(0), r22
+	mov	=(0), r22
 	mtsr	hepsw, r22
 	lea	T6b, r20
-	movq	#99, r0
+	mov	#99, r0
 	genter	#RTIMASK_ALL
 T6b:
 	mfsr	r22, hexitr
-	movq	=((XCODE_S2_INVALID)|(1<<XFLAG_VEC)), r11
+	mov	=((XCODE_S2_INVALID)|(1<<XFLAG_VEC)), r11
 	cbeq	r22, r11, 1f
-	movq	#85, r0
+	mov	#85, r0
 	halt
 1:
 	mfsr	r22, hcause
-	movq	=(VECTOR_GLFAULT), r11
+	mov	=(VECTOR_GLFAULT), r11
 	cbeq	r22, r11, 1f
-	movq	#86, r0
+	mov	#86, r0
 	halt
 1:
 	mfsr	r22, heva
-	movq	=(0), r11
+	mov	=(0), r11
 	cbeq	r22, r11, 1f
-	movq	#87, r0
+	mov	#87, r0
 	halt
 1:
 	mfsr	r22, hgpa
-	movq	=(0x408000+8*100), r11
+	mov	=(0x408000+8*100), r11
 	cbeq	r22, r11, 1f
-	movq	#88, r0
+	mov	#88, r0
 	halt
 1:
 	mfsr	r22, hepc
 	lea	g6v, r23
 	cbeq	r22, r23, 1f
-	movq	#89, r0
+	mov	#89, r0
 	halt
 1:
 	mfsr	r22, hinsn
 	cbeq	r22, #0, 1f
-	movq	#90, r0
+	mov	#90, r0
 	halt
 1:
 	mfsr	r22, virq
-	movq	=(1<<3), r11
+	mov	=(1<<3), r11
 	cbeq	r22, r11, 1f
-	movq	#91, r0
+	mov	#91, r0
 	halt
 1:
 	mfsr	r22, epc
-	movq	=(0), r11
+	mov	=(0), r11
 	cbeq	r22, r11, 1f
-	movq	#92, r0
+	mov	#92, r0
 	halt
 1:
 	lea	s2l0+64, r25
-	movq	=((PHYS(0x408000)|LEAF)), r26
-	movq	r26, (r25)
+	mov	=((PHYS(0x408000)|LEAF)), r26
+	mov	r26, (r25)
 	lea	gh, r22
-	movq	=(PHYS(0x408000+8*100)), r25
-	movq	r22, (r25)
+	mov	=(PHYS(0x408000+8*100)), r25
+	mov	r22, (r25)
 	tlbia
 	lea	B11, r20
-	movq	#99, r0
+	mov	#99, r0
 	genter	#RTIMASK_ALL
 B11:
 	mfsr	r22, hexitr
-	movq	=(XCODE_HALT), r11
+	mov	=(XCODE_HALT), r11
 	cbeq	r22, r11, 1f
-	movq	#93, r0
+	mov	#93, r0
 	halt
 1:
 	mfsr	r22, virq
-	movq	=(0), r11
+	mov	=(0), r11
 	cbeq	r22, r11, 1f
-	movq	#94, r0
+	mov	#94, r0
 	halt
 1:
 	mfsr	r22, ecause
-	movq	=(100), r11
+	mov	=(100), r11
 	cbeq	r22, r11, 1f
-	movq	#95, r0
+	mov	#95, r0
 	halt
 1:
-	movq	#0, r22
+	mov	#0, r22
 	mtsr	vbr, r22
 	lea	gvtab, r22
 	mtsr	vbr, r22
 	; --- T7: PROBER and PROBEW test both stages: a stage-2 miss exits, a stage-1 miss gives 0
 	lea	s2l0+72, r25
-	movq	=(0), r26
-	movq	r26, (r25)
+	mov	=(0), r26
+	mov	r26, (r25)
 	tlbia
 	lea	g7r, r22
 	mtsr	hepc, r22
-	movq	=(0), r22
+	mov	=(0), r22
 	mtsr	hepsw, r22
 	lea	T7a, r20
-	movq	#99, r0
+	mov	#99, r0
 	genter	#RTIMASK_ALL
 T7a:
 	mfsr	r22, hexitr
-	movq	=((XCODE_S2_INVALID)|(0)), r11
+	mov	=((XCODE_S2_INVALID)|(0)), r11
 	cbeq	r22, r11, 1f
-	movq	#96, r0
+	mov	#96, r0
 	halt
 1:
 	mfsr	r22, hcause
-	movq	=(VECTOR_GLFAULT), r11
+	mov	=(VECTOR_GLFAULT), r11
 	cbeq	r22, r11, 1f
-	movq	#97, r0
+	mov	#97, r0
 	halt
 1:
 	mfsr	r22, heva
-	movq	=(0x409000), r11
+	mov	=(0x409000), r11
 	cbeq	r22, r11, 1f
-	movq	#98, r0
+	mov	#98, r0
 	halt
 1:
 	mfsr	r22, hgpa
-	movq	=(0x409000), r11
+	mov	=(0x409000), r11
 	cbeq	r22, r11, 1f
-	movq	#99, r0
+	mov	#99, r0
 	halt
 1:
 	mfsr	r22, hepc
 	lea	g7ri, r23
 	cbeq	r22, r23, 1f
-	movq	#100, r0
+	mov	#100, r0
 	halt
 1:
 	mfsr	r22, hinsn
 	shr	#16, r22
-	mov	g7ri.u16, r23
+	mov.u16	g7ri, r23
 	cbeq	r22, r23, 1f
-	movq	#101, r0
+	mov	#101, r0
 	halt
 1:
 	lea	s2l0+72, r25
-	movq	=((PHYS(0x409000)|(LEAF&~(1<<PTE_D)))), r26
-	movq	r26, (r25)
+	mov	=((PHYS(0x409000)|(LEAF&~(1<<PTE_D)))), r26
+	mov	r26, (r25)
 	tlbia
 	lea	g7w, r22
 	mtsr	hepc, r22
-	movq	=(0), r22
+	mov	=(0), r22
 	mtsr	hepsw, r22
 	lea	T7b, r20
-	movq	#99, r0
+	mov	#99, r0
 	genter	#RTIMASK_ALL
 T7b:
 	mfsr	r22, hexitr
-	movq	=((XCODE_S2_REFUSED)|(0)), r11
+	mov	=((XCODE_S2_REFUSED)|(0)), r11
 	cbeq	r22, r11, 1f
-	movq	#102, r0
+	mov	#102, r0
 	halt
 1:
 	mfsr	r22, hcause
-	movq	=(VECTOR_GSFAULT), r11
+	mov	=(VECTOR_GSFAULT), r11
 	cbeq	r22, r11, 1f
-	movq	#103, r0
+	mov	#103, r0
 	halt
 1:
 	mfsr	r22, heva
-	movq	=(0x409000), r11
+	mov	=(0x409000), r11
 	cbeq	r22, r11, 1f
-	movq	#104, r0
+	mov	#104, r0
 	halt
 1:
 	mfsr	r22, hgpa
-	movq	=(0x409000), r11
+	mov	=(0x409000), r11
 	cbeq	r22, r11, 1f
-	movq	#105, r0
+	mov	#105, r0
 	halt
 1:
 	mfsr	r22, hepc
 	lea	g7wi, r23
 	cbeq	r22, r23, 1f
-	movq	#106, r0
+	mov	#106, r0
 	halt
 1:
 	mfsr	r22, hinsn
 	shr	#16, r22
-	mov	g7wi.u16, r23
+	mov.u16	g7wi, r23
 	cbeq	r22, r23, 1f
-	movq	#107, r0
+	mov	#107, r0
 	halt
 1:
 	lea	s2l0+72, r25
-	movq	=((PHYS(0x409000)|LEAF)), r26
-	movq	r26, (r25)
+	mov	=((PHYS(0x409000)|LEAF)), r26
+	mov	r26, (r25)
 	tlbia
 	lea	B12, r20
-	movq	#99, r0
+	mov	#99, r0
 	genter	#RTIMASK_ALL
 B12:
 	mfsr	r22, hexitr
-	movq	=(XCODE_HALT), r11
+	mov	=(XCODE_HALT), r11
 	cbeq	r22, r11, 1f
-	movq	#108, r0
+	mov	#108, r0
 	halt
 1:
-	movq	=(1), r11
+	mov	=(1), r11
 	cbeq	r4, r11, 1f
-	movq	#109, r0
+	mov	#109, r0
 	halt
 1:
 	lea	g1root, r22
 	mtsr	ptbr, r22
-	movq	#1, r22
+	mov	#1, r22
 	mtsr	mmuctl, r22
 	lea	g7s, r22
 	mtsr	hepc, r22
-	movq	=(0), r22
+	mov	=(0), r22
 	mtsr	hepsw, r22
 	lea	T7c, r20
-	movq	#99, r0
+	mov	#99, r0
 	genter	#RTIMASK_ALL
 T7c:
 	mfsr	r22, hexitr
-	movq	=(XCODE_HALT), r11
+	mov	=(XCODE_HALT), r11
 	cbeq	r22, r11, 1f
-	movq	#110, r0
+	mov	#110, r0
 	halt
 1:
-	movq	=(0), r11
+	mov	=(0), r11
 	cbeq	r4, r11, 1f
-	movq	#111, r0
+	mov	#111, r0
 	halt
 1:
-	movq	#0, r22
+	mov	#0, r22
 	mtsr	mmuctl, r22
 	; --- T8: a stage-2 change with no invalidate is not seen; TLBIA at H = 1 (the tag in GTBR) and TLBI of the page make it seen
-	movq	=(PHYS(0x40a000)), r25
-	movq	=(0xaaaa), r26
-	movq	r26, (r25)
-	movq	=(PHYS(0x40b000)), r25
-	movq	=(0xbbbb), r26
-	movq	r26, (r25)
-	movq	=(PHYS(0x40c000)), r25
-	movq	=(0xcccc), r26
-	movq	r26, (r25)
-	movq	=(PHYS(0x40d000)), r25
-	movq	=(0xdddd), r26
-	movq	r26, (r25)
+	mov	=(PHYS(0x40a000)), r25
+	mov	=(0xaaaa), r26
+	mov	r26, (r25)
+	mov	=(PHYS(0x40b000)), r25
+	mov	=(0xbbbb), r26
+	mov	r26, (r25)
+	mov	=(PHYS(0x40c000)), r25
+	mov	=(0xcccc), r26
+	mov	r26, (r25)
+	mov	=(PHYS(0x40d000)), r25
+	mov	=(0xdddd), r26
+	mov	r26, (r25)
 	lea	s2l0+80, r25
-	movq	=((PHYS(0x40a000)|LEAF)), r26
-	movq	r26, (r25)
+	mov	=((PHYS(0x40a000)|LEAF)), r26
+	mov	r26, (r25)
 	lea	s2l0+88, r25
-	movq	=((PHYS(0x40b000)|LEAF)), r26
-	movq	r26, (r25)
+	mov	=((PHYS(0x40b000)|LEAF)), r26
+	mov	r26, (r25)
 	tlbia
 	lea	g8, r22
 	mtsr	hepc, r22
-	movq	=(0), r22
+	mov	=(0), r22
 	mtsr	hepsw, r22
 	lea	T8a, r20
-	movq	#99, r0
+	mov	#99, r0
 	genter	#RTIMASK_ALL
 T8a:
 	mfsr	r22, hexitr
-	movq	=(XCODE_HALT), r11
+	mov	=(XCODE_HALT), r11
 	cbeq	r22, r11, 1f
-	movq	#112, r0
+	mov	#112, r0
 	halt
 1:
-	movq	=(0xaaaa), r11
+	mov	=(0xaaaa), r11
 	cbeq	r1, r11, 1f
-	movq	#113, r0
+	mov	#113, r0
 	halt
 1:
-	movq	=(0xbbbb), r11
+	mov	=(0xbbbb), r11
 	cbeq	r4, r11, 1f
-	movq	#114, r0
+	mov	#114, r0
 	halt
 1:
 	lea	s2l0+80, r25
-	movq	=((PHYS(0x40c000)|LEAF)), r26
-	movq	r26, (r25)
+	mov	=((PHYS(0x40c000)|LEAF)), r26
+	mov	r26, (r25)
 	lea	s2l0+88, r25
-	movq	=((PHYS(0x40d000)|LEAF)), r26
-	movq	r26, (r25)
+	mov	=((PHYS(0x40d000)|LEAF)), r26
+	mov	r26, (r25)
 	lea	g8, r22
 	mtsr	hepc, r22
-	movq	=(0), r22
+	mov	=(0), r22
 	mtsr	hepsw, r22
 	lea	T8b, r20
-	movq	#99, r0
+	mov	#99, r0
 	genter	#RTIMASK_ALL
 T8b:
-	movq	=(0xaaaa), r11
+	mov	=(0xaaaa), r11
 	cbeq	r1, r11, 1f
-	movq	#115, r0
+	mov	#115, r0
 	halt
 1:
-	movq	=(0xbbbb), r11
+	mov	=(0xbbbb), r11
 	cbeq	r4, r11, 1f
-	movq	#116, r0
+	mov	#116, r0
 	halt
 1:
-	movq	=0x40a000, r22
+	mov	=0x40a000, r22
 	tlbi	r22
 	lea	g8, r22
 	mtsr	hepc, r22
-	movq	=(0), r22
+	mov	=(0), r22
 	mtsr	hepsw, r22
 	lea	T8c, r20
-	movq	#99, r0
+	mov	#99, r0
 	genter	#RTIMASK_ALL
 T8c:
-	movq	=(0xcccc), r11
+	mov	=(0xcccc), r11
 	cbeq	r1, r11, 1f
-	movq	#117, r0
+	mov	#117, r0
 	halt
 1:
-	movq	=(0xbbbb), r11
+	mov	=(0xbbbb), r11
 	cbeq	r4, r11, 1f
-	movq	#118, r0
+	mov	#118, r0
 	halt
 1:
 	tlbia
 	lea	g8, r22
 	mtsr	hepc, r22
-	movq	=(0), r22
+	mov	=(0), r22
 	mtsr	hepsw, r22
 	lea	T8d, r20
-	movq	#99, r0
+	mov	#99, r0
 	genter	#RTIMASK_ALL
 T8d:
-	movq	=(0xcccc), r11
+	mov	=(0xcccc), r11
 	cbeq	r1, r11, 1f
-	movq	#119, r0
+	mov	#119, r0
 	halt
 1:
-	movq	=(0xdddd), r11
+	mov	=(0xdddd), r11
 	cbeq	r4, r11, 1f
-	movq	#120, r0
+	mov	#120, r0
 	halt
 1:
 	; --- T9: the guest tag; rules G-a to G-d
 	lea	s2l0+80, r25
-	movq	=((PHYS(0x40a000)|LEAF)), r26
-	movq	r26, (r25)
+	mov	=((PHYS(0x40a000)|LEAF)), r26
+	mov	r26, (r25)
 	lea	s2l0+88, r25
-	movq	=((PHYS(0x40b000)|LEAF)), r26
-	movq	r26, (r25)
-	movq	=(PHYS(0x40e000)), r25
-	movq	=(0xeeee), r26
-	movq	r26, (r25)
+	mov	=((PHYS(0x40b000)|LEAF)), r26
+	mov	r26, (r25)
+	mov	=(PHYS(0x40e000)), r25
+	mov	=(0xeeee), r26
+	mov	r26, (r25)
 	lea	s2l0b+80, r25
-	movq	=((PHYS(0x40e000)|LEAF)), r26
-	movq	r26, (r25)
+	mov	=((PHYS(0x40e000)|LEAF)), r26
+	mov	r26, (r25)
 	lea	s2l0b+88, r25
-	movq	=((PHYS(0x40a000)|LEAF)), r26
-	movq	r26, (r25)
+	mov	=((PHYS(0x40a000)|LEAF)), r26
+	mov	r26, (r25)
 	; (1) two roots: the same guest-virtual addresses, different contents; the entries of tag 1 are in the cache while tag 2 runs and must not be used for it
 	lea	s2root, r22
-	movq	=(1<<GTBR_TAG|1<<GTBR_S2EN), r23
+	mov	=(1<<GTBR_TAG|1<<GTBR_S2EN), r23
 	bis	r23, r22
 	mtsr	gtbr, r22
 	tlbia
 	lea	g8, r22
 	mtsr	hepc, r22
-	movq	=(0), r22
+	mov	=(0), r22
 	mtsr	hepsw, r22
 	lea	T9a, r20
-	movq	#99, r0
+	mov	#99, r0
 	genter	#RTIMASK_ALL
 T9a:
-	movq	=(0xaaaa), r11
+	mov	=(0xaaaa), r11
 	cbeq	r1, r11, 1f
-	movq	#121, r0
+	mov	#121, r0
 	halt
 1:
-	movq	=(0xbbbb), r11
+	mov	=(0xbbbb), r11
 	cbeq	r4, r11, 1f
-	movq	#122, r0
+	mov	#122, r0
 	halt
 1:
 	lea	s2rootb, r22
-	movq	=(2<<GTBR_TAG|1<<GTBR_S2EN), r23
+	mov	=(2<<GTBR_TAG|1<<GTBR_S2EN), r23
 	bis	r23, r22
 	mtsr	gtbr, r22
 	tlbia
 	lea	g8, r22
 	mtsr	hepc, r22
-	movq	=(0), r22
+	mov	=(0), r22
 	mtsr	hepsw, r22
 	lea	T9b, r20
-	movq	#99, r0
+	mov	#99, r0
 	genter	#RTIMASK_ALL
 T9b:
-	movq	=(0xeeee), r11
+	mov	=(0xeeee), r11
 	cbeq	r1, r11, 1f
-	movq	#123, r0
+	mov	#123, r0
 	halt
 1:
-	movq	=(0xaaaa), r11
+	mov	=(0xaaaa), r11
 	cbeq	r4, r11, 1f
-	movq	#124, r0
+	mov	#124, r0
 	halt
 1:
 	; (2) two tags on one root: a write that changes only the tag discards nothing, so the entries of a tag survive the run of the other (and go stale)
 	lea	s2root, r22
-	movq	=(1<<GTBR_TAG|1<<GTBR_S2EN), r23
+	mov	=(1<<GTBR_TAG|1<<GTBR_S2EN), r23
 	bis	r23, r22
 	mtsr	gtbr, r22
 	tlbia
 	lea	s2root, r22
-	movq	=(2<<GTBR_TAG|1<<GTBR_S2EN), r23
+	mov	=(2<<GTBR_TAG|1<<GTBR_S2EN), r23
 	bis	r23, r22
 	mtsr	gtbr, r22
 	tlbia
 	lea	s2root, r22
-	movq	=(1<<GTBR_TAG|1<<GTBR_S2EN), r23
+	mov	=(1<<GTBR_TAG|1<<GTBR_S2EN), r23
 	bis	r23, r22
 	mtsr	gtbr, r22
 	lea	g8, r22
 	mtsr	hepc, r22
-	movq	=(0), r22
+	mov	=(0), r22
 	mtsr	hepsw, r22
 	lea	T9c, r20
-	movq	#99, r0
+	mov	#99, r0
 	genter	#RTIMASK_ALL
 T9c:
-	movq	=(0xaaaa), r11
+	mov	=(0xaaaa), r11
 	cbeq	r1, r11, 1f
-	movq	#125, r0
+	mov	#125, r0
 	halt
 1:
-	movq	=(0xbbbb), r11
+	mov	=(0xbbbb), r11
 	cbeq	r4, r11, 1f
-	movq	#126, r0
+	mov	#126, r0
 	halt
 1:
 	lea	s2root, r22
-	movq	=(2<<GTBR_TAG|1<<GTBR_S2EN), r23
+	mov	=(2<<GTBR_TAG|1<<GTBR_S2EN), r23
 	bis	r23, r22
 	mtsr	gtbr, r22
 	lea	g8, r22
 	mtsr	hepc, r22
-	movq	=(0), r22
+	mov	=(0), r22
 	mtsr	hepsw, r22
 	lea	T9d, r20
-	movq	#99, r0
+	mov	#99, r0
 	genter	#RTIMASK_ALL
 T9d:
-	movq	=(0xaaaa), r11
+	mov	=(0xaaaa), r11
 	cbeq	r1, r11, 1f
-	movq	#127, r0
+	mov	#127, r0
 	halt
 1:
 	lea	s2l0+80, r25
-	movq	=((PHYS(0x40c000)|LEAF)), r26
-	movq	r26, (r25)
+	mov	=((PHYS(0x40c000)|LEAF)), r26
+	mov	r26, (r25)
 	lea	s2l0+88, r25
-	movq	=((PHYS(0x40d000)|LEAF)), r26
-	movq	r26, (r25)
+	mov	=((PHYS(0x40d000)|LEAF)), r26
+	mov	r26, (r25)
 	lea	s2root, r22
-	movq	=(1<<GTBR_TAG|1<<GTBR_S2EN), r23
+	mov	=(1<<GTBR_TAG|1<<GTBR_S2EN), r23
 	bis	r23, r22
 	mtsr	gtbr, r22
 	lea	g8, r22
 	mtsr	hepc, r22
-	movq	=(0), r22
+	mov	=(0), r22
 	mtsr	hepsw, r22
 	lea	T9e, r20
-	movq	#99, r0
+	mov	#99, r0
 	genter	#RTIMASK_ALL
 T9e:
-	movq	=(0xaaaa), r11
+	mov	=(0xaaaa), r11
 	cbeq	r1, r11, 1f
-	movq	#128, r0
+	mov	#128, r0
 	halt
 1:
-	movq	=(0xbbbb), r11
+	mov	=(0xbbbb), r11
 	cbeq	r4, r11, 1f
-	movq	#129, r0
+	mov	#129, r0
 	halt
 1:
 	; (3) G-a: the guest of tag 2 executes TLBIA: its own entries go, tag 1's stay
 	lea	s2root, r22
-	movq	=(2<<GTBR_TAG|1<<GTBR_S2EN), r23
+	mov	=(2<<GTBR_TAG|1<<GTBR_S2EN), r23
 	bis	r23, r22
 	mtsr	gtbr, r22
 	lea	g8t, r22
 	mtsr	hepc, r22
-	movq	=(0), r22
+	mov	=(0), r22
 	mtsr	hepsw, r22
 	lea	T9f, r20
-	movq	#99, r0
+	mov	#99, r0
 	genter	#RTIMASK_ALL
 T9f:
-	movq	=(0xcccc), r11
+	mov	=(0xcccc), r11
 	cbeq	r1, r11, 1f
-	movq	#130, r0
+	mov	#130, r0
 	halt
 1:
 	lea	s2root, r22
-	movq	=(1<<GTBR_TAG|1<<GTBR_S2EN), r23
+	mov	=(1<<GTBR_TAG|1<<GTBR_S2EN), r23
 	bis	r23, r22
 	mtsr	gtbr, r22
 	lea	g8, r22
 	mtsr	hepc, r22
-	movq	=(0), r22
+	mov	=(0), r22
 	mtsr	hepsw, r22
 	lea	T9g, r20
-	movq	#99, r0
+	mov	#99, r0
 	genter	#RTIMASK_ALL
 T9g:
-	movq	=(0xaaaa), r11
+	mov	=(0xaaaa), r11
 	cbeq	r1, r11, 1f
-	movq	#131, r0
+	mov	#131, r0
 	halt
 1:
-	movq	=(0xbbbb), r11
+	mov	=(0xbbbb), r11
 	cbeq	r4, r11, 1f
-	movq	#132, r0
+	mov	#132, r0
 	halt
 1:
 	; (4) G-d: TLBIA at H = 1 with the tag 1 in GTBR discards tag 1's entries and not tag 2's
 	tlbia
 	lea	g8, r22
 	mtsr	hepc, r22
-	movq	=(0), r22
+	mov	=(0), r22
 	mtsr	hepsw, r22
 	lea	T9h, r20
-	movq	#99, r0
+	mov	#99, r0
 	genter	#RTIMASK_ALL
 T9h:
-	movq	=(0xcccc), r11
+	mov	=(0xcccc), r11
 	cbeq	r1, r11, 1f
-	movq	#133, r0
+	mov	#133, r0
 	halt
 1:
-	movq	=(0xdddd), r11
+	mov	=(0xdddd), r11
 	cbeq	r4, r11, 1f
-	movq	#134, r0
+	mov	#134, r0
 	halt
 1:
 	lea	s2l0+80, r25
-	movq	=((PHYS(0x40e000)|LEAF)), r26
-	movq	r26, (r25)
+	mov	=((PHYS(0x40e000)|LEAF)), r26
+	mov	r26, (r25)
 	lea	s2root, r22
-	movq	=(2<<GTBR_TAG|1<<GTBR_S2EN), r23
+	mov	=(2<<GTBR_TAG|1<<GTBR_S2EN), r23
 	bis	r23, r22
 	mtsr	gtbr, r22
 	lea	g8, r22
 	mtsr	hepc, r22
-	movq	=(0), r22
+	mov	=(0), r22
 	mtsr	hepsw, r22
 	lea	T9i, r20
-	movq	#99, r0
+	mov	#99, r0
 	genter	#RTIMASK_ALL
 T9i:
-	movq	=(0xcccc), r11
+	mov	=(0xcccc), r11
 	cbeq	r1, r11, 1f
-	movq	#135, r0
+	mov	#135, r0
 	halt
 1:
-	movq	=(0xdddd), r11
+	mov	=(0xdddd), r11
 	cbeq	r4, r11, 1f
-	movq	#136, r0
+	mov	#136, r0
 	halt
 1:
 	; (5) G-c: a write to GTBR that changes the root discards the entries of the tag written: the new root is seen at once
 	lea	s2rootb, r22
-	movq	=(2<<GTBR_TAG|1<<GTBR_S2EN), r23
+	mov	=(2<<GTBR_TAG|1<<GTBR_S2EN), r23
 	bis	r23, r22
 	mtsr	gtbr, r22
 	lea	g8, r22
 	mtsr	hepc, r22
-	movq	=(0), r22
+	mov	=(0), r22
 	mtsr	hepsw, r22
 	lea	T9j, r20
-	movq	#99, r0
+	mov	#99, r0
 	genter	#RTIMASK_ALL
 T9j:
-	movq	=(0xeeee), r11
+	mov	=(0xeeee), r11
 	cbeq	r1, r11, 1f
-	movq	#137, r0
+	mov	#137, r0
 	halt
 1:
-	movq	=(0xaaaa), r11
+	mov	=(0xaaaa), r11
 	cbeq	r4, r11, 1f
-	movq	#138, r0
+	mov	#138, r0
 	halt
 1:
-	movq	#0, r0
+	mov	#0, r0
 	halt
-g1:	movq	=0x200000, r13
-	movq	(r13), r1
-	movq	=0x77, r2
-	movq	r2, 8(r13)
+g1:	mov	=0x200000, r13
+	mov	(r13), r1
+	mov	=0x77, r2
+	mov	r2, 8(r13)
 	halt
 g1e:
-g2:	movq	=0x40001000, r13
-	movq	(r13), r1
-	movq	=0x88, r2
-	movq	r2, 16(r13)
+g2:	mov	=0x40001000, r13
+	mov	(r13), r1
+	mov	=0x88, r2
+	mov	r2, 16(r13)
 	halt
 g2e:
-g3l:	movq	=0x401008, r13
-g3li:	movq	(r13), r1
+g3l:	mov	=0x401008, r13
+g3li:	mov	(r13), r1
 	halt
-g3s:	movq	=0x401010, r13
-	movq	=0xd4d4, r2
-g3si:	movq	r2, (r13)
+g3s:	mov	=0x401010, r13
+	mov	=0xd4d4, r2
+g3si:	mov	r2, (r13)
 	halt
-g3f:	movq	=0x402000, r13
+g3f:	mov	=0x402000, r13
 	jmp	r13
-g4a:	movq	=0x403008, r13
-g4ai:	movq	(r13), r1
+g4a:	mov	=0x403008, r13
+g4ai:	mov	(r13), r1
 	halt
-g4d:	movq	=0x404008, r13
-	movq	(r13), r1
-	movq	=0x5151, r2
-g4ds:	movq	r2, 8(r13)
+g4d:	mov	=0x404008, r13
+	mov	(r13), r1
+	mov	=0x5151, r2
+g4ds:	mov	r2, 8(r13)
 	halt
-g4u:	movq	=0x405008, r13
-g4ui:	movq	(r13), r1
+g4u:	mov	=0x405008, r13
+g4ui:	mov	(r13), r1
 	halt
-g5:	movq	=0x40000008, r13
-g5i:	movq	(r13), r1
+g5:	mov	=0x40000008, r13
+g5i:	mov	(r13), r1
 	halt
 g6:	trap	#1
 g6e:	halt
 g6v:	nop
 	nop
 	halt
-g7r:	movq	=0x409000, r13
+g7r:	mov	=0x409000, r13
 g7ri:	prober	r4, r13
 	halt
-g7w:	movq	=0x409000, r13
+g7w:	mov	=0x409000, r13
 g7wi:	probew	r4, r13
 	halt
-g7s:	movq	=0x80000000, r13
+g7s:	mov	=0x80000000, r13
 	prober	r4, r13
 	halt
-g8:	movq	=0x40a000, r13
-	movq	(r13), r1
-	movq	=0x40b000, r13
-	movq	(r13), r4
+g8:	mov	=0x40a000, r13
+	mov	(r13), r1
+	mov	=0x40b000, r13
+	mov	(r13), r4
 	halt
 g8t:	tlbia
-	movq	=0x40a000, r13
-	movq	(r13), r1
+	mov	=0x40a000, r13
+	mov	(r13), r1
 	halt
 	.align	8
 code_ret_:
-	movq	#0x99, r1
+	mov	#0x99, r1
 	halt
 xh:	jmp	r20
 gh:	halt

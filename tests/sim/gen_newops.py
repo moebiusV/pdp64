@@ -3,7 +3,7 @@
 expectations computed here, not by the simulator.  A failed check n exits with n (halt).  usage: gen_newops.py OUTDIR"""
 import sys as _sys, os as _os
 _sys.path.insert(0, _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..', '..', 'tools'))
-import marks		# the words of the encoding written with width marks (tools/marks.py)
+import marks		# the words of the encoding written with the width suffixes (tools/marks.py)
 import sys
 M = (1 << 64) - 1
 out = sys.argv[1]

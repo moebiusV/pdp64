@@ -4,291 +4,291 @@
 	.text
 	.globl	_start
 _start:
-		; ---- case 1: cas success
+	; ---- case 1: cas success
 	lea	buf+16, r3
-	movq	=(0xa5a5a5a5a5a5a5a5), r17
-	movq	r17, -8(r3)
-	movq	r17, 8(r3)
-	movq	=(0x1122334455667788), r17
-	movq	r17, (r3)
-	movq	=(0x1122334455667788), r1
-	movq	=(0x8877665544332211), r2
+	mov	=(0xa5a5a5a5a5a5a5a5), r17
+	mov	r17, -8(r3)
+	mov	r17, 8(r3)
+	mov	=(0x1122334455667788), r17
+	mov	r17, (r3)
+	mov	=(0x1122334455667788), r1
+	mov	=(0x8877665544332211), r2
 	cas	r2, (r3), r1
-	movq	=(0x1122334455667788), r17
-	cbeq	r1, r17, 1f		; case 1: cas success: Rd is the old value (the swap happened)
-	movq	#1, r0
+	mov	=(0x1122334455667788), r17
+	cbeq	r1, r17, 1f	; case 1: cas success: Rd is the old value (the swap happened)
+	mov	#1, r0
 	halt
 1:
-	movq	=(0x8877665544332211), r17
-	cbeq	r2, r17, 1f		; case 1: cas success: Rs unchanged
-	movq	#1, r0
+	mov	=(0x8877665544332211), r17
+	cbeq	r2, r17, 1f	; case 1: cas success: Rs unchanged
+	mov	#1, r0
 	halt
 1:
-	movq	(r3), r4
-	movq	=(0x8877665544332211), r17
-	cbeq	r4, r17, 1f		; case 1: cas success: the word is the new value
-	movq	#1, r0
+	mov	(r3), r4
+	mov	=(0x8877665544332211), r17
+	cbeq	r4, r17, 1f	; case 1: cas success: the word is the new value
+	mov	#1, r0
 	halt
 1:
-	movq	-8(r3), r4
-	movq	=(0xa5a5a5a5a5a5a5a5), r17
-	cbeq	r4, r17, 1f		; case 1: cas success: the word below is untouched
-	movq	#1, r0
+	mov	-8(r3), r4
+	mov	=(0xa5a5a5a5a5a5a5a5), r17
+	cbeq	r4, r17, 1f	; case 1: cas success: the word below is untouched
+	mov	#1, r0
 	halt
 1:
-	movq	8(r3), r4
-	movq	=(0xa5a5a5a5a5a5a5a5), r17
-	cbeq	r4, r17, 1f		; case 1: cas success: the word above is untouched
-	movq	#1, r0
+	mov	8(r3), r4
+	mov	=(0xa5a5a5a5a5a5a5a5), r17
+	cbeq	r4, r17, 1f	; case 1: cas success: the word above is untouched
+	mov	#1, r0
 	halt
 1:
-		; ---- case 2: cas failure
+	; ---- case 2: cas failure
 	lea	buf+16, r3
-	movq	=(0xa5a5a5a5a5a5a5a5), r17
-	movq	r17, -8(r3)
-	movq	r17, 8(r3)
-	movq	=(0x1122334455667788), r17
-	movq	r17, (r3)
-	movq	=(0x1122334455667789), r1
-	movq	=(0x8877665544332211), r2
+	mov	=(0xa5a5a5a5a5a5a5a5), r17
+	mov	r17, -8(r3)
+	mov	r17, 8(r3)
+	mov	=(0x1122334455667788), r17
+	mov	r17, (r3)
+	mov	=(0x1122334455667789), r1
+	mov	=(0x8877665544332211), r2
 	cas	r2, (r3), r1
-	movq	=(0x1122334455667788), r17
-	cbeq	r1, r17, 1f		; case 2: cas failure: Rd is the old value (the swap did not happen)
-	movq	#2, r0
+	mov	=(0x1122334455667788), r17
+	cbeq	r1, r17, 1f	; case 2: cas failure: Rd is the old value (the swap did not happen)
+	mov	#2, r0
 	halt
 1:
-	movq	=(0x8877665544332211), r17
-	cbeq	r2, r17, 1f		; case 2: cas failure: Rs unchanged
-	movq	#2, r0
+	mov	=(0x8877665544332211), r17
+	cbeq	r2, r17, 1f	; case 2: cas failure: Rs unchanged
+	mov	#2, r0
 	halt
 1:
-	movq	(r3), r4
-	movq	=(0x1122334455667788), r17
-	cbeq	r4, r17, 1f		; case 2: cas failure: the word is unchanged (a failed compare writes nothing)
-	movq	#2, r0
+	mov	(r3), r4
+	mov	=(0x1122334455667788), r17
+	cbeq	r4, r17, 1f	; case 2: cas failure: the word is unchanged (a failed compare writes nothing)
+	mov	#2, r0
 	halt
 1:
-	movq	-8(r3), r4
-	movq	=(0xa5a5a5a5a5a5a5a5), r17
-	cbeq	r4, r17, 1f		; case 2: cas failure: the word below is untouched
-	movq	#2, r0
+	mov	-8(r3), r4
+	mov	=(0xa5a5a5a5a5a5a5a5), r17
+	cbeq	r4, r17, 1f	; case 2: cas failure: the word below is untouched
+	mov	#2, r0
 	halt
 1:
-	movq	8(r3), r4
-	movq	=(0xa5a5a5a5a5a5a5a5), r17
-	cbeq	r4, r17, 1f		; case 2: cas failure: the word above is untouched
-	movq	#2, r0
+	mov	8(r3), r4
+	mov	=(0xa5a5a5a5a5a5a5a5), r17
+	cbeq	r4, r17, 1f	; case 2: cas failure: the word above is untouched
+	mov	#2, r0
 	halt
 1:
-		; ---- case 3: cas failure, high byte differs
+	; ---- case 3: cas failure, high byte differs
 	lea	buf+16, r3
-	movq	=(0xa5a5a5a5a5a5a5a5), r17
-	movq	r17, -8(r3)
-	movq	r17, 8(r3)
-	movq	=(0x1122334455667788), r17
-	movq	r17, (r3)
-	movq	=(0xee22334455667788), r1
-	movq	=(0x8877665544332211), r2
+	mov	=(0xa5a5a5a5a5a5a5a5), r17
+	mov	r17, -8(r3)
+	mov	r17, 8(r3)
+	mov	=(0x1122334455667788), r17
+	mov	r17, (r3)
+	mov	=(0xee22334455667788), r1
+	mov	=(0x8877665544332211), r2
 	cas	r2, (r3), r1
-	movq	=(0x1122334455667788), r17
-	cbeq	r1, r17, 1f		; case 3: cas failure, high byte differs: Rd is the old value (the swap did not happen)
-	movq	#3, r0
+	mov	=(0x1122334455667788), r17
+	cbeq	r1, r17, 1f	; case 3: cas failure, high byte differs: Rd is the old value (the swap did not happen)
+	mov	#3, r0
 	halt
 1:
-	movq	=(0x8877665544332211), r17
-	cbeq	r2, r17, 1f		; case 3: cas failure, high byte differs: Rs unchanged
-	movq	#3, r0
+	mov	=(0x8877665544332211), r17
+	cbeq	r2, r17, 1f	; case 3: cas failure, high byte differs: Rs unchanged
+	mov	#3, r0
 	halt
 1:
-	movq	(r3), r4
-	movq	=(0x1122334455667788), r17
-	cbeq	r4, r17, 1f		; case 3: cas failure, high byte differs: the word is unchanged (a failed compare writes nothing)
-	movq	#3, r0
+	mov	(r3), r4
+	mov	=(0x1122334455667788), r17
+	cbeq	r4, r17, 1f	; case 3: cas failure, high byte differs: the word is unchanged (a failed compare writes nothing)
+	mov	#3, r0
 	halt
 1:
-	movq	-8(r3), r4
-	movq	=(0xa5a5a5a5a5a5a5a5), r17
-	cbeq	r4, r17, 1f		; case 3: cas failure, high byte differs: the word below is untouched
-	movq	#3, r0
+	mov	-8(r3), r4
+	mov	=(0xa5a5a5a5a5a5a5a5), r17
+	cbeq	r4, r17, 1f	; case 3: cas failure, high byte differs: the word below is untouched
+	mov	#3, r0
 	halt
 1:
-	movq	8(r3), r4
-	movq	=(0xa5a5a5a5a5a5a5a5), r17
-	cbeq	r4, r17, 1f		; case 3: cas failure, high byte differs: the word above is untouched
-	movq	#3, r0
+	mov	8(r3), r4
+	mov	=(0xa5a5a5a5a5a5a5a5), r17
+	cbeq	r4, r17, 1f	; case 3: cas failure, high byte differs: the word above is untouched
+	mov	#3, r0
 	halt
 1:
-		; ---- case 4: cas with Rd the same register as Rs
+	; ---- case 4: cas with Rd the same register as Rs
 	lea	buf+16, r3
-	movq	=(0x1122334455667788), r17
-	movq	r17, (r3)
-	movq	=(0x1122334455667788), r1
+	mov	=(0x1122334455667788), r17
+	mov	r17, (r3)
+	mov	=(0x1122334455667788), r1
 	cas	r1, (r3), r1
-	movq	=(0x1122334455667788), r17
-	cbeq	r1, r17, 1f		; case 4: cas Rd = Rs: the old value
-	movq	#4, r0
+	mov	=(0x1122334455667788), r17
+	cbeq	r1, r17, 1f	; case 4: cas Rd = Rs: the old value
+	mov	#4, r0
 	halt
 1:
-	movq	(r3), r4
-	movq	=(0x1122334455667788), r17
-	cbeq	r4, r17, 1f		; case 4: cas Rd = Rs: swapping a value for itself leaves the word
-	movq	#4, r0
+	mov	(r3), r4
+	mov	=(0x1122334455667788), r17
+	cbeq	r4, r17, 1f	; case 4: cas Rd = Rs: swapping a value for itself leaves the word
+	mov	#4, r0
 	halt
 1:
-		; ---- case 5: cas .32 success
+	; ---- case 5: cas.s32 success
 	lea	buf+16, r3
-	movq	=(0xa5a5a5a5a5a5a5a5), r17
-	movq	r17, -8(r3)
-	movq	r17, 8(r3)
-	movq	=(0xc3c3c3c391223344), r17
-	movq	r17, (r3)
-	movq	=(0x5a5a5a5a91223344), r1
-	movq	=(0x99887766), r2
-	cas	r2, (r3).32, r1
-	movq	=(0xffffffff91223344), r17
-	cbeq	r1, r17, 1f		; case 5: cas .32 success: Rd is the old value (the swap happened)
-	movq	#5, r0
+	mov	=(0xa5a5a5a5a5a5a5a5), r17
+	mov	r17, -8(r3)
+	mov	r17, 8(r3)
+	mov	=(0xc3c3c3c391223344), r17
+	mov	r17, (r3)
+	mov	=(0x5a5a5a5a91223344), r1
+	mov	=(0x99887766), r2
+	cas.s32	r2, (r3), r1
+	mov	=(0xffffffff91223344), r17
+	cbeq	r1, r17, 1f	; case 5: cas.s32 success: Rd is the old value (the swap happened)
+	mov	#5, r0
 	halt
 1:
-	movq	=(0x99887766), r17
-	cbeq	r2, r17, 1f		; case 5: cas .32 success: Rs unchanged
-	movq	#5, r0
+	mov	=(0x99887766), r17
+	cbeq	r2, r17, 1f	; case 5: cas.s32 success: Rs unchanged
+	mov	#5, r0
 	halt
 1:
-	movq	(r3), r4
-	movq	=(0xc3c3c3c399887766), r17
-	cbeq	r4, r17, 1f		; case 5: cas .32 success: the word is the new value
-	movq	#5, r0
+	mov	(r3), r4
+	mov	=(0xc3c3c3c399887766), r17
+	cbeq	r4, r17, 1f	; case 5: cas.s32 success: the word is the new value
+	mov	#5, r0
 	halt
 1:
-	movq	-8(r3), r4
-	movq	=(0xa5a5a5a5a5a5a5a5), r17
-	cbeq	r4, r17, 1f		; case 5: cas .32 success: the word below is untouched
-	movq	#5, r0
+	mov	-8(r3), r4
+	mov	=(0xa5a5a5a5a5a5a5a5), r17
+	cbeq	r4, r17, 1f	; case 5: cas.s32 success: the word below is untouched
+	mov	#5, r0
 	halt
 1:
-	movq	8(r3), r4
-	movq	=(0xa5a5a5a5a5a5a5a5), r17
-	cbeq	r4, r17, 1f		; case 5: cas .32 success: the word above is untouched
-	movq	#5, r0
+	mov	8(r3), r4
+	mov	=(0xa5a5a5a5a5a5a5a5), r17
+	cbeq	r4, r17, 1f	; case 5: cas.s32 success: the word above is untouched
+	mov	#5, r0
 	halt
 1:
-		; ---- case 6: cas .32 failure
+	; ---- case 6: cas.s32 failure
 	lea	buf+16, r3
-	movq	=(0xa5a5a5a5a5a5a5a5), r17
-	movq	r17, -8(r3)
-	movq	r17, 8(r3)
-	movq	=(0xc3c3c3c391223344), r17
-	movq	r17, (r3)
-	movq	=(0x5a5a5a5a91223345), r1
-	movq	=(0x99887766), r2
-	cas	r2, (r3).32, r1
-	movq	=(0xffffffff91223344), r17
-	cbeq	r1, r17, 1f		; case 6: cas .32 failure: Rd is the old value (the swap did not happen)
-	movq	#6, r0
+	mov	=(0xa5a5a5a5a5a5a5a5), r17
+	mov	r17, -8(r3)
+	mov	r17, 8(r3)
+	mov	=(0xc3c3c3c391223344), r17
+	mov	r17, (r3)
+	mov	=(0x5a5a5a5a91223345), r1
+	mov	=(0x99887766), r2
+	cas.s32	r2, (r3), r1
+	mov	=(0xffffffff91223344), r17
+	cbeq	r1, r17, 1f	; case 6: cas.s32 failure: Rd is the old value (the swap did not happen)
+	mov	#6, r0
 	halt
 1:
-	movq	=(0x99887766), r17
-	cbeq	r2, r17, 1f		; case 6: cas .32 failure: Rs unchanged
-	movq	#6, r0
+	mov	=(0x99887766), r17
+	cbeq	r2, r17, 1f	; case 6: cas.s32 failure: Rs unchanged
+	mov	#6, r0
 	halt
 1:
-	movq	(r3), r4
-	movq	=(0xc3c3c3c391223344), r17
-	cbeq	r4, r17, 1f		; case 6: cas .32 failure: the word is unchanged (a failed compare writes nothing)
-	movq	#6, r0
+	mov	(r3), r4
+	mov	=(0xc3c3c3c391223344), r17
+	cbeq	r4, r17, 1f	; case 6: cas.s32 failure: the word is unchanged (a failed compare writes nothing)
+	mov	#6, r0
 	halt
 1:
-	movq	-8(r3), r4
-	movq	=(0xa5a5a5a5a5a5a5a5), r17
-	cbeq	r4, r17, 1f		; case 6: cas .32 failure: the word below is untouched
-	movq	#6, r0
+	mov	-8(r3), r4
+	mov	=(0xa5a5a5a5a5a5a5a5), r17
+	cbeq	r4, r17, 1f	; case 6: cas.s32 failure: the word below is untouched
+	mov	#6, r0
 	halt
 1:
-	movq	8(r3), r4
-	movq	=(0xa5a5a5a5a5a5a5a5), r17
-	cbeq	r4, r17, 1f		; case 6: cas .32 failure: the word above is untouched
-	movq	#6, r0
+	mov	8(r3), r4
+	mov	=(0xa5a5a5a5a5a5a5a5), r17
+	cbeq	r4, r17, 1f	; case 6: cas.s32 failure: the word above is untouched
+	mov	#6, r0
 	halt
 1:
-		; ---- case 7: cas .32 4-byte compare ignores bits 32 to 63 of Rd
+	; ---- case 7: cas.s32 4-byte compare ignores bits 32 to 63 of Rd
 	lea	buf+16, r3
-	movq	=(0xa5a5a5a5a5a5a5a5), r17
-	movq	r17, -8(r3)
-	movq	r17, 8(r3)
-	movq	=(0xc3c3c3c391223344), r17
-	movq	r17, (r3)
-	movq	=(0x7f7f7f7f91223344), r1
-	movq	=(0x99887766), r2
-	cas	r2, (r3).32, r1
-	movq	=(0xffffffff91223344), r17
-	cbeq	r1, r17, 1f		; case 7: cas .32 4-byte compare ignores bits 32 to 63 of Rd: Rd is the old value (the swap happened)
-	movq	#7, r0
+	mov	=(0xa5a5a5a5a5a5a5a5), r17
+	mov	r17, -8(r3)
+	mov	r17, 8(r3)
+	mov	=(0xc3c3c3c391223344), r17
+	mov	r17, (r3)
+	mov	=(0x7f7f7f7f91223344), r1
+	mov	=(0x99887766), r2
+	cas.s32	r2, (r3), r1
+	mov	=(0xffffffff91223344), r17
+	cbeq	r1, r17, 1f	; case 7: cas.s32 4-byte compare ignores bits 32 to 63 of Rd: Rd is the old value (the swap happened)
+	mov	#7, r0
 	halt
 1:
-	movq	=(0x99887766), r17
-	cbeq	r2, r17, 1f		; case 7: cas .32 4-byte compare ignores bits 32 to 63 of Rd: Rs unchanged
-	movq	#7, r0
+	mov	=(0x99887766), r17
+	cbeq	r2, r17, 1f	; case 7: cas.s32 4-byte compare ignores bits 32 to 63 of Rd: Rs unchanged
+	mov	#7, r0
 	halt
 1:
-	movq	(r3), r4
-	movq	=(0xc3c3c3c399887766), r17
-	cbeq	r4, r17, 1f		; case 7: cas .32 4-byte compare ignores bits 32 to 63 of Rd: the word is the new value
-	movq	#7, r0
+	mov	(r3), r4
+	mov	=(0xc3c3c3c399887766), r17
+	cbeq	r4, r17, 1f	; case 7: cas.s32 4-byte compare ignores bits 32 to 63 of Rd: the word is the new value
+	mov	#7, r0
 	halt
 1:
-	movq	-8(r3), r4
-	movq	=(0xa5a5a5a5a5a5a5a5), r17
-	cbeq	r4, r17, 1f		; case 7: cas .32 4-byte compare ignores bits 32 to 63 of Rd: the word below is untouched
-	movq	#7, r0
+	mov	-8(r3), r4
+	mov	=(0xa5a5a5a5a5a5a5a5), r17
+	cbeq	r4, r17, 1f	; case 7: cas.s32 4-byte compare ignores bits 32 to 63 of Rd: the word below is untouched
+	mov	#7, r0
 	halt
 1:
-	movq	8(r3), r4
-	movq	=(0xa5a5a5a5a5a5a5a5), r17
-	cbeq	r4, r17, 1f		; case 7: cas .32 4-byte compare ignores bits 32 to 63 of Rd: the word above is untouched
-	movq	#7, r0
+	mov	8(r3), r4
+	mov	=(0xa5a5a5a5a5a5a5a5), r17
+	cbeq	r4, r17, 1f	; case 7: cas.s32 4-byte compare ignores bits 32 to 63 of Rd: the word above is untouched
+	mov	#7, r0
 	halt
 1:
-		; ---- case 8: cas .32 with Rd the same register as Rs
+	; ---- case 8: cas.s32 with Rd the same register as Rs
 	lea	buf+16, r3
-	movq	=(0xc3c3c3c391223344), r17
-	movq	r17, (r3)
-	movq	=(0x91223344), r1
-	cas	r1, (r3).32, r1
-	movq	=(0xffffffff91223344), r17
-	cbeq	r1, r17, 1f		; case 8: cas .32 Rd = Rs: the old value
-	movq	#8, r0
+	mov	=(0xc3c3c3c391223344), r17
+	mov	r17, (r3)
+	mov	=(0x91223344), r1
+	cas.s32	r1, (r3), r1
+	mov	=(0xffffffff91223344), r17
+	cbeq	r1, r17, 1f	; case 8: cas.s32 Rd = Rs: the old value
+	mov	#8, r0
 	halt
 1:
-	movq	(r3), r4
-	movq	=(0xc3c3c3c391223344), r17
-	cbeq	r4, r17, 1f		; case 8: cas .32 Rd = Rs: swapping a value for itself leaves the word
-	movq	#8, r0
+	mov	(r3), r4
+	mov	=(0xc3c3c3c391223344), r17
+	cbeq	r4, r17, 1f	; case 8: cas.s32 Rd = Rs: swapping a value for itself leaves the word
+	mov	#8, r0
 	halt
 1:
-		; ---- case 9: a retry loop
+	; ---- case 9: a retry loop
 	lea	buf+16, r3
-	movq	#5, r17
-	movq	r17, (r3)
-	movq	#0, r1
-	movq	#9, r2
-	movq	#0, r6
-retry:	movq	r1, r7
+	mov	#5, r17
+	mov	r17, (r3)
+	mov	#0, r1
+	mov	#9, r2
+	mov	#0, r6
+retry:	mov	r1, r7
 	add	#1, r6
 	cas	r2, (r3), r1
 	cbne	r1, r7, retry
-	movq	=(2), r17
-	cbeq	r6, r17, 1f		; case 9: a retry loop: the second try holds the old value in Rd and succeeds
-	movq	#9, r0
+	mov	=(2), r17
+	cbeq	r6, r17, 1f	; case 9: a retry loop: the second try holds the old value in Rd and succeeds
+	mov	#9, r0
 	halt
 1:
-	movq	(r3), r4
-	movq	=(9), r17
-	cbeq	r4, r17, 1f		; case 9: a retry loop: the word is the new value
-	movq	#9, r0
+	mov	(r3), r4
+	mov	=(9), r17
+	cbeq	r4, r17, 1f	; case 9: a retry loop: the word is the new value
+	mov	#9, r0
 	halt
 1:
-	movq	#0, r0
+	mov	#0, r0
 	halt
 	.data
 	.align	128

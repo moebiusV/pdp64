@@ -9,41 +9,41 @@ _start:
 	mtsr	hvbr, r1
 	lea	hcall, r2
 	lea	htab+8*(VECTOR_TRAP_BASE+40), r1
-	movq	r2, (r1)
+	mov	r2, (r1)
 	lea	hhalt, r2
 	lea	htab+8*VECTOR_HEXIT, r1
-	movq	r2, (r1)
-	movq	=(2<<HTRAP_MASK), r1
+	mov	r2, (r1)
+	mov	=(2<<HTRAP_MASK), r1
 	mtsr	htrap, r1
 	lea	guest, r1
 	mtsr	hepc, r1
-	movq	#0, r1
+	mov	#0, r1
 	mtsr	hepsw, r1
 	genter	#0
 guest:	lea	data, r3
 	lea	flag, r4
-	movq	#42, r1
-	movq	r1, (r3)			; first the data ...
-	movq	#1, r1
-	movq	r1, (r4)			; ... then the flag: "the data is ready"
+	mov	#42, r1
+	mov	r1, (r3)			; first the data ...
+	mov	#1, r1
+	mov	r1, (r4)			; ... then the flag: "the data is ready"
 	trap	#40				; tell the hypervisor to look (the reader needs no fence between its two loads)
 	halt
 hcall:	lea	flag, r4
 	lea	data, r3
-	movq	(r4), r1			; the reader: first the flag ...
+	mov	(r4), r1			; the reader: first the flag ...
 	cbne	r1, #1, hbad			; not set: nothing to read yet
-	movq	(r3), r2			; ... then the data
+	mov	(r3), r2			; ... then the data
 	cbeq	r2, #42, 1f			; the flag was set, so the data is the new data, never the old
-	movq	#1, r0
+	mov	#1, r0
 	halt
-1:	movq	#0, r0
+1:	mov	#0, r0
 	genter	#RTIMASK_NONE
 hhalt:	mfsr	r20, hexitr
 	cbeq	r20, #XCODE_HALT, 1f
 	br	hbad
-1:	movq	#0, r0
+1:	mov	#0, r0
 	halt
-hbad:	movq	#98, r0
+hbad:	mov	#98, r0
 	halt
 	.data
 	.align	4096

@@ -8,16 +8,16 @@ _start:
 	lea	vtab, r1
 	mtsr	vbr, r1
 	lea	hgen, r2
-	movq	#512, r3
-kfill:	movq	r2, (r1)+
+	mov	#512, r3
+kfill:	mov	r2, (r1)+
 	sob	r3, kfill
 	lea	vtab, r1
 	lea	h_ok, r2
-	movq	r2, 2048(r1)
+	mov	r2, 2048(r1)
 	lea	h_fail, r2
-	movq	r2, 2056(r1)
+	mov	r2, 2056(r1)
 	lea	h_ret, r2
-	movq	r2, 2104(r1)
+	mov	r2, 2104(r1)
 
 	lea	dst0, r3
 	vclr.l	v0, #1
@@ -42,31 +42,31 @@ Nx:
 	vend
 	lea	dst0, r1
 	lea	dst1, r2
-	movq	#4, r3
-cmpl:	movq	(r1)+, r4
-	movq	(r2)+, r5
+	mov	#4, r3
+cmpl:	mov	(r1)+, r4
+	mov	(r2)+, r5
 	cbeq	r4, r5, 1f
-	movq	#1, r0
+	mov	#1, r0
 	halt
 1:	sob	r3, cmpl	; check 1: the result with an exception between vclr and vec equals the result without
-	movq	#0, r0
+	mov	#0, r0
 	halt
 
 h_ret:	rti	#RTIMASK_ALL
-hgen:	movq	cnt, r12
+hgen:	mov	cnt, r12
 	add	#1, r12
-	movq	r12, cnt
+	mov	r12, cnt
 	mfsr	r12, ecause
-	movq	r12, last_cause
+	mov	r12, last_cause
 	mfsr	r12, epc
-	movq	r12, last_epc
+	mov	r12, last_epc
 	mfsr	r12, eva
-	movq	r12, last_eva
+	mov	r12, last_eva
 	mfsr	r12, epsw
-	movq	r12, last_epsw
+	mov	r12, last_epsw
 	mtsr	epc, r13
 	rti	#RTIMASK_ALL
-h_ok:	movq	#0, r0
+h_ok:	mov	#0, r0
 h_fail:	halt
 
 	.data

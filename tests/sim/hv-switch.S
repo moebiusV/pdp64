@@ -6,377 +6,377 @@ _start:
 	lea	htab, r1
 	mtsr	hvbr, r1
 	lea	xh, r2
-	movq	#512, r3
-fill1:	movq	r2, (r1)+
+	mov	#512, r3
+fill1:	mov	r2, (r1)+
 	sob	r3, fill1
 	lea	gvtab, r1
 	mtsr	vbr, r1
 	lea	gh, r2
-	movq	#512, r3
-fill2:	movq	r2, (r1)+
+	mov	#512, r3
+fill2:	mov	r2, (r1)+
 	sob	r3, fill2
-	lea	hstk_top, r14						; the hypervisor's stack
-		; --- 1. GENTER loads the status word from HEPSW and PC from HEPC; the guest's MFPS sees it; the exit (HALT is a trap) saves it in HEPSW and the next PC in HEPC; the hypervisor's own
-		; status word is kernel mode, previous mode the guest's current mode, priority 7
-	movq	#0, r1
+	lea	hstk_top, r14			; the hypervisor's stack
+	; --- 1. GENTER loads the status word from HEPSW and PC from HEPC; the guest's MFPS sees it; the exit (HALT is a trap) saves it in HEPSW and the next PC in HEPC; the hypervisor's own
+	; status word is kernel mode, previous mode the guest's current mode, priority 7
+	mov	#0, r1
 	lea	g1, r2
 	mtsr	hepc, r2
-	movq	=(0xc60), r2
+	mov	=(0xc60), r2
 	mtsr	hepsw, r2
 	lea	back1, r20
-	movq	#99, r0
+	mov	#99, r0
 	genter	#RTIMASK_ALL
 g1:	mfps	r1
 	halt
 g1e:
 back1:
-	movq	=(0xc60), r11
+	mov	=(0xc60), r11
 	cbeq	r1, r11, 1f
-	movq	#1, r0
+	mov	#1, r0
 	halt
 1:
 	mfsr	r2, hepc
 	lea	g1e, r3
 	cbeq	r2, r3, 1f
-	movq	#2, r0
+	mov	#2, r0
 	halt
 1:
 	mfsr	r2, hepsw
-	movq	=(0xc60), r11
+	mov	=(0xc60), r11
 	cbeq	r2, r11, 1f
-	movq	#3, r0
+	mov	#3, r0
 	halt
 1:
 	mfsr	r2, hexitr
-	movq	=(XCODE_HALT), r11
+	mov	=(XCODE_HALT), r11
 	cbeq	r2, r11, 1f
-	movq	#4, r0
+	mov	#4, r0
 	halt
 1:
 	mfsr	r2, hcause
-	movq	=(VECTOR_HEXIT), r11
+	mov	=(VECTOR_HEXIT), r11
 	cbeq	r2, r11, 1f
-	movq	#5, r0
+	mov	#5, r0
 	halt
 1:
 	mfps	r2
-	movq	=((MODE_KERNEL<<PSW_MODE)|(MODE_KERNEL<<PSW_PREV)|(7<<PSW_PRI)), r11
+	mov	=((MODE_KERNEL<<PSW_MODE)|(MODE_KERNEL<<PSW_PREV)|(7<<PSW_PRI)), r11
 	cbeq	r2, r11, 1f
-	movq	#6, r0
+	mov	#6, r0
 	halt
 1:
-		; --- 2. an exit from a user-mode guest leaves its mode as the previous mode (SEV is not privileged and HTRAP resets with SEV set)
+	; --- 2. an exit from a user-mode guest leaves its mode as the previous mode (SEV is not privileged and HTRAP resets with SEV set)
 	lea	g2, r2
 	mtsr	hepc, r2
-	movq	=(0xf00), r2
+	mov	=(0xf00), r2
 	mtsr	hepsw, r2
 	lea	back2, r20
-	movq	#99, r0
+	mov	#99, r0
 	genter	#RTIMASK_ALL
 g2:	sev
 	halt
 back2:
 	mfps	r2
-	movq	=((MODE_KERNEL<<PSW_MODE)|(MODE_USER<<PSW_PREV)|(7<<PSW_PRI)), r11
+	mov	=((MODE_KERNEL<<PSW_MODE)|(MODE_USER<<PSW_PREV)|(7<<PSW_PRI)), r11
 	cbeq	r2, r11, 1f
-	movq	#7, r0
+	mov	#7, r0
 	halt
 1:
 	mfsr	r2, hepsw
-	movq	=(0xf00), r11
+	mov	=(0xf00), r11
 	cbeq	r2, r11, 1f
-	movq	#8, r0
+	mov	#8, r0
 	halt
 1:
 	mfsr	r2, hexitr
-	movq	=(XCODE_SEV), r11
+	mov	=(XCODE_SEV), r11
 	cbeq	r2, r11, 1f
-	movq	#9, r0
+	mov	#9, r0
 	halt
 1:
-		; --- 2b. the guest's own exception (a system call, no hypercall routed) does not exit: its handler halts, and the guest's EPC, EPSW, ECAUSE are written, not the hypervisor's
+	; --- 2b. the guest's own exception (a system call, no hypercall routed) does not exit: its handler halts, and the guest's EPC, EPSW, ECAUSE are written, not the hypervisor's
 	lea	g2b, r2
 	mtsr	hepc, r2
-	movq	=(0xf00), r2
+	mov	=(0xf00), r2
 	mtsr	hepsw, r2
 	lea	back2b, r20
-	movq	#99, r0
+	mov	#99, r0
 	genter	#RTIMASK_ALL
 g2b:	trap	#0
 g2be:
 back2b:
 	mfsr	r2, hepsw
-	movq	=((MODE_KERNEL<<PSW_MODE)|(MODE_USER<<PSW_PREV)|(7<<PSW_PRI)), r11
+	mov	=((MODE_KERNEL<<PSW_MODE)|(MODE_USER<<PSW_PREV)|(7<<PSW_PRI)), r11
 	cbeq	r2, r11, 1f
-	movq	#10, r0
+	mov	#10, r0
 	halt
 1:
 	mfsr	r2, ecause
-	movq	=(VECTOR_TRAP_BASE+0), r11
+	mov	=(VECTOR_TRAP_BASE+0), r11
 	cbeq	r2, r11, 1f
-	movq	#11, r0
+	mov	#11, r0
 	halt
 1:
 	mfsr	r2, epsw
-	movq	=(0xf00), r11
+	mov	=(0xf00), r11
 	cbeq	r2, r11, 1f
-	movq	#12, r0
+	mov	#12, r0
 	halt
 1:
 	mfsr	r2, epc
 	lea	g2be, r3
 	cbeq	r2, r3, 1f
-	movq	#13, r0
+	mov	#13, r0
 	halt
 1:
-		; --- 3. the banks of R14 and DP: the guest in kernel mode has GKSP and GKDP, changes them, the exit shows the changes, the hypervisor's own R14 and DP are as they were
-	movq	=0x1000, r2
+	; --- 3. the banks of R14 and DP: the guest in kernel mode has GKSP and GKDP, changes them, the exit shows the changes, the hypervisor's own R14 and DP are as they were
+	mov	=0x1000, r2
 	mtsr	gksp, r2
-	movq	=0x2000, r2
+	mov	=0x2000, r2
 	mtsr	gkdp, r2
-	movq	=0x3000, r2
+	mov	=0x3000, r2
 	mtsr	gsdp, r2
-	movq	=0x4000, r2
+	mov	=0x4000, r2
 	mtsr	gudp, r2
-	movq	=0x5000, r2
+	mov	=0x5000, r2
 	mtsr	usp, r2
-	movq	=0x6000, r2
+	mov	=0x6000, r2
 	mtsr	ssp, r2
-	movq	=0x9000, r2
+	mov	=0x9000, r2
 	mtdp	r2
-	movq	r14, r12
+	mov	r14, r12
 	lea	g3, r2
 	mtsr	hepc, r2
-	movq	=(0), r2
+	mov	=(0), r2
 	mtsr	hepsw, r2
 	lea	back3, r20
-	movq	#99, r0
+	mov	#99, r0
 	genter	#RTIMASK_ALL
-g3:	movq	r14, r1
+g3:	mov	r14, r1
 	mfdp	r2
-	movq	=0x1111, r3
+	mov	=0x1111, r3
 	mtdp	r3
-	movq	=0x2222, r14
+	mov	=0x2222, r14
 	halt
 back3:
-	movq	=(0x1000), r11
+	mov	=(0x1000), r11
 	cbeq	r1, r11, 1f
-	movq	#14, r0
+	mov	#14, r0
 	halt
 1:
-	movq	=(0x2000), r11
+	mov	=(0x2000), r11
 	cbeq	r2, r11, 1f
-	movq	#15, r0
+	mov	#15, r0
 	halt
 1:
 	mfsr	r2, gksp
-	movq	=(0x2222), r11
+	mov	=(0x2222), r11
 	cbeq	r2, r11, 1f
-	movq	#16, r0
+	mov	#16, r0
 	halt
 1:
 	mfsr	r2, gkdp
-	movq	=(0x1111), r11
+	mov	=(0x1111), r11
 	cbeq	r2, r11, 1f
-	movq	#17, r0
+	mov	#17, r0
 	halt
 1:
 	mfsr	r2, gsdp
-	movq	=(0x3000), r11
+	mov	=(0x3000), r11
 	cbeq	r2, r11, 1f
-	movq	#18, r0
+	mov	#18, r0
 	halt
 1:
 	mfsr	r2, gudp
-	movq	=(0x4000), r11
+	mov	=(0x4000), r11
 	cbeq	r2, r11, 1f
-	movq	#19, r0
+	mov	#19, r0
 	halt
 1:
 	mfsr	r2, usp
-	movq	=(0x5000), r11
+	mov	=(0x5000), r11
 	cbeq	r2, r11, 1f
-	movq	#20, r0
+	mov	#20, r0
 	halt
 1:
 	mfsr	r2, ssp
-	movq	=(0x6000), r11
+	mov	=(0x6000), r11
 	cbeq	r2, r11, 1f
-	movq	#21, r0
+	mov	#21, r0
 	halt
 1:
 	mfdp	r2
-	movq	=(0x9000), r11
+	mov	=(0x9000), r11
 	cbeq	r2, r11, 1f
-	movq	#22, r0
+	mov	#22, r0
 	halt
 1:
 	cbeq	r14, r12, 1f
-	movq	#23, r0
+	mov	#23, r0
 	halt
 1:
-		; --- 3b. a guest in user mode: its R14 is USP and its DP is GUDP; its exception entry (trap #1, no hypercall routed) switches to the kernel bank, which holds what the guest left there
+	; --- 3b. a guest in user mode: its R14 is USP and its DP is GUDP; its exception entry (trap #1, no hypercall routed) switches to the kernel bank, which holds what the guest left there
 	lea	g3u, r2
 	mtsr	hepc, r2
-	movq	=(0xf00), r2
+	mov	=(0xf00), r2
 	mtsr	hepsw, r2
 	lea	back3u, r20
-	movq	#99, r0
+	mov	#99, r0
 	genter	#RTIMASK_ALL
-g3u:	movq	r14, r1
+g3u:	mov	r14, r1
 	mfdp	r2
-	movq	=0x7777, r14
-	movq	=0x8888, r3
+	mov	=0x7777, r14
+	mov	=0x8888, r3
 	mtdp	r3
 	trap	#1
 back3u:
-	movq	=(0x5000), r11
+	mov	=(0x5000), r11
 	cbeq	r1, r11, 1f
-	movq	#24, r0
+	mov	#24, r0
 	halt
 1:
-	movq	=(0x4000), r11
+	mov	=(0x4000), r11
 	cbeq	r2, r11, 1f
-	movq	#25, r0
+	mov	#25, r0
 	halt
 1:
 	mfsr	r2, usp
-	movq	=(0x7777), r11
+	mov	=(0x7777), r11
 	cbeq	r2, r11, 1f
-	movq	#26, r0
+	mov	#26, r0
 	halt
 1:
 	mfsr	r2, gudp
-	movq	=(0x8888), r11
+	mov	=(0x8888), r11
 	cbeq	r2, r11, 1f
-	movq	#27, r0
+	mov	#27, r0
 	halt
 1:
 	mfsr	r2, gksp
-	movq	=(0x2222), r11
+	mov	=(0x2222), r11
 	cbeq	r2, r11, 1f
-	movq	#28, r0
+	mov	#28, r0
 	halt
 1:
 	mfsr	r2, gkdp
-	movq	=(0x1111), r11
+	mov	=(0x1111), r11
 	cbeq	r2, r11, 1f
-	movq	#29, r0
+	mov	#29, r0
 	halt
 1:
-		; --- 3c. a guest in supervisor mode: SSP and GSDP (HALT is privileged there: the guest's own exception, then its handler halts)
+	; --- 3c. a guest in supervisor mode: SSP and GSDP (HALT is privileged there: the guest's own exception, then its handler halts)
 	lea	g3s, r2
 	mtsr	hepc, r2
-	movq	=((MODE_SUPERVISOR<<PSW_MODE)|(MODE_SUPERVISOR<<PSW_PREV)), r2
+	mov	=((MODE_SUPERVISOR<<PSW_MODE)|(MODE_SUPERVISOR<<PSW_PREV)), r2
 	mtsr	hepsw, r2
 	lea	back3s, r20
-	movq	#99, r0
+	mov	#99, r0
 	genter	#RTIMASK_ALL
-g3s:	movq	r14, r1
+g3s:	mov	r14, r1
 	mfdp	r2
 	halt
 back3s:
-	movq	=(0x6000), r11
+	mov	=(0x6000), r11
 	cbeq	r1, r11, 1f
-	movq	#30, r0
+	mov	#30, r0
 	halt
 1:
-	movq	=(0x3000), r11
+	mov	=(0x3000), r11
 	cbeq	r2, r11, 1f
-	movq	#31, r0
+	mov	#31, r0
 	halt
 1:
-		; --- 4. a reserved mode (2) in either mode field of HEPSW: GENTER is an illegal instruction at H = 1 and changes nothing: the next instruction is the hypervisor's
+	; --- 4. a reserved mode (2) in either mode field of HEPSW: GENTER is an illegal instruction at H = 1 and changes nothing: the next instruction is the hypervisor's
 	lea	h_ill, r3
 	lea	htab+8*VECTOR_ILLEGAL, r2
-	movq	r3, (r2)
-	movq	=((2<<PSW_MODE)), r2
+	mov	r3, (r2)
+	mov	=((2<<PSW_MODE)), r2
 	mtsr	hepsw, r2
 	lea	g4, r2
 	mtsr	hepc, r2
-	movq	#0, r10
+	mov	#0, r10
 	lea	R2, r4
 I1:	genter	#RTIMASK_ALL
 R2:
-	movq	=(1), r11
+	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	movq	#32, r0
+	mov	#32, r0
 	halt
 1:
-	movq	=(VECTOR_ILLEGAL), r11
+	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	movq	#33, r0
+	mov	#33, r0
 	halt
 1:
-	movq	=((2<<PSW_PREV)), r2
+	mov	=((2<<PSW_PREV)), r2
 	mtsr	hepsw, r2
 	lea	g4, r2
 	mtsr	hepc, r2
-	movq	#0, r10
+	mov	#0, r10
 	lea	R4, r4
 I3:	genter	#RTIMASK_ALL
 R4:
-	movq	=(1), r11
+	mov	=(1), r11
 	cbeq	r10, r11, 1f
-	movq	#34, r0
+	mov	#34, r0
 	halt
 1:
-	movq	=(VECTOR_ILLEGAL), r11
+	mov	=(VECTOR_ILLEGAL), r11
 	cbeq	r6, r11, 1f
-	movq	#35, r0
+	mov	#35, r0
 	halt
 1:
-		; --- 5. the naming of the vector accumulators (what VCLR sets) is cleared by an exit and by GENTER (6.14.9).  Control: with no world switch the naming makes the sums run.
+	; --- 5. the naming of the vector accumulators (what VCLR sets) is cleared by an exit and by GENTER (6.14.9).  Control: with no world switch the naming makes the sums run.
 	call	clear_dst
 	vclr.l	v0, #1
 	call	runs
 	call	expect_copy
 	cbeq	r0, #1, 1f
-	movq	#36, r0
+	mov	#36, r0
 	halt
 1:
-		; 5a. the guest names accumulators and halts (an exit): the hypervisor's block is an ordinary block
+	; 5a. the guest names accumulators and halts (an exit): the hypervisor's block is an ordinary block
 	call	clear_dst
 	lea	g5, r2
 	mtsr	hepc, r2
-	movq	=(0), r2
+	mov	=(0), r2
 	mtsr	hepsw, r2
 	lea	back5, r20
-	movq	#99, r0
+	mov	#99, r0
 	genter	#RTIMASK_ALL
 g5:	vclr.l	v0, #1
 	halt
 back5:	call	runs
 	call	expect_copy
 	cbeq	r0, #0, 1f
-	movq	#37, r0
+	mov	#37, r0
 	halt
 1:
-		; 5b. the hypervisor names accumulators and enters: GENTER cleared the naming, the guest's block is an ordinary block
+	; 5b. the hypervisor names accumulators and enters: GENTER cleared the naming, the guest's block is an ordinary block
 	call	clear_dst
 	vclr.l	v0, #1
 	lea	gstk_top, r2
 	mtsr	gksp, r2
 	lea	g6, r2
 	mtsr	hepc, r2
-	movq	=(0), r2
+	mov	=(0), r2
 	mtsr	hepsw, r2
 	lea	back6, r20
-	movq	#99, r0
+	mov	#99, r0
 	genter	#RTIMASK_ALL
 g6:	call	runs
 	halt
 back6:	call	expect_copy
 	cbeq	r0, #0, 1f
-	movq	#38, r0
+	mov	#38, r0
 	halt
 1:
-	movq	#0, r0
+	mov	#0, r0
 	halt
 clear_dst:
 	lea	dst, r1
-	movq	#0xa5, r2
-	movq	#32, r3
+	mov	#0xa5, r2
+	mov	#32, r3
 	mset	r1, r2, r3
 	ret
 runs:
@@ -392,18 +392,18 @@ runs:
 expect_copy:
 	lea	src, r1
 	lea	dst, r2
-	movq	#32, r3
-1:	mov	(r1)+.u8, r4
-	mov	(r2)+.u8, r5
+	mov	#32, r3
+1:	mov.u8	(r1)+, r4
+	mov.u8	(r2)+, r5
 	cbne	r4, r5, 2f
 	sob	r3, 1b
-	movq	#0, r0
+	mov	#0, r0
 	ret
-2:	movq	#1, r0
+2:	mov	#1, r0
 	ret
 g4:
 	halt
-xh:	jmp	r20						; every exit: back to the hypervisor's continuation (the guest does not use r20)
+xh:	jmp	r20			; every exit: back to the hypervisor's continuation (the guest does not use r20)
 gh:	halt
 h_ill:	mfsr	r6, hcause
 	add	#1, r10

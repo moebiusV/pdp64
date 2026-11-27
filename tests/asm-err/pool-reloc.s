@@ -1,3 +1,3 @@
 	.text
-	movq	=somewhere, r1
+	mov	=somewhere, r1
 somewhere:

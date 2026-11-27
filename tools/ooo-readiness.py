@@ -98,7 +98,7 @@ def load(d):
             if not body or body.startswith('.'): continue
             m = re.match(r'^([a-z][a-z0-9_]*)\s*(.*)$', body)
             if not m: continue
-            _mn, _ops = marks.unspell(m.group(1), split_ops(m.group(2)))		# the source writes width marks; the analysis thinks in the words of the encoding
+            _mn, _ops = marks.unspell(m.group(1), split_ops(m.group(2)))		# the source writes the width suffixes; the analysis thinks in the words of the encoding
             ins = Ins(_mn, _ops, body, fn, ln)
             cur.append(ins); allins.append(ins)
         if cur: blocks.append(cur)

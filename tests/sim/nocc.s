@@ -2,12654 +2,12654 @@
 	.text
 	.globl	_start
 _start:
-	movq	=-9223372036854775808, r1
-	movq	=9223372036854775807, r2
-	movq	#9, r3
+	mov	=-9223372036854775808, r1
+	mov	=9223372036854775807, r2
+	mov	#9, r3
 	seteq	r1, r2, r3
 	cbne	r3, #0, f1
-	movq	=9223372036854775807, r1
-	movq	=1, r2
-	movq	#9, r3
+	mov	=9223372036854775807, r1
+	mov	=1, r2
+	mov	#9, r3
 	seteq	r1, r2, r3
 	cbne	r3, #0, f2
-	movq	=9223372036854775807, r1
-	movq	=5, r2
-	movq	#9, r3
+	mov	=9223372036854775807, r1
+	mov	=5, r2
+	mov	#9, r3
 	seteq	r1, r2, r3
 	cbne	r3, #0, f3
-	movq	=0, r1
-	movq	=1, r2
-	movq	#9, r3
+	mov	=0, r1
+	mov	=1, r2
+	mov	#9, r3
 	setne	r1, r2, r3
 	cbne	r3, #1, f4
-	movq	=0, r1
-	movq	=5, r2
-	movq	#9, r3
+	mov	=0, r1
+	mov	=5, r2
+	mov	#9, r3
 	setne	r1, r2, r3
 	cbne	r3, #1, f5
-	movq	=0, r1
-	movq	=-2, r2
-	movq	#9, r3
+	mov	=0, r1
+	mov	=-2, r2
+	mov	#9, r3
 	setne	r1, r2, r3
 	cbne	r3, #1, f6
-	movq	=5, r1
-	movq	=7, r2
-	movq	#9, r3
+	mov	=5, r1
+	mov	=7, r2
+	mov	#9, r3
 	setne	r1, r2, r3
 	cbne	r3, #1, f7
-	movq	=5, r1
-	movq	=-1, r2
-	movq	#9, r3
+	mov	=5, r1
+	mov	=-1, r2
+	mov	#9, r3
 	setne	r1, r2, r3
 	cbne	r3, #1, f8
-	movq	=5, r1
-	movq	=-9223372036854775808, r2
-	movq	#9, r3
+	mov	=5, r1
+	mov	=-9223372036854775808, r2
+	mov	#9, r3
 	setne	r1, r2, r3
 	cbne	r3, #1, f9
-	movq	=5, r1
-	movq	=9223372036854775807, r2
-	movq	#9, r3
+	mov	=5, r1
+	mov	=9223372036854775807, r2
+	mov	#9, r3
 	setne	r1, r2, r3
 	cbne	r3, #1, f10
-	movq	=7, r1
-	movq	=1, r2
-	movq	#9, r3
+	mov	=7, r1
+	mov	=1, r2
+	mov	#9, r3
 	setne	r1, r2, r3
 	cbne	r3, #1, f11
-	movq	=7, r1
-	movq	=5, r2
-	movq	#9, r3
+	mov	=7, r1
+	mov	=5, r2
+	mov	#9, r3
 	setne	r1, r2, r3
 	cbne	r3, #1, f12
-	movq	=7, r1
-	movq	=-2, r2
-	movq	#9, r3
+	mov	=7, r1
+	mov	=-2, r2
+	mov	#9, r3
 	setne	r1, r2, r3
 	cbne	r3, #1, f13
-	movq	=-1, r1
-	movq	=1, r2
-	movq	#9, r3
+	mov	=-1, r1
+	mov	=1, r2
+	mov	#9, r3
 	setne	r1, r2, r3
 	cbne	r3, #1, f14
-	movq	=-1, r1
-	movq	=5, r2
-	movq	#9, r3
+	mov	=-1, r1
+	mov	=5, r2
+	mov	#9, r3
 	setne	r1, r2, r3
 	cbne	r3, #1, f15
-	movq	=-1, r1
-	movq	=-2, r2
-	movq	#9, r3
+	mov	=-1, r1
+	mov	=-2, r2
+	mov	#9, r3
 	setne	r1, r2, r3
 	cbne	r3, #1, f16
-	movq	=-9223372036854775808, r1
-	movq	=1, r2
-	movq	#9, r3
+	mov	=-9223372036854775808, r1
+	mov	=1, r2
+	mov	#9, r3
 	setne	r1, r2, r3
 	cbne	r3, #1, f17
-	movq	=9223372036854775807, r1
-	movq	=7, r2
-	movq	#9, r3
+	mov	=9223372036854775807, r1
+	mov	=7, r2
+	mov	#9, r3
 	setne	r1, r2, r3
 	cbne	r3, #1, f18
-	movq	=9223372036854775807, r1
-	movq	=-1, r2
-	movq	#9, r3
+	mov	=9223372036854775807, r1
+	mov	=-1, r2
+	mov	#9, r3
 	setne	r1, r2, r3
 	cbne	r3, #1, f19
-	movq	=9223372036854775807, r1
-	movq	=-9223372036854775808, r2
-	movq	#9, r3
+	mov	=9223372036854775807, r1
+	mov	=-9223372036854775808, r2
+	mov	#9, r3
 	setne	r1, r2, r3
 	cbne	r3, #1, f20
-	movq	=9223372036854775807, r1
-	movq	=9223372036854775807, r2
-	movq	#9, r3
+	mov	=9223372036854775807, r1
+	mov	=9223372036854775807, r2
+	mov	#9, r3
 	setne	r1, r2, r3
 	cbne	r3, #0, f21
-	movq	=0, r1
-	movq	=9223372036854775807, r2
-	movq	#9, r3
+	mov	=0, r1
+	mov	=9223372036854775807, r2
+	mov	#9, r3
 	setlt	r1, r2, r3
 	cbne	r3, #1, f22
-	movq	=7, r1
-	movq	=7, r2
-	movq	#9, r3
+	mov	=7, r1
+	mov	=7, r2
+	mov	#9, r3
 	setlt	r1, r2, r3
 	cbne	r3, #0, f23
-	movq	=7, r1
-	movq	=-1, r2
-	movq	#9, r3
+	mov	=7, r1
+	mov	=-1, r2
+	mov	#9, r3
 	setlt	r1, r2, r3
 	cbne	r3, #0, f24
-	movq	=7, r1
-	movq	=-2, r2
-	movq	#9, r3
+	mov	=7, r1
+	mov	=-2, r2
+	mov	#9, r3
 	setlt	r1, r2, r3
 	cbne	r3, #0, f25
-	movq	=7, r1
-	movq	=9223372036854775807, r2
-	movq	#9, r3
+	mov	=7, r1
+	mov	=9223372036854775807, r2
+	mov	#9, r3
 	setlt	r1, r2, r3
 	cbne	r3, #1, f26
-	movq	=-1, r1
-	movq	=7, r2
-	movq	#9, r3
+	mov	=-1, r1
+	mov	=7, r2
+	mov	#9, r3
 	setlt	r1, r2, r3
 	cbne	r3, #1, f27
-	movq	=-1, r1
-	movq	=-1, r2
-	movq	#9, r3
+	mov	=-1, r1
+	mov	=-1, r2
+	mov	#9, r3
 	setlt	r1, r2, r3
 	cbne	r3, #0, f28
-	movq	=-1, r1
-	movq	=-2, r2
-	movq	#9, r3
+	mov	=-1, r1
+	mov	=-2, r2
+	mov	#9, r3
 	setlt	r1, r2, r3
 	cbne	r3, #0, f29
-	movq	=-1, r1
-	movq	=9223372036854775807, r2
-	movq	#9, r3
+	mov	=-1, r1
+	mov	=9223372036854775807, r2
+	mov	#9, r3
 	setlt	r1, r2, r3
 	cbne	r3, #1, f30
-	movq	=-9223372036854775808, r1
-	movq	=1, r2
-	movq	#9, r3
+	mov	=-9223372036854775808, r1
+	mov	=1, r2
+	mov	#9, r3
 	setlt	r1, r2, r3
 	cbne	r3, #1, f31
-	movq	=-9223372036854775808, r1
-	movq	=5, r2
-	movq	#9, r3
+	mov	=-9223372036854775808, r1
+	mov	=5, r2
+	mov	#9, r3
 	setlt	r1, r2, r3
 	cbne	r3, #1, f32
-	movq	=-9223372036854775808, r1
-	movq	=-2, r2
-	movq	#9, r3
+	mov	=-9223372036854775808, r1
+	mov	=-2, r2
+	mov	#9, r3
 	setlt	r1, r2, r3
 	cbne	r3, #1, f33
-	movq	=9223372036854775807, r1
-	movq	=0, r2
-	movq	#9, r3
+	mov	=9223372036854775807, r1
+	mov	=0, r2
+	mov	#9, r3
 	setlt	r1, r2, r3
 	cbne	r3, #0, f34
-	movq	=9223372036854775807, r1
-	movq	=1, r2
-	movq	#9, r3
+	mov	=9223372036854775807, r1
+	mov	=1, r2
+	mov	#9, r3
 	setlt	r1, r2, r3
 	cbne	r3, #0, f35
-	movq	=9223372036854775807, r1
-	movq	=5, r2
-	movq	#9, r3
+	mov	=9223372036854775807, r1
+	mov	=5, r2
+	mov	#9, r3
 	setlt	r1, r2, r3
 	cbne	r3, #0, f36
-	movq	=9223372036854775807, r1
-	movq	=-9223372036854775808, r2
-	movq	#9, r3
+	mov	=9223372036854775807, r1
+	mov	=-9223372036854775808, r2
+	mov	#9, r3
 	setlt	r1, r2, r3
 	cbne	r3, #0, f37
-	movq	=0, r1
-	movq	=7, r2
-	movq	#9, r3
+	mov	=0, r1
+	mov	=7, r2
+	mov	#9, r3
 	setle	r1, r2, r3
 	cbne	r3, #1, f38
-	movq	=0, r1
-	movq	=-1, r2
-	movq	#9, r3
+	mov	=0, r1
+	mov	=-1, r2
+	mov	#9, r3
 	setle	r1, r2, r3
 	cbne	r3, #0, f39
-	movq	=0, r1
-	movq	=-9223372036854775808, r2
-	movq	#9, r3
+	mov	=0, r1
+	mov	=-9223372036854775808, r2
+	mov	#9, r3
 	setle	r1, r2, r3
 	cbne	r3, #0, f40
-	movq	=0, r1
-	movq	=9223372036854775807, r2
-	movq	#9, r3
+	mov	=0, r1
+	mov	=9223372036854775807, r2
+	mov	#9, r3
 	setle	r1, r2, r3
 	cbne	r3, #1, f41
-	movq	=1, r1
-	movq	=1, r2
-	movq	#9, r3
+	mov	=1, r1
+	mov	=1, r2
+	mov	#9, r3
 	setle	r1, r2, r3
 	cbne	r3, #1, f42
-	movq	=5, r1
-	movq	=0, r2
-	movq	#9, r3
+	mov	=5, r1
+	mov	=0, r2
+	mov	#9, r3
 	setle	r1, r2, r3
 	cbne	r3, #0, f43
-	movq	=5, r1
-	movq	=1, r2
-	movq	#9, r3
+	mov	=5, r1
+	mov	=1, r2
+	mov	#9, r3
 	setle	r1, r2, r3
 	cbne	r3, #0, f44
-	movq	=5, r1
-	movq	=5, r2
-	movq	#9, r3
+	mov	=5, r1
+	mov	=5, r2
+	mov	#9, r3
 	setle	r1, r2, r3
 	cbne	r3, #1, f45
-	movq	=7, r1
-	movq	=0, r2
-	movq	#9, r3
+	mov	=7, r1
+	mov	=0, r2
+	mov	#9, r3
 	setle	r1, r2, r3
 	cbne	r3, #0, f46
-	movq	=7, r1
-	movq	=1, r2
-	movq	#9, r3
+	mov	=7, r1
+	mov	=1, r2
+	mov	#9, r3
 	setle	r1, r2, r3
 	cbne	r3, #0, f47
-	movq	=7, r1
-	movq	=5, r2
-	movq	#9, r3
+	mov	=7, r1
+	mov	=5, r2
+	mov	#9, r3
 	setle	r1, r2, r3
 	cbne	r3, #0, f48
-	movq	=7, r1
-	movq	=-2, r2
-	movq	#9, r3
+	mov	=7, r1
+	mov	=-2, r2
+	mov	#9, r3
 	setle	r1, r2, r3
 	cbne	r3, #0, f49
-	movq	=-1, r1
-	movq	=0, r2
-	movq	#9, r3
+	mov	=-1, r1
+	mov	=0, r2
+	mov	#9, r3
 	setle	r1, r2, r3
 	cbne	r3, #1, f50
-	movq	=-1, r1
-	movq	=1, r2
-	movq	#9, r3
+	mov	=-1, r1
+	mov	=1, r2
+	mov	#9, r3
 	setle	r1, r2, r3
 	cbne	r3, #1, f51
-	movq	=-1, r1
-	movq	=5, r2
-	movq	#9, r3
+	mov	=-1, r1
+	mov	=5, r2
+	mov	#9, r3
 	setle	r1, r2, r3
 	cbne	r3, #1, f52
-	movq	=-1, r1
-	movq	=-2, r2
-	movq	#9, r3
+	mov	=-1, r1
+	mov	=-2, r2
+	mov	#9, r3
 	setle	r1, r2, r3
 	cbne	r3, #0, f53
-	movq	=0, r1
-	movq	=0, r2
-	movq	#9, r3
+	mov	=0, r1
+	mov	=0, r2
+	mov	#9, r3
 	setgt	r1, r2, r3
 	cbne	r3, #0, f54
-	movq	=0, r1
-	movq	=-9223372036854775808, r2
-	movq	#9, r3
+	mov	=0, r1
+	mov	=-9223372036854775808, r2
+	mov	#9, r3
 	setgt	r1, r2, r3
 	cbne	r3, #1, f55
-	movq	=0, r1
-	movq	=9223372036854775807, r2
-	movq	#9, r3
+	mov	=0, r1
+	mov	=9223372036854775807, r2
+	mov	#9, r3
 	setgt	r1, r2, r3
 	cbne	r3, #0, f56
-	movq	=5, r1
-	movq	=1, r2
-	movq	#9, r3
+	mov	=5, r1
+	mov	=1, r2
+	mov	#9, r3
 	setgt	r1, r2, r3
 	cbne	r3, #1, f57
-	movq	=5, r1
-	movq	=5, r2
-	movq	#9, r3
+	mov	=5, r1
+	mov	=5, r2
+	mov	#9, r3
 	setgt	r1, r2, r3
 	cbne	r3, #0, f58
-	movq	=5, r1
-	movq	=-2, r2
-	movq	#9, r3
+	mov	=5, r1
+	mov	=-2, r2
+	mov	#9, r3
 	setgt	r1, r2, r3
 	cbne	r3, #1, f59
-	movq	=7, r1
-	movq	=-2, r2
-	movq	#9, r3
+	mov	=7, r1
+	mov	=-2, r2
+	mov	#9, r3
 	setgt	r1, r2, r3
 	cbne	r3, #1, f60
-	movq	=-1, r1
-	movq	=-2, r2
-	movq	#9, r3
+	mov	=-1, r1
+	mov	=-2, r2
+	mov	#9, r3
 	setgt	r1, r2, r3
 	cbne	r3, #1, f61
-	movq	=-9223372036854775808, r1
-	movq	=-2, r2
-	movq	#9, r3
+	mov	=-9223372036854775808, r1
+	mov	=-2, r2
+	mov	#9, r3
 	setgt	r1, r2, r3
 	cbne	r3, #0, f62
-	movq	=0, r1
-	movq	=0, r2
-	movq	#9, r3
+	mov	=0, r1
+	mov	=0, r2
+	mov	#9, r3
 	setge	r1, r2, r3
 	cbne	r3, #1, f63
-	movq	=0, r1
-	movq	=7, r2
-	movq	#9, r3
+	mov	=0, r1
+	mov	=7, r2
+	mov	#9, r3
 	setge	r1, r2, r3
 	cbne	r3, #0, f64
-	movq	=0, r1
-	movq	=-1, r2
-	movq	#9, r3
+	mov	=0, r1
+	mov	=-1, r2
+	mov	#9, r3
 	setge	r1, r2, r3
 	cbne	r3, #1, f65
-	movq	=0, r1
-	movq	=-9223372036854775808, r2
-	movq	#9, r3
+	mov	=0, r1
+	mov	=-9223372036854775808, r2
+	mov	#9, r3
 	setge	r1, r2, r3
 	cbne	r3, #1, f66
-	movq	=0, r1
-	movq	=9223372036854775807, r2
-	movq	#9, r3
+	mov	=0, r1
+	mov	=9223372036854775807, r2
+	mov	#9, r3
 	setge	r1, r2, r3
 	cbne	r3, #0, f67
-	movq	=5, r1
-	movq	=1, r2
-	movq	#9, r3
+	mov	=5, r1
+	mov	=1, r2
+	mov	#9, r3
 	setge	r1, r2, r3
 	cbne	r3, #1, f68
-	movq	=5, r1
-	movq	=5, r2
-	movq	#9, r3
+	mov	=5, r1
+	mov	=5, r2
+	mov	#9, r3
 	setge	r1, r2, r3
 	cbne	r3, #1, f69
-	movq	=7, r1
-	movq	=0, r2
-	movq	#9, r3
+	mov	=7, r1
+	mov	=0, r2
+	mov	#9, r3
 	setge	r1, r2, r3
 	cbne	r3, #1, f70
-	movq	=-1, r1
-	movq	=0, r2
-	movq	#9, r3
+	mov	=-1, r1
+	mov	=0, r2
+	mov	#9, r3
 	setge	r1, r2, r3
 	cbne	r3, #0, f71
-	movq	=-2, r1
-	movq	=7, r2
-	movq	#9, r3
+	mov	=-2, r1
+	mov	=7, r2
+	mov	#9, r3
 	setge	r1, r2, r3
 	cbne	r3, #0, f72
-	movq	=-2, r1
-	movq	=-1, r2
-	movq	#9, r3
+	mov	=-2, r1
+	mov	=-1, r2
+	mov	#9, r3
 	setge	r1, r2, r3
 	cbne	r3, #0, f73
-	movq	=-2, r1
-	movq	=9223372036854775807, r2
-	movq	#9, r3
+	mov	=-2, r1
+	mov	=9223372036854775807, r2
+	mov	#9, r3
 	setge	r1, r2, r3
 	cbne	r3, #0, f74
-	movq	=-9223372036854775808, r1
-	movq	=7, r2
-	movq	#9, r3
+	mov	=-9223372036854775808, r1
+	mov	=7, r2
+	mov	#9, r3
 	setge	r1, r2, r3
 	cbne	r3, #0, f75
-	movq	=-9223372036854775808, r1
-	movq	=-1, r2
-	movq	#9, r3
+	mov	=-9223372036854775808, r1
+	mov	=-1, r2
+	mov	#9, r3
 	setge	r1, r2, r3
 	cbne	r3, #0, f76
-	movq	=-9223372036854775808, r1
-	movq	=9223372036854775807, r2
-	movq	#9, r3
+	mov	=-9223372036854775808, r1
+	mov	=9223372036854775807, r2
+	mov	#9, r3
 	setge	r1, r2, r3
 	cbne	r3, #0, f77
-	movq	=0, r1
-	movq	=1, r2
-	movq	#9, r3
+	mov	=0, r1
+	mov	=1, r2
+	mov	#9, r3
 	setcs	r1, r2, r3
 	cbne	r3, #1, f78
-	movq	=0, r1
-	movq	=5, r2
-	movq	#9, r3
+	mov	=0, r1
+	mov	=5, r2
+	mov	#9, r3
 	setcs	r1, r2, r3
 	cbne	r3, #1, f79
-	movq	=1, r1
-	movq	=7, r2
-	movq	#9, r3
+	mov	=1, r1
+	mov	=7, r2
+	mov	#9, r3
 	setcs	r1, r2, r3
 	cbne	r3, #1, f80
-	movq	=1, r1
-	movq	=-1, r2
-	movq	#9, r3
+	mov	=1, r1
+	mov	=-1, r2
+	mov	#9, r3
 	setcs	r1, r2, r3
 	cbne	r3, #1, f81
-	movq	=1, r1
-	movq	=9223372036854775807, r2
-	movq	#9, r3
+	mov	=1, r1
+	mov	=9223372036854775807, r2
+	mov	#9, r3
 	setcs	r1, r2, r3
 	cbne	r3, #1, f82
-	movq	=5, r1
-	movq	=7, r2
-	movq	#9, r3
+	mov	=5, r1
+	mov	=7, r2
+	mov	#9, r3
 	setcs	r1, r2, r3
 	cbne	r3, #1, f83
-	movq	=5, r1
-	movq	=-1, r2
-	movq	#9, r3
+	mov	=5, r1
+	mov	=-1, r2
+	mov	#9, r3
 	setcs	r1, r2, r3
 	cbne	r3, #1, f84
-	movq	=5, r1
-	movq	=9223372036854775807, r2
-	movq	#9, r3
+	mov	=5, r1
+	mov	=9223372036854775807, r2
+	mov	#9, r3
 	setcs	r1, r2, r3
 	cbne	r3, #1, f85
-	movq	=-9223372036854775808, r1
-	movq	=0, r2
-	movq	#9, r3
+	mov	=-9223372036854775808, r1
+	mov	=0, r2
+	mov	#9, r3
 	setcs	r1, r2, r3
 	cbne	r3, #0, f86
-	movq	=-9223372036854775808, r1
-	movq	=1, r2
-	movq	#9, r3
+	mov	=-9223372036854775808, r1
+	mov	=1, r2
+	mov	#9, r3
 	setcs	r1, r2, r3
 	cbne	r3, #0, f87
-	movq	=-9223372036854775808, r1
-	movq	=5, r2
-	movq	#9, r3
+	mov	=-9223372036854775808, r1
+	mov	=5, r2
+	mov	#9, r3
 	setcs	r1, r2, r3
 	cbne	r3, #0, f88
-	movq	=-9223372036854775808, r1
-	movq	=-9223372036854775808, r2
-	movq	#9, r3
+	mov	=-9223372036854775808, r1
+	mov	=-9223372036854775808, r2
+	mov	#9, r3
 	setcs	r1, r2, r3
 	cbne	r3, #0, f89
-	movq	=9223372036854775807, r1
-	movq	=7, r2
-	movq	#9, r3
+	mov	=9223372036854775807, r1
+	mov	=7, r2
+	mov	#9, r3
 	setcs	r1, r2, r3
 	cbne	r3, #0, f90
-	movq	=9223372036854775807, r1
-	movq	=-1, r2
-	movq	#9, r3
+	mov	=9223372036854775807, r1
+	mov	=-1, r2
+	mov	#9, r3
 	setcs	r1, r2, r3
 	cbne	r3, #1, f91
-	movq	=0, r1
-	movq	=7, r2
-	movq	#9, r3
+	mov	=0, r1
+	mov	=7, r2
+	mov	#9, r3
 	setcc	r1, r2, r3
 	cbne	r3, #0, f92
-	movq	=0, r1
-	movq	=-1, r2
-	movq	#9, r3
+	mov	=0, r1
+	mov	=-1, r2
+	mov	#9, r3
 	setcc	r1, r2, r3
 	cbne	r3, #0, f93
-	movq	=0, r1
-	movq	=-2, r2
-	movq	#9, r3
+	mov	=0, r1
+	mov	=-2, r2
+	mov	#9, r3
 	setcc	r1, r2, r3
 	cbne	r3, #0, f94
-	movq	=0, r1
-	movq	=9223372036854775807, r2
-	movq	#9, r3
+	mov	=0, r1
+	mov	=9223372036854775807, r2
+	mov	#9, r3
 	setcc	r1, r2, r3
 	cbne	r3, #0, f95
-	movq	=7, r1
-	movq	=0, r2
-	movq	#9, r3
+	mov	=7, r1
+	mov	=0, r2
+	mov	#9, r3
 	setcc	r1, r2, r3
 	cbne	r3, #1, f96
-	movq	=7, r1
-	movq	=1, r2
-	movq	#9, r3
+	mov	=7, r1
+	mov	=1, r2
+	mov	#9, r3
 	setcc	r1, r2, r3
 	cbne	r3, #1, f97
-	movq	=7, r1
-	movq	=5, r2
-	movq	#9, r3
+	mov	=7, r1
+	mov	=5, r2
+	mov	#9, r3
 	setcc	r1, r2, r3
 	cbne	r3, #1, f98
-	movq	=7, r1
-	movq	=-9223372036854775808, r2
-	movq	#9, r3
+	mov	=7, r1
+	mov	=-9223372036854775808, r2
+	mov	#9, r3
 	setcc	r1, r2, r3
 	cbne	r3, #0, f99
-	movq	=-1, r1
-	movq	=0, r2
-	movq	#9, r3
+	mov	=-1, r1
+	mov	=0, r2
+	mov	#9, r3
 	setcc	r1, r2, r3
 	cbne	r3, #1, f100
-	movq	=-1, r1
-	movq	=1, r2
-	movq	#9, r3
+	mov	=-1, r1
+	mov	=1, r2
+	mov	#9, r3
 	setcc	r1, r2, r3
 	cbne	r3, #1, f101
-	movq	=-1, r1
-	movq	=5, r2
-	movq	#9, r3
+	mov	=-1, r1
+	mov	=5, r2
+	mov	#9, r3
 	setcc	r1, r2, r3
 	cbne	r3, #1, f102
-	movq	=-1, r1
-	movq	=-9223372036854775808, r2
-	movq	#9, r3
+	mov	=-1, r1
+	mov	=-9223372036854775808, r2
+	mov	#9, r3
 	setcc	r1, r2, r3
 	cbne	r3, #1, f103
-	movq	=-2, r1
-	movq	=1, r2
-	movq	#9, r3
+	mov	=-2, r1
+	mov	=1, r2
+	mov	#9, r3
 	setcc	r1, r2, r3
 	cbne	r3, #1, f104
-	movq	=-2, r1
-	movq	=5, r2
-	movq	#9, r3
+	mov	=-2, r1
+	mov	=5, r2
+	mov	#9, r3
 	setcc	r1, r2, r3
 	cbne	r3, #1, f105
-	movq	=-2, r1
-	movq	=-2, r2
-	movq	#9, r3
+	mov	=-2, r1
+	mov	=-2, r2
+	mov	#9, r3
 	setcc	r1, r2, r3
 	cbne	r3, #1, f106
-	movq	=-9223372036854775808, r1
-	movq	=1, r2
-	movq	#9, r3
+	mov	=-9223372036854775808, r1
+	mov	=1, r2
+	mov	#9, r3
 	setcc	r1, r2, r3
 	cbne	r3, #1, f107
-	movq	=0, r1
-	movq	=1, r2
-	movq	#9, r3
+	mov	=0, r1
+	mov	=1, r2
+	mov	#9, r3
 	sethi	r1, r2, r3
 	cbne	r3, #0, f108
-	movq	=0, r1
-	movq	=5, r2
-	movq	#9, r3
+	mov	=0, r1
+	mov	=5, r2
+	mov	#9, r3
 	sethi	r1, r2, r3
 	cbne	r3, #0, f109
-	movq	=0, r1
-	movq	=-2, r2
-	movq	#9, r3
+	mov	=0, r1
+	mov	=-2, r2
+	mov	#9, r3
 	sethi	r1, r2, r3
 	cbne	r3, #0, f110
-	movq	=1, r1
-	movq	=0, r2
-	movq	#9, r3
+	mov	=1, r1
+	mov	=0, r2
+	mov	#9, r3
 	sethi	r1, r2, r3
 	cbne	r3, #1, f111
-	movq	=1, r1
-	movq	=5, r2
-	movq	#9, r3
+	mov	=1, r1
+	mov	=5, r2
+	mov	#9, r3
 	sethi	r1, r2, r3
 	cbne	r3, #0, f112
-	movq	=1, r1
-	movq	=-9223372036854775808, r2
-	movq	#9, r3
+	mov	=1, r1
+	mov	=-9223372036854775808, r2
+	mov	#9, r3
 	sethi	r1, r2, r3
 	cbne	r3, #0, f113
-	movq	=5, r1
-	movq	=7, r2
-	movq	#9, r3
+	mov	=5, r1
+	mov	=7, r2
+	mov	#9, r3
 	sethi	r1, r2, r3
 	cbne	r3, #0, f114
-	movq	=5, r1
-	movq	=-1, r2
-	movq	#9, r3
+	mov	=5, r1
+	mov	=-1, r2
+	mov	#9, r3
 	sethi	r1, r2, r3
 	cbne	r3, #0, f115
-	movq	=5, r1
-	movq	=-9223372036854775808, r2
-	movq	#9, r3
+	mov	=5, r1
+	mov	=-9223372036854775808, r2
+	mov	#9, r3
 	sethi	r1, r2, r3
 	cbne	r3, #0, f116
-	movq	=5, r1
-	movq	=9223372036854775807, r2
-	movq	#9, r3
+	mov	=5, r1
+	mov	=9223372036854775807, r2
+	mov	#9, r3
 	sethi	r1, r2, r3
 	cbne	r3, #0, f117
-	movq	=7, r1
-	movq	=1, r2
-	movq	#9, r3
+	mov	=7, r1
+	mov	=1, r2
+	mov	#9, r3
 	sethi	r1, r2, r3
 	cbne	r3, #1, f118
-	movq	=-1, r1
-	movq	=1, r2
-	movq	#9, r3
+	mov	=-1, r1
+	mov	=1, r2
+	mov	#9, r3
 	sethi	r1, r2, r3
 	cbne	r3, #1, f119
-	movq	=-9223372036854775808, r1
-	movq	=-9223372036854775808, r2
-	movq	#9, r3
+	mov	=-9223372036854775808, r1
+	mov	=-9223372036854775808, r2
+	mov	#9, r3
 	sethi	r1, r2, r3
 	cbne	r3, #0, f120
-	movq	=9223372036854775807, r1
-	movq	=7, r2
-	movq	#9, r3
+	mov	=9223372036854775807, r1
+	mov	=7, r2
+	mov	#9, r3
 	sethi	r1, r2, r3
 	cbne	r3, #1, f121
-	movq	=9223372036854775807, r1
-	movq	=-1, r2
-	movq	#9, r3
+	mov	=9223372036854775807, r1
+	mov	=-1, r2
+	mov	#9, r3
 	sethi	r1, r2, r3
 	cbne	r3, #0, f122
-	movq	=9223372036854775807, r1
-	movq	=9223372036854775807, r2
-	movq	#9, r3
+	mov	=9223372036854775807, r1
+	mov	=9223372036854775807, r2
+	mov	#9, r3
 	sethi	r1, r2, r3
 	cbne	r3, #0, f123
-	movq	=0, r1
-	movq	=7, r2
-	movq	#9, r3
+	mov	=0, r1
+	mov	=7, r2
+	mov	#9, r3
 	setlos	r1, r2, r3
 	cbne	r3, #1, f124
-	movq	=0, r1
-	movq	=-1, r2
-	movq	#9, r3
+	mov	=0, r1
+	mov	=-1, r2
+	mov	#9, r3
 	setlos	r1, r2, r3
 	cbne	r3, #1, f125
-	movq	=5, r1
-	movq	=-2, r2
-	movq	#9, r3
+	mov	=5, r1
+	mov	=-2, r2
+	mov	#9, r3
 	setlos	r1, r2, r3
 	cbne	r3, #1, f126
-	movq	=7, r1
-	movq	=0, r2
-	movq	#9, r3
+	mov	=7, r1
+	mov	=0, r2
+	mov	#9, r3
 	setlos	r1, r2, r3
 	cbne	r3, #0, f127
-	movq	=7, r1
-	movq	=-9223372036854775808, r2
-	movq	#9, r3
+	mov	=7, r1
+	mov	=-9223372036854775808, r2
+	mov	#9, r3
 	setlos	r1, r2, r3
 	cbne	r3, #1, f128
-	movq	=-1, r1
-	movq	=0, r2
-	movq	#9, r3
+	mov	=-1, r1
+	mov	=0, r2
+	mov	#9, r3
 	setlos	r1, r2, r3
 	cbne	r3, #0, f129
-	movq	=-1, r1
-	movq	=-9223372036854775808, r2
-	movq	#9, r3
+	mov	=-1, r1
+	mov	=-9223372036854775808, r2
+	mov	#9, r3
 	setlos	r1, r2, r3
 	cbne	r3, #0, f130
-	movq	=9223372036854775807, r1
-	movq	=1, r2
-	movq	#9, r3
+	mov	=9223372036854775807, r1
+	mov	=1, r2
+	mov	#9, r3
 	setlos	r1, r2, r3
 	cbne	r3, #0, f131
-	movq	=9223372036854775807, r1
-	movq	=-2, r2
-	movq	#9, r3
+	mov	=9223372036854775807, r1
+	mov	=-2, r2
+	mov	#9, r3
 	setlos	r1, r2, r3
 	cbne	r3, #1, f132
-	movq	=0, r1
+	mov	=0, r1
 	seteq	r1, #-128, r1
 	cbne	r1, #0, f133
-	movq	=1, r1
+	mov	=1, r1
 	seteq	r1, #5, r1
 	cbne	r1, #0, f134
-	movq	=5, r1
+	mov	=5, r1
 	seteq	r1, #5, r1
 	cbne	r1, #1, f135
-	movq	=7, r1
+	mov	=7, r1
 	seteq	r1, #-128, r1
 	cbne	r1, #0, f136
-	movq	=-1, r1
+	mov	=-1, r1
 	seteq	r1, #-128, r1
 	cbne	r1, #0, f137
-	movq	=-2, r1
+	mov	=-2, r1
 	seteq	r1, #0, r1
 	cbne	r1, #0, f138
-	movq	=-2, r1
+	mov	=-2, r1
 	seteq	r1, #127, r1
 	cbne	r1, #0, f139
-	movq	=9223372036854775807, r1
+	mov	=9223372036854775807, r1
 	seteq	r1, #-128, r1
 	cbne	r1, #0, f140
-	movq	=0, r1
+	mov	=0, r1
 	setne	r1, #5, r1
 	cbne	r1, #1, f141
-	movq	=1, r1
+	mov	=1, r1
 	setne	r1, #0, r1
 	cbne	r1, #1, f142
-	movq	=1, r1
+	mov	=1, r1
 	setne	r1, #127, r1
 	cbne	r1, #1, f143
-	movq	=5, r1
+	mov	=5, r1
 	setne	r1, #0, r1
 	cbne	r1, #1, f144
-	movq	=5, r1
+	mov	=5, r1
 	setne	r1, #127, r1
 	cbne	r1, #1, f145
-	movq	=7, r1
+	mov	=7, r1
 	setne	r1, #-1, r1
 	cbne	r1, #1, f146
-	movq	=7, r1
+	mov	=7, r1
 	setne	r1, #1, r1
 	cbne	r1, #1, f147
-	movq	=-1, r1
+	mov	=-1, r1
 	setne	r1, #-1, r1
 	cbne	r1, #0, f148
-	movq	=-1, r1
+	mov	=-1, r1
 	setne	r1, #1, r1
 	cbne	r1, #1, f149
-	movq	=-2, r1
+	mov	=-2, r1
 	setne	r1, #-1, r1
 	cbne	r1, #1, f150
-	movq	=-2, r1
+	mov	=-2, r1
 	setne	r1, #1, r1
 	cbne	r1, #1, f151
-	movq	=-9223372036854775808, r1
+	mov	=-9223372036854775808, r1
 	setne	r1, #0, r1
 	cbne	r1, #1, f152
-	movq	=9223372036854775807, r1
+	mov	=9223372036854775807, r1
 	setne	r1, #-1, r1
 	cbne	r1, #1, f153
-	movq	=9223372036854775807, r1
+	mov	=9223372036854775807, r1
 	setne	r1, #1, r1
 	cbne	r1, #1, f154
-	movq	=0, r1
+	mov	=0, r1
 	setlt	r1, #-128, r1
 	cbne	r1, #0, f155
-	movq	=0, r1
+	mov	=0, r1
 	setlt	r1, #-1, r1
 	cbne	r1, #0, f156
-	movq	=0, r1
+	mov	=0, r1
 	setlt	r1, #1, r1
 	cbne	r1, #1, f157
-	movq	=1, r1
+	mov	=1, r1
 	setlt	r1, #-128, r1
 	cbne	r1, #0, f158
-	movq	=1, r1
+	mov	=1, r1
 	setlt	r1, #1, r1
 	cbne	r1, #0, f159
-	movq	=7, r1
+	mov	=7, r1
 	setlt	r1, #0, r1
 	cbne	r1, #0, f160
-	movq	=-1, r1
+	mov	=-1, r1
 	setlt	r1, #0, r1
 	cbne	r1, #1, f161
-	movq	=-2, r1
+	mov	=-2, r1
 	setlt	r1, #5, r1
 	cbne	r1, #1, f162
-	movq	=-9223372036854775808, r1
+	mov	=-9223372036854775808, r1
 	setlt	r1, #-128, r1
 	cbne	r1, #1, f163
-	movq	=-9223372036854775808, r1
+	mov	=-9223372036854775808, r1
 	setlt	r1, #-1, r1
 	cbne	r1, #1, f164
-	movq	=-9223372036854775808, r1
+	mov	=-9223372036854775808, r1
 	setlt	r1, #1, r1
 	cbne	r1, #1, f165
-	movq	=9223372036854775807, r1
+	mov	=9223372036854775807, r1
 	setlt	r1, #0, r1
 	cbne	r1, #0, f166
-	movq	=0, r1
+	mov	=0, r1
 	setle	r1, #-1, r1
 	cbne	r1, #0, f167
-	movq	=0, r1
+	mov	=0, r1
 	setle	r1, #1, r1
 	cbne	r1, #1, f168
-	movq	=1, r1
+	mov	=1, r1
 	setle	r1, #-128, r1
 	cbne	r1, #0, f169
-	movq	=1, r1
+	mov	=1, r1
 	setle	r1, #-1, r1
 	cbne	r1, #0, f170
-	movq	=1, r1
+	mov	=1, r1
 	setle	r1, #1, r1
 	cbne	r1, #1, f171
-	movq	=7, r1
+	mov	=7, r1
 	setle	r1, #-1, r1
 	cbne	r1, #0, f172
-	movq	=7, r1
+	mov	=7, r1
 	setle	r1, #1, r1
 	cbne	r1, #0, f173
-	movq	=-1, r1
+	mov	=-1, r1
 	setle	r1, #-1, r1
 	cbne	r1, #1, f174
-	movq	=-1, r1
+	mov	=-1, r1
 	setle	r1, #1, r1
 	cbne	r1, #1, f175
-	movq	=-2, r1
+	mov	=-2, r1
 	setle	r1, #5, r1
 	cbne	r1, #1, f176
-	movq	=-9223372036854775808, r1
+	mov	=-9223372036854775808, r1
 	setle	r1, #-128, r1
 	cbne	r1, #1, f177
-	movq	=-9223372036854775808, r1
+	mov	=-9223372036854775808, r1
 	setle	r1, #-1, r1
 	cbne	r1, #1, f178
-	movq	=-9223372036854775808, r1
+	mov	=-9223372036854775808, r1
 	setle	r1, #1, r1
 	cbne	r1, #1, f179
-	movq	=9223372036854775807, r1
+	mov	=9223372036854775807, r1
 	setle	r1, #127, r1
 	cbne	r1, #0, f180
-	movq	=0, r1
+	mov	=0, r1
 	setgt	r1, #0, r1
 	cbne	r1, #0, f181
-	movq	=0, r1
+	mov	=0, r1
 	setgt	r1, #127, r1
 	cbne	r1, #0, f182
-	movq	=1, r1
+	mov	=1, r1
 	setgt	r1, #0, r1
 	cbne	r1, #1, f183
-	movq	=1, r1
+	mov	=1, r1
 	setgt	r1, #127, r1
 	cbne	r1, #0, f184
-	movq	=5, r1
+	mov	=5, r1
 	setgt	r1, #-1, r1
 	cbne	r1, #1, f185
-	movq	=5, r1
+	mov	=5, r1
 	setgt	r1, #1, r1
 	cbne	r1, #1, f186
-	movq	=7, r1
+	mov	=7, r1
 	setgt	r1, #0, r1
 	cbne	r1, #1, f187
-	movq	=-1, r1
+	mov	=-1, r1
 	setgt	r1, #0, r1
 	cbne	r1, #0, f188
-	movq	=-2, r1
+	mov	=-2, r1
 	setgt	r1, #-1, r1
 	cbne	r1, #0, f189
-	movq	=-2, r1
+	mov	=-2, r1
 	setgt	r1, #1, r1
 	cbne	r1, #0, f190
-	movq	=-9223372036854775808, r1
+	mov	=-9223372036854775808, r1
 	setgt	r1, #0, r1
 	cbne	r1, #0, f191
-	movq	=-9223372036854775808, r1
+	mov	=-9223372036854775808, r1
 	setgt	r1, #127, r1
 	cbne	r1, #0, f192
-	movq	=9223372036854775807, r1
+	mov	=9223372036854775807, r1
 	setgt	r1, #0, r1
 	cbne	r1, #1, f193
-	movq	=0, r1
+	mov	=0, r1
 	setge	r1, #0, r1
 	cbne	r1, #1, f194
-	movq	=0, r1
+	mov	=0, r1
 	setge	r1, #5, r1
 	cbne	r1, #0, f195
-	movq	=1, r1
+	mov	=1, r1
 	setge	r1, #0, r1
 	cbne	r1, #1, f196
-	movq	=1, r1
+	mov	=1, r1
 	setge	r1, #127, r1
 	cbne	r1, #0, f197
-	movq	=5, r1
+	mov	=5, r1
 	setge	r1, #127, r1
 	cbne	r1, #0, f198
-	movq	=7, r1
+	mov	=7, r1
 	setge	r1, #5, r1
 	cbne	r1, #1, f199
-	movq	=-1, r1
+	mov	=-1, r1
 	setge	r1, #5, r1
 	cbne	r1, #0, f200
-	movq	=-2, r1
+	mov	=-2, r1
 	setge	r1, #5, r1
 	cbne	r1, #0, f201
-	movq	=-9223372036854775808, r1
+	mov	=-9223372036854775808, r1
 	setge	r1, #0, r1
 	cbne	r1, #0, f202
-	movq	=-9223372036854775808, r1
+	mov	=-9223372036854775808, r1
 	setge	r1, #127, r1
 	cbne	r1, #0, f203
-	movq	=9223372036854775807, r1
+	mov	=9223372036854775807, r1
 	setge	r1, #5, r1
 	cbne	r1, #1, f204
-	movq	=0, r1
+	mov	=0, r1
 	setcs	r1, #-128, r1
 	cbne	r1, #1, f205
-	movq	=5, r1
+	mov	=5, r1
 	setcs	r1, #5, r1
 	cbne	r1, #0, f206
-	movq	=7, r1
+	mov	=7, r1
 	setcs	r1, #127, r1
 	cbne	r1, #1, f207
-	movq	=-1, r1
+	mov	=-1, r1
 	setcs	r1, #127, r1
 	cbne	r1, #0, f208
-	movq	=-2, r1
+	mov	=-2, r1
 	setcs	r1, #0, r1
 	cbne	r1, #0, f209
-	movq	=-2, r1
+	mov	=-2, r1
 	setcs	r1, #5, r1
 	cbne	r1, #0, f210
-	movq	=-9223372036854775808, r1
+	mov	=-9223372036854775808, r1
 	setcs	r1, #-1, r1
 	cbne	r1, #1, f211
-	movq	=-9223372036854775808, r1
+	mov	=-9223372036854775808, r1
 	setcs	r1, #127, r1
 	cbne	r1, #0, f212
-	movq	=9223372036854775807, r1
+	mov	=9223372036854775807, r1
 	setcs	r1, #127, r1
 	cbne	r1, #0, f213
-	movq	=0, r1
+	mov	=0, r1
 	setcc	r1, #-128, r1
 	cbne	r1, #0, f214
-	movq	=1, r1
+	mov	=1, r1
 	setcc	r1, #0, r1
 	cbne	r1, #1, f215
-	movq	=1, r1
+	mov	=1, r1
 	setcc	r1, #127, r1
 	cbne	r1, #0, f216
-	movq	=5, r1
+	mov	=5, r1
 	setcc	r1, #0, r1
 	cbne	r1, #1, f217
-	movq	=5, r1
+	mov	=5, r1
 	setcc	r1, #127, r1
 	cbne	r1, #0, f218
-	movq	=7, r1
+	mov	=7, r1
 	setcc	r1, #-128, r1
 	cbne	r1, #0, f219
-	movq	=-1, r1
+	mov	=-1, r1
 	setcc	r1, #-128, r1
 	cbne	r1, #1, f220
-	movq	=-2, r1
+	mov	=-2, r1
 	setcc	r1, #-1, r1
 	cbne	r1, #0, f221
-	movq	=-2, r1
+	mov	=-2, r1
 	setcc	r1, #1, r1
 	cbne	r1, #1, f222
-	movq	=-9223372036854775808, r1
+	mov	=-9223372036854775808, r1
 	setcc	r1, #-128, r1
 	cbne	r1, #0, f223
-	movq	=9223372036854775807, r1
+	mov	=9223372036854775807, r1
 	setcc	r1, #-1, r1
 	cbne	r1, #0, f224
-	movq	=9223372036854775807, r1
+	mov	=9223372036854775807, r1
 	setcc	r1, #1, r1
 	cbne	r1, #1, f225
-	movq	=0, r1
+	mov	=0, r1
 	sethi	r1, #0, r1
 	cbne	r1, #0, f226
-	movq	=0, r1
+	mov	=0, r1
 	sethi	r1, #127, r1
 	cbne	r1, #0, f227
-	movq	=1, r1
+	mov	=1, r1
 	sethi	r1, #-1, r1
 	cbne	r1, #0, f228
-	movq	=1, r1
+	mov	=1, r1
 	sethi	r1, #1, r1
 	cbne	r1, #0, f229
-	movq	=5, r1
+	mov	=5, r1
 	sethi	r1, #-1, r1
 	cbne	r1, #0, f230
-	movq	=5, r1
+	mov	=5, r1
 	sethi	r1, #1, r1
 	cbne	r1, #1, f231
-	movq	=7, r1
+	mov	=7, r1
 	sethi	r1, #-128, r1
 	cbne	r1, #0, f232
-	movq	=-1, r1
+	mov	=-1, r1
 	sethi	r1, #-128, r1
 	cbne	r1, #1, f233
-	movq	=-2, r1
+	mov	=-2, r1
 	sethi	r1, #-128, r1
 	cbne	r1, #1, f234
-	movq	=-9223372036854775808, r1
+	mov	=-9223372036854775808, r1
 	sethi	r1, #0, r1
 	cbne	r1, #1, f235
-	movq	=-9223372036854775808, r1
+	mov	=-9223372036854775808, r1
 	sethi	r1, #127, r1
 	cbne	r1, #1, f236
-	movq	=9223372036854775807, r1
+	mov	=9223372036854775807, r1
 	sethi	r1, #-128, r1
 	cbne	r1, #0, f237
-	movq	=0, r1
+	mov	=0, r1
 	setlos	r1, #0, r1
 	cbne	r1, #1, f238
-	movq	=0, r1
+	mov	=0, r1
 	setlos	r1, #127, r1
 	cbne	r1, #1, f239
-	movq	=1, r1
+	mov	=1, r1
 	setlos	r1, #5, r1
 	cbne	r1, #1, f240
-	movq	=5, r1
+	mov	=5, r1
 	setlos	r1, #5, r1
 	cbne	r1, #1, f241
-	movq	=7, r1
+	mov	=7, r1
 	setlos	r1, #0, r1
 	cbne	r1, #0, f242
-	movq	=7, r1
+	mov	=7, r1
 	setlos	r1, #127, r1
 	cbne	r1, #1, f243
-	movq	=-1, r1
+	mov	=-1, r1
 	setlos	r1, #0, r1
 	cbne	r1, #0, f244
-	movq	=-1, r1
+	mov	=-1, r1
 	setlos	r1, #127, r1
 	cbne	r1, #0, f245
-	movq	=-2, r1
+	mov	=-2, r1
 	setlos	r1, #0, r1
 	cbne	r1, #0, f246
-	movq	=-2, r1
+	mov	=-2, r1
 	setlos	r1, #127, r1
 	cbne	r1, #0, f247
-	movq	=-9223372036854775808, r1
+	mov	=-9223372036854775808, r1
 	setlos	r1, #-1, r1
 	cbne	r1, #1, f248
-	movq	=-9223372036854775808, r1
+	mov	=-9223372036854775808, r1
 	setlos	r1, #1, r1
 	cbne	r1, #0, f249
-	movq	=9223372036854775807, r1
+	mov	=9223372036854775807, r1
 	setlos	r1, #0, r1
 	cbne	r1, #0, f250
-	movq	=9223372036854775807, r1
+	mov	=9223372036854775807, r1
 	setlos	r1, #127, r1
 	cbne	r1, #0, f251
-	movq	#3, r12
-	movq	#4, r31
+	mov	#3, r12
+	mov	#4, r31
 	setlt	r12, r31, r30
 	cbne	r30, #1, f252
 	sethi	r12, r31, r30
 	cbne	r30, #0, f253
-	movq	=0, r1
-	movq	=0, r2
+	mov	=0, r1
+	mov	=0, r2
 	clr	r3
 	fcbeq	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f254
-	movq	=0, r1
-	movq	=-9223372036854775808, r2
+	mov	=0, r1
+	mov	=-9223372036854775808, r2
 	clr	r3
 	fcbeq	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f255
-	movq	=0, r1
-	movq	=4607182418800017408, r2
+	mov	=0, r1
+	mov	=4607182418800017408, r2
 	clr	r3
 	fcbeq	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f256
-	movq	=0, r1
-	movq	=-4613937818241073152, r2
+	mov	=0, r1
+	mov	=-4613937818241073152, r2
 	clr	r3
 	fcbeq	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f257
-	movq	=0, r1
-	movq	=4612811918334230528, r2
+	mov	=0, r1
+	mov	=4612811918334230528, r2
 	clr	r3
 	fcbeq	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f258
-	movq	=0, r1
-	movq	=9218868437227405312, r2
+	mov	=0, r1
+	mov	=9218868437227405312, r2
 	clr	r3
 	fcbeq	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f259
-	movq	=0, r1
-	movq	=-4503599627370496, r2
+	mov	=0, r1
+	mov	=-4503599627370496, r2
 	clr	r3
 	fcbeq	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f260
-	movq	=0, r1
-	movq	=9221120237041090560, r2
+	mov	=0, r1
+	mov	=9221120237041090560, r2
 	clr	r3
 	fcbeq	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f261
-	movq	=-9223372036854775808, r1
-	movq	=0, r2
+	mov	=-9223372036854775808, r1
+	mov	=0, r2
 	clr	r3
 	fcbeq	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f262
-	movq	=-9223372036854775808, r1
-	movq	=-9223372036854775808, r2
+	mov	=-9223372036854775808, r1
+	mov	=-9223372036854775808, r2
 	clr	r3
 	fcbeq	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f263
-	movq	=-9223372036854775808, r1
-	movq	=4607182418800017408, r2
+	mov	=-9223372036854775808, r1
+	mov	=4607182418800017408, r2
 	clr	r3
 	fcbeq	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f264
-	movq	=-9223372036854775808, r1
-	movq	=-4613937818241073152, r2
+	mov	=-9223372036854775808, r1
+	mov	=-4613937818241073152, r2
 	clr	r3
 	fcbeq	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f265
-	movq	=-9223372036854775808, r1
-	movq	=4612811918334230528, r2
+	mov	=-9223372036854775808, r1
+	mov	=4612811918334230528, r2
 	clr	r3
 	fcbeq	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f266
-	movq	=-9223372036854775808, r1
-	movq	=9218868437227405312, r2
+	mov	=-9223372036854775808, r1
+	mov	=9218868437227405312, r2
 	clr	r3
 	fcbeq	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f267
-	movq	=-9223372036854775808, r1
-	movq	=-4503599627370496, r2
+	mov	=-9223372036854775808, r1
+	mov	=-4503599627370496, r2
 	clr	r3
 	fcbeq	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f268
-	movq	=-9223372036854775808, r1
-	movq	=9221120237041090560, r2
+	mov	=-9223372036854775808, r1
+	mov	=9221120237041090560, r2
 	clr	r3
 	fcbeq	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f269
-	movq	=4607182418800017408, r1
-	movq	=0, r2
+	mov	=4607182418800017408, r1
+	mov	=0, r2
 	clr	r3
 	fcbeq	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f270
-	movq	=4607182418800017408, r1
-	movq	=-9223372036854775808, r2
+	mov	=4607182418800017408, r1
+	mov	=-9223372036854775808, r2
 	clr	r3
 	fcbeq	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f271
-	movq	=4607182418800017408, r1
-	movq	=4607182418800017408, r2
+	mov	=4607182418800017408, r1
+	mov	=4607182418800017408, r2
 	clr	r3
 	fcbeq	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f272
-	movq	=4607182418800017408, r1
-	movq	=-4613937818241073152, r2
+	mov	=4607182418800017408, r1
+	mov	=-4613937818241073152, r2
 	clr	r3
 	fcbeq	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f273
-	movq	=4607182418800017408, r1
-	movq	=4612811918334230528, r2
+	mov	=4607182418800017408, r1
+	mov	=4612811918334230528, r2
 	clr	r3
 	fcbeq	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f274
-	movq	=4607182418800017408, r1
-	movq	=9218868437227405312, r2
+	mov	=4607182418800017408, r1
+	mov	=9218868437227405312, r2
 	clr	r3
 	fcbeq	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f275
-	movq	=4607182418800017408, r1
-	movq	=-4503599627370496, r2
+	mov	=4607182418800017408, r1
+	mov	=-4503599627370496, r2
 	clr	r3
 	fcbeq	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f276
-	movq	=4607182418800017408, r1
-	movq	=9221120237041090560, r2
+	mov	=4607182418800017408, r1
+	mov	=9221120237041090560, r2
 	clr	r3
 	fcbeq	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f277
-	movq	=-4613937818241073152, r1
-	movq	=0, r2
+	mov	=-4613937818241073152, r1
+	mov	=0, r2
 	clr	r3
 	fcbeq	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f278
-	movq	=-4613937818241073152, r1
-	movq	=-9223372036854775808, r2
+	mov	=-4613937818241073152, r1
+	mov	=-9223372036854775808, r2
 	clr	r3
 	fcbeq	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f279
-	movq	=-4613937818241073152, r1
-	movq	=4607182418800017408, r2
+	mov	=-4613937818241073152, r1
+	mov	=4607182418800017408, r2
 	clr	r3
 	fcbeq	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f280
-	movq	=-4613937818241073152, r1
-	movq	=-4613937818241073152, r2
+	mov	=-4613937818241073152, r1
+	mov	=-4613937818241073152, r2
 	clr	r3
 	fcbeq	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f281
-	movq	=-4613937818241073152, r1
-	movq	=4612811918334230528, r2
+	mov	=-4613937818241073152, r1
+	mov	=4612811918334230528, r2
 	clr	r3
 	fcbeq	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f282
-	movq	=-4613937818241073152, r1
-	movq	=9218868437227405312, r2
+	mov	=-4613937818241073152, r1
+	mov	=9218868437227405312, r2
 	clr	r3
 	fcbeq	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f283
-	movq	=-4613937818241073152, r1
-	movq	=-4503599627370496, r2
+	mov	=-4613937818241073152, r1
+	mov	=-4503599627370496, r2
 	clr	r3
 	fcbeq	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f284
-	movq	=-4613937818241073152, r1
-	movq	=9221120237041090560, r2
+	mov	=-4613937818241073152, r1
+	mov	=9221120237041090560, r2
 	clr	r3
 	fcbeq	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f285
-	movq	=4612811918334230528, r1
-	movq	=0, r2
+	mov	=4612811918334230528, r1
+	mov	=0, r2
 	clr	r3
 	fcbeq	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f286
-	movq	=4612811918334230528, r1
-	movq	=-9223372036854775808, r2
+	mov	=4612811918334230528, r1
+	mov	=-9223372036854775808, r2
 	clr	r3
 	fcbeq	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f287
-	movq	=4612811918334230528, r1
-	movq	=4607182418800017408, r2
+	mov	=4612811918334230528, r1
+	mov	=4607182418800017408, r2
 	clr	r3
 	fcbeq	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f288
-	movq	=4612811918334230528, r1
-	movq	=-4613937818241073152, r2
+	mov	=4612811918334230528, r1
+	mov	=-4613937818241073152, r2
 	clr	r3
 	fcbeq	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f289
-	movq	=4612811918334230528, r1
-	movq	=4612811918334230528, r2
+	mov	=4612811918334230528, r1
+	mov	=4612811918334230528, r2
 	clr	r3
 	fcbeq	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f290
-	movq	=4612811918334230528, r1
-	movq	=9218868437227405312, r2
+	mov	=4612811918334230528, r1
+	mov	=9218868437227405312, r2
 	clr	r3
 	fcbeq	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f291
-	movq	=4612811918334230528, r1
-	movq	=-4503599627370496, r2
+	mov	=4612811918334230528, r1
+	mov	=-4503599627370496, r2
 	clr	r3
 	fcbeq	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f292
-	movq	=4612811918334230528, r1
-	movq	=9221120237041090560, r2
+	mov	=4612811918334230528, r1
+	mov	=9221120237041090560, r2
 	clr	r3
 	fcbeq	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f293
-	movq	=9218868437227405312, r1
-	movq	=0, r2
+	mov	=9218868437227405312, r1
+	mov	=0, r2
 	clr	r3
 	fcbeq	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f294
-	movq	=9218868437227405312, r1
-	movq	=-9223372036854775808, r2
+	mov	=9218868437227405312, r1
+	mov	=-9223372036854775808, r2
 	clr	r3
 	fcbeq	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f295
-	movq	=9218868437227405312, r1
-	movq	=4607182418800017408, r2
+	mov	=9218868437227405312, r1
+	mov	=4607182418800017408, r2
 	clr	r3
 	fcbeq	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f296
-	movq	=9218868437227405312, r1
-	movq	=-4613937818241073152, r2
+	mov	=9218868437227405312, r1
+	mov	=-4613937818241073152, r2
 	clr	r3
 	fcbeq	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f297
-	movq	=9218868437227405312, r1
-	movq	=4612811918334230528, r2
+	mov	=9218868437227405312, r1
+	mov	=4612811918334230528, r2
 	clr	r3
 	fcbeq	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f298
-	movq	=9218868437227405312, r1
-	movq	=9218868437227405312, r2
+	mov	=9218868437227405312, r1
+	mov	=9218868437227405312, r2
 	clr	r3
 	fcbeq	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f299
-	movq	=9218868437227405312, r1
-	movq	=-4503599627370496, r2
+	mov	=9218868437227405312, r1
+	mov	=-4503599627370496, r2
 	clr	r3
 	fcbeq	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f300
-	movq	=9218868437227405312, r1
-	movq	=9221120237041090560, r2
+	mov	=9218868437227405312, r1
+	mov	=9221120237041090560, r2
 	clr	r3
 	fcbeq	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f301
-	movq	=-4503599627370496, r1
-	movq	=0, r2
+	mov	=-4503599627370496, r1
+	mov	=0, r2
 	clr	r3
 	fcbeq	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f302
-	movq	=-4503599627370496, r1
-	movq	=-9223372036854775808, r2
+	mov	=-4503599627370496, r1
+	mov	=-9223372036854775808, r2
 	clr	r3
 	fcbeq	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f303
-	movq	=-4503599627370496, r1
-	movq	=4607182418800017408, r2
+	mov	=-4503599627370496, r1
+	mov	=4607182418800017408, r2
 	clr	r3
 	fcbeq	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f304
-	movq	=-4503599627370496, r1
-	movq	=-4613937818241073152, r2
+	mov	=-4503599627370496, r1
+	mov	=-4613937818241073152, r2
 	clr	r3
 	fcbeq	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f305
-	movq	=-4503599627370496, r1
-	movq	=4612811918334230528, r2
+	mov	=-4503599627370496, r1
+	mov	=4612811918334230528, r2
 	clr	r3
 	fcbeq	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f306
-	movq	=-4503599627370496, r1
-	movq	=9218868437227405312, r2
+	mov	=-4503599627370496, r1
+	mov	=9218868437227405312, r2
 	clr	r3
 	fcbeq	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f307
-	movq	=-4503599627370496, r1
-	movq	=-4503599627370496, r2
+	mov	=-4503599627370496, r1
+	mov	=-4503599627370496, r2
 	clr	r3
 	fcbeq	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f308
-	movq	=-4503599627370496, r1
-	movq	=9221120237041090560, r2
+	mov	=-4503599627370496, r1
+	mov	=9221120237041090560, r2
 	clr	r3
 	fcbeq	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f309
-	movq	=9221120237041090560, r1
-	movq	=0, r2
+	mov	=9221120237041090560, r1
+	mov	=0, r2
 	clr	r3
 	fcbeq	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f310
-	movq	=9221120237041090560, r1
-	movq	=-9223372036854775808, r2
+	mov	=9221120237041090560, r1
+	mov	=-9223372036854775808, r2
 	clr	r3
 	fcbeq	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f311
-	movq	=9221120237041090560, r1
-	movq	=4607182418800017408, r2
+	mov	=9221120237041090560, r1
+	mov	=4607182418800017408, r2
 	clr	r3
 	fcbeq	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f312
-	movq	=9221120237041090560, r1
-	movq	=-4613937818241073152, r2
+	mov	=9221120237041090560, r1
+	mov	=-4613937818241073152, r2
 	clr	r3
 	fcbeq	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f313
-	movq	=9221120237041090560, r1
-	movq	=4612811918334230528, r2
+	mov	=9221120237041090560, r1
+	mov	=4612811918334230528, r2
 	clr	r3
 	fcbeq	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f314
-	movq	=9221120237041090560, r1
-	movq	=9218868437227405312, r2
+	mov	=9221120237041090560, r1
+	mov	=9218868437227405312, r2
 	clr	r3
 	fcbeq	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f315
-	movq	=9221120237041090560, r1
-	movq	=-4503599627370496, r2
+	mov	=9221120237041090560, r1
+	mov	=-4503599627370496, r2
 	clr	r3
 	fcbeq	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f316
-	movq	=9221120237041090560, r1
-	movq	=9221120237041090560, r2
+	mov	=9221120237041090560, r1
+	mov	=9221120237041090560, r2
 	clr	r3
 	fcbeq	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f317
-	movq	=0, r1
-	movq	=0, r2
+	mov	=0, r1
+	mov	=0, r2
 	clr	r3
 	fcbne	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f318
-	movq	=0, r1
-	movq	=-9223372036854775808, r2
+	mov	=0, r1
+	mov	=-9223372036854775808, r2
 	clr	r3
 	fcbne	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f319
-	movq	=0, r1
-	movq	=4607182418800017408, r2
+	mov	=0, r1
+	mov	=4607182418800017408, r2
 	clr	r3
 	fcbne	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f320
-	movq	=0, r1
-	movq	=-4613937818241073152, r2
+	mov	=0, r1
+	mov	=-4613937818241073152, r2
 	clr	r3
 	fcbne	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f321
-	movq	=0, r1
-	movq	=4612811918334230528, r2
+	mov	=0, r1
+	mov	=4612811918334230528, r2
 	clr	r3
 	fcbne	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f322
-	movq	=0, r1
-	movq	=9218868437227405312, r2
+	mov	=0, r1
+	mov	=9218868437227405312, r2
 	clr	r3
 	fcbne	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f323
-	movq	=0, r1
-	movq	=-4503599627370496, r2
+	mov	=0, r1
+	mov	=-4503599627370496, r2
 	clr	r3
 	fcbne	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f324
-	movq	=0, r1
-	movq	=9221120237041090560, r2
+	mov	=0, r1
+	mov	=9221120237041090560, r2
 	clr	r3
 	fcbne	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f325
-	movq	=-9223372036854775808, r1
-	movq	=0, r2
+	mov	=-9223372036854775808, r1
+	mov	=0, r2
 	clr	r3
 	fcbne	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f326
-	movq	=-9223372036854775808, r1
-	movq	=-9223372036854775808, r2
+	mov	=-9223372036854775808, r1
+	mov	=-9223372036854775808, r2
 	clr	r3
 	fcbne	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f327
-	movq	=-9223372036854775808, r1
-	movq	=4607182418800017408, r2
+	mov	=-9223372036854775808, r1
+	mov	=4607182418800017408, r2
 	clr	r3
 	fcbne	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f328
-	movq	=-9223372036854775808, r1
-	movq	=-4613937818241073152, r2
+	mov	=-9223372036854775808, r1
+	mov	=-4613937818241073152, r2
 	clr	r3
 	fcbne	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f329
-	movq	=-9223372036854775808, r1
-	movq	=4612811918334230528, r2
+	mov	=-9223372036854775808, r1
+	mov	=4612811918334230528, r2
 	clr	r3
 	fcbne	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f330
-	movq	=-9223372036854775808, r1
-	movq	=9218868437227405312, r2
+	mov	=-9223372036854775808, r1
+	mov	=9218868437227405312, r2
 	clr	r3
 	fcbne	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f331
-	movq	=-9223372036854775808, r1
-	movq	=-4503599627370496, r2
+	mov	=-9223372036854775808, r1
+	mov	=-4503599627370496, r2
 	clr	r3
 	fcbne	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f332
-	movq	=-9223372036854775808, r1
-	movq	=9221120237041090560, r2
+	mov	=-9223372036854775808, r1
+	mov	=9221120237041090560, r2
 	clr	r3
 	fcbne	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f333
-	movq	=4607182418800017408, r1
-	movq	=0, r2
+	mov	=4607182418800017408, r1
+	mov	=0, r2
 	clr	r3
 	fcbne	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f334
-	movq	=4607182418800017408, r1
-	movq	=-9223372036854775808, r2
+	mov	=4607182418800017408, r1
+	mov	=-9223372036854775808, r2
 	clr	r3
 	fcbne	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f335
-	movq	=4607182418800017408, r1
-	movq	=4607182418800017408, r2
+	mov	=4607182418800017408, r1
+	mov	=4607182418800017408, r2
 	clr	r3
 	fcbne	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f336
-	movq	=4607182418800017408, r1
-	movq	=-4613937818241073152, r2
+	mov	=4607182418800017408, r1
+	mov	=-4613937818241073152, r2
 	clr	r3
 	fcbne	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f337
-	movq	=4607182418800017408, r1
-	movq	=4612811918334230528, r2
+	mov	=4607182418800017408, r1
+	mov	=4612811918334230528, r2
 	clr	r3
 	fcbne	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f338
-	movq	=4607182418800017408, r1
-	movq	=9218868437227405312, r2
+	mov	=4607182418800017408, r1
+	mov	=9218868437227405312, r2
 	clr	r3
 	fcbne	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f339
-	movq	=4607182418800017408, r1
-	movq	=-4503599627370496, r2
+	mov	=4607182418800017408, r1
+	mov	=-4503599627370496, r2
 	clr	r3
 	fcbne	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f340
-	movq	=4607182418800017408, r1
-	movq	=9221120237041090560, r2
+	mov	=4607182418800017408, r1
+	mov	=9221120237041090560, r2
 	clr	r3
 	fcbne	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f341
-	movq	=-4613937818241073152, r1
-	movq	=0, r2
+	mov	=-4613937818241073152, r1
+	mov	=0, r2
 	clr	r3
 	fcbne	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f342
-	movq	=-4613937818241073152, r1
-	movq	=-9223372036854775808, r2
+	mov	=-4613937818241073152, r1
+	mov	=-9223372036854775808, r2
 	clr	r3
 	fcbne	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f343
-	movq	=-4613937818241073152, r1
-	movq	=4607182418800017408, r2
+	mov	=-4613937818241073152, r1
+	mov	=4607182418800017408, r2
 	clr	r3
 	fcbne	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f344
-	movq	=-4613937818241073152, r1
-	movq	=-4613937818241073152, r2
+	mov	=-4613937818241073152, r1
+	mov	=-4613937818241073152, r2
 	clr	r3
 	fcbne	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f345
-	movq	=-4613937818241073152, r1
-	movq	=4612811918334230528, r2
+	mov	=-4613937818241073152, r1
+	mov	=4612811918334230528, r2
 	clr	r3
 	fcbne	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f346
-	movq	=-4613937818241073152, r1
-	movq	=9218868437227405312, r2
+	mov	=-4613937818241073152, r1
+	mov	=9218868437227405312, r2
 	clr	r3
 	fcbne	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f347
-	movq	=-4613937818241073152, r1
-	movq	=-4503599627370496, r2
+	mov	=-4613937818241073152, r1
+	mov	=-4503599627370496, r2
 	clr	r3
 	fcbne	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f348
-	movq	=-4613937818241073152, r1
-	movq	=9221120237041090560, r2
+	mov	=-4613937818241073152, r1
+	mov	=9221120237041090560, r2
 	clr	r3
 	fcbne	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f349
-	movq	=4612811918334230528, r1
-	movq	=0, r2
+	mov	=4612811918334230528, r1
+	mov	=0, r2
 	clr	r3
 	fcbne	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f350
-	movq	=4612811918334230528, r1
-	movq	=-9223372036854775808, r2
+	mov	=4612811918334230528, r1
+	mov	=-9223372036854775808, r2
 	clr	r3
 	fcbne	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f351
-	movq	=4612811918334230528, r1
-	movq	=4607182418800017408, r2
+	mov	=4612811918334230528, r1
+	mov	=4607182418800017408, r2
 	clr	r3
 	fcbne	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f352
-	movq	=4612811918334230528, r1
-	movq	=-4613937818241073152, r2
+	mov	=4612811918334230528, r1
+	mov	=-4613937818241073152, r2
 	clr	r3
 	fcbne	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f353
-	movq	=4612811918334230528, r1
-	movq	=4612811918334230528, r2
+	mov	=4612811918334230528, r1
+	mov	=4612811918334230528, r2
 	clr	r3
 	fcbne	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f354
-	movq	=4612811918334230528, r1
-	movq	=9218868437227405312, r2
+	mov	=4612811918334230528, r1
+	mov	=9218868437227405312, r2
 	clr	r3
 	fcbne	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f355
-	movq	=4612811918334230528, r1
-	movq	=-4503599627370496, r2
+	mov	=4612811918334230528, r1
+	mov	=-4503599627370496, r2
 	clr	r3
 	fcbne	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f356
-	movq	=4612811918334230528, r1
-	movq	=9221120237041090560, r2
+	mov	=4612811918334230528, r1
+	mov	=9221120237041090560, r2
 	clr	r3
 	fcbne	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f357
-	movq	=9218868437227405312, r1
-	movq	=0, r2
+	mov	=9218868437227405312, r1
+	mov	=0, r2
 	clr	r3
 	fcbne	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f358
-	movq	=9218868437227405312, r1
-	movq	=-9223372036854775808, r2
+	mov	=9218868437227405312, r1
+	mov	=-9223372036854775808, r2
 	clr	r3
 	fcbne	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f359
-	movq	=9218868437227405312, r1
-	movq	=4607182418800017408, r2
+	mov	=9218868437227405312, r1
+	mov	=4607182418800017408, r2
 	clr	r3
 	fcbne	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f360
-	movq	=9218868437227405312, r1
-	movq	=-4613937818241073152, r2
+	mov	=9218868437227405312, r1
+	mov	=-4613937818241073152, r2
 	clr	r3
 	fcbne	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f361
-	movq	=9218868437227405312, r1
-	movq	=4612811918334230528, r2
+	mov	=9218868437227405312, r1
+	mov	=4612811918334230528, r2
 	clr	r3
 	fcbne	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f362
-	movq	=9218868437227405312, r1
-	movq	=9218868437227405312, r2
+	mov	=9218868437227405312, r1
+	mov	=9218868437227405312, r2
 	clr	r3
 	fcbne	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f363
-	movq	=9218868437227405312, r1
-	movq	=-4503599627370496, r2
+	mov	=9218868437227405312, r1
+	mov	=-4503599627370496, r2
 	clr	r3
 	fcbne	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f364
-	movq	=9218868437227405312, r1
-	movq	=9221120237041090560, r2
+	mov	=9218868437227405312, r1
+	mov	=9221120237041090560, r2
 	clr	r3
 	fcbne	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f365
-	movq	=-4503599627370496, r1
-	movq	=0, r2
+	mov	=-4503599627370496, r1
+	mov	=0, r2
 	clr	r3
 	fcbne	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f366
-	movq	=-4503599627370496, r1
-	movq	=-9223372036854775808, r2
+	mov	=-4503599627370496, r1
+	mov	=-9223372036854775808, r2
 	clr	r3
 	fcbne	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f367
-	movq	=-4503599627370496, r1
-	movq	=4607182418800017408, r2
+	mov	=-4503599627370496, r1
+	mov	=4607182418800017408, r2
 	clr	r3
 	fcbne	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f368
-	movq	=-4503599627370496, r1
-	movq	=-4613937818241073152, r2
+	mov	=-4503599627370496, r1
+	mov	=-4613937818241073152, r2
 	clr	r3
 	fcbne	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f369
-	movq	=-4503599627370496, r1
-	movq	=4612811918334230528, r2
+	mov	=-4503599627370496, r1
+	mov	=4612811918334230528, r2
 	clr	r3
 	fcbne	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f370
-	movq	=-4503599627370496, r1
-	movq	=9218868437227405312, r2
+	mov	=-4503599627370496, r1
+	mov	=9218868437227405312, r2
 	clr	r3
 	fcbne	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f371
-	movq	=-4503599627370496, r1
-	movq	=-4503599627370496, r2
+	mov	=-4503599627370496, r1
+	mov	=-4503599627370496, r2
 	clr	r3
 	fcbne	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f372
-	movq	=-4503599627370496, r1
-	movq	=9221120237041090560, r2
+	mov	=-4503599627370496, r1
+	mov	=9221120237041090560, r2
 	clr	r3
 	fcbne	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f373
-	movq	=9221120237041090560, r1
-	movq	=0, r2
+	mov	=9221120237041090560, r1
+	mov	=0, r2
 	clr	r3
 	fcbne	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f374
-	movq	=9221120237041090560, r1
-	movq	=-9223372036854775808, r2
+	mov	=9221120237041090560, r1
+	mov	=-9223372036854775808, r2
 	clr	r3
 	fcbne	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f375
-	movq	=9221120237041090560, r1
-	movq	=4607182418800017408, r2
+	mov	=9221120237041090560, r1
+	mov	=4607182418800017408, r2
 	clr	r3
 	fcbne	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f376
-	movq	=9221120237041090560, r1
-	movq	=-4613937818241073152, r2
+	mov	=9221120237041090560, r1
+	mov	=-4613937818241073152, r2
 	clr	r3
 	fcbne	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f377
-	movq	=9221120237041090560, r1
-	movq	=4612811918334230528, r2
+	mov	=9221120237041090560, r1
+	mov	=4612811918334230528, r2
 	clr	r3
 	fcbne	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f378
-	movq	=9221120237041090560, r1
-	movq	=9218868437227405312, r2
+	mov	=9221120237041090560, r1
+	mov	=9218868437227405312, r2
 	clr	r3
 	fcbne	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f379
-	movq	=9221120237041090560, r1
-	movq	=-4503599627370496, r2
+	mov	=9221120237041090560, r1
+	mov	=-4503599627370496, r2
 	clr	r3
 	fcbne	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f380
-	movq	=9221120237041090560, r1
-	movq	=9221120237041090560, r2
+	mov	=9221120237041090560, r1
+	mov	=9221120237041090560, r2
 	clr	r3
 	fcbne	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f381
-	movq	=0, r1
-	movq	=0, r2
+	mov	=0, r1
+	mov	=0, r2
 	clr	r3
 	fcblt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f382
-	movq	=0, r1
-	movq	=-9223372036854775808, r2
+	mov	=0, r1
+	mov	=-9223372036854775808, r2
 	clr	r3
 	fcblt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f383
-	movq	=0, r1
-	movq	=4607182418800017408, r2
+	mov	=0, r1
+	mov	=4607182418800017408, r2
 	clr	r3
 	fcblt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f384
-	movq	=0, r1
-	movq	=-4613937818241073152, r2
+	mov	=0, r1
+	mov	=-4613937818241073152, r2
 	clr	r3
 	fcblt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f385
-	movq	=0, r1
-	movq	=4612811918334230528, r2
+	mov	=0, r1
+	mov	=4612811918334230528, r2
 	clr	r3
 	fcblt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f386
-	movq	=0, r1
-	movq	=9218868437227405312, r2
+	mov	=0, r1
+	mov	=9218868437227405312, r2
 	clr	r3
 	fcblt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f387
-	movq	=0, r1
-	movq	=-4503599627370496, r2
+	mov	=0, r1
+	mov	=-4503599627370496, r2
 	clr	r3
 	fcblt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f388
-	movq	=0, r1
-	movq	=9221120237041090560, r2
+	mov	=0, r1
+	mov	=9221120237041090560, r2
 	clr	r3
 	fcblt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f389
-	movq	=-9223372036854775808, r1
-	movq	=0, r2
+	mov	=-9223372036854775808, r1
+	mov	=0, r2
 	clr	r3
 	fcblt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f390
-	movq	=-9223372036854775808, r1
-	movq	=-9223372036854775808, r2
+	mov	=-9223372036854775808, r1
+	mov	=-9223372036854775808, r2
 	clr	r3
 	fcblt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f391
-	movq	=-9223372036854775808, r1
-	movq	=4607182418800017408, r2
+	mov	=-9223372036854775808, r1
+	mov	=4607182418800017408, r2
 	clr	r3
 	fcblt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f392
-	movq	=-9223372036854775808, r1
-	movq	=-4613937818241073152, r2
+	mov	=-9223372036854775808, r1
+	mov	=-4613937818241073152, r2
 	clr	r3
 	fcblt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f393
-	movq	=-9223372036854775808, r1
-	movq	=4612811918334230528, r2
+	mov	=-9223372036854775808, r1
+	mov	=4612811918334230528, r2
 	clr	r3
 	fcblt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f394
-	movq	=-9223372036854775808, r1
-	movq	=9218868437227405312, r2
+	mov	=-9223372036854775808, r1
+	mov	=9218868437227405312, r2
 	clr	r3
 	fcblt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f395
-	movq	=-9223372036854775808, r1
-	movq	=-4503599627370496, r2
+	mov	=-9223372036854775808, r1
+	mov	=-4503599627370496, r2
 	clr	r3
 	fcblt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f396
-	movq	=-9223372036854775808, r1
-	movq	=9221120237041090560, r2
+	mov	=-9223372036854775808, r1
+	mov	=9221120237041090560, r2
 	clr	r3
 	fcblt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f397
-	movq	=4607182418800017408, r1
-	movq	=0, r2
+	mov	=4607182418800017408, r1
+	mov	=0, r2
 	clr	r3
 	fcblt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f398
-	movq	=4607182418800017408, r1
-	movq	=-9223372036854775808, r2
+	mov	=4607182418800017408, r1
+	mov	=-9223372036854775808, r2
 	clr	r3
 	fcblt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f399
-	movq	=4607182418800017408, r1
-	movq	=4607182418800017408, r2
+	mov	=4607182418800017408, r1
+	mov	=4607182418800017408, r2
 	clr	r3
 	fcblt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f400
-	movq	=4607182418800017408, r1
-	movq	=-4613937818241073152, r2
+	mov	=4607182418800017408, r1
+	mov	=-4613937818241073152, r2
 	clr	r3
 	fcblt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f401
-	movq	=4607182418800017408, r1
-	movq	=4612811918334230528, r2
+	mov	=4607182418800017408, r1
+	mov	=4612811918334230528, r2
 	clr	r3
 	fcblt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f402
-	movq	=4607182418800017408, r1
-	movq	=9218868437227405312, r2
+	mov	=4607182418800017408, r1
+	mov	=9218868437227405312, r2
 	clr	r3
 	fcblt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f403
-	movq	=4607182418800017408, r1
-	movq	=-4503599627370496, r2
+	mov	=4607182418800017408, r1
+	mov	=-4503599627370496, r2
 	clr	r3
 	fcblt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f404
-	movq	=4607182418800017408, r1
-	movq	=9221120237041090560, r2
+	mov	=4607182418800017408, r1
+	mov	=9221120237041090560, r2
 	clr	r3
 	fcblt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f405
-	movq	=-4613937818241073152, r1
-	movq	=0, r2
+	mov	=-4613937818241073152, r1
+	mov	=0, r2
 	clr	r3
 	fcblt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f406
-	movq	=-4613937818241073152, r1
-	movq	=-9223372036854775808, r2
+	mov	=-4613937818241073152, r1
+	mov	=-9223372036854775808, r2
 	clr	r3
 	fcblt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f407
-	movq	=-4613937818241073152, r1
-	movq	=4607182418800017408, r2
+	mov	=-4613937818241073152, r1
+	mov	=4607182418800017408, r2
 	clr	r3
 	fcblt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f408
-	movq	=-4613937818241073152, r1
-	movq	=-4613937818241073152, r2
+	mov	=-4613937818241073152, r1
+	mov	=-4613937818241073152, r2
 	clr	r3
 	fcblt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f409
-	movq	=-4613937818241073152, r1
-	movq	=4612811918334230528, r2
+	mov	=-4613937818241073152, r1
+	mov	=4612811918334230528, r2
 	clr	r3
 	fcblt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f410
-	movq	=-4613937818241073152, r1
-	movq	=9218868437227405312, r2
+	mov	=-4613937818241073152, r1
+	mov	=9218868437227405312, r2
 	clr	r3
 	fcblt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f411
-	movq	=-4613937818241073152, r1
-	movq	=-4503599627370496, r2
+	mov	=-4613937818241073152, r1
+	mov	=-4503599627370496, r2
 	clr	r3
 	fcblt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f412
-	movq	=-4613937818241073152, r1
-	movq	=9221120237041090560, r2
+	mov	=-4613937818241073152, r1
+	mov	=9221120237041090560, r2
 	clr	r3
 	fcblt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f413
-	movq	=4612811918334230528, r1
-	movq	=0, r2
+	mov	=4612811918334230528, r1
+	mov	=0, r2
 	clr	r3
 	fcblt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f414
-	movq	=4612811918334230528, r1
-	movq	=-9223372036854775808, r2
+	mov	=4612811918334230528, r1
+	mov	=-9223372036854775808, r2
 	clr	r3
 	fcblt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f415
-	movq	=4612811918334230528, r1
-	movq	=4607182418800017408, r2
+	mov	=4612811918334230528, r1
+	mov	=4607182418800017408, r2
 	clr	r3
 	fcblt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f416
-	movq	=4612811918334230528, r1
-	movq	=-4613937818241073152, r2
+	mov	=4612811918334230528, r1
+	mov	=-4613937818241073152, r2
 	clr	r3
 	fcblt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f417
-	movq	=4612811918334230528, r1
-	movq	=4612811918334230528, r2
+	mov	=4612811918334230528, r1
+	mov	=4612811918334230528, r2
 	clr	r3
 	fcblt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f418
-	movq	=4612811918334230528, r1
-	movq	=9218868437227405312, r2
+	mov	=4612811918334230528, r1
+	mov	=9218868437227405312, r2
 	clr	r3
 	fcblt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f419
-	movq	=4612811918334230528, r1
-	movq	=-4503599627370496, r2
+	mov	=4612811918334230528, r1
+	mov	=-4503599627370496, r2
 	clr	r3
 	fcblt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f420
-	movq	=4612811918334230528, r1
-	movq	=9221120237041090560, r2
+	mov	=4612811918334230528, r1
+	mov	=9221120237041090560, r2
 	clr	r3
 	fcblt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f421
-	movq	=9218868437227405312, r1
-	movq	=0, r2
+	mov	=9218868437227405312, r1
+	mov	=0, r2
 	clr	r3
 	fcblt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f422
-	movq	=9218868437227405312, r1
-	movq	=-9223372036854775808, r2
+	mov	=9218868437227405312, r1
+	mov	=-9223372036854775808, r2
 	clr	r3
 	fcblt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f423
-	movq	=9218868437227405312, r1
-	movq	=4607182418800017408, r2
+	mov	=9218868437227405312, r1
+	mov	=4607182418800017408, r2
 	clr	r3
 	fcblt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f424
-	movq	=9218868437227405312, r1
-	movq	=-4613937818241073152, r2
+	mov	=9218868437227405312, r1
+	mov	=-4613937818241073152, r2
 	clr	r3
 	fcblt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f425
-	movq	=9218868437227405312, r1
-	movq	=4612811918334230528, r2
+	mov	=9218868437227405312, r1
+	mov	=4612811918334230528, r2
 	clr	r3
 	fcblt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f426
-	movq	=9218868437227405312, r1
-	movq	=9218868437227405312, r2
+	mov	=9218868437227405312, r1
+	mov	=9218868437227405312, r2
 	clr	r3
 	fcblt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f427
-	movq	=9218868437227405312, r1
-	movq	=-4503599627370496, r2
+	mov	=9218868437227405312, r1
+	mov	=-4503599627370496, r2
 	clr	r3
 	fcblt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f428
-	movq	=9218868437227405312, r1
-	movq	=9221120237041090560, r2
+	mov	=9218868437227405312, r1
+	mov	=9221120237041090560, r2
 	clr	r3
 	fcblt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f429
-	movq	=-4503599627370496, r1
-	movq	=0, r2
+	mov	=-4503599627370496, r1
+	mov	=0, r2
 	clr	r3
 	fcblt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f430
-	movq	=-4503599627370496, r1
-	movq	=-9223372036854775808, r2
+	mov	=-4503599627370496, r1
+	mov	=-9223372036854775808, r2
 	clr	r3
 	fcblt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f431
-	movq	=-4503599627370496, r1
-	movq	=4607182418800017408, r2
+	mov	=-4503599627370496, r1
+	mov	=4607182418800017408, r2
 	clr	r3
 	fcblt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f432
-	movq	=-4503599627370496, r1
-	movq	=-4613937818241073152, r2
+	mov	=-4503599627370496, r1
+	mov	=-4613937818241073152, r2
 	clr	r3
 	fcblt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f433
-	movq	=-4503599627370496, r1
-	movq	=4612811918334230528, r2
+	mov	=-4503599627370496, r1
+	mov	=4612811918334230528, r2
 	clr	r3
 	fcblt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f434
-	movq	=-4503599627370496, r1
-	movq	=9218868437227405312, r2
+	mov	=-4503599627370496, r1
+	mov	=9218868437227405312, r2
 	clr	r3
 	fcblt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f435
-	movq	=-4503599627370496, r1
-	movq	=-4503599627370496, r2
+	mov	=-4503599627370496, r1
+	mov	=-4503599627370496, r2
 	clr	r3
 	fcblt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f436
-	movq	=-4503599627370496, r1
-	movq	=9221120237041090560, r2
+	mov	=-4503599627370496, r1
+	mov	=9221120237041090560, r2
 	clr	r3
 	fcblt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f437
-	movq	=9221120237041090560, r1
-	movq	=0, r2
+	mov	=9221120237041090560, r1
+	mov	=0, r2
 	clr	r3
 	fcblt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f438
-	movq	=9221120237041090560, r1
-	movq	=-9223372036854775808, r2
+	mov	=9221120237041090560, r1
+	mov	=-9223372036854775808, r2
 	clr	r3
 	fcblt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f439
-	movq	=9221120237041090560, r1
-	movq	=4607182418800017408, r2
+	mov	=9221120237041090560, r1
+	mov	=4607182418800017408, r2
 	clr	r3
 	fcblt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f440
-	movq	=9221120237041090560, r1
-	movq	=-4613937818241073152, r2
+	mov	=9221120237041090560, r1
+	mov	=-4613937818241073152, r2
 	clr	r3
 	fcblt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f441
-	movq	=9221120237041090560, r1
-	movq	=4612811918334230528, r2
+	mov	=9221120237041090560, r1
+	mov	=4612811918334230528, r2
 	clr	r3
 	fcblt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f442
-	movq	=9221120237041090560, r1
-	movq	=9218868437227405312, r2
+	mov	=9221120237041090560, r1
+	mov	=9218868437227405312, r2
 	clr	r3
 	fcblt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f443
-	movq	=9221120237041090560, r1
-	movq	=-4503599627370496, r2
+	mov	=9221120237041090560, r1
+	mov	=-4503599627370496, r2
 	clr	r3
 	fcblt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f444
-	movq	=9221120237041090560, r1
-	movq	=9221120237041090560, r2
+	mov	=9221120237041090560, r1
+	mov	=9221120237041090560, r2
 	clr	r3
 	fcblt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f445
-	movq	=0, r1
-	movq	=0, r2
+	mov	=0, r1
+	mov	=0, r2
 	clr	r3
 	fcble	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f446
-	movq	=0, r1
-	movq	=-9223372036854775808, r2
+	mov	=0, r1
+	mov	=-9223372036854775808, r2
 	clr	r3
 	fcble	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f447
-	movq	=0, r1
-	movq	=4607182418800017408, r2
+	mov	=0, r1
+	mov	=4607182418800017408, r2
 	clr	r3
 	fcble	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f448
-	movq	=0, r1
-	movq	=-4613937818241073152, r2
+	mov	=0, r1
+	mov	=-4613937818241073152, r2
 	clr	r3
 	fcble	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f449
-	movq	=0, r1
-	movq	=4612811918334230528, r2
+	mov	=0, r1
+	mov	=4612811918334230528, r2
 	clr	r3
 	fcble	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f450
-	movq	=0, r1
-	movq	=9218868437227405312, r2
+	mov	=0, r1
+	mov	=9218868437227405312, r2
 	clr	r3
 	fcble	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f451
-	movq	=0, r1
-	movq	=-4503599627370496, r2
+	mov	=0, r1
+	mov	=-4503599627370496, r2
 	clr	r3
 	fcble	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f452
-	movq	=0, r1
-	movq	=9221120237041090560, r2
+	mov	=0, r1
+	mov	=9221120237041090560, r2
 	clr	r3
 	fcble	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f453
-	movq	=-9223372036854775808, r1
-	movq	=0, r2
+	mov	=-9223372036854775808, r1
+	mov	=0, r2
 	clr	r3
 	fcble	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f454
-	movq	=-9223372036854775808, r1
-	movq	=-9223372036854775808, r2
+	mov	=-9223372036854775808, r1
+	mov	=-9223372036854775808, r2
 	clr	r3
 	fcble	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f455
-	movq	=-9223372036854775808, r1
-	movq	=4607182418800017408, r2
+	mov	=-9223372036854775808, r1
+	mov	=4607182418800017408, r2
 	clr	r3
 	fcble	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f456
-	movq	=-9223372036854775808, r1
-	movq	=-4613937818241073152, r2
+	mov	=-9223372036854775808, r1
+	mov	=-4613937818241073152, r2
 	clr	r3
 	fcble	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f457
-	movq	=-9223372036854775808, r1
-	movq	=4612811918334230528, r2
+	mov	=-9223372036854775808, r1
+	mov	=4612811918334230528, r2
 	clr	r3
 	fcble	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f458
-	movq	=-9223372036854775808, r1
-	movq	=9218868437227405312, r2
+	mov	=-9223372036854775808, r1
+	mov	=9218868437227405312, r2
 	clr	r3
 	fcble	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f459
-	movq	=-9223372036854775808, r1
-	movq	=-4503599627370496, r2
+	mov	=-9223372036854775808, r1
+	mov	=-4503599627370496, r2
 	clr	r3
 	fcble	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f460
-	movq	=-9223372036854775808, r1
-	movq	=9221120237041090560, r2
+	mov	=-9223372036854775808, r1
+	mov	=9221120237041090560, r2
 	clr	r3
 	fcble	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f461
-	movq	=4607182418800017408, r1
-	movq	=0, r2
+	mov	=4607182418800017408, r1
+	mov	=0, r2
 	clr	r3
 	fcble	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f462
-	movq	=4607182418800017408, r1
-	movq	=-9223372036854775808, r2
+	mov	=4607182418800017408, r1
+	mov	=-9223372036854775808, r2
 	clr	r3
 	fcble	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f463
-	movq	=4607182418800017408, r1
-	movq	=4607182418800017408, r2
+	mov	=4607182418800017408, r1
+	mov	=4607182418800017408, r2
 	clr	r3
 	fcble	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f464
-	movq	=4607182418800017408, r1
-	movq	=-4613937818241073152, r2
+	mov	=4607182418800017408, r1
+	mov	=-4613937818241073152, r2
 	clr	r3
 	fcble	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f465
-	movq	=4607182418800017408, r1
-	movq	=4612811918334230528, r2
+	mov	=4607182418800017408, r1
+	mov	=4612811918334230528, r2
 	clr	r3
 	fcble	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f466
-	movq	=4607182418800017408, r1
-	movq	=9218868437227405312, r2
+	mov	=4607182418800017408, r1
+	mov	=9218868437227405312, r2
 	clr	r3
 	fcble	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f467
-	movq	=4607182418800017408, r1
-	movq	=-4503599627370496, r2
+	mov	=4607182418800017408, r1
+	mov	=-4503599627370496, r2
 	clr	r3
 	fcble	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f468
-	movq	=4607182418800017408, r1
-	movq	=9221120237041090560, r2
+	mov	=4607182418800017408, r1
+	mov	=9221120237041090560, r2
 	clr	r3
 	fcble	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f469
-	movq	=-4613937818241073152, r1
-	movq	=0, r2
+	mov	=-4613937818241073152, r1
+	mov	=0, r2
 	clr	r3
 	fcble	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f470
-	movq	=-4613937818241073152, r1
-	movq	=-9223372036854775808, r2
+	mov	=-4613937818241073152, r1
+	mov	=-9223372036854775808, r2
 	clr	r3
 	fcble	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f471
-	movq	=-4613937818241073152, r1
-	movq	=4607182418800017408, r2
+	mov	=-4613937818241073152, r1
+	mov	=4607182418800017408, r2
 	clr	r3
 	fcble	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f472
-	movq	=-4613937818241073152, r1
-	movq	=-4613937818241073152, r2
+	mov	=-4613937818241073152, r1
+	mov	=-4613937818241073152, r2
 	clr	r3
 	fcble	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f473
-	movq	=-4613937818241073152, r1
-	movq	=4612811918334230528, r2
+	mov	=-4613937818241073152, r1
+	mov	=4612811918334230528, r2
 	clr	r3
 	fcble	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f474
-	movq	=-4613937818241073152, r1
-	movq	=9218868437227405312, r2
+	mov	=-4613937818241073152, r1
+	mov	=9218868437227405312, r2
 	clr	r3
 	fcble	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f475
-	movq	=-4613937818241073152, r1
-	movq	=-4503599627370496, r2
+	mov	=-4613937818241073152, r1
+	mov	=-4503599627370496, r2
 	clr	r3
 	fcble	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f476
-	movq	=-4613937818241073152, r1
-	movq	=9221120237041090560, r2
+	mov	=-4613937818241073152, r1
+	mov	=9221120237041090560, r2
 	clr	r3
 	fcble	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f477
-	movq	=4612811918334230528, r1
-	movq	=0, r2
+	mov	=4612811918334230528, r1
+	mov	=0, r2
 	clr	r3
 	fcble	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f478
-	movq	=4612811918334230528, r1
-	movq	=-9223372036854775808, r2
+	mov	=4612811918334230528, r1
+	mov	=-9223372036854775808, r2
 	clr	r3
 	fcble	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f479
-	movq	=4612811918334230528, r1
-	movq	=4607182418800017408, r2
+	mov	=4612811918334230528, r1
+	mov	=4607182418800017408, r2
 	clr	r3
 	fcble	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f480
-	movq	=4612811918334230528, r1
-	movq	=-4613937818241073152, r2
+	mov	=4612811918334230528, r1
+	mov	=-4613937818241073152, r2
 	clr	r3
 	fcble	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f481
-	movq	=4612811918334230528, r1
-	movq	=4612811918334230528, r2
+	mov	=4612811918334230528, r1
+	mov	=4612811918334230528, r2
 	clr	r3
 	fcble	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f482
-	movq	=4612811918334230528, r1
-	movq	=9218868437227405312, r2
+	mov	=4612811918334230528, r1
+	mov	=9218868437227405312, r2
 	clr	r3
 	fcble	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f483
-	movq	=4612811918334230528, r1
-	movq	=-4503599627370496, r2
+	mov	=4612811918334230528, r1
+	mov	=-4503599627370496, r2
 	clr	r3
 	fcble	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f484
-	movq	=4612811918334230528, r1
-	movq	=9221120237041090560, r2
+	mov	=4612811918334230528, r1
+	mov	=9221120237041090560, r2
 	clr	r3
 	fcble	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f485
-	movq	=9218868437227405312, r1
-	movq	=0, r2
+	mov	=9218868437227405312, r1
+	mov	=0, r2
 	clr	r3
 	fcble	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f486
-	movq	=9218868437227405312, r1
-	movq	=-9223372036854775808, r2
+	mov	=9218868437227405312, r1
+	mov	=-9223372036854775808, r2
 	clr	r3
 	fcble	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f487
-	movq	=9218868437227405312, r1
-	movq	=4607182418800017408, r2
+	mov	=9218868437227405312, r1
+	mov	=4607182418800017408, r2
 	clr	r3
 	fcble	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f488
-	movq	=9218868437227405312, r1
-	movq	=-4613937818241073152, r2
+	mov	=9218868437227405312, r1
+	mov	=-4613937818241073152, r2
 	clr	r3
 	fcble	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f489
-	movq	=9218868437227405312, r1
-	movq	=4612811918334230528, r2
+	mov	=9218868437227405312, r1
+	mov	=4612811918334230528, r2
 	clr	r3
 	fcble	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f490
-	movq	=9218868437227405312, r1
-	movq	=9218868437227405312, r2
+	mov	=9218868437227405312, r1
+	mov	=9218868437227405312, r2
 	clr	r3
 	fcble	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f491
-	movq	=9218868437227405312, r1
-	movq	=-4503599627370496, r2
+	mov	=9218868437227405312, r1
+	mov	=-4503599627370496, r2
 	clr	r3
 	fcble	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f492
-	movq	=9218868437227405312, r1
-	movq	=9221120237041090560, r2
+	mov	=9218868437227405312, r1
+	mov	=9221120237041090560, r2
 	clr	r3
 	fcble	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f493
-	movq	=-4503599627370496, r1
-	movq	=0, r2
+	mov	=-4503599627370496, r1
+	mov	=0, r2
 	clr	r3
 	fcble	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f494
-	movq	=-4503599627370496, r1
-	movq	=-9223372036854775808, r2
+	mov	=-4503599627370496, r1
+	mov	=-9223372036854775808, r2
 	clr	r3
 	fcble	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f495
-	movq	=-4503599627370496, r1
-	movq	=4607182418800017408, r2
+	mov	=-4503599627370496, r1
+	mov	=4607182418800017408, r2
 	clr	r3
 	fcble	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f496
-	movq	=-4503599627370496, r1
-	movq	=-4613937818241073152, r2
+	mov	=-4503599627370496, r1
+	mov	=-4613937818241073152, r2
 	clr	r3
 	fcble	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f497
-	movq	=-4503599627370496, r1
-	movq	=4612811918334230528, r2
+	mov	=-4503599627370496, r1
+	mov	=4612811918334230528, r2
 	clr	r3
 	fcble	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f498
-	movq	=-4503599627370496, r1
-	movq	=9218868437227405312, r2
+	mov	=-4503599627370496, r1
+	mov	=9218868437227405312, r2
 	clr	r3
 	fcble	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f499
-	movq	=-4503599627370496, r1
-	movq	=-4503599627370496, r2
+	mov	=-4503599627370496, r1
+	mov	=-4503599627370496, r2
 	clr	r3
 	fcble	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f500
-	movq	=-4503599627370496, r1
-	movq	=9221120237041090560, r2
+	mov	=-4503599627370496, r1
+	mov	=9221120237041090560, r2
 	clr	r3
 	fcble	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f501
-	movq	=9221120237041090560, r1
-	movq	=0, r2
+	mov	=9221120237041090560, r1
+	mov	=0, r2
 	clr	r3
 	fcble	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f502
-	movq	=9221120237041090560, r1
-	movq	=-9223372036854775808, r2
+	mov	=9221120237041090560, r1
+	mov	=-9223372036854775808, r2
 	clr	r3
 	fcble	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f503
-	movq	=9221120237041090560, r1
-	movq	=4607182418800017408, r2
+	mov	=9221120237041090560, r1
+	mov	=4607182418800017408, r2
 	clr	r3
 	fcble	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f504
-	movq	=9221120237041090560, r1
-	movq	=-4613937818241073152, r2
+	mov	=9221120237041090560, r1
+	mov	=-4613937818241073152, r2
 	clr	r3
 	fcble	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f505
-	movq	=9221120237041090560, r1
-	movq	=4612811918334230528, r2
+	mov	=9221120237041090560, r1
+	mov	=4612811918334230528, r2
 	clr	r3
 	fcble	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f506
-	movq	=9221120237041090560, r1
-	movq	=9218868437227405312, r2
+	mov	=9221120237041090560, r1
+	mov	=9218868437227405312, r2
 	clr	r3
 	fcble	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f507
-	movq	=9221120237041090560, r1
-	movq	=-4503599627370496, r2
+	mov	=9221120237041090560, r1
+	mov	=-4503599627370496, r2
 	clr	r3
 	fcble	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f508
-	movq	=9221120237041090560, r1
-	movq	=9221120237041090560, r2
+	mov	=9221120237041090560, r1
+	mov	=9221120237041090560, r2
 	clr	r3
 	fcble	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f509
-	movq	=0, r1
-	movq	=0, r2
+	mov	=0, r1
+	mov	=0, r2
 	clr	r3
 	fcbgt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f510
-	movq	=0, r1
-	movq	=-9223372036854775808, r2
+	mov	=0, r1
+	mov	=-9223372036854775808, r2
 	clr	r3
 	fcbgt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f511
-	movq	=0, r1
-	movq	=4607182418800017408, r2
+	mov	=0, r1
+	mov	=4607182418800017408, r2
 	clr	r3
 	fcbgt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f512
-	movq	=0, r1
-	movq	=-4613937818241073152, r2
+	mov	=0, r1
+	mov	=-4613937818241073152, r2
 	clr	r3
 	fcbgt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f513
-	movq	=0, r1
-	movq	=4612811918334230528, r2
+	mov	=0, r1
+	mov	=4612811918334230528, r2
 	clr	r3
 	fcbgt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f514
-	movq	=0, r1
-	movq	=9218868437227405312, r2
+	mov	=0, r1
+	mov	=9218868437227405312, r2
 	clr	r3
 	fcbgt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f515
-	movq	=0, r1
-	movq	=-4503599627370496, r2
+	mov	=0, r1
+	mov	=-4503599627370496, r2
 	clr	r3
 	fcbgt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f516
-	movq	=0, r1
-	movq	=9221120237041090560, r2
+	mov	=0, r1
+	mov	=9221120237041090560, r2
 	clr	r3
 	fcbgt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f517
-	movq	=-9223372036854775808, r1
-	movq	=0, r2
+	mov	=-9223372036854775808, r1
+	mov	=0, r2
 	clr	r3
 	fcbgt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f518
-	movq	=-9223372036854775808, r1
-	movq	=-9223372036854775808, r2
+	mov	=-9223372036854775808, r1
+	mov	=-9223372036854775808, r2
 	clr	r3
 	fcbgt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f519
-	movq	=-9223372036854775808, r1
-	movq	=4607182418800017408, r2
+	mov	=-9223372036854775808, r1
+	mov	=4607182418800017408, r2
 	clr	r3
 	fcbgt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f520
-	movq	=-9223372036854775808, r1
-	movq	=-4613937818241073152, r2
+	mov	=-9223372036854775808, r1
+	mov	=-4613937818241073152, r2
 	clr	r3
 	fcbgt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f521
-	movq	=-9223372036854775808, r1
-	movq	=4612811918334230528, r2
+	mov	=-9223372036854775808, r1
+	mov	=4612811918334230528, r2
 	clr	r3
 	fcbgt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f522
-	movq	=-9223372036854775808, r1
-	movq	=9218868437227405312, r2
+	mov	=-9223372036854775808, r1
+	mov	=9218868437227405312, r2
 	clr	r3
 	fcbgt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f523
-	movq	=-9223372036854775808, r1
-	movq	=-4503599627370496, r2
+	mov	=-9223372036854775808, r1
+	mov	=-4503599627370496, r2
 	clr	r3
 	fcbgt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f524
-	movq	=-9223372036854775808, r1
-	movq	=9221120237041090560, r2
+	mov	=-9223372036854775808, r1
+	mov	=9221120237041090560, r2
 	clr	r3
 	fcbgt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f525
-	movq	=4607182418800017408, r1
-	movq	=0, r2
+	mov	=4607182418800017408, r1
+	mov	=0, r2
 	clr	r3
 	fcbgt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f526
-	movq	=4607182418800017408, r1
-	movq	=-9223372036854775808, r2
+	mov	=4607182418800017408, r1
+	mov	=-9223372036854775808, r2
 	clr	r3
 	fcbgt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f527
-	movq	=4607182418800017408, r1
-	movq	=4607182418800017408, r2
+	mov	=4607182418800017408, r1
+	mov	=4607182418800017408, r2
 	clr	r3
 	fcbgt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f528
-	movq	=4607182418800017408, r1
-	movq	=-4613937818241073152, r2
+	mov	=4607182418800017408, r1
+	mov	=-4613937818241073152, r2
 	clr	r3
 	fcbgt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f529
-	movq	=4607182418800017408, r1
-	movq	=4612811918334230528, r2
+	mov	=4607182418800017408, r1
+	mov	=4612811918334230528, r2
 	clr	r3
 	fcbgt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f530
-	movq	=4607182418800017408, r1
-	movq	=9218868437227405312, r2
+	mov	=4607182418800017408, r1
+	mov	=9218868437227405312, r2
 	clr	r3
 	fcbgt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f531
-	movq	=4607182418800017408, r1
-	movq	=-4503599627370496, r2
+	mov	=4607182418800017408, r1
+	mov	=-4503599627370496, r2
 	clr	r3
 	fcbgt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f532
-	movq	=4607182418800017408, r1
-	movq	=9221120237041090560, r2
+	mov	=4607182418800017408, r1
+	mov	=9221120237041090560, r2
 	clr	r3
 	fcbgt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f533
-	movq	=-4613937818241073152, r1
-	movq	=0, r2
+	mov	=-4613937818241073152, r1
+	mov	=0, r2
 	clr	r3
 	fcbgt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f534
-	movq	=-4613937818241073152, r1
-	movq	=-9223372036854775808, r2
+	mov	=-4613937818241073152, r1
+	mov	=-9223372036854775808, r2
 	clr	r3
 	fcbgt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f535
-	movq	=-4613937818241073152, r1
-	movq	=4607182418800017408, r2
+	mov	=-4613937818241073152, r1
+	mov	=4607182418800017408, r2
 	clr	r3
 	fcbgt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f536
-	movq	=-4613937818241073152, r1
-	movq	=-4613937818241073152, r2
+	mov	=-4613937818241073152, r1
+	mov	=-4613937818241073152, r2
 	clr	r3
 	fcbgt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f537
-	movq	=-4613937818241073152, r1
-	movq	=4612811918334230528, r2
+	mov	=-4613937818241073152, r1
+	mov	=4612811918334230528, r2
 	clr	r3
 	fcbgt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f538
-	movq	=-4613937818241073152, r1
-	movq	=9218868437227405312, r2
+	mov	=-4613937818241073152, r1
+	mov	=9218868437227405312, r2
 	clr	r3
 	fcbgt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f539
-	movq	=-4613937818241073152, r1
-	movq	=-4503599627370496, r2
+	mov	=-4613937818241073152, r1
+	mov	=-4503599627370496, r2
 	clr	r3
 	fcbgt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f540
-	movq	=-4613937818241073152, r1
-	movq	=9221120237041090560, r2
+	mov	=-4613937818241073152, r1
+	mov	=9221120237041090560, r2
 	clr	r3
 	fcbgt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f541
-	movq	=4612811918334230528, r1
-	movq	=0, r2
+	mov	=4612811918334230528, r1
+	mov	=0, r2
 	clr	r3
 	fcbgt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f542
-	movq	=4612811918334230528, r1
-	movq	=-9223372036854775808, r2
+	mov	=4612811918334230528, r1
+	mov	=-9223372036854775808, r2
 	clr	r3
 	fcbgt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f543
-	movq	=4612811918334230528, r1
-	movq	=4607182418800017408, r2
+	mov	=4612811918334230528, r1
+	mov	=4607182418800017408, r2
 	clr	r3
 	fcbgt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f544
-	movq	=4612811918334230528, r1
-	movq	=-4613937818241073152, r2
+	mov	=4612811918334230528, r1
+	mov	=-4613937818241073152, r2
 	clr	r3
 	fcbgt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f545
-	movq	=4612811918334230528, r1
-	movq	=4612811918334230528, r2
+	mov	=4612811918334230528, r1
+	mov	=4612811918334230528, r2
 	clr	r3
 	fcbgt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f546
-	movq	=4612811918334230528, r1
-	movq	=9218868437227405312, r2
+	mov	=4612811918334230528, r1
+	mov	=9218868437227405312, r2
 	clr	r3
 	fcbgt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f547
-	movq	=4612811918334230528, r1
-	movq	=-4503599627370496, r2
+	mov	=4612811918334230528, r1
+	mov	=-4503599627370496, r2
 	clr	r3
 	fcbgt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f548
-	movq	=4612811918334230528, r1
-	movq	=9221120237041090560, r2
+	mov	=4612811918334230528, r1
+	mov	=9221120237041090560, r2
 	clr	r3
 	fcbgt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f549
-	movq	=9218868437227405312, r1
-	movq	=0, r2
+	mov	=9218868437227405312, r1
+	mov	=0, r2
 	clr	r3
 	fcbgt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f550
-	movq	=9218868437227405312, r1
-	movq	=-9223372036854775808, r2
+	mov	=9218868437227405312, r1
+	mov	=-9223372036854775808, r2
 	clr	r3
 	fcbgt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f551
-	movq	=9218868437227405312, r1
-	movq	=4607182418800017408, r2
+	mov	=9218868437227405312, r1
+	mov	=4607182418800017408, r2
 	clr	r3
 	fcbgt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f552
-	movq	=9218868437227405312, r1
-	movq	=-4613937818241073152, r2
+	mov	=9218868437227405312, r1
+	mov	=-4613937818241073152, r2
 	clr	r3
 	fcbgt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f553
-	movq	=9218868437227405312, r1
-	movq	=4612811918334230528, r2
+	mov	=9218868437227405312, r1
+	mov	=4612811918334230528, r2
 	clr	r3
 	fcbgt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f554
-	movq	=9218868437227405312, r1
-	movq	=9218868437227405312, r2
+	mov	=9218868437227405312, r1
+	mov	=9218868437227405312, r2
 	clr	r3
 	fcbgt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f555
-	movq	=9218868437227405312, r1
-	movq	=-4503599627370496, r2
+	mov	=9218868437227405312, r1
+	mov	=-4503599627370496, r2
 	clr	r3
 	fcbgt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f556
-	movq	=9218868437227405312, r1
-	movq	=9221120237041090560, r2
+	mov	=9218868437227405312, r1
+	mov	=9221120237041090560, r2
 	clr	r3
 	fcbgt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f557
-	movq	=-4503599627370496, r1
-	movq	=0, r2
+	mov	=-4503599627370496, r1
+	mov	=0, r2
 	clr	r3
 	fcbgt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f558
-	movq	=-4503599627370496, r1
-	movq	=-9223372036854775808, r2
+	mov	=-4503599627370496, r1
+	mov	=-9223372036854775808, r2
 	clr	r3
 	fcbgt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f559
-	movq	=-4503599627370496, r1
-	movq	=4607182418800017408, r2
+	mov	=-4503599627370496, r1
+	mov	=4607182418800017408, r2
 	clr	r3
 	fcbgt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f560
-	movq	=-4503599627370496, r1
-	movq	=-4613937818241073152, r2
+	mov	=-4503599627370496, r1
+	mov	=-4613937818241073152, r2
 	clr	r3
 	fcbgt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f561
-	movq	=-4503599627370496, r1
-	movq	=4612811918334230528, r2
+	mov	=-4503599627370496, r1
+	mov	=4612811918334230528, r2
 	clr	r3
 	fcbgt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f562
-	movq	=-4503599627370496, r1
-	movq	=9218868437227405312, r2
+	mov	=-4503599627370496, r1
+	mov	=9218868437227405312, r2
 	clr	r3
 	fcbgt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f563
-	movq	=-4503599627370496, r1
-	movq	=-4503599627370496, r2
+	mov	=-4503599627370496, r1
+	mov	=-4503599627370496, r2
 	clr	r3
 	fcbgt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f564
-	movq	=-4503599627370496, r1
-	movq	=9221120237041090560, r2
+	mov	=-4503599627370496, r1
+	mov	=9221120237041090560, r2
 	clr	r3
 	fcbgt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f565
-	movq	=9221120237041090560, r1
-	movq	=0, r2
+	mov	=9221120237041090560, r1
+	mov	=0, r2
 	clr	r3
 	fcbgt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f566
-	movq	=9221120237041090560, r1
-	movq	=-9223372036854775808, r2
+	mov	=9221120237041090560, r1
+	mov	=-9223372036854775808, r2
 	clr	r3
 	fcbgt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f567
-	movq	=9221120237041090560, r1
-	movq	=4607182418800017408, r2
+	mov	=9221120237041090560, r1
+	mov	=4607182418800017408, r2
 	clr	r3
 	fcbgt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f568
-	movq	=9221120237041090560, r1
-	movq	=-4613937818241073152, r2
+	mov	=9221120237041090560, r1
+	mov	=-4613937818241073152, r2
 	clr	r3
 	fcbgt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f569
-	movq	=9221120237041090560, r1
-	movq	=4612811918334230528, r2
+	mov	=9221120237041090560, r1
+	mov	=4612811918334230528, r2
 	clr	r3
 	fcbgt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f570
-	movq	=9221120237041090560, r1
-	movq	=9218868437227405312, r2
+	mov	=9221120237041090560, r1
+	mov	=9218868437227405312, r2
 	clr	r3
 	fcbgt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f571
-	movq	=9221120237041090560, r1
-	movq	=-4503599627370496, r2
+	mov	=9221120237041090560, r1
+	mov	=-4503599627370496, r2
 	clr	r3
 	fcbgt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f572
-	movq	=9221120237041090560, r1
-	movq	=9221120237041090560, r2
+	mov	=9221120237041090560, r1
+	mov	=9221120237041090560, r2
 	clr	r3
 	fcbgt	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f573
-	movq	=0, r1
-	movq	=0, r2
+	mov	=0, r1
+	mov	=0, r2
 	clr	r3
 	fcbge	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f574
-	movq	=0, r1
-	movq	=-9223372036854775808, r2
+	mov	=0, r1
+	mov	=-9223372036854775808, r2
 	clr	r3
 	fcbge	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f575
-	movq	=0, r1
-	movq	=4607182418800017408, r2
+	mov	=0, r1
+	mov	=4607182418800017408, r2
 	clr	r3
 	fcbge	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f576
-	movq	=0, r1
-	movq	=-4613937818241073152, r2
+	mov	=0, r1
+	mov	=-4613937818241073152, r2
 	clr	r3
 	fcbge	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f577
-	movq	=0, r1
-	movq	=4612811918334230528, r2
+	mov	=0, r1
+	mov	=4612811918334230528, r2
 	clr	r3
 	fcbge	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f578
-	movq	=0, r1
-	movq	=9218868437227405312, r2
+	mov	=0, r1
+	mov	=9218868437227405312, r2
 	clr	r3
 	fcbge	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f579
-	movq	=0, r1
-	movq	=-4503599627370496, r2
+	mov	=0, r1
+	mov	=-4503599627370496, r2
 	clr	r3
 	fcbge	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f580
-	movq	=0, r1
-	movq	=9221120237041090560, r2
+	mov	=0, r1
+	mov	=9221120237041090560, r2
 	clr	r3
 	fcbge	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f581
-	movq	=-9223372036854775808, r1
-	movq	=0, r2
+	mov	=-9223372036854775808, r1
+	mov	=0, r2
 	clr	r3
 	fcbge	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f582
-	movq	=-9223372036854775808, r1
-	movq	=-9223372036854775808, r2
+	mov	=-9223372036854775808, r1
+	mov	=-9223372036854775808, r2
 	clr	r3
 	fcbge	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f583
-	movq	=-9223372036854775808, r1
-	movq	=4607182418800017408, r2
+	mov	=-9223372036854775808, r1
+	mov	=4607182418800017408, r2
 	clr	r3
 	fcbge	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f584
-	movq	=-9223372036854775808, r1
-	movq	=-4613937818241073152, r2
+	mov	=-9223372036854775808, r1
+	mov	=-4613937818241073152, r2
 	clr	r3
 	fcbge	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f585
-	movq	=-9223372036854775808, r1
-	movq	=4612811918334230528, r2
+	mov	=-9223372036854775808, r1
+	mov	=4612811918334230528, r2
 	clr	r3
 	fcbge	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f586
-	movq	=-9223372036854775808, r1
-	movq	=9218868437227405312, r2
+	mov	=-9223372036854775808, r1
+	mov	=9218868437227405312, r2
 	clr	r3
 	fcbge	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f587
-	movq	=-9223372036854775808, r1
-	movq	=-4503599627370496, r2
+	mov	=-9223372036854775808, r1
+	mov	=-4503599627370496, r2
 	clr	r3
 	fcbge	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f588
-	movq	=-9223372036854775808, r1
-	movq	=9221120237041090560, r2
+	mov	=-9223372036854775808, r1
+	mov	=9221120237041090560, r2
 	clr	r3
 	fcbge	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f589
-	movq	=4607182418800017408, r1
-	movq	=0, r2
+	mov	=4607182418800017408, r1
+	mov	=0, r2
 	clr	r3
 	fcbge	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f590
-	movq	=4607182418800017408, r1
-	movq	=-9223372036854775808, r2
+	mov	=4607182418800017408, r1
+	mov	=-9223372036854775808, r2
 	clr	r3
 	fcbge	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f591
-	movq	=4607182418800017408, r1
-	movq	=4607182418800017408, r2
+	mov	=4607182418800017408, r1
+	mov	=4607182418800017408, r2
 	clr	r3
 	fcbge	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f592
-	movq	=4607182418800017408, r1
-	movq	=-4613937818241073152, r2
+	mov	=4607182418800017408, r1
+	mov	=-4613937818241073152, r2
 	clr	r3
 	fcbge	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f593
-	movq	=4607182418800017408, r1
-	movq	=4612811918334230528, r2
+	mov	=4607182418800017408, r1
+	mov	=4612811918334230528, r2
 	clr	r3
 	fcbge	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f594
-	movq	=4607182418800017408, r1
-	movq	=9218868437227405312, r2
+	mov	=4607182418800017408, r1
+	mov	=9218868437227405312, r2
 	clr	r3
 	fcbge	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f595
-	movq	=4607182418800017408, r1
-	movq	=-4503599627370496, r2
+	mov	=4607182418800017408, r1
+	mov	=-4503599627370496, r2
 	clr	r3
 	fcbge	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f596
-	movq	=4607182418800017408, r1
-	movq	=9221120237041090560, r2
+	mov	=4607182418800017408, r1
+	mov	=9221120237041090560, r2
 	clr	r3
 	fcbge	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f597
-	movq	=-4613937818241073152, r1
-	movq	=0, r2
+	mov	=-4613937818241073152, r1
+	mov	=0, r2
 	clr	r3
 	fcbge	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f598
-	movq	=-4613937818241073152, r1
-	movq	=-9223372036854775808, r2
+	mov	=-4613937818241073152, r1
+	mov	=-9223372036854775808, r2
 	clr	r3
 	fcbge	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f599
-	movq	=-4613937818241073152, r1
-	movq	=4607182418800017408, r2
+	mov	=-4613937818241073152, r1
+	mov	=4607182418800017408, r2
 	clr	r3
 	fcbge	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f600
-	movq	=-4613937818241073152, r1
-	movq	=-4613937818241073152, r2
+	mov	=-4613937818241073152, r1
+	mov	=-4613937818241073152, r2
 	clr	r3
 	fcbge	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f601
-	movq	=-4613937818241073152, r1
-	movq	=4612811918334230528, r2
+	mov	=-4613937818241073152, r1
+	mov	=4612811918334230528, r2
 	clr	r3
 	fcbge	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f602
-	movq	=-4613937818241073152, r1
-	movq	=9218868437227405312, r2
+	mov	=-4613937818241073152, r1
+	mov	=9218868437227405312, r2
 	clr	r3
 	fcbge	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f603
-	movq	=-4613937818241073152, r1
-	movq	=-4503599627370496, r2
+	mov	=-4613937818241073152, r1
+	mov	=-4503599627370496, r2
 	clr	r3
 	fcbge	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f604
-	movq	=-4613937818241073152, r1
-	movq	=9221120237041090560, r2
+	mov	=-4613937818241073152, r1
+	mov	=9221120237041090560, r2
 	clr	r3
 	fcbge	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f605
-	movq	=4612811918334230528, r1
-	movq	=0, r2
+	mov	=4612811918334230528, r1
+	mov	=0, r2
 	clr	r3
 	fcbge	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f606
-	movq	=4612811918334230528, r1
-	movq	=-9223372036854775808, r2
+	mov	=4612811918334230528, r1
+	mov	=-9223372036854775808, r2
 	clr	r3
 	fcbge	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f607
-	movq	=4612811918334230528, r1
-	movq	=4607182418800017408, r2
+	mov	=4612811918334230528, r1
+	mov	=4607182418800017408, r2
 	clr	r3
 	fcbge	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f608
-	movq	=4612811918334230528, r1
-	movq	=-4613937818241073152, r2
+	mov	=4612811918334230528, r1
+	mov	=-4613937818241073152, r2
 	clr	r3
 	fcbge	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f609
-	movq	=4612811918334230528, r1
-	movq	=4612811918334230528, r2
+	mov	=4612811918334230528, r1
+	mov	=4612811918334230528, r2
 	clr	r3
 	fcbge	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f610
-	movq	=4612811918334230528, r1
-	movq	=9218868437227405312, r2
+	mov	=4612811918334230528, r1
+	mov	=9218868437227405312, r2
 	clr	r3
 	fcbge	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f611
-	movq	=4612811918334230528, r1
-	movq	=-4503599627370496, r2
+	mov	=4612811918334230528, r1
+	mov	=-4503599627370496, r2
 	clr	r3
 	fcbge	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f612
-	movq	=4612811918334230528, r1
-	movq	=9221120237041090560, r2
+	mov	=4612811918334230528, r1
+	mov	=9221120237041090560, r2
 	clr	r3
 	fcbge	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f613
-	movq	=9218868437227405312, r1
-	movq	=0, r2
+	mov	=9218868437227405312, r1
+	mov	=0, r2
 	clr	r3
 	fcbge	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f614
-	movq	=9218868437227405312, r1
-	movq	=-9223372036854775808, r2
+	mov	=9218868437227405312, r1
+	mov	=-9223372036854775808, r2
 	clr	r3
 	fcbge	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f615
-	movq	=9218868437227405312, r1
-	movq	=4607182418800017408, r2
+	mov	=9218868437227405312, r1
+	mov	=4607182418800017408, r2
 	clr	r3
 	fcbge	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f616
-	movq	=9218868437227405312, r1
-	movq	=-4613937818241073152, r2
+	mov	=9218868437227405312, r1
+	mov	=-4613937818241073152, r2
 	clr	r3
 	fcbge	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f617
-	movq	=9218868437227405312, r1
-	movq	=4612811918334230528, r2
+	mov	=9218868437227405312, r1
+	mov	=4612811918334230528, r2
 	clr	r3
 	fcbge	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f618
-	movq	=9218868437227405312, r1
-	movq	=9218868437227405312, r2
+	mov	=9218868437227405312, r1
+	mov	=9218868437227405312, r2
 	clr	r3
 	fcbge	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f619
-	movq	=9218868437227405312, r1
-	movq	=-4503599627370496, r2
+	mov	=9218868437227405312, r1
+	mov	=-4503599627370496, r2
 	clr	r3
 	fcbge	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f620
-	movq	=9218868437227405312, r1
-	movq	=9221120237041090560, r2
+	mov	=9218868437227405312, r1
+	mov	=9221120237041090560, r2
 	clr	r3
 	fcbge	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f621
-	movq	=-4503599627370496, r1
-	movq	=0, r2
+	mov	=-4503599627370496, r1
+	mov	=0, r2
 	clr	r3
 	fcbge	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f622
-	movq	=-4503599627370496, r1
-	movq	=-9223372036854775808, r2
+	mov	=-4503599627370496, r1
+	mov	=-9223372036854775808, r2
 	clr	r3
 	fcbge	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f623
-	movq	=-4503599627370496, r1
-	movq	=4607182418800017408, r2
+	mov	=-4503599627370496, r1
+	mov	=4607182418800017408, r2
 	clr	r3
 	fcbge	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f624
-	movq	=-4503599627370496, r1
-	movq	=-4613937818241073152, r2
+	mov	=-4503599627370496, r1
+	mov	=-4613937818241073152, r2
 	clr	r3
 	fcbge	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f625
-	movq	=-4503599627370496, r1
-	movq	=4612811918334230528, r2
+	mov	=-4503599627370496, r1
+	mov	=4612811918334230528, r2
 	clr	r3
 	fcbge	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f626
-	movq	=-4503599627370496, r1
-	movq	=9218868437227405312, r2
+	mov	=-4503599627370496, r1
+	mov	=9218868437227405312, r2
 	clr	r3
 	fcbge	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f627
-	movq	=-4503599627370496, r1
-	movq	=-4503599627370496, r2
+	mov	=-4503599627370496, r1
+	mov	=-4503599627370496, r2
 	clr	r3
 	fcbge	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f628
-	movq	=-4503599627370496, r1
-	movq	=9221120237041090560, r2
+	mov	=-4503599627370496, r1
+	mov	=9221120237041090560, r2
 	clr	r3
 	fcbge	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f629
-	movq	=9221120237041090560, r1
-	movq	=0, r2
+	mov	=9221120237041090560, r1
+	mov	=0, r2
 	clr	r3
 	fcbge	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f630
-	movq	=9221120237041090560, r1
-	movq	=-9223372036854775808, r2
+	mov	=9221120237041090560, r1
+	mov	=-9223372036854775808, r2
 	clr	r3
 	fcbge	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f631
-	movq	=9221120237041090560, r1
-	movq	=4607182418800017408, r2
+	mov	=9221120237041090560, r1
+	mov	=4607182418800017408, r2
 	clr	r3
 	fcbge	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f632
-	movq	=9221120237041090560, r1
-	movq	=-4613937818241073152, r2
+	mov	=9221120237041090560, r1
+	mov	=-4613937818241073152, r2
 	clr	r3
 	fcbge	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f633
-	movq	=9221120237041090560, r1
-	movq	=4612811918334230528, r2
+	mov	=9221120237041090560, r1
+	mov	=4612811918334230528, r2
 	clr	r3
 	fcbge	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f634
-	movq	=9221120237041090560, r1
-	movq	=9218868437227405312, r2
+	mov	=9221120237041090560, r1
+	mov	=9218868437227405312, r2
 	clr	r3
 	fcbge	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f635
-	movq	=9221120237041090560, r1
-	movq	=-4503599627370496, r2
+	mov	=9221120237041090560, r1
+	mov	=-4503599627370496, r2
 	clr	r3
 	fcbge	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f636
-	movq	=9221120237041090560, r1
-	movq	=9221120237041090560, r2
+	mov	=9221120237041090560, r1
+	mov	=9221120237041090560, r2
 	clr	r3
 	fcbge	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f637
-	movq	=0, r1
-	movq	=0, r2
+	mov	=0, r1
+	mov	=0, r2
 	clr	r3
 	fcbuo	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f638
-	movq	=0, r1
-	movq	=-9223372036854775808, r2
+	mov	=0, r1
+	mov	=-9223372036854775808, r2
 	clr	r3
 	fcbuo	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f639
-	movq	=0, r1
-	movq	=4607182418800017408, r2
+	mov	=0, r1
+	mov	=4607182418800017408, r2
 	clr	r3
 	fcbuo	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f640
-	movq	=0, r1
-	movq	=-4613937818241073152, r2
+	mov	=0, r1
+	mov	=-4613937818241073152, r2
 	clr	r3
 	fcbuo	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f641
-	movq	=0, r1
-	movq	=4612811918334230528, r2
+	mov	=0, r1
+	mov	=4612811918334230528, r2
 	clr	r3
 	fcbuo	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f642
-	movq	=0, r1
-	movq	=9218868437227405312, r2
+	mov	=0, r1
+	mov	=9218868437227405312, r2
 	clr	r3
 	fcbuo	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f643
-	movq	=0, r1
-	movq	=-4503599627370496, r2
+	mov	=0, r1
+	mov	=-4503599627370496, r2
 	clr	r3
 	fcbuo	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f644
-	movq	=0, r1
-	movq	=9221120237041090560, r2
+	mov	=0, r1
+	mov	=9221120237041090560, r2
 	clr	r3
 	fcbuo	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f645
-	movq	=-9223372036854775808, r1
-	movq	=0, r2
+	mov	=-9223372036854775808, r1
+	mov	=0, r2
 	clr	r3
 	fcbuo	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f646
-	movq	=-9223372036854775808, r1
-	movq	=-9223372036854775808, r2
+	mov	=-9223372036854775808, r1
+	mov	=-9223372036854775808, r2
 	clr	r3
 	fcbuo	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f647
-	movq	=-9223372036854775808, r1
-	movq	=4607182418800017408, r2
+	mov	=-9223372036854775808, r1
+	mov	=4607182418800017408, r2
 	clr	r3
 	fcbuo	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f648
-	movq	=-9223372036854775808, r1
-	movq	=-4613937818241073152, r2
+	mov	=-9223372036854775808, r1
+	mov	=-4613937818241073152, r2
 	clr	r3
 	fcbuo	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f649
-	movq	=-9223372036854775808, r1
-	movq	=4612811918334230528, r2
+	mov	=-9223372036854775808, r1
+	mov	=4612811918334230528, r2
 	clr	r3
 	fcbuo	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f650
-	movq	=-9223372036854775808, r1
-	movq	=9218868437227405312, r2
+	mov	=-9223372036854775808, r1
+	mov	=9218868437227405312, r2
 	clr	r3
 	fcbuo	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f651
-	movq	=-9223372036854775808, r1
-	movq	=-4503599627370496, r2
+	mov	=-9223372036854775808, r1
+	mov	=-4503599627370496, r2
 	clr	r3
 	fcbuo	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f652
-	movq	=-9223372036854775808, r1
-	movq	=9221120237041090560, r2
+	mov	=-9223372036854775808, r1
+	mov	=9221120237041090560, r2
 	clr	r3
 	fcbuo	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f653
-	movq	=4607182418800017408, r1
-	movq	=0, r2
+	mov	=4607182418800017408, r1
+	mov	=0, r2
 	clr	r3
 	fcbuo	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f654
-	movq	=4607182418800017408, r1
-	movq	=-9223372036854775808, r2
+	mov	=4607182418800017408, r1
+	mov	=-9223372036854775808, r2
 	clr	r3
 	fcbuo	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f655
-	movq	=4607182418800017408, r1
-	movq	=4607182418800017408, r2
+	mov	=4607182418800017408, r1
+	mov	=4607182418800017408, r2
 	clr	r3
 	fcbuo	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f656
-	movq	=4607182418800017408, r1
-	movq	=-4613937818241073152, r2
+	mov	=4607182418800017408, r1
+	mov	=-4613937818241073152, r2
 	clr	r3
 	fcbuo	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f657
-	movq	=4607182418800017408, r1
-	movq	=4612811918334230528, r2
+	mov	=4607182418800017408, r1
+	mov	=4612811918334230528, r2
 	clr	r3
 	fcbuo	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f658
-	movq	=4607182418800017408, r1
-	movq	=9218868437227405312, r2
+	mov	=4607182418800017408, r1
+	mov	=9218868437227405312, r2
 	clr	r3
 	fcbuo	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f659
-	movq	=4607182418800017408, r1
-	movq	=-4503599627370496, r2
+	mov	=4607182418800017408, r1
+	mov	=-4503599627370496, r2
 	clr	r3
 	fcbuo	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f660
-	movq	=4607182418800017408, r1
-	movq	=9221120237041090560, r2
+	mov	=4607182418800017408, r1
+	mov	=9221120237041090560, r2
 	clr	r3
 	fcbuo	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f661
-	movq	=-4613937818241073152, r1
-	movq	=0, r2
+	mov	=-4613937818241073152, r1
+	mov	=0, r2
 	clr	r3
 	fcbuo	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f662
-	movq	=-4613937818241073152, r1
-	movq	=-9223372036854775808, r2
+	mov	=-4613937818241073152, r1
+	mov	=-9223372036854775808, r2
 	clr	r3
 	fcbuo	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f663
-	movq	=-4613937818241073152, r1
-	movq	=4607182418800017408, r2
+	mov	=-4613937818241073152, r1
+	mov	=4607182418800017408, r2
 	clr	r3
 	fcbuo	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f664
-	movq	=-4613937818241073152, r1
-	movq	=-4613937818241073152, r2
+	mov	=-4613937818241073152, r1
+	mov	=-4613937818241073152, r2
 	clr	r3
 	fcbuo	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f665
-	movq	=-4613937818241073152, r1
-	movq	=4612811918334230528, r2
+	mov	=-4613937818241073152, r1
+	mov	=4612811918334230528, r2
 	clr	r3
 	fcbuo	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f666
-	movq	=-4613937818241073152, r1
-	movq	=9218868437227405312, r2
+	mov	=-4613937818241073152, r1
+	mov	=9218868437227405312, r2
 	clr	r3
 	fcbuo	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f667
-	movq	=-4613937818241073152, r1
-	movq	=-4503599627370496, r2
+	mov	=-4613937818241073152, r1
+	mov	=-4503599627370496, r2
 	clr	r3
 	fcbuo	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f668
-	movq	=-4613937818241073152, r1
-	movq	=9221120237041090560, r2
+	mov	=-4613937818241073152, r1
+	mov	=9221120237041090560, r2
 	clr	r3
 	fcbuo	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f669
-	movq	=4612811918334230528, r1
-	movq	=0, r2
+	mov	=4612811918334230528, r1
+	mov	=0, r2
 	clr	r3
 	fcbuo	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f670
-	movq	=4612811918334230528, r1
-	movq	=-9223372036854775808, r2
+	mov	=4612811918334230528, r1
+	mov	=-9223372036854775808, r2
 	clr	r3
 	fcbuo	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f671
-	movq	=4612811918334230528, r1
-	movq	=4607182418800017408, r2
+	mov	=4612811918334230528, r1
+	mov	=4607182418800017408, r2
 	clr	r3
 	fcbuo	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f672
-	movq	=4612811918334230528, r1
-	movq	=-4613937818241073152, r2
+	mov	=4612811918334230528, r1
+	mov	=-4613937818241073152, r2
 	clr	r3
 	fcbuo	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f673
-	movq	=4612811918334230528, r1
-	movq	=4612811918334230528, r2
+	mov	=4612811918334230528, r1
+	mov	=4612811918334230528, r2
 	clr	r3
 	fcbuo	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f674
-	movq	=4612811918334230528, r1
-	movq	=9218868437227405312, r2
+	mov	=4612811918334230528, r1
+	mov	=9218868437227405312, r2
 	clr	r3
 	fcbuo	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f675
-	movq	=4612811918334230528, r1
-	movq	=-4503599627370496, r2
+	mov	=4612811918334230528, r1
+	mov	=-4503599627370496, r2
 	clr	r3
 	fcbuo	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f676
-	movq	=4612811918334230528, r1
-	movq	=9221120237041090560, r2
+	mov	=4612811918334230528, r1
+	mov	=9221120237041090560, r2
 	clr	r3
 	fcbuo	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f677
-	movq	=9218868437227405312, r1
-	movq	=0, r2
+	mov	=9218868437227405312, r1
+	mov	=0, r2
 	clr	r3
 	fcbuo	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f678
-	movq	=9218868437227405312, r1
-	movq	=-9223372036854775808, r2
+	mov	=9218868437227405312, r1
+	mov	=-9223372036854775808, r2
 	clr	r3
 	fcbuo	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f679
-	movq	=9218868437227405312, r1
-	movq	=4607182418800017408, r2
+	mov	=9218868437227405312, r1
+	mov	=4607182418800017408, r2
 	clr	r3
 	fcbuo	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f680
-	movq	=9218868437227405312, r1
-	movq	=-4613937818241073152, r2
+	mov	=9218868437227405312, r1
+	mov	=-4613937818241073152, r2
 	clr	r3
 	fcbuo	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f681
-	movq	=9218868437227405312, r1
-	movq	=4612811918334230528, r2
+	mov	=9218868437227405312, r1
+	mov	=4612811918334230528, r2
 	clr	r3
 	fcbuo	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f682
-	movq	=9218868437227405312, r1
-	movq	=9218868437227405312, r2
+	mov	=9218868437227405312, r1
+	mov	=9218868437227405312, r2
 	clr	r3
 	fcbuo	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f683
-	movq	=9218868437227405312, r1
-	movq	=-4503599627370496, r2
+	mov	=9218868437227405312, r1
+	mov	=-4503599627370496, r2
 	clr	r3
 	fcbuo	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f684
-	movq	=9218868437227405312, r1
-	movq	=9221120237041090560, r2
+	mov	=9218868437227405312, r1
+	mov	=9221120237041090560, r2
 	clr	r3
 	fcbuo	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f685
-	movq	=-4503599627370496, r1
-	movq	=0, r2
+	mov	=-4503599627370496, r1
+	mov	=0, r2
 	clr	r3
 	fcbuo	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f686
-	movq	=-4503599627370496, r1
-	movq	=-9223372036854775808, r2
+	mov	=-4503599627370496, r1
+	mov	=-9223372036854775808, r2
 	clr	r3
 	fcbuo	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f687
-	movq	=-4503599627370496, r1
-	movq	=4607182418800017408, r2
+	mov	=-4503599627370496, r1
+	mov	=4607182418800017408, r2
 	clr	r3
 	fcbuo	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f688
-	movq	=-4503599627370496, r1
-	movq	=-4613937818241073152, r2
+	mov	=-4503599627370496, r1
+	mov	=-4613937818241073152, r2
 	clr	r3
 	fcbuo	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f689
-	movq	=-4503599627370496, r1
-	movq	=4612811918334230528, r2
+	mov	=-4503599627370496, r1
+	mov	=4612811918334230528, r2
 	clr	r3
 	fcbuo	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f690
-	movq	=-4503599627370496, r1
-	movq	=9218868437227405312, r2
+	mov	=-4503599627370496, r1
+	mov	=9218868437227405312, r2
 	clr	r3
 	fcbuo	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f691
-	movq	=-4503599627370496, r1
-	movq	=-4503599627370496, r2
+	mov	=-4503599627370496, r1
+	mov	=-4503599627370496, r2
 	clr	r3
 	fcbuo	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f692
-	movq	=-4503599627370496, r1
-	movq	=9221120237041090560, r2
+	mov	=-4503599627370496, r1
+	mov	=9221120237041090560, r2
 	clr	r3
 	fcbuo	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f693
-	movq	=9221120237041090560, r1
-	movq	=0, r2
+	mov	=9221120237041090560, r1
+	mov	=0, r2
 	clr	r3
 	fcbuo	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f694
-	movq	=9221120237041090560, r1
-	movq	=-9223372036854775808, r2
+	mov	=9221120237041090560, r1
+	mov	=-9223372036854775808, r2
 	clr	r3
 	fcbuo	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f695
-	movq	=9221120237041090560, r1
-	movq	=4607182418800017408, r2
+	mov	=9221120237041090560, r1
+	mov	=4607182418800017408, r2
 	clr	r3
 	fcbuo	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f696
-	movq	=9221120237041090560, r1
-	movq	=-4613937818241073152, r2
+	mov	=9221120237041090560, r1
+	mov	=-4613937818241073152, r2
 	clr	r3
 	fcbuo	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f697
-	movq	=9221120237041090560, r1
-	movq	=4612811918334230528, r2
+	mov	=9221120237041090560, r1
+	mov	=4612811918334230528, r2
 	clr	r3
 	fcbuo	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f698
-	movq	=9221120237041090560, r1
-	movq	=9218868437227405312, r2
+	mov	=9221120237041090560, r1
+	mov	=9218868437227405312, r2
 	clr	r3
 	fcbuo	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f699
-	movq	=9221120237041090560, r1
-	movq	=-4503599627370496, r2
+	mov	=9221120237041090560, r1
+	mov	=-4503599627370496, r2
 	clr	r3
 	fcbuo	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f700
-	movq	=9221120237041090560, r1
-	movq	=9221120237041090560, r2
+	mov	=9221120237041090560, r1
+	mov	=9221120237041090560, r2
 	clr	r3
 	fcbuo	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f701
-	movq	=0, r1
-	movq	=0, r2
+	mov	=0, r1
+	mov	=0, r2
 	clr	r3
 	fcbor	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f702
-	movq	=0, r1
-	movq	=-9223372036854775808, r2
+	mov	=0, r1
+	mov	=-9223372036854775808, r2
 	clr	r3
 	fcbor	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f703
-	movq	=0, r1
-	movq	=4607182418800017408, r2
+	mov	=0, r1
+	mov	=4607182418800017408, r2
 	clr	r3
 	fcbor	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f704
-	movq	=0, r1
-	movq	=-4613937818241073152, r2
+	mov	=0, r1
+	mov	=-4613937818241073152, r2
 	clr	r3
 	fcbor	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f705
-	movq	=0, r1
-	movq	=4612811918334230528, r2
+	mov	=0, r1
+	mov	=4612811918334230528, r2
 	clr	r3
 	fcbor	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f706
-	movq	=0, r1
-	movq	=9218868437227405312, r2
+	mov	=0, r1
+	mov	=9218868437227405312, r2
 	clr	r3
 	fcbor	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f707
-	movq	=0, r1
-	movq	=-4503599627370496, r2
+	mov	=0, r1
+	mov	=-4503599627370496, r2
 	clr	r3
 	fcbor	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f708
-	movq	=0, r1
-	movq	=9221120237041090560, r2
+	mov	=0, r1
+	mov	=9221120237041090560, r2
 	clr	r3
 	fcbor	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f709
-	movq	=-9223372036854775808, r1
-	movq	=0, r2
+	mov	=-9223372036854775808, r1
+	mov	=0, r2
 	clr	r3
 	fcbor	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f710
-	movq	=-9223372036854775808, r1
-	movq	=-9223372036854775808, r2
+	mov	=-9223372036854775808, r1
+	mov	=-9223372036854775808, r2
 	clr	r3
 	fcbor	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f711
-	movq	=-9223372036854775808, r1
-	movq	=4607182418800017408, r2
+	mov	=-9223372036854775808, r1
+	mov	=4607182418800017408, r2
 	clr	r3
 	fcbor	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f712
-	movq	=-9223372036854775808, r1
-	movq	=-4613937818241073152, r2
+	mov	=-9223372036854775808, r1
+	mov	=-4613937818241073152, r2
 	clr	r3
 	fcbor	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f713
-	movq	=-9223372036854775808, r1
-	movq	=4612811918334230528, r2
+	mov	=-9223372036854775808, r1
+	mov	=4612811918334230528, r2
 	clr	r3
 	fcbor	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f714
-	movq	=-9223372036854775808, r1
-	movq	=9218868437227405312, r2
+	mov	=-9223372036854775808, r1
+	mov	=9218868437227405312, r2
 	clr	r3
 	fcbor	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f715
-	movq	=-9223372036854775808, r1
-	movq	=-4503599627370496, r2
+	mov	=-9223372036854775808, r1
+	mov	=-4503599627370496, r2
 	clr	r3
 	fcbor	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f716
-	movq	=-9223372036854775808, r1
-	movq	=9221120237041090560, r2
+	mov	=-9223372036854775808, r1
+	mov	=9221120237041090560, r2
 	clr	r3
 	fcbor	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f717
-	movq	=4607182418800017408, r1
-	movq	=0, r2
+	mov	=4607182418800017408, r1
+	mov	=0, r2
 	clr	r3
 	fcbor	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f718
-	movq	=4607182418800017408, r1
-	movq	=-9223372036854775808, r2
+	mov	=4607182418800017408, r1
+	mov	=-9223372036854775808, r2
 	clr	r3
 	fcbor	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f719
-	movq	=4607182418800017408, r1
-	movq	=4607182418800017408, r2
+	mov	=4607182418800017408, r1
+	mov	=4607182418800017408, r2
 	clr	r3
 	fcbor	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f720
-	movq	=4607182418800017408, r1
-	movq	=-4613937818241073152, r2
+	mov	=4607182418800017408, r1
+	mov	=-4613937818241073152, r2
 	clr	r3
 	fcbor	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f721
-	movq	=4607182418800017408, r1
-	movq	=4612811918334230528, r2
+	mov	=4607182418800017408, r1
+	mov	=4612811918334230528, r2
 	clr	r3
 	fcbor	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f722
-	movq	=4607182418800017408, r1
-	movq	=9218868437227405312, r2
+	mov	=4607182418800017408, r1
+	mov	=9218868437227405312, r2
 	clr	r3
 	fcbor	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f723
-	movq	=4607182418800017408, r1
-	movq	=-4503599627370496, r2
+	mov	=4607182418800017408, r1
+	mov	=-4503599627370496, r2
 	clr	r3
 	fcbor	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f724
-	movq	=4607182418800017408, r1
-	movq	=9221120237041090560, r2
+	mov	=4607182418800017408, r1
+	mov	=9221120237041090560, r2
 	clr	r3
 	fcbor	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f725
-	movq	=-4613937818241073152, r1
-	movq	=0, r2
+	mov	=-4613937818241073152, r1
+	mov	=0, r2
 	clr	r3
 	fcbor	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f726
-	movq	=-4613937818241073152, r1
-	movq	=-9223372036854775808, r2
+	mov	=-4613937818241073152, r1
+	mov	=-9223372036854775808, r2
 	clr	r3
 	fcbor	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f727
-	movq	=-4613937818241073152, r1
-	movq	=4607182418800017408, r2
+	mov	=-4613937818241073152, r1
+	mov	=4607182418800017408, r2
 	clr	r3
 	fcbor	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f728
-	movq	=-4613937818241073152, r1
-	movq	=-4613937818241073152, r2
+	mov	=-4613937818241073152, r1
+	mov	=-4613937818241073152, r2
 	clr	r3
 	fcbor	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f729
-	movq	=-4613937818241073152, r1
-	movq	=4612811918334230528, r2
+	mov	=-4613937818241073152, r1
+	mov	=4612811918334230528, r2
 	clr	r3
 	fcbor	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f730
-	movq	=-4613937818241073152, r1
-	movq	=9218868437227405312, r2
+	mov	=-4613937818241073152, r1
+	mov	=9218868437227405312, r2
 	clr	r3
 	fcbor	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f731
-	movq	=-4613937818241073152, r1
-	movq	=-4503599627370496, r2
+	mov	=-4613937818241073152, r1
+	mov	=-4503599627370496, r2
 	clr	r3
 	fcbor	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f732
-	movq	=-4613937818241073152, r1
-	movq	=9221120237041090560, r2
+	mov	=-4613937818241073152, r1
+	mov	=9221120237041090560, r2
 	clr	r3
 	fcbor	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f733
-	movq	=4612811918334230528, r1
-	movq	=0, r2
+	mov	=4612811918334230528, r1
+	mov	=0, r2
 	clr	r3
 	fcbor	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f734
-	movq	=4612811918334230528, r1
-	movq	=-9223372036854775808, r2
+	mov	=4612811918334230528, r1
+	mov	=-9223372036854775808, r2
 	clr	r3
 	fcbor	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f735
-	movq	=4612811918334230528, r1
-	movq	=4607182418800017408, r2
+	mov	=4612811918334230528, r1
+	mov	=4607182418800017408, r2
 	clr	r3
 	fcbor	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f736
-	movq	=4612811918334230528, r1
-	movq	=-4613937818241073152, r2
+	mov	=4612811918334230528, r1
+	mov	=-4613937818241073152, r2
 	clr	r3
 	fcbor	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f737
-	movq	=4612811918334230528, r1
-	movq	=4612811918334230528, r2
+	mov	=4612811918334230528, r1
+	mov	=4612811918334230528, r2
 	clr	r3
 	fcbor	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f738
-	movq	=4612811918334230528, r1
-	movq	=9218868437227405312, r2
+	mov	=4612811918334230528, r1
+	mov	=9218868437227405312, r2
 	clr	r3
 	fcbor	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f739
-	movq	=4612811918334230528, r1
-	movq	=-4503599627370496, r2
+	mov	=4612811918334230528, r1
+	mov	=-4503599627370496, r2
 	clr	r3
 	fcbor	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f740
-	movq	=4612811918334230528, r1
-	movq	=9221120237041090560, r2
+	mov	=4612811918334230528, r1
+	mov	=9221120237041090560, r2
 	clr	r3
 	fcbor	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f741
-	movq	=9218868437227405312, r1
-	movq	=0, r2
+	mov	=9218868437227405312, r1
+	mov	=0, r2
 	clr	r3
 	fcbor	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f742
-	movq	=9218868437227405312, r1
-	movq	=-9223372036854775808, r2
+	mov	=9218868437227405312, r1
+	mov	=-9223372036854775808, r2
 	clr	r3
 	fcbor	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f743
-	movq	=9218868437227405312, r1
-	movq	=4607182418800017408, r2
+	mov	=9218868437227405312, r1
+	mov	=4607182418800017408, r2
 	clr	r3
 	fcbor	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f744
-	movq	=9218868437227405312, r1
-	movq	=-4613937818241073152, r2
+	mov	=9218868437227405312, r1
+	mov	=-4613937818241073152, r2
 	clr	r3
 	fcbor	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f745
-	movq	=9218868437227405312, r1
-	movq	=4612811918334230528, r2
+	mov	=9218868437227405312, r1
+	mov	=4612811918334230528, r2
 	clr	r3
 	fcbor	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f746
-	movq	=9218868437227405312, r1
-	movq	=9218868437227405312, r2
+	mov	=9218868437227405312, r1
+	mov	=9218868437227405312, r2
 	clr	r3
 	fcbor	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f747
-	movq	=9218868437227405312, r1
-	movq	=-4503599627370496, r2
+	mov	=9218868437227405312, r1
+	mov	=-4503599627370496, r2
 	clr	r3
 	fcbor	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f748
-	movq	=9218868437227405312, r1
-	movq	=9221120237041090560, r2
+	mov	=9218868437227405312, r1
+	mov	=9221120237041090560, r2
 	clr	r3
 	fcbor	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f749
-	movq	=-4503599627370496, r1
-	movq	=0, r2
+	mov	=-4503599627370496, r1
+	mov	=0, r2
 	clr	r3
 	fcbor	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f750
-	movq	=-4503599627370496, r1
-	movq	=-9223372036854775808, r2
+	mov	=-4503599627370496, r1
+	mov	=-9223372036854775808, r2
 	clr	r3
 	fcbor	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f751
-	movq	=-4503599627370496, r1
-	movq	=4607182418800017408, r2
+	mov	=-4503599627370496, r1
+	mov	=4607182418800017408, r2
 	clr	r3
 	fcbor	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f752
-	movq	=-4503599627370496, r1
-	movq	=-4613937818241073152, r2
+	mov	=-4503599627370496, r1
+	mov	=-4613937818241073152, r2
 	clr	r3
 	fcbor	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f753
-	movq	=-4503599627370496, r1
-	movq	=4612811918334230528, r2
+	mov	=-4503599627370496, r1
+	mov	=4612811918334230528, r2
 	clr	r3
 	fcbor	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f754
-	movq	=-4503599627370496, r1
-	movq	=9218868437227405312, r2
+	mov	=-4503599627370496, r1
+	mov	=9218868437227405312, r2
 	clr	r3
 	fcbor	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f755
-	movq	=-4503599627370496, r1
-	movq	=-4503599627370496, r2
+	mov	=-4503599627370496, r1
+	mov	=-4503599627370496, r2
 	clr	r3
 	fcbor	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f756
-	movq	=-4503599627370496, r1
-	movq	=9221120237041090560, r2
+	mov	=-4503599627370496, r1
+	mov	=9221120237041090560, r2
 	clr	r3
 	fcbor	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f757
-	movq	=9221120237041090560, r1
-	movq	=0, r2
+	mov	=9221120237041090560, r1
+	mov	=0, r2
 	clr	r3
 	fcbor	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f758
-	movq	=9221120237041090560, r1
-	movq	=-9223372036854775808, r2
+	mov	=9221120237041090560, r1
+	mov	=-9223372036854775808, r2
 	clr	r3
 	fcbor	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f759
-	movq	=9221120237041090560, r1
-	movq	=4607182418800017408, r2
+	mov	=9221120237041090560, r1
+	mov	=4607182418800017408, r2
 	clr	r3
 	fcbor	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f760
-	movq	=9221120237041090560, r1
-	movq	=-4613937818241073152, r2
+	mov	=9221120237041090560, r1
+	mov	=-4613937818241073152, r2
 	clr	r3
 	fcbor	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f761
-	movq	=9221120237041090560, r1
-	movq	=4612811918334230528, r2
+	mov	=9221120237041090560, r1
+	mov	=4612811918334230528, r2
 	clr	r3
 	fcbor	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f762
-	movq	=9221120237041090560, r1
-	movq	=9218868437227405312, r2
+	mov	=9221120237041090560, r1
+	mov	=9218868437227405312, r2
 	clr	r3
 	fcbor	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f763
-	movq	=9221120237041090560, r1
-	movq	=-4503599627370496, r2
+	mov	=9221120237041090560, r1
+	mov	=-4503599627370496, r2
 	clr	r3
 	fcbor	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f764
-	movq	=9221120237041090560, r1
-	movq	=9221120237041090560, r2
+	mov	=9221120237041090560, r1
+	mov	=9221120237041090560, r2
 	clr	r3
 	fcbor	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f765
-	movq	=0, r1
-	movq	=0, r2
+	mov	=0, r1
+	mov	=0, r2
 	clr	r3
-	fcbeq	r1.32, r2.32, 1f
+	fcbeq.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f766
-	movq	=0, r1
-	movq	=-2147483648, r2
+	mov	=0, r1
+	mov	=-2147483648, r2
 	clr	r3
-	fcbeq	r1.32, r2.32, 1f
+	fcbeq.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f767
-	movq	=0, r1
-	movq	=1065353216, r2
+	mov	=0, r1
+	mov	=1065353216, r2
 	clr	r3
-	fcbeq	r1.32, r2.32, 1f
+	fcbeq.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f768
-	movq	=0, r1
-	movq	=-1077936128, r2
+	mov	=0, r1
+	mov	=-1077936128, r2
 	clr	r3
-	fcbeq	r1.32, r2.32, 1f
+	fcbeq.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f769
-	movq	=0, r1
-	movq	=1075838976, r2
+	mov	=0, r1
+	mov	=1075838976, r2
 	clr	r3
-	fcbeq	r1.32, r2.32, 1f
+	fcbeq.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f770
-	movq	=0, r1
-	movq	=2139095040, r2
+	mov	=0, r1
+	mov	=2139095040, r2
 	clr	r3
-	fcbeq	r1.32, r2.32, 1f
+	fcbeq.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f771
-	movq	=0, r1
-	movq	=-8388608, r2
+	mov	=0, r1
+	mov	=-8388608, r2
 	clr	r3
-	fcbeq	r1.32, r2.32, 1f
+	fcbeq.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f772
-	movq	=0, r1
-	movq	=2143289344, r2
+	mov	=0, r1
+	mov	=2143289344, r2
 	clr	r3
-	fcbeq	r1.32, r2.32, 1f
+	fcbeq.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f773
-	movq	=-2147483648, r1
-	movq	=0, r2
+	mov	=-2147483648, r1
+	mov	=0, r2
 	clr	r3
-	fcbeq	r1.32, r2.32, 1f
+	fcbeq.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f774
-	movq	=-2147483648, r1
-	movq	=-2147483648, r2
+	mov	=-2147483648, r1
+	mov	=-2147483648, r2
 	clr	r3
-	fcbeq	r1.32, r2.32, 1f
+	fcbeq.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f775
-	movq	=-2147483648, r1
-	movq	=1065353216, r2
+	mov	=-2147483648, r1
+	mov	=1065353216, r2
 	clr	r3
-	fcbeq	r1.32, r2.32, 1f
+	fcbeq.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f776
-	movq	=-2147483648, r1
-	movq	=-1077936128, r2
+	mov	=-2147483648, r1
+	mov	=-1077936128, r2
 	clr	r3
-	fcbeq	r1.32, r2.32, 1f
+	fcbeq.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f777
-	movq	=-2147483648, r1
-	movq	=1075838976, r2
+	mov	=-2147483648, r1
+	mov	=1075838976, r2
 	clr	r3
-	fcbeq	r1.32, r2.32, 1f
+	fcbeq.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f778
-	movq	=-2147483648, r1
-	movq	=2139095040, r2
+	mov	=-2147483648, r1
+	mov	=2139095040, r2
 	clr	r3
-	fcbeq	r1.32, r2.32, 1f
+	fcbeq.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f779
-	movq	=-2147483648, r1
-	movq	=-8388608, r2
+	mov	=-2147483648, r1
+	mov	=-8388608, r2
 	clr	r3
-	fcbeq	r1.32, r2.32, 1f
+	fcbeq.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f780
-	movq	=-2147483648, r1
-	movq	=2143289344, r2
+	mov	=-2147483648, r1
+	mov	=2143289344, r2
 	clr	r3
-	fcbeq	r1.32, r2.32, 1f
+	fcbeq.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f781
-	movq	=1065353216, r1
-	movq	=0, r2
+	mov	=1065353216, r1
+	mov	=0, r2
 	clr	r3
-	fcbeq	r1.32, r2.32, 1f
+	fcbeq.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f782
-	movq	=1065353216, r1
-	movq	=-2147483648, r2
+	mov	=1065353216, r1
+	mov	=-2147483648, r2
 	clr	r3
-	fcbeq	r1.32, r2.32, 1f
+	fcbeq.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f783
-	movq	=1065353216, r1
-	movq	=1065353216, r2
+	mov	=1065353216, r1
+	mov	=1065353216, r2
 	clr	r3
-	fcbeq	r1.32, r2.32, 1f
+	fcbeq.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f784
-	movq	=1065353216, r1
-	movq	=-1077936128, r2
+	mov	=1065353216, r1
+	mov	=-1077936128, r2
 	clr	r3
-	fcbeq	r1.32, r2.32, 1f
+	fcbeq.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f785
-	movq	=1065353216, r1
-	movq	=1075838976, r2
+	mov	=1065353216, r1
+	mov	=1075838976, r2
 	clr	r3
-	fcbeq	r1.32, r2.32, 1f
+	fcbeq.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f786
-	movq	=1065353216, r1
-	movq	=2139095040, r2
+	mov	=1065353216, r1
+	mov	=2139095040, r2
 	clr	r3
-	fcbeq	r1.32, r2.32, 1f
+	fcbeq.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f787
-	movq	=1065353216, r1
-	movq	=-8388608, r2
+	mov	=1065353216, r1
+	mov	=-8388608, r2
 	clr	r3
-	fcbeq	r1.32, r2.32, 1f
+	fcbeq.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f788
-	movq	=1065353216, r1
-	movq	=2143289344, r2
+	mov	=1065353216, r1
+	mov	=2143289344, r2
 	clr	r3
-	fcbeq	r1.32, r2.32, 1f
+	fcbeq.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f789
-	movq	=-1077936128, r1
-	movq	=0, r2
+	mov	=-1077936128, r1
+	mov	=0, r2
 	clr	r3
-	fcbeq	r1.32, r2.32, 1f
+	fcbeq.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f790
-	movq	=-1077936128, r1
-	movq	=-2147483648, r2
+	mov	=-1077936128, r1
+	mov	=-2147483648, r2
 	clr	r3
-	fcbeq	r1.32, r2.32, 1f
+	fcbeq.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f791
-	movq	=-1077936128, r1
-	movq	=1065353216, r2
+	mov	=-1077936128, r1
+	mov	=1065353216, r2
 	clr	r3
-	fcbeq	r1.32, r2.32, 1f
+	fcbeq.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f792
-	movq	=-1077936128, r1
-	movq	=-1077936128, r2
+	mov	=-1077936128, r1
+	mov	=-1077936128, r2
 	clr	r3
-	fcbeq	r1.32, r2.32, 1f
+	fcbeq.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f793
-	movq	=-1077936128, r1
-	movq	=1075838976, r2
+	mov	=-1077936128, r1
+	mov	=1075838976, r2
 	clr	r3
-	fcbeq	r1.32, r2.32, 1f
+	fcbeq.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f794
-	movq	=-1077936128, r1
-	movq	=2139095040, r2
+	mov	=-1077936128, r1
+	mov	=2139095040, r2
 	clr	r3
-	fcbeq	r1.32, r2.32, 1f
+	fcbeq.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f795
-	movq	=-1077936128, r1
-	movq	=-8388608, r2
+	mov	=-1077936128, r1
+	mov	=-8388608, r2
 	clr	r3
-	fcbeq	r1.32, r2.32, 1f
+	fcbeq.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f796
-	movq	=-1077936128, r1
-	movq	=2143289344, r2
+	mov	=-1077936128, r1
+	mov	=2143289344, r2
 	clr	r3
-	fcbeq	r1.32, r2.32, 1f
+	fcbeq.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f797
-	movq	=1075838976, r1
-	movq	=0, r2
+	mov	=1075838976, r1
+	mov	=0, r2
 	clr	r3
-	fcbeq	r1.32, r2.32, 1f
+	fcbeq.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f798
-	movq	=1075838976, r1
-	movq	=-2147483648, r2
+	mov	=1075838976, r1
+	mov	=-2147483648, r2
 	clr	r3
-	fcbeq	r1.32, r2.32, 1f
+	fcbeq.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f799
-	movq	=1075838976, r1
-	movq	=1065353216, r2
+	mov	=1075838976, r1
+	mov	=1065353216, r2
 	clr	r3
-	fcbeq	r1.32, r2.32, 1f
+	fcbeq.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f800
-	movq	=1075838976, r1
-	movq	=-1077936128, r2
+	mov	=1075838976, r1
+	mov	=-1077936128, r2
 	clr	r3
-	fcbeq	r1.32, r2.32, 1f
+	fcbeq.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f801
-	movq	=1075838976, r1
-	movq	=1075838976, r2
+	mov	=1075838976, r1
+	mov	=1075838976, r2
 	clr	r3
-	fcbeq	r1.32, r2.32, 1f
+	fcbeq.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f802
-	movq	=1075838976, r1
-	movq	=2139095040, r2
+	mov	=1075838976, r1
+	mov	=2139095040, r2
 	clr	r3
-	fcbeq	r1.32, r2.32, 1f
+	fcbeq.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f803
-	movq	=1075838976, r1
-	movq	=-8388608, r2
+	mov	=1075838976, r1
+	mov	=-8388608, r2
 	clr	r3
-	fcbeq	r1.32, r2.32, 1f
+	fcbeq.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f804
-	movq	=1075838976, r1
-	movq	=2143289344, r2
+	mov	=1075838976, r1
+	mov	=2143289344, r2
 	clr	r3
-	fcbeq	r1.32, r2.32, 1f
+	fcbeq.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f805
-	movq	=2139095040, r1
-	movq	=0, r2
+	mov	=2139095040, r1
+	mov	=0, r2
 	clr	r3
-	fcbeq	r1.32, r2.32, 1f
+	fcbeq.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f806
-	movq	=2139095040, r1
-	movq	=-2147483648, r2
+	mov	=2139095040, r1
+	mov	=-2147483648, r2
 	clr	r3
-	fcbeq	r1.32, r2.32, 1f
+	fcbeq.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f807
-	movq	=2139095040, r1
-	movq	=1065353216, r2
+	mov	=2139095040, r1
+	mov	=1065353216, r2
 	clr	r3
-	fcbeq	r1.32, r2.32, 1f
+	fcbeq.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f808
-	movq	=2139095040, r1
-	movq	=-1077936128, r2
+	mov	=2139095040, r1
+	mov	=-1077936128, r2
 	clr	r3
-	fcbeq	r1.32, r2.32, 1f
+	fcbeq.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f809
-	movq	=2139095040, r1
-	movq	=1075838976, r2
+	mov	=2139095040, r1
+	mov	=1075838976, r2
 	clr	r3
-	fcbeq	r1.32, r2.32, 1f
+	fcbeq.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f810
-	movq	=2139095040, r1
-	movq	=2139095040, r2
+	mov	=2139095040, r1
+	mov	=2139095040, r2
 	clr	r3
-	fcbeq	r1.32, r2.32, 1f
+	fcbeq.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f811
-	movq	=2139095040, r1
-	movq	=-8388608, r2
+	mov	=2139095040, r1
+	mov	=-8388608, r2
 	clr	r3
-	fcbeq	r1.32, r2.32, 1f
+	fcbeq.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f812
-	movq	=2139095040, r1
-	movq	=2143289344, r2
+	mov	=2139095040, r1
+	mov	=2143289344, r2
 	clr	r3
-	fcbeq	r1.32, r2.32, 1f
+	fcbeq.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f813
-	movq	=-8388608, r1
-	movq	=0, r2
+	mov	=-8388608, r1
+	mov	=0, r2
 	clr	r3
-	fcbeq	r1.32, r2.32, 1f
+	fcbeq.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f814
-	movq	=-8388608, r1
-	movq	=-2147483648, r2
+	mov	=-8388608, r1
+	mov	=-2147483648, r2
 	clr	r3
-	fcbeq	r1.32, r2.32, 1f
+	fcbeq.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f815
-	movq	=-8388608, r1
-	movq	=1065353216, r2
+	mov	=-8388608, r1
+	mov	=1065353216, r2
 	clr	r3
-	fcbeq	r1.32, r2.32, 1f
+	fcbeq.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f816
-	movq	=-8388608, r1
-	movq	=-1077936128, r2
+	mov	=-8388608, r1
+	mov	=-1077936128, r2
 	clr	r3
-	fcbeq	r1.32, r2.32, 1f
+	fcbeq.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f817
-	movq	=-8388608, r1
-	movq	=1075838976, r2
+	mov	=-8388608, r1
+	mov	=1075838976, r2
 	clr	r3
-	fcbeq	r1.32, r2.32, 1f
+	fcbeq.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f818
-	movq	=-8388608, r1
-	movq	=2139095040, r2
+	mov	=-8388608, r1
+	mov	=2139095040, r2
 	clr	r3
-	fcbeq	r1.32, r2.32, 1f
+	fcbeq.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f819
-	movq	=-8388608, r1
-	movq	=-8388608, r2
+	mov	=-8388608, r1
+	mov	=-8388608, r2
 	clr	r3
-	fcbeq	r1.32, r2.32, 1f
+	fcbeq.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f820
-	movq	=-8388608, r1
-	movq	=2143289344, r2
+	mov	=-8388608, r1
+	mov	=2143289344, r2
 	clr	r3
-	fcbeq	r1.32, r2.32, 1f
+	fcbeq.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f821
-	movq	=2143289344, r1
-	movq	=0, r2
+	mov	=2143289344, r1
+	mov	=0, r2
 	clr	r3
-	fcbeq	r1.32, r2.32, 1f
+	fcbeq.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f822
-	movq	=2143289344, r1
-	movq	=-2147483648, r2
+	mov	=2143289344, r1
+	mov	=-2147483648, r2
 	clr	r3
-	fcbeq	r1.32, r2.32, 1f
+	fcbeq.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f823
-	movq	=2143289344, r1
-	movq	=1065353216, r2
+	mov	=2143289344, r1
+	mov	=1065353216, r2
 	clr	r3
-	fcbeq	r1.32, r2.32, 1f
+	fcbeq.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f824
-	movq	=2143289344, r1
-	movq	=-1077936128, r2
+	mov	=2143289344, r1
+	mov	=-1077936128, r2
 	clr	r3
-	fcbeq	r1.32, r2.32, 1f
+	fcbeq.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f825
-	movq	=2143289344, r1
-	movq	=1075838976, r2
+	mov	=2143289344, r1
+	mov	=1075838976, r2
 	clr	r3
-	fcbeq	r1.32, r2.32, 1f
+	fcbeq.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f826
-	movq	=2143289344, r1
-	movq	=2139095040, r2
+	mov	=2143289344, r1
+	mov	=2139095040, r2
 	clr	r3
-	fcbeq	r1.32, r2.32, 1f
+	fcbeq.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f827
-	movq	=2143289344, r1
-	movq	=-8388608, r2
+	mov	=2143289344, r1
+	mov	=-8388608, r2
 	clr	r3
-	fcbeq	r1.32, r2.32, 1f
+	fcbeq.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f828
-	movq	=2143289344, r1
-	movq	=2143289344, r2
+	mov	=2143289344, r1
+	mov	=2143289344, r2
 	clr	r3
-	fcbeq	r1.32, r2.32, 1f
+	fcbeq.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f829
-	movq	=0, r1
-	movq	=0, r2
+	mov	=0, r1
+	mov	=0, r2
 	clr	r3
-	fcbne	r1.32, r2.32, 1f
+	fcbne.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f830
-	movq	=0, r1
-	movq	=-2147483648, r2
+	mov	=0, r1
+	mov	=-2147483648, r2
 	clr	r3
-	fcbne	r1.32, r2.32, 1f
+	fcbne.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f831
-	movq	=0, r1
-	movq	=1065353216, r2
+	mov	=0, r1
+	mov	=1065353216, r2
 	clr	r3
-	fcbne	r1.32, r2.32, 1f
+	fcbne.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f832
-	movq	=0, r1
-	movq	=-1077936128, r2
+	mov	=0, r1
+	mov	=-1077936128, r2
 	clr	r3
-	fcbne	r1.32, r2.32, 1f
+	fcbne.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f833
-	movq	=0, r1
-	movq	=1075838976, r2
+	mov	=0, r1
+	mov	=1075838976, r2
 	clr	r3
-	fcbne	r1.32, r2.32, 1f
+	fcbne.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f834
-	movq	=0, r1
-	movq	=2139095040, r2
+	mov	=0, r1
+	mov	=2139095040, r2
 	clr	r3
-	fcbne	r1.32, r2.32, 1f
+	fcbne.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f835
-	movq	=0, r1
-	movq	=-8388608, r2
+	mov	=0, r1
+	mov	=-8388608, r2
 	clr	r3
-	fcbne	r1.32, r2.32, 1f
+	fcbne.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f836
-	movq	=0, r1
-	movq	=2143289344, r2
+	mov	=0, r1
+	mov	=2143289344, r2
 	clr	r3
-	fcbne	r1.32, r2.32, 1f
+	fcbne.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f837
-	movq	=-2147483648, r1
-	movq	=0, r2
+	mov	=-2147483648, r1
+	mov	=0, r2
 	clr	r3
-	fcbne	r1.32, r2.32, 1f
+	fcbne.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f838
-	movq	=-2147483648, r1
-	movq	=-2147483648, r2
+	mov	=-2147483648, r1
+	mov	=-2147483648, r2
 	clr	r3
-	fcbne	r1.32, r2.32, 1f
+	fcbne.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f839
-	movq	=-2147483648, r1
-	movq	=1065353216, r2
+	mov	=-2147483648, r1
+	mov	=1065353216, r2
 	clr	r3
-	fcbne	r1.32, r2.32, 1f
+	fcbne.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f840
-	movq	=-2147483648, r1
-	movq	=-1077936128, r2
+	mov	=-2147483648, r1
+	mov	=-1077936128, r2
 	clr	r3
-	fcbne	r1.32, r2.32, 1f
+	fcbne.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f841
-	movq	=-2147483648, r1
-	movq	=1075838976, r2
+	mov	=-2147483648, r1
+	mov	=1075838976, r2
 	clr	r3
-	fcbne	r1.32, r2.32, 1f
+	fcbne.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f842
-	movq	=-2147483648, r1
-	movq	=2139095040, r2
+	mov	=-2147483648, r1
+	mov	=2139095040, r2
 	clr	r3
-	fcbne	r1.32, r2.32, 1f
+	fcbne.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f843
-	movq	=-2147483648, r1
-	movq	=-8388608, r2
+	mov	=-2147483648, r1
+	mov	=-8388608, r2
 	clr	r3
-	fcbne	r1.32, r2.32, 1f
+	fcbne.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f844
-	movq	=-2147483648, r1
-	movq	=2143289344, r2
+	mov	=-2147483648, r1
+	mov	=2143289344, r2
 	clr	r3
-	fcbne	r1.32, r2.32, 1f
+	fcbne.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f845
-	movq	=1065353216, r1
-	movq	=0, r2
+	mov	=1065353216, r1
+	mov	=0, r2
 	clr	r3
-	fcbne	r1.32, r2.32, 1f
+	fcbne.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f846
-	movq	=1065353216, r1
-	movq	=-2147483648, r2
+	mov	=1065353216, r1
+	mov	=-2147483648, r2
 	clr	r3
-	fcbne	r1.32, r2.32, 1f
+	fcbne.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f847
-	movq	=1065353216, r1
-	movq	=1065353216, r2
+	mov	=1065353216, r1
+	mov	=1065353216, r2
 	clr	r3
-	fcbne	r1.32, r2.32, 1f
+	fcbne.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f848
-	movq	=1065353216, r1
-	movq	=-1077936128, r2
+	mov	=1065353216, r1
+	mov	=-1077936128, r2
 	clr	r3
-	fcbne	r1.32, r2.32, 1f
+	fcbne.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f849
-	movq	=1065353216, r1
-	movq	=1075838976, r2
+	mov	=1065353216, r1
+	mov	=1075838976, r2
 	clr	r3
-	fcbne	r1.32, r2.32, 1f
+	fcbne.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f850
-	movq	=1065353216, r1
-	movq	=2139095040, r2
+	mov	=1065353216, r1
+	mov	=2139095040, r2
 	clr	r3
-	fcbne	r1.32, r2.32, 1f
+	fcbne.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f851
-	movq	=1065353216, r1
-	movq	=-8388608, r2
+	mov	=1065353216, r1
+	mov	=-8388608, r2
 	clr	r3
-	fcbne	r1.32, r2.32, 1f
+	fcbne.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f852
-	movq	=1065353216, r1
-	movq	=2143289344, r2
+	mov	=1065353216, r1
+	mov	=2143289344, r2
 	clr	r3
-	fcbne	r1.32, r2.32, 1f
+	fcbne.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f853
-	movq	=-1077936128, r1
-	movq	=0, r2
+	mov	=-1077936128, r1
+	mov	=0, r2
 	clr	r3
-	fcbne	r1.32, r2.32, 1f
+	fcbne.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f854
-	movq	=-1077936128, r1
-	movq	=-2147483648, r2
+	mov	=-1077936128, r1
+	mov	=-2147483648, r2
 	clr	r3
-	fcbne	r1.32, r2.32, 1f
+	fcbne.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f855
-	movq	=-1077936128, r1
-	movq	=1065353216, r2
+	mov	=-1077936128, r1
+	mov	=1065353216, r2
 	clr	r3
-	fcbne	r1.32, r2.32, 1f
+	fcbne.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f856
-	movq	=-1077936128, r1
-	movq	=-1077936128, r2
+	mov	=-1077936128, r1
+	mov	=-1077936128, r2
 	clr	r3
-	fcbne	r1.32, r2.32, 1f
+	fcbne.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f857
-	movq	=-1077936128, r1
-	movq	=1075838976, r2
+	mov	=-1077936128, r1
+	mov	=1075838976, r2
 	clr	r3
-	fcbne	r1.32, r2.32, 1f
+	fcbne.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f858
-	movq	=-1077936128, r1
-	movq	=2139095040, r2
+	mov	=-1077936128, r1
+	mov	=2139095040, r2
 	clr	r3
-	fcbne	r1.32, r2.32, 1f
+	fcbne.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f859
-	movq	=-1077936128, r1
-	movq	=-8388608, r2
+	mov	=-1077936128, r1
+	mov	=-8388608, r2
 	clr	r3
-	fcbne	r1.32, r2.32, 1f
+	fcbne.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f860
-	movq	=-1077936128, r1
-	movq	=2143289344, r2
+	mov	=-1077936128, r1
+	mov	=2143289344, r2
 	clr	r3
-	fcbne	r1.32, r2.32, 1f
+	fcbne.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f861
-	movq	=1075838976, r1
-	movq	=0, r2
+	mov	=1075838976, r1
+	mov	=0, r2
 	clr	r3
-	fcbne	r1.32, r2.32, 1f
+	fcbne.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f862
-	movq	=1075838976, r1
-	movq	=-2147483648, r2
+	mov	=1075838976, r1
+	mov	=-2147483648, r2
 	clr	r3
-	fcbne	r1.32, r2.32, 1f
+	fcbne.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f863
-	movq	=1075838976, r1
-	movq	=1065353216, r2
+	mov	=1075838976, r1
+	mov	=1065353216, r2
 	clr	r3
-	fcbne	r1.32, r2.32, 1f
+	fcbne.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f864
-	movq	=1075838976, r1
-	movq	=-1077936128, r2
+	mov	=1075838976, r1
+	mov	=-1077936128, r2
 	clr	r3
-	fcbne	r1.32, r2.32, 1f
+	fcbne.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f865
-	movq	=1075838976, r1
-	movq	=1075838976, r2
+	mov	=1075838976, r1
+	mov	=1075838976, r2
 	clr	r3
-	fcbne	r1.32, r2.32, 1f
+	fcbne.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f866
-	movq	=1075838976, r1
-	movq	=2139095040, r2
+	mov	=1075838976, r1
+	mov	=2139095040, r2
 	clr	r3
-	fcbne	r1.32, r2.32, 1f
+	fcbne.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f867
-	movq	=1075838976, r1
-	movq	=-8388608, r2
+	mov	=1075838976, r1
+	mov	=-8388608, r2
 	clr	r3
-	fcbne	r1.32, r2.32, 1f
+	fcbne.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f868
-	movq	=1075838976, r1
-	movq	=2143289344, r2
+	mov	=1075838976, r1
+	mov	=2143289344, r2
 	clr	r3
-	fcbne	r1.32, r2.32, 1f
+	fcbne.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f869
-	movq	=2139095040, r1
-	movq	=0, r2
+	mov	=2139095040, r1
+	mov	=0, r2
 	clr	r3
-	fcbne	r1.32, r2.32, 1f
+	fcbne.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f870
-	movq	=2139095040, r1
-	movq	=-2147483648, r2
+	mov	=2139095040, r1
+	mov	=-2147483648, r2
 	clr	r3
-	fcbne	r1.32, r2.32, 1f
+	fcbne.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f871
-	movq	=2139095040, r1
-	movq	=1065353216, r2
+	mov	=2139095040, r1
+	mov	=1065353216, r2
 	clr	r3
-	fcbne	r1.32, r2.32, 1f
+	fcbne.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f872
-	movq	=2139095040, r1
-	movq	=-1077936128, r2
+	mov	=2139095040, r1
+	mov	=-1077936128, r2
 	clr	r3
-	fcbne	r1.32, r2.32, 1f
+	fcbne.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f873
-	movq	=2139095040, r1
-	movq	=1075838976, r2
+	mov	=2139095040, r1
+	mov	=1075838976, r2
 	clr	r3
-	fcbne	r1.32, r2.32, 1f
+	fcbne.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f874
-	movq	=2139095040, r1
-	movq	=2139095040, r2
+	mov	=2139095040, r1
+	mov	=2139095040, r2
 	clr	r3
-	fcbne	r1.32, r2.32, 1f
+	fcbne.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f875
-	movq	=2139095040, r1
-	movq	=-8388608, r2
+	mov	=2139095040, r1
+	mov	=-8388608, r2
 	clr	r3
-	fcbne	r1.32, r2.32, 1f
+	fcbne.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f876
-	movq	=2139095040, r1
-	movq	=2143289344, r2
+	mov	=2139095040, r1
+	mov	=2143289344, r2
 	clr	r3
-	fcbne	r1.32, r2.32, 1f
+	fcbne.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f877
-	movq	=-8388608, r1
-	movq	=0, r2
+	mov	=-8388608, r1
+	mov	=0, r2
 	clr	r3
-	fcbne	r1.32, r2.32, 1f
+	fcbne.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f878
-	movq	=-8388608, r1
-	movq	=-2147483648, r2
+	mov	=-8388608, r1
+	mov	=-2147483648, r2
 	clr	r3
-	fcbne	r1.32, r2.32, 1f
+	fcbne.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f879
-	movq	=-8388608, r1
-	movq	=1065353216, r2
+	mov	=-8388608, r1
+	mov	=1065353216, r2
 	clr	r3
-	fcbne	r1.32, r2.32, 1f
+	fcbne.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f880
-	movq	=-8388608, r1
-	movq	=-1077936128, r2
+	mov	=-8388608, r1
+	mov	=-1077936128, r2
 	clr	r3
-	fcbne	r1.32, r2.32, 1f
+	fcbne.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f881
-	movq	=-8388608, r1
-	movq	=1075838976, r2
+	mov	=-8388608, r1
+	mov	=1075838976, r2
 	clr	r3
-	fcbne	r1.32, r2.32, 1f
+	fcbne.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f882
-	movq	=-8388608, r1
-	movq	=2139095040, r2
+	mov	=-8388608, r1
+	mov	=2139095040, r2
 	clr	r3
-	fcbne	r1.32, r2.32, 1f
+	fcbne.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f883
-	movq	=-8388608, r1
-	movq	=-8388608, r2
+	mov	=-8388608, r1
+	mov	=-8388608, r2
 	clr	r3
-	fcbne	r1.32, r2.32, 1f
+	fcbne.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f884
-	movq	=-8388608, r1
-	movq	=2143289344, r2
+	mov	=-8388608, r1
+	mov	=2143289344, r2
 	clr	r3
-	fcbne	r1.32, r2.32, 1f
+	fcbne.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f885
-	movq	=2143289344, r1
-	movq	=0, r2
+	mov	=2143289344, r1
+	mov	=0, r2
 	clr	r3
-	fcbne	r1.32, r2.32, 1f
+	fcbne.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f886
-	movq	=2143289344, r1
-	movq	=-2147483648, r2
+	mov	=2143289344, r1
+	mov	=-2147483648, r2
 	clr	r3
-	fcbne	r1.32, r2.32, 1f
+	fcbne.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f887
-	movq	=2143289344, r1
-	movq	=1065353216, r2
+	mov	=2143289344, r1
+	mov	=1065353216, r2
 	clr	r3
-	fcbne	r1.32, r2.32, 1f
+	fcbne.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f888
-	movq	=2143289344, r1
-	movq	=-1077936128, r2
+	mov	=2143289344, r1
+	mov	=-1077936128, r2
 	clr	r3
-	fcbne	r1.32, r2.32, 1f
+	fcbne.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f889
-	movq	=2143289344, r1
-	movq	=1075838976, r2
+	mov	=2143289344, r1
+	mov	=1075838976, r2
 	clr	r3
-	fcbne	r1.32, r2.32, 1f
+	fcbne.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f890
-	movq	=2143289344, r1
-	movq	=2139095040, r2
+	mov	=2143289344, r1
+	mov	=2139095040, r2
 	clr	r3
-	fcbne	r1.32, r2.32, 1f
+	fcbne.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f891
-	movq	=2143289344, r1
-	movq	=-8388608, r2
+	mov	=2143289344, r1
+	mov	=-8388608, r2
 	clr	r3
-	fcbne	r1.32, r2.32, 1f
+	fcbne.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f892
-	movq	=2143289344, r1
-	movq	=2143289344, r2
+	mov	=2143289344, r1
+	mov	=2143289344, r2
 	clr	r3
-	fcbne	r1.32, r2.32, 1f
+	fcbne.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f893
-	movq	=0, r1
-	movq	=0, r2
+	mov	=0, r1
+	mov	=0, r2
 	clr	r3
-	fcblt	r1.32, r2.32, 1f
+	fcblt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f894
-	movq	=0, r1
-	movq	=-2147483648, r2
+	mov	=0, r1
+	mov	=-2147483648, r2
 	clr	r3
-	fcblt	r1.32, r2.32, 1f
+	fcblt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f895
-	movq	=0, r1
-	movq	=1065353216, r2
+	mov	=0, r1
+	mov	=1065353216, r2
 	clr	r3
-	fcblt	r1.32, r2.32, 1f
+	fcblt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f896
-	movq	=0, r1
-	movq	=-1077936128, r2
+	mov	=0, r1
+	mov	=-1077936128, r2
 	clr	r3
-	fcblt	r1.32, r2.32, 1f
+	fcblt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f897
-	movq	=0, r1
-	movq	=1075838976, r2
+	mov	=0, r1
+	mov	=1075838976, r2
 	clr	r3
-	fcblt	r1.32, r2.32, 1f
+	fcblt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f898
-	movq	=0, r1
-	movq	=2139095040, r2
+	mov	=0, r1
+	mov	=2139095040, r2
 	clr	r3
-	fcblt	r1.32, r2.32, 1f
+	fcblt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f899
-	movq	=0, r1
-	movq	=-8388608, r2
+	mov	=0, r1
+	mov	=-8388608, r2
 	clr	r3
-	fcblt	r1.32, r2.32, 1f
+	fcblt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f900
-	movq	=0, r1
-	movq	=2143289344, r2
+	mov	=0, r1
+	mov	=2143289344, r2
 	clr	r3
-	fcblt	r1.32, r2.32, 1f
+	fcblt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f901
-	movq	=-2147483648, r1
-	movq	=0, r2
+	mov	=-2147483648, r1
+	mov	=0, r2
 	clr	r3
-	fcblt	r1.32, r2.32, 1f
+	fcblt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f902
-	movq	=-2147483648, r1
-	movq	=-2147483648, r2
+	mov	=-2147483648, r1
+	mov	=-2147483648, r2
 	clr	r3
-	fcblt	r1.32, r2.32, 1f
+	fcblt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f903
-	movq	=-2147483648, r1
-	movq	=1065353216, r2
+	mov	=-2147483648, r1
+	mov	=1065353216, r2
 	clr	r3
-	fcblt	r1.32, r2.32, 1f
+	fcblt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f904
-	movq	=-2147483648, r1
-	movq	=-1077936128, r2
+	mov	=-2147483648, r1
+	mov	=-1077936128, r2
 	clr	r3
-	fcblt	r1.32, r2.32, 1f
+	fcblt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f905
-	movq	=-2147483648, r1
-	movq	=1075838976, r2
+	mov	=-2147483648, r1
+	mov	=1075838976, r2
 	clr	r3
-	fcblt	r1.32, r2.32, 1f
+	fcblt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f906
-	movq	=-2147483648, r1
-	movq	=2139095040, r2
+	mov	=-2147483648, r1
+	mov	=2139095040, r2
 	clr	r3
-	fcblt	r1.32, r2.32, 1f
+	fcblt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f907
-	movq	=-2147483648, r1
-	movq	=-8388608, r2
+	mov	=-2147483648, r1
+	mov	=-8388608, r2
 	clr	r3
-	fcblt	r1.32, r2.32, 1f
+	fcblt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f908
-	movq	=-2147483648, r1
-	movq	=2143289344, r2
+	mov	=-2147483648, r1
+	mov	=2143289344, r2
 	clr	r3
-	fcblt	r1.32, r2.32, 1f
+	fcblt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f909
-	movq	=1065353216, r1
-	movq	=0, r2
+	mov	=1065353216, r1
+	mov	=0, r2
 	clr	r3
-	fcblt	r1.32, r2.32, 1f
+	fcblt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f910
-	movq	=1065353216, r1
-	movq	=-2147483648, r2
+	mov	=1065353216, r1
+	mov	=-2147483648, r2
 	clr	r3
-	fcblt	r1.32, r2.32, 1f
+	fcblt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f911
-	movq	=1065353216, r1
-	movq	=1065353216, r2
+	mov	=1065353216, r1
+	mov	=1065353216, r2
 	clr	r3
-	fcblt	r1.32, r2.32, 1f
+	fcblt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f912
-	movq	=1065353216, r1
-	movq	=-1077936128, r2
+	mov	=1065353216, r1
+	mov	=-1077936128, r2
 	clr	r3
-	fcblt	r1.32, r2.32, 1f
+	fcblt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f913
-	movq	=1065353216, r1
-	movq	=1075838976, r2
+	mov	=1065353216, r1
+	mov	=1075838976, r2
 	clr	r3
-	fcblt	r1.32, r2.32, 1f
+	fcblt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f914
-	movq	=1065353216, r1
-	movq	=2139095040, r2
+	mov	=1065353216, r1
+	mov	=2139095040, r2
 	clr	r3
-	fcblt	r1.32, r2.32, 1f
+	fcblt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f915
-	movq	=1065353216, r1
-	movq	=-8388608, r2
+	mov	=1065353216, r1
+	mov	=-8388608, r2
 	clr	r3
-	fcblt	r1.32, r2.32, 1f
+	fcblt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f916
-	movq	=1065353216, r1
-	movq	=2143289344, r2
+	mov	=1065353216, r1
+	mov	=2143289344, r2
 	clr	r3
-	fcblt	r1.32, r2.32, 1f
+	fcblt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f917
-	movq	=-1077936128, r1
-	movq	=0, r2
+	mov	=-1077936128, r1
+	mov	=0, r2
 	clr	r3
-	fcblt	r1.32, r2.32, 1f
+	fcblt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f918
-	movq	=-1077936128, r1
-	movq	=-2147483648, r2
+	mov	=-1077936128, r1
+	mov	=-2147483648, r2
 	clr	r3
-	fcblt	r1.32, r2.32, 1f
+	fcblt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f919
-	movq	=-1077936128, r1
-	movq	=1065353216, r2
+	mov	=-1077936128, r1
+	mov	=1065353216, r2
 	clr	r3
-	fcblt	r1.32, r2.32, 1f
+	fcblt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f920
-	movq	=-1077936128, r1
-	movq	=-1077936128, r2
+	mov	=-1077936128, r1
+	mov	=-1077936128, r2
 	clr	r3
-	fcblt	r1.32, r2.32, 1f
+	fcblt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f921
-	movq	=-1077936128, r1
-	movq	=1075838976, r2
+	mov	=-1077936128, r1
+	mov	=1075838976, r2
 	clr	r3
-	fcblt	r1.32, r2.32, 1f
+	fcblt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f922
-	movq	=-1077936128, r1
-	movq	=2139095040, r2
+	mov	=-1077936128, r1
+	mov	=2139095040, r2
 	clr	r3
-	fcblt	r1.32, r2.32, 1f
+	fcblt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f923
-	movq	=-1077936128, r1
-	movq	=-8388608, r2
+	mov	=-1077936128, r1
+	mov	=-8388608, r2
 	clr	r3
-	fcblt	r1.32, r2.32, 1f
+	fcblt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f924
-	movq	=-1077936128, r1
-	movq	=2143289344, r2
+	mov	=-1077936128, r1
+	mov	=2143289344, r2
 	clr	r3
-	fcblt	r1.32, r2.32, 1f
+	fcblt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f925
-	movq	=1075838976, r1
-	movq	=0, r2
+	mov	=1075838976, r1
+	mov	=0, r2
 	clr	r3
-	fcblt	r1.32, r2.32, 1f
+	fcblt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f926
-	movq	=1075838976, r1
-	movq	=-2147483648, r2
+	mov	=1075838976, r1
+	mov	=-2147483648, r2
 	clr	r3
-	fcblt	r1.32, r2.32, 1f
+	fcblt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f927
-	movq	=1075838976, r1
-	movq	=1065353216, r2
+	mov	=1075838976, r1
+	mov	=1065353216, r2
 	clr	r3
-	fcblt	r1.32, r2.32, 1f
+	fcblt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f928
-	movq	=1075838976, r1
-	movq	=-1077936128, r2
+	mov	=1075838976, r1
+	mov	=-1077936128, r2
 	clr	r3
-	fcblt	r1.32, r2.32, 1f
+	fcblt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f929
-	movq	=1075838976, r1
-	movq	=1075838976, r2
+	mov	=1075838976, r1
+	mov	=1075838976, r2
 	clr	r3
-	fcblt	r1.32, r2.32, 1f
+	fcblt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f930
-	movq	=1075838976, r1
-	movq	=2139095040, r2
+	mov	=1075838976, r1
+	mov	=2139095040, r2
 	clr	r3
-	fcblt	r1.32, r2.32, 1f
+	fcblt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f931
-	movq	=1075838976, r1
-	movq	=-8388608, r2
+	mov	=1075838976, r1
+	mov	=-8388608, r2
 	clr	r3
-	fcblt	r1.32, r2.32, 1f
+	fcblt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f932
-	movq	=1075838976, r1
-	movq	=2143289344, r2
+	mov	=1075838976, r1
+	mov	=2143289344, r2
 	clr	r3
-	fcblt	r1.32, r2.32, 1f
+	fcblt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f933
-	movq	=2139095040, r1
-	movq	=0, r2
+	mov	=2139095040, r1
+	mov	=0, r2
 	clr	r3
-	fcblt	r1.32, r2.32, 1f
+	fcblt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f934
-	movq	=2139095040, r1
-	movq	=-2147483648, r2
+	mov	=2139095040, r1
+	mov	=-2147483648, r2
 	clr	r3
-	fcblt	r1.32, r2.32, 1f
+	fcblt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f935
-	movq	=2139095040, r1
-	movq	=1065353216, r2
+	mov	=2139095040, r1
+	mov	=1065353216, r2
 	clr	r3
-	fcblt	r1.32, r2.32, 1f
+	fcblt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f936
-	movq	=2139095040, r1
-	movq	=-1077936128, r2
+	mov	=2139095040, r1
+	mov	=-1077936128, r2
 	clr	r3
-	fcblt	r1.32, r2.32, 1f
+	fcblt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f937
-	movq	=2139095040, r1
-	movq	=1075838976, r2
+	mov	=2139095040, r1
+	mov	=1075838976, r2
 	clr	r3
-	fcblt	r1.32, r2.32, 1f
+	fcblt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f938
-	movq	=2139095040, r1
-	movq	=2139095040, r2
+	mov	=2139095040, r1
+	mov	=2139095040, r2
 	clr	r3
-	fcblt	r1.32, r2.32, 1f
+	fcblt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f939
-	movq	=2139095040, r1
-	movq	=-8388608, r2
+	mov	=2139095040, r1
+	mov	=-8388608, r2
 	clr	r3
-	fcblt	r1.32, r2.32, 1f
+	fcblt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f940
-	movq	=2139095040, r1
-	movq	=2143289344, r2
+	mov	=2139095040, r1
+	mov	=2143289344, r2
 	clr	r3
-	fcblt	r1.32, r2.32, 1f
+	fcblt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f941
-	movq	=-8388608, r1
-	movq	=0, r2
+	mov	=-8388608, r1
+	mov	=0, r2
 	clr	r3
-	fcblt	r1.32, r2.32, 1f
+	fcblt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f942
-	movq	=-8388608, r1
-	movq	=-2147483648, r2
+	mov	=-8388608, r1
+	mov	=-2147483648, r2
 	clr	r3
-	fcblt	r1.32, r2.32, 1f
+	fcblt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f943
-	movq	=-8388608, r1
-	movq	=1065353216, r2
+	mov	=-8388608, r1
+	mov	=1065353216, r2
 	clr	r3
-	fcblt	r1.32, r2.32, 1f
+	fcblt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f944
-	movq	=-8388608, r1
-	movq	=-1077936128, r2
+	mov	=-8388608, r1
+	mov	=-1077936128, r2
 	clr	r3
-	fcblt	r1.32, r2.32, 1f
+	fcblt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f945
-	movq	=-8388608, r1
-	movq	=1075838976, r2
+	mov	=-8388608, r1
+	mov	=1075838976, r2
 	clr	r3
-	fcblt	r1.32, r2.32, 1f
+	fcblt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f946
-	movq	=-8388608, r1
-	movq	=2139095040, r2
+	mov	=-8388608, r1
+	mov	=2139095040, r2
 	clr	r3
-	fcblt	r1.32, r2.32, 1f
+	fcblt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f947
-	movq	=-8388608, r1
-	movq	=-8388608, r2
+	mov	=-8388608, r1
+	mov	=-8388608, r2
 	clr	r3
-	fcblt	r1.32, r2.32, 1f
+	fcblt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f948
-	movq	=-8388608, r1
-	movq	=2143289344, r2
+	mov	=-8388608, r1
+	mov	=2143289344, r2
 	clr	r3
-	fcblt	r1.32, r2.32, 1f
+	fcblt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f949
-	movq	=2143289344, r1
-	movq	=0, r2
+	mov	=2143289344, r1
+	mov	=0, r2
 	clr	r3
-	fcblt	r1.32, r2.32, 1f
+	fcblt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f950
-	movq	=2143289344, r1
-	movq	=-2147483648, r2
+	mov	=2143289344, r1
+	mov	=-2147483648, r2
 	clr	r3
-	fcblt	r1.32, r2.32, 1f
+	fcblt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f951
-	movq	=2143289344, r1
-	movq	=1065353216, r2
+	mov	=2143289344, r1
+	mov	=1065353216, r2
 	clr	r3
-	fcblt	r1.32, r2.32, 1f
+	fcblt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f952
-	movq	=2143289344, r1
-	movq	=-1077936128, r2
+	mov	=2143289344, r1
+	mov	=-1077936128, r2
 	clr	r3
-	fcblt	r1.32, r2.32, 1f
+	fcblt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f953
-	movq	=2143289344, r1
-	movq	=1075838976, r2
+	mov	=2143289344, r1
+	mov	=1075838976, r2
 	clr	r3
-	fcblt	r1.32, r2.32, 1f
+	fcblt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f954
-	movq	=2143289344, r1
-	movq	=2139095040, r2
+	mov	=2143289344, r1
+	mov	=2139095040, r2
 	clr	r3
-	fcblt	r1.32, r2.32, 1f
+	fcblt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f955
-	movq	=2143289344, r1
-	movq	=-8388608, r2
+	mov	=2143289344, r1
+	mov	=-8388608, r2
 	clr	r3
-	fcblt	r1.32, r2.32, 1f
+	fcblt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f956
-	movq	=2143289344, r1
-	movq	=2143289344, r2
+	mov	=2143289344, r1
+	mov	=2143289344, r2
 	clr	r3
-	fcblt	r1.32, r2.32, 1f
+	fcblt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f957
-	movq	=0, r1
-	movq	=0, r2
+	mov	=0, r1
+	mov	=0, r2
 	clr	r3
-	fcble	r1.32, r2.32, 1f
+	fcble.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f958
-	movq	=0, r1
-	movq	=-2147483648, r2
+	mov	=0, r1
+	mov	=-2147483648, r2
 	clr	r3
-	fcble	r1.32, r2.32, 1f
+	fcble.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f959
-	movq	=0, r1
-	movq	=1065353216, r2
+	mov	=0, r1
+	mov	=1065353216, r2
 	clr	r3
-	fcble	r1.32, r2.32, 1f
+	fcble.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f960
-	movq	=0, r1
-	movq	=-1077936128, r2
+	mov	=0, r1
+	mov	=-1077936128, r2
 	clr	r3
-	fcble	r1.32, r2.32, 1f
+	fcble.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f961
-	movq	=0, r1
-	movq	=1075838976, r2
+	mov	=0, r1
+	mov	=1075838976, r2
 	clr	r3
-	fcble	r1.32, r2.32, 1f
+	fcble.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f962
-	movq	=0, r1
-	movq	=2139095040, r2
+	mov	=0, r1
+	mov	=2139095040, r2
 	clr	r3
-	fcble	r1.32, r2.32, 1f
+	fcble.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f963
-	movq	=0, r1
-	movq	=-8388608, r2
+	mov	=0, r1
+	mov	=-8388608, r2
 	clr	r3
-	fcble	r1.32, r2.32, 1f
+	fcble.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f964
-	movq	=0, r1
-	movq	=2143289344, r2
+	mov	=0, r1
+	mov	=2143289344, r2
 	clr	r3
-	fcble	r1.32, r2.32, 1f
+	fcble.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f965
-	movq	=-2147483648, r1
-	movq	=0, r2
+	mov	=-2147483648, r1
+	mov	=0, r2
 	clr	r3
-	fcble	r1.32, r2.32, 1f
+	fcble.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f966
-	movq	=-2147483648, r1
-	movq	=-2147483648, r2
+	mov	=-2147483648, r1
+	mov	=-2147483648, r2
 	clr	r3
-	fcble	r1.32, r2.32, 1f
+	fcble.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f967
-	movq	=-2147483648, r1
-	movq	=1065353216, r2
+	mov	=-2147483648, r1
+	mov	=1065353216, r2
 	clr	r3
-	fcble	r1.32, r2.32, 1f
+	fcble.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f968
-	movq	=-2147483648, r1
-	movq	=-1077936128, r2
+	mov	=-2147483648, r1
+	mov	=-1077936128, r2
 	clr	r3
-	fcble	r1.32, r2.32, 1f
+	fcble.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f969
-	movq	=-2147483648, r1
-	movq	=1075838976, r2
+	mov	=-2147483648, r1
+	mov	=1075838976, r2
 	clr	r3
-	fcble	r1.32, r2.32, 1f
+	fcble.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f970
-	movq	=-2147483648, r1
-	movq	=2139095040, r2
+	mov	=-2147483648, r1
+	mov	=2139095040, r2
 	clr	r3
-	fcble	r1.32, r2.32, 1f
+	fcble.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f971
-	movq	=-2147483648, r1
-	movq	=-8388608, r2
+	mov	=-2147483648, r1
+	mov	=-8388608, r2
 	clr	r3
-	fcble	r1.32, r2.32, 1f
+	fcble.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f972
-	movq	=-2147483648, r1
-	movq	=2143289344, r2
+	mov	=-2147483648, r1
+	mov	=2143289344, r2
 	clr	r3
-	fcble	r1.32, r2.32, 1f
+	fcble.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f973
-	movq	=1065353216, r1
-	movq	=0, r2
+	mov	=1065353216, r1
+	mov	=0, r2
 	clr	r3
-	fcble	r1.32, r2.32, 1f
+	fcble.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f974
-	movq	=1065353216, r1
-	movq	=-2147483648, r2
+	mov	=1065353216, r1
+	mov	=-2147483648, r2
 	clr	r3
-	fcble	r1.32, r2.32, 1f
+	fcble.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f975
-	movq	=1065353216, r1
-	movq	=1065353216, r2
+	mov	=1065353216, r1
+	mov	=1065353216, r2
 	clr	r3
-	fcble	r1.32, r2.32, 1f
+	fcble.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f976
-	movq	=1065353216, r1
-	movq	=-1077936128, r2
+	mov	=1065353216, r1
+	mov	=-1077936128, r2
 	clr	r3
-	fcble	r1.32, r2.32, 1f
+	fcble.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f977
-	movq	=1065353216, r1
-	movq	=1075838976, r2
+	mov	=1065353216, r1
+	mov	=1075838976, r2
 	clr	r3
-	fcble	r1.32, r2.32, 1f
+	fcble.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f978
-	movq	=1065353216, r1
-	movq	=2139095040, r2
+	mov	=1065353216, r1
+	mov	=2139095040, r2
 	clr	r3
-	fcble	r1.32, r2.32, 1f
+	fcble.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f979
-	movq	=1065353216, r1
-	movq	=-8388608, r2
+	mov	=1065353216, r1
+	mov	=-8388608, r2
 	clr	r3
-	fcble	r1.32, r2.32, 1f
+	fcble.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f980
-	movq	=1065353216, r1
-	movq	=2143289344, r2
+	mov	=1065353216, r1
+	mov	=2143289344, r2
 	clr	r3
-	fcble	r1.32, r2.32, 1f
+	fcble.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f981
-	movq	=-1077936128, r1
-	movq	=0, r2
+	mov	=-1077936128, r1
+	mov	=0, r2
 	clr	r3
-	fcble	r1.32, r2.32, 1f
+	fcble.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f982
-	movq	=-1077936128, r1
-	movq	=-2147483648, r2
+	mov	=-1077936128, r1
+	mov	=-2147483648, r2
 	clr	r3
-	fcble	r1.32, r2.32, 1f
+	fcble.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f983
-	movq	=-1077936128, r1
-	movq	=1065353216, r2
+	mov	=-1077936128, r1
+	mov	=1065353216, r2
 	clr	r3
-	fcble	r1.32, r2.32, 1f
+	fcble.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f984
-	movq	=-1077936128, r1
-	movq	=-1077936128, r2
+	mov	=-1077936128, r1
+	mov	=-1077936128, r2
 	clr	r3
-	fcble	r1.32, r2.32, 1f
+	fcble.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f985
-	movq	=-1077936128, r1
-	movq	=1075838976, r2
+	mov	=-1077936128, r1
+	mov	=1075838976, r2
 	clr	r3
-	fcble	r1.32, r2.32, 1f
+	fcble.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f986
-	movq	=-1077936128, r1
-	movq	=2139095040, r2
+	mov	=-1077936128, r1
+	mov	=2139095040, r2
 	clr	r3
-	fcble	r1.32, r2.32, 1f
+	fcble.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f987
-	movq	=-1077936128, r1
-	movq	=-8388608, r2
+	mov	=-1077936128, r1
+	mov	=-8388608, r2
 	clr	r3
-	fcble	r1.32, r2.32, 1f
+	fcble.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f988
-	movq	=-1077936128, r1
-	movq	=2143289344, r2
+	mov	=-1077936128, r1
+	mov	=2143289344, r2
 	clr	r3
-	fcble	r1.32, r2.32, 1f
+	fcble.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f989
-	movq	=1075838976, r1
-	movq	=0, r2
+	mov	=1075838976, r1
+	mov	=0, r2
 	clr	r3
-	fcble	r1.32, r2.32, 1f
+	fcble.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f990
-	movq	=1075838976, r1
-	movq	=-2147483648, r2
+	mov	=1075838976, r1
+	mov	=-2147483648, r2
 	clr	r3
-	fcble	r1.32, r2.32, 1f
+	fcble.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f991
-	movq	=1075838976, r1
-	movq	=1065353216, r2
+	mov	=1075838976, r1
+	mov	=1065353216, r2
 	clr	r3
-	fcble	r1.32, r2.32, 1f
+	fcble.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f992
-	movq	=1075838976, r1
-	movq	=-1077936128, r2
+	mov	=1075838976, r1
+	mov	=-1077936128, r2
 	clr	r3
-	fcble	r1.32, r2.32, 1f
+	fcble.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f993
-	movq	=1075838976, r1
-	movq	=1075838976, r2
+	mov	=1075838976, r1
+	mov	=1075838976, r2
 	clr	r3
-	fcble	r1.32, r2.32, 1f
+	fcble.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f994
-	movq	=1075838976, r1
-	movq	=2139095040, r2
+	mov	=1075838976, r1
+	mov	=2139095040, r2
 	clr	r3
-	fcble	r1.32, r2.32, 1f
+	fcble.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f995
-	movq	=1075838976, r1
-	movq	=-8388608, r2
+	mov	=1075838976, r1
+	mov	=-8388608, r2
 	clr	r3
-	fcble	r1.32, r2.32, 1f
+	fcble.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f996
-	movq	=1075838976, r1
-	movq	=2143289344, r2
+	mov	=1075838976, r1
+	mov	=2143289344, r2
 	clr	r3
-	fcble	r1.32, r2.32, 1f
+	fcble.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f997
-	movq	=2139095040, r1
-	movq	=0, r2
+	mov	=2139095040, r1
+	mov	=0, r2
 	clr	r3
-	fcble	r1.32, r2.32, 1f
+	fcble.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f998
-	movq	=2139095040, r1
-	movq	=-2147483648, r2
+	mov	=2139095040, r1
+	mov	=-2147483648, r2
 	clr	r3
-	fcble	r1.32, r2.32, 1f
+	fcble.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f999
-	movq	=2139095040, r1
-	movq	=1065353216, r2
+	mov	=2139095040, r1
+	mov	=1065353216, r2
 	clr	r3
-	fcble	r1.32, r2.32, 1f
+	fcble.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1000
-	movq	=2139095040, r1
-	movq	=-1077936128, r2
+	mov	=2139095040, r1
+	mov	=-1077936128, r2
 	clr	r3
-	fcble	r1.32, r2.32, 1f
+	fcble.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1001
-	movq	=2139095040, r1
-	movq	=1075838976, r2
+	mov	=2139095040, r1
+	mov	=1075838976, r2
 	clr	r3
-	fcble	r1.32, r2.32, 1f
+	fcble.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1002
-	movq	=2139095040, r1
-	movq	=2139095040, r2
+	mov	=2139095040, r1
+	mov	=2139095040, r2
 	clr	r3
-	fcble	r1.32, r2.32, 1f
+	fcble.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1003
-	movq	=2139095040, r1
-	movq	=-8388608, r2
+	mov	=2139095040, r1
+	mov	=-8388608, r2
 	clr	r3
-	fcble	r1.32, r2.32, 1f
+	fcble.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1004
-	movq	=2139095040, r1
-	movq	=2143289344, r2
+	mov	=2139095040, r1
+	mov	=2143289344, r2
 	clr	r3
-	fcble	r1.32, r2.32, 1f
+	fcble.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1005
-	movq	=-8388608, r1
-	movq	=0, r2
+	mov	=-8388608, r1
+	mov	=0, r2
 	clr	r3
-	fcble	r1.32, r2.32, 1f
+	fcble.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1006
-	movq	=-8388608, r1
-	movq	=-2147483648, r2
+	mov	=-8388608, r1
+	mov	=-2147483648, r2
 	clr	r3
-	fcble	r1.32, r2.32, 1f
+	fcble.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1007
-	movq	=-8388608, r1
-	movq	=1065353216, r2
+	mov	=-8388608, r1
+	mov	=1065353216, r2
 	clr	r3
-	fcble	r1.32, r2.32, 1f
+	fcble.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1008
-	movq	=-8388608, r1
-	movq	=-1077936128, r2
+	mov	=-8388608, r1
+	mov	=-1077936128, r2
 	clr	r3
-	fcble	r1.32, r2.32, 1f
+	fcble.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1009
-	movq	=-8388608, r1
-	movq	=1075838976, r2
+	mov	=-8388608, r1
+	mov	=1075838976, r2
 	clr	r3
-	fcble	r1.32, r2.32, 1f
+	fcble.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1010
-	movq	=-8388608, r1
-	movq	=2139095040, r2
+	mov	=-8388608, r1
+	mov	=2139095040, r2
 	clr	r3
-	fcble	r1.32, r2.32, 1f
+	fcble.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1011
-	movq	=-8388608, r1
-	movq	=-8388608, r2
+	mov	=-8388608, r1
+	mov	=-8388608, r2
 	clr	r3
-	fcble	r1.32, r2.32, 1f
+	fcble.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1012
-	movq	=-8388608, r1
-	movq	=2143289344, r2
+	mov	=-8388608, r1
+	mov	=2143289344, r2
 	clr	r3
-	fcble	r1.32, r2.32, 1f
+	fcble.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1013
-	movq	=2143289344, r1
-	movq	=0, r2
+	mov	=2143289344, r1
+	mov	=0, r2
 	clr	r3
-	fcble	r1.32, r2.32, 1f
+	fcble.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1014
-	movq	=2143289344, r1
-	movq	=-2147483648, r2
+	mov	=2143289344, r1
+	mov	=-2147483648, r2
 	clr	r3
-	fcble	r1.32, r2.32, 1f
+	fcble.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1015
-	movq	=2143289344, r1
-	movq	=1065353216, r2
+	mov	=2143289344, r1
+	mov	=1065353216, r2
 	clr	r3
-	fcble	r1.32, r2.32, 1f
+	fcble.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1016
-	movq	=2143289344, r1
-	movq	=-1077936128, r2
+	mov	=2143289344, r1
+	mov	=-1077936128, r2
 	clr	r3
-	fcble	r1.32, r2.32, 1f
+	fcble.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1017
-	movq	=2143289344, r1
-	movq	=1075838976, r2
+	mov	=2143289344, r1
+	mov	=1075838976, r2
 	clr	r3
-	fcble	r1.32, r2.32, 1f
+	fcble.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1018
-	movq	=2143289344, r1
-	movq	=2139095040, r2
+	mov	=2143289344, r1
+	mov	=2139095040, r2
 	clr	r3
-	fcble	r1.32, r2.32, 1f
+	fcble.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1019
-	movq	=2143289344, r1
-	movq	=-8388608, r2
+	mov	=2143289344, r1
+	mov	=-8388608, r2
 	clr	r3
-	fcble	r1.32, r2.32, 1f
+	fcble.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1020
-	movq	=2143289344, r1
-	movq	=2143289344, r2
+	mov	=2143289344, r1
+	mov	=2143289344, r2
 	clr	r3
-	fcble	r1.32, r2.32, 1f
+	fcble.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1021
-	movq	=0, r1
-	movq	=0, r2
+	mov	=0, r1
+	mov	=0, r2
 	clr	r3
-	fcbgt	r1.32, r2.32, 1f
+	fcbgt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1022
-	movq	=0, r1
-	movq	=-2147483648, r2
+	mov	=0, r1
+	mov	=-2147483648, r2
 	clr	r3
-	fcbgt	r1.32, r2.32, 1f
+	fcbgt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1023
-	movq	=0, r1
-	movq	=1065353216, r2
+	mov	=0, r1
+	mov	=1065353216, r2
 	clr	r3
-	fcbgt	r1.32, r2.32, 1f
+	fcbgt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1024
-	movq	=0, r1
-	movq	=-1077936128, r2
+	mov	=0, r1
+	mov	=-1077936128, r2
 	clr	r3
-	fcbgt	r1.32, r2.32, 1f
+	fcbgt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1025
-	movq	=0, r1
-	movq	=1075838976, r2
+	mov	=0, r1
+	mov	=1075838976, r2
 	clr	r3
-	fcbgt	r1.32, r2.32, 1f
+	fcbgt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1026
-	movq	=0, r1
-	movq	=2139095040, r2
+	mov	=0, r1
+	mov	=2139095040, r2
 	clr	r3
-	fcbgt	r1.32, r2.32, 1f
+	fcbgt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1027
-	movq	=0, r1
-	movq	=-8388608, r2
+	mov	=0, r1
+	mov	=-8388608, r2
 	clr	r3
-	fcbgt	r1.32, r2.32, 1f
+	fcbgt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1028
-	movq	=0, r1
-	movq	=2143289344, r2
+	mov	=0, r1
+	mov	=2143289344, r2
 	clr	r3
-	fcbgt	r1.32, r2.32, 1f
+	fcbgt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1029
-	movq	=-2147483648, r1
-	movq	=0, r2
+	mov	=-2147483648, r1
+	mov	=0, r2
 	clr	r3
-	fcbgt	r1.32, r2.32, 1f
+	fcbgt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1030
-	movq	=-2147483648, r1
-	movq	=-2147483648, r2
+	mov	=-2147483648, r1
+	mov	=-2147483648, r2
 	clr	r3
-	fcbgt	r1.32, r2.32, 1f
+	fcbgt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1031
-	movq	=-2147483648, r1
-	movq	=1065353216, r2
+	mov	=-2147483648, r1
+	mov	=1065353216, r2
 	clr	r3
-	fcbgt	r1.32, r2.32, 1f
+	fcbgt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1032
-	movq	=-2147483648, r1
-	movq	=-1077936128, r2
+	mov	=-2147483648, r1
+	mov	=-1077936128, r2
 	clr	r3
-	fcbgt	r1.32, r2.32, 1f
+	fcbgt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1033
-	movq	=-2147483648, r1
-	movq	=1075838976, r2
+	mov	=-2147483648, r1
+	mov	=1075838976, r2
 	clr	r3
-	fcbgt	r1.32, r2.32, 1f
+	fcbgt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1034
-	movq	=-2147483648, r1
-	movq	=2139095040, r2
+	mov	=-2147483648, r1
+	mov	=2139095040, r2
 	clr	r3
-	fcbgt	r1.32, r2.32, 1f
+	fcbgt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1035
-	movq	=-2147483648, r1
-	movq	=-8388608, r2
+	mov	=-2147483648, r1
+	mov	=-8388608, r2
 	clr	r3
-	fcbgt	r1.32, r2.32, 1f
+	fcbgt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1036
-	movq	=-2147483648, r1
-	movq	=2143289344, r2
+	mov	=-2147483648, r1
+	mov	=2143289344, r2
 	clr	r3
-	fcbgt	r1.32, r2.32, 1f
+	fcbgt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1037
-	movq	=1065353216, r1
-	movq	=0, r2
+	mov	=1065353216, r1
+	mov	=0, r2
 	clr	r3
-	fcbgt	r1.32, r2.32, 1f
+	fcbgt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1038
-	movq	=1065353216, r1
-	movq	=-2147483648, r2
+	mov	=1065353216, r1
+	mov	=-2147483648, r2
 	clr	r3
-	fcbgt	r1.32, r2.32, 1f
+	fcbgt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1039
-	movq	=1065353216, r1
-	movq	=1065353216, r2
+	mov	=1065353216, r1
+	mov	=1065353216, r2
 	clr	r3
-	fcbgt	r1.32, r2.32, 1f
+	fcbgt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1040
-	movq	=1065353216, r1
-	movq	=-1077936128, r2
+	mov	=1065353216, r1
+	mov	=-1077936128, r2
 	clr	r3
-	fcbgt	r1.32, r2.32, 1f
+	fcbgt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1041
-	movq	=1065353216, r1
-	movq	=1075838976, r2
+	mov	=1065353216, r1
+	mov	=1075838976, r2
 	clr	r3
-	fcbgt	r1.32, r2.32, 1f
+	fcbgt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1042
-	movq	=1065353216, r1
-	movq	=2139095040, r2
+	mov	=1065353216, r1
+	mov	=2139095040, r2
 	clr	r3
-	fcbgt	r1.32, r2.32, 1f
+	fcbgt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1043
-	movq	=1065353216, r1
-	movq	=-8388608, r2
+	mov	=1065353216, r1
+	mov	=-8388608, r2
 	clr	r3
-	fcbgt	r1.32, r2.32, 1f
+	fcbgt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1044
-	movq	=1065353216, r1
-	movq	=2143289344, r2
+	mov	=1065353216, r1
+	mov	=2143289344, r2
 	clr	r3
-	fcbgt	r1.32, r2.32, 1f
+	fcbgt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1045
-	movq	=-1077936128, r1
-	movq	=0, r2
+	mov	=-1077936128, r1
+	mov	=0, r2
 	clr	r3
-	fcbgt	r1.32, r2.32, 1f
+	fcbgt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1046
-	movq	=-1077936128, r1
-	movq	=-2147483648, r2
+	mov	=-1077936128, r1
+	mov	=-2147483648, r2
 	clr	r3
-	fcbgt	r1.32, r2.32, 1f
+	fcbgt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1047
-	movq	=-1077936128, r1
-	movq	=1065353216, r2
+	mov	=-1077936128, r1
+	mov	=1065353216, r2
 	clr	r3
-	fcbgt	r1.32, r2.32, 1f
+	fcbgt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1048
-	movq	=-1077936128, r1
-	movq	=-1077936128, r2
+	mov	=-1077936128, r1
+	mov	=-1077936128, r2
 	clr	r3
-	fcbgt	r1.32, r2.32, 1f
+	fcbgt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1049
-	movq	=-1077936128, r1
-	movq	=1075838976, r2
+	mov	=-1077936128, r1
+	mov	=1075838976, r2
 	clr	r3
-	fcbgt	r1.32, r2.32, 1f
+	fcbgt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1050
-	movq	=-1077936128, r1
-	movq	=2139095040, r2
+	mov	=-1077936128, r1
+	mov	=2139095040, r2
 	clr	r3
-	fcbgt	r1.32, r2.32, 1f
+	fcbgt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1051
-	movq	=-1077936128, r1
-	movq	=-8388608, r2
+	mov	=-1077936128, r1
+	mov	=-8388608, r2
 	clr	r3
-	fcbgt	r1.32, r2.32, 1f
+	fcbgt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1052
-	movq	=-1077936128, r1
-	movq	=2143289344, r2
+	mov	=-1077936128, r1
+	mov	=2143289344, r2
 	clr	r3
-	fcbgt	r1.32, r2.32, 1f
+	fcbgt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1053
-	movq	=1075838976, r1
-	movq	=0, r2
+	mov	=1075838976, r1
+	mov	=0, r2
 	clr	r3
-	fcbgt	r1.32, r2.32, 1f
+	fcbgt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1054
-	movq	=1075838976, r1
-	movq	=-2147483648, r2
+	mov	=1075838976, r1
+	mov	=-2147483648, r2
 	clr	r3
-	fcbgt	r1.32, r2.32, 1f
+	fcbgt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1055
-	movq	=1075838976, r1
-	movq	=1065353216, r2
+	mov	=1075838976, r1
+	mov	=1065353216, r2
 	clr	r3
-	fcbgt	r1.32, r2.32, 1f
+	fcbgt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1056
-	movq	=1075838976, r1
-	movq	=-1077936128, r2
+	mov	=1075838976, r1
+	mov	=-1077936128, r2
 	clr	r3
-	fcbgt	r1.32, r2.32, 1f
+	fcbgt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1057
-	movq	=1075838976, r1
-	movq	=1075838976, r2
+	mov	=1075838976, r1
+	mov	=1075838976, r2
 	clr	r3
-	fcbgt	r1.32, r2.32, 1f
+	fcbgt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1058
-	movq	=1075838976, r1
-	movq	=2139095040, r2
+	mov	=1075838976, r1
+	mov	=2139095040, r2
 	clr	r3
-	fcbgt	r1.32, r2.32, 1f
+	fcbgt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1059
-	movq	=1075838976, r1
-	movq	=-8388608, r2
+	mov	=1075838976, r1
+	mov	=-8388608, r2
 	clr	r3
-	fcbgt	r1.32, r2.32, 1f
+	fcbgt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1060
-	movq	=1075838976, r1
-	movq	=2143289344, r2
+	mov	=1075838976, r1
+	mov	=2143289344, r2
 	clr	r3
-	fcbgt	r1.32, r2.32, 1f
+	fcbgt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1061
-	movq	=2139095040, r1
-	movq	=0, r2
+	mov	=2139095040, r1
+	mov	=0, r2
 	clr	r3
-	fcbgt	r1.32, r2.32, 1f
+	fcbgt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1062
-	movq	=2139095040, r1
-	movq	=-2147483648, r2
+	mov	=2139095040, r1
+	mov	=-2147483648, r2
 	clr	r3
-	fcbgt	r1.32, r2.32, 1f
+	fcbgt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1063
-	movq	=2139095040, r1
-	movq	=1065353216, r2
+	mov	=2139095040, r1
+	mov	=1065353216, r2
 	clr	r3
-	fcbgt	r1.32, r2.32, 1f
+	fcbgt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1064
-	movq	=2139095040, r1
-	movq	=-1077936128, r2
+	mov	=2139095040, r1
+	mov	=-1077936128, r2
 	clr	r3
-	fcbgt	r1.32, r2.32, 1f
+	fcbgt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1065
-	movq	=2139095040, r1
-	movq	=1075838976, r2
+	mov	=2139095040, r1
+	mov	=1075838976, r2
 	clr	r3
-	fcbgt	r1.32, r2.32, 1f
+	fcbgt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1066
-	movq	=2139095040, r1
-	movq	=2139095040, r2
+	mov	=2139095040, r1
+	mov	=2139095040, r2
 	clr	r3
-	fcbgt	r1.32, r2.32, 1f
+	fcbgt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1067
-	movq	=2139095040, r1
-	movq	=-8388608, r2
+	mov	=2139095040, r1
+	mov	=-8388608, r2
 	clr	r3
-	fcbgt	r1.32, r2.32, 1f
+	fcbgt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1068
-	movq	=2139095040, r1
-	movq	=2143289344, r2
+	mov	=2139095040, r1
+	mov	=2143289344, r2
 	clr	r3
-	fcbgt	r1.32, r2.32, 1f
+	fcbgt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1069
-	movq	=-8388608, r1
-	movq	=0, r2
+	mov	=-8388608, r1
+	mov	=0, r2
 	clr	r3
-	fcbgt	r1.32, r2.32, 1f
+	fcbgt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1070
-	movq	=-8388608, r1
-	movq	=-2147483648, r2
+	mov	=-8388608, r1
+	mov	=-2147483648, r2
 	clr	r3
-	fcbgt	r1.32, r2.32, 1f
+	fcbgt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1071
-	movq	=-8388608, r1
-	movq	=1065353216, r2
+	mov	=-8388608, r1
+	mov	=1065353216, r2
 	clr	r3
-	fcbgt	r1.32, r2.32, 1f
+	fcbgt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1072
-	movq	=-8388608, r1
-	movq	=-1077936128, r2
+	mov	=-8388608, r1
+	mov	=-1077936128, r2
 	clr	r3
-	fcbgt	r1.32, r2.32, 1f
+	fcbgt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1073
-	movq	=-8388608, r1
-	movq	=1075838976, r2
+	mov	=-8388608, r1
+	mov	=1075838976, r2
 	clr	r3
-	fcbgt	r1.32, r2.32, 1f
+	fcbgt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1074
-	movq	=-8388608, r1
-	movq	=2139095040, r2
+	mov	=-8388608, r1
+	mov	=2139095040, r2
 	clr	r3
-	fcbgt	r1.32, r2.32, 1f
+	fcbgt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1075
-	movq	=-8388608, r1
-	movq	=-8388608, r2
+	mov	=-8388608, r1
+	mov	=-8388608, r2
 	clr	r3
-	fcbgt	r1.32, r2.32, 1f
+	fcbgt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1076
-	movq	=-8388608, r1
-	movq	=2143289344, r2
+	mov	=-8388608, r1
+	mov	=2143289344, r2
 	clr	r3
-	fcbgt	r1.32, r2.32, 1f
+	fcbgt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1077
-	movq	=2143289344, r1
-	movq	=0, r2
+	mov	=2143289344, r1
+	mov	=0, r2
 	clr	r3
-	fcbgt	r1.32, r2.32, 1f
+	fcbgt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1078
-	movq	=2143289344, r1
-	movq	=-2147483648, r2
+	mov	=2143289344, r1
+	mov	=-2147483648, r2
 	clr	r3
-	fcbgt	r1.32, r2.32, 1f
+	fcbgt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1079
-	movq	=2143289344, r1
-	movq	=1065353216, r2
+	mov	=2143289344, r1
+	mov	=1065353216, r2
 	clr	r3
-	fcbgt	r1.32, r2.32, 1f
+	fcbgt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1080
-	movq	=2143289344, r1
-	movq	=-1077936128, r2
+	mov	=2143289344, r1
+	mov	=-1077936128, r2
 	clr	r3
-	fcbgt	r1.32, r2.32, 1f
+	fcbgt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1081
-	movq	=2143289344, r1
-	movq	=1075838976, r2
+	mov	=2143289344, r1
+	mov	=1075838976, r2
 	clr	r3
-	fcbgt	r1.32, r2.32, 1f
+	fcbgt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1082
-	movq	=2143289344, r1
-	movq	=2139095040, r2
+	mov	=2143289344, r1
+	mov	=2139095040, r2
 	clr	r3
-	fcbgt	r1.32, r2.32, 1f
+	fcbgt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1083
-	movq	=2143289344, r1
-	movq	=-8388608, r2
+	mov	=2143289344, r1
+	mov	=-8388608, r2
 	clr	r3
-	fcbgt	r1.32, r2.32, 1f
+	fcbgt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1084
-	movq	=2143289344, r1
-	movq	=2143289344, r2
+	mov	=2143289344, r1
+	mov	=2143289344, r2
 	clr	r3
-	fcbgt	r1.32, r2.32, 1f
+	fcbgt.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1085
-	movq	=0, r1
-	movq	=0, r2
+	mov	=0, r1
+	mov	=0, r2
 	clr	r3
-	fcbge	r1.32, r2.32, 1f
+	fcbge.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1086
-	movq	=0, r1
-	movq	=-2147483648, r2
+	mov	=0, r1
+	mov	=-2147483648, r2
 	clr	r3
-	fcbge	r1.32, r2.32, 1f
+	fcbge.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1087
-	movq	=0, r1
-	movq	=1065353216, r2
+	mov	=0, r1
+	mov	=1065353216, r2
 	clr	r3
-	fcbge	r1.32, r2.32, 1f
+	fcbge.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1088
-	movq	=0, r1
-	movq	=-1077936128, r2
+	mov	=0, r1
+	mov	=-1077936128, r2
 	clr	r3
-	fcbge	r1.32, r2.32, 1f
+	fcbge.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1089
-	movq	=0, r1
-	movq	=1075838976, r2
+	mov	=0, r1
+	mov	=1075838976, r2
 	clr	r3
-	fcbge	r1.32, r2.32, 1f
+	fcbge.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1090
-	movq	=0, r1
-	movq	=2139095040, r2
+	mov	=0, r1
+	mov	=2139095040, r2
 	clr	r3
-	fcbge	r1.32, r2.32, 1f
+	fcbge.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1091
-	movq	=0, r1
-	movq	=-8388608, r2
+	mov	=0, r1
+	mov	=-8388608, r2
 	clr	r3
-	fcbge	r1.32, r2.32, 1f
+	fcbge.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1092
-	movq	=0, r1
-	movq	=2143289344, r2
+	mov	=0, r1
+	mov	=2143289344, r2
 	clr	r3
-	fcbge	r1.32, r2.32, 1f
+	fcbge.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1093
-	movq	=-2147483648, r1
-	movq	=0, r2
+	mov	=-2147483648, r1
+	mov	=0, r2
 	clr	r3
-	fcbge	r1.32, r2.32, 1f
+	fcbge.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1094
-	movq	=-2147483648, r1
-	movq	=-2147483648, r2
+	mov	=-2147483648, r1
+	mov	=-2147483648, r2
 	clr	r3
-	fcbge	r1.32, r2.32, 1f
+	fcbge.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1095
-	movq	=-2147483648, r1
-	movq	=1065353216, r2
+	mov	=-2147483648, r1
+	mov	=1065353216, r2
 	clr	r3
-	fcbge	r1.32, r2.32, 1f
+	fcbge.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1096
-	movq	=-2147483648, r1
-	movq	=-1077936128, r2
+	mov	=-2147483648, r1
+	mov	=-1077936128, r2
 	clr	r3
-	fcbge	r1.32, r2.32, 1f
+	fcbge.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1097
-	movq	=-2147483648, r1
-	movq	=1075838976, r2
+	mov	=-2147483648, r1
+	mov	=1075838976, r2
 	clr	r3
-	fcbge	r1.32, r2.32, 1f
+	fcbge.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1098
-	movq	=-2147483648, r1
-	movq	=2139095040, r2
+	mov	=-2147483648, r1
+	mov	=2139095040, r2
 	clr	r3
-	fcbge	r1.32, r2.32, 1f
+	fcbge.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1099
-	movq	=-2147483648, r1
-	movq	=-8388608, r2
+	mov	=-2147483648, r1
+	mov	=-8388608, r2
 	clr	r3
-	fcbge	r1.32, r2.32, 1f
+	fcbge.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1100
-	movq	=-2147483648, r1
-	movq	=2143289344, r2
+	mov	=-2147483648, r1
+	mov	=2143289344, r2
 	clr	r3
-	fcbge	r1.32, r2.32, 1f
+	fcbge.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1101
-	movq	=1065353216, r1
-	movq	=0, r2
+	mov	=1065353216, r1
+	mov	=0, r2
 	clr	r3
-	fcbge	r1.32, r2.32, 1f
+	fcbge.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1102
-	movq	=1065353216, r1
-	movq	=-2147483648, r2
+	mov	=1065353216, r1
+	mov	=-2147483648, r2
 	clr	r3
-	fcbge	r1.32, r2.32, 1f
+	fcbge.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1103
-	movq	=1065353216, r1
-	movq	=1065353216, r2
+	mov	=1065353216, r1
+	mov	=1065353216, r2
 	clr	r3
-	fcbge	r1.32, r2.32, 1f
+	fcbge.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1104
-	movq	=1065353216, r1
-	movq	=-1077936128, r2
+	mov	=1065353216, r1
+	mov	=-1077936128, r2
 	clr	r3
-	fcbge	r1.32, r2.32, 1f
+	fcbge.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1105
-	movq	=1065353216, r1
-	movq	=1075838976, r2
+	mov	=1065353216, r1
+	mov	=1075838976, r2
 	clr	r3
-	fcbge	r1.32, r2.32, 1f
+	fcbge.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1106
-	movq	=1065353216, r1
-	movq	=2139095040, r2
+	mov	=1065353216, r1
+	mov	=2139095040, r2
 	clr	r3
-	fcbge	r1.32, r2.32, 1f
+	fcbge.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1107
-	movq	=1065353216, r1
-	movq	=-8388608, r2
+	mov	=1065353216, r1
+	mov	=-8388608, r2
 	clr	r3
-	fcbge	r1.32, r2.32, 1f
+	fcbge.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1108
-	movq	=1065353216, r1
-	movq	=2143289344, r2
+	mov	=1065353216, r1
+	mov	=2143289344, r2
 	clr	r3
-	fcbge	r1.32, r2.32, 1f
+	fcbge.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1109
-	movq	=-1077936128, r1
-	movq	=0, r2
+	mov	=-1077936128, r1
+	mov	=0, r2
 	clr	r3
-	fcbge	r1.32, r2.32, 1f
+	fcbge.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1110
-	movq	=-1077936128, r1
-	movq	=-2147483648, r2
+	mov	=-1077936128, r1
+	mov	=-2147483648, r2
 	clr	r3
-	fcbge	r1.32, r2.32, 1f
+	fcbge.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1111
-	movq	=-1077936128, r1
-	movq	=1065353216, r2
+	mov	=-1077936128, r1
+	mov	=1065353216, r2
 	clr	r3
-	fcbge	r1.32, r2.32, 1f
+	fcbge.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1112
-	movq	=-1077936128, r1
-	movq	=-1077936128, r2
+	mov	=-1077936128, r1
+	mov	=-1077936128, r2
 	clr	r3
-	fcbge	r1.32, r2.32, 1f
+	fcbge.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1113
-	movq	=-1077936128, r1
-	movq	=1075838976, r2
+	mov	=-1077936128, r1
+	mov	=1075838976, r2
 	clr	r3
-	fcbge	r1.32, r2.32, 1f
+	fcbge.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1114
-	movq	=-1077936128, r1
-	movq	=2139095040, r2
+	mov	=-1077936128, r1
+	mov	=2139095040, r2
 	clr	r3
-	fcbge	r1.32, r2.32, 1f
+	fcbge.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1115
-	movq	=-1077936128, r1
-	movq	=-8388608, r2
+	mov	=-1077936128, r1
+	mov	=-8388608, r2
 	clr	r3
-	fcbge	r1.32, r2.32, 1f
+	fcbge.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1116
-	movq	=-1077936128, r1
-	movq	=2143289344, r2
+	mov	=-1077936128, r1
+	mov	=2143289344, r2
 	clr	r3
-	fcbge	r1.32, r2.32, 1f
+	fcbge.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1117
-	movq	=1075838976, r1
-	movq	=0, r2
+	mov	=1075838976, r1
+	mov	=0, r2
 	clr	r3
-	fcbge	r1.32, r2.32, 1f
+	fcbge.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1118
-	movq	=1075838976, r1
-	movq	=-2147483648, r2
+	mov	=1075838976, r1
+	mov	=-2147483648, r2
 	clr	r3
-	fcbge	r1.32, r2.32, 1f
+	fcbge.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1119
-	movq	=1075838976, r1
-	movq	=1065353216, r2
+	mov	=1075838976, r1
+	mov	=1065353216, r2
 	clr	r3
-	fcbge	r1.32, r2.32, 1f
+	fcbge.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1120
-	movq	=1075838976, r1
-	movq	=-1077936128, r2
+	mov	=1075838976, r1
+	mov	=-1077936128, r2
 	clr	r3
-	fcbge	r1.32, r2.32, 1f
+	fcbge.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1121
-	movq	=1075838976, r1
-	movq	=1075838976, r2
+	mov	=1075838976, r1
+	mov	=1075838976, r2
 	clr	r3
-	fcbge	r1.32, r2.32, 1f
+	fcbge.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1122
-	movq	=1075838976, r1
-	movq	=2139095040, r2
+	mov	=1075838976, r1
+	mov	=2139095040, r2
 	clr	r3
-	fcbge	r1.32, r2.32, 1f
+	fcbge.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1123
-	movq	=1075838976, r1
-	movq	=-8388608, r2
+	mov	=1075838976, r1
+	mov	=-8388608, r2
 	clr	r3
-	fcbge	r1.32, r2.32, 1f
+	fcbge.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1124
-	movq	=1075838976, r1
-	movq	=2143289344, r2
+	mov	=1075838976, r1
+	mov	=2143289344, r2
 	clr	r3
-	fcbge	r1.32, r2.32, 1f
+	fcbge.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1125
-	movq	=2139095040, r1
-	movq	=0, r2
+	mov	=2139095040, r1
+	mov	=0, r2
 	clr	r3
-	fcbge	r1.32, r2.32, 1f
+	fcbge.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1126
-	movq	=2139095040, r1
-	movq	=-2147483648, r2
+	mov	=2139095040, r1
+	mov	=-2147483648, r2
 	clr	r3
-	fcbge	r1.32, r2.32, 1f
+	fcbge.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1127
-	movq	=2139095040, r1
-	movq	=1065353216, r2
+	mov	=2139095040, r1
+	mov	=1065353216, r2
 	clr	r3
-	fcbge	r1.32, r2.32, 1f
+	fcbge.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1128
-	movq	=2139095040, r1
-	movq	=-1077936128, r2
+	mov	=2139095040, r1
+	mov	=-1077936128, r2
 	clr	r3
-	fcbge	r1.32, r2.32, 1f
+	fcbge.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1129
-	movq	=2139095040, r1
-	movq	=1075838976, r2
+	mov	=2139095040, r1
+	mov	=1075838976, r2
 	clr	r3
-	fcbge	r1.32, r2.32, 1f
+	fcbge.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1130
-	movq	=2139095040, r1
-	movq	=2139095040, r2
+	mov	=2139095040, r1
+	mov	=2139095040, r2
 	clr	r3
-	fcbge	r1.32, r2.32, 1f
+	fcbge.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1131
-	movq	=2139095040, r1
-	movq	=-8388608, r2
+	mov	=2139095040, r1
+	mov	=-8388608, r2
 	clr	r3
-	fcbge	r1.32, r2.32, 1f
+	fcbge.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1132
-	movq	=2139095040, r1
-	movq	=2143289344, r2
+	mov	=2139095040, r1
+	mov	=2143289344, r2
 	clr	r3
-	fcbge	r1.32, r2.32, 1f
+	fcbge.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1133
-	movq	=-8388608, r1
-	movq	=0, r2
+	mov	=-8388608, r1
+	mov	=0, r2
 	clr	r3
-	fcbge	r1.32, r2.32, 1f
+	fcbge.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1134
-	movq	=-8388608, r1
-	movq	=-2147483648, r2
+	mov	=-8388608, r1
+	mov	=-2147483648, r2
 	clr	r3
-	fcbge	r1.32, r2.32, 1f
+	fcbge.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1135
-	movq	=-8388608, r1
-	movq	=1065353216, r2
+	mov	=-8388608, r1
+	mov	=1065353216, r2
 	clr	r3
-	fcbge	r1.32, r2.32, 1f
+	fcbge.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1136
-	movq	=-8388608, r1
-	movq	=-1077936128, r2
+	mov	=-8388608, r1
+	mov	=-1077936128, r2
 	clr	r3
-	fcbge	r1.32, r2.32, 1f
+	fcbge.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1137
-	movq	=-8388608, r1
-	movq	=1075838976, r2
+	mov	=-8388608, r1
+	mov	=1075838976, r2
 	clr	r3
-	fcbge	r1.32, r2.32, 1f
+	fcbge.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1138
-	movq	=-8388608, r1
-	movq	=2139095040, r2
+	mov	=-8388608, r1
+	mov	=2139095040, r2
 	clr	r3
-	fcbge	r1.32, r2.32, 1f
+	fcbge.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1139
-	movq	=-8388608, r1
-	movq	=-8388608, r2
+	mov	=-8388608, r1
+	mov	=-8388608, r2
 	clr	r3
-	fcbge	r1.32, r2.32, 1f
+	fcbge.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1140
-	movq	=-8388608, r1
-	movq	=2143289344, r2
+	mov	=-8388608, r1
+	mov	=2143289344, r2
 	clr	r3
-	fcbge	r1.32, r2.32, 1f
+	fcbge.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1141
-	movq	=2143289344, r1
-	movq	=0, r2
+	mov	=2143289344, r1
+	mov	=0, r2
 	clr	r3
-	fcbge	r1.32, r2.32, 1f
+	fcbge.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1142
-	movq	=2143289344, r1
-	movq	=-2147483648, r2
+	mov	=2143289344, r1
+	mov	=-2147483648, r2
 	clr	r3
-	fcbge	r1.32, r2.32, 1f
+	fcbge.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1143
-	movq	=2143289344, r1
-	movq	=1065353216, r2
+	mov	=2143289344, r1
+	mov	=1065353216, r2
 	clr	r3
-	fcbge	r1.32, r2.32, 1f
+	fcbge.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1144
-	movq	=2143289344, r1
-	movq	=-1077936128, r2
+	mov	=2143289344, r1
+	mov	=-1077936128, r2
 	clr	r3
-	fcbge	r1.32, r2.32, 1f
+	fcbge.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1145
-	movq	=2143289344, r1
-	movq	=1075838976, r2
+	mov	=2143289344, r1
+	mov	=1075838976, r2
 	clr	r3
-	fcbge	r1.32, r2.32, 1f
+	fcbge.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1146
-	movq	=2143289344, r1
-	movq	=2139095040, r2
+	mov	=2143289344, r1
+	mov	=2139095040, r2
 	clr	r3
-	fcbge	r1.32, r2.32, 1f
+	fcbge.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1147
-	movq	=2143289344, r1
-	movq	=-8388608, r2
+	mov	=2143289344, r1
+	mov	=-8388608, r2
 	clr	r3
-	fcbge	r1.32, r2.32, 1f
+	fcbge.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1148
-	movq	=2143289344, r1
-	movq	=2143289344, r2
+	mov	=2143289344, r1
+	mov	=2143289344, r2
 	clr	r3
-	fcbge	r1.32, r2.32, 1f
+	fcbge.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1149
-	movq	=0, r1
-	movq	=0, r2
+	mov	=0, r1
+	mov	=0, r2
 	clr	r3
-	fcbuo	r1.32, r2.32, 1f
+	fcbuo.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1150
-	movq	=0, r1
-	movq	=-2147483648, r2
+	mov	=0, r1
+	mov	=-2147483648, r2
 	clr	r3
-	fcbuo	r1.32, r2.32, 1f
+	fcbuo.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1151
-	movq	=0, r1
-	movq	=1065353216, r2
+	mov	=0, r1
+	mov	=1065353216, r2
 	clr	r3
-	fcbuo	r1.32, r2.32, 1f
+	fcbuo.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1152
-	movq	=0, r1
-	movq	=-1077936128, r2
+	mov	=0, r1
+	mov	=-1077936128, r2
 	clr	r3
-	fcbuo	r1.32, r2.32, 1f
+	fcbuo.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1153
-	movq	=0, r1
-	movq	=1075838976, r2
+	mov	=0, r1
+	mov	=1075838976, r2
 	clr	r3
-	fcbuo	r1.32, r2.32, 1f
+	fcbuo.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1154
-	movq	=0, r1
-	movq	=2139095040, r2
+	mov	=0, r1
+	mov	=2139095040, r2
 	clr	r3
-	fcbuo	r1.32, r2.32, 1f
+	fcbuo.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1155
-	movq	=0, r1
-	movq	=-8388608, r2
+	mov	=0, r1
+	mov	=-8388608, r2
 	clr	r3
-	fcbuo	r1.32, r2.32, 1f
+	fcbuo.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1156
-	movq	=0, r1
-	movq	=2143289344, r2
+	mov	=0, r1
+	mov	=2143289344, r2
 	clr	r3
-	fcbuo	r1.32, r2.32, 1f
+	fcbuo.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1157
-	movq	=-2147483648, r1
-	movq	=0, r2
+	mov	=-2147483648, r1
+	mov	=0, r2
 	clr	r3
-	fcbuo	r1.32, r2.32, 1f
+	fcbuo.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1158
-	movq	=-2147483648, r1
-	movq	=-2147483648, r2
+	mov	=-2147483648, r1
+	mov	=-2147483648, r2
 	clr	r3
-	fcbuo	r1.32, r2.32, 1f
+	fcbuo.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1159
-	movq	=-2147483648, r1
-	movq	=1065353216, r2
+	mov	=-2147483648, r1
+	mov	=1065353216, r2
 	clr	r3
-	fcbuo	r1.32, r2.32, 1f
+	fcbuo.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1160
-	movq	=-2147483648, r1
-	movq	=-1077936128, r2
+	mov	=-2147483648, r1
+	mov	=-1077936128, r2
 	clr	r3
-	fcbuo	r1.32, r2.32, 1f
+	fcbuo.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1161
-	movq	=-2147483648, r1
-	movq	=1075838976, r2
+	mov	=-2147483648, r1
+	mov	=1075838976, r2
 	clr	r3
-	fcbuo	r1.32, r2.32, 1f
+	fcbuo.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1162
-	movq	=-2147483648, r1
-	movq	=2139095040, r2
+	mov	=-2147483648, r1
+	mov	=2139095040, r2
 	clr	r3
-	fcbuo	r1.32, r2.32, 1f
+	fcbuo.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1163
-	movq	=-2147483648, r1
-	movq	=-8388608, r2
+	mov	=-2147483648, r1
+	mov	=-8388608, r2
 	clr	r3
-	fcbuo	r1.32, r2.32, 1f
+	fcbuo.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1164
-	movq	=-2147483648, r1
-	movq	=2143289344, r2
+	mov	=-2147483648, r1
+	mov	=2143289344, r2
 	clr	r3
-	fcbuo	r1.32, r2.32, 1f
+	fcbuo.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1165
-	movq	=1065353216, r1
-	movq	=0, r2
+	mov	=1065353216, r1
+	mov	=0, r2
 	clr	r3
-	fcbuo	r1.32, r2.32, 1f
+	fcbuo.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1166
-	movq	=1065353216, r1
-	movq	=-2147483648, r2
+	mov	=1065353216, r1
+	mov	=-2147483648, r2
 	clr	r3
-	fcbuo	r1.32, r2.32, 1f
+	fcbuo.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1167
-	movq	=1065353216, r1
-	movq	=1065353216, r2
+	mov	=1065353216, r1
+	mov	=1065353216, r2
 	clr	r3
-	fcbuo	r1.32, r2.32, 1f
+	fcbuo.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1168
-	movq	=1065353216, r1
-	movq	=-1077936128, r2
+	mov	=1065353216, r1
+	mov	=-1077936128, r2
 	clr	r3
-	fcbuo	r1.32, r2.32, 1f
+	fcbuo.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1169
-	movq	=1065353216, r1
-	movq	=1075838976, r2
+	mov	=1065353216, r1
+	mov	=1075838976, r2
 	clr	r3
-	fcbuo	r1.32, r2.32, 1f
+	fcbuo.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1170
-	movq	=1065353216, r1
-	movq	=2139095040, r2
+	mov	=1065353216, r1
+	mov	=2139095040, r2
 	clr	r3
-	fcbuo	r1.32, r2.32, 1f
+	fcbuo.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1171
-	movq	=1065353216, r1
-	movq	=-8388608, r2
+	mov	=1065353216, r1
+	mov	=-8388608, r2
 	clr	r3
-	fcbuo	r1.32, r2.32, 1f
+	fcbuo.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1172
-	movq	=1065353216, r1
-	movq	=2143289344, r2
+	mov	=1065353216, r1
+	mov	=2143289344, r2
 	clr	r3
-	fcbuo	r1.32, r2.32, 1f
+	fcbuo.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1173
-	movq	=-1077936128, r1
-	movq	=0, r2
+	mov	=-1077936128, r1
+	mov	=0, r2
 	clr	r3
-	fcbuo	r1.32, r2.32, 1f
+	fcbuo.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1174
-	movq	=-1077936128, r1
-	movq	=-2147483648, r2
+	mov	=-1077936128, r1
+	mov	=-2147483648, r2
 	clr	r3
-	fcbuo	r1.32, r2.32, 1f
+	fcbuo.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1175
-	movq	=-1077936128, r1
-	movq	=1065353216, r2
+	mov	=-1077936128, r1
+	mov	=1065353216, r2
 	clr	r3
-	fcbuo	r1.32, r2.32, 1f
+	fcbuo.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1176
-	movq	=-1077936128, r1
-	movq	=-1077936128, r2
+	mov	=-1077936128, r1
+	mov	=-1077936128, r2
 	clr	r3
-	fcbuo	r1.32, r2.32, 1f
+	fcbuo.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1177
-	movq	=-1077936128, r1
-	movq	=1075838976, r2
+	mov	=-1077936128, r1
+	mov	=1075838976, r2
 	clr	r3
-	fcbuo	r1.32, r2.32, 1f
+	fcbuo.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1178
-	movq	=-1077936128, r1
-	movq	=2139095040, r2
+	mov	=-1077936128, r1
+	mov	=2139095040, r2
 	clr	r3
-	fcbuo	r1.32, r2.32, 1f
+	fcbuo.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1179
-	movq	=-1077936128, r1
-	movq	=-8388608, r2
+	mov	=-1077936128, r1
+	mov	=-8388608, r2
 	clr	r3
-	fcbuo	r1.32, r2.32, 1f
+	fcbuo.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1180
-	movq	=-1077936128, r1
-	movq	=2143289344, r2
+	mov	=-1077936128, r1
+	mov	=2143289344, r2
 	clr	r3
-	fcbuo	r1.32, r2.32, 1f
+	fcbuo.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1181
-	movq	=1075838976, r1
-	movq	=0, r2
+	mov	=1075838976, r1
+	mov	=0, r2
 	clr	r3
-	fcbuo	r1.32, r2.32, 1f
+	fcbuo.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1182
-	movq	=1075838976, r1
-	movq	=-2147483648, r2
+	mov	=1075838976, r1
+	mov	=-2147483648, r2
 	clr	r3
-	fcbuo	r1.32, r2.32, 1f
+	fcbuo.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1183
-	movq	=1075838976, r1
-	movq	=1065353216, r2
+	mov	=1075838976, r1
+	mov	=1065353216, r2
 	clr	r3
-	fcbuo	r1.32, r2.32, 1f
+	fcbuo.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1184
-	movq	=1075838976, r1
-	movq	=-1077936128, r2
+	mov	=1075838976, r1
+	mov	=-1077936128, r2
 	clr	r3
-	fcbuo	r1.32, r2.32, 1f
+	fcbuo.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1185
-	movq	=1075838976, r1
-	movq	=1075838976, r2
+	mov	=1075838976, r1
+	mov	=1075838976, r2
 	clr	r3
-	fcbuo	r1.32, r2.32, 1f
+	fcbuo.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1186
-	movq	=1075838976, r1
-	movq	=2139095040, r2
+	mov	=1075838976, r1
+	mov	=2139095040, r2
 	clr	r3
-	fcbuo	r1.32, r2.32, 1f
+	fcbuo.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1187
-	movq	=1075838976, r1
-	movq	=-8388608, r2
+	mov	=1075838976, r1
+	mov	=-8388608, r2
 	clr	r3
-	fcbuo	r1.32, r2.32, 1f
+	fcbuo.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1188
-	movq	=1075838976, r1
-	movq	=2143289344, r2
+	mov	=1075838976, r1
+	mov	=2143289344, r2
 	clr	r3
-	fcbuo	r1.32, r2.32, 1f
+	fcbuo.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1189
-	movq	=2139095040, r1
-	movq	=0, r2
+	mov	=2139095040, r1
+	mov	=0, r2
 	clr	r3
-	fcbuo	r1.32, r2.32, 1f
+	fcbuo.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1190
-	movq	=2139095040, r1
-	movq	=-2147483648, r2
+	mov	=2139095040, r1
+	mov	=-2147483648, r2
 	clr	r3
-	fcbuo	r1.32, r2.32, 1f
+	fcbuo.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1191
-	movq	=2139095040, r1
-	movq	=1065353216, r2
+	mov	=2139095040, r1
+	mov	=1065353216, r2
 	clr	r3
-	fcbuo	r1.32, r2.32, 1f
+	fcbuo.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1192
-	movq	=2139095040, r1
-	movq	=-1077936128, r2
+	mov	=2139095040, r1
+	mov	=-1077936128, r2
 	clr	r3
-	fcbuo	r1.32, r2.32, 1f
+	fcbuo.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1193
-	movq	=2139095040, r1
-	movq	=1075838976, r2
+	mov	=2139095040, r1
+	mov	=1075838976, r2
 	clr	r3
-	fcbuo	r1.32, r2.32, 1f
+	fcbuo.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1194
-	movq	=2139095040, r1
-	movq	=2139095040, r2
+	mov	=2139095040, r1
+	mov	=2139095040, r2
 	clr	r3
-	fcbuo	r1.32, r2.32, 1f
+	fcbuo.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1195
-	movq	=2139095040, r1
-	movq	=-8388608, r2
+	mov	=2139095040, r1
+	mov	=-8388608, r2
 	clr	r3
-	fcbuo	r1.32, r2.32, 1f
+	fcbuo.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1196
-	movq	=2139095040, r1
-	movq	=2143289344, r2
+	mov	=2139095040, r1
+	mov	=2143289344, r2
 	clr	r3
-	fcbuo	r1.32, r2.32, 1f
+	fcbuo.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1197
-	movq	=-8388608, r1
-	movq	=0, r2
+	mov	=-8388608, r1
+	mov	=0, r2
 	clr	r3
-	fcbuo	r1.32, r2.32, 1f
+	fcbuo.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1198
-	movq	=-8388608, r1
-	movq	=-2147483648, r2
+	mov	=-8388608, r1
+	mov	=-2147483648, r2
 	clr	r3
-	fcbuo	r1.32, r2.32, 1f
+	fcbuo.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1199
-	movq	=-8388608, r1
-	movq	=1065353216, r2
+	mov	=-8388608, r1
+	mov	=1065353216, r2
 	clr	r3
-	fcbuo	r1.32, r2.32, 1f
+	fcbuo.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1200
-	movq	=-8388608, r1
-	movq	=-1077936128, r2
+	mov	=-8388608, r1
+	mov	=-1077936128, r2
 	clr	r3
-	fcbuo	r1.32, r2.32, 1f
+	fcbuo.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1201
-	movq	=-8388608, r1
-	movq	=1075838976, r2
+	mov	=-8388608, r1
+	mov	=1075838976, r2
 	clr	r3
-	fcbuo	r1.32, r2.32, 1f
+	fcbuo.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1202
-	movq	=-8388608, r1
-	movq	=2139095040, r2
+	mov	=-8388608, r1
+	mov	=2139095040, r2
 	clr	r3
-	fcbuo	r1.32, r2.32, 1f
+	fcbuo.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1203
-	movq	=-8388608, r1
-	movq	=-8388608, r2
+	mov	=-8388608, r1
+	mov	=-8388608, r2
 	clr	r3
-	fcbuo	r1.32, r2.32, 1f
+	fcbuo.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1204
-	movq	=-8388608, r1
-	movq	=2143289344, r2
+	mov	=-8388608, r1
+	mov	=2143289344, r2
 	clr	r3
-	fcbuo	r1.32, r2.32, 1f
+	fcbuo.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1205
-	movq	=2143289344, r1
-	movq	=0, r2
+	mov	=2143289344, r1
+	mov	=0, r2
 	clr	r3
-	fcbuo	r1.32, r2.32, 1f
+	fcbuo.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1206
-	movq	=2143289344, r1
-	movq	=-2147483648, r2
+	mov	=2143289344, r1
+	mov	=-2147483648, r2
 	clr	r3
-	fcbuo	r1.32, r2.32, 1f
+	fcbuo.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1207
-	movq	=2143289344, r1
-	movq	=1065353216, r2
+	mov	=2143289344, r1
+	mov	=1065353216, r2
 	clr	r3
-	fcbuo	r1.32, r2.32, 1f
+	fcbuo.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1208
-	movq	=2143289344, r1
-	movq	=-1077936128, r2
+	mov	=2143289344, r1
+	mov	=-1077936128, r2
 	clr	r3
-	fcbuo	r1.32, r2.32, 1f
+	fcbuo.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1209
-	movq	=2143289344, r1
-	movq	=1075838976, r2
+	mov	=2143289344, r1
+	mov	=1075838976, r2
 	clr	r3
-	fcbuo	r1.32, r2.32, 1f
+	fcbuo.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1210
-	movq	=2143289344, r1
-	movq	=2139095040, r2
+	mov	=2143289344, r1
+	mov	=2139095040, r2
 	clr	r3
-	fcbuo	r1.32, r2.32, 1f
+	fcbuo.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1211
-	movq	=2143289344, r1
-	movq	=-8388608, r2
+	mov	=2143289344, r1
+	mov	=-8388608, r2
 	clr	r3
-	fcbuo	r1.32, r2.32, 1f
+	fcbuo.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1212
-	movq	=2143289344, r1
-	movq	=2143289344, r2
+	mov	=2143289344, r1
+	mov	=2143289344, r2
 	clr	r3
-	fcbuo	r1.32, r2.32, 1f
+	fcbuo.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1213
-	movq	=0, r1
-	movq	=0, r2
+	mov	=0, r1
+	mov	=0, r2
 	clr	r3
-	fcbor	r1.32, r2.32, 1f
+	fcbor.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1214
-	movq	=0, r1
-	movq	=-2147483648, r2
+	mov	=0, r1
+	mov	=-2147483648, r2
 	clr	r3
-	fcbor	r1.32, r2.32, 1f
+	fcbor.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1215
-	movq	=0, r1
-	movq	=1065353216, r2
+	mov	=0, r1
+	mov	=1065353216, r2
 	clr	r3
-	fcbor	r1.32, r2.32, 1f
+	fcbor.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1216
-	movq	=0, r1
-	movq	=-1077936128, r2
+	mov	=0, r1
+	mov	=-1077936128, r2
 	clr	r3
-	fcbor	r1.32, r2.32, 1f
+	fcbor.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1217
-	movq	=0, r1
-	movq	=1075838976, r2
+	mov	=0, r1
+	mov	=1075838976, r2
 	clr	r3
-	fcbor	r1.32, r2.32, 1f
+	fcbor.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1218
-	movq	=0, r1
-	movq	=2139095040, r2
+	mov	=0, r1
+	mov	=2139095040, r2
 	clr	r3
-	fcbor	r1.32, r2.32, 1f
+	fcbor.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1219
-	movq	=0, r1
-	movq	=-8388608, r2
+	mov	=0, r1
+	mov	=-8388608, r2
 	clr	r3
-	fcbor	r1.32, r2.32, 1f
+	fcbor.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1220
-	movq	=0, r1
-	movq	=2143289344, r2
+	mov	=0, r1
+	mov	=2143289344, r2
 	clr	r3
-	fcbor	r1.32, r2.32, 1f
+	fcbor.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1221
-	movq	=-2147483648, r1
-	movq	=0, r2
+	mov	=-2147483648, r1
+	mov	=0, r2
 	clr	r3
-	fcbor	r1.32, r2.32, 1f
+	fcbor.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1222
-	movq	=-2147483648, r1
-	movq	=-2147483648, r2
+	mov	=-2147483648, r1
+	mov	=-2147483648, r2
 	clr	r3
-	fcbor	r1.32, r2.32, 1f
+	fcbor.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1223
-	movq	=-2147483648, r1
-	movq	=1065353216, r2
+	mov	=-2147483648, r1
+	mov	=1065353216, r2
 	clr	r3
-	fcbor	r1.32, r2.32, 1f
+	fcbor.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1224
-	movq	=-2147483648, r1
-	movq	=-1077936128, r2
+	mov	=-2147483648, r1
+	mov	=-1077936128, r2
 	clr	r3
-	fcbor	r1.32, r2.32, 1f
+	fcbor.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1225
-	movq	=-2147483648, r1
-	movq	=1075838976, r2
+	mov	=-2147483648, r1
+	mov	=1075838976, r2
 	clr	r3
-	fcbor	r1.32, r2.32, 1f
+	fcbor.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1226
-	movq	=-2147483648, r1
-	movq	=2139095040, r2
+	mov	=-2147483648, r1
+	mov	=2139095040, r2
 	clr	r3
-	fcbor	r1.32, r2.32, 1f
+	fcbor.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1227
-	movq	=-2147483648, r1
-	movq	=-8388608, r2
+	mov	=-2147483648, r1
+	mov	=-8388608, r2
 	clr	r3
-	fcbor	r1.32, r2.32, 1f
+	fcbor.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1228
-	movq	=-2147483648, r1
-	movq	=2143289344, r2
+	mov	=-2147483648, r1
+	mov	=2143289344, r2
 	clr	r3
-	fcbor	r1.32, r2.32, 1f
+	fcbor.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1229
-	movq	=1065353216, r1
-	movq	=0, r2
+	mov	=1065353216, r1
+	mov	=0, r2
 	clr	r3
-	fcbor	r1.32, r2.32, 1f
+	fcbor.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1230
-	movq	=1065353216, r1
-	movq	=-2147483648, r2
+	mov	=1065353216, r1
+	mov	=-2147483648, r2
 	clr	r3
-	fcbor	r1.32, r2.32, 1f
+	fcbor.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1231
-	movq	=1065353216, r1
-	movq	=1065353216, r2
+	mov	=1065353216, r1
+	mov	=1065353216, r2
 	clr	r3
-	fcbor	r1.32, r2.32, 1f
+	fcbor.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1232
-	movq	=1065353216, r1
-	movq	=-1077936128, r2
+	mov	=1065353216, r1
+	mov	=-1077936128, r2
 	clr	r3
-	fcbor	r1.32, r2.32, 1f
+	fcbor.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1233
-	movq	=1065353216, r1
-	movq	=1075838976, r2
+	mov	=1065353216, r1
+	mov	=1075838976, r2
 	clr	r3
-	fcbor	r1.32, r2.32, 1f
+	fcbor.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1234
-	movq	=1065353216, r1
-	movq	=2139095040, r2
+	mov	=1065353216, r1
+	mov	=2139095040, r2
 	clr	r3
-	fcbor	r1.32, r2.32, 1f
+	fcbor.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1235
-	movq	=1065353216, r1
-	movq	=-8388608, r2
+	mov	=1065353216, r1
+	mov	=-8388608, r2
 	clr	r3
-	fcbor	r1.32, r2.32, 1f
+	fcbor.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1236
-	movq	=1065353216, r1
-	movq	=2143289344, r2
+	mov	=1065353216, r1
+	mov	=2143289344, r2
 	clr	r3
-	fcbor	r1.32, r2.32, 1f
+	fcbor.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1237
-	movq	=-1077936128, r1
-	movq	=0, r2
+	mov	=-1077936128, r1
+	mov	=0, r2
 	clr	r3
-	fcbor	r1.32, r2.32, 1f
+	fcbor.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1238
-	movq	=-1077936128, r1
-	movq	=-2147483648, r2
+	mov	=-1077936128, r1
+	mov	=-2147483648, r2
 	clr	r3
-	fcbor	r1.32, r2.32, 1f
+	fcbor.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1239
-	movq	=-1077936128, r1
-	movq	=1065353216, r2
+	mov	=-1077936128, r1
+	mov	=1065353216, r2
 	clr	r3
-	fcbor	r1.32, r2.32, 1f
+	fcbor.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1240
-	movq	=-1077936128, r1
-	movq	=-1077936128, r2
+	mov	=-1077936128, r1
+	mov	=-1077936128, r2
 	clr	r3
-	fcbor	r1.32, r2.32, 1f
+	fcbor.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1241
-	movq	=-1077936128, r1
-	movq	=1075838976, r2
+	mov	=-1077936128, r1
+	mov	=1075838976, r2
 	clr	r3
-	fcbor	r1.32, r2.32, 1f
+	fcbor.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1242
-	movq	=-1077936128, r1
-	movq	=2139095040, r2
+	mov	=-1077936128, r1
+	mov	=2139095040, r2
 	clr	r3
-	fcbor	r1.32, r2.32, 1f
+	fcbor.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1243
-	movq	=-1077936128, r1
-	movq	=-8388608, r2
+	mov	=-1077936128, r1
+	mov	=-8388608, r2
 	clr	r3
-	fcbor	r1.32, r2.32, 1f
+	fcbor.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1244
-	movq	=-1077936128, r1
-	movq	=2143289344, r2
+	mov	=-1077936128, r1
+	mov	=2143289344, r2
 	clr	r3
-	fcbor	r1.32, r2.32, 1f
+	fcbor.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1245
-	movq	=1075838976, r1
-	movq	=0, r2
+	mov	=1075838976, r1
+	mov	=0, r2
 	clr	r3
-	fcbor	r1.32, r2.32, 1f
+	fcbor.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1246
-	movq	=1075838976, r1
-	movq	=-2147483648, r2
+	mov	=1075838976, r1
+	mov	=-2147483648, r2
 	clr	r3
-	fcbor	r1.32, r2.32, 1f
+	fcbor.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1247
-	movq	=1075838976, r1
-	movq	=1065353216, r2
+	mov	=1075838976, r1
+	mov	=1065353216, r2
 	clr	r3
-	fcbor	r1.32, r2.32, 1f
+	fcbor.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1248
-	movq	=1075838976, r1
-	movq	=-1077936128, r2
+	mov	=1075838976, r1
+	mov	=-1077936128, r2
 	clr	r3
-	fcbor	r1.32, r2.32, 1f
+	fcbor.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1249
-	movq	=1075838976, r1
-	movq	=1075838976, r2
+	mov	=1075838976, r1
+	mov	=1075838976, r2
 	clr	r3
-	fcbor	r1.32, r2.32, 1f
+	fcbor.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1250
-	movq	=1075838976, r1
-	movq	=2139095040, r2
+	mov	=1075838976, r1
+	mov	=2139095040, r2
 	clr	r3
-	fcbor	r1.32, r2.32, 1f
+	fcbor.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1251
-	movq	=1075838976, r1
-	movq	=-8388608, r2
+	mov	=1075838976, r1
+	mov	=-8388608, r2
 	clr	r3
-	fcbor	r1.32, r2.32, 1f
+	fcbor.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1252
-	movq	=1075838976, r1
-	movq	=2143289344, r2
+	mov	=1075838976, r1
+	mov	=2143289344, r2
 	clr	r3
-	fcbor	r1.32, r2.32, 1f
+	fcbor.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1253
-	movq	=2139095040, r1
-	movq	=0, r2
+	mov	=2139095040, r1
+	mov	=0, r2
 	clr	r3
-	fcbor	r1.32, r2.32, 1f
+	fcbor.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1254
-	movq	=2139095040, r1
-	movq	=-2147483648, r2
+	mov	=2139095040, r1
+	mov	=-2147483648, r2
 	clr	r3
-	fcbor	r1.32, r2.32, 1f
+	fcbor.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1255
-	movq	=2139095040, r1
-	movq	=1065353216, r2
+	mov	=2139095040, r1
+	mov	=1065353216, r2
 	clr	r3
-	fcbor	r1.32, r2.32, 1f
+	fcbor.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1256
-	movq	=2139095040, r1
-	movq	=-1077936128, r2
+	mov	=2139095040, r1
+	mov	=-1077936128, r2
 	clr	r3
-	fcbor	r1.32, r2.32, 1f
+	fcbor.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1257
-	movq	=2139095040, r1
-	movq	=1075838976, r2
+	mov	=2139095040, r1
+	mov	=1075838976, r2
 	clr	r3
-	fcbor	r1.32, r2.32, 1f
+	fcbor.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1258
-	movq	=2139095040, r1
-	movq	=2139095040, r2
+	mov	=2139095040, r1
+	mov	=2139095040, r2
 	clr	r3
-	fcbor	r1.32, r2.32, 1f
+	fcbor.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1259
-	movq	=2139095040, r1
-	movq	=-8388608, r2
+	mov	=2139095040, r1
+	mov	=-8388608, r2
 	clr	r3
-	fcbor	r1.32, r2.32, 1f
+	fcbor.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1260
-	movq	=2139095040, r1
-	movq	=2143289344, r2
+	mov	=2139095040, r1
+	mov	=2143289344, r2
 	clr	r3
-	fcbor	r1.32, r2.32, 1f
+	fcbor.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1261
-	movq	=-8388608, r1
-	movq	=0, r2
+	mov	=-8388608, r1
+	mov	=0, r2
 	clr	r3
-	fcbor	r1.32, r2.32, 1f
+	fcbor.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1262
-	movq	=-8388608, r1
-	movq	=-2147483648, r2
+	mov	=-8388608, r1
+	mov	=-2147483648, r2
 	clr	r3
-	fcbor	r1.32, r2.32, 1f
+	fcbor.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1263
-	movq	=-8388608, r1
-	movq	=1065353216, r2
+	mov	=-8388608, r1
+	mov	=1065353216, r2
 	clr	r3
-	fcbor	r1.32, r2.32, 1f
+	fcbor.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1264
-	movq	=-8388608, r1
-	movq	=-1077936128, r2
+	mov	=-8388608, r1
+	mov	=-1077936128, r2
 	clr	r3
-	fcbor	r1.32, r2.32, 1f
+	fcbor.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1265
-	movq	=-8388608, r1
-	movq	=1075838976, r2
+	mov	=-8388608, r1
+	mov	=1075838976, r2
 	clr	r3
-	fcbor	r1.32, r2.32, 1f
+	fcbor.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1266
-	movq	=-8388608, r1
-	movq	=2139095040, r2
+	mov	=-8388608, r1
+	mov	=2139095040, r2
 	clr	r3
-	fcbor	r1.32, r2.32, 1f
+	fcbor.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1267
-	movq	=-8388608, r1
-	movq	=-8388608, r2
+	mov	=-8388608, r1
+	mov	=-8388608, r2
 	clr	r3
-	fcbor	r1.32, r2.32, 1f
+	fcbor.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #1, f1268
-	movq	=-8388608, r1
-	movq	=2143289344, r2
+	mov	=-8388608, r1
+	mov	=2143289344, r2
 	clr	r3
-	fcbor	r1.32, r2.32, 1f
+	fcbor.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1269
-	movq	=2143289344, r1
-	movq	=0, r2
+	mov	=2143289344, r1
+	mov	=0, r2
 	clr	r3
-	fcbor	r1.32, r2.32, 1f
+	fcbor.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1270
-	movq	=2143289344, r1
-	movq	=-2147483648, r2
+	mov	=2143289344, r1
+	mov	=-2147483648, r2
 	clr	r3
-	fcbor	r1.32, r2.32, 1f
+	fcbor.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1271
-	movq	=2143289344, r1
-	movq	=1065353216, r2
+	mov	=2143289344, r1
+	mov	=1065353216, r2
 	clr	r3
-	fcbor	r1.32, r2.32, 1f
+	fcbor.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1272
-	movq	=2143289344, r1
-	movq	=-1077936128, r2
+	mov	=2143289344, r1
+	mov	=-1077936128, r2
 	clr	r3
-	fcbor	r1.32, r2.32, 1f
+	fcbor.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1273
-	movq	=2143289344, r1
-	movq	=1075838976, r2
+	mov	=2143289344, r1
+	mov	=1075838976, r2
 	clr	r3
-	fcbor	r1.32, r2.32, 1f
+	fcbor.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1274
-	movq	=2143289344, r1
-	movq	=2139095040, r2
+	mov	=2143289344, r1
+	mov	=2139095040, r2
 	clr	r3
-	fcbor	r1.32, r2.32, 1f
+	fcbor.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1275
-	movq	=2143289344, r1
-	movq	=-8388608, r2
+	mov	=2143289344, r1
+	mov	=-8388608, r2
 	clr	r3
-	fcbor	r1.32, r2.32, 1f
+	fcbor.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1276
-	movq	=2143289344, r1
-	movq	=2143289344, r2
+	mov	=2143289344, r1
+	mov	=2143289344, r2
 	clr	r3
-	fcbor	r1.32, r2.32, 1f
+	fcbor.f32	r1, r2, 1f
 	br	2f
-1:	movq	#1, r3
+1:	mov	#1, r3
 2:
 	cbne	r3, #0, f1277
-	movq	=3, r1
-	movq	=4, r12
+	mov	=3, r1
+	mov	=4, r12
 	clr	r3
 	cbcs	r1, r12, FA1278
 	br	FB1278
 	.fill	20000, 1, 0
-FA1278:	movq	#1, r3
+FA1278:	mov	#1, r3
 FB1278:
 	cbne	r3, #1, f1279
-	movq	=3, r1
+	mov	=3, r1
 	clr	r3
 	br	FD1280
-FE1280:	movq	#1, r3
+FE1280:	mov	#1, r3
 	br	FF1280
 	.fill	20000, 1, 0
 FD1280:	cbcs	r1, #4, FE1280
 FF1280:
 	cbne	r3, #1, f1281
-	movq	=4, r1
-	movq	=4, r12
+	mov	=4, r1
+	mov	=4, r12
 	clr	r3
 	cbcs	r1, r12, FA1282
 	br	FB1282
 	.fill	20000, 1, 0
-FA1282:	movq	#1, r3
+FA1282:	mov	#1, r3
 FB1282:
 	cbne	r3, #0, f1283
-	movq	=4, r1
+	mov	=4, r1
 	clr	r3
 	br	FD1284
-FE1284:	movq	#1, r3
+FE1284:	mov	#1, r3
 	br	FF1284
 	.fill	20000, 1, 0
 FD1284:	cbcs	r1, #4, FE1284
 FF1284:
 	cbne	r3, #0, f1285
-	movq	=5, r1
-	movq	=4, r12
+	mov	=5, r1
+	mov	=4, r12
 	clr	r3
 	cbcs	r1, r12, FA1286
 	br	FB1286
 	.fill	20000, 1, 0
-FA1286:	movq	#1, r3
+FA1286:	mov	#1, r3
 FB1286:
 	cbne	r3, #0, f1287
-	movq	=5, r1
+	mov	=5, r1
 	clr	r3
 	br	FD1288
-FE1288:	movq	#1, r3
+FE1288:	mov	#1, r3
 	br	FF1288
 	.fill	20000, 1, 0
 FD1288:	cbcs	r1, #4, FE1288
 FF1288:
 	cbne	r3, #0, f1289
-	movq	=-1, r1
-	movq	=1, r12
+	mov	=-1, r1
+	mov	=1, r12
 	clr	r3
 	cbcs	r1, r12, FA1290
 	br	FB1290
 	.fill	20000, 1, 0
-FA1290:	movq	#1, r3
+FA1290:	mov	#1, r3
 FB1290:
 	cbne	r3, #0, f1291
-	movq	=-1, r1
+	mov	=-1, r1
 	clr	r3
 	br	FD1292
-FE1292:	movq	#1, r3
+FE1292:	mov	#1, r3
 	br	FF1292
 	.fill	20000, 1, 0
 FD1292:	cbcs	r1, #1, FE1292
 FF1292:
 	cbne	r3, #0, f1293
-	movq	=1, r1
-	movq	=-1, r12
+	mov	=1, r1
+	mov	=-1, r12
 	clr	r3
 	cbcs	r1, r12, FA1294
 	br	FB1294
 	.fill	20000, 1, 0
-FA1294:	movq	#1, r3
+FA1294:	mov	#1, r3
 FB1294:
 	cbne	r3, #1, f1295
-	movq	=1, r1
+	mov	=1, r1
 	clr	r3
 	br	FD1296
-FE1296:	movq	#1, r3
+FE1296:	mov	#1, r3
 	br	FF1296
 	.fill	20000, 1, 0
 FD1296:	cbcs	r1, #-1, FE1296
 FF1296:
 	cbne	r3, #1, f1297
-	movq	=3, r1
-	movq	=4, r12
+	mov	=3, r1
+	mov	=4, r12
 	clr	r3
 	cbcc	r1, r12, FA1298
 	br	FB1298
 	.fill	20000, 1, 0
-FA1298:	movq	#1, r3
+FA1298:	mov	#1, r3
 FB1298:
 	cbne	r3, #0, f1299
-	movq	=3, r1
+	mov	=3, r1
 	clr	r3
 	br	FD1300
-FE1300:	movq	#1, r3
+FE1300:	mov	#1, r3
 	br	FF1300
 	.fill	20000, 1, 0
 FD1300:	cbcc	r1, #4, FE1300
 FF1300:
 	cbne	r3, #0, f1301
-	movq	=4, r1
-	movq	=4, r12
+	mov	=4, r1
+	mov	=4, r12
 	clr	r3
 	cbcc	r1, r12, FA1302
 	br	FB1302
 	.fill	20000, 1, 0
-FA1302:	movq	#1, r3
+FA1302:	mov	#1, r3
 FB1302:
 	cbne	r3, #1, f1303
-	movq	=4, r1
+	mov	=4, r1
 	clr	r3
 	br	FD1304
-FE1304:	movq	#1, r3
+FE1304:	mov	#1, r3
 	br	FF1304
 	.fill	20000, 1, 0
 FD1304:	cbcc	r1, #4, FE1304
 FF1304:
 	cbne	r3, #1, f1305
-	movq	=5, r1
-	movq	=4, r12
+	mov	=5, r1
+	mov	=4, r12
 	clr	r3
 	cbcc	r1, r12, FA1306
 	br	FB1306
 	.fill	20000, 1, 0
-FA1306:	movq	#1, r3
+FA1306:	mov	#1, r3
 FB1306:
 	cbne	r3, #1, f1307
-	movq	=5, r1
+	mov	=5, r1
 	clr	r3
 	br	FD1308
-FE1308:	movq	#1, r3
+FE1308:	mov	#1, r3
 	br	FF1308
 	.fill	20000, 1, 0
 FD1308:	cbcc	r1, #4, FE1308
 FF1308:
 	cbne	r3, #1, f1309
-	movq	=-1, r1
-	movq	=1, r12
+	mov	=-1, r1
+	mov	=1, r12
 	clr	r3
 	cbcc	r1, r12, FA1310
 	br	FB1310
 	.fill	20000, 1, 0
-FA1310:	movq	#1, r3
+FA1310:	mov	#1, r3
 FB1310:
 	cbne	r3, #1, f1311
-	movq	=-1, r1
+	mov	=-1, r1
 	clr	r3
 	br	FD1312
-FE1312:	movq	#1, r3
+FE1312:	mov	#1, r3
 	br	FF1312
 	.fill	20000, 1, 0
 FD1312:	cbcc	r1, #1, FE1312
 FF1312:
 	cbne	r3, #1, f1313
-	movq	=1, r1
-	movq	=-1, r12
+	mov	=1, r1
+	mov	=-1, r12
 	clr	r3
 	cbcc	r1, r12, FA1314
 	br	FB1314
 	.fill	20000, 1, 0
-FA1314:	movq	#1, r3
+FA1314:	mov	#1, r3
 FB1314:
 	cbne	r3, #0, f1315
-	movq	=1, r1
+	mov	=1, r1
 	clr	r3
 	br	FD1316
-FE1316:	movq	#1, r3
+FE1316:	mov	#1, r3
 	br	FF1316
 	.fill	20000, 1, 0
 FD1316:	cbcc	r1, #-1, FE1316
 FF1316:
 	cbne	r3, #0, f1317
-	movq	=3, r1
-	movq	=4, r12
+	mov	=3, r1
+	mov	=4, r12
 	clr	r3
 	cbhi	r1, r12, FA1318
 	br	FB1318
 	.fill	20000, 1, 0
-FA1318:	movq	#1, r3
+FA1318:	mov	#1, r3
 FB1318:
 	cbne	r3, #0, f1319
-	movq	=3, r1
+	mov	=3, r1
 	clr	r3
 	br	FD1320
-FE1320:	movq	#1, r3
+FE1320:	mov	#1, r3
 	br	FF1320
 	.fill	20000, 1, 0
 FD1320:	cbhi	r1, #4, FE1320
 FF1320:
 	cbne	r3, #0, f1321
-	movq	=4, r1
-	movq	=4, r12
+	mov	=4, r1
+	mov	=4, r12
 	clr	r3
 	cbhi	r1, r12, FA1322
 	br	FB1322
 	.fill	20000, 1, 0
-FA1322:	movq	#1, r3
+FA1322:	mov	#1, r3
 FB1322:
 	cbne	r3, #0, f1323
-	movq	=4, r1
+	mov	=4, r1
 	clr	r3
 	br	FD1324
-FE1324:	movq	#1, r3
+FE1324:	mov	#1, r3
 	br	FF1324
 	.fill	20000, 1, 0
 FD1324:	cbhi	r1, #4, FE1324
 FF1324:
 	cbne	r3, #0, f1325
-	movq	=5, r1
-	movq	=4, r12
+	mov	=5, r1
+	mov	=4, r12
 	clr	r3
 	cbhi	r1, r12, FA1326
 	br	FB1326
 	.fill	20000, 1, 0
-FA1326:	movq	#1, r3
+FA1326:	mov	#1, r3
 FB1326:
 	cbne	r3, #1, f1327
-	movq	=5, r1
+	mov	=5, r1
 	clr	r3
 	br	FD1328
-FE1328:	movq	#1, r3
+FE1328:	mov	#1, r3
 	br	FF1328
 	.fill	20000, 1, 0
 FD1328:	cbhi	r1, #4, FE1328
 FF1328:
 	cbne	r3, #1, f1329
-	movq	=-1, r1
-	movq	=1, r12
+	mov	=-1, r1
+	mov	=1, r12
 	clr	r3
 	cbhi	r1, r12, FA1330
 	br	FB1330
 	.fill	20000, 1, 0
-FA1330:	movq	#1, r3
+FA1330:	mov	#1, r3
 FB1330:
 	cbne	r3, #1, f1331
-	movq	=-1, r1
+	mov	=-1, r1
 	clr	r3
 	br	FD1332
-FE1332:	movq	#1, r3
+FE1332:	mov	#1, r3
 	br	FF1332
 	.fill	20000, 1, 0
 FD1332:	cbhi	r1, #1, FE1332
 FF1332:
 	cbne	r3, #1, f1333
-	movq	=1, r1
-	movq	=-1, r12
+	mov	=1, r1
+	mov	=-1, r12
 	clr	r3
 	cbhi	r1, r12, FA1334
 	br	FB1334
 	.fill	20000, 1, 0
-FA1334:	movq	#1, r3
+FA1334:	mov	#1, r3
 FB1334:
 	cbne	r3, #0, f1335
-	movq	=1, r1
+	mov	=1, r1
 	clr	r3
 	br	FD1336
-FE1336:	movq	#1, r3
+FE1336:	mov	#1, r3
 	br	FF1336
 	.fill	20000, 1, 0
 FD1336:	cbhi	r1, #-1, FE1336
 FF1336:
 	cbne	r3, #0, f1337
-	movq	=3, r1
-	movq	=4, r12
+	mov	=3, r1
+	mov	=4, r12
 	clr	r3
 	cblos	r1, r12, FA1338
 	br	FB1338
 	.fill	20000, 1, 0
-FA1338:	movq	#1, r3
+FA1338:	mov	#1, r3
 FB1338:
 	cbne	r3, #1, f1339
-	movq	=3, r1
+	mov	=3, r1
 	clr	r3
 	br	FD1340
-FE1340:	movq	#1, r3
+FE1340:	mov	#1, r3
 	br	FF1340
 	.fill	20000, 1, 0
 FD1340:	cblos	r1, #4, FE1340
 FF1340:
 	cbne	r3, #1, f1341
-	movq	=4, r1
-	movq	=4, r12
+	mov	=4, r1
+	mov	=4, r12
 	clr	r3
 	cblos	r1, r12, FA1342
 	br	FB1342
 	.fill	20000, 1, 0
-FA1342:	movq	#1, r3
+FA1342:	mov	#1, r3
 FB1342:
 	cbne	r3, #1, f1343
-	movq	=4, r1
+	mov	=4, r1
 	clr	r3
 	br	FD1344
-FE1344:	movq	#1, r3
+FE1344:	mov	#1, r3
 	br	FF1344
 	.fill	20000, 1, 0
 FD1344:	cblos	r1, #4, FE1344
 FF1344:
 	cbne	r3, #1, f1345
-	movq	=5, r1
-	movq	=4, r12
+	mov	=5, r1
+	mov	=4, r12
 	clr	r3
 	cblos	r1, r12, FA1346
 	br	FB1346
 	.fill	20000, 1, 0
-FA1346:	movq	#1, r3
+FA1346:	mov	#1, r3
 FB1346:
 	cbne	r3, #0, f1347
-	movq	=5, r1
+	mov	=5, r1
 	clr	r3
 	br	FD1348
-FE1348:	movq	#1, r3
+FE1348:	mov	#1, r3
 	br	FF1348
 	.fill	20000, 1, 0
 FD1348:	cblos	r1, #4, FE1348
 FF1348:
 	cbne	r3, #0, f1349
-	movq	=-1, r1
-	movq	=1, r12
+	mov	=-1, r1
+	mov	=1, r12
 	clr	r3
 	cblos	r1, r12, FA1350
 	br	FB1350
 	.fill	20000, 1, 0
-FA1350:	movq	#1, r3
+FA1350:	mov	#1, r3
 FB1350:
 	cbne	r3, #0, f1351
-	movq	=-1, r1
+	mov	=-1, r1
 	clr	r3
 	br	FD1352
-FE1352:	movq	#1, r3
+FE1352:	mov	#1, r3
 	br	FF1352
 	.fill	20000, 1, 0
 FD1352:	cblos	r1, #1, FE1352
 FF1352:
 	cbne	r3, #0, f1353
-	movq	=1, r1
-	movq	=-1, r12
+	mov	=1, r1
+	mov	=-1, r12
 	clr	r3
 	cblos	r1, r12, FA1354
 	br	FB1354
 	.fill	20000, 1, 0
-FA1354:	movq	#1, r3
+FA1354:	mov	#1, r3
 FB1354:
 	cbne	r3, #1, f1355
-	movq	=1, r1
+	mov	=1, r1
 	clr	r3
 	br	FD1356
-FE1356:	movq	#1, r3
+FE1356:	mov	#1, r3
 	br	FF1356
 	.fill	20000, 1, 0
 FD1356:	cblos	r1, #-1, FE1356
 FF1356:
 	cbne	r3, #1, f1357
-	movq	=3, r1
-	movq	=4, r12
+	mov	=3, r1
+	mov	=4, r12
 	clr	r3
 	cblt	r1, r12, FA1358
 	br	FB1358
 	.fill	20000, 1, 0
-FA1358:	movq	#1, r3
+FA1358:	mov	#1, r3
 FB1358:
 	cbne	r3, #1, f1359
-	movq	=3, r1
+	mov	=3, r1
 	clr	r3
 	br	FD1360
-FE1360:	movq	#1, r3
+FE1360:	mov	#1, r3
 	br	FF1360
 	.fill	20000, 1, 0
 FD1360:	cblt	r1, #4, FE1360
 FF1360:
 	cbne	r3, #1, f1361
-	movq	=4, r1
-	movq	=4, r12
+	mov	=4, r1
+	mov	=4, r12
 	clr	r3
 	cblt	r1, r12, FA1362
 	br	FB1362
 	.fill	20000, 1, 0
-FA1362:	movq	#1, r3
+FA1362:	mov	#1, r3
 FB1362:
 	cbne	r3, #0, f1363
-	movq	=4, r1
+	mov	=4, r1
 	clr	r3
 	br	FD1364
-FE1364:	movq	#1, r3
+FE1364:	mov	#1, r3
 	br	FF1364
 	.fill	20000, 1, 0
 FD1364:	cblt	r1, #4, FE1364
 FF1364:
 	cbne	r3, #0, f1365
-	movq	=5, r1
-	movq	=4, r12
+	mov	=5, r1
+	mov	=4, r12
 	clr	r3
 	cblt	r1, r12, FA1366
 	br	FB1366
 	.fill	20000, 1, 0
-FA1366:	movq	#1, r3
+FA1366:	mov	#1, r3
 FB1366:
 	cbne	r3, #0, f1367
-	movq	=5, r1
+	mov	=5, r1
 	clr	r3
 	br	FD1368
-FE1368:	movq	#1, r3
+FE1368:	mov	#1, r3
 	br	FF1368
 	.fill	20000, 1, 0
 FD1368:	cblt	r1, #4, FE1368
 FF1368:
 	cbne	r3, #0, f1369
-	movq	=-1, r1
-	movq	=1, r12
+	mov	=-1, r1
+	mov	=1, r12
 	clr	r3
 	cblt	r1, r12, FA1370
 	br	FB1370
 	.fill	20000, 1, 0
-FA1370:	movq	#1, r3
+FA1370:	mov	#1, r3
 FB1370:
 	cbne	r3, #1, f1371
-	movq	=-1, r1
+	mov	=-1, r1
 	clr	r3
 	br	FD1372
-FE1372:	movq	#1, r3
+FE1372:	mov	#1, r3
 	br	FF1372
 	.fill	20000, 1, 0
 FD1372:	cblt	r1, #1, FE1372
 FF1372:
 	cbne	r3, #1, f1373
-	movq	=1, r1
-	movq	=-1, r12
+	mov	=1, r1
+	mov	=-1, r12
 	clr	r3
 	cblt	r1, r12, FA1374
 	br	FB1374
 	.fill	20000, 1, 0
-FA1374:	movq	#1, r3
+FA1374:	mov	#1, r3
 FB1374:
 	cbne	r3, #0, f1375
-	movq	=1, r1
+	mov	=1, r1
 	clr	r3
 	br	FD1376
-FE1376:	movq	#1, r3
+FE1376:	mov	#1, r3
 	br	FF1376
 	.fill	20000, 1, 0
 FD1376:	cblt	r1, #-1, FE1376
 FF1376:
 	cbne	r3, #0, f1377
-	movq	=3, r1
-	movq	=4, r12
+	mov	=3, r1
+	mov	=4, r12
 	clr	r3
 	cbge	r1, r12, FA1378
 	br	FB1378
 	.fill	20000, 1, 0
-FA1378:	movq	#1, r3
+FA1378:	mov	#1, r3
 FB1378:
 	cbne	r3, #0, f1379
-	movq	=3, r1
+	mov	=3, r1
 	clr	r3
 	br	FD1380
-FE1380:	movq	#1, r3
+FE1380:	mov	#1, r3
 	br	FF1380
 	.fill	20000, 1, 0
 FD1380:	cbge	r1, #4, FE1380
 FF1380:
 	cbne	r3, #0, f1381
-	movq	=4, r1
-	movq	=4, r12
+	mov	=4, r1
+	mov	=4, r12
 	clr	r3
 	cbge	r1, r12, FA1382
 	br	FB1382
 	.fill	20000, 1, 0
-FA1382:	movq	#1, r3
+FA1382:	mov	#1, r3
 FB1382:
 	cbne	r3, #1, f1383
-	movq	=4, r1
+	mov	=4, r1
 	clr	r3
 	br	FD1384
-FE1384:	movq	#1, r3
+FE1384:	mov	#1, r3
 	br	FF1384
 	.fill	20000, 1, 0
 FD1384:	cbge	r1, #4, FE1384
 FF1384:
 	cbne	r3, #1, f1385
-	movq	=5, r1
-	movq	=4, r12
+	mov	=5, r1
+	mov	=4, r12
 	clr	r3
 	cbge	r1, r12, FA1386
 	br	FB1386
 	.fill	20000, 1, 0
-FA1386:	movq	#1, r3
+FA1386:	mov	#1, r3
 FB1386:
 	cbne	r3, #1, f1387
-	movq	=5, r1
+	mov	=5, r1
 	clr	r3
 	br	FD1388
-FE1388:	movq	#1, r3
+FE1388:	mov	#1, r3
 	br	FF1388
 	.fill	20000, 1, 0
 FD1388:	cbge	r1, #4, FE1388
 FF1388:
 	cbne	r3, #1, f1389
-	movq	=-1, r1
-	movq	=1, r12
+	mov	=-1, r1
+	mov	=1, r12
 	clr	r3
 	cbge	r1, r12, FA1390
 	br	FB1390
 	.fill	20000, 1, 0
-FA1390:	movq	#1, r3
+FA1390:	mov	#1, r3
 FB1390:
 	cbne	r3, #0, f1391
-	movq	=-1, r1
+	mov	=-1, r1
 	clr	r3
 	br	FD1392
-FE1392:	movq	#1, r3
+FE1392:	mov	#1, r3
 	br	FF1392
 	.fill	20000, 1, 0
 FD1392:	cbge	r1, #1, FE1392
 FF1392:
 	cbne	r3, #0, f1393
-	movq	=1, r1
-	movq	=-1, r12
+	mov	=1, r1
+	mov	=-1, r12
 	clr	r3
 	cbge	r1, r12, FA1394
 	br	FB1394
 	.fill	20000, 1, 0
-FA1394:	movq	#1, r3
+FA1394:	mov	#1, r3
 FB1394:
 	cbne	r3, #1, f1395
-	movq	=1, r1
+	mov	=1, r1
 	clr	r3
 	br	FD1396
-FE1396:	movq	#1, r3
+FE1396:	mov	#1, r3
 	br	FF1396
 	.fill	20000, 1, 0
 FD1396:	cbge	r1, #-1, FE1396
 FF1396:
 	cbne	r3, #1, f1397
-	movq	=3, r1
-	movq	=4, r12
+	mov	=3, r1
+	mov	=4, r12
 	clr	r3
 	cbgt	r1, r12, FA1398
 	br	FB1398
 	.fill	20000, 1, 0
-FA1398:	movq	#1, r3
+FA1398:	mov	#1, r3
 FB1398:
 	cbne	r3, #0, f1399
-	movq	=3, r1
+	mov	=3, r1
 	clr	r3
 	br	FD1400
-FE1400:	movq	#1, r3
+FE1400:	mov	#1, r3
 	br	FF1400
 	.fill	20000, 1, 0
 FD1400:	cbgt	r1, #4, FE1400
 FF1400:
 	cbne	r3, #0, f1401
-	movq	=4, r1
-	movq	=4, r12
+	mov	=4, r1
+	mov	=4, r12
 	clr	r3
 	cbgt	r1, r12, FA1402
 	br	FB1402
 	.fill	20000, 1, 0
-FA1402:	movq	#1, r3
+FA1402:	mov	#1, r3
 FB1402:
 	cbne	r3, #0, f1403
-	movq	=4, r1
+	mov	=4, r1
 	clr	r3
 	br	FD1404
-FE1404:	movq	#1, r3
+FE1404:	mov	#1, r3
 	br	FF1404
 	.fill	20000, 1, 0
 FD1404:	cbgt	r1, #4, FE1404
 FF1404:
 	cbne	r3, #0, f1405
-	movq	=5, r1
-	movq	=4, r12
+	mov	=5, r1
+	mov	=4, r12
 	clr	r3
 	cbgt	r1, r12, FA1406
 	br	FB1406
 	.fill	20000, 1, 0
-FA1406:	movq	#1, r3
+FA1406:	mov	#1, r3
 FB1406:
 	cbne	r3, #1, f1407
-	movq	=5, r1
+	mov	=5, r1
 	clr	r3
 	br	FD1408
-FE1408:	movq	#1, r3
+FE1408:	mov	#1, r3
 	br	FF1408
 	.fill	20000, 1, 0
 FD1408:	cbgt	r1, #4, FE1408
 FF1408:
 	cbne	r3, #1, f1409
-	movq	=-1, r1
-	movq	=1, r12
+	mov	=-1, r1
+	mov	=1, r12
 	clr	r3
 	cbgt	r1, r12, FA1410
 	br	FB1410
 	.fill	20000, 1, 0
-FA1410:	movq	#1, r3
+FA1410:	mov	#1, r3
 FB1410:
 	cbne	r3, #0, f1411
-	movq	=-1, r1
+	mov	=-1, r1
 	clr	r3
 	br	FD1412
-FE1412:	movq	#1, r3
+FE1412:	mov	#1, r3
 	br	FF1412
 	.fill	20000, 1, 0
 FD1412:	cbgt	r1, #1, FE1412
 FF1412:
 	cbne	r3, #0, f1413
-	movq	=1, r1
-	movq	=-1, r12
+	mov	=1, r1
+	mov	=-1, r12
 	clr	r3
 	cbgt	r1, r12, FA1414
 	br	FB1414
 	.fill	20000, 1, 0
-FA1414:	movq	#1, r3
+FA1414:	mov	#1, r3
 FB1414:
 	cbne	r3, #1, f1415
-	movq	=1, r1
+	mov	=1, r1
 	clr	r3
 	br	FD1416
-FE1416:	movq	#1, r3
+FE1416:	mov	#1, r3
 	br	FF1416
 	.fill	20000, 1, 0
 FD1416:	cbgt	r1, #-1, FE1416
 FF1416:
 	cbne	r3, #1, f1417
-	movq	=3, r1
-	movq	=4, r12
+	mov	=3, r1
+	mov	=4, r12
 	clr	r3
 	cble	r1, r12, FA1418
 	br	FB1418
 	.fill	20000, 1, 0
-FA1418:	movq	#1, r3
+FA1418:	mov	#1, r3
 FB1418:
 	cbne	r3, #1, f1419
-	movq	=3, r1
+	mov	=3, r1
 	clr	r3
 	br	FD1420
-FE1420:	movq	#1, r3
+FE1420:	mov	#1, r3
 	br	FF1420
 	.fill	20000, 1, 0
 FD1420:	cble	r1, #4, FE1420
 FF1420:
 	cbne	r3, #1, f1421
-	movq	=4, r1
-	movq	=4, r12
+	mov	=4, r1
+	mov	=4, r12
 	clr	r3
 	cble	r1, r12, FA1422
 	br	FB1422
 	.fill	20000, 1, 0
-FA1422:	movq	#1, r3
+FA1422:	mov	#1, r3
 FB1422:
 	cbne	r3, #1, f1423
-	movq	=4, r1
+	mov	=4, r1
 	clr	r3
 	br	FD1424
-FE1424:	movq	#1, r3
+FE1424:	mov	#1, r3
 	br	FF1424
 	.fill	20000, 1, 0
 FD1424:	cble	r1, #4, FE1424
 FF1424:
 	cbne	r3, #1, f1425
-	movq	=5, r1
-	movq	=4, r12
+	mov	=5, r1
+	mov	=4, r12
 	clr	r3
 	cble	r1, r12, FA1426
 	br	FB1426
 	.fill	20000, 1, 0
-FA1426:	movq	#1, r3
+FA1426:	mov	#1, r3
 FB1426:
 	cbne	r3, #0, f1427
-	movq	=5, r1
+	mov	=5, r1
 	clr	r3
 	br	FD1428
-FE1428:	movq	#1, r3
+FE1428:	mov	#1, r3
 	br	FF1428
 	.fill	20000, 1, 0
 FD1428:	cble	r1, #4, FE1428
 FF1428:
 	cbne	r3, #0, f1429
-	movq	=-1, r1
-	movq	=1, r12
+	mov	=-1, r1
+	mov	=1, r12
 	clr	r3
 	cble	r1, r12, FA1430
 	br	FB1430
 	.fill	20000, 1, 0
-FA1430:	movq	#1, r3
+FA1430:	mov	#1, r3
 FB1430:
 	cbne	r3, #1, f1431
-	movq	=-1, r1
+	mov	=-1, r1
 	clr	r3
 	br	FD1432
-FE1432:	movq	#1, r3
+FE1432:	mov	#1, r3
 	br	FF1432
 	.fill	20000, 1, 0
 FD1432:	cble	r1, #1, FE1432
 FF1432:
 	cbne	r3, #1, f1433
-	movq	=1, r1
-	movq	=-1, r12
+	mov	=1, r1
+	mov	=-1, r12
 	clr	r3
 	cble	r1, r12, FA1434
 	br	FB1434
 	.fill	20000, 1, 0
-FA1434:	movq	#1, r3
+FA1434:	mov	#1, r3
 FB1434:
 	cbne	r3, #0, f1435
-	movq	=1, r1
+	mov	=1, r1
 	clr	r3
 	br	FD1436
-FE1436:	movq	#1, r3
+FE1436:	mov	#1, r3
 	br	FF1436
 	.fill	20000, 1, 0
 FD1436:	cble	r1, #-1, FE1436
 FF1436:
 	cbne	r3, #0, f1437
-	movq	#0, r0
+	mov	#0, r0
 	trap	#0
-f1:	movq	#1, r0
+f1:	mov	#1, r0
 	trap	#0
-f2:	movq	#2, r0
+f2:	mov	#2, r0
 	trap	#0
-f3:	movq	#3, r0
+f3:	mov	#3, r0
 	trap	#0
-f4:	movq	#4, r0
+f4:	mov	#4, r0
 	trap	#0
-f5:	movq	#5, r0
+f5:	mov	#5, r0
 	trap	#0
-f6:	movq	#6, r0
+f6:	mov	#6, r0
 	trap	#0
-f7:	movq	#7, r0
+f7:	mov	#7, r0
 	trap	#0
-f8:	movq	#8, r0
+f8:	mov	#8, r0
 	trap	#0
-f9:	movq	#9, r0
+f9:	mov	#9, r0
 	trap	#0
-f10:	movq	#10, r0
+f10:	mov	#10, r0
 	trap	#0
-f11:	movq	#11, r0
+f11:	mov	#11, r0
 	trap	#0
-f12:	movq	#12, r0
+f12:	mov	#12, r0
 	trap	#0
-f13:	movq	#13, r0
+f13:	mov	#13, r0
 	trap	#0
-f14:	movq	#14, r0
+f14:	mov	#14, r0
 	trap	#0
-f15:	movq	#15, r0
+f15:	mov	#15, r0
 	trap	#0
-f16:	movq	#16, r0
+f16:	mov	#16, r0
 	trap	#0
-f17:	movq	#17, r0
+f17:	mov	#17, r0
 	trap	#0
-f18:	movq	#18, r0
+f18:	mov	#18, r0
 	trap	#0
-f19:	movq	#19, r0
+f19:	mov	#19, r0
 	trap	#0
-f20:	movq	#20, r0
+f20:	mov	#20, r0
 	trap	#0
-f21:	movq	#21, r0
+f21:	mov	#21, r0
 	trap	#0
-f22:	movq	#22, r0
+f22:	mov	#22, r0
 	trap	#0
-f23:	movq	#23, r0
+f23:	mov	#23, r0
 	trap	#0
-f24:	movq	#24, r0
+f24:	mov	#24, r0
 	trap	#0
-f25:	movq	#25, r0
+f25:	mov	#25, r0
 	trap	#0
-f26:	movq	#26, r0
+f26:	mov	#26, r0
 	trap	#0
-f27:	movq	#27, r0
+f27:	mov	#27, r0
 	trap	#0
-f28:	movq	#28, r0
+f28:	mov	#28, r0
 	trap	#0
-f29:	movq	#29, r0
+f29:	mov	#29, r0
 	trap	#0
-f30:	movq	#30, r0
+f30:	mov	#30, r0
 	trap	#0
-f31:	movq	#31, r0
+f31:	mov	#31, r0
 	trap	#0
-f32:	movq	#32, r0
+f32:	mov	#32, r0
 	trap	#0
-f33:	movq	#33, r0
+f33:	mov	#33, r0
 	trap	#0
-f34:	movq	#34, r0
+f34:	mov	#34, r0
 	trap	#0
-f35:	movq	#35, r0
+f35:	mov	#35, r0
 	trap	#0
-f36:	movq	#36, r0
+f36:	mov	#36, r0
 	trap	#0
-f37:	movq	#37, r0
+f37:	mov	#37, r0
 	trap	#0
-f38:	movq	#38, r0
+f38:	mov	#38, r0
 	trap	#0
-f39:	movq	#39, r0
+f39:	mov	#39, r0
 	trap	#0
-f40:	movq	#40, r0
+f40:	mov	#40, r0
 	trap	#0
-f41:	movq	#41, r0
+f41:	mov	#41, r0
 	trap	#0
-f42:	movq	#42, r0
+f42:	mov	#42, r0
 	trap	#0
-f43:	movq	#43, r0
+f43:	mov	#43, r0
 	trap	#0
-f44:	movq	#44, r0
+f44:	mov	#44, r0
 	trap	#0
-f45:	movq	#45, r0
+f45:	mov	#45, r0
 	trap	#0
-f46:	movq	#46, r0
+f46:	mov	#46, r0
 	trap	#0
-f47:	movq	#47, r0
+f47:	mov	#47, r0
 	trap	#0
-f48:	movq	#48, r0
+f48:	mov	#48, r0
 	trap	#0
-f49:	movq	#49, r0
+f49:	mov	#49, r0
 	trap	#0
-f50:	movq	#50, r0
+f50:	mov	#50, r0
 	trap	#0
-f51:	movq	#51, r0
+f51:	mov	#51, r0
 	trap	#0
-f52:	movq	#52, r0
+f52:	mov	#52, r0
 	trap	#0
-f53:	movq	#53, r0
+f53:	mov	#53, r0
 	trap	#0
-f54:	movq	#54, r0
+f54:	mov	#54, r0
 	trap	#0
-f55:	movq	#55, r0
+f55:	mov	#55, r0
 	trap	#0
-f56:	movq	#56, r0
+f56:	mov	#56, r0
 	trap	#0
-f57:	movq	#57, r0
+f57:	mov	#57, r0
 	trap	#0
-f58:	movq	#58, r0
+f58:	mov	#58, r0
 	trap	#0
-f59:	movq	#59, r0
+f59:	mov	#59, r0
 	trap	#0
-f60:	movq	#60, r0
+f60:	mov	#60, r0
 	trap	#0
-f61:	movq	#61, r0
+f61:	mov	#61, r0
 	trap	#0
-f62:	movq	#62, r0
+f62:	mov	#62, r0
 	trap	#0
-f63:	movq	#63, r0
+f63:	mov	#63, r0
 	trap	#0
-f64:	movq	#64, r0
+f64:	mov	#64, r0
 	trap	#0
-f65:	movq	#65, r0
+f65:	mov	#65, r0
 	trap	#0
-f66:	movq	#66, r0
+f66:	mov	#66, r0
 	trap	#0
-f67:	movq	#67, r0
+f67:	mov	#67, r0
 	trap	#0
-f68:	movq	#68, r0
+f68:	mov	#68, r0
 	trap	#0
-f69:	movq	#69, r0
+f69:	mov	#69, r0
 	trap	#0
-f70:	movq	#70, r0
+f70:	mov	#70, r0
 	trap	#0
-f71:	movq	#71, r0
+f71:	mov	#71, r0
 	trap	#0
-f72:	movq	#72, r0
+f72:	mov	#72, r0
 	trap	#0
-f73:	movq	#73, r0
+f73:	mov	#73, r0
 	trap	#0
-f74:	movq	#74, r0
+f74:	mov	#74, r0
 	trap	#0
-f75:	movq	#75, r0
+f75:	mov	#75, r0
 	trap	#0
-f76:	movq	#76, r0
+f76:	mov	#76, r0
 	trap	#0
-f77:	movq	#77, r0
+f77:	mov	#77, r0
 	trap	#0
-f78:	movq	#78, r0
+f78:	mov	#78, r0
 	trap	#0
-f79:	movq	#79, r0
+f79:	mov	#79, r0
 	trap	#0
-f80:	movq	#80, r0
+f80:	mov	#80, r0
 	trap	#0
-f81:	movq	#81, r0
+f81:	mov	#81, r0
 	trap	#0
-f82:	movq	#82, r0
+f82:	mov	#82, r0
 	trap	#0
-f83:	movq	#83, r0
+f83:	mov	#83, r0
 	trap	#0
-f84:	movq	#84, r0
+f84:	mov	#84, r0
 	trap	#0
-f85:	movq	#85, r0
+f85:	mov	#85, r0
 	trap	#0
-f86:	movq	#86, r0
+f86:	mov	#86, r0
 	trap	#0
-f87:	movq	#87, r0
+f87:	mov	#87, r0
 	trap	#0
-f88:	movq	#88, r0
+f88:	mov	#88, r0
 	trap	#0
-f89:	movq	#89, r0
+f89:	mov	#89, r0
 	trap	#0
-f90:	movq	#90, r0
+f90:	mov	#90, r0
 	trap	#0
-f91:	movq	#91, r0
+f91:	mov	#91, r0
 	trap	#0
-f92:	movq	#92, r0
+f92:	mov	#92, r0
 	trap	#0
-f93:	movq	#93, r0
+f93:	mov	#93, r0
 	trap	#0
-f94:	movq	#94, r0
+f94:	mov	#94, r0
 	trap	#0
-f95:	movq	#95, r0
+f95:	mov	#95, r0
 	trap	#0
-f96:	movq	#96, r0
+f96:	mov	#96, r0
 	trap	#0
-f97:	movq	#97, r0
+f97:	mov	#97, r0
 	trap	#0
-f98:	movq	#98, r0
+f98:	mov	#98, r0
 	trap	#0
-f99:	movq	#99, r0
+f99:	mov	#99, r0
 	trap	#0
-f100:	movq	#100, r0
+f100:	mov	#100, r0
 	trap	#0
-f101:	movq	#101, r0
+f101:	mov	#101, r0
 	trap	#0
-f102:	movq	#102, r0
+f102:	mov	#102, r0
 	trap	#0
-f103:	movq	#103, r0
+f103:	mov	#103, r0
 	trap	#0
-f104:	movq	#104, r0
+f104:	mov	#104, r0
 	trap	#0
-f105:	movq	#105, r0
+f105:	mov	#105, r0
 	trap	#0
-f106:	movq	#106, r0
+f106:	mov	#106, r0
 	trap	#0
-f107:	movq	#107, r0
+f107:	mov	#107, r0
 	trap	#0
-f108:	movq	#108, r0
+f108:	mov	#108, r0
 	trap	#0
-f109:	movq	#109, r0
+f109:	mov	#109, r0
 	trap	#0
-f110:	movq	#110, r0
+f110:	mov	#110, r0
 	trap	#0
-f111:	movq	#111, r0
+f111:	mov	#111, r0
 	trap	#0
-f112:	movq	#112, r0
+f112:	mov	#112, r0
 	trap	#0
-f113:	movq	#113, r0
+f113:	mov	#113, r0
 	trap	#0
-f114:	movq	#114, r0
+f114:	mov	#114, r0
 	trap	#0
-f115:	movq	#115, r0
+f115:	mov	#115, r0
 	trap	#0
-f116:	movq	#116, r0
+f116:	mov	#116, r0
 	trap	#0
-f117:	movq	#117, r0
+f117:	mov	#117, r0
 	trap	#0
-f118:	movq	#118, r0
+f118:	mov	#118, r0
 	trap	#0
-f119:	movq	#119, r0
+f119:	mov	#119, r0
 	trap	#0
-f120:	movq	#120, r0
+f120:	mov	#120, r0
 	trap	#0
-f121:	movq	#121, r0
+f121:	mov	#121, r0
 	trap	#0
-f122:	movq	#122, r0
+f122:	mov	#122, r0
 	trap	#0
-f123:	movq	#123, r0
+f123:	mov	#123, r0
 	trap	#0
-f124:	movq	#124, r0
+f124:	mov	#124, r0
 	trap	#0
-f125:	movq	#125, r0
+f125:	mov	#125, r0
 	trap	#0
-f126:	movq	#126, r0
+f126:	mov	#126, r0
 	trap	#0
-f127:	movq	#127, r0
+f127:	mov	#127, r0
 	trap	#0
-f128:	movq	#128, r0
+f128:	mov	#128, r0
 	trap	#0
-f129:	movq	#129, r0
+f129:	mov	#129, r0
 	trap	#0
-f130:	movq	#130, r0
+f130:	mov	#130, r0
 	trap	#0
-f131:	movq	#131, r0
+f131:	mov	#131, r0
 	trap	#0
-f132:	movq	#132, r0
+f132:	mov	#132, r0
 	trap	#0
-f133:	movq	#133, r0
+f133:	mov	#133, r0
 	trap	#0
-f134:	movq	#134, r0
+f134:	mov	#134, r0
 	trap	#0
-f135:	movq	#135, r0
+f135:	mov	#135, r0
 	trap	#0
-f136:	movq	#136, r0
+f136:	mov	#136, r0
 	trap	#0
-f137:	movq	#137, r0
+f137:	mov	#137, r0
 	trap	#0
-f138:	movq	#138, r0
+f138:	mov	#138, r0
 	trap	#0
-f139:	movq	#139, r0
+f139:	mov	#139, r0
 	trap	#0
-f140:	movq	#140, r0
+f140:	mov	#140, r0
 	trap	#0
-f141:	movq	#141, r0
+f141:	mov	#141, r0
 	trap	#0
-f142:	movq	#142, r0
+f142:	mov	#142, r0
 	trap	#0
-f143:	movq	#143, r0
+f143:	mov	#143, r0
 	trap	#0
-f144:	movq	#144, r0
+f144:	mov	#144, r0
 	trap	#0
-f145:	movq	#145, r0
+f145:	mov	#145, r0
 	trap	#0
-f146:	movq	#146, r0
+f146:	mov	#146, r0
 	trap	#0
-f147:	movq	#147, r0
+f147:	mov	#147, r0
 	trap	#0
-f148:	movq	#148, r0
+f148:	mov	#148, r0
 	trap	#0
-f149:	movq	#149, r0
+f149:	mov	#149, r0
 	trap	#0
-f150:	movq	#150, r0
+f150:	mov	#150, r0
 	trap	#0
-f151:	movq	#151, r0
+f151:	mov	#151, r0
 	trap	#0
-f152:	movq	#152, r0
+f152:	mov	#152, r0
 	trap	#0
-f153:	movq	#153, r0
+f153:	mov	#153, r0
 	trap	#0
-f154:	movq	#154, r0
+f154:	mov	#154, r0
 	trap	#0
-f155:	movq	#155, r0
+f155:	mov	#155, r0
 	trap	#0
-f156:	movq	#156, r0
+f156:	mov	#156, r0
 	trap	#0
-f157:	movq	#157, r0
+f157:	mov	#157, r0
 	trap	#0
-f158:	movq	#158, r0
+f158:	mov	#158, r0
 	trap	#0
-f159:	movq	#159, r0
+f159:	mov	#159, r0
 	trap	#0
-f160:	movq	#160, r0
+f160:	mov	#160, r0
 	trap	#0
-f161:	movq	#161, r0
+f161:	mov	#161, r0
 	trap	#0
-f162:	movq	#162, r0
+f162:	mov	#162, r0
 	trap	#0
-f163:	movq	#163, r0
+f163:	mov	#163, r0
 	trap	#0
-f164:	movq	#164, r0
+f164:	mov	#164, r0
 	trap	#0
-f165:	movq	#165, r0
+f165:	mov	#165, r0
 	trap	#0
-f166:	movq	#166, r0
+f166:	mov	#166, r0
 	trap	#0
-f167:	movq	#167, r0
+f167:	mov	#167, r0
 	trap	#0
-f168:	movq	#168, r0
+f168:	mov	#168, r0
 	trap	#0
-f169:	movq	#169, r0
+f169:	mov	#169, r0
 	trap	#0
-f170:	movq	#170, r0
+f170:	mov	#170, r0
 	trap	#0
-f171:	movq	#171, r0
+f171:	mov	#171, r0
 	trap	#0
-f172:	movq	#172, r0
+f172:	mov	#172, r0
 	trap	#0
-f173:	movq	#173, r0
+f173:	mov	#173, r0
 	trap	#0
-f174:	movq	#174, r0
+f174:	mov	#174, r0
 	trap	#0
-f175:	movq	#175, r0
+f175:	mov	#175, r0
 	trap	#0
-f176:	movq	#176, r0
+f176:	mov	#176, r0
 	trap	#0
-f177:	movq	#177, r0
+f177:	mov	#177, r0
 	trap	#0
-f178:	movq	#178, r0
+f178:	mov	#178, r0
 	trap	#0
-f179:	movq	#179, r0
+f179:	mov	#179, r0
 	trap	#0
-f180:	movq	#180, r0
+f180:	mov	#180, r0
 	trap	#0
-f181:	movq	#181, r0
+f181:	mov	#181, r0
 	trap	#0
-f182:	movq	#182, r0
+f182:	mov	#182, r0
 	trap	#0
-f183:	movq	#183, r0
+f183:	mov	#183, r0
 	trap	#0
-f184:	movq	#184, r0
+f184:	mov	#184, r0
 	trap	#0
-f185:	movq	#185, r0
+f185:	mov	#185, r0
 	trap	#0
-f186:	movq	#186, r0
+f186:	mov	#186, r0
 	trap	#0
-f187:	movq	#187, r0
+f187:	mov	#187, r0
 	trap	#0
-f188:	movq	#188, r0
+f188:	mov	#188, r0
 	trap	#0
-f189:	movq	#189, r0
+f189:	mov	#189, r0
 	trap	#0
-f190:	movq	#190, r0
+f190:	mov	#190, r0
 	trap	#0
-f191:	movq	#191, r0
+f191:	mov	#191, r0
 	trap	#0
-f192:	movq	#192, r0
+f192:	mov	#192, r0
 	trap	#0
-f193:	movq	#193, r0
+f193:	mov	#193, r0
 	trap	#0
-f194:	movq	#194, r0
+f194:	mov	#194, r0
 	trap	#0
-f195:	movq	#195, r0
+f195:	mov	#195, r0
 	trap	#0
-f196:	movq	#196, r0
+f196:	mov	#196, r0
 	trap	#0
-f197:	movq	#197, r0
+f197:	mov	#197, r0
 	trap	#0
-f198:	movq	#198, r0
+f198:	mov	#198, r0
 	trap	#0
-f199:	movq	#199, r0
+f199:	mov	#199, r0
 	trap	#0
-f200:	movq	#200, r0
+f200:	mov	#200, r0
 	trap	#0
-f201:	movq	#201, r0
+f201:	mov	#201, r0
 	trap	#0
-f202:	movq	#202, r0
+f202:	mov	#202, r0
 	trap	#0
-f203:	movq	#203, r0
+f203:	mov	#203, r0
 	trap	#0
-f204:	movq	#204, r0
+f204:	mov	#204, r0
 	trap	#0
-f205:	movq	#205, r0
+f205:	mov	#205, r0
 	trap	#0
-f206:	movq	#206, r0
+f206:	mov	#206, r0
 	trap	#0
-f207:	movq	#207, r0
+f207:	mov	#207, r0
 	trap	#0
-f208:	movq	#208, r0
+f208:	mov	#208, r0
 	trap	#0
-f209:	movq	#209, r0
+f209:	mov	#209, r0
 	trap	#0
-f210:	movq	#210, r0
+f210:	mov	#210, r0
 	trap	#0
-f211:	movq	#211, r0
+f211:	mov	#211, r0
 	trap	#0
-f212:	movq	#212, r0
+f212:	mov	#212, r0
 	trap	#0
-f213:	movq	#213, r0
+f213:	mov	#213, r0
 	trap	#0
-f214:	movq	#214, r0
+f214:	mov	#214, r0
 	trap	#0
-f215:	movq	#215, r0
+f215:	mov	#215, r0
 	trap	#0
-f216:	movq	#216, r0
+f216:	mov	#216, r0
 	trap	#0
-f217:	movq	#217, r0
+f217:	mov	#217, r0
 	trap	#0
-f218:	movq	#218, r0
+f218:	mov	#218, r0
 	trap	#0
-f219:	movq	#219, r0
+f219:	mov	#219, r0
 	trap	#0
-f220:	movq	#220, r0
+f220:	mov	#220, r0
 	trap	#0
-f221:	movq	#221, r0
+f221:	mov	#221, r0
 	trap	#0
-f222:	movq	#222, r0
+f222:	mov	#222, r0
 	trap	#0
-f223:	movq	#223, r0
+f223:	mov	#223, r0
 	trap	#0
-f224:	movq	#224, r0
+f224:	mov	#224, r0
 	trap	#0
-f225:	movq	#225, r0
+f225:	mov	#225, r0
 	trap	#0
-f226:	movq	#226, r0
+f226:	mov	#226, r0
 	trap	#0
-f227:	movq	#227, r0
+f227:	mov	#227, r0
 	trap	#0
-f228:	movq	#228, r0
+f228:	mov	#228, r0
 	trap	#0
-f229:	movq	#229, r0
+f229:	mov	#229, r0
 	trap	#0
-f230:	movq	#230, r0
+f230:	mov	#230, r0
 	trap	#0
-f231:	movq	#231, r0
+f231:	mov	#231, r0
 	trap	#0
-f232:	movq	#232, r0
+f232:	mov	#232, r0
 	trap	#0
-f233:	movq	#233, r0
+f233:	mov	#233, r0
 	trap	#0
-f234:	movq	#234, r0
+f234:	mov	#234, r0
 	trap	#0
-f235:	movq	#235, r0
+f235:	mov	#235, r0
 	trap	#0
-f236:	movq	#236, r0
+f236:	mov	#236, r0
 	trap	#0
-f237:	movq	#237, r0
+f237:	mov	#237, r0
 	trap	#0
-f238:	movq	#238, r0
+f238:	mov	#238, r0
 	trap	#0
-f239:	movq	#239, r0
+f239:	mov	#239, r0
 	trap	#0
-f240:	movq	#240, r0
+f240:	mov	#240, r0
 	trap	#0
-f241:	movq	#241, r0
+f241:	mov	#241, r0
 	trap	#0
-f242:	movq	#242, r0
+f242:	mov	#242, r0
 	trap	#0
-f243:	movq	#243, r0
+f243:	mov	#243, r0
 	trap	#0
-f244:	movq	#244, r0
+f244:	mov	#244, r0
 	trap	#0
-f245:	movq	#245, r0
+f245:	mov	#245, r0
 	trap	#0
-f246:	movq	#246, r0
+f246:	mov	#246, r0
 	trap	#0
-f247:	movq	#247, r0
+f247:	mov	#247, r0
 	trap	#0
-f248:	movq	#248, r0
+f248:	mov	#248, r0
 	trap	#0
-f249:	movq	#249, r0
+f249:	mov	#249, r0
 	trap	#0
-f250:	movq	#250, r0
+f250:	mov	#250, r0
 	trap	#0
-f251:	movq	#251, r0
+f251:	mov	#251, r0
 	trap	#0
-f252:	movq	#252, r0
+f252:	mov	#252, r0
 	trap	#0
-f253:	movq	#253, r0
+f253:	mov	#253, r0
 	trap	#0
-f254:	movq	#254, r0
+f254:	mov	#254, r0
 	trap	#0
-f255:	movq	#255, r0
+f255:	mov	#255, r0
 	trap	#0
-f256:	movq	#256, r0
+f256:	mov	#256, r0
 	trap	#0
-f257:	movq	#257, r0
+f257:	mov	#257, r0
 	trap	#0
-f258:	movq	#258, r0
+f258:	mov	#258, r0
 	trap	#0
-f259:	movq	#259, r0
+f259:	mov	#259, r0
 	trap	#0
-f260:	movq	#260, r0
+f260:	mov	#260, r0
 	trap	#0
-f261:	movq	#261, r0
+f261:	mov	#261, r0
 	trap	#0
-f262:	movq	#262, r0
+f262:	mov	#262, r0
 	trap	#0
-f263:	movq	#263, r0
+f263:	mov	#263, r0
 	trap	#0
-f264:	movq	#264, r0
+f264:	mov	#264, r0
 	trap	#0
-f265:	movq	#265, r0
+f265:	mov	#265, r0
 	trap	#0
-f266:	movq	#266, r0
+f266:	mov	#266, r0
 	trap	#0
-f267:	movq	#267, r0
+f267:	mov	#267, r0
 	trap	#0
-f268:	movq	#268, r0
+f268:	mov	#268, r0
 	trap	#0
-f269:	movq	#269, r0
+f269:	mov	#269, r0
 	trap	#0
-f270:	movq	#270, r0
+f270:	mov	#270, r0
 	trap	#0
-f271:	movq	#271, r0
+f271:	mov	#271, r0
 	trap	#0
-f272:	movq	#272, r0
+f272:	mov	#272, r0
 	trap	#0
-f273:	movq	#273, r0
+f273:	mov	#273, r0
 	trap	#0
-f274:	movq	#274, r0
+f274:	mov	#274, r0
 	trap	#0
-f275:	movq	#275, r0
+f275:	mov	#275, r0
 	trap	#0
-f276:	movq	#276, r0
+f276:	mov	#276, r0
 	trap	#0
-f277:	movq	#277, r0
+f277:	mov	#277, r0
 	trap	#0
-f278:	movq	#278, r0
+f278:	mov	#278, r0
 	trap	#0
-f279:	movq	#279, r0
+f279:	mov	#279, r0
 	trap	#0
-f280:	movq	#280, r0
+f280:	mov	#280, r0
 	trap	#0
-f281:	movq	#281, r0
+f281:	mov	#281, r0
 	trap	#0
-f282:	movq	#282, r0
+f282:	mov	#282, r0
 	trap	#0
-f283:	movq	#283, r0
+f283:	mov	#283, r0
 	trap	#0
-f284:	movq	#284, r0
+f284:	mov	#284, r0
 	trap	#0
-f285:	movq	#285, r0
+f285:	mov	#285, r0
 	trap	#0
-f286:	movq	#286, r0
+f286:	mov	#286, r0
 	trap	#0
-f287:	movq	#287, r0
+f287:	mov	#287, r0
 	trap	#0
-f288:	movq	#288, r0
+f288:	mov	#288, r0
 	trap	#0
-f289:	movq	#289, r0
+f289:	mov	#289, r0
 	trap	#0
-f290:	movq	#290, r0
+f290:	mov	#290, r0
 	trap	#0
-f291:	movq	#291, r0
+f291:	mov	#291, r0
 	trap	#0
-f292:	movq	#292, r0
+f292:	mov	#292, r0
 	trap	#0
-f293:	movq	#293, r0
+f293:	mov	#293, r0
 	trap	#0
-f294:	movq	#294, r0
+f294:	mov	#294, r0
 	trap	#0
-f295:	movq	#295, r0
+f295:	mov	#295, r0
 	trap	#0
-f296:	movq	#296, r0
+f296:	mov	#296, r0
 	trap	#0
-f297:	movq	#297, r0
+f297:	mov	#297, r0
 	trap	#0
-f298:	movq	#298, r0
+f298:	mov	#298, r0
 	trap	#0
-f299:	movq	#299, r0
+f299:	mov	#299, r0
 	trap	#0
-f300:	movq	#300, r0
+f300:	mov	#300, r0
 	trap	#0
-f301:	movq	#301, r0
+f301:	mov	#301, r0
 	trap	#0
-f302:	movq	#302, r0
+f302:	mov	#302, r0
 	trap	#0
-f303:	movq	#303, r0
+f303:	mov	#303, r0
 	trap	#0
-f304:	movq	#304, r0
+f304:	mov	#304, r0
 	trap	#0
-f305:	movq	#305, r0
+f305:	mov	#305, r0
 	trap	#0
-f306:	movq	#306, r0
+f306:	mov	#306, r0
 	trap	#0
-f307:	movq	#307, r0
+f307:	mov	#307, r0
 	trap	#0
-f308:	movq	#308, r0
+f308:	mov	#308, r0
 	trap	#0
-f309:	movq	#309, r0
+f309:	mov	#309, r0
 	trap	#0
-f310:	movq	#310, r0
+f310:	mov	#310, r0
 	trap	#0
-f311:	movq	#311, r0
+f311:	mov	#311, r0
 	trap	#0
-f312:	movq	#312, r0
+f312:	mov	#312, r0
 	trap	#0
-f313:	movq	#313, r0
+f313:	mov	#313, r0
 	trap	#0
-f314:	movq	#314, r0
+f314:	mov	#314, r0
 	trap	#0
-f315:	movq	#315, r0
+f315:	mov	#315, r0
 	trap	#0
-f316:	movq	#316, r0
+f316:	mov	#316, r0
 	trap	#0
-f317:	movq	#317, r0
+f317:	mov	#317, r0
 	trap	#0
-f318:	movq	#318, r0
+f318:	mov	#318, r0
 	trap	#0
-f319:	movq	#319, r0
+f319:	mov	#319, r0
 	trap	#0
-f320:	movq	#320, r0
+f320:	mov	#320, r0
 	trap	#0
-f321:	movq	#321, r0
+f321:	mov	#321, r0
 	trap	#0
-f322:	movq	#322, r0
+f322:	mov	#322, r0
 	trap	#0
-f323:	movq	#323, r0
+f323:	mov	#323, r0
 	trap	#0
-f324:	movq	#324, r0
+f324:	mov	#324, r0
 	trap	#0
-f325:	movq	#325, r0
+f325:	mov	#325, r0
 	trap	#0
-f326:	movq	#326, r0
+f326:	mov	#326, r0
 	trap	#0
-f327:	movq	#327, r0
+f327:	mov	#327, r0
 	trap	#0
-f328:	movq	#328, r0
+f328:	mov	#328, r0
 	trap	#0
-f329:	movq	#329, r0
+f329:	mov	#329, r0
 	trap	#0
-f330:	movq	#330, r0
+f330:	mov	#330, r0
 	trap	#0
-f331:	movq	#331, r0
+f331:	mov	#331, r0
 	trap	#0
-f332:	movq	#332, r0
+f332:	mov	#332, r0
 	trap	#0
-f333:	movq	#333, r0
+f333:	mov	#333, r0
 	trap	#0
-f334:	movq	#334, r0
+f334:	mov	#334, r0
 	trap	#0
-f335:	movq	#335, r0
+f335:	mov	#335, r0
 	trap	#0
-f336:	movq	#336, r0
+f336:	mov	#336, r0
 	trap	#0
-f337:	movq	#337, r0
+f337:	mov	#337, r0
 	trap	#0
-f338:	movq	#338, r0
+f338:	mov	#338, r0
 	trap	#0
-f339:	movq	#339, r0
+f339:	mov	#339, r0
 	trap	#0
-f340:	movq	#340, r0
+f340:	mov	#340, r0
 	trap	#0
-f341:	movq	#341, r0
+f341:	mov	#341, r0
 	trap	#0
-f342:	movq	#342, r0
+f342:	mov	#342, r0
 	trap	#0
-f343:	movq	#343, r0
+f343:	mov	#343, r0
 	trap	#0
-f344:	movq	#344, r0
+f344:	mov	#344, r0
 	trap	#0
-f345:	movq	#345, r0
+f345:	mov	#345, r0
 	trap	#0
-f346:	movq	#346, r0
+f346:	mov	#346, r0
 	trap	#0
-f347:	movq	#347, r0
+f347:	mov	#347, r0
 	trap	#0
-f348:	movq	#348, r0
+f348:	mov	#348, r0
 	trap	#0
-f349:	movq	#349, r0
+f349:	mov	#349, r0
 	trap	#0
-f350:	movq	#350, r0
+f350:	mov	#350, r0
 	trap	#0
-f351:	movq	#351, r0
+f351:	mov	#351, r0
 	trap	#0
-f352:	movq	#352, r0
+f352:	mov	#352, r0
 	trap	#0
-f353:	movq	#353, r0
+f353:	mov	#353, r0
 	trap	#0
-f354:	movq	#354, r0
+f354:	mov	#354, r0
 	trap	#0
-f355:	movq	#355, r0
+f355:	mov	#355, r0
 	trap	#0
-f356:	movq	#356, r0
+f356:	mov	#356, r0
 	trap	#0
-f357:	movq	#357, r0
+f357:	mov	#357, r0
 	trap	#0
-f358:	movq	#358, r0
+f358:	mov	#358, r0
 	trap	#0
-f359:	movq	#359, r0
+f359:	mov	#359, r0
 	trap	#0
-f360:	movq	#360, r0
+f360:	mov	#360, r0
 	trap	#0
-f361:	movq	#361, r0
+f361:	mov	#361, r0
 	trap	#0
-f362:	movq	#362, r0
+f362:	mov	#362, r0
 	trap	#0
-f363:	movq	#363, r0
+f363:	mov	#363, r0
 	trap	#0
-f364:	movq	#364, r0
+f364:	mov	#364, r0
 	trap	#0
-f365:	movq	#365, r0
+f365:	mov	#365, r0
 	trap	#0
-f366:	movq	#366, r0
+f366:	mov	#366, r0
 	trap	#0
-f367:	movq	#367, r0
+f367:	mov	#367, r0
 	trap	#0
-f368:	movq	#368, r0
+f368:	mov	#368, r0
 	trap	#0
-f369:	movq	#369, r0
+f369:	mov	#369, r0
 	trap	#0
-f370:	movq	#370, r0
+f370:	mov	#370, r0
 	trap	#0
-f371:	movq	#371, r0
+f371:	mov	#371, r0
 	trap	#0
-f372:	movq	#372, r0
+f372:	mov	#372, r0
 	trap	#0
-f373:	movq	#373, r0
+f373:	mov	#373, r0
 	trap	#0
-f374:	movq	#374, r0
+f374:	mov	#374, r0
 	trap	#0
-f375:	movq	#375, r0
+f375:	mov	#375, r0
 	trap	#0
-f376:	movq	#376, r0
+f376:	mov	#376, r0
 	trap	#0
-f377:	movq	#377, r0
+f377:	mov	#377, r0
 	trap	#0
-f378:	movq	#378, r0
+f378:	mov	#378, r0
 	trap	#0
-f379:	movq	#379, r0
+f379:	mov	#379, r0
 	trap	#0
-f380:	movq	#380, r0
+f380:	mov	#380, r0
 	trap	#0
-f381:	movq	#381, r0
+f381:	mov	#381, r0
 	trap	#0
-f382:	movq	#382, r0
+f382:	mov	#382, r0
 	trap	#0
-f383:	movq	#383, r0
+f383:	mov	#383, r0
 	trap	#0
-f384:	movq	#384, r0
+f384:	mov	#384, r0
 	trap	#0
-f385:	movq	#385, r0
+f385:	mov	#385, r0
 	trap	#0
-f386:	movq	#386, r0
+f386:	mov	#386, r0
 	trap	#0
-f387:	movq	#387, r0
+f387:	mov	#387, r0
 	trap	#0
-f388:	movq	#388, r0
+f388:	mov	#388, r0
 	trap	#0
-f389:	movq	#389, r0
+f389:	mov	#389, r0
 	trap	#0
-f390:	movq	#390, r0
+f390:	mov	#390, r0
 	trap	#0
-f391:	movq	#391, r0
+f391:	mov	#391, r0
 	trap	#0
-f392:	movq	#392, r0
+f392:	mov	#392, r0
 	trap	#0
-f393:	movq	#393, r0
+f393:	mov	#393, r0
 	trap	#0
-f394:	movq	#394, r0
+f394:	mov	#394, r0
 	trap	#0
-f395:	movq	#395, r0
+f395:	mov	#395, r0
 	trap	#0
-f396:	movq	#396, r0
+f396:	mov	#396, r0
 	trap	#0
-f397:	movq	#397, r0
+f397:	mov	#397, r0
 	trap	#0
-f398:	movq	#398, r0
+f398:	mov	#398, r0
 	trap	#0
-f399:	movq	#399, r0
+f399:	mov	#399, r0
 	trap	#0
-f400:	movq	#400, r0
+f400:	mov	#400, r0
 	trap	#0
-f401:	movq	#401, r0
+f401:	mov	#401, r0
 	trap	#0
-f402:	movq	#402, r0
+f402:	mov	#402, r0
 	trap	#0
-f403:	movq	#403, r0
+f403:	mov	#403, r0
 	trap	#0
-f404:	movq	#404, r0
+f404:	mov	#404, r0
 	trap	#0
-f405:	movq	#405, r0
+f405:	mov	#405, r0
 	trap	#0
-f406:	movq	#406, r0
+f406:	mov	#406, r0
 	trap	#0
-f407:	movq	#407, r0
+f407:	mov	#407, r0
 	trap	#0
-f408:	movq	#408, r0
+f408:	mov	#408, r0
 	trap	#0
-f409:	movq	#409, r0
+f409:	mov	#409, r0
 	trap	#0
-f410:	movq	#410, r0
+f410:	mov	#410, r0
 	trap	#0
-f411:	movq	#411, r0
+f411:	mov	#411, r0
 	trap	#0
-f412:	movq	#412, r0
+f412:	mov	#412, r0
 	trap	#0
-f413:	movq	#413, r0
+f413:	mov	#413, r0
 	trap	#0
-f414:	movq	#414, r0
+f414:	mov	#414, r0
 	trap	#0
-f415:	movq	#415, r0
+f415:	mov	#415, r0
 	trap	#0
-f416:	movq	#416, r0
+f416:	mov	#416, r0
 	trap	#0
-f417:	movq	#417, r0
+f417:	mov	#417, r0
 	trap	#0
-f418:	movq	#418, r0
+f418:	mov	#418, r0
 	trap	#0
-f419:	movq	#419, r0
+f419:	mov	#419, r0
 	trap	#0
-f420:	movq	#420, r0
+f420:	mov	#420, r0
 	trap	#0
-f421:	movq	#421, r0
+f421:	mov	#421, r0
 	trap	#0
-f422:	movq	#422, r0
+f422:	mov	#422, r0
 	trap	#0
-f423:	movq	#423, r0
+f423:	mov	#423, r0
 	trap	#0
-f424:	movq	#424, r0
+f424:	mov	#424, r0
 	trap	#0
-f425:	movq	#425, r0
+f425:	mov	#425, r0
 	trap	#0
-f426:	movq	#426, r0
+f426:	mov	#426, r0
 	trap	#0
-f427:	movq	#427, r0
+f427:	mov	#427, r0
 	trap	#0
-f428:	movq	#428, r0
+f428:	mov	#428, r0
 	trap	#0
-f429:	movq	#429, r0
+f429:	mov	#429, r0
 	trap	#0
-f430:	movq	#430, r0
+f430:	mov	#430, r0
 	trap	#0
-f431:	movq	#431, r0
+f431:	mov	#431, r0
 	trap	#0
-f432:	movq	#432, r0
+f432:	mov	#432, r0
 	trap	#0
-f433:	movq	#433, r0
+f433:	mov	#433, r0
 	trap	#0
-f434:	movq	#434, r0
+f434:	mov	#434, r0
 	trap	#0
-f435:	movq	#435, r0
+f435:	mov	#435, r0
 	trap	#0
-f436:	movq	#436, r0
+f436:	mov	#436, r0
 	trap	#0
-f437:	movq	#437, r0
+f437:	mov	#437, r0
 	trap	#0
-f438:	movq	#438, r0
+f438:	mov	#438, r0
 	trap	#0
-f439:	movq	#439, r0
+f439:	mov	#439, r0
 	trap	#0
-f440:	movq	#440, r0
+f440:	mov	#440, r0
 	trap	#0
-f441:	movq	#441, r0
+f441:	mov	#441, r0
 	trap	#0
-f442:	movq	#442, r0
+f442:	mov	#442, r0
 	trap	#0
-f443:	movq	#443, r0
+f443:	mov	#443, r0
 	trap	#0
-f444:	movq	#444, r0
+f444:	mov	#444, r0
 	trap	#0
-f445:	movq	#445, r0
+f445:	mov	#445, r0
 	trap	#0
-f446:	movq	#446, r0
+f446:	mov	#446, r0
 	trap	#0
-f447:	movq	#447, r0
+f447:	mov	#447, r0
 	trap	#0
-f448:	movq	#448, r0
+f448:	mov	#448, r0
 	trap	#0
-f449:	movq	#449, r0
+f449:	mov	#449, r0
 	trap	#0
-f450:	movq	#450, r0
+f450:	mov	#450, r0
 	trap	#0
-f451:	movq	#451, r0
+f451:	mov	#451, r0
 	trap	#0
-f452:	movq	#452, r0
+f452:	mov	#452, r0
 	trap	#0
-f453:	movq	#453, r0
+f453:	mov	#453, r0
 	trap	#0
-f454:	movq	#454, r0
+f454:	mov	#454, r0
 	trap	#0
-f455:	movq	#455, r0
+f455:	mov	#455, r0
 	trap	#0
-f456:	movq	#456, r0
+f456:	mov	#456, r0
 	trap	#0
-f457:	movq	#457, r0
+f457:	mov	#457, r0
 	trap	#0
-f458:	movq	#458, r0
+f458:	mov	#458, r0
 	trap	#0
-f459:	movq	#459, r0
+f459:	mov	#459, r0
 	trap	#0
-f460:	movq	#460, r0
+f460:	mov	#460, r0
 	trap	#0
-f461:	movq	#461, r0
+f461:	mov	#461, r0
 	trap	#0
-f462:	movq	#462, r0
+f462:	mov	#462, r0
 	trap	#0
-f463:	movq	#463, r0
+f463:	mov	#463, r0
 	trap	#0
-f464:	movq	#464, r0
+f464:	mov	#464, r0
 	trap	#0
-f465:	movq	#465, r0
+f465:	mov	#465, r0
 	trap	#0
-f466:	movq	#466, r0
+f466:	mov	#466, r0
 	trap	#0
-f467:	movq	#467, r0
+f467:	mov	#467, r0
 	trap	#0
-f468:	movq	#468, r0
+f468:	mov	#468, r0
 	trap	#0
-f469:	movq	#469, r0
+f469:	mov	#469, r0
 	trap	#0
-f470:	movq	#470, r0
+f470:	mov	#470, r0
 	trap	#0
-f471:	movq	#471, r0
+f471:	mov	#471, r0
 	trap	#0
-f472:	movq	#472, r0
+f472:	mov	#472, r0
 	trap	#0
-f473:	movq	#473, r0
+f473:	mov	#473, r0
 	trap	#0
-f474:	movq	#474, r0
+f474:	mov	#474, r0
 	trap	#0
-f475:	movq	#475, r0
+f475:	mov	#475, r0
 	trap	#0
-f476:	movq	#476, r0
+f476:	mov	#476, r0
 	trap	#0
-f477:	movq	#477, r0
+f477:	mov	#477, r0
 	trap	#0
-f478:	movq	#478, r0
+f478:	mov	#478, r0
 	trap	#0
-f479:	movq	#479, r0
+f479:	mov	#479, r0
 	trap	#0
-f480:	movq	#480, r0
+f480:	mov	#480, r0
 	trap	#0
-f481:	movq	#481, r0
+f481:	mov	#481, r0
 	trap	#0
-f482:	movq	#482, r0
+f482:	mov	#482, r0
 	trap	#0
-f483:	movq	#483, r0
+f483:	mov	#483, r0
 	trap	#0
-f484:	movq	#484, r0
+f484:	mov	#484, r0
 	trap	#0
-f485:	movq	#485, r0
+f485:	mov	#485, r0
 	trap	#0
-f486:	movq	#486, r0
+f486:	mov	#486, r0
 	trap	#0
-f487:	movq	#487, r0
+f487:	mov	#487, r0
 	trap	#0
-f488:	movq	#488, r0
+f488:	mov	#488, r0
 	trap	#0
-f489:	movq	#489, r0
+f489:	mov	#489, r0
 	trap	#0
-f490:	movq	#490, r0
+f490:	mov	#490, r0
 	trap	#0
-f491:	movq	#491, r0
+f491:	mov	#491, r0
 	trap	#0
-f492:	movq	#492, r0
+f492:	mov	#492, r0
 	trap	#0
-f493:	movq	#493, r0
+f493:	mov	#493, r0
 	trap	#0
-f494:	movq	#494, r0
+f494:	mov	#494, r0
 	trap	#0
-f495:	movq	#495, r0
+f495:	mov	#495, r0
 	trap	#0
-f496:	movq	#496, r0
+f496:	mov	#496, r0
 	trap	#0
-f497:	movq	#497, r0
+f497:	mov	#497, r0
 	trap	#0
-f498:	movq	#498, r0
+f498:	mov	#498, r0
 	trap	#0
-f499:	movq	#499, r0
+f499:	mov	#499, r0
 	trap	#0
-f500:	movq	#500, r0
+f500:	mov	#500, r0
 	trap	#0
-f501:	movq	#501, r0
+f501:	mov	#501, r0
 	trap	#0
-f502:	movq	#502, r0
+f502:	mov	#502, r0
 	trap	#0
-f503:	movq	#503, r0
+f503:	mov	#503, r0
 	trap	#0
-f504:	movq	#504, r0
+f504:	mov	#504, r0
 	trap	#0
-f505:	movq	#505, r0
+f505:	mov	#505, r0
 	trap	#0
-f506:	movq	#506, r0
+f506:	mov	#506, r0
 	trap	#0
-f507:	movq	#507, r0
+f507:	mov	#507, r0
 	trap	#0
-f508:	movq	#508, r0
+f508:	mov	#508, r0
 	trap	#0
-f509:	movq	#509, r0
+f509:	mov	#509, r0
 	trap	#0
-f510:	movq	#510, r0
+f510:	mov	#510, r0
 	trap	#0
-f511:	movq	#511, r0
+f511:	mov	#511, r0
 	trap	#0
-f512:	movq	#512, r0
+f512:	mov	#512, r0
 	trap	#0
-f513:	movq	#513, r0
+f513:	mov	#513, r0
 	trap	#0
-f514:	movq	#514, r0
+f514:	mov	#514, r0
 	trap	#0
-f515:	movq	#515, r0
+f515:	mov	#515, r0
 	trap	#0
-f516:	movq	#516, r0
+f516:	mov	#516, r0
 	trap	#0
-f517:	movq	#517, r0
+f517:	mov	#517, r0
 	trap	#0
-f518:	movq	#518, r0
+f518:	mov	#518, r0
 	trap	#0
-f519:	movq	#519, r0
+f519:	mov	#519, r0
 	trap	#0
-f520:	movq	#520, r0
+f520:	mov	#520, r0
 	trap	#0
-f521:	movq	#521, r0
+f521:	mov	#521, r0
 	trap	#0
-f522:	movq	#522, r0
+f522:	mov	#522, r0
 	trap	#0
-f523:	movq	#523, r0
+f523:	mov	#523, r0
 	trap	#0
-f524:	movq	#524, r0
+f524:	mov	#524, r0
 	trap	#0
-f525:	movq	#525, r0
+f525:	mov	#525, r0
 	trap	#0
-f526:	movq	#526, r0
+f526:	mov	#526, r0
 	trap	#0
-f527:	movq	#527, r0
+f527:	mov	#527, r0
 	trap	#0
-f528:	movq	#528, r0
+f528:	mov	#528, r0
 	trap	#0
-f529:	movq	#529, r0
+f529:	mov	#529, r0
 	trap	#0
-f530:	movq	#530, r0
+f530:	mov	#530, r0
 	trap	#0
-f531:	movq	#531, r0
+f531:	mov	#531, r0
 	trap	#0
-f532:	movq	#532, r0
+f532:	mov	#532, r0
 	trap	#0
-f533:	movq	#533, r0
+f533:	mov	#533, r0
 	trap	#0
-f534:	movq	#534, r0
+f534:	mov	#534, r0
 	trap	#0
-f535:	movq	#535, r0
+f535:	mov	#535, r0
 	trap	#0
-f536:	movq	#536, r0
+f536:	mov	#536, r0
 	trap	#0
-f537:	movq	#537, r0
+f537:	mov	#537, r0
 	trap	#0
-f538:	movq	#538, r0
+f538:	mov	#538, r0
 	trap	#0
-f539:	movq	#539, r0
+f539:	mov	#539, r0
 	trap	#0
-f540:	movq	#540, r0
+f540:	mov	#540, r0
 	trap	#0
-f541:	movq	#541, r0
+f541:	mov	#541, r0
 	trap	#0
-f542:	movq	#542, r0
+f542:	mov	#542, r0
 	trap	#0
-f543:	movq	#543, r0
+f543:	mov	#543, r0
 	trap	#0
-f544:	movq	#544, r0
+f544:	mov	#544, r0
 	trap	#0
-f545:	movq	#545, r0
+f545:	mov	#545, r0
 	trap	#0
-f546:	movq	#546, r0
+f546:	mov	#546, r0
 	trap	#0
-f547:	movq	#547, r0
+f547:	mov	#547, r0
 	trap	#0
-f548:	movq	#548, r0
+f548:	mov	#548, r0
 	trap	#0
-f549:	movq	#549, r0
+f549:	mov	#549, r0
 	trap	#0
-f550:	movq	#550, r0
+f550:	mov	#550, r0
 	trap	#0
-f551:	movq	#551, r0
+f551:	mov	#551, r0
 	trap	#0
-f552:	movq	#552, r0
+f552:	mov	#552, r0
 	trap	#0
-f553:	movq	#553, r0
+f553:	mov	#553, r0
 	trap	#0
-f554:	movq	#554, r0
+f554:	mov	#554, r0
 	trap	#0
-f555:	movq	#555, r0
+f555:	mov	#555, r0
 	trap	#0
-f556:	movq	#556, r0
+f556:	mov	#556, r0
 	trap	#0
-f557:	movq	#557, r0
+f557:	mov	#557, r0
 	trap	#0
-f558:	movq	#558, r0
+f558:	mov	#558, r0
 	trap	#0
-f559:	movq	#559, r0
+f559:	mov	#559, r0
 	trap	#0
-f560:	movq	#560, r0
+f560:	mov	#560, r0
 	trap	#0
-f561:	movq	#561, r0
+f561:	mov	#561, r0
 	trap	#0
-f562:	movq	#562, r0
+f562:	mov	#562, r0
 	trap	#0
-f563:	movq	#563, r0
+f563:	mov	#563, r0
 	trap	#0
-f564:	movq	#564, r0
+f564:	mov	#564, r0
 	trap	#0
-f565:	movq	#565, r0
+f565:	mov	#565, r0
 	trap	#0
-f566:	movq	#566, r0
+f566:	mov	#566, r0
 	trap	#0
-f567:	movq	#567, r0
+f567:	mov	#567, r0
 	trap	#0
-f568:	movq	#568, r0
+f568:	mov	#568, r0
 	trap	#0
-f569:	movq	#569, r0
+f569:	mov	#569, r0
 	trap	#0
-f570:	movq	#570, r0
+f570:	mov	#570, r0
 	trap	#0
-f571:	movq	#571, r0
+f571:	mov	#571, r0
 	trap	#0
-f572:	movq	#572, r0
+f572:	mov	#572, r0
 	trap	#0
-f573:	movq	#573, r0
+f573:	mov	#573, r0
 	trap	#0
-f574:	movq	#574, r0
+f574:	mov	#574, r0
 	trap	#0
-f575:	movq	#575, r0
+f575:	mov	#575, r0
 	trap	#0
-f576:	movq	#576, r0
+f576:	mov	#576, r0
 	trap	#0
-f577:	movq	#577, r0
+f577:	mov	#577, r0
 	trap	#0
-f578:	movq	#578, r0
+f578:	mov	#578, r0
 	trap	#0
-f579:	movq	#579, r0
+f579:	mov	#579, r0
 	trap	#0
-f580:	movq	#580, r0
+f580:	mov	#580, r0
 	trap	#0
-f581:	movq	#581, r0
+f581:	mov	#581, r0
 	trap	#0
-f582:	movq	#582, r0
+f582:	mov	#582, r0
 	trap	#0
-f583:	movq	#583, r0
+f583:	mov	#583, r0
 	trap	#0
-f584:	movq	#584, r0
+f584:	mov	#584, r0
 	trap	#0
-f585:	movq	#585, r0
+f585:	mov	#585, r0
 	trap	#0
-f586:	movq	#586, r0
+f586:	mov	#586, r0
 	trap	#0
-f587:	movq	#587, r0
+f587:	mov	#587, r0
 	trap	#0
-f588:	movq	#588, r0
+f588:	mov	#588, r0
 	trap	#0
-f589:	movq	#589, r0
+f589:	mov	#589, r0
 	trap	#0
-f590:	movq	#590, r0
+f590:	mov	#590, r0
 	trap	#0
-f591:	movq	#591, r0
+f591:	mov	#591, r0
 	trap	#0
-f592:	movq	#592, r0
+f592:	mov	#592, r0
 	trap	#0
-f593:	movq	#593, r0
+f593:	mov	#593, r0
 	trap	#0
-f594:	movq	#594, r0
+f594:	mov	#594, r0
 	trap	#0
-f595:	movq	#595, r0
+f595:	mov	#595, r0
 	trap	#0
-f596:	movq	#596, r0
+f596:	mov	#596, r0
 	trap	#0
-f597:	movq	#597, r0
+f597:	mov	#597, r0
 	trap	#0
-f598:	movq	#598, r0
+f598:	mov	#598, r0
 	trap	#0
-f599:	movq	#599, r0
+f599:	mov	#599, r0
 	trap	#0
-f600:	movq	#600, r0
+f600:	mov	#600, r0
 	trap	#0
-f601:	movq	#601, r0
+f601:	mov	#601, r0
 	trap	#0
-f602:	movq	#602, r0
+f602:	mov	#602, r0
 	trap	#0
-f603:	movq	#603, r0
+f603:	mov	#603, r0
 	trap	#0
-f604:	movq	#604, r0
+f604:	mov	#604, r0
 	trap	#0
-f605:	movq	#605, r0
+f605:	mov	#605, r0
 	trap	#0
-f606:	movq	#606, r0
+f606:	mov	#606, r0
 	trap	#0
-f607:	movq	#607, r0
+f607:	mov	#607, r0
 	trap	#0
-f608:	movq	#608, r0
+f608:	mov	#608, r0
 	trap	#0
-f609:	movq	#609, r0
+f609:	mov	#609, r0
 	trap	#0
-f610:	movq	#610, r0
+f610:	mov	#610, r0
 	trap	#0
-f611:	movq	#611, r0
+f611:	mov	#611, r0
 	trap	#0
-f612:	movq	#612, r0
+f612:	mov	#612, r0
 	trap	#0
-f613:	movq	#613, r0
+f613:	mov	#613, r0
 	trap	#0
-f614:	movq	#614, r0
+f614:	mov	#614, r0
 	trap	#0
-f615:	movq	#615, r0
+f615:	mov	#615, r0
 	trap	#0
-f616:	movq	#616, r0
+f616:	mov	#616, r0
 	trap	#0
-f617:	movq	#617, r0
+f617:	mov	#617, r0
 	trap	#0
-f618:	movq	#618, r0
+f618:	mov	#618, r0
 	trap	#0
-f619:	movq	#619, r0
+f619:	mov	#619, r0
 	trap	#0
-f620:	movq	#620, r0
+f620:	mov	#620, r0
 	trap	#0
-f621:	movq	#621, r0
+f621:	mov	#621, r0
 	trap	#0
-f622:	movq	#622, r0
+f622:	mov	#622, r0
 	trap	#0
-f623:	movq	#623, r0
+f623:	mov	#623, r0
 	trap	#0
-f624:	movq	#624, r0
+f624:	mov	#624, r0
 	trap	#0
-f625:	movq	#625, r0
+f625:	mov	#625, r0
 	trap	#0
-f626:	movq	#626, r0
+f626:	mov	#626, r0
 	trap	#0
-f627:	movq	#627, r0
+f627:	mov	#627, r0
 	trap	#0
-f628:	movq	#628, r0
+f628:	mov	#628, r0
 	trap	#0
-f629:	movq	#629, r0
+f629:	mov	#629, r0
 	trap	#0
-f630:	movq	#630, r0
+f630:	mov	#630, r0
 	trap	#0
-f631:	movq	#631, r0
+f631:	mov	#631, r0
 	trap	#0
-f632:	movq	#632, r0
+f632:	mov	#632, r0
 	trap	#0
-f633:	movq	#633, r0
+f633:	mov	#633, r0
 	trap	#0
-f634:	movq	#634, r0
+f634:	mov	#634, r0
 	trap	#0
-f635:	movq	#635, r0
+f635:	mov	#635, r0
 	trap	#0
-f636:	movq	#636, r0
+f636:	mov	#636, r0
 	trap	#0
-f637:	movq	#637, r0
+f637:	mov	#637, r0
 	trap	#0
-f638:	movq	#638, r0
+f638:	mov	#638, r0
 	trap	#0
-f639:	movq	#639, r0
+f639:	mov	#639, r0
 	trap	#0
-f640:	movq	#640, r0
+f640:	mov	#640, r0
 	trap	#0
-f641:	movq	#641, r0
+f641:	mov	#641, r0
 	trap	#0
-f642:	movq	#642, r0
+f642:	mov	#642, r0
 	trap	#0
-f643:	movq	#643, r0
+f643:	mov	#643, r0
 	trap	#0
-f644:	movq	#644, r0
+f644:	mov	#644, r0
 	trap	#0
-f645:	movq	#645, r0
+f645:	mov	#645, r0
 	trap	#0
-f646:	movq	#646, r0
+f646:	mov	#646, r0
 	trap	#0
-f647:	movq	#647, r0
+f647:	mov	#647, r0
 	trap	#0
-f648:	movq	#648, r0
+f648:	mov	#648, r0
 	trap	#0
-f649:	movq	#649, r0
+f649:	mov	#649, r0
 	trap	#0
-f650:	movq	#650, r0
+f650:	mov	#650, r0
 	trap	#0
-f651:	movq	#651, r0
+f651:	mov	#651, r0
 	trap	#0
-f652:	movq	#652, r0
+f652:	mov	#652, r0
 	trap	#0
-f653:	movq	#653, r0
+f653:	mov	#653, r0
 	trap	#0
-f654:	movq	#654, r0
+f654:	mov	#654, r0
 	trap	#0
-f655:	movq	#655, r0
+f655:	mov	#655, r0
 	trap	#0
-f656:	movq	#656, r0
+f656:	mov	#656, r0
 	trap	#0
-f657:	movq	#657, r0
+f657:	mov	#657, r0
 	trap	#0
-f658:	movq	#658, r0
+f658:	mov	#658, r0
 	trap	#0
-f659:	movq	#659, r0
+f659:	mov	#659, r0
 	trap	#0
-f660:	movq	#660, r0
+f660:	mov	#660, r0
 	trap	#0
-f661:	movq	#661, r0
+f661:	mov	#661, r0
 	trap	#0
-f662:	movq	#662, r0
+f662:	mov	#662, r0
 	trap	#0
-f663:	movq	#663, r0
+f663:	mov	#663, r0
 	trap	#0
-f664:	movq	#664, r0
+f664:	mov	#664, r0
 	trap	#0
-f665:	movq	#665, r0
+f665:	mov	#665, r0
 	trap	#0
-f666:	movq	#666, r0
+f666:	mov	#666, r0
 	trap	#0
-f667:	movq	#667, r0
+f667:	mov	#667, r0
 	trap	#0
-f668:	movq	#668, r0
+f668:	mov	#668, r0
 	trap	#0
-f669:	movq	#669, r0
+f669:	mov	#669, r0
 	trap	#0
-f670:	movq	#670, r0
+f670:	mov	#670, r0
 	trap	#0
-f671:	movq	#671, r0
+f671:	mov	#671, r0
 	trap	#0
-f672:	movq	#672, r0
+f672:	mov	#672, r0
 	trap	#0
-f673:	movq	#673, r0
+f673:	mov	#673, r0
 	trap	#0
-f674:	movq	#674, r0
+f674:	mov	#674, r0
 	trap	#0
-f675:	movq	#675, r0
+f675:	mov	#675, r0
 	trap	#0
-f676:	movq	#676, r0
+f676:	mov	#676, r0
 	trap	#0
-f677:	movq	#677, r0
+f677:	mov	#677, r0
 	trap	#0
-f678:	movq	#678, r0
+f678:	mov	#678, r0
 	trap	#0
-f679:	movq	#679, r0
+f679:	mov	#679, r0
 	trap	#0
-f680:	movq	#680, r0
+f680:	mov	#680, r0
 	trap	#0
-f681:	movq	#681, r0
+f681:	mov	#681, r0
 	trap	#0
-f682:	movq	#682, r0
+f682:	mov	#682, r0
 	trap	#0
-f683:	movq	#683, r0
+f683:	mov	#683, r0
 	trap	#0
-f684:	movq	#684, r0
+f684:	mov	#684, r0
 	trap	#0
-f685:	movq	#685, r0
+f685:	mov	#685, r0
 	trap	#0
-f686:	movq	#686, r0
+f686:	mov	#686, r0
 	trap	#0
-f687:	movq	#687, r0
+f687:	mov	#687, r0
 	trap	#0
-f688:	movq	#688, r0
+f688:	mov	#688, r0
 	trap	#0
-f689:	movq	#689, r0
+f689:	mov	#689, r0
 	trap	#0
-f690:	movq	#690, r0
+f690:	mov	#690, r0
 	trap	#0
-f691:	movq	#691, r0
+f691:	mov	#691, r0
 	trap	#0
-f692:	movq	#692, r0
+f692:	mov	#692, r0
 	trap	#0
-f693:	movq	#693, r0
+f693:	mov	#693, r0
 	trap	#0
-f694:	movq	#694, r0
+f694:	mov	#694, r0
 	trap	#0
-f695:	movq	#695, r0
+f695:	mov	#695, r0
 	trap	#0
-f696:	movq	#696, r0
+f696:	mov	#696, r0
 	trap	#0
-f697:	movq	#697, r0
+f697:	mov	#697, r0
 	trap	#0
-f698:	movq	#698, r0
+f698:	mov	#698, r0
 	trap	#0
-f699:	movq	#699, r0
+f699:	mov	#699, r0
 	trap	#0
-f700:	movq	#700, r0
+f700:	mov	#700, r0
 	trap	#0
-f701:	movq	#701, r0
+f701:	mov	#701, r0
 	trap	#0
-f702:	movq	#702, r0
+f702:	mov	#702, r0
 	trap	#0
-f703:	movq	#703, r0
+f703:	mov	#703, r0
 	trap	#0
-f704:	movq	#704, r0
+f704:	mov	#704, r0
 	trap	#0
-f705:	movq	#705, r0
+f705:	mov	#705, r0
 	trap	#0
-f706:	movq	#706, r0
+f706:	mov	#706, r0
 	trap	#0
-f707:	movq	#707, r0
+f707:	mov	#707, r0
 	trap	#0
-f708:	movq	#708, r0
+f708:	mov	#708, r0
 	trap	#0
-f709:	movq	#709, r0
+f709:	mov	#709, r0
 	trap	#0
-f710:	movq	#710, r0
+f710:	mov	#710, r0
 	trap	#0
-f711:	movq	#711, r0
+f711:	mov	#711, r0
 	trap	#0
-f712:	movq	#712, r0
+f712:	mov	#712, r0
 	trap	#0
-f713:	movq	#713, r0
+f713:	mov	#713, r0
 	trap	#0
-f714:	movq	#714, r0
+f714:	mov	#714, r0
 	trap	#0
-f715:	movq	#715, r0
+f715:	mov	#715, r0
 	trap	#0
-f716:	movq	#716, r0
+f716:	mov	#716, r0
 	trap	#0
-f717:	movq	#717, r0
+f717:	mov	#717, r0
 	trap	#0
-f718:	movq	#718, r0
+f718:	mov	#718, r0
 	trap	#0
-f719:	movq	#719, r0
+f719:	mov	#719, r0
 	trap	#0
-f720:	movq	#720, r0
+f720:	mov	#720, r0
 	trap	#0
-f721:	movq	#721, r0
+f721:	mov	#721, r0
 	trap	#0
-f722:	movq	#722, r0
+f722:	mov	#722, r0
 	trap	#0
-f723:	movq	#723, r0
+f723:	mov	#723, r0
 	trap	#0
-f724:	movq	#724, r0
+f724:	mov	#724, r0
 	trap	#0
-f725:	movq	#725, r0
+f725:	mov	#725, r0
 	trap	#0
-f726:	movq	#726, r0
+f726:	mov	#726, r0
 	trap	#0
-f727:	movq	#727, r0
+f727:	mov	#727, r0
 	trap	#0
-f728:	movq	#728, r0
+f728:	mov	#728, r0
 	trap	#0
-f729:	movq	#729, r0
+f729:	mov	#729, r0
 	trap	#0
-f730:	movq	#730, r0
+f730:	mov	#730, r0
 	trap	#0
-f731:	movq	#731, r0
+f731:	mov	#731, r0
 	trap	#0
-f732:	movq	#732, r0
+f732:	mov	#732, r0
 	trap	#0
-f733:	movq	#733, r0
+f733:	mov	#733, r0
 	trap	#0
-f734:	movq	#734, r0
+f734:	mov	#734, r0
 	trap	#0
-f735:	movq	#735, r0
+f735:	mov	#735, r0
 	trap	#0
-f736:	movq	#736, r0
+f736:	mov	#736, r0
 	trap	#0
-f737:	movq	#737, r0
+f737:	mov	#737, r0
 	trap	#0
-f738:	movq	#738, r0
+f738:	mov	#738, r0
 	trap	#0
-f739:	movq	#739, r0
+f739:	mov	#739, r0
 	trap	#0
-f740:	movq	#740, r0
+f740:	mov	#740, r0
 	trap	#0
-f741:	movq	#741, r0
+f741:	mov	#741, r0
 	trap	#0
-f742:	movq	#742, r0
+f742:	mov	#742, r0
 	trap	#0
-f743:	movq	#743, r0
+f743:	mov	#743, r0
 	trap	#0
-f744:	movq	#744, r0
+f744:	mov	#744, r0
 	trap	#0
-f745:	movq	#745, r0
+f745:	mov	#745, r0
 	trap	#0
-f746:	movq	#746, r0
+f746:	mov	#746, r0
 	trap	#0
-f747:	movq	#747, r0
+f747:	mov	#747, r0
 	trap	#0
-f748:	movq	#748, r0
+f748:	mov	#748, r0
 	trap	#0
-f749:	movq	#749, r0
+f749:	mov	#749, r0
 	trap	#0
-f750:	movq	#750, r0
+f750:	mov	#750, r0
 	trap	#0
-f751:	movq	#751, r0
+f751:	mov	#751, r0
 	trap	#0
-f752:	movq	#752, r0
+f752:	mov	#752, r0
 	trap	#0
-f753:	movq	#753, r0
+f753:	mov	#753, r0
 	trap	#0
-f754:	movq	#754, r0
+f754:	mov	#754, r0
 	trap	#0
-f755:	movq	#755, r0
+f755:	mov	#755, r0
 	trap	#0
-f756:	movq	#756, r0
+f756:	mov	#756, r0
 	trap	#0
-f757:	movq	#757, r0
+f757:	mov	#757, r0
 	trap	#0
-f758:	movq	#758, r0
+f758:	mov	#758, r0
 	trap	#0
-f759:	movq	#759, r0
+f759:	mov	#759, r0
 	trap	#0
-f760:	movq	#760, r0
+f760:	mov	#760, r0
 	trap	#0
-f761:	movq	#761, r0
+f761:	mov	#761, r0
 	trap	#0
-f762:	movq	#762, r0
+f762:	mov	#762, r0
 	trap	#0
-f763:	movq	#763, r0
+f763:	mov	#763, r0
 	trap	#0
-f764:	movq	#764, r0
+f764:	mov	#764, r0
 	trap	#0
-f765:	movq	#765, r0
+f765:	mov	#765, r0
 	trap	#0
-f766:	movq	#766, r0
+f766:	mov	#766, r0
 	trap	#0
-f767:	movq	#767, r0
+f767:	mov	#767, r0
 	trap	#0
-f768:	movq	#768, r0
+f768:	mov	#768, r0
 	trap	#0
-f769:	movq	#769, r0
+f769:	mov	#769, r0
 	trap	#0
-f770:	movq	#770, r0
+f770:	mov	#770, r0
 	trap	#0
-f771:	movq	#771, r0
+f771:	mov	#771, r0
 	trap	#0
-f772:	movq	#772, r0
+f772:	mov	#772, r0
 	trap	#0
-f773:	movq	#773, r0
+f773:	mov	#773, r0
 	trap	#0
-f774:	movq	#774, r0
+f774:	mov	#774, r0
 	trap	#0
-f775:	movq	#775, r0
+f775:	mov	#775, r0
 	trap	#0
-f776:	movq	#776, r0
+f776:	mov	#776, r0
 	trap	#0
-f777:	movq	#777, r0
+f777:	mov	#777, r0
 	trap	#0
-f778:	movq	#778, r0
+f778:	mov	#778, r0
 	trap	#0
-f779:	movq	#779, r0
+f779:	mov	#779, r0
 	trap	#0
-f780:	movq	#780, r0
+f780:	mov	#780, r0
 	trap	#0
-f781:	movq	#781, r0
+f781:	mov	#781, r0
 	trap	#0
-f782:	movq	#782, r0
+f782:	mov	#782, r0
 	trap	#0
-f783:	movq	#783, r0
+f783:	mov	#783, r0
 	trap	#0
-f784:	movq	#784, r0
+f784:	mov	#784, r0
 	trap	#0
-f785:	movq	#785, r0
+f785:	mov	#785, r0
 	trap	#0
-f786:	movq	#786, r0
+f786:	mov	#786, r0
 	trap	#0
-f787:	movq	#787, r0
+f787:	mov	#787, r0
 	trap	#0
-f788:	movq	#788, r0
+f788:	mov	#788, r0
 	trap	#0
-f789:	movq	#789, r0
+f789:	mov	#789, r0
 	trap	#0
-f790:	movq	#790, r0
+f790:	mov	#790, r0
 	trap	#0
-f791:	movq	#791, r0
+f791:	mov	#791, r0
 	trap	#0
-f792:	movq	#792, r0
+f792:	mov	#792, r0
 	trap	#0
-f793:	movq	#793, r0
+f793:	mov	#793, r0
 	trap	#0
-f794:	movq	#794, r0
+f794:	mov	#794, r0
 	trap	#0
-f795:	movq	#795, r0
+f795:	mov	#795, r0
 	trap	#0
-f796:	movq	#796, r0
+f796:	mov	#796, r0
 	trap	#0
-f797:	movq	#797, r0
+f797:	mov	#797, r0
 	trap	#0
-f798:	movq	#798, r0
+f798:	mov	#798, r0
 	trap	#0
-f799:	movq	#799, r0
+f799:	mov	#799, r0
 	trap	#0
-f800:	movq	#800, r0
+f800:	mov	#800, r0
 	trap	#0
-f801:	movq	#801, r0
+f801:	mov	#801, r0
 	trap	#0
-f802:	movq	#802, r0
+f802:	mov	#802, r0
 	trap	#0
-f803:	movq	#803, r0
+f803:	mov	#803, r0
 	trap	#0
-f804:	movq	#804, r0
+f804:	mov	#804, r0
 	trap	#0
-f805:	movq	#805, r0
+f805:	mov	#805, r0
 	trap	#0
-f806:	movq	#806, r0
+f806:	mov	#806, r0
 	trap	#0
-f807:	movq	#807, r0
+f807:	mov	#807, r0
 	trap	#0
-f808:	movq	#808, r0
+f808:	mov	#808, r0
 	trap	#0
-f809:	movq	#809, r0
+f809:	mov	#809, r0
 	trap	#0
-f810:	movq	#810, r0
+f810:	mov	#810, r0
 	trap	#0
-f811:	movq	#811, r0
+f811:	mov	#811, r0
 	trap	#0
-f812:	movq	#812, r0
+f812:	mov	#812, r0
 	trap	#0
-f813:	movq	#813, r0
+f813:	mov	#813, r0
 	trap	#0
-f814:	movq	#814, r0
+f814:	mov	#814, r0
 	trap	#0
-f815:	movq	#815, r0
+f815:	mov	#815, r0
 	trap	#0
-f816:	movq	#816, r0
+f816:	mov	#816, r0
 	trap	#0
-f817:	movq	#817, r0
+f817:	mov	#817, r0
 	trap	#0
-f818:	movq	#818, r0
+f818:	mov	#818, r0
 	trap	#0
-f819:	movq	#819, r0
+f819:	mov	#819, r0
 	trap	#0
-f820:	movq	#820, r0
+f820:	mov	#820, r0
 	trap	#0
-f821:	movq	#821, r0
+f821:	mov	#821, r0
 	trap	#0
-f822:	movq	#822, r0
+f822:	mov	#822, r0
 	trap	#0
-f823:	movq	#823, r0
+f823:	mov	#823, r0
 	trap	#0
-f824:	movq	#824, r0
+f824:	mov	#824, r0
 	trap	#0
-f825:	movq	#825, r0
+f825:	mov	#825, r0
 	trap	#0
-f826:	movq	#826, r0
+f826:	mov	#826, r0
 	trap	#0
-f827:	movq	#827, r0
+f827:	mov	#827, r0
 	trap	#0
-f828:	movq	#828, r0
+f828:	mov	#828, r0
 	trap	#0
-f829:	movq	#829, r0
+f829:	mov	#829, r0
 	trap	#0
-f830:	movq	#830, r0
+f830:	mov	#830, r0
 	trap	#0
-f831:	movq	#831, r0
+f831:	mov	#831, r0
 	trap	#0
-f832:	movq	#832, r0
+f832:	mov	#832, r0
 	trap	#0
-f833:	movq	#833, r0
+f833:	mov	#833, r0
 	trap	#0
-f834:	movq	#834, r0
+f834:	mov	#834, r0
 	trap	#0
-f835:	movq	#835, r0
+f835:	mov	#835, r0
 	trap	#0
-f836:	movq	#836, r0
+f836:	mov	#836, r0
 	trap	#0
-f837:	movq	#837, r0
+f837:	mov	#837, r0
 	trap	#0
-f838:	movq	#838, r0
+f838:	mov	#838, r0
 	trap	#0
-f839:	movq	#839, r0
+f839:	mov	#839, r0
 	trap	#0
-f840:	movq	#840, r0
+f840:	mov	#840, r0
 	trap	#0
-f841:	movq	#841, r0
+f841:	mov	#841, r0
 	trap	#0
-f842:	movq	#842, r0
+f842:	mov	#842, r0
 	trap	#0
-f843:	movq	#843, r0
+f843:	mov	#843, r0
 	trap	#0
-f844:	movq	#844, r0
+f844:	mov	#844, r0
 	trap	#0
-f845:	movq	#845, r0
+f845:	mov	#845, r0
 	trap	#0
-f846:	movq	#846, r0
+f846:	mov	#846, r0
 	trap	#0
-f847:	movq	#847, r0
+f847:	mov	#847, r0
 	trap	#0
-f848:	movq	#848, r0
+f848:	mov	#848, r0
 	trap	#0
-f849:	movq	#849, r0
+f849:	mov	#849, r0
 	trap	#0
-f850:	movq	#850, r0
+f850:	mov	#850, r0
 	trap	#0
-f851:	movq	#851, r0
+f851:	mov	#851, r0
 	trap	#0
-f852:	movq	#852, r0
+f852:	mov	#852, r0
 	trap	#0
-f853:	movq	#853, r0
+f853:	mov	#853, r0
 	trap	#0
-f854:	movq	#854, r0
+f854:	mov	#854, r0
 	trap	#0
-f855:	movq	#855, r0
+f855:	mov	#855, r0
 	trap	#0
-f856:	movq	#856, r0
+f856:	mov	#856, r0
 	trap	#0
-f857:	movq	#857, r0
+f857:	mov	#857, r0
 	trap	#0
-f858:	movq	#858, r0
+f858:	mov	#858, r0
 	trap	#0
-f859:	movq	#859, r0
+f859:	mov	#859, r0
 	trap	#0
-f860:	movq	#860, r0
+f860:	mov	#860, r0
 	trap	#0
-f861:	movq	#861, r0
+f861:	mov	#861, r0
 	trap	#0
-f862:	movq	#862, r0
+f862:	mov	#862, r0
 	trap	#0
-f863:	movq	#863, r0
+f863:	mov	#863, r0
 	trap	#0
-f864:	movq	#864, r0
+f864:	mov	#864, r0
 	trap	#0
-f865:	movq	#865, r0
+f865:	mov	#865, r0
 	trap	#0
-f866:	movq	#866, r0
+f866:	mov	#866, r0
 	trap	#0
-f867:	movq	#867, r0
+f867:	mov	#867, r0
 	trap	#0
-f868:	movq	#868, r0
+f868:	mov	#868, r0
 	trap	#0
-f869:	movq	#869, r0
+f869:	mov	#869, r0
 	trap	#0
-f870:	movq	#870, r0
+f870:	mov	#870, r0
 	trap	#0
-f871:	movq	#871, r0
+f871:	mov	#871, r0
 	trap	#0
-f872:	movq	#872, r0
+f872:	mov	#872, r0
 	trap	#0
-f873:	movq	#873, r0
+f873:	mov	#873, r0
 	trap	#0
-f874:	movq	#874, r0
+f874:	mov	#874, r0
 	trap	#0
-f875:	movq	#875, r0
+f875:	mov	#875, r0
 	trap	#0
-f876:	movq	#876, r0
+f876:	mov	#876, r0
 	trap	#0
-f877:	movq	#877, r0
+f877:	mov	#877, r0
 	trap	#0
-f878:	movq	#878, r0
+f878:	mov	#878, r0
 	trap	#0
-f879:	movq	#879, r0
+f879:	mov	#879, r0
 	trap	#0
-f880:	movq	#880, r0
+f880:	mov	#880, r0
 	trap	#0
-f881:	movq	#881, r0
+f881:	mov	#881, r0
 	trap	#0
-f882:	movq	#882, r0
+f882:	mov	#882, r0
 	trap	#0
-f883:	movq	#883, r0
+f883:	mov	#883, r0
 	trap	#0
-f884:	movq	#884, r0
+f884:	mov	#884, r0
 	trap	#0
-f885:	movq	#885, r0
+f885:	mov	#885, r0
 	trap	#0
-f886:	movq	#886, r0
+f886:	mov	#886, r0
 	trap	#0
-f887:	movq	#887, r0
+f887:	mov	#887, r0
 	trap	#0
-f888:	movq	#888, r0
+f888:	mov	#888, r0
 	trap	#0
-f889:	movq	#889, r0
+f889:	mov	#889, r0
 	trap	#0
-f890:	movq	#890, r0
+f890:	mov	#890, r0
 	trap	#0
-f891:	movq	#891, r0
+f891:	mov	#891, r0
 	trap	#0
-f892:	movq	#892, r0
+f892:	mov	#892, r0
 	trap	#0
-f893:	movq	#893, r0
+f893:	mov	#893, r0
 	trap	#0
-f894:	movq	#894, r0
+f894:	mov	#894, r0
 	trap	#0
-f895:	movq	#895, r0
+f895:	mov	#895, r0
 	trap	#0
-f896:	movq	#896, r0
+f896:	mov	#896, r0
 	trap	#0
-f897:	movq	#897, r0
+f897:	mov	#897, r0
 	trap	#0
-f898:	movq	#898, r0
+f898:	mov	#898, r0
 	trap	#0
-f899:	movq	#899, r0
+f899:	mov	#899, r0
 	trap	#0
-f900:	movq	#900, r0
+f900:	mov	#900, r0
 	trap	#0
-f901:	movq	#901, r0
+f901:	mov	#901, r0
 	trap	#0
-f902:	movq	#902, r0
+f902:	mov	#902, r0
 	trap	#0
-f903:	movq	#903, r0
+f903:	mov	#903, r0
 	trap	#0
-f904:	movq	#904, r0
+f904:	mov	#904, r0
 	trap	#0
-f905:	movq	#905, r0
+f905:	mov	#905, r0
 	trap	#0
-f906:	movq	#906, r0
+f906:	mov	#906, r0
 	trap	#0
-f907:	movq	#907, r0
+f907:	mov	#907, r0
 	trap	#0
-f908:	movq	#908, r0
+f908:	mov	#908, r0
 	trap	#0
-f909:	movq	#909, r0
+f909:	mov	#909, r0
 	trap	#0
-f910:	movq	#910, r0
+f910:	mov	#910, r0
 	trap	#0
-f911:	movq	#911, r0
+f911:	mov	#911, r0
 	trap	#0
-f912:	movq	#912, r0
+f912:	mov	#912, r0
 	trap	#0
-f913:	movq	#913, r0
+f913:	mov	#913, r0
 	trap	#0
-f914:	movq	#914, r0
+f914:	mov	#914, r0
 	trap	#0
-f915:	movq	#915, r0
+f915:	mov	#915, r0
 	trap	#0
-f916:	movq	#916, r0
+f916:	mov	#916, r0
 	trap	#0
-f917:	movq	#917, r0
+f917:	mov	#917, r0
 	trap	#0
-f918:	movq	#918, r0
+f918:	mov	#918, r0
 	trap	#0
-f919:	movq	#919, r0
+f919:	mov	#919, r0
 	trap	#0
-f920:	movq	#920, r0
+f920:	mov	#920, r0
 	trap	#0
-f921:	movq	#921, r0
+f921:	mov	#921, r0
 	trap	#0
-f922:	movq	#922, r0
+f922:	mov	#922, r0
 	trap	#0
-f923:	movq	#923, r0
+f923:	mov	#923, r0
 	trap	#0
-f924:	movq	#924, r0
+f924:	mov	#924, r0
 	trap	#0
-f925:	movq	#925, r0
+f925:	mov	#925, r0
 	trap	#0
-f926:	movq	#926, r0
+f926:	mov	#926, r0
 	trap	#0
-f927:	movq	#927, r0
+f927:	mov	#927, r0
 	trap	#0
-f928:	movq	#928, r0
+f928:	mov	#928, r0
 	trap	#0
-f929:	movq	#929, r0
+f929:	mov	#929, r0
 	trap	#0
-f930:	movq	#930, r0
+f930:	mov	#930, r0
 	trap	#0
-f931:	movq	#931, r0
+f931:	mov	#931, r0
 	trap	#0
-f932:	movq	#932, r0
+f932:	mov	#932, r0
 	trap	#0
-f933:	movq	#933, r0
+f933:	mov	#933, r0
 	trap	#0
-f934:	movq	#934, r0
+f934:	mov	#934, r0
 	trap	#0
-f935:	movq	#935, r0
+f935:	mov	#935, r0
 	trap	#0
-f936:	movq	#936, r0
+f936:	mov	#936, r0
 	trap	#0
-f937:	movq	#937, r0
+f937:	mov	#937, r0
 	trap	#0
-f938:	movq	#938, r0
+f938:	mov	#938, r0
 	trap	#0
-f939:	movq	#939, r0
+f939:	mov	#939, r0
 	trap	#0
-f940:	movq	#940, r0
+f940:	mov	#940, r0
 	trap	#0
-f941:	movq	#941, r0
+f941:	mov	#941, r0
 	trap	#0
-f942:	movq	#942, r0
+f942:	mov	#942, r0
 	trap	#0
-f943:	movq	#943, r0
+f943:	mov	#943, r0
 	trap	#0
-f944:	movq	#944, r0
+f944:	mov	#944, r0
 	trap	#0
-f945:	movq	#945, r0
+f945:	mov	#945, r0
 	trap	#0
-f946:	movq	#946, r0
+f946:	mov	#946, r0
 	trap	#0
-f947:	movq	#947, r0
+f947:	mov	#947, r0
 	trap	#0
-f948:	movq	#948, r0
+f948:	mov	#948, r0
 	trap	#0
-f949:	movq	#949, r0
+f949:	mov	#949, r0
 	trap	#0
-f950:	movq	#950, r0
+f950:	mov	#950, r0
 	trap	#0
-f951:	movq	#951, r0
+f951:	mov	#951, r0
 	trap	#0
-f952:	movq	#952, r0
+f952:	mov	#952, r0
 	trap	#0
-f953:	movq	#953, r0
+f953:	mov	#953, r0
 	trap	#0
-f954:	movq	#954, r0
+f954:	mov	#954, r0
 	trap	#0
-f955:	movq	#955, r0
+f955:	mov	#955, r0
 	trap	#0
-f956:	movq	#956, r0
+f956:	mov	#956, r0
 	trap	#0
-f957:	movq	#957, r0
+f957:	mov	#957, r0
 	trap	#0
-f958:	movq	#958, r0
+f958:	mov	#958, r0
 	trap	#0
-f959:	movq	#959, r0
+f959:	mov	#959, r0
 	trap	#0
-f960:	movq	#960, r0
+f960:	mov	#960, r0
 	trap	#0
-f961:	movq	#961, r0
+f961:	mov	#961, r0
 	trap	#0
-f962:	movq	#962, r0
+f962:	mov	#962, r0
 	trap	#0
-f963:	movq	#963, r0
+f963:	mov	#963, r0
 	trap	#0
-f964:	movq	#964, r0
+f964:	mov	#964, r0
 	trap	#0
-f965:	movq	#965, r0
+f965:	mov	#965, r0
 	trap	#0
-f966:	movq	#966, r0
+f966:	mov	#966, r0
 	trap	#0
-f967:	movq	#967, r0
+f967:	mov	#967, r0
 	trap	#0
-f968:	movq	#968, r0
+f968:	mov	#968, r0
 	trap	#0
-f969:	movq	#969, r0
+f969:	mov	#969, r0
 	trap	#0
-f970:	movq	#970, r0
+f970:	mov	#970, r0
 	trap	#0
-f971:	movq	#971, r0
+f971:	mov	#971, r0
 	trap	#0
-f972:	movq	#972, r0
+f972:	mov	#972, r0
 	trap	#0
-f973:	movq	#973, r0
+f973:	mov	#973, r0
 	trap	#0
-f974:	movq	#974, r0
+f974:	mov	#974, r0
 	trap	#0
-f975:	movq	#975, r0
+f975:	mov	#975, r0
 	trap	#0
-f976:	movq	#976, r0
+f976:	mov	#976, r0
 	trap	#0
-f977:	movq	#977, r0
+f977:	mov	#977, r0
 	trap	#0
-f978:	movq	#978, r0
+f978:	mov	#978, r0
 	trap	#0
-f979:	movq	#979, r0
+f979:	mov	#979, r0
 	trap	#0
-f980:	movq	#980, r0
+f980:	mov	#980, r0
 	trap	#0
-f981:	movq	#981, r0
+f981:	mov	#981, r0
 	trap	#0
-f982:	movq	#982, r0
+f982:	mov	#982, r0
 	trap	#0
-f983:	movq	#983, r0
+f983:	mov	#983, r0
 	trap	#0
-f984:	movq	#984, r0
+f984:	mov	#984, r0
 	trap	#0
-f985:	movq	#985, r0
+f985:	mov	#985, r0
 	trap	#0
-f986:	movq	#986, r0
+f986:	mov	#986, r0
 	trap	#0
-f987:	movq	#987, r0
+f987:	mov	#987, r0
 	trap	#0
-f988:	movq	#988, r0
+f988:	mov	#988, r0
 	trap	#0
-f989:	movq	#989, r0
+f989:	mov	#989, r0
 	trap	#0
-f990:	movq	#990, r0
+f990:	mov	#990, r0
 	trap	#0
-f991:	movq	#991, r0
+f991:	mov	#991, r0
 	trap	#0
-f992:	movq	#992, r0
+f992:	mov	#992, r0
 	trap	#0
-f993:	movq	#993, r0
+f993:	mov	#993, r0
 	trap	#0
-f994:	movq	#994, r0
+f994:	mov	#994, r0
 	trap	#0
-f995:	movq	#995, r0
+f995:	mov	#995, r0
 	trap	#0
-f996:	movq	#996, r0
+f996:	mov	#996, r0
 	trap	#0
-f997:	movq	#997, r0
+f997:	mov	#997, r0
 	trap	#0
-f998:	movq	#998, r0
+f998:	mov	#998, r0
 	trap	#0
-f999:	movq	#999, r0
+f999:	mov	#999, r0
 	trap	#0
-f1000:	movq	#1000, r0
+f1000:	mov	#1000, r0
 	trap	#0
-f1001:	movq	#1001, r0
+f1001:	mov	#1001, r0
 	trap	#0
-f1002:	movq	#1002, r0
+f1002:	mov	#1002, r0
 	trap	#0
-f1003:	movq	#1003, r0
+f1003:	mov	#1003, r0
 	trap	#0
-f1004:	movq	#1004, r0
+f1004:	mov	#1004, r0
 	trap	#0
-f1005:	movq	#1005, r0
+f1005:	mov	#1005, r0
 	trap	#0
-f1006:	movq	#1006, r0
+f1006:	mov	#1006, r0
 	trap	#0
-f1007:	movq	#1007, r0
+f1007:	mov	#1007, r0
 	trap	#0
-f1008:	movq	#1008, r0
+f1008:	mov	#1008, r0
 	trap	#0
-f1009:	movq	#1009, r0
+f1009:	mov	#1009, r0
 	trap	#0
-f1010:	movq	#1010, r0
+f1010:	mov	#1010, r0
 	trap	#0
-f1011:	movq	#1011, r0
+f1011:	mov	#1011, r0
 	trap	#0
-f1012:	movq	#1012, r0
+f1012:	mov	#1012, r0
 	trap	#0
-f1013:	movq	#1013, r0
+f1013:	mov	#1013, r0
 	trap	#0
-f1014:	movq	#1014, r0
+f1014:	mov	#1014, r0
 	trap	#0
-f1015:	movq	#1015, r0
+f1015:	mov	#1015, r0
 	trap	#0
-f1016:	movq	#1016, r0
+f1016:	mov	#1016, r0
 	trap	#0
-f1017:	movq	#1017, r0
+f1017:	mov	#1017, r0
 	trap	#0
-f1018:	movq	#1018, r0
+f1018:	mov	#1018, r0
 	trap	#0
-f1019:	movq	#1019, r0
+f1019:	mov	#1019, r0
 	trap	#0
-f1020:	movq	#1020, r0
+f1020:	mov	#1020, r0
 	trap	#0
-f1021:	movq	#1021, r0
+f1021:	mov	#1021, r0
 	trap	#0
-f1022:	movq	#1022, r0
+f1022:	mov	#1022, r0
 	trap	#0
-f1023:	movq	#1023, r0
+f1023:	mov	#1023, r0
 	trap	#0
-f1024:	movq	#1024, r0
+f1024:	mov	#1024, r0
 	trap	#0
-f1025:	movq	#1025, r0
+f1025:	mov	#1025, r0
 	trap	#0
-f1026:	movq	#1026, r0
+f1026:	mov	#1026, r0
 	trap	#0
-f1027:	movq	#1027, r0
+f1027:	mov	#1027, r0
 	trap	#0
-f1028:	movq	#1028, r0
+f1028:	mov	#1028, r0
 	trap	#0
-f1029:	movq	#1029, r0
+f1029:	mov	#1029, r0
 	trap	#0
-f1030:	movq	#1030, r0
+f1030:	mov	#1030, r0
 	trap	#0
-f1031:	movq	#1031, r0
+f1031:	mov	#1031, r0
 	trap	#0
-f1032:	movq	#1032, r0
+f1032:	mov	#1032, r0
 	trap	#0
-f1033:	movq	#1033, r0
+f1033:	mov	#1033, r0
 	trap	#0
-f1034:	movq	#1034, r0
+f1034:	mov	#1034, r0
 	trap	#0
-f1035:	movq	#1035, r0
+f1035:	mov	#1035, r0
 	trap	#0
-f1036:	movq	#1036, r0
+f1036:	mov	#1036, r0
 	trap	#0
-f1037:	movq	#1037, r0
+f1037:	mov	#1037, r0
 	trap	#0
-f1038:	movq	#1038, r0
+f1038:	mov	#1038, r0
 	trap	#0
-f1039:	movq	#1039, r0
+f1039:	mov	#1039, r0
 	trap	#0
-f1040:	movq	#1040, r0
+f1040:	mov	#1040, r0
 	trap	#0
-f1041:	movq	#1041, r0
+f1041:	mov	#1041, r0
 	trap	#0
-f1042:	movq	#1042, r0
+f1042:	mov	#1042, r0
 	trap	#0
-f1043:	movq	#1043, r0
+f1043:	mov	#1043, r0
 	trap	#0
-f1044:	movq	#1044, r0
+f1044:	mov	#1044, r0
 	trap	#0
-f1045:	movq	#1045, r0
+f1045:	mov	#1045, r0
 	trap	#0
-f1046:	movq	#1046, r0
+f1046:	mov	#1046, r0
 	trap	#0
-f1047:	movq	#1047, r0
+f1047:	mov	#1047, r0
 	trap	#0
-f1048:	movq	#1048, r0
+f1048:	mov	#1048, r0
 	trap	#0
-f1049:	movq	#1049, r0
+f1049:	mov	#1049, r0
 	trap	#0
-f1050:	movq	#1050, r0
+f1050:	mov	#1050, r0
 	trap	#0
-f1051:	movq	#1051, r0
+f1051:	mov	#1051, r0
 	trap	#0
-f1052:	movq	#1052, r0
+f1052:	mov	#1052, r0
 	trap	#0
-f1053:	movq	#1053, r0
+f1053:	mov	#1053, r0
 	trap	#0
-f1054:	movq	#1054, r0
+f1054:	mov	#1054, r0
 	trap	#0
-f1055:	movq	#1055, r0
+f1055:	mov	#1055, r0
 	trap	#0
-f1056:	movq	#1056, r0
+f1056:	mov	#1056, r0
 	trap	#0
-f1057:	movq	#1057, r0
+f1057:	mov	#1057, r0
 	trap	#0
-f1058:	movq	#1058, r0
+f1058:	mov	#1058, r0
 	trap	#0
-f1059:	movq	#1059, r0
+f1059:	mov	#1059, r0
 	trap	#0
-f1060:	movq	#1060, r0
+f1060:	mov	#1060, r0
 	trap	#0
-f1061:	movq	#1061, r0
+f1061:	mov	#1061, r0
 	trap	#0
-f1062:	movq	#1062, r0
+f1062:	mov	#1062, r0
 	trap	#0
-f1063:	movq	#1063, r0
+f1063:	mov	#1063, r0
 	trap	#0
-f1064:	movq	#1064, r0
+f1064:	mov	#1064, r0
 	trap	#0
-f1065:	movq	#1065, r0
+f1065:	mov	#1065, r0
 	trap	#0
-f1066:	movq	#1066, r0
+f1066:	mov	#1066, r0
 	trap	#0
-f1067:	movq	#1067, r0
+f1067:	mov	#1067, r0
 	trap	#0
-f1068:	movq	#1068, r0
+f1068:	mov	#1068, r0
 	trap	#0
-f1069:	movq	#1069, r0
+f1069:	mov	#1069, r0
 	trap	#0
-f1070:	movq	#1070, r0
+f1070:	mov	#1070, r0
 	trap	#0
-f1071:	movq	#1071, r0
+f1071:	mov	#1071, r0
 	trap	#0
-f1072:	movq	#1072, r0
+f1072:	mov	#1072, r0
 	trap	#0
-f1073:	movq	#1073, r0
+f1073:	mov	#1073, r0
 	trap	#0
-f1074:	movq	#1074, r0
+f1074:	mov	#1074, r0
 	trap	#0
-f1075:	movq	#1075, r0
+f1075:	mov	#1075, r0
 	trap	#0
-f1076:	movq	#1076, r0
+f1076:	mov	#1076, r0
 	trap	#0
-f1077:	movq	#1077, r0
+f1077:	mov	#1077, r0
 	trap	#0
-f1078:	movq	#1078, r0
+f1078:	mov	#1078, r0
 	trap	#0
-f1079:	movq	#1079, r0
+f1079:	mov	#1079, r0
 	trap	#0
-f1080:	movq	#1080, r0
+f1080:	mov	#1080, r0
 	trap	#0
-f1081:	movq	#1081, r0
+f1081:	mov	#1081, r0
 	trap	#0
-f1082:	movq	#1082, r0
+f1082:	mov	#1082, r0
 	trap	#0
-f1083:	movq	#1083, r0
+f1083:	mov	#1083, r0
 	trap	#0
-f1084:	movq	#1084, r0
+f1084:	mov	#1084, r0
 	trap	#0
-f1085:	movq	#1085, r0
+f1085:	mov	#1085, r0
 	trap	#0
-f1086:	movq	#1086, r0
+f1086:	mov	#1086, r0
 	trap	#0
-f1087:	movq	#1087, r0
+f1087:	mov	#1087, r0
 	trap	#0
-f1088:	movq	#1088, r0
+f1088:	mov	#1088, r0
 	trap	#0
-f1089:	movq	#1089, r0
+f1089:	mov	#1089, r0
 	trap	#0
-f1090:	movq	#1090, r0
+f1090:	mov	#1090, r0
 	trap	#0
-f1091:	movq	#1091, r0
+f1091:	mov	#1091, r0
 	trap	#0
-f1092:	movq	#1092, r0
+f1092:	mov	#1092, r0
 	trap	#0
-f1093:	movq	#1093, r0
+f1093:	mov	#1093, r0
 	trap	#0
-f1094:	movq	#1094, r0
+f1094:	mov	#1094, r0
 	trap	#0
-f1095:	movq	#1095, r0
+f1095:	mov	#1095, r0
 	trap	#0
-f1096:	movq	#1096, r0
+f1096:	mov	#1096, r0
 	trap	#0
-f1097:	movq	#1097, r0
+f1097:	mov	#1097, r0
 	trap	#0
-f1098:	movq	#1098, r0
+f1098:	mov	#1098, r0
 	trap	#0
-f1099:	movq	#1099, r0
+f1099:	mov	#1099, r0
 	trap	#0
-f1100:	movq	#1100, r0
+f1100:	mov	#1100, r0
 	trap	#0
-f1101:	movq	#1101, r0
+f1101:	mov	#1101, r0
 	trap	#0
-f1102:	movq	#1102, r0
+f1102:	mov	#1102, r0
 	trap	#0
-f1103:	movq	#1103, r0
+f1103:	mov	#1103, r0
 	trap	#0
-f1104:	movq	#1104, r0
+f1104:	mov	#1104, r0
 	trap	#0
-f1105:	movq	#1105, r0
+f1105:	mov	#1105, r0
 	trap	#0
-f1106:	movq	#1106, r0
+f1106:	mov	#1106, r0
 	trap	#0
-f1107:	movq	#1107, r0
+f1107:	mov	#1107, r0
 	trap	#0
-f1108:	movq	#1108, r0
+f1108:	mov	#1108, r0
 	trap	#0
-f1109:	movq	#1109, r0
+f1109:	mov	#1109, r0
 	trap	#0
-f1110:	movq	#1110, r0
+f1110:	mov	#1110, r0
 	trap	#0
-f1111:	movq	#1111, r0
+f1111:	mov	#1111, r0
 	trap	#0
-f1112:	movq	#1112, r0
+f1112:	mov	#1112, r0
 	trap	#0
-f1113:	movq	#1113, r0
+f1113:	mov	#1113, r0
 	trap	#0
-f1114:	movq	#1114, r0
+f1114:	mov	#1114, r0
 	trap	#0
-f1115:	movq	#1115, r0
+f1115:	mov	#1115, r0
 	trap	#0
-f1116:	movq	#1116, r0
+f1116:	mov	#1116, r0
 	trap	#0
-f1117:	movq	#1117, r0
+f1117:	mov	#1117, r0
 	trap	#0
-f1118:	movq	#1118, r0
+f1118:	mov	#1118, r0
 	trap	#0
-f1119:	movq	#1119, r0
+f1119:	mov	#1119, r0
 	trap	#0
-f1120:	movq	#1120, r0
+f1120:	mov	#1120, r0
 	trap	#0
-f1121:	movq	#1121, r0
+f1121:	mov	#1121, r0
 	trap	#0
-f1122:	movq	#1122, r0
+f1122:	mov	#1122, r0
 	trap	#0
-f1123:	movq	#1123, r0
+f1123:	mov	#1123, r0
 	trap	#0
-f1124:	movq	#1124, r0
+f1124:	mov	#1124, r0
 	trap	#0
-f1125:	movq	#1125, r0
+f1125:	mov	#1125, r0
 	trap	#0
-f1126:	movq	#1126, r0
+f1126:	mov	#1126, r0
 	trap	#0
-f1127:	movq	#1127, r0
+f1127:	mov	#1127, r0
 	trap	#0
-f1128:	movq	#1128, r0
+f1128:	mov	#1128, r0
 	trap	#0
-f1129:	movq	#1129, r0
+f1129:	mov	#1129, r0
 	trap	#0
-f1130:	movq	#1130, r0
+f1130:	mov	#1130, r0
 	trap	#0
-f1131:	movq	#1131, r0
+f1131:	mov	#1131, r0
 	trap	#0
-f1132:	movq	#1132, r0
+f1132:	mov	#1132, r0
 	trap	#0
-f1133:	movq	#1133, r0
+f1133:	mov	#1133, r0
 	trap	#0
-f1134:	movq	#1134, r0
+f1134:	mov	#1134, r0
 	trap	#0
-f1135:	movq	#1135, r0
+f1135:	mov	#1135, r0
 	trap	#0
-f1136:	movq	#1136, r0
+f1136:	mov	#1136, r0
 	trap	#0
-f1137:	movq	#1137, r0
+f1137:	mov	#1137, r0
 	trap	#0
-f1138:	movq	#1138, r0
+f1138:	mov	#1138, r0
 	trap	#0
-f1139:	movq	#1139, r0
+f1139:	mov	#1139, r0
 	trap	#0
-f1140:	movq	#1140, r0
+f1140:	mov	#1140, r0
 	trap	#0
-f1141:	movq	#1141, r0
+f1141:	mov	#1141, r0
 	trap	#0
-f1142:	movq	#1142, r0
+f1142:	mov	#1142, r0
 	trap	#0
-f1143:	movq	#1143, r0
+f1143:	mov	#1143, r0
 	trap	#0
-f1144:	movq	#1144, r0
+f1144:	mov	#1144, r0
 	trap	#0
-f1145:	movq	#1145, r0
+f1145:	mov	#1145, r0
 	trap	#0
-f1146:	movq	#1146, r0
+f1146:	mov	#1146, r0
 	trap	#0
-f1147:	movq	#1147, r0
+f1147:	mov	#1147, r0
 	trap	#0
-f1148:	movq	#1148, r0
+f1148:	mov	#1148, r0
 	trap	#0
-f1149:	movq	#1149, r0
+f1149:	mov	#1149, r0
 	trap	#0
-f1150:	movq	#1150, r0
+f1150:	mov	#1150, r0
 	trap	#0
-f1151:	movq	#1151, r0
+f1151:	mov	#1151, r0
 	trap	#0
-f1152:	movq	#1152, r0
+f1152:	mov	#1152, r0
 	trap	#0
-f1153:	movq	#1153, r0
+f1153:	mov	#1153, r0
 	trap	#0
-f1154:	movq	#1154, r0
+f1154:	mov	#1154, r0
 	trap	#0
-f1155:	movq	#1155, r0
+f1155:	mov	#1155, r0
 	trap	#0
-f1156:	movq	#1156, r0
+f1156:	mov	#1156, r0
 	trap	#0
-f1157:	movq	#1157, r0
+f1157:	mov	#1157, r0
 	trap	#0
-f1158:	movq	#1158, r0
+f1158:	mov	#1158, r0
 	trap	#0
-f1159:	movq	#1159, r0
+f1159:	mov	#1159, r0
 	trap	#0
-f1160:	movq	#1160, r0
+f1160:	mov	#1160, r0
 	trap	#0
-f1161:	movq	#1161, r0
+f1161:	mov	#1161, r0
 	trap	#0
-f1162:	movq	#1162, r0
+f1162:	mov	#1162, r0
 	trap	#0
-f1163:	movq	#1163, r0
+f1163:	mov	#1163, r0
 	trap	#0
-f1164:	movq	#1164, r0
+f1164:	mov	#1164, r0
 	trap	#0
-f1165:	movq	#1165, r0
+f1165:	mov	#1165, r0
 	trap	#0
-f1166:	movq	#1166, r0
+f1166:	mov	#1166, r0
 	trap	#0
-f1167:	movq	#1167, r0
+f1167:	mov	#1167, r0
 	trap	#0
-f1168:	movq	#1168, r0
+f1168:	mov	#1168, r0
 	trap	#0
-f1169:	movq	#1169, r0
+f1169:	mov	#1169, r0
 	trap	#0
-f1170:	movq	#1170, r0
+f1170:	mov	#1170, r0
 	trap	#0
-f1171:	movq	#1171, r0
+f1171:	mov	#1171, r0
 	trap	#0
-f1172:	movq	#1172, r0
+f1172:	mov	#1172, r0
 	trap	#0
-f1173:	movq	#1173, r0
+f1173:	mov	#1173, r0
 	trap	#0
-f1174:	movq	#1174, r0
+f1174:	mov	#1174, r0
 	trap	#0
-f1175:	movq	#1175, r0
+f1175:	mov	#1175, r0
 	trap	#0
-f1176:	movq	#1176, r0
+f1176:	mov	#1176, r0
 	trap	#0
-f1177:	movq	#1177, r0
+f1177:	mov	#1177, r0
 	trap	#0
-f1178:	movq	#1178, r0
+f1178:	mov	#1178, r0
 	trap	#0
-f1179:	movq	#1179, r0
+f1179:	mov	#1179, r0
 	trap	#0
-f1180:	movq	#1180, r0
+f1180:	mov	#1180, r0
 	trap	#0
-f1181:	movq	#1181, r0
+f1181:	mov	#1181, r0
 	trap	#0
-f1182:	movq	#1182, r0
+f1182:	mov	#1182, r0
 	trap	#0
-f1183:	movq	#1183, r0
+f1183:	mov	#1183, r0
 	trap	#0
-f1184:	movq	#1184, r0
+f1184:	mov	#1184, r0
 	trap	#0
-f1185:	movq	#1185, r0
+f1185:	mov	#1185, r0
 	trap	#0
-f1186:	movq	#1186, r0
+f1186:	mov	#1186, r0
 	trap	#0
-f1187:	movq	#1187, r0
+f1187:	mov	#1187, r0
 	trap	#0
-f1188:	movq	#1188, r0
+f1188:	mov	#1188, r0
 	trap	#0
-f1189:	movq	#1189, r0
+f1189:	mov	#1189, r0
 	trap	#0
-f1190:	movq	#1190, r0
+f1190:	mov	#1190, r0
 	trap	#0
-f1191:	movq	#1191, r0
+f1191:	mov	#1191, r0
 	trap	#0
-f1192:	movq	#1192, r0
+f1192:	mov	#1192, r0
 	trap	#0
-f1193:	movq	#1193, r0
+f1193:	mov	#1193, r0
 	trap	#0
-f1194:	movq	#1194, r0
+f1194:	mov	#1194, r0
 	trap	#0
-f1195:	movq	#1195, r0
+f1195:	mov	#1195, r0
 	trap	#0
-f1196:	movq	#1196, r0
+f1196:	mov	#1196, r0
 	trap	#0
-f1197:	movq	#1197, r0
+f1197:	mov	#1197, r0
 	trap	#0
-f1198:	movq	#1198, r0
+f1198:	mov	#1198, r0
 	trap	#0
-f1199:	movq	#1199, r0
+f1199:	mov	#1199, r0
 	trap	#0
-f1200:	movq	#1200, r0
+f1200:	mov	#1200, r0
 	trap	#0
-f1201:	movq	#1201, r0
+f1201:	mov	#1201, r0
 	trap	#0
-f1202:	movq	#1202, r0
+f1202:	mov	#1202, r0
 	trap	#0
-f1203:	movq	#1203, r0
+f1203:	mov	#1203, r0
 	trap	#0
-f1204:	movq	#1204, r0
+f1204:	mov	#1204, r0
 	trap	#0
-f1205:	movq	#1205, r0
+f1205:	mov	#1205, r0
 	trap	#0
-f1206:	movq	#1206, r0
+f1206:	mov	#1206, r0
 	trap	#0
-f1207:	movq	#1207, r0
+f1207:	mov	#1207, r0
 	trap	#0
-f1208:	movq	#1208, r0
+f1208:	mov	#1208, r0
 	trap	#0
-f1209:	movq	#1209, r0
+f1209:	mov	#1209, r0
 	trap	#0
-f1210:	movq	#1210, r0
+f1210:	mov	#1210, r0
 	trap	#0
-f1211:	movq	#1211, r0
+f1211:	mov	#1211, r0
 	trap	#0
-f1212:	movq	#1212, r0
+f1212:	mov	#1212, r0
 	trap	#0
-f1213:	movq	#1213, r0
+f1213:	mov	#1213, r0
 	trap	#0
-f1214:	movq	#1214, r0
+f1214:	mov	#1214, r0
 	trap	#0
-f1215:	movq	#1215, r0
+f1215:	mov	#1215, r0
 	trap	#0
-f1216:	movq	#1216, r0
+f1216:	mov	#1216, r0
 	trap	#0
-f1217:	movq	#1217, r0
+f1217:	mov	#1217, r0
 	trap	#0
-f1218:	movq	#1218, r0
+f1218:	mov	#1218, r0
 	trap	#0
-f1219:	movq	#1219, r0
+f1219:	mov	#1219, r0
 	trap	#0
-f1220:	movq	#1220, r0
+f1220:	mov	#1220, r0
 	trap	#0
-f1221:	movq	#1221, r0
+f1221:	mov	#1221, r0
 	trap	#0
-f1222:	movq	#1222, r0
+f1222:	mov	#1222, r0
 	trap	#0
-f1223:	movq	#1223, r0
+f1223:	mov	#1223, r0
 	trap	#0
-f1224:	movq	#1224, r0
+f1224:	mov	#1224, r0
 	trap	#0
-f1225:	movq	#1225, r0
+f1225:	mov	#1225, r0
 	trap	#0
-f1226:	movq	#1226, r0
+f1226:	mov	#1226, r0
 	trap	#0
-f1227:	movq	#1227, r0
+f1227:	mov	#1227, r0
 	trap	#0
-f1228:	movq	#1228, r0
+f1228:	mov	#1228, r0
 	trap	#0
-f1229:	movq	#1229, r0
+f1229:	mov	#1229, r0
 	trap	#0
-f1230:	movq	#1230, r0
+f1230:	mov	#1230, r0
 	trap	#0
-f1231:	movq	#1231, r0
+f1231:	mov	#1231, r0
 	trap	#0
-f1232:	movq	#1232, r0
+f1232:	mov	#1232, r0
 	trap	#0
-f1233:	movq	#1233, r0
+f1233:	mov	#1233, r0
 	trap	#0
-f1234:	movq	#1234, r0
+f1234:	mov	#1234, r0
 	trap	#0
-f1235:	movq	#1235, r0
+f1235:	mov	#1235, r0
 	trap	#0
-f1236:	movq	#1236, r0
+f1236:	mov	#1236, r0
 	trap	#0
-f1237:	movq	#1237, r0
+f1237:	mov	#1237, r0
 	trap	#0
-f1238:	movq	#1238, r0
+f1238:	mov	#1238, r0
 	trap	#0
-f1239:	movq	#1239, r0
+f1239:	mov	#1239, r0
 	trap	#0
-f1240:	movq	#1240, r0
+f1240:	mov	#1240, r0
 	trap	#0
-f1241:	movq	#1241, r0
+f1241:	mov	#1241, r0
 	trap	#0
-f1242:	movq	#1242, r0
+f1242:	mov	#1242, r0
 	trap	#0
-f1243:	movq	#1243, r0
+f1243:	mov	#1243, r0
 	trap	#0
-f1244:	movq	#1244, r0
+f1244:	mov	#1244, r0
 	trap	#0
-f1245:	movq	#1245, r0
+f1245:	mov	#1245, r0
 	trap	#0
-f1246:	movq	#1246, r0
+f1246:	mov	#1246, r0
 	trap	#0
-f1247:	movq	#1247, r0
+f1247:	mov	#1247, r0
 	trap	#0
-f1248:	movq	#1248, r0
+f1248:	mov	#1248, r0
 	trap	#0
-f1249:	movq	#1249, r0
+f1249:	mov	#1249, r0
 	trap	#0
-f1250:	movq	#1250, r0
+f1250:	mov	#1250, r0
 	trap	#0
-f1251:	movq	#1251, r0
+f1251:	mov	#1251, r0
 	trap	#0
-f1252:	movq	#1252, r0
+f1252:	mov	#1252, r0
 	trap	#0
-f1253:	movq	#1253, r0
+f1253:	mov	#1253, r0
 	trap	#0
-f1254:	movq	#1254, r0
+f1254:	mov	#1254, r0
 	trap	#0
-f1255:	movq	#1255, r0
+f1255:	mov	#1255, r0
 	trap	#0
-f1256:	movq	#1256, r0
+f1256:	mov	#1256, r0
 	trap	#0
-f1257:	movq	#1257, r0
+f1257:	mov	#1257, r0
 	trap	#0
-f1258:	movq	#1258, r0
+f1258:	mov	#1258, r0
 	trap	#0
-f1259:	movq	#1259, r0
+f1259:	mov	#1259, r0
 	trap	#0
-f1260:	movq	#1260, r0
+f1260:	mov	#1260, r0
 	trap	#0
-f1261:	movq	#1261, r0
+f1261:	mov	#1261, r0
 	trap	#0
-f1262:	movq	#1262, r0
+f1262:	mov	#1262, r0
 	trap	#0
-f1263:	movq	#1263, r0
+f1263:	mov	#1263, r0
 	trap	#0
-f1264:	movq	#1264, r0
+f1264:	mov	#1264, r0
 	trap	#0
-f1265:	movq	#1265, r0
+f1265:	mov	#1265, r0
 	trap	#0
-f1266:	movq	#1266, r0
+f1266:	mov	#1266, r0
 	trap	#0
-f1267:	movq	#1267, r0
+f1267:	mov	#1267, r0
 	trap	#0
-f1268:	movq	#1268, r0
+f1268:	mov	#1268, r0
 	trap	#0
-f1269:	movq	#1269, r0
+f1269:	mov	#1269, r0
 	trap	#0
-f1270:	movq	#1270, r0
+f1270:	mov	#1270, r0
 	trap	#0
-f1271:	movq	#1271, r0
+f1271:	mov	#1271, r0
 	trap	#0
-f1272:	movq	#1272, r0
+f1272:	mov	#1272, r0
 	trap	#0
-f1273:	movq	#1273, r0
+f1273:	mov	#1273, r0
 	trap	#0
-f1274:	movq	#1274, r0
+f1274:	mov	#1274, r0
 	trap	#0
-f1275:	movq	#1275, r0
+f1275:	mov	#1275, r0
 	trap	#0
-f1276:	movq	#1276, r0
+f1276:	mov	#1276, r0
 	trap	#0
-f1277:	movq	#1277, r0
+f1277:	mov	#1277, r0
 	trap	#0
-f1279:	movq	#1279, r0
+f1279:	mov	#1279, r0
 	trap	#0
-f1281:	movq	#1281, r0
+f1281:	mov	#1281, r0
 	trap	#0
-f1283:	movq	#1283, r0
+f1283:	mov	#1283, r0
 	trap	#0
-f1285:	movq	#1285, r0
+f1285:	mov	#1285, r0
 	trap	#0
-f1287:	movq	#1287, r0
+f1287:	mov	#1287, r0
 	trap	#0
-f1289:	movq	#1289, r0
+f1289:	mov	#1289, r0
 	trap	#0
-f1291:	movq	#1291, r0
+f1291:	mov	#1291, r0
 	trap	#0
-f1293:	movq	#1293, r0
+f1293:	mov	#1293, r0
 	trap	#0
-f1295:	movq	#1295, r0
+f1295:	mov	#1295, r0
 	trap	#0
-f1297:	movq	#1297, r0
+f1297:	mov	#1297, r0
 	trap	#0
-f1299:	movq	#1299, r0
+f1299:	mov	#1299, r0
 	trap	#0
-f1301:	movq	#1301, r0
+f1301:	mov	#1301, r0
 	trap	#0
-f1303:	movq	#1303, r0
+f1303:	mov	#1303, r0
 	trap	#0
-f1305:	movq	#1305, r0
+f1305:	mov	#1305, r0
 	trap	#0
-f1307:	movq	#1307, r0
+f1307:	mov	#1307, r0
 	trap	#0
-f1309:	movq	#1309, r0
+f1309:	mov	#1309, r0
 	trap	#0
-f1311:	movq	#1311, r0
+f1311:	mov	#1311, r0
 	trap	#0
-f1313:	movq	#1313, r0
+f1313:	mov	#1313, r0
 	trap	#0
-f1315:	movq	#1315, r0
+f1315:	mov	#1315, r0
 	trap	#0
-f1317:	movq	#1317, r0
+f1317:	mov	#1317, r0
 	trap	#0
-f1319:	movq	#1319, r0
+f1319:	mov	#1319, r0
 	trap	#0
-f1321:	movq	#1321, r0
+f1321:	mov	#1321, r0
 	trap	#0
-f1323:	movq	#1323, r0
+f1323:	mov	#1323, r0
 	trap	#0
-f1325:	movq	#1325, r0
+f1325:	mov	#1325, r0
 	trap	#0
-f1327:	movq	#1327, r0
+f1327:	mov	#1327, r0
 	trap	#0
-f1329:	movq	#1329, r0
+f1329:	mov	#1329, r0
 	trap	#0
-f1331:	movq	#1331, r0
+f1331:	mov	#1331, r0
 	trap	#0
-f1333:	movq	#1333, r0
+f1333:	mov	#1333, r0
 	trap	#0
-f1335:	movq	#1335, r0
+f1335:	mov	#1335, r0
 	trap	#0
-f1337:	movq	#1337, r0
+f1337:	mov	#1337, r0
 	trap	#0
-f1339:	movq	#1339, r0
+f1339:	mov	#1339, r0
 	trap	#0
-f1341:	movq	#1341, r0
+f1341:	mov	#1341, r0
 	trap	#0
-f1343:	movq	#1343, r0
+f1343:	mov	#1343, r0
 	trap	#0
-f1345:	movq	#1345, r0
+f1345:	mov	#1345, r0
 	trap	#0
-f1347:	movq	#1347, r0
+f1347:	mov	#1347, r0
 	trap	#0
-f1349:	movq	#1349, r0
+f1349:	mov	#1349, r0
 	trap	#0
-f1351:	movq	#1351, r0
+f1351:	mov	#1351, r0
 	trap	#0
-f1353:	movq	#1353, r0
+f1353:	mov	#1353, r0
 	trap	#0
-f1355:	movq	#1355, r0
+f1355:	mov	#1355, r0
 	trap	#0
-f1357:	movq	#1357, r0
+f1357:	mov	#1357, r0
 	trap	#0
-f1359:	movq	#1359, r0
+f1359:	mov	#1359, r0
 	trap	#0
-f1361:	movq	#1361, r0
+f1361:	mov	#1361, r0
 	trap	#0
-f1363:	movq	#1363, r0
+f1363:	mov	#1363, r0
 	trap	#0
-f1365:	movq	#1365, r0
+f1365:	mov	#1365, r0
 	trap	#0
-f1367:	movq	#1367, r0
+f1367:	mov	#1367, r0
 	trap	#0
-f1369:	movq	#1369, r0
+f1369:	mov	#1369, r0
 	trap	#0
-f1371:	movq	#1371, r0
+f1371:	mov	#1371, r0
 	trap	#0
-f1373:	movq	#1373, r0
+f1373:	mov	#1373, r0
 	trap	#0
-f1375:	movq	#1375, r0
+f1375:	mov	#1375, r0
 	trap	#0
-f1377:	movq	#1377, r0
+f1377:	mov	#1377, r0
 	trap	#0
-f1379:	movq	#1379, r0
+f1379:	mov	#1379, r0
 	trap	#0
-f1381:	movq	#1381, r0
+f1381:	mov	#1381, r0
 	trap	#0
-f1383:	movq	#1383, r0
+f1383:	mov	#1383, r0
 	trap	#0
-f1385:	movq	#1385, r0
+f1385:	mov	#1385, r0
 	trap	#0
-f1387:	movq	#1387, r0
+f1387:	mov	#1387, r0
 	trap	#0
-f1389:	movq	#1389, r0
+f1389:	mov	#1389, r0
 	trap	#0
-f1391:	movq	#1391, r0
+f1391:	mov	#1391, r0
 	trap	#0
-f1393:	movq	#1393, r0
+f1393:	mov	#1393, r0
 	trap	#0
-f1395:	movq	#1395, r0
+f1395:	mov	#1395, r0
 	trap	#0
-f1397:	movq	#1397, r0
+f1397:	mov	#1397, r0
 	trap	#0
-f1399:	movq	#1399, r0
+f1399:	mov	#1399, r0
 	trap	#0
-f1401:	movq	#1401, r0
+f1401:	mov	#1401, r0
 	trap	#0
-f1403:	movq	#1403, r0
+f1403:	mov	#1403, r0
 	trap	#0
-f1405:	movq	#1405, r0
+f1405:	mov	#1405, r0
 	trap	#0
-f1407:	movq	#1407, r0
+f1407:	mov	#1407, r0
 	trap	#0
-f1409:	movq	#1409, r0
+f1409:	mov	#1409, r0
 	trap	#0
-f1411:	movq	#1411, r0
+f1411:	mov	#1411, r0
 	trap	#0
-f1413:	movq	#1413, r0
+f1413:	mov	#1413, r0
 	trap	#0
-f1415:	movq	#1415, r0
+f1415:	mov	#1415, r0
 	trap	#0
-f1417:	movq	#1417, r0
+f1417:	mov	#1417, r0
 	trap	#0
-f1419:	movq	#1419, r0
+f1419:	mov	#1419, r0
 	trap	#0
-f1421:	movq	#1421, r0
+f1421:	mov	#1421, r0
 	trap	#0
-f1423:	movq	#1423, r0
+f1423:	mov	#1423, r0
 	trap	#0
-f1425:	movq	#1425, r0
+f1425:	mov	#1425, r0
 	trap	#0
-f1427:	movq	#1427, r0
+f1427:	mov	#1427, r0
 	trap	#0
-f1429:	movq	#1429, r0
+f1429:	mov	#1429, r0
 	trap	#0
-f1431:	movq	#1431, r0
+f1431:	mov	#1431, r0
 	trap	#0
-f1433:	movq	#1433, r0
+f1433:	mov	#1433, r0
 	trap	#0
-f1435:	movq	#1435, r0
+f1435:	mov	#1435, r0
 	trap	#0
-f1437:	movq	#1437, r0
+f1437:	mov	#1437, r0
 	trap	#0

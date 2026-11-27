@@ -7,13 +7,13 @@ _start:	call	ext
 	lea	L1, r4
 	lea	L0, r5
 	sub	r5, r4
-	mov	tab.u16, r3
+	mov.u16	tab, r3
 	cbne r3, r4, fail
-	mov	tab+2.u16, r3
+	mov.u16	tab+2, r3
 	cbne r3, #0, fail
-	movq	#0, r0
+	mov	#0, r0
 	trap	#0
-fail:	movq	#1, r0
+fail:	mov	#1, r0
 	trap	#0
 L0:	add	#1, r1
 	add	#1, r1

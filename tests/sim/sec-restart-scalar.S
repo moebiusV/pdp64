@@ -8,167 +8,167 @@ _start:
 	lea	vtab, r1
 	mtsr	vbr, r1
 	lea	h_bad, r2
-	movq	#512, r3
-kfill:	movq	r2, (r1)+
+	mov	#512, r3
+kfill:	mov	r2, (r1)+
 	sob	r3, kfill
 	lea	vtab, r1
 	lea	h_fault, r2
-	movq	r2, 56(r1)
-	movq	r2, 64(r1)
+	mov	r2, 56(r1)
+	mov	r2, 64(r1)
 	lea	h_ok, r2
-	movq	r2, 2048(r1)
+	mov	r2, 2048(r1)
 	lea	h_fail, r2
-	movq	r2, 2056(r1)
+	mov	r2, 2056(r1)
 	lea	h_trap, r2
-	movq	r2, 2072(r1)
+	mov	r2, 2072(r1)
 	lea	l2, r1
 	mtsr	ptbr, r1
-	movq	#1, r1
+	mov	#1, r1
 	mtsr	mmuctl, r1
 
 	lea	ustack_top, sp
-	movq	=(0x5a5a5a5a5a5a5a5a), r3
-	movq	=(0x810000), r1
-	movq	#0, r10
-	movq	r10, cnt
-	movq	#0, r12
-	movq	=0x7777, r4
-p0:	movq	(r1)+, r3
-	movq	cnt, r11
-	movq	=(1), r17
+	mov	=(0x5a5a5a5a5a5a5a5a), r3
+	mov	=(0x810000), r1
+	mov	#0, r10
+	mov	r10, cnt
+	mov	#0, r12
+	mov	=0x7777, r4
+p0:	mov	(r1)+, r3
+	mov	cnt, r11
+	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 1 load (r1)+: one fault
-	movq	#1, r0
+	mov	#1, r0
 	halt
 1:
 	lea	p0, r11
-	movq	last_epc, r12
+	mov	last_epc, r12
 	cbeq	r12, r11, 1f	; check 2 load (r1)+: EPC is the instruction
-	movq	#2, r0
+	mov	#2, r0
 	halt
 1:
-	movq	hs_r1, r12
-	movq	=(0x810000), r11
+	mov	hs_r1, r12
+	mov	=(0x810000), r11
 	cbeq	r12, r11, 1f	; check 3 load (r1)+: at the fault the pointer register is as before the instruction
-	movq	#3, r0
+	mov	#3, r0
 	halt
 1:
-	movq	hs_r3, r12
-	movq	=(0x5a5a5a5a5a5a5a5a), r11
+	mov	hs_r3, r12
+	mov	=(0x5a5a5a5a5a5a5a5a), r11
 	cbeq	r12, r11, 1f	; check 4 load (r1)+: at the fault the other register is as before
-	movq	#4, r0
+	mov	#4, r0
 	halt
 1:
-	movq	=(0x810008), r11
+	mov	=(0x810008), r11
 	cbeq	r1, r11, 1f	; check 5 load: after the restart the pointer moved once
-	movq	#5, r0
+	mov	#5, r0
 	halt
 1:
 	cbeq	r3, #0, 1f	; check 6 load: the register holds the (zero) memory
-	movq	#6, r0
+	mov	#6, r0
 	halt
 1:
-	movq	=(0x1122334455667788), r3
-	movq	=(0x811008), r1
-	movq	#0, r10
-	movq	r10, cnt
-	movq	#0, r12
-	movq	=0x7777, r4
-p1:	movq	r3, -(r1)
-	movq	cnt, r11
-	movq	=(1), r17
+	mov	=(0x1122334455667788), r3
+	mov	=(0x811008), r1
+	mov	#0, r10
+	mov	r10, cnt
+	mov	#0, r12
+	mov	=0x7777, r4
+p1:	mov	r3, -(r1)
+	mov	cnt, r11
+	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 7 store -(r1): one fault
-	movq	#7, r0
+	mov	#7, r0
 	halt
 1:
 	lea	p1, r11
-	movq	last_epc, r12
+	mov	last_epc, r12
 	cbeq	r12, r11, 1f	; check 8 store -(r1): EPC is the instruction
-	movq	#8, r0
+	mov	#8, r0
 	halt
 1:
-	movq	hs_r1, r12
-	movq	=(0x811008), r11
+	mov	hs_r1, r12
+	mov	=(0x811008), r11
 	cbeq	r12, r11, 1f	; check 9 store -(r1): at the fault the pointer register is as before the instruction
-	movq	#9, r0
+	mov	#9, r0
 	halt
 1:
-	movq	hs_r3, r12
-	movq	=(0x1122334455667788), r11
+	mov	hs_r3, r12
+	mov	=(0x1122334455667788), r11
 	cbeq	r12, r11, 1f	; check 10 store -(r1): at the fault the other register is as before
-	movq	#10, r0
+	mov	#10, r0
 	halt
 1:
-	movq	=(0x811000), r11
+	mov	=(0x811000), r11
 	cbeq	r1, r11, 1f	; check 11 store: after the restart the pointer moved once
-	movq	#11, r0
+	mov	#11, r0
 	halt
 1:
-	movq	(r1), r12
+	mov	(r1), r12
 	cbeq	r12, r3, 1f	; check 12 store: the value is in memory
-	movq	#12, r0
+	mov	#12, r0
 	halt
 1:
-	movq	=(0x1122334455667788), r3
-	movq	=(0x812008), r1
-	movq	r14, r9
-	movq	r1, r14
-	movq	#0, r10
-	movq	r10, cnt
-	movq	#0, r12
-	movq	=0x7777, r4
+	mov	=(0x1122334455667788), r3
+	mov	=(0x812008), r1
+	mov	r14, r9
+	mov	r1, r14
+	mov	#0, r10
+	mov	r10, cnt
+	mov	#0, r12
+	mov	=0x7777, r4
 p2:	push	r3
-	movq	cnt, r11
-	movq	=(1), r17
+	mov	cnt, r11
+	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 13 push: one fault
-	movq	#13, r0
+	mov	#13, r0
 	halt
 1:
 	lea	p2, r11
-	movq	last_epc, r12
+	mov	last_epc, r12
 	cbeq	r12, r11, 1f	; check 14 push: EPC is the instruction
-	movq	#14, r0
+	mov	#14, r0
 	halt
 1:
-	movq	hs_r1, r12
-	movq	=(0x812008), r11
+	mov	hs_r1, r12
+	mov	=(0x812008), r11
 	cbeq	r12, r11, 1f	; check 15 push: at the fault the pointer register is as before the instruction
-	movq	#15, r0
+	mov	#15, r0
 	halt
 1:
-	movq	r9, r14
-	movq	hs_r3, r12
-	movq	=(0x1122334455667788), r11
+	mov	r9, r14
+	mov	hs_r3, r12
+	mov	=(0x1122334455667788), r11
 	cbeq	r12, r11, 1f	; check 16 push: at the fault the other register is as before
-	movq	#16, r0
+	mov	#16, r0
 	halt
 1:
-	movq	=(0x812000), r4
-	movq	(r4), r12
+	mov	=(0x812000), r4
+	mov	(r4), r12
 	cbeq	r12, r3, 1f	; check 17 push: the value is in memory once the page is mapped
-	movq	#17, r0
+	mov	#17, r0
 	halt
 1:
-	movq	#0, r0
+	mov	#0, r0
 	halt
 
 h_fault:
-	movq	r1, hs_r1
-	movq	r3, hs_r3
-	movq	cnt, r12
+	mov	r1, hs_r1
+	mov	r3, hs_r3
+	mov	cnt, r12
 	add	#1, r12
-	movq	r12, cnt
+	mov	r12, cnt
 	mfsr	r12, ecause
-	movq	r12, last_cause
+	mov	r12, last_cause
 	mfsr	r12, epc
-	movq	r12, last_epc
+	mov	r12, last_epc
 	mfsr	r12, eva
-	movq	r12, last_eva
-	movq	=(0x800000), r11
+	mov	r12, last_eva
+	mov	=(0x800000), r11
 	cblo	r12, r11, h_bad
-	movq	=(0xa00000), r11
+	mov	=(0xa00000), r11
 	cbhis	r12, r11, h_bad
 	mfsr	r12, eva
-	movq	=(0x800000), r11
+	mov	=(0x800000), r11
 	sub	r11, r12
 	shr	#12, r12
 	shl	#3, r12
@@ -178,19 +178,19 @@ h_fault:
 	shr	#12, r11
 	shl	#12, r11
 	bis	#(1<<PTE_V|1<<PTE_R|1<<PTE_W|1<<PTE_A|1<<PTE_D), r11
-	movq	r11, (r12)
+	mov	r11, (r12)
 	mfsr	r12, eva
 	tlbi	r12
-	movq	redirect, r12
+	mov	redirect, r12
 	cbeq	r12, #0, 1f
 	mtsr	epc, r12
-	movq	#0, r12
-	movq	r12, redirect
+	mov	#0, r12
+	mov	r12, redirect
 1:	rti	#RTIMASK_ALL
 h_trap:	rti	#RTIMASK_ALL
-h_bad:	movq	#99, r0
+h_bad:	mov	#99, r0
 	halt
-h_ok:	movq	#0, r0
+h_ok:	mov	#0, r0
 h_fail:	halt
 
 	.data

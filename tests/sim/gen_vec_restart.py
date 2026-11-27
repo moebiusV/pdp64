@@ -26,7 +26,7 @@ the MMU; the handler maps the page) and on sim64 `-x LO:HI` makes the first acce
 usage: gen_vec_restart.py OUT.S"""
 import sys as _sys, os as _os
 _sys.path.insert(0, _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..', '..', 'tools'))
-import marks		# the words of the encoding written with width marks (tools/marks.py)
+import marks		# the words of the encoding written with the width suffixes (tools/marks.py)
 import random, struct, sys, math
 
 rng = random.Random(172)

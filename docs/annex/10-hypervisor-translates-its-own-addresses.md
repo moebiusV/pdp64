@@ -23,7 +23,7 @@ Arm met this in two steps. Its hypervisor level (EL2) first had registers of its
 ```
         lea     hproot, r1
         mtsr    ptbr, r1                ; the hypervisor's own table root
-        movq    #1, r2
+        mov    #1, r2
         mtsr    mmuctl, r2              ; its own translation on (one stage, tag 0)
         isync
 ```

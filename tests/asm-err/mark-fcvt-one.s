@@ -1,2 +1,0 @@
-	.text
-	fcvt r1

@@ -7,14 +7,14 @@ _start:
 	lea	htab, r1
 	mtsr	hvbr, r1
 	lea	xh, r2
-	movq	#512, r3
-hfill:	movq	r2, (r1)+
+	mov	#512, r3
+hfill:	mov	r2, (r1)+
 	sob	r3, hfill
 	lea	gvtab, r1
 	mtsr	vbr, r1
 	lea	gh, r2
-	movq	#512, r3
-gfill:	movq	r2, (r1)+
+	mov	#512, r3
+gfill:	mov	r2, (r1)+
 	sob	r3, gfill
 	lea	hstk_top, r14
 
@@ -22,204 +22,204 @@ gfill:	movq	r2, (r1)+
 	mtsr	gksp, r2
 	lea	g1, r2
 	mtsr	hepc, r2
-	movq	#0, r2
+	mov	#0, r2
 	mtsr	hepsw, r2
-	movq	=0x5ec0de000000, r0
-	movq	=0x5ec0de000001, r1
-	movq	=0x5ec0de000002, r2
-	movq	=0x5ec0de000003, r3
-	movq	=0x5ec0de000004, r4
-	movq	=0x5ec0de000005, r5
-	movq	=0x5ec0de000006, r6
-	movq	=0x5ec0de000007, r7
-	movq	=0x5ec0de000008, r8
-	movq	=0x5ec0de000009, r9
-	movq	=0x5ec0de00000a, r10
-	movq	=0x5ec0de00000b, r11
-	movq	=0x5ec0de00000c, r12
-	movq	=0x5ec0de00000d, r13
-	movq	=0x5ec0de00000f, r15
-	movq	=0x5ec0de000010, r16
-	movq	=0x5ec0de000011, r17
-	movq	=0x5ec0de000012, r18
-	movq	=0x5ec0de000013, r19
-	movq	=0x5ec0de000014, r20
-	movq	=0x5ec0de000015, r21
-	movq	=0x5ec0de000016, r22
-	movq	=0x5ec0de000017, r23
-	movq	=0x5ec0de000018, r24
-	movq	=0x5ec0de000019, r25
-	movq	=0x5ec0de00001a, r26
-	movq	=0x5ec0de00001b, r27
-	movq	=0x5ec0de00001c, r28
-	movq	=0x5ec0de00001d, r29
-	movq	=0x5ec0de00001e, r30
-	movq	=0x5ec0de00001f, r31
+	mov	=0x5ec0de000000, r0
+	mov	=0x5ec0de000001, r1
+	mov	=0x5ec0de000002, r2
+	mov	=0x5ec0de000003, r3
+	mov	=0x5ec0de000004, r4
+	mov	=0x5ec0de000005, r5
+	mov	=0x5ec0de000006, r6
+	mov	=0x5ec0de000007, r7
+	mov	=0x5ec0de000008, r8
+	mov	=0x5ec0de000009, r9
+	mov	=0x5ec0de00000a, r10
+	mov	=0x5ec0de00000b, r11
+	mov	=0x5ec0de00000c, r12
+	mov	=0x5ec0de00000d, r13
+	mov	=0x5ec0de00000f, r15
+	mov	=0x5ec0de000010, r16
+	mov	=0x5ec0de000011, r17
+	mov	=0x5ec0de000012, r18
+	mov	=0x5ec0de000013, r19
+	mov	=0x5ec0de000014, r20
+	mov	=0x5ec0de000015, r21
+	mov	=0x5ec0de000016, r22
+	mov	=0x5ec0de000017, r23
+	mov	=0x5ec0de000018, r24
+	mov	=0x5ec0de000019, r25
+	mov	=0x5ec0de00001a, r26
+	mov	=0x5ec0de00001b, r27
+	mov	=0x5ec0de00001c, r28
+	mov	=0x5ec0de00001d, r29
+	mov	=0x5ec0de00001e, r30
+	mov	=0x5ec0de00001f, r31
 	genter	#0x100c108
 g1:	pushm	#0xffffbfff
 	halt
 back1:
 	lea	gstk_top-248, r12
-	movq	240(r12), r13
+	mov	240(r12), r13
 	cbeq	r13, #0, 1f	; check 1 r0 is zero after GENTER (not the kernel value it held before)
-	movq	#1, r0
+	mov	#1, r0
 	halt
 1:
-	movq	232(r12), r13
+	mov	232(r12), r13
 	cbeq	r13, #0, 1f	; check 2 r1 is zero after GENTER (not the kernel value it held before)
-	movq	#2, r0
+	mov	#2, r0
 	halt
 1:
-	movq	224(r12), r13
+	mov	224(r12), r13
 	cbeq	r13, #0, 1f	; check 3 r2 is zero after GENTER (not the kernel value it held before)
-	movq	#3, r0
+	mov	#3, r0
 	halt
 1:
-	movq	208(r12), r13
+	mov	208(r12), r13
 	cbeq	r13, #0, 1f	; check 4 r4 is zero after GENTER (not the kernel value it held before)
-	movq	#4, r0
+	mov	#4, r0
 	halt
 1:
-	movq	200(r12), r13
+	mov	200(r12), r13
 	cbeq	r13, #0, 1f	; check 5 r5 is zero after GENTER (not the kernel value it held before)
-	movq	#5, r0
+	mov	#5, r0
 	halt
 1:
-	movq	192(r12), r13
+	mov	192(r12), r13
 	cbeq	r13, #0, 1f	; check 6 r6 is zero after GENTER (not the kernel value it held before)
-	movq	#6, r0
+	mov	#6, r0
 	halt
 1:
-	movq	184(r12), r13
+	mov	184(r12), r13
 	cbeq	r13, #0, 1f	; check 7 r7 is zero after GENTER (not the kernel value it held before)
-	movq	#7, r0
+	mov	#7, r0
 	halt
 1:
-	movq	168(r12), r13
+	mov	168(r12), r13
 	cbeq	r13, #0, 1f	; check 8 r9 is zero after GENTER (not the kernel value it held before)
-	movq	#8, r0
+	mov	#8, r0
 	halt
 1:
-	movq	160(r12), r13
+	mov	160(r12), r13
 	cbeq	r13, #0, 1f	; check 9 r10 is zero after GENTER (not the kernel value it held before)
-	movq	#9, r0
+	mov	#9, r0
 	halt
 1:
-	movq	152(r12), r13
+	mov	152(r12), r13
 	cbeq	r13, #0, 1f	; check 10 r11 is zero after GENTER (not the kernel value it held before)
-	movq	#10, r0
+	mov	#10, r0
 	halt
 1:
-	movq	144(r12), r13
+	mov	144(r12), r13
 	cbeq	r13, #0, 1f	; check 11 r12 is zero after GENTER (not the kernel value it held before)
-	movq	#11, r0
+	mov	#11, r0
 	halt
 1:
-	movq	136(r12), r13
+	mov	136(r12), r13
 	cbeq	r13, #0, 1f	; check 12 r13 is zero after GENTER (not the kernel value it held before)
-	movq	#12, r0
+	mov	#12, r0
 	halt
 1:
-	movq	120(r12), r13
+	mov	120(r12), r13
 	cbeq	r13, #0, 1f	; check 13 r16 is zero after GENTER (not the kernel value it held before)
-	movq	#13, r0
+	mov	#13, r0
 	halt
 1:
-	movq	112(r12), r13
+	mov	112(r12), r13
 	cbeq	r13, #0, 1f	; check 14 r17 is zero after GENTER (not the kernel value it held before)
-	movq	#14, r0
+	mov	#14, r0
 	halt
 1:
-	movq	104(r12), r13
+	mov	104(r12), r13
 	cbeq	r13, #0, 1f	; check 15 r18 is zero after GENTER (not the kernel value it held before)
-	movq	#15, r0
+	mov	#15, r0
 	halt
 1:
-	movq	96(r12), r13
+	mov	96(r12), r13
 	cbeq	r13, #0, 1f	; check 16 r19 is zero after GENTER (not the kernel value it held before)
-	movq	#16, r0
+	mov	#16, r0
 	halt
 1:
-	movq	88(r12), r13
+	mov	88(r12), r13
 	cbeq	r13, #0, 1f	; check 17 r20 is zero after GENTER (not the kernel value it held before)
-	movq	#17, r0
+	mov	#17, r0
 	halt
 1:
-	movq	80(r12), r13
+	mov	80(r12), r13
 	cbeq	r13, #0, 1f	; check 18 r21 is zero after GENTER (not the kernel value it held before)
-	movq	#18, r0
+	mov	#18, r0
 	halt
 1:
-	movq	72(r12), r13
+	mov	72(r12), r13
 	cbeq	r13, #0, 1f	; check 19 r22 is zero after GENTER (not the kernel value it held before)
-	movq	#19, r0
+	mov	#19, r0
 	halt
 1:
-	movq	64(r12), r13
+	mov	64(r12), r13
 	cbeq	r13, #0, 1f	; check 20 r23 is zero after GENTER (not the kernel value it held before)
-	movq	#20, r0
+	mov	#20, r0
 	halt
 1:
-	movq	48(r12), r13
+	mov	48(r12), r13
 	cbeq	r13, #0, 1f	; check 21 r25 is zero after GENTER (not the kernel value it held before)
-	movq	#21, r0
+	mov	#21, r0
 	halt
 1:
-	movq	40(r12), r13
+	mov	40(r12), r13
 	cbeq	r13, #0, 1f	; check 22 r26 is zero after GENTER (not the kernel value it held before)
-	movq	#22, r0
+	mov	#22, r0
 	halt
 1:
-	movq	32(r12), r13
+	mov	32(r12), r13
 	cbeq	r13, #0, 1f	; check 23 r27 is zero after GENTER (not the kernel value it held before)
-	movq	#23, r0
+	mov	#23, r0
 	halt
 1:
-	movq	24(r12), r13
+	mov	24(r12), r13
 	cbeq	r13, #0, 1f	; check 24 r28 is zero after GENTER (not the kernel value it held before)
-	movq	#24, r0
+	mov	#24, r0
 	halt
 1:
-	movq	16(r12), r13
+	mov	16(r12), r13
 	cbeq	r13, #0, 1f	; check 25 r29 is zero after GENTER (not the kernel value it held before)
-	movq	#25, r0
+	mov	#25, r0
 	halt
 1:
-	movq	8(r12), r13
+	mov	8(r12), r13
 	cbeq	r13, #0, 1f	; check 26 r30 is zero after GENTER (not the kernel value it held before)
-	movq	#26, r0
+	mov	#26, r0
 	halt
 1:
-	movq	0(r12), r13
+	mov	0(r12), r13
 	cbeq	r13, #0, 1f	; check 27 r31 is zero after GENTER (not the kernel value it held before)
-	movq	#27, r0
+	mov	#27, r0
 	halt
 1:
-	movq	216(r12), r13
-	movq	=(0x5ec0de000003), r17
+	mov	216(r12), r13
+	mov	=(0x5ec0de000003), r17
 	cbeq	r13, r17, 1f	; check 28 r3, named by the mask, keeps its value across GENTER (the control)
-	movq	#28, r0
+	mov	#28, r0
 	halt
 1:
-	movq	176(r12), r13
-	movq	=(0x5ec0de000008), r17
+	mov	176(r12), r13
+	mov	=(0x5ec0de000008), r17
 	cbeq	r13, r17, 1f	; check 29 r8, named by the mask, keeps its value across GENTER (the control)
-	movq	#29, r0
+	mov	#29, r0
 	halt
 1:
-	movq	128(r12), r13
-	movq	=(0x5ec0de00000f), r17
+	mov	128(r12), r13
+	mov	=(0x5ec0de00000f), r17
 	cbeq	r13, r17, 1f	; check 30 r15, named by the mask, keeps its value across GENTER (the control)
-	movq	#30, r0
+	mov	#30, r0
 	halt
 1:
-	movq	56(r12), r13
-	movq	=(0x5ec0de000018), r17
+	mov	56(r12), r13
+	mov	=(0x5ec0de000018), r17
 	cbeq	r13, r17, 1f	; check 31 r24, named by the mask, keeps its value across GENTER (the control)
-	movq	#31, r0
+	mov	#31, r0
 	halt
 1:
-	movq	#0, r0
+	mov	#0, r0
 	halt
 
 xh:	lea	back1, r1

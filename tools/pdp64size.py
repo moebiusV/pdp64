@@ -167,7 +167,7 @@ def parse_s(path, arch):
             continue
         w = line.split(None, 1)
         mn, ops = w[0], split_ops(w[1]) if len(w) > 1 else []
-        if arch == 'pdp64': mn, ops = marks.unspell(mn, ops)		# the analysis thinks in the words of the encoding (movb, fadd32); the source writes marks
+        if arch == 'pdp64': mn, ops = marks.unspell(mn, ops)		# the analysis thinks in the words of the encoding (movb, fadd32); the source writes the width suffixes
         ins.append((sec, mn, ops))
     return ins
 

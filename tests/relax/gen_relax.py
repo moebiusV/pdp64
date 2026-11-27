@@ -8,6 +8,9 @@ main.s is a program whose result r6 is known (the generator adds up what the exe
   data   lea of an external data symbol, of a local one, a load through it, movq =K from the pool, .pool in the middle, .align 4/8/16, .even after odd data;
   table  calli through a table of code addresses in .data (D64 relocations against external and local text), a table in .text
 The paddings and pools move with the code: every load from the pool is checked."""
+import sys as _sys, os as _os
+_sys.path.insert(0, _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..', '..', 'tools'))
+import marks		# the words of the encoding written with the width suffixes (tools/marks.py)
 import sys, os, random
 d = sys.argv[1]; os.makedirs(d, exist_ok=True)
 rnd = random.Random(int(sys.argv[2]) if len(sys.argv) > 2 else 1)
@@ -22,7 +25,7 @@ lib += ['\t.data']
 for i in range(NF):
     lib += ['\t.globl d%d' % i, 'd%d:\t.quad %d' % (i, (i + 1) * 1000 + 5)]
 lib += ['\t.comm cbuf, 64']
-open(d + '/lib.s', 'w').write('\n'.join(lib) + '\n')
+open(d + '/lib.s', 'w').write(marks.spell_text('\n'.join(lib)) + '\n')
 
 m = ['\t.text', '\t.globl _start', '_start:', '\tmovq #0, r6', '\tmovq #0, r7']
 acc = 0
@@ -118,4 +121,4 @@ m += ['\t.align 8', 'codetab:\t.quad lf0, lf1, lf2', '\t.pool']
 m += data
 m += ['ftab:'] + ['\t.quad f%d' % i for i in range(NF)]
 m += ['ltab2:\t.quad lf0, lf1, lf2', '\t.long lf1']
-open(d + '/main.s', 'w').write('\n'.join(m) + '\n')
+open(d + '/main.s', 'w').write(marks.spell_text('\n'.join(m)) + '\n')

@@ -5,6 +5,6 @@
 	.globl	_start
 _start:
 	mfsr	r1, htrap
-	movq	=((1<<HTRAP_ICINV)|(1<<HTRAP_TLBIA)|(1<<HTRAP_TLBSYNC)), r2
+	mov	=((1<<HTRAP_ICINV)|(1<<HTRAP_TLBIA)|(1<<HTRAP_TLBSYNC)), r2
 	bic	r2, r1				; this guest owns its core: its invalidates are its own
 	mtsr	htrap, r1

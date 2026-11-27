@@ -7,15 +7,15 @@
 _start:
 	lea	vtab, r1
 	mtsr	vbr, r1
-	movq	#0, r10
-	movq	#0, r8
-	movq	#0, r15
-	movq	#0, r5
-	movq	#0, r4
-	movq	#0, r13
-	movq	#0, r12
-	movq	#0, r9
-	movq	#0, r3
+	mov	#0, r10
+	mov	#0, r8
+	mov	#0, r15
+	mov	#0, r5
+	mov	#0, r4
+	mov	#0, r13
+	mov	#0, r12
+	mov	#0, r9
+	mov	#0, r3
 	spl	#0
 	nop
 	nop
@@ -35,13 +35,13 @@ after_trap:
 	cbne r9, #((MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|0<<PSW_PRI)), F8 ; check 8
 	cbne r12, #((MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|7<<PSW_PRI)), F9 ; check 9
 	cbne r15, #(40), F10 ; check 10
-	movq	#0, r10
-	movq	#0, r5
-	movq	#0, r4
-	movq	#0, r8
-	movq	#0, r12
-	movq	#0, r13
-	movq	#0, r9
+	mov	#0, r10
+	mov	#0, r5
+	mov	#0, r4
+	mov	#0, r8
+	mov	#0, r12
+	mov	#0, r13
+	mov	#0, r9
 	.globl	nops2
 nops2:
 	nop
@@ -72,58 +72,58 @@ nops2:
 	cbne r9, #(1), F15 ; check 15
 	cbne r10, #(1), F16 ; check 16
 	cbne r3, #((MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|7<<PSW_PRI)), F17 ; check 17
-	movq	#404142, r14
+	mov	#404142, r14
 	cbne r15, r14, F18 ; check 18
-	movq	#0, r0
+	mov	#0, r0
 	halt
-F1:	movq	#1, r0
+F1:	mov	#1, r0
 	halt
-F2:	movq	#2, r0
+F2:	mov	#2, r0
 	halt
-F3:	movq	#3, r0
+F3:	mov	#3, r0
 	halt
-F4:	movq	#4, r0
+F4:	mov	#4, r0
 	halt
-F5:	movq	#5, r0
+F5:	mov	#5, r0
 	halt
-F6:	movq	#6, r0
+F6:	mov	#6, r0
 	halt
-F7:	movq	#7, r0
+F7:	mov	#7, r0
 	halt
-F8:	movq	#8, r0
+F8:	mov	#8, r0
 	halt
-F9:	movq	#9, r0
+F9:	mov	#9, r0
 	halt
-F10:	movq	#10, r0
+F10:	mov	#10, r0
 	halt
-F11:	movq	#11, r0
+F11:	mov	#11, r0
 	halt
-F12:	movq	#12, r0
+F12:	mov	#12, r0
 	halt
-F13:	movq	#13, r0
+F13:	mov	#13, r0
 	halt
-F14:	movq	#14, r0
+F14:	mov	#14, r0
 	halt
-F15:	movq	#15, r0
+F15:	mov	#15, r0
 	halt
-F16:	movq	#16, r0
+F16:	mov	#16, r0
 	halt
-F17:	movq	#17, r0
+F17:	mov	#17, r0
 	halt
-F18:	movq	#18, r0
+F18:	mov	#18, r0
 	halt
 	.globl	h_trap
 h_trap:	mfps	r12
 	mfsr	r6, epc
 	mfsr	r7, epsw
-	movq	r10, r5
+	mov	r10, r5
 	nop
 	nop
 	mfsr	r8, epc
 	mfsr	r9, epsw
 	spl	#0
 	nop
-	movq	r10, r4
+	mov	r10, r4
 	mtsr	epc, r6
 	mtsr	epsw, r7
 	rti	#RTIMASK_ALL
@@ -139,14 +139,14 @@ h_41:	mfsr	r6, epc
 	mfsr	r2, ecause
 	mul	#100, r15
 	add	r2, r15
-	movq	r10, r13
+	mov	r10, r13
 	spl	#6
 	nop
 	nop
-	movq	r10, r12
+	mov	r10, r12
 	spl	#3
 	nop
-	movq	r10, r9
+	mov	r10, r9
 	mtsr	epc, r6
 	mtsr	epsw, r7
 	rti	#RTIMASK_ALL

@@ -24,8 +24,8 @@ Under virtualization an access goes through two tables, the guest's and the hype
 
 ```
 #define LEAF(page, mt) (((page)<<PTE_PPN) | (1<<PTE_V)|(1<<PTE_R)|(1<<PTE_W)|((mt)<<PTE_MT))
-        movq    =LEAF(0x1234, MT_CACHED), r1    ; stage 1: written by the guest kernel
-        movq    =LEAF(0x8f7, MT_UNCACHED), r2   ; stage 2: written by the hypervisor: a DMA buffer
+        mov    =LEAF(0x1234, MT_CACHED), r1    ; stage 1: written by the guest kernel
+        mov    =LEAF(0x8f7, MT_UNCACHED), r2   ; stage 2: written by the hypervisor: a DMA buffer
 ```
 
 *(The access is uncached: of the two types, the larger code counts (uncached is 1, cached is 0). No call to repair anything, and nothing that the guest wrote can make the page more cached than the hypervisor made it.)*

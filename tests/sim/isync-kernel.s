@@ -2,10 +2,10 @@
 	.text
 	.globl	_start
 _start:
-	movq	#5, r1
+	mov	#5, r1
 	isync
 	cbne r1, #5, F1
-	movq	#0, r0
+	mov	#0, r0
 	halt
-F1:	movq	#1, r0
+F1:	mov	#1, r0
 	halt

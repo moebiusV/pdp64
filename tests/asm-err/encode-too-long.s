@@ -1,3 +1,3 @@
 	.text
 	.encode 6
-	movq r1, r2
+	mov r1, r2

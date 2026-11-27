@@ -6,14 +6,14 @@
 _start:
 	lea	vtab, r1
 	mtsr	vbr, r1
-	movq	sp, ksp_saved
+	mov	sp, ksp_saved
 	lea	ustack_top, r1
 	mtsr	usp, r1
-	movq	#0x1111, r1
+	mov	#0x1111, r1
 	mtdp	r1
 	lea	user, r1
 	mtsr	epc, r1
-	movq	#(MODE_USER<<PSW_MODE), r1
+	mov	#(MODE_USER<<PSW_MODE), r1
 	mtsr	epsw, r1
 	rti	#RTIMASK_ALL
 user:
@@ -23,20 +23,20 @@ user:
 	cbne sp, r11, F2 ; check 2
 	mfdp	r1
 	cbne r1, #(0), F3 ; check 3
-	movq	#0x2222, r1
+	mov	#0x2222, r1
 	mtdp	r1
 	mfdp	r5
 	cbne r5, #(8738), F4 ; check 4
-	movq	#0, r4
-	movq	#0, r10
-	movq	#0, r6
-	movq	#0, r7
-	movq	#0, r8
-	movq	#0, r9
-	movq	#0, r12
-	movq	#0, r2
-	movq	#0, r3
-	movq	#0, r13
+	mov	#0, r4
+	mov	#0, r10
+	mov	#0, r6
+	mov	#0, r7
+	mov	#0, r8
+	mov	#0, r9
+	mov	#0, r12
+	mov	#0, r2
+	mov	#0, r3
+	mov	#0, r13
 	lea	pr0, r4
 pi0:
 	mfsr	r1, ptbr
@@ -48,20 +48,20 @@ pr0:
 	cbne r9, #(0), F8 ; check 8
 	cbne r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV)), F9 ; check 9
 	cbne r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV|7<<PSW_PRI)), F10 ; check 10
-	movq	ksp_saved, r1
+	mov	ksp_saved, r1
 	cbne r13, r1, F11 ; check 11
 	cbne r2, #(4369), F12 ; check 12
 	cbne r3, sp, F13 ; check 13
-	movq	#0, r4
-	movq	#0, r10
-	movq	#0, r6
-	movq	#0, r7
-	movq	#0, r8
-	movq	#0, r9
-	movq	#0, r12
-	movq	#0, r2
-	movq	#0, r3
-	movq	#0, r13
+	mov	#0, r4
+	mov	#0, r10
+	mov	#0, r6
+	mov	#0, r7
+	mov	#0, r8
+	mov	#0, r9
+	mov	#0, r12
+	mov	#0, r2
+	mov	#0, r3
+	mov	#0, r13
 	lea	pr1, r4
 pi1:
 	mtsr	ptbr, r1
@@ -73,16 +73,16 @@ pr1:
 	cbne r9, #(0), F17 ; check 17
 	cbne r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV)), F18 ; check 18
 	cbne r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV|7<<PSW_PRI)), F19 ; check 19
-	movq	#0, r4
-	movq	#0, r10
-	movq	#0, r6
-	movq	#0, r7
-	movq	#0, r8
-	movq	#0, r9
-	movq	#0, r12
-	movq	#0, r2
-	movq	#0, r3
-	movq	#0, r13
+	mov	#0, r4
+	mov	#0, r10
+	mov	#0, r6
+	mov	#0, r7
+	mov	#0, r8
+	mov	#0, r9
+	mov	#0, r12
+	mov	#0, r2
+	mov	#0, r3
+	mov	#0, r13
 	lea	pr2, r4
 pi2:
 	spl	#5
@@ -94,16 +94,16 @@ pr2:
 	cbne r9, #(0), F23 ; check 23
 	cbne r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV)), F24 ; check 24
 	cbne r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV|7<<PSW_PRI)), F25 ; check 25
-	movq	#0, r4
-	movq	#0, r10
-	movq	#0, r6
-	movq	#0, r7
-	movq	#0, r8
-	movq	#0, r9
-	movq	#0, r12
-	movq	#0, r2
-	movq	#0, r3
-	movq	#0, r13
+	mov	#0, r4
+	mov	#0, r10
+	mov	#0, r6
+	mov	#0, r7
+	mov	#0, r8
+	mov	#0, r9
+	mov	#0, r12
+	mov	#0, r2
+	mov	#0, r3
+	mov	#0, r13
 	lea	pr3, r4
 pi3:
 	halt
@@ -115,16 +115,16 @@ pr3:
 	cbne r9, #(0), F29 ; check 29
 	cbne r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV)), F30 ; check 30
 	cbne r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV|7<<PSW_PRI)), F31 ; check 31
-	movq	#0, r4
-	movq	#0, r10
-	movq	#0, r6
-	movq	#0, r7
-	movq	#0, r8
-	movq	#0, r9
-	movq	#0, r12
-	movq	#0, r2
-	movq	#0, r3
-	movq	#0, r13
+	mov	#0, r4
+	mov	#0, r10
+	mov	#0, r6
+	mov	#0, r7
+	mov	#0, r8
+	mov	#0, r9
+	mov	#0, r12
+	mov	#0, r2
+	mov	#0, r3
+	mov	#0, r13
 	lea	pr4, r4
 pi4:
 	rti	#RTIMASK_ALL
@@ -136,16 +136,16 @@ pr4:
 	cbne r9, #(0), F35 ; check 35
 	cbne r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV)), F36 ; check 36
 	cbne r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV|7<<PSW_PRI)), F37 ; check 37
-	movq	#0, r4
-	movq	#0, r10
-	movq	#0, r6
-	movq	#0, r7
-	movq	#0, r8
-	movq	#0, r9
-	movq	#0, r12
-	movq	#0, r2
-	movq	#0, r3
-	movq	#0, r13
+	mov	#0, r4
+	mov	#0, r10
+	mov	#0, r6
+	mov	#0, r7
+	mov	#0, r8
+	mov	#0, r9
+	mov	#0, r12
+	mov	#0, r2
+	mov	#0, r3
+	mov	#0, r13
 	lea	pr5, r4
 pi5:
 	rtt	#RTIMASK_ALL
@@ -157,16 +157,16 @@ pr5:
 	cbne r9, #(0), F41 ; check 41
 	cbne r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV)), F42 ; check 42
 	cbne r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV|7<<PSW_PRI)), F43 ; check 43
-	movq	#0, r4
-	movq	#0, r10
-	movq	#0, r6
-	movq	#0, r7
-	movq	#0, r8
-	movq	#0, r9
-	movq	#0, r12
-	movq	#0, r2
-	movq	#0, r3
-	movq	#0, r13
+	mov	#0, r4
+	mov	#0, r10
+	mov	#0, r6
+	mov	#0, r7
+	mov	#0, r8
+	mov	#0, r9
+	mov	#0, r12
+	mov	#0, r2
+	mov	#0, r3
+	mov	#0, r13
 	lea	pr6, r4
 pi6:
 	tlbi	r1
@@ -178,16 +178,16 @@ pr6:
 	cbne r9, #(0), F47 ; check 47
 	cbne r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV)), F48 ; check 48
 	cbne r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV|7<<PSW_PRI)), F49 ; check 49
-	movq	#0, r4
-	movq	#0, r10
-	movq	#0, r6
-	movq	#0, r7
-	movq	#0, r8
-	movq	#0, r9
-	movq	#0, r12
-	movq	#0, r2
-	movq	#0, r3
-	movq	#0, r13
+	mov	#0, r4
+	mov	#0, r10
+	mov	#0, r6
+	mov	#0, r7
+	mov	#0, r8
+	mov	#0, r9
+	mov	#0, r12
+	mov	#0, r2
+	mov	#0, r3
+	mov	#0, r13
 	lea	pr7, r4
 pi7:
 	tlbia
@@ -199,16 +199,16 @@ pr7:
 	cbne r9, #(0), F53 ; check 53
 	cbne r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV)), F54 ; check 54
 	cbne r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV|7<<PSW_PRI)), F55 ; check 55
-	movq	#0, r4
-	movq	#0, r10
-	movq	#0, r6
-	movq	#0, r7
-	movq	#0, r8
-	movq	#0, r9
-	movq	#0, r12
-	movq	#0, r2
-	movq	#0, r3
-	movq	#0, r13
+	mov	#0, r4
+	mov	#0, r10
+	mov	#0, r6
+	mov	#0, r7
+	mov	#0, r8
+	mov	#0, r9
+	mov	#0, r12
+	mov	#0, r2
+	mov	#0, r3
+	mov	#0, r13
 	lea	pr8, r4
 pi8:
 	tlbsync
@@ -220,16 +220,16 @@ pr8:
 	cbne r9, #(0), F59 ; check 59
 	cbne r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV)), F60 ; check 60
 	cbne r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV|7<<PSW_PRI)), F61 ; check 61
-	movq	#0, r4
-	movq	#0, r10
-	movq	#0, r6
-	movq	#0, r7
-	movq	#0, r8
-	movq	#0, r9
-	movq	#0, r12
-	movq	#0, r2
-	movq	#0, r3
-	movq	#0, r13
+	mov	#0, r4
+	mov	#0, r10
+	mov	#0, r6
+	mov	#0, r7
+	mov	#0, r8
+	mov	#0, r9
+	mov	#0, r12
+	mov	#0, r2
+	mov	#0, r3
+	mov	#0, r13
 	lea	pr9, r4
 pi9:
 	mtsr	asid, r1
@@ -241,16 +241,16 @@ pr9:
 	cbne r9, #(0), F65 ; check 65
 	cbne r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV)), F66 ; check 66
 	cbne r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV|7<<PSW_PRI)), F67 ; check 67
-	movq	#0, r4
-	movq	#0, r10
-	movq	#0, r6
-	movq	#0, r7
-	movq	#0, r8
-	movq	#0, r9
-	movq	#0, r12
-	movq	#0, r2
-	movq	#0, r3
-	movq	#0, r13
+	mov	#0, r4
+	mov	#0, r10
+	mov	#0, r6
+	mov	#0, r7
+	mov	#0, r8
+	mov	#0, r9
+	mov	#0, r12
+	mov	#0, r2
+	mov	#0, r3
+	mov	#0, r13
 	lea	pr10, r4
 pi10:
 	mfsr	r1, asid
@@ -262,16 +262,16 @@ pr10:
 	cbne r9, #(0), F71 ; check 71
 	cbne r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV)), F72 ; check 72
 	cbne r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV|7<<PSW_PRI)), F73 ; check 73
-	movq	#0, r4
-	movq	#0, r10
-	movq	#0, r6
-	movq	#0, r7
-	movq	#0, r8
-	movq	#0, r9
-	movq	#0, r12
-	movq	#0, r2
-	movq	#0, r3
-	movq	#0, r13
+	mov	#0, r4
+	mov	#0, r10
+	mov	#0, r6
+	mov	#0, r7
+	mov	#0, r8
+	mov	#0, r9
+	mov	#0, r12
+	mov	#0, r2
+	mov	#0, r3
+	mov	#0, r13
 	lea	pr12, r4
 pi12:
 	wfe
@@ -283,16 +283,16 @@ pr12:
 	cbne r9, #(0), F83 ; check 83
 	cbne r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV)), F84 ; check 84
 	cbne r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV|7<<PSW_PRI)), F85 ; check 85
-	movq	#0, r4
-	movq	#0, r10
-	movq	#0, r6
-	movq	#0, r7
-	movq	#0, r8
-	movq	#0, r9
-	movq	#0, r12
-	movq	#0, r2
-	movq	#0, r3
-	movq	#0, r13
+	mov	#0, r4
+	mov	#0, r10
+	mov	#0, r6
+	mov	#0, r7
+	mov	#0, r8
+	mov	#0, r9
+	mov	#0, r12
+	mov	#0, r2
+	mov	#0, r3
+	mov	#0, r13
 	lea	pr13, r4
 pi13:
 	pushx
@@ -304,16 +304,16 @@ pr13:
 	cbne r9, #(0), F89 ; check 89
 	cbne r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV)), F90 ; check 90
 	cbne r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV|7<<PSW_PRI)), F91 ; check 91
-	movq	#0, r4
-	movq	#0, r10
-	movq	#0, r6
-	movq	#0, r7
-	movq	#0, r8
-	movq	#0, r9
-	movq	#0, r12
-	movq	#0, r2
-	movq	#0, r3
-	movq	#0, r13
+	mov	#0, r4
+	mov	#0, r10
+	mov	#0, r6
+	mov	#0, r7
+	mov	#0, r8
+	mov	#0, r9
+	mov	#0, r12
+	mov	#0, r2
+	mov	#0, r3
+	mov	#0, r13
 	lea	pr14, r4
 pi14:
 	popx
@@ -325,16 +325,16 @@ pr14:
 	cbne r9, #(0), F95 ; check 95
 	cbne r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV)), F96 ; check 96
 	cbne r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV|7<<PSW_PRI)), F97 ; check 97
-	movq	#0, r4
-	movq	#0, r10
-	movq	#0, r6
-	movq	#0, r7
-	movq	#0, r8
-	movq	#0, r9
-	movq	#0, r12
-	movq	#0, r2
-	movq	#0, r3
-	movq	#0, r13
+	mov	#0, r4
+	mov	#0, r10
+	mov	#0, r6
+	mov	#0, r7
+	mov	#0, r8
+	mov	#0, r9
+	mov	#0, r12
+	mov	#0, r2
+	mov	#0, r3
+	mov	#0, r13
 	lea	pr15, r4
 pi15:
 	prober	r2, r1
@@ -346,16 +346,16 @@ pr15:
 	cbne r9, #(0), F101 ; check 101
 	cbne r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV)), F102 ; check 102
 	cbne r12, #((MODE_KERNEL<<PSW_MODE|MODE_USER<<PSW_PREV|7<<PSW_PRI)), F103 ; check 103
-	movq	#0, r4
-	movq	#0, r10
-	movq	#0, r6
-	movq	#0, r7
-	movq	#0, r8
-	movq	#0, r9
-	movq	#0, r12
-	movq	#0, r2
-	movq	#0, r3
-	movq	#0, r13
+	mov	#0, r4
+	mov	#0, r10
+	mov	#0, r6
+	mov	#0, r7
+	mov	#0, r8
+	mov	#0, r9
+	mov	#0, r12
+	mov	#0, r2
+	mov	#0, r3
+	mov	#0, r13
 	lea	pr16, r4
 pi16:
 	probew	r2, r1
@@ -371,10 +371,10 @@ pr16:
 	cbne r5, #(8738), F110 ; check 110
 	mfps	r5
 	cbne r5, #(MODE_USER<<PSW_MODE), F111 ; check 111: the flag bits of the PSW read as zero
-	movq	#0, r10
-	movq	#0, r6
-	movq	#0, r8
-	movq	#0xFFF, r1
+	mov	#0, r10
+	mov	#0, r6
+	mov	#0, r8
+	mov	#0xFFF, r1
 	lea	pr17, r4
 pi17:
 	mtps	r1
@@ -385,35 +385,35 @@ pr17:
 	cbne r8, #(VECTOR_PRIVILEGED), F208 ; check 208
 	mfps	r5
 	cbne r5, #(MODE_USER<<PSW_MODE), F209 ; check 209: nothing was written
-	movq	#0, r4
-	movq	#0, r10
-	movq	#0, r6
-	movq	#0, r7
-	movq	#0, r8
-	movq	#0, r9
-	movq	#0, r12
+	mov	#0, r4
+	mov	#0, r10
+	mov	#0, r6
+	mov	#0, r7
+	mov	#0, r8
+	mov	#0, r9
+	mov	#0, r12
 	nop
 	fence
 	sev
 	icinva
 	icinv	r1
 	isync
-	movq	#7, r1
+	mov	#7, r1
 	mtdp	r1
 	mfdp	r5
 	push	r1
 	pop	r5
 	cbne r10, #(0), F113 ; check 113
 	cbne r5, #(7), F114 ; check 114
-	movq	#0x2222, r1
+	mov	#0x2222, r1
 	mtdp	r1
-	movq	#0, r4
-	movq	#0, r10
-	movq	#0, r6
-	movq	#0, r7
-	movq	#0, r8
-	movq	#0, r9
-	movq	#0, r12
+	mov	#0, r4
+	mov	#0, r10
+	mov	#0, r6
+	mov	#0, r7
+	mov	#0, r8
+	mov	#0, r9
+	mov	#0, r12
 	trap	#5
 aft1:
 	cbne r10, #(1), F115 ; check 115
@@ -422,26 +422,26 @@ aft1:
 	cbne r8, #(VECTOR_TRAP_BASE+5), F117 ; check 117
 	cbne r7, #((MODE_USER<<PSW_MODE|MODE_KERNEL<<PSW_PREV)), F118 ; check 118
 	cbne r9, #(0), F119 ; check 119
-	movq	#0, r4
-	movq	#0, r10
-	movq	#0, r6
-	movq	#0, r7
-	movq	#0, r8
-	movq	#0, r9
-	movq	#0, r12
+	mov	#0, r4
+	mov	#0, r10
+	mov	#0, r6
+	mov	#0, r7
+	mov	#0, r8
+	mov	#0, r9
+	mov	#0, r12
 	trap	#200
 aft2:
 	cbne r10, #(1), F120 ; check 120
 	lea	aft2, r11
 	cbne r6, r11, F121 ; check 121
 	cbne r8, #(VECTOR_TRAP_BASE+200), F122 ; check 122
-	movq	#0, r4
-	movq	#0, r10
-	movq	#0, r6
-	movq	#0, r7
-	movq	#0, r8
-	movq	#0, r9
-	movq	#0, r12
+	mov	#0, r4
+	mov	#0, r10
+	mov	#0, r6
+	mov	#0, r7
+	mov	#0, r8
+	mov	#0, r9
+	mov	#0, r12
 	bpt
 aft3:
 	cbne r10, #(1), F123 ; check 123
@@ -454,262 +454,262 @@ aft3:
 	lea	ustack_alt, r11
 	cbne sp, r11, F127 ; check 127
 	trap	#8
-	movq	#99, r0
+	mov	#99, r0
 	trap	#1
-F1:	movq	#1, r0
+F1:	mov	#1, r0
 	trap	#1
-F2:	movq	#2, r0
+F2:	mov	#2, r0
 	trap	#1
-F3:	movq	#3, r0
+F3:	mov	#3, r0
 	trap	#1
-F4:	movq	#4, r0
+F4:	mov	#4, r0
 	trap	#1
-F5:	movq	#5, r0
+F5:	mov	#5, r0
 	trap	#1
-F6:	movq	#6, r0
+F6:	mov	#6, r0
 	trap	#1
-F7:	movq	#7, r0
+F7:	mov	#7, r0
 	trap	#1
-F8:	movq	#8, r0
+F8:	mov	#8, r0
 	trap	#1
-F9:	movq	#9, r0
+F9:	mov	#9, r0
 	trap	#1
-F10:	movq	#10, r0
+F10:	mov	#10, r0
 	trap	#1
-F11:	movq	#11, r0
+F11:	mov	#11, r0
 	trap	#1
-F12:	movq	#12, r0
+F12:	mov	#12, r0
 	trap	#1
-F13:	movq	#13, r0
+F13:	mov	#13, r0
 	trap	#1
-F14:	movq	#14, r0
+F14:	mov	#14, r0
 	trap	#1
-F15:	movq	#15, r0
+F15:	mov	#15, r0
 	trap	#1
-F16:	movq	#16, r0
+F16:	mov	#16, r0
 	trap	#1
-F17:	movq	#17, r0
+F17:	mov	#17, r0
 	trap	#1
-F18:	movq	#18, r0
+F18:	mov	#18, r0
 	trap	#1
-F19:	movq	#19, r0
+F19:	mov	#19, r0
 	trap	#1
-F20:	movq	#20, r0
+F20:	mov	#20, r0
 	trap	#1
-F21:	movq	#21, r0
+F21:	mov	#21, r0
 	trap	#1
-F22:	movq	#22, r0
+F22:	mov	#22, r0
 	trap	#1
-F23:	movq	#23, r0
+F23:	mov	#23, r0
 	trap	#1
-F24:	movq	#24, r0
+F24:	mov	#24, r0
 	trap	#1
-F25:	movq	#25, r0
+F25:	mov	#25, r0
 	trap	#1
-F26:	movq	#26, r0
+F26:	mov	#26, r0
 	trap	#1
-F27:	movq	#27, r0
+F27:	mov	#27, r0
 	trap	#1
-F28:	movq	#28, r0
+F28:	mov	#28, r0
 	trap	#1
-F29:	movq	#29, r0
+F29:	mov	#29, r0
 	trap	#1
-F30:	movq	#30, r0
+F30:	mov	#30, r0
 	trap	#1
-F31:	movq	#31, r0
+F31:	mov	#31, r0
 	trap	#1
-F32:	movq	#32, r0
+F32:	mov	#32, r0
 	trap	#1
-F33:	movq	#33, r0
+F33:	mov	#33, r0
 	trap	#1
-F34:	movq	#34, r0
+F34:	mov	#34, r0
 	trap	#1
-F35:	movq	#35, r0
+F35:	mov	#35, r0
 	trap	#1
-F36:	movq	#36, r0
+F36:	mov	#36, r0
 	trap	#1
-F37:	movq	#37, r0
+F37:	mov	#37, r0
 	trap	#1
-F38:	movq	#38, r0
+F38:	mov	#38, r0
 	trap	#1
-F39:	movq	#39, r0
+F39:	mov	#39, r0
 	trap	#1
-F40:	movq	#40, r0
+F40:	mov	#40, r0
 	trap	#1
-F41:	movq	#41, r0
+F41:	mov	#41, r0
 	trap	#1
-F42:	movq	#42, r0
+F42:	mov	#42, r0
 	trap	#1
-F43:	movq	#43, r0
+F43:	mov	#43, r0
 	trap	#1
-F44:	movq	#44, r0
+F44:	mov	#44, r0
 	trap	#1
-F45:	movq	#45, r0
+F45:	mov	#45, r0
 	trap	#1
-F46:	movq	#46, r0
+F46:	mov	#46, r0
 	trap	#1
-F47:	movq	#47, r0
+F47:	mov	#47, r0
 	trap	#1
-F48:	movq	#48, r0
+F48:	mov	#48, r0
 	trap	#1
-F49:	movq	#49, r0
+F49:	mov	#49, r0
 	trap	#1
-F50:	movq	#50, r0
+F50:	mov	#50, r0
 	trap	#1
-F51:	movq	#51, r0
+F51:	mov	#51, r0
 	trap	#1
-F52:	movq	#52, r0
+F52:	mov	#52, r0
 	trap	#1
-F53:	movq	#53, r0
+F53:	mov	#53, r0
 	trap	#1
-F54:	movq	#54, r0
+F54:	mov	#54, r0
 	trap	#1
-F55:	movq	#55, r0
+F55:	mov	#55, r0
 	trap	#1
-F56:	movq	#56, r0
+F56:	mov	#56, r0
 	trap	#1
-F57:	movq	#57, r0
+F57:	mov	#57, r0
 	trap	#1
-F58:	movq	#58, r0
+F58:	mov	#58, r0
 	trap	#1
-F59:	movq	#59, r0
+F59:	mov	#59, r0
 	trap	#1
-F60:	movq	#60, r0
+F60:	mov	#60, r0
 	trap	#1
-F61:	movq	#61, r0
+F61:	mov	#61, r0
 	trap	#1
-F62:	movq	#62, r0
+F62:	mov	#62, r0
 	trap	#1
-F63:	movq	#63, r0
+F63:	mov	#63, r0
 	trap	#1
-F64:	movq	#64, r0
+F64:	mov	#64, r0
 	trap	#1
-F65:	movq	#65, r0
+F65:	mov	#65, r0
 	trap	#1
-F66:	movq	#66, r0
+F66:	mov	#66, r0
 	trap	#1
-F67:	movq	#67, r0
+F67:	mov	#67, r0
 	trap	#1
-F68:	movq	#68, r0
+F68:	mov	#68, r0
 	trap	#1
-F69:	movq	#69, r0
+F69:	mov	#69, r0
 	trap	#1
-F70:	movq	#70, r0
+F70:	mov	#70, r0
 	trap	#1
-F71:	movq	#71, r0
+F71:	mov	#71, r0
 	trap	#1
-F72:	movq	#72, r0
+F72:	mov	#72, r0
 	trap	#1
-F73:	movq	#73, r0
+F73:	mov	#73, r0
 	trap	#1
-F80:	movq	#80, r0
+F80:	mov	#80, r0
 	trap	#1
-F81:	movq	#81, r0
+F81:	mov	#81, r0
 	trap	#1
-F82:	movq	#82, r0
+F82:	mov	#82, r0
 	trap	#1
-F83:	movq	#83, r0
+F83:	mov	#83, r0
 	trap	#1
-F84:	movq	#84, r0
+F84:	mov	#84, r0
 	trap	#1
-F85:	movq	#85, r0
+F85:	mov	#85, r0
 	trap	#1
-F86:	movq	#86, r0
+F86:	mov	#86, r0
 	trap	#1
-F87:	movq	#87, r0
+F87:	mov	#87, r0
 	trap	#1
-F88:	movq	#88, r0
+F88:	mov	#88, r0
 	trap	#1
-F89:	movq	#89, r0
+F89:	mov	#89, r0
 	trap	#1
-F90:	movq	#90, r0
+F90:	mov	#90, r0
 	trap	#1
-F91:	movq	#91, r0
+F91:	mov	#91, r0
 	trap	#1
-F92:	movq	#92, r0
+F92:	mov	#92, r0
 	trap	#1
-F93:	movq	#93, r0
+F93:	mov	#93, r0
 	trap	#1
-F94:	movq	#94, r0
+F94:	mov	#94, r0
 	trap	#1
-F95:	movq	#95, r0
+F95:	mov	#95, r0
 	trap	#1
-F96:	movq	#96, r0
+F96:	mov	#96, r0
 	trap	#1
-F97:	movq	#97, r0
+F97:	mov	#97, r0
 	trap	#1
-F98:	movq	#98, r0
+F98:	mov	#98, r0
 	trap	#1
-F99:	movq	#99, r0
+F99:	mov	#99, r0
 	trap	#1
-F100:	movq	#100, r0
+F100:	mov	#100, r0
 	trap	#1
-F101:	movq	#101, r0
+F101:	mov	#101, r0
 	trap	#1
-F102:	movq	#102, r0
+F102:	mov	#102, r0
 	trap	#1
-F103:	movq	#103, r0
+F103:	mov	#103, r0
 	trap	#1
-F104:	movq	#104, r0
+F104:	mov	#104, r0
 	trap	#1
-F105:	movq	#105, r0
+F105:	mov	#105, r0
 	trap	#1
-F106:	movq	#106, r0
+F106:	mov	#106, r0
 	trap	#1
-F107:	movq	#107, r0
+F107:	mov	#107, r0
 	trap	#1
-F108:	movq	#108, r0
+F108:	mov	#108, r0
 	trap	#1
-F109:	movq	#109, r0
+F109:	mov	#109, r0
 	trap	#1
-F110:	movq	#110, r0
+F110:	mov	#110, r0
 	trap	#1
-F111:	movq	#111, r0
+F111:	mov	#111, r0
 	trap	#1
-F112:	movq	#112, r0
+F112:	mov	#112, r0
 	trap	#1
-F113:	movq	#113, r0
+F113:	mov	#113, r0
 	trap	#1
-F114:	movq	#114, r0
+F114:	mov	#114, r0
 	trap	#1
-F115:	movq	#115, r0
+F115:	mov	#115, r0
 	trap	#1
-F116:	movq	#116, r0
+F116:	mov	#116, r0
 	trap	#1
-F117:	movq	#117, r0
+F117:	mov	#117, r0
 	trap	#1
-F118:	movq	#118, r0
+F118:	mov	#118, r0
 	trap	#1
-F119:	movq	#119, r0
+F119:	mov	#119, r0
 	trap	#1
-F120:	movq	#120, r0
+F120:	mov	#120, r0
 	trap	#1
-F121:	movq	#121, r0
+F121:	mov	#121, r0
 	trap	#1
-F122:	movq	#122, r0
+F122:	mov	#122, r0
 	trap	#1
-F123:	movq	#123, r0
+F123:	mov	#123, r0
 	trap	#1
-F124:	movq	#124, r0
+F124:	mov	#124, r0
 	trap	#1
-F125:	movq	#125, r0
+F125:	mov	#125, r0
 	trap	#1
-F126:	movq	#126, r0
+F126:	mov	#126, r0
 	trap	#1
-F127:	movq	#127, r0
+F127:	mov	#127, r0
 	trap	#1
 sup:
 	mfps	r1
 	cbne r1, #(MODE_SUPERVISOR<<PSW_MODE|MODE_USER<<PSW_PREV), F201 ; check 201
 	lea	sstack_top, r11
 	cbne sp, r11, F202 ; check 202
-	movq	#0, r4
-	movq	#0, r10
-	movq	#0, r6
-	movq	#0, r7
-	movq	#0, r8
-	movq	#0, r9
-	movq	#0, r12
+	mov	#0, r4
+	mov	#0, r10
+	mov	#0, r6
+	mov	#0, r7
+	mov	#0, r8
+	mov	#0, r9
+	mov	#0, r12
 	lea	sr1, r4
 sp1:
 	mfsr	r1, ptbr
@@ -719,25 +719,25 @@ sr1:
 	cbne r6, r11, F204 ; check 204
 	cbne r8, #(VECTOR_PRIVILEGED), F205 ; check 205
 	cbne r7, #((MODE_SUPERVISOR<<PSW_MODE|MODE_USER<<PSW_PREV)), F206 ; check 206
-	movq	#0, r0
+	mov	#0, r0
 	trap	#0
-F201:	movq	#201, r0
+F201:	mov	#201, r0
 	trap	#1
-F202:	movq	#202, r0
+F202:	mov	#202, r0
 	trap	#1
-F203:	movq	#203, r0
+F203:	mov	#203, r0
 	trap	#1
-F204:	movq	#204, r0
+F204:	mov	#204, r0
 	trap	#1
-F205:	movq	#205, r0
+F205:	mov	#205, r0
 	trap	#1
-F206:	movq	#206, r0
+F206:	mov	#206, r0
 	trap	#1
-F207:	movq	#207, r0
+F207:	mov	#207, r0
 	trap	#1
-F208:	movq	#208, r0
+F208:	mov	#208, r0
 	trap	#1
-F209:	movq	#209, r0
+F209:	mov	#209, r0
 	trap	#1
 h_gen:	mfps	r12
 	mfsr	r6, epc
@@ -746,12 +746,12 @@ h_gen:	mfps	r12
 	mfsr	r9, eva
 	mfsr	r3, usp
 	mfdp	r2
-	movq	sp, r13
+	mov	sp, r13
 	add	#1, r10
 	cbeq	r4, #0, 1f
 	mtsr	epc, r4
 1:	rti	#RTIMASK_ALL
-h_ok:	movq	#0, r0
+h_ok:	mov	#0, r0
 h_fail:	halt
 h_k7:	lea	ustack_alt, r1
 	mtsr	usp, r1
@@ -760,7 +760,7 @@ h_k8:	lea	sstack_top, r1
 	mtsr	ssp, r1
 	lea	sup, r1
 	mtsr	epc, r1
-	movq	#(MODE_SUPERVISOR<<PSW_MODE|MODE_USER<<PSW_PREV), r1
+	mov	#(MODE_SUPERVISOR<<PSW_MODE|MODE_USER<<PSW_PREV), r1
 	mtsr	epsw, r1
 	rti	#RTIMASK_ALL
 	.data

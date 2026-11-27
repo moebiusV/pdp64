@@ -1,2 +1,2 @@
 	.text
-	aadd r2, r3.32, r1
+	aadd.s32 r2, r3, r1

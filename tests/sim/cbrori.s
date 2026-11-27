@@ -2,7 +2,7 @@
 	.text
 	.globl	_start
 _start:
-	movq	#5, r1
+	mov	#5, r1
 	cbeq	r1, #5, 1f		; taken: 5 - 5 = 0
 	br	f1
 1:	cbne	r1, #5, f2		; not taken
@@ -24,16 +24,16 @@ _start:
 	br	f16
 1:
 ; the extreme immediates: -16 and 15
-	movq	#-16, r2
+	mov	#-16, r2
 	cbeq	r2, #-16, 1f
 	br	f21
-1:	movq	#15, r2
+1:	mov	#15, r2
 	cbeq	r2, #15, 1f
 	br	f22
 1:
 ; a loop with the branch backward: counts 10 down to 0
-	movq	#10, r3
-	movq	#0, r4
+	mov	#10, r3
+	mov	#0, r4
 2:	add	#1, r4
 	sub	#1, r3
 	cbne	r3, #0, 2b
@@ -43,86 +43,86 @@ _start:
 	br	f24
 	.space	3000
 1:	br	3f
-4:	movq	#1, r5
+4:	mov	#1, r5
 	br	5f
 	.space	3000
 3:	cbeq	r4, #10, 4b
 	br	f25
 5:	cbne r5, #1, f26
 ; ror .32: the low 32 bits rotate right, the result is sign-extended from bit 31 (errata 34)
-	movq	#-1, r6
+	mov	#-1, r6
 	shl	#16, r6
 	bis	#0x8000, r6
 	shl	#16, r6
 	bis	#1, r6			; r6 = 0xFFFFFFFF80000001
-	ror	r6.32, #1, r7 ; the rotate of 0x80000001 by 1 = 0xC0000000: bit 31 set, so negative: 0xFFFFFFFFC0000000
-	movq	#-1073741824, r8
+	ror.s32	r6, #1, r7 ; the rotate of 0x80000001 by 1 = 0xC0000000: bit 31 set, so negative: 0xFFFFFFFFC0000000
+	mov	#-1073741824, r8
 	cbne r7, r8, f27
-	ror	r6.32, #0, r7 ; a zero count: 0x80000001 sign-extended
-	movq	#-2147483647, r8
+	ror.s32	r6, #0, r7 ; a zero count: 0x80000001 sign-extended
+	mov	#-2147483647, r8
 	cbne r7, r8, f28
-	ror	r6.32, #31, r7 ; the rotate of 0x80000001 by 31 = 3: bit 31 clear, positive
+	ror.s32	r6, #31, r7 ; the rotate of 0x80000001 by 31 = 3: bit 31 clear, positive
 	cbne r7, #3, f29
-	movq	#0x12345678, r6
-	ror	r6.32, #8, r7 ; 0x78123456: bit 31 clear
-	movq	#0x78123456, r8
+	mov	#0x12345678, r6
+	ror.s32	r6, #8, r7 ; 0x78123456: bit 31 clear
+	mov	#0x78123456, r8
 	cbne r7, r8, f30
-	ror	r6.32, #4, r6 ; rd = rs; 0x81234567: bit 31 set, 0xFFFFFFFF81234567
-	movq	#-2128394905, r8
+	ror.s32	r6, #4, r6 ; rd = rs; 0x81234567: bit 31 set, 0xFFFFFFFF81234567
+	mov	#-2128394905, r8
 	cbne r6, r8, f31
-	movq	#0, r0
+	mov	#0, r0
 	trap	#0
-f1:	movq	#1, r0
+f1:	mov	#1, r0
 	trap	#0
-f2:	movq	#2, r0
+f2:	mov	#2, r0
 	trap	#0
-f3:	movq	#3, r0
+f3:	mov	#3, r0
 	trap	#0
-f4:	movq	#4, r0
+f4:	mov	#4, r0
 	trap	#0
-f5:	movq	#5, r0
+f5:	mov	#5, r0
 	trap	#0
-f6:	movq	#6, r0
+f6:	mov	#6, r0
 	trap	#0
-f7:	movq	#7, r0
+f7:	mov	#7, r0
 	trap	#0
-f8:	movq	#8, r0
+f8:	mov	#8, r0
 	trap	#0
-f9:	movq	#9, r0
+f9:	mov	#9, r0
 	trap	#0
-f10:	movq	#10, r0
+f10:	mov	#10, r0
 	trap	#0
-f15:	movq	#15, r0
+f15:	mov	#15, r0
 	trap	#0
-f16:	movq	#16, r0
+f16:	mov	#16, r0
 	trap	#0
-f17:	movq	#17, r0
+f17:	mov	#17, r0
 	trap	#0
-f18:	movq	#18, r0
+f18:	mov	#18, r0
 	trap	#0
-f19:	movq	#19, r0
+f19:	mov	#19, r0
 	trap	#0
-f20:	movq	#20, r0
+f20:	mov	#20, r0
 	trap	#0
-f21:	movq	#21, r0
+f21:	mov	#21, r0
 	trap	#0
-f22:	movq	#22, r0
+f22:	mov	#22, r0
 	trap	#0
-f23:	movq	#23, r0
+f23:	mov	#23, r0
 	trap	#0
-f24:	movq	#24, r0
+f24:	mov	#24, r0
 	trap	#0
-f25:	movq	#25, r0
+f25:	mov	#25, r0
 	trap	#0
-f26:	movq	#26, r0
+f26:	mov	#26, r0
 	trap	#0
-f27:	movq	#27, r0
+f27:	mov	#27, r0
 	trap	#0
-f28:	movq	#28, r0
+f28:	mov	#28, r0
 	trap	#0
-f29:	movq	#29, r0
+f29:	mov	#29, r0
 	trap	#0
-f30:	movq	#30, r0
+f30:	mov	#30, r0
 	trap	#0
-f31:	movq	#31, r0
+f31:	mov	#31, r0
 	trap	#0

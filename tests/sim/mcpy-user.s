@@ -5,7 +5,7 @@
 _start:
 	lea	src, r8
 	lea	dst, r9
-	movq	#12, r10
+	mov	#12, r10
 	mcpy.ur	r9, r8, r10
 	cbne r10, #0, f1
 	lea	dst+12, r2
@@ -13,51 +13,51 @@ _start:
 	lea	src+12, r2
 	cbne r8, r2, f3
 	lea	dst, r4
-	movq	(r4), r5
-	movq	=0x0807060504030201, r6
+	mov	(r4), r5
+	mov	=0x0807060504030201, r6
 	cbne r5, r6, f4
-	mov	8(r4).32, r5
-	movq	=0x0c0b0a09, r11
+	mov.s32	8(r4), r5
+	mov	=0x0c0b0a09, r11
 	cbne	r5, r11, f5
 	lea	src, r8
 	lea	dst2, r9
-	movq	#9, r10
+	mov	#9, r10
 	mcpy.uw	r9, r8, r10
 	cbne r10, #0, f6
 	lea	dst2, r4
-	movq	(r4), r5
+	mov	(r4), r5
 	cbne r5, r6, f7
-	mov	8(r4).u8, r5
+	mov.u8	8(r4), r5
 	cbne r5, #9, f8
-	mov	9(r4).u8, r5
+	mov.u8	9(r4), r5
 	cbne r5, #0, f9
 	lea	dst2+16, r9
 	lea	src, r8
-	movq	#0, r10
+	mov	#0, r10
 	mcpy.ur	r9, r8, r10
 	lea	dst2+16, r2
 	cbne r9, r2, f10
 	clr	r0
 	trap	#0
-f1:	movq	#1, r0
+f1:	mov	#1, r0
 	trap	#0
-f2:	movq	#2, r0
+f2:	mov	#2, r0
 	trap	#0
-f3:	movq	#3, r0
+f3:	mov	#3, r0
 	trap	#0
-f4:	movq	#4, r0
+f4:	mov	#4, r0
 	trap	#0
-f5:	movq	#5, r0
+f5:	mov	#5, r0
 	trap	#0
-f6:	movq	#6, r0
+f6:	mov	#6, r0
 	trap	#0
-f7:	movq	#7, r0
+f7:	mov	#7, r0
 	trap	#0
-f8:	movq	#8, r0
+f8:	mov	#8, r0
 	trap	#0
-f9:	movq	#9, r0
+f9:	mov	#9, r0
 	trap	#0
-f10:	movq	#10, r0
+f10:	mov	#10, r0
 	trap	#0
 	.data
 	.align	8

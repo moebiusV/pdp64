@@ -69,7 +69,7 @@ The status word has no bit for the **user-memory guard** (the rule that the kern
 
 **6.2.6** These are not privileged: `MTDP` and `MFDP` (in user mode, the thread pointer), `ICINV` and `ICINVA` (a JIT needs them), `FENCE`, `ISYNC` (a program that generates code needs it after `ICINV`), `SEV`, `HINT`, `TRAP`, `BPT`, `NOP` and `MFPS`.
 
-`DP` is new to a PDP-11 reader. It is the **direct-page register** (a base register that makes one region addressable with a short displacement, descended from the 6502's zero page). The kernel's copy points to the structure of the core it is running on (the **per-CPU pointer**: which core am I, and where is its private data); a user program's copy points to its thread's private data, so a thread-local variable is one `MOVQ d(DP), Rd`.
+`DP` is new to a PDP-11 reader. It is the **direct-page register** (a base register that makes one region addressable with a short displacement, descended from the 6502's zero page). The kernel's copy points to the structure of the core it is running on (the **per-CPU pointer**: which core am I, and where is its private data); a user program's copy points to its thread's private data, so a thread-local variable is one `MOV d(DP), Rd`.
 
 *Lineage.* **PDP-11:** three modes, a stack pointer per mode, priority and mode fields in the status word; V7 used kernel and user, and 2.11BSD runs its network code in supervisor mode (`trap()` tests `SUPVMODE(ps)`, checked). **Between:** x86 has four rings of which two are used; AArch64 has exception levels 0 to 3; RISC-V has user, supervisor and machine modes (all *unverified*). Each later design kept a privilege ladder and a banked stack pointer. **pdp64:** the PDP-11's three modes and its stack-pointer banking, so entry from user mode needs no stack switch code, plus a banked `DP`. The third mode costs a third copy of two registers and no logic the kernel uses.
 
@@ -383,7 +383,7 @@ The **user half** holds the program's text, data, heap and stack, in pages with 
 
 **6.10.3** A copy routine copies with `.U` moves or with `MCPY.UR` and `MCPY.UW`; nothing is opened, so no error path has anything to close.
 
-**6.10.4** A move with the qualifier `.U` (`MOVQ.U`, `MOVL.U` and the others, seven words, which take the marks of `MOV` as well: `mov.u (r1).u8, r2` is `movzb.u (r1), r2`) accesses its memory operand with user privilege, so that a copy-in or copy-out routine needs no window in the status word. The block copy has the same two forms for its two sides: `MCPY.UR` (the bytes it reads are user memory, the copy-in) and `MCPY.UW` (the bytes it writes are, the copy-out); the other side is kernel memory, accessed as any kernel access is, so a user address in the wrong register faults. A fault on a user side is marked in `ECAUSE` as a `.U` move's is, and the registers stand at the byte that faulted. A block fill of user memory is a copy from a zero buffer, and `copyinstr` is a loop of `MOVZB.U` loads. A fault on that operand is attributed to the instruction and recovered through a **fixup table** (a table of recovery addresses, one entry for each instruction that may fault): the handler looks up the faulting `EPC` in the table, and the copy returns an error. Bit 15 of `ECAUSE` marks the fault. The atomics take the user form once the operand placement of `ATOM` is fixed.
+**6.10.4** A move with the qualifier `.user` (`MOV.USER` for 64 bits, and `MOV.USER.S8`, `MOV.USER.U8` and the other widths and kinds of `MOV`, seven words) accesses its memory operand with user privilege, so that a copy-in or copy-out routine needs no window in the status word. The block copy has the same two forms for its two sides: `MCPY.UR` (the bytes it reads are user memory, the copy-in) and `MCPY.UW` (the bytes it writes are, the copy-out); the other side is kernel memory, accessed as any kernel access is, so a user address in the wrong register faults. A fault on a user side is marked in `ECAUSE` as a `.user` move's is, and the registers stand at the byte that faulted. A block fill of user memory is a copy from a zero buffer, and `copyinstr` is a loop of `MOV.USER.U8` loads. A fault on that operand is attributed to the instruction and recovered through a **fixup table** (a table of recovery addresses, one entry for each instruction that may fault): the handler looks up the faulting `EPC` in the table, and the copy returns an error. Bit 15 of `ECAUSE` marks the fault. The atomics take the user form once the operand placement of `ATOM` is fixed.
 
 
 
@@ -625,7 +625,7 @@ hx:     mfsr    r20, hexitr     ; the hypervisor's handler: why did the guest st
         cbeq    r20, #XCODE_PRIO, h_prio
 ...
 h_prio: mfsr    r21, hepsw      ; the guest's status word, saved by the hardware at the exit
-        movq    =(7<<PSW_PRI), r22
+        mov    =(7<<PSW_PRI), r22
         bis     r22, r21        ; do what SPL #7 would have done
         mtsr    hepsw, r21
         genter  #0              ; enter the guest again, just after its SPL
@@ -691,14 +691,14 @@ It builds the guest's second-stage tables: a three-level tree of the same page-t
         lea     hepoch_word, r1
         mtsr    hepoch, r1          ; the epoch word, inside the arena
         lea     hroot, r1           ; the guest's stage-2 root (one page) ...
-        movq    =(1<<GTBR_S2EN | 1<<GTBR_NEW), r2
+        mov    =(1<<GTBR_S2EN | 1<<GTBR_NEW), r2
         bis     r2, r1              ; ... stage 2 on, and a fresh tag from the hardware
         mtsr    gtbr, r1
-        movq    =(1<<HTRAP_WFE | 1<<HTRAP_PTBR), r1
+        mov    =(1<<HTRAP_WFE | 1<<HTRAP_PTBR), r1
         mtsr    htrap, r1           ; exit on WFE and on writes of PTBR
         lea     guest_entry, r1
         mtsr    hepc, r1
-        movq    #0, r1
+        mov    #0, r1
         mtsr    hepsw, r1           ; kernel mode, priority 0
         genter  #0                  ; the guest starts; no register of the hypervisor is kept
 ```
@@ -737,7 +737,7 @@ A third group are events that the guest could use to *time* its neighbours. Proc
 
 ```
         mfsr    r1, htrap
-        movq    =((1<<HTRAP_ICINV)|(1<<HTRAP_TLBIA)|(1<<HTRAP_TLBSYNC)), r2
+        mov    =((1<<HTRAP_ICINV)|(1<<HTRAP_TLBIA)|(1<<HTRAP_TLBSYNC)), r2
         bic     r2, r1          ; this guest owns its core: its invalidates are its own
         mtsr    htrap, r1
 ```
@@ -747,16 +747,16 @@ A third group are events that the guest could use to *time* its neighbours. Proc
 Say bit 1 is set and G executes `TRAP #40`. Number 40 is in 32 to 63, so the trap does not go to G's own vector table; it exits. The instruction is complete, so `HEPC` is the next instruction; the exit-reason register says "hypercall"; and the hypervisor's vector is 256 + 40, so the hypervisor's table has one entry for each hypercall number, as the kernel's has one for each system call. The arguments are in registers, as for a system call. The hypervisor does the work, puts the result in `R0`, reloads the registers it saved, and executes `GENTER` with a mask that names them. The pieces, in assembler:
 
 ```
-        movq    =(2<<HTRAP_MASK), r1    ; the hypervisor: bit 1 of the 8-bit mask (bits 16 to 23 of HTRAP)
+        mov    =(2<<HTRAP_MASK), r1    ; the hypervisor: bit 1 of the 8-bit mask (bits 16 to 23 of HTRAP)
         mtsr    htrap, r1
 ...
-guest:  movq    #65, r0         ; the guest: the argument, the character 'A'
+guest:  mov    #65, r0         ; the guest: the argument, the character 'A'
         trap    #40             ; the hypercall; it exits instead of entering the guest's own vector table
 ...
 hcall:  mfsr    r20, hexitr     ; the hypervisor: reason 17, a hypercall
         mfsr    r20, hcause     ; the vector: VECTOR_TRAP_BASE + 40, that is 256 + 40
         ...                     ; r0 still holds the guest's argument
-        movq    #0, r0          ; the result
+        mov    #0, r0          ; the result
         genter  #1              ; the mask keeps R0 (bit 0) and clears every other register
 ```
 
@@ -778,16 +778,16 @@ Here is the hypervisor's side of the demand fill, in assembler. The stage-2 entr
 
 ```
         mfsr    r21, hgpa               ; 0x123A58, the guest-physical address that failed
-        movq    =0xfffffffff000, r22
+        mov    =0xfffffffff000, r22
         and     r21, r22                ; its page, 0x123000
         shr     #12, r22
-        movq    =0x1ff, r23
+        mov    =0x1ff, r23
         and     r23, r22                ; 0x123 & 0x1ff: the index in the last-level table
         shl     #3, r22                 ; 8 bytes to an entry
         lea     s2leaf, r24             ; the last-level stage-2 table, inside the arena
         add     r24, r22
-        movq    =(0x8f7000|LEAF), r23   ; real page 0x8F7, readable, writable, executable
-        movq    r23, (r22)              ; the entry; a store into the arena
+        mov    =(0x8f7000|LEAF), r23   ; real page 0x8F7, readable, writable, executable
+        mov    r23, (r22)              ; the entry; a store into the arena
         genter  #0                      ; the guest runs the load again
 ```
 
@@ -804,7 +804,7 @@ G uses the same two registers, with the same handler as on bare metal, and three
         add     #3000, r1       ; 3000 counts from now: 300 microseconds at 10 MHz
         mtsr    timecmp, r1     ; the guest's own deadline; no exit
 ...
-        movq    #0, r1
+        mov    #0, r1
         mtsr    timecmp, r1     ; zero means never: the handler's way to stop the clock
 ```
 
@@ -818,11 +818,11 @@ G uses the same two registers, with the same handler as on bare metal, and three
 A **virtual interrupt line** is one bit in the register `VIRQ`, set by the hypervisor (for a device it emulates) or held by the timer hardware. There are seven, one for each priority from 1 to 7. Between two instructions of G, if the highest pending line is above the priority in G's status word, the hardware makes G's own exception entry, with the vector number the hypervisor put in `VIVEC` for that line. This is the entry of 6.3, run inside the guest, with no exit: `EPC`, `EPSW` and `ECAUSE` are written, the priority goes to 7, and G's handler runs. The bit that the hypervisor set is cleared by the delivery; line 6's timer part follows the comparator. G's `SPL` and `MTPS` work against these lines in hardware, so G's idea of "interrupts held off" is true and cheap. Here is the whole thing in assembler (the hypervisor's side, then the guest's), and it runs:
 
 ```
-        movq    #(1<<6), r1
+        mov    #(1<<6), r1
         mtsr    virq, r1                ; hypervisor: line 6 is pending
-        movq    =(0x60<<40), r1         ; line 6 is the field in bits 47 to 40 of VIVEC: vector 0x60
+        mov    =(0x60<<40), r1         ; line 6 is the field in bits 47 to 40 of VIVEC: vector 0x60
         mtsr    vivec, r1
-        movq    =((MODE_KERNEL<<PSW_MODE)|(MODE_KERNEL<<PSW_PREV)|(7<<PSW_PRI)), r1
+        mov    =((MODE_KERNEL<<PSW_MODE)|(MODE_KERNEL<<PSW_PREV)|(7<<PSW_PRI)), r1
         mtsr    hepsw, r1               ; the guest starts at priority 7 ...
         genter  #0
 guest:  nop                             ; ... and the pending line is held off
@@ -848,11 +848,11 @@ The reset sequence is written down in order (6.16.34), and the first thing it do
 ; at the hypervisor level: the plain names are the hypervisor's own, the G names the guest's
         mfdp    r20             ; DP: the hypervisor's own per-core structure
         mfsr    r1, gptbr       ; the guest's PTBR ...
-        movq    r1, (r20)       ; ... into the structure
+        mov    r1, (r20)       ; ... into the structure
         mfsr    r1, gvbr
-        movq    r1, 8(r20)
+        mov    r1, 8(r20)
         mfsr    r1, gkdp        ; the guest's kernel-mode DP
-        movq    r1, 16(r20)
+        mov    r1, 16(r20)
         mtsr    ptbr, r2        ; the hypervisor's own table base: not the guest's
 ```
 
@@ -863,8 +863,8 @@ A small hypervisor, like the first one of the project, may leave its own transla
 What the hardware clears is what could leak. At every exit and at `GENTER`, and at every exception entry and return, any `LL` reservation (the marker that `LL` and `SC`, load-linked and store-conditional, use to build an atomic update) is cleared, so that what one guest left behind is not found by another. `RTI` and `GENTER` both carry a **mask**: `RTI #mask` is the only form of `RTI`, and the mask names the registers that are to keep their values; the hardware clears every other register in the same step as the return to a less privileged mode. A kernel that forgets to name a register it used gives the user program a zero, never a secret. Mask bit 14 names the vector registers and the floating-point flags together (register 14 is the stack pointer, which is never cleared, so its bit was free); a mask with that bit clear clears them. The same mask is on `GENTER`, so that a hypervisor cannot hand G a register of another guest by forgetting. Here a kernel leaves a secret in `R5` and a user value in `R8`, and returns to user mode naming only `R8` (bit 8); the user program finds `R5` zero and `R8` intact, and this runs:
 
 ```
-        movq    =0x1234, r5             ; the kernel's secret
-        movq    =0x77, r8               ; a value the kernel restored for the user
+        mov    =0x1234, r5             ; the kernel's secret
+        mov    =0x77, r8               ; a value the kernel restored for the user
         rti     #(1<<8)                 ; keep R8; every other register is cleared in the same step
 user:   cbeq    r5, #0, 1f              ; the secret is gone
 ```
@@ -875,9 +875,9 @@ A **vector block** is the pdp64's way of working on a whole array with one short
 
 ```
         lea     wsrc, r1                ; 21 words of 16 bits
-        movq    #21, r2
+        mov    #21, r2
         lea     (r1)(r2*2), r4          ; the end pointer
-        movq    #0, r12
+        mov    #0, r12
         vec     r1, r4                  ; the block: the body runs once for each strip
         vclr.l  v4, #1                  ; the accumulator starts at zero (only legal inside the block)
         vld.w.l v0, (r1)+               ; four 16-bit words widened to 32 bits; the pointer advances
@@ -896,34 +896,34 @@ Run on a machine whose strip is 16, 32 or 64 bytes, this block gives the same su
 Take the plain way to add one to a counter in memory:
 
 ```
-        movq    (r3), r1        ; read the counter
+        mov    (r3), r1        ; read the counter
         add     #1, r1          ; add one
-        movq    r1, (r3)        ; write it back
+        mov    r1, (r3)        ; write it back
 ```
 
 Say G runs these three instructions, and after the first one its time slice ends and the hypervisor takes an exit. The hypervisor, which shares the counter, adds one to it and later gives G the core again. G's `R1` still holds the old value, G adds one to that and writes it: the hypervisor's addition is lost, and nothing has gone wrong that anyone could see. A second core would do the same between any two of the three instructions. What is wanted is an **atomic** operation (from the Greek for "that cannot be cut"): one that every other core, every other guest and the hypervisor see either complete or not started, never half done. The PDP-11's `INC` on a memory word had this property against an interrupt, because an interrupt can only come between instructions; the pdp64 gives it to a whole family.
 
-**The family.** There are ten operations, and a pair that works together: `CAS` (compare and swap), `SWAP`, `AADD` (fetch and add), `AAND`, `ABIS`, `AXOR` (fetch and the bit operation), `AMAX`, `AMIN`, `AMAXU`, `AMINU` (fetch and the larger or the smaller, signed and unsigned); each fetch-and-operate word is the name of the machine's own ALU instruction (`ADD`, `AND`, `BIS`, `XOR`, `MAX`, `MIN`, `MAXU`, `MINU`) with an `A` for atomic in front, and `LL` and `SC` (load-linked and store-conditional, below). Each is one instruction, so that taking a lock is one instruction; example 11 says why nothing more is needed between ordinary accesses.
+**The family.** There are ten operations, and a pair that works together: `CAS` (compare and swap), `SWAP`, `AADD` (fetch and add), `AAND`, `ABIS`, `AXOR` (fetch and the bit operation), `AMAX`, `AMIN`, `AMAX.U64`, `AMIN.U64` (fetch and the larger or the smaller, signed and unsigned); each fetch-and-operate word is the name of the machine's own ALU instruction (`ADD`, `AND`, `BIS`, `XOR`, `MAX`, `MIN`, `MAX.U64`, `MIN.U64`) with an `A` for atomic in front, and `LL` and `SC` (load-linked and store-conditional, below). Each is one instruction, so that taking a lock is one instruction; example 11 says why nothing more is needed between ordinary accesses.
 
 The rules are few, and each exists so that an atomic can never be half done:
 
 * Every one of them has three register fields, and the destination is written last, as everywhere on the machine: `AADD Rs, (Ra), Rd`. The address is in `Ra`, with no offset (the parentheses hold a register and nothing else), the old value of the memory word comes back in `Rd`, and `Rs` is the operand. `CAS Rs, (Ra), Rd` has the **expected** value in `Rd` and the new value in `Rs`, and it puts the old value into `Rd`: the destination register is used for the expected value going in and the old value coming out, as the destination of `ADD` is a source too. If the old value is the expected one, the swap happened.
-* The size is 4 bytes or 8 bytes. The bare name is the 8-byte form; the 4-byte form is the name with `L` after the operation, the letter of a long: `AADD` and `AADDL`, `CAS` and `CASL`, and for the load-linked pair `LL` and `LLL`, `SC` and `SCL`, as `MOVQ` and `MOVL` are the 8-byte and the 4-byte move (the mark `.32` on the address is the other spelling of the same word: `aadd r1, (r2).32, r3`). The examples here use the 8-byte form.
+* The size is 4 bytes or 8 bytes. The bare name is the 8-byte form; the 4-byte form is the name with the suffix `.s32`: `AADD` and `AADD.S32`, `CAS` and `CAS.S32`, and for the load-linked pair `LL` and `LL.S32`, `SC` and `SC.S32`, as `MOV` and `MOV.S32` are the 8-byte and the 4-byte move. The examples here use the 8-byte form.
 * The word must be naturally aligned (an 8-byte word at an address that is a multiple of 8). An atomic on a word that is not aligned takes a **precise fault**: the fault happens before the instruction has changed anything, and the saved program counter is the instruction itself.
 * The memory must be ordinary cached memory. An atomic, or an `LL` or `SC`, on uncached memory or on a device's registers also takes a precise fault. The reason is that the machine can make an operation atomic only where it controls the whole path, in the cache; on a device register the choice is a fault, never an operation that is silently not atomic.
 
 **A lock taken and released.** The simplest use of `CAS` is a **spin lock**: a word that is 0 when free and 1 when held, taken by a loop that tries until it succeeds (it "spins"). To take it, the program says: "if the word is 0 make it 1, and tell me what it was". If what it was is 0 the lock is mine; if not, someone else has it and I try again.
 
 ```
-take:   movq    #0, r1                  ; expected: the lock is free
-        movq    #1, r2                  ; new: held
+take:   mov    #0, r1                  ; expected: the lock is free
+        mov    #1, r2                  ; new: held
         cas     r2, (r3), r1            ; one step; r3 holds the address of the lock; r1 is now the old value
         cbeq    r1, #0, held            ; the old value was 0: the lock is mine
         hint    #1                      ; it was 1: tell the core this is a wait ...
         br      take                    ; ... and try again
 held:   ...                             ; the work on the shared data
-        movq    #0, r1
-        movq    r1, (r3)                ; the release is an ordinary store
+        mov    #0, r1
+        mov    r1, (r3)                ; the release is an ordinary store
 ```
 
 Taking the lock is one instruction, and the release is an ordinary store because, as example 11 shows, an ordinary store is seen by the other cores in order. The loop sets `R1` again on every try because `CAS` has overwritten it with the old value, which was 1, and the expected value must be 0 once more.
@@ -932,17 +932,17 @@ Taking the lock is one instruction, and the release is an ordinary store because
 
 ```
         lea     count, r3
-        movq    #1, r2
+        mov    #1, r2
         aadd    r2, (r3), r1            ; one step: r1 is the number I took, the counter is one more
 ```
 
 **The pair `LL` and `SC`.** Not every update is one of the ten. A counter that must stop at a limit cannot be a fetch and add: the program must read it, compare, and write only if it is still what it read. `LL` reads the word and puts a **reservation** on it, a mark that the core keeps; `SC` writes the new value only if the mark is still there, and says whether it did, by a register that is 0 when the word was written and not 0 when it was not. A write to the marked memory by another core, or by a device, clears the mark, and so does anything that ends the guest's turn: the reservation is cleared at every exit, at `GENTER`, and at every exception entry and return (example 8), so that a guest cannot leave a mark for another to find. A program therefore never assumes that its `SC` works: it asks and, if it fails, it begins again from the `LL`.
 
 ```
-        movq    #100, r5                ; the limit
+        mov    #100, r5                ; the limit
 retry:  ll      (r3), r1                ; read the word and take the reservation
         cbeq    r1, r5, full            ; at the limit: leave without writing
-        movq    r1, r6
+        mov    r1, r6
         add     #1, r6                  ; the new value, in a register
         sc      r6, (r3), r4            ; write it only if no one wrote the marked memory since the LL
         cbne    r4, #0, retry           ; r4 is not 0: the SC did not write; start again
@@ -955,15 +955,15 @@ Such a loop could, in principle, fail for ever if two cores keep clearing each o
 **Example 11. What one core sees of another: the memory model.** The atomics of example 10 make one operation indivisible. A different question is what a program sees of the *order* of another's plain loads and stores. Take the commonest exchange there is, **message passing**: one program writes some data and then sets a flag to say "ready"; another waits for the flag and then reads the data. The guest and the hypervisor of the examples do exactly this when G fills a request and the hypervisor looks at it, and so do a driver and a device. On the PDP-11 the order was simple: there was one processor, it did one access after another, and a program saw its own memory as it had written it. Here are the two sides on the pdp64; the first is G's and the second the hypervisor's, after G's hypercall has stopped it:
 
 ```
-guest:  movq    #42, r1
-        movq    r1, (r3)                ; first the data ...
-        movq    #1, r1
-        movq    r1, (r4)                ; ... then the flag: "the data is ready"
+guest:  mov    #42, r1
+        mov    r1, (r3)                ; first the data ...
+        mov    #1, r1
+        mov    r1, (r4)                ; ... then the flag: "the data is ready"
         trap    #40                     ; tell the hypervisor to look
 
-hcall:  movq    (r4), r1                ; first the flag ...
+hcall:  mov    (r4), r1                ; first the flag ...
         cbne    r1, #1, hbad            ; not set: nothing to read yet
-        movq    (r3), r2                ; ... then the data
+        mov    (r3), r2                ; ... then the data
         cbeq    r2, #42, 1f             ; the flag was set, so the data is the new data, never the old
 ```
 

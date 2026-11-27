@@ -187,7 +187,7 @@ def run(which):
         fn = os.path.join(outdir, name + '.s')
         open(fn, 'w').write(src)
         ev, recs = __import__('m2').parse(fn)
-        open(fn, 'w').write(marks.spell_text(src))		# the prototype read the words of the encoding; the program is written with the width marks of the assembly language
+        open(fn, 'w').write(marks.spell_text(src))		# the prototype read the words of the encoding; the program is written with the width suffixes of the assembly language
         total = layout(ev, sc.lenfun)
         words = []
         for e in ev:

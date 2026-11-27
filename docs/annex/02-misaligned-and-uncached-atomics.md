@@ -23,13 +23,13 @@ The second half is the uncached case. A page can be marked as not cacheable (a f
 
 ```
         lea     buf+2, r3               ; a 4-byte word at an address that is 2 mod 4
-        movq    #1, r2
-        aaddl   r2, (r3), r1            ; never runs half: the misalignment fault
+        mov    #1, r2
+        aadd.s32   r2, (r3), r1            ; never runs half: the misalignment fault
 ...
 hmis:   mfsr    r5, eva                 ; the address that was refused
 ```
 
-*(`aaddl` is four bytes; `aadd` with the mark `.32` on the address is the same instruction. The program ends in the handler with `EVA` holding the refused address and nothing in memory touched.)*
+*(`aadd.s32` is four bytes, and `aadd` is eight. The program ends in the handler with `EVA` holding the refused address and nothing in memory touched.)*
 
 ### What it enables
 

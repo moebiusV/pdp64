@@ -41,9 +41,10 @@ static const char *stmt_canon(const struct stmt *st)
 }
 
 
-/* ---- width marks ----------------------------------------------------------------------------------------------------------------------------------------------------------------------
- * The width of an operand is a mark on the operand (`mov (r1).8, r2`, `aadd r1, (r2).32, r3`, `fadd r1.32, r2.32, r3.32`); the encoding has a word for each width (movb, aaddl, fadd32).  The rows of
- * spec/grammars.d/61-asm-marks.hbnf (build/x/pdp64-marks.h) say which operation and which marks each word is: marks_resolve reads the marks of a statement, picks the row and gives the statement the word. */
+/* ---- the width and kind suffixes ----------------------------------------------------------------------------------------------------------------------------------------------------
+ * The width and kind of an operation is a dotted suffix of its mnemonic (`mov.s8 (r1), r2`, `aadd.s32 r1, (r2), r3`, `fadd.f32 r1, r2, r3`); the encoding has a word for each (movb, aaddl, fadd32).  The
+ * rows of spec/grammars.d/61-asm-suffixes.hbnf (build/x/pdp64-marks.h) say which word each spelling is; the number of the mn-surface word the parser matched is the position of its row.  surface_resolve gives the
+ * statement the word of the encoding and refuses what the spelling cannot mean. */
 static int word_find(const char *name, int *mg, int *mnum)
 {
 	for (unsigned i = 0; i < sizeof mnnames / sizeof *mnnames; i++)
@@ -55,135 +56,31 @@ static int word_find(const char *name, int *mg, int *mnum)
 	return 0;
 }
 
-static const char *mark_text(const struct oper *o)
-{
-	static char b[4][8];
-	static int n;
-	char *s = b[n++ & 3];
-	snprintf(s, 8, ".%s%d", o->msign == 'u' ? "u" : o->msign == 's' ? "s" : "", o->mwidth);
-	return s;
-}
-
 static int is_memop(const struct oper *o) { return o->kind != OK_REG && o->kind != OK_IMM && o->kind != OK_POOL && o->kind != OK_VREG; }
 
-/* The word the statement is: the operation's word and the marks of its operands.  The statement is changed (the word, the marks taken off); -1 after an error. */
-static int marks_resolve(const struct stmt *src, struct stmt *st)
+/* The word of the encoding that a suffixed spelling is.  The statement is changed (the group and the number); -1 after an error. */
+static int surface_resolve(struct stmt *st)
 {
-	int marked = 0;
-	for (int k = 0; k < st->nops; k++) marked += st->ops[k].mark;
-	if (st->kind != S_INSN || st->mg == MG_SYSREG) { if (marked) { err(st->line, "this instruction takes no width marks"); return -1; } return 0; }
-	const char *w = mn_word[st->mg][st->mnum];
-	if (!w) return 0;
-	/* A word that carries its width in its letter (movb, movzw, aaddl, bswapl, rorl, aaddq): the marks of the operands may repeat the letter and may not contradict it.
-	   `w` becomes the operation, and `expect` the marks that the letter stands for. */
-	int strict = 0;
-	const char *expect = "";
-	for (const struct markletter *l = mark_letters; l->letter; l++)
-		if (!strcmp(l->letter, w)) {
-			int mg, mn;
-			if (!word_find(l->word, &mg, &mn)) { err(st->line, "internal error: the word %s of the letters is not a word of the encoding", l->word); return -1; }
-			st->mg = mg; st->mnum = mn; w = l->word; strict = 1;
-			break;
-		}
-	for (const struct markrow *r = mark_rows; r->word; r++)
-		if (!strcmp(r->word, w)) { w = r->op; expect = r->spec; strict = 1; break; }
-	if (strict && expect[0] == 'm' && expect[1] == 'u' && st->nops == 2 && st->ops[0].kind == OK_REG && is_memop(&st->ops[1])) {
-		err(st->line, "%s: a store does not extend: there is no zero-extending store (movb, movw, movl store the low bits)", mn_word[src->mg][src->mnum]);
+	if (st->kind != S_INSN || st->mg != MG_SURFACE) return 0;
+	const struct surfrow *r = &surface_rows[st->mnum];
+	char w[40];
+	snprintf(w, sizeof w, "%s", r->word);
+	int mem = 0;
+	for (int k = 0; k < st->nops; k++) if (is_memop(&st->ops[k])) mem = 1;
+	if (strchr(r->flags, 's') && st->nops >= 1 && (st->ops[0].kind == OK_IMM || st->ops[0].kind == OK_POOL)) {
+		err(st->line, "%s: a constant has no width: the move of a constant is the plain mov", r->spell);
 		return -1;
 	}
-	if (strict && !marked) return 0;
-	const struct markrow *first = NULL;
-	for (const struct markrow *r = mark_rows; r->word; r++) if (!strcmp(r->op, w)) { first = r; break; }
-	if (!first) {
-		if (marked) { err(st->line, "%s: no operand of this instruction takes a width mark", w); return -1; }
-		return 0;
-	}
-	char kind = first->spec[0] == 'm' ? 'm' : first->spec[0] == 's' ? 's' : first->spec[0] == 'f' ? 'f' : first->spec[0] == 'c' ? 'c' : !strcmp(w, "mov") || !strcmp(w, "mov.u") ? 'm' : 'x';
-	int isfloat = w[0] == 'f';
-	char spec[24] = "";
-	for (int k = 0; k < st->nops; k++) {
-		struct oper *o = &st->ops[k];
-		if (!o->mark) continue;
-		if (o->kind == OK_IMM || o->kind == OK_POOL) { err(st->line, "%s: a width mark cannot be put on a constant", w); return -1; }
-		if (o->kind == OK_VREG) { err(st->line, "%s: a width mark cannot be put on a vector register", w); return -1; }
-		if (isfloat && o->msign == 'u' && kind != 'c') { err(st->line, "%s: %s is not a format of a floating-point operand", w, mark_text(o)); return -1; }
-		if (isfloat && o->msign == 's' && kind != 'c') { err(st->line, "%s: %s is not a format of a floating-point operand", w, mark_text(o)); return -1; }
-	}
-	if (kind == 'm' || kind == 's') {
-		const struct oper *d = &st->ops[st->nops - 1];
-		if (st->nops && d->kind == OK_REG && d->mark && (kind == 'm' || st->nops > 1)) { err(st->line, "%s: a width mark on the destination register is refused: a register is always written in full", w); return -1; }
-	}
-	if (kind == 'm') {
-		int mk = -1, nm = 0;
-		for (int k = 0; k < st->nops; k++) if (st->ops[k].mark) { mk = k; nm++; }
-		if (nm > 1) { err(st->line, "%s: one operand carries the width mark", w); return -1; }
-		if (nm) {
-			struct oper *o = &st->ops[mk];
-			int mov = !strcmp(w, "mov") || !strcmp(w, "mov.u");
-			if (o->kind == OK_REG) {
-				if (mk == st->nops - 1) { err(st->line, "%s: a width mark on the destination register is refused: a register is always written in full", w); return -1; }
-				if (!mov || st->nops != 2 || st->ops[1].kind != OK_REG) { err(st->line, "%s: the width mark goes on the memory operand", w); return -1; }
-			} else if (mov && st->nops == 2 && mk == 1 && st->ops[0].kind == OK_REG && o->msign == 'u') {
-				err(st->line, "%s: a store does not extend: no %s on a store", w, mark_text(o)); return -1;
-			}
-			int wd = o->mwidth;
-			if (o->msign == 'u') snprintf(spec, sizeof spec, "mu%d", wd);
-			else if (wd == 64) spec[0] = 0;
-			else snprintf(spec, sizeof spec, "m%d", wd);
-		}
-	} else if (kind == 's') {
-		for (int k = 1; k < st->nops; k++) if (st->ops[k].mark) { err(st->line, "%s: the width mark goes on the source register: the destination is written in full", w); return -1; }
-		if (st->ops[0].mark) {
-			const struct oper *o = &st->ops[0];
-			if (o->kind != OK_REG) { err(st->line, "%s: the width mark goes on the source register", w); return -1; }
-			if (o->msign == 'u') { err(st->line, "%s: no %s form", w, mark_text(o)); return -1; }
-			if (o->mwidth == 64) spec[0] = 0; else snprintf(spec, sizeof spec, "s%d", o->mwidth);
-		}
-	} else if (kind == 'f') {
-		int wd = 0;
-		for (int k = 0; k < st->nops; k++) {
-			const struct oper *o = &st->ops[k];
-			if (o->kind != OK_REG) { if (o->mark) { err(st->line, "%s: a width mark goes on a register, not on %s", w, "this operand"); return -1; } continue; }
-			int ow = o->mark ? o->mwidth : 64;
-			if (wd && ow != wd) { err(st->line, "%s: the marks of the registers differ (an unmarked register is 64 bits)", w); return -1; }
-			wd = ow;
-		}
-		if (wd && wd != 64) snprintf(spec, sizeof spec, "f%d", wd);
-	} else if (kind == 'c') {
-		if (st->nops != 2 || st->ops[0].kind != OK_REG || st->ops[1].kind != OK_REG) { err(st->line, "fcvt Rs, Rd: two registers, each marked with its format"); return -1; }
-		char t[2][8];
-		for (int k = 0; k < 2; k++) {
-			const struct oper *o = &st->ops[k];
-			if (!o->mark || (o->msign == 's' && o->mwidth == 64)) strcpy(t[k], "i");
-			else if (!o->msign && (o->mwidth == 16 || o->mwidth == 32 || o->mwidth == 64)) snprintf(t[k], 8, "%d", o->mwidth);
-			else if (o->msign == 's' && o->mwidth == 32) strcpy(t[k], "s32");
-			else if (o->msign == 'u' && o->mwidth == 64) strcpy(t[k], "u64");
-			else { err(st->line, "fcvt: no %s: the formats are .16 .32 .64, the integers .s32, .s64 (no mark) and .u64", mark_text(o)); return -1; }
-		}
-		snprintf(spec, sizeof spec, "c:%s:%s", t[0], t[1]);
-	}
-	if (strict && strcmp(spec, expect)) {
-		const struct oper *o = NULL;
-		for (int k = 0; k < st->nops; k++) if (st->ops[k].mark) o = &st->ops[k];
-		err(st->line, "%s: the mark %s says a width that the letter of the word does not: the letter and the mark disagree", mn_word[src->mg][src->mnum], o ? mark_text(o) : "");
+	if (strchr(r->flags, 'u') && !mem) {
+		err(st->line, "%s: a user access needs a memory operand (a move between registers is not one)", r->spell);
 		return -1;
 	}
-	const struct markrow *row = NULL;
-	for (const struct markrow *r = mark_rows; r->word; r++) if (!strcmp(r->op, w) && !strcmp(r->spec, spec)) { row = r; break; }
-	if (!row && !spec[0]) return 0;	/* no mark, or .64: the word itself (fadd, aadd, bswap) */
-	if (!row) {
-		if (kind == 'c') err(st->line, "fcvt: there is no conversion between these formats");
-		else {
-			const struct oper *o = NULL;
-			for (int k = 0; k < st->nops; k++) if (st->ops[k].mark) o = &st->ops[k];
-			err(st->line, "%s: no %s form", w, o ? mark_text(o) : "unmarked");
-		}
-		return -1;
+	if (strchr(r->flags, 'z') && st->nops == 2 && st->ops[0].kind == OK_REG && is_memop(&st->ops[1])) {		/* a store does not extend: the word that stores the same bits */
+		snprintf(w, sizeof w, "mov%s", r->word + 4);
 	}
 	int mg, mn;
-	if (!word_find(row->word, &mg, &mn)) { err(st->line, "internal error: the word %s of the marks is not a word of the encoding", row->word); return -1; }
+	if (!word_find(w, &mg, &mn)) { err(st->line, "internal error: the word %s of the suffixes is not a word of the encoding", w); return -1; }
 	st->mg = mg; st->mnum = mn;
-	for (int k = 0; k < st->nops; k++) st->ops[k].mark = 0;
 	return 0;
 }
 
@@ -240,7 +137,7 @@ static int econv(const struct stmt *st, int k, int dst, int64_t addr, int poolab
 		e->ext = 1;
 		return take_rel(st, h, dst, v.p, v.c, 0);
 	case OK_POOL: {
-		if (!poolable) { err(st->line, "= is for 64-bit operations: a literal-pool load can be the source of movq, push or an ALU instruction; use #imm otherwise"); return -1; }
+		if (!poolable) { err(st->line, "= is for 64-bit operations: a literal-pool load can be the source of mov, push or an ALU instruction; use #imm otherwise"); return -1; }
 		if (!CONST(v)) { err(st->line, "a literal-pool load takes a constant: a relocatable symbol is not allowed in =expr"); return -1; }
 		int ps = pool_get(v.c);
 		e->k = EK_PC; e->v = pending(ps) ? 0 : syms[ps].val - addr;
@@ -354,7 +251,7 @@ static int eplan(const struct stmt *src, int64_t pos, const int minn[8], struct 
 {
 	struct stmt rs = *src;
 	const struct stmt *st = &rs;
-	if (marks_resolve(src, &rs) < 0) return -1;
+	if (surface_resolve(&rs) < 0) return -1;
 	const char *name = stmt_canon(st);
 	int mg = st->mg, n = st->nops;
 
@@ -365,7 +262,7 @@ static int eplan(const struct stmt *src, int64_t pos, const int minn[8], struct 
 	/* `jmp label` is `br label`: the same operation with the same reach, and br has the one-parcel form besides (docs/errata.md 214).  The other jmp operands (a register, memory, an absolute address) stay jmp. */
 	if (mg == MG_SOP && st->mnum == MN_SOP_JMP && n == 1 && st->ops[0].kind == OK_BARE) { name = "br"; isbranch = 1; }
 	/* fneg32 and fabs32 (sign operations on a binary32 held sign-extended in a register): `fneg32 Rs, Rd` is `xor #-2147483648, Rd`, `fabs32 Rs, Rd` is
-	   `and #0x7FFFFFFF, Rd`, each after a `movq Rs, Rd` when the registers differ.  They write N and Z as the xor and the and do; the number of an alias is 0x100 plus its word's. */
+	   `and #0x7FFFFFFF, Rd`, each after a `mov Rs, Rd` when the registers differ.  They write N and Z as the xor and the and do; the number of an alias is 0x100 plus its word's. */
 	if (mg == MG_ALU && (st->mnum == 0x11C || st->mnum == 0x11D)) {
 		int neg = st->mnum == 0x11C;
 		const char *w = neg ? "fneg32" : "fabs32";
@@ -516,16 +413,19 @@ static int eplan(const struct stmt *src, int64_t pos, const int minn[8], struct 
 	return 1;		/* the caller finds that no form takes it */
 }
 
-/* the word as the source writes it: a word of the encoding that a mark stands for is shown as its operation */
+/* the word as the source writes it: a word of the encoding that has a suffixed spelling is shown as that spelling */
 static const char *shown_word(const char *w)
 {
-	for (const struct markrow *r = mark_rows; r->word; r++) if (!strcmp(r->word, w)) return r->op;
+	for (const struct surfrow *r = surface_rows; r->spell; r++) if (r->shown && !strcmp(r->word, w)) return r->spell;
 	return w;
 }
 
 /* a message for an instruction no form takes */
-static void enc_nofit(const struct stmt *st, const struct hw *h)
+static void enc_nofit(const struct stmt *src, const struct hw *h)
 {
+	struct stmt rs = *src;
+	const struct stmt *st = &rs;
+	surface_resolve(&rs);		/* it resolved before: the word of the encoding says which group the statement is in */
 	char shape[200] = "";
 	static const char *kn[] = { "", "register", "immediate", "d(Rn)", "d(Rn)(Rx*s)", "(Rn)+", "-(Rn)", "pc-relative", "absolute", "vector register" };
 	for (int k = 0; k < h->in.nops; k++) {

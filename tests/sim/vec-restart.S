@@ -9,7 +9,7 @@ _start:
 	mtsr	vbr, r1
 	lea	l2, r1
 	mtsr	ptbr, r1
-	movq	#1, r1
+	mov	#1, r1
 	mtsr	mmuctl, r1
 	lea	rows, r12
 	lea	rows_end, r13
@@ -17,188 +17,188 @@ _start:
 rowloop:
 	cbeq	r12, r13, alldone
 ; the normal streams: copy the image, or fill the destination with 0xa5
-	movq	r12, r11
+	mov	r12, r11
 	add	#96, r11
-	movq	r12, r10
+	mov	r12, r10
 	add	#256, r10
 prep:	cbeq	r11, r10, prepdone
-	movq	8(r11), r4
+	mov	8(r11), r4
 	cbeq	r4, #0, pnext
-	movq	24(r11), r3
+	mov	24(r11), r3
 	cbne	r3, #0, pnext
-	movq	(r11), r2
-	movq	16(r11), r1
+	mov	(r11), r2
+	mov	16(r11), r1
 	cbeq	r1, #0, pfill
 	mcpy	r2, r1, r4
 	br	pnext
-pfill:	movq	#0xa5, r1
+pfill:	mov	#0xa5, r1
 	mset	r2, r1, r4
 pnext:	add	#32, r11
 	br	prep
 prepdone:
 ; the page before the one that will fault is touched first (it is paged in by the handler)
-	movq	#0, r1
-	movq	r1, expect
-	movq	256(r12), r1
+	mov	#0, r1
+	mov	r1, expect
+	mov	256(r12), r1
 	cbeq	r1, #0, nopre
-	mov	(r1).u8, r2
+	mov.u8	(r1), r2
 nopre:
-	movq	504(r12), r1
+	mov	504(r12), r1
 	cbeq	r1, #0, nopre2
-	mov	(r1).u8, r2
+	mov.u8	(r1), r2
 nopre2:
-	movq	#0, r1
-	movq	r1, hcount
-	movq	r1, hr_epc
-	movq	16(r12), r1
+	mov	#0, r1
+	mov	r1, hcount
+	mov	r1, hr_epc
+	mov	16(r12), r1
 	setne	r1, #0, r1
-	movq	r1, expect
-	movq	40(r12), r1
-	movq	48(r12), r2
-	movq	56(r12), r7
-	movq	64(r12), r3
-	movq	72(r12), r6
-	movq	32(r12), r5
-	movq	80(r12), r10
-	movq	88(r12), r8
-	movq	(r12), r4
+	mov	r1, expect
+	mov	40(r12), r1
+	mov	48(r12), r2
+	mov	56(r12), r7
+	mov	64(r12), r3
+	mov	72(r12), r6
+	mov	32(r12), r5
+	mov	80(r12), r10
+	mov	88(r12), r8
+	mov	(r12), r4
 	call	r4
-	movq	r1, fin_r1
-	movq	r2, fin_r2
-	movq	r7, fin_r7
-	movq	r3, fin_r3
-	movq	r6, fin_r6
-	movq	r10, fin_r10
-	movq	#0, r1
-	movq	r1, expect
+	mov	r1, fin_r1
+	mov	r2, fin_r2
+	mov	r7, fin_r7
+	mov	r3, fin_r3
+	mov	r6, fin_r6
+	mov	r10, fin_r10
+	mov	#0, r1
+	mov	r1, expect
 
-	movq	16(r12), r1
+	mov	16(r12), r1
 	cbeq	r1, #0, noflt
-	movq	hcount, r1
-	movq	488(r12), r2
+	mov	hcount, r1
+	mov	488(r12), r2
 	cbeq	r1, r2, 1f
-	movq	#1, r0
+	mov	#1, r0
 	halt
 1:
-	movq	hr_cause, r1
-	movq	264(r12), r2
+	mov	hr_cause, r1
+	mov	264(r12), r2
 	cbeq	r1, r2, 1f
-	movq	#2, r0
+	mov	#2, r0
 	halt
 1:
-	movq	hr_eva1, r1
-	movq	272(r12), r2
+	mov	hr_eva1, r1
+	mov	272(r12), r2
 	cbeq	r1, r2, 1f
-	movq	#3, r0
+	mov	#3, r0
 	halt
 1:
-	movq	hr_epc, r1
-	movq	280(r12), r2
+	mov	hr_epc, r1
+	mov	280(r12), r2
 	cbeq	r1, r2, 1f
-	movq	#4, r0
+	mov	#4, r0
 	halt
 1:
-	movq	24(r12), r1
+	mov	24(r12), r1
 	cbeq	r1, #3, snapdone
-	movq	hr_r1, r1
-	movq	40(r12), r2
+	mov	hr_r1, r1
+	mov	40(r12), r2
 	sub	r2, r1
-	movq	288(r12), r3
-	movq	r1, r4
+	mov	288(r12), r3
+	mov	r1, r4
 	shr	r3, r4
-	movq	r4, r5
+	mov	r4, r5
 	shl	r3, r5
 	cbeq	r5, r1, pg1
-	movq	#5, r0
+	mov	#5, r0
 	halt
-pg1:	movq	472(r12), r2
+pg1:	mov	472(r12), r2
 	cblos	r4, r2, pg2
-	movq	#5, r0
+	mov	#5, r0
 	halt
-pg2:	movq	480(r12), r2
+pg2:	mov	480(r12), r2
 	cbeq	r2, #0, pg3
 	cbeq	r4, #0, pg3
-	movq	#5, r0
+	mov	#5, r0
 	halt
 pg3:
-	movq	288(r12), r3
-	movq	40(r12), r2
+	mov	288(r12), r3
+	mov	40(r12), r2
 	cbeq	r3, #-1, pq0
-	movq	r4, r5
+	mov	r4, r5
 	shl	r3, r5
 	add	r5, r2
-pq0:	movq	hr_r1, r1
+pq0:	mov	hr_r1, r1
 	cbeq	r1, r2, pr0
-	movq	#5, r0
+	mov	#5, r0
 	halt
 pr0:
-	movq	296(r12), r3
-	movq	48(r12), r2
+	mov	296(r12), r3
+	mov	48(r12), r2
 	cbeq	r3, #-1, pq1
-	movq	r4, r5
+	mov	r4, r5
 	shl	r3, r5
 	add	r5, r2
-pq1:	movq	hr_r2, r1
+pq1:	mov	hr_r2, r1
 	cbeq	r1, r2, pr1
-	movq	#6, r0
+	mov	#6, r0
 	halt
 pr1:
-	movq	304(r12), r3
-	movq	56(r12), r2
+	mov	304(r12), r3
+	mov	56(r12), r2
 	cbeq	r3, #-1, pq2
-	movq	r4, r5
+	mov	r4, r5
 	shl	r3, r5
 	add	r5, r2
-pq2:	movq	hr_r7, r1
+pq2:	mov	hr_r7, r1
 	cbeq	r1, r2, pr2
-	movq	#7, r0
+	mov	#7, r0
 	halt
 pr2:
-	movq	312(r12), r3
-	movq	64(r12), r2
+	mov	312(r12), r3
+	mov	64(r12), r2
 	cbeq	r3, #-1, pq3
-	movq	r4, r5
+	mov	r4, r5
 	shl	r3, r5
 	add	r5, r2
-pq3:	movq	hr_r3, r1
+pq3:	mov	hr_r3, r1
 	cbeq	r1, r2, pr3
-	movq	#8, r0
+	mov	#8, r0
 	halt
 pr3:
-	movq	320(r12), r3
-	movq	72(r12), r2
+	mov	320(r12), r3
+	mov	72(r12), r2
 	cbeq	r3, #-1, pq4
-	movq	r4, r5
+	mov	r4, r5
 	shl	r3, r5
 	add	r5, r2
-pq4:	movq	hr_r6, r1
+pq4:	mov	hr_r6, r1
 	cbeq	r1, r2, pr4
-	movq	#9, r0
+	mov	#9, r0
 	halt
 pr4:
-	movq	328(r12), r3
-	movq	r4, r5
+	mov	328(r12), r3
+	mov	r4, r5
 	shl	#3, r5
 	add	r5, r3
-	movq	(r3), r2
-	movq	hr_r10, r1
+	mov	(r3), r2
+	mov	hr_r10, r1
 	cbeq	r1, r2, ps1
-	movq	#10, r0
+	mov	#10, r0
 	halt
 ps1:
-	movq	344(r12), r3
+	mov	344(r12), r3
 	cbeq	r3, #0, snapdone
-	movq	312(r12), r5
-	movq	r4, r8
+	mov	312(r12), r5
+	mov	r4, r8
 	shl	r5, r8
-	movq	496(r12), r9
+	mov	496(r12), r9
 	lea	hsnap, r1
-	movq	376(r12), r2
-	movq	352(r12), r6
-	movq	#0, r7
-snl:	mov	(r1)+.u8, r4
-	mov	(r2)+.u8, r5
-	mov	(r6)+.u8, r0
+	mov	376(r12), r2
+	mov	352(r12), r6
+	mov	#0, r7
+snl:	mov.u8	(r1)+, r4
+	mov.u8	(r2)+, r5
+	mov.u8	(r6)+, r0
 	cbhis	r7, r8, sn2
 	cbeq	r4, r5, snn
 	br	snbad
@@ -207,256 +207,256 @@ sn2:	cbhis	r7, r9, sn3
 	cbeq	r4, r0, snn
 	br	snbad
 sn3:	cbeq	r4, r0, snn
-snbad:	movq	#11, r0
+snbad:	mov	#11, r0
 	halt
 snn:	add	#1, r7
 	cbne	r7, r3, snl
 snapdone:
 	br	fltdone
 noflt:
-	movq	hcount, r1
-	movq	#0, r2
+	mov	hcount, r1
+	mov	#0, r2
 	cbeq	r1, r2, 1f
-	movq	#12, r0
+	mov	#12, r0
 	halt
 1:
 fltdone:
-	movq	360(r12), r1
-	movq	376(r12), r2
-	movq	368(r12), r3
+	mov	360(r12), r1
+	mov	376(r12), r2
+	mov	368(r12), r3
 	call	memeq
 	cbeq	r0, #0, 1f
-	movq	#13, r0
+	mov	#13, r0
 	halt
 1:
-	movq	fin_r1, r1
-	movq	384(r12), r2
+	mov	fin_r1, r1
+	mov	384(r12), r2
 	cbeq	r1, r2, 1f
-	movq	#14, r0
+	mov	#14, r0
 	halt
 1:
-	movq	fin_r2, r1
-	movq	392(r12), r2
+	mov	fin_r2, r1
+	mov	392(r12), r2
 	cbeq	r1, r2, 1f
-	movq	#15, r0
+	mov	#15, r0
 	halt
 1:
-	movq	fin_r7, r1
-	movq	400(r12), r2
+	mov	fin_r7, r1
+	mov	400(r12), r2
 	cbeq	r1, r2, 1f
-	movq	#16, r0
+	mov	#16, r0
 	halt
 1:
-	movq	fin_r3, r1
-	movq	408(r12), r2
+	mov	fin_r3, r1
+	mov	408(r12), r2
 	cbeq	r1, r2, 1f
-	movq	#17, r0
+	mov	#17, r0
 	halt
 1:
-	movq	fin_r6, r1
-	movq	416(r12), r2
+	mov	fin_r6, r1
+	mov	416(r12), r2
 	cbeq	r1, r2, 1f
-	movq	#18, r0
+	mov	#18, r0
 	halt
 1:
-	movq	fin_r10, r1
-	movq	424(r12), r2
+	mov	fin_r10, r1
+	mov	424(r12), r2
 	cbeq	r1, r2, 1f
-	movq	#19, r0
+	mov	#19, r0
 	halt
 1:
-	movq	16(r12), r1
+	mov	16(r12), r1
 	cbne	r1, #0, vsref
-	movq	368(r12), r3
+	mov	368(r12), r3
 	cbeq	r3, #0, 1f
 	lea	refbuf, r2
-	movq	360(r12), r1
+	mov	360(r12), r1
 	mcpy	r2, r1, r3
 1:
-	movq	fin_r1, r1
-	movq	40(r12), r2
+	mov	fin_r1, r1
+	mov	40(r12), r2
 	sub	r2, r1
-	movq	r1, refd0
-	movq	fin_r2, r1
-	movq	48(r12), r2
+	mov	r1, refd0
+	mov	fin_r2, r1
+	mov	48(r12), r2
 	sub	r2, r1
-	movq	r1, refd1
-	movq	fin_r7, r1
-	movq	56(r12), r2
+	mov	r1, refd1
+	mov	fin_r7, r1
+	mov	56(r12), r2
 	sub	r2, r1
-	movq	r1, refd2
-	movq	fin_r3, r1
-	movq	64(r12), r2
+	mov	r1, refd2
+	mov	fin_r3, r1
+	mov	64(r12), r2
 	sub	r2, r1
-	movq	r1, refd3
-	movq	fin_r6, r1
-	movq	72(r12), r2
+	mov	r1, refd3
+	mov	fin_r6, r1
+	mov	72(r12), r2
 	sub	r2, r1
-	movq	r1, refd4
-	movq	fin_r10, r1
-	movq	r1, refd5
+	mov	r1, refd4
+	mov	fin_r10, r1
+	mov	r1, refd5
 	br	rownext
 vsref:
-	movq	360(r12), r1
+	mov	360(r12), r1
 	lea	refbuf, r2
-	movq	368(r12), r3
+	mov	368(r12), r3
 	call	memeq
 	cbeq	r0, #0, 1f
-	movq	#20, r0
+	mov	#20, r0
 	halt
 1:
-	movq	fin_r10, r1
-	movq	refd5, r2
+	mov	fin_r10, r1
+	mov	refd5, r2
 	cbeq	r1, r2, 1f
-	movq	#21, r0
+	mov	#21, r0
 	halt
 1:
-	movq	16(r12), r1
+	mov	16(r12), r1
 	cbeq	r1, #2, rownext
-	movq	fin_r1, r1
-	movq	40(r12), r2
+	mov	fin_r1, r1
+	mov	40(r12), r2
 	sub	r2, r1
-	movq	refd0, r2
+	mov	refd0, r2
 	cbeq	r1, r2, 1f
-	movq	#22, r0
+	mov	#22, r0
 	halt
 1:
-	movq	fin_r2, r1
-	movq	48(r12), r2
+	mov	fin_r2, r1
+	mov	48(r12), r2
 	sub	r2, r1
-	movq	refd1, r2
+	mov	refd1, r2
 	cbeq	r1, r2, 1f
-	movq	#23, r0
+	mov	#23, r0
 	halt
 1:
-	movq	fin_r7, r1
-	movq	56(r12), r2
+	mov	fin_r7, r1
+	mov	56(r12), r2
 	sub	r2, r1
-	movq	refd2, r2
+	mov	refd2, r2
 	cbeq	r1, r2, 1f
-	movq	#24, r0
+	mov	#24, r0
 	halt
 1:
-	movq	fin_r3, r1
-	movq	64(r12), r2
+	mov	fin_r3, r1
+	mov	64(r12), r2
 	sub	r2, r1
-	movq	refd3, r2
+	mov	refd3, r2
 	cbeq	r1, r2, 1f
-	movq	#25, r0
+	mov	#25, r0
 	halt
 1:
-	movq	fin_r6, r1
-	movq	72(r12), r2
+	mov	fin_r6, r1
+	mov	72(r12), r2
 	sub	r2, r1
-	movq	refd4, r2
+	mov	refd4, r2
 	cbeq	r1, r2, 1f
-	movq	#26, r0
+	mov	#26, r0
 	halt
 1:
 rownext:
 	add	#512, r12
 	br	rowloop
 alldone:
-	movq	#0, r0
+	mov	#0, r0
 	halt
 
 memeq:	cbeq	r3, #0, me_ok
-me_l:	mov	(r1)+.u8, r0
-	mov	(r2)+.u8, r4
+me_l:	mov.u8	(r1)+, r0
+	mov.u8	(r2)+, r4
 	cbne	r0, r4, me_bad
 	sob	r3, me_l
-me_ok:	movq	#0, r0
+me_ok:	mov	#0, r0
 	ret
-me_bad:	movq	#1, r0
+me_bad:	mov	#1, r0
 	ret
 
-h_bad:	movq	#99, r0
+h_bad:	mov	#99, r0
 	halt
 h_fault:
 	pushm	#0x3fff
-	movq	24(r12), r0
+	mov	24(r12), r0
 	cbeq	r0, #3, h_min
-	movq	r1, hr_r1
-	movq	r2, hr_r2
-	movq	r7, hr_r7
-	movq	r3, hr_r3
-	movq	r6, hr_r6
-	movq	r10, hr_r10
+	mov	r1, hr_r1
+	mov	r2, hr_r2
+	mov	r7, hr_r7
+	mov	r3, hr_r3
+	mov	r6, hr_r6
+	mov	r10, hr_r10
 h_min:
 	mfsr	r1, epc
-	movq	r1, hr_epc
+	mov	r1, hr_epc
 	mfsr	r1, ecause
-	movq	r1, hr_cause
+	mov	r1, hr_cause
 	mfsr	r1, eva
-	movq	r1, hr_eva
-	movq	expect, r2
+	mov	r1, hr_eva
+	mov	expect, r2
 	cbeq	r2, #0, h_page
-	movq	hcount, r2
+	mov	hcount, r2
 	cbne	r2, #0, h_nf
-	movq	r1, hr_eva1
+	mov	r1, hr_eva1
 h_nf:	add	#1, r2
-	movq	r2, hcount
-	movq	344(r12), r3
+	mov	r2, hcount
+	mov	344(r12), r3
 	cbeq	r3, #0, h_nosnap
 	lea	hsnap, r2
-	movq	336(r12), r4
+	mov	336(r12), r4
 	mcpy	r2, r4, r3
 h_nosnap:
-	movq	hr_cause, r2
+	mov	hr_cause, r2
 	cbeq	r2, #VECTOR_MISALIGNED, h_mis
 h_page:
 	mfsr	r1, eva
 	shr	#12, r1
 	shl	#12, r1
-	movq	r1, r2
-	movq	=0x800000, r3
+	mov	r1, r2
+	mov	=0x800000, r3
 	sub	r3, r2
 	shr	#12, r2
 	shl	#3, r2
 	lea	wpt, r3
 	add	r3, r2
-	movq	r1, r3
+	mov	r1, r3
 	bis	#(1<<PTE_V|1<<PTE_R|1<<PTE_W|1<<PTE_A|1<<PTE_D), r3
-	movq	r3, (r2)
+	mov	r3, (r2)
 	tlbi	r1
-	movq	r12, r4
+	mov	r12, r4
 	add	#96, r4
-	movq	r12, r5
+	mov	r12, r5
 	add	#256, r5
 hp_s:	cbeq	r4, r5, h_pdone
-	movq	8(r4), r6
+	mov	8(r4), r6
 	cbeq	r6, #0, hp_next
-	movq	24(r4), r7
+	mov	24(r4), r7
 	cbeq	r7, #0, hp_next
-	movq	(r4), r2
+	mov	(r4), r2
 	add	r2, r6
-	movq	r1, r3
+	mov	r1, r3
 	add	#4096, r3
 	cbhis	r2, r1, 1f
-	movq	r1, r2
+	mov	r1, r2
 1:	cblo	r6, r3, 1f
-	movq	r3, r6
+	mov	r3, r6
 1:	cbhis	r2, r6, hp_next
-	movq	r6, r7
+	mov	r6, r7
 	sub	r2, r7
-	movq	16(r4), r3
+	mov	16(r4), r3
 	cbeq	r3, #0, hp_fill
-	movq	r2, r0
-	movq	(r4), r8
+	mov	r2, r0
+	mov	(r4), r8
 	sub	r8, r0
 	add	r0, r3
 	mcpy	r2, r3, r7
 	br	hp_next
 hp_fill:
-	movq	#0xa5, r0
+	mov	#0xa5, r0
 	mset	r2, r0, r7
 hp_next:
 	add	#32, r4
 	br	hp_s
 h_pdone:
-	movq	expect, r2
+	mov	expect, r2
 	cbeq	r2, #0, h_ret
-	movq	24(r12), r2
+	mov	24(r12), r2
 	cbeq	r2, #0, h_ret
 	cbeq	r2, #3, h_ret
 	cbne	r2, #4, h_garb
@@ -487,7 +487,7 @@ h_garb:
 	vld.l	v14, (r1)+
 	vld.l	v15, (r1)+
 	vend
-	movq	24(r12), r2
+	mov	24(r12), r2
 	cblo	r2, #2, h_ret
 	lea	gdata, r1
 	lea	gdata+32, r5
@@ -507,18 +507,18 @@ h_ret:
 	popm	#0x3fff
 	rti	#RTIMASK_ALL
 h_mis:
-	movq	24(r12), r2
+	mov	24(r12), r2
 	lea	fixtramp, r1
 	mtsr	epc, r1
 	popm	#0x3fff
 	rti	#RTIMASK_ALL
 fixtramp:
-	movq	432(r12), r1
-	movq	440(r12), r2
-	movq	448(r12), r7
-	movq	456(r12), r3
-	movq	464(r12), r6
-	movq	280(r12), r0
+	mov	432(r12), r1
+	mov	440(r12), r2
+	mov	448(r12), r7
+	mov	456(r12), r3
+	mov	464(r12), r6
+	mov	280(r12), r0
 	jmp	r0
 
 	.align 2

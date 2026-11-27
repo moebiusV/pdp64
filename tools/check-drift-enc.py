@@ -69,7 +69,7 @@ class Gen:
 
 
 def assemble(src, *flags):
-    src = '\n'.join(marks.spell_line(l) for l in src.split('\n'))		# the words of the encoding that the assembly language writes with marks (movb, aaddl, fadd32, fcvtds ...)
+    src = '\n'.join(marks.spell_line(l) for l in src.split('\n'))		# the words of the encoding that the assembly language spells otherwise (movb, aaddl, fadd32, fcvtds ...)
     with tempfile.TemporaryDirectory() as t:
         f = os.path.join(t, 'a.s'); o = os.path.join(t, 'a.o')
         open(f, 'w').write('\t.text\n' + src + '\n')
@@ -124,6 +124,10 @@ def main():
             if w in REWRITE: continue          # an alias that rewrites its operands (fneg32, fabs32, rol, abs, min, minu, max, maxu): its words are tested by tests/asm/fsign32.s, tests/asm/rotate.s, tests/asm/absminmax.s and tests/asm-equiv/
             f = d['forms'][first[c]]
             g.n = 0
+            if w in marks.words():					# a word of the older notation (mulu): it is an unknown mnemonic now; its spelling is the explicit suffix (mul.u64)
+                sp = [r[0] for r in marks.rows() if r[1] == c and r[0] != c and r[0].endswith('.u64')]
+                if not sp: continue
+                w = sp[0]
             src = g.line(f, c).replace(c, w, 1)
             if any(s['k'] == 'PC' for s in f['specs']): src += '\nlbl:'
             a, e1 = assemble('\t' + src)

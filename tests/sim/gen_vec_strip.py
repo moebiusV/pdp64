@@ -6,6 +6,9 @@ strip: the floating-point sums (vacc.f, vacc.d, vacc.f.d over 1000 values of adv
 signed zeros, the integer reductions, the lane operations, the sliding window with its halo, segments, strided loads, the table lookup, compares and select, conversions, the
 narrowing stores, and the accumulator blocks: running lanes read inside the block, a vfin epilogue, and the GEMM micro-kernel with vfmab.  A failed check n exits with n.
 usage: gen_vec_strip.py OUT.s"""
+import sys as _sys, os as _os
+_sys.path.insert(0, _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..', '..', 'tools'))
+import marks		# the words of the encoding written with the width suffixes (tools/marks.py)
 import random, struct, sys
 from fractions import Fraction
 
@@ -303,5 +306,5 @@ for lab, content, space in data:
     else:
         for i in range(0, len(content), 24):
             out.append('\t.byte\t' + ', '.join(str(x) for x in content[i:i + 24]))
-open(sys.argv[1], 'w').write('\n'.join(out) + '\n')
+open(sys.argv[1], 'w').write(marks.spell_text('\n'.join(out)) + '\n')
 print('%d checks' % cnt[0])

@@ -2,5 +2,5 @@
 	.text
 	.globl	_start
 _start:
-	movq	#7, r0
+	mov	#7, r0
 	trap	#0				; r0 comes back holding the time

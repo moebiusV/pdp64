@@ -4,12 +4,12 @@
 	SECTION .text
 	global _start, f
 	extern ext
-_start:	movq	#0FFh, r1
-	movq	#101b, r2
-	movq	#17q, r3
-	movq	#0x1f, r4
-	movq	#10d, r5
-	movq	#1010b, r6
+_start:	mov	#0FFh, r1
+	mov	#101b, r2
+	mov	#17q, r3
+	mov	#0x1f, r4
+	mov	#10d, r5
+	mov	#1010b, r6
 f:	ret
 	align 8
 	section .data

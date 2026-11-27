@@ -12,24 +12,24 @@ _start:
 	mtsr	usp, r1
 	lea	user, r1
 	mtsr	epc, r1
-	movq	#(MODE_USER<<PSW_MODE), r1
+	mov	#(MODE_USER<<PSW_MODE), r1
 	mtsr	epsw, r1
 	rti	#RTIMASK_ALL
 user:
-	movq	#1001, r1
-	movq	#1002, r2
-	movq	#1003, r3
-	movq	#1004, r4
-	movq	#1005, r5
-	movq	#1006, r6
-	movq	#1007, r7
-	movq	#1008, r8
-	movq	#1009, r9
-	movq	#1010, r10
-	movq	#1011, r11
-	movq	#1012, r12
-	movq	#1013, r13
-	movq	#0, r0
+	mov	#1001, r1
+	mov	#1002, r2
+	mov	#1003, r3
+	mov	#1004, r4
+	mov	#1005, r5
+	mov	#1006, r6
+	mov	#1007, r7
+	mov	#1008, r8
+	mov	#1009, r9
+	mov	#1010, r10
+	mov	#1011, r11
+	mov	#1012, r12
+	mov	#1013, r13
+	mov	#0, r0
 	.globl	rt_v1_null
 rt_v1_null:	trap	#5
 	.globl	ret_v1_null
@@ -49,19 +49,19 @@ ret_v1_null:
 	cbne r13, #1013, F14
 	cbne r1, #1001, F15
 	lea	word, r1
-	movq	#1002, r2
-	movq	#1003, r3
-	movq	#1004, r4
-	movq	#1005, r5
-	movq	#1006, r6
-	movq	#1007, r7
-	movq	#1008, r8
-	movq	#1009, r9
-	movq	#1010, r10
-	movq	#1011, r11
-	movq	#1012, r12
-	movq	#1013, r13
-	movq	#0, r0
+	mov	#1002, r2
+	mov	#1003, r3
+	mov	#1004, r4
+	mov	#1005, r5
+	mov	#1006, r6
+	mov	#1007, r7
+	mov	#1008, r8
+	mov	#1009, r9
+	mov	#1010, r10
+	mov	#1011, r11
+	mov	#1012, r12
+	mov	#1013, r13
+	mov	#0, r0
 	.globl	rt_v1_copyin
 rt_v1_copyin:	trap	#6
 	.globl	ret_v1_copyin
@@ -81,20 +81,20 @@ ret_v1_copyin:
 	cbne r13, #1013, F29
 	lea	word, r11
 	cbne r1, r11, F30
-	movq	#1001, r1
-	movq	#1002, r2
-	movq	#1003, r3
-	movq	#1004, r4
-	movq	#1005, r5
-	movq	#1006, r6
-	movq	#1007, r7
-	movq	#1008, r8
-	movq	#1009, r9
-	movq	#1010, r10
-	movq	#1011, r11
-	movq	#1012, r12
-	movq	#1013, r13
-	movq	#0, r0
+	mov	#1001, r1
+	mov	#1002, r2
+	mov	#1003, r3
+	mov	#1004, r4
+	mov	#1005, r5
+	mov	#1006, r6
+	mov	#1007, r7
+	mov	#1008, r8
+	mov	#1009, r9
+	mov	#1010, r10
+	mov	#1011, r11
+	mov	#1012, r12
+	mov	#1013, r13
+	mov	#0, r0
 	.globl	rt_v2_null
 rt_v2_null:	trap	#7
 	.globl	ret_v2_null
@@ -114,19 +114,19 @@ ret_v2_null:
 	cbne r13, #1013, F44
 	cbne r1, #1001, F45
 	lea	word, r1
-	movq	#1002, r2
-	movq	#1003, r3
-	movq	#1004, r4
-	movq	#1005, r5
-	movq	#1006, r6
-	movq	#1007, r7
-	movq	#1008, r8
-	movq	#1009, r9
-	movq	#1010, r10
-	movq	#1011, r11
-	movq	#1012, r12
-	movq	#1013, r13
-	movq	#0, r0
+	mov	#1002, r2
+	mov	#1003, r3
+	mov	#1004, r4
+	mov	#1005, r5
+	mov	#1006, r6
+	mov	#1007, r7
+	mov	#1008, r8
+	mov	#1009, r9
+	mov	#1010, r10
+	mov	#1011, r11
+	mov	#1012, r12
+	mov	#1013, r13
+	mov	#0, r0
 	.globl	rt_v2_copyin
 rt_v2_copyin:	trap	#8
 	.globl	ret_v2_copyin
@@ -146,129 +146,129 @@ ret_v2_copyin:
 	cbne r13, #1013, F59
 	lea	word, r11
 	cbne r1, r11, F60
-	movq	#0, r0
+	mov	#0, r0
 	trap	#0
-F1:	movq	#1, r0
+F1:	mov	#1, r0
 	trap	#1
-F2:	movq	#2, r0
+F2:	mov	#2, r0
 	trap	#1
-F3:	movq	#3, r0
+F3:	mov	#3, r0
 	trap	#1
-F4:	movq	#4, r0
+F4:	mov	#4, r0
 	trap	#1
-F5:	movq	#5, r0
+F5:	mov	#5, r0
 	trap	#1
-F6:	movq	#6, r0
+F6:	mov	#6, r0
 	trap	#1
-F7:	movq	#7, r0
+F7:	mov	#7, r0
 	trap	#1
-F8:	movq	#8, r0
+F8:	mov	#8, r0
 	trap	#1
-F9:	movq	#9, r0
+F9:	mov	#9, r0
 	trap	#1
-F10:	movq	#10, r0
+F10:	mov	#10, r0
 	trap	#1
-F11:	movq	#11, r0
+F11:	mov	#11, r0
 	trap	#1
-F12:	movq	#12, r0
+F12:	mov	#12, r0
 	trap	#1
-F13:	movq	#13, r0
+F13:	mov	#13, r0
 	trap	#1
-F14:	movq	#14, r0
+F14:	mov	#14, r0
 	trap	#1
-F15:	movq	#15, r0
+F15:	mov	#15, r0
 	trap	#1
-F16:	movq	#16, r0
+F16:	mov	#16, r0
 	trap	#1
-F17:	movq	#17, r0
+F17:	mov	#17, r0
 	trap	#1
-F18:	movq	#18, r0
+F18:	mov	#18, r0
 	trap	#1
-F19:	movq	#19, r0
+F19:	mov	#19, r0
 	trap	#1
-F20:	movq	#20, r0
+F20:	mov	#20, r0
 	trap	#1
-F21:	movq	#21, r0
+F21:	mov	#21, r0
 	trap	#1
-F22:	movq	#22, r0
+F22:	mov	#22, r0
 	trap	#1
-F23:	movq	#23, r0
+F23:	mov	#23, r0
 	trap	#1
-F24:	movq	#24, r0
+F24:	mov	#24, r0
 	trap	#1
-F25:	movq	#25, r0
+F25:	mov	#25, r0
 	trap	#1
-F26:	movq	#26, r0
+F26:	mov	#26, r0
 	trap	#1
-F27:	movq	#27, r0
+F27:	mov	#27, r0
 	trap	#1
-F28:	movq	#28, r0
+F28:	mov	#28, r0
 	trap	#1
-F29:	movq	#29, r0
+F29:	mov	#29, r0
 	trap	#1
-F30:	movq	#30, r0
+F30:	mov	#30, r0
 	trap	#1
-F31:	movq	#31, r0
+F31:	mov	#31, r0
 	trap	#1
-F32:	movq	#32, r0
+F32:	mov	#32, r0
 	trap	#1
-F33:	movq	#33, r0
+F33:	mov	#33, r0
 	trap	#1
-F34:	movq	#34, r0
+F34:	mov	#34, r0
 	trap	#1
-F35:	movq	#35, r0
+F35:	mov	#35, r0
 	trap	#1
-F36:	movq	#36, r0
+F36:	mov	#36, r0
 	trap	#1
-F37:	movq	#37, r0
+F37:	mov	#37, r0
 	trap	#1
-F38:	movq	#38, r0
+F38:	mov	#38, r0
 	trap	#1
-F39:	movq	#39, r0
+F39:	mov	#39, r0
 	trap	#1
-F40:	movq	#40, r0
+F40:	mov	#40, r0
 	trap	#1
-F41:	movq	#41, r0
+F41:	mov	#41, r0
 	trap	#1
-F42:	movq	#42, r0
+F42:	mov	#42, r0
 	trap	#1
-F43:	movq	#43, r0
+F43:	mov	#43, r0
 	trap	#1
-F44:	movq	#44, r0
+F44:	mov	#44, r0
 	trap	#1
-F45:	movq	#45, r0
+F45:	mov	#45, r0
 	trap	#1
-F46:	movq	#46, r0
+F46:	mov	#46, r0
 	trap	#1
-F47:	movq	#47, r0
+F47:	mov	#47, r0
 	trap	#1
-F48:	movq	#48, r0
+F48:	mov	#48, r0
 	trap	#1
-F49:	movq	#49, r0
+F49:	mov	#49, r0
 	trap	#1
-F50:	movq	#50, r0
+F50:	mov	#50, r0
 	trap	#1
-F51:	movq	#51, r0
+F51:	mov	#51, r0
 	trap	#1
-F52:	movq	#52, r0
+F52:	mov	#52, r0
 	trap	#1
-F53:	movq	#53, r0
+F53:	mov	#53, r0
 	trap	#1
-F54:	movq	#54, r0
+F54:	mov	#54, r0
 	trap	#1
-F55:	movq	#55, r0
+F55:	mov	#55, r0
 	trap	#1
-F56:	movq	#56, r0
+F56:	mov	#56, r0
 	trap	#1
-F57:	movq	#57, r0
+F57:	mov	#57, r0
 	trap	#1
-F58:	movq	#58, r0
+F58:	mov	#58, r0
 	trap	#1
-F59:	movq	#59, r0
+F59:	mov	#59, r0
 	trap	#1
-F60:	movq	#60, r0
+F60:	mov	#60, r0
 	trap	#1
-h_ok:	movq	#0, r0
+h_ok:	mov	#0, r0
 h_fail:	halt
 ; V1: without pushx and popx.  The user's registers are live at entry: free r1, save EPC and EPSW through it, reload r1.
 	.globl	h_v1_null
@@ -278,9 +278,9 @@ h_v1_null:
 	push	r1
 	mfsr	r1, epsw
 	push	r1
-	movq	16(sp), r1
+	mov	16(sp), r1
 	spl	#0
-	movq	#7, r0				; the null call
+	mov	#7, r0				; the null call
 	spl	#7
 	pop	r1
 	mtsr	epsw, r1
@@ -297,9 +297,9 @@ h_v1_copyin:
 	push	r1
 	mfsr	r1, epsw
 	push	r1
-	movq	16(sp), r1
+	mov	16(sp), r1
 	spl	#0
-	movq	(r1), r0			; copyin: one load of a user word that cannot fault
+	mov	(r1), r0			; copyin: one load of a user word that cannot fault
 	spl	#7
 	pop	r1
 	mtsr	epsw, r1
@@ -312,7 +312,7 @@ h_v1_copyin:
 h_v2_null:
 	pushx
 	spl	#0
-	movq	#7, r0
+	mov	#7, r0
 	spl	#7
 	popx
 	rti	#RTIMASK_ALL
@@ -320,7 +320,7 @@ h_v2_null:
 h_v2_copyin:
 	pushx
 	spl	#0
-	movq	(r1), r0
+	mov	(r1), r0
 	spl	#7
 	popx
 	rti	#RTIMASK_ALL

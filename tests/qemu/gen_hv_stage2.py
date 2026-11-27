@@ -15,6 +15,9 @@ What it proves, one scenario after another (a failure halts with the number of t
   T9  the guest tag: two guests with the same guest-virtual address and different contents (the tag keeps them apart); an entry of a tag survives the run of another and goes stale; a write to GTBR that changes
       the root discards the entries of its tag (rule G-c), one that changes only the tag does not; a guest's own TLBIA acts on its own tag only (G-a); TLBIA at H = 1 acts on the tag in GTBR (G-d).
 """
+import sys as _sys, os as _os
+_sys.path.insert(0, _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..', '..', 'tools'))
+import marks		# the words of the encoding written with the width suffixes (tools/marks.py)
 import os
 import sys
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'sim'))
@@ -393,5 +396,5 @@ e('\t.data')
 e('\t.align\t4096\nhtab:\t.space\t4096\ngvtab:\t.space\t4096\ng1root:\t.space\t4096\ng1l1:\t.space\t4096\ng1l0:\t.space\t4096\ng1broot:\t.space\t4096\n\t.align\t8192\ns2root:\t.space\t8192\ns2rootb:\t.space\t8192')
 e('s2l1:\t.space\t4096\ns2l1b:\t.space\t4096\ns2l0:\t.space\t4096\ns2l0b:\t.space\t4096\n\t.space\t512\ngstk_top:')
 text = p.text()
-open(sys.argv[1] if len(sys.argv) > 1 else 'hv-stage2.S', 'w').write(text)
+open(sys.argv[1] if len(sys.argv) > 1 else 'hv-stage2.S', 'w').write(marks.spell_text(text))
 print('gen_hv_stage2: %d checks' % p.n)

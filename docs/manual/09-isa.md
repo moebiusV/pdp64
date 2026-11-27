@@ -12,13 +12,13 @@
 
 **9.1.3** The prefixes form a prefix code (a set of bit strings none of which begins another, so that the first parcel matches at most one leaf and the match needs no look-ahead). The lengths were chosen by an optimiser that was given the compiled corpus, so the shortest prefixes belong to the forms the compiler emits most.
 
-**9.1.4** A leaf is one, two or three parcels long, which is two, four or six bytes; 32, 138 and 69 of the leaves are of those lengths. One leaf, the move of a 64-bit constant (`MOVQ #imm64, Rd`), is five parcels (ten bytes) because it carries a 64-bit literal.
+**9.1.4** A leaf is one, two or three parcels long, which is two, four or six bytes; 32, 138 and 69 of the leaves are of those lengths. One leaf, the move of a 64-bit constant (`MOV #imm64, Rd`), is five parcels (ten bytes) because it carries a 64-bit literal.
 
 **9.1.5** 3,278 of the 65,536 patterns of a first parcel (5.0%) match no prefix and are illegal instructions; so is a sub-opcode that no mnemonic uses and a hot-register index beyond the table (9.4.6), so that a wild jump fails early and nothing is undefined.
 
 **9.1.6** The assembly language and the mnemonics of the PDP-11 are kept for the instructions that the machine keeps; `CMP`, `TST`, `BIT`, `ADC`, `SBC`, the flag branches and the instructions that set and clear flags are not among them, because there are no flags (9.10.1). The leaves add words to them: the compare-and-branch family (`CBCC` for integers, `FCBCC` for floating point) and the compare into a register (`SETCC`), the four fused pairs (`MOVCALL`, `POPRET`, `POPMRET`, `MOV2`), `MASKEQZ` and `MASKNEZ`, `BSEL`, the checked arithmetic `ADDV`, `SUBV` and `MULV`, the user-qualified moves (`.U`, seven words), and the seven AES and eight SHA words.
 
-*Commentary.* **Precedent.** The PDP-11 partitioned its opcodes by the addressing modes of the first word; the VAX by operand specifiers parsed in sequence; x86 by prefixes, opcode, ModR/M and SIB read one after another. The prefix code is the device of a Huffman code (the commonest symbols get the shortest strings) applied to the first parcel, with the length of the instruction as a by-product of the match. **Trade-offs.** The decoder reads up to 16 bits to find the length. In the timing model the decoder pays one cycle of length-decode latency on every taken branch and refill, and fetch-wait is 7.2% of the cycles at four bytes per cycle. What the prefix buys is density: the 841-file corpus is 964,158 bytes, 3.26 bytes an instruction, and the instructions executed fall with the compiler and the fused pairs (appendix E, E.4). **Improvements.** Every bit is a prefix, sub-opcode or operand bit, so an unused code is an illegal instruction and not a silent no-op; the fields of every leaf come from the grammar, so no table is written twice. **Benefits.** The common operations, a register move, a load from the stack, a branch on a register against zero, cost two bytes with no look at a second parcel, and the rare ones are as long as they need to be. **Modern comparables.** Thumb-2 and RISC-V's compressed instructions mix 16- and 32-bit forms with the length in a few bits; x86 finds the length by parsing; the prefix code here is the general case of the first and avoids the second. **Impact.** *Kernel:* nothing in the kernel depends on the opcode map; a debugger and the fault handler's step-over read the same generated table as the assembler. *Compiler:* the cost model charges 2, 4 or 6 bytes (10 for `MOVQ` of a 64-bit constant) and knows which operands fit a one-parcel form, the hot registers above all (9.4.6). *Hardware:* the length is a function of up to 16 bits of the first parcel, a lookup in the fetch path; a front end that decodes several instructions a cycle needs such a lookup at each parcel position, a cost that the timing model does not measure beyond the one cycle above.
+*Commentary.* **Precedent.** The PDP-11 partitioned its opcodes by the addressing modes of the first word; the VAX by operand specifiers parsed in sequence; x86 by prefixes, opcode, ModR/M and SIB read one after another. The prefix code is the device of a Huffman code (the commonest symbols get the shortest strings) applied to the first parcel, with the length of the instruction as a by-product of the match. **Trade-offs.** The decoder reads up to 16 bits to find the length. In the timing model the decoder pays one cycle of length-decode latency on every taken branch and refill, and fetch-wait is 7.2% of the cycles at four bytes per cycle. What the prefix buys is density: the 841-file corpus is 964,158 bytes, 3.26 bytes an instruction, and the instructions executed fall with the compiler and the fused pairs (appendix E, E.4). **Improvements.** Every bit is a prefix, sub-opcode or operand bit, so an unused code is an illegal instruction and not a silent no-op; the fields of every leaf come from the grammar, so no table is written twice. **Benefits.** The common operations, a register move, a load from the stack, a branch on a register against zero, cost two bytes with no look at a second parcel, and the rare ones are as long as they need to be. **Modern comparables.** Thumb-2 and RISC-V's compressed instructions mix 16- and 32-bit forms with the length in a few bits; x86 finds the length by parsing; the prefix code here is the general case of the first and avoids the second. **Impact.** *Kernel:* nothing in the kernel depends on the opcode map; a debugger and the fault handler's step-over read the same generated table as the assembler. *Compiler:* the cost model charges 2, 4 or 6 bytes (10 for `MOV` of a 64-bit constant) and knows which operands fit a one-parcel form, the hot registers above all (9.4.6). *Hardware:* the length is a function of up to 16 bits of the first parcel, a lookup in the fetch path; a front end that decodes several instructions a cycle needs such a lookup at each parcel position, a cost that the timing model does not measure beyond the one cycle above.
 
 ## 9.2 Properties and principles
 
@@ -26,7 +26,7 @@
 
 **9.2.2** At most one operand of an instruction may be a memory reference; the other, where present, is a register. The block operations are the one admitted exception.
 
-**9.2.3** No instruction is longer than six bytes, with one exception: `MOVQ #imm64, Rd` carries a 64-bit literal and is ten bytes, the literal not being counted as part of the instruction.
+**9.2.3** No instruction is longer than six bytes, with one exception: `MOV #imm64, Rd` carries a 64-bit literal and is ten bytes, the literal not being counted as part of the instruction.
 
 **9.2.4** A register is always written in full: narrow loads sign- or zero-extend, and there is no partial-register write.
 
@@ -78,7 +78,7 @@
 
 ## 9.4 The instruction format
 
-**9.4.1** An instruction is one, two or three parcels (two, four or six bytes; `MOVQ` with a 64-bit constant is five parcels); the first parcel holds the prefix, the sub-opcode and the operand pieces that fit, and the later parcels hold the rest. The bit layout of every leaf is a chart in the [reference tables](dictionary/by-encoding.md).
+**9.4.1** An instruction is one, two or three parcels (two, four or six bytes; `MOV` with a 64-bit constant is five parcels); the first parcel holds the prefix, the sub-opcode and the operand pieces that fit, and the later parcels hold the rest. The bit layout of every leaf is a chart in the [reference tables](dictionary/by-encoding.md).
 
 **9.4.2** Instructions are parcel-aligned and little-endian; an instruction may cross any boundary of 8 bytes, a cache line or a page.
 
@@ -86,11 +86,11 @@
 
 **9.4.4** Where an addressing mode names no base register (immediate, absolute, PC-relative), no field is spent on one: the later parcels are all value, so those modes reach 16 bits at four bytes and 32 bits at six.
 
-**9.4.5** A constant wider than 32 bits is either written in the instruction, `MOVQ #imm64, Rd`, which is ten bytes with the literal in the four later parcels, or loaded from a literal pool with `MOVQ =K, Rd`, written with an explicit `=`; nothing is pooled silently. `MOVQ #imm` is one mnemonic for every size of constant: the assembler picks the two-, four-, six- or ten-byte form that holds it.
+**9.4.5** A constant wider than 32 bits is either written in the instruction, `MOV #imm64, Rd`, which is ten bytes with the literal in the four later parcels, or loaded from a literal pool with `MOV =K, Rd`, written with an explicit `=`; nothing is pooled silently. `MOV #imm` is one mnemonic for every size of constant: the assembler picks the two-, four-, six- or ten-byte form that holds it.
 
 **9.4.6** In a one-parcel form a 3-bit register field is not a register number but an index into a table of the eight hottest registers, `R0 R1 R8 R2 SP R3 R9 R10`. A 4-bit field indexes the sixteen hottest, `R0 R1 R8 R2 SP R3 R9 R10 R11 R4 R15 R5 R24 R25 R26 R6`. The tables are part of the ABI, and the compiler's register allocator prefers the hot registers.
 
-*Commentary.* **Precedent.** The PDP-11 had the length in the first word, but as a function of both of its six-bit specifiers; Thumb-2 and RISC-V's compressed instructions mix 16- and 32-bit forms with the length in a few bits. Here the length and the identity of the instruction are one match on the prefix. **Trade-offs.** Byte-granular encoding, as in x86, buys perhaps a tenth of the code size and costs a full alignment rotator and cross-line splice logic in the fetch path on a 64-bit datapath; this CPU refuses it. A hot-register index buys a one-parcel form and costs a rule for the compiler: a value that lives in one of the eight (for the 4-bit fields, sixteen) hottest registers is cheaper to use, which the allocator learns, and the ABI cannot move the tables without changing the encoding. Forcing an instruction to stay inside an eight-byte window would simplify fetch and would cost 5% to 10% of code size in padding. **Improvements.** `MOVQ #imm64, Rd` takes a 64-bit constant in one instruction instead of a literal-pool load, at ten bytes against six, the literal not counting against the three-parcel rule. **Benefits.** The measured average is 2.7 to 3.3 bytes an instruction (9.2.13). **Modern comparables.** AArch64 and RISC-V have fixed or two-length encodings; x86 has byte-granular ones; this CPU has parcel-granular ones with three common lengths. **Impact.** *Kernel:* a one-parcel form is cheaper in kernel text with no source change. *Compiler:* the assembler picks the shortest form, branch and call relaxation is a length choice, and the cost model knows 2, 4 and 6 bytes and which registers are hot. *Hardware:* the fetch unit has a parcel buffer and a length lookup on the first parcel; no instruction crosses more than two parcel-aligned windows of eight bytes except the ten-byte `MOVQ` of a 64-bit constant.
+*Commentary.* **Precedent.** The PDP-11 had the length in the first word, but as a function of both of its six-bit specifiers; Thumb-2 and RISC-V's compressed instructions mix 16- and 32-bit forms with the length in a few bits. Here the length and the identity of the instruction are one match on the prefix. **Trade-offs.** Byte-granular encoding, as in x86, buys perhaps a tenth of the code size and costs a full alignment rotator and cross-line splice logic in the fetch path on a 64-bit datapath; this CPU refuses it. A hot-register index buys a one-parcel form and costs a rule for the compiler: a value that lives in one of the eight (for the 4-bit fields, sixteen) hottest registers is cheaper to use, which the allocator learns, and the ABI cannot move the tables without changing the encoding. Forcing an instruction to stay inside an eight-byte window would simplify fetch and would cost 5% to 10% of code size in padding. **Improvements.** `MOV #imm64, Rd` takes a 64-bit constant in one instruction instead of a literal-pool load, at ten bytes against six, the literal not counting against the three-parcel rule. **Benefits.** The measured average is 2.7 to 3.3 bytes an instruction (9.2.13). **Modern comparables.** AArch64 and RISC-V have fixed or two-length encodings; x86 has byte-granular ones; this CPU has parcel-granular ones with three common lengths. **Impact.** *Kernel:* a one-parcel form is cheaper in kernel text with no source change. *Compiler:* the assembler picks the shortest form, branch and call relaxation is a length choice, and the cost model knows 2, 4 and 6 bytes and which registers are hot. *Hardware:* the fetch unit has a parcel buffer and a length lookup on the first parcel; no instruction crosses more than two parcel-aligned windows of eight bytes except the ten-byte `MOV` of a 64-bit constant.
 
 ## 9.5 Addressing modes
 
@@ -102,14 +102,14 @@
 | `d(Rn)(Rx*s)` | scaled index, `s` in {1, 2, 4, 8} | none | 6- or 8-bit displacement, or none with a 5-bit base and index | 22-bit displacement |
 | `d(PC)` | PC-relative; the base is the first parcel of the instruction | none | 12-, 14- or 16-bit byte displacement: ±2 KiB, ±8 KiB, ±32 KiB | 32-bit displacement, ±2 GiB |
 | `d(DP)` | direct page, loads only | none | none | 28-bit displacement |
-| `#imm` | immediate, sign-extended | 3 to 7 bits | up to 18 bits | 32 bits (a `MOVQ` of a wider constant: 64 bits, five parcels) |
+| `#imm` | immediate, sign-extended | 3 to 7 bits | up to 18 bits | 32 bits (a `MOV` of a wider constant: 64 bits, five parcels) |
 | `@abs` | absolute, sign-extended | none | none | 32-bit address |
 | `(Rn)+d` | post-increment by a stride `d` (0: the operand size) | none | 12-bit stride | none |
 | `-(Rn)` or `(Rn)-d` | pre-decrement by a stride (0: the operand size) | none | 12-bit stride | none |
 
-**9.5.2** The machine's word is 16 bits, as the PDP-11's was, so the integer words say their width with the letters of the PDP-11, the VAX and the Alpha, as a suffix: `b` is 8 bits, `w` 16, `l` 32 and `q` 64, and a `z` before the letter zero-extends. They are `MOVB`, `MOVW`, `MOVL` and `MOVQ`, `MOVZB`, `MOVZW` and `MOVZL`, `BSWAPW` and `BSWAPL`, `RORL`, and the atomics with an `L` after the operation (`AADDL`, `CASL`, `LLL`). A word with no letter is 64 bits, a bare `MOV` is `MOVQ`, and `AADDQ` is a spelling of `AADD`. The letter is a spelling of the width of one operation, not a different operation: `MOVB` and `MOVW` are the one move, as `AADD` and `AADDL` are the one atomic add.
+**9.5.2** The machine's word is 16 bits, as the PDP-11's was, and an operation says how many bits it works on, and of what kind, as a dotted suffix of its mnemonic: a kind letter and a width in bits. `.s8`, `.s16`, `.s32` and `.s64` are signed integers, `.u8`, `.u16`, `.u32` and `.u64` unsigned integers, and `.f16`, `.f32` and `.f64` are the floating-point formats `binary16`, `binary32` and `binary64`; there is no 8-bit floating-point format, and `.f8` is refused as no such format. A bare mnemonic is the default, 64 bits, and is the same word as its explicit `.s64`, `.u64` or `.f64` spelling: `MOV` is `MOV.S64`, `AADD` is `AADD.S64`, `FADD` is `FADD.F64`. The suffix is part of the word and so it is on every operand of the instruction at once: no operand carries a mark, and so there is no case of a width on the destination register, of two operands that disagree, or of a width on a constant. The words that take a suffix are `MOV` (and `MOV.USER`, 9.6.9), `BSWAP`, `ROR`, `DIV`, `MOD`, `MULH`, `MUL`, `MIN` and `MAX`, the atomics, the floating-point arithmetic and `FCVT`; any other word refuses one. The notation keeps no letters for the widths, no `b`, `w`, `l` or `q`: the letters of the PDP-11 and the VAX would not say unsigned, or single precision, and the kind letter and the number do.
 
-**9.5.3** The same widths are also marks on the operand, which the assembler takes as alternative spellings of the letters, and which are the way to say what has no letter (the sign of an operand, the precision of a floating-point register, the formats of `FCVT`): a mark is a dot and a number of bits glued to the operand's last character with no space. `.8`, `.16`, `.32` and `.64` are the widths, `.u8`, `.u16` and `.u32` zero-extend where the plain ones sign-extend, and `.s8`, `.s16` and `.s32` spell the sign-extension that is the default. The mark goes after the operand whatever its mode: `r1.32`, `(r1).8`, `8(r1).16`, `(r1)+.32`, `-(r1).8`, `(r1)(r2*4).16`, `@0x100.8` and `msg+4.16`. An unmarked operand is 64 bits, and `mov (r1).8, r2` is `movb (r1), r2`, `mov (r1).u16, r2` is `movzw (r1), r2`: the two spellings assemble to the same bytes. A letter and a mark that agree may both be written, and an error is a letter and a mark that disagree. A mark on a memory operand says how much memory is touched, a mark on a register says how much of the register counts, and a register that is written is always written in full, so a mark on a destination register is refused; so is a mark on a constant. The words that take marks are `MOV`, the atomics, `BSWAP`, `ROR`, the floating-point operations and `FCVT`; any other word refuses one. The floating-point words take the PDP-11's `f` and `d`: `FADDF` is single precision, `FADDD` double, and the bare `FADD` is the default, double; the mark `.32` on every register is the other spelling (`fadd r1.32, r2.32` is `faddf r1, r2`), and the marks are the only spelling of the conversions with an integer side or a half. With `(Rn)+` and `-(Rn)` and no stride, the mark sets the stride: `(r1)+.8` steps by one byte.
+**9.5.3** The kind says one of two things: how a value is widened into the 64-bit register (a load, a conversion between registers, what a 4-byte atomic or a 32-bit rotate leaves in its destination), or how two values are compared (`DIV`, `MIN`, `AMAX`). Where neither happens (a store, a byte swap, the 64-bit forms, `SC`) the kind means nothing, and both `.s` and `.u` are accepted and are the same instruction. Where the register receives a sign-extended result, only `.s32` is true and `.u32` is refused: the 4-byte atomics that return a value (`CAS`, `SWAP`, `AADD`, `AAND`, `ABIS`, `AXOR`, `LL`) and `ROR.S32`; the zero-extended value is `MOV.U32 Rd, Rd` after the instruction. `AMAX` and `AMIN` take both kinds, for the kind is the comparison, and `AMAX.U32` and `AMIN.U32` return the old value sign-extended, as every 4-byte atomic does. The suffix `.user` before the kind says that the memory operand of a move is a user access. A suffix on a move of a constant is refused: a constant has no width, and the move of a constant is the plain `MOV`. With `(Rn)+` and `-(Rn)` and no stride, the stride is the size the suffix names: `mov.s8 (r1)+, r2` steps by one byte. A word with a suffix that it does not have is an error that names the word and the suffixes it takes: `mov.s9` and `fadd.f8` are not guessed.
 
 **9.5.4** The deferred modes of the PDP-11 are removed; indirection is done with `JMPI`, `CALLI` and a load.
 
@@ -137,9 +137,9 @@
 
 *Cf. section 6.7 for the memory types that decide whether an access is cached, and section 6.4 for what a faulting load leaves behind.*
 
-**9.6.1** `MOVQ`, `MOVL`, `MOVW` and `MOVB` load and store 64, 32, 16 and 8 bits; the loads sign-extend. `MOVZL`, `MOVZW` and `MOVZB` load with zero extension. A bare `MOV` is `MOVQ`. The mark on the memory operand (section 9.5) is the other spelling: `mov (r1).8, r2` is `movb (r1), r2`, `mov r2, 4(r1).32` is `movl r2, 4(r1)`, and `mov (r1).u8, r2` is `movzb (r1), r2`.
+**9.6.1** `MOV.S64`, `MOV.S32`, `MOV.S16` and `MOV.S8` load and store 64, 32, 16 and 8 bits, and the loads sign-extend; `MOV.U32`, `MOV.U16` and `MOV.U8` load with zero extension. The bare `MOV` is `MOV.S64`, and `MOV.U64` is the same word, for a 64-bit move extends nothing. A store does not extend, so `MOV.U8 r1, (r2)` is the store `MOV.S8 r1, (r2)`: both are accepted and are the same instruction. A load whose source is a constant has no width, and `MOV.S8 #5, r1` is refused.
 
-**9.6.2** With a register operand, the same opcodes are the conversion set: `MOVB R1, R2` sign-extends the low byte, `MOVZW R1, R2` zero-extends the low word (`MOV R1.8, R2` and `MOV R1.u16, R2` are the same instructions). A mark on the destination register is refused, because a register is always written in full.
+**9.6.2** With a register operand, the same opcodes are the conversion set: `MOV.S8 R1, R2` sign-extends the low byte, `MOV.U16 R1, R2` zero-extends the low word. A register is always written in full, so the destination is the whole register. An integer-to-integer conversion is always a `MOV`: there is no `FCVT` between two integers.
 
 **9.6.3** `LEA` forms an effective address; `LEA 0(PC), Rn` reads the program counter.
 
@@ -150,30 +150,30 @@
 **9.6.6** An access that touches two pages is judged by the stricter of the two: if either page is strongly ordered device memory and the access is not aligned to its size, it takes the misalignment fault, however little of it lies in that page. The memory type of a page is the stricter of its types in the stages of translation that map it (the larger code), and with translation off the address decides: a physical address at which a device answers is strongly ordered.
 
 
-**9.6.7** A runtime that keeps a 3-bit type tag in the low bits of a pointer cannot rely on a fault to find a pointer with the wrong tag: the access through it simply works, at an address that is not aligned. The check is explicit and is one four-byte instruction, `BNTAG Rn, #T, slow`, placed before the access, which is then made with the tag taken off by the displacement, `MOVQ k-T(Rn), Rd`; on the way that has the right tag the branch is not taken. One check covers every access made through the same pointer, so a cell whose `car` and `cdr` are both read is checked once; and where a loop already tests its pointer (a list walk that tests for the end) `BTAG` makes that test and the type check at once, so the check costs nothing. An array index is bounds checked by `CTCC` as before, and a pointer whose tag is checked before a loop is not checked again inside it. A table dispatch on the tag is `JTAG`.
+**9.6.7** A runtime that keeps a 3-bit type tag in the low bits of a pointer cannot rely on a fault to find a pointer with the wrong tag: the access through it simply works, at an address that is not aligned. The check is explicit and is one four-byte instruction, `BNTAG Rn, #T, slow`, placed before the access, which is then made with the tag taken off by the displacement, `MOV k-T(Rn), Rd`; on the way that has the right tag the branch is not taken. One check covers every access made through the same pointer, so a cell whose `car` and `cdr` are both read is checked once; and where a loop already tests its pointer (a list walk that tests for the end) `BTAG` makes that test and the type check at once, so the check costs nothing. An array index is bounds checked by `CTCC` as before, and a pointer whose tag is checked before a loop is not checked again inside it. A table dispatch on the tag is `JTAG`.
 
-**9.6.8** The one-parcel forms abbreviate the common cases: loads and stores through a hot base register or the stack pointer at small offsets, `LEA` from `SP`, and `MOVQ #imm, rd` with an immediate of up to seven bits.
+**9.6.8** The one-parcel forms abbreviate the common cases: loads and stores through a hot base register or the stack pointer at small offsets, `LEA` from `SP`, and `MOV #imm, rd` with an immediate of up to seven bits.
 
-**9.6.9** A load or store may be qualified `.U`, with the letters and the marks of the move (`MOVB.U`, `MOVZB.U`, `mov.u (r1).u8, r2`; the memory operand is accessed with user privilege, which is how the kernel reaches user memory past the user-memory guard of 6.10); the block copy has the same qualifier for each of its sides, `MCPY.UR` and `MCPY.UW`.
+**9.6.9** A load or store may be qualified `.user`, written before the kind: `MOV.USER.S8`, `MOV.USER.U8`, and the bare `MOV.USER` for 64 bits. The memory operand is accessed with user privilege, which is how the kernel reaches user memory past the user-memory guard of 6.10; a `.user` move between registers is refused, for it has no memory operand. The block copy has the same qualifier for each of its sides, `MCPY.UR` and `MCPY.UW`.
 
-*Commentary.* **Precedent.** The PDP-11 had `MOV` and `MOVB` with a byte sign-extended into a register; the VAX had a sized `MOV` for every width. The letters are theirs, with the machine's word at 16 bits, and the width is also a mark on the operand, as `.8`. **Trade-offs.** Keeping the sized loads costs extra opcodes against a quad-only design, but without `MOVL` a struct field load becomes two `MOVW`s, a shift and an or, and ELF, timestamps and most on-disk and wire structures are full of 32- and 16-bit fields. **Improvements.** There is no separate `CVT` group: the conversions are the moves with a register source, so they cost nothing. **Benefits.** No partial-register state anywhere. **Modern comparables.** AArch64 and RISC-V have the same sized loads with sign and zero extension; x86-64 keeps 8- and 16-bit register writes that preserve the upper bits, which makes narrow writes depend on the old value. **Use.** `LEA 0(PC)` is how a position-independent program finds itself; a plain load reads a packed on-disk or network structure at whatever address it has. **Impact.** *Kernel:* `LEA 0(PC)` lets position-independent kernel code find itself; the plain moves read packed on-disk and network structures where they lie. *Compiler:* Sized loads avoid the shift, mask and or of a struct-field read, and the conversions are moves, so no separate conversion selection exists. *Hardware:* No partial-register write anywhere; the conversions reuse the load-extend path.
+*Commentary.* **Precedent.** The PDP-11 had `MOV` and `MOVB` with a byte sign-extended into a register; the VAX had a sized `MOV` for every width. The word carries the width, as it did for them, and the kind and the width in bits are a suffix, which says unsigned where the letter could not. **Trade-offs.** Keeping the sized loads costs extra opcodes against a quad-only design, but without `MOV.S32` a struct field load becomes two `MOV.S16`s, a shift and an or, and ELF, timestamps and most on-disk and wire structures are full of 32- and 16-bit fields. **Improvements.** There is no separate `CVT` group: the conversions are the moves with a register source, so they cost nothing. **Benefits.** No partial-register state anywhere. **Modern comparables.** AArch64 and RISC-V have the same sized loads with sign and zero extension; x86-64 keeps 8- and 16-bit register writes that preserve the upper bits, which makes narrow writes depend on the old value. **Use.** `LEA 0(PC)` is how a position-independent program finds itself; a plain load reads a packed on-disk or network structure at whatever address it has. **Impact.** *Kernel:* `LEA 0(PC)` lets position-independent kernel code find itself; the plain moves read packed on-disk and network structures where they lie. *Compiler:* Sized loads avoid the shift, mask and or of a struct-field read, and the conversions are moves, so no separate conversion selection exists. *Hardware:* No partial-register write anywhere; the conversions reuse the load-extend path.
 
 <!-- entries:9.6 -->
 ### MOV: Move, load and store (64, 32, 16 and 8 bits)
 
-**Mnemonics:** `MOVQ`, `MOVL`, `MOVW`, `MOVB`, `MOVZL`, `MOVZW`, `MOVZB`, `MOVQ.U`, `MOVL.U`, `MOVW.U`, `MOVB.U`, `MOVZL.U`, `MOVZW.U`, `MOVZB.U`
+**Mnemonics:** `MOV`, `MOV.S32`, `MOV.S16`, `MOV.S8`, `MOV.U32`, `MOV.U16`, `MOV.U8`, `MOV.USER`, `MOV.USER.S32`, `MOV.USER.S16`, `MOV.USER.S8`, `MOV.USER.U32`, `MOV.USER.U16`, `MOV.USER.U8`
 
 **Syntax**
 
 ```
-MOVQ rm, Rd        ; load 64 bits (MOV is MOVQ)
-MOVQ Rs, rm        ; store 64 bits
-MOVQ #imm, Rd      ; a constant of any size
-MOVL, MOVW, MOVB likewise: 32, 16 and 8 bits, a load sign-extends
-MOVZL, MOVZW, MOVZB rm, Rd   ; loads that zero-extend
-MOV d(Rn).8, Rd   ; the mark spelling: .8 .16 .32 sign-extend (MOVB MOVW MOVL), .u8 .u16 .u32 zero-extend (MOVZB MOVZW MOVZL), .64 is the default
-MOVB Rs, Rd        ; with registers: sign-extend the low byte of Rs (MOVZB: zero-extend it)
-MOVQ.U, MOVL.U, MOVW.U, MOVB.U, MOVZL.U, MOVZW.U, MOVZB.U    ; the same with the memory operand checked as a user-mode access
+MOV rm, Rd        ; load 64 bits (MOV is MOV.S64)
+MOV Rs, rm        ; store 64 bits
+MOV #imm, Rd      ; a constant of any size
+MOV.S32, MOV.S16, MOV.S8 rm, Rd   ; 32, 16 and 8 bits, a load sign-extends; MOV.S32 Rs, rm and the others store the low bits
+MOV.U32, MOV.U16, MOV.U8 rm, Rd   ; loads that zero-extend (as a store the same word as MOV.S32, MOV.S16, MOV.S8)
+MOV.S64, MOV.U64    ; the explicit spellings of MOV
+MOV.S8 Rs, Rd        ; with registers: sign-extend the low byte of Rs (MOV.U8: zero-extend it)
+MOV.USER, MOV.USER.S32, MOV.USER.S16, MOV.USER.S8, MOV.USER.U32, MOV.USER.U16, MOV.USER.U8    ; the same with the memory operand checked as a user-mode access
 ```
 
 **Encoding**
@@ -187,523 +187,522 @@ The chart is the leaf `MOVQ64-1`, MOVQ64, prefix `11001110100`. `op1` is `imm64s
 **Operation**
 
 ```
-size = 8 (MOVQ), 4 (MOVL), 2 (MOVW) or 1 (MOVB) bytes; the marks .64 (or none), .32, .16 and .8 say the same
-load :  Rd ← sext(M[EA(rm)], size)          ; MOVZ*: Rd ← zext(M[EA(rm)], size); len = 00: Rd ← sext(Rs[8×size-1:0]) (MOVZ*: zext)
+size = 8 (MOV), 4 (MOV.S32), 2 (MOV.S16) or 1 (MOV.S8) bytes
+load :  Rd ← sext(M[EA(rm)], size)          ; MOV.U*: Rd ← zext(M[EA(rm)], size); len = 00: Rd ← sext(Rs[8×size-1:0]) (MOV.U*: zext)
 store:  M[EA(rm)] ← Rs[8×size-1:0]
-MOV.U:  as MOV, with the memory operand checked as a user-mode access: the page must be present, have U = 1,
+MOV.USER: as MOV, with the memory operand checked as a user-mode access: the page must be present, have U = 1,
         and permit R (a load) or W (a store); a kernel page takes the protection abort
 ```
 
 **Exceptions** Memory operand: page fault, protection fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`); there is no alignment fault, and an access that crosses a page changes nothing when either page faults (9.6.5). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
-A register is always written in full: a narrow load sign-extends to 64 bits and there is no partial-register write anywhere. The width is a letter of the word (`MOVB`, `MOVW`, `MOVL`, `MOVQ`, and `MOVZB`, `MOVZW`, `MOVZL` for zero extension) or a mark on the memory operand or on a source register, and a mark on a destination register is refused. `MOVB R1, R2` sign-extends the low byte of `R1` into `R2` and `MOVZB R1, R2` zero-extends it (`MOV R1.8, R2` and `MOV R1.u8, R2` are the same): these are the conversion set. There is no zero-extending 64-bit move. `MOV.U` is the same move with the memory operand checked as a user-mode access.
+A register is always written in full: a narrow load sign-extends to 64 bits and there is no partial-register write anywhere. The width and the kind are a suffix of the word (`MOV.S8`, `MOV.S16`, `MOV.S32`, `MOV`, and `MOV.U8`, `MOV.U16`, `MOV.U32` for zero extension). `MOV.S8 R1, R2` sign-extends the low byte of `R1` into `R2` and `MOV.U8 R1, R2` zero-extends it: these are the conversion set. There is no zero-extending 64-bit move: `MOV.U64` is `MOV`. `MOV.USER` is the same move with the memory operand checked as a user-mode access.
 
 **Why it is here.** A 64-bit constant otherwise comes from the literal pool. The mnemonic does not say how long the instruction is: `MOV #imm, Rd` is the one word for every constant, and the assembler picks the two-, four-, six- or ten-byte form. The alignment fault had been the one trap of an ordinary access, and it had been useful as a free tag check of tagged pointers; the explicit tag branches are the check now. ARM and x86 do the same (*unverified*); RISC-V leaves it to the implementation, which is the opposite of one binary for every core, so it is not the precedent. Copying between the kernel and the user is where kernels pay for the user-memory guard. x86 opens a window with `STAC` and closes it with `CLAC` (35 and 53 sites in the kernel-assembly corpus), and a forgotten `CLAC` on an error path is the bug class; Arm's `LDTR` and `STTR` make the access itself unprivileged (52 sites), but only for plain loads and stores. I accepted four of its five leanings; the fifth, keeping `PSW.UA`, `STUA` and `CLUA` beside the new qualifier, I gave up on 2026-11-25: one mechanism is enough, and it is the one that cannot be left open.
 
 **Cf.** 6.7 for the memory type that decides whether the access is cached; 6.4 for what a faulting access leaves behind; 6.10 (the user-memory guard).
 
 <a id="w-movq"></a>
-#### MOVQ
+#### MOV
 
-![MOVQ: MOVQ64, prefix 11001110100; operands imm64s, reg5; 10 bytes](figures/w/movq/01.svg)
+![MOV: MOVQ64, prefix 11001110100; operands imm64s, reg5; 10 bytes](figures/w/movq/01.svg)
 
-![MOVQ: LDF.B28, prefix 011010, sub-opcode 0000; operands b5d28s-x1, reg5; 6 bytes](figures/w/movq/02.svg)
+![MOV: LDF.B28, prefix 011010, sub-opcode 0000; operands b5d28s-x1, reg5; 6 bytes](figures/w/movq/02.svg)
 
-![MOVQ: LDF.X22, prefix 01000, sub-opcode 0000; operands x5-5d22s, reg5; 6 bytes](figures/w/movq/03.svg)
+![MOV: LDF.X22, prefix 01000, sub-opcode 0000; operands x5-5d22s, reg5; 6 bytes](figures/w/movq/03.svg)
 
-![MOVQ: LDF.PC32, prefix 1001011, sub-opcode 0000; operands pc32-u1, reg5; 6 bytes](figures/w/movq/06.svg)
+![MOV: LDF.PC32, prefix 1001011, sub-opcode 0000; operands pc32-u1, reg5; 6 bytes](figures/w/movq/06.svg)
 
-![MOVQ: LDF.A32, prefix 1001100, sub-opcode 0000; operands abs32, reg5; 6 bytes](figures/w/movq/07.svg)
+![MOV: LDF.A32, prefix 1001100, sub-opcode 0000; operands abs32, reg5; 6 bytes](figures/w/movq/07.svg)
 
-![MOVQ: LDFI.I32, prefix 1001101, sub-opcode 1110; operands imm32s, reg5; 6 bytes](figures/w/movq/08.svg)
+![MOV: LDFI.I32, prefix 1001101, sub-opcode 1110; operands imm32s, reg5; 6 bytes](figures/w/movq/08.svg)
 
-![MOVQ: STF.B28, prefix 1001110, sub-opcode 000; operands reg5, b5d28s-x1; 6 bytes](figures/w/movq/09.svg)
+![MOV: STF.B28, prefix 1001110, sub-opcode 000; operands reg5, b5d28s-x1; 6 bytes](figures/w/movq/09.svg)
 
-![MOVQ: STF.X22, prefix 011101, sub-opcode 000; operands reg5, x5-5d22s; 6 bytes](figures/w/movq/10.svg)
+![MOV: STF.X22, prefix 011101, sub-opcode 000; operands reg5, x5-5d22s; 6 bytes](figures/w/movq/10.svg)
 
-![MOVQ: STF.PC32, prefix 10111010, sub-opcode 000; operands reg5, pc32-u1; 6 bytes](figures/w/movq/13.svg)
+![MOV: STF.PC32, prefix 10111010, sub-opcode 000; operands reg5, pc32-u1; 6 bytes](figures/w/movq/13.svg)
 
-![MOVQ: STF.A32, prefix 10111011, sub-opcode 000; operands reg5, abs32; 6 bytes](figures/w/movq/14.svg)
+![MOV: STF.A32, prefix 10111011, sub-opcode 000; operands reg5, abs32; 6 bytes](figures/w/movq/14.svg)
 
-![MOVQ: DPF.D28, prefix 11001110111, sub-opcode 0000; operands dpd28s-x1, reg5; 6 bytes](figures/w/movq/15.svg)
+![MOV: DPF.D28, prefix 11001110111, sub-opcode 0000; operands dpd28s-x1, reg5; 6 bytes](figures/w/movq/15.svg)
 
-![MOVQ: LDF.PI12, prefix 011011, sub-opcode 0000; operands pi5-s12, reg5; 4 bytes](figures/w/movq/04.svg)
+![MOV: LDF.PI12, prefix 011011, sub-opcode 0000; operands pi5-s12, reg5; 4 bytes](figures/w/movq/04.svg)
 
-![MOVQ: LDF.PD12, prefix 011100, sub-opcode 0000; operands pd5-s12, reg5; 4 bytes](figures/w/movq/05.svg)
+![MOV: LDF.PD12, prefix 011100, sub-opcode 0000; operands pd5-s12, reg5; 4 bytes](figures/w/movq/05.svg)
 
-![MOVQ: STF.PI12, prefix 1001111, sub-opcode 000; operands reg5, pi5-s12; 4 bytes](figures/w/movq/11.svg)
+![MOV: STF.PI12, prefix 1001111, sub-opcode 000; operands reg5, pi5-s12; 4 bytes](figures/w/movq/11.svg)
 
-![MOVQ: STF.PD12, prefix 1010000, sub-opcode 000; operands reg5, pd5-s12; 4 bytes](figures/w/movq/12.svg)
+![MOV: STF.PD12, prefix 1010000, sub-opcode 000; operands reg5, pd5-s12; 4 bytes](figures/w/movq/12.svg)
 
-![MOVQ: RRF5, prefix 1101001011100000, sub-opcode 000000; operands reg5, reg5; 4 bytes](figures/w/movq/17.svg)
+![MOV: RRF5, prefix 1101001011100000, sub-opcode 000000; operands reg5, reg5; 4 bytes](figures/w/movq/17.svg)
 
-![MOVQ: STBs8/a, prefix 1101000110011, sub-opcode 0; operands reg5, b5d8s-xsz; 4 bytes](figures/w/movq/24.svg)
+![MOV: STBs8/a, prefix 1101000110011, sub-opcode 0; operands reg5, b5d8s-xsz; 4 bytes](figures/w/movq/24.svg)
 
-![MOVQ: LDBs10/a, prefix 1100101111, sub-opcode 00; operands b5d10s-xsz, reg5; 4 bytes](figures/w/movq/25.svg)
+![MOV: LDBs10/a, prefix 1100101111, sub-opcode 00; operands b5d10s-xsz, reg5; 4 bytes](figures/w/movq/25.svg)
 
-![MOVQ: LDX0/a, prefix 1101000110110, sub-opcode 00; operands x5-5d0s, reg5; 4 bytes](figures/w/movq/26.svg)
+![MOV: LDX0/a, prefix 1101000110110, sub-opcode 00; operands x5-5d0s, reg5; 4 bytes](figures/w/movq/26.svg)
 
-![MOVQ: STX0/a, prefix 11010010100100, sub-opcode 0; operands reg5, x5-5d0s; 4 bytes](figures/w/movq/27.svg)
+![MOV: STX0/a, prefix 11010010100100, sub-opcode 0; operands reg5, x5-5d0s; 4 bytes](figures/w/movq/27.svg)
 
-![MOVQ: LDPC14/a, prefix 11001111011, sub-opcode 00; operands pc14-u1, reg5; 4 bytes](figures/w/movq/28.svg)
+![MOV: LDPC14/a, prefix 11001111011, sub-opcode 00; operands pc14-u1, reg5; 4 bytes](figures/w/movq/28.svg)
 
-![MOVQ: LDI12/a, prefix 110100101101001; operands imm12s, reg5; 4 bytes](figures/w/movq/29.svg)
+![MOV: LDI12/a, prefix 110100101101001; operands imm12s, reg5; 4 bytes](figures/w/movq/29.svg)
 
-![MOVQ: LDBu12H/a, prefix 110001101, sub-opcode 00; operands b4d12u-xsz, reg5; 4 bytes](figures/w/movq/30.svg)
+![MOV: LDBu12H/a, prefix 110001101, sub-opcode 00; operands b4d12u-xsz, reg5; 4 bytes](figures/w/movq/30.svg)
 
-![MOVQ: STBu12H/a, prefix 11001111101, sub-opcode 0; operands reg4, b4d12u-xsz; 4 bytes](figures/w/movq/31.svg)
+![MOV: STBu12H/a, prefix 11001111101, sub-opcode 0; operands reg4, b4d12u-xsz; 4 bytes](figures/w/movq/31.svg)
 
-![MOVQ: LDX6H/a, prefix 110001111, sub-opcode 00; operands x4-4d6s, reg5; 4 bytes](figures/w/movq/32.svg)
+![MOV: LDX6H/a, prefix 110001111, sub-opcode 00; operands x4-4d6s, reg5; 4 bytes](figures/w/movq/32.svg)
 
-![MOVQ: STX6H/a, prefix 1100110000, sub-opcode 0; operands reg5, x4-4d6s; 4 bytes](figures/w/movq/33.svg)
+![MOV: STX6H/a, prefix 1100110000, sub-opcode 0; operands reg5, x4-4d6s; 4 bytes](figures/w/movq/33.svg)
 
-![MOVQ: LDPC16H/a, prefix 1100110010, sub-opcode 00; operands pc16-u1, reg4; 4 bytes](figures/w/movq/34.svg)
+![MOV: LDPC16H/a, prefix 1100110010, sub-opcode 00; operands pc16-u1, reg4; 4 bytes](figures/w/movq/34.svg)
 
-![MOVQ: LDI18H/a, prefix 1100110100; operands imm18s, reg4; 4 bytes](figures/w/movq/35.svg)
+![MOV: LDI18H/a, prefix 1100110100; operands imm18s, reg4; 4 bytes](figures/w/movq/35.svg)
 
-![MOVQ: RRF, prefix 0010, sub-opcode 0000; operands reg4, reg4; 2 bytes](figures/w/movq/16.svg)
+![MOV: RRF, prefix 0010, sub-opcode 0000; operands reg4, reg4; 2 bytes](figures/w/movq/16.svg)
 
-![MOVQ: RR5, prefix 000, sub-opcode 000; operands reg5, reg5; 2 bytes](figures/w/movq/18.svg)
+![MOV: RR5, prefix 000, sub-opcode 000; operands reg5, reg5; 2 bytes](figures/w/movq/18.svg)
 
-![MOVQ: LDHHH3/a, prefix 01001, sub-opcode 00; operands b3d3u-xsz, reg3; 2 bytes](figures/w/movq/19.svg)
+![MOV: LDHHH3/a, prefix 01001, sub-opcode 00; operands b3d3u-xsz, reg3; 2 bytes](figures/w/movq/19.svg)
 
-![MOVQ: STHHH3/a, prefix 100001, sub-opcode 0; operands reg3, b3d3u-xsz; 2 bytes](figures/w/movq/20.svg)
+![MOV: STHHH3/a, prefix 100001, sub-opcode 0; operands reg3, b3d3u-xsz; 2 bytes](figures/w/movq/20.svg)
 
-![MOVQ: STSPh4/a, prefix 1010010, sub-opcode 0; operands reg4, spd4u-xsz; 2 bytes](figures/w/movq/21.svg)
+![MOV: STSPh4/a, prefix 1010010, sub-opcode 0; operands reg4, spd4u-xsz; 2 bytes](figures/w/movq/21.svg)
 
-![MOVQ: LDSPh5/a, prefix 01010, sub-opcode 00; operands spd5u-xsz, reg4; 2 bytes](figures/w/movq/22.svg)
+![MOV: LDSPh5/a, prefix 01010, sub-opcode 00; operands spd5u-xsz, reg4; 2 bytes](figures/w/movq/22.svg)
 
-![MOVQ: IMMh47/a, prefix 01011; operands imm7s, reg4; 2 bytes](figures/w/movq/23.svg)
+![MOV: IMMh47/a, prefix 01011; operands imm7s, reg4; 2 bytes](figures/w/movq/23.svg)
 
 ```
-MOVQ rm, Rd
-MOVQ Rs, rm
-MOVQ #imm, Rd
-MOVQ.U, MOVL.U, MOVW.U, MOVB.U, MOVZL.U, MOVZW.U, MOVZB.U
+MOV rm, Rd
+MOV Rs, rm
+MOV #imm, Rd
 ```
 
 Operation and exceptions as for the entry MOV above; 35 layout forms, each a chart of its own (above).
 
 <a id="w-movl"></a>
-#### MOVL
+#### MOV.S32
 
-![MOVL: LDF.B28, prefix 011010, sub-opcode 0001; operands b5d28s-x1, reg5; 6 bytes](figures/w/movl/01.svg)
+![MOV.S32: LDF.B28, prefix 011010, sub-opcode 0001; operands b5d28s-x1, reg5; 6 bytes](figures/w/movl/01.svg)
 
-![MOVL: LDF.X22, prefix 01000, sub-opcode 0001; operands x5-5d22s, reg5; 6 bytes](figures/w/movl/02.svg)
+![MOV.S32: LDF.X22, prefix 01000, sub-opcode 0001; operands x5-5d22s, reg5; 6 bytes](figures/w/movl/02.svg)
 
-![MOVL: LDF.PC32, prefix 1001011, sub-opcode 0001; operands pc32-u1, reg5; 6 bytes](figures/w/movl/05.svg)
+![MOV.S32: LDF.PC32, prefix 1001011, sub-opcode 0001; operands pc32-u1, reg5; 6 bytes](figures/w/movl/05.svg)
 
-![MOVL: LDF.A32, prefix 1001100, sub-opcode 0001; operands abs32, reg5; 6 bytes](figures/w/movl/06.svg)
+![MOV.S32: LDF.A32, prefix 1001100, sub-opcode 0001; operands abs32, reg5; 6 bytes](figures/w/movl/06.svg)
 
-![MOVL: LDFI.I32, prefix 1001101, sub-opcode 1111; operands imm32s, reg5; 6 bytes](figures/w/movl/07.svg)
+![MOV.S32: LDFI.I32, prefix 1001101, sub-opcode 1111; operands imm32s, reg5; 6 bytes](figures/w/movl/07.svg)
 
-![MOVL: STF.B28, prefix 1001110, sub-opcode 001; operands reg5, b5d28s-x1; 6 bytes](figures/w/movl/08.svg)
+![MOV.S32: STF.B28, prefix 1001110, sub-opcode 001; operands reg5, b5d28s-x1; 6 bytes](figures/w/movl/08.svg)
 
-![MOVL: STF.X22, prefix 011101, sub-opcode 001; operands reg5, x5-5d22s; 6 bytes](figures/w/movl/09.svg)
+![MOV.S32: STF.X22, prefix 011101, sub-opcode 001; operands reg5, x5-5d22s; 6 bytes](figures/w/movl/09.svg)
 
-![MOVL: STF.PC32, prefix 10111010, sub-opcode 001; operands reg5, pc32-u1; 6 bytes](figures/w/movl/12.svg)
+![MOV.S32: STF.PC32, prefix 10111010, sub-opcode 001; operands reg5, pc32-u1; 6 bytes](figures/w/movl/12.svg)
 
-![MOVL: STF.A32, prefix 10111011, sub-opcode 001; operands reg5, abs32; 6 bytes](figures/w/movl/13.svg)
+![MOV.S32: STF.A32, prefix 10111011, sub-opcode 001; operands reg5, abs32; 6 bytes](figures/w/movl/13.svg)
 
-![MOVL: DPF.D28, prefix 11001110111, sub-opcode 0001; operands dpd28s-x1, reg5; 6 bytes](figures/w/movl/14.svg)
+![MOV.S32: DPF.D28, prefix 11001110111, sub-opcode 0001; operands dpd28s-x1, reg5; 6 bytes](figures/w/movl/14.svg)
 
-![MOVL: LDF.PI12, prefix 011011, sub-opcode 0001; operands pi5-s12, reg5; 4 bytes](figures/w/movl/03.svg)
+![MOV.S32: LDF.PI12, prefix 011011, sub-opcode 0001; operands pi5-s12, reg5; 4 bytes](figures/w/movl/03.svg)
 
-![MOVL: LDF.PD12, prefix 011100, sub-opcode 0001; operands pd5-s12, reg5; 4 bytes](figures/w/movl/04.svg)
+![MOV.S32: LDF.PD12, prefix 011100, sub-opcode 0001; operands pd5-s12, reg5; 4 bytes](figures/w/movl/04.svg)
 
-![MOVL: STF.PI12, prefix 1001111, sub-opcode 001; operands reg5, pi5-s12; 4 bytes](figures/w/movl/10.svg)
+![MOV.S32: STF.PI12, prefix 1001111, sub-opcode 001; operands reg5, pi5-s12; 4 bytes](figures/w/movl/10.svg)
 
-![MOVL: STF.PD12, prefix 1010000, sub-opcode 001; operands reg5, pd5-s12; 4 bytes](figures/w/movl/11.svg)
+![MOV.S32: STF.PD12, prefix 1010000, sub-opcode 001; operands reg5, pd5-s12; 4 bytes](figures/w/movl/11.svg)
 
-![MOVL: RRF5, prefix 1101001011100000, sub-opcode 000001; operands reg5, reg5; 4 bytes](figures/w/movl/16.svg)
+![MOV.S32: RRF5, prefix 1101001011100000, sub-opcode 000001; operands reg5, reg5; 4 bytes](figures/w/movl/16.svg)
 
-![MOVL: STBs8/a, prefix 1101000110011, sub-opcode 1; operands reg5, b5d8s-xsz; 4 bytes](figures/w/movl/22.svg)
+![MOV.S32: STBs8/a, prefix 1101000110011, sub-opcode 1; operands reg5, b5d8s-xsz; 4 bytes](figures/w/movl/22.svg)
 
-![MOVL: LDBs10/a, prefix 1100101111, sub-opcode 01; operands b5d10s-xsz, reg5; 4 bytes](figures/w/movl/23.svg)
+![MOV.S32: LDBs10/a, prefix 1100101111, sub-opcode 01; operands b5d10s-xsz, reg5; 4 bytes](figures/w/movl/23.svg)
 
-![MOVL: LDX0/a, prefix 1101000110110, sub-opcode 01; operands x5-5d0s, reg5; 4 bytes](figures/w/movl/24.svg)
+![MOV.S32: LDX0/a, prefix 1101000110110, sub-opcode 01; operands x5-5d0s, reg5; 4 bytes](figures/w/movl/24.svg)
 
-![MOVL: STX0/a, prefix 11010010100100, sub-opcode 1; operands reg5, x5-5d0s; 4 bytes](figures/w/movl/25.svg)
+![MOV.S32: STX0/a, prefix 11010010100100, sub-opcode 1; operands reg5, x5-5d0s; 4 bytes](figures/w/movl/25.svg)
 
-![MOVL: LDPC14/a, prefix 11001111011, sub-opcode 01; operands pc14-u1, reg5; 4 bytes](figures/w/movl/26.svg)
+![MOV.S32: LDPC14/a, prefix 11001111011, sub-opcode 01; operands pc14-u1, reg5; 4 bytes](figures/w/movl/26.svg)
 
-![MOVL: LDBu12H/a, prefix 110001101, sub-opcode 01; operands b4d12u-xsz, reg5; 4 bytes](figures/w/movl/27.svg)
+![MOV.S32: LDBu12H/a, prefix 110001101, sub-opcode 01; operands b4d12u-xsz, reg5; 4 bytes](figures/w/movl/27.svg)
 
-![MOVL: STBu12H/a, prefix 11001111101, sub-opcode 1; operands reg4, b4d12u-xsz; 4 bytes](figures/w/movl/28.svg)
+![MOV.S32: STBu12H/a, prefix 11001111101, sub-opcode 1; operands reg4, b4d12u-xsz; 4 bytes](figures/w/movl/28.svg)
 
-![MOVL: LDX6H/a, prefix 110001111, sub-opcode 01; operands x4-4d6s, reg5; 4 bytes](figures/w/movl/29.svg)
+![MOV.S32: LDX6H/a, prefix 110001111, sub-opcode 01; operands x4-4d6s, reg5; 4 bytes](figures/w/movl/29.svg)
 
-![MOVL: STX6H/a, prefix 1100110000, sub-opcode 1; operands reg5, x4-4d6s; 4 bytes](figures/w/movl/30.svg)
+![MOV.S32: STX6H/a, prefix 1100110000, sub-opcode 1; operands reg5, x4-4d6s; 4 bytes](figures/w/movl/30.svg)
 
-![MOVL: LDPC16H/a, prefix 1100110010, sub-opcode 01; operands pc16-u1, reg4; 4 bytes](figures/w/movl/31.svg)
+![MOV.S32: LDPC16H/a, prefix 1100110010, sub-opcode 01; operands pc16-u1, reg4; 4 bytes](figures/w/movl/31.svg)
 
-![MOVL: RRF, prefix 0010, sub-opcode 0001; operands reg4, reg4; 2 bytes](figures/w/movl/15.svg)
+![MOV.S32: RRF, prefix 0010, sub-opcode 0001; operands reg4, reg4; 2 bytes](figures/w/movl/15.svg)
 
-![MOVL: RR5, prefix 000, sub-opcode 001; operands reg5, reg5; 2 bytes](figures/w/movl/17.svg)
+![MOV.S32: RR5, prefix 000, sub-opcode 001; operands reg5, reg5; 2 bytes](figures/w/movl/17.svg)
 
-![MOVL: LDHHH3/a, prefix 01001, sub-opcode 01; operands b3d3u-xsz, reg3; 2 bytes](figures/w/movl/18.svg)
+![MOV.S32: LDHHH3/a, prefix 01001, sub-opcode 01; operands b3d3u-xsz, reg3; 2 bytes](figures/w/movl/18.svg)
 
-![MOVL: STHHH3/a, prefix 100001, sub-opcode 1; operands reg3, b3d3u-xsz; 2 bytes](figures/w/movl/19.svg)
+![MOV.S32: STHHH3/a, prefix 100001, sub-opcode 1; operands reg3, b3d3u-xsz; 2 bytes](figures/w/movl/19.svg)
 
-![MOVL: STSPh4/a, prefix 1010010, sub-opcode 1; operands reg4, spd4u-xsz; 2 bytes](figures/w/movl/20.svg)
+![MOV.S32: STSPh4/a, prefix 1010010, sub-opcode 1; operands reg4, spd4u-xsz; 2 bytes](figures/w/movl/20.svg)
 
-![MOVL: LDSPh5/a, prefix 01010, sub-opcode 01; operands spd5u-xsz, reg4; 2 bytes](figures/w/movl/21.svg)
+![MOV.S32: LDSPh5/a, prefix 01010, sub-opcode 01; operands spd5u-xsz, reg4; 2 bytes](figures/w/movl/21.svg)
 
 ```
-MOVL, MOVW, MOVB likewise: 32, 16 and 8 bits, a load sign-extends
+MOV.S32, MOV.S16, MOV.S8 rm, Rd
 ```
 
 Operation and exceptions as for the entry MOV above; 31 layout forms, each a chart of its own (above).
 
 <a id="w-movw"></a>
-#### MOVW
+#### MOV.S16
 
-![MOVW: LDF.B28, prefix 011010, sub-opcode 0010; operands b5d28s-x1, reg5; 6 bytes](figures/w/movw/01.svg)
+![MOV.S16: LDF.B28, prefix 011010, sub-opcode 0010; operands b5d28s-x1, reg5; 6 bytes](figures/w/movw/01.svg)
 
-![MOVW: LDF.X22, prefix 01000, sub-opcode 0010; operands x5-5d22s, reg5; 6 bytes](figures/w/movw/02.svg)
+![MOV.S16: LDF.X22, prefix 01000, sub-opcode 0010; operands x5-5d22s, reg5; 6 bytes](figures/w/movw/02.svg)
 
-![MOVW: LDF.PC32, prefix 1001011, sub-opcode 0010; operands pc32-u1, reg5; 6 bytes](figures/w/movw/05.svg)
+![MOV.S16: LDF.PC32, prefix 1001011, sub-opcode 0010; operands pc32-u1, reg5; 6 bytes](figures/w/movw/05.svg)
 
-![MOVW: LDF.A32, prefix 1001100, sub-opcode 0010; operands abs32, reg5; 6 bytes](figures/w/movw/06.svg)
+![MOV.S16: LDF.A32, prefix 1001100, sub-opcode 0010; operands abs32, reg5; 6 bytes](figures/w/movw/06.svg)
 
-![MOVW: LDFI.I32, prefix 110001011, sub-opcode 00; operands imm32s, reg5; 6 bytes](figures/w/movw/07.svg)
+![MOV.S16: LDFI.I32, prefix 110001011, sub-opcode 00; operands imm32s, reg5; 6 bytes](figures/w/movw/07.svg)
 
-![MOVW: STF.B28, prefix 1001110, sub-opcode 010; operands reg5, b5d28s-x1; 6 bytes](figures/w/movw/08.svg)
+![MOV.S16: STF.B28, prefix 1001110, sub-opcode 010; operands reg5, b5d28s-x1; 6 bytes](figures/w/movw/08.svg)
 
-![MOVW: STF.X22, prefix 011101, sub-opcode 010; operands reg5, x5-5d22s; 6 bytes](figures/w/movw/09.svg)
+![MOV.S16: STF.X22, prefix 011101, sub-opcode 010; operands reg5, x5-5d22s; 6 bytes](figures/w/movw/09.svg)
 
-![MOVW: STF.PC32, prefix 10111010, sub-opcode 010; operands reg5, pc32-u1; 6 bytes](figures/w/movw/12.svg)
+![MOV.S16: STF.PC32, prefix 10111010, sub-opcode 010; operands reg5, pc32-u1; 6 bytes](figures/w/movw/12.svg)
 
-![MOVW: STF.A32, prefix 10111011, sub-opcode 010; operands reg5, abs32; 6 bytes](figures/w/movw/13.svg)
+![MOV.S16: STF.A32, prefix 10111011, sub-opcode 010; operands reg5, abs32; 6 bytes](figures/w/movw/13.svg)
 
-![MOVW: DPF.D28, prefix 11001110111, sub-opcode 0010; operands dpd28s-x1, reg5; 6 bytes](figures/w/movw/14.svg)
+![MOV.S16: DPF.D28, prefix 11001110111, sub-opcode 0010; operands dpd28s-x1, reg5; 6 bytes](figures/w/movw/14.svg)
 
-![MOVW: LDF.PI12, prefix 011011, sub-opcode 0010; operands pi5-s12, reg5; 4 bytes](figures/w/movw/03.svg)
+![MOV.S16: LDF.PI12, prefix 011011, sub-opcode 0010; operands pi5-s12, reg5; 4 bytes](figures/w/movw/03.svg)
 
-![MOVW: LDF.PD12, prefix 011100, sub-opcode 0010; operands pd5-s12, reg5; 4 bytes](figures/w/movw/04.svg)
+![MOV.S16: LDF.PD12, prefix 011100, sub-opcode 0010; operands pd5-s12, reg5; 4 bytes](figures/w/movw/04.svg)
 
-![MOVW: STF.PI12, prefix 1001111, sub-opcode 010; operands reg5, pi5-s12; 4 bytes](figures/w/movw/10.svg)
+![MOV.S16: STF.PI12, prefix 1001111, sub-opcode 010; operands reg5, pi5-s12; 4 bytes](figures/w/movw/10.svg)
 
-![MOVW: STF.PD12, prefix 1010000, sub-opcode 010; operands reg5, pd5-s12; 4 bytes](figures/w/movw/11.svg)
+![MOV.S16: STF.PD12, prefix 1010000, sub-opcode 010; operands reg5, pd5-s12; 4 bytes](figures/w/movw/11.svg)
 
-![MOVW: RRF5, prefix 1101001011100000, sub-opcode 000010; operands reg5, reg5; 4 bytes](figures/w/movw/16.svg)
+![MOV.S16: RRF5, prefix 1101001011100000, sub-opcode 000010; operands reg5, reg5; 4 bytes](figures/w/movw/16.svg)
 
-![MOVW: LDBs6/b, prefix 11010010100001, sub-opcode 00; operands b5d6s-xsz, reg5; 4 bytes](figures/w/movw/18.svg)
+![MOV.S16: LDBs6/b, prefix 11010010100001, sub-opcode 00; operands b5d6s-xsz, reg5; 4 bytes](figures/w/movw/18.svg)
 
-![MOVW: STBs6/b, prefix 110100101100110, sub-opcode 0; operands reg5, b5d6s-xsz; 4 bytes](figures/w/movw/19.svg)
+![MOV.S16: STBs6/b, prefix 110100101100110, sub-opcode 0; operands reg5, b5d6s-xsz; 4 bytes](figures/w/movw/19.svg)
 
-![MOVW: LDBu6/b, prefix 11010010100010, sub-opcode 00; operands b5d6u-xsz, reg5; 4 bytes](figures/w/movw/20.svg)
+![MOV.S16: LDBu6/b, prefix 11010010100010, sub-opcode 00; operands b5d6u-xsz, reg5; 4 bytes](figures/w/movw/20.svg)
 
-![MOVW: LDX0/b, prefix 1101000110111, sub-opcode 00; operands x5-5d0s, reg5; 4 bytes](figures/w/movw/21.svg)
+![MOV.S16: LDX0/b, prefix 1101000110111, sub-opcode 00; operands x5-5d0s, reg5; 4 bytes](figures/w/movw/21.svg)
 
-![MOVW: STX0/b, prefix 11010010100101, sub-opcode 0; operands reg5, x5-5d0s; 4 bytes](figures/w/movw/22.svg)
+![MOV.S16: STX0/b, prefix 11010010100101, sub-opcode 0; operands reg5, x5-5d0s; 4 bytes](figures/w/movw/22.svg)
 
-![MOVW: STBs8H/b, prefix 110100101101011, sub-opcode 0; operands reg4, b4d8s-xsz; 4 bytes](figures/w/movw/23.svg)
+![MOV.S16: STBs8H/b, prefix 110100101101011, sub-opcode 0; operands reg4, b4d8s-xsz; 4 bytes](figures/w/movw/23.svg)
 
-![MOVW: LDBu12H/b, prefix 110001110, sub-opcode 00; operands b4d12u-xsz, reg5; 4 bytes](figures/w/movw/24.svg)
+![MOV.S16: LDBu12H/b, prefix 110001110, sub-opcode 00; operands b4d12u-xsz, reg5; 4 bytes](figures/w/movw/24.svg)
 
-![MOVW: STBu12H/b, prefix 11001111110, sub-opcode 0; operands reg4, b4d12u-xsz; 4 bytes](figures/w/movw/25.svg)
+![MOV.S16: STBu12H/b, prefix 11001111110, sub-opcode 0; operands reg4, b4d12u-xsz; 4 bytes](figures/w/movw/25.svg)
 
-![MOVW: LDX4H/b, prefix 11001111111, sub-opcode 00; operands x4-4d4s, reg5; 4 bytes](figures/w/movw/26.svg)
+![MOV.S16: LDX4H/b, prefix 11001111111, sub-opcode 00; operands x4-4d4s, reg5; 4 bytes](figures/w/movw/26.svg)
 
-![MOVW: STX6H/b, prefix 1100110001, sub-opcode 0; operands reg5, x4-4d6s; 4 bytes](figures/w/movw/27.svg)
+![MOV.S16: STX6H/b, prefix 1100110001, sub-opcode 0; operands reg5, x4-4d6s; 4 bytes](figures/w/movw/27.svg)
 
-![MOVW: LDPC14H/b, prefix 110100001110, sub-opcode 00; operands pc14-u1, reg4; 4 bytes](figures/w/movw/28.svg)
+![MOV.S16: LDPC14H/b, prefix 110100001110, sub-opcode 00; operands pc14-u1, reg4; 4 bytes](figures/w/movw/28.svg)
 
-![MOVW: RRF, prefix 0010, sub-opcode 0010; operands reg4, reg4; 2 bytes](figures/w/movw/15.svg)
+![MOV.S16: RRF, prefix 0010, sub-opcode 0010; operands reg4, reg4; 2 bytes](figures/w/movw/15.svg)
 
-![MOVW: STHHH1/b, prefix 10111111, sub-opcode 0; operands reg3, b3d1u-xsz; 2 bytes](figures/w/movw/17.svg)
+![MOV.S16: STHHH1/b, prefix 10111111, sub-opcode 0; operands reg3, b3d1u-xsz; 2 bytes](figures/w/movw/17.svg)
 
 Operation and exceptions as for the entry MOV above; 28 layout forms, each a chart of its own (above).
 
 <a id="w-movb"></a>
-#### MOVB
+#### MOV.S8
 
-![MOVB: LDF.B28, prefix 011010, sub-opcode 0011; operands b5d28s-x1, reg5; 6 bytes](figures/w/movb/01.svg)
+![MOV.S8: LDF.B28, prefix 011010, sub-opcode 0011; operands b5d28s-x1, reg5; 6 bytes](figures/w/movb/01.svg)
 
-![MOVB: LDF.X22, prefix 01000, sub-opcode 0011; operands x5-5d22s, reg5; 6 bytes](figures/w/movb/02.svg)
+![MOV.S8: LDF.X22, prefix 01000, sub-opcode 0011; operands x5-5d22s, reg5; 6 bytes](figures/w/movb/02.svg)
 
-![MOVB: LDF.PC32, prefix 1001011, sub-opcode 0011; operands pc32-u1, reg5; 6 bytes](figures/w/movb/05.svg)
+![MOV.S8: LDF.PC32, prefix 1001011, sub-opcode 0011; operands pc32-u1, reg5; 6 bytes](figures/w/movb/05.svg)
 
-![MOVB: LDF.A32, prefix 1001100, sub-opcode 0011; operands abs32, reg5; 6 bytes](figures/w/movb/06.svg)
+![MOV.S8: LDF.A32, prefix 1001100, sub-opcode 0011; operands abs32, reg5; 6 bytes](figures/w/movb/06.svg)
 
-![MOVB: LDFI.I32, prefix 110001011, sub-opcode 01; operands imm32s, reg5; 6 bytes](figures/w/movb/07.svg)
+![MOV.S8: LDFI.I32, prefix 110001011, sub-opcode 01; operands imm32s, reg5; 6 bytes](figures/w/movb/07.svg)
 
-![MOVB: STF.B28, prefix 1001110, sub-opcode 011; operands reg5, b5d28s-x1; 6 bytes](figures/w/movb/08.svg)
+![MOV.S8: STF.B28, prefix 1001110, sub-opcode 011; operands reg5, b5d28s-x1; 6 bytes](figures/w/movb/08.svg)
 
-![MOVB: STF.X22, prefix 011101, sub-opcode 011; operands reg5, x5-5d22s; 6 bytes](figures/w/movb/09.svg)
+![MOV.S8: STF.X22, prefix 011101, sub-opcode 011; operands reg5, x5-5d22s; 6 bytes](figures/w/movb/09.svg)
 
-![MOVB: STF.PC32, prefix 10111010, sub-opcode 011; operands reg5, pc32-u1; 6 bytes](figures/w/movb/12.svg)
+![MOV.S8: STF.PC32, prefix 10111010, sub-opcode 011; operands reg5, pc32-u1; 6 bytes](figures/w/movb/12.svg)
 
-![MOVB: STF.A32, prefix 10111011, sub-opcode 011; operands reg5, abs32; 6 bytes](figures/w/movb/13.svg)
+![MOV.S8: STF.A32, prefix 10111011, sub-opcode 011; operands reg5, abs32; 6 bytes](figures/w/movb/13.svg)
 
-![MOVB: DPF.D28, prefix 11001110111, sub-opcode 0011; operands dpd28s-x1, reg5; 6 bytes](figures/w/movb/14.svg)
+![MOV.S8: DPF.D28, prefix 11001110111, sub-opcode 0011; operands dpd28s-x1, reg5; 6 bytes](figures/w/movb/14.svg)
 
-![MOVB: LDF.PI12, prefix 011011, sub-opcode 0011; operands pi5-s12, reg5; 4 bytes](figures/w/movb/03.svg)
+![MOV.S8: LDF.PI12, prefix 011011, sub-opcode 0011; operands pi5-s12, reg5; 4 bytes](figures/w/movb/03.svg)
 
-![MOVB: LDF.PD12, prefix 011100, sub-opcode 0011; operands pd5-s12, reg5; 4 bytes](figures/w/movb/04.svg)
+![MOV.S8: LDF.PD12, prefix 011100, sub-opcode 0011; operands pd5-s12, reg5; 4 bytes](figures/w/movb/04.svg)
 
-![MOVB: STF.PI12, prefix 1001111, sub-opcode 011; operands reg5, pi5-s12; 4 bytes](figures/w/movb/10.svg)
+![MOV.S8: STF.PI12, prefix 1001111, sub-opcode 011; operands reg5, pi5-s12; 4 bytes](figures/w/movb/10.svg)
 
-![MOVB: STF.PD12, prefix 1010000, sub-opcode 011; operands reg5, pd5-s12; 4 bytes](figures/w/movb/11.svg)
+![MOV.S8: STF.PD12, prefix 1010000, sub-opcode 011; operands reg5, pd5-s12; 4 bytes](figures/w/movb/11.svg)
 
-![MOVB: RRF5, prefix 1101001011100000, sub-opcode 000011; operands reg5, reg5; 4 bytes](figures/w/movb/16.svg)
+![MOV.S8: RRF5, prefix 1101001011100000, sub-opcode 000011; operands reg5, reg5; 4 bytes](figures/w/movb/16.svg)
 
-![MOVB: LDBs6/b, prefix 11010010100001, sub-opcode 01; operands b5d6s-xsz, reg5; 4 bytes](figures/w/movb/18.svg)
+![MOV.S8: LDBs6/b, prefix 11010010100001, sub-opcode 01; operands b5d6s-xsz, reg5; 4 bytes](figures/w/movb/18.svg)
 
-![MOVB: STBs6/b, prefix 110100101100110, sub-opcode 1; operands reg5, b5d6s-xsz; 4 bytes](figures/w/movb/19.svg)
+![MOV.S8: STBs6/b, prefix 110100101100110, sub-opcode 1; operands reg5, b5d6s-xsz; 4 bytes](figures/w/movb/19.svg)
 
-![MOVB: LDBu6/b, prefix 11010010100010, sub-opcode 01; operands b5d6u-xsz, reg5; 4 bytes](figures/w/movb/20.svg)
+![MOV.S8: LDBu6/b, prefix 11010010100010, sub-opcode 01; operands b5d6u-xsz, reg5; 4 bytes](figures/w/movb/20.svg)
 
-![MOVB: LDX0/b, prefix 1101000110111, sub-opcode 01; operands x5-5d0s, reg5; 4 bytes](figures/w/movb/21.svg)
+![MOV.S8: LDX0/b, prefix 1101000110111, sub-opcode 01; operands x5-5d0s, reg5; 4 bytes](figures/w/movb/21.svg)
 
-![MOVB: STX0/b, prefix 11010010100101, sub-opcode 1; operands reg5, x5-5d0s; 4 bytes](figures/w/movb/22.svg)
+![MOV.S8: STX0/b, prefix 11010010100101, sub-opcode 1; operands reg5, x5-5d0s; 4 bytes](figures/w/movb/22.svg)
 
-![MOVB: LDI12/d, prefix 11010010101001, sub-opcode 1; operands imm12s, reg5; 4 bytes](figures/w/movb/23.svg)
+![MOV.S8: LDI12/d, prefix 11010010101001, sub-opcode 1; operands imm12s, reg5; 4 bytes](figures/w/movb/23.svg)
 
-![MOVB: STBs8H/b, prefix 110100101101011, sub-opcode 1; operands reg4, b4d8s-xsz; 4 bytes](figures/w/movb/24.svg)
+![MOV.S8: STBs8H/b, prefix 110100101101011, sub-opcode 1; operands reg4, b4d8s-xsz; 4 bytes](figures/w/movb/24.svg)
 
-![MOVB: LDBu12H/b, prefix 110001110, sub-opcode 01; operands b4d12u-xsz, reg5; 4 bytes](figures/w/movb/25.svg)
+![MOV.S8: LDBu12H/b, prefix 110001110, sub-opcode 01; operands b4d12u-xsz, reg5; 4 bytes](figures/w/movb/25.svg)
 
-![MOVB: STBu12H/b, prefix 11001111110, sub-opcode 1; operands reg4, b4d12u-xsz; 4 bytes](figures/w/movb/26.svg)
+![MOV.S8: STBu12H/b, prefix 11001111110, sub-opcode 1; operands reg4, b4d12u-xsz; 4 bytes](figures/w/movb/26.svg)
 
-![MOVB: LDX4H/b, prefix 11001111111, sub-opcode 01; operands x4-4d4s, reg5; 4 bytes](figures/w/movb/27.svg)
+![MOV.S8: LDX4H/b, prefix 11001111111, sub-opcode 01; operands x4-4d4s, reg5; 4 bytes](figures/w/movb/27.svg)
 
-![MOVB: STX6H/b, prefix 1100110001, sub-opcode 1; operands reg5, x4-4d6s; 4 bytes](figures/w/movb/28.svg)
+![MOV.S8: STX6H/b, prefix 1100110001, sub-opcode 1; operands reg5, x4-4d6s; 4 bytes](figures/w/movb/28.svg)
 
-![MOVB: LDPC14H/b, prefix 110100001110, sub-opcode 01; operands pc14-u1, reg4; 4 bytes](figures/w/movb/29.svg)
+![MOV.S8: LDPC14H/b, prefix 110100001110, sub-opcode 01; operands pc14-u1, reg4; 4 bytes](figures/w/movb/29.svg)
 
-![MOVB: RRF, prefix 0010, sub-opcode 0011; operands reg4, reg4; 2 bytes](figures/w/movb/15.svg)
+![MOV.S8: RRF, prefix 0010, sub-opcode 0011; operands reg4, reg4; 2 bytes](figures/w/movb/15.svg)
 
-![MOVB: STHHH1/b, prefix 10111111, sub-opcode 1; operands reg3, b3d1u-xsz; 2 bytes](figures/w/movb/17.svg)
+![MOV.S8: STHHH1/b, prefix 10111111, sub-opcode 1; operands reg3, b3d1u-xsz; 2 bytes](figures/w/movb/17.svg)
 
 ```
-MOVB Rs, Rd
+MOV.S8 Rs, Rd
 ```
 
 Operation and exceptions as for the entry MOV above; 29 layout forms, each a chart of its own (above).
 
 <a id="w-movzl"></a>
-#### MOVZL
+#### MOV.U32
 
-![MOVZL: LDF.B28, prefix 011010, sub-opcode 0100; operands b5d28s-x1, reg5; 6 bytes](figures/w/movzl/01.svg)
+![MOV.U32: LDF.B28, prefix 011010, sub-opcode 0100; operands b5d28s-x1, reg5; 6 bytes](figures/w/movzl/01.svg)
 
-![MOVZL: LDF.X22, prefix 01000, sub-opcode 0100; operands x5-5d22s, reg5; 6 bytes](figures/w/movzl/02.svg)
+![MOV.U32: LDF.X22, prefix 01000, sub-opcode 0100; operands x5-5d22s, reg5; 6 bytes](figures/w/movzl/02.svg)
 
-![MOVZL: LDF.PC32, prefix 1001011, sub-opcode 0100; operands pc32-u1, reg5; 6 bytes](figures/w/movzl/05.svg)
+![MOV.U32: LDF.PC32, prefix 1001011, sub-opcode 0100; operands pc32-u1, reg5; 6 bytes](figures/w/movzl/05.svg)
 
-![MOVZL: LDF.A32, prefix 1001100, sub-opcode 0100; operands abs32, reg5; 6 bytes](figures/w/movzl/06.svg)
+![MOV.U32: LDF.A32, prefix 1001100, sub-opcode 0100; operands abs32, reg5; 6 bytes](figures/w/movzl/06.svg)
 
-![MOVZL: LDFI.I32, prefix 110001011, sub-opcode 10; operands imm32s, reg5; 6 bytes](figures/w/movzl/07.svg)
+![MOV.U32: LDFI.I32, prefix 110001011, sub-opcode 10; operands imm32s, reg5; 6 bytes](figures/w/movzl/07.svg)
 
-![MOVZL: DPF.D28, prefix 11001110111, sub-opcode 0100; operands dpd28s-x1, reg5; 6 bytes](figures/w/movzl/08.svg)
+![MOV.U32: DPF.D28, prefix 11001110111, sub-opcode 0100; operands dpd28s-x1, reg5; 6 bytes](figures/w/movzl/08.svg)
 
-![MOVZL: LDF.PI12, prefix 011011, sub-opcode 0100; operands pi5-s12, reg5; 4 bytes](figures/w/movzl/03.svg)
+![MOV.U32: LDF.PI12, prefix 011011, sub-opcode 0100; operands pi5-s12, reg5; 4 bytes](figures/w/movzl/03.svg)
 
-![MOVZL: LDF.PD12, prefix 011100, sub-opcode 0100; operands pd5-s12, reg5; 4 bytes](figures/w/movzl/04.svg)
+![MOV.U32: LDF.PD12, prefix 011100, sub-opcode 0100; operands pd5-s12, reg5; 4 bytes](figures/w/movzl/04.svg)
 
-![MOVZL: RRF5, prefix 1101001011100000, sub-opcode 000100; operands reg5, reg5; 4 bytes](figures/w/movzl/10.svg)
+![MOV.U32: RRF5, prefix 1101001011100000, sub-opcode 000100; operands reg5, reg5; 4 bytes](figures/w/movzl/10.svg)
 
-![MOVZL: LDBs6/b, prefix 11010010100001, sub-opcode 10; operands b5d6s-xsz, reg5; 4 bytes](figures/w/movzl/11.svg)
+![MOV.U32: LDBs6/b, prefix 11010010100001, sub-opcode 10; operands b5d6s-xsz, reg5; 4 bytes](figures/w/movzl/11.svg)
 
-![MOVZL: LDBu6/b, prefix 11010010100010, sub-opcode 10; operands b5d6u-xsz, reg5; 4 bytes](figures/w/movzl/12.svg)
+![MOV.U32: LDBu6/b, prefix 11010010100010, sub-opcode 10; operands b5d6u-xsz, reg5; 4 bytes](figures/w/movzl/12.svg)
 
-![MOVZL: LDX0/b, prefix 1101000110111, sub-opcode 10; operands x5-5d0s, reg5; 4 bytes](figures/w/movzl/13.svg)
+![MOV.U32: LDX0/b, prefix 1101000110111, sub-opcode 10; operands x5-5d0s, reg5; 4 bytes](figures/w/movzl/13.svg)
 
-![MOVZL: LDBu12H/b, prefix 110001110, sub-opcode 10; operands b4d12u-xsz, reg5; 4 bytes](figures/w/movzl/14.svg)
+![MOV.U32: LDBu12H/b, prefix 110001110, sub-opcode 10; operands b4d12u-xsz, reg5; 4 bytes](figures/w/movzl/14.svg)
 
-![MOVZL: LDX4H/b, prefix 11001111111, sub-opcode 10; operands x4-4d4s, reg5; 4 bytes](figures/w/movzl/15.svg)
+![MOV.U32: LDX4H/b, prefix 11001111111, sub-opcode 10; operands x4-4d4s, reg5; 4 bytes](figures/w/movzl/15.svg)
 
-![MOVZL: LDPC14H/b, prefix 110100001110, sub-opcode 10; operands pc14-u1, reg4; 4 bytes](figures/w/movzl/16.svg)
+![MOV.U32: LDPC14H/b, prefix 110100001110, sub-opcode 10; operands pc14-u1, reg4; 4 bytes](figures/w/movzl/16.svg)
 
-![MOVZL: RRF, prefix 0010, sub-opcode 0100; operands reg4, reg4; 2 bytes](figures/w/movzl/09.svg)
+![MOV.U32: RRF, prefix 0010, sub-opcode 0100; operands reg4, reg4; 2 bytes](figures/w/movzl/09.svg)
 
 ```
-MOVZL, MOVZW, MOVZB rm, Rd
+MOV.U32, MOV.U16, MOV.U8 rm, Rd
 ```
 
 Operation and exceptions as for the entry MOV above; 16 layout forms, each a chart of its own (above).
 
 <a id="w-movzw"></a>
-#### MOVZW
+#### MOV.U16
 
-![MOVZW: LDF.B28, prefix 011010, sub-opcode 0101; operands b5d28s-x1, reg5; 6 bytes](figures/w/movzw/01.svg)
+![MOV.U16: LDF.B28, prefix 011010, sub-opcode 0101; operands b5d28s-x1, reg5; 6 bytes](figures/w/movzw/01.svg)
 
-![MOVZW: LDF.X22, prefix 01000, sub-opcode 0101; operands x5-5d22s, reg5; 6 bytes](figures/w/movzw/02.svg)
+![MOV.U16: LDF.X22, prefix 01000, sub-opcode 0101; operands x5-5d22s, reg5; 6 bytes](figures/w/movzw/02.svg)
 
-![MOVZW: LDF.PC32, prefix 1001011, sub-opcode 0101; operands pc32-u1, reg5; 6 bytes](figures/w/movzw/05.svg)
+![MOV.U16: LDF.PC32, prefix 1001011, sub-opcode 0101; operands pc32-u1, reg5; 6 bytes](figures/w/movzw/05.svg)
 
-![MOVZW: LDF.A32, prefix 1001100, sub-opcode 0101; operands abs32, reg5; 6 bytes](figures/w/movzw/06.svg)
+![MOV.U16: LDF.A32, prefix 1001100, sub-opcode 0101; operands abs32, reg5; 6 bytes](figures/w/movzw/06.svg)
 
-![MOVZW: LDFI.I32, prefix 110001011, sub-opcode 11; operands imm32s, reg5; 6 bytes](figures/w/movzw/07.svg)
+![MOV.U16: LDFI.I32, prefix 110001011, sub-opcode 11; operands imm32s, reg5; 6 bytes](figures/w/movzw/07.svg)
 
-![MOVZW: DPF.D28, prefix 11001110111, sub-opcode 0101; operands dpd28s-x1, reg5; 6 bytes](figures/w/movzw/08.svg)
+![MOV.U16: DPF.D28, prefix 11001110111, sub-opcode 0101; operands dpd28s-x1, reg5; 6 bytes](figures/w/movzw/08.svg)
 
-![MOVZW: LDF.PI12, prefix 011011, sub-opcode 0101; operands pi5-s12, reg5; 4 bytes](figures/w/movzw/03.svg)
+![MOV.U16: LDF.PI12, prefix 011011, sub-opcode 0101; operands pi5-s12, reg5; 4 bytes](figures/w/movzw/03.svg)
 
-![MOVZW: LDF.PD12, prefix 011100, sub-opcode 0101; operands pd5-s12, reg5; 4 bytes](figures/w/movzw/04.svg)
+![MOV.U16: LDF.PD12, prefix 011100, sub-opcode 0101; operands pd5-s12, reg5; 4 bytes](figures/w/movzw/04.svg)
 
-![MOVZW: RRF5, prefix 1101001011100000, sub-opcode 000101; operands reg5, reg5; 4 bytes](figures/w/movzw/10.svg)
+![MOV.U16: RRF5, prefix 1101001011100000, sub-opcode 000101; operands reg5, reg5; 4 bytes](figures/w/movzw/10.svg)
 
-![MOVZW: LDBs6/b, prefix 11010010100001, sub-opcode 11; operands b5d6s-xsz, reg5; 4 bytes](figures/w/movzw/11.svg)
+![MOV.U16: LDBs6/b, prefix 11010010100001, sub-opcode 11; operands b5d6s-xsz, reg5; 4 bytes](figures/w/movzw/11.svg)
 
-![MOVZW: LDBu6/b, prefix 11010010100010, sub-opcode 11; operands b5d6u-xsz, reg5; 4 bytes](figures/w/movzw/12.svg)
+![MOV.U16: LDBu6/b, prefix 11010010100010, sub-opcode 11; operands b5d6u-xsz, reg5; 4 bytes](figures/w/movzw/12.svg)
 
-![MOVZW: LDX0/b, prefix 1101000110111, sub-opcode 11; operands x5-5d0s, reg5; 4 bytes](figures/w/movzw/13.svg)
+![MOV.U16: LDX0/b, prefix 1101000110111, sub-opcode 11; operands x5-5d0s, reg5; 4 bytes](figures/w/movzw/13.svg)
 
-![MOVZW: LDBu12H/b, prefix 110001110, sub-opcode 11; operands b4d12u-xsz, reg5; 4 bytes](figures/w/movzw/14.svg)
+![MOV.U16: LDBu12H/b, prefix 110001110, sub-opcode 11; operands b4d12u-xsz, reg5; 4 bytes](figures/w/movzw/14.svg)
 
-![MOVZW: LDX4H/b, prefix 11001111111, sub-opcode 11; operands x4-4d4s, reg5; 4 bytes](figures/w/movzw/15.svg)
+![MOV.U16: LDX4H/b, prefix 11001111111, sub-opcode 11; operands x4-4d4s, reg5; 4 bytes](figures/w/movzw/15.svg)
 
-![MOVZW: LDPC14H/b, prefix 110100001110, sub-opcode 11; operands pc14-u1, reg4; 4 bytes](figures/w/movzw/16.svg)
+![MOV.U16: LDPC14H/b, prefix 110100001110, sub-opcode 11; operands pc14-u1, reg4; 4 bytes](figures/w/movzw/16.svg)
 
-![MOVZW: RRF, prefix 0010, sub-opcode 0101; operands reg4, reg4; 2 bytes](figures/w/movzw/09.svg)
+![MOV.U16: RRF, prefix 0010, sub-opcode 0101; operands reg4, reg4; 2 bytes](figures/w/movzw/09.svg)
 
 Operation and exceptions as for the entry MOV above; 16 layout forms, each a chart of its own (above).
 
 <a id="w-movzb"></a>
-#### MOVZB
+#### MOV.U8
 
-![MOVZB: LDF.B28, prefix 011010, sub-opcode 0110; operands b5d28s-x1, reg5; 6 bytes](figures/w/movzb/01.svg)
+![MOV.U8: LDF.B28, prefix 011010, sub-opcode 0110; operands b5d28s-x1, reg5; 6 bytes](figures/w/movzb/01.svg)
 
-![MOVZB: LDF.X22, prefix 01000, sub-opcode 0110; operands x5-5d22s, reg5; 6 bytes](figures/w/movzb/02.svg)
+![MOV.U8: LDF.X22, prefix 01000, sub-opcode 0110; operands x5-5d22s, reg5; 6 bytes](figures/w/movzb/02.svg)
 
-![MOVZB: LDF.PC32, prefix 1001011, sub-opcode 0110; operands pc32-u1, reg5; 6 bytes](figures/w/movzb/05.svg)
+![MOV.U8: LDF.PC32, prefix 1001011, sub-opcode 0110; operands pc32-u1, reg5; 6 bytes](figures/w/movzb/05.svg)
 
-![MOVZB: LDF.A32, prefix 1001100, sub-opcode 0110; operands abs32, reg5; 6 bytes](figures/w/movzb/06.svg)
+![MOV.U8: LDF.A32, prefix 1001100, sub-opcode 0110; operands abs32, reg5; 6 bytes](figures/w/movzb/06.svg)
 
-![MOVZB: LDFI.I32, prefix 11001110101; operands imm32s, reg5; 6 bytes](figures/w/movzb/07.svg)
+![MOV.U8: LDFI.I32, prefix 11001110101; operands imm32s, reg5; 6 bytes](figures/w/movzb/07.svg)
 
-![MOVZB: DPF.D28, prefix 11001110111, sub-opcode 0110; operands dpd28s-x1, reg5; 6 bytes](figures/w/movzb/08.svg)
+![MOV.U8: DPF.D28, prefix 11001110111, sub-opcode 0110; operands dpd28s-x1, reg5; 6 bytes](figures/w/movzb/08.svg)
 
-![MOVZB: LDF.PI12, prefix 011011, sub-opcode 0110; operands pi5-s12, reg5; 4 bytes](figures/w/movzb/03.svg)
+![MOV.U8: LDF.PI12, prefix 011011, sub-opcode 0110; operands pi5-s12, reg5; 4 bytes](figures/w/movzb/03.svg)
 
-![MOVZB: LDF.PD12, prefix 011100, sub-opcode 0110; operands pd5-s12, reg5; 4 bytes](figures/w/movzb/04.svg)
+![MOV.U8: LDF.PD12, prefix 011100, sub-opcode 0110; operands pd5-s12, reg5; 4 bytes](figures/w/movzb/04.svg)
 
-![MOVZB: RRF5, prefix 1101001011100000, sub-opcode 000110; operands reg5, reg5; 4 bytes](figures/w/movzb/10.svg)
+![MOV.U8: RRF5, prefix 1101001011100000, sub-opcode 000110; operands reg5, reg5; 4 bytes](figures/w/movzb/10.svg)
 
-![MOVZB: LDBs10/a, prefix 1100101111, sub-opcode 10; operands b5d10s-xsz, reg5; 4 bytes](figures/w/movzb/13.svg)
+![MOV.U8: LDBs10/a, prefix 1100101111, sub-opcode 10; operands b5d10s-xsz, reg5; 4 bytes](figures/w/movzb/13.svg)
 
-![MOVZB: LDX0/a, prefix 1101000110110, sub-opcode 10; operands x5-5d0s, reg5; 4 bytes](figures/w/movzb/14.svg)
+![MOV.U8: LDX0/a, prefix 1101000110110, sub-opcode 10; operands x5-5d0s, reg5; 4 bytes](figures/w/movzb/14.svg)
 
-![MOVZB: LDPC14/a, prefix 11001111011, sub-opcode 10; operands pc14-u1, reg5; 4 bytes](figures/w/movzb/15.svg)
+![MOV.U8: LDPC14/a, prefix 11001111011, sub-opcode 10; operands pc14-u1, reg5; 4 bytes](figures/w/movzb/15.svg)
 
-![MOVZB: LDBu12H/a, prefix 110001101, sub-opcode 10; operands b4d12u-xsz, reg5; 4 bytes](figures/w/movzb/16.svg)
+![MOV.U8: LDBu12H/a, prefix 110001101, sub-opcode 10; operands b4d12u-xsz, reg5; 4 bytes](figures/w/movzb/16.svg)
 
-![MOVZB: LDX6H/a, prefix 110001111, sub-opcode 10; operands x4-4d6s, reg5; 4 bytes](figures/w/movzb/17.svg)
+![MOV.U8: LDX6H/a, prefix 110001111, sub-opcode 10; operands x4-4d6s, reg5; 4 bytes](figures/w/movzb/17.svg)
 
-![MOVZB: LDPC16H/a, prefix 1100110010, sub-opcode 10; operands pc16-u1, reg4; 4 bytes](figures/w/movzb/18.svg)
+![MOV.U8: LDPC16H/a, prefix 1100110010, sub-opcode 10; operands pc16-u1, reg4; 4 bytes](figures/w/movzb/18.svg)
 
-![MOVZB: RRF, prefix 0010, sub-opcode 0110; operands reg4, reg4; 2 bytes](figures/w/movzb/09.svg)
+![MOV.U8: RRF, prefix 0010, sub-opcode 0110; operands reg4, reg4; 2 bytes](figures/w/movzb/09.svg)
 
-![MOVZB: LDHHH3/a, prefix 01001, sub-opcode 10; operands b3d3u-xsz, reg3; 2 bytes](figures/w/movzb/11.svg)
+![MOV.U8: LDHHH3/a, prefix 01001, sub-opcode 10; operands b3d3u-xsz, reg3; 2 bytes](figures/w/movzb/11.svg)
 
-![MOVZB: LDSPh5/a, prefix 01010, sub-opcode 10; operands spd5u-xsz, reg4; 2 bytes](figures/w/movzb/12.svg)
+![MOV.U8: LDSPh5/a, prefix 01010, sub-opcode 10; operands spd5u-xsz, reg4; 2 bytes](figures/w/movzb/12.svg)
 
 Operation and exceptions as for the entry MOV above; 18 layout forms, each a chart of its own (above).
 
 <a id="w-movq-u"></a>
-#### MOVQ.U
+#### MOV.USER
 
-![MOVQ.U: LDU.B28, prefix 10110001, sub-opcode 00; operands b5d28s-x1, reg5; 6 bytes](figures/w/movq-u/01.svg)
+![MOV.USER: LDU.B28, prefix 10110001, sub-opcode 00; operands b5d28s-x1, reg5; 6 bytes](figures/w/movq-u/01.svg)
 
-![MOVQ.U: STU.B28, prefix 10110010, sub-opcode 00; operands reg5, b5d28s-x1; 6 bytes](figures/w/movq-u/02.svg)
+![MOV.USER: STU.B28, prefix 10110010, sub-opcode 00; operands reg5, b5d28s-x1; 6 bytes](figures/w/movq-u/02.svg)
 
-![MOVQ.U: LDU.B12, prefix 10110011, sub-opcode 00; operands b5d12s-x1, reg5; 4 bytes](figures/w/movq-u/03.svg)
+![MOV.USER: LDU.B12, prefix 10110011, sub-opcode 00; operands b5d12s-x1, reg5; 4 bytes](figures/w/movq-u/03.svg)
 
-![MOVQ.U: STU.B12, prefix 10110100, sub-opcode 00; operands reg5, b5d12s-x1; 4 bytes](figures/w/movq-u/04.svg)
+![MOV.USER: STU.B12, prefix 10110100, sub-opcode 00; operands reg5, b5d12s-x1; 4 bytes](figures/w/movq-u/04.svg)
 
-![MOVQ.U: LDU.X6, prefix 1001000, sub-opcode 00; operands x5-5d6s, reg5; 4 bytes](figures/w/movq-u/05.svg)
+![MOV.USER: LDU.X6, prefix 1001000, sub-opcode 00; operands x5-5d6s, reg5; 4 bytes](figures/w/movq-u/05.svg)
 
-![MOVQ.U: STU.X6, prefix 1001001, sub-opcode 00; operands reg5, x5-5d6s; 4 bytes](figures/w/movq-u/06.svg)
+![MOV.USER: STU.X6, prefix 1001001, sub-opcode 00; operands reg5, x5-5d6s; 4 bytes](figures/w/movq-u/06.svg)
 
 ```
-MOVQ.U, MOVL.U, MOVW.U, MOVB.U, MOVZL.U, MOVZW.U, MOVZB.U
+MOV.USER, MOV.USER.S32, MOV.USER.S16, MOV.USER.S8, MOV.USER.U32, MOV.USER.U16, MOV.USER.U8
 ```
 
 Operation and exceptions as for the entry MOV above; 6 layout forms, each a chart of its own (above).
 
 <a id="w-movl-u"></a>
-#### MOVL.U
+#### MOV.USER.S32
 
-![MOVL.U: LDU.B28, prefix 10110001, sub-opcode 01; operands b5d28s-x1, reg5; 6 bytes](figures/w/movl-u/01.svg)
+![MOV.USER.S32: LDU.B28, prefix 10110001, sub-opcode 01; operands b5d28s-x1, reg5; 6 bytes](figures/w/movl-u/01.svg)
 
-![MOVL.U: STU.B28, prefix 10110010, sub-opcode 01; operands reg5, b5d28s-x1; 6 bytes](figures/w/movl-u/02.svg)
+![MOV.USER.S32: STU.B28, prefix 10110010, sub-opcode 01; operands reg5, b5d28s-x1; 6 bytes](figures/w/movl-u/02.svg)
 
-![MOVL.U: LDU.B12, prefix 10110011, sub-opcode 01; operands b5d12s-x1, reg5; 4 bytes](figures/w/movl-u/03.svg)
+![MOV.USER.S32: LDU.B12, prefix 10110011, sub-opcode 01; operands b5d12s-x1, reg5; 4 bytes](figures/w/movl-u/03.svg)
 
-![MOVL.U: STU.B12, prefix 10110100, sub-opcode 01; operands reg5, b5d12s-x1; 4 bytes](figures/w/movl-u/04.svg)
+![MOV.USER.S32: STU.B12, prefix 10110100, sub-opcode 01; operands reg5, b5d12s-x1; 4 bytes](figures/w/movl-u/04.svg)
 
-![MOVL.U: LDU.X6, prefix 1001000, sub-opcode 01; operands x5-5d6s, reg5; 4 bytes](figures/w/movl-u/05.svg)
+![MOV.USER.S32: LDU.X6, prefix 1001000, sub-opcode 01; operands x5-5d6s, reg5; 4 bytes](figures/w/movl-u/05.svg)
 
-![MOVL.U: STU.X6, prefix 1001001, sub-opcode 01; operands reg5, x5-5d6s; 4 bytes](figures/w/movl-u/06.svg)
+![MOV.USER.S32: STU.X6, prefix 1001001, sub-opcode 01; operands reg5, x5-5d6s; 4 bytes](figures/w/movl-u/06.svg)
 
 Operation and exceptions as for the entry MOV above; 6 layout forms, each a chart of its own (above).
 
 <a id="w-movw-u"></a>
-#### MOVW.U
+#### MOV.USER.S16
 
-![MOVW.U: LDU.B28, prefix 10110001, sub-opcode 10; operands b5d28s-x1, reg5; 6 bytes](figures/w/movw-u/01.svg)
+![MOV.USER.S16: LDU.B28, prefix 10110001, sub-opcode 10; operands b5d28s-x1, reg5; 6 bytes](figures/w/movw-u/01.svg)
 
-![MOVW.U: STU.B28, prefix 10110010, sub-opcode 10; operands reg5, b5d28s-x1; 6 bytes](figures/w/movw-u/02.svg)
+![MOV.USER.S16: STU.B28, prefix 10110010, sub-opcode 10; operands reg5, b5d28s-x1; 6 bytes](figures/w/movw-u/02.svg)
 
-![MOVW.U: LDU.B12, prefix 10110011, sub-opcode 10; operands b5d12s-x1, reg5; 4 bytes](figures/w/movw-u/03.svg)
+![MOV.USER.S16: LDU.B12, prefix 10110011, sub-opcode 10; operands b5d12s-x1, reg5; 4 bytes](figures/w/movw-u/03.svg)
 
-![MOVW.U: STU.B12, prefix 10110100, sub-opcode 10; operands reg5, b5d12s-x1; 4 bytes](figures/w/movw-u/04.svg)
+![MOV.USER.S16: STU.B12, prefix 10110100, sub-opcode 10; operands reg5, b5d12s-x1; 4 bytes](figures/w/movw-u/04.svg)
 
-![MOVW.U: LDU.X6, prefix 1001000, sub-opcode 10; operands x5-5d6s, reg5; 4 bytes](figures/w/movw-u/05.svg)
+![MOV.USER.S16: LDU.X6, prefix 1001000, sub-opcode 10; operands x5-5d6s, reg5; 4 bytes](figures/w/movw-u/05.svg)
 
-![MOVW.U: STU.X6, prefix 1001001, sub-opcode 10; operands reg5, x5-5d6s; 4 bytes](figures/w/movw-u/06.svg)
+![MOV.USER.S16: STU.X6, prefix 1001001, sub-opcode 10; operands reg5, x5-5d6s; 4 bytes](figures/w/movw-u/06.svg)
 
 Operation and exceptions as for the entry MOV above; 6 layout forms, each a chart of its own (above).
 
 <a id="w-movb-u"></a>
-#### MOVB.U
+#### MOV.USER.S8
 
-![MOVB.U: LDU.B28, prefix 10110001, sub-opcode 11; operands b5d28s-x1, reg5; 6 bytes](figures/w/movb-u/01.svg)
+![MOV.USER.S8: LDU.B28, prefix 10110001, sub-opcode 11; operands b5d28s-x1, reg5; 6 bytes](figures/w/movb-u/01.svg)
 
-![MOVB.U: STU.B28, prefix 10110010, sub-opcode 11; operands reg5, b5d28s-x1; 6 bytes](figures/w/movb-u/02.svg)
+![MOV.USER.S8: STU.B28, prefix 10110010, sub-opcode 11; operands reg5, b5d28s-x1; 6 bytes](figures/w/movb-u/02.svg)
 
-![MOVB.U: LDU.B12, prefix 10110011, sub-opcode 11; operands b5d12s-x1, reg5; 4 bytes](figures/w/movb-u/03.svg)
+![MOV.USER.S8: LDU.B12, prefix 10110011, sub-opcode 11; operands b5d12s-x1, reg5; 4 bytes](figures/w/movb-u/03.svg)
 
-![MOVB.U: STU.B12, prefix 10110100, sub-opcode 11; operands reg5, b5d12s-x1; 4 bytes](figures/w/movb-u/04.svg)
+![MOV.USER.S8: STU.B12, prefix 10110100, sub-opcode 11; operands reg5, b5d12s-x1; 4 bytes](figures/w/movb-u/04.svg)
 
-![MOVB.U: LDU.X6, prefix 1001000, sub-opcode 11; operands x5-5d6s, reg5; 4 bytes](figures/w/movb-u/05.svg)
+![MOV.USER.S8: LDU.X6, prefix 1001000, sub-opcode 11; operands x5-5d6s, reg5; 4 bytes](figures/w/movb-u/05.svg)
 
-![MOVB.U: STU.X6, prefix 1001001, sub-opcode 11; operands reg5, x5-5d6s; 4 bytes](figures/w/movb-u/06.svg)
+![MOV.USER.S8: STU.X6, prefix 1001001, sub-opcode 11; operands reg5, x5-5d6s; 4 bytes](figures/w/movb-u/06.svg)
 
 Operation and exceptions as for the entry MOV above; 6 layout forms, each a chart of its own (above).
 
 <a id="w-movzl-u"></a>
-#### MOVZL.U
+#### MOV.USER.U32
 
-![MOVZL.U: LDU.B28, prefix 110000011, sub-opcode 0; operands b5d28s-x1, reg5; 6 bytes](figures/w/movzl-u/01.svg)
+![MOV.USER.U32: LDU.B28, prefix 110000011, sub-opcode 0; operands b5d28s-x1, reg5; 6 bytes](figures/w/movzl-u/01.svg)
 
-![MOVZL.U: LDU.B12, prefix 110000100, sub-opcode 0; operands b5d12s-x1, reg5; 4 bytes](figures/w/movzl-u/02.svg)
+![MOV.USER.U32: LDU.B12, prefix 110000100, sub-opcode 0; operands b5d12s-x1, reg5; 4 bytes](figures/w/movzl-u/02.svg)
 
-![MOVZL.U: LDU.X6, prefix 10110101, sub-opcode 0; operands x5-5d6s, reg5; 4 bytes](figures/w/movzl-u/03.svg)
+![MOV.USER.U32: LDU.X6, prefix 10110101, sub-opcode 0; operands x5-5d6s, reg5; 4 bytes](figures/w/movzl-u/03.svg)
 
 Operation and exceptions as for the entry MOV above; 3 layout forms, each a chart of its own (above).
 
 <a id="w-movzw-u"></a>
-#### MOVZW.U
+#### MOV.USER.U16
 
-![MOVZW.U: LDU.B28, prefix 110000011, sub-opcode 1; operands b5d28s-x1, reg5; 6 bytes](figures/w/movzw-u/01.svg)
+![MOV.USER.U16: LDU.B28, prefix 110000011, sub-opcode 1; operands b5d28s-x1, reg5; 6 bytes](figures/w/movzw-u/01.svg)
 
-![MOVZW.U: LDU.B12, prefix 110000100, sub-opcode 1; operands b5d12s-x1, reg5; 4 bytes](figures/w/movzw-u/02.svg)
+![MOV.USER.U16: LDU.B12, prefix 110000100, sub-opcode 1; operands b5d12s-x1, reg5; 4 bytes](figures/w/movzw-u/02.svg)
 
-![MOVZW.U: LDU.X6, prefix 10110101, sub-opcode 1; operands x5-5d6s, reg5; 4 bytes](figures/w/movzw-u/03.svg)
+![MOV.USER.U16: LDU.X6, prefix 10110101, sub-opcode 1; operands x5-5d6s, reg5; 4 bytes](figures/w/movzw-u/03.svg)
 
 Operation and exceptions as for the entry MOV above; 3 layout forms, each a chart of its own (above).
 
 <a id="w-movzb-u"></a>
-#### MOVZB.U
+#### MOV.USER.U8
 
-![MOVZB.U: LDU.B28, prefix 1100101001; operands b5d28s-x1, reg5; 6 bytes](figures/w/movzb-u/01.svg)
+![MOV.USER.U8: LDU.B28, prefix 1100101001; operands b5d28s-x1, reg5; 6 bytes](figures/w/movzb-u/01.svg)
 
-![MOVZB.U: LDU.B12, prefix 1100101010; operands b5d12s-x1, reg5; 4 bytes](figures/w/movzb-u/02.svg)
+![MOV.USER.U8: LDU.B12, prefix 1100101010; operands b5d12s-x1, reg5; 4 bytes](figures/w/movzb-u/02.svg)
 
-![MOVZB.U: LDU.X6, prefix 110000101; operands x5-5d6s, reg5; 4 bytes](figures/w/movzb-u/03.svg)
+![MOV.USER.U8: LDU.X6, prefix 110000101; operands x5-5d6s, reg5; 4 bytes](figures/w/movzb-u/03.svg)
 
 Operation and exceptions as for the entry MOV above; 3 layout forms, each a chart of its own (above).
 
@@ -806,9 +805,9 @@ Rd ← Rc           ; in this order
 
 **Exceptions** None.
 
-`MOVQ Ra, Rb` followed by `MOVQ Rc, Rd`, fused. The four operands are 3-bit fields: only the eight hot registers (`R0 R1 R8 R2 SP R3 R9 R10`, the ABI table of the encoding) can be named, and the instruction takes one sixteenth of the first-parcel space, which is why the grammar gives it a prefix of four bits. If `Rb` is `Rc` the second move reads the new value, as two instructions would.
+`MOV Ra, Rb` followed by `MOV Rc, Rd`, fused. The four operands are 3-bit fields: only the eight hot registers (`R0 R1 R8 R2 SP R3 R9 R10`, the ABI table of the encoding) can be named, and the instruction takes one sixteenth of the first-parcel space, which is why the grammar gives it a prefix of four bits. If `Rb` is `Rc` the second move reads the new value, as two instructions would.
 
-**Why it is here.** I decided the four fused pairs (`movcall`, `popmret`, `popret`, `mov2`) and left the fusing to the compiler: the assembler never fuses. The reason is the measurement of `docs/encoding-proposal.md` section 8 (static size of the training corpus, in the encoding): `MOVQ Ra, Rb` followed by `MOVQ Rc, Rd` occurs 6,742 times and saves 0.50%, the smallest gain of the four and the dearest in code space: four 3-bit register fields use one sixteenth of the first-parcel space and can name only the eight hot registers. The encoding study lists both as costs, and one instruction that writes two registers (the rename width of an out-of-order core).
+**Why it is here.** I decided the four fused pairs (`movcall`, `popmret`, `popret`, `mov2`) and left the fusing to the compiler: the assembler never fuses. The reason is the measurement of `docs/encoding-proposal.md` section 8 (static size of the training corpus, in the encoding): `MOV Ra, Rb` followed by `MOV Rc, Rd` occurs 6,742 times and saves 0.50%, the smallest gain of the four and the dearest in code space: four 3-bit register fields use one sixteenth of the first-parcel space and can name only the eight hot registers. The encoding study lists both as costs, and one instruction that writes two registers (the rename width of an out-of-order core).
 
 **Cf.** Appendix C (the hot-register tables).
 
@@ -873,9 +872,9 @@ Operation and exceptions as for the entry MCPYU above; 1 layout form, each a cha
 
 ## 9.7 Integer arithmetic
 
-*Cf. section 6.3 for the divide-by-zero vector (`DIV`, `DIVU`, `MOD`, `MODU`).*
+*Cf. section 6.3 for the divide-by-zero vector (`DIV`, `DIV.U64`, `MOD`, `MOD.U64`).*
 
-**9.7.1** `ADD`, `SUB`, `MUL` and `MULH` are two bytes with register operands; `MULHU` (high half of an unsigned product), `DIV`, `DIVU`, `MOD` and `MODU` are in the arithmetic escape.
+**9.7.1** `ADD`, `SUB`, `MUL` and `MULH` are two bytes with register operands; `MULH.U64` (high half of an unsigned product), `DIV`, `DIV.U64`, `MOD` and `MOD.U64` are in the arithmetic escape.
 
 **9.7.2** There is no compare instruction that leaves its answer in a flag: `CBCC` compares and branches (9.10.5) and `SETCC` compares and writes 0 or 1 (9.7.5). In both the left operand is written first, `cblt Ra, Rb, L` branching when `Ra < Rb`.
 
@@ -890,7 +889,7 @@ Operation and exceptions as for the entry MCPYU above; 1 layout form, each a cha
         setlos  r1, #9, r4      ; r4 = 1 if r1 <= 9 as an unsigned number
 ```
 
-**9.7.6** I gave the absolute value and the smaller or larger of two numbers no instructions, because the compare, the mask and the select that make them are words the machine has for other reasons, and a mnemonic costs nothing. `ABS`, `MIN`, `MINU`, `MAX` and `MAXU` are assembler aliases: the assembler writes a fixed short sequence of those words, with no branch, so the time does not depend on the values. `ABS Rs, Rd` is the absolute value of a signed number, and the most negative number stays itself; `MIN Ra, Rb, Rd` is the smaller of two registers and `MAX` the larger, signed, and `MINU` and `MAXU` do the same for unsigned numbers (a negative number is a large unsigned one, so `MIN` and `MINU` differ on it). The destination is last, as in every three-register instruction. The sequences are in the entries (9.7). Each writes `R12`, which the ABI makes caller-saved and which the assembler may use for this (9.16.6), and nothing else: no flag exists. `R12` cannot be an operand of these words, and the assembler refuses it.
+**9.7.6** I gave the absolute value and the smaller or larger of two numbers no instructions, because the compare, the mask and the select that make them are words the machine has for other reasons, and a mnemonic costs nothing. `ABS`, `MIN`, `MIN.U64`, `MAX` and `MAX.U64` are assembler aliases (`MIN` is `MIN.S64`, and the kind is a suffix of the one word): the assembler writes a fixed short sequence of those words, with no branch, so the time does not depend on the values. `ABS Rs, Rd` is the absolute value of a signed number, and the most negative number stays itself; `MIN Ra, Rb, Rd` is the smaller of two registers and `MAX` the larger, signed, and `MIN.U64` and `MAX.U64` do the same for unsigned numbers (a negative number is a large unsigned one, so `MIN` and `MIN.U64` differ on it). The destination is last, as in every three-register instruction. The sequences are in the entries (9.7). Each writes `R12`, which the ABI makes caller-saved and which the assembler may use for this (9.16.6), and nothing else: no flag exists. `R12` cannot be an operand of these words, and the assembler refuses it.
 
 **9.7.7** A range check on a register value, such as an array index, is made with `CBCC` (9.10.5; one unsigned compare tests `0 <= i < n`, because a negative index is a large unsigned number) or with the compare-and-trap words `CT<cc>` (9.14), which keep a table of check sites, with the trap-if-zero and the two-bound check `CHK2`; `ADDV`, `SUBV` and `MULV` check signed overflow.
 
@@ -921,9 +920,9 @@ For a third word, or when the carry out of the second is wanted, each word after
         bis     r8, r7          ; carry out, in r7 to be the carry in of the next word
 ```
 
-The borrow of a subtraction `SUB Rb, Ra` is the comparison made before it: `SETLO Ra, Rb, Rt` gives 1 when `Ra` is lower than `Rb`, unsigned, and then `SUB Rb, Ra` follows. `MULH` and `MULHU` give the high half of a product, which is the other part that multi-word multiplication needs.
+The borrow of a subtraction `SUB Rb, Ra` is the comparison made before it: `SETLO Ra, Rb, Rt` gives 1 when `Ra` is lower than `Rb`, unsigned, and then `SUB Rb, Ra` follows. `MULH` and `MULH.U64` give the high half of a product, which is the other part that multi-word multiplication needs.
 
-*Commentary.* **Precedent.** `ADD`, `SUB`, `BIS`, `BIC` and the single-operand set are the PDP-11's, unchanged in name and meaning; the PDP-11's `CMP`, `TST`, `BIT`, `ADC` and `SBC` existed to set or read condition codes, which this machine does not have. The specification of RISC-V gives the same test for the carry out of an unsigned addition: the sum is compared with an addend and a branch is taken if it is lower. **Trade-offs.** A carry costs an extra instruction in a multi-word add where `ADC` was free, and multi-word arithmetic is rare. Divide is in the escape group, at four bytes, because compilers turn division by a constant into `MULH` plus a shift, so a real divide is rare. **Improvements.** The high-half multiply that bignum code needs is present; a second unsigned multiply is the same instruction as the first and is not provided. **Benefits.** `SETCC` replaces a branch around a move for the very common "store the truth value of a comparison", and gives the carry of an addition in one instruction; absolute value, minimum and maximum (as aliases) remove a compare-and-branch from small loops. **Modern comparables.** RISC-V has `MULH`, `MULHU` and `MULHSU`, and AArch64 `SMULH` and `UMULH`; x86 has a one-operand multiply that produces both halves; **Use.** `MULH` and `MULHU` are for multi-precision arithmetic and for division by constants; `SETLO` carries a multi-word add or subtract; `MIN`, `MAX` and `ABS` (aliases) appear under a tenth of a percent of compiled code but each replaces a branch. **Impact.** *Kernel:* `SETLO` carries multiword arithmetic for the kernel's 128-bit counters and for the bignum code in the base system. *Compiler:* `MULH` turns division by a constant into a multiply and a shift; `SETCC` materialises a comparison without a branch. *Hardware:* One adder on the carry chain; on an FPGA the multiplier is built from two to four multiplier blocks over four to eight cycles; the divide is a sequencer.
+*Commentary.* **Precedent.** `ADD`, `SUB`, `BIS`, `BIC` and the single-operand set are the PDP-11's, unchanged in name and meaning; the PDP-11's `CMP`, `TST`, `BIT`, `ADC` and `SBC` existed to set or read condition codes, which this machine does not have. The specification of RISC-V gives the same test for the carry out of an unsigned addition: the sum is compared with an addend and a branch is taken if it is lower. **Trade-offs.** A carry costs an extra instruction in a multi-word add where `ADC` was free, and multi-word arithmetic is rare. Divide is in the escape group, at four bytes, because compilers turn division by a constant into `MULH` plus a shift, so a real divide is rare. **Improvements.** The high-half multiply that bignum code needs is present; a second unsigned multiply is the same instruction as the first and is not provided. **Benefits.** `SETCC` replaces a branch around a move for the very common "store the truth value of a comparison", and gives the carry of an addition in one instruction; absolute value, minimum and maximum (as aliases) remove a compare-and-branch from small loops. **Modern comparables.** RISC-V has `MULH`, `MULH.U64` and `MULHSU`, and AArch64 `SMULH` and `UMULH`; x86 has a one-operand multiply that produces both halves; **Use.** `MULH` and `MULH.U64` are for multi-precision arithmetic and for division by constants; `SETLO` carries a multi-word add or subtract; `MIN`, `MAX` and `ABS` (aliases) appear under a tenth of a percent of compiled code but each replaces a branch. **Impact.** *Kernel:* `SETLO` carries multiword arithmetic for the kernel's 128-bit counters and for the bignum code in the base system. *Compiler:* `MULH` turns division by a constant into a multiply and a shift; `SETCC` materialises a comparison without a branch. *Hardware:* One adder on the carry chain; on an FPGA the multiplier is built from two to four multiplier blocks over four to eight cycles; the divide is a sequencer.
 
 <!-- entries:9.7 -->
 <a id="w-add"></a>
@@ -981,7 +980,7 @@ ADD rm, Rd
 
 ![Encoding of ADD](figures/LDF-B28-1.svg)
 
-The chart is the leaf `LDF-B28-1`, LDF.B28, prefix `011010`. `op1` is `b5d28s-x1`: memory at base register, 5 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg5`: register, 5 bits. `sub` (4 bits) selects the mnemonic: `movq` 0000, `movl` 0001, `movw` 0010, `movb` 0011, `movzl` 0100, `movzw` 0101, `movzb` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
+The chart is the leaf `LDF-B28-1`, LDF.B28, prefix `011010`. `op1` is `b5d28s-x1`: memory at base register, 5 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg5`: register, 5 bits. `sub` (4 bits) selects the mnemonic: `mov` 0000, `mov.s32` 0001, `mov.s16` 0010, `mov.s8` 0011, `mov.u32` 0100, `mov.u16` 0101, `mov.u8` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`LDF-B28-1`](dictionary/by-encoding.md#LDF-B28-1), [`LDF-X22-1`](dictionary/by-encoding.md#LDF-X22-1), [`LDF-PI12-1`](dictionary/by-encoding.md#LDF-PI12-1), [`LDF-PD12-1`](dictionary/by-encoding.md#LDF-PD12-1), [`LDF-PC32-1`](dictionary/by-encoding.md#LDF-PC32-1), [`LDF-A32-1`](dictionary/by-encoding.md#LDF-A32-1), [`LDFI-I32-1`](dictionary/by-encoding.md#LDFI-I32-1), [`DPF-D28-1`](dictionary/by-encoding.md#DPF-D28-1), [`RRF-1`](dictionary/by-encoding.md#RRF-1), [`RRF5-1`](dictionary/by-encoding.md#RRF5-1), [`SPADJF-1`](dictionary/by-encoding.md#SPADJF-1), [`RR5-1`](dictionary/by-encoding.md#RR5-1), [`IMMh44-b-1`](dictionary/by-encoding.md#IMMh44-b-1), [`SPADJ6-a-1`](dictionary/by-encoding.md#SPADJ6-a-1), [`LDBu8-c-1`](dictionary/by-encoding.md#LDBu8-c-1), [`LDX0-c-1`](dictionary/by-encoding.md#LDX0-c-1), [`LDI12-b-1`](dictionary/by-encoding.md#LDI12-b-1), [`LDBu10H-c-1`](dictionary/by-encoding.md#LDBu10H-c-1), [`LDPC16H-c-1`](dictionary/by-encoding.md#LDPC16H-c-1), [`LDI18H-b-1`](dictionary/by-encoding.md#LDI18H-b-1).
 
@@ -1051,7 +1050,7 @@ SUB rm, Rd
 
 ![Encoding of SUB](figures/LDF-B28-1.svg)
 
-The chart is the leaf `LDF-B28-1`, LDF.B28, prefix `011010`. `op1` is `b5d28s-x1`: memory at base register, 5 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg5`: register, 5 bits. `sub` (4 bits) selects the mnemonic: `movq` 0000, `movl` 0001, `movw` 0010, `movb` 0011, `movzl` 0100, `movzw` 0101, `movzb` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
+The chart is the leaf `LDF-B28-1`, LDF.B28, prefix `011010`. `op1` is `b5d28s-x1`: memory at base register, 5 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg5`: register, 5 bits. `sub` (4 bits) selects the mnemonic: `mov` 0000, `mov.s32` 0001, `mov.s16` 0010, `mov.s8` 0011, `mov.u32` 0100, `mov.u16` 0101, `mov.u8` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`LDF-B28-1`](dictionary/by-encoding.md#LDF-B28-1), [`LDF-X22-1`](dictionary/by-encoding.md#LDF-X22-1), [`LDF-PI12-1`](dictionary/by-encoding.md#LDF-PI12-1), [`LDF-PD12-1`](dictionary/by-encoding.md#LDF-PD12-1), [`LDF-PC32-1`](dictionary/by-encoding.md#LDF-PC32-1), [`LDF-A32-1`](dictionary/by-encoding.md#LDF-A32-1), [`LDFI-I32-1`](dictionary/by-encoding.md#LDFI-I32-1), [`DPF-D28-1`](dictionary/by-encoding.md#DPF-D28-1), [`RRF-1`](dictionary/by-encoding.md#RRF-1), [`RRF5-1`](dictionary/by-encoding.md#RRF5-1), [`SPADJF-1`](dictionary/by-encoding.md#SPADJF-1), [`RR5-1`](dictionary/by-encoding.md#RR5-1), [`IMMh44-b-1`](dictionary/by-encoding.md#IMMh44-b-1), [`SPADJ6-a-1`](dictionary/by-encoding.md#SPADJ6-a-1), [`LDBu8-c-1`](dictionary/by-encoding.md#LDBu8-c-1), [`LDX0-c-1`](dictionary/by-encoding.md#LDX0-c-1), [`LDI12-b-1`](dictionary/by-encoding.md#LDI12-b-1), [`LDBu10H-c-1`](dictionary/by-encoding.md#LDBu10H-c-1), [`LDPC16H-c-1`](dictionary/by-encoding.md#LDPC16H-c-1), [`LDI18H-b-1`](dictionary/by-encoding.md#LDI18H-b-1).
 
@@ -1106,7 +1105,7 @@ MUL rm, Rd
 
 ![Encoding of MUL](figures/LDF-B28-1.svg)
 
-The chart is the leaf `LDF-B28-1`, LDF.B28, prefix `011010`. `op1` is `b5d28s-x1`: memory at base register, 5 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg5`: register, 5 bits. `sub` (4 bits) selects the mnemonic: `movq` 0000, `movl` 0001, `movw` 0010, `movb` 0011, `movzl` 0100, `movzw` 0101, `movzb` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
+The chart is the leaf `LDF-B28-1`, LDF.B28, prefix `011010`. `op1` is `b5d28s-x1`: memory at base register, 5 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg5`: register, 5 bits. `sub` (4 bits) selects the mnemonic: `mov` 0000, `mov.s32` 0001, `mov.s16` 0010, `mov.s8` 0011, `mov.u32` 0100, `mov.u16` 0101, `mov.u8` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`LDF-B28-1`](dictionary/by-encoding.md#LDF-B28-1), [`LDF-X22-1`](dictionary/by-encoding.md#LDF-X22-1), [`LDF-PI12-1`](dictionary/by-encoding.md#LDF-PI12-1), [`LDF-PD12-1`](dictionary/by-encoding.md#LDF-PD12-1), [`LDF-PC32-1`](dictionary/by-encoding.md#LDF-PC32-1), [`LDF-A32-1`](dictionary/by-encoding.md#LDF-A32-1), [`LDFI-I32-1`](dictionary/by-encoding.md#LDFI-I32-1), [`DPF-D28-1`](dictionary/by-encoding.md#DPF-D28-1), [`RRF-1`](dictionary/by-encoding.md#RRF-1), [`RRF5-1`](dictionary/by-encoding.md#RRF5-1), [`LDI12-d-1`](dictionary/by-encoding.md#LDI12-d-1), [`LDPC12H-d-1`](dictionary/by-encoding.md#LDPC12H-d-1), [`LDI14H-c-1`](dictionary/by-encoding.md#LDI14H-c-1).
 
@@ -1118,14 +1117,46 @@ Rd ← (Rd × rm)[63:0]         ; sign-agnostic
 
 **Exceptions** Memory operand: page fault, protection fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`); there is no alignment fault, and an access that crosses a page changes nothing when either page faults (9.6.5). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
-The low 64 bits of a two's-complement product are the same whether the operands are read as signed or unsigned, so there is one low-half multiply. The mnemonic `MULU` is an alias of `MUL`. The high half is `MULH` (signed) and `MULHU` (unsigned).
+The low 64 bits of a two's-complement product are the same whether the operands are read as signed or unsigned, so there is one low-half multiply. The mnemonic `MUL.U64` is an alias of `MUL`. The high half is `MULH` (signed) and `MULH.U64` (unsigned).
 
 <a id="w-mulu"></a>
 **`MULU`** is an alias of `MUL`: the assembler writes it as that word.
 
 
+### MULH: Multiply, high 64 bits, signed and unsigned
+
+**Mnemonics:** `MULH`, `MULH.U64`
+
+**Syntax**
+
+```
+MULH rm, Rd
+MULH.U64 Ra, Rb, Rd      ; the unsigned high half (MULH.S64 is MULH)
+```
+
+**Encoding**
+
+![Encoding of MULH](figures/LDF-B28-1.svg)
+
+The chart is the leaf `LDF-B28-1`, LDF.B28, prefix `011010`. `op1` is `b5d28s-x1`: memory at base register, 5 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg5`: register, 5 bits. `sub` (4 bits) selects the mnemonic: `mov` 0000, `mov.s32` 0001, `mov.s16` 0010, `mov.s8` 0011, `mov.u32` 0100, `mov.u16` 0101, `mov.u8` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`LDF-B28-1`](dictionary/by-encoding.md#LDF-B28-1), [`LDF-X22-1`](dictionary/by-encoding.md#LDF-X22-1), [`LDF-PI12-1`](dictionary/by-encoding.md#LDF-PI12-1), [`LDF-PD12-1`](dictionary/by-encoding.md#LDF-PD12-1), [`LDF-PC32-1`](dictionary/by-encoding.md#LDF-PC32-1), [`LDF-A32-1`](dictionary/by-encoding.md#LDF-A32-1), [`LDFI-I32-1`](dictionary/by-encoding.md#LDFI-I32-1), [`DPF-D28-1`](dictionary/by-encoding.md#DPF-D28-1), [`RRF-1`](dictionary/by-encoding.md#RRF-1), [`RRF5-1`](dictionary/by-encoding.md#RRF5-1), [`LDPC12H-d-1`](dictionary/by-encoding.md#LDPC12H-d-1), [`R3-1`](dictionary/by-encoding.md#R3-1).
+
+**Operation**
+
+```
+MULH:     Rd ← (sext(Rd) × sext(rm))[127:64]
+MULH.U64: Rd ← (Ra × Rb)[127:64]        ; unsigned
+```
+
+**Exceptions** Memory operand: page fault, protection fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`); there is no alignment fault, and an access that crosses a page changes nothing when either page faults (9.6.5). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
+
+With `MULH`, division by a constant is a multiply by a reciprocal and a shift, which is what compilers emit. `MULHSU`, signed times unsigned for a bignum's top limb, is not an instruction: it is built from `MULH` with one correction.
+
+**Why it is here.** The low 64 bits of a two's-complement product are identical signed or unsigned, so a second multiply (`MUL.U64`) would duplicate `MUL`; what the architecture needs in that place is the *high* half of the product. Without it a 64 by 64 to 128-bit multiply, every bignum multiply, 128-bit fixed point and divide-by-a-constant by multiplying by the reciprocal are impossible. `MULH` is that instruction. It is also why a divide is rare in compiled code: compilers turn division by a constant into `MULH` and a shift.
+
 <a id="w-mulh"></a>
-### MULH: Multiply, high 64 bits, signed
+#### MULH
 
 ![MULH: LDF.B28, prefix 011010, sub-opcode 1110; operands b5d28s-x1, reg5; 6 bytes](figures/w/mulh/01.svg)
 
@@ -1149,33 +1180,22 @@ The low 64 bits of a two's-complement product are the same whether the operands 
 
 ![MULH: RRF, prefix 0010, sub-opcode 1110; operands reg4, reg4; 2 bytes](figures/w/mulh/09.svg)
 
-**Mnemonics:** `MULH`
-
-**Syntax**
-
 ```
 MULH rm, Rd
 ```
 
-**Encoding**
+Operation and exceptions as for the entry MULH above; 11 layout forms, each a chart of its own (above).
 
-![Encoding of MULH](figures/LDF-B28-1.svg)
+<a id="w-mulhu"></a>
+#### MULH.U64
 
-The chart is the leaf `LDF-B28-1`, LDF.B28, prefix `011010`. `op1` is `b5d28s-x1`: memory at base register, 5 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg5`: register, 5 bits. `sub` (4 bits) selects the mnemonic: `movq` 0000, `movl` 0001, `movw` 0010, `movb` 0011, `movzl` 0100, `movzw` 0101, `movzb` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
-
-**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`LDF-B28-1`](dictionary/by-encoding.md#LDF-B28-1), [`LDF-X22-1`](dictionary/by-encoding.md#LDF-X22-1), [`LDF-PI12-1`](dictionary/by-encoding.md#LDF-PI12-1), [`LDF-PD12-1`](dictionary/by-encoding.md#LDF-PD12-1), [`LDF-PC32-1`](dictionary/by-encoding.md#LDF-PC32-1), [`LDF-A32-1`](dictionary/by-encoding.md#LDF-A32-1), [`LDFI-I32-1`](dictionary/by-encoding.md#LDFI-I32-1), [`DPF-D28-1`](dictionary/by-encoding.md#DPF-D28-1), [`RRF-1`](dictionary/by-encoding.md#RRF-1), [`RRF5-1`](dictionary/by-encoding.md#RRF5-1), [`LDPC12H-d-1`](dictionary/by-encoding.md#LDPC12H-d-1).
-
-**Operation**
+![MULH.U64: R3, prefix 1100101000, sub-opcode 0001111; operands reg5, reg5, reg5; 4 bytes](figures/w/mulhu/01.svg)
 
 ```
-Rd ← (sext(Rd) × sext(rm))[127:64]
+MULH.U64 Ra, Rb, Rd
 ```
 
-**Exceptions** Memory operand: page fault, protection fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`); there is no alignment fault, and an access that crosses a page changes nothing when either page faults (9.6.5). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
-
-With `MULH`, division by a constant is a multiply by a reciprocal and a shift, which is what compilers emit.
-
-**Why it is here.** The low 64 bits of a two's-complement product are identical signed or unsigned, so a second multiply (`MULU`) would duplicate `MUL`; what the architecture needs in that place is the *high* half of the product. Without it a 64 by 64 to 128-bit multiply, every bignum multiply, 128-bit fixed point and divide-by-a-constant by multiplying by the reciprocal are impossible. `MULH` is that instruction. It is also why a divide is rare in compiled code: compilers turn division by a constant into `MULH` and a shift.
+Operation and exceptions as for the entry MULH above; 1 layout form, each a chart of its own (above).
 
 
 ### ADDM: ALU operation with a memory destination
@@ -1195,7 +1215,7 @@ BISM Rs, rm
 
 ![Encoding of ADDM](figures/STF-B28-1.svg)
 
-The chart is the leaf `STF-B28-1`, STF.B28, prefix `1001110`. `op1` is `reg5`: register, 5 bits. `op2` is `b5d28s-x1`: memory at base register, 5 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `sub` (3 bits) selects the mnemonic: `movq` 000, `movl` 001, `movw` 010, `movb` 011, `addm` 100, `subm` 101, `bicm` 110, `bism` 111.
+The chart is the leaf `STF-B28-1`, STF.B28, prefix `1001110`. `op1` is `reg5`: register, 5 bits. `op2` is `b5d28s-x1`: memory at base register, 5 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `sub` (3 bits) selects the mnemonic: `mov` 000, `mov.s32` 001, `mov.s16` 010, `mov.s8` 011, `addm` 100, `subm` 101, `bicm` 110, `bism` 111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`STF-B28-1`](dictionary/by-encoding.md#STF-B28-1), [`STF-X22-1`](dictionary/by-encoding.md#STF-X22-1), [`STF-PI12-1`](dictionary/by-encoding.md#STF-PI12-1), [`STF-PD12-1`](dictionary/by-encoding.md#STF-PD12-1), [`STF-PC32-1`](dictionary/by-encoding.md#STF-PC32-1), [`STF-A32-1`](dictionary/by-encoding.md#STF-A32-1).
 
@@ -1439,15 +1459,15 @@ rm ← 0 - rm
 
 ### DIV: Divide and remainder, signed and unsigned
 
-**Mnemonics:** `DIV`, `DIVU`, `MOD`, `MODU`
+**Mnemonics:** `DIV`, `DIV.U64`, `MOD`, `MOD.U64`
 
 **Syntax**
 
 ```
 DIV Ra, Rb, Rd
-DIVU Ra, Rb, Rd
+DIV.U64 Ra, Rb, Rd
 MOD Ra, Rb, Rd
-MODU Ra, Rb, Rd
+MOD.U64 Ra, Rb, Rd
 ```
 
 **Encoding**
@@ -1463,9 +1483,9 @@ The chart is the leaf `R3-1`, R3, prefix `1100101000`. `op1` is `reg5`: register
 ```
 if Rb = 0 then divide-by-zero abort
 DIV : Rd ← Ra ÷ Rb  (signed, rounded toward zero; INT_MIN ÷ -1 = INT_MIN)
-DIVU: Rd ← Ra ÷ Rb  (unsigned)
+DIV.U64: Rd ← Ra ÷ Rb  (unsigned)
 MOD : Rd ← Ra mod Rb (signed, the sign of Ra; any value mod -1 = 0)
-MODU: Rd ← Ra mod Rb (unsigned)
+MOD.U64: Rd ← Ra mod Rb (unsigned)
 ```
 
 **Exceptions** Division by zero aborts with the divide-by-zero vector (cause `DIVZERO`). There is no overflow trap: `INT_MIN / -1` returns `INT_MIN`.
@@ -1486,12 +1506,12 @@ DIV Ra, Rb, Rd
 Operation and exceptions as for the entry DIV above; 1 layout form, each a chart of its own (above).
 
 <a id="w-divu"></a>
-#### DIVU
+#### DIV.U64
 
-![DIVU: R3, prefix 1100101000, sub-opcode 0001100; operands reg5, reg5, reg5; 4 bytes](figures/w/divu/01.svg)
+![DIV.U64: R3, prefix 1100101000, sub-opcode 0001100; operands reg5, reg5, reg5; 4 bytes](figures/w/divu/01.svg)
 
 ```
-DIVU Ra, Rb, Rd
+DIV.U64 Ra, Rb, Rd
 ```
 
 Operation and exceptions as for the entry DIV above; 1 layout form, each a chart of its own (above).
@@ -1508,47 +1528,15 @@ MOD Ra, Rb, Rd
 Operation and exceptions as for the entry DIV above; 1 layout form, each a chart of its own (above).
 
 <a id="w-modu"></a>
-#### MODU
+#### MOD.U64
 
-![MODU: R3, prefix 1100101000, sub-opcode 0001110; operands reg5, reg5, reg5; 4 bytes](figures/w/modu/01.svg)
+![MOD.U64: R3, prefix 1100101000, sub-opcode 0001110; operands reg5, reg5, reg5; 4 bytes](figures/w/modu/01.svg)
 
 ```
-MODU Ra, Rb, Rd
+MOD.U64 Ra, Rb, Rd
 ```
 
 Operation and exceptions as for the entry DIV above; 1 layout form, each a chart of its own (above).
-
-
-<a id="w-mulhu"></a>
-### MULHU: Multiply, high 64 bits, unsigned
-
-![MULHU: R3, prefix 1100101000, sub-opcode 0001111; operands reg5, reg5, reg5; 4 bytes](figures/w/mulhu/01.svg)
-
-**Mnemonics:** `MULHU`
-
-**Syntax**
-
-```
-MULHU Ra, Rb, Rd
-```
-
-**Encoding**
-
-![Encoding of MULHU](figures/R3-1.svg)
-
-The chart is the leaf `R3-1`, R3, prefix `1100101000`. `op1` is `reg5`: register, 5 bits. `op2` is `reg5`: register, 5 bits. `op3` is `reg5`: register, 5 bits. `xsub` selects the mnemonic.
-
-**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`R3-1`](dictionary/by-encoding.md#R3-1).
-
-**Operation**
-
-```
-Rd ← (Ra × Rb)[127:64]    ; unsigned
-```
-
-**Exceptions** None.
-
-**Why it is here.** The unsigned partner of `MULH`, for the same reason (the high half of the product). `MULHSU`, signed times unsigned for a bignum's top limb, is reserved because it can be built from `MULH` with one correction.
 
 
 <a id="w-abs"></a>
@@ -1556,7 +1544,7 @@ Rd ← (Ra × Rb)[127:64]    ; unsigned
 
 **Mnemonics:** `ABS`
 
-**Alias** *(D)* `ABS` is an assembler alias: it assembles to `MOVQ Rs, R12`, `SAR #63, R12`, `MOVQ Rs, Rd` (left out when `Rd` is `Rs`), `XOR R12, Rd` and `SUB R12, Rd`. `R12`, after `SAR`, holds all ones for a negative `Rs` and zero otherwise; exclusive-or with it complements a negative number and subtracting it adds one, so a negative number becomes its negation, a positive one is unchanged, and the most negative number, which has no positive twin, comes back as itself. The sequence has no branch, so no data makes it slow or leaves a trace in the branch predictor. The assembler writes `R12`, which is caller-saved, and no flag exists, so nothing else changes; `R12` cannot be an operand of `ABS`, and the assembler refuses it.
+**Alias** *(D)* `ABS` is an assembler alias: it assembles to `MOV Rs, R12`, `SAR #63, R12`, `MOV Rs, Rd` (left out when `Rd` is `Rs`), `XOR R12, Rd` and `SUB R12, Rd`. `R12`, after `SAR`, holds all ones for a negative `Rs` and zero otherwise; exclusive-or with it complements a negative number and subtracting it adds one, so a negative number becomes its negation, a positive one is unchanged, and the most negative number, which has no positive twin, comes back as itself. The sequence has no branch, so no data makes it slow or leaves a trace in the branch predictor. The assembler writes `R12`, which is caller-saved, and no flag exists, so nothing else changes; `R12` cannot be an operand of `ABS`, and the assembler refuses it.
 
 **Syntax**
 
@@ -1583,17 +1571,17 @@ Rd ← |Rs|    ; the most negative number stays itself
 <a id="w-maxu"></a>
 ### MINMAX: Minimum and maximum, signed and unsigned (assembler aliases)
 
-**Mnemonics:** `MIN`, `MINU`, `MAX`, `MAXU`
+**Mnemonics:** `MIN`, `MIN.U64`, `MAX`, `MAX.U64`
 
-**Alias** *(D)* `MIN`, `MINU`, `MAX` and `MAXU` are assembler aliases: each assembles to a compare into `R12`, `NEG R12` and `BSEL R12, Ra, Rb, Rd`; the compare is `SETLT Ra, Rb, R12` for `MIN`, `SETLO Ra, Rb, R12` for `MINU`, `SETGT Ra, Rb, R12` for `MAX` and `SETHI Ra, Rb, R12` for `MAXU`. The comparison gives one or zero, `NEG` makes it all ones or zero, and `BSEL` takes `Ra` where the mask has ones and `Rb` where it has zeros, so `Rd` is `Ra` when the comparison holds and `Rb` otherwise. Every source is read before `Rd` is written, so `Rd` may be `Ra` or `Rb`, and `Ra` may be `Rb`. The sequence has no branch: it takes the same time for every value. The assembler writes `R12`, which is caller-saved, and no flag exists, so nothing else changes; `R12` cannot be an operand of these words, and the assembler refuses it. `MIN` and `MINU` differ on a negative number, which is a large unsigned one.
+**Alias** *(D)* `MIN`, `MIN.U64`, `MAX` and `MAX.U64` are assembler aliases: each assembles to a compare into `R12`, `NEG R12` and `BSEL R12, Ra, Rb, Rd`; the compare is `SETLT Ra, Rb, R12` for `MIN`, `SETLO Ra, Rb, R12` for `MIN.U64`, `SETGT Ra, Rb, R12` for `MAX` and `SETHI Ra, Rb, R12` for `MAX.U64`. The comparison gives one or zero, `NEG` makes it all ones or zero, and `BSEL` takes `Ra` where the mask has ones and `Rb` where it has zeros, so `Rd` is `Ra` when the comparison holds and `Rb` otherwise. Every source is read before `Rd` is written, so `Rd` may be `Ra` or `Rb`, and `Ra` may be `Rb`. The sequence has no branch: it takes the same time for every value. The assembler writes `R12`, which is caller-saved, and no flag exists, so nothing else changes; `R12` cannot be an operand of these words, and the assembler refuses it. `MIN` and `MIN.U64` differ on a negative number, which is a large unsigned one.
 
 **Syntax**
 
 ```
 MIN Ra, Rb, Rd
-MINU Ra, Rb, Rd
+MIN.U64 Ra, Rb, Rd
 MAX Ra, Rb, Rd
-MAXU Ra, Rb, Rd
+MAX.U64 Ra, Rb, Rd
 ```
 
 **Encoding** None of its own: the assembler expands an alias into other instructions.
@@ -1601,8 +1589,8 @@ MAXU Ra, Rb, Rd
 **Operation**
 
 ```
-MIN : Rd ← smaller of Ra, Rb (signed)         MINU: unsigned
-MAX : Rd ← larger of Ra, Rb (signed)          MAXU: unsigned
+MIN : Rd ← smaller of Ra, Rb (signed)         MIN.U64: unsigned
+MAX : Rd ← larger of Ra, Rb (signed)          MAX.U64: unsigned
 ```
 
 **Exceptions** None.
@@ -1612,7 +1600,7 @@ MAX : Rd ← larger of Ra, Rb (signed)          MAXU: unsigned
 
 ### SETCC: Compare into a register
 
-**Mnemonics:** `SETEQ`, `SETNE`, `SETLT`, `SETLE`, `SETGT`, `SETGE`, `SETCS`, `SETCC`, `SETHI`, `SETLOS`  (aliases: `MIN`, `MINU`, `MAX`, `MAXU`)
+**Mnemonics:** `SETEQ`, `SETNE`, `SETLT`, `SETLE`, `SETGT`, `SETGE`, `SETCS`, `SETCC`, `SETHI`, `SETLOS`  (aliases: `MIN`, `MIN.U64`, `MAX`, `MAX.U64`)
 
 **Syntax**
 
@@ -1745,7 +1733,7 @@ Operation and exceptions as for the entry SETCC above; 2 layout forms, each a ch
 An alias of [`SETLT`](#w-setlt): the assembler writes it as that word.
 
 <a id="w-minu"></a>
-#### MINU
+#### MIN.U64
 
 An alias of [`SETLOS`](#w-setlos): the assembler writes it as that word.
 
@@ -1755,7 +1743,7 @@ An alias of [`SETLOS`](#w-setlos): the assembler writes it as that word.
 An alias of [`SETGT`](#w-setgt): the assembler writes it as that word.
 
 <a id="w-maxu"></a>
-#### MAXU
+#### MAX.U64
 
 An alias of [`SETHI`](#w-sethi): the assembler writes it as that word.
 
@@ -1895,11 +1883,11 @@ Operation and exceptions as for the entry OVF above; 1 layout form, each a chart
 
 **9.8.3** A shift count of 64 or more shifts the value entirely away.
 
-**9.8.4** `ROR` rotates right by a register or a constant count (the assembler picks the form: two bytes for a constant count from -8 to 7 of a register that is both source and destination and is one of r0 to r15, a negative count rotating left, and four bytes otherwise); `ROL` is an assembler spelling of the same instruction with the count complemented, `ROL Rs, #n, Rd` being `ROR Rs, #(64-n), Rd`, and takes a constant only, because the count of `ROR` is taken modulo 64 and a rotate left by a register count is `ROR` by the negated register; `RORL` (`ROR` with the mark `.32` on the source register: `ror r1.32, #5, r2`) rotates the low 32 bits of a register by a constant count and sign-extends.
+**9.8.4** `ROR` rotates right by a register or a constant count (the assembler picks the form: two bytes for a constant count from -8 to 7 of a register that is both source and destination and is one of r0 to r15, a negative count rotating left, and four bytes otherwise); `ROL` is an assembler spelling of the same instruction with the count complemented, `ROL Rs, #n, Rd` being `ROR Rs, #(64-n), Rd`, and takes a constant only, because the count of `ROR` is taken modulo 64 and a rotate left by a register count is `ROR` by the negated register; `ROR.S32` (`ror.s32 r1, #5, r2`) rotates the low 32 bits of a register by a constant count and sign-extends the result, so `ROR.U32` is refused: it would promise a zero-extension that the instruction does not do. `ROR.S64` and `ROR.U64` are the bare `ROR`.
 
 **9.8.5** `DSHR` is a double-width funnel shift.
 
-*Commentary.* **Precedent.** The PDP-11 had `ASL`, `ASR`, `ROL` and `ROR` by one through the carry; x86's `SHRD` and ARM's `EXTR` are the funnel shifts. **Trade-offs.** One rotate direction is enough, so there is no by-one `ROL` in a two-byte slot; there is no carry for a rotate to pass through. **Improvements.** The shift count comes from `rm`, not from a fixed register like x86's `CL`, which costs a register shuffle in every hand-written loop. **Benefits.** Multi-precision shifting is `DSHR`, two instructions for any distance. **Modern comparables.** RISC-V and AArch64 have rotates by register and by immediate; x86 has `RCL`/`RCR` through the carry as well. **Use.** `ROR` with a constant and `RORL` are for hashes and ciphers, which rotate by constants; `DSHR` shifts a bignum. **Impact.** *Kernel:* Bit tests and mask operations on the status and page-table words are single instructions. *Compiler:* The shift count may be any register, immediate or memory operand, so the compiler never has to move a count into a fixed register; hashes and ciphers rotate by constants. *Hardware:* The barrel shifter (about 450 lookup tables) serves shifts and rotates,.
+*Commentary.* **Precedent.** The PDP-11 had `ASL`, `ASR`, `ROL` and `ROR` by one through the carry; x86's `SHRD` and ARM's `EXTR` are the funnel shifts. **Trade-offs.** One rotate direction is enough, so there is no by-one `ROL` in a two-byte slot; there is no carry for a rotate to pass through. **Improvements.** The shift count comes from `rm`, not from a fixed register like x86's `CL`, which costs a register shuffle in every hand-written loop. **Benefits.** Multi-precision shifting is `DSHR`, two instructions for any distance. **Modern comparables.** RISC-V and AArch64 have rotates by register and by immediate; x86 has `RCL`/`RCR` through the carry as well. **Use.** `ROR` with a constant and `ROR.S32` are for hashes and ciphers, which rotate by constants; `DSHR` shifts a bignum. **Impact.** *Kernel:* Bit tests and mask operations on the status and page-table words are single instructions. *Compiler:* The shift count may be any register, immediate or memory operand, so the compiler never has to move a count into a fixed register; hashes and ciphers rotate by constants. *Hardware:* The barrel shifter (about 450 lookup tables) serves shifts and rotates,.
 
 <!-- entries:9.8 -->
 <a id="w-bic"></a>
@@ -1943,7 +1931,7 @@ BIC rm, Rd
 
 ![Encoding of BIC](figures/LDF-B28-1.svg)
 
-The chart is the leaf `LDF-B28-1`, LDF.B28, prefix `011010`. `op1` is `b5d28s-x1`: memory at base register, 5 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg5`: register, 5 bits. `sub` (4 bits) selects the mnemonic: `movq` 0000, `movl` 0001, `movw` 0010, `movb` 0011, `movzl` 0100, `movzw` 0101, `movzb` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
+The chart is the leaf `LDF-B28-1`, LDF.B28, prefix `011010`. `op1` is `b5d28s-x1`: memory at base register, 5 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg5`: register, 5 bits. `sub` (4 bits) selects the mnemonic: `mov` 0000, `mov.s32` 0001, `mov.s16` 0010, `mov.s8` 0011, `mov.u32` 0100, `mov.u16` 0101, `mov.u8` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`LDF-B28-1`](dictionary/by-encoding.md#LDF-B28-1), [`LDF-X22-1`](dictionary/by-encoding.md#LDF-X22-1), [`LDF-PI12-1`](dictionary/by-encoding.md#LDF-PI12-1), [`LDF-PD12-1`](dictionary/by-encoding.md#LDF-PD12-1), [`LDF-PC32-1`](dictionary/by-encoding.md#LDF-PC32-1), [`LDF-A32-1`](dictionary/by-encoding.md#LDF-A32-1), [`LDFI-I32-1`](dictionary/by-encoding.md#LDFI-I32-1), [`DPF-D28-1`](dictionary/by-encoding.md#DPF-D28-1), [`RRF-1`](dictionary/by-encoding.md#RRF-1), [`RRF5-1`](dictionary/by-encoding.md#RRF5-1), [`LDI12-d-2`](dictionary/by-encoding.md#LDI12-d-2), [`LDPC12H-d-1`](dictionary/by-encoding.md#LDPC12H-d-1), [`LDI14H-c-1`](dictionary/by-encoding.md#LDI14H-c-1).
 
@@ -2005,7 +1993,7 @@ BIS rm, Rd
 
 ![Encoding of BIS](figures/LDF-B28-1.svg)
 
-The chart is the leaf `LDF-B28-1`, LDF.B28, prefix `011010`. `op1` is `b5d28s-x1`: memory at base register, 5 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg5`: register, 5 bits. `sub` (4 bits) selects the mnemonic: `movq` 0000, `movl` 0001, `movw` 0010, `movb` 0011, `movzl` 0100, `movzw` 0101, `movzb` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
+The chart is the leaf `LDF-B28-1`, LDF.B28, prefix `011010`. `op1` is `b5d28s-x1`: memory at base register, 5 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg5`: register, 5 bits. `sub` (4 bits) selects the mnemonic: `mov` 0000, `mov.s32` 0001, `mov.s16` 0010, `mov.s8` 0011, `mov.u32` 0100, `mov.u16` 0101, `mov.u8` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`LDF-B28-1`](dictionary/by-encoding.md#LDF-B28-1), [`LDF-X22-1`](dictionary/by-encoding.md#LDF-X22-1), [`LDF-PI12-1`](dictionary/by-encoding.md#LDF-PI12-1), [`LDF-PD12-1`](dictionary/by-encoding.md#LDF-PD12-1), [`LDF-PC32-1`](dictionary/by-encoding.md#LDF-PC32-1), [`LDF-A32-1`](dictionary/by-encoding.md#LDF-A32-1), [`LDFI-I32-1`](dictionary/by-encoding.md#LDFI-I32-1), [`DPF-D28-1`](dictionary/by-encoding.md#DPF-D28-1), [`RRF-1`](dictionary/by-encoding.md#RRF-1), [`RRF5-1`](dictionary/by-encoding.md#RRF5-1), [`RR5-1`](dictionary/by-encoding.md#RR5-1), [`LDBu8-c-1`](dictionary/by-encoding.md#LDBu8-c-1), [`LDX0-c-1`](dictionary/by-encoding.md#LDX0-c-1), [`LDBu10H-c-1`](dictionary/by-encoding.md#LDBu10H-c-1), [`LDPC16H-c-1`](dictionary/by-encoding.md#LDPC16H-c-1), [`LDI14H-c-1`](dictionary/by-encoding.md#LDI14H-c-1).
 
@@ -2054,7 +2042,7 @@ Rd ← Rd OR rm
 
 ![XOR: RR5, prefix 000, sub-opcode 100; operands reg5, reg5; 2 bytes](figures/w/xor/11.svg)
 
-**Mnemonics:** `XOR`  (aliases: `FNEGF`)
+**Mnemonics:** `XOR`  (aliases: `FNEG.F32`)
 
 **Syntax**
 
@@ -2066,7 +2054,7 @@ XOR rm, Rd
 
 ![Encoding of XOR](figures/LDF-B28-1.svg)
 
-The chart is the leaf `LDF-B28-1`, LDF.B28, prefix `011010`. `op1` is `b5d28s-x1`: memory at base register, 5 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg5`: register, 5 bits. `sub` (4 bits) selects the mnemonic: `movq` 0000, `movl` 0001, `movw` 0010, `movb` 0011, `movzl` 0100, `movzw` 0101, `movzb` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
+The chart is the leaf `LDF-B28-1`, LDF.B28, prefix `011010`. `op1` is `b5d28s-x1`: memory at base register, 5 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg5`: register, 5 bits. `sub` (4 bits) selects the mnemonic: `mov` 0000, `mov.s32` 0001, `mov.s16` 0010, `mov.s8` 0011, `mov.u32` 0100, `mov.u16` 0101, `mov.u8` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`LDF-B28-1`](dictionary/by-encoding.md#LDF-B28-1), [`LDF-X22-1`](dictionary/by-encoding.md#LDF-X22-1), [`LDF-PI12-1`](dictionary/by-encoding.md#LDF-PI12-1), [`LDF-PD12-1`](dictionary/by-encoding.md#LDF-PD12-1), [`LDF-PC32-1`](dictionary/by-encoding.md#LDF-PC32-1), [`LDF-A32-1`](dictionary/by-encoding.md#LDF-A32-1), [`LDFI-I32-1`](dictionary/by-encoding.md#LDFI-I32-1), [`DPF-D28-1`](dictionary/by-encoding.md#DPF-D28-1), [`RRF-1`](dictionary/by-encoding.md#RRF-1), [`RRF5-1`](dictionary/by-encoding.md#RRF5-1), [`RR5-1`](dictionary/by-encoding.md#RR5-1), [`LDBu8-c-2`](dictionary/by-encoding.md#LDBu8-c-2), [`LDX0-c-2`](dictionary/by-encoding.md#LDX0-c-2), [`LDBu10H-c-2`](dictionary/by-encoding.md#LDBu10H-c-2), [`LDPC16H-c-2`](dictionary/by-encoding.md#LDPC16H-c-2), [`LDI14H-c-1`](dictionary/by-encoding.md#LDI14H-c-1).
 
@@ -2079,7 +2067,7 @@ Rd ← Rd XOR rm
 **Exceptions** Memory operand: page fault, protection fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`); there is no alignment fault, and an access that crosses a page changes nothing when either page faults (9.6.5). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
 <a id="w-fneg32"></a>
-**`FNEGF`** is an alias of `XOR`: the assembler writes it as that word.
+**`FNEG.F32`** is an alias of `XOR`: the assembler writes it as that word.
 
 
 <a id="w-and"></a>
@@ -2122,7 +2110,7 @@ Rd ← Rd XOR rm
 
 ![AND: IMMh44/b, prefix 100010, sub-opcode 10; operands imm4s, reg4; 2 bytes](figures/w/and/12.svg)
 
-**Mnemonics:** `AND`  (aliases: `FABSF`)
+**Mnemonics:** `AND`  (aliases: `FABS.F32`)
 
 **Syntax**
 
@@ -2134,7 +2122,7 @@ AND rm, Rd
 
 ![Encoding of AND](figures/LDF-B28-1.svg)
 
-The chart is the leaf `LDF-B28-1`, LDF.B28, prefix `011010`. `op1` is `b5d28s-x1`: memory at base register, 5 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg5`: register, 5 bits. `sub` (4 bits) selects the mnemonic: `movq` 0000, `movl` 0001, `movw` 0010, `movb` 0011, `movzl` 0100, `movzw` 0101, `movzb` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
+The chart is the leaf `LDF-B28-1`, LDF.B28, prefix `011010`. `op1` is `b5d28s-x1`: memory at base register, 5 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg5`: register, 5 bits. `sub` (4 bits) selects the mnemonic: `mov` 0000, `mov.s32` 0001, `mov.s16` 0010, `mov.s8` 0011, `mov.u32` 0100, `mov.u16` 0101, `mov.u8` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`LDF-B28-1`](dictionary/by-encoding.md#LDF-B28-1), [`LDF-X22-1`](dictionary/by-encoding.md#LDF-X22-1), [`LDF-PI12-1`](dictionary/by-encoding.md#LDF-PI12-1), [`LDF-PD12-1`](dictionary/by-encoding.md#LDF-PD12-1), [`LDF-PC32-1`](dictionary/by-encoding.md#LDF-PC32-1), [`LDF-A32-1`](dictionary/by-encoding.md#LDF-A32-1), [`LDFI-I32-1`](dictionary/by-encoding.md#LDFI-I32-1), [`DPF-D28-1`](dictionary/by-encoding.md#DPF-D28-1), [`RRF-1`](dictionary/by-encoding.md#RRF-1), [`RRF5-1`](dictionary/by-encoding.md#RRF5-1), [`RR5-1`](dictionary/by-encoding.md#RR5-1), [`IMMh44-b-1`](dictionary/by-encoding.md#IMMh44-b-1), [`LDBu8-c-1`](dictionary/by-encoding.md#LDBu8-c-1), [`LDX0-c-1`](dictionary/by-encoding.md#LDX0-c-1), [`LDI12-b-2`](dictionary/by-encoding.md#LDI12-b-2), [`LDBu10H-c-1`](dictionary/by-encoding.md#LDBu10H-c-1), [`LDPC16H-c-1`](dictionary/by-encoding.md#LDPC16H-c-1), [`LDI18H-b-2`](dictionary/by-encoding.md#LDI18H-b-2).
 
@@ -2147,7 +2135,7 @@ Rd ← Rd AND rm
 **Exceptions** Memory operand: page fault, protection fault or bus error (a read of non-existent memory is a precise abort with cause `BUSFAULT`); there is no alignment fault, and an access that crosses a page changes nothing when either page faults (9.6.5). Every such fault is precise and the instruction restarts after it, because the register update of an auto-increment or auto-decrement mode is held until the instruction retires.
 
 <a id="w-fabs32"></a>
-**`FABSF`** is an alias of `AND`: the assembler writes it as that word.
+**`FABS.F32`** is an alias of `AND`: the assembler writes it as that word.
 
 
 ### SHIFT: Shift left, shift right logical, shift right arithmetic
@@ -2166,7 +2154,7 @@ SAR rm, Rd
 
 ![Encoding of SHIFT](figures/LDF-B28-1.svg)
 
-The chart is the leaf `LDF-B28-1`, LDF.B28, prefix `011010`. `op1` is `b5d28s-x1`: memory at base register, 5 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg5`: register, 5 bits. `sub` (4 bits) selects the mnemonic: `movq` 0000, `movl` 0001, `movw` 0010, `movb` 0011, `movzl` 0100, `movzw` 0101, `movzb` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
+The chart is the leaf `LDF-B28-1`, LDF.B28, prefix `011010`. `op1` is `b5d28s-x1`: memory at base register, 5 bits + signed 28-bit displacement times 1, -134217728 to 134217727 bytes. `op2` is `reg5`: register, 5 bits. `sub` (4 bits) selects the mnemonic: `mov` 0000, `mov.s32` 0001, `mov.s16` 0010, `mov.s8` 0011, `mov.u32` 0100, `mov.u16` 0101, `mov.u8` 0110, `add` 0111, `sub` 1000, `bic` 1001, `bis` 1010, `xor` 1011, `and` 1100, `mul` 1101, `mulh` 1110, `shl` 1111.
 
 **All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`LDF-B28-1`](dictionary/by-encoding.md#LDF-B28-1), [`LDF-X22-1`](dictionary/by-encoding.md#LDF-X22-1), [`LDF-PI12-1`](dictionary/by-encoding.md#LDF-PI12-1), [`LDF-PD12-1`](dictionary/by-encoding.md#LDF-PD12-1), [`LDF-PC32-1`](dictionary/by-encoding.md#LDF-PC32-1), [`LDF-A32-1`](dictionary/by-encoding.md#LDF-A32-1), [`LDFI-I32-1`](dictionary/by-encoding.md#LDFI-I32-1), [`DPF-D28-1`](dictionary/by-encoding.md#DPF-D28-1), [`RRF-1`](dictionary/by-encoding.md#RRF-1), [`RRF5-1`](dictionary/by-encoding.md#RRF5-1), [`RR5-1`](dictionary/by-encoding.md#RR5-1), [`SHIh44-a-1`](dictionary/by-encoding.md#SHIh44-a-1), [`LDI12-d-1`](dictionary/by-encoding.md#LDI12-d-1), [`LDPC12H-d-1`](dictionary/by-encoding.md#LDPC12H-d-1), [`LDF-B28-2`](dictionary/by-encoding.md#LDF-B28-2), [`LDF-X22-2`](dictionary/by-encoding.md#LDF-X22-2), [`LDF-PI12-2`](dictionary/by-encoding.md#LDF-PI12-2), [`LDF-PD12-2`](dictionary/by-encoding.md#LDF-PD12-2), [`LDF-PC32-2`](dictionary/by-encoding.md#LDF-PC32-2), [`LDF-A32-2`](dictionary/by-encoding.md#LDF-A32-2), [`DPF-D28-2`](dictionary/by-encoding.md#DPF-D28-2), [`RRF-2`](dictionary/by-encoding.md#RRF-2), [`SHIh44-a-2`](dictionary/by-encoding.md#SHIh44-a-2).
 
@@ -2478,7 +2466,7 @@ The by-one form of `SAR`.
 
 ## 9.9 Bits, bytes and text
 
-**9.9.1** The bit-and-field escape provides `CLZ`, `CTZ`, `CLO`, `CTO` (count leading and trailing zeros and ones), `POPCNT`, `BSWAP`, `BSWAPW`, `BSWAPL` (the last two swap the bytes of each 16-bit word or 32-bit long; the marks `.16` and `.32` on the source register are the other spelling) and `BITREV`.
+**9.9.1** The bit-and-field escape provides `CLZ`, `CTZ`, `CLO`, `CTO` (count leading and trailing zeros and ones), `POPCNT`, `BSWAP`, `BSWAP.U16`, `BSWAP.U32` (the last two swap the bytes of each 16-bit word or 32-bit long; the kind means nothing here, so `.s16` and `.s32` are accepted and are the same words) and `BITREV`.
 
 **9.9.2** `EXTB` and `EXTZB` extract a bitfield at a position and width, sign- or zero-extended, and `INSB` inserts one; the position and the width are 6-bit fields (a width of 64 cannot be written), so these are six bytes.
 
@@ -2610,14 +2598,15 @@ Rd ← number of one bits in Rs
 
 ### BSWAP: Byte swap
 
-**Mnemonics:** `BSWAP`, `BSWAPW`, `BSWAPL`
+**Mnemonics:** `BSWAP`, `BSWAP.U16`, `BSWAP.U32`
 
 **Syntax**
 
 ```
 BSWAP Rs, Rd
-BSWAPW Rs, Rd       ; the bytes of each 16-bit word (BSWAP Rs.16, Rd)
-BSWAPL Rs, Rd       ; the bytes of each 32-bit long (BSWAP Rs.32, Rd)
+BSWAP.U16 Rs, Rd       ; the bytes of each 16-bit word
+BSWAP.U32 Rs, Rd       ; the bytes of each 32-bit long
+BSWAP.S64, BSWAP.U64, BSWAP.S16, BSWAP.S32    ; the same words (the kind means nothing here)
 ```
 
 **Encoding**
@@ -2632,13 +2621,13 @@ The chart is the leaf `R2-1`, R2, prefix `110100000100`. `op1` is `reg5`: regist
 
 ```
 BSWAP : Rd ← Rs with all 8 bytes reversed
-BSWAPW: Rd ← Rs with the bytes of each 16-bit word reversed       ; BSWAP Rs.16, Rd
-BSWAPL: Rd ← Rs with the bytes of each 32-bit long reversed       ; BSWAP Rs.32, Rd
+BSWAP.U16: Rd ← Rs with the bytes of each 16-bit word reversed
+BSWAP.U32: Rd ← Rs with the bytes of each 32-bit long reversed
 ```
 
 **Exceptions** None.
 
-The generalisation of the PDP-11 `SWAB` to 64 bits. The letter says the width of the unit; the mark spelling puts it on the source register, and the destination is written in full and takes none.
+The generalisation of the PDP-11 `SWAB` to 64 bits. The suffix says the width of the unit. The kind means nothing to a byte swap, so `.s16` and `.u16` are one word, as are `.s32` and `.u32`, and the disassembler prints the unsigned spelling; the destination is written in full.
 
 **Why it is here.** The PDP-11 `SWAB` swapped the bytes of a word; `BSWAP` generalises it to 64 bits, with word and long variants. `SWAB` is therefore subsumed, not lost (9.18).
 
@@ -2654,23 +2643,23 @@ BSWAP Rs, Rd
 Operation and exceptions as for the entry BSWAP above; 1 layout form, each a chart of its own (above).
 
 <a id="w-bswapw"></a>
-#### BSWAPW
+#### BSWAP.U16
 
-![BSWAPW: R2, prefix 110100000100, sub-opcode 0000000110; operands reg5, reg5; 4 bytes](figures/w/bswapw/01.svg)
+![BSWAP.U16: R2, prefix 110100000100, sub-opcode 0000000110; operands reg5, reg5; 4 bytes](figures/w/bswapw/01.svg)
 
 ```
-BSWAPW Rs, Rd
+BSWAP.U16 Rs, Rd
 ```
 
 Operation and exceptions as for the entry BSWAP above; 1 layout form, each a chart of its own (above).
 
 <a id="w-bswapl"></a>
-#### BSWAPL
+#### BSWAP.U32
 
-![BSWAPL: R2, prefix 110100000100, sub-opcode 0000000111; operands reg5, reg5; 4 bytes](figures/w/bswapl/01.svg)
+![BSWAP.U32: R2, prefix 110100000100, sub-opcode 0000000111; operands reg5, reg5; 4 bytes](figures/w/bswapl/01.svg)
 
 ```
-BSWAPL Rs, Rd
+BSWAP.U32 Rs, Rd
 ```
 
 Operation and exceptions as for the entry BSWAP above; 1 layout form, each a chart of its own (above).
@@ -2710,7 +2699,7 @@ Rd ← Rs with bit i moved to bit 63-i
 
 ### ROR: Rotate right by a register or a constant
 
-**Mnemonics:** `ROR`, `RORL`  (aliases: `ROL`)
+**Mnemonics:** `ROR`, `ROR.S32`  (aliases: `ROL`)
 
 **Syntax**
 
@@ -2718,7 +2707,7 @@ Rd ← Rs with bit i moved to bit 63-i
 ROR Ra, Rb, Rd
 ROR Rs, #n, Rd
 ROR #n, Rd
-RORL Rs, #n, Rd      ; 32 bits, a constant count (ROR Rs.32, #n, Rd)
+ROR.S32 Rs, #n, Rd      ; 32 bits, a constant count
 ROL Rs, #n, Rd
 ROL #n, Rd
 ```
@@ -2734,12 +2723,12 @@ The chart is the leaf `R3-1`, R3, prefix `1100101000`. `op1` is `reg5`: register
 **Operation**
 
 ```
-Rd ← Ra rotated right by (Rb mod 64), or by (n mod 64) with a constant; with RORL: Rd ← sext32(ror32(Rs[31:0], n mod 32)); ROL rotates left by the constant (an assembler mapping)
+Rd ← Ra rotated right by (Rb mod 64), or by (n mod 64) with a constant; with ROR.S32: Rd ← sext32(ror32(Rs[31:0], n mod 32)); ROL rotates left by the constant (an assembler mapping)
 ```
 
 **Exceptions** None.
 
-`ROL` is an assembler mapping, not an instruction: a rotate left by n is a rotate right by 64 - n, so `ROL Rs, #n, Rd` assembles to `ROR Rs, #(64-n), Rd` and `ROL #n, Rd` to `ROR #(64-n), Rd`, in the two-byte form when the count of the right rotation fits it (a rotate left by 1 to 8) and in the four-byte form otherwise; the disassembler prints `ROR`, with a negative count for the short form. `ROL` takes a constant only: the count of `ROR` is taken modulo 64, so a rotate left by a register count is `ROR` by the negated register, which the program makes with `NEG` (a mapping is one instruction, and the assembler does not invent a scratch register). `RORL` (the mark `.32` on the source register of `ROR` is the other spelling) with a constant count is the 32-bit rotate, with the result sign-extended like every 32-bit result and the count taken modulo 32; it is the primitive of most hash functions and ciphers, and a 32-bit rotate left is the one by 32 minus n. A register count has no 32-bit form. No rotate is through carry; multi-word shifting uses `DSHR`.
+`ROL` is an assembler mapping, not an instruction: a rotate left by n is a rotate right by 64 - n, so `ROL Rs, #n, Rd` assembles to `ROR Rs, #(64-n), Rd` and `ROL #n, Rd` to `ROR #(64-n), Rd`, in the two-byte form when the count of the right rotation fits it (a rotate left by 1 to 8) and in the four-byte form otherwise; the disassembler prints `ROR`, with a negative count for the short form. `ROL` takes a constant only: the count of `ROR` is taken modulo 64, so a rotate left by a register count is `ROR` by the negated register, which the program makes with `NEG` (a mapping is one instruction, and the assembler does not invent a scratch register). `ROR.S32` with a constant count is the 32-bit rotate, with the result sign-extended like every 32-bit result and the count taken modulo 32, so `ROR.U32` is refused (it would promise a zero-extension; `MOV.U32 Rd, Rd` after `ROR.S32` makes one); `ROR.S64` and `ROR.U64` are `ROR`; it is the primitive of most hash functions and ciphers, and a 32-bit rotate left is the one by 32 minus n. A register count has no 32-bit form. No rotate is through carry; multi-word shifting uses `DSHR`.
 
 **Why it is here.** One rotate direction suffices and `ROR` is the one to keep: `ROL x, #n` is `ROR x, #(64-n)` (an assembler mapping), and a funnel shifter yields `ROR` directly. No rotate is through carry (see `DSHR`). `ROR` is a bit operation and not an ALU operation: cryptographic code rotates by compile-time constants, so an immediate form is needed either way, and the register-count form has almost no users.
 
@@ -2766,9 +2755,13 @@ Operation and exceptions as for the entry ROR above; 3 layout forms, each a char
 An alias of [`ROR`](#w-ror): the assembler writes it as that word.
 
 <a id="w-ror32"></a>
-#### RORL
+#### ROR.S32
 
-![ROR32: RRI, prefix 110100000101, sub-opcode 0001; operands reg5, imm6u, reg5; 4 bytes](figures/w/ror32/01.svg)
+![ROR.S32: RRI, prefix 110100000101, sub-opcode 0001; operands reg5, imm6u, reg5; 4 bytes](figures/w/ror32/01.svg)
+
+```
+ROR.S32 Rs, #n, Rd
+```
 
 Operation and exceptions as for the entry ROR above; 1 layout form, each a chart of its own (above).
 
@@ -3482,14 +3475,14 @@ A range check is one unsigned compare-and-branch, and a `switch` is a bounds che
 
 **9.10.7** A call pushes the return address on the stack; there is no link register.
 
-**9.10.8** `FCBCC` compares two binary64 values held in registers and branches: `fcblt Ra, Rb, L`. The conditions are `eq`, `ne`, `lt`, `le`, `uo` (taken if either operand is a NaN) and `or` (taken if neither is); `FCBGT` and `FCBGE` are the spellings of `FCBLT` and `FCBLE` with the registers exchanged, and with the letter `F` (`fcbltf Ra, Rb, L`; `fcblt Ra.32, Rb.32, L` is the same) they compare binary32. The rules are IEEE's, as in C: with a NaN operand `eq`, `lt`, `le`, `gt` and `ge` are false and `ne` is true; a signaling NaN also sets the invalid flag of `FPSR`, a quiet one does not. There is no "not less than" branch: the negation of `lt` is not `ge` when an operand can be a NaN, so a branch is never inverted by changing its condition, and the unordered case has the words of its own. The instruction is four bytes for registers of the hot set and a target within 1 KB, and six bytes otherwise (a target within 4 MB); a farther target is refused. There is no immediate form.
+**9.10.8** `FCBCC` compares two binary64 values held in registers and branches: `fcblt Ra, Rb, L`. The conditions are `eq`, `ne`, `lt`, `le`, `uo` (taken if either operand is a NaN) and `or` (taken if neither is); `FCBGT` and `FCBGE` are the spellings of `FCBLT` and `FCBLE` with the registers exchanged, and with the suffix `.f32` (`fcblt.f32 Ra, Rb, L`) they compare binary32; the bare word and `.f64` compare binary64. The rules are IEEE's, as in C: with a NaN operand `eq`, `lt`, `le`, `gt` and `ge` are false and `ne` is true; a signaling NaN also sets the invalid flag of `FPSR`, a quiet one does not. There is no "not less than" branch: the negation of `lt` is not `ge` when an operand can be a NaN, so a branch is never inverted by changing its condition, and the unordered case has the words of its own. The instruction is four bytes for registers of the hot set and a target within 1 KB, and six bytes otherwise (a target within 4 MB); a farther target is refused. There is no immediate form.
 
 ```
         fcblt   r1, r2, 1f      ; if (x < y) goto 1f;  false for a NaN
         fcbuo   r1, r2, nan     ; if either is a NaN
 ```
 
-**9.10.9** Four pairs of instructions are fused into one. `MOVCALL Rs, Rd, label` is `MOVQ Rs, Rd` followed by `CALL label`, in four bytes (a 16-bit field of parcels, ±64 KiB) or six (32 bits); `POPRET Rd` is `POP Rd` followed by `RET`, and `POPMRET #mask` is `POPM #mask` followed by `RET` (the 8-bit mask field, scaled by 256, names `R8` to `R15`), each in two bytes; `MOV2 Ra, Rb, Rc, Rd` is `MOVQ Ra, Rb` followed by `MOVQ Rc, Rd`, in two bytes, with all four registers in the 3-bit hot table. The assembler never fuses: choosing a fused instruction is the compiler's job. A fused instruction is restarted whole after a fault.
+**9.10.9** Four pairs of instructions are fused into one. `MOVCALL Rs, Rd, label` is `MOV Rs, Rd` followed by `CALL label`, in four bytes (a 16-bit field of parcels, ±64 KiB) or six (32 bits); `POPRET Rd` is `POP Rd` followed by `RET`, and `POPMRET #mask` is `POPM #mask` followed by `RET` (the 8-bit mask field, scaled by 256, names `R8` to `R15`), each in two bytes; `MOV2 Ra, Rb, Rc, Rd` is `MOV Ra, Rb` followed by `MOV Rc, Rd`, in two bytes, with all four registers in the 3-bit hot table. The assembler never fuses: choosing a fused instruction is the compiler's job. A fused instruction is restarted whole after a fault.
 
 **9.10.10** A `CBCC` for which no form reaches (a target beyond 16 MB, or in another object file) is assembled as the opposite compare-and-branch over a `BR` to the target; neither writes anything, so the program is the same, longer by the `BR`:
 
@@ -3607,7 +3600,7 @@ if (Ra compares by cc with (imm or Rb)) then PC ← address of this instruction 
 
 The family has several forms for each condition (the layouts of this entry): the second operand is a register or an immediate of some width, and the reach differs. A `cbCC` that no form reaches (a target beyond the six-byte forms, which reach 16 MB for two registers and 64 KB with an immediate, or a target in another object file) is assembled by `as64` as the opposite `cbCC` over a `br` to the target.
 
-**Why it is here.** A fused compare-and-branch, estimated with `ROR32` at 22 KB (1.3%) of the image. The wide-immediate form removes 11,735 instructions (3.4%) and 1,828 bytes, and the register-register compare-and-branch removes 4,631 instructions (1.4%) and 142 bytes. It needs a comparator in the branch unit (548 gates of logic) and a third read port, and it is the only integer conditional branch of the machine: leaving the flags out cost 0.42% more code and 0.09% fewer instructions executed (section 9.10.1). `CBCC` writes nothing.
+**Why it is here.** A fused compare-and-branch, estimated with `ROR.S32` at 22 KB (1.3%) of the image. The wide-immediate form removes 11,735 instructions (3.4%) and 1,828 bytes, and the register-register compare-and-branch removes 4,631 instructions (1.4%) and 142 bytes. It needs a comparator in the branch unit (548 gates of logic) and a third read port, and it is the only integer conditional branch of the machine: leaving the flags out cost 0.42% more code and 0.09% fewer instructions executed (section 9.10.1). `CBCC` writes nothing.
 
 <a id="w-cbne"></a>
 #### CBNE
@@ -3865,14 +3858,14 @@ An alias of [`CBCS`](#w-cbcs): the assembler writes it as that word.
 
 ### FCBCC: Floating-point compare and branch
 
-**Mnemonics:** `FCBEQ`, `FCBNE`, `FCBLT`, `FCBLE`, `FCBUO`, `FCBOR`, `FCBEQF`, `FCBNEF`, `FCBLTF`, `FCBLEF`, `FCBUOF`, `FCBORF`
+**Mnemonics:** `FCBEQ`, `FCBNE`, `FCBLT`, `FCBLE`, `FCBUO`, `FCBOR`, `FCBEQ.F32`, `FCBNE.F32`, `FCBLT.F32`, `FCBLE.F32`, `FCBUO.F32`, `FCBOR.F32`
 
 **Syntax**
 
 ```
 FCBLT Ra, Rb, target
 FCBEQ Ra, Rb, target ... and the rest
-FCBLTF Ra, Rb, target    ; binary32 (FCBLT Ra.32, Rb.32, target); FCBLTD is the double, the bare FCBLT
+FCBLT.F32 Ra, Rb, target    ; binary32; the bare FCBLT (or FCBLT.F64) is the double
 ```
 
 **Encoding**
@@ -3886,7 +3879,7 @@ The chart is the leaf `FCBR10H-1`, FCBR10H, prefix `1100111000`. `op1` is `reg4`
 **Operation**
 
 ```
-x ← Ra as binary64 (binary32 with the letter F or the mark .32) ; y ← Rb the same
+x ← Ra as binary64 (binary32 with the suffix .f32) ; y ← Rb the same
 unordered ← x or y is a NaN
 FCBEQ: taken if not unordered and x = y         FCBNE: taken if unordered or x ≠ y
 FCBLT: taken if not unordered and x < y         FCBLE: taken if not unordered and x ≤ y
@@ -3965,56 +3958,60 @@ Operation and exceptions as for the entry FCBCC above; 2 layout forms, each a ch
 Operation and exceptions as for the entry FCBCC above; 2 layout forms, each a chart of its own (above).
 
 <a id="w-fcbeq32"></a>
-#### FCBEQF
+#### FCBEQ.F32
 
-![FCBEQ32: FCB3R22, prefix 110100010011, sub-opcode 0110; operands reg5, reg5, pc22-u2; 6 bytes](figures/w/fcbeq32/02.svg)
+![FCBEQ.F32: FCB3R22, prefix 110100010011, sub-opcode 0110; operands reg5, reg5, pc22-u2; 6 bytes](figures/w/fcbeq32/02.svg)
 
-![FCBEQ32: FCBR10H, prefix 1100111000, sub-opcode 0110; operands reg4, reg4, pc10-u2; 4 bytes](figures/w/fcbeq32/01.svg)
+![FCBEQ.F32: FCBR10H, prefix 1100111000, sub-opcode 0110; operands reg4, reg4, pc10-u2; 4 bytes](figures/w/fcbeq32/01.svg)
 
 Operation and exceptions as for the entry FCBCC above; 2 layout forms, each a chart of its own (above).
 
 <a id="w-fcbne32"></a>
-#### FCBNEF
+#### FCBNE.F32
 
-![FCBNE32: FCB3R22, prefix 110100010011, sub-opcode 0111; operands reg5, reg5, pc22-u2; 6 bytes](figures/w/fcbne32/02.svg)
+![FCBNE.F32: FCB3R22, prefix 110100010011, sub-opcode 0111; operands reg5, reg5, pc22-u2; 6 bytes](figures/w/fcbne32/02.svg)
 
-![FCBNE32: FCBR10H, prefix 1100111000, sub-opcode 0111; operands reg4, reg4, pc10-u2; 4 bytes](figures/w/fcbne32/01.svg)
+![FCBNE.F32: FCBR10H, prefix 1100111000, sub-opcode 0111; operands reg4, reg4, pc10-u2; 4 bytes](figures/w/fcbne32/01.svg)
 
 Operation and exceptions as for the entry FCBCC above; 2 layout forms, each a chart of its own (above).
 
 <a id="w-fcblt32"></a>
-#### FCBLTF
+#### FCBLT.F32
 
-![FCBLT32: FCB3R22, prefix 110100010011, sub-opcode 1000; operands reg5, reg5, pc22-u2; 6 bytes](figures/w/fcblt32/02.svg)
+![FCBLT.F32: FCB3R22, prefix 110100010011, sub-opcode 1000; operands reg5, reg5, pc22-u2; 6 bytes](figures/w/fcblt32/02.svg)
 
-![FCBLT32: FCBR10H, prefix 1100111000, sub-opcode 1000; operands reg4, reg4, pc10-u2; 4 bytes](figures/w/fcblt32/01.svg)
+![FCBLT.F32: FCBR10H, prefix 1100111000, sub-opcode 1000; operands reg4, reg4, pc10-u2; 4 bytes](figures/w/fcblt32/01.svg)
+
+```
+FCBLT.F32 Ra, Rb, target
+```
 
 Operation and exceptions as for the entry FCBCC above; 2 layout forms, each a chart of its own (above).
 
 <a id="w-fcble32"></a>
-#### FCBLEF
+#### FCBLE.F32
 
-![FCBLE32: FCB3R22, prefix 110100010011, sub-opcode 1001; operands reg5, reg5, pc22-u2; 6 bytes](figures/w/fcble32/02.svg)
+![FCBLE.F32: FCB3R22, prefix 110100010011, sub-opcode 1001; operands reg5, reg5, pc22-u2; 6 bytes](figures/w/fcble32/02.svg)
 
-![FCBLE32: FCBR10H, prefix 1100111000, sub-opcode 1001; operands reg4, reg4, pc10-u2; 4 bytes](figures/w/fcble32/01.svg)
+![FCBLE.F32: FCBR10H, prefix 1100111000, sub-opcode 1001; operands reg4, reg4, pc10-u2; 4 bytes](figures/w/fcble32/01.svg)
 
 Operation and exceptions as for the entry FCBCC above; 2 layout forms, each a chart of its own (above).
 
 <a id="w-fcbuo32"></a>
-#### FCBUOF
+#### FCBUO.F32
 
-![FCBUO32: FCB3R22, prefix 110100010011, sub-opcode 1010; operands reg5, reg5, pc22-u2; 6 bytes](figures/w/fcbuo32/02.svg)
+![FCBUO.F32: FCB3R22, prefix 110100010011, sub-opcode 1010; operands reg5, reg5, pc22-u2; 6 bytes](figures/w/fcbuo32/02.svg)
 
-![FCBUO32: FCBR10H, prefix 1100111000, sub-opcode 1010; operands reg4, reg4, pc10-u2; 4 bytes](figures/w/fcbuo32/01.svg)
+![FCBUO.F32: FCBR10H, prefix 1100111000, sub-opcode 1010; operands reg4, reg4, pc10-u2; 4 bytes](figures/w/fcbuo32/01.svg)
 
 Operation and exceptions as for the entry FCBCC above; 2 layout forms, each a chart of its own (above).
 
 <a id="w-fcbor32"></a>
-#### FCBORF
+#### FCBOR.F32
 
-![FCBOR32: FCB3R22, prefix 110100010011, sub-opcode 1011; operands reg5, reg5, pc22-u2; 6 bytes](figures/w/fcbor32/02.svg)
+![FCBOR.F32: FCB3R22, prefix 110100010011, sub-opcode 1011; operands reg5, reg5, pc22-u2; 6 bytes](figures/w/fcbor32/02.svg)
 
-![FCBOR32: FCBR10H, prefix 1100111000, sub-opcode 1011; operands reg4, reg4, pc10-u2; 4 bytes](figures/w/fcbor32/01.svg)
+![FCBOR.F32: FCBR10H, prefix 1100111000, sub-opcode 1011; operands reg4, reg4, pc10-u2; 4 bytes](figures/w/fcbor32/01.svg)
 
 Operation and exceptions as for the entry FCBCC above; 2 layout forms, each a chart of its own (above).
 
@@ -4328,9 +4325,9 @@ PC ← target
 
 **Exceptions** The store of the return address can fault (the memory faults of `CALL`): the instruction restarts whole, because the first half reads a register that the second half does not change.
 
-One of the four fused pairs: `MOVQ Rs, Rd` followed by `CALL target`, in one instruction. The target is a pc-relative field in parcels, measured from the first parcel of the fused instruction; the instruction is two parcels (a 16-bit field) or three (a 32-bit field), and the linker grows it from its shortest form like a `CALL` (`docs/relaxation.md`). **The assembler never fuses**: the compiler writes `MOVCALL` where it wants it. An instruction that writes two registers (`Rd` and the stack pointer) and stores to memory is a two-micro-operation instruction for an out-of-order core.
+One of the four fused pairs: `MOV Rs, Rd` followed by `CALL target`, in one instruction. The target is a pc-relative field in parcels, measured from the first parcel of the fused instruction; the instruction is two parcels (a 16-bit field) or three (a 32-bit field), and the linker grows it from its shortest form like a `CALL` (`docs/relaxation.md`). **The assembler never fuses**: the compiler writes `MOVCALL` where it wants it. An instruction that writes two registers (`Rd` and the stack pointer) and stores to memory is a two-micro-operation instruction for an out-of-order core.
 
-**Why it is here.** I decided the four fused pairs (`movcall`, `popmret`, `popret`, `mov2`) and left the fusing to the compiler: the assembler never fuses. The reason is the measurement of `docs/encoding-proposal.md` section 8 (static size of the training corpus, in the encoding): `MOVQ Rs, Rd` followed by `CALL` occurs 11,123 times, and fusing it alone shrinks the code by 2.39%, the largest of the four; all four together fuse 20,428 pairs and save 3.18% of the bytes and about 1.1% of the executed instructions. The call keeps its reach (four or six bytes). The cost, named in the encoding study: a new mnemonic, and one instruction that writes two registers (the destination and the stack pointer), which is two micro-operations for an out-of-order core. The record gives no earlier machine for this particular pair; the reasoning is the fourth priority of the definitive list, fewer instructions executed, where coalescing is good.
+**Why it is here.** I decided the four fused pairs (`movcall`, `popmret`, `popret`, `mov2`) and left the fusing to the compiler: the assembler never fuses. The reason is the measurement of `docs/encoding-proposal.md` section 8 (static size of the training corpus, in the encoding): `MOV Rs, Rd` followed by `CALL` occurs 11,123 times, and fusing it alone shrinks the code by 2.39%, the largest of the four; all four together fuse 20,428 pairs and save 3.18% of the bytes and about 1.1% of the executed instructions. The call keeps its reach (four or six bytes). The cost, named in the encoding study: a new mnemonic, and one instruction that writes two registers (the destination and the stack pointer), which is two micro-operations for an out-of-order core. The record gives no earlier machine for this particular pair; the reasoning is the fourth priority of the definitive list, fewer instructions executed, where coalescing is good.
 
 **Cf.** 9.5 (the pc-relative operand and the relaxation), 6.4 (restart after a fault).
 
@@ -5035,18 +5032,17 @@ Operation and exceptions as for the entry FDIV above; 1 layout form, each a char
 
 ### FSINGLE: Floating arithmetic, binary32
 
-**Mnemonics:** `FADDF`, `FSUBF`, `FMULF`, `FDIVF`, `FSQRTF`
+**Mnemonics:** `FADD.F32`, `FSUB.F32`, `FMUL.F32`, `FDIV.F32`, `FSQRT.F32`
 
 **Syntax**
 
 ```
-FADDF Rs, Rd
-FSUBF Rs, Rd
-FMULF Rs, Rd
-FDIVF Rs, Rd
-FSQRTF Rs, Rd
-FADDD ... FSQRTD    ; the double, the bare words FADD ... FSQRT
-FADD Rs.32, Rd.32    ; the mark spelling of FADDF (and so on)
+FADD.F32 Rs, Rd
+FSUB.F32 Rs, Rd
+FMUL.F32 Rs, Rd
+FDIV.F32 Rs, Rd
+FSQRT.F32 Rs, Rd
+FADD ... FSQRT    ; the double, the bare words FADD ... FSQRT (or FADD.F64 ... FSQRT.F64)
 ```
 
 **Encoding**
@@ -5060,49 +5056,69 @@ The chart is the leaf `R2-1`, R2, prefix `110100000100`. `op1` is `reg5`: regist
 **Operation**
 
 ```
-Rd ← Rd op Rs  (FADDF FSUBF FMULF FDIVF, or FADD FSUB FMUL FDIV with the mark .32 on every register); Rd ← sqrt(Rs) (FSQRTF)
+Rd ← Rd op Rs  (FADD.F32 FSUB.F32 FMUL.F32 FDIV.F32); Rd ← sqrt(Rs) (FSQRT.F32)
 ```
 
 **Exception flags** The IEEE exception flags raised are ORed into `FPSR` (`NX` inexact, `UF` underflow, `OF` overflow, `DZ` divide by zero, `NV` invalid); nothing traps.
 
 **Exceptions** None.
 
-The precision is a letter, as on the PDP-11 (`ADDF` and `ADDD`): `F` after the operation is single precision, `binary32` (`FADDF`), and `D` is double, `binary64` (`FADDD`); a bare word is the default width, 64 bits, so `FADD` is `FADDD`. The same precision is a mark on the registers, the other spelling of the same instruction: `.32` on every register operand makes the operation a `binary32` one (`FADD Rs.32, Rd.32` is `FADDF Rs, Rd`), and no mark (or `.64`) is the `binary64` operation. A letter and a mark that disagree are an error. The registers of one instruction carry the same mark, and an unmarked register is 64 bits, so a mixture is refused. A `binary32` lives in the low 32 bits of a register, sign-extended to 64 like every 32-bit result. Results are correctly rounded to nearest even.
+The precision is a suffix of the word: `.f32` is single precision, `binary32` (`FADD.F32`), and `.f64` is double, `binary64`; a bare word is the default width, 64 bits, so `FADD` is `FADD.F64`. The suffix is on the word and so on every register of the instruction, and there is no way to mix the precisions of the operands. A half has no arithmetic: `FADD.F16` is refused, and `.f8` is no format. A `binary32` lives in the low 32 bits of a register, sign-extended to 64 like every 32-bit result. Results are correctly rounded to nearest even.
 
-**Why it is here.** `binary64` has first-class opcodes because on a 64-bit machine it is the common case; `binary32` has the same operations, held in the low 32 bits of a register and sign-extended like every other 32-bit value (see also the ABI). The naming rule is an `F` in front of the integer mnemonic (`FADD`) and a size suffix for the other format (`FADD32`).
+**Why it is here.** `binary64` has first-class opcodes because on a 64-bit machine it is the common case; `binary32` has the same operations, held in the low 32 bits of a register and sign-extended like every other 32-bit value (see also the ABI). The naming rule is an `F` in front of the integer mnemonic (`FADD`) and a size suffix for the other format (`FADD.F32`).
 
 <a id="w-fadd32"></a>
-#### FADDF
+#### FADD.F32
 
-![FADD32: R2, prefix 110100000100, sub-opcode 0000011011; operands reg5, reg5; 4 bytes](figures/w/fadd32/01.svg)
+![FADD.F32: R2, prefix 110100000100, sub-opcode 0000011011; operands reg5, reg5; 4 bytes](figures/w/fadd32/01.svg)
+
+```
+FADD.F32 Rs, Rd
+```
 
 Operation and exceptions as for the entry FSINGLE above; 1 layout form, each a chart of its own (above).
 
 <a id="w-fsub32"></a>
-#### FSUBF
+#### FSUB.F32
 
-![FSUB32: R2, prefix 110100000100, sub-opcode 0000011100; operands reg5, reg5; 4 bytes](figures/w/fsub32/01.svg)
+![FSUB.F32: R2, prefix 110100000100, sub-opcode 0000011100; operands reg5, reg5; 4 bytes](figures/w/fsub32/01.svg)
+
+```
+FSUB.F32 Rs, Rd
+```
 
 Operation and exceptions as for the entry FSINGLE above; 1 layout form, each a chart of its own (above).
 
 <a id="w-fmul32"></a>
-#### FMULF
+#### FMUL.F32
 
-![FMUL32: R2, prefix 110100000100, sub-opcode 0000011101; operands reg5, reg5; 4 bytes](figures/w/fmul32/01.svg)
+![FMUL.F32: R2, prefix 110100000100, sub-opcode 0000011101; operands reg5, reg5; 4 bytes](figures/w/fmul32/01.svg)
+
+```
+FMUL.F32 Rs, Rd
+```
 
 Operation and exceptions as for the entry FSINGLE above; 1 layout form, each a chart of its own (above).
 
 <a id="w-fdiv32"></a>
-#### FDIVF
+#### FDIV.F32
 
-![FDIV32: R2, prefix 110100000100, sub-opcode 0000011110; operands reg5, reg5; 4 bytes](figures/w/fdiv32/01.svg)
+![FDIV.F32: R2, prefix 110100000100, sub-opcode 0000011110; operands reg5, reg5; 4 bytes](figures/w/fdiv32/01.svg)
+
+```
+FDIV.F32 Rs, Rd
+```
 
 Operation and exceptions as for the entry FSINGLE above; 1 layout form, each a chart of its own (above).
 
 <a id="w-fsqrt32"></a>
-#### FSQRTF
+#### FSQRT.F32
 
-![FSQRT32: R2, prefix 110100000100, sub-opcode 0000011111; operands reg5, reg5; 4 bytes](figures/w/fsqrt32/01.svg)
+![FSQRT.F32: R2, prefix 110100000100, sub-opcode 0000011111; operands reg5, reg5; 4 bytes](figures/w/fsqrt32/01.svg)
+
+```
+FSQRT.F32 Rs, Rd
+```
 
 Operation and exceptions as for the entry FSINGLE above; 1 layout form, each a chart of its own (above).
 
@@ -5164,15 +5180,14 @@ Operation and exceptions as for the entry FMADD above; 1 layout form, each a cha
 
 ### FMADD32: Fused multiply-add, binary32
 
-**Mnemonics:** `FMADDF`, `FNMSUBF`
+**Mnemonics:** `FMADD.F32`, `FNMSUB.F32`
 
 **Syntax**
 
 ```
-FMADDF Rs, Rt, Ru, Rd
-FNMSUBF Rs, Rt, Ru, Rd
-FMADDD, FNMSUBD    ; the double, the bare words
-FMADD Rs.32, Rt.32, Ru.32, Rd.32    ; the mark spelling
+FMADD.F32 Rs, Rt, Ru, Rd
+FNMSUB.F32 Rs, Rt, Ru, Rd
+FMADD, FNMSUB    ; the double, the bare words (or FMADD.F64, FNMSUB.F64)
 ```
 
 **Encoding**
@@ -5193,28 +5208,36 @@ As FMADD and FNMSUB, in binary32, rounded once
 
 **Exceptions** None.
 
-The sign of a `binary32` is flipped exactly by `FNEGF` (`FNEG` with the mark `.32` on its source), which is `XOR #-2147483648` and raises no exception flag.
+The sign of a `binary32` is flipped exactly by `FNEG.F32`, which is `XOR #-2147483648` and raises no exception flag.
 
 **Why it is here.** The `binary32` forms of the fused multiply-add family.
 
 <a id="w-fmadd32"></a>
-#### FMADDF
+#### FMADD.F32
 
-![FMADD32: R4, prefix 10101111, sub-opcode 0010; operands reg5, reg5, reg5, reg5; 4 bytes](figures/w/fmadd32/01.svg)
+![FMADD.F32: R4, prefix 10101111, sub-opcode 0010; operands reg5, reg5, reg5, reg5; 4 bytes](figures/w/fmadd32/01.svg)
+
+```
+FMADD.F32 Rs, Rt, Ru, Rd
+```
 
 Operation and exceptions as for the entry FMADD32 above; 1 layout form, each a chart of its own (above).
 
 <a id="w-fnmsub32"></a>
-#### FNMSUBF
+#### FNMSUB.F32
 
-![FNMSUB32: R4, prefix 10101111, sub-opcode 0011; operands reg5, reg5, reg5, reg5; 4 bytes](figures/w/fnmsub32/01.svg)
+![FNMSUB.F32: R4, prefix 10101111, sub-opcode 0011; operands reg5, reg5, reg5, reg5; 4 bytes](figures/w/fnmsub32/01.svg)
+
+```
+FNMSUB.F32 Rs, Rt, Ru, Rd
+```
 
 Operation and exceptions as for the entry FMADD32 above; 1 layout form, each a chart of its own (above).
 
 
 ### FSIGN: Sign operations on the bits
 
-**Mnemonics:** `FNEG`, `FABS`, `FCOPYSIGN`  (aliases: `FNEGF`, `FABSF`)
+**Mnemonics:** `FNEG`, `FABS`, `FCOPYSIGN`  (aliases: `FNEG.F32`, `FABS.F32`)
 
 **Syntax**
 
@@ -5222,9 +5245,8 @@ Operation and exceptions as for the entry FMADD32 above; 1 layout form, each a c
 FNEG Rs, Rd
 FABS Rs, Rd
 FCOPYSIGN Rs, Rt, Rd
-FNEGF Rs, Rd
-FABSF Rs, Rd
-FNEG Rs.32, Rd    ; the mark spelling of FNEGF
+FNEG.F32 Rs, Rd
+FABS.F32 Rs, Rd
 ```
 
 **Encoding**
@@ -5241,15 +5263,15 @@ The chart is the leaf `R2-1`, R2, prefix `110100000100`. `op1` is `reg5`: regist
 FNEG     : Rd ← Rs with the sign bit flipped
 FABS     : Rd ← Rs with the sign bit cleared
 FCOPYSIGN: Rd ← magnitude of Rs, sign of Rt
-FNEGF      : Rd ← Rs with the sign of the binary32 flipped    (XOR #-2147483648, Rd)
-FABSF      : Rd ← Rs with the sign of the binary32 cleared    (AND #0x7FFFFFFF, Rd)
+FNEG.F32      : Rd ← Rs with the sign of the binary32 flipped    (XOR #-2147483648, Rd)
+FABS.F32      : Rd ← Rs with the sign of the binary32 cleared    (AND #0x7FFFFFFF, Rd)
 ```
 
-**Exception flags** None for the three native words: they operate on the bits, do not canonicalise a NaN and raise no exception flag. `FNEGF` and `FABSF` (the marks `.32`) are the instructions they stand for and raise none either.
+**Exception flags** None for the three native words: they operate on the bits, do not canonicalise a NaN and raise no exception flag. `FNEG.F32` and `FABS.F32` are the instructions they stand for and raise none either.
 
 **Exceptions** None.
 
-`FNEGF` and `FABSF` (`FNEG` and `FABS` with the mark `.32` on the source register) are assembler mappings of the sign operations of a `binary32`, not native instructions: `FNEGF Rs, Rd` assembles to `XOR #-2147483648, Rd` and `FABSF Rs, Rd` to `AND #0x7FFFFFFF, Rd`, each preceded by `MOVQ Rs, Rd` when the two registers differ. A `binary32` lives in a register sign-extended to 64 bits, so its sign is bits 63 to 31 together and the constant that changes it is `0xFFFFFFFF80000000`; the result is again a sign-extended `binary32`, flipped or cleared exactly (a NaN and a zero included), and nothing is raised. The sign of a `binary64` is the single bit 63, which is why `FNEG` and `FABS` are native; the sign of a sign-extended `binary32` is spread over bits 63 to 31, so no single native instruction changes it and the two mappings are an `XOR` and an `AND` with a constant. There is no `FCOPYSIGN32`: its `binary32` form is several instructions on the bits (and the sign must be extended to 64 bits again), more than a mapping should hide.
+`FNEG.F32` and `FABS.F32` are assembler mappings of the sign operations of a `binary32`, not native instructions: `FNEG.F32 Rs, Rd` assembles to `XOR #-2147483648, Rd` and `FABS.F32 Rs, Rd` to `AND #0x7FFFFFFF, Rd`, each preceded by `MOV Rs, Rd` when the two registers differ. A `binary32` lives in a register sign-extended to 64 bits, so its sign is bits 63 to 31 together and the constant that changes it is `0xFFFFFFFF80000000`; the result is again a sign-extended `binary32`, flipped or cleared exactly (a NaN and a zero included), and nothing is raised. The sign of a `binary64` is the single bit 63, which is why `FNEG` and `FABS` are native; the sign of a sign-extended `binary32` is spread over bits 63 to 31, so no single native instruction changes it and the two mappings are an `XOR` and an `AND` with a constant. There is no `FCOPYSIGN32`: its `binary32` form is several instructions on the bits (and the sign must be extended to 64 bits again), more than a mapping should hide.
 
 **Why it is here.** Sign and selection operations (negate, absolute value and the like) work on the bits, do not canonicalise a NaN and raise no exception flag, so they cost almost nothing. The PowerPC 601 floating-point set has the same operations (stated from memory, not checked against a manual). No separate reason is recorded for these three.
 
@@ -5260,7 +5282,6 @@ FABSF      : Rd ← Rs with the sign of the binary32 cleared    (AND #0x7FFFFFFF
 
 ```
 FNEG Rs, Rd
-FNEG Rs.32, Rd
 ```
 
 Operation and exceptions as for the entry FSIGN above; 1 layout form, each a chart of its own (above).
@@ -5288,12 +5309,12 @@ FCOPYSIGN Rs, Rt, Rd
 Operation and exceptions as for the entry FSIGN above; 1 layout form, each a chart of its own (above).
 
 <a id="w-fneg32"></a>
-#### FNEGF
+#### FNEG.F32
 
 An alias of [`XOR`](#w-xor): the assembler writes it as that word.
 
 <a id="w-fabs32"></a>
-#### FABSF
+#### FABS.F32
 
 An alias of [`AND`](#w-and): the assembler writes it as that word.
 
@@ -5355,13 +5376,13 @@ Operation and exceptions as for the entry FMIN above; 1 layout form, each a char
 
 ### FCLASS: Classify a floating-point value
 
-**Mnemonics:** `FCLASS`, `FCLASSF`
+**Mnemonics:** `FCLASS`, `FCLASS.F32`
 
 **Syntax**
 
 ```
 FCLASS Rs, Rd
-FCLASSF Rs, Rd       ; the source is a binary32 (FCLASS Rs.32, Rd)
+FCLASS.F32 Rs, Rd       ; the source is a binary32
 ```
 
 **Encoding**
@@ -5399,9 +5420,13 @@ FCLASS Rs, Rd
 Operation and exceptions as for the entry FCLASS above; 1 layout form, each a chart of its own (above).
 
 <a id="w-fclass32"></a>
-#### FCLASSF
+#### FCLASS.F32
 
-![FCLASS32: R2, prefix 110100000100, sub-opcode 0000100011; operands reg5, reg5; 4 bytes](figures/w/fclass32/01.svg)
+![FCLASS.F32: R2, prefix 110100000100, sub-opcode 0000100011; operands reg5, reg5; 4 bytes](figures/w/fclass32/01.svg)
+
+```
+FCLASS.F32 Rs, Rd
+```
 
 Operation and exceptions as for the entry FCLASS above; 1 layout form, each a chart of its own (above).
 
@@ -5502,25 +5527,25 @@ Operation and exceptions as for the entry FRINT above; 1 layout form, each a cha
 
 ### FCVT: Floating conversions
 
-**Mnemonics:** `FCVT`, `FCVTDF`, `FCVTFD`
+**Mnemonics:** `FCVT.F64.S64`, `FCVT.F64.U64`, `FCVT.S64.F64`, `FCVT.U64.F64`, `FCVT.F64.F32`, `FCVT.F32.F64`, `FCVT.F32.S32`, `FCVT.S32.F32`, `FCVT.F32.F16`, `FCVT.F16.F32`, `FCVT.F64.F16`, `FCVT.F16.F64`, `FCVT.F16.S32`, `FCVT.S32.F16`
 
 **Syntax**
 
 ```
-FCVT Rs.64, Rd        ; binary64 to signed quad (the unmarked register is a 64-bit signed integer)
-FCVT Rs.64, Rd.u64    ; binary64 to unsigned quad
-FCVT Rs, Rd.64        ; signed quad to binary64
-FCVT Rs.u64, Rd.64    ; unsigned quad to binary64
-FCVTDF Rs, Rd        ; double to single, binary64 to binary32 (FCVT Rs.64, Rd.32)
-FCVTFD Rs, Rd        ; single to double, binary32 to binary64 (FCVT Rs.32, Rd.64)
-FCVT Rs.32, Rd.s32   ; binary32 to signed 32-bit integer
-FCVT Rs.s32, Rd.32   ; signed 32-bit integer to binary32
-FCVT Rs.32, Rd.16    ; binary32 to half
-FCVT Rs.16, Rd.32    ; half to binary32
-FCVT Rs.64, Rd.16    ; binary64 to half
-FCVT Rs.16, Rd.64    ; half to binary64
-FCVT Rs.16, Rd.s32   ; half to signed 32-bit integer, toward zero
-FCVT Rs.s32, Rd.16   ; signed 32-bit integer to half
+FCVT.F64.S64 Rs, Rd        ; binary64 to signed quad
+FCVT.F64.U64 Rs, Rd        ; binary64 to unsigned quad
+FCVT.S64.F64 Rs, Rd        ; signed quad to binary64
+FCVT.U64.F64 Rs, Rd        ; unsigned quad to binary64
+FCVT.F64.F32 Rs, Rd        ; double to single, binary64 to binary32
+FCVT.F32.F64 Rs, Rd        ; single to double, binary32 to binary64
+FCVT.F32.S32 Rs, Rd        ; binary32 to signed 32-bit integer
+FCVT.S32.F32 Rs, Rd        ; signed 32-bit integer to binary32
+FCVT.F32.F16 Rs, Rd        ; binary32 to half
+FCVT.F16.F32 Rs, Rd        ; half to binary32
+FCVT.F64.F16 Rs, Rd        ; binary64 to half
+FCVT.F16.F64 Rs, Rd        ; half to binary64
+FCVT.F16.S32 Rs, Rd        ; half to signed 32-bit integer, toward zero
+FCVT.S32.F16 Rs, Rd        ; signed 32-bit integer to half
 ```
 
 **Encoding**
@@ -5544,105 +5569,161 @@ a half to an integer of a NaN or an infinity is invalid and saturates; truncatin
 
 **Exceptions** None.
 
-The conversion between the two floating formats has the PDP-11's letters (`LDCDF` was double to float): `FCVTDF` is double to single and `FCVTFD` single to double, and each is also `FCVT` with the marks on its registers. The other conversions, those with an integer side or a half, are written with marks only. The source register and the destination register each carry the format they hold as a mark: `.16`, `.32` and `.64` are the floating formats `binary16`, `binary32` and `binary64`, and the integers are `.s32` (signed, 32 bits), no mark or `.s64` (signed, 64 bits) and `.u64` (unsigned, 64 bits). The unmarked register is therefore a 64-bit signed integer here, and `.64` is the double; a conversion between two equal formats, two integers or a pair that has no instruction is refused, and so is an unsigned 32-bit integer. Integer results are 64-bit or 32-bit sign-extended (`.s32`). Unsigned conversion of a negative value is invalid and gives 0. `binary16` is a storage format: a half lives in the low 16 bits of a register, sign-extended to 64, is loaded and stored with a `.16` mark on the move, and has these conversions and no arithmetic. Every half is exact in `binary32`, so an operation on halves is made by widening, operating in `binary32` and narrowing once; for add, subtract, multiply, divide and square root that gives the correctly rounded half, because a `binary32` has at least 2 × 11 + 2 bits of significand. A fused multiply-add of halves is not a case of this: widen to `binary64` and the sum may be rounded before it is narrowed. A NaN narrowed to a half is the canonical `0x7E00`; tininess is judged after rounding.
+The conversion is one word with two suffixes, the format of the source register and then the format of the destination, in the order of the operands: `FCVT.F64.F32 Rs, Rd` reads `binary64` in `Rs` and writes `binary32` in `Rd`. `.f16`, `.f32` and `.f64` are the floating formats `binary16`, `binary32` and `binary64`, and the integers are `.s32` (signed, 32 bits), `.s64` (signed, 64 bits) and `.u64` (unsigned, 64 bits); the kind letter says at a glance which side is a float. There are fourteen such pairs and each is an instruction. A bare `FCVT` is refused, for it names two formats; a conversion between two equal formats, two integers (that is a `MOV`) or a pair that has no instruction is refused with the list of those that exist. There is no instruction between a 32-bit integer and a binary64, and none for an unsigned 32-bit integer: a 32-bit integer is held sign-extended in its 64-bit register, so `FCVT.S64.F64` converts it, and an unsigned 32-bit value is zero-extended first with `MOV.U32 Rs, Rs`. Integer results are 64-bit or 32-bit sign-extended (`.s32`). Unsigned conversion of a negative value is invalid and gives 0. `binary16` is a storage format: a half lives in the low 16 bits of a register, sign-extended to 64, is loaded and stored with `MOV.S16`, and has these conversions and no arithmetic. Every half is exact in `binary32`, so an operation on halves is made by widening, operating in `binary32` and narrowing once; for add, subtract, multiply, divide and square root that gives the correctly rounded half, because a `binary32` has at least 2 × 11 + 2 bits of significand. A fused multiply-add of halves is not a case of this: widen to `binary64` and the sum may be rounded before it is narrowed. A NaN narrowed to a half is the canonical `0x7E00`; tininess is judged after rounding.
 
-**Why it is here.** `FCVTDQU` and `FCVTQUD` convert unsigned 64-bit integers to and from `binary64`. C needs both, and without them each takes a branch and several instructions. Half precision began as a GPU format (NVIDIA's `half`, 2002), spread to machine learning and image formats, and is in CPUs (x86 `F16C` and AVX-512 FP16, ARMv8.2, RISC-V `Zfh` and `Zfhmin`); this account is from memory and not checked against a manual. The architecture has the conversions only, as RISC-V's `Zfhmin` and x86's `F16C` have: a half is a storage format, normally loaded and stored with a move with the mark `.16`, converted, computed in single or double, and converted back, and a core without half-width adders, multipliers and dividers has fewer units to build and to verify. The full arithmetic (add, subtract, multiply, divide, square root, compare, classify and four fused multiply-adds, eleven words) was removed on 2026-11-25: the double rounding through `binary32` is exact for the five basic operations, so the two instructions it costs give the same results. 16-bit *integer* arithmetic is not provided: the ALU has one width (9.2.9).
+**Why it is here.** `FCVT.F64.U64` and `FCVT.U64.F64` convert unsigned 64-bit integers to and from `binary64`. C needs both, and without them each takes a branch and several instructions. Half precision began as a GPU format (NVIDIA's `half`, 2002), spread to machine learning and image formats, and is in CPUs (x86 `F16C` and AVX-512 FP16, ARMv8.2, RISC-V `Zfh` and `Zfhmin`); this account is from memory and not checked against a manual. The architecture has the conversions only, as RISC-V's `Zfhmin` and x86's `F16C` have: a half is a storage format, normally loaded and stored with a move with the mark `.16`, converted, computed in single or double, and converted back, and a core without half-width adders, multipliers and dividers has fewer units to build and to verify. The full arithmetic (add, subtract, multiply, divide, square root, compare, classify and four fused multiply-adds, eleven words) was removed on 2026-11-25: the double rounding through `binary32` is exact for the five basic operations, so the two instructions it costs give the same results. 16-bit *integer* arithmetic is not provided: the ALU has one width (9.2.9).
 
 <a id="w-fcvtdq"></a>
-#### FCVT with source `.64` and destination no mark
+#### FCVT.F64.S64
 
-![FCVTDQ: R2, prefix 110100000100, sub-opcode 0000101001; operands reg5, reg5; 4 bytes](figures/w/fcvtdq/01.svg)
+![FCVT.F64.S64: R2, prefix 110100000100, sub-opcode 0000101001; operands reg5, reg5; 4 bytes](figures/w/fcvtdq/01.svg)
+
+```
+FCVT.F64.S64 Rs, Rd
+```
 
 Operation and exceptions as for the entry FCVT above; 1 layout form, each a chart of its own (above).
 
 <a id="w-fcvtdqu"></a>
-#### FCVT with source `.64` and destination `.u64`
+#### FCVT.F64.U64
 
-![FCVTDQU: R2, prefix 110100000100, sub-opcode 0000101111; operands reg5, reg5; 4 bytes](figures/w/fcvtdqu/01.svg)
+![FCVT.F64.U64: R2, prefix 110100000100, sub-opcode 0000101111; operands reg5, reg5; 4 bytes](figures/w/fcvtdqu/01.svg)
+
+```
+FCVT.F64.U64 Rs, Rd
+```
 
 Operation and exceptions as for the entry FCVT above; 1 layout form, each a chart of its own (above).
 
 <a id="w-fcvtqd"></a>
-#### FCVT with source no mark and destination `.64`
+#### FCVT.S64.F64
 
-![FCVTQD: R2, prefix 110100000100, sub-opcode 0000101010; operands reg5, reg5; 4 bytes](figures/w/fcvtqd/01.svg)
+![FCVT.S64.F64: R2, prefix 110100000100, sub-opcode 0000101010; operands reg5, reg5; 4 bytes](figures/w/fcvtqd/01.svg)
+
+```
+FCVT.S64.F64 Rs, Rd
+```
 
 Operation and exceptions as for the entry FCVT above; 1 layout form, each a chart of its own (above).
 
 <a id="w-fcvtqud"></a>
-#### FCVT with source `.u64` and destination `.64`
+#### FCVT.U64.F64
 
-![FCVTQUD: R2, prefix 110100000100, sub-opcode 0000110000; operands reg5, reg5; 4 bytes](figures/w/fcvtqud/01.svg)
+![FCVT.U64.F64: R2, prefix 110100000100, sub-opcode 0000110000; operands reg5, reg5; 4 bytes](figures/w/fcvtqud/01.svg)
+
+```
+FCVT.U64.F64 Rs, Rd
+```
 
 Operation and exceptions as for the entry FCVT above; 1 layout form, each a chart of its own (above).
 
 <a id="w-fcvtds"></a>
-#### FCVTDF
+#### FCVT.F64.F32
 
-![FCVTDS: R2, prefix 110100000100, sub-opcode 0000101011; operands reg5, reg5; 4 bytes](figures/w/fcvtds/01.svg)
+![FCVT.F64.F32: R2, prefix 110100000100, sub-opcode 0000101011; operands reg5, reg5; 4 bytes](figures/w/fcvtds/01.svg)
+
+```
+FCVT.F64.F32 Rs, Rd
+```
 
 Operation and exceptions as for the entry FCVT above; 1 layout form, each a chart of its own (above).
 
 <a id="w-fcvtsd"></a>
-#### FCVTFD
+#### FCVT.F32.F64
 
-![FCVTSD: R2, prefix 110100000100, sub-opcode 0000101100; operands reg5, reg5; 4 bytes](figures/w/fcvtsd/01.svg)
+![FCVT.F32.F64: R2, prefix 110100000100, sub-opcode 0000101100; operands reg5, reg5; 4 bytes](figures/w/fcvtsd/01.svg)
+
+```
+FCVT.F32.F64 Rs, Rd
+```
 
 Operation and exceptions as for the entry FCVT above; 1 layout form, each a chart of its own (above).
 
 <a id="w-fcvtsl"></a>
-#### FCVT with source `.32` and destination `.s32`
+#### FCVT.F32.S32
 
-![FCVTSL: R2, prefix 110100000100, sub-opcode 0000101101; operands reg5, reg5; 4 bytes](figures/w/fcvtsl/01.svg)
+![FCVT.F32.S32: R2, prefix 110100000100, sub-opcode 0000101101; operands reg5, reg5; 4 bytes](figures/w/fcvtsl/01.svg)
+
+```
+FCVT.F32.S32 Rs, Rd
+```
 
 Operation and exceptions as for the entry FCVT above; 1 layout form, each a chart of its own (above).
 
 <a id="w-fcvtls"></a>
-#### FCVT with source `.s32` and destination `.32`
+#### FCVT.S32.F32
 
-![FCVTLS: R2, prefix 110100000100, sub-opcode 0000101110; operands reg5, reg5; 4 bytes](figures/w/fcvtls/01.svg)
+![FCVT.S32.F32: R2, prefix 110100000100, sub-opcode 0000101110; operands reg5, reg5; 4 bytes](figures/w/fcvtls/01.svg)
+
+```
+FCVT.S32.F32 Rs, Rd
+```
 
 Operation and exceptions as for the entry FCVT above; 1 layout form, each a chart of its own (above).
 
 <a id="w-fcvtsh"></a>
-#### FCVT with source `.32` and destination `.16`
+#### FCVT.F32.F16
 
-![FCVTSH: R2, prefix 110100000100, sub-opcode 0000110010; operands reg5, reg5; 4 bytes](figures/w/fcvtsh/01.svg)
+![FCVT.F32.F16: R2, prefix 110100000100, sub-opcode 0000110010; operands reg5, reg5; 4 bytes](figures/w/fcvtsh/01.svg)
+
+```
+FCVT.F32.F16 Rs, Rd
+```
 
 Operation and exceptions as for the entry FCVT above; 1 layout form, each a chart of its own (above).
 
 <a id="w-fcvths"></a>
-#### FCVT with source `.16` and destination `.32`
+#### FCVT.F16.F32
 
-![FCVTHS: R2, prefix 110100000100, sub-opcode 0000110011; operands reg5, reg5; 4 bytes](figures/w/fcvths/01.svg)
+![FCVT.F16.F32: R2, prefix 110100000100, sub-opcode 0000110011; operands reg5, reg5; 4 bytes](figures/w/fcvths/01.svg)
+
+```
+FCVT.F16.F32 Rs, Rd
+```
 
 Operation and exceptions as for the entry FCVT above; 1 layout form, each a chart of its own (above).
 
 <a id="w-fcvtdh"></a>
-#### FCVT with source `.64` and destination `.16`
+#### FCVT.F64.F16
 
-![FCVTDH: R2, prefix 110100000100, sub-opcode 0000110100; operands reg5, reg5; 4 bytes](figures/w/fcvtdh/01.svg)
+![FCVT.F64.F16: R2, prefix 110100000100, sub-opcode 0000110100; operands reg5, reg5; 4 bytes](figures/w/fcvtdh/01.svg)
+
+```
+FCVT.F64.F16 Rs, Rd
+```
 
 Operation and exceptions as for the entry FCVT above; 1 layout form, each a chart of its own (above).
 
 <a id="w-fcvthd"></a>
-#### FCVT with source `.16` and destination `.64`
+#### FCVT.F16.F64
 
-![FCVTHD: R2, prefix 110100000100, sub-opcode 0000110101; operands reg5, reg5; 4 bytes](figures/w/fcvthd/01.svg)
+![FCVT.F16.F64: R2, prefix 110100000100, sub-opcode 0000110101; operands reg5, reg5; 4 bytes](figures/w/fcvthd/01.svg)
+
+```
+FCVT.F16.F64 Rs, Rd
+```
 
 Operation and exceptions as for the entry FCVT above; 1 layout form, each a chart of its own (above).
 
 <a id="w-fcvthl"></a>
-#### FCVT with source `.16` and destination `.s32`
+#### FCVT.F16.S32
 
-![FCVTHL: R2, prefix 110100000100, sub-opcode 0000110110; operands reg5, reg5; 4 bytes](figures/w/fcvthl/01.svg)
+![FCVT.F16.S32: R2, prefix 110100000100, sub-opcode 0000110110; operands reg5, reg5; 4 bytes](figures/w/fcvthl/01.svg)
+
+```
+FCVT.F16.S32 Rs, Rd
+```
 
 Operation and exceptions as for the entry FCVT above; 1 layout form, each a chart of its own (above).
 
 <a id="w-fcvtlh"></a>
-#### FCVT with source `.s32` and destination `.16`
+#### FCVT.S32.F16
 
-![FCVTLH: R2, prefix 110100000100, sub-opcode 0000110111; operands reg5, reg5; 4 bytes](figures/w/fcvtlh/01.svg)
+![FCVT.S32.F16: R2, prefix 110100000100, sub-opcode 0000110111; operands reg5, reg5; 4 bytes](figures/w/fcvtlh/01.svg)
+
+```
+FCVT.S32.F16 Rs, Rd
+```
 
 Operation and exceptions as for the entry FCVT above; 1 layout form, each a chart of its own (above).
 
@@ -5687,24 +5768,24 @@ Rd ← old
 
 *Cf. chapter 7, section 7.4 (atomic operations), section 7.3 (the multiprocessor instructions at a glance) and section 7.5 (the memory model).*
 
-**9.13.1** The atomic group `ATOM` holds `CAS`, `SWAP`, `AADD`, `AAND`, `ABIS`, `AXOR`, `AMAX`, `AMIN`, `AMAXU` and `AMINU`, and `LL` and `SC`, in two sizes: the bare name is the 8-byte word and the name with an `L` after the operation the 4-byte word, 24 words in all, all four bytes long; `FENCE`, `WFE`, `SEV`, `ISYNC` and `HINT` are in `SYS`. Their semantics, ordering rules and the reservation monitor are in chapter 7.
+**9.13.1** The atomic group `ATOM` holds `CAS`, `SWAP`, `AADD`, `AAND`, `ABIS`, `AXOR`, `AMAX`, `AMIN`, `AMAX.U64` and `AMIN.U64`, and `LL` and `SC`, in two sizes: the bare name is the 8-byte word and the name with an `L` after the operation the 4-byte word, 24 words in all, all four bytes long; `FENCE`, `WFE`, `SEV`, `ISYNC` and `HINT` are in `SYS`. Their semantics, ordering rules and the reservation monitor are in chapter 7.
 
-**9.13.2** The fetch-and-operate words are the names of the machine's own instructions with an `A` for atomic in front: `AADD`, `AAND`, `ABIS`, `AXOR`, `AMAX`, `AMIN`, `AMAXU` and `AMINU` do to memory what `ADD`, `AND`, `BIS` (the inclusive or), `XOR`, `MAX`, `MIN`, `MAXU` and `MINU` do to a register, and return the old value; `CAS`, `SWAP`, `LL` and `SC` keep their plain names. Like every instruction with a destination they write it last: `AADD Rs, (Ra), Rd`.
+**9.13.2** The fetch-and-operate words are the names of the machine's own instructions with an `A` for atomic in front: `AADD`, `AAND`, `ABIS`, `AXOR`, `AMAX`, `AMIN`, `AMAX.U64` and `AMIN.U64` do to memory what `ADD`, `AND`, `BIS` (the inclusive or), `XOR`, `MAX`, `MIN`, `MAX.U64` and `MIN.U64` do to a register, and return the old value; `CAS`, `SWAP`, `LL` and `SC` keep their plain names. Like every instruction with a destination they write it last: `AADD Rs, (Ra), Rd`.
 
-**9.13.3** `CAS` operates on 4 bytes (`CASL`; the mark `.32` on the address, `CAS Rs, (Ra).32, Rd`, is the other spelling) or 8 bytes (`CAS`), and every atomic has the register fields of 7.4.6 and the address `(Ra)` with no offset, `CAS Rs, (Ra), Rd` with the expected and the old value in `Rd` (`LL` has two operands, `LL (Ra), Rd`); an aligned 8-byte compare-and-swap may cover two adjacent 4-byte fields, because the usual lock-and-count fast path of an operating system is exactly that (an 8-byte whole over two 4-byte members).
+**9.13.3** `CAS` operates on 4 bytes (`CAS.S32`) or 8 bytes (`CAS`, which is `CAS.S64`), and the old value of a 4-byte atomic comes back sign-extended, so `CAS.U32` is refused (9.5.3), and every atomic has the register fields of 7.4.6 and the address `(Ra)` with no offset, `CAS Rs, (Ra), Rd` with the expected and the old value in `Rd` (`LL` has two operands, `LL (Ra), Rd`); an aligned 8-byte compare-and-swap may cover two adjacent 4-byte fields, because the usual lock-and-count fast path of an operating system is exactly that (an 8-byte whole over two 4-byte members).
 
 *Commentary.* The official entry of each instruction is below, in this section; chapter 7 gives the reasons, the memory model and the use. **Impact.** *Kernel:* the entries below are all a kernel needs to write its locks; chapter 7 explains how they compose. *Compiler:* a lock acquire is one instruction. *Hardware:* a reservation monitor beside the data cache.
 
 <!-- entries:9.13 -->
 ### CAS: Compare and swap
 
-**Mnemonics:** `CAS`, `CASL`
+**Mnemonics:** `CAS`, `CAS.S32`
 
 **Syntax**
 
 ```
 CAS Rs, (Ra), Rd        ; three registers, the destination last: Rd holds the expected value going in and the old value coming out, Rs the new value, Ra the address (no offset); 8 bytes
-CASL ...                ; the same on 4 bytes (CAS Rs, (Ra).32, Rd)
+CAS.S32 ...                ; the same on 4 bytes
 ```
 
 **Encoding**
@@ -5718,8 +5799,8 @@ The chart is the leaf `ATOM-1`, ATOM, prefix `110100110100`. `op1` is `reg5`: re
 **Operation**
 
 ```
-old ← M[Ra]                              ; 8 bytes (4 for CASL), naturally aligned, ordinary cached memory
-if old = Rd then M[Ra] ← Rs                  ; CASL compares and writes the low 4 bytes of Rd and Rs
+old ← M[Ra]                              ; 8 bytes (4 for CAS.S32), naturally aligned, ordinary cached memory
+if old = Rd then M[Ra] ← Rs                  ; CAS.S32 compares and writes the low 4 bytes of Rd and Rs
 Rd ← old              ; the program compares Rd with the value it expected to learn whether the swap happened
 ```
 
@@ -5743,12 +5824,12 @@ CAS Rs, (Ra), Rd
 Operation and exceptions as for the entry CAS above; 1 layout form, each a chart of its own (above).
 
 <a id="w-casl"></a>
-#### CASL
+#### CAS.S32
 
-![CASL: ATOM, prefix 110100110100, sub-opcode 00001; operands reg5, b5d0s-x1, reg5; 4 bytes](figures/w/casl/01.svg)
+![CAS.S32: ATOM, prefix 110100110100, sub-opcode 00001; operands reg5, b5d0s-x1, reg5; 4 bytes](figures/w/casl/01.svg)
 
 ```
-CASL ...
+CAS.S32 ...
 ```
 
 Operation and exceptions as for the entry CAS above; 1 layout form, each a chart of its own (above).
@@ -5756,13 +5837,13 @@ Operation and exceptions as for the entry CAS above; 1 layout form, each a chart
 
 ### SWAP: Atomic exchange
 
-**Mnemonics:** `SWAP`, `SWAPL`
+**Mnemonics:** `SWAP`, `SWAP.S32`
 
 **Syntax**
 
 ```
 SWAP Rs, (Ra), Rd        ; Ra the address (no offset), Rs the value, Rd the old value
-SWAPL ...                ; 4 bytes (SWAP Rs, (Ra).32, Rd)
+SWAP.S32 ...                ; 4 bytes
 ```
 
 **Encoding**
@@ -5776,7 +5857,7 @@ The chart is the leaf `ATOM-1`, ATOM, prefix `110100110100`. `op1` is `reg5`: re
 **Operation**
 
 ```
-old ← M[Ra] ; M[Ra] ← Rs ; Rd ← old       ; 8 bytes (4 for SWAPL)
+old ← M[Ra] ; M[Ra] ← Rs ; Rd ← old       ; 8 bytes (4 for SWAP.S32)
 ```
 
 **Exceptions** All precise: nothing has changed, `EPC` is the instruction and `EVA` the address. An address that is not naturally aligned for the size takes the misalignment fault (no atomic is ever split over two words, two blocks or two pages, so nothing takes the bus for it). Memory that is not ordinary cached memory (uncached memory, a device's registers) takes the store protection fault. A page that is not present, or cannot be written, takes the fault of a store: an atomic reads and writes, and `LL` and `SC` check the access as a store too. The access is atomic with respect to every initiator, cores and devices alike.
@@ -5799,12 +5880,12 @@ SWAP Rs, (Ra), Rd
 Operation and exceptions as for the entry SWAP above; 1 layout form, each a chart of its own (above).
 
 <a id="w-swapl"></a>
-#### SWAPL
+#### SWAP.S32
 
-![SWAPL: ATOM, prefix 110100110100, sub-opcode 00011; operands reg5, b5d0s-x1, reg5; 4 bytes](figures/w/swapl/01.svg)
+![SWAP.S32: ATOM, prefix 110100110100, sub-opcode 00011; operands reg5, b5d0s-x1, reg5; 4 bytes](figures/w/swapl/01.svg)
 
 ```
-SWAPL ...
+SWAP.S32 ...
 ```
 
 Operation and exceptions as for the entry SWAP above; 1 layout form, each a chart of its own (above).
@@ -5812,13 +5893,13 @@ Operation and exceptions as for the entry SWAP above; 1 layout form, each a char
 
 ### AADD: Atomic fetch and add
 
-**Mnemonics:** `AADD`, `AADDL`
+**Mnemonics:** `AADD`, `AADD.S32`
 
 **Syntax**
 
 ```
 AADD Rs, (Ra), Rd        ; Ra the address (no offset), Rs the operand, Rd the old value; 8 bytes
-AADDL ...                ; 4 bytes (AADD Rs, (Ra).32, Rd)
+AADD.S32 ...                ; 4 bytes
 ```
 
 **Encoding**
@@ -5832,7 +5913,7 @@ The chart is the leaf `ATOM-1`, ATOM, prefix `110100110100`. `op1` is `reg5`: re
 **Operation**
 
 ```
-old ← M[Ra] ; M[Ra] ← old + Rs ; Rd ← old     ; 8 bytes (4 for AADDL; the sum wraps in 4 bytes)
+old ← M[Ra] ; M[Ra] ← old + Rs ; Rd ← old     ; 8 bytes (4 for AADD.S32; the sum wraps in 4 bytes)
 ```
 
 **Exceptions** All precise: nothing has changed, `EPC` is the instruction and `EVA` the address. An address that is not naturally aligned for the size takes the misalignment fault (no atomic is ever split over two words, two blocks or two pages, so nothing takes the bus for it). Memory that is not ordinary cached memory (uncached memory, a device's registers) takes the store protection fault. A page that is not present, or cannot be written, takes the fault of a store: an atomic reads and writes, and `LL` and `SC` check the access as a store too. The access is atomic with respect to every initiator, cores and devices alike.
@@ -5855,12 +5936,12 @@ AADD Rs, (Ra), Rd
 Operation and exceptions as for the entry AADD above; 1 layout form, each a chart of its own (above).
 
 <a id="w-aaddl"></a>
-#### AADDL
+#### AADD.S32
 
-![AADDL: ATOM, prefix 110100110100, sub-opcode 00101; operands reg5, b5d0s-x1, reg5; 4 bytes](figures/w/aaddl/01.svg)
+![AADD.S32: ATOM, prefix 110100110100, sub-opcode 00101; operands reg5, b5d0s-x1, reg5; 4 bytes](figures/w/aaddl/01.svg)
 
 ```
-AADDL ...
+AADD.S32 ...
 ```
 
 Operation and exceptions as for the entry AADD above; 1 layout form, each a chart of its own (above).
@@ -5868,7 +5949,7 @@ Operation and exceptions as for the entry AADD above; 1 layout form, each a char
 
 ### AAND: Atomic fetch and and, bit set (or), xor
 
-**Mnemonics:** `AAND`, `AANDL`, `ABIS`, `ABISL`, `AXOR`, `AXORL`
+**Mnemonics:** `AAND`, `AAND.S32`, `ABIS`, `ABIS.S32`, `AXOR`, `AXOR.S32`
 
 **Syntax**
 
@@ -5876,7 +5957,7 @@ Operation and exceptions as for the entry AADD above; 1 layout form, each a char
 AAND Rs, (Ra), Rd
 ABIS Rs, (Ra), Rd        ; the machine's own BIS, bit set, the inclusive or
 AXOR Rs, (Ra), Rd
-each with an L form (AANDL, ABISL, AXORL: 4 bytes; or the mark .32 on the address)
+each with a 4-byte form (AAND.S32, ABIS.S32, AXOR.S32)
 ```
 
 **Encoding**
@@ -5917,9 +5998,9 @@ AAND Rs, (Ra), Rd
 Operation and exceptions as for the entry AAND above; 1 layout form, each a chart of its own (above).
 
 <a id="w-aandl"></a>
-#### AANDL
+#### AAND.S32
 
-![AANDL: ATOM, prefix 110100110100, sub-opcode 00111; operands reg5, b5d0s-x1, reg5; 4 bytes](figures/w/aandl/01.svg)
+![AAND.S32: ATOM, prefix 110100110100, sub-opcode 00111; operands reg5, b5d0s-x1, reg5; 4 bytes](figures/w/aandl/01.svg)
 
 Operation and exceptions as for the entry AAND above; 1 layout form, each a chart of its own (above).
 
@@ -5935,9 +6016,9 @@ ABIS Rs, (Ra), Rd
 Operation and exceptions as for the entry AAND above; 1 layout form, each a chart of its own (above).
 
 <a id="w-abisl"></a>
-#### ABISL
+#### ABIS.S32
 
-![ABISL: ATOM, prefix 110100110100, sub-opcode 01001; operands reg5, b5d0s-x1, reg5; 4 bytes](figures/w/abisl/01.svg)
+![ABIS.S32: ATOM, prefix 110100110100, sub-opcode 01001; operands reg5, b5d0s-x1, reg5; 4 bytes](figures/w/abisl/01.svg)
 
 Operation and exceptions as for the entry AAND above; 1 layout form, each a chart of its own (above).
 
@@ -5953,23 +6034,23 @@ AXOR Rs, (Ra), Rd
 Operation and exceptions as for the entry AAND above; 1 layout form, each a chart of its own (above).
 
 <a id="w-axorl"></a>
-#### AXORL
+#### AXOR.S32
 
-![AXORL: ATOM, prefix 110100110100, sub-opcode 01011; operands reg5, b5d0s-x1, reg5; 4 bytes](figures/w/axorl/01.svg)
+![AXOR.S32: ATOM, prefix 110100110100, sub-opcode 01011; operands reg5, b5d0s-x1, reg5; 4 bytes](figures/w/axorl/01.svg)
 
 Operation and exceptions as for the entry AAND above; 1 layout form, each a chart of its own (above).
 
 
 ### AMAX: Atomic fetch and minimum or maximum
 
-**Mnemonics:** `AMAX`, `AMAXL`, `AMIN`, `AMINL`, `AMAXU`, `AMAXUL`, `AMINU`, `AMINUL`
+**Mnemonics:** `AMAX`, `AMAX.S32`, `AMIN`, `AMIN.S32`, `AMAX.U64`, `AMAX.U32`, `AMIN.U64`, `AMIN.U32`
 
 **Syntax**
 
 ```
 AMAX Rs, (Ra), Rd
-AMIN ..., AMAXU ..., AMINU ...
-each with an L form (AMAXL, AMAXUL, AMINL, AMINUL: 4 bytes; or the mark .32 on the address)
+AMIN ..., AMAX.U64 ..., AMIN.U64 ...
+each with a 4-byte form (AMAX.S32, AMAX.U32, AMIN.S32, AMIN.U32)
 ```
 
 **Encoding**
@@ -5983,7 +6064,7 @@ The chart is the leaf `ATOM-1`, ATOM, prefix `110100110100`. `op1` is `reg5`: re
 **Operation**
 
 ```
-old ← M[Ra] ; M[Ra] ← max(old, Rs) (AMAX, AMAXU) or min (AMIN, AMINU) ; Rd ← old
+old ← M[Ra] ; M[Ra] ← max(old, Rs) (AMAX, AMAX.U64) or min (AMIN, AMIN.U64) ; Rd ← old
 signed for AMAX and AMIN, unsigned for the U forms; the 4-byte forms compare 4-byte numbers
 ```
 
@@ -6007,9 +6088,9 @@ AMAX Rs, (Ra), Rd
 Operation and exceptions as for the entry AMAX above; 1 layout form, each a chart of its own (above).
 
 <a id="w-amaxl"></a>
-#### AMAXL
+#### AMAX.S32
 
-![AMAXL: ATOM, prefix 110100110100, sub-opcode 01101; operands reg5, b5d0s-x1, reg5; 4 bytes](figures/w/amaxl/01.svg)
+![AMAX.S32: ATOM, prefix 110100110100, sub-opcode 01101; operands reg5, b5d0s-x1, reg5; 4 bytes](figures/w/amaxl/01.svg)
 
 Operation and exceptions as for the entry AMAX above; 1 layout form, each a chart of its own (above).
 
@@ -6019,58 +6100,58 @@ Operation and exceptions as for the entry AMAX above; 1 layout form, each a char
 ![AMIN: ATOM, prefix 110100110100, sub-opcode 01110; operands reg5, b5d0s-x1, reg5; 4 bytes](figures/w/amin/01.svg)
 
 ```
-AMIN ..., AMAXU ..., AMINU ...
+AMIN ..., AMAX.U64 ..., AMIN.U64 ...
 ```
 
 Operation and exceptions as for the entry AMAX above; 1 layout form, each a chart of its own (above).
 
 <a id="w-aminl"></a>
-#### AMINL
+#### AMIN.S32
 
-![AMINL: ATOM, prefix 110100110100, sub-opcode 01111; operands reg5, b5d0s-x1, reg5; 4 bytes](figures/w/aminl/01.svg)
+![AMIN.S32: ATOM, prefix 110100110100, sub-opcode 01111; operands reg5, b5d0s-x1, reg5; 4 bytes](figures/w/aminl/01.svg)
 
 Operation and exceptions as for the entry AMAX above; 1 layout form, each a chart of its own (above).
 
 <a id="w-amaxu"></a>
-#### AMAXU
+#### AMAX.U64
 
-![AMAXU: ATOM, prefix 110100110100, sub-opcode 10000; operands reg5, b5d0s-x1, reg5; 4 bytes](figures/w/amaxu/01.svg)
+![AMAX.U64: ATOM, prefix 110100110100, sub-opcode 10000; operands reg5, b5d0s-x1, reg5; 4 bytes](figures/w/amaxu/01.svg)
 
 Operation and exceptions as for the entry AMAX above; 1 layout form, each a chart of its own (above).
 
 <a id="w-amaxul"></a>
-#### AMAXUL
+#### AMAX.U32
 
-![AMAXUL: ATOM, prefix 110100110100, sub-opcode 10001; operands reg5, b5d0s-x1, reg5; 4 bytes](figures/w/amaxul/01.svg)
+![AMAX.U32: ATOM, prefix 110100110100, sub-opcode 10001; operands reg5, b5d0s-x1, reg5; 4 bytes](figures/w/amaxul/01.svg)
 
 Operation and exceptions as for the entry AMAX above; 1 layout form, each a chart of its own (above).
 
 <a id="w-aminu"></a>
-#### AMINU
+#### AMIN.U64
 
-![AMINU: ATOM, prefix 110100110100, sub-opcode 10010; operands reg5, b5d0s-x1, reg5; 4 bytes](figures/w/aminu/01.svg)
+![AMIN.U64: ATOM, prefix 110100110100, sub-opcode 10010; operands reg5, b5d0s-x1, reg5; 4 bytes](figures/w/aminu/01.svg)
 
 Operation and exceptions as for the entry AMAX above; 1 layout form, each a chart of its own (above).
 
 <a id="w-aminul"></a>
-#### AMINUL
+#### AMIN.U32
 
-![AMINUL: ATOM, prefix 110100110100, sub-opcode 10011; operands reg5, b5d0s-x1, reg5; 4 bytes](figures/w/aminul/01.svg)
+![AMIN.U32: ATOM, prefix 110100110100, sub-opcode 10011; operands reg5, b5d0s-x1, reg5; 4 bytes](figures/w/aminul/01.svg)
 
 Operation and exceptions as for the entry AMAX above; 1 layout form, each a chart of its own (above).
 
 
 ### LLSC: Load-linked and store-conditional
 
-**Mnemonics:** `LL`, `LLL`, `SC`, `SCL`
+**Mnemonics:** `LL`, `LL.S32`, `SC`, `SC.S32`
 
 **Syntax**
 
 ```
 LL (Ra), Rd        ; 8 bytes
-LLL (Ra), Rd       ; 4 bytes (LL (Ra).32, Rd)
+LL.S32 (Ra), Rd       ; 4 bytes
 SC Rs, (Ra), Rd    ; 8 bytes
-SCL Rs, (Ra), Rd   ; 4 bytes (SC Rs, (Ra).32, Rd)
+SC.S32 Rs, (Ra), Rd   ; 4 bytes
 ```
 
 **Encoding**
@@ -6113,12 +6194,12 @@ LL (Ra), Rd
 Operation and exceptions as for the entry LLSC above; 1 layout form, each a chart of its own (above).
 
 <a id="w-lll"></a>
-#### LLL
+#### LL.S32
 
-![LLL: ATOML, prefix 1101001011111001, sub-opcode 000001; operands b5d0s-x1, reg5; 4 bytes](figures/w/lll/01.svg)
+![LL.S32: ATOML, prefix 1101001011111001, sub-opcode 000001; operands b5d0s-x1, reg5; 4 bytes](figures/w/lll/01.svg)
 
 ```
-LLL (Ra), Rd
+LL.S32 (Ra), Rd
 ```
 
 Operation and exceptions as for the entry LLSC above; 1 layout form, each a chart of its own (above).
@@ -6135,12 +6216,12 @@ SC Rs, (Ra), Rd
 Operation and exceptions as for the entry LLSC above; 1 layout form, each a chart of its own (above).
 
 <a id="w-scl"></a>
-#### SCL
+#### SC.S32
 
-![SCL: ATOM, prefix 110100110100, sub-opcode 10101; operands reg5, b5d0s-x1, reg5; 4 bytes](figures/w/scl/01.svg)
+![SC.S32: ATOM, prefix 110100110100, sub-opcode 10101; operands reg5, b5d0s-x1, reg5; 4 bytes](figures/w/scl/01.svg)
 
 ```
-SCL Rs, (Ra), Rd
+SC.S32 Rs, (Ra), Rd
 ```
 
 Operation and exceptions as for the entry LLSC above; 1 layout form, each a chart of its own (above).
@@ -7333,15 +7414,15 @@ The two-bound check, for an index whose lower bound is not zero (the Pascal and 
 
 **9.16.1** Position-independent code costs nothing extra on this machine: every access to code or data in the same module is PC-relative by an ordinary addressing mode, so there is no GOT register and no prologue to set one up.
 
-**9.16.2** A call to an imported function is `CALLI got_slot(PC)` and a PLT stub is the single instruction `JMPI got_slot(PC)`; an imported variable's address is one `MOVQ got_slot(PC), Rd`.
+**9.16.2** A call to an imported function is `CALLI got_slot(PC)` and a PLT stub is the single instruction `JMPI got_slot(PC)`; an imported variable's address is one `MOV got_slot(PC), Rd`.
 
 **9.16.3** A position-independent access to a global is no longer than an absolute one: four bytes within 32 KB and six within 2 GB, against six for a 32-bit absolute address.
 
-**9.16.4** The thread pointer is `DP`, so the local-exec thread-local model is one six-byte `MOVQ tls_offset(DP), Rd`.
+**9.16.4** The thread pointer is `DP`, so the local-exec thread-local model is one six-byte `MOV tls_offset(DP), Rd`.
 
 **9.16.5** A six-byte branch reaches ±4 GiB, so no linker veneers are needed for any binary smaller than that; the assembler's and the linker's branch relaxation both reduce to choosing a length.
 
-**9.16.6** `R12` is the scratch register of the linker and of the assembler: the linker uses it for an imported call, and the assembler writes it in the sequences of `ABS`, `MIN`, `MINU`, `MAX` and `MAXU` (9.7.6). It is caller-saved, so neither use costs a program anything it keeps across a call. The ABI (appendix C) decides that imports are called without a PLT stub.
+**9.16.6** `R12` is the scratch register of the linker and of the assembler: the linker uses it for an imported call, and the assembler writes it in the sequences of `ABS`, `MIN`, `MIN.U64`, `MAX` and `MAX.U64` (9.7.6). It is caller-saved, so neither use costs a program anything it keeps across a call. The ABI (appendix C) decides that imports are called without a PLT stub.
 
 *Commentary.* **Precedent.** On i386 a position-independent executable reserved `%ebx` (one of eight registers) for the GOT base and set it in every prologue, which cost a few percent of size and speed; x86-64 fixed that with RIP-relative addressing, and AArch64 needs linker veneers because its branches reach only 128 MB. **Trade-offs.** The two-byte PC-relative form is the shortest, so position-independent data access is slightly smaller than absolute access; the price is a GOT load per imported call site where a PLT stub would cost a load per function. **Improvements.** Position-independence is a side effect of three decisions made for other reasons: PC-relative as an ordinary mode (adopted because the PC left the register file), variable-length encoding (for density) and `DP` (a 6502 zero-page descendant kept for density), which is exactly the thread pointer. **Benefits.** OpenBSD builds everything position-independent by default, and here that costs nothing. **Modern comparables.** x86-64 RIP-relative addressing; AArch64 `ADRP` with a GOT load and veneers for far calls. **Impact.** *Kernel:* a loader applies only relocations for data pointers, and write-xor-execute and randomisation come with no code penalty. *Compiler:* `-fPIE` is the default and emits the same instructions as `-fno-pic` for local data; no reserved register, no per-function setup. *Hardware:* nothing; the PC-relative mode is in the address adder already.
 
@@ -7365,9 +7446,9 @@ The two-bound check, for an index whose lower bound is not zero (the Pascal and 
 
 **9.18.2** The VAX's counted-string instructions are largely present: `MOVC3` is `MCPY`, `CMPC3` is `MCMP`, `LOCC` is `MSCN`, `SKPC` is `MSCNN`, and `MOVC5` is `MCPY` plus `MSET`. Table-translated move, table scans and substring search are absent because a per-byte table lookup stops a block operation from streaming.
 
-**9.18.3** Deliberately lost, with their replacements: memory-to-memory `MOV` (replaced by `MCPY`); autoincrement-deferred and the dispatch-table idiom (replaced by `JTAG` for tag dispatch and a scaled-index `JMP` for the rest); `JSR Rn` and `RTS Rn` with inline arguments and cheap coroutines (replaced by `CALL` and `RET` with the return address on the stack where every unwinder and debugger expects it); the VAX `CASE` and `INDEX` instructions (replaced by a compare, branch and scaled `JMP`); byte and word ALU operations (`MOVZB`, the operation, `MOVB`: three instructions where the PDP-11 had one); and the flag set and clear instructions, which a machine with no flags has no use for.
+**9.18.3** Deliberately lost, with their replacements: memory-to-memory `MOV` (replaced by `MCPY`); autoincrement-deferred and the dispatch-table idiom (replaced by `JTAG` for tag dispatch and a scaled-index `JMP` for the rest); `JSR Rn` and `RTS Rn` with inline arguments and cheap coroutines (replaced by `CALL` and `RET` with the return address on the stack where every unwinder and debugger expects it); the VAX `CASE` and `INDEX` instructions (replaced by a compare, branch and scaled `JMP`); byte and word ALU operations (`MOV.U8`, the operation, `MOV.S8`: three instructions where the PDP-11 had one); and the flag set and clear instructions, which a machine with no flags has no use for.
 
-**9.18.4** Subsumed, so not losses: `SXT` (the conversion moves), `SWAB` (`BSWAP`), `MARK` (the convention it served is gone), `ASH` and `ASHC` (the shifts take a register count), `MFPI` and `MTPI` (`PROBER` with the previous-mode bits and the user-memory guard), `MULU` (identical to `MUL` in the low half), and `ROL` (an assembler alias for `ROR`).
+**9.18.4** Subsumed, so not losses: `SXT` (the conversion moves), `SWAB` (`BSWAP`), `MARK` (the convention it served is gone), `ASH` and `ASHC` (the shifts take a register count), `MFPI` and `MTPI` (`PROBER` with the previous-mode bits and the user-memory guard), `MUL.U64` (identical to `MUL` in the low half), and `ROL` (an assembler alias for `ROR`).
 
 **9.18.5** Measurements decide what is included, and the compiler uses more of the set than the first compiler did: `SETCC`, `ABS`, `MIN` and `MAX` (the last three assembler aliases, 9.7.6), the bit-field instructions, the strided auto-increment modes and the scaled index are all emitted, and the fused pairs are 19,786 instructions of the corpus.
 

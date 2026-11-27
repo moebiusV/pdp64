@@ -1,33 +1,33 @@
 """Dictionary entries, part 3: atomics and system instructions."""
 from isa_common import *
 
-ATNOTE = ('The size is in the spelling: the bare name is the 8-byte word (`AADDQ` is a spelling of it), and the 4-byte word has `L` after the operation, the letter of a long (as `MOVL` against `MOVQ`): `AADD` and `AADDL`, `CAS` and `CASL`, `ABIS` and `ABISL`, `LL` and `LLL`, `SC` and `SCL`. The mark `.32` on the address is the other spelling of the 4-byte word: `AADD Rs, (Ra).32, Rd` is `AADDL Rs, (Ra), Rd`, and a letter and a mark that disagree are an error. No other width exists, and a mark on a register operand is refused. A 4-byte word reads the low four bytes of `Rs` (and of the expected value in `Rd`) and puts the old value into `Rd` sign-extended, as a 4-byte load does. There is no offset: the address is the register `Ra` and nothing else. The comparison of `AMAXU` and `AMINU` is unsigned and is part of the operation; the width is only the letter.')
+ATNOTE = ('The size is the suffix of the word: the bare name is the 8-byte word (`AADD` is `AADD.S64`, and `AADD.U64` is the same word), and the 4-byte word has the suffix `.s32` (as `MOV.S32` against `MOV`): `AADD` and `AADD.S32`, `CAS` and `CAS.S32`, `ABIS` and `ABIS.S32`, `LL` and `LL.S32`, `SC` and `SC.S32`. No other width exists: `AADD.S16` is refused as no 8-bit or 16-bit atomic. A 4-byte word reads the low four bytes of `Rs` (and of the expected value in `Rd`) and puts the old value into `Rd` sign-extended, as a 4-byte load does, so the only true kind of a 4-byte atomic that returns a value is `.s32`, and `.u32` is refused on `CAS`, `SWAP`, `AADD`, `AAND`, `ABIS`, `AXOR` and `LL`; the zero-extended old value is `MOV.U32 Rd, Rd` after the instruction. `SC.S32` and `SC.U32` are the same word, for it returns 0 or 1 and not a value. `AMAX` and `AMIN` take both kinds, because the kind is the comparison: `AMAX.U32` and `AMIN.U32` compare unsigned and return the old value sign-extended all the same. There is no offset: the address is the register `Ra` and nothing else. The comparison of `AMAX.U64` and `AMIN.U64` is unsigned and is part of the operation; the suffix is the kind and the width.')
 ATFLAG = 'None. `SC` reports success in `Rd` (0 for success, 1 for failure).'
 ATEXC = 'All precise: nothing has changed, `EPC` is the instruction and `EVA` the address. An address that is not naturally aligned for the size takes the misalignment fault (no atomic is ever split over two words, two blocks or two pages, so nothing takes the bus for it). Memory that is not ordinary cached memory (uncached memory, a device\'s registers) takes the store protection fault. A page that is not present, or cannot be written, takes the fault of a store: an atomic reads and writes, and `LL` and `SC` check the access as a store too. The access is atomic with respect to every initiator, cores and devices alike.'
 ATCF = '{{r:atomic-operations}} (atomic operations: the reservation monitor), {{r:multiprocessor-instructions-at-a-glance}} (the multiprocessor instructions at a glance), {{r:memory-ordering-from-sequential-consistency}} (the memory model).'
 
 ENTRIES = [
     E('CAS', 'atomics', ['cas', 'casl'], 'Compare and swap',
-      ['CAS Rs, (Ra), Rd        ; three registers, the destination last: Rd holds the expected value going in and the old value coming out, Rs the new value, Ra the address (no offset); 8 bytes', 'CASL ...                ; the same on 4 bytes (CAS Rs, (Ra).32, Rd)'],
-      '''old <- M[Ra]                              ; 8 bytes (4 for CASL), naturally aligned, ordinary cached memory
-if old == Rd then M[Ra] <- Rs                  ; CASL compares and writes the low 4 bytes of Rd and Rs
+      ['CAS Rs, (Ra), Rd        ; three registers, the destination last: Rd holds the expected value going in and the old value coming out, Rs the new value, Ra the address (no offset); 8 bytes', 'CAS.S32 ...                ; the same on 4 bytes'],
+      '''old <- M[Ra]                              ; 8 bytes (4 for CAS.S32), naturally aligned, ordinary cached memory
+if old == Rd then M[Ra] <- Rs                  ; CAS.S32 compares and writes the low 4 bytes of Rd and Rs
 Rd <- old              ; the program compares Rd with the value it expected to learn whether the swap happened''', NOFLAGS, ATEXC, notes=ATNOTE, cf=ATCF, xnote=ATNOTE),
-    E('SWAP', 'atomics', ['swap', 'swapl'], 'Atomic exchange', ['SWAP Rs, (Ra), Rd        ; Ra the address (no offset), Rs the value, Rd the old value', 'SWAPL ...                ; 4 bytes (SWAP Rs, (Ra).32, Rd)'],
-      '''old <- M[Ra] ; M[Ra] <- Rs ; Rd <- old       ; 8 bytes (4 for SWAPL)''', NOFLAGS, ATEXC, notes=ATNOTE, cf=ATCF, xnote=ATNOTE),
-    E('AADD', 'atomics', ['aadd', 'aaddl'], 'Atomic fetch and add', ['AADD Rs, (Ra), Rd        ; Ra the address (no offset), Rs the operand, Rd the old value; 8 bytes', 'AADDL ...                ; 4 bytes (AADD Rs, (Ra).32, Rd)'],
-      '''old <- M[Ra] ; M[Ra] <- old + Rs ; Rd <- old     ; 8 bytes (4 for AADDL; the sum wraps in 4 bytes)''', NOFLAGS, ATEXC, notes=ATNOTE, cf=ATCF, xnote=ATNOTE),
+    E('SWAP', 'atomics', ['swap', 'swapl'], 'Atomic exchange', ['SWAP Rs, (Ra), Rd        ; Ra the address (no offset), Rs the value, Rd the old value', 'SWAP.S32 ...                ; 4 bytes'],
+      '''old <- M[Ra] ; M[Ra] <- Rs ; Rd <- old       ; 8 bytes (4 for SWAP.S32)''', NOFLAGS, ATEXC, notes=ATNOTE, cf=ATCF, xnote=ATNOTE),
+    E('AADD', 'atomics', ['aadd', 'aaddl'], 'Atomic fetch and add', ['AADD Rs, (Ra), Rd        ; Ra the address (no offset), Rs the operand, Rd the old value; 8 bytes', 'AADD.S32 ...                ; 4 bytes'],
+      '''old <- M[Ra] ; M[Ra] <- old + Rs ; Rd <- old     ; 8 bytes (4 for AADD.S32; the sum wraps in 4 bytes)''', NOFLAGS, ATEXC, notes=ATNOTE, cf=ATCF, xnote=ATNOTE),
     E('AAND', 'atomics', ['aand', 'aandl', 'abis', 'abisl', 'axor', 'axorl'], 'Atomic fetch and and, bit set (or), xor',
-      ['AAND Rs, (Ra), Rd', 'ABIS Rs, (Ra), Rd        ; the machine\'s own BIS, bit set, the inclusive or', 'AXOR Rs, (Ra), Rd', 'each with an L form (AANDL, ABISL, AXORL: 4 bytes; or the mark .32 on the address)'],
+      ['AAND Rs, (Ra), Rd', 'ABIS Rs, (Ra), Rd        ; the machine\'s own BIS, bit set, the inclusive or', 'AXOR Rs, (Ra), Rd', 'each with a 4-byte form (AAND.S32, ABIS.S32, AXOR.S32)'],
       '''old <- M[Ra]
 AAND: M[Ra] <- old AND Rs
 ABIS: M[Ra] <- old OR Rs
 AXOR: M[Ra] <- old XOR Rs
 Rd <- old''', NOFLAGS, ATEXC, notes=ATNOTE, cf=ATCF, xnote=ATNOTE),
     E('AMAX', 'atomics', ['amax', 'amaxl', 'amin', 'aminl', 'amaxu', 'amaxul', 'aminu', 'aminul'], 'Atomic fetch and minimum or maximum',
-      ['AMAX Rs, (Ra), Rd', 'AMIN ..., AMAXU ..., AMINU ...', 'each with an L form (AMAXL, AMAXUL, AMINL, AMINUL: 4 bytes; or the mark .32 on the address)'],
-      '''old <- M[Ra] ; M[Ra] <- max(old, Rs) (AMAX, AMAXU) or min (AMIN, AMINU) ; Rd <- old
+      ['AMAX Rs, (Ra), Rd', 'AMIN ..., AMAX.U64 ..., AMIN.U64 ...', 'each with a 4-byte form (AMAX.S32, AMAX.U32, AMIN.S32, AMIN.U32)'],
+      '''old <- M[Ra] ; M[Ra] <- max(old, Rs) (AMAX, AMAX.U64) or min (AMIN, AMIN.U64) ; Rd <- old
 signed for AMAX and AMIN, unsigned for the U forms; the 4-byte forms compare 4-byte numbers''', NOFLAGS, ATEXC, notes=ATNOTE, cf=ATCF, xnote=ATNOTE),
-    E('LLSC', 'atomics', ['ll', 'lll', 'sc', 'scl'], 'Load-linked and store-conditional', ['LL (Ra), Rd        ; 8 bytes', 'LLL (Ra), Rd       ; 4 bytes (LL (Ra).32, Rd)', 'SC Rs, (Ra), Rd    ; 8 bytes', 'SCL Rs, (Ra), Rd   ; 4 bytes (SC Rs, (Ra).32, Rd)'],
+    E('LLSC', 'atomics', ['ll', 'lll', 'sc', 'scl'], 'Load-linked and store-conditional', ['LL (Ra), Rd        ; 8 bytes', 'LL.S32 (Ra), Rd       ; 4 bytes', 'SC Rs, (Ra), Rd    ; 8 bytes', 'SC.S32 Rs, (Ra), Rd   ; 4 bytes'],
       '''LL: Rd <- M[Ra] ; take a reservation on the aligned 128-byte block that contains the address
 SC: if the reservation is intact and Ra is the address (and the size) of the LL
     then M[Ra] <- Rs ; Rd <- 0 (success)

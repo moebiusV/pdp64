@@ -5,6 +5,6 @@
 	.text
 	.globl	_start
 _start:
-	movq	=LEAF(0x1234, MT_CACHED), r1		; stage 1: written by the guest kernel
-	movq	=LEAF(0x8f7, MT_UNCACHED), r2		; stage 2: written by the hypervisor, this page is a DMA buffer
+	mov	=LEAF(0x1234, MT_CACHED), r1		; stage 1: written by the guest kernel
+	mov	=LEAF(0x8f7, MT_UNCACHED), r2		; stage 2: written by the hypervisor, this page is a DMA buffer
 	halt

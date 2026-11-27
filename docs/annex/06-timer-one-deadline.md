@@ -53,7 +53,7 @@ agtimer_rearm(void *cookie, uint64_t nsecs)
 tick:   mfsr    r1, timecmp             ; a periodic tick: the old deadline plus the period
         add     #100000, r1
         mtsr    timecmp, r1
-        movq    #0, r1                  ; nothing to wait for: zero means never
+        mov    #0, r1                  ; nothing to wait for: zero means never
         mtsr    timecmp, r1
 ```
 

@@ -19,7 +19,7 @@ line = *label [ stmt ]
 label = symbol ":" | !insnword !( "." dname ) symbol &dkword
 insnword = mnemonic | mn-sysreg
 dkword = "db" | "dw" | "dd" | "dq" | "resb" | "resw" | "resd" | "resq" | "DB" | "DW" | "DD" | "DQ" | "RESB" | "RESW" | "RESD" | "RESQ"
-; (the instruction before the assignment: `movq =5, r1` starts like the assignment `movq = 5`, and a mnemonic is never a symbol to assign)
+; (the instruction before the assignment: `mov =5, r1` starts like the assignment `mov = 5`, and a mnemonic is never a symbol to assign)
 stmt = directive | vecinsn | instruction | srinsn | assign | dbdir | procdir | endpdir | nasmdir | secdir | timesdir
 
 ; `sym = expr` or, MASM's way, `sym equ expr`
@@ -66,9 +66,8 @@ sysregw = sysreg
 ; the order of `opbody` matters (the first that matches is taken, and the C that reads the tree numbers the alternatives, as64/asmir.h):
 ; based2 (`r5+8`, `r5-8`, a synonym of `8(r5)`) and atindexed (AT&T's `(r1,r2,4)` and `8(r1,r2,4)`) come before regop and bare
 opbody = immop | absop | postinc | predec | predec2 | indexed | based | atindexed | based2 | regop | bare | poolop
-; an operand is a body and, glued to its end, a width mark (`r1.32`, `(r1).8`, `8(r1).u16`, `(r1)+.32`, `-(r1).8`, `(r1)(r2*4).16`, `@foo.8`, `msg+4.16`): the grammar accepts a mark after any body,
-; and the assembler (as64.c, the table of 61-asm-marks.hbnf) says which instructions take which marks; the spaces the parser skips before a mark are refused there
-operand = opbody [ mark ]
+; an operand is a body: the width and kind of the instruction are a suffix of its mnemonic (61-asm-suffixes.hbnf), so no operand carries a mark
+operand = opbody
 ; `#expr`, or `$expr` as AT&T and the Microsoft assemblers write it
 immop   = ( "#" | "$" ) expr
 absop   = "@" expr
@@ -85,20 +84,14 @@ based   = "(" basereg ")" | expr "(" basereg ")"
 atindexed = "(" reg "," reg [ "," scale ] ")" | expr "(" reg "," reg [ "," scale ] ")"
 based2  = basereg ( "+" | "-" ) expr
 bare    = expr
-; a literal-pool load (`movq =0x123456789ABC, r1`): the constant goes to the literal pool, the operand is the pool entry, a pc-relative memory operand.  Written last: nothing else starts with "="
+; a literal-pool load (`mov =0x123456789ABC, r1`): the constant goes to the literal pool, the operand is the pool entry, a pc-relative memory operand.  Written last: nothing else starts with "="
 poolop  = "=" expr
 
 ; R0..R15; SP is R14 and FP is R13 (ISA 2.1); PC and DP only as a base register
-; (a register is recognized by its characters, not as a word: the whole-word scan counts `.` and `-` as word characters, so `r1.8` and `r5-8` would not be seen; `sp-8` is a register and a displacement)
+; (a register is recognized by its characters, not as a word: the whole-word scan counts `.` and `-` as word characters, so `r5-8` would not be seen; `sp-8` is a register and a displacement)
 reg      = regtok | "%" regtok
 regtok   = rbody !idchar
 rbody    = r"r([0-9]|[12][0-9]|3[01])|sp|fp"
-; a width mark: the lexer layer of as64 (as64/asmp.c, mark_prescan) finds a dot that is glued to an operand and followed by `8 16 32 64`, `u8 u16 u32 u64`, `s8 s16 s32 s64` and then no name character, and hands the
-; parser the one character 0x01 in its place: a mark is a character that no name contains, so names, numbers and registers end before it with no rule of theirs knowing of marks.  Inside a quoted
-; name or a string, and in a comment, a dot stays a dot, so a name that ends in `.8` is written in quotes
-mark     = 0x01 [ marksign ] marknum
-marksign = 0x75 | 0x73
-marknum  = 0x38 | 0x31 0x36 | 0x33 0x32 | 0x36 0x34
 basereg  = reg | basespec
 scale    = "1" | "2" | "4" | "8"
 

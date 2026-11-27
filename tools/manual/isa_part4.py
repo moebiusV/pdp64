@@ -19,7 +19,7 @@ ENTRIES = [
 SP <- SP - 8 ; M[SP] <- address of the next instruction
 PC <- target''', NOFLAGS,
       'The store of the return address can fault (the memory faults of `CALL`): the instruction restarts whole, because the first half reads a register that the second half does not change.',
-      notes='One of the four fused pairs: `MOVQ Rs, Rd` followed by `CALL target`, in one instruction. The target is a pc-relative field in parcels, measured from the first parcel of the fused instruction; the instruction is two parcels (a 16-bit field) or three (a 32-bit field), and the linker grows it from its shortest form like a `CALL` (`docs/relaxation.md`). **The assembler never fuses**: the compiler writes `MOVCALL` where it wants it. An instruction that writes two registers (`Rd` and the stack pointer) and stores to memory is a two-micro-operation instruction for an out-of-order core.',
+      notes='One of the four fused pairs: `MOV Rs, Rd` followed by `CALL target`, in one instruction. The target is a pc-relative field in parcels, measured from the first parcel of the fused instruction; the instruction is two parcels (a 16-bit field) or three (a 32-bit field), and the linker grows it from its shortest form like a `CALL` (`docs/relaxation.md`). **The assembler never fuses**: the compiler writes `MOVCALL` where it wants it. An instruction that writes two registers (`Rd` and the stack pointer) and stores to memory is a two-micro-operation instruction for an out-of-order core.',
       cf='{{r:addressing-modes}} (the pc-relative operand and the relaxation), {{r:faults-and-restart-what-precise-means}} (restart after a fault).'),
     X('POPRET', 'branches', ['popret'], 'Pop a register and return', ['POPRET Rd'],
       '''Rd <- M[SP] ; SP <- SP + 8
@@ -33,7 +33,7 @@ PC <- M[SP] ; SP <- SP + 8''', NOFLAGS, MEMX + ' A fault after some registers ha
     X('MOV2', 'moves', ['mov2'], 'Two register moves', ['MOV2 Ra, Rb, Rc, Rd'],
       '''Rb <- Ra
 Rd <- Rc           ; in this order''', NOFLAGS, NONE,
-      notes='`MOVQ Ra, Rb` followed by `MOVQ Rc, Rd`, fused. The four operands are 3-bit fields: only the eight hot registers (`R0 R1 R8 R2 SP R3 R9 R10`, the ABI table of the encoding) can be named, and the instruction takes one sixteenth of the first-parcel space, which is why the grammar gives it a prefix of four bits. If `Rb` is `Rc` the second move reads the new value, as two instructions would.',
+      notes='`MOV Ra, Rb` followed by `MOV Rc, Rd`, fused. The four operands are 3-bit fields: only the eight hot registers (`R0 R1 R8 R2 SP R3 R9 R10`, the ABI table of the encoding) can be named, and the instruction takes one sixteenth of the first-parcel space, which is why the grammar gives it a prefix of four bits. If `Rb` is `Rc` the second move reads the new value, as two instructions would.',
       cf='Appendix {{c:id03004|n}} (the hot-register tables).'),
     # ---- selects
     X('MASK', 'alu', ['maskeqz', 'masknez'], 'Mask by a condition register', ['MASKEQZ Ra, Rc, Rd', 'MASKNEZ Ra, Rc, Rd'],

@@ -15,7 +15,7 @@ faults, which begins at the element of the faulting stream that the scenario nam
 usage: gen_vec_2d.py OUT.S"""
 import sys as _sys, os as _os
 _sys.path.insert(0, _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..', '..', 'tools'))
-import marks		# the words of the encoding written with width marks (tools/marks.py)
+import marks		# the words of the encoding written with the width suffixes (tools/marks.py)
 import sys
 
 WIN = 0x800000

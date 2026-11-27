@@ -134,38 +134,23 @@ def mnemonics():
 MN_BASE = mnemonics()                               # the words of spec/grammars.d
 MN = MN_BASE                                        # the words of the manual (build() sets it)
 CH = None                                           # its charts (class Charts)
-import marks as MK                                  # the rows of spec/grammars.d/61-asm-marks.hbnf: the words of the encoding that the assembly language writes with width marks
-MARKROWS = MK.rows()
-LETTERS = MK.letters()                              # the letter spellings that are not words of the encoding: rorl is ror32, aaddq is aadd
-LETTER_OF = {w: l for l, w in LETTERS.items() if w in MK.words()}   # a word of the encoding that has no spelling of its own but a letter: ror32 is written rorl
-INTERNAL = set(MK.words()) - set(LETTER_OF)         # the words that are not written as they are: the floating-point precisions and the formats of fcvt (marks only)
-SURFACE = ('mov', 'mov.u', 'fcvt')                  # the words the operations are written with, for which the encoding has none
-
-
-def spec_tag(spec):
-    """the marks of a row, in words: `.8`, `.u16`, `.64 to .32`"""
-    if not spec: return 'no mark'
-    k = spec[0]
-    if k == 'm': return '`.%s`' % spec[1:] if spec[1] != 'u' else '`.u%s`' % spec[2:]
-    if k in 'sf': return '`.%s`' % spec[1:]
-    a, b = spec[2:].split(':')
-    t = lambda x: 'no mark' if x == 'i' else '`.%s`' % x
-    return 'source %s and destination %s' % (t(a), t(b))
+import marks as MK                                  # the rows of spec/grammars.d/61-asm-suffixes.hbnf: the spellings of the width and kind suffixes, and the words of the older notations
+ROWS = MK.rows()                                    # [(spelling, word of the encoding, flags, printed)]
+SHOWN = MK.shown()                                  # word of the encoding -> the spelling that is printed for it (movq is mov, movb is mov.s8, fadd32 is fadd.f32)
+INTERNAL = set(MK.words())                          # the words that are not words of the assembly language: the encoding's own names (movb, aaddl, fadd32, fcvtds) and the letters of the older notations
+SPELLINGS = [r[0] for r in ROWS]                    # the spellings the assembler takes besides the words of the groups: mov, mov.s8, aadd.s32, fadd.f32, fcvt.s32.f32 ...
 
 
 def wlabel(n):
-    """how a word of the encoding is shown in the headings of its layouts: as the assembly language writes it (a letter word as it is; a word with marks only as the operation and its marks)"""
-    if n in LETTER_OF: return LETTER_OF[n].upper()
-    r = MARKROWS.get(n)
-    if not r or n not in INTERNAL: return n.upper()
-    return '%s with %s' % (r[0].upper(), spec_tag(r[1])) if r[1] else r[0].upper()
+    """how a word of the encoding is shown in the headings of its layouts: as the assembly language writes it, in capitals (movb is MOV.S8)"""
+    return SHOWN.get(n, n).upper()
 
 
 def disp_words(names):
     """the words of the assembly language that stand for these words of the encoding, once each, in order"""
     out = []
     for n in names:
-        w = LETTER_OF[n].upper() if n in LETTER_OF else MARKROWS[n][0].upper() if n in INTERNAL and n in MARKROWS else n.upper()
+        w = wlabel(n)
         if w not in out: out.append(w)
     return out
 EXECTEXT = open(EXEC).read()
@@ -356,7 +341,7 @@ def words_section(e, real):
         if MN[n]['alias_of']:
             out += ['#### %s' % wlabel(n), '', 'An alias of [`%s`](#w-%s): the assembler writes it as that word.' % (wlabel(MN[n]['alias_of']), wslug(MN[n]['alias_of'])), '']
             continue
-        syn = [l.split(';')[0].rstrip() for l in e['syntax'] if re.match(r'\s*%s\b' % re.escape(n.upper()), l)] if n not in INTERNAL else []
+        syn = [l.split(';')[0].rstrip() for l in e['syntax'] if re.match(r'\s*%s(?![\w.])' % re.escape(wlabel(n)), l)]
         out += ['#### %s' % wlabel(n), ''] + forms_block(n)
         if syn:
             out += ['```', uni('\n'.join(syn)), '```', '']
@@ -513,7 +498,7 @@ def constants_page():
 
 HOME = {}
 for _i in 'MOV LEA'.split(): HOME[_i] = ('09-isa.md', 'moves-conversions-and-address-formation')
-for _i in 'ADD SUB MUL MULH ADDM INC DEC NEG DIV MULHU ABS MINMAX SETCC'.split(): HOME[_i] = ('09-isa.md', 'integer-arithmetic')
+for _i in 'ADD SUB MUL MULH ADDM INC DEC NEG DIV ABS MINMAX SETCC'.split(): HOME[_i] = ('09-isa.md', 'integer-arithmetic')
 for _i in 'BIC BIS XOR AND SHIFT CLR COM ASL ASR'.split(): HOME[_i] = ('09-isa.md', 'logic-shifts-and-rotates')
 for _i in 'COUNT POPCNT BSWAP BITREV ROR DSHR EXTB INSB XNORPOP CLMUL UTF8LEN UTF8DEC UTF8ENC'.split(): HOME[_i] = ('09-isa.md', 'bits-bytes-and-text')
 for _i in 'BR SOB CBCC FCBCC BTAG JMP CALL JMPI JTAG'.split(): HOME[_i] = ('09-isa.md', 'branches-and-control-flow')
@@ -729,21 +714,24 @@ def build():
         return '../%s#%s' % (fn, slug('%s %s' % (sec, m.group(1))))
     # aliases
     EXPANDS = {'rol': ' with the count `#n` complemented to `#(64-n)` (a constant count only)'}
-    SEQ = {'abs': '`MOVQ Rs, R12`, `SAR #63, R12`, `MOVQ Rs, Rd` (left out when `Rd` is `Rs`), `XOR R12, Rd`, `SUB R12, Rd`',
+    SEQ = {'abs': '`MOV Rs, R12`, `SAR #63, R12`, `MOV Rs, Rd` (left out when `Rd` is `Rs`), `XOR R12, Rd`, `SUB R12, Rd`',
            'min': '`SETLT Ra, Rb, R12`, `NEG R12`, `BSEL R12, Ra, Rb, Rd`', 'minu': '`SETLO Ra, Rb, R12`, `NEG R12`, `BSEL R12, Ra, Rb, Rd`',
            'max': '`SETGT Ra, Rb, R12`, `NEG R12`, `BSEL R12, Ra, Rb, Rd`', 'maxu': '`SETHI Ra, Rb, R12`, `NEG R12`, `BSEL R12, Ra, Rb, Rd`'}
     A = ['# Assembler aliases', '', '[← dictionary index](index.md)', '',
-         'A mnemonic that assembles to another instruction (`FNEG` and `FABS` with the mark `.32` on the source register to an instruction with an operand of their own, and a `MOVQ` before it when the registers differ; `ROL` to `ROR` with the count complemented) or to a short fixed sequence of instructions (`ABS`, `MIN`, `MINU`, `MAX` and `MAXU`, which write the scratch register `R12`). One mnemonic is one instruction (section {{r:idioms-restored-lost-and-replaced}}); the disassembler never prints an alias. A width letter (`MOVB`, `AADDL`, `RORL`) is not an alias: it is the spelling of the width of one operation, and the table lists only the `Q` and `D` spellings of the 64-bit words, which say what the bare name says.', '',
+         'A mnemonic that assembles to another instruction (`FNEG.F32` and `FABS.F32` to an instruction with an operand of their own, and a `MOV` before it when the registers differ; `ROL` to `ROR` with the count complemented) or to a short fixed sequence of instructions (`ABS`, `MIN.S64`, `MIN.U64`, `MAX.S64` and `MAX.U64`, which write the scratch register `R12`). One mnemonic is one instruction (section {{r:idioms-restored-lost-and-replaced}}); the disassembler never prints an alias. A width and kind suffix (`MOV.S8`, `AADD.S32`, `ROR.S32`) is not an alias: it is the notation of the width and kind of one operation. The table ends with the explicit spellings that say what the bare name says (`MOV.S64` is `MOV`), and the spellings where the kind means nothing (`MOV.U8` as a store is `MOV.S8`).', '',
          '*Generated by `tools/mkmanual.py` from `spec/grammars.d`; do not edit.*', '', '| Written | Assembles to | Group |', '|---|---|---|']
-    A.append('| `FNEG` with `.32` on the source | `XOR` with the operand `#-2147483648` (after `MOVQ Rs, Rd` if the registers differ) | `alu` |')
-    A.append('| `FABS` with `.32` on the source | `AND` with the operand `#0x7FFFFFFF` (after `MOVQ Rs, Rd` if the registers differ) | `alu` |')
+    A.append('| `FNEG.F32` | `XOR` with the operand `#-2147483648` (after `MOV Rs, Rd` if the registers differ) | `alu` |')
+    A.append('| `FABS.F32` | `AND` with the operand `#0x7FFFFFFF` (after `MOV Rs, Rd` if the registers differ) | `alu` |')
     for n, m in sorted(MN.items()):
-        if n in INTERNAL: continue
+        if n in INTERNAL and n not in SEQ: continue
         if m['alias_of']:
-            if n in SEQ: A.append('| `%s` | the sequence %s | `%s` |' % (n.upper(), SEQ[n], m['group'][3:]))
-            else: A.append('| `%s` | `%s`%s | `%s` |' % (n.upper(), m['alias_of'].upper(), EXPANDS.get(n, ''), m['group'][3:]))
-    for l, w in sorted(LETTERS.items()):
-        if w not in LETTER_OF and w in MN: A.append('| `%s` | `%s` (the letter `Q` or `D` for the 64-bit size, spelled out) | `%s` |' % (l.upper(), w.upper(), MN[w]['group'][3:]))
+            if n in SEQ: A.append('| `%s` | the sequence %s | `%s` |' % (wlabel(n), SEQ[n], m['group'][3:]))
+            else: A.append('| `%s` | `%s`%s | `%s` |' % (n.upper(), wlabel(m['alias_of']), EXPANDS.get(n, ''), m['group'][3:]))
+    for sp, w, fl, shown in ROWS:
+        if not shown and w in MN and sp != wlabel(w).lower() and w not in INTERNAL | {'minu', 'maxu'}:
+            A.append('| `%s` | `%s` | `%s` |' % (sp.upper(), wlabel(w), MN[w]['group'][3:]))
+        elif not shown and w in MN:
+            A.append('| `%s` | `%s` | `%s` |' % (sp.upper(), wlabel(w), MN[w]['group'][3:]))
     A.append('')
     files['aliases.md'] = '\n'.join(A)
     # by mnemonic
@@ -751,9 +739,8 @@ def build():
     by = ['# The mnemonics, alphabetically', '', '[← dictionary index](index.md)', '',
           '*Generated by `tools/mkmanual.py`; do not edit.*', '']
     by += ['| Mnemonic | Entry | Layouts | Group |', '|---|---|---|---|']
-    surf = {op: next(w for w, (o, _) in MARKROWS.items() if o == op) for op in SURFACE}
-    qletter = {l.upper(): w for l, w in LETTERS.items() if w not in LETTER_OF and w in MN}		# aaddq: the 64-bit word written with its letter
-    for label, n in sorted([(LETTER_OF.get(n, n).upper(), n) for n in MN if n not in INTERNAL] + [(op.upper(), w) for op, w in surf.items()] + list(qletter.items())):
+    spell_rows = [(sp.upper(), w) for sp, w, fl, shown in ROWS if w in MN]
+    for label, n in sorted([(wlabel(n), n) for n in MN if n not in INTERNAL or n in SEQ] + spell_rows):
         if n in D.HELD_NAMES:
             continue
         m = MN[n]
@@ -761,7 +748,7 @@ def build():
         eid = seen.get(n) or seen.get(tgt)
         e = byid[eid]
         fn, sec = HOME[eid][0], R(HOME[eid][1])
-        head = '`%s`%s | [%s](%s) (section %s)' % (label, (' (assembler alias, a sequence)' if n in SEQ else ' (alias of `%s`)' % tgt.upper()) if m['alias_of'] else (' (the 64-bit word `%s`, spelled with its letter)' % n.upper()) if label in qletter else '', eid, '../%s#%s' % (fn, anchor_for(e)), sec)
+        head = '`%s`%s | [%s](%s) (section %s)' % (label, (' (assembler alias, a sequence)' if n in SEQ else ' (alias of `%s`)' % wlabel(tgt)) if m['alias_of'] else (' (the same instruction as `%s`)' % wlabel(n)) if label != wlabel(n) and label != n.upper() else '', eid, '../%s#%s' % (fn, anchor_for(e)), sec)
         nl = len(CH.byname.get(tgt, []))
         lay = '[%d](by-encoding.md#mn-%s), [entry](../%s#w-%s)' % (nl, re.sub(r'[^a-z0-9]', '-', tgt), HOME[eid][0], wslug(tgt))
         if n in SEQ: lay = '[entry](../%s#w-%s)' % (HOME[eid][0], wslug(n))
@@ -788,8 +775,8 @@ def build():
     I.append('* [The bit layouts of every opcode](by-encoding.md): a chart for each layout, generated from the grammar')
     I.append('')
     vis = {n: m for n, m in MN.items() if n not in D.HELD_NAMES and n not in INTERNAL}
-    vis.update({op: dict(alias_of=None, kind='mem') for op in SURFACE})
-    vis.update({l: dict(alias_of=w, kind=MN[w]['kind']) for l, w in LETTERS.items() if w not in LETTER_OF and w in MN})		# the q and d spellings of the atomics are aliases
+    for sp, w, fl, shown in ROWS:				# a spelling that is printed for its word is the instruction; the other spellings (the explicit 64-bit ones, the unsigned stores) are aliases
+        if w in MN and sp not in vis: vis[sp] = dict(alias_of=None if shown else w, kind=MN[w]['kind'])
     n_real = sum(1 for m in vis.values() if not m['alias_of'])
     n_alias = sum(1 for m in vis.values() if m['alias_of'])
     n_ext = sum(1 for m in vis.values() if m['kind'] == 'ext')

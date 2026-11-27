@@ -1,0 +1,77 @@
+; targets: asm spec
+; The width and the kind of an operation: a dotted suffix of the mnemonic (docs/asm-syntax.md, "The width suffixes").  The machine's word is 16 bits, as the PDP-11's was; an operation
+; says how many bits it works on and of what kind: `.s8 .s16 .s32 .s64` are signed integers, `.u8 .u16 .u32 .u64` unsigned integers, `.f16 .f32 .f64` the floating-point formats (binary16, binary32,
+; binary64; there is no 8-bit format).  The number is in bits.  A bare mnemonic is the default, 64 bits, and is the same word as its explicit `.s64`, `.u64` or `.f64` spelling (`mov` is `mov.s64`, `aadd` is
+; `aadd.s64`, `fadd` is `fadd.f64`).  `.user` before the kind says that the memory operand of a move is checked as a user access (`mov.user.s8`, `mov.user`).  A suffix is on the mnemonic and so on every operand
+; of the instruction at once; no operand carries a mark.  The encoding keeps its own words (movb, aaddl, fadd32, fcvtds: the names in the tables of the encoding); this part says which spelling of the assembly
+; language each of them is, and tools/mkgrammar.py writes it for as64 (a spelling becomes the word of the encoding), for the disassembler (a word becomes its spelling), for the compilers and for the
+; dictionary of the manual.
+;
+; The grammar has no rule "word, dot, kind": the keywords are whole words (hbnf counts the dot as a name character), so every accepted suffixed spelling is a word of its own, like `mcpy.ur`, and tools/mkparts.py
+; writes the group mn-surface from the rows below (the number of a spelling is its position).  Bare words that are words of the encoding already (aadd, fadd, div) are not repeated.
+;
+; map-rows: "spelling=word of the encoding:flags".  A `*` before the spelling marks the one the disassembler prints for that word (the word of the encoding itself, bare, where there is no `*`: the
+; 64-bit words print bare).  Flags: s the move has a width (a constant has none: the source of the move is a register or memory), u the move is a user access (it needs a memory operand), z the load
+; zero-extends (a store does not extend, so the store is the word that stores the same bits).  Where the kind means nothing (a store, bswap, the 64-bit forms, sc) both `.s` and `.u` are accepted; where the
+; register receives a sign-extended result (the 4-byte atomics that return a value, ror) only `.s32` is, and the other kind is refused with a message that says so.
+map-rows = "*mov=movq" | "mov.s64=movq" | "mov.u64=movq" | "*mov.s32=movl:s" | "*mov.u32=movzl:sz" | "*mov.s16=movw:s" | "*mov.u16=movzw:sz" | "*mov.s8=movb:s" | "*mov.u8=movzb:sz"
+          | "*mov.user=movq.u:u" | "mov.user.s64=movq.u:u" | "mov.user.u64=movq.u:u" | "*mov.user.s32=movl.u:su" | "*mov.user.u32=movzl.u:suz" | "*mov.user.s16=movw.u:su"
+          | "*mov.user.u16=movzw.u:suz" | "*mov.user.s8=movb.u:su" | "*mov.user.u8=movzb.u:suz"
+          | "bswap.s64=bswap" | "bswap.u64=bswap" | "bswap.s32=bswapl" | "*bswap.u32=bswapl" | "bswap.s16=bswapw" | "*bswap.u16=bswapw"
+          | "ror.s64=ror" | "ror.u64=ror" | "*ror.s32=ror32"
+          | "cas.s64=cas" | "cas.u64=cas" | "*cas.s32=casl"
+          | "swap.s64=swap" | "swap.u64=swap" | "*swap.s32=swapl"
+          | "aadd.s64=aadd" | "aadd.u64=aadd" | "*aadd.s32=aaddl"
+          | "aand.s64=aand" | "aand.u64=aand" | "*aand.s32=aandl"
+          | "abis.s64=abis" | "abis.u64=abis" | "*abis.s32=abisl"
+          | "axor.s64=axor" | "axor.u64=axor" | "*axor.s32=axorl"
+          | "ll.s64=ll" | "ll.u64=ll" | "*ll.s32=lll"
+          | "sc.s64=sc" | "sc.u64=sc" | "*sc.s32=scl" | "sc.u32=scl"
+          | "amax.s64=amax" | "*amax.u64=amaxu" | "*amax.s32=amaxl" | "*amax.u32=amaxul"
+          | "amin.s64=amin" | "*amin.u64=aminu" | "*amin.s32=aminl" | "*amin.u32=aminul"
+          | "fadd.f64=fadd" | "*fadd.f32=fadd32"
+          | "fsub.f64=fsub" | "*fsub.f32=fsub32"
+          | "fmul.f64=fmul" | "*fmul.f32=fmul32"
+          | "fdiv.f64=fdiv" | "*fdiv.f32=fdiv32"
+          | "fsqrt.f64=fsqrt" | "*fsqrt.f32=fsqrt32"
+          | "fmadd.f64=fmadd" | "*fmadd.f32=fmadd32"
+          | "fnmsub.f64=fnmsub" | "*fnmsub.f32=fnmsub32"
+          | "fclass.f64=fclass" | "*fclass.f32=fclass32"
+          | "fabs.f64=fabs" | "*fabs.f32=fabs32"
+          | "fneg.f64=fneg" | "*fneg.f32=fneg32"
+          | "fcbeq.f64=fcbeq" | "*fcbeq.f32=fcbeq32"
+          | "fcbne.f64=fcbne" | "*fcbne.f32=fcbne32"
+          | "fcblt.f64=fcblt" | "*fcblt.f32=fcblt32"
+          | "fcble.f64=fcble" | "*fcble.f32=fcble32"
+          | "fcbgt.f64=fcbgt" | "*fcbgt.f32=fcbgt32"
+          | "fcbge.f64=fcbge" | "*fcbge.f32=fcbge32"
+          | "fcbor.f64=fcbor" | "*fcbor.f32=fcbor32"
+          | "fcbuo.f64=fcbuo" | "*fcbuo.f32=fcbuo32"
+          | "fmin.f64=fmin"
+          | "fmax.f64=fmax"
+          | "fcopysign.f64=fcopysign"
+          | "frint.f64=frint"
+          | "frintz.f64=frintz"
+          | "frintm.f64=frintm"
+          | "frintp.f64=frintp"
+          | "frinta.f64=frinta"
+          | "*fcvt.f64.s64=fcvtdq" | "*fcvt.f64.u64=fcvtdqu" | "*fcvt.s64.f64=fcvtqd" | "*fcvt.u64.f64=fcvtqud" | "*fcvt.f64.f32=fcvtds" | "*fcvt.f32.f64=fcvtsd"
+          | "*fcvt.f32.s32=fcvtsl" | "*fcvt.s32.f32=fcvtls" | "*fcvt.f32.f16=fcvtsh" | "*fcvt.f16.f32=fcvths" | "*fcvt.f64.f16=fcvtdh" | "*fcvt.f16.f64=fcvthd"
+          | "*fcvt.f16.s32=fcvthl" | "*fcvt.s32.f16=fcvtlh"
+          | "div.s64=div" | "*div.u64=divu"
+          | "mod.s64=mod" | "*mod.u64=modu"
+          | "mulh.s64=mulh" | "*mulh.u64=mulhu"
+          | "min.s64=min" | "*min.u64=minu"
+          | "max.s64=max" | "*max.u64=maxu"
+          | "mul.s64=mul" | "mul.u64=mul"
+
+; the words of the encoding and the spellings of the old notations that are not words of the assembly language: the letters (movb, aaddl, fcbltf), the f and d words, the words of the encoding that no
+; spelling stands for.  Each is an unknown mnemonic.  The grammar does not take them as an instruction (`!map-words`).
+map-words = "movq" | "movl" | "movw" | "movb" | "movzl" | "movzw" | "movzb" | "movq.u" | "movl.u" | "movw.u" | "movb.u" | "movzl.u" | "movzw.u" | "movzb.u" | "bswapw" | "bswapl"
+           | "rorl" | "ror32" | "casl" | "swapl" | "aaddl" | "aandl" | "abisl" | "axorl" | "lll" | "scl" | "amaxl" | "aminl" | "amaxul" | "aminul" | "casq" | "swapq" | "aaddq"
+           | "aandq" | "abisq" | "axorq" | "llq" | "scq" | "amaxq" | "aminq" | "amaxuq" | "aminuq" | "amaxu" | "aminu" | "divu" | "modu" | "mulhu" | "mulu" | "minu" | "maxu"
+           | "fneg32" | "fabs32" | "fadd32" | "faddf" | "faddd" | "fsub32" | "fsubf" | "fsubd" | "fmul32" | "fmulf" | "fmuld" | "fdiv32" | "fdivf" | "fdivd" | "fsqrt32"
+           | "fsqrtf" | "fsqrtd" | "fmadd32" | "fmaddf" | "fmaddd" | "fnmsub32" | "fnmsubf" | "fnmsubd" | "fclass32" | "fclassf" | "fclassd" | "fabsf" | "fabsd" | "fnegf" | "fnegd"
+           | "fcbeq32" | "fcbeqf" | "fcbeqd" | "fcbne32" | "fcbnef" | "fcbned" | "fcblt32" | "fcbltf" | "fcbltd" | "fcble32" | "fcblef" | "fcbled" | "fcbgt32" | "fcbgtf" | "fcbgtd"
+           | "fcbge32" | "fcbgef" | "fcbged" | "fcbor32" | "fcborf" | "fcbord" | "fcbuo32" | "fcbuof" | "fcbuod" | "fcvtdq" | "fcvtdqu" | "fcvtqd" | "fcvtqud" | "fcvtds" | "fcvtsd"
+           | "fcvtsl" | "fcvtls" | "fcvtsh" | "fcvths" | "fcvtdh" | "fcvthd" | "fcvthl" | "fcvtlh" | "fcvtdf" | "fcvtfd"

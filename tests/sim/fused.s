@@ -8,32 +8,32 @@ _start:
 	clr	r10
 	clr	r4
 	clr	r7
-	movq	#0x1111, r1
-	movq	#0x2222, r2
+	mov	#0x1111, r1
+	mov	#0x2222, r2
 	lea	stack_top, r4
-	movq	=550024249344, sp
+	mov	=550024249344, sp
 un1:
 	movcall	r1, r2, tgt1
 back1:
-	movq	=0x1, r15
+	mov	=0x1, r15
 	cbne	r10, r15, F1
 	lea	un1, r15
 	cbne	r6, r15, F2
-	movq	=0xd, r15
+	mov	=0xd, r15
 	cbne	r8, r15, F3
-	movq	cap, r15
-	movq	=0x2222, r12
+	mov	cap, r15
+	mov	=0x2222, r12
 	cbne	r15, r12, F4
-	movq	cap+32, r15
-	movq	=0x8010000000, r12
+	mov	cap+32, r15
+	mov	=0x8010000000, r12
 	cbne	r15, r12, F5
-	movq	=0x1111, r15
+	mov	=0x1111, r15
 	cbne	r2, r15, F6
 	lea	stack_top, r15
 	cbne	sp, r15, FSP
 	br	after1
 tgt1:
-	movq	(sp), r13
+	mov	(sp), r13
 	ret
 after1:
 	lea	back1, r15
@@ -41,278 +41,278 @@ after1:
 	clr	r10
 	clr	r4
 	clr	r7
-	movq	#0x1111, r1
-	movq	#0x2222, r2
+	mov	#0x1111, r1
+	mov	#0x2222, r2
 	lea	after2, r7
 	lea	stack_top, sp
 un2:
 	movcall	r1, r2, stack_top+0x1000000
 back2:
 after2:
-	movq	=0x1, r15
+	mov	=0x1, r15
 	cbne	r10, r15, F7
-	movq	=0xd, r15
+	mov	=0xd, r15
 	cbne	r8, r15, F8
 	lea	stack_top+0x1000000, r15
 	cbne	r6, r15, FSP
-	movq	=0x1111, r15
+	mov	=0x1111, r15
 	cbne	r2, r15, F9
 	lea	stack_top-8, r15
-	movq	cap+32, r12
+	mov	cap+32, r12
 	cbne	r12, r15, FSP
-	movq	stack_top-8, r13
+	mov	stack_top-8, r13
 	lea	back2, r15
 	cbne	r13, r15, FSP
 	clr	r10
 	clr	r4
 	clr	r7
-	movq	=0x7fffffeff8, r13
-	movq	=0x5555, r15
-	movq	r15, (r13)
-	movq	#0x3333, r3
+	mov	=0x7fffffeff8, r13
+	mov	=0x5555, r15
+	mov	r15, (r13)
+	mov	#0x3333, r3
 	lea	popstk, r4
 	lea	back3, r5
-	movq	r5, popstk+8
-	movq	=0x7fffffeff8, sp
+	mov	r5, popstk+8
+	mov	=0x7fffffeff8, sp
 un3:
 	popret	r3
 back3:
-	movq	=0x1, r15
+	mov	=0x1, r15
 	cbne	r10, r15, F10
 	lea	un3, r15
 	cbne	r6, r15, F11
-	movq	=0xd, r15
+	mov	=0xd, r15
 	cbne	r8, r15, F12
-	movq	cap+8, r15
-	movq	=0x3333, r12
+	mov	cap+8, r15
+	mov	=0x3333, r12
 	cbne	r15, r12, F13
-	movq	cap+32, r15
-	movq	=0x7fffffeff8, r12
+	mov	cap+32, r15
+	mov	=0x7fffffeff8, r12
 	cbne	r15, r12, F14
-	movq	=0x5555, r15
+	mov	=0x5555, r15
 	cbne	r3, r15, F15
 	lea	popstk+16, r15
 	cbne	sp, r15, FSP
 	clr	r10
 	clr	r4
 	clr	r7
-	movq	#0x22, r13
-	movq	#0x33, r15
-	movq	=0x7fffffeff0, r12
-	movq	#0x33, r2
-	movq	r2, (r12)
-	movq	#0x22, r2
-	movq	r2, 8(r12)
+	mov	#0x22, r13
+	mov	#0x33, r15
+	mov	=0x7fffffeff0, r12
+	mov	#0x33, r2
+	mov	r2, (r12)
+	mov	#0x22, r2
+	mov	r2, 8(r12)
 	lea	popmstk, r4
 	lea	back4, r5
-	movq	r5, popmstk+16
-	movq	=0x7fffffeff0, sp
+	mov	r5, popmstk+16
+	mov	=0x7fffffeff0, sp
 un4:
 	popmret	#0xa000
 back4:
-	movq	=0x1, r15
+	mov	=0x1, r15
 	cbne	r10, r15, F16
 	lea	un4, r15
 	cbne	r6, r15, F17
-	movq	=0xd, r15
+	mov	=0xd, r15
 	cbne	r8, r15, F18
-	movq	cap+16, r15
-	movq	=0x22, r12
+	mov	cap+16, r15
+	mov	=0x22, r12
 	cbne	r15, r12, F19
-	movq	cap+24, r15
-	movq	=0x33, r12
+	mov	cap+24, r15
+	mov	=0x33, r12
 	cbne	r15, r12, F20
-	movq	cap+32, r15
-	movq	=0x7fffffeff0, r12
+	mov	cap+32, r15
+	mov	=0x7fffffeff0, r12
 	cbne	r15, r12, F21
-	movq	=0xaa, r15
+	mov	=0xaa, r15
 	cbne	r13, r15, F22
-	movq	=0xbb, r15
+	mov	=0xbb, r15
 	cbne	r15, r15, F23
 	lea	popmstk+24, r2
 	cbne	sp, r2, FSP
 	clr	r10
 	clr	r4
 	clr	r7
-	movq	=0x1, r1
-	movq	=0x7fffffffffffffff, r2
+	mov	=0x1, r1
+	mov	=0x7fffffffffffffff, r2
 	lea	after_addv, r7
 un_addv:
 	addv	r1, r2
 after_addv:
-	movq	=0x1, r15
+	mov	=0x1, r15
 	cbne	r10, r15, F24
-	movq	=0x10, r15
+	mov	=0x10, r15
 	cbne	r8, r15, F25
-	movq	=0x7fffffffffffffff, r15
+	mov	=0x7fffffffffffffff, r15
 	cbne	r2, r15, F26
-	movq	cap, r15
-	movq	=0x7fffffffffffffff, r12
+	mov	cap, r15
+	mov	=0x7fffffffffffffff, r12
 	cbne	r15, r12, F27
 	lea	un_addv, r15
 	cbne	r6, r15, FSP
 	clr	r10
 	clr	r4
 	clr	r7
-	movq	=0x1, r1
-	movq	=0x8000000000000000, r2
+	mov	=0x1, r1
+	mov	=0x8000000000000000, r2
 	lea	after_subv, r7
 un_subv:
 	subv	r1, r2
 after_subv:
-	movq	=0x1, r15
+	mov	=0x1, r15
 	cbne	r10, r15, F28
-	movq	=0x10, r15
+	mov	=0x10, r15
 	cbne	r8, r15, F29
-	movq	=0x8000000000000000, r15
+	mov	=0x8000000000000000, r15
 	cbne	r2, r15, F30
-	movq	cap, r15
-	movq	=0x8000000000000000, r12
+	mov	cap, r15
+	mov	=0x8000000000000000, r12
 	cbne	r15, r12, F31
 	lea	un_subv, r15
 	cbne	r6, r15, FSP
 	clr	r10
 	clr	r4
 	clr	r7
-	movq	=0x2, r1
-	movq	=0x4000000000000000, r2
+	mov	=0x2, r1
+	mov	=0x4000000000000000, r2
 	lea	after_mulv, r7
 un_mulv:
 	mulv	r1, r2
 after_mulv:
-	movq	=0x1, r15
+	mov	=0x1, r15
 	cbne	r10, r15, F32
-	movq	=0x10, r15
+	mov	=0x10, r15
 	cbne	r8, r15, F33
-	movq	=0x4000000000000000, r15
+	mov	=0x4000000000000000, r15
 	cbne	r2, r15, F34
-	movq	cap, r15
-	movq	=0x4000000000000000, r12
+	mov	cap, r15
+	mov	=0x4000000000000000, r12
 	cbne	r15, r12, F35
 	lea	un_mulv, r15
 	cbne	r6, r15, FSP
 	clr	r0
 	halt
 F1:
-	movq	#1, r0
+	mov	#1, r0
 	halt
 F2:
-	movq	#2, r0
+	mov	#2, r0
 	halt
 F3:
-	movq	#3, r0
+	mov	#3, r0
 	halt
 F4:
-	movq	#4, r0
+	mov	#4, r0
 	halt
 F5:
-	movq	#5, r0
+	mov	#5, r0
 	halt
 F6:
-	movq	#6, r0
+	mov	#6, r0
 	halt
 F7:
-	movq	#7, r0
+	mov	#7, r0
 	halt
 F8:
-	movq	#8, r0
+	mov	#8, r0
 	halt
 F9:
-	movq	#9, r0
+	mov	#9, r0
 	halt
 F10:
-	movq	#10, r0
+	mov	#10, r0
 	halt
 F11:
-	movq	#11, r0
+	mov	#11, r0
 	halt
 F12:
-	movq	#12, r0
+	mov	#12, r0
 	halt
 F13:
-	movq	#13, r0
+	mov	#13, r0
 	halt
 F14:
-	movq	#14, r0
+	mov	#14, r0
 	halt
 F15:
-	movq	#15, r0
+	mov	#15, r0
 	halt
 F16:
-	movq	#16, r0
+	mov	#16, r0
 	halt
 F17:
-	movq	#17, r0
+	mov	#17, r0
 	halt
 F18:
-	movq	#18, r0
+	mov	#18, r0
 	halt
 F19:
-	movq	#19, r0
+	mov	#19, r0
 	halt
 F20:
-	movq	#20, r0
+	mov	#20, r0
 	halt
 F21:
-	movq	#21, r0
+	mov	#21, r0
 	halt
 F22:
-	movq	#22, r0
+	mov	#22, r0
 	halt
 F23:
-	movq	#23, r0
+	mov	#23, r0
 	halt
 F24:
-	movq	#24, r0
+	mov	#24, r0
 	halt
 F25:
-	movq	#25, r0
+	mov	#25, r0
 	halt
 F26:
-	movq	#26, r0
+	mov	#26, r0
 	halt
 F27:
-	movq	#27, r0
+	mov	#27, r0
 	halt
 F28:
-	movq	#28, r0
+	mov	#28, r0
 	halt
 F29:
-	movq	#29, r0
+	mov	#29, r0
 	halt
 F30:
-	movq	#30, r0
+	mov	#30, r0
 	halt
 F31:
-	movq	#31, r0
+	mov	#31, r0
 	halt
 F32:
-	movq	#32, r0
+	mov	#32, r0
 	halt
 F33:
-	movq	#33, r0
+	mov	#33, r0
 	halt
 F34:
-	movq	#34, r0
+	mov	#34, r0
 	halt
 F35:
-	movq	#35, r0
+	mov	#35, r0
 	halt
 FSP:
-	movq	#98, r0
+	mov	#98, r0
 	halt
 h_gen:
 	mfsr	r6, epc
 	mfsr	r8, ecause
 	mfsr	r9, eva
-	movq	r2, cap
-	movq	r3, cap+8
-	movq	r13, cap+16
-	movq	r15, cap+24
-	movq	r14, cap+32
+	mov	r2, cap
+	mov	r3, cap+8
+	mov	r13, cap+16
+	mov	r15, cap+24
+	mov	r14, cap+32
 	add	#1, r10
 	cbeq	r4, #0, 1f
-	movq	r4, sp
+	mov	r4, sp
 1:
 	cbeq	r7, #0, 1f
 	mtsr	epc, r7

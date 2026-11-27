@@ -1,2 +1,2 @@
 	.text
-	movq r1,#5
+	mov r1,#5

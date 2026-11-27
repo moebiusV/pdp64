@@ -8,58 +8,58 @@ _start:
 	lea	vtab, r1
 	mtsr	vbr, r1
 	lea	h_bad, r2
-	movq	#512, r3
-kfill:	movq	r2, (r1)+
+	mov	#512, r3
+kfill:	mov	r2, (r1)+
 	sob	r3, kfill
 	lea	vtab, r1
 	lea	h_fault, r2
-	movq	r2, 56(r1)
-	movq	r2, 64(r1)
+	mov	r2, 56(r1)
+	mov	r2, 64(r1)
 	lea	h_ok, r2
-	movq	r2, 2048(r1)
+	mov	r2, 2048(r1)
 	lea	h_fail, r2
-	movq	r2, 2056(r1)
+	mov	r2, 2056(r1)
 	lea	h_trap, r2
-	movq	r2, 2072(r1)
+	mov	r2, 2072(r1)
 	lea	l2, r1
 	mtsr	ptbr, r1
-	movq	#1, r1
+	mov	#1, r1
 	mtsr	mmuctl, r1
 
-	movq	=(0x800000+0), r6
-	mov	(r6).u8, r7
-	movq	=(0x800ff0), r1
-	movq	r1, r3
+	mov	=(0x800000+0), r6
+	mov.u8	(r6), r7
+	mov	=(0x800ff0), r1
+	mov	r1, r3
 	add	#32, r3
-	movq	cnt, r10
+	mov	cnt, r10
 	vec	r1, r3
 	vld.l	v0, 0(r1)
 	vadd.l	v1, v0, #1
 	vst.l	v1, (r1)+
 	vend
-	movq	cnt, r11
+	mov	cnt, r11
 	sub	r10, r11
 	cbne	r11, #0, 1f	; check 1 the page fault happened (the probe is not vacuous)
-	movq	#1, r0
+	mov	#1, r0
 	halt
 1:
-	movq	=(0x800ff0), r4
-	movq	#8, r6
-	movq	#0, r8
-lw0:	mov	(r4)+.32, r5
+	mov	=(0x800ff0), r4
+	mov	#8, r6
+	mov	#0, r8
+lw0:	mov.s32	(r4)+, r5
 	cbeq	r5, #1, 1f
 	add	#1, r8
 1:	sob	r6, lw0
 	cbeq	r8, #0, 1f	; check 2 lanes that are not 1 after the ordinary block
-	movq	#2, r0
+	mov	#2, r0
 	halt
 1:
-	movq	=(0x800000+8192), r6
-	mov	(r6).u8, r7
-	movq	=(0x802ff0), r1
-	movq	r1, r3
+	mov	=(0x800000+8192), r6
+	mov.u8	(r6), r7
+	mov	=(0x802ff0), r1
+	mov	r1, r3
 	add	#32, r3
-	movq	cnt, r10
+	mov	cnt, r10
 	vec	r1, r3
 	vclr.l	v4, #1
 	vld.l	v0, 0(r1)
@@ -67,42 +67,42 @@ lw0:	mov	(r4)+.32, r5
 	vadd.l	v4, v4, v1
 	vst.l	v1, (r1)+
 	vend
-	movq	cnt, r11
+	mov	cnt, r11
 	sub	r10, r11
 	cbne	r11, #0, 1f	; check 3 the page fault happened (the probe is not vacuous)
-	movq	#3, r0
+	mov	#3, r0
 	halt
 1:
-	movq	=(0x802ff0), r4
-	movq	#8, r6
-	movq	#0, r8
-lw1:	mov	(r4)+.32, r5
+	mov	=(0x802ff0), r4
+	mov	#8, r6
+	mov	#0, r8
+lw1:	mov.s32	(r4)+, r5
 	cbeq	r5, #1, 1f
 	add	#1, r8
 1:	sob	r6, lw1
 	cbeq	r8, #0, 1f	; check 4 lanes that are not 1 after the hidden (accumulator) block
-	movq	#4, r0
+	mov	#4, r0
 	halt
 1:
-	movq	#0, r0
+	mov	#0, r0
 	halt
 
 h_fault:
-	movq	cnt, r12
+	mov	cnt, r12
 	add	#1, r12
-	movq	r12, cnt
+	mov	r12, cnt
 	mfsr	r12, ecause
-	movq	r12, last_cause
+	mov	r12, last_cause
 	mfsr	r12, epc
-	movq	r12, last_epc
+	mov	r12, last_epc
 	mfsr	r12, eva
-	movq	r12, last_eva
-	movq	=(0x800000), r11
+	mov	r12, last_eva
+	mov	=(0x800000), r11
 	cblo	r12, r11, h_bad
-	movq	=(0xa00000), r11
+	mov	=(0xa00000), r11
 	cbhis	r12, r11, h_bad
 	mfsr	r12, eva
-	movq	=(0x800000), r11
+	mov	=(0x800000), r11
 	sub	r11, r12
 	shr	#12, r12
 	shl	#3, r12
@@ -112,19 +112,19 @@ h_fault:
 	shr	#12, r11
 	shl	#12, r11
 	bis	#(1<<PTE_V|1<<PTE_R|1<<PTE_W|1<<PTE_A|1<<PTE_D), r11
-	movq	r11, (r12)
+	mov	r11, (r12)
 	mfsr	r12, eva
 	tlbi	r12
-	movq	redirect, r12
+	mov	redirect, r12
 	cbeq	r12, #0, 1f
 	mtsr	epc, r12
-	movq	#0, r12
-	movq	r12, redirect
+	mov	#0, r12
+	mov	r12, redirect
 1:	rti	#RTIMASK_ALL
 h_trap:	rti	#RTIMASK_ALL
-h_bad:	movq	#99, r0
+h_bad:	mov	#99, r0
 	halt
-h_ok:	movq	#0, r0
+h_ok:	mov	#0, r0
 h_fail:	halt
 
 	.data

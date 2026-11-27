@@ -6,7 +6,7 @@ the whole state: registers, the status word and the memory the instruction can r
 usage: check_forms.py AS64 LD64 SIM64 WORKDIR"""
 import os, re, subprocess, sys
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'tools'))
-import marks			# the width marks (spec/grammars.d/61-asm-marks.hbnf): `movl (r10), r4` is written `mov (r10).32, r4`
+import marks			# the width suffixes (spec/grammars.d/61-asm-suffixes.hbnf): `movl (r10), r4` is written `mov.s32 (r10), r4`
 AS, LD, SIM, W = sys.argv[1:5]
 os.makedirs(W, exist_ok=True)
 REGS = [0x0123456789abcdef, 0xfedcba9876543210, 7, -3 & (2**64 - 1), 0x00000000ffffffff, 0x8000000000000000, 0x7fffffffffffffff, 100, 0x00ff00ff00ff00ff]
@@ -36,14 +36,13 @@ for c in 'ne eq cc cs ge lt gt le hi los'.split():
 for c in 'eq ne lt le uo or'.split():
     cases += ['fcb%s r3, r4, L1\n movq #1, r5\nL1:' % c, 'fcb%s32 r3, r4, L1\n movq #1, r5\nL1:' % c]
 cases += ['add r3, sp', 'movq sp, r4', 'movq r4, sp', 'xor r4, r4', 'and #0xff, r4', 'and #0xffff, r4', 'bis #0x80, r4', 'bic #1, r4']
-cases += ['mulu r3, r4', 'fadd r3, r4', 'ror r1, #5, r2', 'clz r1, r2', 'popcnt r1, r2', 'bswap r1, r2', 'div r1, r2, r4', 'min r1, r2, r4']
+cases += ['mul.u64 r3, r4', 'fadd r3, r4', 'ror r1, #5, r2', 'clz r1, r2', 'popcnt r1, r2', 'bswap r1, r2', 'div r1, r2, r4', 'min r1, r2, r4']
 cases += ['cteq r5', 'ctne r5', 'cthi r1, #5', 'mfps r4', 'mtps r4', 'spl #3', 'nop', 'hint #1', 'trap #3']
 cases += ['movq =0x123456789abcdef0, r4', 'movq #0x123456789abcdef0, r4', 'push =0x123456789abcdef0', 'add =0x123456789abcdef0, r4']
 def _spell(c):
     out = []
     for l in c.split('\n'):
-        try: out.append(marks.spell_line(l))
-        except marks.NoSpelling: return None			# the sized move of a constant (movl #5, r4): a constant is not narrowed by a mark, so there is no such instruction to write
+        out.append(marks.spell_line(l))
     return '\n'.join(out)
 cases = [x for x in (_spell(c) for c in cases) if x]
 SKIP_RUN = {'mtps r4', 'spl #3', 'trap #3', 'hint #1'}
@@ -97,7 +96,7 @@ for ci, c in enumerate(cases):
         text = {}
         for N in (0, 1, 2, 3):
             body = ('\t.encode %d\n' % N if N else '') + '\t' + c.replace('\n', '\n\t') + '\n' + ('\t.encode 0\n' if N else '')
-            src = HEAD + '\t%s\n' % fl + body + TAIL.replace('buf+', 'buf+')
+            src = marks.spell_text(HEAD + '\t%s\n' % fl) + body + marks.spell_text(TAIL)
             out, err = run(src, 'c')
             if err:
                 outs[N] = ('ERR', err); continue

@@ -3,3388 +3,3388 @@
 	.globl	_start
 _start:
 	lea	buf, r8
-	movq	#0, r1
+	mov	#0, r1
 1:
-	movq	r1, r2
-	movq	#37, r3
+	mov	r1, r2
+	mov	#37, r3
 	mul	r3, r2
 	add	#11, r2
-	mov	r2, (r8).8
+	mov.s8	r2, (r8)
 	add	#1, r8
 	add	#1, r1
 	cbne	r1, #8192, 1b
 	lea	buf, r8
-	movq	0(r8), r2
-	movq	=0xee9c49f7a55300b, r6
+	mov	0(r8), r2
+	mov	=0xee9c49f7a55300b, r6
 	cbne	r2, r6, f1
 	lea	buf, r8
-	movq	1(r8), r2
-	movq	=0x330ee9c49f7a5530, r6
+	mov	1(r8), r2
+	mov	=0x330ee9c49f7a5530, r6
 	cbne	r2, r6, f2
 	lea	buf, r8
-	movq	2(r8), r2
-	movq	=0x58330ee9c49f7a55, r6
+	mov	2(r8), r2
+	mov	=0x58330ee9c49f7a55, r6
 	cbne	r2, r6, f3
 	lea	buf, r8
-	movq	3(r8), r2
-	movq	=0x7d58330ee9c49f7a, r6
+	mov	3(r8), r2
+	mov	=0x7d58330ee9c49f7a, r6
 	cbne	r2, r6, f4
 	lea	buf, r8
-	movq	4(r8), r2
-	movq	=0xa27d58330ee9c49f, r6
+	mov	4(r8), r2
+	mov	=0xa27d58330ee9c49f, r6
 	cbne	r2, r6, f5
 	lea	buf, r8
-	movq	5(r8), r2
-	movq	=0xc7a27d58330ee9c4, r6
+	mov	5(r8), r2
+	mov	=0xc7a27d58330ee9c4, r6
 	cbne	r2, r6, f6
 	lea	buf, r8
-	movq	6(r8), r2
-	movq	=0xecc7a27d58330ee9, r6
+	mov	6(r8), r2
+	mov	=0xecc7a27d58330ee9, r6
 	cbne	r2, r6, f7
 	lea	buf, r8
-	movq	7(r8), r2
-	movq	=0x11ecc7a27d58330e, r6
+	mov	7(r8), r2
+	mov	=0x11ecc7a27d58330e, r6
 	cbne	r2, r6, f8
 	lea	buf, r8
-	movq	8(r8), r2
-	movq	=0x3611ecc7a27d5833, r6
+	mov	8(r8), r2
+	mov	=0x3611ecc7a27d5833, r6
 	cbne	r2, r6, f9
 	lea	buf, r8
-	movq	4088(r8), r2
-	movq	=0xe6c19c77522d08e3, r6
+	mov	4088(r8), r2
+	mov	=0xe6c19c77522d08e3, r6
 	cbne	r2, r6, f10
 	lea	buf, r8
-	movq	4089(r8), r2
-	movq	=0xbe6c19c77522d08, r6
+	mov	4089(r8), r2
+	mov	=0xbe6c19c77522d08, r6
 	cbne	r2, r6, f11
 	lea	buf, r8
-	movq	4090(r8), r2
-	movq	=0x300be6c19c77522d, r6
+	mov	4090(r8), r2
+	mov	=0x300be6c19c77522d, r6
 	cbne	r2, r6, f12
 	lea	buf, r8
-	movq	4091(r8), r2
-	movq	=0x55300be6c19c7752, r6
+	mov	4091(r8), r2
+	mov	=0x55300be6c19c7752, r6
 	cbne	r2, r6, f13
 	lea	buf, r8
-	movq	4092(r8), r2
-	movq	=0x7a55300be6c19c77, r6
+	mov	4092(r8), r2
+	mov	=0x7a55300be6c19c77, r6
 	cbne	r2, r6, f14
 	lea	buf, r8
-	movq	4093(r8), r2
-	movq	=0x9f7a55300be6c19c, r6
+	mov	4093(r8), r2
+	mov	=0x9f7a55300be6c19c, r6
 	cbne	r2, r6, f15
 	lea	buf, r8
-	movq	4094(r8), r2
-	movq	=0xc49f7a55300be6c1, r6
+	mov	4094(r8), r2
+	mov	=0xc49f7a55300be6c1, r6
 	cbne	r2, r6, f16
 	lea	buf, r8
-	movq	4095(r8), r2
-	movq	=0xe9c49f7a55300be6, r6
+	mov	4095(r8), r2
+	mov	=0xe9c49f7a55300be6, r6
 	cbne	r2, r6, f17
 	lea	buf, r8
-	movq	4096(r8), r2
-	movq	=0xee9c49f7a55300b, r6
+	mov	4096(r8), r2
+	mov	=0xee9c49f7a55300b, r6
 	cbne	r2, r6, f18
 	lea	buf, r8
-	movq	4093(r8), r2
-	movq	=0x9f7a55300be6c19c, r6
+	mov	4093(r8), r2
+	mov	=0x9f7a55300be6c19c, r6
 	cbne	r2, r6, f19
 	lea	buf, r8
-	movq	4095(r8), r2
-	movq	=0xe9c49f7a55300be6, r6
+	mov	4095(r8), r2
+	mov	=0xe9c49f7a55300be6, r6
 	cbne	r2, r6, f20
 	lea	buf, r8
-	movq	#4088, r9
-	movq	3(r8)(r9*1), r2
-	movq	=0x55300be6c19c7752, r6
+	mov	#4088, r9
+	mov	3(r8)(r9*1), r2
+	mov	=0x55300be6c19c7752, r6
 	cbne	r2, r6, f21
 	lea	buf+4091, r8
-	movq	(r8)+, r2
-	movq	=0x55300be6c19c7752, r6
+	mov	(r8)+, r2
+	mov	=0x55300be6c19c7752, r6
 	cbne	r2, r6, f22
 	lea	buf+4099, r2
 	cbne	r8, r2, f23
 	lea	buf, r8
-	mov	0(r8).32, r2
-	movq	=0x7a55300b, r6
+	mov.s32	0(r8), r2
+	mov	=0x7a55300b, r6
 	cbne	r2, r6, f24
 	lea	buf, r8
-	mov	1(r8).32, r2
-	movq	=0xffffffff9f7a5530, r6
+	mov.s32	1(r8), r2
+	mov	=0xffffffff9f7a5530, r6
 	cbne	r2, r6, f25
 	lea	buf, r8
-	mov	2(r8).32, r2
-	movq	=0xffffffffc49f7a55, r6
+	mov.s32	2(r8), r2
+	mov	=0xffffffffc49f7a55, r6
 	cbne	r2, r6, f26
 	lea	buf, r8
-	mov	3(r8).32, r2
-	movq	=0xffffffffe9c49f7a, r6
+	mov.s32	3(r8), r2
+	mov	=0xffffffffe9c49f7a, r6
 	cbne	r2, r6, f27
 	lea	buf, r8
-	mov	4(r8).32, r2
-	movq	=0xee9c49f, r6
+	mov.s32	4(r8), r2
+	mov	=0xee9c49f, r6
 	cbne	r2, r6, f28
 	lea	buf, r8
-	mov	5(r8).32, r2
-	movq	=0x330ee9c4, r6
+	mov.s32	5(r8), r2
+	mov	=0x330ee9c4, r6
 	cbne	r2, r6, f29
 	lea	buf, r8
-	mov	6(r8).32, r2
-	movq	=0x58330ee9, r6
+	mov.s32	6(r8), r2
+	mov	=0x58330ee9, r6
 	cbne	r2, r6, f30
 	lea	buf, r8
-	mov	7(r8).32, r2
-	movq	=0x7d58330e, r6
+	mov.s32	7(r8), r2
+	mov	=0x7d58330e, r6
 	cbne	r2, r6, f31
 	lea	buf, r8
-	mov	8(r8).32, r2
-	movq	=0xffffffffa27d5833, r6
+	mov.s32	8(r8), r2
+	mov	=0xffffffffa27d5833, r6
 	cbne	r2, r6, f32
 	lea	buf, r8
-	mov	4088(r8).32, r2
-	movq	=0x522d08e3, r6
+	mov.s32	4088(r8), r2
+	mov	=0x522d08e3, r6
 	cbne	r2, r6, f33
 	lea	buf, r8
-	mov	4089(r8).32, r2
-	movq	=0x77522d08, r6
+	mov.s32	4089(r8), r2
+	mov	=0x77522d08, r6
 	cbne	r2, r6, f34
 	lea	buf, r8
-	mov	4090(r8).32, r2
-	movq	=0xffffffff9c77522d, r6
+	mov.s32	4090(r8), r2
+	mov	=0xffffffff9c77522d, r6
 	cbne	r2, r6, f35
 	lea	buf, r8
-	mov	4091(r8).32, r2
-	movq	=0xffffffffc19c7752, r6
+	mov.s32	4091(r8), r2
+	mov	=0xffffffffc19c7752, r6
 	cbne	r2, r6, f36
 	lea	buf, r8
-	mov	4092(r8).32, r2
-	movq	=0xffffffffe6c19c77, r6
+	mov.s32	4092(r8), r2
+	mov	=0xffffffffe6c19c77, r6
 	cbne	r2, r6, f37
 	lea	buf, r8
-	mov	4093(r8).32, r2
-	movq	=0xbe6c19c, r6
+	mov.s32	4093(r8), r2
+	mov	=0xbe6c19c, r6
 	cbne	r2, r6, f38
 	lea	buf, r8
-	mov	4094(r8).32, r2
-	movq	=0x300be6c1, r6
+	mov.s32	4094(r8), r2
+	mov	=0x300be6c1, r6
 	cbne	r2, r6, f39
 	lea	buf, r8
-	mov	4095(r8).32, r2
-	movq	=0x55300be6, r6
+	mov.s32	4095(r8), r2
+	mov	=0x55300be6, r6
 	cbne	r2, r6, f40
 	lea	buf, r8
-	mov	4096(r8).32, r2
-	movq	=0x7a55300b, r6
+	mov.s32	4096(r8), r2
+	mov	=0x7a55300b, r6
 	cbne	r2, r6, f41
 	lea	buf, r8
-	mov	4093(r8).32, r2
-	movq	=0xbe6c19c, r6
+	mov.s32	4093(r8), r2
+	mov	=0xbe6c19c, r6
 	cbne	r2, r6, f42
 	lea	buf, r8
-	mov	4095(r8).32, r2
-	movq	=0x55300be6, r6
+	mov.s32	4095(r8), r2
+	mov	=0x55300be6, r6
 	cbne	r2, r6, f43
 	lea	buf, r8
-	movq	#4090, r9
-	mov	3(r8)(r9*1).32, r2
-	movq	=0xbe6c19c, r6
+	mov	#4090, r9
+	mov.s32	3(r8)(r9*1), r2
+	mov	=0xbe6c19c, r6
 	cbne	r2, r6, f44
 	lea	buf+4093, r8
-	mov	(r8)+.32, r2
-	movq	=0xbe6c19c, r6
+	mov.s32	(r8)+, r2
+	mov	=0xbe6c19c, r6
 	cbne	r2, r6, f45
 	lea	buf+4097, r2
 	cbne	r8, r2, f46
 	lea	buf, r8
-	mov	0(r8).16, r2
-	movq	=0x300b, r6
+	mov.s16	0(r8), r2
+	mov	=0x300b, r6
 	cbne	r2, r6, f47
 	lea	buf, r8
-	mov	1(r8).16, r2
-	movq	=0x5530, r6
+	mov.s16	1(r8), r2
+	mov	=0x5530, r6
 	cbne	r2, r6, f48
 	lea	buf, r8
-	mov	2(r8).16, r2
-	movq	=0x7a55, r6
+	mov.s16	2(r8), r2
+	mov	=0x7a55, r6
 	cbne	r2, r6, f49
 	lea	buf, r8
-	mov	3(r8).16, r2
-	movq	=0xffffffffffff9f7a, r6
+	mov.s16	3(r8), r2
+	mov	=0xffffffffffff9f7a, r6
 	cbne	r2, r6, f50
 	lea	buf, r8
-	mov	4(r8).16, r2
-	movq	=0xffffffffffffc49f, r6
+	mov.s16	4(r8), r2
+	mov	=0xffffffffffffc49f, r6
 	cbne	r2, r6, f51
 	lea	buf, r8
-	mov	5(r8).16, r2
-	movq	=0xffffffffffffe9c4, r6
+	mov.s16	5(r8), r2
+	mov	=0xffffffffffffe9c4, r6
 	cbne	r2, r6, f52
 	lea	buf, r8
-	mov	6(r8).16, r2
-	movq	=0xee9, r6
+	mov.s16	6(r8), r2
+	mov	=0xee9, r6
 	cbne	r2, r6, f53
 	lea	buf, r8
-	mov	7(r8).16, r2
-	movq	=0x330e, r6
+	mov.s16	7(r8), r2
+	mov	=0x330e, r6
 	cbne	r2, r6, f54
 	lea	buf, r8
-	mov	8(r8).16, r2
-	movq	=0x5833, r6
+	mov.s16	8(r8), r2
+	mov	=0x5833, r6
 	cbne	r2, r6, f55
 	lea	buf, r8
-	mov	4088(r8).16, r2
-	movq	=0x8e3, r6
+	mov.s16	4088(r8), r2
+	mov	=0x8e3, r6
 	cbne	r2, r6, f56
 	lea	buf, r8
-	mov	4089(r8).16, r2
-	movq	=0x2d08, r6
+	mov.s16	4089(r8), r2
+	mov	=0x2d08, r6
 	cbne	r2, r6, f57
 	lea	buf, r8
-	mov	4090(r8).16, r2
-	movq	=0x522d, r6
+	mov.s16	4090(r8), r2
+	mov	=0x522d, r6
 	cbne	r2, r6, f58
 	lea	buf, r8
-	mov	4091(r8).16, r2
-	movq	=0x7752, r6
+	mov.s16	4091(r8), r2
+	mov	=0x7752, r6
 	cbne	r2, r6, f59
 	lea	buf, r8
-	mov	4092(r8).16, r2
-	movq	=0xffffffffffff9c77, r6
+	mov.s16	4092(r8), r2
+	mov	=0xffffffffffff9c77, r6
 	cbne	r2, r6, f60
 	lea	buf, r8
-	mov	4093(r8).16, r2
-	movq	=0xffffffffffffc19c, r6
+	mov.s16	4093(r8), r2
+	mov	=0xffffffffffffc19c, r6
 	cbne	r2, r6, f61
 	lea	buf, r8
-	mov	4094(r8).16, r2
-	movq	=0xffffffffffffe6c1, r6
+	mov.s16	4094(r8), r2
+	mov	=0xffffffffffffe6c1, r6
 	cbne	r2, r6, f62
 	lea	buf, r8
-	mov	4095(r8).16, r2
-	movq	=0xbe6, r6
+	mov.s16	4095(r8), r2
+	mov	=0xbe6, r6
 	cbne	r2, r6, f63
 	lea	buf, r8
-	mov	4096(r8).16, r2
-	movq	=0x300b, r6
+	mov.s16	4096(r8), r2
+	mov	=0x300b, r6
 	cbne	r2, r6, f64
 	lea	buf, r8
-	mov	4093(r8).16, r2
-	movq	=0xffffffffffffc19c, r6
+	mov.s16	4093(r8), r2
+	mov	=0xffffffffffffc19c, r6
 	cbne	r2, r6, f65
 	lea	buf, r8
-	mov	4095(r8).16, r2
-	movq	=0xbe6, r6
+	mov.s16	4095(r8), r2
+	mov	=0xbe6, r6
 	cbne	r2, r6, f66
 	lea	buf, r8
-	movq	#4091, r9
-	mov	3(r8)(r9*1).16, r2
-	movq	=0xffffffffffffe6c1, r6
+	mov	#4091, r9
+	mov.s16	3(r8)(r9*1), r2
+	mov	=0xffffffffffffe6c1, r6
 	cbne	r2, r6, f67
 	lea	buf+4094, r8
-	mov	(r8)+.16, r2
-	movq	=0xffffffffffffe6c1, r6
+	mov.s16	(r8)+, r2
+	mov	=0xffffffffffffe6c1, r6
 	cbne	r2, r6, f68
 	lea	buf+4096, r2
 	cbne	r8, r2, f69
 	lea	buf, r8
-	mov	0(r8).8, r2
-	movq	=0xb, r6
+	mov.s8	0(r8), r2
+	mov	=0xb, r6
 	cbne	r2, r6, f70
 	lea	buf, r8
-	mov	1(r8).8, r2
-	movq	=0x30, r6
+	mov.s8	1(r8), r2
+	mov	=0x30, r6
 	cbne	r2, r6, f71
 	lea	buf, r8
-	mov	2(r8).8, r2
-	movq	=0x55, r6
+	mov.s8	2(r8), r2
+	mov	=0x55, r6
 	cbne	r2, r6, f72
 	lea	buf, r8
-	mov	3(r8).8, r2
-	movq	=0x7a, r6
+	mov.s8	3(r8), r2
+	mov	=0x7a, r6
 	cbne	r2, r6, f73
 	lea	buf, r8
-	mov	4(r8).8, r2
-	movq	=0xffffffffffffff9f, r6
+	mov.s8	4(r8), r2
+	mov	=0xffffffffffffff9f, r6
 	cbne	r2, r6, f74
 	lea	buf, r8
-	mov	5(r8).8, r2
-	movq	=0xffffffffffffffc4, r6
+	mov.s8	5(r8), r2
+	mov	=0xffffffffffffffc4, r6
 	cbne	r2, r6, f75
 	lea	buf, r8
-	mov	6(r8).8, r2
-	movq	=0xffffffffffffffe9, r6
+	mov.s8	6(r8), r2
+	mov	=0xffffffffffffffe9, r6
 	cbne	r2, r6, f76
 	lea	buf, r8
-	mov	7(r8).8, r2
-	movq	=0xe, r6
+	mov.s8	7(r8), r2
+	mov	=0xe, r6
 	cbne	r2, r6, f77
 	lea	buf, r8
-	mov	8(r8).8, r2
-	movq	=0x33, r6
+	mov.s8	8(r8), r2
+	mov	=0x33, r6
 	cbne	r2, r6, f78
 	lea	buf, r8
-	mov	4088(r8).8, r2
-	movq	=0xffffffffffffffe3, r6
+	mov.s8	4088(r8), r2
+	mov	=0xffffffffffffffe3, r6
 	cbne	r2, r6, f79
 	lea	buf, r8
-	mov	4089(r8).8, r2
-	movq	=0x8, r6
+	mov.s8	4089(r8), r2
+	mov	=0x8, r6
 	cbne	r2, r6, f80
 	lea	buf, r8
-	mov	4090(r8).8, r2
-	movq	=0x2d, r6
+	mov.s8	4090(r8), r2
+	mov	=0x2d, r6
 	cbne	r2, r6, f81
 	lea	buf, r8
-	mov	4091(r8).8, r2
-	movq	=0x52, r6
+	mov.s8	4091(r8), r2
+	mov	=0x52, r6
 	cbne	r2, r6, f82
 	lea	buf, r8
-	mov	4092(r8).8, r2
-	movq	=0x77, r6
+	mov.s8	4092(r8), r2
+	mov	=0x77, r6
 	cbne	r2, r6, f83
 	lea	buf, r8
-	mov	4093(r8).8, r2
-	movq	=0xffffffffffffff9c, r6
+	mov.s8	4093(r8), r2
+	mov	=0xffffffffffffff9c, r6
 	cbne	r2, r6, f84
 	lea	buf, r8
-	mov	4094(r8).8, r2
-	movq	=0xffffffffffffffc1, r6
+	mov.s8	4094(r8), r2
+	mov	=0xffffffffffffffc1, r6
 	cbne	r2, r6, f85
 	lea	buf, r8
-	mov	4095(r8).8, r2
-	movq	=0xffffffffffffffe6, r6
+	mov.s8	4095(r8), r2
+	mov	=0xffffffffffffffe6, r6
 	cbne	r2, r6, f86
 	lea	buf, r8
-	mov	4096(r8).8, r2
-	movq	=0xb, r6
+	mov.s8	4096(r8), r2
+	mov	=0xb, r6
 	cbne	r2, r6, f87
 	lea	buf, r8
-	mov	4093(r8).8, r2
-	movq	=0xffffffffffffff9c, r6
+	mov.s8	4093(r8), r2
+	mov	=0xffffffffffffff9c, r6
 	cbne	r2, r6, f88
 	lea	buf, r8
-	mov	4095(r8).8, r2
-	movq	=0xffffffffffffffe6, r6
+	mov.s8	4095(r8), r2
+	mov	=0xffffffffffffffe6, r6
 	cbne	r2, r6, f89
 	lea	buf, r8
-	movq	#4092, r9
-	mov	3(r8)(r9*1).8, r2
-	movq	=0xffffffffffffffe6, r6
+	mov	#4092, r9
+	mov.s8	3(r8)(r9*1), r2
+	mov	=0xffffffffffffffe6, r6
 	cbne	r2, r6, f90
 	lea	buf+4095, r8
-	mov	(r8)+.8, r2
-	movq	=0xffffffffffffffe6, r6
+	mov.s8	(r8)+, r2
+	mov	=0xffffffffffffffe6, r6
 	cbne	r2, r6, f91
 	lea	buf+4096, r2
 	cbne	r8, r2, f92
 	lea	buf, r8
-	mov	0(r8).u32, r2
-	movq	=0x7a55300b, r6
+	mov.u32	0(r8), r2
+	mov	=0x7a55300b, r6
 	cbne	r2, r6, f93
 	lea	buf, r8
-	mov	1(r8).u32, r2
-	movq	=0x9f7a5530, r6
+	mov.u32	1(r8), r2
+	mov	=0x9f7a5530, r6
 	cbne	r2, r6, f94
 	lea	buf, r8
-	mov	2(r8).u32, r2
-	movq	=0xc49f7a55, r6
+	mov.u32	2(r8), r2
+	mov	=0xc49f7a55, r6
 	cbne	r2, r6, f95
 	lea	buf, r8
-	mov	3(r8).u32, r2
-	movq	=0xe9c49f7a, r6
+	mov.u32	3(r8), r2
+	mov	=0xe9c49f7a, r6
 	cbne	r2, r6, f96
 	lea	buf, r8
-	mov	4(r8).u32, r2
-	movq	=0xee9c49f, r6
+	mov.u32	4(r8), r2
+	mov	=0xee9c49f, r6
 	cbne	r2, r6, f97
 	lea	buf, r8
-	mov	5(r8).u32, r2
-	movq	=0x330ee9c4, r6
+	mov.u32	5(r8), r2
+	mov	=0x330ee9c4, r6
 	cbne	r2, r6, f98
 	lea	buf, r8
-	mov	6(r8).u32, r2
-	movq	=0x58330ee9, r6
+	mov.u32	6(r8), r2
+	mov	=0x58330ee9, r6
 	cbne	r2, r6, f99
 	lea	buf, r8
-	mov	7(r8).u32, r2
-	movq	=0x7d58330e, r6
+	mov.u32	7(r8), r2
+	mov	=0x7d58330e, r6
 	cbne	r2, r6, f100
 	lea	buf, r8
-	mov	8(r8).u32, r2
-	movq	=0xa27d5833, r6
+	mov.u32	8(r8), r2
+	mov	=0xa27d5833, r6
 	cbne	r2, r6, f101
 	lea	buf, r8
-	mov	4088(r8).u32, r2
-	movq	=0x522d08e3, r6
+	mov.u32	4088(r8), r2
+	mov	=0x522d08e3, r6
 	cbne	r2, r6, f102
 	lea	buf, r8
-	mov	4089(r8).u32, r2
-	movq	=0x77522d08, r6
+	mov.u32	4089(r8), r2
+	mov	=0x77522d08, r6
 	cbne	r2, r6, f103
 	lea	buf, r8
-	mov	4090(r8).u32, r2
-	movq	=0x9c77522d, r6
+	mov.u32	4090(r8), r2
+	mov	=0x9c77522d, r6
 	cbne	r2, r6, f104
 	lea	buf, r8
-	mov	4091(r8).u32, r2
-	movq	=0xc19c7752, r6
+	mov.u32	4091(r8), r2
+	mov	=0xc19c7752, r6
 	cbne	r2, r6, f105
 	lea	buf, r8
-	mov	4092(r8).u32, r2
-	movq	=0xe6c19c77, r6
+	mov.u32	4092(r8), r2
+	mov	=0xe6c19c77, r6
 	cbne	r2, r6, f106
 	lea	buf, r8
-	mov	4093(r8).u32, r2
-	movq	=0xbe6c19c, r6
+	mov.u32	4093(r8), r2
+	mov	=0xbe6c19c, r6
 	cbne	r2, r6, f107
 	lea	buf, r8
-	mov	4094(r8).u32, r2
-	movq	=0x300be6c1, r6
+	mov.u32	4094(r8), r2
+	mov	=0x300be6c1, r6
 	cbne	r2, r6, f108
 	lea	buf, r8
-	mov	4095(r8).u32, r2
-	movq	=0x55300be6, r6
+	mov.u32	4095(r8), r2
+	mov	=0x55300be6, r6
 	cbne	r2, r6, f109
 	lea	buf, r8
-	mov	4096(r8).u32, r2
-	movq	=0x7a55300b, r6
+	mov.u32	4096(r8), r2
+	mov	=0x7a55300b, r6
 	cbne	r2, r6, f110
 	lea	buf, r8
-	mov	4093(r8).u32, r2
-	movq	=0xbe6c19c, r6
+	mov.u32	4093(r8), r2
+	mov	=0xbe6c19c, r6
 	cbne	r2, r6, f111
 	lea	buf, r8
-	mov	4095(r8).u32, r2
-	movq	=0x55300be6, r6
+	mov.u32	4095(r8), r2
+	mov	=0x55300be6, r6
 	cbne	r2, r6, f112
 	lea	buf, r8
-	movq	#4090, r9
-	mov	3(r8)(r9*1).u32, r2
-	movq	=0xbe6c19c, r6
+	mov	#4090, r9
+	mov.u32	3(r8)(r9*1), r2
+	mov	=0xbe6c19c, r6
 	cbne	r2, r6, f113
 	lea	buf+4093, r8
-	mov	(r8)+.u32, r2
-	movq	=0xbe6c19c, r6
+	mov.u32	(r8)+, r2
+	mov	=0xbe6c19c, r6
 	cbne	r2, r6, f114
 	lea	buf+4097, r2
 	cbne	r8, r2, f115
 	lea	buf, r8
-	mov	0(r8).u16, r2
-	movq	=0x300b, r6
+	mov.u16	0(r8), r2
+	mov	=0x300b, r6
 	cbne	r2, r6, f116
 	lea	buf, r8
-	mov	1(r8).u16, r2
-	movq	=0x5530, r6
+	mov.u16	1(r8), r2
+	mov	=0x5530, r6
 	cbne	r2, r6, f117
 	lea	buf, r8
-	mov	2(r8).u16, r2
-	movq	=0x7a55, r6
+	mov.u16	2(r8), r2
+	mov	=0x7a55, r6
 	cbne	r2, r6, f118
 	lea	buf, r8
-	mov	3(r8).u16, r2
-	movq	=0x9f7a, r6
+	mov.u16	3(r8), r2
+	mov	=0x9f7a, r6
 	cbne	r2, r6, f119
 	lea	buf, r8
-	mov	4(r8).u16, r2
-	movq	=0xc49f, r6
+	mov.u16	4(r8), r2
+	mov	=0xc49f, r6
 	cbne	r2, r6, f120
 	lea	buf, r8
-	mov	5(r8).u16, r2
-	movq	=0xe9c4, r6
+	mov.u16	5(r8), r2
+	mov	=0xe9c4, r6
 	cbne	r2, r6, f121
 	lea	buf, r8
-	mov	6(r8).u16, r2
-	movq	=0xee9, r6
+	mov.u16	6(r8), r2
+	mov	=0xee9, r6
 	cbne	r2, r6, f122
 	lea	buf, r8
-	mov	7(r8).u16, r2
-	movq	=0x330e, r6
+	mov.u16	7(r8), r2
+	mov	=0x330e, r6
 	cbne	r2, r6, f123
 	lea	buf, r8
-	mov	8(r8).u16, r2
-	movq	=0x5833, r6
+	mov.u16	8(r8), r2
+	mov	=0x5833, r6
 	cbne	r2, r6, f124
 	lea	buf, r8
-	mov	4088(r8).u16, r2
-	movq	=0x8e3, r6
+	mov.u16	4088(r8), r2
+	mov	=0x8e3, r6
 	cbne	r2, r6, f125
 	lea	buf, r8
-	mov	4089(r8).u16, r2
-	movq	=0x2d08, r6
+	mov.u16	4089(r8), r2
+	mov	=0x2d08, r6
 	cbne	r2, r6, f126
 	lea	buf, r8
-	mov	4090(r8).u16, r2
-	movq	=0x522d, r6
+	mov.u16	4090(r8), r2
+	mov	=0x522d, r6
 	cbne	r2, r6, f127
 	lea	buf, r8
-	mov	4091(r8).u16, r2
-	movq	=0x7752, r6
+	mov.u16	4091(r8), r2
+	mov	=0x7752, r6
 	cbne	r2, r6, f128
 	lea	buf, r8
-	mov	4092(r8).u16, r2
-	movq	=0x9c77, r6
+	mov.u16	4092(r8), r2
+	mov	=0x9c77, r6
 	cbne	r2, r6, f129
 	lea	buf, r8
-	mov	4093(r8).u16, r2
-	movq	=0xc19c, r6
+	mov.u16	4093(r8), r2
+	mov	=0xc19c, r6
 	cbne	r2, r6, f130
 	lea	buf, r8
-	mov	4094(r8).u16, r2
-	movq	=0xe6c1, r6
+	mov.u16	4094(r8), r2
+	mov	=0xe6c1, r6
 	cbne	r2, r6, f131
 	lea	buf, r8
-	mov	4095(r8).u16, r2
-	movq	=0xbe6, r6
+	mov.u16	4095(r8), r2
+	mov	=0xbe6, r6
 	cbne	r2, r6, f132
 	lea	buf, r8
-	mov	4096(r8).u16, r2
-	movq	=0x300b, r6
+	mov.u16	4096(r8), r2
+	mov	=0x300b, r6
 	cbne	r2, r6, f133
 	lea	buf, r8
-	mov	4093(r8).u16, r2
-	movq	=0xc19c, r6
+	mov.u16	4093(r8), r2
+	mov	=0xc19c, r6
 	cbne	r2, r6, f134
 	lea	buf, r8
-	mov	4095(r8).u16, r2
-	movq	=0xbe6, r6
+	mov.u16	4095(r8), r2
+	mov	=0xbe6, r6
 	cbne	r2, r6, f135
 	lea	buf, r8
-	movq	#4091, r9
-	mov	3(r8)(r9*1).u16, r2
-	movq	=0xe6c1, r6
+	mov	#4091, r9
+	mov.u16	3(r8)(r9*1), r2
+	mov	=0xe6c1, r6
 	cbne	r2, r6, f136
 	lea	buf+4094, r8
-	mov	(r8)+.u16, r2
-	movq	=0xe6c1, r6
+	mov.u16	(r8)+, r2
+	mov	=0xe6c1, r6
 	cbne	r2, r6, f137
 	lea	buf+4096, r2
 	cbne	r8, r2, f138
 	lea	buf, r8
-	mov	0(r8).u8, r2
-	movq	=0xb, r6
+	mov.u8	0(r8), r2
+	mov	=0xb, r6
 	cbne	r2, r6, f139
 	lea	buf, r8
-	mov	1(r8).u8, r2
-	movq	=0x30, r6
+	mov.u8	1(r8), r2
+	mov	=0x30, r6
 	cbne	r2, r6, f140
 	lea	buf, r8
-	mov	2(r8).u8, r2
-	movq	=0x55, r6
+	mov.u8	2(r8), r2
+	mov	=0x55, r6
 	cbne	r2, r6, f141
 	lea	buf, r8
-	mov	3(r8).u8, r2
-	movq	=0x7a, r6
+	mov.u8	3(r8), r2
+	mov	=0x7a, r6
 	cbne	r2, r6, f142
 	lea	buf, r8
-	mov	4(r8).u8, r2
-	movq	=0x9f, r6
+	mov.u8	4(r8), r2
+	mov	=0x9f, r6
 	cbne	r2, r6, f143
 	lea	buf, r8
-	mov	5(r8).u8, r2
-	movq	=0xc4, r6
+	mov.u8	5(r8), r2
+	mov	=0xc4, r6
 	cbne	r2, r6, f144
 	lea	buf, r8
-	mov	6(r8).u8, r2
-	movq	=0xe9, r6
+	mov.u8	6(r8), r2
+	mov	=0xe9, r6
 	cbne	r2, r6, f145
 	lea	buf, r8
-	mov	7(r8).u8, r2
-	movq	=0xe, r6
+	mov.u8	7(r8), r2
+	mov	=0xe, r6
 	cbne	r2, r6, f146
 	lea	buf, r8
-	mov	8(r8).u8, r2
-	movq	=0x33, r6
+	mov.u8	8(r8), r2
+	mov	=0x33, r6
 	cbne	r2, r6, f147
 	lea	buf, r8
-	mov	4088(r8).u8, r2
-	movq	=0xe3, r6
+	mov.u8	4088(r8), r2
+	mov	=0xe3, r6
 	cbne	r2, r6, f148
 	lea	buf, r8
-	mov	4089(r8).u8, r2
-	movq	=0x8, r6
+	mov.u8	4089(r8), r2
+	mov	=0x8, r6
 	cbne	r2, r6, f149
 	lea	buf, r8
-	mov	4090(r8).u8, r2
-	movq	=0x2d, r6
+	mov.u8	4090(r8), r2
+	mov	=0x2d, r6
 	cbne	r2, r6, f150
 	lea	buf, r8
-	mov	4091(r8).u8, r2
-	movq	=0x52, r6
+	mov.u8	4091(r8), r2
+	mov	=0x52, r6
 	cbne	r2, r6, f151
 	lea	buf, r8
-	mov	4092(r8).u8, r2
-	movq	=0x77, r6
+	mov.u8	4092(r8), r2
+	mov	=0x77, r6
 	cbne	r2, r6, f152
 	lea	buf, r8
-	mov	4093(r8).u8, r2
-	movq	=0x9c, r6
+	mov.u8	4093(r8), r2
+	mov	=0x9c, r6
 	cbne	r2, r6, f153
 	lea	buf, r8
-	mov	4094(r8).u8, r2
-	movq	=0xc1, r6
+	mov.u8	4094(r8), r2
+	mov	=0xc1, r6
 	cbne	r2, r6, f154
 	lea	buf, r8
-	mov	4095(r8).u8, r2
-	movq	=0xe6, r6
+	mov.u8	4095(r8), r2
+	mov	=0xe6, r6
 	cbne	r2, r6, f155
 	lea	buf, r8
-	mov	4096(r8).u8, r2
-	movq	=0xb, r6
+	mov.u8	4096(r8), r2
+	mov	=0xb, r6
 	cbne	r2, r6, f156
 	lea	buf, r8
-	mov	4093(r8).u8, r2
-	movq	=0x9c, r6
+	mov.u8	4093(r8), r2
+	mov	=0x9c, r6
 	cbne	r2, r6, f157
 	lea	buf, r8
-	mov	4095(r8).u8, r2
-	movq	=0xe6, r6
+	mov.u8	4095(r8), r2
+	mov	=0xe6, r6
 	cbne	r2, r6, f158
 	lea	buf, r8
-	movq	#4092, r9
-	mov	3(r8)(r9*1).u8, r2
-	movq	=0xe6, r6
+	mov	#4092, r9
+	mov.u8	3(r8)(r9*1), r2
+	mov	=0xe6, r6
 	cbne	r2, r6, f159
 	lea	buf+4095, r8
-	mov	(r8)+.u8, r2
-	movq	=0xe6, r6
+	mov.u8	(r8)+, r2
+	mov	=0xe6, r6
 	cbne	r2, r6, f160
 	lea	buf+4096, r2
 	cbne	r8, r2, f161
 	lea	buf, r8
-	movq	=0x1122334455667788, r1
-	movq	r1, 1(r8)
-	mov	0(r8).u8, r2
-	movq	=0xb, r6
+	mov	=0x1122334455667788, r1
+	mov	r1, 1(r8)
+	mov.u8	0(r8), r2
+	mov	=0xb, r6
 	cbne	r2, r6, f162
-	mov	1(r8).u8, r2
-	movq	=0x88, r6
+	mov.u8	1(r8), r2
+	mov	=0x88, r6
 	cbne	r2, r6, f163
-	mov	2(r8).u8, r2
-	movq	=0x77, r6
+	mov.u8	2(r8), r2
+	mov	=0x77, r6
 	cbne	r2, r6, f164
-	mov	3(r8).u8, r2
-	movq	=0x66, r6
+	mov.u8	3(r8), r2
+	mov	=0x66, r6
 	cbne	r2, r6, f165
-	mov	4(r8).u8, r2
-	movq	=0x55, r6
+	mov.u8	4(r8), r2
+	mov	=0x55, r6
 	cbne	r2, r6, f166
-	mov	5(r8).u8, r2
-	movq	=0x44, r6
+	mov.u8	5(r8), r2
+	mov	=0x44, r6
 	cbne	r2, r6, f167
-	mov	6(r8).u8, r2
-	movq	=0x33, r6
+	mov.u8	6(r8), r2
+	mov	=0x33, r6
 	cbne	r2, r6, f168
-	mov	7(r8).u8, r2
-	movq	=0x22, r6
+	mov.u8	7(r8), r2
+	mov	=0x22, r6
 	cbne	r2, r6, f169
-	mov	8(r8).u8, r2
-	movq	=0x11, r6
+	mov.u8	8(r8), r2
+	mov	=0x11, r6
 	cbne	r2, r6, f170
-	mov	9(r8).u8, r2
-	movq	=0x58, r6
+	mov.u8	9(r8), r2
+	mov	=0x58, r6
 	cbne	r2, r6, f171
-	movq	#48, r3
-	mov	r3, 1(r8).8
-	movq	#85, r3
-	mov	r3, 2(r8).8
-	movq	#122, r3
-	mov	r3, 3(r8).8
-	movq	#-97, r3
-	mov	r3, 4(r8).8
-	movq	#-60, r3
-	mov	r3, 5(r8).8
-	movq	#-23, r3
-	mov	r3, 6(r8).8
-	movq	#14, r3
-	mov	r3, 7(r8).8
-	movq	#51, r3
-	mov	r3, 8(r8).8
+	mov	#48, r3
+	mov.s8	r3, 1(r8)
+	mov	#85, r3
+	mov.s8	r3, 2(r8)
+	mov	#122, r3
+	mov.s8	r3, 3(r8)
+	mov	#-97, r3
+	mov.s8	r3, 4(r8)
+	mov	#-60, r3
+	mov.s8	r3, 5(r8)
+	mov	#-23, r3
+	mov.s8	r3, 6(r8)
+	mov	#14, r3
+	mov.s8	r3, 7(r8)
+	mov	#51, r3
+	mov.s8	r3, 8(r8)
 	lea	buf, r8
-	movq	=0x1122334455667788, r1
-	movq	r1, 2(r8)
-	mov	1(r8).u8, r2
-	movq	=0x30, r6
+	mov	=0x1122334455667788, r1
+	mov	r1, 2(r8)
+	mov.u8	1(r8), r2
+	mov	=0x30, r6
 	cbne	r2, r6, f172
-	mov	2(r8).u8, r2
-	movq	=0x88, r6
+	mov.u8	2(r8), r2
+	mov	=0x88, r6
 	cbne	r2, r6, f173
-	mov	3(r8).u8, r2
-	movq	=0x77, r6
+	mov.u8	3(r8), r2
+	mov	=0x77, r6
 	cbne	r2, r6, f174
-	mov	4(r8).u8, r2
-	movq	=0x66, r6
+	mov.u8	4(r8), r2
+	mov	=0x66, r6
 	cbne	r2, r6, f175
-	mov	5(r8).u8, r2
-	movq	=0x55, r6
+	mov.u8	5(r8), r2
+	mov	=0x55, r6
 	cbne	r2, r6, f176
-	mov	6(r8).u8, r2
-	movq	=0x44, r6
+	mov.u8	6(r8), r2
+	mov	=0x44, r6
 	cbne	r2, r6, f177
-	mov	7(r8).u8, r2
-	movq	=0x33, r6
+	mov.u8	7(r8), r2
+	mov	=0x33, r6
 	cbne	r2, r6, f178
-	mov	8(r8).u8, r2
-	movq	=0x22, r6
+	mov.u8	8(r8), r2
+	mov	=0x22, r6
 	cbne	r2, r6, f179
-	mov	9(r8).u8, r2
-	movq	=0x11, r6
+	mov.u8	9(r8), r2
+	mov	=0x11, r6
 	cbne	r2, r6, f180
-	mov	10(r8).u8, r2
-	movq	=0x7d, r6
+	mov.u8	10(r8), r2
+	mov	=0x7d, r6
 	cbne	r2, r6, f181
-	movq	#85, r3
-	mov	r3, 2(r8).8
-	movq	#122, r3
-	mov	r3, 3(r8).8
-	movq	#-97, r3
-	mov	r3, 4(r8).8
-	movq	#-60, r3
-	mov	r3, 5(r8).8
-	movq	#-23, r3
-	mov	r3, 6(r8).8
-	movq	#14, r3
-	mov	r3, 7(r8).8
-	movq	#51, r3
-	mov	r3, 8(r8).8
-	movq	#88, r3
-	mov	r3, 9(r8).8
+	mov	#85, r3
+	mov.s8	r3, 2(r8)
+	mov	#122, r3
+	mov.s8	r3, 3(r8)
+	mov	#-97, r3
+	mov.s8	r3, 4(r8)
+	mov	#-60, r3
+	mov.s8	r3, 5(r8)
+	mov	#-23, r3
+	mov.s8	r3, 6(r8)
+	mov	#14, r3
+	mov.s8	r3, 7(r8)
+	mov	#51, r3
+	mov.s8	r3, 8(r8)
+	mov	#88, r3
+	mov.s8	r3, 9(r8)
 	lea	buf, r8
-	movq	=0x1122334455667788, r1
-	movq	r1, 3(r8)
-	mov	2(r8).u8, r2
-	movq	=0x55, r6
+	mov	=0x1122334455667788, r1
+	mov	r1, 3(r8)
+	mov.u8	2(r8), r2
+	mov	=0x55, r6
 	cbne	r2, r6, f182
-	mov	3(r8).u8, r2
-	movq	=0x88, r6
+	mov.u8	3(r8), r2
+	mov	=0x88, r6
 	cbne	r2, r6, f183
-	mov	4(r8).u8, r2
-	movq	=0x77, r6
+	mov.u8	4(r8), r2
+	mov	=0x77, r6
 	cbne	r2, r6, f184
-	mov	5(r8).u8, r2
-	movq	=0x66, r6
+	mov.u8	5(r8), r2
+	mov	=0x66, r6
 	cbne	r2, r6, f185
-	mov	6(r8).u8, r2
-	movq	=0x55, r6
+	mov.u8	6(r8), r2
+	mov	=0x55, r6
 	cbne	r2, r6, f186
-	mov	7(r8).u8, r2
-	movq	=0x44, r6
+	mov.u8	7(r8), r2
+	mov	=0x44, r6
 	cbne	r2, r6, f187
-	mov	8(r8).u8, r2
-	movq	=0x33, r6
+	mov.u8	8(r8), r2
+	mov	=0x33, r6
 	cbne	r2, r6, f188
-	mov	9(r8).u8, r2
-	movq	=0x22, r6
+	mov.u8	9(r8), r2
+	mov	=0x22, r6
 	cbne	r2, r6, f189
-	mov	10(r8).u8, r2
-	movq	=0x11, r6
+	mov.u8	10(r8), r2
+	mov	=0x11, r6
 	cbne	r2, r6, f190
-	mov	11(r8).u8, r2
-	movq	=0xa2, r6
+	mov.u8	11(r8), r2
+	mov	=0xa2, r6
 	cbne	r2, r6, f191
-	movq	#122, r3
-	mov	r3, 3(r8).8
-	movq	#-97, r3
-	mov	r3, 4(r8).8
-	movq	#-60, r3
-	mov	r3, 5(r8).8
-	movq	#-23, r3
-	mov	r3, 6(r8).8
-	movq	#14, r3
-	mov	r3, 7(r8).8
-	movq	#51, r3
-	mov	r3, 8(r8).8
-	movq	#88, r3
-	mov	r3, 9(r8).8
-	movq	#125, r3
-	mov	r3, 10(r8).8
+	mov	#122, r3
+	mov.s8	r3, 3(r8)
+	mov	#-97, r3
+	mov.s8	r3, 4(r8)
+	mov	#-60, r3
+	mov.s8	r3, 5(r8)
+	mov	#-23, r3
+	mov.s8	r3, 6(r8)
+	mov	#14, r3
+	mov.s8	r3, 7(r8)
+	mov	#51, r3
+	mov.s8	r3, 8(r8)
+	mov	#88, r3
+	mov.s8	r3, 9(r8)
+	mov	#125, r3
+	mov.s8	r3, 10(r8)
 	lea	buf, r8
-	movq	=0x1122334455667788, r1
-	movq	r1, 4(r8)
-	mov	3(r8).u8, r2
-	movq	=0x7a, r6
+	mov	=0x1122334455667788, r1
+	mov	r1, 4(r8)
+	mov.u8	3(r8), r2
+	mov	=0x7a, r6
 	cbne	r2, r6, f192
-	mov	4(r8).u8, r2
-	movq	=0x88, r6
+	mov.u8	4(r8), r2
+	mov	=0x88, r6
 	cbne	r2, r6, f193
-	mov	5(r8).u8, r2
-	movq	=0x77, r6
+	mov.u8	5(r8), r2
+	mov	=0x77, r6
 	cbne	r2, r6, f194
-	mov	6(r8).u8, r2
-	movq	=0x66, r6
+	mov.u8	6(r8), r2
+	mov	=0x66, r6
 	cbne	r2, r6, f195
-	mov	7(r8).u8, r2
-	movq	=0x55, r6
+	mov.u8	7(r8), r2
+	mov	=0x55, r6
 	cbne	r2, r6, f196
-	mov	8(r8).u8, r2
-	movq	=0x44, r6
+	mov.u8	8(r8), r2
+	mov	=0x44, r6
 	cbne	r2, r6, f197
-	mov	9(r8).u8, r2
-	movq	=0x33, r6
+	mov.u8	9(r8), r2
+	mov	=0x33, r6
 	cbne	r2, r6, f198
-	mov	10(r8).u8, r2
-	movq	=0x22, r6
+	mov.u8	10(r8), r2
+	mov	=0x22, r6
 	cbne	r2, r6, f199
-	mov	11(r8).u8, r2
-	movq	=0x11, r6
+	mov.u8	11(r8), r2
+	mov	=0x11, r6
 	cbne	r2, r6, f200
-	mov	12(r8).u8, r2
-	movq	=0xc7, r6
+	mov.u8	12(r8), r2
+	mov	=0xc7, r6
 	cbne	r2, r6, f201
-	movq	#-97, r3
-	mov	r3, 4(r8).8
-	movq	#-60, r3
-	mov	r3, 5(r8).8
-	movq	#-23, r3
-	mov	r3, 6(r8).8
-	movq	#14, r3
-	mov	r3, 7(r8).8
-	movq	#51, r3
-	mov	r3, 8(r8).8
-	movq	#88, r3
-	mov	r3, 9(r8).8
-	movq	#125, r3
-	mov	r3, 10(r8).8
-	movq	#-94, r3
-	mov	r3, 11(r8).8
+	mov	#-97, r3
+	mov.s8	r3, 4(r8)
+	mov	#-60, r3
+	mov.s8	r3, 5(r8)
+	mov	#-23, r3
+	mov.s8	r3, 6(r8)
+	mov	#14, r3
+	mov.s8	r3, 7(r8)
+	mov	#51, r3
+	mov.s8	r3, 8(r8)
+	mov	#88, r3
+	mov.s8	r3, 9(r8)
+	mov	#125, r3
+	mov.s8	r3, 10(r8)
+	mov	#-94, r3
+	mov.s8	r3, 11(r8)
 	lea	buf, r8
-	movq	=0x1122334455667788, r1
-	movq	r1, 5(r8)
-	mov	4(r8).u8, r2
-	movq	=0x9f, r6
+	mov	=0x1122334455667788, r1
+	mov	r1, 5(r8)
+	mov.u8	4(r8), r2
+	mov	=0x9f, r6
 	cbne	r2, r6, f202
-	mov	5(r8).u8, r2
-	movq	=0x88, r6
+	mov.u8	5(r8), r2
+	mov	=0x88, r6
 	cbne	r2, r6, f203
-	mov	6(r8).u8, r2
-	movq	=0x77, r6
+	mov.u8	6(r8), r2
+	mov	=0x77, r6
 	cbne	r2, r6, f204
-	mov	7(r8).u8, r2
-	movq	=0x66, r6
+	mov.u8	7(r8), r2
+	mov	=0x66, r6
 	cbne	r2, r6, f205
-	mov	8(r8).u8, r2
-	movq	=0x55, r6
+	mov.u8	8(r8), r2
+	mov	=0x55, r6
 	cbne	r2, r6, f206
-	mov	9(r8).u8, r2
-	movq	=0x44, r6
+	mov.u8	9(r8), r2
+	mov	=0x44, r6
 	cbne	r2, r6, f207
-	mov	10(r8).u8, r2
-	movq	=0x33, r6
+	mov.u8	10(r8), r2
+	mov	=0x33, r6
 	cbne	r2, r6, f208
-	mov	11(r8).u8, r2
-	movq	=0x22, r6
+	mov.u8	11(r8), r2
+	mov	=0x22, r6
 	cbne	r2, r6, f209
-	mov	12(r8).u8, r2
-	movq	=0x11, r6
+	mov.u8	12(r8), r2
+	mov	=0x11, r6
 	cbne	r2, r6, f210
-	mov	13(r8).u8, r2
-	movq	=0xec, r6
+	mov.u8	13(r8), r2
+	mov	=0xec, r6
 	cbne	r2, r6, f211
-	movq	#-60, r3
-	mov	r3, 5(r8).8
-	movq	#-23, r3
-	mov	r3, 6(r8).8
-	movq	#14, r3
-	mov	r3, 7(r8).8
-	movq	#51, r3
-	mov	r3, 8(r8).8
-	movq	#88, r3
-	mov	r3, 9(r8).8
-	movq	#125, r3
-	mov	r3, 10(r8).8
-	movq	#-94, r3
-	mov	r3, 11(r8).8
-	movq	#-57, r3
-	mov	r3, 12(r8).8
+	mov	#-60, r3
+	mov.s8	r3, 5(r8)
+	mov	#-23, r3
+	mov.s8	r3, 6(r8)
+	mov	#14, r3
+	mov.s8	r3, 7(r8)
+	mov	#51, r3
+	mov.s8	r3, 8(r8)
+	mov	#88, r3
+	mov.s8	r3, 9(r8)
+	mov	#125, r3
+	mov.s8	r3, 10(r8)
+	mov	#-94, r3
+	mov.s8	r3, 11(r8)
+	mov	#-57, r3
+	mov.s8	r3, 12(r8)
 	lea	buf, r8
-	movq	=0x1122334455667788, r1
-	movq	r1, 6(r8)
-	mov	5(r8).u8, r2
-	movq	=0xc4, r6
+	mov	=0x1122334455667788, r1
+	mov	r1, 6(r8)
+	mov.u8	5(r8), r2
+	mov	=0xc4, r6
 	cbne	r2, r6, f212
-	mov	6(r8).u8, r2
-	movq	=0x88, r6
+	mov.u8	6(r8), r2
+	mov	=0x88, r6
 	cbne	r2, r6, f213
-	mov	7(r8).u8, r2
-	movq	=0x77, r6
+	mov.u8	7(r8), r2
+	mov	=0x77, r6
 	cbne	r2, r6, f214
-	mov	8(r8).u8, r2
-	movq	=0x66, r6
+	mov.u8	8(r8), r2
+	mov	=0x66, r6
 	cbne	r2, r6, f215
-	mov	9(r8).u8, r2
-	movq	=0x55, r6
+	mov.u8	9(r8), r2
+	mov	=0x55, r6
 	cbne	r2, r6, f216
-	mov	10(r8).u8, r2
-	movq	=0x44, r6
+	mov.u8	10(r8), r2
+	mov	=0x44, r6
 	cbne	r2, r6, f217
-	mov	11(r8).u8, r2
-	movq	=0x33, r6
+	mov.u8	11(r8), r2
+	mov	=0x33, r6
 	cbne	r2, r6, f218
-	mov	12(r8).u8, r2
-	movq	=0x22, r6
+	mov.u8	12(r8), r2
+	mov	=0x22, r6
 	cbne	r2, r6, f219
-	mov	13(r8).u8, r2
-	movq	=0x11, r6
+	mov.u8	13(r8), r2
+	mov	=0x11, r6
 	cbne	r2, r6, f220
-	mov	14(r8).u8, r2
-	movq	=0x11, r6
+	mov.u8	14(r8), r2
+	mov	=0x11, r6
 	cbne	r2, r6, f221
-	movq	#-23, r3
-	mov	r3, 6(r8).8
-	movq	#14, r3
-	mov	r3, 7(r8).8
-	movq	#51, r3
-	mov	r3, 8(r8).8
-	movq	#88, r3
-	mov	r3, 9(r8).8
-	movq	#125, r3
-	mov	r3, 10(r8).8
-	movq	#-94, r3
-	mov	r3, 11(r8).8
-	movq	#-57, r3
-	mov	r3, 12(r8).8
-	movq	#-20, r3
-	mov	r3, 13(r8).8
+	mov	#-23, r3
+	mov.s8	r3, 6(r8)
+	mov	#14, r3
+	mov.s8	r3, 7(r8)
+	mov	#51, r3
+	mov.s8	r3, 8(r8)
+	mov	#88, r3
+	mov.s8	r3, 9(r8)
+	mov	#125, r3
+	mov.s8	r3, 10(r8)
+	mov	#-94, r3
+	mov.s8	r3, 11(r8)
+	mov	#-57, r3
+	mov.s8	r3, 12(r8)
+	mov	#-20, r3
+	mov.s8	r3, 13(r8)
 	lea	buf, r8
-	movq	=0x1122334455667788, r1
-	movq	r1, 7(r8)
-	mov	6(r8).u8, r2
-	movq	=0xe9, r6
+	mov	=0x1122334455667788, r1
+	mov	r1, 7(r8)
+	mov.u8	6(r8), r2
+	mov	=0xe9, r6
 	cbne	r2, r6, f222
-	mov	7(r8).u8, r2
-	movq	=0x88, r6
+	mov.u8	7(r8), r2
+	mov	=0x88, r6
 	cbne	r2, r6, f223
-	mov	8(r8).u8, r2
-	movq	=0x77, r6
+	mov.u8	8(r8), r2
+	mov	=0x77, r6
 	cbne	r2, r6, f224
-	mov	9(r8).u8, r2
-	movq	=0x66, r6
+	mov.u8	9(r8), r2
+	mov	=0x66, r6
 	cbne	r2, r6, f225
-	mov	10(r8).u8, r2
-	movq	=0x55, r6
+	mov.u8	10(r8), r2
+	mov	=0x55, r6
 	cbne	r2, r6, f226
-	mov	11(r8).u8, r2
-	movq	=0x44, r6
+	mov.u8	11(r8), r2
+	mov	=0x44, r6
 	cbne	r2, r6, f227
-	mov	12(r8).u8, r2
-	movq	=0x33, r6
+	mov.u8	12(r8), r2
+	mov	=0x33, r6
 	cbne	r2, r6, f228
-	mov	13(r8).u8, r2
-	movq	=0x22, r6
+	mov.u8	13(r8), r2
+	mov	=0x22, r6
 	cbne	r2, r6, f229
-	mov	14(r8).u8, r2
-	movq	=0x11, r6
+	mov.u8	14(r8), r2
+	mov	=0x11, r6
 	cbne	r2, r6, f230
-	mov	15(r8).u8, r2
-	movq	=0x36, r6
+	mov.u8	15(r8), r2
+	mov	=0x36, r6
 	cbne	r2, r6, f231
-	movq	#14, r3
-	mov	r3, 7(r8).8
-	movq	#51, r3
-	mov	r3, 8(r8).8
-	movq	#88, r3
-	mov	r3, 9(r8).8
-	movq	#125, r3
-	mov	r3, 10(r8).8
-	movq	#-94, r3
-	mov	r3, 11(r8).8
-	movq	#-57, r3
-	mov	r3, 12(r8).8
-	movq	#-20, r3
-	mov	r3, 13(r8).8
-	movq	#17, r3
-	mov	r3, 14(r8).8
+	mov	#14, r3
+	mov.s8	r3, 7(r8)
+	mov	#51, r3
+	mov.s8	r3, 8(r8)
+	mov	#88, r3
+	mov.s8	r3, 9(r8)
+	mov	#125, r3
+	mov.s8	r3, 10(r8)
+	mov	#-94, r3
+	mov.s8	r3, 11(r8)
+	mov	#-57, r3
+	mov.s8	r3, 12(r8)
+	mov	#-20, r3
+	mov.s8	r3, 13(r8)
+	mov	#17, r3
+	mov.s8	r3, 14(r8)
 	lea	buf, r8
-	movq	=0x1122334455667788, r1
-	movq	r1, 4089(r8)
-	mov	4088(r8).u8, r2
-	movq	=0xe3, r6
+	mov	=0x1122334455667788, r1
+	mov	r1, 4089(r8)
+	mov.u8	4088(r8), r2
+	mov	=0xe3, r6
 	cbne	r2, r6, f232
-	mov	4089(r8).u8, r2
-	movq	=0x88, r6
+	mov.u8	4089(r8), r2
+	mov	=0x88, r6
 	cbne	r2, r6, f233
-	mov	4090(r8).u8, r2
-	movq	=0x77, r6
+	mov.u8	4090(r8), r2
+	mov	=0x77, r6
 	cbne	r2, r6, f234
-	mov	4091(r8).u8, r2
-	movq	=0x66, r6
+	mov.u8	4091(r8), r2
+	mov	=0x66, r6
 	cbne	r2, r6, f235
-	mov	4092(r8).u8, r2
-	movq	=0x55, r6
+	mov.u8	4092(r8), r2
+	mov	=0x55, r6
 	cbne	r2, r6, f236
-	mov	4093(r8).u8, r2
-	movq	=0x44, r6
+	mov.u8	4093(r8), r2
+	mov	=0x44, r6
 	cbne	r2, r6, f237
-	mov	4094(r8).u8, r2
-	movq	=0x33, r6
+	mov.u8	4094(r8), r2
+	mov	=0x33, r6
 	cbne	r2, r6, f238
-	mov	4095(r8).u8, r2
-	movq	=0x22, r6
+	mov.u8	4095(r8), r2
+	mov	=0x22, r6
 	cbne	r2, r6, f239
-	mov	4096(r8).u8, r2
-	movq	=0x11, r6
+	mov.u8	4096(r8), r2
+	mov	=0x11, r6
 	cbne	r2, r6, f240
-	mov	4097(r8).u8, r2
-	movq	=0x30, r6
+	mov.u8	4097(r8), r2
+	mov	=0x30, r6
 	cbne	r2, r6, f241
-	movq	#8, r3
-	mov	r3, 4089(r8).8
-	movq	#45, r3
-	mov	r3, 4090(r8).8
-	movq	#82, r3
-	mov	r3, 4091(r8).8
-	movq	#119, r3
-	mov	r3, 4092(r8).8
-	movq	#-100, r3
-	mov	r3, 4093(r8).8
-	movq	#-63, r3
-	mov	r3, 4094(r8).8
-	movq	#-26, r3
-	mov	r3, 4095(r8).8
-	movq	#11, r3
-	mov	r3, 4096(r8).8
+	mov	#8, r3
+	mov.s8	r3, 4089(r8)
+	mov	#45, r3
+	mov.s8	r3, 4090(r8)
+	mov	#82, r3
+	mov.s8	r3, 4091(r8)
+	mov	#119, r3
+	mov.s8	r3, 4092(r8)
+	mov	#-100, r3
+	mov.s8	r3, 4093(r8)
+	mov	#-63, r3
+	mov.s8	r3, 4094(r8)
+	mov	#-26, r3
+	mov.s8	r3, 4095(r8)
+	mov	#11, r3
+	mov.s8	r3, 4096(r8)
 	lea	buf, r8
-	movq	=0x1122334455667788, r1
-	movq	r1, 4090(r8)
-	mov	4089(r8).u8, r2
-	movq	=0x8, r6
+	mov	=0x1122334455667788, r1
+	mov	r1, 4090(r8)
+	mov.u8	4089(r8), r2
+	mov	=0x8, r6
 	cbne	r2, r6, f242
-	mov	4090(r8).u8, r2
-	movq	=0x88, r6
+	mov.u8	4090(r8), r2
+	mov	=0x88, r6
 	cbne	r2, r6, f243
-	mov	4091(r8).u8, r2
-	movq	=0x77, r6
+	mov.u8	4091(r8), r2
+	mov	=0x77, r6
 	cbne	r2, r6, f244
-	mov	4092(r8).u8, r2
-	movq	=0x66, r6
+	mov.u8	4092(r8), r2
+	mov	=0x66, r6
 	cbne	r2, r6, f245
-	mov	4093(r8).u8, r2
-	movq	=0x55, r6
+	mov.u8	4093(r8), r2
+	mov	=0x55, r6
 	cbne	r2, r6, f246
-	mov	4094(r8).u8, r2
-	movq	=0x44, r6
+	mov.u8	4094(r8), r2
+	mov	=0x44, r6
 	cbne	r2, r6, f247
-	mov	4095(r8).u8, r2
-	movq	=0x33, r6
+	mov.u8	4095(r8), r2
+	mov	=0x33, r6
 	cbne	r2, r6, f248
-	mov	4096(r8).u8, r2
-	movq	=0x22, r6
+	mov.u8	4096(r8), r2
+	mov	=0x22, r6
 	cbne	r2, r6, f249
-	mov	4097(r8).u8, r2
-	movq	=0x11, r6
+	mov.u8	4097(r8), r2
+	mov	=0x11, r6
 	cbne	r2, r6, f250
-	mov	4098(r8).u8, r2
-	movq	=0x55, r6
+	mov.u8	4098(r8), r2
+	mov	=0x55, r6
 	cbne	r2, r6, f251
-	movq	#45, r3
-	mov	r3, 4090(r8).8
-	movq	#82, r3
-	mov	r3, 4091(r8).8
-	movq	#119, r3
-	mov	r3, 4092(r8).8
-	movq	#-100, r3
-	mov	r3, 4093(r8).8
-	movq	#-63, r3
-	mov	r3, 4094(r8).8
-	movq	#-26, r3
-	mov	r3, 4095(r8).8
-	movq	#11, r3
-	mov	r3, 4096(r8).8
-	movq	#48, r3
-	mov	r3, 4097(r8).8
+	mov	#45, r3
+	mov.s8	r3, 4090(r8)
+	mov	#82, r3
+	mov.s8	r3, 4091(r8)
+	mov	#119, r3
+	mov.s8	r3, 4092(r8)
+	mov	#-100, r3
+	mov.s8	r3, 4093(r8)
+	mov	#-63, r3
+	mov.s8	r3, 4094(r8)
+	mov	#-26, r3
+	mov.s8	r3, 4095(r8)
+	mov	#11, r3
+	mov.s8	r3, 4096(r8)
+	mov	#48, r3
+	mov.s8	r3, 4097(r8)
 	lea	buf, r8
-	movq	=0x1122334455667788, r1
-	movq	r1, 4091(r8)
-	mov	4090(r8).u8, r2
-	movq	=0x2d, r6
+	mov	=0x1122334455667788, r1
+	mov	r1, 4091(r8)
+	mov.u8	4090(r8), r2
+	mov	=0x2d, r6
 	cbne	r2, r6, f252
-	mov	4091(r8).u8, r2
-	movq	=0x88, r6
+	mov.u8	4091(r8), r2
+	mov	=0x88, r6
 	cbne	r2, r6, f253
-	mov	4092(r8).u8, r2
-	movq	=0x77, r6
+	mov.u8	4092(r8), r2
+	mov	=0x77, r6
 	cbne	r2, r6, f254
-	mov	4093(r8).u8, r2
-	movq	=0x66, r6
+	mov.u8	4093(r8), r2
+	mov	=0x66, r6
 	cbne	r2, r6, f255
-	mov	4094(r8).u8, r2
-	movq	=0x55, r6
+	mov.u8	4094(r8), r2
+	mov	=0x55, r6
 	cbne	r2, r6, f256
-	mov	4095(r8).u8, r2
-	movq	=0x44, r6
+	mov.u8	4095(r8), r2
+	mov	=0x44, r6
 	cbne	r2, r6, f257
-	mov	4096(r8).u8, r2
-	movq	=0x33, r6
+	mov.u8	4096(r8), r2
+	mov	=0x33, r6
 	cbne	r2, r6, f258
-	mov	4097(r8).u8, r2
-	movq	=0x22, r6
+	mov.u8	4097(r8), r2
+	mov	=0x22, r6
 	cbne	r2, r6, f259
-	mov	4098(r8).u8, r2
-	movq	=0x11, r6
+	mov.u8	4098(r8), r2
+	mov	=0x11, r6
 	cbne	r2, r6, f260
-	mov	4099(r8).u8, r2
-	movq	=0x7a, r6
+	mov.u8	4099(r8), r2
+	mov	=0x7a, r6
 	cbne	r2, r6, f261
-	movq	#82, r3
-	mov	r3, 4091(r8).8
-	movq	#119, r3
-	mov	r3, 4092(r8).8
-	movq	#-100, r3
-	mov	r3, 4093(r8).8
-	movq	#-63, r3
-	mov	r3, 4094(r8).8
-	movq	#-26, r3
-	mov	r3, 4095(r8).8
-	movq	#11, r3
-	mov	r3, 4096(r8).8
-	movq	#48, r3
-	mov	r3, 4097(r8).8
-	movq	#85, r3
-	mov	r3, 4098(r8).8
+	mov	#82, r3
+	mov.s8	r3, 4091(r8)
+	mov	#119, r3
+	mov.s8	r3, 4092(r8)
+	mov	#-100, r3
+	mov.s8	r3, 4093(r8)
+	mov	#-63, r3
+	mov.s8	r3, 4094(r8)
+	mov	#-26, r3
+	mov.s8	r3, 4095(r8)
+	mov	#11, r3
+	mov.s8	r3, 4096(r8)
+	mov	#48, r3
+	mov.s8	r3, 4097(r8)
+	mov	#85, r3
+	mov.s8	r3, 4098(r8)
 	lea	buf, r8
-	movq	=0x1122334455667788, r1
-	movq	r1, 4092(r8)
-	mov	4091(r8).u8, r2
-	movq	=0x52, r6
+	mov	=0x1122334455667788, r1
+	mov	r1, 4092(r8)
+	mov.u8	4091(r8), r2
+	mov	=0x52, r6
 	cbne	r2, r6, f262
-	mov	4092(r8).u8, r2
-	movq	=0x88, r6
+	mov.u8	4092(r8), r2
+	mov	=0x88, r6
 	cbne	r2, r6, f263
-	mov	4093(r8).u8, r2
-	movq	=0x77, r6
+	mov.u8	4093(r8), r2
+	mov	=0x77, r6
 	cbne	r2, r6, f264
-	mov	4094(r8).u8, r2
-	movq	=0x66, r6
+	mov.u8	4094(r8), r2
+	mov	=0x66, r6
 	cbne	r2, r6, f265
-	mov	4095(r8).u8, r2
-	movq	=0x55, r6
+	mov.u8	4095(r8), r2
+	mov	=0x55, r6
 	cbne	r2, r6, f266
-	mov	4096(r8).u8, r2
-	movq	=0x44, r6
+	mov.u8	4096(r8), r2
+	mov	=0x44, r6
 	cbne	r2, r6, f267
-	mov	4097(r8).u8, r2
-	movq	=0x33, r6
+	mov.u8	4097(r8), r2
+	mov	=0x33, r6
 	cbne	r2, r6, f268
-	mov	4098(r8).u8, r2
-	movq	=0x22, r6
+	mov.u8	4098(r8), r2
+	mov	=0x22, r6
 	cbne	r2, r6, f269
-	mov	4099(r8).u8, r2
-	movq	=0x11, r6
+	mov.u8	4099(r8), r2
+	mov	=0x11, r6
 	cbne	r2, r6, f270
-	mov	4100(r8).u8, r2
-	movq	=0x9f, r6
+	mov.u8	4100(r8), r2
+	mov	=0x9f, r6
 	cbne	r2, r6, f271
-	movq	#119, r3
-	mov	r3, 4092(r8).8
-	movq	#-100, r3
-	mov	r3, 4093(r8).8
-	movq	#-63, r3
-	mov	r3, 4094(r8).8
-	movq	#-26, r3
-	mov	r3, 4095(r8).8
-	movq	#11, r3
-	mov	r3, 4096(r8).8
-	movq	#48, r3
-	mov	r3, 4097(r8).8
-	movq	#85, r3
-	mov	r3, 4098(r8).8
-	movq	#122, r3
-	mov	r3, 4099(r8).8
+	mov	#119, r3
+	mov.s8	r3, 4092(r8)
+	mov	#-100, r3
+	mov.s8	r3, 4093(r8)
+	mov	#-63, r3
+	mov.s8	r3, 4094(r8)
+	mov	#-26, r3
+	mov.s8	r3, 4095(r8)
+	mov	#11, r3
+	mov.s8	r3, 4096(r8)
+	mov	#48, r3
+	mov.s8	r3, 4097(r8)
+	mov	#85, r3
+	mov.s8	r3, 4098(r8)
+	mov	#122, r3
+	mov.s8	r3, 4099(r8)
 	lea	buf, r8
-	movq	=0x1122334455667788, r1
-	movq	r1, 4093(r8)
-	mov	4092(r8).u8, r2
-	movq	=0x77, r6
+	mov	=0x1122334455667788, r1
+	mov	r1, 4093(r8)
+	mov.u8	4092(r8), r2
+	mov	=0x77, r6
 	cbne	r2, r6, f272
-	mov	4093(r8).u8, r2
-	movq	=0x88, r6
+	mov.u8	4093(r8), r2
+	mov	=0x88, r6
 	cbne	r2, r6, f273
-	mov	4094(r8).u8, r2
-	movq	=0x77, r6
+	mov.u8	4094(r8), r2
+	mov	=0x77, r6
 	cbne	r2, r6, f274
-	mov	4095(r8).u8, r2
-	movq	=0x66, r6
+	mov.u8	4095(r8), r2
+	mov	=0x66, r6
 	cbne	r2, r6, f275
-	mov	4096(r8).u8, r2
-	movq	=0x55, r6
+	mov.u8	4096(r8), r2
+	mov	=0x55, r6
 	cbne	r2, r6, f276
-	mov	4097(r8).u8, r2
-	movq	=0x44, r6
+	mov.u8	4097(r8), r2
+	mov	=0x44, r6
 	cbne	r2, r6, f277
-	mov	4098(r8).u8, r2
-	movq	=0x33, r6
+	mov.u8	4098(r8), r2
+	mov	=0x33, r6
 	cbne	r2, r6, f278
-	mov	4099(r8).u8, r2
-	movq	=0x22, r6
+	mov.u8	4099(r8), r2
+	mov	=0x22, r6
 	cbne	r2, r6, f279
-	mov	4100(r8).u8, r2
-	movq	=0x11, r6
+	mov.u8	4100(r8), r2
+	mov	=0x11, r6
 	cbne	r2, r6, f280
-	mov	4101(r8).u8, r2
-	movq	=0xc4, r6
+	mov.u8	4101(r8), r2
+	mov	=0xc4, r6
 	cbne	r2, r6, f281
-	movq	#-100, r3
-	mov	r3, 4093(r8).8
-	movq	#-63, r3
-	mov	r3, 4094(r8).8
-	movq	#-26, r3
-	mov	r3, 4095(r8).8
-	movq	#11, r3
-	mov	r3, 4096(r8).8
-	movq	#48, r3
-	mov	r3, 4097(r8).8
-	movq	#85, r3
-	mov	r3, 4098(r8).8
-	movq	#122, r3
-	mov	r3, 4099(r8).8
-	movq	#-97, r3
-	mov	r3, 4100(r8).8
+	mov	#-100, r3
+	mov.s8	r3, 4093(r8)
+	mov	#-63, r3
+	mov.s8	r3, 4094(r8)
+	mov	#-26, r3
+	mov.s8	r3, 4095(r8)
+	mov	#11, r3
+	mov.s8	r3, 4096(r8)
+	mov	#48, r3
+	mov.s8	r3, 4097(r8)
+	mov	#85, r3
+	mov.s8	r3, 4098(r8)
+	mov	#122, r3
+	mov.s8	r3, 4099(r8)
+	mov	#-97, r3
+	mov.s8	r3, 4100(r8)
 	lea	buf, r8
-	movq	=0x1122334455667788, r1
-	movq	r1, 4094(r8)
-	mov	4093(r8).u8, r2
-	movq	=0x9c, r6
+	mov	=0x1122334455667788, r1
+	mov	r1, 4094(r8)
+	mov.u8	4093(r8), r2
+	mov	=0x9c, r6
 	cbne	r2, r6, f282
-	mov	4094(r8).u8, r2
-	movq	=0x88, r6
+	mov.u8	4094(r8), r2
+	mov	=0x88, r6
 	cbne	r2, r6, f283
-	mov	4095(r8).u8, r2
-	movq	=0x77, r6
+	mov.u8	4095(r8), r2
+	mov	=0x77, r6
 	cbne	r2, r6, f284
-	mov	4096(r8).u8, r2
-	movq	=0x66, r6
+	mov.u8	4096(r8), r2
+	mov	=0x66, r6
 	cbne	r2, r6, f285
-	mov	4097(r8).u8, r2
-	movq	=0x55, r6
+	mov.u8	4097(r8), r2
+	mov	=0x55, r6
 	cbne	r2, r6, f286
-	mov	4098(r8).u8, r2
-	movq	=0x44, r6
+	mov.u8	4098(r8), r2
+	mov	=0x44, r6
 	cbne	r2, r6, f287
-	mov	4099(r8).u8, r2
-	movq	=0x33, r6
+	mov.u8	4099(r8), r2
+	mov	=0x33, r6
 	cbne	r2, r6, f288
-	mov	4100(r8).u8, r2
-	movq	=0x22, r6
+	mov.u8	4100(r8), r2
+	mov	=0x22, r6
 	cbne	r2, r6, f289
-	mov	4101(r8).u8, r2
-	movq	=0x11, r6
+	mov.u8	4101(r8), r2
+	mov	=0x11, r6
 	cbne	r2, r6, f290
-	mov	4102(r8).u8, r2
-	movq	=0xe9, r6
+	mov.u8	4102(r8), r2
+	mov	=0xe9, r6
 	cbne	r2, r6, f291
-	movq	#-63, r3
-	mov	r3, 4094(r8).8
-	movq	#-26, r3
-	mov	r3, 4095(r8).8
-	movq	#11, r3
-	mov	r3, 4096(r8).8
-	movq	#48, r3
-	mov	r3, 4097(r8).8
-	movq	#85, r3
-	mov	r3, 4098(r8).8
-	movq	#122, r3
-	mov	r3, 4099(r8).8
-	movq	#-97, r3
-	mov	r3, 4100(r8).8
-	movq	#-60, r3
-	mov	r3, 4101(r8).8
+	mov	#-63, r3
+	mov.s8	r3, 4094(r8)
+	mov	#-26, r3
+	mov.s8	r3, 4095(r8)
+	mov	#11, r3
+	mov.s8	r3, 4096(r8)
+	mov	#48, r3
+	mov.s8	r3, 4097(r8)
+	mov	#85, r3
+	mov.s8	r3, 4098(r8)
+	mov	#122, r3
+	mov.s8	r3, 4099(r8)
+	mov	#-97, r3
+	mov.s8	r3, 4100(r8)
+	mov	#-60, r3
+	mov.s8	r3, 4101(r8)
 	lea	buf, r8
-	movq	=0x1122334455667788, r1
-	movq	r1, 4095(r8)
-	mov	4094(r8).u8, r2
-	movq	=0xc1, r6
+	mov	=0x1122334455667788, r1
+	mov	r1, 4095(r8)
+	mov.u8	4094(r8), r2
+	mov	=0xc1, r6
 	cbne	r2, r6, f292
-	mov	4095(r8).u8, r2
-	movq	=0x88, r6
+	mov.u8	4095(r8), r2
+	mov	=0x88, r6
 	cbne	r2, r6, f293
-	mov	4096(r8).u8, r2
-	movq	=0x77, r6
+	mov.u8	4096(r8), r2
+	mov	=0x77, r6
 	cbne	r2, r6, f294
-	mov	4097(r8).u8, r2
-	movq	=0x66, r6
+	mov.u8	4097(r8), r2
+	mov	=0x66, r6
 	cbne	r2, r6, f295
-	mov	4098(r8).u8, r2
-	movq	=0x55, r6
+	mov.u8	4098(r8), r2
+	mov	=0x55, r6
 	cbne	r2, r6, f296
-	mov	4099(r8).u8, r2
-	movq	=0x44, r6
+	mov.u8	4099(r8), r2
+	mov	=0x44, r6
 	cbne	r2, r6, f297
-	mov	4100(r8).u8, r2
-	movq	=0x33, r6
+	mov.u8	4100(r8), r2
+	mov	=0x33, r6
 	cbne	r2, r6, f298
-	mov	4101(r8).u8, r2
-	movq	=0x22, r6
+	mov.u8	4101(r8), r2
+	mov	=0x22, r6
 	cbne	r2, r6, f299
-	mov	4102(r8).u8, r2
-	movq	=0x11, r6
+	mov.u8	4102(r8), r2
+	mov	=0x11, r6
 	cbne	r2, r6, f300
-	mov	4103(r8).u8, r2
-	movq	=0xe, r6
+	mov.u8	4103(r8), r2
+	mov	=0xe, r6
 	cbne	r2, r6, f301
-	movq	#-26, r3
-	mov	r3, 4095(r8).8
-	movq	#11, r3
-	mov	r3, 4096(r8).8
-	movq	#48, r3
-	mov	r3, 4097(r8).8
-	movq	#85, r3
-	mov	r3, 4098(r8).8
-	movq	#122, r3
-	mov	r3, 4099(r8).8
-	movq	#-97, r3
-	mov	r3, 4100(r8).8
-	movq	#-60, r3
-	mov	r3, 4101(r8).8
-	movq	#-23, r3
-	mov	r3, 4102(r8).8
+	mov	#-26, r3
+	mov.s8	r3, 4095(r8)
+	mov	#11, r3
+	mov.s8	r3, 4096(r8)
+	mov	#48, r3
+	mov.s8	r3, 4097(r8)
+	mov	#85, r3
+	mov.s8	r3, 4098(r8)
+	mov	#122, r3
+	mov.s8	r3, 4099(r8)
+	mov	#-97, r3
+	mov.s8	r3, 4100(r8)
+	mov	#-60, r3
+	mov.s8	r3, 4101(r8)
+	mov	#-23, r3
+	mov.s8	r3, 4102(r8)
 	lea	buf, r8
-	movq	=0x1122334455667788, r1
-	movq	r1, 4095(r8)
-	mov	4094(r8).u8, r2
-	movq	=0xc1, r6
+	mov	=0x1122334455667788, r1
+	mov	r1, 4095(r8)
+	mov.u8	4094(r8), r2
+	mov	=0xc1, r6
 	cbne	r2, r6, f302
-	mov	4095(r8).u8, r2
-	movq	=0x88, r6
+	mov.u8	4095(r8), r2
+	mov	=0x88, r6
 	cbne	r2, r6, f303
-	mov	4096(r8).u8, r2
-	movq	=0x77, r6
+	mov.u8	4096(r8), r2
+	mov	=0x77, r6
 	cbne	r2, r6, f304
-	mov	4097(r8).u8, r2
-	movq	=0x66, r6
+	mov.u8	4097(r8), r2
+	mov	=0x66, r6
 	cbne	r2, r6, f305
-	mov	4098(r8).u8, r2
-	movq	=0x55, r6
+	mov.u8	4098(r8), r2
+	mov	=0x55, r6
 	cbne	r2, r6, f306
-	mov	4099(r8).u8, r2
-	movq	=0x44, r6
+	mov.u8	4099(r8), r2
+	mov	=0x44, r6
 	cbne	r2, r6, f307
-	mov	4100(r8).u8, r2
-	movq	=0x33, r6
+	mov.u8	4100(r8), r2
+	mov	=0x33, r6
 	cbne	r2, r6, f308
-	mov	4101(r8).u8, r2
-	movq	=0x22, r6
+	mov.u8	4101(r8), r2
+	mov	=0x22, r6
 	cbne	r2, r6, f309
-	mov	4102(r8).u8, r2
-	movq	=0x11, r6
+	mov.u8	4102(r8), r2
+	mov	=0x11, r6
 	cbne	r2, r6, f310
-	mov	4103(r8).u8, r2
-	movq	=0xe, r6
+	mov.u8	4103(r8), r2
+	mov	=0xe, r6
 	cbne	r2, r6, f311
-	movq	#-26, r3
-	mov	r3, 4095(r8).8
-	movq	#11, r3
-	mov	r3, 4096(r8).8
-	movq	#48, r3
-	mov	r3, 4097(r8).8
-	movq	#85, r3
-	mov	r3, 4098(r8).8
-	movq	#122, r3
-	mov	r3, 4099(r8).8
-	movq	#-97, r3
-	mov	r3, 4100(r8).8
-	movq	#-60, r3
-	mov	r3, 4101(r8).8
-	movq	#-23, r3
-	mov	r3, 4102(r8).8
+	mov	#-26, r3
+	mov.s8	r3, 4095(r8)
+	mov	#11, r3
+	mov.s8	r3, 4096(r8)
+	mov	#48, r3
+	mov.s8	r3, 4097(r8)
+	mov	#85, r3
+	mov.s8	r3, 4098(r8)
+	mov	#122, r3
+	mov.s8	r3, 4099(r8)
+	mov	#-97, r3
+	mov.s8	r3, 4100(r8)
+	mov	#-60, r3
+	mov.s8	r3, 4101(r8)
+	mov	#-23, r3
+	mov.s8	r3, 4102(r8)
 	lea	buf, r8
-	movq	=0x55667788, r1
-	mov	r1, 1(r8).32
-	mov	0(r8).u8, r2
-	movq	=0xb, r6
+	mov	=0x55667788, r1
+	mov.s32	r1, 1(r8)
+	mov.u8	0(r8), r2
+	mov	=0xb, r6
 	cbne	r2, r6, f312
-	mov	1(r8).u8, r2
-	movq	=0x88, r6
+	mov.u8	1(r8), r2
+	mov	=0x88, r6
 	cbne	r2, r6, f313
-	mov	2(r8).u8, r2
-	movq	=0x77, r6
+	mov.u8	2(r8), r2
+	mov	=0x77, r6
 	cbne	r2, r6, f314
-	mov	3(r8).u8, r2
-	movq	=0x66, r6
+	mov.u8	3(r8), r2
+	mov	=0x66, r6
 	cbne	r2, r6, f315
-	mov	4(r8).u8, r2
-	movq	=0x55, r6
+	mov.u8	4(r8), r2
+	mov	=0x55, r6
 	cbne	r2, r6, f316
-	mov	5(r8).u8, r2
-	movq	=0xc4, r6
+	mov.u8	5(r8), r2
+	mov	=0xc4, r6
 	cbne	r2, r6, f317
-	movq	#48, r3
-	mov	r3, 1(r8).8
-	movq	#85, r3
-	mov	r3, 2(r8).8
-	movq	#122, r3
-	mov	r3, 3(r8).8
-	movq	#-97, r3
-	mov	r3, 4(r8).8
+	mov	#48, r3
+	mov.s8	r3, 1(r8)
+	mov	#85, r3
+	mov.s8	r3, 2(r8)
+	mov	#122, r3
+	mov.s8	r3, 3(r8)
+	mov	#-97, r3
+	mov.s8	r3, 4(r8)
 	lea	buf, r8
-	movq	=0x55667788, r1
-	mov	r1, 2(r8).32
-	mov	1(r8).u8, r2
-	movq	=0x30, r6
+	mov	=0x55667788, r1
+	mov.s32	r1, 2(r8)
+	mov.u8	1(r8), r2
+	mov	=0x30, r6
 	cbne	r2, r6, f318
-	mov	2(r8).u8, r2
-	movq	=0x88, r6
+	mov.u8	2(r8), r2
+	mov	=0x88, r6
 	cbne	r2, r6, f319
-	mov	3(r8).u8, r2
-	movq	=0x77, r6
+	mov.u8	3(r8), r2
+	mov	=0x77, r6
 	cbne	r2, r6, f320
-	mov	4(r8).u8, r2
-	movq	=0x66, r6
+	mov.u8	4(r8), r2
+	mov	=0x66, r6
 	cbne	r2, r6, f321
-	mov	5(r8).u8, r2
-	movq	=0x55, r6
+	mov.u8	5(r8), r2
+	mov	=0x55, r6
 	cbne	r2, r6, f322
-	mov	6(r8).u8, r2
-	movq	=0xe9, r6
+	mov.u8	6(r8), r2
+	mov	=0xe9, r6
 	cbne	r2, r6, f323
-	movq	#85, r3
-	mov	r3, 2(r8).8
-	movq	#122, r3
-	mov	r3, 3(r8).8
-	movq	#-97, r3
-	mov	r3, 4(r8).8
-	movq	#-60, r3
-	mov	r3, 5(r8).8
+	mov	#85, r3
+	mov.s8	r3, 2(r8)
+	mov	#122, r3
+	mov.s8	r3, 3(r8)
+	mov	#-97, r3
+	mov.s8	r3, 4(r8)
+	mov	#-60, r3
+	mov.s8	r3, 5(r8)
 	lea	buf, r8
-	movq	=0x55667788, r1
-	mov	r1, 3(r8).32
-	mov	2(r8).u8, r2
-	movq	=0x55, r6
+	mov	=0x55667788, r1
+	mov.s32	r1, 3(r8)
+	mov.u8	2(r8), r2
+	mov	=0x55, r6
 	cbne	r2, r6, f324
-	mov	3(r8).u8, r2
-	movq	=0x88, r6
+	mov.u8	3(r8), r2
+	mov	=0x88, r6
 	cbne	r2, r6, f325
-	mov	4(r8).u8, r2
-	movq	=0x77, r6
+	mov.u8	4(r8), r2
+	mov	=0x77, r6
 	cbne	r2, r6, f326
-	mov	5(r8).u8, r2
-	movq	=0x66, r6
+	mov.u8	5(r8), r2
+	mov	=0x66, r6
 	cbne	r2, r6, f327
-	mov	6(r8).u8, r2
-	movq	=0x55, r6
+	mov.u8	6(r8), r2
+	mov	=0x55, r6
 	cbne	r2, r6, f328
-	mov	7(r8).u8, r2
-	movq	=0xe, r6
+	mov.u8	7(r8), r2
+	mov	=0xe, r6
 	cbne	r2, r6, f329
-	movq	#122, r3
-	mov	r3, 3(r8).8
-	movq	#-97, r3
-	mov	r3, 4(r8).8
-	movq	#-60, r3
-	mov	r3, 5(r8).8
-	movq	#-23, r3
-	mov	r3, 6(r8).8
+	mov	#122, r3
+	mov.s8	r3, 3(r8)
+	mov	#-97, r3
+	mov.s8	r3, 4(r8)
+	mov	#-60, r3
+	mov.s8	r3, 5(r8)
+	mov	#-23, r3
+	mov.s8	r3, 6(r8)
 	lea	buf, r8
-	movq	=0x55667788, r1
-	mov	r1, 4(r8).32
-	mov	3(r8).u8, r2
-	movq	=0x7a, r6
+	mov	=0x55667788, r1
+	mov.s32	r1, 4(r8)
+	mov.u8	3(r8), r2
+	mov	=0x7a, r6
 	cbne	r2, r6, f330
-	mov	4(r8).u8, r2
-	movq	=0x88, r6
+	mov.u8	4(r8), r2
+	mov	=0x88, r6
 	cbne	r2, r6, f331
-	mov	5(r8).u8, r2
-	movq	=0x77, r6
+	mov.u8	5(r8), r2
+	mov	=0x77, r6
 	cbne	r2, r6, f332
-	mov	6(r8).u8, r2
-	movq	=0x66, r6
+	mov.u8	6(r8), r2
+	mov	=0x66, r6
 	cbne	r2, r6, f333
-	mov	7(r8).u8, r2
-	movq	=0x55, r6
+	mov.u8	7(r8), r2
+	mov	=0x55, r6
 	cbne	r2, r6, f334
-	mov	8(r8).u8, r2
-	movq	=0x33, r6
+	mov.u8	8(r8), r2
+	mov	=0x33, r6
 	cbne	r2, r6, f335
-	movq	#-97, r3
-	mov	r3, 4(r8).8
-	movq	#-60, r3
-	mov	r3, 5(r8).8
-	movq	#-23, r3
-	mov	r3, 6(r8).8
-	movq	#14, r3
-	mov	r3, 7(r8).8
+	mov	#-97, r3
+	mov.s8	r3, 4(r8)
+	mov	#-60, r3
+	mov.s8	r3, 5(r8)
+	mov	#-23, r3
+	mov.s8	r3, 6(r8)
+	mov	#14, r3
+	mov.s8	r3, 7(r8)
 	lea	buf, r8
-	movq	=0x55667788, r1
-	mov	r1, 5(r8).32
-	mov	4(r8).u8, r2
-	movq	=0x9f, r6
+	mov	=0x55667788, r1
+	mov.s32	r1, 5(r8)
+	mov.u8	4(r8), r2
+	mov	=0x9f, r6
 	cbne	r2, r6, f336
-	mov	5(r8).u8, r2
-	movq	=0x88, r6
+	mov.u8	5(r8), r2
+	mov	=0x88, r6
 	cbne	r2, r6, f337
-	mov	6(r8).u8, r2
-	movq	=0x77, r6
+	mov.u8	6(r8), r2
+	mov	=0x77, r6
 	cbne	r2, r6, f338
-	mov	7(r8).u8, r2
-	movq	=0x66, r6
+	mov.u8	7(r8), r2
+	mov	=0x66, r6
 	cbne	r2, r6, f339
-	mov	8(r8).u8, r2
-	movq	=0x55, r6
+	mov.u8	8(r8), r2
+	mov	=0x55, r6
 	cbne	r2, r6, f340
-	mov	9(r8).u8, r2
-	movq	=0x58, r6
+	mov.u8	9(r8), r2
+	mov	=0x58, r6
 	cbne	r2, r6, f341
-	movq	#-60, r3
-	mov	r3, 5(r8).8
-	movq	#-23, r3
-	mov	r3, 6(r8).8
-	movq	#14, r3
-	mov	r3, 7(r8).8
-	movq	#51, r3
-	mov	r3, 8(r8).8
+	mov	#-60, r3
+	mov.s8	r3, 5(r8)
+	mov	#-23, r3
+	mov.s8	r3, 6(r8)
+	mov	#14, r3
+	mov.s8	r3, 7(r8)
+	mov	#51, r3
+	mov.s8	r3, 8(r8)
 	lea	buf, r8
-	movq	=0x55667788, r1
-	mov	r1, 6(r8).32
-	mov	5(r8).u8, r2
-	movq	=0xc4, r6
+	mov	=0x55667788, r1
+	mov.s32	r1, 6(r8)
+	mov.u8	5(r8), r2
+	mov	=0xc4, r6
 	cbne	r2, r6, f342
-	mov	6(r8).u8, r2
-	movq	=0x88, r6
+	mov.u8	6(r8), r2
+	mov	=0x88, r6
 	cbne	r2, r6, f343
-	mov	7(r8).u8, r2
-	movq	=0x77, r6
+	mov.u8	7(r8), r2
+	mov	=0x77, r6
 	cbne	r2, r6, f344
-	mov	8(r8).u8, r2
-	movq	=0x66, r6
+	mov.u8	8(r8), r2
+	mov	=0x66, r6
 	cbne	r2, r6, f345
-	mov	9(r8).u8, r2
-	movq	=0x55, r6
+	mov.u8	9(r8), r2
+	mov	=0x55, r6
 	cbne	r2, r6, f346
-	mov	10(r8).u8, r2
-	movq	=0x7d, r6
+	mov.u8	10(r8), r2
+	mov	=0x7d, r6
 	cbne	r2, r6, f347
-	movq	#-23, r3
-	mov	r3, 6(r8).8
-	movq	#14, r3
-	mov	r3, 7(r8).8
-	movq	#51, r3
-	mov	r3, 8(r8).8
-	movq	#88, r3
-	mov	r3, 9(r8).8
+	mov	#-23, r3
+	mov.s8	r3, 6(r8)
+	mov	#14, r3
+	mov.s8	r3, 7(r8)
+	mov	#51, r3
+	mov.s8	r3, 8(r8)
+	mov	#88, r3
+	mov.s8	r3, 9(r8)
 	lea	buf, r8
-	movq	=0x55667788, r1
-	mov	r1, 7(r8).32
-	mov	6(r8).u8, r2
-	movq	=0xe9, r6
+	mov	=0x55667788, r1
+	mov.s32	r1, 7(r8)
+	mov.u8	6(r8), r2
+	mov	=0xe9, r6
 	cbne	r2, r6, f348
-	mov	7(r8).u8, r2
-	movq	=0x88, r6
+	mov.u8	7(r8), r2
+	mov	=0x88, r6
 	cbne	r2, r6, f349
-	mov	8(r8).u8, r2
-	movq	=0x77, r6
+	mov.u8	8(r8), r2
+	mov	=0x77, r6
 	cbne	r2, r6, f350
-	mov	9(r8).u8, r2
-	movq	=0x66, r6
+	mov.u8	9(r8), r2
+	mov	=0x66, r6
 	cbne	r2, r6, f351
-	mov	10(r8).u8, r2
-	movq	=0x55, r6
+	mov.u8	10(r8), r2
+	mov	=0x55, r6
 	cbne	r2, r6, f352
-	mov	11(r8).u8, r2
-	movq	=0xa2, r6
+	mov.u8	11(r8), r2
+	mov	=0xa2, r6
 	cbne	r2, r6, f353
-	movq	#14, r3
-	mov	r3, 7(r8).8
-	movq	#51, r3
-	mov	r3, 8(r8).8
-	movq	#88, r3
-	mov	r3, 9(r8).8
-	movq	#125, r3
-	mov	r3, 10(r8).8
+	mov	#14, r3
+	mov.s8	r3, 7(r8)
+	mov	#51, r3
+	mov.s8	r3, 8(r8)
+	mov	#88, r3
+	mov.s8	r3, 9(r8)
+	mov	#125, r3
+	mov.s8	r3, 10(r8)
 	lea	buf, r8
-	movq	=0x55667788, r1
-	mov	r1, 4089(r8).32
-	mov	4088(r8).u8, r2
-	movq	=0xe3, r6
+	mov	=0x55667788, r1
+	mov.s32	r1, 4089(r8)
+	mov.u8	4088(r8), r2
+	mov	=0xe3, r6
 	cbne	r2, r6, f354
-	mov	4089(r8).u8, r2
-	movq	=0x88, r6
+	mov.u8	4089(r8), r2
+	mov	=0x88, r6
 	cbne	r2, r6, f355
-	mov	4090(r8).u8, r2
-	movq	=0x77, r6
+	mov.u8	4090(r8), r2
+	mov	=0x77, r6
 	cbne	r2, r6, f356
-	mov	4091(r8).u8, r2
-	movq	=0x66, r6
+	mov.u8	4091(r8), r2
+	mov	=0x66, r6
 	cbne	r2, r6, f357
-	mov	4092(r8).u8, r2
-	movq	=0x55, r6
+	mov.u8	4092(r8), r2
+	mov	=0x55, r6
 	cbne	r2, r6, f358
-	mov	4093(r8).u8, r2
-	movq	=0x9c, r6
+	mov.u8	4093(r8), r2
+	mov	=0x9c, r6
 	cbne	r2, r6, f359
-	movq	#8, r3
-	mov	r3, 4089(r8).8
-	movq	#45, r3
-	mov	r3, 4090(r8).8
-	movq	#82, r3
-	mov	r3, 4091(r8).8
-	movq	#119, r3
-	mov	r3, 4092(r8).8
+	mov	#8, r3
+	mov.s8	r3, 4089(r8)
+	mov	#45, r3
+	mov.s8	r3, 4090(r8)
+	mov	#82, r3
+	mov.s8	r3, 4091(r8)
+	mov	#119, r3
+	mov.s8	r3, 4092(r8)
 	lea	buf, r8
-	movq	=0x55667788, r1
-	mov	r1, 4090(r8).32
-	mov	4089(r8).u8, r2
-	movq	=0x8, r6
+	mov	=0x55667788, r1
+	mov.s32	r1, 4090(r8)
+	mov.u8	4089(r8), r2
+	mov	=0x8, r6
 	cbne	r2, r6, f360
-	mov	4090(r8).u8, r2
-	movq	=0x88, r6
+	mov.u8	4090(r8), r2
+	mov	=0x88, r6
 	cbne	r2, r6, f361
-	mov	4091(r8).u8, r2
-	movq	=0x77, r6
+	mov.u8	4091(r8), r2
+	mov	=0x77, r6
 	cbne	r2, r6, f362
-	mov	4092(r8).u8, r2
-	movq	=0x66, r6
+	mov.u8	4092(r8), r2
+	mov	=0x66, r6
 	cbne	r2, r6, f363
-	mov	4093(r8).u8, r2
-	movq	=0x55, r6
+	mov.u8	4093(r8), r2
+	mov	=0x55, r6
 	cbne	r2, r6, f364
-	mov	4094(r8).u8, r2
-	movq	=0xc1, r6
+	mov.u8	4094(r8), r2
+	mov	=0xc1, r6
 	cbne	r2, r6, f365
-	movq	#45, r3
-	mov	r3, 4090(r8).8
-	movq	#82, r3
-	mov	r3, 4091(r8).8
-	movq	#119, r3
-	mov	r3, 4092(r8).8
-	movq	#-100, r3
-	mov	r3, 4093(r8).8
+	mov	#45, r3
+	mov.s8	r3, 4090(r8)
+	mov	#82, r3
+	mov.s8	r3, 4091(r8)
+	mov	#119, r3
+	mov.s8	r3, 4092(r8)
+	mov	#-100, r3
+	mov.s8	r3, 4093(r8)
 	lea	buf, r8
-	movq	=0x55667788, r1
-	mov	r1, 4091(r8).32
-	mov	4090(r8).u8, r2
-	movq	=0x2d, r6
+	mov	=0x55667788, r1
+	mov.s32	r1, 4091(r8)
+	mov.u8	4090(r8), r2
+	mov	=0x2d, r6
 	cbne	r2, r6, f366
-	mov	4091(r8).u8, r2
-	movq	=0x88, r6
+	mov.u8	4091(r8), r2
+	mov	=0x88, r6
 	cbne	r2, r6, f367
-	mov	4092(r8).u8, r2
-	movq	=0x77, r6
+	mov.u8	4092(r8), r2
+	mov	=0x77, r6
 	cbne	r2, r6, f368
-	mov	4093(r8).u8, r2
-	movq	=0x66, r6
+	mov.u8	4093(r8), r2
+	mov	=0x66, r6
 	cbne	r2, r6, f369
-	mov	4094(r8).u8, r2
-	movq	=0x55, r6
+	mov.u8	4094(r8), r2
+	mov	=0x55, r6
 	cbne	r2, r6, f370
-	mov	4095(r8).u8, r2
-	movq	=0xe6, r6
+	mov.u8	4095(r8), r2
+	mov	=0xe6, r6
 	cbne	r2, r6, f371
-	movq	#82, r3
-	mov	r3, 4091(r8).8
-	movq	#119, r3
-	mov	r3, 4092(r8).8
-	movq	#-100, r3
-	mov	r3, 4093(r8).8
-	movq	#-63, r3
-	mov	r3, 4094(r8).8
+	mov	#82, r3
+	mov.s8	r3, 4091(r8)
+	mov	#119, r3
+	mov.s8	r3, 4092(r8)
+	mov	#-100, r3
+	mov.s8	r3, 4093(r8)
+	mov	#-63, r3
+	mov.s8	r3, 4094(r8)
 	lea	buf, r8
-	movq	=0x55667788, r1
-	mov	r1, 4092(r8).32
-	mov	4091(r8).u8, r2
-	movq	=0x52, r6
+	mov	=0x55667788, r1
+	mov.s32	r1, 4092(r8)
+	mov.u8	4091(r8), r2
+	mov	=0x52, r6
 	cbne	r2, r6, f372
-	mov	4092(r8).u8, r2
-	movq	=0x88, r6
+	mov.u8	4092(r8), r2
+	mov	=0x88, r6
 	cbne	r2, r6, f373
-	mov	4093(r8).u8, r2
-	movq	=0x77, r6
+	mov.u8	4093(r8), r2
+	mov	=0x77, r6
 	cbne	r2, r6, f374
-	mov	4094(r8).u8, r2
-	movq	=0x66, r6
+	mov.u8	4094(r8), r2
+	mov	=0x66, r6
 	cbne	r2, r6, f375
-	mov	4095(r8).u8, r2
-	movq	=0x55, r6
+	mov.u8	4095(r8), r2
+	mov	=0x55, r6
 	cbne	r2, r6, f376
-	mov	4096(r8).u8, r2
-	movq	=0xb, r6
+	mov.u8	4096(r8), r2
+	mov	=0xb, r6
 	cbne	r2, r6, f377
-	movq	#119, r3
-	mov	r3, 4092(r8).8
-	movq	#-100, r3
-	mov	r3, 4093(r8).8
-	movq	#-63, r3
-	mov	r3, 4094(r8).8
-	movq	#-26, r3
-	mov	r3, 4095(r8).8
+	mov	#119, r3
+	mov.s8	r3, 4092(r8)
+	mov	#-100, r3
+	mov.s8	r3, 4093(r8)
+	mov	#-63, r3
+	mov.s8	r3, 4094(r8)
+	mov	#-26, r3
+	mov.s8	r3, 4095(r8)
 	lea	buf, r8
-	movq	=0x55667788, r1
-	mov	r1, 4093(r8).32
-	mov	4092(r8).u8, r2
-	movq	=0x77, r6
+	mov	=0x55667788, r1
+	mov.s32	r1, 4093(r8)
+	mov.u8	4092(r8), r2
+	mov	=0x77, r6
 	cbne	r2, r6, f378
-	mov	4093(r8).u8, r2
-	movq	=0x88, r6
+	mov.u8	4093(r8), r2
+	mov	=0x88, r6
 	cbne	r2, r6, f379
-	mov	4094(r8).u8, r2
-	movq	=0x77, r6
+	mov.u8	4094(r8), r2
+	mov	=0x77, r6
 	cbne	r2, r6, f380
-	mov	4095(r8).u8, r2
-	movq	=0x66, r6
+	mov.u8	4095(r8), r2
+	mov	=0x66, r6
 	cbne	r2, r6, f381
-	mov	4096(r8).u8, r2
-	movq	=0x55, r6
+	mov.u8	4096(r8), r2
+	mov	=0x55, r6
 	cbne	r2, r6, f382
-	mov	4097(r8).u8, r2
-	movq	=0x30, r6
+	mov.u8	4097(r8), r2
+	mov	=0x30, r6
 	cbne	r2, r6, f383
-	movq	#-100, r3
-	mov	r3, 4093(r8).8
-	movq	#-63, r3
-	mov	r3, 4094(r8).8
-	movq	#-26, r3
-	mov	r3, 4095(r8).8
-	movq	#11, r3
-	mov	r3, 4096(r8).8
+	mov	#-100, r3
+	mov.s8	r3, 4093(r8)
+	mov	#-63, r3
+	mov.s8	r3, 4094(r8)
+	mov	#-26, r3
+	mov.s8	r3, 4095(r8)
+	mov	#11, r3
+	mov.s8	r3, 4096(r8)
 	lea	buf, r8
-	movq	=0x55667788, r1
-	mov	r1, 4094(r8).32
-	mov	4093(r8).u8, r2
-	movq	=0x9c, r6
+	mov	=0x55667788, r1
+	mov.s32	r1, 4094(r8)
+	mov.u8	4093(r8), r2
+	mov	=0x9c, r6
 	cbne	r2, r6, f384
-	mov	4094(r8).u8, r2
-	movq	=0x88, r6
+	mov.u8	4094(r8), r2
+	mov	=0x88, r6
 	cbne	r2, r6, f385
-	mov	4095(r8).u8, r2
-	movq	=0x77, r6
+	mov.u8	4095(r8), r2
+	mov	=0x77, r6
 	cbne	r2, r6, f386
-	mov	4096(r8).u8, r2
-	movq	=0x66, r6
+	mov.u8	4096(r8), r2
+	mov	=0x66, r6
 	cbne	r2, r6, f387
-	mov	4097(r8).u8, r2
-	movq	=0x55, r6
+	mov.u8	4097(r8), r2
+	mov	=0x55, r6
 	cbne	r2, r6, f388
-	mov	4098(r8).u8, r2
-	movq	=0x55, r6
+	mov.u8	4098(r8), r2
+	mov	=0x55, r6
 	cbne	r2, r6, f389
-	movq	#-63, r3
-	mov	r3, 4094(r8).8
-	movq	#-26, r3
-	mov	r3, 4095(r8).8
-	movq	#11, r3
-	mov	r3, 4096(r8).8
-	movq	#48, r3
-	mov	r3, 4097(r8).8
+	mov	#-63, r3
+	mov.s8	r3, 4094(r8)
+	mov	#-26, r3
+	mov.s8	r3, 4095(r8)
+	mov	#11, r3
+	mov.s8	r3, 4096(r8)
+	mov	#48, r3
+	mov.s8	r3, 4097(r8)
 	lea	buf, r8
-	movq	=0x55667788, r1
-	mov	r1, 4095(r8).32
-	mov	4094(r8).u8, r2
-	movq	=0xc1, r6
+	mov	=0x55667788, r1
+	mov.s32	r1, 4095(r8)
+	mov.u8	4094(r8), r2
+	mov	=0xc1, r6
 	cbne	r2, r6, f390
-	mov	4095(r8).u8, r2
-	movq	=0x88, r6
+	mov.u8	4095(r8), r2
+	mov	=0x88, r6
 	cbne	r2, r6, f391
-	mov	4096(r8).u8, r2
-	movq	=0x77, r6
+	mov.u8	4096(r8), r2
+	mov	=0x77, r6
 	cbne	r2, r6, f392
-	mov	4097(r8).u8, r2
-	movq	=0x66, r6
+	mov.u8	4097(r8), r2
+	mov	=0x66, r6
 	cbne	r2, r6, f393
-	mov	4098(r8).u8, r2
-	movq	=0x55, r6
+	mov.u8	4098(r8), r2
+	mov	=0x55, r6
 	cbne	r2, r6, f394
-	mov	4099(r8).u8, r2
-	movq	=0x7a, r6
+	mov.u8	4099(r8), r2
+	mov	=0x7a, r6
 	cbne	r2, r6, f395
-	movq	#-26, r3
-	mov	r3, 4095(r8).8
-	movq	#11, r3
-	mov	r3, 4096(r8).8
-	movq	#48, r3
-	mov	r3, 4097(r8).8
-	movq	#85, r3
-	mov	r3, 4098(r8).8
+	mov	#-26, r3
+	mov.s8	r3, 4095(r8)
+	mov	#11, r3
+	mov.s8	r3, 4096(r8)
+	mov	#48, r3
+	mov.s8	r3, 4097(r8)
+	mov	#85, r3
+	mov.s8	r3, 4098(r8)
 	lea	buf, r8
-	movq	=0x55667788, r1
-	mov	r1, 4095(r8).32
-	mov	4094(r8).u8, r2
-	movq	=0xc1, r6
+	mov	=0x55667788, r1
+	mov.s32	r1, 4095(r8)
+	mov.u8	4094(r8), r2
+	mov	=0xc1, r6
 	cbne	r2, r6, f396
-	mov	4095(r8).u8, r2
-	movq	=0x88, r6
+	mov.u8	4095(r8), r2
+	mov	=0x88, r6
 	cbne	r2, r6, f397
-	mov	4096(r8).u8, r2
-	movq	=0x77, r6
+	mov.u8	4096(r8), r2
+	mov	=0x77, r6
 	cbne	r2, r6, f398
-	mov	4097(r8).u8, r2
-	movq	=0x66, r6
+	mov.u8	4097(r8), r2
+	mov	=0x66, r6
 	cbne	r2, r6, f399
-	mov	4098(r8).u8, r2
-	movq	=0x55, r6
+	mov.u8	4098(r8), r2
+	mov	=0x55, r6
 	cbne	r2, r6, f400
-	mov	4099(r8).u8, r2
-	movq	=0x7a, r6
+	mov.u8	4099(r8), r2
+	mov	=0x7a, r6
 	cbne	r2, r6, f401
-	movq	#-26, r3
-	mov	r3, 4095(r8).8
-	movq	#11, r3
-	mov	r3, 4096(r8).8
-	movq	#48, r3
-	mov	r3, 4097(r8).8
-	movq	#85, r3
-	mov	r3, 4098(r8).8
+	mov	#-26, r3
+	mov.s8	r3, 4095(r8)
+	mov	#11, r3
+	mov.s8	r3, 4096(r8)
+	mov	#48, r3
+	mov.s8	r3, 4097(r8)
+	mov	#85, r3
+	mov.s8	r3, 4098(r8)
 	lea	buf, r8
-	movq	=0x7788, r1
-	mov	r1, 1(r8).16
-	mov	0(r8).u8, r2
-	movq	=0xb, r6
+	mov	=0x7788, r1
+	mov.s16	r1, 1(r8)
+	mov.u8	0(r8), r2
+	mov	=0xb, r6
 	cbne	r2, r6, f402
-	mov	1(r8).u8, r2
-	movq	=0x88, r6
+	mov.u8	1(r8), r2
+	mov	=0x88, r6
 	cbne	r2, r6, f403
-	mov	2(r8).u8, r2
-	movq	=0x77, r6
+	mov.u8	2(r8), r2
+	mov	=0x77, r6
 	cbne	r2, r6, f404
-	mov	3(r8).u8, r2
-	movq	=0x7a, r6
+	mov.u8	3(r8), r2
+	mov	=0x7a, r6
 	cbne	r2, r6, f405
-	movq	#48, r3
-	mov	r3, 1(r8).8
-	movq	#85, r3
-	mov	r3, 2(r8).8
+	mov	#48, r3
+	mov.s8	r3, 1(r8)
+	mov	#85, r3
+	mov.s8	r3, 2(r8)
 	lea	buf, r8
-	movq	=0x7788, r1
-	mov	r1, 2(r8).16
-	mov	1(r8).u8, r2
-	movq	=0x30, r6
+	mov	=0x7788, r1
+	mov.s16	r1, 2(r8)
+	mov.u8	1(r8), r2
+	mov	=0x30, r6
 	cbne	r2, r6, f406
-	mov	2(r8).u8, r2
-	movq	=0x88, r6
+	mov.u8	2(r8), r2
+	mov	=0x88, r6
 	cbne	r2, r6, f407
-	mov	3(r8).u8, r2
-	movq	=0x77, r6
+	mov.u8	3(r8), r2
+	mov	=0x77, r6
 	cbne	r2, r6, f408
-	mov	4(r8).u8, r2
-	movq	=0x9f, r6
+	mov.u8	4(r8), r2
+	mov	=0x9f, r6
 	cbne	r2, r6, f409
-	movq	#85, r3
-	mov	r3, 2(r8).8
-	movq	#122, r3
-	mov	r3, 3(r8).8
+	mov	#85, r3
+	mov.s8	r3, 2(r8)
+	mov	#122, r3
+	mov.s8	r3, 3(r8)
 	lea	buf, r8
-	movq	=0x7788, r1
-	mov	r1, 3(r8).16
-	mov	2(r8).u8, r2
-	movq	=0x55, r6
+	mov	=0x7788, r1
+	mov.s16	r1, 3(r8)
+	mov.u8	2(r8), r2
+	mov	=0x55, r6
 	cbne	r2, r6, f410
-	mov	3(r8).u8, r2
-	movq	=0x88, r6
+	mov.u8	3(r8), r2
+	mov	=0x88, r6
 	cbne	r2, r6, f411
-	mov	4(r8).u8, r2
-	movq	=0x77, r6
+	mov.u8	4(r8), r2
+	mov	=0x77, r6
 	cbne	r2, r6, f412
-	mov	5(r8).u8, r2
-	movq	=0xc4, r6
+	mov.u8	5(r8), r2
+	mov	=0xc4, r6
 	cbne	r2, r6, f413
-	movq	#122, r3
-	mov	r3, 3(r8).8
-	movq	#-97, r3
-	mov	r3, 4(r8).8
+	mov	#122, r3
+	mov.s8	r3, 3(r8)
+	mov	#-97, r3
+	mov.s8	r3, 4(r8)
 	lea	buf, r8
-	movq	=0x7788, r1
-	mov	r1, 4(r8).16
-	mov	3(r8).u8, r2
-	movq	=0x7a, r6
+	mov	=0x7788, r1
+	mov.s16	r1, 4(r8)
+	mov.u8	3(r8), r2
+	mov	=0x7a, r6
 	cbne	r2, r6, f414
-	mov	4(r8).u8, r2
-	movq	=0x88, r6
+	mov.u8	4(r8), r2
+	mov	=0x88, r6
 	cbne	r2, r6, f415
-	mov	5(r8).u8, r2
-	movq	=0x77, r6
+	mov.u8	5(r8), r2
+	mov	=0x77, r6
 	cbne	r2, r6, f416
-	mov	6(r8).u8, r2
-	movq	=0xe9, r6
+	mov.u8	6(r8), r2
+	mov	=0xe9, r6
 	cbne	r2, r6, f417
-	movq	#-97, r3
-	mov	r3, 4(r8).8
-	movq	#-60, r3
-	mov	r3, 5(r8).8
+	mov	#-97, r3
+	mov.s8	r3, 4(r8)
+	mov	#-60, r3
+	mov.s8	r3, 5(r8)
 	lea	buf, r8
-	movq	=0x7788, r1
-	mov	r1, 5(r8).16
-	mov	4(r8).u8, r2
-	movq	=0x9f, r6
+	mov	=0x7788, r1
+	mov.s16	r1, 5(r8)
+	mov.u8	4(r8), r2
+	mov	=0x9f, r6
 	cbne	r2, r6, f418
-	mov	5(r8).u8, r2
-	movq	=0x88, r6
+	mov.u8	5(r8), r2
+	mov	=0x88, r6
 	cbne	r2, r6, f419
-	mov	6(r8).u8, r2
-	movq	=0x77, r6
+	mov.u8	6(r8), r2
+	mov	=0x77, r6
 	cbne	r2, r6, f420
-	mov	7(r8).u8, r2
-	movq	=0xe, r6
+	mov.u8	7(r8), r2
+	mov	=0xe, r6
 	cbne	r2, r6, f421
-	movq	#-60, r3
-	mov	r3, 5(r8).8
-	movq	#-23, r3
-	mov	r3, 6(r8).8
+	mov	#-60, r3
+	mov.s8	r3, 5(r8)
+	mov	#-23, r3
+	mov.s8	r3, 6(r8)
 	lea	buf, r8
-	movq	=0x7788, r1
-	mov	r1, 6(r8).16
-	mov	5(r8).u8, r2
-	movq	=0xc4, r6
+	mov	=0x7788, r1
+	mov.s16	r1, 6(r8)
+	mov.u8	5(r8), r2
+	mov	=0xc4, r6
 	cbne	r2, r6, f422
-	mov	6(r8).u8, r2
-	movq	=0x88, r6
+	mov.u8	6(r8), r2
+	mov	=0x88, r6
 	cbne	r2, r6, f423
-	mov	7(r8).u8, r2
-	movq	=0x77, r6
+	mov.u8	7(r8), r2
+	mov	=0x77, r6
 	cbne	r2, r6, f424
-	mov	8(r8).u8, r2
-	movq	=0x33, r6
+	mov.u8	8(r8), r2
+	mov	=0x33, r6
 	cbne	r2, r6, f425
-	movq	#-23, r3
-	mov	r3, 6(r8).8
-	movq	#14, r3
-	mov	r3, 7(r8).8
+	mov	#-23, r3
+	mov.s8	r3, 6(r8)
+	mov	#14, r3
+	mov.s8	r3, 7(r8)
 	lea	buf, r8
-	movq	=0x7788, r1
-	mov	r1, 7(r8).16
-	mov	6(r8).u8, r2
-	movq	=0xe9, r6
+	mov	=0x7788, r1
+	mov.s16	r1, 7(r8)
+	mov.u8	6(r8), r2
+	mov	=0xe9, r6
 	cbne	r2, r6, f426
-	mov	7(r8).u8, r2
-	movq	=0x88, r6
+	mov.u8	7(r8), r2
+	mov	=0x88, r6
 	cbne	r2, r6, f427
-	mov	8(r8).u8, r2
-	movq	=0x77, r6
+	mov.u8	8(r8), r2
+	mov	=0x77, r6
 	cbne	r2, r6, f428
-	mov	9(r8).u8, r2
-	movq	=0x58, r6
+	mov.u8	9(r8), r2
+	mov	=0x58, r6
 	cbne	r2, r6, f429
-	movq	#14, r3
-	mov	r3, 7(r8).8
-	movq	#51, r3
-	mov	r3, 8(r8).8
+	mov	#14, r3
+	mov.s8	r3, 7(r8)
+	mov	#51, r3
+	mov.s8	r3, 8(r8)
 	lea	buf, r8
-	movq	=0x7788, r1
-	mov	r1, 4089(r8).16
-	mov	4088(r8).u8, r2
-	movq	=0xe3, r6
+	mov	=0x7788, r1
+	mov.s16	r1, 4089(r8)
+	mov.u8	4088(r8), r2
+	mov	=0xe3, r6
 	cbne	r2, r6, f430
-	mov	4089(r8).u8, r2
-	movq	=0x88, r6
+	mov.u8	4089(r8), r2
+	mov	=0x88, r6
 	cbne	r2, r6, f431
-	mov	4090(r8).u8, r2
-	movq	=0x77, r6
+	mov.u8	4090(r8), r2
+	mov	=0x77, r6
 	cbne	r2, r6, f432
-	mov	4091(r8).u8, r2
-	movq	=0x52, r6
+	mov.u8	4091(r8), r2
+	mov	=0x52, r6
 	cbne	r2, r6, f433
-	movq	#8, r3
-	mov	r3, 4089(r8).8
-	movq	#45, r3
-	mov	r3, 4090(r8).8
+	mov	#8, r3
+	mov.s8	r3, 4089(r8)
+	mov	#45, r3
+	mov.s8	r3, 4090(r8)
 	lea	buf, r8
-	movq	=0x7788, r1
-	mov	r1, 4090(r8).16
-	mov	4089(r8).u8, r2
-	movq	=0x8, r6
+	mov	=0x7788, r1
+	mov.s16	r1, 4090(r8)
+	mov.u8	4089(r8), r2
+	mov	=0x8, r6
 	cbne	r2, r6, f434
-	mov	4090(r8).u8, r2
-	movq	=0x88, r6
+	mov.u8	4090(r8), r2
+	mov	=0x88, r6
 	cbne	r2, r6, f435
-	mov	4091(r8).u8, r2
-	movq	=0x77, r6
+	mov.u8	4091(r8), r2
+	mov	=0x77, r6
 	cbne	r2, r6, f436
-	mov	4092(r8).u8, r2
-	movq	=0x77, r6
+	mov.u8	4092(r8), r2
+	mov	=0x77, r6
 	cbne	r2, r6, f437
-	movq	#45, r3
-	mov	r3, 4090(r8).8
-	movq	#82, r3
-	mov	r3, 4091(r8).8
+	mov	#45, r3
+	mov.s8	r3, 4090(r8)
+	mov	#82, r3
+	mov.s8	r3, 4091(r8)
 	lea	buf, r8
-	movq	=0x7788, r1
-	mov	r1, 4091(r8).16
-	mov	4090(r8).u8, r2
-	movq	=0x2d, r6
+	mov	=0x7788, r1
+	mov.s16	r1, 4091(r8)
+	mov.u8	4090(r8), r2
+	mov	=0x2d, r6
 	cbne	r2, r6, f438
-	mov	4091(r8).u8, r2
-	movq	=0x88, r6
+	mov.u8	4091(r8), r2
+	mov	=0x88, r6
 	cbne	r2, r6, f439
-	mov	4092(r8).u8, r2
-	movq	=0x77, r6
+	mov.u8	4092(r8), r2
+	mov	=0x77, r6
 	cbne	r2, r6, f440
-	mov	4093(r8).u8, r2
-	movq	=0x9c, r6
+	mov.u8	4093(r8), r2
+	mov	=0x9c, r6
 	cbne	r2, r6, f441
-	movq	#82, r3
-	mov	r3, 4091(r8).8
-	movq	#119, r3
-	mov	r3, 4092(r8).8
+	mov	#82, r3
+	mov.s8	r3, 4091(r8)
+	mov	#119, r3
+	mov.s8	r3, 4092(r8)
 	lea	buf, r8
-	movq	=0x7788, r1
-	mov	r1, 4092(r8).16
-	mov	4091(r8).u8, r2
-	movq	=0x52, r6
+	mov	=0x7788, r1
+	mov.s16	r1, 4092(r8)
+	mov.u8	4091(r8), r2
+	mov	=0x52, r6
 	cbne	r2, r6, f442
-	mov	4092(r8).u8, r2
-	movq	=0x88, r6
+	mov.u8	4092(r8), r2
+	mov	=0x88, r6
 	cbne	r2, r6, f443
-	mov	4093(r8).u8, r2
-	movq	=0x77, r6
+	mov.u8	4093(r8), r2
+	mov	=0x77, r6
 	cbne	r2, r6, f444
-	mov	4094(r8).u8, r2
-	movq	=0xc1, r6
+	mov.u8	4094(r8), r2
+	mov	=0xc1, r6
 	cbne	r2, r6, f445
-	movq	#119, r3
-	mov	r3, 4092(r8).8
-	movq	#-100, r3
-	mov	r3, 4093(r8).8
+	mov	#119, r3
+	mov.s8	r3, 4092(r8)
+	mov	#-100, r3
+	mov.s8	r3, 4093(r8)
 	lea	buf, r8
-	movq	=0x7788, r1
-	mov	r1, 4093(r8).16
-	mov	4092(r8).u8, r2
-	movq	=0x77, r6
+	mov	=0x7788, r1
+	mov.s16	r1, 4093(r8)
+	mov.u8	4092(r8), r2
+	mov	=0x77, r6
 	cbne	r2, r6, f446
-	mov	4093(r8).u8, r2
-	movq	=0x88, r6
+	mov.u8	4093(r8), r2
+	mov	=0x88, r6
 	cbne	r2, r6, f447
-	mov	4094(r8).u8, r2
-	movq	=0x77, r6
+	mov.u8	4094(r8), r2
+	mov	=0x77, r6
 	cbne	r2, r6, f448
-	mov	4095(r8).u8, r2
-	movq	=0xe6, r6
+	mov.u8	4095(r8), r2
+	mov	=0xe6, r6
 	cbne	r2, r6, f449
-	movq	#-100, r3
-	mov	r3, 4093(r8).8
-	movq	#-63, r3
-	mov	r3, 4094(r8).8
+	mov	#-100, r3
+	mov.s8	r3, 4093(r8)
+	mov	#-63, r3
+	mov.s8	r3, 4094(r8)
 	lea	buf, r8
-	movq	=0x7788, r1
-	mov	r1, 4094(r8).16
-	mov	4093(r8).u8, r2
-	movq	=0x9c, r6
+	mov	=0x7788, r1
+	mov.s16	r1, 4094(r8)
+	mov.u8	4093(r8), r2
+	mov	=0x9c, r6
 	cbne	r2, r6, f450
-	mov	4094(r8).u8, r2
-	movq	=0x88, r6
+	mov.u8	4094(r8), r2
+	mov	=0x88, r6
 	cbne	r2, r6, f451
-	mov	4095(r8).u8, r2
-	movq	=0x77, r6
+	mov.u8	4095(r8), r2
+	mov	=0x77, r6
 	cbne	r2, r6, f452
-	mov	4096(r8).u8, r2
-	movq	=0xb, r6
+	mov.u8	4096(r8), r2
+	mov	=0xb, r6
 	cbne	r2, r6, f453
-	movq	#-63, r3
-	mov	r3, 4094(r8).8
-	movq	#-26, r3
-	mov	r3, 4095(r8).8
+	mov	#-63, r3
+	mov.s8	r3, 4094(r8)
+	mov	#-26, r3
+	mov.s8	r3, 4095(r8)
 	lea	buf, r8
-	movq	=0x7788, r1
-	mov	r1, 4095(r8).16
-	mov	4094(r8).u8, r2
-	movq	=0xc1, r6
+	mov	=0x7788, r1
+	mov.s16	r1, 4095(r8)
+	mov.u8	4094(r8), r2
+	mov	=0xc1, r6
 	cbne	r2, r6, f454
-	mov	4095(r8).u8, r2
-	movq	=0x88, r6
+	mov.u8	4095(r8), r2
+	mov	=0x88, r6
 	cbne	r2, r6, f455
-	mov	4096(r8).u8, r2
-	movq	=0x77, r6
+	mov.u8	4096(r8), r2
+	mov	=0x77, r6
 	cbne	r2, r6, f456
-	mov	4097(r8).u8, r2
-	movq	=0x30, r6
+	mov.u8	4097(r8), r2
+	mov	=0x30, r6
 	cbne	r2, r6, f457
-	movq	#-26, r3
-	mov	r3, 4095(r8).8
-	movq	#11, r3
-	mov	r3, 4096(r8).8
+	mov	#-26, r3
+	mov.s8	r3, 4095(r8)
+	mov	#11, r3
+	mov.s8	r3, 4096(r8)
 	lea	buf, r8
-	movq	=0x7788, r1
-	mov	r1, 4095(r8).16
-	mov	4094(r8).u8, r2
-	movq	=0xc1, r6
+	mov	=0x7788, r1
+	mov.s16	r1, 4095(r8)
+	mov.u8	4094(r8), r2
+	mov	=0xc1, r6
 	cbne	r2, r6, f458
-	mov	4095(r8).u8, r2
-	movq	=0x88, r6
+	mov.u8	4095(r8), r2
+	mov	=0x88, r6
 	cbne	r2, r6, f459
-	mov	4096(r8).u8, r2
-	movq	=0x77, r6
+	mov.u8	4096(r8), r2
+	mov	=0x77, r6
 	cbne	r2, r6, f460
-	mov	4097(r8).u8, r2
-	movq	=0x30, r6
+	mov.u8	4097(r8), r2
+	mov	=0x30, r6
 	cbne	r2, r6, f461
-	movq	#-26, r3
-	mov	r3, 4095(r8).8
-	movq	#11, r3
-	mov	r3, 4096(r8).8
+	mov	#-26, r3
+	mov.s8	r3, 4095(r8)
+	mov	#11, r3
+	mov.s8	r3, 4096(r8)
 	lea	buf, r8
-	movq	=0x88, r1
-	mov	r1, 1(r8).8
-	mov	0(r8).u8, r2
-	movq	=0xb, r6
+	mov	=0x88, r1
+	mov.s8	r1, 1(r8)
+	mov.u8	0(r8), r2
+	mov	=0xb, r6
 	cbne	r2, r6, f462
-	mov	1(r8).u8, r2
-	movq	=0x88, r6
+	mov.u8	1(r8), r2
+	mov	=0x88, r6
 	cbne	r2, r6, f463
-	mov	2(r8).u8, r2
-	movq	=0x55, r6
+	mov.u8	2(r8), r2
+	mov	=0x55, r6
 	cbne	r2, r6, f464
-	movq	#48, r3
-	mov	r3, 1(r8).8
+	mov	#48, r3
+	mov.s8	r3, 1(r8)
 	lea	buf, r8
-	movq	=0x88, r1
-	mov	r1, 2(r8).8
-	mov	1(r8).u8, r2
-	movq	=0x30, r6
+	mov	=0x88, r1
+	mov.s8	r1, 2(r8)
+	mov.u8	1(r8), r2
+	mov	=0x30, r6
 	cbne	r2, r6, f465
-	mov	2(r8).u8, r2
-	movq	=0x88, r6
+	mov.u8	2(r8), r2
+	mov	=0x88, r6
 	cbne	r2, r6, f466
-	mov	3(r8).u8, r2
-	movq	=0x7a, r6
+	mov.u8	3(r8), r2
+	mov	=0x7a, r6
 	cbne	r2, r6, f467
-	movq	#85, r3
-	mov	r3, 2(r8).8
+	mov	#85, r3
+	mov.s8	r3, 2(r8)
 	lea	buf, r8
-	movq	=0x88, r1
-	mov	r1, 3(r8).8
-	mov	2(r8).u8, r2
-	movq	=0x55, r6
+	mov	=0x88, r1
+	mov.s8	r1, 3(r8)
+	mov.u8	2(r8), r2
+	mov	=0x55, r6
 	cbne	r2, r6, f468
-	mov	3(r8).u8, r2
-	movq	=0x88, r6
+	mov.u8	3(r8), r2
+	mov	=0x88, r6
 	cbne	r2, r6, f469
-	mov	4(r8).u8, r2
-	movq	=0x9f, r6
+	mov.u8	4(r8), r2
+	mov	=0x9f, r6
 	cbne	r2, r6, f470
-	movq	#122, r3
-	mov	r3, 3(r8).8
+	mov	#122, r3
+	mov.s8	r3, 3(r8)
 	lea	buf, r8
-	movq	=0x88, r1
-	mov	r1, 4(r8).8
-	mov	3(r8).u8, r2
-	movq	=0x7a, r6
+	mov	=0x88, r1
+	mov.s8	r1, 4(r8)
+	mov.u8	3(r8), r2
+	mov	=0x7a, r6
 	cbne	r2, r6, f471
-	mov	4(r8).u8, r2
-	movq	=0x88, r6
+	mov.u8	4(r8), r2
+	mov	=0x88, r6
 	cbne	r2, r6, f472
-	mov	5(r8).u8, r2
-	movq	=0xc4, r6
+	mov.u8	5(r8), r2
+	mov	=0xc4, r6
 	cbne	r2, r6, f473
-	movq	#-97, r3
-	mov	r3, 4(r8).8
+	mov	#-97, r3
+	mov.s8	r3, 4(r8)
 	lea	buf, r8
-	movq	=0x88, r1
-	mov	r1, 5(r8).8
-	mov	4(r8).u8, r2
-	movq	=0x9f, r6
+	mov	=0x88, r1
+	mov.s8	r1, 5(r8)
+	mov.u8	4(r8), r2
+	mov	=0x9f, r6
 	cbne	r2, r6, f474
-	mov	5(r8).u8, r2
-	movq	=0x88, r6
+	mov.u8	5(r8), r2
+	mov	=0x88, r6
 	cbne	r2, r6, f475
-	mov	6(r8).u8, r2
-	movq	=0xe9, r6
+	mov.u8	6(r8), r2
+	mov	=0xe9, r6
 	cbne	r2, r6, f476
-	movq	#-60, r3
-	mov	r3, 5(r8).8
+	mov	#-60, r3
+	mov.s8	r3, 5(r8)
 	lea	buf, r8
-	movq	=0x88, r1
-	mov	r1, 6(r8).8
-	mov	5(r8).u8, r2
-	movq	=0xc4, r6
+	mov	=0x88, r1
+	mov.s8	r1, 6(r8)
+	mov.u8	5(r8), r2
+	mov	=0xc4, r6
 	cbne	r2, r6, f477
-	mov	6(r8).u8, r2
-	movq	=0x88, r6
+	mov.u8	6(r8), r2
+	mov	=0x88, r6
 	cbne	r2, r6, f478
-	mov	7(r8).u8, r2
-	movq	=0xe, r6
+	mov.u8	7(r8), r2
+	mov	=0xe, r6
 	cbne	r2, r6, f479
-	movq	#-23, r3
-	mov	r3, 6(r8).8
+	mov	#-23, r3
+	mov.s8	r3, 6(r8)
 	lea	buf, r8
-	movq	=0x88, r1
-	mov	r1, 7(r8).8
-	mov	6(r8).u8, r2
-	movq	=0xe9, r6
+	mov	=0x88, r1
+	mov.s8	r1, 7(r8)
+	mov.u8	6(r8), r2
+	mov	=0xe9, r6
 	cbne	r2, r6, f480
-	mov	7(r8).u8, r2
-	movq	=0x88, r6
+	mov.u8	7(r8), r2
+	mov	=0x88, r6
 	cbne	r2, r6, f481
-	mov	8(r8).u8, r2
-	movq	=0x33, r6
+	mov.u8	8(r8), r2
+	mov	=0x33, r6
 	cbne	r2, r6, f482
-	movq	#14, r3
-	mov	r3, 7(r8).8
+	mov	#14, r3
+	mov.s8	r3, 7(r8)
 	lea	buf, r8
-	movq	=0x88, r1
-	mov	r1, 4089(r8).8
-	mov	4088(r8).u8, r2
-	movq	=0xe3, r6
+	mov	=0x88, r1
+	mov.s8	r1, 4089(r8)
+	mov.u8	4088(r8), r2
+	mov	=0xe3, r6
 	cbne	r2, r6, f483
-	mov	4089(r8).u8, r2
-	movq	=0x88, r6
+	mov.u8	4089(r8), r2
+	mov	=0x88, r6
 	cbne	r2, r6, f484
-	mov	4090(r8).u8, r2
-	movq	=0x2d, r6
+	mov.u8	4090(r8), r2
+	mov	=0x2d, r6
 	cbne	r2, r6, f485
-	movq	#8, r3
-	mov	r3, 4089(r8).8
+	mov	#8, r3
+	mov.s8	r3, 4089(r8)
 	lea	buf, r8
-	movq	=0x88, r1
-	mov	r1, 4090(r8).8
-	mov	4089(r8).u8, r2
-	movq	=0x8, r6
+	mov	=0x88, r1
+	mov.s8	r1, 4090(r8)
+	mov.u8	4089(r8), r2
+	mov	=0x8, r6
 	cbne	r2, r6, f486
-	mov	4090(r8).u8, r2
-	movq	=0x88, r6
+	mov.u8	4090(r8), r2
+	mov	=0x88, r6
 	cbne	r2, r6, f487
-	mov	4091(r8).u8, r2
-	movq	=0x52, r6
+	mov.u8	4091(r8), r2
+	mov	=0x52, r6
 	cbne	r2, r6, f488
-	movq	#45, r3
-	mov	r3, 4090(r8).8
+	mov	#45, r3
+	mov.s8	r3, 4090(r8)
 	lea	buf, r8
-	movq	=0x88, r1
-	mov	r1, 4091(r8).8
-	mov	4090(r8).u8, r2
-	movq	=0x2d, r6
+	mov	=0x88, r1
+	mov.s8	r1, 4091(r8)
+	mov.u8	4090(r8), r2
+	mov	=0x2d, r6
 	cbne	r2, r6, f489
-	mov	4091(r8).u8, r2
-	movq	=0x88, r6
+	mov.u8	4091(r8), r2
+	mov	=0x88, r6
 	cbne	r2, r6, f490
-	mov	4092(r8).u8, r2
-	movq	=0x77, r6
+	mov.u8	4092(r8), r2
+	mov	=0x77, r6
 	cbne	r2, r6, f491
-	movq	#82, r3
-	mov	r3, 4091(r8).8
+	mov	#82, r3
+	mov.s8	r3, 4091(r8)
 	lea	buf, r8
-	movq	=0x88, r1
-	mov	r1, 4092(r8).8
-	mov	4091(r8).u8, r2
-	movq	=0x52, r6
+	mov	=0x88, r1
+	mov.s8	r1, 4092(r8)
+	mov.u8	4091(r8), r2
+	mov	=0x52, r6
 	cbne	r2, r6, f492
-	mov	4092(r8).u8, r2
-	movq	=0x88, r6
+	mov.u8	4092(r8), r2
+	mov	=0x88, r6
 	cbne	r2, r6, f493
-	mov	4093(r8).u8, r2
-	movq	=0x9c, r6
+	mov.u8	4093(r8), r2
+	mov	=0x9c, r6
 	cbne	r2, r6, f494
-	movq	#119, r3
-	mov	r3, 4092(r8).8
+	mov	#119, r3
+	mov.s8	r3, 4092(r8)
 	lea	buf, r8
-	movq	=0x88, r1
-	mov	r1, 4093(r8).8
-	mov	4092(r8).u8, r2
-	movq	=0x77, r6
+	mov	=0x88, r1
+	mov.s8	r1, 4093(r8)
+	mov.u8	4092(r8), r2
+	mov	=0x77, r6
 	cbne	r2, r6, f495
-	mov	4093(r8).u8, r2
-	movq	=0x88, r6
+	mov.u8	4093(r8), r2
+	mov	=0x88, r6
 	cbne	r2, r6, f496
-	mov	4094(r8).u8, r2
-	movq	=0xc1, r6
+	mov.u8	4094(r8), r2
+	mov	=0xc1, r6
 	cbne	r2, r6, f497
-	movq	#-100, r3
-	mov	r3, 4093(r8).8
+	mov	#-100, r3
+	mov.s8	r3, 4093(r8)
 	lea	buf, r8
-	movq	=0x88, r1
-	mov	r1, 4094(r8).8
-	mov	4093(r8).u8, r2
-	movq	=0x9c, r6
+	mov	=0x88, r1
+	mov.s8	r1, 4094(r8)
+	mov.u8	4093(r8), r2
+	mov	=0x9c, r6
 	cbne	r2, r6, f498
-	mov	4094(r8).u8, r2
-	movq	=0x88, r6
+	mov.u8	4094(r8), r2
+	mov	=0x88, r6
 	cbne	r2, r6, f499
-	mov	4095(r8).u8, r2
-	movq	=0xe6, r6
+	mov.u8	4095(r8), r2
+	mov	=0xe6, r6
 	cbne	r2, r6, f500
-	movq	#-63, r3
-	mov	r3, 4094(r8).8
+	mov	#-63, r3
+	mov.s8	r3, 4094(r8)
 	lea	buf, r8
-	movq	=0x88, r1
-	mov	r1, 4095(r8).8
-	mov	4094(r8).u8, r2
-	movq	=0xc1, r6
+	mov	=0x88, r1
+	mov.s8	r1, 4095(r8)
+	mov.u8	4094(r8), r2
+	mov	=0xc1, r6
 	cbne	r2, r6, f501
-	mov	4095(r8).u8, r2
-	movq	=0x88, r6
+	mov.u8	4095(r8), r2
+	mov	=0x88, r6
 	cbne	r2, r6, f502
-	mov	4096(r8).u8, r2
-	movq	=0xb, r6
+	mov.u8	4096(r8), r2
+	mov	=0xb, r6
 	cbne	r2, r6, f503
-	movq	#-26, r3
-	mov	r3, 4095(r8).8
+	mov	#-26, r3
+	mov.s8	r3, 4095(r8)
 	lea	buf, r8
-	movq	=0x88, r1
-	mov	r1, 4095(r8).8
-	mov	4094(r8).u8, r2
-	movq	=0xc1, r6
+	mov	=0x88, r1
+	mov.s8	r1, 4095(r8)
+	mov.u8	4094(r8), r2
+	mov	=0xc1, r6
 	cbne	r2, r6, f504
-	mov	4095(r8).u8, r2
-	movq	=0x88, r6
+	mov.u8	4095(r8), r2
+	mov	=0x88, r6
 	cbne	r2, r6, f505
-	mov	4096(r8).u8, r2
-	movq	=0xb, r6
+	mov.u8	4096(r8), r2
+	mov	=0xb, r6
 	cbne	r2, r6, f506
-	movq	#-26, r3
-	mov	r3, 4095(r8).8
+	mov	#-26, r3
+	mov.s8	r3, 4095(r8)
 	lea	buf+4100, r8
-	movq	=0x0102030405060708, r1
-	movq	r1, -(r8)
+	mov	=0x0102030405060708, r1
+	mov	r1, -(r8)
 	lea	buf+4092, r5
 	cbne	r8, r5, f507
-	mov	0(r8).u8, r2
-	movq	=0x8, r6
+	mov.u8	0(r8), r2
+	mov	=0x8, r6
 	cbne	r2, r6, f508
-	mov	1(r8).u8, r2
-	movq	=0x7, r6
+	mov.u8	1(r8), r2
+	mov	=0x7, r6
 	cbne	r2, r6, f509
-	mov	2(r8).u8, r2
-	movq	=0x6, r6
+	mov.u8	2(r8), r2
+	mov	=0x6, r6
 	cbne	r2, r6, f510
-	mov	3(r8).u8, r2
-	movq	=0x5, r6
+	mov.u8	3(r8), r2
+	mov	=0x5, r6
 	cbne	r2, r6, f511
-	mov	4(r8).u8, r2
-	movq	=0x4, r6
+	mov.u8	4(r8), r2
+	mov	=0x4, r6
 	cbne	r2, r6, f512
-	mov	5(r8).u8, r2
-	movq	=0x3, r6
+	mov.u8	5(r8), r2
+	mov	=0x3, r6
 	cbne	r2, r6, f513
-	mov	6(r8).u8, r2
-	movq	=0x2, r6
+	mov.u8	6(r8), r2
+	mov	=0x2, r6
 	cbne	r2, r6, f514
-	mov	7(r8).u8, r2
-	movq	=0x1, r6
+	mov.u8	7(r8), r2
+	mov	=0x1, r6
 	cbne	r2, r6, f515
 	lea	buf+4093, r8
-	movq	=0x00000000ffffffff, r1
-	movq	r1, (r8)
-	movq	#1, r2
+	mov	=0x00000000ffffffff, r1
+	mov	r1, (r8)
+	mov	#1, r2
 	addm	r2, (r8)
-	movq	(r8), r3
-	movq	=0x100000000, r6
+	mov	(r8), r3
+	mov	=0x100000000, r6
 	cbne	r3, r6, f516
 	clr	r0
 	trap	#0
-f1:	movq	#1, r0
+f1:	mov	#1, r0
 	trap	#0
-f2:	movq	#2, r0
+f2:	mov	#2, r0
 	trap	#0
-f3:	movq	#3, r0
+f3:	mov	#3, r0
 	trap	#0
-f4:	movq	#4, r0
+f4:	mov	#4, r0
 	trap	#0
-f5:	movq	#5, r0
+f5:	mov	#5, r0
 	trap	#0
-f6:	movq	#6, r0
+f6:	mov	#6, r0
 	trap	#0
-f7:	movq	#7, r0
+f7:	mov	#7, r0
 	trap	#0
-f8:	movq	#8, r0
+f8:	mov	#8, r0
 	trap	#0
-f9:	movq	#9, r0
+f9:	mov	#9, r0
 	trap	#0
-f10:	movq	#10, r0
+f10:	mov	#10, r0
 	trap	#0
-f11:	movq	#11, r0
+f11:	mov	#11, r0
 	trap	#0
-f12:	movq	#12, r0
+f12:	mov	#12, r0
 	trap	#0
-f13:	movq	#13, r0
+f13:	mov	#13, r0
 	trap	#0
-f14:	movq	#14, r0
+f14:	mov	#14, r0
 	trap	#0
-f15:	movq	#15, r0
+f15:	mov	#15, r0
 	trap	#0
-f16:	movq	#16, r0
+f16:	mov	#16, r0
 	trap	#0
-f17:	movq	#17, r0
+f17:	mov	#17, r0
 	trap	#0
-f18:	movq	#18, r0
+f18:	mov	#18, r0
 	trap	#0
-f19:	movq	#19, r0
+f19:	mov	#19, r0
 	trap	#0
-f20:	movq	#20, r0
+f20:	mov	#20, r0
 	trap	#0
-f21:	movq	#21, r0
+f21:	mov	#21, r0
 	trap	#0
-f22:	movq	#22, r0
+f22:	mov	#22, r0
 	trap	#0
-f23:	movq	#23, r0
+f23:	mov	#23, r0
 	trap	#0
-f24:	movq	#24, r0
+f24:	mov	#24, r0
 	trap	#0
-f25:	movq	#25, r0
+f25:	mov	#25, r0
 	trap	#0
-f26:	movq	#26, r0
+f26:	mov	#26, r0
 	trap	#0
-f27:	movq	#27, r0
+f27:	mov	#27, r0
 	trap	#0
-f28:	movq	#28, r0
+f28:	mov	#28, r0
 	trap	#0
-f29:	movq	#29, r0
+f29:	mov	#29, r0
 	trap	#0
-f30:	movq	#30, r0
+f30:	mov	#30, r0
 	trap	#0
-f31:	movq	#31, r0
+f31:	mov	#31, r0
 	trap	#0
-f32:	movq	#32, r0
+f32:	mov	#32, r0
 	trap	#0
-f33:	movq	#33, r0
+f33:	mov	#33, r0
 	trap	#0
-f34:	movq	#34, r0
+f34:	mov	#34, r0
 	trap	#0
-f35:	movq	#35, r0
+f35:	mov	#35, r0
 	trap	#0
-f36:	movq	#36, r0
+f36:	mov	#36, r0
 	trap	#0
-f37:	movq	#37, r0
+f37:	mov	#37, r0
 	trap	#0
-f38:	movq	#38, r0
+f38:	mov	#38, r0
 	trap	#0
-f39:	movq	#39, r0
+f39:	mov	#39, r0
 	trap	#0
-f40:	movq	#40, r0
+f40:	mov	#40, r0
 	trap	#0
-f41:	movq	#41, r0
+f41:	mov	#41, r0
 	trap	#0
-f42:	movq	#42, r0
+f42:	mov	#42, r0
 	trap	#0
-f43:	movq	#43, r0
+f43:	mov	#43, r0
 	trap	#0
-f44:	movq	#44, r0
+f44:	mov	#44, r0
 	trap	#0
-f45:	movq	#45, r0
+f45:	mov	#45, r0
 	trap	#0
-f46:	movq	#46, r0
+f46:	mov	#46, r0
 	trap	#0
-f47:	movq	#47, r0
+f47:	mov	#47, r0
 	trap	#0
-f48:	movq	#48, r0
+f48:	mov	#48, r0
 	trap	#0
-f49:	movq	#49, r0
+f49:	mov	#49, r0
 	trap	#0
-f50:	movq	#50, r0
+f50:	mov	#50, r0
 	trap	#0
-f51:	movq	#51, r0
+f51:	mov	#51, r0
 	trap	#0
-f52:	movq	#52, r0
+f52:	mov	#52, r0
 	trap	#0
-f53:	movq	#53, r0
+f53:	mov	#53, r0
 	trap	#0
-f54:	movq	#54, r0
+f54:	mov	#54, r0
 	trap	#0
-f55:	movq	#55, r0
+f55:	mov	#55, r0
 	trap	#0
-f56:	movq	#56, r0
+f56:	mov	#56, r0
 	trap	#0
-f57:	movq	#57, r0
+f57:	mov	#57, r0
 	trap	#0
-f58:	movq	#58, r0
+f58:	mov	#58, r0
 	trap	#0
-f59:	movq	#59, r0
+f59:	mov	#59, r0
 	trap	#0
-f60:	movq	#60, r0
+f60:	mov	#60, r0
 	trap	#0
-f61:	movq	#61, r0
+f61:	mov	#61, r0
 	trap	#0
-f62:	movq	#62, r0
+f62:	mov	#62, r0
 	trap	#0
-f63:	movq	#63, r0
+f63:	mov	#63, r0
 	trap	#0
-f64:	movq	#64, r0
+f64:	mov	#64, r0
 	trap	#0
-f65:	movq	#65, r0
+f65:	mov	#65, r0
 	trap	#0
-f66:	movq	#66, r0
+f66:	mov	#66, r0
 	trap	#0
-f67:	movq	#67, r0
+f67:	mov	#67, r0
 	trap	#0
-f68:	movq	#68, r0
+f68:	mov	#68, r0
 	trap	#0
-f69:	movq	#69, r0
+f69:	mov	#69, r0
 	trap	#0
-f70:	movq	#70, r0
+f70:	mov	#70, r0
 	trap	#0
-f71:	movq	#71, r0
+f71:	mov	#71, r0
 	trap	#0
-f72:	movq	#72, r0
+f72:	mov	#72, r0
 	trap	#0
-f73:	movq	#73, r0
+f73:	mov	#73, r0
 	trap	#0
-f74:	movq	#74, r0
+f74:	mov	#74, r0
 	trap	#0
-f75:	movq	#75, r0
+f75:	mov	#75, r0
 	trap	#0
-f76:	movq	#76, r0
+f76:	mov	#76, r0
 	trap	#0
-f77:	movq	#77, r0
+f77:	mov	#77, r0
 	trap	#0
-f78:	movq	#78, r0
+f78:	mov	#78, r0
 	trap	#0
-f79:	movq	#79, r0
+f79:	mov	#79, r0
 	trap	#0
-f80:	movq	#80, r0
+f80:	mov	#80, r0
 	trap	#0
-f81:	movq	#81, r0
+f81:	mov	#81, r0
 	trap	#0
-f82:	movq	#82, r0
+f82:	mov	#82, r0
 	trap	#0
-f83:	movq	#83, r0
+f83:	mov	#83, r0
 	trap	#0
-f84:	movq	#84, r0
+f84:	mov	#84, r0
 	trap	#0
-f85:	movq	#85, r0
+f85:	mov	#85, r0
 	trap	#0
-f86:	movq	#86, r0
+f86:	mov	#86, r0
 	trap	#0
-f87:	movq	#87, r0
+f87:	mov	#87, r0
 	trap	#0
-f88:	movq	#88, r0
+f88:	mov	#88, r0
 	trap	#0
-f89:	movq	#89, r0
+f89:	mov	#89, r0
 	trap	#0
-f90:	movq	#90, r0
+f90:	mov	#90, r0
 	trap	#0
-f91:	movq	#91, r0
+f91:	mov	#91, r0
 	trap	#0
-f92:	movq	#92, r0
+f92:	mov	#92, r0
 	trap	#0
-f93:	movq	#93, r0
+f93:	mov	#93, r0
 	trap	#0
-f94:	movq	#94, r0
+f94:	mov	#94, r0
 	trap	#0
-f95:	movq	#95, r0
+f95:	mov	#95, r0
 	trap	#0
-f96:	movq	#96, r0
+f96:	mov	#96, r0
 	trap	#0
-f97:	movq	#97, r0
+f97:	mov	#97, r0
 	trap	#0
-f98:	movq	#98, r0
+f98:	mov	#98, r0
 	trap	#0
-f99:	movq	#99, r0
+f99:	mov	#99, r0
 	trap	#0
-f100:	movq	#100, r0
+f100:	mov	#100, r0
 	trap	#0
-f101:	movq	#101, r0
+f101:	mov	#101, r0
 	trap	#0
-f102:	movq	#102, r0
+f102:	mov	#102, r0
 	trap	#0
-f103:	movq	#103, r0
+f103:	mov	#103, r0
 	trap	#0
-f104:	movq	#104, r0
+f104:	mov	#104, r0
 	trap	#0
-f105:	movq	#105, r0
+f105:	mov	#105, r0
 	trap	#0
-f106:	movq	#106, r0
+f106:	mov	#106, r0
 	trap	#0
-f107:	movq	#107, r0
+f107:	mov	#107, r0
 	trap	#0
-f108:	movq	#108, r0
+f108:	mov	#108, r0
 	trap	#0
-f109:	movq	#109, r0
+f109:	mov	#109, r0
 	trap	#0
-f110:	movq	#110, r0
+f110:	mov	#110, r0
 	trap	#0
-f111:	movq	#111, r0
+f111:	mov	#111, r0
 	trap	#0
-f112:	movq	#112, r0
+f112:	mov	#112, r0
 	trap	#0
-f113:	movq	#113, r0
+f113:	mov	#113, r0
 	trap	#0
-f114:	movq	#114, r0
+f114:	mov	#114, r0
 	trap	#0
-f115:	movq	#115, r0
+f115:	mov	#115, r0
 	trap	#0
-f116:	movq	#116, r0
+f116:	mov	#116, r0
 	trap	#0
-f117:	movq	#117, r0
+f117:	mov	#117, r0
 	trap	#0
-f118:	movq	#118, r0
+f118:	mov	#118, r0
 	trap	#0
-f119:	movq	#119, r0
+f119:	mov	#119, r0
 	trap	#0
-f120:	movq	#120, r0
+f120:	mov	#120, r0
 	trap	#0
-f121:	movq	#121, r0
+f121:	mov	#121, r0
 	trap	#0
-f122:	movq	#122, r0
+f122:	mov	#122, r0
 	trap	#0
-f123:	movq	#123, r0
+f123:	mov	#123, r0
 	trap	#0
-f124:	movq	#124, r0
+f124:	mov	#124, r0
 	trap	#0
-f125:	movq	#125, r0
+f125:	mov	#125, r0
 	trap	#0
-f126:	movq	#126, r0
+f126:	mov	#126, r0
 	trap	#0
-f127:	movq	#127, r0
+f127:	mov	#127, r0
 	trap	#0
-f128:	movq	#128, r0
+f128:	mov	#128, r0
 	trap	#0
-f129:	movq	#129, r0
+f129:	mov	#129, r0
 	trap	#0
-f130:	movq	#130, r0
+f130:	mov	#130, r0
 	trap	#0
-f131:	movq	#131, r0
+f131:	mov	#131, r0
 	trap	#0
-f132:	movq	#132, r0
+f132:	mov	#132, r0
 	trap	#0
-f133:	movq	#133, r0
+f133:	mov	#133, r0
 	trap	#0
-f134:	movq	#134, r0
+f134:	mov	#134, r0
 	trap	#0
-f135:	movq	#135, r0
+f135:	mov	#135, r0
 	trap	#0
-f136:	movq	#136, r0
+f136:	mov	#136, r0
 	trap	#0
-f137:	movq	#137, r0
+f137:	mov	#137, r0
 	trap	#0
-f138:	movq	#138, r0
+f138:	mov	#138, r0
 	trap	#0
-f139:	movq	#139, r0
+f139:	mov	#139, r0
 	trap	#0
-f140:	movq	#140, r0
+f140:	mov	#140, r0
 	trap	#0
-f141:	movq	#141, r0
+f141:	mov	#141, r0
 	trap	#0
-f142:	movq	#142, r0
+f142:	mov	#142, r0
 	trap	#0
-f143:	movq	#143, r0
+f143:	mov	#143, r0
 	trap	#0
-f144:	movq	#144, r0
+f144:	mov	#144, r0
 	trap	#0
-f145:	movq	#145, r0
+f145:	mov	#145, r0
 	trap	#0
-f146:	movq	#146, r0
+f146:	mov	#146, r0
 	trap	#0
-f147:	movq	#147, r0
+f147:	mov	#147, r0
 	trap	#0
-f148:	movq	#148, r0
+f148:	mov	#148, r0
 	trap	#0
-f149:	movq	#149, r0
+f149:	mov	#149, r0
 	trap	#0
-f150:	movq	#150, r0
+f150:	mov	#150, r0
 	trap	#0
-f151:	movq	#151, r0
+f151:	mov	#151, r0
 	trap	#0
-f152:	movq	#152, r0
+f152:	mov	#152, r0
 	trap	#0
-f153:	movq	#153, r0
+f153:	mov	#153, r0
 	trap	#0
-f154:	movq	#154, r0
+f154:	mov	#154, r0
 	trap	#0
-f155:	movq	#155, r0
+f155:	mov	#155, r0
 	trap	#0
-f156:	movq	#156, r0
+f156:	mov	#156, r0
 	trap	#0
-f157:	movq	#157, r0
+f157:	mov	#157, r0
 	trap	#0
-f158:	movq	#158, r0
+f158:	mov	#158, r0
 	trap	#0
-f159:	movq	#159, r0
+f159:	mov	#159, r0
 	trap	#0
-f160:	movq	#160, r0
+f160:	mov	#160, r0
 	trap	#0
-f161:	movq	#161, r0
+f161:	mov	#161, r0
 	trap	#0
-f162:	movq	#162, r0
+f162:	mov	#162, r0
 	trap	#0
-f163:	movq	#163, r0
+f163:	mov	#163, r0
 	trap	#0
-f164:	movq	#164, r0
+f164:	mov	#164, r0
 	trap	#0
-f165:	movq	#165, r0
+f165:	mov	#165, r0
 	trap	#0
-f166:	movq	#166, r0
+f166:	mov	#166, r0
 	trap	#0
-f167:	movq	#167, r0
+f167:	mov	#167, r0
 	trap	#0
-f168:	movq	#168, r0
+f168:	mov	#168, r0
 	trap	#0
-f169:	movq	#169, r0
+f169:	mov	#169, r0
 	trap	#0
-f170:	movq	#170, r0
+f170:	mov	#170, r0
 	trap	#0
-f171:	movq	#171, r0
+f171:	mov	#171, r0
 	trap	#0
-f172:	movq	#172, r0
+f172:	mov	#172, r0
 	trap	#0
-f173:	movq	#173, r0
+f173:	mov	#173, r0
 	trap	#0
-f174:	movq	#174, r0
+f174:	mov	#174, r0
 	trap	#0
-f175:	movq	#175, r0
+f175:	mov	#175, r0
 	trap	#0
-f176:	movq	#176, r0
+f176:	mov	#176, r0
 	trap	#0
-f177:	movq	#177, r0
+f177:	mov	#177, r0
 	trap	#0
-f178:	movq	#178, r0
+f178:	mov	#178, r0
 	trap	#0
-f179:	movq	#179, r0
+f179:	mov	#179, r0
 	trap	#0
-f180:	movq	#180, r0
+f180:	mov	#180, r0
 	trap	#0
-f181:	movq	#181, r0
+f181:	mov	#181, r0
 	trap	#0
-f182:	movq	#182, r0
+f182:	mov	#182, r0
 	trap	#0
-f183:	movq	#183, r0
+f183:	mov	#183, r0
 	trap	#0
-f184:	movq	#184, r0
+f184:	mov	#184, r0
 	trap	#0
-f185:	movq	#185, r0
+f185:	mov	#185, r0
 	trap	#0
-f186:	movq	#186, r0
+f186:	mov	#186, r0
 	trap	#0
-f187:	movq	#187, r0
+f187:	mov	#187, r0
 	trap	#0
-f188:	movq	#188, r0
+f188:	mov	#188, r0
 	trap	#0
-f189:	movq	#189, r0
+f189:	mov	#189, r0
 	trap	#0
-f190:	movq	#190, r0
+f190:	mov	#190, r0
 	trap	#0
-f191:	movq	#191, r0
+f191:	mov	#191, r0
 	trap	#0
-f192:	movq	#192, r0
+f192:	mov	#192, r0
 	trap	#0
-f193:	movq	#193, r0
+f193:	mov	#193, r0
 	trap	#0
-f194:	movq	#194, r0
+f194:	mov	#194, r0
 	trap	#0
-f195:	movq	#195, r0
+f195:	mov	#195, r0
 	trap	#0
-f196:	movq	#196, r0
+f196:	mov	#196, r0
 	trap	#0
-f197:	movq	#197, r0
+f197:	mov	#197, r0
 	trap	#0
-f198:	movq	#198, r0
+f198:	mov	#198, r0
 	trap	#0
-f199:	movq	#199, r0
+f199:	mov	#199, r0
 	trap	#0
-f200:	movq	#200, r0
+f200:	mov	#200, r0
 	trap	#0
-f201:	movq	#201, r0
+f201:	mov	#201, r0
 	trap	#0
-f202:	movq	#202, r0
+f202:	mov	#202, r0
 	trap	#0
-f203:	movq	#203, r0
+f203:	mov	#203, r0
 	trap	#0
-f204:	movq	#204, r0
+f204:	mov	#204, r0
 	trap	#0
-f205:	movq	#205, r0
+f205:	mov	#205, r0
 	trap	#0
-f206:	movq	#206, r0
+f206:	mov	#206, r0
 	trap	#0
-f207:	movq	#207, r0
+f207:	mov	#207, r0
 	trap	#0
-f208:	movq	#208, r0
+f208:	mov	#208, r0
 	trap	#0
-f209:	movq	#209, r0
+f209:	mov	#209, r0
 	trap	#0
-f210:	movq	#210, r0
+f210:	mov	#210, r0
 	trap	#0
-f211:	movq	#211, r0
+f211:	mov	#211, r0
 	trap	#0
-f212:	movq	#212, r0
+f212:	mov	#212, r0
 	trap	#0
-f213:	movq	#213, r0
+f213:	mov	#213, r0
 	trap	#0
-f214:	movq	#214, r0
+f214:	mov	#214, r0
 	trap	#0
-f215:	movq	#215, r0
+f215:	mov	#215, r0
 	trap	#0
-f216:	movq	#216, r0
+f216:	mov	#216, r0
 	trap	#0
-f217:	movq	#217, r0
+f217:	mov	#217, r0
 	trap	#0
-f218:	movq	#218, r0
+f218:	mov	#218, r0
 	trap	#0
-f219:	movq	#219, r0
+f219:	mov	#219, r0
 	trap	#0
-f220:	movq	#220, r0
+f220:	mov	#220, r0
 	trap	#0
-f221:	movq	#221, r0
+f221:	mov	#221, r0
 	trap	#0
-f222:	movq	#222, r0
+f222:	mov	#222, r0
 	trap	#0
-f223:	movq	#223, r0
+f223:	mov	#223, r0
 	trap	#0
-f224:	movq	#224, r0
+f224:	mov	#224, r0
 	trap	#0
-f225:	movq	#225, r0
+f225:	mov	#225, r0
 	trap	#0
-f226:	movq	#226, r0
+f226:	mov	#226, r0
 	trap	#0
-f227:	movq	#227, r0
+f227:	mov	#227, r0
 	trap	#0
-f228:	movq	#228, r0
+f228:	mov	#228, r0
 	trap	#0
-f229:	movq	#229, r0
+f229:	mov	#229, r0
 	trap	#0
-f230:	movq	#230, r0
+f230:	mov	#230, r0
 	trap	#0
-f231:	movq	#231, r0
+f231:	mov	#231, r0
 	trap	#0
-f232:	movq	#232, r0
+f232:	mov	#232, r0
 	trap	#0
-f233:	movq	#233, r0
+f233:	mov	#233, r0
 	trap	#0
-f234:	movq	#234, r0
+f234:	mov	#234, r0
 	trap	#0
-f235:	movq	#235, r0
+f235:	mov	#235, r0
 	trap	#0
-f236:	movq	#236, r0
+f236:	mov	#236, r0
 	trap	#0
-f237:	movq	#237, r0
+f237:	mov	#237, r0
 	trap	#0
-f238:	movq	#238, r0
+f238:	mov	#238, r0
 	trap	#0
-f239:	movq	#239, r0
+f239:	mov	#239, r0
 	trap	#0
-f240:	movq	#240, r0
+f240:	mov	#240, r0
 	trap	#0
-f241:	movq	#241, r0
+f241:	mov	#241, r0
 	trap	#0
-f242:	movq	#242, r0
+f242:	mov	#242, r0
 	trap	#0
-f243:	movq	#243, r0
+f243:	mov	#243, r0
 	trap	#0
-f244:	movq	#244, r0
+f244:	mov	#244, r0
 	trap	#0
-f245:	movq	#245, r0
+f245:	mov	#245, r0
 	trap	#0
-f246:	movq	#246, r0
+f246:	mov	#246, r0
 	trap	#0
-f247:	movq	#247, r0
+f247:	mov	#247, r0
 	trap	#0
-f248:	movq	#248, r0
+f248:	mov	#248, r0
 	trap	#0
-f249:	movq	#249, r0
+f249:	mov	#249, r0
 	trap	#0
-f250:	movq	#250, r0
+f250:	mov	#250, r0
 	trap	#0
-f251:	movq	#251, r0
+f251:	mov	#251, r0
 	trap	#0
-f252:	movq	#252, r0
+f252:	mov	#252, r0
 	trap	#0
-f253:	movq	#253, r0
+f253:	mov	#253, r0
 	trap	#0
-f254:	movq	#254, r0
+f254:	mov	#254, r0
 	trap	#0
-f255:	movq	#255, r0
+f255:	mov	#255, r0
 	trap	#0
-f256:	movq	#1, r0
+f256:	mov	#1, r0
 	trap	#0
-f257:	movq	#2, r0
+f257:	mov	#2, r0
 	trap	#0
-f258:	movq	#3, r0
+f258:	mov	#3, r0
 	trap	#0
-f259:	movq	#4, r0
+f259:	mov	#4, r0
 	trap	#0
-f260:	movq	#5, r0
+f260:	mov	#5, r0
 	trap	#0
-f261:	movq	#6, r0
+f261:	mov	#6, r0
 	trap	#0
-f262:	movq	#7, r0
+f262:	mov	#7, r0
 	trap	#0
-f263:	movq	#8, r0
+f263:	mov	#8, r0
 	trap	#0
-f264:	movq	#9, r0
+f264:	mov	#9, r0
 	trap	#0
-f265:	movq	#10, r0
+f265:	mov	#10, r0
 	trap	#0
-f266:	movq	#11, r0
+f266:	mov	#11, r0
 	trap	#0
-f267:	movq	#12, r0
+f267:	mov	#12, r0
 	trap	#0
-f268:	movq	#13, r0
+f268:	mov	#13, r0
 	trap	#0
-f269:	movq	#14, r0
+f269:	mov	#14, r0
 	trap	#0
-f270:	movq	#15, r0
+f270:	mov	#15, r0
 	trap	#0
-f271:	movq	#16, r0
+f271:	mov	#16, r0
 	trap	#0
-f272:	movq	#17, r0
+f272:	mov	#17, r0
 	trap	#0
-f273:	movq	#18, r0
+f273:	mov	#18, r0
 	trap	#0
-f274:	movq	#19, r0
+f274:	mov	#19, r0
 	trap	#0
-f275:	movq	#20, r0
+f275:	mov	#20, r0
 	trap	#0
-f276:	movq	#21, r0
+f276:	mov	#21, r0
 	trap	#0
-f277:	movq	#22, r0
+f277:	mov	#22, r0
 	trap	#0
-f278:	movq	#23, r0
+f278:	mov	#23, r0
 	trap	#0
-f279:	movq	#24, r0
+f279:	mov	#24, r0
 	trap	#0
-f280:	movq	#25, r0
+f280:	mov	#25, r0
 	trap	#0
-f281:	movq	#26, r0
+f281:	mov	#26, r0
 	trap	#0
-f282:	movq	#27, r0
+f282:	mov	#27, r0
 	trap	#0
-f283:	movq	#28, r0
+f283:	mov	#28, r0
 	trap	#0
-f284:	movq	#29, r0
+f284:	mov	#29, r0
 	trap	#0
-f285:	movq	#30, r0
+f285:	mov	#30, r0
 	trap	#0
-f286:	movq	#31, r0
+f286:	mov	#31, r0
 	trap	#0
-f287:	movq	#32, r0
+f287:	mov	#32, r0
 	trap	#0
-f288:	movq	#33, r0
+f288:	mov	#33, r0
 	trap	#0
-f289:	movq	#34, r0
+f289:	mov	#34, r0
 	trap	#0
-f290:	movq	#35, r0
+f290:	mov	#35, r0
 	trap	#0
-f291:	movq	#36, r0
+f291:	mov	#36, r0
 	trap	#0
-f292:	movq	#37, r0
+f292:	mov	#37, r0
 	trap	#0
-f293:	movq	#38, r0
+f293:	mov	#38, r0
 	trap	#0
-f294:	movq	#39, r0
+f294:	mov	#39, r0
 	trap	#0
-f295:	movq	#40, r0
+f295:	mov	#40, r0
 	trap	#0
-f296:	movq	#41, r0
+f296:	mov	#41, r0
 	trap	#0
-f297:	movq	#42, r0
+f297:	mov	#42, r0
 	trap	#0
-f298:	movq	#43, r0
+f298:	mov	#43, r0
 	trap	#0
-f299:	movq	#44, r0
+f299:	mov	#44, r0
 	trap	#0
-f300:	movq	#45, r0
+f300:	mov	#45, r0
 	trap	#0
-f301:	movq	#46, r0
+f301:	mov	#46, r0
 	trap	#0
-f302:	movq	#47, r0
+f302:	mov	#47, r0
 	trap	#0
-f303:	movq	#48, r0
+f303:	mov	#48, r0
 	trap	#0
-f304:	movq	#49, r0
+f304:	mov	#49, r0
 	trap	#0
-f305:	movq	#50, r0
+f305:	mov	#50, r0
 	trap	#0
-f306:	movq	#51, r0
+f306:	mov	#51, r0
 	trap	#0
-f307:	movq	#52, r0
+f307:	mov	#52, r0
 	trap	#0
-f308:	movq	#53, r0
+f308:	mov	#53, r0
 	trap	#0
-f309:	movq	#54, r0
+f309:	mov	#54, r0
 	trap	#0
-f310:	movq	#55, r0
+f310:	mov	#55, r0
 	trap	#0
-f311:	movq	#56, r0
+f311:	mov	#56, r0
 	trap	#0
-f312:	movq	#57, r0
+f312:	mov	#57, r0
 	trap	#0
-f313:	movq	#58, r0
+f313:	mov	#58, r0
 	trap	#0
-f314:	movq	#59, r0
+f314:	mov	#59, r0
 	trap	#0
-f315:	movq	#60, r0
+f315:	mov	#60, r0
 	trap	#0
-f316:	movq	#61, r0
+f316:	mov	#61, r0
 	trap	#0
-f317:	movq	#62, r0
+f317:	mov	#62, r0
 	trap	#0
-f318:	movq	#63, r0
+f318:	mov	#63, r0
 	trap	#0
-f319:	movq	#64, r0
+f319:	mov	#64, r0
 	trap	#0
-f320:	movq	#65, r0
+f320:	mov	#65, r0
 	trap	#0
-f321:	movq	#66, r0
+f321:	mov	#66, r0
 	trap	#0
-f322:	movq	#67, r0
+f322:	mov	#67, r0
 	trap	#0
-f323:	movq	#68, r0
+f323:	mov	#68, r0
 	trap	#0
-f324:	movq	#69, r0
+f324:	mov	#69, r0
 	trap	#0
-f325:	movq	#70, r0
+f325:	mov	#70, r0
 	trap	#0
-f326:	movq	#71, r0
+f326:	mov	#71, r0
 	trap	#0
-f327:	movq	#72, r0
+f327:	mov	#72, r0
 	trap	#0
-f328:	movq	#73, r0
+f328:	mov	#73, r0
 	trap	#0
-f329:	movq	#74, r0
+f329:	mov	#74, r0
 	trap	#0
-f330:	movq	#75, r0
+f330:	mov	#75, r0
 	trap	#0
-f331:	movq	#76, r0
+f331:	mov	#76, r0
 	trap	#0
-f332:	movq	#77, r0
+f332:	mov	#77, r0
 	trap	#0
-f333:	movq	#78, r0
+f333:	mov	#78, r0
 	trap	#0
-f334:	movq	#79, r0
+f334:	mov	#79, r0
 	trap	#0
-f335:	movq	#80, r0
+f335:	mov	#80, r0
 	trap	#0
-f336:	movq	#81, r0
+f336:	mov	#81, r0
 	trap	#0
-f337:	movq	#82, r0
+f337:	mov	#82, r0
 	trap	#0
-f338:	movq	#83, r0
+f338:	mov	#83, r0
 	trap	#0
-f339:	movq	#84, r0
+f339:	mov	#84, r0
 	trap	#0
-f340:	movq	#85, r0
+f340:	mov	#85, r0
 	trap	#0
-f341:	movq	#86, r0
+f341:	mov	#86, r0
 	trap	#0
-f342:	movq	#87, r0
+f342:	mov	#87, r0
 	trap	#0
-f343:	movq	#88, r0
+f343:	mov	#88, r0
 	trap	#0
-f344:	movq	#89, r0
+f344:	mov	#89, r0
 	trap	#0
-f345:	movq	#90, r0
+f345:	mov	#90, r0
 	trap	#0
-f346:	movq	#91, r0
+f346:	mov	#91, r0
 	trap	#0
-f347:	movq	#92, r0
+f347:	mov	#92, r0
 	trap	#0
-f348:	movq	#93, r0
+f348:	mov	#93, r0
 	trap	#0
-f349:	movq	#94, r0
+f349:	mov	#94, r0
 	trap	#0
-f350:	movq	#95, r0
+f350:	mov	#95, r0
 	trap	#0
-f351:	movq	#96, r0
+f351:	mov	#96, r0
 	trap	#0
-f352:	movq	#97, r0
+f352:	mov	#97, r0
 	trap	#0
-f353:	movq	#98, r0
+f353:	mov	#98, r0
 	trap	#0
-f354:	movq	#99, r0
+f354:	mov	#99, r0
 	trap	#0
-f355:	movq	#100, r0
+f355:	mov	#100, r0
 	trap	#0
-f356:	movq	#101, r0
+f356:	mov	#101, r0
 	trap	#0
-f357:	movq	#102, r0
+f357:	mov	#102, r0
 	trap	#0
-f358:	movq	#103, r0
+f358:	mov	#103, r0
 	trap	#0
-f359:	movq	#104, r0
+f359:	mov	#104, r0
 	trap	#0
-f360:	movq	#105, r0
+f360:	mov	#105, r0
 	trap	#0
-f361:	movq	#106, r0
+f361:	mov	#106, r0
 	trap	#0
-f362:	movq	#107, r0
+f362:	mov	#107, r0
 	trap	#0
-f363:	movq	#108, r0
+f363:	mov	#108, r0
 	trap	#0
-f364:	movq	#109, r0
+f364:	mov	#109, r0
 	trap	#0
-f365:	movq	#110, r0
+f365:	mov	#110, r0
 	trap	#0
-f366:	movq	#111, r0
+f366:	mov	#111, r0
 	trap	#0
-f367:	movq	#112, r0
+f367:	mov	#112, r0
 	trap	#0
-f368:	movq	#113, r0
+f368:	mov	#113, r0
 	trap	#0
-f369:	movq	#114, r0
+f369:	mov	#114, r0
 	trap	#0
-f370:	movq	#115, r0
+f370:	mov	#115, r0
 	trap	#0
-f371:	movq	#116, r0
+f371:	mov	#116, r0
 	trap	#0
-f372:	movq	#117, r0
+f372:	mov	#117, r0
 	trap	#0
-f373:	movq	#118, r0
+f373:	mov	#118, r0
 	trap	#0
-f374:	movq	#119, r0
+f374:	mov	#119, r0
 	trap	#0
-f375:	movq	#120, r0
+f375:	mov	#120, r0
 	trap	#0
-f376:	movq	#121, r0
+f376:	mov	#121, r0
 	trap	#0
-f377:	movq	#122, r0
+f377:	mov	#122, r0
 	trap	#0
-f378:	movq	#123, r0
+f378:	mov	#123, r0
 	trap	#0
-f379:	movq	#124, r0
+f379:	mov	#124, r0
 	trap	#0
-f380:	movq	#125, r0
+f380:	mov	#125, r0
 	trap	#0
-f381:	movq	#126, r0
+f381:	mov	#126, r0
 	trap	#0
-f382:	movq	#127, r0
+f382:	mov	#127, r0
 	trap	#0
-f383:	movq	#128, r0
+f383:	mov	#128, r0
 	trap	#0
-f384:	movq	#129, r0
+f384:	mov	#129, r0
 	trap	#0
-f385:	movq	#130, r0
+f385:	mov	#130, r0
 	trap	#0
-f386:	movq	#131, r0
+f386:	mov	#131, r0
 	trap	#0
-f387:	movq	#132, r0
+f387:	mov	#132, r0
 	trap	#0
-f388:	movq	#133, r0
+f388:	mov	#133, r0
 	trap	#0
-f389:	movq	#134, r0
+f389:	mov	#134, r0
 	trap	#0
-f390:	movq	#135, r0
+f390:	mov	#135, r0
 	trap	#0
-f391:	movq	#136, r0
+f391:	mov	#136, r0
 	trap	#0
-f392:	movq	#137, r0
+f392:	mov	#137, r0
 	trap	#0
-f393:	movq	#138, r0
+f393:	mov	#138, r0
 	trap	#0
-f394:	movq	#139, r0
+f394:	mov	#139, r0
 	trap	#0
-f395:	movq	#140, r0
+f395:	mov	#140, r0
 	trap	#0
-f396:	movq	#141, r0
+f396:	mov	#141, r0
 	trap	#0
-f397:	movq	#142, r0
+f397:	mov	#142, r0
 	trap	#0
-f398:	movq	#143, r0
+f398:	mov	#143, r0
 	trap	#0
-f399:	movq	#144, r0
+f399:	mov	#144, r0
 	trap	#0
-f400:	movq	#145, r0
+f400:	mov	#145, r0
 	trap	#0
-f401:	movq	#146, r0
+f401:	mov	#146, r0
 	trap	#0
-f402:	movq	#147, r0
+f402:	mov	#147, r0
 	trap	#0
-f403:	movq	#148, r0
+f403:	mov	#148, r0
 	trap	#0
-f404:	movq	#149, r0
+f404:	mov	#149, r0
 	trap	#0
-f405:	movq	#150, r0
+f405:	mov	#150, r0
 	trap	#0
-f406:	movq	#151, r0
+f406:	mov	#151, r0
 	trap	#0
-f407:	movq	#152, r0
+f407:	mov	#152, r0
 	trap	#0
-f408:	movq	#153, r0
+f408:	mov	#153, r0
 	trap	#0
-f409:	movq	#154, r0
+f409:	mov	#154, r0
 	trap	#0
-f410:	movq	#155, r0
+f410:	mov	#155, r0
 	trap	#0
-f411:	movq	#156, r0
+f411:	mov	#156, r0
 	trap	#0
-f412:	movq	#157, r0
+f412:	mov	#157, r0
 	trap	#0
-f413:	movq	#158, r0
+f413:	mov	#158, r0
 	trap	#0
-f414:	movq	#159, r0
+f414:	mov	#159, r0
 	trap	#0
-f415:	movq	#160, r0
+f415:	mov	#160, r0
 	trap	#0
-f416:	movq	#161, r0
+f416:	mov	#161, r0
 	trap	#0
-f417:	movq	#162, r0
+f417:	mov	#162, r0
 	trap	#0
-f418:	movq	#163, r0
+f418:	mov	#163, r0
 	trap	#0
-f419:	movq	#164, r0
+f419:	mov	#164, r0
 	trap	#0
-f420:	movq	#165, r0
+f420:	mov	#165, r0
 	trap	#0
-f421:	movq	#166, r0
+f421:	mov	#166, r0
 	trap	#0
-f422:	movq	#167, r0
+f422:	mov	#167, r0
 	trap	#0
-f423:	movq	#168, r0
+f423:	mov	#168, r0
 	trap	#0
-f424:	movq	#169, r0
+f424:	mov	#169, r0
 	trap	#0
-f425:	movq	#170, r0
+f425:	mov	#170, r0
 	trap	#0
-f426:	movq	#171, r0
+f426:	mov	#171, r0
 	trap	#0
-f427:	movq	#172, r0
+f427:	mov	#172, r0
 	trap	#0
-f428:	movq	#173, r0
+f428:	mov	#173, r0
 	trap	#0
-f429:	movq	#174, r0
+f429:	mov	#174, r0
 	trap	#0
-f430:	movq	#175, r0
+f430:	mov	#175, r0
 	trap	#0
-f431:	movq	#176, r0
+f431:	mov	#176, r0
 	trap	#0
-f432:	movq	#177, r0
+f432:	mov	#177, r0
 	trap	#0
-f433:	movq	#178, r0
+f433:	mov	#178, r0
 	trap	#0
-f434:	movq	#179, r0
+f434:	mov	#179, r0
 	trap	#0
-f435:	movq	#180, r0
+f435:	mov	#180, r0
 	trap	#0
-f436:	movq	#181, r0
+f436:	mov	#181, r0
 	trap	#0
-f437:	movq	#182, r0
+f437:	mov	#182, r0
 	trap	#0
-f438:	movq	#183, r0
+f438:	mov	#183, r0
 	trap	#0
-f439:	movq	#184, r0
+f439:	mov	#184, r0
 	trap	#0
-f440:	movq	#185, r0
+f440:	mov	#185, r0
 	trap	#0
-f441:	movq	#186, r0
+f441:	mov	#186, r0
 	trap	#0
-f442:	movq	#187, r0
+f442:	mov	#187, r0
 	trap	#0
-f443:	movq	#188, r0
+f443:	mov	#188, r0
 	trap	#0
-f444:	movq	#189, r0
+f444:	mov	#189, r0
 	trap	#0
-f445:	movq	#190, r0
+f445:	mov	#190, r0
 	trap	#0
-f446:	movq	#191, r0
+f446:	mov	#191, r0
 	trap	#0
-f447:	movq	#192, r0
+f447:	mov	#192, r0
 	trap	#0
-f448:	movq	#193, r0
+f448:	mov	#193, r0
 	trap	#0
-f449:	movq	#194, r0
+f449:	mov	#194, r0
 	trap	#0
-f450:	movq	#195, r0
+f450:	mov	#195, r0
 	trap	#0
-f451:	movq	#196, r0
+f451:	mov	#196, r0
 	trap	#0
-f452:	movq	#197, r0
+f452:	mov	#197, r0
 	trap	#0
-f453:	movq	#198, r0
+f453:	mov	#198, r0
 	trap	#0
-f454:	movq	#199, r0
+f454:	mov	#199, r0
 	trap	#0
-f455:	movq	#200, r0
+f455:	mov	#200, r0
 	trap	#0
-f456:	movq	#201, r0
+f456:	mov	#201, r0
 	trap	#0
-f457:	movq	#202, r0
+f457:	mov	#202, r0
 	trap	#0
-f458:	movq	#203, r0
+f458:	mov	#203, r0
 	trap	#0
-f459:	movq	#204, r0
+f459:	mov	#204, r0
 	trap	#0
-f460:	movq	#205, r0
+f460:	mov	#205, r0
 	trap	#0
-f461:	movq	#206, r0
+f461:	mov	#206, r0
 	trap	#0
-f462:	movq	#207, r0
+f462:	mov	#207, r0
 	trap	#0
-f463:	movq	#208, r0
+f463:	mov	#208, r0
 	trap	#0
-f464:	movq	#209, r0
+f464:	mov	#209, r0
 	trap	#0
-f465:	movq	#210, r0
+f465:	mov	#210, r0
 	trap	#0
-f466:	movq	#211, r0
+f466:	mov	#211, r0
 	trap	#0
-f467:	movq	#212, r0
+f467:	mov	#212, r0
 	trap	#0
-f468:	movq	#213, r0
+f468:	mov	#213, r0
 	trap	#0
-f469:	movq	#214, r0
+f469:	mov	#214, r0
 	trap	#0
-f470:	movq	#215, r0
+f470:	mov	#215, r0
 	trap	#0
-f471:	movq	#216, r0
+f471:	mov	#216, r0
 	trap	#0
-f472:	movq	#217, r0
+f472:	mov	#217, r0
 	trap	#0
-f473:	movq	#218, r0
+f473:	mov	#218, r0
 	trap	#0
-f474:	movq	#219, r0
+f474:	mov	#219, r0
 	trap	#0
-f475:	movq	#220, r0
+f475:	mov	#220, r0
 	trap	#0
-f476:	movq	#221, r0
+f476:	mov	#221, r0
 	trap	#0
-f477:	movq	#222, r0
+f477:	mov	#222, r0
 	trap	#0
-f478:	movq	#223, r0
+f478:	mov	#223, r0
 	trap	#0
-f479:	movq	#224, r0
+f479:	mov	#224, r0
 	trap	#0
-f480:	movq	#225, r0
+f480:	mov	#225, r0
 	trap	#0
-f481:	movq	#226, r0
+f481:	mov	#226, r0
 	trap	#0
-f482:	movq	#227, r0
+f482:	mov	#227, r0
 	trap	#0
-f483:	movq	#228, r0
+f483:	mov	#228, r0
 	trap	#0
-f484:	movq	#229, r0
+f484:	mov	#229, r0
 	trap	#0
-f485:	movq	#230, r0
+f485:	mov	#230, r0
 	trap	#0
-f486:	movq	#231, r0
+f486:	mov	#231, r0
 	trap	#0
-f487:	movq	#232, r0
+f487:	mov	#232, r0
 	trap	#0
-f488:	movq	#233, r0
+f488:	mov	#233, r0
 	trap	#0
-f489:	movq	#234, r0
+f489:	mov	#234, r0
 	trap	#0
-f490:	movq	#235, r0
+f490:	mov	#235, r0
 	trap	#0
-f491:	movq	#236, r0
+f491:	mov	#236, r0
 	trap	#0
-f492:	movq	#237, r0
+f492:	mov	#237, r0
 	trap	#0
-f493:	movq	#238, r0
+f493:	mov	#238, r0
 	trap	#0
-f494:	movq	#239, r0
+f494:	mov	#239, r0
 	trap	#0
-f495:	movq	#240, r0
+f495:	mov	#240, r0
 	trap	#0
-f496:	movq	#241, r0
+f496:	mov	#241, r0
 	trap	#0
-f497:	movq	#242, r0
+f497:	mov	#242, r0
 	trap	#0
-f498:	movq	#243, r0
+f498:	mov	#243, r0
 	trap	#0
-f499:	movq	#244, r0
+f499:	mov	#244, r0
 	trap	#0
-f500:	movq	#245, r0
+f500:	mov	#245, r0
 	trap	#0
-f501:	movq	#246, r0
+f501:	mov	#246, r0
 	trap	#0
-f502:	movq	#247, r0
+f502:	mov	#247, r0
 	trap	#0
-f503:	movq	#248, r0
+f503:	mov	#248, r0
 	trap	#0
-f504:	movq	#249, r0
+f504:	mov	#249, r0
 	trap	#0
-f505:	movq	#250, r0
+f505:	mov	#250, r0
 	trap	#0
-f506:	movq	#251, r0
+f506:	mov	#251, r0
 	trap	#0
-f507:	movq	#252, r0
+f507:	mov	#252, r0
 	trap	#0
-f508:	movq	#253, r0
+f508:	mov	#253, r0
 	trap	#0
-f509:	movq	#254, r0
+f509:	mov	#254, r0
 	trap	#0
-f510:	movq	#255, r0
+f510:	mov	#255, r0
 	trap	#0
-f511:	movq	#1, r0
+f511:	mov	#1, r0
 	trap	#0
-f512:	movq	#2, r0
+f512:	mov	#2, r0
 	trap	#0
-f513:	movq	#3, r0
+f513:	mov	#3, r0
 	trap	#0
-f514:	movq	#4, r0
+f514:	mov	#4, r0
 	trap	#0
-f515:	movq	#5, r0
+f515:	mov	#5, r0
 	trap	#0
-f516:	movq	#6, r0
+f516:	mov	#6, r0
 	trap	#0
 	.data
 	.align	4096

@@ -1,6 +1,6 @@
 	.text
-	fneg r1.32, r1
-	fneg r1.32, r2
-	fabs r3.32, r3
-	fabs r3.32, r4
-	fneg r16.32, r17
+	fneg.f32 r1, r1
+	fneg.f32 r1, r2
+	fabs.f32 r3, r3
+	fabs.f32 r3, r4
+	fneg.f32 r16, r17

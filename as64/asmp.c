@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include <ctype.h>
+#include "pdp64-marks.h"
 #include "pdp64-asm-parser.c"
 #include "pdp64-consts.h"
 #include "asmir.h"
@@ -48,27 +50,79 @@ static int name_len(struct slice s)
 }
 
 /* a register is its enumerator in the tree: the numbers (r10 is 10, sp is 14) are the grammar's */
-/* The lexer layer in front of the generated parser: a width mark is a dot, glued to the operand before it, then `8 16 32 64`, with `u` or `s` before the number, and then no
-   name character.  Its dot becomes MARKCH, which no name contains: names, numbers and registers end before it and the grammar (`mark` in 60-asm-syntax.hbnf) takes it as the mark.  A dot inside quotes, inside a
-   comment, or after a blank (the `.` of a directive, a label, a name that starts with a dot) stays a dot, and so does a dot that is not followed by exactly a mark. */
-#define MARKCH '\001'
-static int idc_byte(int c) { return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_' || c == '.' || c == '$' || c >= 0x80; }
-static void mark_prescan(char *l)
+/* The message for a line that does not parse and starts with a mnemonic of the older notations (`movb`) or with a known word and a suffix that it does not have (`mov.s9`, `aadd.u32`,
+   `fadd.f8`).  The parser says only that it expected something at the operand; here the word is looked up in the rows of spec/grammars.d/61-asm-suffixes.hbnf (build/x/pdp64-marks.h) and the message says
+   what the word takes.  Returns 1 and the message in `err`, or 0 for a line that is none of these. */
+static int has_row(const char *base, size_t bn, const char *tail)
 {
-	int q = 0;
-	for (char *p = l; *p; p++) {
-		if (q) { if (*p == '\\' && p[1]) p++; else if (*p == q) q = 0; continue; }
-		if (*p == '"' || *p == '\'' || *p == '`') { q = *p; continue; }
-		if (*p == ';' || (*p == '/' && p[1] == '/')) break;
-		if (*p != '.' || p == l || p[-1] == ' ' || p[-1] == '\t') continue;
-		const char *k = p + 1;
-		if (*k == 'u' || *k == 's') k++;
-		if (!strncmp(k, "16", 2) || !strncmp(k, "32", 2) || !strncmp(k, "64", 2)) k += 2;
-		else if (*k == '8') k++;
-		else continue;
-		if (idc_byte((unsigned char)*k)) continue;
-		*p = MARKCH;
+	for (const struct surfrow *r = surface_rows; r->spell; r++)
+		if (!strncmp(r->spell, base, bn) && r->spell[bn] == '.' && (!tail || !strcmp(r->spell + bn + 1, tail))) return 1;
+	return 0;
+}
+static void list_tails(char *out, size_t sz, const char *base, size_t bn, int full)
+{
+	size_t n = 0;
+	out[0] = 0;
+	for (const struct surfrow *r = surface_rows; r->spell; r++)
+		if (!strncmp(r->spell, base, bn) && r->spell[bn] == '.' && n + strlen(r->spell) + 3 < sz) n += snprintf(out + n, sz - n, "%s%s%s", n ? " " : "", full ? r->spell : ".", full ? "" : r->spell + bn + 1);
+}
+static int suffix_diag(const char *line, char *err, size_t errsz)
+{
+	const char *p = line;
+	char tok[64];
+	size_t n;
+	for (;;) {									/* skip the labels */
+		while (*p == ' ' || *p == '\t') p++;
+		for (n = 0; (isalnum((unsigned char)p[n]) || p[n] == '_' || p[n] == '.' || p[n] == '$') && n < sizeof tok - 1; n++) tok[n] = p[n];
+		tok[n] = 0;
+		const char *q = p + n;
+		while (*q == ' ' || *q == '\t') q++;
+		if (n && *q == ':') { p = q + 1; continue; }
+		break;
 	}
+	if (!n) return 0;
+	for (const char *const *w = surface_withdrawn; *w; w++)
+		if (!strcmp(*w, tok)) { snprintf(err, errsz, "`%s`: unknown mnemonic", tok); return 1; }
+	char *dot = strchr(tok, '.');
+	if (!dot) {
+		if (!strcmp(tok, "fcvt")) { snprintf(err, errsz, "fcvt: a conversion names its two formats as suffixes, the source and then the destination (fcvt.s32.f32 Rs, Rd)"); return 1; }
+		return 0;
+	}
+	size_t bn = dot - tok;
+	const char *tail = dot + 1;
+	if (!has_row(tok, bn, NULL)) {
+		for (const char *const *w = surface_plain; *w; w++)
+			if (strlen(*w) == bn && !strncmp(*w, tok, bn)) {
+				snprintf(err, errsz, "%.*s takes no width or kind suffix: it has no sibling of another width (%s is not a word)", (int)bn, tok, tok);
+				return 1;
+			}
+		return 0;
+	}
+	for (const struct surfrow *r = surface_rows; r->spell; r++) if (!strcmp(r->spell, tok)) return 0;		/* an accepted word: the error is elsewhere */
+	char base[40], list[1200];
+	snprintf(base, sizeof base, "%.*s", (int)bn, tok);
+	list_tails(list, sizeof list, tok, bn, !strncmp(tok, "fcvt.", 5));
+	int isfloat = has_row(tok, bn, "f64");
+	int atomic = !strcmp(base, "cas") || !strcmp(base, "swap") || !strcmp(base, "aadd") || !strcmp(base, "aand") || !strcmp(base, "abis") || !strcmp(base, "axor") || !strcmp(base, "ll") || !strcmp(base, "sc") || !strcmp(base, "amax") || !strcmp(base, "amin");
+	if (!strcmp(base, "fcvt")) {
+		const char *hint = strstr(tail, "f8") ? "there is no 8-bit floating-point format"
+		    : (strstr(tail, "32") && strstr(tail, "f64")) || strstr(tail, "u32") ? "no instruction converts a 32-bit integer to or from a double, or an unsigned 32-bit integer: use fcvt.s64.f64 on a register that holds the sign-extended integer, or mov.u32 Rs, Rs first"
+		    : "";
+		snprintf(err, errsz, "%s: no such conversion%s%s; fcvt takes the source and then the destination format as suffixes, one of %s", tok, hint[0] ? ": " : "", hint, list);
+		return 1;
+	}
+	if (!strcmp(tail, "f8")) snprintf(err, errsz, "%s: .f8 is no such format: there is no 8-bit floating-point format (the formats are .f16, .f32 and .f64)", tok);
+	else if (isfloat && !strcmp(tail, "f16")) snprintf(err, errsz, "%s: no half-precision arithmetic: .f16 is a storage format, and only fcvt takes it (widen to .f32, operate, narrow)", tok);
+	else if (isfloat && !strcmp(tail, "f32")) snprintf(err, errsz, "%s: no single-precision form: %s takes .f64 (the default) only", tok, base);
+	else if (isfloat && (tail[0] == 's' || tail[0] == 'u')) snprintf(err, errsz, "%s: a floating-point word takes a floating-point format, .f32 or .f64, not the integer kind .%s", tok, tail);
+	else if (!isfloat && tail[0] == 'f') snprintf(err, errsz, "%s: %s works on integers: it takes the kinds .s and .u with a width (%s), not the floating-point format .%s", tok, base, list, tail);
+	else if (atomic && (!strcmp(tail, "u32") || !strcmp(tail, "s16") || !strcmp(tail, "u16") || !strcmp(tail, "s8") || !strcmp(tail, "u8")) && has_row(tok, bn, "s32")) {
+		if (!strcmp(tail, "u32")) snprintf(err, errsz, "%s: the old value of a 4-byte atomic comes back sign-extended in the register, so only .s32 is true (write %s.s32, and mov.u32 Rd, Rd after it if you want it zero-extended)", tok, base);
+		else snprintf(err, errsz, "%s: there is no 8-bit or 16-bit atomic: an atomic works on 4 bytes (.s32) or 8 (.s64, the default)", tok);
+	} else if (!strcmp(base, "ror") && !strcmp(tail, "u32")) snprintf(err, errsz, "%s: the 32-bit rotate leaves its result sign-extended in the register, so only ror.s32 is true (mov.u32 Rd, Rd after it zero-extends)", tok);
+	else if ((!strcmp(base, "div") || !strcmp(base, "mod") || !strcmp(base, "mulh")) && strstr(tail, "32")) snprintf(err, errsz, "%s: there is no 32-bit %s: convert with mov.s32 or mov.u32 first and use the 64-bit word", tok, base);
+	else snprintf(err, errsz, "%s: %s has no suffix .%s; it takes %s (a bare %s is 64 bits)", tok, base, tail, list, base);
+	return 1;
 }
 
 static const char *cur_text;				/* the line being read: a register is read from its characters */
@@ -233,22 +287,12 @@ static void put_darg(const char *text, struct stmt *st, const darg_t *a)
 /* The expression text of an operand, and its registers, from the text the grammar matched as that operand. */
 static void operand(const char *text, const operand_t *oo, struct oper *r)
 {
-	const opbody_t *o = &oo->opbody;
+	const opbody_t *o = oo;
 	struct slice t = sl(text, o->_pos, o->_end);
 	const char *p = t.p;
 	int n = t.n;
 	memset(r, 0, sizeof *r);
 	r->kind = o->_alt;
-	/* the width mark, glued to the end of the body: `.8 .16 .32 .64 .u8 .u16 .u32 .s8 .s16 .s32` (the grammar has accepted it; which instruction takes which is as64's table) */
-	{
-		struct slice m = sl(text, o->_end, oo->_end);
-		if (m.n > 1 && m.p[0] == MARKCH) {
-			const char *q = m.p + 1;
-			r->mark = 1;
-			if (*q == 'u' || *q == 's') r->msign = *q++;
-			r->mwidth = atoi(q);
-		}
-	}
 	switch (o->_alt) {
 	case OK_IMM:
 		r->x = expr_x(text, o->immop.expr);
@@ -509,9 +553,8 @@ int asm_parse(const char *src, struct stmt **out, int *n, char *err, size_t errs
 		if (le) { *le = '\0'; nl = le + 1; } else nl = text + len + 1;
 		lineno++;
 		cur_text = line;
-		mark_prescan(line);
 		if (!parse_text(line, &a, err, errsz, &el, &ec)) {
-			for (char *c = err; *c; c++) if (*c == MARKCH) *c = '.';
+			suffix_diag(line, err, errsz);
 			*errline = lineno;
 			return -1;
 		}

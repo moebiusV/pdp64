@@ -18,7 +18,7 @@ sec-device-split: the console's receive data register (offset 8) is cleared by a
 Registers: r3 the address, r1 the value, r4 the result; r13 where the handler resumes; r17 the scratch of the check macros.  Failed case n: exit n."""
 import sys as _sys, os as _os
 _sys.path.insert(0, _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..', '..', 'tools'))
-import marks		# the words of the encoding written with width marks (tools/marks.py)
+import marks		# the words of the encoding written with the width suffixes (tools/marks.py)
 import os, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(HERE, '..', 'sec'))

@@ -7,177 +7,177 @@ _start:
 	mtsr	vbr, r1
 	lea	l2, r1
 	mtsr	ptbr, r1
-	movq	#1, r1
+	mov	#1, r1
 	mtsr	mmuctl, r1
-	movq	=1073741824, r3
-	movq	8(r3), r5
+	mov	=1073741824, r3
+	mov	8(r3), r5
 	cbeq r5, #(4660), 1f
-	movq	#2, r0	; check 1
+	mov	#2, r0	; check 1
 	halt
 1:
 	lea	pgdata2, r2
-	movq	=((1<<PTE_V|1<<PTE_R|1<<PTE_W|1<<PTE_A|1<<PTE_D)), r1
+	mov	=((1<<PTE_V|1<<PTE_R|1<<PTE_W|1<<PTE_A|1<<PTE_D)), r1
 	add	r1, r2
 	lea	l0a, r1
-	movq	r2, 0(r1)
-	movq	=1073741824, r3
-	movq	8(r3), r5
+	mov	r2, 0(r1)
+	mov	=1073741824, r3
+	mov	8(r3), r5
 	cbeq r5, #(4660), 1f
-	movq	#3, r0	; check 2
+	mov	#3, r0	; check 2
 	halt
 1:
-	movq	=1073745920, r3
+	mov	=1073745920, r3
 	tlbi	r3
-	movq	=1073741824, r3
-	movq	8(r3), r5
+	mov	=1073741824, r3
+	mov	8(r3), r5
 	cbeq r5, #(4660), 1f
-	movq	#4, r0	; check 3
+	mov	#4, r0	; check 3
 	halt
 1:
-	movq	=1073741824, r3
+	mov	=1073741824, r3
 	tlbi	r3
-	movq	=1073741824, r3
-	movq	8(r3), r5
+	mov	=1073741824, r3
+	mov	8(r3), r5
 	cbeq r5, #(22136), 1f
-	movq	#5, r0	; check 4
+	mov	#5, r0	; check 4
 	halt
 1:
 	lea	l0a, r1
-	movq	#0, r2
-	movq	r2, 0(r1)
-	movq	=1073741824, r3
-	movq	8(r3), r5
+	mov	#0, r2
+	mov	r2, 0(r1)
+	mov	=1073741824, r3
+	mov	8(r3), r5
 	cbeq r5, #(22136), 1f
-	movq	#6, r0	; check 5
+	mov	#6, r0	; check 5
 	halt
 1:
-	movq	#0, r4
-	movq	#0, r10
-	movq	#0, r6
-	movq	#0, r7
-	movq	#0, r8
-	movq	#0, r9
-	movq	#0, r12
-	movq	=1073741824, r3
+	mov	#0, r4
+	mov	#0, r10
+	mov	#0, r6
+	mov	#0, r7
+	mov	#0, r8
+	mov	#0, r9
+	mov	#0, r12
+	mov	=1073741824, r3
 	tlbi	r3
-	movq	#0, r5
+	mov	#0, r5
 	lea	res_u, r4
 ins_u:
-	movq	8(r3), r5
+	mov	8(r3), r5
 res_u:
 	cbeq r10, #(1), 1f
-	movq	#7, r0	; check 6
+	mov	#7, r0	; check 6
 	halt
 1:
 	cbeq r8, #(VECTOR_LFAULT), 1f
-	movq	#8, r0	; check 7
+	mov	#8, r0	; check 7
 	halt
 1:
 	lea	pgdata, r2
-	movq	=((1<<PTE_V|1<<PTE_R|1<<PTE_W|1<<PTE_A|1<<PTE_D)), r1
+	mov	=((1<<PTE_V|1<<PTE_R|1<<PTE_W|1<<PTE_A|1<<PTE_D)), r1
 	add	r1, r2
 	lea	l0a, r1
-	movq	r2, 0(r1)
-	movq	=1073741824, r3
-	movq	8(r3), r5
+	mov	r2, 0(r1)
+	mov	=1073741824, r3
+	mov	8(r3), r5
 	cbeq r5, #(4660), 1f
-	movq	#9, r0	; check 8
+	mov	#9, r0	; check 8
 	halt
 1:
 	lea	pgdata2, r2
-	movq	=((1<<PTE_V|1<<PTE_R|1<<PTE_W|1<<PTE_A|1<<PTE_D)), r1
+	mov	=((1<<PTE_V|1<<PTE_R|1<<PTE_W|1<<PTE_A|1<<PTE_D)), r1
 	add	r1, r2
 	lea	l0a, r1
-	movq	r2, 0(r1)
+	mov	r2, 0(r1)
 	tlbia
-	movq	=1073741824, r3
-	movq	8(r3), r5
+	mov	=1073741824, r3
+	mov	8(r3), r5
 	cbeq r5, #(22136), 1f
-	movq	#10, r0	; check 9
+	mov	#10, r0	; check 9
 	halt
 1:
 	lea	pgdata, r2
-	movq	=((1<<PTE_V|1<<PTE_R|1<<PTE_W|1<<PTE_A|1<<PTE_D)), r1
+	mov	=((1<<PTE_V|1<<PTE_R|1<<PTE_W|1<<PTE_A|1<<PTE_D)), r1
 	add	r1, r2
 	lea	l0a, r1
-	movq	r2, 0(r1)
-	movq	=1073741824, r3
-	movq	8(r3), r5
+	mov	r2, 0(r1)
+	mov	=1073741824, r3
+	mov	8(r3), r5
 	cbeq r5, #(22136), 1f
-	movq	#11, r0	; check 10
+	mov	#11, r0	; check 10
 	halt
 1:
 	lea	l2b, r1
 	mtsr	ptbr, r1
-	movq	=1073741824, r3
-	movq	8(r3), r5
+	mov	=1073741824, r3
+	mov	8(r3), r5
 	cbeq r5, #(22136), 1f
-	movq	#12, r0	; check 11
+	mov	#12, r0	; check 11
 	halt
 1:
 	lea	l2, r1
 	mtsr	ptbr, r1
-	movq	=1073741824, r3
-	movq	8(r3), r5
+	mov	=1073741824, r3
+	mov	8(r3), r5
 	cbeq r5, #(4660), 1f
-	movq	#13, r0	; check 12
+	mov	#13, r0	; check 12
 	halt
 1:
 	lea	pgdata2, r2
-	movq	=((1<<PTE_V|1<<PTE_R|1<<PTE_W|1<<PTE_A|1<<PTE_D)), r1
+	mov	=((1<<PTE_V|1<<PTE_R|1<<PTE_W|1<<PTE_A|1<<PTE_D)), r1
 	add	r1, r2
 	lea	l0a, r1
-	movq	r2, 0(r1)
-	movq	=1073741824, r3
-	movq	8(r3), r5
+	mov	r2, 0(r1)
+	mov	=1073741824, r3
+	mov	8(r3), r5
 	cbeq r5, #(4660), 1f
-	movq	#14, r0	; check 13
+	mov	#14, r0	; check 13
 	halt
 1:
-	movq	#7, r1
+	mov	#7, r1
 	mtsr	asid, r1
-	movq	=1073741824, r3
-	movq	8(r3), r5
+	mov	=1073741824, r3
+	mov	8(r3), r5
 	cbeq r5, #(22136), 1f
-	movq	#15, r0	; check 14
+	mov	#15, r0	; check 14
 	halt
 1:
-	movq	#0, r4
-	movq	#0, r10
-	movq	#0, r6
-	movq	#0, r7
-	movq	#0, r8
-	movq	#0, r9
-	movq	#0, r12
-	movq	#0, r1
+	mov	#0, r4
+	mov	#0, r10
+	mov	#0, r6
+	mov	#0, r7
+	mov	#0, r8
+	mov	#0, r9
+	mov	#0, r12
+	mov	#0, r1
 	mtsr	mmuctl, r1
 	lea	res_o, r4
-	movq	=1073741824, r3
+	mov	=1073741824, r3
 ins_o:
-	movq	8(r3), r5
+	mov	8(r3), r5
 res_o:
-	movq	#1, r1
+	mov	#1, r1
 	mtsr	mmuctl, r1
 	cbeq r10, #(1), 1f
-	movq	#16, r0	; check 15
+	mov	#16, r0	; check 15
 	halt
 1:
 	cbeq r8, #(VECTOR_BUSFAULT), 1f
-	movq	#17, r0	; check 16
+	mov	#17, r0	; check 16
 	halt
 1:
-	movq	=1073741832, r2
+	mov	=1073741832, r2
 	cbeq r9, r2, 1f
-	movq	#18, r0	; check 17
+	mov	#18, r0	; check 17
 	halt
 1:
-	movq	=1073741824, r3
-	movq	8(r3), r5
+	mov	=1073741824, r3
+	mov	8(r3), r5
 	cbeq r5, #(22136), 1f
-	movq	#19, r0	; check 18
+	mov	#19, r0	; check 18
 	halt
 1:
-	movq	#0, r0
+	mov	#0, r0
 	halt
 h_gen:	mfps	r12
 	mfsr	r6, epc
@@ -188,7 +188,7 @@ h_gen:	mfps	r12
 	cbeq	r4, #0, 1f
 	mtsr	epc, r4
 1:	rti	#RTIMASK_ALL
-h_ok:	movq	#0, r0
+h_ok:	mov	#0, r0
 h_fail:	halt
 	.data
 	.align	4096

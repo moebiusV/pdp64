@@ -1,12 +1,12 @@
 ; the same, in as64's own spellings
 	.text
 	.globl _start, f, ext		; (extern ext: an external symbol, listed in the object)
-_start:	movq	#255, r1
-	movq	#5, r2
-	movq	#15, r3
-	movq	#31, r4
-	movq	#10, r5
-	movq	#10, r6
+_start:	mov	#255, r1
+	mov	#5, r2
+	mov	#15, r3
+	mov	#31, r4
+	mov	#10, r5
+	mov	#10, r6
 f:	ret
 	.align 8
 	.data

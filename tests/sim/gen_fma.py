@@ -11,7 +11,7 @@ for an inexact or overflowing finite result.  Cases that would underflow are lef
 usage: gen_fma.py OUTDIR"""
 import sys as _sys, os as _os
 _sys.path.insert(0, _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..', '..', 'tools'))
-import marks		# the words of the encoding written with width marks (tools/marks.py)
+import marks		# the words of the encoding written with the width suffixes (tools/marks.py)
 import os, sys, struct
 from fractions import Fraction
 

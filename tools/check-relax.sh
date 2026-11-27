@@ -103,7 +103,7 @@ for e in x; do
 		else fail=$((fail+1)); fi
 	else echo "FAIL noadj ($e): e_flags $flags (wanted RELAX|NOADJ_TEXT)"; fail=$((fail+1)); fi
 done
-# a symbol address that no 32-bit field holds: relaxation grows `movq #sym, rd` to the ten-byte form (one word, the linker picks the length); a plain object cannot grow, and its 2 GB limit is reported with the symbol named
+# a symbol address that no 32-bit field holds: relaxation grows `mov #sym, rd` to the ten-byte form (one word, the linker picks the length); a plain object cannot grow, and its 2 GB limit is reported with the symbol named
 for e in x; do
 	"$B/as64" --relax -o $W/high$e.o tests/ld/high.s && "$B/as64" --no-relax -o $W/highp$e.o tests/ld/high.s
 	n=$((n+1))

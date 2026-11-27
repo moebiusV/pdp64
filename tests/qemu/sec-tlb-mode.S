@@ -8,108 +8,108 @@ _start:
 	lea	vtab, r1
 	mtsr	vbr, r1
 	lea	hgen, r2
-	movq	#512, r3
-kfill:	movq	r2, (r1)+
+	mov	#512, r3
+kfill:	mov	r2, (r1)+
 	sob	r3, kfill
 	lea	vtab, r1
 	lea	h_ok, r2
-	movq	r2, 2048(r1)
+	mov	r2, 2048(r1)
 	lea	h_fail, r2
-	movq	r2, 2056(r1)
+	mov	r2, 2056(r1)
 	lea	h_sw, r2
-	movq	r2, 2064(r1)
+	mov	r2, 2064(r1)
 
 	lea	l2, r1
 	mtsr	ptbr, r1
-	movq	#1, r1
+	mov	#1, r1
 	mtsr	mmuctl, r1
 	isync
-	movq	kdata, r5
-	movq	=0x80000000, r6
+	mov	kdata, r5
+	mov	=0x80000000, r6
 	lea	user, r1
 	add	r6, r1
 	mtsr	epc, r1
 	lea	ustack_top, r1
 	add	r6, r1
 	mtsr	usp, r1
-	movq	#((MODE_USER<<PSW_MODE)|(MODE_USER<<PSW_PREV)), r1
+	mov	#((MODE_USER<<PSW_MODE)|(MODE_USER<<PSW_PREV)), r1
 	mtsr	epsw, r1
 	rti	#RTIMASK_ALL
-user:	movq	=0x80000000, r6
+user:	mov	=0x80000000, r6
 	lea	kdata, r4
 	sub	r6, r4
 	lea	Nu1, r13
-	movq	cnt, r10
-	movq	=0x2222, r5
-	movq	(r4), r5
-Nu1:	movq	cnt, r11
+	mov	cnt, r10
+	mov	=0x2222, r5
+	mov	(r4), r5
+Nu1:	mov	cnt, r11
 	sub	r10, r11
-	movq	=(1), r17
+	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 1 user mode: a load of a kernel page whose translation the kernel just cached faults
-	movq	#1, r0
+	mov	#1, r0
 	trap	#1
 1:
-	movq	last_cause, r11
-	movq	=(VECTOR_LPROT), r17
+	mov	last_cause, r11
+	mov	=(VECTOR_LPROT), r17
 	cbeq	r11, r17, 1f	; check 2 user mode: it is a load protection fault
-	movq	#2, r0
+	mov	#2, r0
 	trap	#1
 1:
-	movq	=(0x2222), r17
+	mov	=(0x2222), r17
 	cbeq	r5, r17, 1f	; check 3 user mode: the kernel page's data did not arrive in the register
-	movq	#3, r0
+	mov	#3, r0
 	trap	#1
 1:
 	lea	udata, r7
-	movq	(r7), r5
+	mov	(r7), r5
 	trap	#2
-kern2:	movq	=0x80000000, r6
+kern2:	mov	=0x80000000, r6
 	lea	udata, r7
 	add	r6, r7
 	lea	Nk, r13
-	movq	cnt, r10
-	movq	=0x2468, r5
-	movq	(r7), r5
-Nk:	movq	cnt, r11
+	mov	cnt, r10
+	mov	=0x2468, r5
+	mov	(r7), r5
+Nk:	mov	cnt, r11
 	sub	r10, r11
-	movq	=(1), r17
+	mov	=(1), r17
 	cbeq	r11, r17, 1f	; check 4 kernel mode: a load of a user page whose translation user mode just cached faults
-	movq	#4, r0
+	mov	#4, r0
 	halt
 1:
-	movq	last_cause, r11
-	movq	=(VECTOR_LPROT), r17
+	mov	last_cause, r11
+	mov	=(VECTOR_LPROT), r17
 	cbeq	r11, r17, 1f	; check 5 kernel mode: it is a load protection fault
-	movq	#5, r0
+	mov	#5, r0
 	halt
 1:
-	movq	=(0x2468), r17
+	mov	=(0x2468), r17
 	cbeq	r5, r17, 1f	; check 6 kernel mode: the register is unchanged
-	movq	#6, r0
+	mov	#6, r0
 	halt
 1:
-	movq	#0, r0
+	mov	#0, r0
 	halt
 
 h_sw:	lea	kern2, r12
 	mtsr	epc, r12
-	movq	#0, r12
+	mov	#0, r12
 	mtsr	epsw, r12
 	rti	#RTIMASK_ALL
-hgen:	movq	cnt, r12
+hgen:	mov	cnt, r12
 	add	#1, r12
-	movq	r12, cnt
+	mov	r12, cnt
 	mfsr	r12, ecause
-	movq	r12, last_cause
+	mov	r12, last_cause
 	mfsr	r12, epc
-	movq	r12, last_epc
+	mov	r12, last_epc
 	mfsr	r12, eva
-	movq	r12, last_eva
+	mov	r12, last_eva
 	mfsr	r12, epsw
-	movq	r12, last_epsw
+	mov	r12, last_epsw
 	mtsr	epc, r13
 	rti	#RTIMASK_ALL
-h_ok:	movq	#0, r0
+h_ok:	mov	#0, r0
 h_fail:	halt
 
 	.data

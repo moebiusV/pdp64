@@ -10,204 +10,204 @@ _start:
 	mtsr	vbr, r1
 	lea	l2, r1
 	mtsr	ptbr, r1
-	movq	#1, r1
+	mov	#1, r1
 	mtsr	mmuctl, r1
 	lea	cases, r12
 	lea	cases_end, r13
 caseloop:
 	cbeq	r12, r13, alldone
-	movq	#0, r1
-	movq	r1, expect
-	movq	144(r12), r2
-	movq	#4, r3
-tch:	movq	96(r12), r5
+	mov	#0, r1
+	mov	r1, expect
+	mov	144(r12), r2
+	mov	#4, r3
+tch:	mov	96(r12), r5
 	cbeq	r2, r5, tchs
-	mov	(r2).u8, r1
+	mov.u8	(r2), r1
 tchs:
-	movq	#0, r4
+	mov	#0, r4
 	add	#4096, r2
 	sob	r3, tch
-	movq	#0, r1
-	movq	r1, hcount
-	movq	r1, hr_epc
-	movq	88(r12), r1
-	movq	r1, expect
-	movq	32(r12), r1
-	movq	40(r12), r2
-	movq	48(r12), r3
-	movq	56(r12), r7
-	movq	64(r12), r8
-	movq	72(r12), r9
-	movq	16(r12), r6
-	movq	24(r12), r5
-	movq	80(r12), r10
-	movq	(r12), r4
+	mov	#0, r1
+	mov	r1, hcount
+	mov	r1, hr_epc
+	mov	88(r12), r1
+	mov	r1, expect
+	mov	32(r12), r1
+	mov	40(r12), r2
+	mov	48(r12), r3
+	mov	56(r12), r7
+	mov	64(r12), r8
+	mov	72(r12), r9
+	mov	16(r12), r6
+	mov	24(r12), r5
+	mov	80(r12), r10
+	mov	(r12), r4
 	call	r4
-	movq	r1, fin_r1
-	movq	r2, fin_r2
-	movq	r3, fin_r3
-	movq	r4, fin_r4
-	movq	r5, fin_r5
-	movq	r10, fin_r10
-	movq	#0, r1
-	movq	r1, expect
-	movq	88(r12), r1
+	mov	r1, fin_r1
+	mov	r2, fin_r2
+	mov	r3, fin_r3
+	mov	r4, fin_r4
+	mov	r5, fin_r5
+	mov	r10, fin_r10
+	mov	#0, r1
+	mov	r1, expect
+	mov	88(r12), r1
 	cbeq	r1, #0, nofault
-	movq	hcount, r1
-	movq	one, r2
+	mov	hcount, r1
+	mov	one, r2
 	cbeq	r1, r2, 1f
-	movq	#1, r0
+	mov	#1, r0
 	halt
 1:
-	movq	hr_epc, r1
-	movq	8(r12), r2
+	mov	hr_epc, r1
+	mov	8(r12), r2
 	cbeq	r1, r2, 1f
-	movq	#2, r0
+	mov	#2, r0
 	halt
 1:
-	movq	hr_eva, r1
-	movq	96(r12), r2
+	mov	hr_eva, r1
+	mov	96(r12), r2
 	cbeq	r1, r2, 1f
-	movq	#3, r0
+	mov	#3, r0
 	halt
 1:
-	movq	hr_cause, r1
+	mov	hr_cause, r1
 	cbeq	r1, #VECTOR_LFAULT, causedone
 	cbeq	r1, #VECTOR_SFAULT, causedone
-	movq	#4, r0
+	mov	#4, r0
 	halt
 causedone:
-	movq	136(r12), r1
+	mov	136(r12), r1
 	cbeq	r1, #0, nofault
-	movq	24(r12), r1
-	movq	hr_r5, r2
+	mov	24(r12), r1
+	mov	hr_r5, r2
 	sub	r2, r1
-	movq	200(r12), r3
+	mov	200(r12), r3
 	cblos	r1, r3, 1f
-	movq	#5, r0
+	mov	#5, r0
 	halt
-1:	movq	192(r12), r4
-	movq	r1, r6
+1:	mov	192(r12), r4
+	mov	r1, r6
 	call	mulq
-	movq	32(r12), r2
+	mov	32(r12), r2
 	add	r6, r2
-	movq	hr_r1, r5
+	mov	hr_r1, r5
 	sub	r2, r5
 	cbeq	r1, r3, 2f
-	movq	16(r12), r4
+	mov	16(r12), r4
 	cblos	r5, r4, nofault
-	movq	#6, r0
+	mov	#6, r0
 	halt
-2:	movq	208(r12), r4
+2:	mov	208(r12), r4
 	cblos	r5, r4, nofault
-	movq	#7, r0
+	mov	#7, r0
 	halt
 nofault:
-	movq	fin_r5, r1
-	movq	zero, r2
+	mov	fin_r5, r1
+	mov	zero, r2
 	cbeq	r1, r2, 1f
-	movq	#8, r0
+	mov	#8, r0
 	halt
 1:
-	movq	fin_r1, r1
-	movq	160(r12), r2
+	mov	fin_r1, r1
+	mov	160(r12), r2
 	cbeq	r1, r2, 1f
-	movq	#9, r0
+	mov	#9, r0
 	halt
 1:
-	movq	fin_r2, r1
-	movq	168(r12), r2
+	mov	fin_r2, r1
+	mov	168(r12), r2
 	cbeq	r1, r2, 1f
-	movq	#10, r0
+	mov	#10, r0
 	halt
 1:
-	movq	fin_r3, r1
-	movq	176(r12), r2
+	mov	fin_r3, r1
+	mov	176(r12), r2
 	cbeq	r1, r2, 1f
-	movq	#11, r0
+	mov	#11, r0
 	halt
 1:
-	movq	fin_r4, r1
-	movq	184(r12), r2
+	mov	fin_r4, r1
+	mov	184(r12), r2
 	cbeq	r1, r2, 1f
-	movq	#12, r0
+	mov	#12, r0
 	halt
 1:
-	movq	fin_r10, r1
-	movq	128(r12), r2
+	mov	fin_r10, r1
+	mov	128(r12), r2
 	cbeq	r1, r2, 1f
-	movq	#13, r0
+	mov	#13, r0
 	halt
 1:
-	movq	112(r12), r1
-	movq	120(r12), r3
-	movq	#0, r2
+	mov	112(r12), r1
+	mov	120(r12), r3
+	mov	#0, r2
 	cbeq	r3, #0, sumdone
-sml:	mov	(r1)+.u8, r4
-	movq	r2, r5
+sml:	mov.u8	(r1)+, r4
+	mov	r2, r5
 	shl	#5, r2
 	sub	r5, r2
 	add	r4, r2
 	sob	r3, sml
-sumdone:	movq	104(r12), r1
+sumdone:	mov	104(r12), r1
 	cbeq	r1, r2, 1f
-	movq	#14, r0
+	mov	#14, r0
 	halt
 1:	add	#256, r12
 	br	caseloop
-alldone:	movq	#0, r0
+alldone:	mov	#0, r0
 	halt
 
-mulq:		; r6 = r6 * r4 (small values)
-	movq	r6, r7
-	movq	#0, r6
+mulq:	; r6 = r6 * r4 (small values)
+	mov	r6, r7
+	mov	#0, r6
 	cbeq	r7, #0, mq_d
 mq_l:	add	r4, r6
 	sob	r7, mq_l
 mq_d:	ret
 
-h_bad:	movq	#99, r0
+h_bad:	mov	#99, r0
 	halt
 h_fault:
 	pushm	#0x3fff
-	movq	r1, hr_r1
-	movq	r5, hr_r5
+	mov	r1, hr_r1
+	mov	r5, hr_r5
 	mfsr	r1, epc
-	movq	r1, hr_epc
+	mov	r1, hr_epc
 	mfsr	r1, ecause
-	movq	r1, hr_cause
+	mov	r1, hr_cause
 	mfsr	r1, eva
-	movq	r1, hr_eva
-	movq	expect, r2
+	mov	r1, hr_eva
+	mov	expect, r2
 	cbeq	r2, #0, h_page
-	movq	hcount, r2
+	mov	hcount, r2
 	add	#1, r2
-	movq	r2, hcount
+	mov	r2, hcount
 h_page:
 	mfsr	r1, eva
 	shr	#12, r1
 	shl	#12, r1
-	movq	r1, r2
-	movq	=0x800000, r3
+	mov	r1, r2
+	mov	=0x800000, r3
 	sub	r3, r2
 	shr	#12, r2
 	shl	#3, r2
 	lea	wpt, r3
 	add	r3, r2
-	movq	r1, r3
+	mov	r1, r3
 	bis	#(1<<PTE_V|1<<PTE_R|1<<PTE_W|1<<PTE_A|1<<PTE_D), r3
-	movq	r3, (r2)
+	mov	r3, (r2)
 	tlbi	r1
-	movq	r1, r3
-	movq	#4096, r4
-h_fl:	movq	r3, r5
-	movq	r3, r6
+	mov	r1, r3
+	mov	#4096, r4
+h_fl:	mov	r3, r5
+	mov	r3, r6
 	shl	#2, r6
 	add	r6, r5
-	movq	r3, r6
+	mov	r3, r6
 	shr	#7, r6
 	add	r6, r5
-	mov	r5, (r3)+.8
+	mov.s8	r5, (r3)+
 	sob	r4, h_fl
 	popm	#0x3fff
 	rti	#RTIMASK_ALL

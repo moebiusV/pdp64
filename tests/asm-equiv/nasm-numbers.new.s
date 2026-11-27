@@ -2,12 +2,12 @@
 	.text
 1:	nop
 	br	1b
-	movq	#101b, r1
-	movq	#0A5h, r2
-	movq	#0ffh, r3
-	movq	#377q, r4
-	movq	#255d, r5
-	movq	#1010b, r6
-	movq	#A6h, r7
-	movq	#1001b, r8
+	mov	#101b, r1
+	mov	#0A5h, r2
+	mov	#0ffh, r3
+	mov	#377q, r4
+	mov	#255d, r5
+	mov	#1010b, r6
+	mov	#A6h, r7
+	mov	#1001b, r8
 10:	br	10b

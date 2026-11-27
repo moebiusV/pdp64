@@ -58,7 +58,7 @@
 
 ## {{#user-memory-guard-instructions}} The user-memory guard
 
-**{{#user-memory-guard-has-one-mechanism}}** The user-memory guard has one mechanism: the user-qualified accesses ({{r:move-with-the-qualifier-u}}, {{r:load-may-be-qualified-u}}), the moves and the two sides of the block copy; there is no status bit and there are no instructions to open and close it.
+**{{#user-memory-guard-has-one-mechanism}}** The user-memory guard has one mechanism: the user-qualified accesses ({{r:move-with-the-user-qualifier}}, {{r:load-may-be-user-qualified}}), the moves and the two sides of the block copy; there is no status bit and there are no instructions to open and close it.
 
 ## {{#streaming-block-operations}} Streaming block operations
 

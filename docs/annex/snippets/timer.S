@@ -8,5 +8,5 @@ _start:
 tick:	mfsr	r1, timecmp			; the handler of a periodic tick: the old deadline plus the period
 	add	#100000, r1			; (never "now plus the period": that drifts)
 	mtsr	timecmp, r1
-	movq	#0, r1				; nothing to wait for (idle): zero means never
+	mov	#0, r1				; nothing to wait for (idle): zero means never
 	mtsr	timecmp, r1

@@ -34,7 +34,7 @@ What software has to do is what OpenBSD's hypervisor (`vmm`) does on x86. Before
         bis     #16, r1                 ; 16 pages in bits 27 to 0
         mtsr    harena, r1
         ...
-        movq    r3, (r2)                ; edit a stage-2 entry: an ordinary store into the arena
+        mov    r3, (r2)                ; edit a stage-2 entry: an ordinary store into the arena
         genter  #0                      ; the entry discards the guest's translations if it must
 ```
 

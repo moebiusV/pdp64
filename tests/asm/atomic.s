@@ -10,19 +10,19 @@
 	axor r0,(r21),r11
 	amax r6,(r31),r13
 	amin r12,(r9),r15
-	amaxu r18,(r19),r17
-	aminu r24,(r29),r19
+	amax.u64 r18,(r19),r17
+	amin.u64 r24,(r29),r19
 	sc r22,(r23),r21
-	cas r1, (r12).32, r22
-	swap r7, (r22).32, r24
-	aadd r13, (r0).32, r26
-	aand r19, (r10).32, r28
-	abis r25, (r20).32, r30
-	axor r31, (r30).32, r0
-	amax r5, (r8).32, r2
-	amin r11, (r18).32, r4
-	amaxu r17, (r28).32, r6
-	aminu r23, (r6).32, r8
-	sc r14, (r16).32, r12
+	cas.s32 r1, (r12), r22
+	swap.s32 r7, (r22), r24
+	aadd.s32 r13, (r0), r26
+	aand.s32 r19, (r10), r28
+	abis.s32 r25, (r20), r30
+	axor.s32 r31, (r30), r0
+	amax.s32 r5, (r8), r2
+	amin.s32 r11, (r18), r4
+	amax.u32 r17, (r28), r6
+	amin.u32 r23, (r6), r8
+	sc.s32 r14, (r16), r12
 	ll (r30),r7
-	ll (r29).32, r8
+	ll.s32 (r29), r8

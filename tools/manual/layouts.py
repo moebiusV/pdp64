@@ -171,18 +171,9 @@ def shape_describe(s):
 
 
 def _shown(mn):
-    """a word of the encoding as the assembly language writes it: a letter word as it is, a word with marks only as the operation and its marks (tools/marks.py reads the rows of spec/grammars.d/61-asm-marks.hbnf)"""
+    """a word of the encoding as the assembly language writes it: the spelling that tools/marks.py prints for it (movb is mov.s8), from the rows of spec/grammars.d/61-asm-suffixes.hbnf"""
     import marks
-    if mn in marks.words():
-        lt = [l for l, w in marks.letters().items() if w == mn]
-        if lt: return '`%s`' % lt[0]
-    r = marks.rows().get(mn)
-    if not r or mn not in marks.words(): return '`%s`' % mn
-    spec = r[1]
-    if spec[0] != 'c': return '`%s` with the mark `.%s`' % (r[0], spec[1:])
-    a, b = spec[2:].split(':')
-    t = lambda x: 'no mark' if x == 'i' else '`.%s`' % x
-    return '`%s` with %s on the source and %s on the destination' % (r[0], t(a), t(b))
+    return '`%s`' % marks.shown().get(mn, mn)
 
 
 class Enc:
@@ -226,7 +217,8 @@ class Enc:
                     flat.append((re.sub(r'-\d+$', '', nm), w, bitsj[used:used + w]))
                     used += w
             ops = ', '.join(self.operands(f)) or 'no operand'
-            cap = '%s: %s, prefix %s%s; operands %s; %d bytes' % (name.upper(), f['name'], format(lf['prefix'], '0%db' % lf['L']), (', sub-opcode ' + bitsj) if bitsj else '', ops, 2 * f['n'])
+            import marks
+            cap = '%s: %s, prefix %s%s; operands %s; %d bytes' % (marks.shown().get(name, name).upper(), f['name'], format(lf['prefix'], '0%db' % lf['L']), (', sub-opcode ' + bitsj) if bitsj else '', ops, 2 * f['n'])
             out.append((cap, parcel_rows(flat), 2 * f['n']))
         return out
 

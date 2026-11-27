@@ -3,20 +3,20 @@
 	.text
 	.globl	_start
 _start:
-	movq	#0x1234, r1
+	mov	#0x1234, r1
 	lea	buf, r2
-	movq	r1, (r2)
+	mov	r1, (r2)
 	icinv	r2
 	isync
 	icinva
 	isync
 	hint	#2
 	isync
-	movq	(r2), r3
+	mov	(r2), r3
 	cbne r3, r1, F1
-	movq	#0, r0
+	mov	#0, r0
 	trap	#0
-F1:	movq	#1, r0
+F1:	mov	#1, r0
 	trap	#0
 	.data
 buf:	.quad	0

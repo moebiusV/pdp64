@@ -7,41 +7,41 @@ _start:
 	lea	htab, r1
 	mtsr	hvbr, r1
 	lea	xh, r2
-	movq	#512, r3
-fill1:	movq	r2, (r1)+
+	mov	#512, r3
+fill1:	mov	r2, (r1)+
 	sob	r3, fill1
 	lea	gvtab, r1
 	mtsr	vbr, r1
 	lea	gh, r2
-	movq	#512, r3
-fill2:	movq	r2, (r1)+
+	mov	#512, r3
+fill2:	mov	r2, (r1)+
 	sob	r3, fill2
 	lea	log, r28
 	lea	gstk_top, r2
 	mtsr	gksp, r2
 	lea	cases, r26
-	movq	#17, r29
-next:	movq	(r26)+, r1
+	mov	#17, r29
+next:	mov	(r26)+, r1
 	mtsr	hepc, r1
-	movq	(r26)+, r1
+	mov	(r26)+, r1
 	mtsr	hepsw, r1
-	movq	(r26)+, r1
+	mov	(r26)+, r1
 	mtsr	virq, r1
-	movq	(r26)+, r1
+	mov	(r26)+, r1
 	mtsr	vivec, r1
-	movq	(r26)+, r1
+	mov	(r26)+, r1
 	mtsr	htrap, r1
-	movq	#0, r1
+	mov	#0, r1
 	mtsr	epc, r1
 	mtsr	gecause, r1
-	movq	#99, r0
+	mov	#99, r0
 	genter	#RTIMASK_ALL
 xh:	mfsr	r22, hexitr
 	mfsr	r20, virq
-	movq	#0x7e57, r21
-	movq	r21, (r28)+
-	movq	r22, (r28)+
-	movq	r20, (r28)+
+	mov	#0x7e57, r21
+	mov	r21, (r28)+
+	mov	r22, (r28)+
+	mov	r20, (r28)+
 	sob	r29, next
 	br	compare
 gh:	mfsr	r20, ecause
@@ -50,10 +50,10 @@ gh:	mfsr	r20, ecause
 	mfps	r23
 	bic	#15, r23
 	bic	#15, r22
-	movq	r20, (r28)+
-	movq	r21, (r28)+
-	movq	r22, (r28)+
-	movq	r23, (r28)+
+	mov	r20, (r28)+
+	mov	r21, (r28)+
+	mov	r22, (r28)+
+	mov	r23, (r28)+
 	rti	#RTIMASK_ALL
 	.align	2
 c0:
@@ -184,15 +184,15 @@ c16a2:
 compare:
 	lea	log, r1
 	lea	exp, r2
-	movq	#1, r6
-cw:	movq	(r1)+, r4
-	movq	(r2)+, r5
+	mov	#1, r6
+cw:	mov	(r1)+, r4
+	mov	(r2)+, r5
 	cbne	r4, r5, bad
 	add	#1, r6
 	cbne	r6, #(103+1), cw
-	movq	#0, r0
+	mov	#0, r0
 	halt
-bad:	movq	r6, r0
+bad:	mov	r6, r0
 	halt
 	.data
 	.align	8

@@ -6,146 +6,146 @@ _start:
 	lea	htab, r1
 	mtsr	hvbr, r1
 	lea	xh, r2
-	movq	#512, r3
-fill1:	movq	r2, (r1)+
+	mov	#512, r3
+fill1:	mov	r2, (r1)+
 	sob	r3, fill1
 	lea	gvtab, r1
 	mtsr	vbr, r1
 	lea	gh, r2
-	movq	#512, r3
-fill2:	movq	r2, (r1)+
+	mov	#512, r3
+fill2:	mov	r2, (r1)+
 	sob	r3, fill2
-	movq	=0x1234, r1
+	mov	=0x1234, r1
 	mtsr	vcpuid, r1
-	mov	tmplr.32, r1
-	movq	=(4<<16), r2
+	mov.s32	tmplr, r1
+	mov	=(4<<16), r2
 	bis	r2, r1
-	mov	r1, ub4r.32
-	mov	retw.u16, r1
-	mov	r1, ub4r+4.16
-	mov	tmplw.32, r1
-	movq	=(4<<16), r2
+	mov.s32	r1, ub4r
+	mov.u16	retw, r1
+	mov.s16	r1, ub4r+4
+	mov.s32	tmplw, r1
+	mov	=(4<<16), r2
 	bis	r2, r1
-	mov	r1, ub4w.32
-	mov	retw.u16, r1
-	mov	r1, ub4w+4.16
-	mov	tmplr.32, r1
-	movq	=(5<<16), r2
+	mov.s32	r1, ub4w
+	mov.u16	retw, r1
+	mov.s16	r1, ub4w+4
+	mov.s32	tmplr, r1
+	mov	=(5<<16), r2
 	bis	r2, r1
-	mov	r1, ub5r.32
-	mov	retw.u16, r1
-	mov	r1, ub5r+4.16
-	mov	tmplw.32, r1
-	movq	=(5<<16), r2
+	mov.s32	r1, ub5r
+	mov.u16	retw, r1
+	mov.s16	r1, ub5r+4
+	mov.s32	tmplw, r1
+	mov	=(5<<16), r2
 	bis	r2, r1
-	mov	r1, ub5w.32
-	mov	retw.u16, r1
-	mov	r1, ub5w+4.16
-	mov	tmplr.32, r1
-	movq	=(13<<16), r2
+	mov.s32	r1, ub5w
+	mov.u16	retw, r1
+	mov.s16	r1, ub5w+4
+	mov.s32	tmplr, r1
+	mov	=(13<<16), r2
 	bis	r2, r1
-	mov	r1, ub13r.32
-	mov	retw.u16, r1
-	mov	r1, ub13r+4.16
-	mov	tmplw.32, r1
-	movq	=(13<<16), r2
+	mov.s32	r1, ub13r
+	mov.u16	retw, r1
+	mov.s16	r1, ub13r+4
+	mov.s32	tmplw, r1
+	mov	=(13<<16), r2
 	bis	r2, r1
-	mov	r1, ub13w.32
-	mov	retw.u16, r1
-	mov	r1, ub13w+4.16
-	mov	tmplr.32, r1
-	movq	=(127<<16), r2
+	mov.s32	r1, ub13w
+	mov.u16	retw, r1
+	mov.s16	r1, ub13w+4
+	mov.s32	tmplr, r1
+	mov	=(127<<16), r2
 	bis	r2, r1
-	mov	r1, ub127r.32
-	mov	retw.u16, r1
-	mov	r1, ub127r+4.16
-	mov	tmplw.32, r1
-	movq	=(127<<16), r2
+	mov.s32	r1, ub127r
+	mov.u16	retw, r1
+	mov.s16	r1, ub127r+4
+	mov.s32	tmplw, r1
+	mov	=(127<<16), r2
 	bis	r2, r1
-	mov	r1, ub127w.32
-	mov	retw.u16, r1
-	mov	r1, ub127w+4.16
-	mov	tmplr.32, r1
-	movq	=(148<<16), r2
+	mov.s32	r1, ub127w
+	mov.u16	retw, r1
+	mov.s16	r1, ub127w+4
+	mov.s32	tmplr, r1
+	mov	=(148<<16), r2
 	bis	r2, r1
-	mov	r1, ub148r.32
-	mov	retw.u16, r1
-	mov	r1, ub148r+4.16
-	mov	tmplw.32, r1
-	movq	=(148<<16), r2
+	mov.s32	r1, ub148r
+	mov.u16	retw, r1
+	mov.s16	r1, ub148r+4
+	mov.s32	tmplw, r1
+	mov	=(148<<16), r2
 	bis	r2, r1
-	mov	r1, ub148w.32
-	mov	retw.u16, r1
-	mov	r1, ub148w+4.16
-	mov	tmplr.32, r1
-	movq	=(255<<16), r2
+	mov.s32	r1, ub148w
+	mov.u16	retw, r1
+	mov.s16	r1, ub148w+4
+	mov.s32	tmplr, r1
+	mov	=(255<<16), r2
 	bis	r2, r1
-	mov	r1, ub255r.32
-	mov	retw.u16, r1
-	mov	r1, ub255r+4.16
-	mov	tmplw.32, r1
-	movq	=(255<<16), r2
+	mov.s32	r1, ub255r
+	mov.u16	retw, r1
+	mov.s16	r1, ub255r+4
+	mov.s32	tmplw, r1
+	mov	=(255<<16), r2
 	bis	r2, r1
-	mov	r1, ub255w.32
-	mov	retw.u16, r1
-	mov	r1, ub255w+4.16
+	mov.s32	r1, ub255w
+	mov.u16	retw, r1
+	mov.s16	r1, ub255w+4
 	lea	log, r27
 	lea	cases, r28
-	movq	#119, r29
-next:	movq	(r28)+, r1
+	mov	#119, r29
+next:	mov	(r28)+, r1
 	mtsr	htrap, r1
-	movq	(r28)+, r1
+	mov	(r28)+, r1
 	mtsr	hepc, r1
-	movq	(r28)+, r1
+	mov	(r28)+, r1
 	mtsr	hepsw, r1
-	movq	(r28)+, r3
+	mov	(r28)+, r3
 	lea	gvtab, r2
-	movq	#0, r1
+	mov	#0, r1
 	mtsr	epc, r1
 	mtsr	gecause, r1
 	mtsr	geva, r1
 	mtsr	asid, r1
 	mtsr	ptbr, r1
 	mtsr	mmuctl, r1
-	movq	#99, r0			; a HALT that stops the machine (not an exit) ends the run with a status that is not 0
+	mov	#99, r0			; a HALT that stops the machine (not an exit) ends the run with a status that is not 0
 	genter	#RTIMASK_ALL
 xh:	mfsr	r20, hexitr
 	mfsr	r21, hcause
 	mfsr	r22, hepc
 	mfsr	r23, hepsw
 	mfsr	r24, hinsn
-	mov	-2(r22).u16, r11
-	mov	-4(r22).u16, r12
+	mov.u16	-2(r22), r11
+	mov.u16	-4(r22), r12
 	shl	#16, r12
 	bis	r11, r12
 	shl	#16, r11
-	movq	#0, r25
+	mov	#0, r25
 	cbne	r24, r12, 1f
-	movq	#1, r25
+	mov	#1, r25
 1:	cbne	r24, r11, 1f
-	movq	#1, r25
+	mov	#1, r25
 1:
-	mov	-4(r22).u16, r11
-	mov	-6(r22).u16, r12
+	mov.u16	-4(r22), r11
+	mov.u16	-6(r22), r12
 	shl	#16, r12
 	bis	r11, r12
 	cbne	r24, r12, 1f
-	movq	#1, r25
-1:						; a three-parcel instruction (genter #mask): HINSN is its first two parcels
+	mov	#1, r25
+1:			; a three-parcel instruction (genter #mask): HINSN is its first two parcels
 	mfsr	r15, heva
 	mfsr	r16, hgpa
 	bis	r16, r15
 	mfsr	r17, epc
 	mfsr	r18, ecause
-	movq	r20, (r27)+
-	movq	r21, (r27)+
-	movq	r22, (r27)+
-	movq	r23, (r27)+
-	movq	r25, (r27)+
-	movq	r15, (r27)+
-	movq	r17, (r27)+
-	movq	r18, (r27)+
-	movq	r1, (r27)+
+	mov	r20, (r27)+
+	mov	r21, (r27)+
+	mov	r22, (r27)+
+	mov	r23, (r27)+
+	mov	r25, (r27)+
+	mov	r15, (r27)+
+	mov	r17, (r27)+
+	mov	r18, (r27)+
+	mov	r1, (r27)+
 	cbeq	r20, #XCODE_HALT, 2f
 	genter	#RTIMASK_ALL
 2:	sob	r29, next
@@ -362,9 +362,9 @@ c41a1:
 	halt
 c41a2:
 c42:
-c42i1:	movq	#1, r1
+c42i1:	mov	#1, r1
 c42a1:
-c42i2:	movq	#2, r3
+c42i2:	mov	#2, r3
 c42a2:
 	halt
 c42a3:
@@ -753,17 +753,17 @@ gha:
 compare:
 	lea	log, r1
 	lea	exp, r2
-	movq	#1, r6
-ce:	movq	#9, r3
-cw:	movq	(r1)+, r4
-	movq	(r2)+, r5
+	mov	#1, r6
+ce:	mov	#9, r3
+cw:	mov	(r1)+, r4
+	mov	(r2)+, r5
 	cbne	r4, r5, bad
 	sob	r3, cw
 	add	#1, r6
 	cbne	r6, #177, ce
-	movq	#0, r0
+	mov	#0, r0
 	halt
-bad:	movq	r6, r0
+bad:	mov	r6, r0
 	halt
 	.align	4
 tmplr:	mfsr	r1, ptbr
@@ -772,302 +772,302 @@ retw:	ret
 	.data
 	.align	8
 cases:
-	.quad	0x2, c0, 0x0, 0x0						; sev/trap
-	.quad	0xff3ffd, c1, 0x0, 0x0						; sev/clear
-	.quad	0x4, c2, 0x0, 0x0						; hint1/trap
-	.quad	0xff3ffb, c3, 0x0, 0x0						; hint1/clear
-	.quad	0xff3fff, c4, 0x0, 0x0						; hint0/bit
-	.quad	0xff3fff, c5, 0x0, 0x0						; hint2/bit
-	.quad	0x1, c6, 0x0, 0x0						; wfe/trap
-	.quad	0x7, c7, 0x0, 0x0						; wfe/otherbits
-	.quad	0x8, c8, 0x0, 0x0						; spl/trap
-	.quad	0xff3ff7, c9, 0x0, 0x0						; spl/clear
-	.quad	0x8, c10, 0x0, 0x40						; mtps/prio
-	.quad	0x8, c11, 0x0, 0x0						; mtps/same
-	.quad	0xff3ff7, c12, 0x0, 0x40						; mtps/clear
-	.quad	0x10, c13, 0x0, 0x0						; tlbi/trap
-	.quad	0xff3fef, c14, 0x0, 0x0						; tlbi/clear
-	.quad	0x10, c15, 0x0, 0x0						; tlbias/trap
-	.quad	0xff3fef, c16, 0x0, 0x0						; tlbias/clear
-	.quad	0x20, c17, 0x0, 0x0						; tlbia/trap
-	.quad	0xff3fdf, c18, 0x0, 0x0						; tlbia/clear
-	.quad	0x40, c19, 0x0, 0x0						; tlbsync/trap
-	.quad	0xff3fbf, c20, 0x0, 0x0						; tlbsync/clear
-	.quad	0x80, c21, 0x0, 0x0						; mtsr-asid/trap
-	.quad	0xff3f7f, c22, 0x0, 0x0						; mtsr-asid/clear
-	.quad	0x80, c23, 0x0, 0x0						; mfsr-asid/trap
-	.quad	0xff3f7f, c24, 0x0, 0x0						; mfsr-asid/clear
-	.quad	0x100, c25, 0x0, 0x0						; mtsr-ptbr/trap
-	.quad	0xff3eff, c26, 0x0, 0x0						; mtsr-ptbr/clear
-	.quad	0x100, c27, 0x0, 0x0						; mfsr-ptbr/read
-	.quad	0x200, c28, 0x0, 0x0						; mtsr-mmuctl/trap
-	.quad	0xff3dff, c29, 0x0, 0x0						; mtsr-mmuctl/clear
-	.quad	0x200, c30, 0x0, 0x0						; mfsr-mmuctl/read
-	.quad	0x400, c31, 0x0, 0x0						; mtsr-vbr/trap
-	.quad	0xff3bff, c32, 0x0, 0x0						; mtsr-vbr/clear
-	.quad	0x400, c33, 0x0, 0x0						; mfsr-vbr/read
-	.quad	0x1000, c34, 0x0, 0x0						; icinv/trap
-	.quad	0xff2fff, c35, 0x0, 0x0						; icinv/clear
-	.quad	0x1000, c36, 0x0, 0x0						; icinva/trap
-	.quad	0xff2fff, c37, 0x0, 0x0						; icinva/clear
-	.quad	0x2000, c38, 0x0, 0x0						; bpt/trap
-	.quad	0xff1fff, c39, 0x0, 0x0						; bpt/clear
-	.quad	0x800, c40, 0x0, 0x0						; mfsr-cpuid/trap
-	.quad	0xff37ff, c41, 0x0, 0x0						; mfsr-cpuid/clear
-	.quad	0x4000, c42, 0x0, 0x0						; step
-	.quad	0x10000, c43, 0x0, 0x0						; trap0/routed
-	.quad	0xfe3fff, c44, 0x0, 0x0						; trap0/other
-	.quad	0x10000, c45, 0x0, 0x0						; trap31/routed
-	.quad	0xfe3fff, c46, 0x0, 0x0						; trap31/other
-	.quad	0x20000, c47, 0x0, 0x0						; trap32/routed
-	.quad	0xfd3fff, c48, 0x0, 0x0						; trap32/other
-	.quad	0x20000, c49, 0x0, 0x0						; trap63/routed
-	.quad	0xfd3fff, c50, 0x0, 0x0						; trap63/other
-	.quad	0x40000, c51, 0x0, 0x0						; trap64/routed
-	.quad	0xfb3fff, c52, 0x0, 0x0						; trap64/other
-	.quad	0x80000, c53, 0x0, 0x0						; trap100/routed
-	.quad	0xf73fff, c54, 0x0, 0x0						; trap100/other
-	.quad	0x100000, c55, 0x0, 0x0						; trap128/routed
-	.quad	0xef3fff, c56, 0x0, 0x0						; trap128/other
-	.quad	0x400000, c57, 0x0, 0x0						; trap223/routed
-	.quad	0xbf3fff, c58, 0x0, 0x0						; trap223/other
-	.quad	0x800000, c59, 0x0, 0x0						; trap224/routed
-	.quad	0x7f3fff, c60, 0x0, 0x0						; trap224/other
-	.quad	0x800000, c61, 0x0, 0x0						; trap255/routed
-	.quad	0x7f3fff, c62, 0x0, 0x0						; trap255/other
-	.quad	0x20000, c63, 0xf00, 0x0						; trap/user-routed
-	.quad	0xfd3fff, c64, 0xf00, 0x0						; trap/user-unrouted
-	.quad	0x3fff, c65, 0x0, 0x0						; trap/mask-zero
-	.quad	0x0, c66, 0x0, 0x0						; halt/0
-	.quad	0x0, c67, 0x0, 0x0						; mfsr-htrap/0
-	.quad	0x0, c68, 0x0, 0x0						; mtsr-hvbr/0
-	.quad	0x0, c69, 0x0, 0x0						; mtsr-gtbr/0
-	.quad	0x0, c70, 0x0, 0x0						; mfsr-gudp/0
-	.quad	0x0, c71, 0x0, 0x0						; mtsr-vtoff/0
-	.quad	0x0, c72, 0x0, 0x0						; mfsr-hexitr/0
-	.quad	0x0, c73, 0x0, 0x0						; mtsr-geva/0
-	.quad	0x0, c74, 0x0, 0x0						; mtsr-virq/0
-	.quad	0x0, c75, 0x0, 0x0						; genter/0
-	.quad	0x0, c76, 0x0, 0x0						; tlbigp/0
-	.quad	0xff3fff, c77, 0x0, 0x0						; halt/all
-	.quad	0xff3fff, c78, 0x0, 0x0						; mfsr-htrap/all
-	.quad	0xff3fff, c79, 0x0, 0x0						; mtsr-hvbr/all
-	.quad	0xff3fff, c80, 0x0, 0x0						; mtsr-gtbr/all
-	.quad	0xff3fff, c81, 0x0, 0x0						; mfsr-gudp/all
-	.quad	0xff3fff, c82, 0x0, 0x0						; mtsr-vtoff/all
-	.quad	0xff3fff, c83, 0x0, 0x0						; mfsr-hexitr/all
-	.quad	0xff3fff, c84, 0x0, 0x0						; mtsr-geva/all
-	.quad	0xff3fff, c85, 0x0, 0x0						; mtsr-virq/all
-	.quad	0xff3fff, c86, 0x0, 0x0						; genter/all
-	.quad	0xff3fff, c87, 0x0, 0x0						; tlbigp/all
-	.quad	0x1, c88, 0xf00, 0x0						; user/wfe
-	.quad	0xff3fff, c89, 0xf00, 0x0						; user/mtsr-ptbr
-	.quad	0xff3fff, c90, 0xf00, 0x0						; user/mfsr-htrap
-	.quad	0xff3fff, c91, 0xf00, 0x0						; user/mtsr-gtbr
-	.quad	0xff3fff, c92, 0xf00, 0x0						; user/genter
-	.quad	0xff3fff, c93, 0xf00, 0x0						; user/mfsr-cpuid
-	.quad	0xff3fff, c94, 0xf00, 0x0						; user/tlbia
-	.quad	0xff3fff, c95, 0xf00, 0x0						; user/tlbi
-	.quad	0xff3fff, c96, 0xf00, 0x0						; user/tlbias
-	.quad	0xff3fff, c97, 0xf00, 0x0						; user/tlbigp
-	.quad	0xff3fff, c98, 0xf00, 0x0						; user/spl
-	.quad	0xff3fff, c99, 0xf00, 0x0						; user/mtsr-asid
-	.quad	0xff3fff, c100, 0xf00, 0x0						; user/halt
-	.quad	0xff3fff, c101, 0xf00, 0x0						; user/tlbsync
-	.quad	0x2, c102, 0xf00, 0x0						; user/sev/trap
-	.quad	0x4, c103, 0xf00, 0x0						; user/hint1/trap
-	.quad	0x1000, c104, 0xf00, 0x0						; user/icinva/trap
-	.quad	0x1000, c105, 0xf00, 0x0						; user/icinv/trap
-	.quad	0x2000, c106, 0xf00, 0x0						; user/bpt/trap
-	.quad	0xff3fff, c107, 0x0, 0x0						; unassigned4r
-	.quad	0xff3fff, c108, 0x0, 0x0						; unassigned4w
-	.quad	0xff3fff, c109, 0x0, 0x0						; unassigned5r
-	.quad	0xff3fff, c110, 0x0, 0x0						; unassigned5w
-	.quad	0xff3fff, c111, 0x0, 0x0						; unassigned13r
-	.quad	0xff3fff, c112, 0x0, 0x0						; unassigned13w
-	.quad	0xff3fff, c113, 0x0, 0x0						; unassigned127r
-	.quad	0xff3fff, c114, 0x0, 0x0						; unassigned127w
-	.quad	0xff3fff, c115, 0x0, 0x0						; unassigned148r
-	.quad	0xff3fff, c116, 0x0, 0x0						; unassigned148w
-	.quad	0xff3fff, c117, 0x0, 0x0						; unassigned255r
-	.quad	0xff3fff, c118, 0x0, 0x0						; unassigned255w
+	.quad	0x2, c0, 0x0, 0x0			; sev/trap
+	.quad	0xff3ffd, c1, 0x0, 0x0			; sev/clear
+	.quad	0x4, c2, 0x0, 0x0			; hint1/trap
+	.quad	0xff3ffb, c3, 0x0, 0x0			; hint1/clear
+	.quad	0xff3fff, c4, 0x0, 0x0			; hint0/bit
+	.quad	0xff3fff, c5, 0x0, 0x0			; hint2/bit
+	.quad	0x1, c6, 0x0, 0x0			; wfe/trap
+	.quad	0x7, c7, 0x0, 0x0			; wfe/otherbits
+	.quad	0x8, c8, 0x0, 0x0			; spl/trap
+	.quad	0xff3ff7, c9, 0x0, 0x0			; spl/clear
+	.quad	0x8, c10, 0x0, 0x40			; mtps/prio
+	.quad	0x8, c11, 0x0, 0x0			; mtps/same
+	.quad	0xff3ff7, c12, 0x0, 0x40			; mtps/clear
+	.quad	0x10, c13, 0x0, 0x0			; tlbi/trap
+	.quad	0xff3fef, c14, 0x0, 0x0			; tlbi/clear
+	.quad	0x10, c15, 0x0, 0x0			; tlbias/trap
+	.quad	0xff3fef, c16, 0x0, 0x0			; tlbias/clear
+	.quad	0x20, c17, 0x0, 0x0			; tlbia/trap
+	.quad	0xff3fdf, c18, 0x0, 0x0			; tlbia/clear
+	.quad	0x40, c19, 0x0, 0x0			; tlbsync/trap
+	.quad	0xff3fbf, c20, 0x0, 0x0			; tlbsync/clear
+	.quad	0x80, c21, 0x0, 0x0			; mtsr-asid/trap
+	.quad	0xff3f7f, c22, 0x0, 0x0			; mtsr-asid/clear
+	.quad	0x80, c23, 0x0, 0x0			; mfsr-asid/trap
+	.quad	0xff3f7f, c24, 0x0, 0x0			; mfsr-asid/clear
+	.quad	0x100, c25, 0x0, 0x0			; mtsr-ptbr/trap
+	.quad	0xff3eff, c26, 0x0, 0x0			; mtsr-ptbr/clear
+	.quad	0x100, c27, 0x0, 0x0			; mfsr-ptbr/read
+	.quad	0x200, c28, 0x0, 0x0			; mtsr-mmuctl/trap
+	.quad	0xff3dff, c29, 0x0, 0x0			; mtsr-mmuctl/clear
+	.quad	0x200, c30, 0x0, 0x0			; mfsr-mmuctl/read
+	.quad	0x400, c31, 0x0, 0x0			; mtsr-vbr/trap
+	.quad	0xff3bff, c32, 0x0, 0x0			; mtsr-vbr/clear
+	.quad	0x400, c33, 0x0, 0x0			; mfsr-vbr/read
+	.quad	0x1000, c34, 0x0, 0x0			; icinv/trap
+	.quad	0xff2fff, c35, 0x0, 0x0			; icinv/clear
+	.quad	0x1000, c36, 0x0, 0x0			; icinva/trap
+	.quad	0xff2fff, c37, 0x0, 0x0			; icinva/clear
+	.quad	0x2000, c38, 0x0, 0x0			; bpt/trap
+	.quad	0xff1fff, c39, 0x0, 0x0			; bpt/clear
+	.quad	0x800, c40, 0x0, 0x0			; mfsr-cpuid/trap
+	.quad	0xff37ff, c41, 0x0, 0x0			; mfsr-cpuid/clear
+	.quad	0x4000, c42, 0x0, 0x0			; step
+	.quad	0x10000, c43, 0x0, 0x0			; trap0/routed
+	.quad	0xfe3fff, c44, 0x0, 0x0			; trap0/other
+	.quad	0x10000, c45, 0x0, 0x0			; trap31/routed
+	.quad	0xfe3fff, c46, 0x0, 0x0			; trap31/other
+	.quad	0x20000, c47, 0x0, 0x0			; trap32/routed
+	.quad	0xfd3fff, c48, 0x0, 0x0			; trap32/other
+	.quad	0x20000, c49, 0x0, 0x0			; trap63/routed
+	.quad	0xfd3fff, c50, 0x0, 0x0			; trap63/other
+	.quad	0x40000, c51, 0x0, 0x0			; trap64/routed
+	.quad	0xfb3fff, c52, 0x0, 0x0			; trap64/other
+	.quad	0x80000, c53, 0x0, 0x0			; trap100/routed
+	.quad	0xf73fff, c54, 0x0, 0x0			; trap100/other
+	.quad	0x100000, c55, 0x0, 0x0			; trap128/routed
+	.quad	0xef3fff, c56, 0x0, 0x0			; trap128/other
+	.quad	0x400000, c57, 0x0, 0x0			; trap223/routed
+	.quad	0xbf3fff, c58, 0x0, 0x0			; trap223/other
+	.quad	0x800000, c59, 0x0, 0x0			; trap224/routed
+	.quad	0x7f3fff, c60, 0x0, 0x0			; trap224/other
+	.quad	0x800000, c61, 0x0, 0x0			; trap255/routed
+	.quad	0x7f3fff, c62, 0x0, 0x0			; trap255/other
+	.quad	0x20000, c63, 0xf00, 0x0			; trap/user-routed
+	.quad	0xfd3fff, c64, 0xf00, 0x0			; trap/user-unrouted
+	.quad	0x3fff, c65, 0x0, 0x0			; trap/mask-zero
+	.quad	0x0, c66, 0x0, 0x0			; halt/0
+	.quad	0x0, c67, 0x0, 0x0			; mfsr-htrap/0
+	.quad	0x0, c68, 0x0, 0x0			; mtsr-hvbr/0
+	.quad	0x0, c69, 0x0, 0x0			; mtsr-gtbr/0
+	.quad	0x0, c70, 0x0, 0x0			; mfsr-gudp/0
+	.quad	0x0, c71, 0x0, 0x0			; mtsr-vtoff/0
+	.quad	0x0, c72, 0x0, 0x0			; mfsr-hexitr/0
+	.quad	0x0, c73, 0x0, 0x0			; mtsr-geva/0
+	.quad	0x0, c74, 0x0, 0x0			; mtsr-virq/0
+	.quad	0x0, c75, 0x0, 0x0			; genter/0
+	.quad	0x0, c76, 0x0, 0x0			; tlbigp/0
+	.quad	0xff3fff, c77, 0x0, 0x0			; halt/all
+	.quad	0xff3fff, c78, 0x0, 0x0			; mfsr-htrap/all
+	.quad	0xff3fff, c79, 0x0, 0x0			; mtsr-hvbr/all
+	.quad	0xff3fff, c80, 0x0, 0x0			; mtsr-gtbr/all
+	.quad	0xff3fff, c81, 0x0, 0x0			; mfsr-gudp/all
+	.quad	0xff3fff, c82, 0x0, 0x0			; mtsr-vtoff/all
+	.quad	0xff3fff, c83, 0x0, 0x0			; mfsr-hexitr/all
+	.quad	0xff3fff, c84, 0x0, 0x0			; mtsr-geva/all
+	.quad	0xff3fff, c85, 0x0, 0x0			; mtsr-virq/all
+	.quad	0xff3fff, c86, 0x0, 0x0			; genter/all
+	.quad	0xff3fff, c87, 0x0, 0x0			; tlbigp/all
+	.quad	0x1, c88, 0xf00, 0x0			; user/wfe
+	.quad	0xff3fff, c89, 0xf00, 0x0			; user/mtsr-ptbr
+	.quad	0xff3fff, c90, 0xf00, 0x0			; user/mfsr-htrap
+	.quad	0xff3fff, c91, 0xf00, 0x0			; user/mtsr-gtbr
+	.quad	0xff3fff, c92, 0xf00, 0x0			; user/genter
+	.quad	0xff3fff, c93, 0xf00, 0x0			; user/mfsr-cpuid
+	.quad	0xff3fff, c94, 0xf00, 0x0			; user/tlbia
+	.quad	0xff3fff, c95, 0xf00, 0x0			; user/tlbi
+	.quad	0xff3fff, c96, 0xf00, 0x0			; user/tlbias
+	.quad	0xff3fff, c97, 0xf00, 0x0			; user/tlbigp
+	.quad	0xff3fff, c98, 0xf00, 0x0			; user/spl
+	.quad	0xff3fff, c99, 0xf00, 0x0			; user/mtsr-asid
+	.quad	0xff3fff, c100, 0xf00, 0x0			; user/halt
+	.quad	0xff3fff, c101, 0xf00, 0x0			; user/tlbsync
+	.quad	0x2, c102, 0xf00, 0x0			; user/sev/trap
+	.quad	0x4, c103, 0xf00, 0x0			; user/hint1/trap
+	.quad	0x1000, c104, 0xf00, 0x0			; user/icinva/trap
+	.quad	0x1000, c105, 0xf00, 0x0			; user/icinv/trap
+	.quad	0x2000, c106, 0xf00, 0x0			; user/bpt/trap
+	.quad	0xff3fff, c107, 0x0, 0x0			; unassigned4r
+	.quad	0xff3fff, c108, 0x0, 0x0			; unassigned4w
+	.quad	0xff3fff, c109, 0x0, 0x0			; unassigned5r
+	.quad	0xff3fff, c110, 0x0, 0x0			; unassigned5w
+	.quad	0xff3fff, c111, 0x0, 0x0			; unassigned13r
+	.quad	0xff3fff, c112, 0x0, 0x0			; unassigned13w
+	.quad	0xff3fff, c113, 0x0, 0x0			; unassigned127r
+	.quad	0xff3fff, c114, 0x0, 0x0			; unassigned127w
+	.quad	0xff3fff, c115, 0x0, 0x0			; unassigned148r
+	.quad	0xff3fff, c116, 0x0, 0x0			; unassigned148w
+	.quad	0xff3fff, c117, 0x0, 0x0			; unassigned255r
+	.quad	0xff3fff, c118, 0x0, 0x0			; unassigned255w
 exp:
-	.quad	XCODE_SEV, VECTOR_HEXIT, c0a1, 0x0, 1, 0, 0, 0, 0				; sev/trap exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, c0a2, 0x0, 1, 0, 0, 0, 0				; sev/trap exit 2
-	.quad	XCODE_HALT, VECTOR_HEXIT, c1a2, 0x0, 1, 0, 0, 0, 0				; sev/clear exit 1
-	.quad	XCODE_PAUSE, VECTOR_HEXIT, c2a1, 0x0, 1, 0, 0, 0, 0				; hint1/trap exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, c2a2, 0x0, 1, 0, 0, 0, 0				; hint1/trap exit 2
-	.quad	XCODE_HALT, VECTOR_HEXIT, c3a2, 0x0, 1, 0, 0, 0, 0				; hint1/clear exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, c4a2, 0x0, 1, 0, 0, 0, 0				; hint0/bit exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, c5a2, 0x0, 1, 0, 0, 0, 0				; hint2/bit exit 1
-	.quad	XCODE_WFE, VECTOR_HEXIT, c6a1, 0x0, 1, 0, 0, 0, 0				; wfe/trap exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, c6a2, 0x0, 1, 0, 0, 0, 0				; wfe/trap exit 2
-	.quad	XCODE_WFE, VECTOR_HEXIT, c7a1, 0x0, 1, 0, 0, 0, 0				; wfe/otherbits exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, c7a2, 0x0, 1, 0, 0, 0, 0				; wfe/otherbits exit 2
-	.quad	XCODE_PRIO, VECTOR_HEXIT, c8a1, 0x0, 1, 0, 0, 0, 0				; spl/trap exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, c8a2, 0x0, 1, 0, 0, 0, 0				; spl/trap exit 2
-	.quad	XCODE_HALT, VECTOR_HEXIT, c9a2, 0x60, 1, 0, 0, 0, 0				; spl/clear exit 1
-	.quad	XCODE_PRIO, VECTOR_HEXIT, c10a1, 0x0, 1, 0, 0, 0, 0				; mtps/prio exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, c10a2, 0x0, 1, 0, 0, 0, 0				; mtps/prio exit 2
-	.quad	XCODE_HALT, VECTOR_HEXIT, c11a2, 0x0, 1, 0, 0, 0, 0				; mtps/same exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, c12a2, 0x40, 1, 0, 0, 0, 0				; mtps/clear exit 1
-	.quad	XCODE_TLB, VECTOR_HEXIT, c13a1, 0x0, 1, 0, 0, 0, 0				; tlbi/trap exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, c13a2, 0x0, 1, 0, 0, 0, 0				; tlbi/trap exit 2
-	.quad	XCODE_HALT, VECTOR_HEXIT, c14a2, 0x0, 1, 0, 0, 0, 0				; tlbi/clear exit 1
-	.quad	XCODE_TLB, VECTOR_HEXIT, c15a1, 0x0, 1, 0, 0, 0, 0				; tlbias/trap exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, c15a2, 0x0, 1, 0, 0, 0, 0				; tlbias/trap exit 2
-	.quad	XCODE_HALT, VECTOR_HEXIT, c16a2, 0x0, 1, 0, 0, 0, 0				; tlbias/clear exit 1
-	.quad	XCODE_TLB, VECTOR_HEXIT, c17a1, 0x0, 1, 0, 0, 0, 0				; tlbia/trap exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, c17a2, 0x0, 1, 0, 0, 0, 0				; tlbia/trap exit 2
-	.quad	XCODE_HALT, VECTOR_HEXIT, c18a2, 0x0, 1, 0, 0, 0, 0				; tlbia/clear exit 1
-	.quad	XCODE_TLB, VECTOR_HEXIT, c19a1, 0x0, 1, 0, 0, 0, 0				; tlbsync/trap exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, c19a2, 0x0, 1, 0, 0, 0, 0				; tlbsync/trap exit 2
-	.quad	XCODE_HALT, VECTOR_HEXIT, c20a2, 0x0, 1, 0, 0, 0, 0				; tlbsync/clear exit 1
-	.quad	XCODE_ASID, VECTOR_HEXIT, c21a1, 0x0, 1, 0, 0, 0, 0				; mtsr-asid/trap exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, c21a2, 0x0, 1, 0, 0, 0, 0				; mtsr-asid/trap exit 2
-	.quad	XCODE_HALT, VECTOR_HEXIT, c22a2, 0x0, 1, 0, 0, 0, 0				; mtsr-asid/clear exit 1
-	.quad	XCODE_ASID, VECTOR_HEXIT, c23a1, 0x0, 1, 0, 0, 0, 0				; mfsr-asid/trap exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, c23a2, 0x0, 1, 0, 0, 0, 0				; mfsr-asid/trap exit 2
-	.quad	XCODE_HALT, VECTOR_HEXIT, c24a2, 0x0, 1, 0, 0, 0, 0				; mfsr-asid/clear exit 1
-	.quad	XCODE_PTBR, VECTOR_HEXIT, c25a1, 0x0, 1, 0, 0, 0, 0				; mtsr-ptbr/trap exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, c25a2, 0x0, 1, 0, 0, 0, 0				; mtsr-ptbr/trap exit 2
-	.quad	XCODE_HALT, VECTOR_HEXIT, c26a2, 0x0, 1, 0, 0, 0, 0				; mtsr-ptbr/clear exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, c27a2, 0x0, 1, 0, 0, 0, 0				; mfsr-ptbr/read exit 1
-	.quad	XCODE_MMUCTL, VECTOR_HEXIT, c28a1, 0x0, 1, 0, 0, 0, 0				; mtsr-mmuctl/trap exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, c28a2, 0x0, 1, 0, 0, 0, 0				; mtsr-mmuctl/trap exit 2
-	.quad	XCODE_HALT, VECTOR_HEXIT, c29a2, 0x0, 1, 0, 0, 0, 0				; mtsr-mmuctl/clear exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, c30a2, 0x0, 1, 0, 0, 0, 0				; mfsr-mmuctl/read exit 1
-	.quad	XCODE_VBR, VECTOR_HEXIT, c31a1, 0x0, 1, 0, 0, 0, 0				; mtsr-vbr/trap exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, c31a2, 0x0, 1, 0, 0, 0, 0				; mtsr-vbr/trap exit 2
-	.quad	XCODE_HALT, VECTOR_HEXIT, c32a2, 0x0, 1, 0, 0, 0, 0				; mtsr-vbr/clear exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, c33a2, 0x0, 1, 0, 0, 0, gvtab				; mfsr-vbr/read exit 1
-	.quad	XCODE_ICINV, VECTOR_HEXIT, c34a1, 0x0, 1, 0, 0, 0, 0				; icinv/trap exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, c34a2, 0x0, 1, 0, 0, 0, 0				; icinv/trap exit 2
-	.quad	XCODE_HALT, VECTOR_HEXIT, c35a2, 0x0, 1, 0, 0, 0, 0				; icinv/clear exit 1
-	.quad	XCODE_ICINV, VECTOR_HEXIT, c36a1, 0x0, 1, 0, 0, 0, 0				; icinva/trap exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, c36a2, 0x0, 1, 0, 0, 0, 0				; icinva/trap exit 2
-	.quad	XCODE_HALT, VECTOR_HEXIT, c37a2, 0x0, 1, 0, 0, 0, 0				; icinva/clear exit 1
-	.quad	XCODE_BPT, VECTOR_HEXIT, c38a1, 0x0, 1, 0, 0, 0, 0				; bpt/trap exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, c38a2, 0x0, 1, 0, 0, 0, 0				; bpt/trap exit 2
-	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xe0, 1, 0, c39a1, VECTOR_BPT, 0				; bpt/clear exit 1
-	.quad	XCODE_CPUID, VECTOR_HEXIT, c40a1, 0x0, 1, 0, 0, 0, 0				; mfsr-cpuid/trap exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, c40a2, 0x0, 1, 0, 0, 0, 0				; mfsr-cpuid/trap exit 2
-	.quad	XCODE_HALT, VECTOR_HEXIT, c41a2, 0x0, 1, 0, 0, 0, 4660				; mfsr-cpuid/clear exit 1
-	.quad	XCODE_STEP, VECTOR_HEXIT, c42a1, 0x0, 1, 0, 0, 0, 1				; step exit 1
-	.quad	XCODE_STEP, VECTOR_HEXIT, c42a2, 0x0, 1, 0, 0, 0, 1				; step exit 2
-	.quad	XCODE_HALT, VECTOR_HEXIT, c42a3, 0x0, 1, 0, 0, 0, 1				; step exit 3
-	.quad	XCODE_HYPERCALL, VECTOR_TRAP_BASE+0, c43a1, 0x0, 1, 0, 0, 0, 0				; trap0/routed exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, c43a2, 0x0, 1, 0, 0, 0, 0				; trap0/routed exit 2
-	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xe0, 1, 0, c44a1, VECTOR_TRAP_BASE+0, 0				; trap0/other exit 1
-	.quad	XCODE_HYPERCALL, VECTOR_TRAP_BASE+31, c45a1, 0x0, 1, 0, 0, 0, 0				; trap31/routed exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, c45a2, 0x0, 1, 0, 0, 0, 0				; trap31/routed exit 2
-	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xe0, 1, 0, c46a1, VECTOR_TRAP_BASE+31, 0				; trap31/other exit 1
-	.quad	XCODE_HYPERCALL, VECTOR_TRAP_BASE+32, c47a1, 0x0, 1, 0, 0, 0, 0				; trap32/routed exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, c47a2, 0x0, 1, 0, 0, 0, 0				; trap32/routed exit 2
-	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xe0, 1, 0, c48a1, VECTOR_TRAP_BASE+32, 0				; trap32/other exit 1
-	.quad	XCODE_HYPERCALL, VECTOR_TRAP_BASE+63, c49a1, 0x0, 1, 0, 0, 0, 0				; trap63/routed exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, c49a2, 0x0, 1, 0, 0, 0, 0				; trap63/routed exit 2
-	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xe0, 1, 0, c50a1, VECTOR_TRAP_BASE+63, 0				; trap63/other exit 1
-	.quad	XCODE_HYPERCALL, VECTOR_TRAP_BASE+64, c51a1, 0x0, 1, 0, 0, 0, 0				; trap64/routed exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, c51a2, 0x0, 1, 0, 0, 0, 0				; trap64/routed exit 2
-	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xe0, 1, 0, c52a1, VECTOR_TRAP_BASE+64, 0				; trap64/other exit 1
-	.quad	XCODE_HYPERCALL, VECTOR_TRAP_BASE+100, c53a1, 0x0, 1, 0, 0, 0, 0				; trap100/routed exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, c53a2, 0x0, 1, 0, 0, 0, 0				; trap100/routed exit 2
-	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xe0, 1, 0, c54a1, VECTOR_TRAP_BASE+100, 0				; trap100/other exit 1
-	.quad	XCODE_HYPERCALL, VECTOR_TRAP_BASE+128, c55a1, 0x0, 1, 0, 0, 0, 0				; trap128/routed exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, c55a2, 0x0, 1, 0, 0, 0, 0				; trap128/routed exit 2
-	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xe0, 1, 0, c56a1, VECTOR_TRAP_BASE+128, 0				; trap128/other exit 1
-	.quad	XCODE_HYPERCALL, VECTOR_TRAP_BASE+223, c57a1, 0x0, 1, 0, 0, 0, 0				; trap223/routed exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, c57a2, 0x0, 1, 0, 0, 0, 0				; trap223/routed exit 2
-	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xe0, 1, 0, c58a1, VECTOR_TRAP_BASE+223, 0				; trap223/other exit 1
-	.quad	XCODE_HYPERCALL, VECTOR_TRAP_BASE+224, c59a1, 0x0, 1, 0, 0, 0, 0				; trap224/routed exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, c59a2, 0x0, 1, 0, 0, 0, 0				; trap224/routed exit 2
-	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xe0, 1, 0, c60a1, VECTOR_TRAP_BASE+224, 0				; trap224/other exit 1
-	.quad	XCODE_HYPERCALL, VECTOR_TRAP_BASE+255, c61a1, 0x0, 1, 0, 0, 0, 0				; trap255/routed exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, c61a2, 0x0, 1, 0, 0, 0, 0				; trap255/routed exit 2
-	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xe0, 1, 0, c62a1, VECTOR_TRAP_BASE+255, 0				; trap255/other exit 1
-	.quad	XCODE_HYPERCALL, VECTOR_TRAP_BASE+40, c63a1, 0xf00, 1, 0, 0, 0, 0				; trap/user-routed exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xce0, 1, 0, c63a1, VECTOR_PRIVILEGED, 0				; trap/user-routed exit 2
-	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xce0, 1, 0, c64a1, VECTOR_TRAP_BASE+40, 0				; trap/user-unrouted exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xe0, 1, 0, c65a1, VECTOR_TRAP_BASE+40, 0				; trap/mask-zero exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, c66a2, 0x0, 1, 0, 0, 0, 0				; halt/0 exit 1
-	.quad	XCODE_HVREG, VECTOR_HEXIT, c67a1, 0x0, 1, 0, 0, 0, 0				; mfsr-htrap/0 exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, c67a2, 0x0, 1, 0, 0, 0, 0				; mfsr-htrap/0 exit 2
-	.quad	XCODE_HVREG, VECTOR_HEXIT, c68a1, 0x0, 1, 0, 0, 0, 0				; mtsr-hvbr/0 exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, c68a2, 0x0, 1, 0, 0, 0, 0				; mtsr-hvbr/0 exit 2
-	.quad	XCODE_HVREG, VECTOR_HEXIT, c69a1, 0x0, 1, 0, 0, 0, 0				; mtsr-gtbr/0 exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, c69a2, 0x0, 1, 0, 0, 0, 0				; mtsr-gtbr/0 exit 2
-	.quad	XCODE_HVREG, VECTOR_HEXIT, c70a1, 0x0, 1, 0, 0, 0, 0				; mfsr-gudp/0 exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, c70a2, 0x0, 1, 0, 0, 0, 0				; mfsr-gudp/0 exit 2
-	.quad	XCODE_HVREG, VECTOR_HEXIT, c71a1, 0x0, 1, 0, 0, 0, 0				; mtsr-vtoff/0 exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, c71a2, 0x0, 1, 0, 0, 0, 0				; mtsr-vtoff/0 exit 2
-	.quad	XCODE_HVREG, VECTOR_HEXIT, c72a1, 0x0, 1, 0, 0, 0, 0				; mfsr-hexitr/0 exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, c72a2, 0x0, 1, 0, 0, 0, 0				; mfsr-hexitr/0 exit 2
-	.quad	XCODE_HVREG, VECTOR_HEXIT, c73a1, 0x0, 1, 0, 0, 0, 0				; mtsr-geva/0 exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, c73a2, 0x0, 1, 0, 0, 0, 0				; mtsr-geva/0 exit 2
-	.quad	XCODE_HVREG, VECTOR_HEXIT, c74a1, 0x0, 1, 0, 0, 0, 0				; mtsr-virq/0 exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, c74a2, 0x0, 1, 0, 0, 0, 0				; mtsr-virq/0 exit 2
-	.quad	XCODE_HVREG, VECTOR_HEXIT, c75a1, 0x0, 1, 0, 0, 0, 0				; genter/0 exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, c75a2, 0x0, 1, 0, 0, 0, 0				; genter/0 exit 2
-	.quad	XCODE_HVREG, VECTOR_HEXIT, c76a1, 0x0, 1, 0, 0, 0, 0				; tlbigp/0 exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, c76a2, 0x0, 1, 0, 0, 0, 0				; tlbigp/0 exit 2
-	.quad	XCODE_HALT, VECTOR_HEXIT, c77a2, 0x0, 1, 0, 0, 0, 0				; halt/all exit 1
-	.quad	XCODE_HVREG, VECTOR_HEXIT, c78a1, 0x0, 1, 0, 0, 0, 0				; mfsr-htrap/all exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, c78a2, 0x0, 1, 0, 0, 0, 0				; mfsr-htrap/all exit 2
-	.quad	XCODE_HVREG, VECTOR_HEXIT, c79a1, 0x0, 1, 0, 0, 0, 0				; mtsr-hvbr/all exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, c79a2, 0x0, 1, 0, 0, 0, 0				; mtsr-hvbr/all exit 2
-	.quad	XCODE_HVREG, VECTOR_HEXIT, c80a1, 0x0, 1, 0, 0, 0, 0				; mtsr-gtbr/all exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, c80a2, 0x0, 1, 0, 0, 0, 0				; mtsr-gtbr/all exit 2
-	.quad	XCODE_HVREG, VECTOR_HEXIT, c81a1, 0x0, 1, 0, 0, 0, 0				; mfsr-gudp/all exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, c81a2, 0x0, 1, 0, 0, 0, 0				; mfsr-gudp/all exit 2
-	.quad	XCODE_HVREG, VECTOR_HEXIT, c82a1, 0x0, 1, 0, 0, 0, 0				; mtsr-vtoff/all exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, c82a2, 0x0, 1, 0, 0, 0, 0				; mtsr-vtoff/all exit 2
-	.quad	XCODE_HVREG, VECTOR_HEXIT, c83a1, 0x0, 1, 0, 0, 0, 0				; mfsr-hexitr/all exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, c83a2, 0x0, 1, 0, 0, 0, 0				; mfsr-hexitr/all exit 2
-	.quad	XCODE_HVREG, VECTOR_HEXIT, c84a1, 0x0, 1, 0, 0, 0, 0				; mtsr-geva/all exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, c84a2, 0x0, 1, 0, 0, 0, 0				; mtsr-geva/all exit 2
-	.quad	XCODE_HVREG, VECTOR_HEXIT, c85a1, 0x0, 1, 0, 0, 0, 0				; mtsr-virq/all exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, c85a2, 0x0, 1, 0, 0, 0, 0				; mtsr-virq/all exit 2
-	.quad	XCODE_HVREG, VECTOR_HEXIT, c86a1, 0x0, 1, 0, 0, 0, 0				; genter/all exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, c86a2, 0x0, 1, 0, 0, 0, 0				; genter/all exit 2
-	.quad	XCODE_HVREG, VECTOR_HEXIT, c87a1, 0x0, 1, 0, 0, 0, 0				; tlbigp/all exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, c87a2, 0x0, 1, 0, 0, 0, 0				; tlbigp/all exit 2
-	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xce0, 1, 0, c88i1, VECTOR_PRIVILEGED, 0				; user/wfe exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xce0, 1, 0, c89i1, VECTOR_PRIVILEGED, 0				; user/mtsr-ptbr exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xce0, 1, 0, c90i1, VECTOR_PRIVILEGED, 0				; user/mfsr-htrap exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xce0, 1, 0, c91i1, VECTOR_PRIVILEGED, 0				; user/mtsr-gtbr exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xce0, 1, 0, c92i1, VECTOR_PRIVILEGED, 0				; user/genter exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xce0, 1, 0, c93i1, VECTOR_PRIVILEGED, 0				; user/mfsr-cpuid exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xce0, 1, 0, c94i1, VECTOR_PRIVILEGED, 0				; user/tlbia exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xce0, 1, 0, c95i1, VECTOR_PRIVILEGED, 0				; user/tlbi exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xce0, 1, 0, c96i1, VECTOR_PRIVILEGED, 0				; user/tlbias exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xce0, 1, 0, c97i1, VECTOR_PRIVILEGED, 0				; user/tlbigp exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xce0, 1, 0, c98i1, VECTOR_PRIVILEGED, 0				; user/spl exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xce0, 1, 0, c99i1, VECTOR_PRIVILEGED, 0				; user/mtsr-asid exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xce0, 1, 0, c100i1, VECTOR_PRIVILEGED, 0				; user/halt exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xce0, 1, 0, c101i1, VECTOR_PRIVILEGED, 0				; user/tlbsync exit 1
-	.quad	XCODE_SEV, VECTOR_HEXIT, c102a1, 0xf00, 1, 0, 0, 0, 0				; user/sev/trap exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xce0, 1, 0, c102a1, VECTOR_PRIVILEGED, 0				; user/sev/trap exit 2
-	.quad	XCODE_PAUSE, VECTOR_HEXIT, c103a1, 0xf00, 1, 0, 0, 0, 0				; user/hint1/trap exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xce0, 1, 0, c103a1, VECTOR_PRIVILEGED, 0				; user/hint1/trap exit 2
-	.quad	XCODE_ICINV, VECTOR_HEXIT, c104a1, 0xf00, 1, 0, 0, 0, 0				; user/icinva/trap exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xce0, 1, 0, c104a1, VECTOR_PRIVILEGED, 0				; user/icinva/trap exit 2
-	.quad	XCODE_ICINV, VECTOR_HEXIT, c105a1, 0xf00, 1, 0, 0, 0, 0				; user/icinv/trap exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xce0, 1, 0, c105a1, VECTOR_PRIVILEGED, 0				; user/icinv/trap exit 2
-	.quad	XCODE_BPT, VECTOR_HEXIT, c106a1, 0xf00, 1, 0, 0, 0, 0				; user/bpt/trap exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xce0, 1, 0, c106a1, VECTOR_PRIVILEGED, 0				; user/bpt/trap exit 2
-	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xe0, 1, 0, ub4r, VECTOR_ILLEGAL, 0				; unassigned4r exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xe0, 1, 0, ub4w, VECTOR_ILLEGAL, 0				; unassigned4w exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xe0, 1, 0, ub5r, VECTOR_ILLEGAL, 0				; unassigned5r exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xe0, 1, 0, ub5w, VECTOR_ILLEGAL, 0				; unassigned5w exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xe0, 1, 0, ub13r, VECTOR_ILLEGAL, 0				; unassigned13r exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xe0, 1, 0, ub13w, VECTOR_ILLEGAL, 0				; unassigned13w exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xe0, 1, 0, ub127r, VECTOR_ILLEGAL, 0				; unassigned127r exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xe0, 1, 0, ub127w, VECTOR_ILLEGAL, 0				; unassigned127w exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xe0, 1, 0, ub148r, VECTOR_ILLEGAL, 0				; unassigned148r exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xe0, 1, 0, ub148w, VECTOR_ILLEGAL, 0				; unassigned148w exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xe0, 1, 0, ub255r, VECTOR_ILLEGAL, 0				; unassigned255r exit 1
-	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xe0, 1, 0, ub255w, VECTOR_ILLEGAL, 0				; unassigned255w exit 1
+	.quad	XCODE_SEV, VECTOR_HEXIT, c0a1, 0x0, 1, 0, 0, 0, 0		; sev/trap exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, c0a2, 0x0, 1, 0, 0, 0, 0		; sev/trap exit 2
+	.quad	XCODE_HALT, VECTOR_HEXIT, c1a2, 0x0, 1, 0, 0, 0, 0		; sev/clear exit 1
+	.quad	XCODE_PAUSE, VECTOR_HEXIT, c2a1, 0x0, 1, 0, 0, 0, 0		; hint1/trap exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, c2a2, 0x0, 1, 0, 0, 0, 0		; hint1/trap exit 2
+	.quad	XCODE_HALT, VECTOR_HEXIT, c3a2, 0x0, 1, 0, 0, 0, 0		; hint1/clear exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, c4a2, 0x0, 1, 0, 0, 0, 0		; hint0/bit exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, c5a2, 0x0, 1, 0, 0, 0, 0		; hint2/bit exit 1
+	.quad	XCODE_WFE, VECTOR_HEXIT, c6a1, 0x0, 1, 0, 0, 0, 0		; wfe/trap exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, c6a2, 0x0, 1, 0, 0, 0, 0		; wfe/trap exit 2
+	.quad	XCODE_WFE, VECTOR_HEXIT, c7a1, 0x0, 1, 0, 0, 0, 0		; wfe/otherbits exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, c7a2, 0x0, 1, 0, 0, 0, 0		; wfe/otherbits exit 2
+	.quad	XCODE_PRIO, VECTOR_HEXIT, c8a1, 0x0, 1, 0, 0, 0, 0		; spl/trap exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, c8a2, 0x0, 1, 0, 0, 0, 0		; spl/trap exit 2
+	.quad	XCODE_HALT, VECTOR_HEXIT, c9a2, 0x60, 1, 0, 0, 0, 0		; spl/clear exit 1
+	.quad	XCODE_PRIO, VECTOR_HEXIT, c10a1, 0x0, 1, 0, 0, 0, 0		; mtps/prio exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, c10a2, 0x0, 1, 0, 0, 0, 0		; mtps/prio exit 2
+	.quad	XCODE_HALT, VECTOR_HEXIT, c11a2, 0x0, 1, 0, 0, 0, 0		; mtps/same exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, c12a2, 0x40, 1, 0, 0, 0, 0		; mtps/clear exit 1
+	.quad	XCODE_TLB, VECTOR_HEXIT, c13a1, 0x0, 1, 0, 0, 0, 0		; tlbi/trap exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, c13a2, 0x0, 1, 0, 0, 0, 0		; tlbi/trap exit 2
+	.quad	XCODE_HALT, VECTOR_HEXIT, c14a2, 0x0, 1, 0, 0, 0, 0		; tlbi/clear exit 1
+	.quad	XCODE_TLB, VECTOR_HEXIT, c15a1, 0x0, 1, 0, 0, 0, 0		; tlbias/trap exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, c15a2, 0x0, 1, 0, 0, 0, 0		; tlbias/trap exit 2
+	.quad	XCODE_HALT, VECTOR_HEXIT, c16a2, 0x0, 1, 0, 0, 0, 0		; tlbias/clear exit 1
+	.quad	XCODE_TLB, VECTOR_HEXIT, c17a1, 0x0, 1, 0, 0, 0, 0		; tlbia/trap exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, c17a2, 0x0, 1, 0, 0, 0, 0		; tlbia/trap exit 2
+	.quad	XCODE_HALT, VECTOR_HEXIT, c18a2, 0x0, 1, 0, 0, 0, 0		; tlbia/clear exit 1
+	.quad	XCODE_TLB, VECTOR_HEXIT, c19a1, 0x0, 1, 0, 0, 0, 0		; tlbsync/trap exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, c19a2, 0x0, 1, 0, 0, 0, 0		; tlbsync/trap exit 2
+	.quad	XCODE_HALT, VECTOR_HEXIT, c20a2, 0x0, 1, 0, 0, 0, 0		; tlbsync/clear exit 1
+	.quad	XCODE_ASID, VECTOR_HEXIT, c21a1, 0x0, 1, 0, 0, 0, 0		; mtsr-asid/trap exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, c21a2, 0x0, 1, 0, 0, 0, 0		; mtsr-asid/trap exit 2
+	.quad	XCODE_HALT, VECTOR_HEXIT, c22a2, 0x0, 1, 0, 0, 0, 0		; mtsr-asid/clear exit 1
+	.quad	XCODE_ASID, VECTOR_HEXIT, c23a1, 0x0, 1, 0, 0, 0, 0		; mfsr-asid/trap exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, c23a2, 0x0, 1, 0, 0, 0, 0		; mfsr-asid/trap exit 2
+	.quad	XCODE_HALT, VECTOR_HEXIT, c24a2, 0x0, 1, 0, 0, 0, 0		; mfsr-asid/clear exit 1
+	.quad	XCODE_PTBR, VECTOR_HEXIT, c25a1, 0x0, 1, 0, 0, 0, 0		; mtsr-ptbr/trap exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, c25a2, 0x0, 1, 0, 0, 0, 0		; mtsr-ptbr/trap exit 2
+	.quad	XCODE_HALT, VECTOR_HEXIT, c26a2, 0x0, 1, 0, 0, 0, 0		; mtsr-ptbr/clear exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, c27a2, 0x0, 1, 0, 0, 0, 0		; mfsr-ptbr/read exit 1
+	.quad	XCODE_MMUCTL, VECTOR_HEXIT, c28a1, 0x0, 1, 0, 0, 0, 0		; mtsr-mmuctl/trap exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, c28a2, 0x0, 1, 0, 0, 0, 0		; mtsr-mmuctl/trap exit 2
+	.quad	XCODE_HALT, VECTOR_HEXIT, c29a2, 0x0, 1, 0, 0, 0, 0		; mtsr-mmuctl/clear exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, c30a2, 0x0, 1, 0, 0, 0, 0		; mfsr-mmuctl/read exit 1
+	.quad	XCODE_VBR, VECTOR_HEXIT, c31a1, 0x0, 1, 0, 0, 0, 0		; mtsr-vbr/trap exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, c31a2, 0x0, 1, 0, 0, 0, 0		; mtsr-vbr/trap exit 2
+	.quad	XCODE_HALT, VECTOR_HEXIT, c32a2, 0x0, 1, 0, 0, 0, 0		; mtsr-vbr/clear exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, c33a2, 0x0, 1, 0, 0, 0, gvtab		; mfsr-vbr/read exit 1
+	.quad	XCODE_ICINV, VECTOR_HEXIT, c34a1, 0x0, 1, 0, 0, 0, 0		; icinv/trap exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, c34a2, 0x0, 1, 0, 0, 0, 0		; icinv/trap exit 2
+	.quad	XCODE_HALT, VECTOR_HEXIT, c35a2, 0x0, 1, 0, 0, 0, 0		; icinv/clear exit 1
+	.quad	XCODE_ICINV, VECTOR_HEXIT, c36a1, 0x0, 1, 0, 0, 0, 0		; icinva/trap exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, c36a2, 0x0, 1, 0, 0, 0, 0		; icinva/trap exit 2
+	.quad	XCODE_HALT, VECTOR_HEXIT, c37a2, 0x0, 1, 0, 0, 0, 0		; icinva/clear exit 1
+	.quad	XCODE_BPT, VECTOR_HEXIT, c38a1, 0x0, 1, 0, 0, 0, 0		; bpt/trap exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, c38a2, 0x0, 1, 0, 0, 0, 0		; bpt/trap exit 2
+	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xe0, 1, 0, c39a1, VECTOR_BPT, 0		; bpt/clear exit 1
+	.quad	XCODE_CPUID, VECTOR_HEXIT, c40a1, 0x0, 1, 0, 0, 0, 0		; mfsr-cpuid/trap exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, c40a2, 0x0, 1, 0, 0, 0, 0		; mfsr-cpuid/trap exit 2
+	.quad	XCODE_HALT, VECTOR_HEXIT, c41a2, 0x0, 1, 0, 0, 0, 4660		; mfsr-cpuid/clear exit 1
+	.quad	XCODE_STEP, VECTOR_HEXIT, c42a1, 0x0, 1, 0, 0, 0, 1		; step exit 1
+	.quad	XCODE_STEP, VECTOR_HEXIT, c42a2, 0x0, 1, 0, 0, 0, 1		; step exit 2
+	.quad	XCODE_HALT, VECTOR_HEXIT, c42a3, 0x0, 1, 0, 0, 0, 1		; step exit 3
+	.quad	XCODE_HYPERCALL, VECTOR_TRAP_BASE+0, c43a1, 0x0, 1, 0, 0, 0, 0		; trap0/routed exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, c43a2, 0x0, 1, 0, 0, 0, 0		; trap0/routed exit 2
+	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xe0, 1, 0, c44a1, VECTOR_TRAP_BASE+0, 0		; trap0/other exit 1
+	.quad	XCODE_HYPERCALL, VECTOR_TRAP_BASE+31, c45a1, 0x0, 1, 0, 0, 0, 0		; trap31/routed exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, c45a2, 0x0, 1, 0, 0, 0, 0		; trap31/routed exit 2
+	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xe0, 1, 0, c46a1, VECTOR_TRAP_BASE+31, 0		; trap31/other exit 1
+	.quad	XCODE_HYPERCALL, VECTOR_TRAP_BASE+32, c47a1, 0x0, 1, 0, 0, 0, 0		; trap32/routed exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, c47a2, 0x0, 1, 0, 0, 0, 0		; trap32/routed exit 2
+	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xe0, 1, 0, c48a1, VECTOR_TRAP_BASE+32, 0		; trap32/other exit 1
+	.quad	XCODE_HYPERCALL, VECTOR_TRAP_BASE+63, c49a1, 0x0, 1, 0, 0, 0, 0		; trap63/routed exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, c49a2, 0x0, 1, 0, 0, 0, 0		; trap63/routed exit 2
+	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xe0, 1, 0, c50a1, VECTOR_TRAP_BASE+63, 0		; trap63/other exit 1
+	.quad	XCODE_HYPERCALL, VECTOR_TRAP_BASE+64, c51a1, 0x0, 1, 0, 0, 0, 0		; trap64/routed exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, c51a2, 0x0, 1, 0, 0, 0, 0		; trap64/routed exit 2
+	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xe0, 1, 0, c52a1, VECTOR_TRAP_BASE+64, 0		; trap64/other exit 1
+	.quad	XCODE_HYPERCALL, VECTOR_TRAP_BASE+100, c53a1, 0x0, 1, 0, 0, 0, 0		; trap100/routed exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, c53a2, 0x0, 1, 0, 0, 0, 0		; trap100/routed exit 2
+	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xe0, 1, 0, c54a1, VECTOR_TRAP_BASE+100, 0		; trap100/other exit 1
+	.quad	XCODE_HYPERCALL, VECTOR_TRAP_BASE+128, c55a1, 0x0, 1, 0, 0, 0, 0		; trap128/routed exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, c55a2, 0x0, 1, 0, 0, 0, 0		; trap128/routed exit 2
+	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xe0, 1, 0, c56a1, VECTOR_TRAP_BASE+128, 0		; trap128/other exit 1
+	.quad	XCODE_HYPERCALL, VECTOR_TRAP_BASE+223, c57a1, 0x0, 1, 0, 0, 0, 0		; trap223/routed exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, c57a2, 0x0, 1, 0, 0, 0, 0		; trap223/routed exit 2
+	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xe0, 1, 0, c58a1, VECTOR_TRAP_BASE+223, 0		; trap223/other exit 1
+	.quad	XCODE_HYPERCALL, VECTOR_TRAP_BASE+224, c59a1, 0x0, 1, 0, 0, 0, 0		; trap224/routed exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, c59a2, 0x0, 1, 0, 0, 0, 0		; trap224/routed exit 2
+	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xe0, 1, 0, c60a1, VECTOR_TRAP_BASE+224, 0		; trap224/other exit 1
+	.quad	XCODE_HYPERCALL, VECTOR_TRAP_BASE+255, c61a1, 0x0, 1, 0, 0, 0, 0		; trap255/routed exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, c61a2, 0x0, 1, 0, 0, 0, 0		; trap255/routed exit 2
+	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xe0, 1, 0, c62a1, VECTOR_TRAP_BASE+255, 0		; trap255/other exit 1
+	.quad	XCODE_HYPERCALL, VECTOR_TRAP_BASE+40, c63a1, 0xf00, 1, 0, 0, 0, 0		; trap/user-routed exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xce0, 1, 0, c63a1, VECTOR_PRIVILEGED, 0		; trap/user-routed exit 2
+	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xce0, 1, 0, c64a1, VECTOR_TRAP_BASE+40, 0		; trap/user-unrouted exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xe0, 1, 0, c65a1, VECTOR_TRAP_BASE+40, 0		; trap/mask-zero exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, c66a2, 0x0, 1, 0, 0, 0, 0		; halt/0 exit 1
+	.quad	XCODE_HVREG, VECTOR_HEXIT, c67a1, 0x0, 1, 0, 0, 0, 0		; mfsr-htrap/0 exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, c67a2, 0x0, 1, 0, 0, 0, 0		; mfsr-htrap/0 exit 2
+	.quad	XCODE_HVREG, VECTOR_HEXIT, c68a1, 0x0, 1, 0, 0, 0, 0		; mtsr-hvbr/0 exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, c68a2, 0x0, 1, 0, 0, 0, 0		; mtsr-hvbr/0 exit 2
+	.quad	XCODE_HVREG, VECTOR_HEXIT, c69a1, 0x0, 1, 0, 0, 0, 0		; mtsr-gtbr/0 exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, c69a2, 0x0, 1, 0, 0, 0, 0		; mtsr-gtbr/0 exit 2
+	.quad	XCODE_HVREG, VECTOR_HEXIT, c70a1, 0x0, 1, 0, 0, 0, 0		; mfsr-gudp/0 exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, c70a2, 0x0, 1, 0, 0, 0, 0		; mfsr-gudp/0 exit 2
+	.quad	XCODE_HVREG, VECTOR_HEXIT, c71a1, 0x0, 1, 0, 0, 0, 0		; mtsr-vtoff/0 exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, c71a2, 0x0, 1, 0, 0, 0, 0		; mtsr-vtoff/0 exit 2
+	.quad	XCODE_HVREG, VECTOR_HEXIT, c72a1, 0x0, 1, 0, 0, 0, 0		; mfsr-hexitr/0 exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, c72a2, 0x0, 1, 0, 0, 0, 0		; mfsr-hexitr/0 exit 2
+	.quad	XCODE_HVREG, VECTOR_HEXIT, c73a1, 0x0, 1, 0, 0, 0, 0		; mtsr-geva/0 exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, c73a2, 0x0, 1, 0, 0, 0, 0		; mtsr-geva/0 exit 2
+	.quad	XCODE_HVREG, VECTOR_HEXIT, c74a1, 0x0, 1, 0, 0, 0, 0		; mtsr-virq/0 exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, c74a2, 0x0, 1, 0, 0, 0, 0		; mtsr-virq/0 exit 2
+	.quad	XCODE_HVREG, VECTOR_HEXIT, c75a1, 0x0, 1, 0, 0, 0, 0		; genter/0 exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, c75a2, 0x0, 1, 0, 0, 0, 0		; genter/0 exit 2
+	.quad	XCODE_HVREG, VECTOR_HEXIT, c76a1, 0x0, 1, 0, 0, 0, 0		; tlbigp/0 exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, c76a2, 0x0, 1, 0, 0, 0, 0		; tlbigp/0 exit 2
+	.quad	XCODE_HALT, VECTOR_HEXIT, c77a2, 0x0, 1, 0, 0, 0, 0		; halt/all exit 1
+	.quad	XCODE_HVREG, VECTOR_HEXIT, c78a1, 0x0, 1, 0, 0, 0, 0		; mfsr-htrap/all exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, c78a2, 0x0, 1, 0, 0, 0, 0		; mfsr-htrap/all exit 2
+	.quad	XCODE_HVREG, VECTOR_HEXIT, c79a1, 0x0, 1, 0, 0, 0, 0		; mtsr-hvbr/all exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, c79a2, 0x0, 1, 0, 0, 0, 0		; mtsr-hvbr/all exit 2
+	.quad	XCODE_HVREG, VECTOR_HEXIT, c80a1, 0x0, 1, 0, 0, 0, 0		; mtsr-gtbr/all exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, c80a2, 0x0, 1, 0, 0, 0, 0		; mtsr-gtbr/all exit 2
+	.quad	XCODE_HVREG, VECTOR_HEXIT, c81a1, 0x0, 1, 0, 0, 0, 0		; mfsr-gudp/all exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, c81a2, 0x0, 1, 0, 0, 0, 0		; mfsr-gudp/all exit 2
+	.quad	XCODE_HVREG, VECTOR_HEXIT, c82a1, 0x0, 1, 0, 0, 0, 0		; mtsr-vtoff/all exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, c82a2, 0x0, 1, 0, 0, 0, 0		; mtsr-vtoff/all exit 2
+	.quad	XCODE_HVREG, VECTOR_HEXIT, c83a1, 0x0, 1, 0, 0, 0, 0		; mfsr-hexitr/all exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, c83a2, 0x0, 1, 0, 0, 0, 0		; mfsr-hexitr/all exit 2
+	.quad	XCODE_HVREG, VECTOR_HEXIT, c84a1, 0x0, 1, 0, 0, 0, 0		; mtsr-geva/all exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, c84a2, 0x0, 1, 0, 0, 0, 0		; mtsr-geva/all exit 2
+	.quad	XCODE_HVREG, VECTOR_HEXIT, c85a1, 0x0, 1, 0, 0, 0, 0		; mtsr-virq/all exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, c85a2, 0x0, 1, 0, 0, 0, 0		; mtsr-virq/all exit 2
+	.quad	XCODE_HVREG, VECTOR_HEXIT, c86a1, 0x0, 1, 0, 0, 0, 0		; genter/all exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, c86a2, 0x0, 1, 0, 0, 0, 0		; genter/all exit 2
+	.quad	XCODE_HVREG, VECTOR_HEXIT, c87a1, 0x0, 1, 0, 0, 0, 0		; tlbigp/all exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, c87a2, 0x0, 1, 0, 0, 0, 0		; tlbigp/all exit 2
+	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xce0, 1, 0, c88i1, VECTOR_PRIVILEGED, 0		; user/wfe exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xce0, 1, 0, c89i1, VECTOR_PRIVILEGED, 0		; user/mtsr-ptbr exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xce0, 1, 0, c90i1, VECTOR_PRIVILEGED, 0		; user/mfsr-htrap exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xce0, 1, 0, c91i1, VECTOR_PRIVILEGED, 0		; user/mtsr-gtbr exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xce0, 1, 0, c92i1, VECTOR_PRIVILEGED, 0		; user/genter exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xce0, 1, 0, c93i1, VECTOR_PRIVILEGED, 0		; user/mfsr-cpuid exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xce0, 1, 0, c94i1, VECTOR_PRIVILEGED, 0		; user/tlbia exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xce0, 1, 0, c95i1, VECTOR_PRIVILEGED, 0		; user/tlbi exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xce0, 1, 0, c96i1, VECTOR_PRIVILEGED, 0		; user/tlbias exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xce0, 1, 0, c97i1, VECTOR_PRIVILEGED, 0		; user/tlbigp exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xce0, 1, 0, c98i1, VECTOR_PRIVILEGED, 0		; user/spl exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xce0, 1, 0, c99i1, VECTOR_PRIVILEGED, 0		; user/mtsr-asid exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xce0, 1, 0, c100i1, VECTOR_PRIVILEGED, 0		; user/halt exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xce0, 1, 0, c101i1, VECTOR_PRIVILEGED, 0		; user/tlbsync exit 1
+	.quad	XCODE_SEV, VECTOR_HEXIT, c102a1, 0xf00, 1, 0, 0, 0, 0		; user/sev/trap exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xce0, 1, 0, c102a1, VECTOR_PRIVILEGED, 0		; user/sev/trap exit 2
+	.quad	XCODE_PAUSE, VECTOR_HEXIT, c103a1, 0xf00, 1, 0, 0, 0, 0		; user/hint1/trap exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xce0, 1, 0, c103a1, VECTOR_PRIVILEGED, 0		; user/hint1/trap exit 2
+	.quad	XCODE_ICINV, VECTOR_HEXIT, c104a1, 0xf00, 1, 0, 0, 0, 0		; user/icinva/trap exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xce0, 1, 0, c104a1, VECTOR_PRIVILEGED, 0		; user/icinva/trap exit 2
+	.quad	XCODE_ICINV, VECTOR_HEXIT, c105a1, 0xf00, 1, 0, 0, 0, 0		; user/icinv/trap exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xce0, 1, 0, c105a1, VECTOR_PRIVILEGED, 0		; user/icinv/trap exit 2
+	.quad	XCODE_BPT, VECTOR_HEXIT, c106a1, 0xf00, 1, 0, 0, 0, 0		; user/bpt/trap exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xce0, 1, 0, c106a1, VECTOR_PRIVILEGED, 0		; user/bpt/trap exit 2
+	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xe0, 1, 0, ub4r, VECTOR_ILLEGAL, 0		; unassigned4r exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xe0, 1, 0, ub4w, VECTOR_ILLEGAL, 0		; unassigned4w exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xe0, 1, 0, ub5r, VECTOR_ILLEGAL, 0		; unassigned5r exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xe0, 1, 0, ub5w, VECTOR_ILLEGAL, 0		; unassigned5w exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xe0, 1, 0, ub13r, VECTOR_ILLEGAL, 0		; unassigned13r exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xe0, 1, 0, ub13w, VECTOR_ILLEGAL, 0		; unassigned13w exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xe0, 1, 0, ub127r, VECTOR_ILLEGAL, 0		; unassigned127r exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xe0, 1, 0, ub127w, VECTOR_ILLEGAL, 0		; unassigned127w exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xe0, 1, 0, ub148r, VECTOR_ILLEGAL, 0		; unassigned148r exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xe0, 1, 0, ub148w, VECTOR_ILLEGAL, 0		; unassigned148w exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xe0, 1, 0, ub255r, VECTOR_ILLEGAL, 0		; unassigned255r exit 1
+	.quad	XCODE_HALT, VECTOR_HEXIT, gha, 0xe0, 1, 0, ub255w, VECTOR_ILLEGAL, 0		; unassigned255w exit 1
 	.align	8
 log:	.space	12736
 htab:	.space	4096

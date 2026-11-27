@@ -37,11 +37,11 @@ and in PDP-11 assembly, with the console's register addresses (transmit status 0
 
 ```
         MOV  #msg, R0
-1$:     MOVB (R0)+, R1        ; next character; R0 now points at the one after
+1$:     MOV.S8 (R0)+, R1        ; next character; R0 now points at the one after
         BEQ  3$               ; a zero byte ends the string
 2$:     TSTB @#177564         ; XCSR: bit 7 is READY
         BPL  2$               ; plus: not ready, look again
-        MOVB R1, @#177566     ; XBUF: this sends it
+        MOV.S8 R1, @#177566     ; XBUF: this sends it
         BR   1$
 3$:
 ```

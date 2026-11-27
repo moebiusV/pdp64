@@ -17,7 +17,7 @@ The choices below are fixed for version 1 of the ABI of the pdp64 (one CPU, 32 r
 | Red zone | none (version 1). |
 | Symbols | no leading underscore. |
 | Landing pads | off in version 1; the assembler provides `.lpad`. |
-| PIC | globals through `d(PC)`; imported symbols through `MOVQ got(PC),Rd`; calls to imports through `CALLI got(PC)`; TLS local-exec `MOVQ off(DP),Rd`. |
+| PIC | globals through `d(PC)`; imported symbols through `MOV got(PC),Rd`; calls to imports through `CALLI got(PC)`; TLS local-exec `MOV off(DP),Rd`. |
 
 ## Register tables of the instruction encoding (draft)
 

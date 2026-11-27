@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
-"""marks.py -- the width letters and marks of the assembly language, for the tools that write assembly source (the checks, the generators of the tests, the dictionary of the manual).
+"""marks.py -- the width and kind suffixes of the assembly language, for the tools that write or read assembly source (the checks, the generators of the tests, the analyses, the dictionary of the manual).
 
-The integer words carry their width in a letter (movb, movzw, aaddl, bswapl: b 8 bits, w 16, l 32, q 64, z zero-extends) and the same widths are marks on the operand
-(`mov (r1).8, r2`); the floating-point words (fadd32, fcvtds ...) have marks only.  The rows of spec/grammars.d/61-asm-marks.hbnf say, for each word of the encoding that has a width,
-the operation that is written with marks and the marks of its operands (tools/mkgrammar.py reads them; as64 and tools/encdis.c use the same rows).  `spell(word, operands)` is the
-other direction of `as64`: from a word of the encoding and its operands to the source line's operation and operands, with the marks put on (the tools that write source write marks:
-both spellings assemble to the same bytes).
+The width and the kind of an operation are a dotted suffix of the mnemonic (`mov.s8`, `aadd.s32`, `fadd.f32`, `fcvt.s32.f32`); the encoding has a word for each (movb, aaddl, fadd32, fcvtls).  The rows of
+spec/grammars.d/61-asm-suffixes.hbnf say, for each accepted spelling, the word of the encoding it is, and which spelling is the one that is printed for a word (tools/mkgrammar.py reads them; as64,
+tools/encdis.c, pcc's table and the dictionary use the same rows).  A tool that thinks in the words of the encoding (a generator of tests, an analysis of the instruction mix) writes or reads them
+through this module: `spell(word, operands)` is the source line's operation for a word of the encoding (the operands do not change: the suffix is on the word); `unspell(op, operands)` is the other direction.
 
     python3 tools/marks.py WORD OPERAND...      print the spelling, for a try
 """
@@ -18,22 +17,26 @@ _ROWS = None
 
 
 def rows(root=None):
-    """{word of the encoding: (operation, spec)}"""
+    """[(spelling, word of the encoding, flags, printed)] of the rows of 61-asm-suffixes.hbnf"""
     global _ROWS
     if _ROWS is None:
-        r, _ = mkgrammar.marks_rows(root)
-        _ROWS = {w: (op, spec) for w, op, spec in r}
+        _ROWS = mkgrammar.surface_rows(root)
     return _ROWS
 
 
+def shown(root=None):
+    """{word of the encoding: the spelling that is printed for it}: the 64-bit words print bare (movq is mov), the others with their suffix (movb is mov.s8, fadd32 is fadd.f32); a word with no entry is printed as it is"""
+    return {w: sp for sp, w, fl, p in rows(root) if p}
+
+
 def words(root=None):
-    """the words of the encoding that are not words of the assembly language: the ones that have no letter spelling (the floating-point precisions, the formats of fcvt, ror32)"""
-    return mkgrammar.marks_rows(root)[1]
+    """the words of the older notations and of the encoding that no spelling stands for: unknown mnemonics in the assembly language (movb, aaddl, faddf, fadd32, fcvtds ...)"""
+    return mkgrammar.withdrawn_words(root)
 
 
-def letters(root=None):
-    """{letter spelling: word of the encoding} for the spellings that are not words of the encoding (rorl, aaddq)"""
-    return dict(mkgrammar.marks_letters(root))
+def spellings(root=None):
+    """{accepted spelling: word of the encoding}"""
+    return {sp: w for sp, w, fl, p in rows(root)}
 
 
 REG = re.compile(r'^(%?r\d+|%?sp|%?fp)$')
@@ -60,82 +63,34 @@ def split_ops(s):
     return ops
 
 
-class NoSpelling(Exception):
-    pass
-
-
 def spell(word, ops):
-    """(operation, operands) for a word of the encoding and its operands (strings): the marks on the operands the row names.  A word with no row is returned as it is."""
-    r = rows().get(word)
-    if r is None: return word, list(ops)
-    op, spec = r
-    ops = list(ops)
-    if not spec:
-        return (op if word in words() else word), ops		# movq stays a word of the assembly language; movq.u is `mov.u`
-    k = spec[0]
-    if k == 'm':
-        mem = [i for i, o in enumerate(ops) if not isreg(o) and not isimm(o)]
-        if mem: i = mem[-1]
-        elif ops and isreg(ops[0]): i = 0
-        else: raise NoSpelling('%s %s: the width of a constant has no mark' % (word, ', '.join(ops)))
-        if isimm(ops[i]): raise NoSpelling('%s %s' % (word, ', '.join(ops)))
-        ops[i] += '.' + spec[1:].replace('u', 'u')
-    elif k == 's':
-        ops[0] += '.' + spec[1:]
-    elif k == 'f':
-        for i, o in enumerate(ops):
-            if isreg(o): ops[i] = o + '.' + spec[1:]
-    elif k == 'c':
-        s, d = spec[2:].split(':')
-        ops = [ops[0] + ('' if s == 'i' else '.' + s), ops[1] + ('' if d == 'i' else '.' + d)]
-    return op, ops
-
-
-_MARK = re.compile(r'\.[us]?(?:8|16|32|64)$')
+    """(operation, operands) for a word of the encoding and its operands (strings): the operation is the spelling printed for the word; the operands are as they are"""
+    return shown().get(word, word), list(ops)
 
 
 def unspell(op, ops):
-    """the other direction: the word of the encoding and the operands without marks, for an operation and operands as the assembly language writes them (a tool that reads the assembly a
-    compiler or the disassembler wrote and thinks in the words of the encoding).  An operation that no row names is returned as it is."""
-    if op in letters(): return letters()[op], list(ops)		# rorl is the word ror32 of the encoding, aaddq is aadd
-    plain = [_MARK.sub('', o) if _MARK.search(o) else o for o in ops]
-    for w, (rop, spec) in rows().items():
-        if rop != op: continue
-        try:
-            if spell(w, plain)[1] == list(ops) and (spec or plain == list(ops)):
-                return w, plain
-        except NoSpelling:
-            pass
-    return op, list(ops)
-
-
-def phrase(word):
-    """the words of a sentence for a word of the encoding (a comment that names it): `lll` is `ll .32`; None for a word with no mark"""
-    r = rows().get(word)
-    if r is None or not r[1]: return None
-    op, spec = r
-    if spec[0] == 'm': return '%s .%s' % (op, spec[1:])
-    if spec[0] in 'sf': return '%s .%s' % (op, spec[1:])
-    s, d = spec[2:].split(':')
-    return 'fcvt from %s to %s' % ('an integer' if s == 'i' else s, 'an integer' if d == 'i' else d)
+    """the other direction: the word of the encoding and the operands, for an operation as the assembly language writes it.  An operation that is not a suffixed spelling is returned as it is."""
+    return spellings().get(op, op), list(ops)
 
 
 def spell_comment(text):
-    """a comment that names words of the encoding that the assembly language does not have: the names are replaced by the operation and its mark"""
-    pat = re.compile(r'(?<![\w.$])(%s)(?![\w.$])' % '|'.join(re.escape(w) for w in sorted(words(), key=len, reverse=True)))
-    return pat.sub(lambda m: phrase(m.group(1)) or m.group(1), text)
+    """a comment that names words of the encoding that the assembly language does not have: the names are replaced by their spelling"""
+    sh = {w: sp for w, sp in shown().items() if w != sp}
+    pat = re.compile(r'(?<![\w.$])(%s)(?![\w.$])' % '|'.join(re.escape(w) for w in sorted(sh, key=len, reverse=True)))
+    return pat.sub(lambda m: sh[m.group(1)], text)
 
 
 def spell_line(text):
-    """a line of source `word operands` (a mnemonic of the encoding at its start, after any labels) written with marks; other lines as they are"""
-    m = re.match(r'^(\s*(?:[\w.$]+:\s*)*)([a-z][a-z0-9.]*)(\s+)(.*)$', text)
-    if not m or m.group(2) not in rows(): return text
-    op, ops = spell(m.group(2), split_ops(m.group(4)))
-    return m.group(1) + op + m.group(3) + ', '.join(ops)
+    """a line of source `word operands` (a mnemonic of the encoding at its start, after any labels) written with the spelling of the assembly language; other lines as they are"""
+    m = re.match(r'^(\s*(?:[\w.$]+:\s*)*)([a-z][a-z0-9.]*)(?=\s|$)(.*)$', text)
+    if not m: return text
+    sh = shown()
+    if m.group(2) not in sh: return text
+    return m.group(1) + sh[m.group(2)] + m.group(3)
 
 
 def spell_text(text):
-    """a program of source lines: each line that starts with a word of the encoding that the assembly language writes with marks is written with them (a generator of tests describes an
+    """a program of source lines: each line that starts with a word of the encoding that the assembly language spells otherwise is written with its spelling (a generator of tests describes an
     instruction by the word of the encoding and the operands; this is the one place that turns it into source)"""
     out = []
     for l in text.split('\n'):
@@ -146,7 +101,7 @@ def spell_text(text):
                 if ch == q: q = None
             elif ch in '"\'`': q = ch
             elif ch == ';': code, com = l[:k], l[k:]; break
-        out.append(spell_line(code) + code[len(code.rstrip()):] + spell_comment(com))
+        out.append(spell_line(code) + spell_comment(com))
     return '\n'.join(out)
 
 

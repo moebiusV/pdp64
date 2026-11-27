@@ -5,7 +5,7 @@
 _start:
 	lea	vtab, r1
 	mtsr	vbr, r1
-	movq	#0, r10
+	mov	#0, r10
 	spl	#0
 	wfe
 afterw:
@@ -16,17 +16,17 @@ afterw:
 	cbne r8, #(44), F3 ; check 3
 	cbne r12, #((MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|7<<PSW_PRI)), F4 ; check 4
 	cbne r7, #((MODE_KERNEL<<PSW_MODE|MODE_KERNEL<<PSW_PREV|0<<PSW_PRI)), F5 ; check 5
-	movq	#0, r0
+	mov	#0, r0
 	halt
-F1:	movq	#1, r0
+F1:	mov	#1, r0
 	halt
-F2:	movq	#2, r0
+F2:	mov	#2, r0
 	halt
-F3:	movq	#3, r0
+F3:	mov	#3, r0
 	halt
-F4:	movq	#4, r0
+F4:	mov	#4, r0
 	halt
-F5:	movq	#5, r0
+F5:	mov	#5, r0
 	halt
 h_irq:	mfps	r12
 	mfsr	r6, epc

@@ -12,8 +12,8 @@ _start:
 	lea	epoch_word, r1			; the word the other cores read at their guest entry
 	mtsr	hepoch, r1
 	lea	s2leaf, r2			; change one stage-2 entry of a guest: an ordinary store ...
-	movq	=0x8f7013, r3
-	movq	r3, (r2)			; ... into the arena; nothing else is asked of the hypervisor
+	mov	=0x8f7013, r3
+	mov	r3, (r2)			; ... into the arena; nothing else is asked of the hypervisor
 	genter	#0				; the entry throws away the guest's translations if the flag was set
 	.data
 epoch_word:	.quad	0

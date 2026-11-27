@@ -26,7 +26,7 @@ reload_time:
 **After** (pdp64, `snippets/user-time.S`, assembled; the call number 7 is the example's own):
 
 ```
-        movq    #7, r0
+        mov    #7, r0
         trap    #0                      ; r0 comes back holding the time
 ```
 

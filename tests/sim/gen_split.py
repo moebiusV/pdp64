@@ -13,7 +13,7 @@ It is built from the machine of tests/sim/atom-fault-page.S (the page tables, th
 usage: gen_split.py OUTDIR"""
 import sys as _sys, os as _os
 _sys.path.insert(0, _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), '..', '..', 'tools'))
-import marks		# the words of the encoding written with width marks (tools/marks.py)
+import marks		# the words of the encoding written with the width suffixes (tools/marks.py)
 import os, re, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -22,7 +22,8 @@ head = src[:src.index('\tlea\tustack_top, sp\n') + len('\tlea\tustack_top, sp\n'
 head = head.replace(head[:head.index('#include')], '')
 tail = src[src.index('h_fault:\n'):]
 # the handler also records what is at the watched address and the destination register of the load
-tail = tail.replace('h_fault:\n\tmovq\tr1, hr1\n', 'h_fault:\n\tmovq\tr1, hr1\n\tmovq\tr5, hr5\n\tmovq\twatch, r12\n\tcbeq\tr12, #0, 1f\n\tmovl\t(r12), r11\n\tmovq\tr11, seen\n1:\n', 1)
+# (atom-fault-page.S is already written with the suffixes: the words of the encoding of the text to match are spelled the same way)
+tail = tail.replace(marks.spell_text('h_fault:\n\tmovq\tr1, hr1\n'), marks.spell_text('h_fault:\n\tmovq\tr1, hr1\n\tmovq\tr5, hr5\n\tmovq\twatch, r12\n\tcbeq\tr12, #0, 1f\n\tmovl\t(r12), r11\n\tmovq\tr11, seen\n1:\n'), 1)
 tail = tail.replace('hr1:\t.quad\t0\n', 'hr1:\t.quad\t0\nhr5:\t.quad\t0\nwatch:\t.quad\t0\nseen:\t.quad\t0\n', 1)
 
 n = [0]

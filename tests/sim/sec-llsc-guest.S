@@ -3,78 +3,78 @@
 #include "pdp64-consts.h"
 	.text
 	.globl	_start
-xh:	jmp	r20						; every exit: on to the continuation (forward: a backward jump would end a reservation by itself)
+xh:	jmp	r20			; every exit: on to the continuation (forward: a backward jump would end a reservation by itself)
 gh:	halt
 _start:
 	lea	htab, r1
 	mtsr	hvbr, r1
 	lea	xh, r2
-	movq	#512, r3
-fill1:	movq	r2, (r1)+
+	mov	#512, r3
+fill1:	mov	r2, (r1)+
 	sob	r3, fill1
 	lea	gvtab, r1
 	mtsr	vbr, r1
 	lea	gh, r2
-	movq	#512, r3
-fill2:	movq	r2, (r1)+
+	mov	#512, r3
+fill2:	mov	r2, (r1)+
 	sob	r3, fill2
 	lea	hstk_top, r14
 	lea	word, r3
-	movq	#7, r17
-	movq	r17, (r3)
+	mov	#7, r17
+	mov	r17, (r3)
 	lea	res, r5
 
-		; ---- case 1: GENTER clears the hypervisor's reservation: a guest's SC fails
+	; ---- case 1: GENTER clears the hypervisor's reservation: a guest's SC fails
 	lea	gA, r2
 	mtsr	hepc, r2
-	movq	#0, r2
+	mov	#0, r2
 	mtsr	hepsw, r2
 	lea	backA, r20
-	movq	#55, r2
+	mov	#55, r2
 	ll	(r3), r1
 	genter	#RTIMASK_ALL
 gA:	sc	r2, (r3), r4
-	movq	r4, 0(r5)
+	mov	r4, 0(r5)
 	halt
-backA:	movq	0(r5), r4
-	cbne	r4, #0, 1f		; case 1: the guest's SC does not use the reservation of the hypervisor
-	movq	#1, r0
-	halt
-1:
-	movq	(r3), r4
-	movq	=(7), r17
-	cbeq	r4, r17, 1f		; case 1: GENTER: nothing was written
-	movq	#1, r0
+backA:	mov	0(r5), r4
+	cbne	r4, #0, 1f	; case 1: the guest's SC does not use the reservation of the hypervisor
+	mov	#1, r0
 	halt
 1:
-		; ---- case 2: an exit clears the guest's reservation: the hypervisor's SC fails
+	mov	(r3), r4
+	mov	=(7), r17
+	cbeq	r4, r17, 1f	; case 1: GENTER: nothing was written
+	mov	#1, r0
+	halt
+1:
+	; ---- case 2: an exit clears the guest's reservation: the hypervisor's SC fails
 	lea	gB, r2
 	mtsr	hepc, r2
-	movq	#0, r2
+	mov	#0, r2
 	mtsr	hepsw, r2
 	lea	backB, r20
 	genter	#RTIMASK_ALL
 gB:	ll	(r3), r1
 	halt
-backB:	movq	#66, r2
+backB:	mov	#66, r2
 	sc	r2, (r3), r4
-	cbne	r4, #0, 1f		; case 2: the hypervisor's SC after the guest's LL and an exit fails
-	movq	#2, r0
+	cbne	r4, #0, 1f	; case 2: the hypervisor's SC after the guest's LL and an exit fails
+	mov	#2, r0
 	halt
 1:
-	movq	(r3), r4
-	movq	=(7), r17
-	cbeq	r4, r17, 1f		; case 2: exit: nothing was written
-	movq	#2, r0
+	mov	(r3), r4
+	mov	=(7), r17
+	cbeq	r4, r17, 1f	; case 2: exit: nothing was written
+	mov	#2, r0
 	halt
 1:
-		; ---- case 3: a switch from one guest to another: the second guest does not find the first one's reservation
+	; ---- case 3: a switch from one guest to another: the second guest does not find the first one's reservation
 	lea	gC2, r8
-	movq	#0, r9
+	mov	#0, r9
 	lea	backC2, r21
 	lea	gC1, r2
 	mtsr	hepc, r2
-	movq	#0, r2
+	mov	#0, r2
 	mtsr	hepsw, r2
 	lea	backC1, r20
 	genter	#RTIMASK_ALL
@@ -82,57 +82,57 @@ gC1:	ll	(r3), r1
 	halt
 backC1:	mtsr	hepc, r8
 	mtsr	hepsw, r9
-	movq	r21, r20
-	movq	#44, r2
+	mov	r21, r20
+	mov	#44, r2
 	genter	#RTIMASK_ALL
 gC2:	sc	r2, (r3), r4
-	movq	r4, 8(r5)
+	mov	r4, 8(r5)
 	halt
-backC2:	movq	8(r5), r4
-	cbne	r4, #0, 1f		; case 3: guest B's SC fails
-	movq	#3, r0
-	halt
-1:
-	movq	(r3), r4
-	movq	=(7), r17
-	cbeq	r4, r17, 1f		; case 3: a switch: nothing was written
-	movq	#3, r0
+backC2:	mov	8(r5), r4
+	cbne	r4, #0, 1f	; case 3: guest B's SC fails
+	mov	#3, r0
 	halt
 1:
-		; ---- case 4: control: an LL and an SC of the guest work
+	mov	(r3), r4
+	mov	=(7), r17
+	cbeq	r4, r17, 1f	; case 3: a switch: nothing was written
+	mov	#3, r0
+	halt
+1:
+	; ---- case 4: control: an LL and an SC of the guest work
 	lea	gD, r2
 	mtsr	hepc, r2
-	movq	#0, r2
+	mov	#0, r2
 	mtsr	hepsw, r2
 	lea	backD, r20
-	movq	#33, r2
+	mov	#33, r2
 	genter	#RTIMASK_ALL
 gD:	ll	(r3), r1
 	sc	r2, (r3), r4
-	movq	r4, 16(r5)
+	mov	r4, 16(r5)
 	halt
-backD:	movq	16(r5), r4
-	movq	=(0), r17
-	cbeq	r4, r17, 1f		; case 4: the guest's SC works when nothing came between
-	movq	#4, r0
-	halt
-1:
-	movq	(r3), r4
-	movq	=(33), r17
-	cbeq	r4, r17, 1f		; case 4: and wrote
-	movq	#4, r0
+backD:	mov	16(r5), r4
+	mov	=(0), r17
+	cbeq	r4, r17, 1f	; case 4: the guest's SC works when nothing came between
+	mov	#4, r0
 	halt
 1:
-		; ---- case 5: control: an LL and an SC of the hypervisor work
-	movq	#22, r2
+	mov	(r3), r4
+	mov	=(33), r17
+	cbeq	r4, r17, 1f	; case 4: and wrote
+	mov	#4, r0
+	halt
+1:
+	; ---- case 5: control: an LL and an SC of the hypervisor work
+	mov	#22, r2
 	ll	(r3), r1
 	sc	r2, (r3), r4
-	movq	=(0), r17
-	cbeq	r4, r17, 1f		; case 5: the hypervisor's own SC works
-	movq	#5, r0
+	mov	=(0), r17
+	cbeq	r4, r17, 1f	; case 5: the hypervisor's own SC works
+	mov	#5, r0
 	halt
 1:
-	movq	#0, r0
+	mov	#0, r0
 	halt
 
 	.data

@@ -3,10 +3,10 @@
 	.globl _start
 _start:
 	lea buf, r8
-	movq #1, r1
-	movq #2, r2
-	movq #3, r3
-	movq #4, r4
+	mov #1, r1
+	mov #2, r2
+	mov #3, r3
+	mov #4, r4
 	aeses r1,r2,r3
 	clr r0
 	halt

@@ -10,6 +10,8 @@ description, not from the code.  The base configuration has an ideal memory syst
 the count does not depend on the lengths of the instructions unless the test is about fetch.
 """
 import sys, os, subprocess, re, tempfile
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'tools'))
+import marks		# the words of the encoding written with the width suffixes (tools/marks.py)
 
 B = sys.argv[1] if len(sys.argv) > 1 else 'build'
 AS, LD, SIM = B + '/as64', B + '/ld64', B + '/sim64'
@@ -24,7 +26,7 @@ def spec(**kw):
 
 def run(src, enc, name, specs, extra=()):
     """assemble+link src for enc, run with every spec; returns a list of dicts (cycles, insns...) and the profile as {pc: (count, bytes)}"""
-    asmf = '%s/%s.%s.s' % (TMP, name, enc[0]); open(asmf, 'w').write(src)
+    asmf = '%s/%s.%s.s' % (TMP, name, enc[0]); open(asmf, 'w').write(marks.spell_text(src))
     o = asmf[:-2] + '.o'; x = asmf[:-2] + '.x'; prof = asmf[:-2] + '.prof'
     r = subprocess.run([AS] + enc[1] + ['-o', o, asmf], capture_output=True, text=True)
     if r.returncode: raise SystemExit('as64: ' + r.stderr)

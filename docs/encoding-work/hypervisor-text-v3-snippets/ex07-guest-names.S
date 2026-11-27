@@ -5,9 +5,9 @@
 _start:
 	mfdp	r20				; the hypervisor's own per-core structure
 	mfsr	r1, gptbr			; the guest's PTBR
-	movq	r1, (r20)
+	mov	r1, (r20)
 	mfsr	r1, gvbr
-	movq	r1, 8(r20)
+	mov	r1, 8(r20)
 	mfsr	r1, gkdp			; the guest's kernel-mode DP
-	movq	r1, 16(r20)
+	mov	r1, 16(r20)
 	mtsr	ptbr, r2			; the hypervisor's own table base

@@ -20,7 +20,7 @@
 | Red zone | none (version 1). |
 | Symbols | no leading underscore. |
 | Landing pads | off in version 1; the assembler provides `.lpad`. |
-| PIC | globals through `d(PC)`; imported symbols through `MOVQ got(PC),Rd`; calls to imports through `CALLI got(PC)`; TLS local-exec `MOVQ off(DP),Rd`. |
+| PIC | globals through `d(PC)`; imported symbols through `MOV got(PC),Rd`; calls to imports through `CALLI got(PC)`; TLS local-exec `MOV off(DP),Rd`. |
 
 
 ## {{#variadic-calls}} Variadic calls

@@ -10,567 +10,567 @@ _start:
 	lea	stk_top, sp
 	mfsr	r5, mmuctl
 	cbeq r5, #(0), 1f
-	movq	#2, r0	; check 1
+	mov	#2, r0	; check 1
 	halt
 1:
-	movq	=65536, r3
-	movq	8(r3), r5
-	movq	#1, r1
+	mov	=65536, r3
+	mov	8(r3), r5
+	mov	#1, r1
 	mtsr	mmuctl, r1
 	mfsr	r5, mmuctl
 	cbeq r5, #(1), 1f
-	movq	#3, r0	; check 2
+	mov	#3, r0	; check 2
 	halt
 1:
-	movq	=65536, r3
-	movq	8(r3), r5
-	movq	#0x77, r5
-	movq	r5, 8(r3)
-	movq	8(r3), r6
+	mov	=65536, r3
+	mov	8(r3), r5
+	mov	#0x77, r5
+	mov	r5, 8(r3)
+	mov	8(r3), r6
 	cbeq r6, #(119), 1f
-	movq	#4, r0	; check 3
+	mov	#4, r0	; check 3
 	halt
 1:
-	movq	#0, r4
-	movq	#0, r10
-	movq	#0, r6
-	movq	#0, r7
-	movq	#0, r8
-	movq	#0, r9
-	movq	#0, r12
+	mov	#0, r4
+	mov	#0, r10
+	mov	#0, r6
+	mov	#0, r7
+	mov	#0, r8
+	mov	#0, r9
+	mov	#0, r12
 	lea	res_nc0load, r4
 ins_nc0load:
-	movq	=274877906944, r3
+	mov	=274877906944, r3
 x_nc0load:
-	movq	(r3), r5
+	mov	(r3), r5
 res_nc0load:
 	cbeq r10, #(1), 1f
-	movq	#5, r0	; check 4
+	mov	#5, r0	; check 4
 	halt
 1:
 	cbeq r8, #(VECTOR_NONCANONICAL), 1f
-	movq	#6, r0	; check 5
+	mov	#6, r0	; check 5
 	halt
 1:
-	movq	=274877906944, r2
+	mov	=274877906944, r2
 	cbeq r9, r2, 1f
-	movq	#7, r0	; check 6
+	mov	#7, r0	; check 6
 	halt
 1:
 	lea	x_nc0load, r11
 	cbeq r6, r11, 1f
-	movq	#8, r0	; check 7
+	mov	#8, r0	; check 7
 	halt
 1:
-	movq	#0, r4
-	movq	#0, r10
-	movq	#0, r6
-	movq	#0, r7
-	movq	#0, r8
-	movq	#0, r9
-	movq	#0, r12
+	mov	#0, r4
+	mov	#0, r10
+	mov	#0, r6
+	mov	#0, r7
+	mov	#0, r8
+	mov	#0, r9
+	mov	#0, r12
 	lea	res_nc0store, r4
 ins_nc0store:
-	movq	=274877906944, r3
+	mov	=274877906944, r3
 x_nc0store:
-	movq	r5, (r3)
+	mov	r5, (r3)
 res_nc0store:
 	cbeq r10, #(1), 1f
-	movq	#9, r0	; check 8
+	mov	#9, r0	; check 8
 	halt
 1:
 	cbeq r8, #(VECTOR_NONCANONICAL), 1f
-	movq	#10, r0	; check 9
+	mov	#10, r0	; check 9
 	halt
 1:
-	movq	=274877906944, r2
+	mov	=274877906944, r2
 	cbeq r9, r2, 1f
-	movq	#11, r0	; check 10
+	mov	#11, r0	; check 10
 	halt
 1:
 	lea	x_nc0store, r11
 	cbeq r6, r11, 1f
-	movq	#12, r0	; check 11
+	mov	#12, r0	; check 11
 	halt
 1:
-	movq	#0, r4
-	movq	#0, r10
-	movq	#0, r6
-	movq	#0, r7
-	movq	#0, r8
-	movq	#0, r9
-	movq	#0, r12
+	mov	#0, r4
+	mov	#0, r10
+	mov	#0, r6
+	mov	#0, r7
+	mov	#0, r8
+	mov	#0, r9
+	mov	#0, r12
 	lea	res_nc0fetch, r4
 ins_nc0fetch:
-	movq	=274877906944, r3
+	mov	=274877906944, r3
 x_nc0fetch:
 	call	r3
 res_nc0fetch:
 	add	#8, sp
 	cbeq r10, #(1), 1f
-	movq	#13, r0	; check 12
+	mov	#13, r0	; check 12
 	halt
 1:
 	cbeq r8, #(VECTOR_NONCANONICAL), 1f
-	movq	#14, r0	; check 13
+	mov	#14, r0	; check 13
 	halt
 1:
-	movq	=274877906944, r2
+	mov	=274877906944, r2
 	cbeq r9, r2, 1f
-	movq	#15, r0	; check 14
+	mov	#15, r0	; check 14
 	halt
 1:
 	cbeq r6, r2, 1f
-	movq	#16, r0	; check 15
+	mov	#16, r0	; check 15
 	halt
 1:
-	movq	#0, r4
-	movq	#0, r10
-	movq	#0, r6
-	movq	#0, r7
-	movq	#0, r8
-	movq	#0, r9
-	movq	#0, r12
+	mov	#0, r4
+	mov	#0, r10
+	mov	#0, r6
+	mov	#0, r7
+	mov	#0, r8
+	mov	#0, r9
+	mov	#0, r12
 	lea	res_nc1load, r4
 ins_nc1load:
-	movq	=72057594037927936, r3
+	mov	=72057594037927936, r3
 x_nc1load:
-	movq	(r3), r5
+	mov	(r3), r5
 res_nc1load:
 	cbeq r10, #(1), 1f
-	movq	#17, r0	; check 16
+	mov	#17, r0	; check 16
 	halt
 1:
 	cbeq r8, #(VECTOR_NONCANONICAL), 1f
-	movq	#18, r0	; check 17
+	mov	#18, r0	; check 17
 	halt
 1:
-	movq	=72057594037927936, r2
+	mov	=72057594037927936, r2
 	cbeq r9, r2, 1f
-	movq	#19, r0	; check 18
+	mov	#19, r0	; check 18
 	halt
 1:
 	lea	x_nc1load, r11
 	cbeq r6, r11, 1f
-	movq	#20, r0	; check 19
+	mov	#20, r0	; check 19
 	halt
 1:
-	movq	#0, r4
-	movq	#0, r10
-	movq	#0, r6
-	movq	#0, r7
-	movq	#0, r8
-	movq	#0, r9
-	movq	#0, r12
+	mov	#0, r4
+	mov	#0, r10
+	mov	#0, r6
+	mov	#0, r7
+	mov	#0, r8
+	mov	#0, r9
+	mov	#0, r12
 	lea	res_nc1store, r4
 ins_nc1store:
-	movq	=72057594037927936, r3
+	mov	=72057594037927936, r3
 x_nc1store:
-	movq	r5, (r3)
+	mov	r5, (r3)
 res_nc1store:
 	cbeq r10, #(1), 1f
-	movq	#21, r0	; check 20
+	mov	#21, r0	; check 20
 	halt
 1:
 	cbeq r8, #(VECTOR_NONCANONICAL), 1f
-	movq	#22, r0	; check 21
+	mov	#22, r0	; check 21
 	halt
 1:
-	movq	=72057594037927936, r2
+	mov	=72057594037927936, r2
 	cbeq r9, r2, 1f
-	movq	#23, r0	; check 22
+	mov	#23, r0	; check 22
 	halt
 1:
 	lea	x_nc1store, r11
 	cbeq r6, r11, 1f
-	movq	#24, r0	; check 23
+	mov	#24, r0	; check 23
 	halt
 1:
-	movq	#0, r4
-	movq	#0, r10
-	movq	#0, r6
-	movq	#0, r7
-	movq	#0, r8
-	movq	#0, r9
-	movq	#0, r12
+	mov	#0, r4
+	mov	#0, r10
+	mov	#0, r6
+	mov	#0, r7
+	mov	#0, r8
+	mov	#0, r9
+	mov	#0, r12
 	lea	res_nc1fetch, r4
 ins_nc1fetch:
-	movq	=72057594037927936, r3
+	mov	=72057594037927936, r3
 x_nc1fetch:
 	call	r3
 res_nc1fetch:
 	add	#8, sp
 	cbeq r10, #(1), 1f
-	movq	#25, r0	; check 24
+	mov	#25, r0	; check 24
 	halt
 1:
 	cbeq r8, #(VECTOR_NONCANONICAL), 1f
-	movq	#26, r0	; check 25
+	mov	#26, r0	; check 25
 	halt
 1:
-	movq	=72057594037927936, r2
+	mov	=72057594037927936, r2
 	cbeq r9, r2, 1f
-	movq	#27, r0	; check 26
+	mov	#27, r0	; check 26
 	halt
 1:
 	cbeq r6, r2, 1f
-	movq	#28, r0	; check 27
+	mov	#28, r0	; check 27
 	halt
 1:
-	movq	#0, r4
-	movq	#0, r10
-	movq	#0, r6
-	movq	#0, r7
-	movq	#0, r8
-	movq	#0, r9
-	movq	#0, r12
+	mov	#0, r4
+	mov	#0, r10
+	mov	#0, r6
+	mov	#0, r7
+	mov	#0, r8
+	mov	#0, r9
+	mov	#0, r12
 	lea	res_nc2load, r4
 ins_nc2load:
-	movq	=18446743798831644664, r3
+	mov	=18446743798831644664, r3
 x_nc2load:
-	movq	(r3), r5
+	mov	(r3), r5
 res_nc2load:
 	cbeq r10, #(1), 1f
-	movq	#29, r0	; check 28
+	mov	#29, r0	; check 28
 	halt
 1:
 	cbeq r8, #(VECTOR_NONCANONICAL), 1f
-	movq	#30, r0	; check 29
+	mov	#30, r0	; check 29
 	halt
 1:
-	movq	=18446743798831644664, r2
+	mov	=18446743798831644664, r2
 	cbeq r9, r2, 1f
-	movq	#31, r0	; check 30
+	mov	#31, r0	; check 30
 	halt
 1:
 	lea	x_nc2load, r11
 	cbeq r6, r11, 1f
-	movq	#32, r0	; check 31
+	mov	#32, r0	; check 31
 	halt
 1:
-	movq	#0, r4
-	movq	#0, r10
-	movq	#0, r6
-	movq	#0, r7
-	movq	#0, r8
-	movq	#0, r9
-	movq	#0, r12
+	mov	#0, r4
+	mov	#0, r10
+	mov	#0, r6
+	mov	#0, r7
+	mov	#0, r8
+	mov	#0, r9
+	mov	#0, r12
 	lea	res_nc2store, r4
 ins_nc2store:
-	movq	=18446743798831644664, r3
+	mov	=18446743798831644664, r3
 x_nc2store:
-	movq	r5, (r3)
+	mov	r5, (r3)
 res_nc2store:
 	cbeq r10, #(1), 1f
-	movq	#33, r0	; check 32
+	mov	#33, r0	; check 32
 	halt
 1:
 	cbeq r8, #(VECTOR_NONCANONICAL), 1f
-	movq	#34, r0	; check 33
+	mov	#34, r0	; check 33
 	halt
 1:
-	movq	=18446743798831644664, r2
+	mov	=18446743798831644664, r2
 	cbeq r9, r2, 1f
-	movq	#35, r0	; check 34
+	mov	#35, r0	; check 34
 	halt
 1:
 	lea	x_nc2store, r11
 	cbeq r6, r11, 1f
-	movq	#36, r0	; check 35
+	mov	#36, r0	; check 35
 	halt
 1:
-	movq	#0, r4
-	movq	#0, r10
-	movq	#0, r6
-	movq	#0, r7
-	movq	#0, r8
-	movq	#0, r9
-	movq	#0, r12
+	mov	#0, r4
+	mov	#0, r10
+	mov	#0, r6
+	mov	#0, r7
+	mov	#0, r8
+	mov	#0, r9
+	mov	#0, r12
 	lea	res_nc2fetch, r4
 ins_nc2fetch:
-	movq	=18446743798831644664, r3
+	mov	=18446743798831644664, r3
 x_nc2fetch:
 	call	r3
 res_nc2fetch:
 	add	#8, sp
 	cbeq r10, #(1), 1f
-	movq	#37, r0	; check 36
+	mov	#37, r0	; check 36
 	halt
 1:
 	cbeq r8, #(VECTOR_NONCANONICAL), 1f
-	movq	#38, r0	; check 37
+	mov	#38, r0	; check 37
 	halt
 1:
-	movq	=18446743798831644664, r2
+	mov	=18446743798831644664, r2
 	cbeq r9, r2, 1f
-	movq	#39, r0	; check 38
+	mov	#39, r0	; check 38
 	halt
 1:
 	cbeq r6, r2, 1f
-	movq	#40, r0	; check 39
+	mov	#40, r0	; check 39
 	halt
 1:
-	movq	#0, r4
-	movq	#0, r10
-	movq	#0, r6
-	movq	#0, r7
-	movq	#0, r8
-	movq	#0, r9
-	movq	#0, r12
+	mov	#0, r4
+	mov	#0, r10
+	mov	#0, r6
+	mov	#0, r7
+	mov	#0, r8
+	mov	#0, r9
+	mov	#0, r12
 	lea	res_nc3load, r4
 ins_nc3load:
-	movq	=549755813888, r3
+	mov	=549755813888, r3
 x_nc3load:
-	movq	(r3), r5
+	mov	(r3), r5
 res_nc3load:
 	cbeq r10, #(1), 1f
-	movq	#41, r0	; check 40
+	mov	#41, r0	; check 40
 	halt
 1:
 	cbeq r8, #(VECTOR_NONCANONICAL), 1f
-	movq	#42, r0	; check 41
+	mov	#42, r0	; check 41
 	halt
 1:
-	movq	=549755813888, r2
+	mov	=549755813888, r2
 	cbeq r9, r2, 1f
-	movq	#43, r0	; check 42
+	mov	#43, r0	; check 42
 	halt
 1:
 	lea	x_nc3load, r11
 	cbeq r6, r11, 1f
-	movq	#44, r0	; check 43
+	mov	#44, r0	; check 43
 	halt
 1:
-	movq	#0, r4
-	movq	#0, r10
-	movq	#0, r6
-	movq	#0, r7
-	movq	#0, r8
-	movq	#0, r9
-	movq	#0, r12
+	mov	#0, r4
+	mov	#0, r10
+	mov	#0, r6
+	mov	#0, r7
+	mov	#0, r8
+	mov	#0, r9
+	mov	#0, r12
 	lea	res_nc3store, r4
 ins_nc3store:
-	movq	=549755813888, r3
+	mov	=549755813888, r3
 x_nc3store:
-	movq	r5, (r3)
+	mov	r5, (r3)
 res_nc3store:
 	cbeq r10, #(1), 1f
-	movq	#45, r0	; check 44
+	mov	#45, r0	; check 44
 	halt
 1:
 	cbeq r8, #(VECTOR_NONCANONICAL), 1f
-	movq	#46, r0	; check 45
+	mov	#46, r0	; check 45
 	halt
 1:
-	movq	=549755813888, r2
+	mov	=549755813888, r2
 	cbeq r9, r2, 1f
-	movq	#47, r0	; check 46
+	mov	#47, r0	; check 46
 	halt
 1:
 	lea	x_nc3store, r11
 	cbeq r6, r11, 1f
-	movq	#48, r0	; check 47
+	mov	#48, r0	; check 47
 	halt
 1:
-	movq	#0, r4
-	movq	#0, r10
-	movq	#0, r6
-	movq	#0, r7
-	movq	#0, r8
-	movq	#0, r9
-	movq	#0, r12
+	mov	#0, r4
+	mov	#0, r10
+	mov	#0, r6
+	mov	#0, r7
+	mov	#0, r8
+	mov	#0, r9
+	mov	#0, r12
 	lea	res_nc3fetch, r4
 ins_nc3fetch:
-	movq	=549755813888, r3
+	mov	=549755813888, r3
 x_nc3fetch:
 	call	r3
 res_nc3fetch:
 	add	#8, sp
 	cbeq r10, #(1), 1f
-	movq	#49, r0	; check 48
+	mov	#49, r0	; check 48
 	halt
 1:
 	cbeq r8, #(VECTOR_NONCANONICAL), 1f
-	movq	#50, r0	; check 49
+	mov	#50, r0	; check 49
 	halt
 1:
-	movq	=549755813888, r2
+	mov	=549755813888, r2
 	cbeq r9, r2, 1f
-	movq	#51, r0	; check 50
+	mov	#51, r0	; check 50
 	halt
 1:
 	cbeq r6, r2, 1f
-	movq	#52, r0	; check 51
+	mov	#52, r0	; check 51
 	halt
 1:
-	movq	#0, r4
-	movq	#0, r10
-	movq	#0, r6
-	movq	#0, r7
-	movq	#0, r8
-	movq	#0, r9
-	movq	#0, r12
+	mov	#0, r4
+	mov	#0, r10
+	mov	#0, r6
+	mov	#0, r7
+	mov	#0, r8
+	mov	#0, r9
+	mov	#0, r12
 	lea	res_nc4load, r4
 ins_nc4load:
-	movq	=9223372036854775808, r3
+	mov	=9223372036854775808, r3
 x_nc4load:
-	movq	(r3), r5
+	mov	(r3), r5
 res_nc4load:
 	cbeq r10, #(1), 1f
-	movq	#53, r0	; check 52
+	mov	#53, r0	; check 52
 	halt
 1:
 	cbeq r8, #(VECTOR_NONCANONICAL), 1f
-	movq	#54, r0	; check 53
+	mov	#54, r0	; check 53
 	halt
 1:
-	movq	=9223372036854775808, r2
+	mov	=9223372036854775808, r2
 	cbeq r9, r2, 1f
-	movq	#55, r0	; check 54
+	mov	#55, r0	; check 54
 	halt
 1:
 	lea	x_nc4load, r11
 	cbeq r6, r11, 1f
-	movq	#56, r0	; check 55
+	mov	#56, r0	; check 55
 	halt
 1:
-	movq	#0, r4
-	movq	#0, r10
-	movq	#0, r6
-	movq	#0, r7
-	movq	#0, r8
-	movq	#0, r9
-	movq	#0, r12
+	mov	#0, r4
+	mov	#0, r10
+	mov	#0, r6
+	mov	#0, r7
+	mov	#0, r8
+	mov	#0, r9
+	mov	#0, r12
 	lea	res_nc4store, r4
 ins_nc4store:
-	movq	=9223372036854775808, r3
+	mov	=9223372036854775808, r3
 x_nc4store:
-	movq	r5, (r3)
+	mov	r5, (r3)
 res_nc4store:
 	cbeq r10, #(1), 1f
-	movq	#57, r0	; check 56
+	mov	#57, r0	; check 56
 	halt
 1:
 	cbeq r8, #(VECTOR_NONCANONICAL), 1f
-	movq	#58, r0	; check 57
+	mov	#58, r0	; check 57
 	halt
 1:
-	movq	=9223372036854775808, r2
+	mov	=9223372036854775808, r2
 	cbeq r9, r2, 1f
-	movq	#59, r0	; check 58
+	mov	#59, r0	; check 58
 	halt
 1:
 	lea	x_nc4store, r11
 	cbeq r6, r11, 1f
-	movq	#60, r0	; check 59
+	mov	#60, r0	; check 59
 	halt
 1:
-	movq	#0, r4
-	movq	#0, r10
-	movq	#0, r6
-	movq	#0, r7
-	movq	#0, r8
-	movq	#0, r9
-	movq	#0, r12
+	mov	#0, r4
+	mov	#0, r10
+	mov	#0, r6
+	mov	#0, r7
+	mov	#0, r8
+	mov	#0, r9
+	mov	#0, r12
 	lea	res_nc4fetch, r4
 ins_nc4fetch:
-	movq	=9223372036854775808, r3
+	mov	=9223372036854775808, r3
 x_nc4fetch:
 	call	r3
 res_nc4fetch:
 	add	#8, sp
 	cbeq r10, #(1), 1f
-	movq	#61, r0	; check 60
+	mov	#61, r0	; check 60
 	halt
 1:
 	cbeq r8, #(VECTOR_NONCANONICAL), 1f
-	movq	#62, r0	; check 61
+	mov	#62, r0	; check 61
 	halt
 1:
-	movq	=9223372036854775808, r2
+	mov	=9223372036854775808, r2
 	cbeq r9, r2, 1f
-	movq	#63, r0	; check 62
+	mov	#63, r0	; check 62
 	halt
 1:
 	cbeq r6, r2, 1f
-	movq	#64, r0	; check 63
+	mov	#64, r0	; check 63
 	halt
 1:
-	movq	=0xFFFFFFC000000000, r3
+	mov	=0xFFFFFFC000000000, r3
 	lea	pgdata, r2
 	add	r2, r3
-	movq	8(r3), r5
+	mov	8(r3), r5
 	cbeq r5, #(4660), 1f
-	movq	#65, r0	; check 64
+	mov	#65, r0	; check 64
 	halt
 1:
-	movq	#0, r1
+	mov	#0, r1
 	mtsr	mmuctl, r1
-	movq	=0x800000, r2
+	mov	=0x800000, r2
 	lea	h_gen, r1
-	movq	r1, 56(r2)
-	movq	r1, 2072(r2)
+	mov	r1, 56(r2)
+	mov	r1, 2072(r2)
 	mtsr	vbr, r2
-	movq	#1, r1
+	mov	#1, r1
 	mtsr	mmuctl, r1
-	movq	#0, r4
-	movq	#0, r10
-	movq	#0, r6
-	movq	#0, r7
-	movq	#0, r8
-	movq	#0, r9
-	movq	#0, r12
+	mov	#0, r4
+	mov	#0, r10
+	mov	#0, r6
+	mov	#0, r7
+	mov	#0, r8
+	mov	#0, r9
+	mov	#0, r12
 	lea	res_v1, r4
-	movq	=0x800000, r3
+	mov	=0x800000, r3
 ins_v1:
-	movq	(r3), r5
+	mov	(r3), r5
 res_v1:
-	movq	r7, r1
+	mov	r7, r1
 	bic	#15, r7
 	cbeq r10, #(1), 1f
-	movq	#66, r0	; check 65
+	mov	#66, r0	; check 65
 	halt
 1:
 	cbeq r8, #(VECTOR_LFAULT), 1f
-	movq	#67, r0	; check 66
+	mov	#67, r0	; check 66
 	halt
 1:
 	lea	ins_v1, r11
 	cbeq r6, r11, 1f
-	movq	#68, r0	; check 67
+	mov	#68, r0	; check 67
 	halt
 1:
-	movq	=8388608, r2
+	mov	=8388608, r2
 	cbeq r9, r2, 1f
-	movq	#69, r0	; check 68
+	mov	#69, r0	; check 68
 	halt
 1:
-	movq	#0, r4
-	movq	#0, r10
-	movq	#0, r6
-	movq	#0, r7
-	movq	#0, r8
-	movq	#0, r9
-	movq	#0, r12
+	mov	#0, r4
+	mov	#0, r10
+	mov	#0, r6
+	mov	#0, r7
+	mov	#0, r8
+	mov	#0, r9
+	mov	#0, r12
 	trap	#3
 aft:
 	cbeq r10, #(1), 1f
-	movq	#70, r0	; check 69
+	mov	#70, r0	; check 69
 	halt
 1:
 	cbeq r8, #(VECTOR_TRAP_BASE+3), 1f
-	movq	#71, r0	; check 70
+	mov	#71, r0	; check 70
 	halt
 1:
-	movq	=0x10000, r3
+	mov	=0x10000, r3
 	tlbi	r3
 	tlbia
 	tlbsync
-	movq	#0, r1
+	mov	#0, r1
 	mtsr	mmuctl, r1
-	movq	=0x800000, r3
-	movq	8(r3), r5
-	movq	#0, r0
+	mov	=0x800000, r3
+	mov	8(r3), r5
+	mov	#0, r0
 	halt
 h_gen:	mfps	r12
 	mfsr	r6, epc
@@ -581,7 +581,7 @@ h_gen:	mfps	r12
 	cbeq	r4, #0, 1f
 	mtsr	epc, r4
 1:	rti	#RTIMASK_ALL
-h_ok:	movq	#0, r0
+h_ok:	mov	#0, r0
 h_fail:	halt
 	.data
 	.align	4096

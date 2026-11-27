@@ -20,6 +20,7 @@ from grammars_d import read_rules, spec_dir, GrammarError
 
 INSN_PART = '10-enc-insn/prologue.hbnf'
 MNEMONIC_PART = '90-mnemonic/epilogue.hbnf'
+SURFACE_PART = '62-mn-surface.hbnf'
 NOT_IN_MNEMONIC = ('mn-cond', 'mn-sysreg')         # the groups that take a word of their own as an operand, not in `mnemonic` (pdp64-asm.hbnf: condinsn, srinsn)
 
 
@@ -82,9 +83,32 @@ def gen_mnemonic(root=None):
 
 
 
+def surface_rows(root=None):
+    """[(spelling, word of the encoding, flags, printed)] of the rule map-rows of 61-asm-suffixes.hbnf, in the order written: the number of a spelling is its position"""
+    rules, _ = read_rules(root, generated=False, targets=['asm'])
+    out = []
+    for lit in literals(rules['map-rows'][0]):
+        shown = lit.startswith('*')
+        sp, _, rest = lit.lstrip('*').partition('=')
+        word, _, flags = rest.partition(':')
+        out.append((sp, word, flags, shown))
+    return out
+
+
+def gen_surface(root=None):
+    """text of 62-mn-surface.hbnf: the group mn-surface, one whole-word keyword for each accepted spelling that is not a word of the encoding already (the rows of 61-asm-suffixes.hbnf)"""
+    rows = surface_rows(root)
+    if len(rows) > 255:
+        raise GrammarError('map-rows has %d rows: the numbers of mn-surface are below 256' % len(rows))
+    out = _header('The group mn-surface: every accepted spelling of 61-asm-suffixes.hbnf (mov.s8, aadd.s32, fadd.f32, fcvt.s32.f32 ...) as a whole-word keyword, numbered by its position in map-rows.', ['asm'])
+    out += '\nmn-surface = ' + '\n           | '.join(_wrap(['"%s"@%d' % (sp, i) for i, (sp, _, _, _) in enumerate(rows)])) + '\n'
+    return out
+
+
 def generated_files(root=None):
     sd = spec_dir(root)
-    return {os.path.join(sd, 'grammars.d', INSN_PART): gen_insn(root), os.path.join(sd, 'grammars.d', MNEMONIC_PART): gen_mnemonic(root)}
+    return {os.path.join(sd, 'grammars.d', INSN_PART): gen_insn(root), os.path.join(sd, 'grammars.d', MNEMONIC_PART): gen_mnemonic(root),
+            os.path.join(sd, 'grammars.d', SURFACE_PART): gen_surface(root)}
 
 
 def write(root=None):
