@@ -58,11 +58,65 @@ static int word_find(const char *name, int *mg, int *mnum)
 
 static int is_memop(const struct oper *o) { return o->kind != OK_REG && o->kind != OK_IMM && o->kind != OK_POOL && o->kind != OK_VREG; }
 
+/* The operands of fcvt (map-marks of 61-asm-suffixes.hbnf): the format of each operand is written on it, `fcvt r1.f16, r2.f32`, the source first and the destination last.  The pair of marks says which
+   word of the encoding it is.  Returns 0 and the word of the statement, or -1 after an error. */
+static int fcvt_resolve(struct stmt *st)
+{
+	char forms[900];
+	fcvt_forms(forms, sizeof forms);
+	int bad = st->nops != 2;
+	for (int k = 0; k < st->nops && k < 2; k++)
+		if (st->ops[k].kind != OK_REG || st->ops[k].mark == 0) bad = 1;
+	if (bad) {
+		int k = st->nops == 2 && st->ops[0].kind == OK_REG && st->ops[0].mark != 0 ? 1 : 0;
+		if (st->nops == 2) err(st->line, "fcvt: operand %d has no format: a conversion names the format of both its operands, written directly after a register, the source first (`fcvt r1.f16, r2.f32`; a name such as buf.f32 is a symbol, not a mark); %s", k + 1, forms);
+		else err(st->line, "fcvt: a conversion has two register operands, each with its format (`fcvt r1.f16, r2.f32`); %s", forms);
+		return -1;
+	}
+	for (int k = 0; k < 2; k++)
+		if (st->ops[k].mark < 0) {
+			if (st->ops[k].marktext.n == 3 && !memcmp(st->ops[k].marktext.p, ".f8", 3))
+				err(st->line, "fcvt: .f8 is no such format: there is no 8-bit floating-point format (the formats are .f16, .f32 and .f64)");
+			else
+				err(st->line, "fcvt: %.*s is no such format: the formats are .s8 .u8 .s16 .u16 .s32 .u32 .s64 .u64 .f16 .f32 .f64", st->ops[k].marktext.n, st->ops[k].marktext.p);
+			return -1;
+		}
+	static const char *const fm[] = { "", "s8", "u8", "s16", "u16", "s32", "u32", "s64", "u64", "f16", "f32", "f64" };
+	const char *a = fm[st->ops[0].mark], *b = fm[st->ops[1].mark];
+	for (const struct markrow *r = mark_rows; r->word; r++)
+		if (!strcmp(r->src, a) && !strcmp(r->dst, b)) {
+			int mg, mn;
+			if (!word_find(r->word, &mg, &mn)) { err(st->line, "internal error: the word %s of the conversions is not a word of the encoding", r->word); return -1; }
+			st->mg = mg; st->mnum = mn;
+			st->ops[0].mark = st->ops[1].mark = 0;
+			return 0;
+		}
+	const char *hint = !strcmp(a, b) ? "the two formats are the same: a move copies it"
+	    : a[0] != 'f' && b[0] != 'f' ? "both are integers: a move converts between them (mov.s32, mov.u16 ...)"
+	    : a[0] == 'f' && b[0] == 'f' ? "there is no direct conversion between these floating-point formats: go through the single or the double (fcvt r1.f64, r2.f32 and then fcvt r1.f32, r2.f16, for instance)"
+	    : "no instruction converts between these two: an integer that is not 32-bit signed or 64-bit is widened to 64 bits first (mov.s8, mov.s16, mov.u8, mov.u16, mov.u32 r1, r1) and then converted as a 64-bit integer with `fcvt r1.s64, r2.f64` (a register that holds a sign-extended 32-bit integer is already one), and a double goes to a single with `fcvt r1.f64, r2.f32`";
+	err(st->line, "fcvt r1.%s, r2.%s: no such conversion: %s; %s", a, b, hint, forms);
+	return -1;
+}
+
 /* The word of the encoding that a suffixed spelling is.  The statement is changed (the group and the number); -1 after an error. */
 static int surface_resolve(struct stmt *st)
 {
-	if (st->kind != S_INSN || st->mg != MG_SURFACE) return 0;
+	if (st->kind != S_INSN) return 0;
+	int marked = 0;
+	for (int k = 0; k < st->nops; k++) if (st->ops[k].mark != 0) marked = 1;
+	if (st->mg != MG_SURFACE) {
+		if (marked) { err(st->line, "an operand takes no format mark here: the width is a suffix of the mnemonic (mov.s8 (r1), r2), and only fcvt, which has two formats, writes them on its operands (`fcvt r1.f16, r2.f32`)"); return -1; }
+		return 0;
+	}
 	const struct surfrow *r = &surface_rows[st->mnum];
+	if (strchr(r->flags, 'o')) return fcvt_resolve(st);
+	if (marked) {
+		if (!strncmp(r->spell, "fcvt", 4)) err(st->line, "%s: the short form takes no marks on its operands: write `%s Rs, Rd`, or the full form with a mark on each operand (`fcvt r1.%s, r2.f%s`); there is one way to write each", r->spell, r->spell,
+		    r->spell + 5, !strcmp(r->spell + 5, "s32") ? "32" : "64");
+		else err(st->line, "%s: an operand takes no format mark here: the width is a suffix of the mnemonic, and only fcvt, which has two formats, writes them on its operands", r->spell);
+		return -1;
+	}
 	char w[40];
 	snprintf(w, sizeof w, "%s", r->word);
 	int mem = 0;

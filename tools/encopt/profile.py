@@ -53,19 +53,19 @@ read:	trap	#2
 	ret
 %s'''
 CRT_MEM = '''	.globl	memcpy
-memcpy:	movq	r0, r3
+memcpy:	mov	r0, r3
 	mcpy	r0, r1, r2
-	movq	r3, r0
+	mov	r3, r0
 	ret
 	.globl	memmove
-memmove: movq	r0, r3
+memmove: mov	r0, r3
 	mmov	r0, r1, r2
-	movq	r3, r0
+	mov	r3, r0
 	ret
 	.globl	memset
-memset:	movq	r0, r3
+memset:	mov	r0, r3
 	mset	r0, r1, r2
-	movq	r3, r0
+	mov	r3, r0
 	ret
 '''
 

@@ -65,9 +65,13 @@ sysregw = sysreg
 ; --- operands (ISA section 5) -----------------------------------------------------------------------------------
 ; the order of `opbody` matters (the first that matches is taken, and the C that reads the tree numbers the alternatives, as64/asmir.h):
 ; based2 (`r5+8`, `r5-8`, a synonym of `8(r5)`) and atindexed (AT&T's `(r1,r2,4)` and `8(r1,r2,4)`) come before regop and bare
-opbody = immop | absop | postinc | predec | predec2 | indexed | based | atindexed | based2 | regop | bare | poolop
-; an operand is a body: the width and kind of the instruction are a suffix of its mnemonic (61-asm-suffixes.hbnf), so no operand carries a mark
+opbody = markop | immop | absop | postinc | predec | predec2 | indexed | based | atindexed | based2 | regop | bare | poolop
+; an operand is a body.  The width and kind of an instruction are a suffix of its mnemonic (61-asm-suffixes.hbnf); only `fcvt`, which has two formats, writes them on its operands.
 operand = opbody
+; a register with a format mark directly after it, `r1.f32`, `sp.s64`: the register name and the mark are one token, so a symbol that merely looks like it (`buf.f32`, `x.s8`, a label `r1.f32:`) is not one,
+; and the mark is a letter and digits (the sizes are checked where the instruction is read, as64: only `fcvt` accepts a mark).  First among the operands, before `bare`, which would take `r1.f32` as a symbol
+markop  = markreg !idchar
+markreg = r"%?(r([12][0-9]|3[01]|[0-9])|sp|fp)\.[a-z][0-9]+"
 ; `#expr`, or `$expr` as AT&T and the Microsoft assemblers write it
 immop   = ( "#" | "$" ) expr
 absop   = "@" expr

@@ -3,7 +3,7 @@
 ; says how many bits it works on and of what kind: `.s8 .s16 .s32 .s64` are signed integers, `.u8 .u16 .u32 .u64` unsigned integers, `.f16 .f32 .f64` the floating-point formats (binary16, binary32,
 ; binary64; there is no 8-bit format).  The number is in bits.  A bare mnemonic is the default, 64 bits, and is the same word as its explicit `.s64`, `.u64` or `.f64` spelling (`mov` is `mov.s64`, `aadd` is
 ; `aadd.s64`, `fadd` is `fadd.f64`).  `.user` before the kind says that the memory operand of a move is checked as a user access (`mov.user.s8`, `mov.user`).  A suffix is on the mnemonic and so on every operand
-; of the instruction at once; no operand carries a mark.  The encoding keeps its own words (movb, aaddl, fadd32, fcvtds: the names in the tables of the encoding); this part says which spelling of the assembly
+; of the instruction at once; no operand carries a mark, except those of `fcvt` (map-marks below).  The encoding keeps its own words (movb, aaddl, fadd32, fcvtds: the names in the tables of the encoding); this part says which spelling of the assembly
 ; language each of them is, and tools/mkgrammar.py writes it for as64 (a spelling becomes the word of the encoding), for the disassembler (a word becomes its spelling), for the compilers and for the
 ; dictionary of the manual.
 ;
@@ -55,10 +55,7 @@ map-rows = "*mov=movq" | "mov.s64=movq" | "mov.u64=movq" | "*mov.s32=movl:s" | "
           | "frintm.f64=frintm"
           | "frintp.f64=frintp"
           | "frinta.f64=frinta"
-          | "*fcvt.f64.s64=fcvtdq" | "*fcvt.f64.u64=fcvtdqu" | "fcvt.s64.f64=fcvtqd" | "fcvt.u64.f64=fcvtqud" | "*fcvt.f64.f32=fcvtds" | "*fcvt.f32.f64=fcvtsd"
-          | "*fcvt.f32.s32=fcvtsl" | "fcvt.s32.f32=fcvtls" | "*fcvt.f32.f16=fcvtsh" | "*fcvt.f16.f32=fcvths" | "*fcvt.f64.f16=fcvtdh" | "*fcvt.f16.f64=fcvthd"
-          | "*fcvt.f16.s32=fcvthl" | "*fcvt.s32.f16=fcvtlh"
-          | "*fcvt.s64=fcvtqd" | "*fcvt.u64=fcvtqud" | "*fcvt.s32=fcvtls"
+          | "fcvt=fcvt:o" | "*fcvt.s64=fcvtqd" | "*fcvt.u64=fcvtqud" | "*fcvt.s32=fcvtls"
           | "div.s64=div" | "*div.u64=divu"
           | "mod.s64=mod" | "*mod.u64=modu"
           | "mulh.s64=mulh" | "*mulh.u64=mulhu"
@@ -76,3 +73,11 @@ map-words = "movq" | "movl" | "movw" | "movb" | "movzl" | "movzw" | "movzb" | "m
            | "fcbeq32" | "fcbeqf" | "fcbeqd" | "fcbne32" | "fcbnef" | "fcbned" | "fcblt32" | "fcbltf" | "fcbltd" | "fcble32" | "fcblef" | "fcbled" | "fcbgt32" | "fcbgtf" | "fcbgtd"
            | "fcbge32" | "fcbgef" | "fcbged" | "fcbor32" | "fcborf" | "fcbord" | "fcbuo32" | "fcbuof" | "fcbuod" | "fcvtdq" | "fcvtdqu" | "fcvtqd" | "fcvtqud" | "fcvtds" | "fcvtsd"
            | "fcvtsl" | "fcvtls" | "fcvtsh" | "fcvths" | "fcvtdh" | "fcvthd" | "fcvthl" | "fcvtlh" | "fcvtdf" | "fcvtfd"
+           | "fcvt.f64.s64" | "fcvt.f64.u64" | "fcvt.s64.f64" | "fcvt.u64.f64" | "fcvt.f64.f32" | "fcvt.f32.f64" | "fcvt.f32.s32" | "fcvt.s32.f32" | "fcvt.f32.f16" | "fcvt.f16.f32" | "fcvt.f64.f16" | "fcvt.f16.f64" | "fcvt.f16.s32" | "fcvt.s32.f16"
+
+; map-marks: the operands of fcvt.  A conversion has two formats and one suffix is not enough, so the official form states the format on each operand, the source first and the destination last
+; (`fcvt r1.f16, r2.f32`: the half in r1 becomes a single in r2).  "word=source,destination" says, for each word of the encoding, the mark of its first operand and of its second.  The three words that
+; have an alias above (fcvt.s64, fcvt.u64, fcvt.s32: an integer to a float of the same width) are printed with the alias; the other eleven are printed in the operand form.  as64 reads the marks
+; of the operands of `fcvt` and looks the pair up here; the disassembler, pcc and LLVM write the marks from the same rows.
+map-marks = "fcvtdq=f64,s64" | "fcvtdqu=f64,u64" | "fcvtqd=s64,f64" | "fcvtqud=u64,f64" | "fcvtds=f64,f32" | "fcvtsd=f32,f64" | "fcvtsl=f32,s32" | "fcvtls=s32,f32"
+          | "fcvtsh=f32,f16" | "fcvths=f16,f32" | "fcvtdh=f64,f16" | "fcvthd=f16,f64" | "fcvthl=f16,s32" | "fcvtlh=s32,f16"

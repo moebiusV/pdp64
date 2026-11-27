@@ -1,1 +1,1 @@
-no instruction converts a 32-bit integer
+no such conversion: .*mov.u32 r1, r1

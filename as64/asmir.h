@@ -7,7 +7,7 @@
 enum stmt_kind { S_LABEL = 1, S_ASSIGN, S_DIR, S_INSN };
 
 /* operand classes, in the order of the alternatives of `operand` in spec/pdp64-asm.hbnf */
-enum oper_kind { OK_IMM = 1, OK_ABS, OK_POSTINC, OK_PREDEC, OK_PREDEC2, OK_INDEXED, OK_BASED, OK_ATINDEXED, OK_BASED2, OK_REG, OK_BARE, OK_POOL,
+enum oper_kind { OK_MARKED = 1, OK_IMM, OK_ABS, OK_POSTINC, OK_PREDEC, OK_PREDEC2, OK_INDEXED, OK_BASED, OK_ATINDEXED, OK_BASED2, OK_REG, OK_BARE, OK_POOL,
 	OK_VREG };	/* the last is the alternative of `voperand`, not of `operand` */
 
 #include "pdp64-groups.h"	/* enum mn_group: the mnemonic groups, in the order the generator puts them in `mnemonic` */
@@ -35,6 +35,8 @@ struct xnode { int op; int base; struct slice tok; struct xnode *a, *b; };
 struct oper {
 	int kind;
 	int reg, reg2;		/* register numbers 0..15; reg2 is the index register of OK_INDEXED */
+	int mark;		/* OK_REG, from a marked operand (`r1.f32`): the format, 1 s8 .. 11 f64 (marks[] of asmp.c), -1 a mark that is no format; 0 none */
+	struct slice marktext;	/* the mark as written, with its dot */
 	int special;		/* OK_BASED: 0 an ordinary register, 1 pc, 2 dp */
 	int scale;		/* OK_INDEXED: 1, 2, 4, 8 */
 	struct xnode *x;	/* the expression: displacement, immediate, address; NULL if there is none */
@@ -58,4 +60,6 @@ struct stmt {
 
 /* Parse text into *out (malloc'd, *n entries).  Returns 0, or -1 with a message in err and the line in *errline. */
 int asm_parse(const char *text, struct stmt **out, int *n, char *err, size_t errsz, int *errline);
+/* the official forms of fcvt and its aliases, as a sentence for a message (asmp.c, from the rows of map-marks) */
+void fcvt_forms(char *out, size_t sz);
 #endif

@@ -95,12 +95,23 @@ def surface_rows(root=None):
     return out
 
 
+def mark_rows(root=None):
+    """[(word of the encoding, mark of the first operand, mark of the second)] of the rule map-marks of 61-asm-suffixes.hbnf: the operands of `fcvt` (source first, destination last)"""
+    rules, _ = read_rules(root, generated=False, targets=['asm'])
+    out = []
+    for lit in literals(rules['map-marks'][0]):
+        word, _, rest = lit.partition('=')
+        src, _, dst = rest.partition(',')
+        out.append((word, src, dst))
+    return out
+
+
 def gen_surface(root=None):
     """text of 62-mn-surface.hbnf: the group mn-surface, one whole-word keyword for each accepted spelling that is not a word of the encoding already (the rows of 61-asm-suffixes.hbnf)"""
     rows = surface_rows(root)
     if len(rows) > 255:
         raise GrammarError('map-rows has %d rows: the numbers of mn-surface are below 256' % len(rows))
-    out = _header('The group mn-surface: every accepted spelling of 61-asm-suffixes.hbnf (mov.s8, aadd.s32, fadd.f32, fcvt.s32.f32 ...) as a whole-word keyword, numbered by its position in map-rows.', ['asm'])
+    out = _header('The group mn-surface: every accepted spelling of 61-asm-suffixes.hbnf (mov.s8, aadd.s32, fadd.f32, fcvt.s32 ...) as a whole-word keyword, numbered by its position in map-rows.', ['asm'])
     out += '\nmn-surface = ' + '\n           | '.join(_wrap(['"%s"@%d' % (sp, i) for i, (sp, _, _, _) in enumerate(rows)])) + '\n'
     return out
 

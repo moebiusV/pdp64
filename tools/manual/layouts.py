@@ -173,7 +173,7 @@ def shape_describe(s):
 def _shown(mn):
     """a word of the encoding as the assembly language writes it: the spelling that tools/marks.py prints for it (movb is mov.s8), from the rows of spec/grammars.d/61-asm-suffixes.hbnf"""
     import marks
-    return '`%s`' % marks.shown().get(mn, mn)
+    return '`%s`' % marks.display(mn, False)
 
 
 class Enc:
@@ -218,7 +218,7 @@ class Enc:
                     used += w
             ops = ', '.join(self.operands(f)) or 'no operand'
             import marks
-            cap = '%s: %s, prefix %s%s; operands %s; %d bytes' % (marks.shown().get(name, name).upper(), f['name'], format(lf['prefix'], '0%db' % lf['L']), (', sub-opcode ' + bitsj) if bitsj else '', ops, 2 * f['n'])
+            cap = '%s: %s, prefix %s%s; operands %s; %d bytes' % (marks.display(name), f['name'], format(lf['prefix'], '0%db' % lf['L']), (', sub-opcode ' + bitsj) if bitsj else '', ops, 2 * f['n'])
             out.append((cap, parcel_rows(flat), 2 * f['n']))
         return out
 

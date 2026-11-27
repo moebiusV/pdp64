@@ -1,1 +1,1 @@
-fcvt.s64.f64 on a register that holds the sign-extended integer
+no such conversion: .* `fcvt r1.s64, r2.f64`

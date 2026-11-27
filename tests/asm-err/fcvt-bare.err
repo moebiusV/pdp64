@@ -1,1 +1,1 @@
-an integer to a float of the same size has the short form fcvt.s32, fcvt.u64 or fcvt.s64
+and the three short forms fcvt.s64 Rs, Rd, fcvt.u64 Rs, Rd and fcvt.s32 Rs, Rd

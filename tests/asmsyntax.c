@@ -72,7 +72,11 @@ int main(void){
   bad+=try(".if .else .endif", ".if 1\n.else\n.endif\n", 1);
   bad+=try("base minus disp, sp",  "mov r5-8, r1\nmov sp-8, r1\n", 1);
   bad+=try("registers keep names","r5: ret\n", 0);
-  bad+=try("suffixed words",    "mov.s8 (r1), r2\nmov.user.u16 r1, 4(r2)\nfcvt.s32.f32 r1, r2\nfcvt.s32 r1, r2\nfcvt.u64 r1, r2\naadd.s32 r1, (r2), r3\nfadd.f32 r1, r2\nmov.u64 r1, r2\n", 1);
+  bad+=try("suffixed words",    "mov.s8 (r1), r2\nmov.user.u16 r1, 4(r2)\nfcvt r1.s32, r2.f32\nfcvt r1.f16, r2.f32\nfcvt sp.f64, %r3.s64\nfcvt.s32 r1, r2\nfcvt.u64 r1, r2\naadd.s32 r1, (r2), r3\nfadd.f32 r1, r2\nmov.u64 r1, r2\n", 1);
   bad+=try("names like suffixes","x.s8: br x.s8\nbuf.u8 = 5\nfoo.16 = 7\nmov #buf.u8, r1\n", 1);
   bad+=try("a suffix is a whole word","mov.s9 r1, r2\n", 0);
+  bad+=try("label like a marked reg","r1.f32: ret\nx.s8: br x.s8\n", 1);
+  bad+=try("a mark on a register","fcvt r1.f32, r2.s32\n", 1);
+  bad+=try("a mark on a name","fcvt buf.f32, r2\n", 1);
+  bad+=try("two suffixes are no word","fcvt.s32.f16 r1, r2\n", 0);
   return bad!=0;}

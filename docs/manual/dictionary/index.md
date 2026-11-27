@@ -16,7 +16,7 @@ This is the reference part of the manual: **one entry for each instruction**, in
 * [Section 9.9, Bits, bytes and text](../09-isa.md#99-bits-bytes-and-text): `CLZ`, `POPCNT`, `BSWAP`, `BITREV`, `ROR`, `DSHR`, `EXTB`, `INSB`, `XNORPOP`, `CLMULL`, `UTF8LEN`, `UTF8DEC`, `UTF8ENC`, `BSEL`, `AESES`, `AESKS1`, `SHA256SIG0`, `SHA512SIG0`
 * [Section 9.10, Branches and control flow](../09-isa.md#910-branches-and-control-flow): `BR`, `SOB`, `CBNE`, `FCBEQ`, `BTAG`, `JMP`, `CALL`, `JMPI`, `JTAG`, `MOVCALL`, `POPRET`, `POPMRET`
 * [Section 9.11, The stack and block operations](../09-isa.md#911-the-stack-and-block-operations): `PUSHM`, `POPM`, `PUSH`, `POP`, `MCPY`, `MSET`, `MCMP`, `MSCN`, `MVAL`
-* [Section 9.12, Floating point](../09-isa.md#912-floating-point): `FADD`, `FDIV`, `FADD.F32`, `FMADD`, `FMADD.F32`, `FNEG`, `FMIN`, `FCLASS`, `FRINT`, `FCVT.F64.S64`, `FSFLAGS`
+* [Section 9.12, Floating point](../09-isa.md#912-floating-point): `FADD`, `FDIV`, `FADD.F32`, `FMADD`, `FMADD.F32`, `FNEG`, `FMIN`, `FCLASS`, `FRINT`, `FCVT Rs.F64, Rd.S64`, `FSFLAGS`
 * [Section 9.13, Atomics and ordering](../09-isa.md#913-atomics-and-ordering): `CAS`, `SWAP`, `AADD`, `AAND`, `AMAX`, `LL`
 * [Section 9.14, System instructions, exceptions and interrupts](../09-isa.md#914-system-instructions-exceptions-and-interrupts): `NOP`, `RTI`, `RET`, `HALT`, `BPT`, `FENCE`, `WFE`, `SEV`, `TLBIA`, `PUSHX`, `ISYNC`, `HINT`, `GENTER`, `MFSR`, `MTPS`, `SPL`, `TRAP`, `TLBI`, `TLBIAS`, `MTDP`, `ICINV`, `PROBER`, `CTCC`, `CHK2`
 

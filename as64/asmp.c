@@ -49,6 +49,15 @@ static int name_len(struct slice s)
 	return i;
 }
 
+/* the official forms of fcvt, the source first, and the three short forms: for the messages */
+void fcvt_forms(char *out, size_t sz)
+{
+	size_t n = snprintf(out, sz, "the forms are");
+	for (const struct markrow *r = mark_rows; r->word && n < sz; r++)
+		n += snprintf(out + n, sz - n, "%s fcvt r1.%s, r2.%s", r == mark_rows ? "" : ";", r->src, r->dst);
+	if (n < sz) snprintf(out + n, sz - n, "; and the three short forms fcvt.s64 Rs, Rd, fcvt.u64 Rs, Rd and fcvt.s32 Rs, Rd (an integer to a float of the same width)");
+}
+
 /* a register is its enumerator in the tree: the numbers (r10 is 10, sp is 14) are the grammar's */
 /* The message for a line that does not parse and starts with a mnemonic of the older notations (`movb`) or with a known word and a suffix that it does not have (`mov.s9`, `aadd.u32`,
    `fadd.f8`).  The parser says only that it expected something at the operand; here the word is looked up in the rows of spec/grammars.d/61-asm-suffixes.hbnf (build/x/pdp64-marks.h) and the message says
@@ -85,7 +94,6 @@ static int suffix_diag(const char *line, char *err, size_t errsz)
 		if (!strcmp(*w, tok)) { snprintf(err, errsz, "`%s`: unknown mnemonic", tok); return 1; }
 	char *dot = strchr(tok, '.');
 	if (!dot) {
-		if (!strcmp(tok, "fcvt")) { snprintf(err, errsz, "fcvt: a conversion names its two formats as suffixes, the source and then the destination (fcvt.s32.f32 Rs, Rd); an integer to a float of the same size has the short form fcvt.s32, fcvt.u64 or fcvt.s64 (the same as fcvt.s32.f32, fcvt.u64.f64, fcvt.s64.f64)"); return 1; }
 		return 0;
 	}
 	size_t bn = dot - tok;
@@ -104,11 +112,14 @@ static int suffix_diag(const char *line, char *err, size_t errsz)
 	list_tails(list, sizeof list, tok, bn, !strncmp(tok, "fcvt.", 5));
 	int isfloat = has_row(tok, bn, "f64");
 	int atomic = !strcmp(base, "cas") || !strcmp(base, "swap") || !strcmp(base, "aadd") || !strcmp(base, "aand") || !strcmp(base, "abis") || !strcmp(base, "axor") || !strcmp(base, "ll") || !strcmp(base, "sc") || !strcmp(base, "amax") || !strcmp(base, "amin");
+	if (!strcmp(base, "fcvt") && strchr(tail, '.')) {			/* fcvt.s32.f16: the words with two suffixes are withdrawn */
+		snprintf(err, errsz, "`%s`: unknown mnemonic", tok);
+		return 1;
+	}
 	if (!strcmp(base, "fcvt")) {
-		const char *hint = strstr(tail, "f8") ? "there is no 8-bit floating-point format"
-		    : (strstr(tail, "32") && strstr(tail, "f64")) || strstr(tail, "u32") ? "no instruction converts a 32-bit integer to or from a double, or an unsigned 32-bit integer: use fcvt.s64.f64 on a register that holds the sign-extended integer, or mov.u32 Rs, Rs first"
-		    : "";
-		snprintf(err, errsz, "%s: no such conversion%s%s; fcvt takes the source and then the destination format as suffixes (an integer to a float of the same size may be written with the integer suffix alone: fcvt.s32, fcvt.u64, fcvt.s64), one of %s", tok, hint[0] ? ": " : "", hint, list);
+		char forms[900];
+		fcvt_forms(forms, sizeof forms);
+		snprintf(err, errsz, "%s: fcvt has no such suffix: a suffix is only the short form of an integer converted to a float of the same width (fcvt.s64, fcvt.u64, fcvt.s32); every other conversion names the format of each operand, directly after the register, the source first (`fcvt r1.f16, r2.f32`); %s", tok, forms);
 		return 1;
 	}
 	if (!strcmp(tail, "f8")) snprintf(err, errsz, "%s: .f8 is no such format: there is no 8-bit floating-point format (the formats are .f16, .f32 and .f64)", tok);
@@ -294,6 +305,22 @@ static void operand(const char *text, const operand_t *oo, struct oper *r)
 	memset(r, 0, sizeof *r);
 	r->kind = o->_alt;
 	switch (o->_alt) {
+	case OK_MARKED: {						/* r1.f32: a register and the mark of its format (a token of the grammar: not a name that merely looks like it) */
+		static const char *const fm[] = { "s8", "u8", "s16", "u16", "s32", "u32", "s64", "u64", "f16", "f32", "f64" };
+		const char *dot = memchr(p, '.', n);
+		r->kind = OK_REG;
+		{
+			const char *q = p;
+			if (*q == '%') q++;
+			r->reg = (*q | 0x20) == 's' ? 14 : (*q | 0x20) == 'f' ? 13 : atoi(q + 1);
+		}
+		r->marktext.p = dot;
+		r->marktext.n = (int)(p + n - dot);
+		r->mark = -1;
+		for (int k = 0; k < 11; k++)
+			if ((int)strlen(fm[k]) == r->marktext.n - 1 && !memcmp(fm[k], dot + 1, r->marktext.n - 1)) r->mark = k + 1;
+		break;
+	}
 	case OK_IMM:
 		r->x = expr_x(text, o->immop.expr);
 		break;

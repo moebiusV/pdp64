@@ -57,7 +57,7 @@ _start:
 	cbne r2, r3, f11
 	mov	#0x400C, r1
 	shl	#48, r1
-	fcvt.f64.s64	r1, r2
+	fcvt	r1.f64, r2.s64
 	cbne r2, #3, f12
 	mov	#0x3FF8, r1
 	shl	#48, r1

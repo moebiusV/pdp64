@@ -83,10 +83,10 @@ _start:
 	fadd	r1, r2
 	mov	=0x4000000000000000, r12
 	cbne	r2, r12, f22
-	fcvt.f64.f32	r2, r3			; double to single: 2.0
+	fcvt	r2.f64, r3.f32			; double to single: 2.0
 	mov	=0x40000000, r12
 	cbne	r3, r12, f23
-	fcvt.f32.f64	r3, r4			; and back
+	fcvt	r3.f32, r4.f64			; and back
 	mov	=0x4000000000000000, r12
 	cbne	r4, r12, f24
 	mov	#0, r0

@@ -1,2 +1,2 @@
 	.text
-	fcvt.f64.u32 r1, r2
+	fcvt r1.u32, r2.f64

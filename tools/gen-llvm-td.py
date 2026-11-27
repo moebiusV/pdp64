@@ -117,6 +117,14 @@ def generate():
     sp = list(marks.spellings())
     for m in sorted(set(m for m in mns if m not in gone) | set(sp), key=lambda m: (mns.index(m) if m in mns else len(mns), m)):
         t.append('defvar MN_%s = "%s";\n' % (mangle(m), m))
+    # the conversions: fcvt has two formats, so its official form writes the format on each operand (`fcvt r1.f64, r2.f32`: the table row of a word says which mark each operand takes); a conversion
+    # with a short form (fcvt.s64: an integer to a float of the same width) is printed with it and no marks.  For each word of the encoding: the mnemonic to print and the mark of the
+    # source operand and of the destination operand, as strings to put after the register name in the instruction definitions
+    t.append('\n// the conversions, by the word of the encoding: the mnemonic printed, and the mark written after the source register and after the destination register (empty for a short form)\n')
+    short = marks.shown()
+    for w, (a, b) in marks.conversions().items():
+        alias = short.get(w)
+        t.append('defvar CV_%s_mn = "%s";\ndefvar CV_%s_src = "%s";\ndefvar CV_%s_dst = "%s";\n' % (w, alias or 'fcvt', w, '' if alias else '.' + a, w, '' if alias else '.' + b))
     mn_td = ''.join(t)
 
     # ---------------- PDP64GenRegs.td

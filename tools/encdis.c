@@ -16,11 +16,20 @@
 #include "pdp64enc.h"
 #include "x/pdp64-marks.h"
 /* the width and kind suffixes (spec/grammars.d/61-asm-suffixes.hbnf): a word of the encoding is printed as the spelling that the table marks for it (movq as mov, movb as mov.s8, aaddl as aadd.s32,
-   fadd32 as fadd.f32, fcvtds as fcvt.f64.f32); a word with none is printed as it is.  The operands carry no marks. */
+   fadd32 as fadd.f32, fcvtqd as fcvt.s64); a word with none is printed as it is.  The operands carry no marks, except those of a conversion that has no short form: fcvtds is printed
+   `fcvt r1.f64, r2.f32`, the format written on each operand (the rows of map-marks). */
 static const char *shown(const char *w)
 {
 	for (const struct surfrow *r = surface_rows; r->spell; r++) if (r->shown && !strcmp(r->word, w)) return r->spell;
+	for (const struct markrow *m = mark_rows; m->word; m++) if (!strcmp(m->word, w)) return "fcvt";
 	return w;
+}
+/* the marks of the two operands of a word that is printed in the operand form (a conversion with no short form), else NULL */
+static const struct markrow *marked(const char *w)
+{
+	for (const struct surfrow *r = surface_rows; r->spell; r++) if (r->shown && !strcmp(r->word, w)) return NULL;
+	for (const struct markrow *m = mark_rows; m->word; m++) if (!strcmp(m->word, w)) return m;
+	return NULL;
 }
 static void put(const struct eop *o, uint64_t pc)
 {
@@ -79,12 +88,15 @@ static int dis_a(const struct etab *t, const uint16_t *par, int np, long a, cons
 		printf("\t; %s\n", shown(mn)); (*nword)++; return len;
 	}
 	q += sprintf(q, "%s", shown(mn));
+	const struct markrow *mk = marked(mn);
 	for (int k = 0; k < in.nops; k++) {
 		const struct eop *o = &in.op[k];
 		q += sprintf(q, k ? ", " : " ");
 		if (0) {}
 		switch (o->k) {
-		case EK_R: q += sprintf(q, "%s", RN[o->r]); break;
+		case EK_R: q += sprintf(q, "%s", RN[o->r]);
+			if (mk && k < 2) q += sprintf(q, ".%s", k ? mk->dst : mk->src);
+			break;
 		case EK_V: q += sprintf(q, "%c%d", o->s ? 't' : 'v', o->r); break;
 		case EK_I: q += sprintf(q, "#%lld", (long long)o->v); break;
 		case EK_B: if (o->v) q += sprintf(q, "%lld", (long long)o->v); q += sprintf(q, "(%s)", o->r == EBASE_DP ? "dp" : RN[o->r]); break;
@@ -187,7 +199,8 @@ int main(int argc, char **argv)
 			for (int k = 0; k < len; k++) printf(" %04x", par[k]);
 			for (int k = len; k < 5; k++) printf("     ");
 			printf("\t%s", shown(enc_mn_name(t, in.mn)));
-			for (int k = 0; k < in.nops; k++) { printf(k ? ", " : " "); put(&in.op[k], a); }
+			const struct markrow *mk = marked(enc_mn_name(t, in.mn));
+			for (int k = 0; k < in.nops; k++) { printf(k ? ", " : " "); put(&in.op[k], a); if (mk && k < 2 && in.op[k].k == EK_R) printf(".%s", k ? mk->dst : mk->src); }
 			printf("\n");
 			a += 2 * len;
 		}
