@@ -1,0 +1,1 @@
+write f64(1.5), or the bits 0x3ff8000000000000.f64

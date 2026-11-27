@@ -3,8 +3,8 @@ N equ 4                 // MASM's equ
 M = 3                   ; the present assignment
 	.text
 start proc              // MASM's procedure label
-	mov r5+8, r1        // base plus displacement, the same as 8(r5)
-	mov r5 - 8, r1      // hbnf reads r5-8 as one word: the minus needs a space
+	mov 8(r5), r1
+	mov -8(r5), r1
 	mov $5, r2          // $ for an immediate
 	add $[N+1], r1       // [ ] groups
 	mov (r1,r2,4), r3 // AT&T indexed

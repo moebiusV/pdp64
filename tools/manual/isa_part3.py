@@ -102,6 +102,14 @@ MFDP: Rd <- DP''', NOFLAGS, NONE,
       notes='`DP` is the thread pointer in user mode and the per-CPU pointer in kernel mode; there is one copy per mode.', cf='{{r:per-cpu-state-and-cheap-context}} (per-CPU state).'),
     E('ICINV', 'system', ['icinv'], 'Invalidate the instruction cache for an address', ['ICINV Rs'], 'invalidate the instruction-cache line containing the address in Rs', NOFLAGS,
       'Not privileged ({{r:not-privileged-mtdp-and-mfdp}}): a program that generates code needs it.', cf='{{r:memory-ordering-from-sequential-consistency}}.'),
+    E('MCOLRD', 'system', ['mcolrd', 'mcolwr'], 'Read and write the colours of a block of granules, packed', ['MCOLRD Rd, Rs, Rn        ; buffer, first byte of data, count of data bytes', 'MCOLWR Rd, Rs, Rn        ; first byte of data, buffer, count of data bytes'],
+      '''MCOLRD: while Rn != 0:  colour of the granule at Rs -> next nibble of the buffer at Rd (the lower-addressed granule in the low nibble)
+                              Rs <- Rs + 32 ; Rd <- Rd + 1 ; Rn <- Rn - 32
+MCOLWR: the same the other way: the nibbles of the buffer at Rs become the colours of the granules at Rd
+Rs and Rn (MCOLRD), Rd and Rn (MCOLWR) must be multiples of 32, or the misaligned-access vector is taken before anything changes''', NOFLAGS,
+      PRIV + ' Page fault or protection fault as a load or a store of the data address (the buffer is ordinary memory, read or written as such); the misaligned-access vector for a count or an address that is not a multiple of 32. No colour is compared and the colour field of the pointers is not looked at. The registers are updated as work completes, so a fault leaves a consistent state and the instruction restarts from its registers.',
+      notes='A 4 KB page has 256 granules, so its colours are 128 bytes. The colours are read and written whatever the page-table entry of the data address says about colour, so a kernel that has mapped a page without the coloured bit still reaches its colours. Two granules share a byte; the buffer is the form in which a kernel or hypervisor saves the colours of a page it writes out or moves, and restores them when the page comes back ({{r:moving-a-page-moves-colours}}).',
+      cf='{{r:granule-colours}}, {{r:moving-a-page-moves-colours}}.'),
     E('PROBE', 'system', ['prober', 'probew'], 'Probe an address for read or write access', ['PROBER Rd, Rs', 'PROBEW Rd, Rs'],
       '''Rd <- 1 if the address in Rs is readable (PROBER) or writable (PROBEW) in the previous mode, else 0
 no fault is taken''', NOFLAGS, PRIV,

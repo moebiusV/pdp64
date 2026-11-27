@@ -145,7 +145,7 @@ class Out:
     def a(self, *ls): self.l += ['\t' + x if not x.endswith(':') else x for x in ls]
     def chk_reg(self, reg, want, tmp='r6'):
         self.n += 1
-        self.a('movq\t=0x%x, %s' % (want, tmp), 'cbne\t%s, %s, f%d' % (reg, tmp, self.n))
+        self.a('movq\t=0x%x, %s' % (want, tmp), 'cbne\t%s, %s, fail%d' % (reg, tmp, self.n))
 
 
 def gen():
@@ -179,7 +179,7 @@ def gen():
                 o.chk_reg('r8', flags)
     o.a('clr\tr0', 'trap\t$0')
     for i in range(1, o.n + 1):
-        o.l.append('f%d:\tmovq\t$%d, r0' % (i, (i - 1) % 255 + 1))
+        o.l.append('fail%d:\tmovq\t$%d, r0' % (i, (i - 1) % 255 + 1))
         o.a('trap\t$0')
     return '\n'.join(o.l) + '\n'
 

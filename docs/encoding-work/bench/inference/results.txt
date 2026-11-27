@@ -1,0 +1,145 @@
+bf16dot widen    strip 16  m1  11270  m2  23558  vops 10240  strips 1024  OK got 128.457840 ref 128.457786
+bf16dot widen    strip 32  m1   6150  m2  16902  vops  5120  strips  512  OK got 128.457840 ref 128.457786
+bf16dot widen    strip 64  m1   3590  m2  14086  vops  2560  strips  256  OK got 128.457840 ref 128.457786
+bf16dot evenodd  strip 16  m1   8199  m2  18951  vops  7680  strips  512  OK got 128.457764 ref 128.457786
+bf16dot evenodd  strip 32  m1   4359  m2  12551  vops  3840  strips  256  OK got 128.457764 ref 128.457786
+bf16dot evenodd  strip 64  m1   2439  m2   9351  vops  1920  strips  128  OK got 128.457764 ref 128.457786
+i8gemm16x16x256 vdacc4x4 strip 16 m1   7388 m2   8412  vops 6144 OK exact
+i8gemm16x16x256 vdacc4x4 strip 32 m1   4188 m2   5724  vops 3072 OK exact
+i8gemm16x16x256 vdacc4x4 strip 64 m1   3100 m2   4380  vops 1536 OK exact
+ukr16x16x256 f32    strip 16 m1  20970 m2  46314  OK maxerr 7.63e-06
+ukr16x16x256 f32    strip 32 m1  20970 m2  46314  OK maxerr 7.63e-06
+ukr16x16x256 f32    strip 64 m1  20970 m2  46314  OK maxerr 7.63e-06
+ukr16x16x256 bf16B  strip 16 m1  25082 m2  52474  OK maxerr 7.63e-06
+ukr16x16x256 bf16B  strip 32 m1  25082 m2  52474  OK maxerr 7.63e-06
+ukr16x16x256 bf16B  strip 64 m1  25082 m2  52474  OK maxerr 7.63e-06
+f32->bf16 RNE+NaN (vector)   strip 16  m1  13322 (3.25/elem)  m2  33802  vops 12288  strips 1024  OK bit-exact vs RNE+quiet NaN
+f32->bf16 RNE+NaN (vector)   strip 32  m1   6666 (1.63/elem)  m2  17418  vops  6144  strips  512  OK bit-exact vs RNE+quiet NaN
+f32->bf16 RNE+NaN (vector)   strip 64  m1   3338 (0.81/elem)  m2   9482  vops  3072  strips  256  OK bit-exact vs RNE+quiet NaN
+f32->bf16 RNE, no NaN test   strip 16  m1   8202 (2.00/elem)  m2  22538  vops  7168  strips 1024  OK bit-exact, finite inputs
+f32->bf16 RNE, no NaN test   strip 32  m1   4106 (1.00/elem)  m2  11786  vops  3584  strips  512  OK bit-exact, finite inputs
+f32->bf16 RNE, no NaN test   strip 64  m1   2058 (0.50/elem)  m2   6666  vops  1792  strips  256  OK bit-exact, finite inputs
+bf16->f32 to memory          strip 16  m1   4103 (1.00/elem)  m2   8199  vops  3072  strips 1024  OK exact
+bf16->f32 to memory          strip 32  m1   2055 (0.50/elem)  m2   4615  vops  1536  strips  512  OK exact
+bf16->f32 to memory          strip 64  m1   1799 (0.44/elem)  m2   3079  vops   768  strips  256  OK exact
+int8 -> f32 * scale          strip 16  m1   5128 (1.25/elem)  m2  19464  vops  4096  strips 1024  OK exact
+int8 -> f32 * scale          strip 32  m1   2568 (0.63/elem)  m2  10248  vops  2048  strips  512  OK exact
+int8 -> f32 * scale          strip 64  m1   1544 (0.38/elem)  m2   5640  vops  1024  strips  256  OK exact
+int8 -> bf16 * scale         strip 16  m1  12297 (3.00/elem)  m2  37897  vops 11264  strips 1024  OK bit-exact
+int8 -> bf16 * scale         strip 32  m1   6153 (1.50/elem)  m2  18953  vops  5632  strips  512  OK bit-exact
+int8 -> bf16 * scale         strip 64  m1   3081 (0.75/elem)  m2   9737  vops  2816  strips  256  OK bit-exact
+E4M3 -> f32 (arithmetic)     strip 16  m1  12298 (3.00/elem)  m2  34826  vops 11264  strips 1024  OK exact except the NaN codes (S.1111.111, not tested here)
+E4M3 -> f32 (arithmetic)     strip 32  m1   6154 (1.50/elem)  m2  17930  vops  5632  strips  512  OK exact except the NaN codes (S.1111.111, not tested here)
+E4M3 -> f32 (arithmetic)     strip 64  m1   3082 (0.75/elem)  m2   9482  vops  2816  strips  256  OK exact except the NaN codes (S.1111.111, not tested here)
+q8_0 dot, 128 blocks, scales (scalar) strip 16  m1   2698  1.52 MAC/cycle  m2   4490  vops   768  OK got 310.21057 ref 310.21057
+q8_0 dot, 128 blocks, scales (scalar) strip 32  m1   2314  1.77 MAC/cycle  m2   3338  vops   384  OK got 310.21057 ref 310.21057
+q8_0 dot, 128 blocks, scales (scalar) strip 64  m1   2314  1.77 MAC/cycle  m2   3338  vops   384  OK got 310.21057 ref 310.21057
+q8 integer dot, no scales (stream) strip 16  m1   1034  3.96 MAC/cycle  m2   2826  vops   768  OK exact
+q8 integer dot, no scales (stream) strip 32  m1    650  6.30 MAC/cycle  m2   1674  vops   384  OK exact
+q8 integer dot, no scales (stream) strip 64  m1    586  6.99 MAC/cycle  m2   1098  vops   192  OK exact
+q4 nibble dot, no scales (stream)  strip 16  m1   1035  3.96 MAC/cycle  m2   2187  vops   896  OK exact
+q4 nibble dot, no scales (stream)  strip 32  m1    523  7.83 MAC/cycle  m2   1291  vops   448  OK exact
+q4 nibble dot, no scales (stream)  strip 64  m1    427  9.59 MAC/cycle  m2    843  vops   224  OK exact
+bf16 GEMV 8x1024, 4 rows, evenodd  strip 16  m1  10292  0.80 MAC/cycle  m2  35380  vops  9984  OK maxerr 9.5e-06
+bf16 GEMV 8x1024, 4 rows, evenodd  strip 32  m1   5684  1.44 MAC/cycle  m2  19636  vops  4992  OK maxerr 9.5e-06
+bf16 GEMV 8x1024, 4 rows, evenodd  strip 64  m1   3380  2.42 MAC/cycle  m2  11764  vops  2496  OK maxerr 9.5e-06
+fp4 (E2M1) table dot, no scales    strip 16  m1   1292  3.17 MAC/cycle  m2   2700  vops  1152  OK exact
+fp4 (E2M1) table dot, no scales    strip 32  m1    652  6.28 MAC/cycle  m2   1548  vops   576  OK exact
+fp4 (E2M1) table dot, no scales    strip 64  m1    492  8.33 MAC/cycle  m2    972  vops   288  OK exact
+softmax 1024 f32 (3 passes, vector exp)  strip 16  m1   8988 (8.78/elem)  m2  38428  vops  8192 OK max rel err 9.5e-07
+softmax 1024 f32 (3 passes, vector exp)  strip 32  m1   4764 (4.65/elem)  m2  22172  vops  4096 OK max rel err 9.5e-07
+softmax 1024 f32 (3 passes, vector exp)  strip 64  m1   2908 (2.84/elem)  m2  12892  vops  2048 OK max rel err 9.5e-07
+instructions in the exp block (per strip): 21
+RMSNorm 1024 f32 (2 passes)              strip 16  m1   2580 (2.52/elem)  m2  11028  vops  2048 OK rtol 1e-4
+RMSNorm 1024 f32 (2 passes)              strip 32  m1   1556 (1.52/elem)  m2   7188  vops  1024 OK rtol 1e-4
+RMSNorm 1024 f32 (2 passes)              strip 64  m1   1300 (1.27/elem)  m2   5268  vops   512 OK rtol 1e-4
+old sim64, vdot.b into an accumulator, strip 16: PASS (306782, expect 306782); blocks/strips/ops ('1', '257', '1025'); model 1 total 1046
+old sim64, vdot.b into an accumulator, strip 32: PASS (306782, expect 306782); blocks/strips/ops ('1', '257', '1025'); model 1 total 1046
+old sim64, vdot.b into an accumulator, strip 64: PASS (306782, expect 306782); blocks/strips/ops ('1', '257', '1025'); model 1 total 1046
+VALIDATION against the simulator (model / measured):
+  bf16 dot widen    s=16  model  11273  measured  11270
+  bf16 dot widen    s=32  model   6153  measured   6150
+  bf16 dot widen    s=64  model   3593  measured   3590
+  bf16 dot evenodd  s=16  model   8201  measured   8199
+  bf16 dot evenodd  s=32  model   4361  measured   4359
+  bf16 dot evenodd  s=64  model   2441  measured   2439
+  f32 vfmab 8x4                model  20970  measured  20970
+  bf16 B widened in kernel     model  25066  measured  25082
+  i8 vdacc 4x4 s=16             model   7388  measured   7388
+  i8 vdacc 4x4 s=32             model   4188  measured   4188
+  i8 vdacc 4x4 s=64             model   3100  measured   3100
+
+CANDIDATES (counted, model 1), single issue unless W is given.  MAC = multiply-adds.
+bf16 dot, 4096 elements (cycles; cycles per element):
+  s=16  current best (even/odd, retag by vbsl)   8201 (2.00)   vld.bf.f+vmul+vacc   5129 (1.25)   vdacc.bf   2057 (0.50)   bfdot accumulator   2077 (0.51)
+  s=32  current best (even/odd, retag by vbsl)   4361 (1.06)   vld.bf.f+vmul+vacc   3081 (0.75)   vdacc.bf   1289 (0.31)   bfdot accumulator   2077 (0.51)
+  s=64  current best (even/odd, retag by vbsl)   2441 (0.60)   vld.bf.f+vmul+vacc   2057 (0.50)   vdacc.bf   1161 (0.28)   bfdot accumulator   2077 (0.51)
+bf16 micro-kernel 16x16x256 (65,536 MAC), issue width W = 1, 2, 4:
+  W=1  f32 panels  20970 (3.13 MAC/c)  bf16 in kernel, current words  25066 (2.61)  vld.bf.f + vfmab.bf  20970 (3.13)  bfdot by element (8x4, pairs)  10730 (6.11)
+  W=2  f32 panels  12778 (5.13 MAC/c)  bf16 in kernel, current words  14826 (4.42)  vld.bf.f + vfmab.bf  12778 (5.13)  bfdot by element (8x4, pairs)   6634 (9.88)
+  W=4  f32 panels   8682 (7.55 MAC/c)  bf16 in kernel, current words   8682 (7.55)  vld.bf.f + vfmab.bf   8682 (7.55)  bfdot by element (8x4, pairs)   4586 (14.29)
+bf16 micro-kernel with 12 rows (13 instr a step), bfdot by element, W=1: see note: 96 MAC per 14 cycles = 6.86 MAC/cycle against 64 per 10 = 6.40
+bf16 4x4 block of vdacc.bf (no accumulators; scalar f32 sums): 8 loads + 16 vdacc.bf a strip of 16 bytes
+  s=16  5.12 MAC/cycle
+  s=32  6.24 MAC/cycle
+  s=64  7.01 MAC/cycle
+int8 micro-kernel 16x16x256, W = 1, 2, 4  (vdacc 4x4 at s = 16, 32, 64 : counted from the validated model; by element dot 8x4 pairs of 4 bytes, strip 16):
+  W=1  vdacc 4x4: [7388, 4188, 3100] (8.9, 15.6, 21.1 MAC/c)   dot by element: 5610 (11.68 MAC/c)
+  W=2  vdacc 4x4: [4316, 3164, 3100] (15.2, 20.7, 21.1 MAC/c)   dot by element: 3562 (18.40 MAC/c)
+  W=4  vdacc 4x4: [3292, 3164, 3100] (19.9, 20.7, 21.1 MAC/c)   dot by element: 2538 (25.82 MAC/c)
+bf16 GEMV 8 x 1024 (8,192 MAC), 4 rows a group, cycles (MAC/cycle):
+  s=16  current (measured at 16/32/64: 10292, 5684, 3380)  vld.bf.f   9244 (0.89)  vdacc.bf   3612 (2.27)
+  s=32  current (measured at 16/32/64: 10292, 5684, 3380)  vld.bf.f   5660 (1.45)  vdacc.bf   2332 (3.51)
+  s=64  current (measured at 16/32/64: 10292, 5684, 3380)  vld.bf.f   3868 (2.12)  vdacc.bf   1692 (4.84)
+f32 -> bf16 conversion, 4096 elements, cycles per element: current words with NaN test 3.25 / 1.63 / 0.81 (measured), without NaN test 2.00 / 1.00 / 0.50 (measured);
+   s=16  vcvt.f.bf (ld, cvt, st.w) 1.00   vst.f.bf (ld, narrowing rounding store) 0.75
+   s=32  vcvt.f.bf (ld, cvt, st.w) 0.50   vst.f.bf (ld, narrowing rounding store) 0.50
+   s=64  vcvt.f.bf (ld, cvt, st.w) 0.44   vst.f.bf (ld, narrowing rounding store) 0.44
+C bfdot    scalar strip 16  m1   40972  m2   40972  (blocks run 0; the function: 16 instructions, 0 vector words, 0 vec blocks)  out 4fa01b4500000000
+C bfdot    scalar strip 32  m1   40972  m2   40972  (blocks run 0; the function: 16 instructions, 0 vector words, 0 vec blocks)  out 4fa01b4500000000
+C bfdot    scalar strip 64  m1   40972  m2   40972  (blocks run 0; the function: 16 instructions, 0 vector words, 0 vec blocks)  out 4fa01b4500000000
+C bfdot    lv     strip 16  m1   40972  m2   40972  (blocks run 0; the function: 16 instructions, 0 vector words, 0 vec blocks)  out 4fa01b4500000000
+C bfdot    lv     strip 32  m1   40972  m2   40972  (blocks run 0; the function: 16 instructions, 0 vector words, 0 vec blocks)  out 4fa01b4500000000
+C bfdot    lv     strip 64  m1   40972  m2   40972  (blocks run 0; the function: 16 instructions, 0 vector words, 0 vec blocks)  out 4fa01b4500000000
+C i8dot    scalar strip 16  m1   24588  m2   24588  (blocks run 0; the function: 12 instructions, 0 vector words, 0 vec blocks)  out 00e8040000000000
+C i8dot    scalar strip 32  m1   24588  m2   24588  (blocks run 0; the function: 12 instructions, 0 vector words, 0 vec blocks)  out 00e8040000000000
+C i8dot    scalar strip 64  m1   24588  m2   24588  (blocks run 0; the function: 12 instructions, 0 vector words, 0 vec blocks)  out 00e8040000000000
+C i8dot    lv     strip 16  m1    1039  m2    2831  (blocks run 1; the function: 12 instructions, 5 vector words, 1 vec blocks)  out 00e8040000000000
+C i8dot    lv     strip 32  m1     655  m2    1679  (blocks run 1; the function: 12 instructions, 5 vector words, 1 vec blocks)  out 00e8040000000000
+C i8dot    lv     strip 64  m1     591  m2    1103  (blocks run 1; the function: 12 instructions, 5 vector words, 1 vec blocks)  out 00e8040000000000
+C f2bf     scalar strip 16  m1   61457  m2   61457  (blocks run 0; the function: 22 instructions, 0 vector words, 0 vec blocks)  out d000010000000000
+C f2bf     scalar strip 32  m1   61457  m2   61457  (blocks run 0; the function: 22 instructions, 0 vector words, 0 vec blocks)  out d000010000000000
+C f2bf     scalar strip 64  m1   61457  m2   61457  (blocks run 0; the function: 22 instructions, 0 vector words, 0 vec blocks)  out d000010000000000
+C f2bf     lv     strip 16  m1   61968  m2   61968  (blocks run 0; the function: 78 instructions, 17 vector words, 3 vec blocks)  out d000010000000000
+C f2bf     lv     strip 32  m1   61968  m2   61968  (blocks run 0; the function: 78 instructions, 17 vector words, 3 vec blocks)  out d000010000000000
+C f2bf     lv     strip 64  m1   61968  m2   61968  (blocks run 0; the function: 78 instructions, 17 vector words, 3 vec blocks)  out d000010000000000
+C bf2f     scalar strip 16  m1   20493  m2   20493  (blocks run 0; the function: 8 instructions, 0 vector words, 0 vec blocks)  out 0100000000000000
+C bf2f     scalar strip 32  m1   20493  m2   20493  (blocks run 0; the function: 8 instructions, 0 vector words, 0 vec blocks)  out 0100000000000000
+C bf2f     scalar strip 64  m1   20493  m2   20493  (blocks run 0; the function: 8 instructions, 0 vector words, 0 vec blocks)  out 0100000000000000
+C bf2f     lv     strip 16  m1    4113  m2    8209  (blocks run 1; the function: 55 instructions, 17 vector words, 3 vec blocks)  out 0100000000000000
+C bf2f     lv     strip 32  m1    2065  m2    4625  (blocks run 1; the function: 55 instructions, 17 vector words, 3 vec blocks)  out 0100000000000000
+C bf2f     lv     strip 64  m1    1809  m2    3089  (blocks run 1; the function: 55 instructions, 17 vector words, 3 vec blocks)  out 0100000000000000
+C dq       scalar strip 16  m1   28686  m2   28686  (blocks run 0; the function: 10 instructions, 0 vector words, 0 vec blocks)  out 0000000000000000
+C dq       scalar strip 32  m1   28686  m2   28686  (blocks run 0; the function: 10 instructions, 0 vector words, 0 vec blocks)  out 0000000000000000
+C dq       scalar strip 64  m1   28686  m2   28686  (blocks run 0; the function: 10 instructions, 0 vector words, 0 vec blocks)  out 0000000000000000
+C dq       lv     strip 16  m1    5139  m2   19475  (blocks run 1; the function: 36 instructions, 12 vector words, 2 vec blocks)  out 0000000000000000
+C dq       lv     strip 32  m1    2579  m2   10259  (blocks run 1; the function: 36 instructions, 12 vector words, 2 vec blocks)  out 0000000000000000
+C dq       lv     strip 64  m1    1555  m2    5651  (blocks run 1; the function: 36 instructions, 12 vector words, 2 vec blocks)  out 0000000000000000
+C dotf     scalar strip 16  m1   24588  m2   24588  (blocks run 0; the function: 12 instructions, 0 vector words, 0 vec blocks)  out 0000000000000000
+C dotf     scalar strip 32  m1   24588  m2   24588  (blocks run 0; the function: 12 instructions, 0 vector words, 0 vec blocks)  out 0000000000000000
+C dotf     scalar strip 64  m1   24588  m2   24588  (blocks run 0; the function: 12 instructions, 0 vector words, 0 vec blocks)  out 0000000000000000
+C dotf     lv     strip 16  m1    5135  m2   18447  (blocks run 1; the function: 13 instructions, 6 vector words, 1 vec blocks)  out 0000000000000000
+C dotf     lv     strip 32  m1    3087  m2   15375  (blocks run 1; the function: 13 instructions, 6 vector words, 1 vec blocks)  out 0000000000000000
+C dotf     lv     strip 64  m1    2319  m2   13839  (blocks run 1; the function: 13 instructions, 6 vector words, 1 vec blocks)  out 0000000000000000
+C tile     scalar strip 16  m1   52856  m2   52856  (blocks run 0; the function: 64 instructions, 0 vector words, 0 vec blocks)  out 9b00000000000000
+C tile     scalar strip 32  m1   52856  m2   52856  (blocks run 0; the function: 64 instructions, 0 vector words, 0 vec blocks)  out 9b00000000000000
+C tile     scalar strip 64  m1   52856  m2   52856  (blocks run 0; the function: 64 instructions, 0 vector words, 0 vec blocks)  out 9b00000000000000
+C tile     lv     strip 16  m1   52812  m2   52812  (blocks run 0; the function: 65 instructions, 0 vector words, 0 vec blocks)  out 9b00000000000000
+C tile     lv     strip 32  m1   52812  m2   52812  (blocks run 0; the function: 65 instructions, 0 vector words, 0 vec blocks)  out 9b00000000000000
+C tile     lv     strip 64  m1   52812  m2   52812  (blocks run 0; the function: 65 instructions, 0 vector words, 0 vec blocks)  out 9b00000000000000
+C softmax  scalar strip 16  m1   61374  m2   61374  (blocks run 0; the function: 28 instructions, 0 vector words, 0 vec blocks)  out 0400000000000000
+C softmax  scalar strip 32  m1   61374  m2   61374  (blocks run 0; the function: 28 instructions, 0 vector words, 0 vec blocks)  out 0400000000000000
+C softmax  scalar strip 64  m1   61374  m2   61374  (blocks run 0; the function: 28 instructions, 0 vector words, 0 vec blocks)  out 0400000000000000
+C softmax  lv     strip 16  m1   55107  m2   57923  (blocks run 1; the function: 453 instructions, 4 vector words, 1 vec blocks)  out 0400000000000000
+C softmax  lv     strip 32  m1   54723  m2   57411  (blocks run 1; the function: 453 instructions, 4 vector words, 1 vec blocks)  out 0400000000000000
+C softmax  lv     strip 64  m1   54659  m2   56003  (blocks run 1; the function: 453 instructions, 4 vector words, 1 vec blocks)  out 0400000000000000

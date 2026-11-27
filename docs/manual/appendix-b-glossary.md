@@ -9,6 +9,7 @@
 | Term | Meaning |
 |---|---|
 | **pdp64** | the 64-bit extension of the PDP-11 this manual describes, as the PDP-11 extended the PDP-10's ideas down and the VAX extended the PDP-11 up (chapter 1) |
+| **`binary16`, `binary32`, `binary64`** | the IEEE formats of 16, 32 and 64 bits; the suffixes `.f16`, `.f32` and `.f64` name them (`.f16` is `binary16`, not `bfloat16`), and the constants `f16(x)`, `f32(x)` and `f64(x)` write a value in them (9.5.4) |
 | **parcel** | a 16-bit unit of instruction encoding; an instruction is one to three parcels, two to six bytes, or five parcels for `MOV` of a 64-bit constant (9.4) |
 | **leaf** | a group of mnemonics with one form, selected by a prefix of the first parcel; a sub-opcode picks the mnemonic (9.1) |
 | **prefix** | the top 3 to 16 bits of the first parcel; the prefixes form a prefix code (no prefix begins another), so the first parcel matches at most one leaf and fixes the length of the instruction (9.1) |
@@ -33,7 +34,8 @@
 | **`DP`** | the direct pointer: in user mode it is the thread pointer, in kernel mode the per-CPU pointer; a descendant of the 6502's zero page (9.3, 9.16) |
 | **`PSW`** | the processor status word: trace bit, mode, priority and the guard bit (6.2) |
 | **`N Z V C`** | the PDP-11's four condition codes: negative, zero, overflow, carry; the pdp64 has none (9.3.4) |
-| **canonical address** | a 64-bit address whose bits above the top bit of the virtual address (bit 38, 47 or 56 with three, four or five levels) equal that bit; any other value faults, so software cannot hide tags in the high bits (6.6) |
+| **canonical address** | a 64-bit address whose bits from 59 down to the top bit of the virtual address (bit 38, 47 or 56 with three, four or five levels) equal that bit; any other value faults, and bits 63 to 60 are the colour of the pointer, which translation ignores (6.6, 6.8) |
+| **colour, granule** | a granule is 16 bytes of memory; its colour is a 4-bit number kept beside it, and a pointer carries the same four bits in bits 63 to 60; a load or a store whose pointer colour differs from the granule's faults (6.8) |
 | **`lowtag`** | a type tag stored in the low bits of a pointer, free because objects are quad-aligned (instruction-set text, section 6.2; not otherwise used in this manual) |
 | **SWAR** | SIMD within a register: using one wide scalar register as several narrow lanes through masking and carry-aware arithmetic (instruction-set text, glossary; the manual's bit and byte instructions of 9.9 make it effective) |
 | **`FPSR`** | the sticky floating-point exception flag register, read and written by `FSFLAGS` (9.12) |
@@ -44,10 +46,10 @@
 |---|---|
 | **`MT`** | memory type, a two-bit page attribute: normal cached 0, normal uncached 1, device weakly ordered 2, device strongly ordered 3; the larger the number, the stricter; a plain access that is not aligned to its size faults on type 3 only (2.3, 6.7, 9.6.6) |
 | **strongly ordered** | the device memory type (3): every access goes to the device in the order written, one at a time and never combined, so an access that is not aligned to its size takes the misalignment fault instead of becoming two (9.6.6) |
-| **`ASID`** | address space identifier: tags translation-buffer entries so a context switch flushes nothing (6.8) |
-| **`G` bit** | global: a translation-buffer entry that ignores the `ASID` (6.8) |
+| **`ASID`** | address space identifier: tags translation-buffer entries so a context switch flushes nothing (6.9) |
+| **`G` bit** | global: a translation-buffer entry that ignores the `ASID` (6.9) |
 | **TLB** | translation lookaside buffer: the cache of page-table entries; `TLBI` invalidates one, `TLBIA` all, `TLBSYNC` waits for other cores (7.9) |
-| **`MMUCTL`** | the register that enables translation and sets the table base (6.5, 6.8) |
+| **`MMUCTL`** | the register that enables translation and sets the table base (6.5, 6.9) |
 | **virtual address, physical address** | the number a program uses, and the number the memory answers to; the page tables translate one into the other (6.6) |
 | **page, frame, page table** | a 4 KB piece of virtual space, a 4 KB piece of physical memory, and the tree of tables of 512 entries that says which frame holds which page (6.6) |
 | **PTE** | page-table entry: one 64-bit word with the valid, permission, accessed, dirty, global and memory-type bits and the physical page number (6.7) |
@@ -57,10 +59,10 @@
 | **`VBR`** | the vector base register: where the table of 512 eight-byte entries begins (6.3) |
 | **`ISYNC`** | makes earlier writes to system registers take effect: wait for earlier instructions, discard later ones, fetch again (6.5) |
 | **`MFSR`, `MTSR`** | move from and to a system register, by number (6.5) |
-| **software-managed `A`, `D`** | accessed and dirty bits set by the kernel's page-fault handler, never by the walker (6.8) |
-| **shootdown** | removing a stale translation from the buffers of other cores; on the pdp64 `TLBI` broadcasts and `TLBSYNC` waits (6.8) |
+| **software-managed `A`, `D`** | accessed and dirty bits set by the kernel's page-fault handler, never by the walker (6.9) |
+| **shootdown** | removing a stale translation from the buffers of other cores; on the pdp64 `TLBI` broadcasts and `TLBSYNC` waits (6.9) |
 | **walker** | the hardware that reads page-table entries on a translation-buffer miss (6.6) |
-| **`PROBER` / `PROBEW`** | test whether an address is readable or writable in a given mode without faulting (6.10, 6.13) |
+| **`PROBER` / `PROBEW`** | test whether an address is readable or writable in a given mode without faulting (6.11, 6.14) |
 | **PIE** | position-independent executable: loadable at any address; costs nothing here (9.16) |
 | **GOT, PLT** | global offset table and procedure linkage table: the indirection that lets position-independent code reach imported symbols (9.16) |
 | **ABI** | application binary interface: calling convention, register use, data layout; version 1 is given in appendix C |
@@ -75,18 +77,18 @@
 | **secure mode** | the mode of a core in which every timing channel is removed (every instruction and cache fetch takes a time independent of its data), with private cache lines and no periodic tick; on every core or on one secure core, by the rule of 7.11.3 |
 | **coherence, snooping MSI** | the protocol that keeps each core's cache consistent with the others; snooping means each cache watches the bus; MSI is its three states (modified, shared, invalid) (7.6) |
 | **sequential consistency** | the memory model in which all cores see all accesses in one order; the pdp64 declares it (7.5) |
-| **hypervisor** | a small kernel whose programs are whole operating systems; it runs at the hypervisor level, `H` = 1 (6.14, 6.16.3) |
-| **guest, host** | a guest is an operating system that runs under a hypervisor as if it owned the machine; the host is the real machine (6.14) |
-| **`H`** | the state bit, outside the status word, that says the hypervisor is running (6.16.3) |
-| **`HVE`** | the strap, fixed by the machine, that says it has a hypervisor mode; with it clear `H` is always 0 (6.16.3) |
-| **exit** | the event by which a guest stops and the hypervisor starts: a trapped instruction, a hypercall, an interrupt or a fault in stage 2; `HEXITR` says which (6.16.14) |
-| **hypercall** | a `TRAP` number routed to the hypervisor by the trap-control register; the guest's system call to the hypervisor (6.16.11) |
-| **world switch** | the exit of one guest and the entry of the next, with the hypervisor saving and loading the guest's state between them (6.16.20) |
-| **`GENTER`** | `GENTER $mask` enters a guest from the hypervisor; the mask names the registers it keeps (6.16.17, 6.16.18) |
-| **stage 1, stage 2** | the guest's own page tables, and the hypervisor's tables that turn a guest-physical address into a real one (6.16.21) |
-| **guest tag** | the 16-bit number, allocated by the hardware, that marks the translation-buffer entries of one guest (6.16.22) |
-| **arena** | the one run of real pages in which the hypervisor keeps its stage-2 tables, so that the hardware knows when a table has changed (6.16.25) |
-| **epoch word** | the word in memory that a core adds one to when it has changed the arena, and that other cores read at entry to a guest (6.16.25) |
+| **hypervisor** | a small kernel whose programs are whole operating systems; it runs at the hypervisor level, `H` = 1 (6.15, 6.17.3) |
+| **guest, host** | a guest is an operating system that runs under a hypervisor as if it owned the machine; the host is the real machine (6.15) |
+| **`H`** | the state bit, outside the status word, that says the hypervisor is running (6.17.3) |
+| **`HVE`** | the strap, fixed by the machine, that says it has a hypervisor mode; with it clear `H` is always 0 (6.17.3) |
+| **exit** | the event by which a guest stops and the hypervisor starts: a trapped instruction, a hypercall, an interrupt or a fault in stage 2; `HEXITR` says which (6.17.14) |
+| **hypercall** | a `TRAP` number routed to the hypervisor by the trap-control register; the guest's system call to the hypervisor (6.17.11) |
+| **world switch** | the exit of one guest and the entry of the next, with the hypervisor saving and loading the guest's state between them (6.17.20) |
+| **`GENTER`** | `GENTER $mask` enters a guest from the hypervisor; the mask names the registers it keeps (6.17.17, 6.17.18) |
+| **stage 1, stage 2** | the guest's own page tables, and the hypervisor's tables that turn a guest-physical address into a real one (6.17.21) |
+| **guest tag** | the 16-bit number, allocated by the hardware, that marks the translation-buffer entries of one guest (6.17.22) |
+| **arena** | the one run of real pages in which the hypervisor keeps its stage-2 tables, so that the hardware knows when a table has changed (6.17.26) |
+| **epoch word** | the word in memory that a core adds one to when it has changed the arena, and that other cores read at entry to a guest (6.17.26) |
 
 ## B.3 The bus, devices and boot
 

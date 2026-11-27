@@ -24,9 +24,9 @@
 
 **{{#hardware-checks-that-the-stack}}** The hardware checks that the stack pointer lies in a region registered as a stack when a system call or a fault is taken.
 
-**{{#stack-limit-register-is-approved}}** A stack-limit register is approved, to be specified.
+**{{#stack-limit-register-is-approved}}** A privileged stack-limit register holds the registered stack region, and the hardware compares the stack pointer with it once, at system-call and fault entry; a write to the stack pointer is not checked.
 
-*Commentary.* **Precedent.** OpenBSD checks the stack pointer against a `MAP_STACK` region on system calls and faults. **Trade-offs.** It adds a comparison to entry, which is the path the design most wants short. **Impact.** *Kernel:* The kernel's own check moves into the hardware. *Compiler:* None. *Hardware:* A comparator and a region register on the entry path.
+*Commentary.* **Precedent.** OpenBSD checks the stack pointer against a `MAP_STACK` region on system calls and faults. **Trade-offs.** It adds a comparison to entry, which is the path the design most wants short, and nothing to the path of an ordinary write to the stack pointer. **Impact.** *Kernel:* The kernel's own check moves into the hardware. *Compiler:* None. *Hardware:* A comparator and a region register on the entry path.
 
 ## {{#protecting-the-return-address}} Protecting the return address
 
@@ -36,13 +36,13 @@
 
 *Commentary.* **Precedent.** x86 has the same exposure; Intel's control-flow enforcement has a shadow stack, and OpenBSD's clang has `retguard`. **Benefits.** Detection of a changed return address with little or no recovery code. **Impact.** *Kernel:* A shadow stack is a second stack for the kernel to manage and unwind. *Compiler:* none beyond the setjmp path. *Hardware:* A second stack structure and its control.
 
-## {{#tag-or-key-bits-in-pointers}} Tag or key bits in pointers
+## {{#tag-or-key-bits-in-pointers}} Colours in pointers
 
-**{{#spare-bits-of-a-64-bit-pointer}}** The 25 spare bits of a 64-bit pointer (a 39-bit virtual address, the three-level form, uses the rest; 48 and 57 bits leave fewer) can carry a colour, as a memory-tagging scheme does.
+**{{#spare-bits-of-a-64-bit-pointer}}** A pointer carries a 4-bit colour in bits 63 to 60, and every 16-byte granule of coloured memory carries a 4-bit colour; the hardware compares the two on every access to a coloured page and a difference is a precise fault ({{r:memory-has-a-colour}}, {{r:colour-fault-is-precise}}). Translation ignores bits 63 to 60, and the bits from 59 down to the top translated bit must still repeat that bit ({{r:addresses-are-canonical-39-48}}, {{r:translation-ignores-the-colour}}).
 
-**{{#full-128-bit-cheri}}** Full 128-bit CHERI is rejected, and a valid-pointer tag per register and per 8-byte word (stage 1) is kept; granule colouring and reserved colours for uninitialised and freed memory are approved, to be specified.
+**{{#full-128-bit-cheri}}** Colour 0 is uncoloured memory and colour 15 is freed memory ({{r:colour-0-and-15}}); there is no colour for uninitialised memory, no valid-pointer tag, no size class and no taint bit per word. Full 128-bit CHERI is rejected: a register carries no bit beyond its 64, no hardware bound travels with a pointer, and bounds are checked by software and by the check instructions (`CT`, `CHK2`). The per-word lane of taint and the taint for integrity are not part of the architecture; the page-level class for secrets, the `SEC` page, stays.
 
-*Commentary.* **Precedent.** ARM's top-byte-ignore, pointer authentication and memory tagging. **Trade-offs.** The cost is canonical-address rules: pointers must be masked before use, and the hardware must define what a tagged pointer does. **Impact.** *Kernel:* The kernel defines what a tagged pointer means across the user and kernel boundary. *Compiler:* Every pointer use needs masking, and pointer arithmetic must preserve tags. *Hardware:* Gates and state in the address path.
+*Commentary.* **Precedent.** ARM's top-byte-ignore, pointer authentication and memory tagging put a tag in the high bits of a pointer and in the memory; SPARC's application data integrity does the same with a colour; CHERI doubles every pointer *(unverified: general knowledge)*. **Trade-offs.** A colour catches an overflow into the next block, a use after free and a double free at the instruction that makes them, for one thirty-second of the memory and a comparator on the address path; it gives up the pointer that is plain 64 bits of address: code that masks a pointer, hides data in the high bits or compares pointers to different objects must keep or strip the colour on purpose (`COLSTRIP`), and an overflow inside the last granule of a block, a read that stays in its granule and a guessed colour are not caught. A pointer that passes through an integer keeps its colour, because the colour is inside the 64 bits. **Impact.** *Kernel:* the page allocator clears the colours of a page it hands out and saves them with the page when it moves it; the system calls that take an address strip the colour ({{r:system-calls-strip-the-colour}}). *Compiler:* pointer comparison across objects strips first; the option to colour stack objects is the compiler's. *Hardware:* a 4-bit comparator on the address path, a side band of one thirty-second of the memory with a cache of colours, and one page-table bit.
 
 ## {{#physical-address-wider-than-40-bits}} A physical address wider than 40 bits
 

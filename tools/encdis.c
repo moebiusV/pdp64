@@ -31,6 +31,16 @@ static const struct markrow *marked(const char *w)
 	for (const struct markrow *m = mark_rows; m->word; m++) if (!strcmp(m->word, w)) return m;
 	return NULL;
 }
+/* the alias that is the shortest way to write an instruction (errata 232): the colour insert and strip are the bit-field words with fixed immediates (`colset Rc, Rd` is insb Rc, $60, $4, Rd; `colstrip Rs, Rd` is extb Rs, $0, $60, Rd).
+   Returns the alias word and the operands to print (the first n of ops[], in order), or NULL when the instruction has no alias. */
+static const char *alias_of(const struct einsn *in, int ops[2], int *n)
+{
+	const char *mn = enc_mn_name(&enc_tab, in->mn);
+	if (in->nops != 4 || in->op[0].k != EK_R || in->op[3].k != EK_R || in->op[1].k != EK_I || in->op[2].k != EK_I) return NULL;
+	if (!strcmp(mn, "insb") && in->op[1].v == 60 && in->op[2].v == 4) { ops[0] = in->op[0].r; ops[1] = in->op[3].r; *n = 2; return "colset"; }
+	if (!strcmp(mn, "extb") && in->op[1].v == 0 && in->op[2].v == 60) { ops[0] = in->op[0].r; ops[1] = in->op[3].r; *n = ops[0] == ops[1] ? 1 : 2; return "colstrip"; }
+	return NULL;
+}
 static void put(const struct eop *o, uint64_t pc)
 {
 	static const char *rn[] = { "r0","r1","r2","r3","r4","r5","r6","r7","r8","r9","r10","r11","r12","fp","sp","r15","r16","r17","r18","r19","r20","r21","r22","r23","r24","r25","r26","r27","r28","r29","r30","r31" };
@@ -87,6 +97,8 @@ static int dis_a(const struct etab *t, const uint16_t *par, int np, long a, cons
 		printf("\t.word\t"); for (int k = 0; k < len; k++) printf(k ? ", 0x%04x" : "0x%04x", par[k]);
 		printf("\t; %s\n", shown(mn)); (*nword)++; return len;
 	}
+	{ int ao[2], an; const char *al = alias_of(&in, ao, &an);
+	  if (al) { q += sprintf(q, "%s %s", al, RN[ao[0]]); if (an == 2) q += sprintf(q, ", %s", RN[ao[1]]); goto printed; } }
 	q += sprintf(q, "%s", shown(mn));
 	const struct markrow *mk = marked(mn);
 	for (int k = 0; k < in.nops; k++) {
@@ -107,6 +119,7 @@ static int dis_a(const struct etab *t, const uint16_t *par, int np, long a, cons
 		case EK_A: q += sprintf(q, "@%lld", (long long)o->v); break;
 		}
 	}
+printed:
 	if (!same0) { printf("\t.encode\t%d\n", len); (*nforce)++; }
 	printf("\t%s\n", text);
 	(void)tgt;
@@ -198,6 +211,8 @@ int main(int argc, char **argv)
 			if (len <= 0) { printf(" %04x\t.illegal\n", par[0]); a += 2; continue; }
 			for (int k = 0; k < len; k++) printf(" %04x", par[k]);
 			for (int k = len; k < 5; k++) printf("     ");
+			{ int ao[2], an; const char *al = alias_of(&in, ao, &an); static const char *RB[] = { "r0","r1","r2","r3","r4","r5","r6","r7","r8","r9","r10","r11","r12","fp","sp","r15","r16","r17","r18","r19","r20","r21","r22","r23","r24","r25","r26","r27","r28","r29","r30","r31" };
+			  if (al) { printf("\t%s %s", al, RB[ao[0]]); if (an == 2) printf(", %s", RB[ao[1]]); printf("\n"); a += 2 * len; continue; } }
 			printf("\t%s", shown(enc_mn_name(t, in.mn)));
 			const struct markrow *mk = marked(enc_mn_name(t, in.mn));
 			for (int k = 0; k < in.nops; k++) { printf(k ? ", " : " "); put(&in.op[k], a); if (mk && k < 2 && in.op[k].k == EK_R) printf(".%s", k ? mk->dst : mk->src); }

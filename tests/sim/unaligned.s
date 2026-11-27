@@ -16,673 +16,673 @@ _start:
 	lea	buf, r8
 	mov	0(r8), r2
 	mov	=0xee9c49f7a55300b, r6
-	cbne	r2, r6, f1
+	cbne	r2, r6, fail1
 	lea	buf, r8
 	mov	1(r8), r2
 	mov	=0x330ee9c49f7a5530, r6
-	cbne	r2, r6, f2
+	cbne	r2, r6, fail2
 	lea	buf, r8
 	mov	2(r8), r2
 	mov	=0x58330ee9c49f7a55, r6
-	cbne	r2, r6, f3
+	cbne	r2, r6, fail3
 	lea	buf, r8
 	mov	3(r8), r2
 	mov	=0x7d58330ee9c49f7a, r6
-	cbne	r2, r6, f4
+	cbne	r2, r6, fail4
 	lea	buf, r8
 	mov	4(r8), r2
 	mov	=0xa27d58330ee9c49f, r6
-	cbne	r2, r6, f5
+	cbne	r2, r6, fail5
 	lea	buf, r8
 	mov	5(r8), r2
 	mov	=0xc7a27d58330ee9c4, r6
-	cbne	r2, r6, f6
+	cbne	r2, r6, fail6
 	lea	buf, r8
 	mov	6(r8), r2
 	mov	=0xecc7a27d58330ee9, r6
-	cbne	r2, r6, f7
+	cbne	r2, r6, fail7
 	lea	buf, r8
 	mov	7(r8), r2
 	mov	=0x11ecc7a27d58330e, r6
-	cbne	r2, r6, f8
+	cbne	r2, r6, fail8
 	lea	buf, r8
 	mov	8(r8), r2
 	mov	=0x3611ecc7a27d5833, r6
-	cbne	r2, r6, f9
+	cbne	r2, r6, fail9
 	lea	buf, r8
 	mov	4088(r8), r2
 	mov	=0xe6c19c77522d08e3, r6
-	cbne	r2, r6, f10
+	cbne	r2, r6, fail10
 	lea	buf, r8
 	mov	4089(r8), r2
 	mov	=0xbe6c19c77522d08, r6
-	cbne	r2, r6, f11
+	cbne	r2, r6, fail11
 	lea	buf, r8
 	mov	4090(r8), r2
 	mov	=0x300be6c19c77522d, r6
-	cbne	r2, r6, f12
+	cbne	r2, r6, fail12
 	lea	buf, r8
 	mov	4091(r8), r2
 	mov	=0x55300be6c19c7752, r6
-	cbne	r2, r6, f13
+	cbne	r2, r6, fail13
 	lea	buf, r8
 	mov	4092(r8), r2
 	mov	=0x7a55300be6c19c77, r6
-	cbne	r2, r6, f14
+	cbne	r2, r6, fail14
 	lea	buf, r8
 	mov	4093(r8), r2
 	mov	=0x9f7a55300be6c19c, r6
-	cbne	r2, r6, f15
+	cbne	r2, r6, fail15
 	lea	buf, r8
 	mov	4094(r8), r2
 	mov	=0xc49f7a55300be6c1, r6
-	cbne	r2, r6, f16
+	cbne	r2, r6, fail16
 	lea	buf, r8
 	mov	4095(r8), r2
 	mov	=0xe9c49f7a55300be6, r6
-	cbne	r2, r6, f17
+	cbne	r2, r6, fail17
 	lea	buf, r8
 	mov	4096(r8), r2
 	mov	=0xee9c49f7a55300b, r6
-	cbne	r2, r6, f18
+	cbne	r2, r6, fail18
 	lea	buf, r8
 	mov	4093(r8), r2
 	mov	=0x9f7a55300be6c19c, r6
-	cbne	r2, r6, f19
+	cbne	r2, r6, fail19
 	lea	buf, r8
 	mov	4095(r8), r2
 	mov	=0xe9c49f7a55300be6, r6
-	cbne	r2, r6, f20
+	cbne	r2, r6, fail20
 	lea	buf, r8
 	mov	$4088, r9
 	mov	3(r8)(r9*1), r2
 	mov	=0x55300be6c19c7752, r6
-	cbne	r2, r6, f21
+	cbne	r2, r6, fail21
 	lea	buf+4091, r8
 	mov	(r8)+, r2
 	mov	=0x55300be6c19c7752, r6
-	cbne	r2, r6, f22
+	cbne	r2, r6, fail22
 	lea	buf+4099, r2
-	cbne	r8, r2, f23
+	cbne	r8, r2, fail23
 	lea	buf, r8
 	mov.s32	0(r8), r2
 	mov	=0x7a55300b, r6
-	cbne	r2, r6, f24
+	cbne	r2, r6, fail24
 	lea	buf, r8
 	mov.s32	1(r8), r2
 	mov	=0xffffffff9f7a5530, r6
-	cbne	r2, r6, f25
+	cbne	r2, r6, fail25
 	lea	buf, r8
 	mov.s32	2(r8), r2
 	mov	=0xffffffffc49f7a55, r6
-	cbne	r2, r6, f26
+	cbne	r2, r6, fail26
 	lea	buf, r8
 	mov.s32	3(r8), r2
 	mov	=0xffffffffe9c49f7a, r6
-	cbne	r2, r6, f27
+	cbne	r2, r6, fail27
 	lea	buf, r8
 	mov.s32	4(r8), r2
 	mov	=0xee9c49f, r6
-	cbne	r2, r6, f28
+	cbne	r2, r6, fail28
 	lea	buf, r8
 	mov.s32	5(r8), r2
 	mov	=0x330ee9c4, r6
-	cbne	r2, r6, f29
+	cbne	r2, r6, fail29
 	lea	buf, r8
 	mov.s32	6(r8), r2
 	mov	=0x58330ee9, r6
-	cbne	r2, r6, f30
+	cbne	r2, r6, fail30
 	lea	buf, r8
 	mov.s32	7(r8), r2
 	mov	=0x7d58330e, r6
-	cbne	r2, r6, f31
+	cbne	r2, r6, fail31
 	lea	buf, r8
 	mov.s32	8(r8), r2
 	mov	=0xffffffffa27d5833, r6
-	cbne	r2, r6, f32
+	cbne	r2, r6, fail32
 	lea	buf, r8
 	mov.s32	4088(r8), r2
 	mov	=0x522d08e3, r6
-	cbne	r2, r6, f33
+	cbne	r2, r6, fail33
 	lea	buf, r8
 	mov.s32	4089(r8), r2
 	mov	=0x77522d08, r6
-	cbne	r2, r6, f34
+	cbne	r2, r6, fail34
 	lea	buf, r8
 	mov.s32	4090(r8), r2
 	mov	=0xffffffff9c77522d, r6
-	cbne	r2, r6, f35
+	cbne	r2, r6, fail35
 	lea	buf, r8
 	mov.s32	4091(r8), r2
 	mov	=0xffffffffc19c7752, r6
-	cbne	r2, r6, f36
+	cbne	r2, r6, fail36
 	lea	buf, r8
 	mov.s32	4092(r8), r2
 	mov	=0xffffffffe6c19c77, r6
-	cbne	r2, r6, f37
+	cbne	r2, r6, fail37
 	lea	buf, r8
 	mov.s32	4093(r8), r2
 	mov	=0xbe6c19c, r6
-	cbne	r2, r6, f38
+	cbne	r2, r6, fail38
 	lea	buf, r8
 	mov.s32	4094(r8), r2
 	mov	=0x300be6c1, r6
-	cbne	r2, r6, f39
+	cbne	r2, r6, fail39
 	lea	buf, r8
 	mov.s32	4095(r8), r2
 	mov	=0x55300be6, r6
-	cbne	r2, r6, f40
+	cbne	r2, r6, fail40
 	lea	buf, r8
 	mov.s32	4096(r8), r2
 	mov	=0x7a55300b, r6
-	cbne	r2, r6, f41
+	cbne	r2, r6, fail41
 	lea	buf, r8
 	mov.s32	4093(r8), r2
 	mov	=0xbe6c19c, r6
-	cbne	r2, r6, f42
+	cbne	r2, r6, fail42
 	lea	buf, r8
 	mov.s32	4095(r8), r2
 	mov	=0x55300be6, r6
-	cbne	r2, r6, f43
+	cbne	r2, r6, fail43
 	lea	buf, r8
 	mov	$4090, r9
 	mov.s32	3(r8)(r9*1), r2
 	mov	=0xbe6c19c, r6
-	cbne	r2, r6, f44
+	cbne	r2, r6, fail44
 	lea	buf+4093, r8
 	mov.s32	(r8)+, r2
 	mov	=0xbe6c19c, r6
-	cbne	r2, r6, f45
+	cbne	r2, r6, fail45
 	lea	buf+4097, r2
-	cbne	r8, r2, f46
+	cbne	r8, r2, fail46
 	lea	buf, r8
 	mov.s16	0(r8), r2
 	mov	=0x300b, r6
-	cbne	r2, r6, f47
+	cbne	r2, r6, fail47
 	lea	buf, r8
 	mov.s16	1(r8), r2
 	mov	=0x5530, r6
-	cbne	r2, r6, f48
+	cbne	r2, r6, fail48
 	lea	buf, r8
 	mov.s16	2(r8), r2
 	mov	=0x7a55, r6
-	cbne	r2, r6, f49
+	cbne	r2, r6, fail49
 	lea	buf, r8
 	mov.s16	3(r8), r2
 	mov	=0xffffffffffff9f7a, r6
-	cbne	r2, r6, f50
+	cbne	r2, r6, fail50
 	lea	buf, r8
 	mov.s16	4(r8), r2
 	mov	=0xffffffffffffc49f, r6
-	cbne	r2, r6, f51
+	cbne	r2, r6, fail51
 	lea	buf, r8
 	mov.s16	5(r8), r2
 	mov	=0xffffffffffffe9c4, r6
-	cbne	r2, r6, f52
+	cbne	r2, r6, fail52
 	lea	buf, r8
 	mov.s16	6(r8), r2
 	mov	=0xee9, r6
-	cbne	r2, r6, f53
+	cbne	r2, r6, fail53
 	lea	buf, r8
 	mov.s16	7(r8), r2
 	mov	=0x330e, r6
-	cbne	r2, r6, f54
+	cbne	r2, r6, fail54
 	lea	buf, r8
 	mov.s16	8(r8), r2
 	mov	=0x5833, r6
-	cbne	r2, r6, f55
+	cbne	r2, r6, fail55
 	lea	buf, r8
 	mov.s16	4088(r8), r2
 	mov	=0x8e3, r6
-	cbne	r2, r6, f56
+	cbne	r2, r6, fail56
 	lea	buf, r8
 	mov.s16	4089(r8), r2
 	mov	=0x2d08, r6
-	cbne	r2, r6, f57
+	cbne	r2, r6, fail57
 	lea	buf, r8
 	mov.s16	4090(r8), r2
 	mov	=0x522d, r6
-	cbne	r2, r6, f58
+	cbne	r2, r6, fail58
 	lea	buf, r8
 	mov.s16	4091(r8), r2
 	mov	=0x7752, r6
-	cbne	r2, r6, f59
+	cbne	r2, r6, fail59
 	lea	buf, r8
 	mov.s16	4092(r8), r2
 	mov	=0xffffffffffff9c77, r6
-	cbne	r2, r6, f60
+	cbne	r2, r6, fail60
 	lea	buf, r8
 	mov.s16	4093(r8), r2
 	mov	=0xffffffffffffc19c, r6
-	cbne	r2, r6, f61
+	cbne	r2, r6, fail61
 	lea	buf, r8
 	mov.s16	4094(r8), r2
 	mov	=0xffffffffffffe6c1, r6
-	cbne	r2, r6, f62
+	cbne	r2, r6, fail62
 	lea	buf, r8
 	mov.s16	4095(r8), r2
 	mov	=0xbe6, r6
-	cbne	r2, r6, f63
+	cbne	r2, r6, fail63
 	lea	buf, r8
 	mov.s16	4096(r8), r2
 	mov	=0x300b, r6
-	cbne	r2, r6, f64
+	cbne	r2, r6, fail64
 	lea	buf, r8
 	mov.s16	4093(r8), r2
 	mov	=0xffffffffffffc19c, r6
-	cbne	r2, r6, f65
+	cbne	r2, r6, fail65
 	lea	buf, r8
 	mov.s16	4095(r8), r2
 	mov	=0xbe6, r6
-	cbne	r2, r6, f66
+	cbne	r2, r6, fail66
 	lea	buf, r8
 	mov	$4091, r9
 	mov.s16	3(r8)(r9*1), r2
 	mov	=0xffffffffffffe6c1, r6
-	cbne	r2, r6, f67
+	cbne	r2, r6, fail67
 	lea	buf+4094, r8
 	mov.s16	(r8)+, r2
 	mov	=0xffffffffffffe6c1, r6
-	cbne	r2, r6, f68
+	cbne	r2, r6, fail68
 	lea	buf+4096, r2
-	cbne	r8, r2, f69
+	cbne	r8, r2, fail69
 	lea	buf, r8
 	mov.s8	0(r8), r2
 	mov	=0xb, r6
-	cbne	r2, r6, f70
+	cbne	r2, r6, fail70
 	lea	buf, r8
 	mov.s8	1(r8), r2
 	mov	=0x30, r6
-	cbne	r2, r6, f71
+	cbne	r2, r6, fail71
 	lea	buf, r8
 	mov.s8	2(r8), r2
 	mov	=0x55, r6
-	cbne	r2, r6, f72
+	cbne	r2, r6, fail72
 	lea	buf, r8
 	mov.s8	3(r8), r2
 	mov	=0x7a, r6
-	cbne	r2, r6, f73
+	cbne	r2, r6, fail73
 	lea	buf, r8
 	mov.s8	4(r8), r2
 	mov	=0xffffffffffffff9f, r6
-	cbne	r2, r6, f74
+	cbne	r2, r6, fail74
 	lea	buf, r8
 	mov.s8	5(r8), r2
 	mov	=0xffffffffffffffc4, r6
-	cbne	r2, r6, f75
+	cbne	r2, r6, fail75
 	lea	buf, r8
 	mov.s8	6(r8), r2
 	mov	=0xffffffffffffffe9, r6
-	cbne	r2, r6, f76
+	cbne	r2, r6, fail76
 	lea	buf, r8
 	mov.s8	7(r8), r2
 	mov	=0xe, r6
-	cbne	r2, r6, f77
+	cbne	r2, r6, fail77
 	lea	buf, r8
 	mov.s8	8(r8), r2
 	mov	=0x33, r6
-	cbne	r2, r6, f78
+	cbne	r2, r6, fail78
 	lea	buf, r8
 	mov.s8	4088(r8), r2
 	mov	=0xffffffffffffffe3, r6
-	cbne	r2, r6, f79
+	cbne	r2, r6, fail79
 	lea	buf, r8
 	mov.s8	4089(r8), r2
 	mov	=0x8, r6
-	cbne	r2, r6, f80
+	cbne	r2, r6, fail80
 	lea	buf, r8
 	mov.s8	4090(r8), r2
 	mov	=0x2d, r6
-	cbne	r2, r6, f81
+	cbne	r2, r6, fail81
 	lea	buf, r8
 	mov.s8	4091(r8), r2
 	mov	=0x52, r6
-	cbne	r2, r6, f82
+	cbne	r2, r6, fail82
 	lea	buf, r8
 	mov.s8	4092(r8), r2
 	mov	=0x77, r6
-	cbne	r2, r6, f83
+	cbne	r2, r6, fail83
 	lea	buf, r8
 	mov.s8	4093(r8), r2
 	mov	=0xffffffffffffff9c, r6
-	cbne	r2, r6, f84
+	cbne	r2, r6, fail84
 	lea	buf, r8
 	mov.s8	4094(r8), r2
 	mov	=0xffffffffffffffc1, r6
-	cbne	r2, r6, f85
+	cbne	r2, r6, fail85
 	lea	buf, r8
 	mov.s8	4095(r8), r2
 	mov	=0xffffffffffffffe6, r6
-	cbne	r2, r6, f86
+	cbne	r2, r6, fail86
 	lea	buf, r8
 	mov.s8	4096(r8), r2
 	mov	=0xb, r6
-	cbne	r2, r6, f87
+	cbne	r2, r6, fail87
 	lea	buf, r8
 	mov.s8	4093(r8), r2
 	mov	=0xffffffffffffff9c, r6
-	cbne	r2, r6, f88
+	cbne	r2, r6, fail88
 	lea	buf, r8
 	mov.s8	4095(r8), r2
 	mov	=0xffffffffffffffe6, r6
-	cbne	r2, r6, f89
+	cbne	r2, r6, fail89
 	lea	buf, r8
 	mov	$4092, r9
 	mov.s8	3(r8)(r9*1), r2
 	mov	=0xffffffffffffffe6, r6
-	cbne	r2, r6, f90
+	cbne	r2, r6, fail90
 	lea	buf+4095, r8
 	mov.s8	(r8)+, r2
 	mov	=0xffffffffffffffe6, r6
-	cbne	r2, r6, f91
+	cbne	r2, r6, fail91
 	lea	buf+4096, r2
-	cbne	r8, r2, f92
+	cbne	r8, r2, fail92
 	lea	buf, r8
 	mov.u32	0(r8), r2
 	mov	=0x7a55300b, r6
-	cbne	r2, r6, f93
+	cbne	r2, r6, fail93
 	lea	buf, r8
 	mov.u32	1(r8), r2
 	mov	=0x9f7a5530, r6
-	cbne	r2, r6, f94
+	cbne	r2, r6, fail94
 	lea	buf, r8
 	mov.u32	2(r8), r2
 	mov	=0xc49f7a55, r6
-	cbne	r2, r6, f95
+	cbne	r2, r6, fail95
 	lea	buf, r8
 	mov.u32	3(r8), r2
 	mov	=0xe9c49f7a, r6
-	cbne	r2, r6, f96
+	cbne	r2, r6, fail96
 	lea	buf, r8
 	mov.u32	4(r8), r2
 	mov	=0xee9c49f, r6
-	cbne	r2, r6, f97
+	cbne	r2, r6, fail97
 	lea	buf, r8
 	mov.u32	5(r8), r2
 	mov	=0x330ee9c4, r6
-	cbne	r2, r6, f98
+	cbne	r2, r6, fail98
 	lea	buf, r8
 	mov.u32	6(r8), r2
 	mov	=0x58330ee9, r6
-	cbne	r2, r6, f99
+	cbne	r2, r6, fail99
 	lea	buf, r8
 	mov.u32	7(r8), r2
 	mov	=0x7d58330e, r6
-	cbne	r2, r6, f100
+	cbne	r2, r6, fail100
 	lea	buf, r8
 	mov.u32	8(r8), r2
 	mov	=0xa27d5833, r6
-	cbne	r2, r6, f101
+	cbne	r2, r6, fail101
 	lea	buf, r8
 	mov.u32	4088(r8), r2
 	mov	=0x522d08e3, r6
-	cbne	r2, r6, f102
+	cbne	r2, r6, fail102
 	lea	buf, r8
 	mov.u32	4089(r8), r2
 	mov	=0x77522d08, r6
-	cbne	r2, r6, f103
+	cbne	r2, r6, fail103
 	lea	buf, r8
 	mov.u32	4090(r8), r2
 	mov	=0x9c77522d, r6
-	cbne	r2, r6, f104
+	cbne	r2, r6, fail104
 	lea	buf, r8
 	mov.u32	4091(r8), r2
 	mov	=0xc19c7752, r6
-	cbne	r2, r6, f105
+	cbne	r2, r6, fail105
 	lea	buf, r8
 	mov.u32	4092(r8), r2
 	mov	=0xe6c19c77, r6
-	cbne	r2, r6, f106
+	cbne	r2, r6, fail106
 	lea	buf, r8
 	mov.u32	4093(r8), r2
 	mov	=0xbe6c19c, r6
-	cbne	r2, r6, f107
+	cbne	r2, r6, fail107
 	lea	buf, r8
 	mov.u32	4094(r8), r2
 	mov	=0x300be6c1, r6
-	cbne	r2, r6, f108
+	cbne	r2, r6, fail108
 	lea	buf, r8
 	mov.u32	4095(r8), r2
 	mov	=0x55300be6, r6
-	cbne	r2, r6, f109
+	cbne	r2, r6, fail109
 	lea	buf, r8
 	mov.u32	4096(r8), r2
 	mov	=0x7a55300b, r6
-	cbne	r2, r6, f110
+	cbne	r2, r6, fail110
 	lea	buf, r8
 	mov.u32	4093(r8), r2
 	mov	=0xbe6c19c, r6
-	cbne	r2, r6, f111
+	cbne	r2, r6, fail111
 	lea	buf, r8
 	mov.u32	4095(r8), r2
 	mov	=0x55300be6, r6
-	cbne	r2, r6, f112
+	cbne	r2, r6, fail112
 	lea	buf, r8
 	mov	$4090, r9
 	mov.u32	3(r8)(r9*1), r2
 	mov	=0xbe6c19c, r6
-	cbne	r2, r6, f113
+	cbne	r2, r6, fail113
 	lea	buf+4093, r8
 	mov.u32	(r8)+, r2
 	mov	=0xbe6c19c, r6
-	cbne	r2, r6, f114
+	cbne	r2, r6, fail114
 	lea	buf+4097, r2
-	cbne	r8, r2, f115
+	cbne	r8, r2, fail115
 	lea	buf, r8
 	mov.u16	0(r8), r2
 	mov	=0x300b, r6
-	cbne	r2, r6, f116
+	cbne	r2, r6, fail116
 	lea	buf, r8
 	mov.u16	1(r8), r2
 	mov	=0x5530, r6
-	cbne	r2, r6, f117
+	cbne	r2, r6, fail117
 	lea	buf, r8
 	mov.u16	2(r8), r2
 	mov	=0x7a55, r6
-	cbne	r2, r6, f118
+	cbne	r2, r6, fail118
 	lea	buf, r8
 	mov.u16	3(r8), r2
 	mov	=0x9f7a, r6
-	cbne	r2, r6, f119
+	cbne	r2, r6, fail119
 	lea	buf, r8
 	mov.u16	4(r8), r2
 	mov	=0xc49f, r6
-	cbne	r2, r6, f120
+	cbne	r2, r6, fail120
 	lea	buf, r8
 	mov.u16	5(r8), r2
 	mov	=0xe9c4, r6
-	cbne	r2, r6, f121
+	cbne	r2, r6, fail121
 	lea	buf, r8
 	mov.u16	6(r8), r2
 	mov	=0xee9, r6
-	cbne	r2, r6, f122
+	cbne	r2, r6, fail122
 	lea	buf, r8
 	mov.u16	7(r8), r2
 	mov	=0x330e, r6
-	cbne	r2, r6, f123
+	cbne	r2, r6, fail123
 	lea	buf, r8
 	mov.u16	8(r8), r2
 	mov	=0x5833, r6
-	cbne	r2, r6, f124
+	cbne	r2, r6, fail124
 	lea	buf, r8
 	mov.u16	4088(r8), r2
 	mov	=0x8e3, r6
-	cbne	r2, r6, f125
+	cbne	r2, r6, fail125
 	lea	buf, r8
 	mov.u16	4089(r8), r2
 	mov	=0x2d08, r6
-	cbne	r2, r6, f126
+	cbne	r2, r6, fail126
 	lea	buf, r8
 	mov.u16	4090(r8), r2
 	mov	=0x522d, r6
-	cbne	r2, r6, f127
+	cbne	r2, r6, fail127
 	lea	buf, r8
 	mov.u16	4091(r8), r2
 	mov	=0x7752, r6
-	cbne	r2, r6, f128
+	cbne	r2, r6, fail128
 	lea	buf, r8
 	mov.u16	4092(r8), r2
 	mov	=0x9c77, r6
-	cbne	r2, r6, f129
+	cbne	r2, r6, fail129
 	lea	buf, r8
 	mov.u16	4093(r8), r2
 	mov	=0xc19c, r6
-	cbne	r2, r6, f130
+	cbne	r2, r6, fail130
 	lea	buf, r8
 	mov.u16	4094(r8), r2
 	mov	=0xe6c1, r6
-	cbne	r2, r6, f131
+	cbne	r2, r6, fail131
 	lea	buf, r8
 	mov.u16	4095(r8), r2
 	mov	=0xbe6, r6
-	cbne	r2, r6, f132
+	cbne	r2, r6, fail132
 	lea	buf, r8
 	mov.u16	4096(r8), r2
 	mov	=0x300b, r6
-	cbne	r2, r6, f133
+	cbne	r2, r6, fail133
 	lea	buf, r8
 	mov.u16	4093(r8), r2
 	mov	=0xc19c, r6
-	cbne	r2, r6, f134
+	cbne	r2, r6, fail134
 	lea	buf, r8
 	mov.u16	4095(r8), r2
 	mov	=0xbe6, r6
-	cbne	r2, r6, f135
+	cbne	r2, r6, fail135
 	lea	buf, r8
 	mov	$4091, r9
 	mov.u16	3(r8)(r9*1), r2
 	mov	=0xe6c1, r6
-	cbne	r2, r6, f136
+	cbne	r2, r6, fail136
 	lea	buf+4094, r8
 	mov.u16	(r8)+, r2
 	mov	=0xe6c1, r6
-	cbne	r2, r6, f137
+	cbne	r2, r6, fail137
 	lea	buf+4096, r2
-	cbne	r8, r2, f138
+	cbne	r8, r2, fail138
 	lea	buf, r8
 	mov.u8	0(r8), r2
 	mov	=0xb, r6
-	cbne	r2, r6, f139
+	cbne	r2, r6, fail139
 	lea	buf, r8
 	mov.u8	1(r8), r2
 	mov	=0x30, r6
-	cbne	r2, r6, f140
+	cbne	r2, r6, fail140
 	lea	buf, r8
 	mov.u8	2(r8), r2
 	mov	=0x55, r6
-	cbne	r2, r6, f141
+	cbne	r2, r6, fail141
 	lea	buf, r8
 	mov.u8	3(r8), r2
 	mov	=0x7a, r6
-	cbne	r2, r6, f142
+	cbne	r2, r6, fail142
 	lea	buf, r8
 	mov.u8	4(r8), r2
 	mov	=0x9f, r6
-	cbne	r2, r6, f143
+	cbne	r2, r6, fail143
 	lea	buf, r8
 	mov.u8	5(r8), r2
 	mov	=0xc4, r6
-	cbne	r2, r6, f144
+	cbne	r2, r6, fail144
 	lea	buf, r8
 	mov.u8	6(r8), r2
 	mov	=0xe9, r6
-	cbne	r2, r6, f145
+	cbne	r2, r6, fail145
 	lea	buf, r8
 	mov.u8	7(r8), r2
 	mov	=0xe, r6
-	cbne	r2, r6, f146
+	cbne	r2, r6, fail146
 	lea	buf, r8
 	mov.u8	8(r8), r2
 	mov	=0x33, r6
-	cbne	r2, r6, f147
+	cbne	r2, r6, fail147
 	lea	buf, r8
 	mov.u8	4088(r8), r2
 	mov	=0xe3, r6
-	cbne	r2, r6, f148
+	cbne	r2, r6, fail148
 	lea	buf, r8
 	mov.u8	4089(r8), r2
 	mov	=0x8, r6
-	cbne	r2, r6, f149
+	cbne	r2, r6, fail149
 	lea	buf, r8
 	mov.u8	4090(r8), r2
 	mov	=0x2d, r6
-	cbne	r2, r6, f150
+	cbne	r2, r6, fail150
 	lea	buf, r8
 	mov.u8	4091(r8), r2
 	mov	=0x52, r6
-	cbne	r2, r6, f151
+	cbne	r2, r6, fail151
 	lea	buf, r8
 	mov.u8	4092(r8), r2
 	mov	=0x77, r6
-	cbne	r2, r6, f152
+	cbne	r2, r6, fail152
 	lea	buf, r8
 	mov.u8	4093(r8), r2
 	mov	=0x9c, r6
-	cbne	r2, r6, f153
+	cbne	r2, r6, fail153
 	lea	buf, r8
 	mov.u8	4094(r8), r2
 	mov	=0xc1, r6
-	cbne	r2, r6, f154
+	cbne	r2, r6, fail154
 	lea	buf, r8
 	mov.u8	4095(r8), r2
 	mov	=0xe6, r6
-	cbne	r2, r6, f155
+	cbne	r2, r6, fail155
 	lea	buf, r8
 	mov.u8	4096(r8), r2
 	mov	=0xb, r6
-	cbne	r2, r6, f156
+	cbne	r2, r6, fail156
 	lea	buf, r8
 	mov.u8	4093(r8), r2
 	mov	=0x9c, r6
-	cbne	r2, r6, f157
+	cbne	r2, r6, fail157
 	lea	buf, r8
 	mov.u8	4095(r8), r2
 	mov	=0xe6, r6
-	cbne	r2, r6, f158
+	cbne	r2, r6, fail158
 	lea	buf, r8
 	mov	$4092, r9
 	mov.u8	3(r8)(r9*1), r2
 	mov	=0xe6, r6
-	cbne	r2, r6, f159
+	cbne	r2, r6, fail159
 	lea	buf+4095, r8
 	mov.u8	(r8)+, r2
 	mov	=0xe6, r6
-	cbne	r2, r6, f160
+	cbne	r2, r6, fail160
 	lea	buf+4096, r2
-	cbne	r8, r2, f161
+	cbne	r8, r2, fail161
 	lea	buf, r8
 	mov	=0x1122334455667788, r1
 	mov	r1, 1(r8)
 	mov.u8	0(r8), r2
 	mov	=0xb, r6
-	cbne	r2, r6, f162
+	cbne	r2, r6, fail162
 	mov.u8	1(r8), r2
 	mov	=0x88, r6
-	cbne	r2, r6, f163
+	cbne	r2, r6, fail163
 	mov.u8	2(r8), r2
 	mov	=0x77, r6
-	cbne	r2, r6, f164
+	cbne	r2, r6, fail164
 	mov.u8	3(r8), r2
 	mov	=0x66, r6
-	cbne	r2, r6, f165
+	cbne	r2, r6, fail165
 	mov.u8	4(r8), r2
 	mov	=0x55, r6
-	cbne	r2, r6, f166
+	cbne	r2, r6, fail166
 	mov.u8	5(r8), r2
 	mov	=0x44, r6
-	cbne	r2, r6, f167
+	cbne	r2, r6, fail167
 	mov.u8	6(r8), r2
 	mov	=0x33, r6
-	cbne	r2, r6, f168
+	cbne	r2, r6, fail168
 	mov.u8	7(r8), r2
 	mov	=0x22, r6
-	cbne	r2, r6, f169
+	cbne	r2, r6, fail169
 	mov.u8	8(r8), r2
 	mov	=0x11, r6
-	cbne	r2, r6, f170
+	cbne	r2, r6, fail170
 	mov.u8	9(r8), r2
 	mov	=0x58, r6
-	cbne	r2, r6, f171
+	cbne	r2, r6, fail171
 	mov	$48, r3
 	mov.s8	r3, 1(r8)
 	mov	$85, r3
@@ -704,34 +704,34 @@ _start:
 	mov	r1, 2(r8)
 	mov.u8	1(r8), r2
 	mov	=0x30, r6
-	cbne	r2, r6, f172
+	cbne	r2, r6, fail172
 	mov.u8	2(r8), r2
 	mov	=0x88, r6
-	cbne	r2, r6, f173
+	cbne	r2, r6, fail173
 	mov.u8	3(r8), r2
 	mov	=0x77, r6
-	cbne	r2, r6, f174
+	cbne	r2, r6, fail174
 	mov.u8	4(r8), r2
 	mov	=0x66, r6
-	cbne	r2, r6, f175
+	cbne	r2, r6, fail175
 	mov.u8	5(r8), r2
 	mov	=0x55, r6
-	cbne	r2, r6, f176
+	cbne	r2, r6, fail176
 	mov.u8	6(r8), r2
 	mov	=0x44, r6
-	cbne	r2, r6, f177
+	cbne	r2, r6, fail177
 	mov.u8	7(r8), r2
 	mov	=0x33, r6
-	cbne	r2, r6, f178
+	cbne	r2, r6, fail178
 	mov.u8	8(r8), r2
 	mov	=0x22, r6
-	cbne	r2, r6, f179
+	cbne	r2, r6, fail179
 	mov.u8	9(r8), r2
 	mov	=0x11, r6
-	cbne	r2, r6, f180
+	cbne	r2, r6, fail180
 	mov.u8	10(r8), r2
 	mov	=0x7d, r6
-	cbne	r2, r6, f181
+	cbne	r2, r6, fail181
 	mov	$85, r3
 	mov.s8	r3, 2(r8)
 	mov	$122, r3
@@ -753,34 +753,34 @@ _start:
 	mov	r1, 3(r8)
 	mov.u8	2(r8), r2
 	mov	=0x55, r6
-	cbne	r2, r6, f182
+	cbne	r2, r6, fail182
 	mov.u8	3(r8), r2
 	mov	=0x88, r6
-	cbne	r2, r6, f183
+	cbne	r2, r6, fail183
 	mov.u8	4(r8), r2
 	mov	=0x77, r6
-	cbne	r2, r6, f184
+	cbne	r2, r6, fail184
 	mov.u8	5(r8), r2
 	mov	=0x66, r6
-	cbne	r2, r6, f185
+	cbne	r2, r6, fail185
 	mov.u8	6(r8), r2
 	mov	=0x55, r6
-	cbne	r2, r6, f186
+	cbne	r2, r6, fail186
 	mov.u8	7(r8), r2
 	mov	=0x44, r6
-	cbne	r2, r6, f187
+	cbne	r2, r6, fail187
 	mov.u8	8(r8), r2
 	mov	=0x33, r6
-	cbne	r2, r6, f188
+	cbne	r2, r6, fail188
 	mov.u8	9(r8), r2
 	mov	=0x22, r6
-	cbne	r2, r6, f189
+	cbne	r2, r6, fail189
 	mov.u8	10(r8), r2
 	mov	=0x11, r6
-	cbne	r2, r6, f190
+	cbne	r2, r6, fail190
 	mov.u8	11(r8), r2
 	mov	=0xa2, r6
-	cbne	r2, r6, f191
+	cbne	r2, r6, fail191
 	mov	$122, r3
 	mov.s8	r3, 3(r8)
 	mov	$-97, r3
@@ -802,34 +802,34 @@ _start:
 	mov	r1, 4(r8)
 	mov.u8	3(r8), r2
 	mov	=0x7a, r6
-	cbne	r2, r6, f192
+	cbne	r2, r6, fail192
 	mov.u8	4(r8), r2
 	mov	=0x88, r6
-	cbne	r2, r6, f193
+	cbne	r2, r6, fail193
 	mov.u8	5(r8), r2
 	mov	=0x77, r6
-	cbne	r2, r6, f194
+	cbne	r2, r6, fail194
 	mov.u8	6(r8), r2
 	mov	=0x66, r6
-	cbne	r2, r6, f195
+	cbne	r2, r6, fail195
 	mov.u8	7(r8), r2
 	mov	=0x55, r6
-	cbne	r2, r6, f196
+	cbne	r2, r6, fail196
 	mov.u8	8(r8), r2
 	mov	=0x44, r6
-	cbne	r2, r6, f197
+	cbne	r2, r6, fail197
 	mov.u8	9(r8), r2
 	mov	=0x33, r6
-	cbne	r2, r6, f198
+	cbne	r2, r6, fail198
 	mov.u8	10(r8), r2
 	mov	=0x22, r6
-	cbne	r2, r6, f199
+	cbne	r2, r6, fail199
 	mov.u8	11(r8), r2
 	mov	=0x11, r6
-	cbne	r2, r6, f200
+	cbne	r2, r6, fail200
 	mov.u8	12(r8), r2
 	mov	=0xc7, r6
-	cbne	r2, r6, f201
+	cbne	r2, r6, fail201
 	mov	$-97, r3
 	mov.s8	r3, 4(r8)
 	mov	$-60, r3
@@ -851,34 +851,34 @@ _start:
 	mov	r1, 5(r8)
 	mov.u8	4(r8), r2
 	mov	=0x9f, r6
-	cbne	r2, r6, f202
+	cbne	r2, r6, fail202
 	mov.u8	5(r8), r2
 	mov	=0x88, r6
-	cbne	r2, r6, f203
+	cbne	r2, r6, fail203
 	mov.u8	6(r8), r2
 	mov	=0x77, r6
-	cbne	r2, r6, f204
+	cbne	r2, r6, fail204
 	mov.u8	7(r8), r2
 	mov	=0x66, r6
-	cbne	r2, r6, f205
+	cbne	r2, r6, fail205
 	mov.u8	8(r8), r2
 	mov	=0x55, r6
-	cbne	r2, r6, f206
+	cbne	r2, r6, fail206
 	mov.u8	9(r8), r2
 	mov	=0x44, r6
-	cbne	r2, r6, f207
+	cbne	r2, r6, fail207
 	mov.u8	10(r8), r2
 	mov	=0x33, r6
-	cbne	r2, r6, f208
+	cbne	r2, r6, fail208
 	mov.u8	11(r8), r2
 	mov	=0x22, r6
-	cbne	r2, r6, f209
+	cbne	r2, r6, fail209
 	mov.u8	12(r8), r2
 	mov	=0x11, r6
-	cbne	r2, r6, f210
+	cbne	r2, r6, fail210
 	mov.u8	13(r8), r2
 	mov	=0xec, r6
-	cbne	r2, r6, f211
+	cbne	r2, r6, fail211
 	mov	$-60, r3
 	mov.s8	r3, 5(r8)
 	mov	$-23, r3
@@ -900,34 +900,34 @@ _start:
 	mov	r1, 6(r8)
 	mov.u8	5(r8), r2
 	mov	=0xc4, r6
-	cbne	r2, r6, f212
+	cbne	r2, r6, fail212
 	mov.u8	6(r8), r2
 	mov	=0x88, r6
-	cbne	r2, r6, f213
+	cbne	r2, r6, fail213
 	mov.u8	7(r8), r2
 	mov	=0x77, r6
-	cbne	r2, r6, f214
+	cbne	r2, r6, fail214
 	mov.u8	8(r8), r2
 	mov	=0x66, r6
-	cbne	r2, r6, f215
+	cbne	r2, r6, fail215
 	mov.u8	9(r8), r2
 	mov	=0x55, r6
-	cbne	r2, r6, f216
+	cbne	r2, r6, fail216
 	mov.u8	10(r8), r2
 	mov	=0x44, r6
-	cbne	r2, r6, f217
+	cbne	r2, r6, fail217
 	mov.u8	11(r8), r2
 	mov	=0x33, r6
-	cbne	r2, r6, f218
+	cbne	r2, r6, fail218
 	mov.u8	12(r8), r2
 	mov	=0x22, r6
-	cbne	r2, r6, f219
+	cbne	r2, r6, fail219
 	mov.u8	13(r8), r2
 	mov	=0x11, r6
-	cbne	r2, r6, f220
+	cbne	r2, r6, fail220
 	mov.u8	14(r8), r2
 	mov	=0x11, r6
-	cbne	r2, r6, f221
+	cbne	r2, r6, fail221
 	mov	$-23, r3
 	mov.s8	r3, 6(r8)
 	mov	$14, r3
@@ -949,34 +949,34 @@ _start:
 	mov	r1, 7(r8)
 	mov.u8	6(r8), r2
 	mov	=0xe9, r6
-	cbne	r2, r6, f222
+	cbne	r2, r6, fail222
 	mov.u8	7(r8), r2
 	mov	=0x88, r6
-	cbne	r2, r6, f223
+	cbne	r2, r6, fail223
 	mov.u8	8(r8), r2
 	mov	=0x77, r6
-	cbne	r2, r6, f224
+	cbne	r2, r6, fail224
 	mov.u8	9(r8), r2
 	mov	=0x66, r6
-	cbne	r2, r6, f225
+	cbne	r2, r6, fail225
 	mov.u8	10(r8), r2
 	mov	=0x55, r6
-	cbne	r2, r6, f226
+	cbne	r2, r6, fail226
 	mov.u8	11(r8), r2
 	mov	=0x44, r6
-	cbne	r2, r6, f227
+	cbne	r2, r6, fail227
 	mov.u8	12(r8), r2
 	mov	=0x33, r6
-	cbne	r2, r6, f228
+	cbne	r2, r6, fail228
 	mov.u8	13(r8), r2
 	mov	=0x22, r6
-	cbne	r2, r6, f229
+	cbne	r2, r6, fail229
 	mov.u8	14(r8), r2
 	mov	=0x11, r6
-	cbne	r2, r6, f230
+	cbne	r2, r6, fail230
 	mov.u8	15(r8), r2
 	mov	=0x36, r6
-	cbne	r2, r6, f231
+	cbne	r2, r6, fail231
 	mov	$14, r3
 	mov.s8	r3, 7(r8)
 	mov	$51, r3
@@ -998,34 +998,34 @@ _start:
 	mov	r1, 4089(r8)
 	mov.u8	4088(r8), r2
 	mov	=0xe3, r6
-	cbne	r2, r6, f232
+	cbne	r2, r6, fail232
 	mov.u8	4089(r8), r2
 	mov	=0x88, r6
-	cbne	r2, r6, f233
+	cbne	r2, r6, fail233
 	mov.u8	4090(r8), r2
 	mov	=0x77, r6
-	cbne	r2, r6, f234
+	cbne	r2, r6, fail234
 	mov.u8	4091(r8), r2
 	mov	=0x66, r6
-	cbne	r2, r6, f235
+	cbne	r2, r6, fail235
 	mov.u8	4092(r8), r2
 	mov	=0x55, r6
-	cbne	r2, r6, f236
+	cbne	r2, r6, fail236
 	mov.u8	4093(r8), r2
 	mov	=0x44, r6
-	cbne	r2, r6, f237
+	cbne	r2, r6, fail237
 	mov.u8	4094(r8), r2
 	mov	=0x33, r6
-	cbne	r2, r6, f238
+	cbne	r2, r6, fail238
 	mov.u8	4095(r8), r2
 	mov	=0x22, r6
-	cbne	r2, r6, f239
+	cbne	r2, r6, fail239
 	mov.u8	4096(r8), r2
 	mov	=0x11, r6
-	cbne	r2, r6, f240
+	cbne	r2, r6, fail240
 	mov.u8	4097(r8), r2
 	mov	=0x30, r6
-	cbne	r2, r6, f241
+	cbne	r2, r6, fail241
 	mov	$8, r3
 	mov.s8	r3, 4089(r8)
 	mov	$45, r3
@@ -1047,34 +1047,34 @@ _start:
 	mov	r1, 4090(r8)
 	mov.u8	4089(r8), r2
 	mov	=0x8, r6
-	cbne	r2, r6, f242
+	cbne	r2, r6, fail242
 	mov.u8	4090(r8), r2
 	mov	=0x88, r6
-	cbne	r2, r6, f243
+	cbne	r2, r6, fail243
 	mov.u8	4091(r8), r2
 	mov	=0x77, r6
-	cbne	r2, r6, f244
+	cbne	r2, r6, fail244
 	mov.u8	4092(r8), r2
 	mov	=0x66, r6
-	cbne	r2, r6, f245
+	cbne	r2, r6, fail245
 	mov.u8	4093(r8), r2
 	mov	=0x55, r6
-	cbne	r2, r6, f246
+	cbne	r2, r6, fail246
 	mov.u8	4094(r8), r2
 	mov	=0x44, r6
-	cbne	r2, r6, f247
+	cbne	r2, r6, fail247
 	mov.u8	4095(r8), r2
 	mov	=0x33, r6
-	cbne	r2, r6, f248
+	cbne	r2, r6, fail248
 	mov.u8	4096(r8), r2
 	mov	=0x22, r6
-	cbne	r2, r6, f249
+	cbne	r2, r6, fail249
 	mov.u8	4097(r8), r2
 	mov	=0x11, r6
-	cbne	r2, r6, f250
+	cbne	r2, r6, fail250
 	mov.u8	4098(r8), r2
 	mov	=0x55, r6
-	cbne	r2, r6, f251
+	cbne	r2, r6, fail251
 	mov	$45, r3
 	mov.s8	r3, 4090(r8)
 	mov	$82, r3
@@ -1096,34 +1096,34 @@ _start:
 	mov	r1, 4091(r8)
 	mov.u8	4090(r8), r2
 	mov	=0x2d, r6
-	cbne	r2, r6, f252
+	cbne	r2, r6, fail252
 	mov.u8	4091(r8), r2
 	mov	=0x88, r6
-	cbne	r2, r6, f253
+	cbne	r2, r6, fail253
 	mov.u8	4092(r8), r2
 	mov	=0x77, r6
-	cbne	r2, r6, f254
+	cbne	r2, r6, fail254
 	mov.u8	4093(r8), r2
 	mov	=0x66, r6
-	cbne	r2, r6, f255
+	cbne	r2, r6, fail255
 	mov.u8	4094(r8), r2
 	mov	=0x55, r6
-	cbne	r2, r6, f256
+	cbne	r2, r6, fail256
 	mov.u8	4095(r8), r2
 	mov	=0x44, r6
-	cbne	r2, r6, f257
+	cbne	r2, r6, fail257
 	mov.u8	4096(r8), r2
 	mov	=0x33, r6
-	cbne	r2, r6, f258
+	cbne	r2, r6, fail258
 	mov.u8	4097(r8), r2
 	mov	=0x22, r6
-	cbne	r2, r6, f259
+	cbne	r2, r6, fail259
 	mov.u8	4098(r8), r2
 	mov	=0x11, r6
-	cbne	r2, r6, f260
+	cbne	r2, r6, fail260
 	mov.u8	4099(r8), r2
 	mov	=0x7a, r6
-	cbne	r2, r6, f261
+	cbne	r2, r6, fail261
 	mov	$82, r3
 	mov.s8	r3, 4091(r8)
 	mov	$119, r3
@@ -1145,34 +1145,34 @@ _start:
 	mov	r1, 4092(r8)
 	mov.u8	4091(r8), r2
 	mov	=0x52, r6
-	cbne	r2, r6, f262
+	cbne	r2, r6, fail262
 	mov.u8	4092(r8), r2
 	mov	=0x88, r6
-	cbne	r2, r6, f263
+	cbne	r2, r6, fail263
 	mov.u8	4093(r8), r2
 	mov	=0x77, r6
-	cbne	r2, r6, f264
+	cbne	r2, r6, fail264
 	mov.u8	4094(r8), r2
 	mov	=0x66, r6
-	cbne	r2, r6, f265
+	cbne	r2, r6, fail265
 	mov.u8	4095(r8), r2
 	mov	=0x55, r6
-	cbne	r2, r6, f266
+	cbne	r2, r6, fail266
 	mov.u8	4096(r8), r2
 	mov	=0x44, r6
-	cbne	r2, r6, f267
+	cbne	r2, r6, fail267
 	mov.u8	4097(r8), r2
 	mov	=0x33, r6
-	cbne	r2, r6, f268
+	cbne	r2, r6, fail268
 	mov.u8	4098(r8), r2
 	mov	=0x22, r6
-	cbne	r2, r6, f269
+	cbne	r2, r6, fail269
 	mov.u8	4099(r8), r2
 	mov	=0x11, r6
-	cbne	r2, r6, f270
+	cbne	r2, r6, fail270
 	mov.u8	4100(r8), r2
 	mov	=0x9f, r6
-	cbne	r2, r6, f271
+	cbne	r2, r6, fail271
 	mov	$119, r3
 	mov.s8	r3, 4092(r8)
 	mov	$-100, r3
@@ -1194,34 +1194,34 @@ _start:
 	mov	r1, 4093(r8)
 	mov.u8	4092(r8), r2
 	mov	=0x77, r6
-	cbne	r2, r6, f272
+	cbne	r2, r6, fail272
 	mov.u8	4093(r8), r2
 	mov	=0x88, r6
-	cbne	r2, r6, f273
+	cbne	r2, r6, fail273
 	mov.u8	4094(r8), r2
 	mov	=0x77, r6
-	cbne	r2, r6, f274
+	cbne	r2, r6, fail274
 	mov.u8	4095(r8), r2
 	mov	=0x66, r6
-	cbne	r2, r6, f275
+	cbne	r2, r6, fail275
 	mov.u8	4096(r8), r2
 	mov	=0x55, r6
-	cbne	r2, r6, f276
+	cbne	r2, r6, fail276
 	mov.u8	4097(r8), r2
 	mov	=0x44, r6
-	cbne	r2, r6, f277
+	cbne	r2, r6, fail277
 	mov.u8	4098(r8), r2
 	mov	=0x33, r6
-	cbne	r2, r6, f278
+	cbne	r2, r6, fail278
 	mov.u8	4099(r8), r2
 	mov	=0x22, r6
-	cbne	r2, r6, f279
+	cbne	r2, r6, fail279
 	mov.u8	4100(r8), r2
 	mov	=0x11, r6
-	cbne	r2, r6, f280
+	cbne	r2, r6, fail280
 	mov.u8	4101(r8), r2
 	mov	=0xc4, r6
-	cbne	r2, r6, f281
+	cbne	r2, r6, fail281
 	mov	$-100, r3
 	mov.s8	r3, 4093(r8)
 	mov	$-63, r3
@@ -1243,34 +1243,34 @@ _start:
 	mov	r1, 4094(r8)
 	mov.u8	4093(r8), r2
 	mov	=0x9c, r6
-	cbne	r2, r6, f282
+	cbne	r2, r6, fail282
 	mov.u8	4094(r8), r2
 	mov	=0x88, r6
-	cbne	r2, r6, f283
+	cbne	r2, r6, fail283
 	mov.u8	4095(r8), r2
 	mov	=0x77, r6
-	cbne	r2, r6, f284
+	cbne	r2, r6, fail284
 	mov.u8	4096(r8), r2
 	mov	=0x66, r6
-	cbne	r2, r6, f285
+	cbne	r2, r6, fail285
 	mov.u8	4097(r8), r2
 	mov	=0x55, r6
-	cbne	r2, r6, f286
+	cbne	r2, r6, fail286
 	mov.u8	4098(r8), r2
 	mov	=0x44, r6
-	cbne	r2, r6, f287
+	cbne	r2, r6, fail287
 	mov.u8	4099(r8), r2
 	mov	=0x33, r6
-	cbne	r2, r6, f288
+	cbne	r2, r6, fail288
 	mov.u8	4100(r8), r2
 	mov	=0x22, r6
-	cbne	r2, r6, f289
+	cbne	r2, r6, fail289
 	mov.u8	4101(r8), r2
 	mov	=0x11, r6
-	cbne	r2, r6, f290
+	cbne	r2, r6, fail290
 	mov.u8	4102(r8), r2
 	mov	=0xe9, r6
-	cbne	r2, r6, f291
+	cbne	r2, r6, fail291
 	mov	$-63, r3
 	mov.s8	r3, 4094(r8)
 	mov	$-26, r3
@@ -1292,34 +1292,34 @@ _start:
 	mov	r1, 4095(r8)
 	mov.u8	4094(r8), r2
 	mov	=0xc1, r6
-	cbne	r2, r6, f292
+	cbne	r2, r6, fail292
 	mov.u8	4095(r8), r2
 	mov	=0x88, r6
-	cbne	r2, r6, f293
+	cbne	r2, r6, fail293
 	mov.u8	4096(r8), r2
 	mov	=0x77, r6
-	cbne	r2, r6, f294
+	cbne	r2, r6, fail294
 	mov.u8	4097(r8), r2
 	mov	=0x66, r6
-	cbne	r2, r6, f295
+	cbne	r2, r6, fail295
 	mov.u8	4098(r8), r2
 	mov	=0x55, r6
-	cbne	r2, r6, f296
+	cbne	r2, r6, fail296
 	mov.u8	4099(r8), r2
 	mov	=0x44, r6
-	cbne	r2, r6, f297
+	cbne	r2, r6, fail297
 	mov.u8	4100(r8), r2
 	mov	=0x33, r6
-	cbne	r2, r6, f298
+	cbne	r2, r6, fail298
 	mov.u8	4101(r8), r2
 	mov	=0x22, r6
-	cbne	r2, r6, f299
+	cbne	r2, r6, fail299
 	mov.u8	4102(r8), r2
 	mov	=0x11, r6
-	cbne	r2, r6, f300
+	cbne	r2, r6, fail300
 	mov.u8	4103(r8), r2
 	mov	=0xe, r6
-	cbne	r2, r6, f301
+	cbne	r2, r6, fail301
 	mov	$-26, r3
 	mov.s8	r3, 4095(r8)
 	mov	$11, r3
@@ -1341,34 +1341,34 @@ _start:
 	mov	r1, 4095(r8)
 	mov.u8	4094(r8), r2
 	mov	=0xc1, r6
-	cbne	r2, r6, f302
+	cbne	r2, r6, fail302
 	mov.u8	4095(r8), r2
 	mov	=0x88, r6
-	cbne	r2, r6, f303
+	cbne	r2, r6, fail303
 	mov.u8	4096(r8), r2
 	mov	=0x77, r6
-	cbne	r2, r6, f304
+	cbne	r2, r6, fail304
 	mov.u8	4097(r8), r2
 	mov	=0x66, r6
-	cbne	r2, r6, f305
+	cbne	r2, r6, fail305
 	mov.u8	4098(r8), r2
 	mov	=0x55, r6
-	cbne	r2, r6, f306
+	cbne	r2, r6, fail306
 	mov.u8	4099(r8), r2
 	mov	=0x44, r6
-	cbne	r2, r6, f307
+	cbne	r2, r6, fail307
 	mov.u8	4100(r8), r2
 	mov	=0x33, r6
-	cbne	r2, r6, f308
+	cbne	r2, r6, fail308
 	mov.u8	4101(r8), r2
 	mov	=0x22, r6
-	cbne	r2, r6, f309
+	cbne	r2, r6, fail309
 	mov.u8	4102(r8), r2
 	mov	=0x11, r6
-	cbne	r2, r6, f310
+	cbne	r2, r6, fail310
 	mov.u8	4103(r8), r2
 	mov	=0xe, r6
-	cbne	r2, r6, f311
+	cbne	r2, r6, fail311
 	mov	$-26, r3
 	mov.s8	r3, 4095(r8)
 	mov	$11, r3
@@ -1390,22 +1390,22 @@ _start:
 	mov.s32	r1, 1(r8)
 	mov.u8	0(r8), r2
 	mov	=0xb, r6
-	cbne	r2, r6, f312
+	cbne	r2, r6, fail312
 	mov.u8	1(r8), r2
 	mov	=0x88, r6
-	cbne	r2, r6, f313
+	cbne	r2, r6, fail313
 	mov.u8	2(r8), r2
 	mov	=0x77, r6
-	cbne	r2, r6, f314
+	cbne	r2, r6, fail314
 	mov.u8	3(r8), r2
 	mov	=0x66, r6
-	cbne	r2, r6, f315
+	cbne	r2, r6, fail315
 	mov.u8	4(r8), r2
 	mov	=0x55, r6
-	cbne	r2, r6, f316
+	cbne	r2, r6, fail316
 	mov.u8	5(r8), r2
 	mov	=0xc4, r6
-	cbne	r2, r6, f317
+	cbne	r2, r6, fail317
 	mov	$48, r3
 	mov.s8	r3, 1(r8)
 	mov	$85, r3
@@ -1419,22 +1419,22 @@ _start:
 	mov.s32	r1, 2(r8)
 	mov.u8	1(r8), r2
 	mov	=0x30, r6
-	cbne	r2, r6, f318
+	cbne	r2, r6, fail318
 	mov.u8	2(r8), r2
 	mov	=0x88, r6
-	cbne	r2, r6, f319
+	cbne	r2, r6, fail319
 	mov.u8	3(r8), r2
 	mov	=0x77, r6
-	cbne	r2, r6, f320
+	cbne	r2, r6, fail320
 	mov.u8	4(r8), r2
 	mov	=0x66, r6
-	cbne	r2, r6, f321
+	cbne	r2, r6, fail321
 	mov.u8	5(r8), r2
 	mov	=0x55, r6
-	cbne	r2, r6, f322
+	cbne	r2, r6, fail322
 	mov.u8	6(r8), r2
 	mov	=0xe9, r6
-	cbne	r2, r6, f323
+	cbne	r2, r6, fail323
 	mov	$85, r3
 	mov.s8	r3, 2(r8)
 	mov	$122, r3
@@ -1448,22 +1448,22 @@ _start:
 	mov.s32	r1, 3(r8)
 	mov.u8	2(r8), r2
 	mov	=0x55, r6
-	cbne	r2, r6, f324
+	cbne	r2, r6, fail324
 	mov.u8	3(r8), r2
 	mov	=0x88, r6
-	cbne	r2, r6, f325
+	cbne	r2, r6, fail325
 	mov.u8	4(r8), r2
 	mov	=0x77, r6
-	cbne	r2, r6, f326
+	cbne	r2, r6, fail326
 	mov.u8	5(r8), r2
 	mov	=0x66, r6
-	cbne	r2, r6, f327
+	cbne	r2, r6, fail327
 	mov.u8	6(r8), r2
 	mov	=0x55, r6
-	cbne	r2, r6, f328
+	cbne	r2, r6, fail328
 	mov.u8	7(r8), r2
 	mov	=0xe, r6
-	cbne	r2, r6, f329
+	cbne	r2, r6, fail329
 	mov	$122, r3
 	mov.s8	r3, 3(r8)
 	mov	$-97, r3
@@ -1477,22 +1477,22 @@ _start:
 	mov.s32	r1, 4(r8)
 	mov.u8	3(r8), r2
 	mov	=0x7a, r6
-	cbne	r2, r6, f330
+	cbne	r2, r6, fail330
 	mov.u8	4(r8), r2
 	mov	=0x88, r6
-	cbne	r2, r6, f331
+	cbne	r2, r6, fail331
 	mov.u8	5(r8), r2
 	mov	=0x77, r6
-	cbne	r2, r6, f332
+	cbne	r2, r6, fail332
 	mov.u8	6(r8), r2
 	mov	=0x66, r6
-	cbne	r2, r6, f333
+	cbne	r2, r6, fail333
 	mov.u8	7(r8), r2
 	mov	=0x55, r6
-	cbne	r2, r6, f334
+	cbne	r2, r6, fail334
 	mov.u8	8(r8), r2
 	mov	=0x33, r6
-	cbne	r2, r6, f335
+	cbne	r2, r6, fail335
 	mov	$-97, r3
 	mov.s8	r3, 4(r8)
 	mov	$-60, r3
@@ -1506,22 +1506,22 @@ _start:
 	mov.s32	r1, 5(r8)
 	mov.u8	4(r8), r2
 	mov	=0x9f, r6
-	cbne	r2, r6, f336
+	cbne	r2, r6, fail336
 	mov.u8	5(r8), r2
 	mov	=0x88, r6
-	cbne	r2, r6, f337
+	cbne	r2, r6, fail337
 	mov.u8	6(r8), r2
 	mov	=0x77, r6
-	cbne	r2, r6, f338
+	cbne	r2, r6, fail338
 	mov.u8	7(r8), r2
 	mov	=0x66, r6
-	cbne	r2, r6, f339
+	cbne	r2, r6, fail339
 	mov.u8	8(r8), r2
 	mov	=0x55, r6
-	cbne	r2, r6, f340
+	cbne	r2, r6, fail340
 	mov.u8	9(r8), r2
 	mov	=0x58, r6
-	cbne	r2, r6, f341
+	cbne	r2, r6, fail341
 	mov	$-60, r3
 	mov.s8	r3, 5(r8)
 	mov	$-23, r3
@@ -1535,22 +1535,22 @@ _start:
 	mov.s32	r1, 6(r8)
 	mov.u8	5(r8), r2
 	mov	=0xc4, r6
-	cbne	r2, r6, f342
+	cbne	r2, r6, fail342
 	mov.u8	6(r8), r2
 	mov	=0x88, r6
-	cbne	r2, r6, f343
+	cbne	r2, r6, fail343
 	mov.u8	7(r8), r2
 	mov	=0x77, r6
-	cbne	r2, r6, f344
+	cbne	r2, r6, fail344
 	mov.u8	8(r8), r2
 	mov	=0x66, r6
-	cbne	r2, r6, f345
+	cbne	r2, r6, fail345
 	mov.u8	9(r8), r2
 	mov	=0x55, r6
-	cbne	r2, r6, f346
+	cbne	r2, r6, fail346
 	mov.u8	10(r8), r2
 	mov	=0x7d, r6
-	cbne	r2, r6, f347
+	cbne	r2, r6, fail347
 	mov	$-23, r3
 	mov.s8	r3, 6(r8)
 	mov	$14, r3
@@ -1564,22 +1564,22 @@ _start:
 	mov.s32	r1, 7(r8)
 	mov.u8	6(r8), r2
 	mov	=0xe9, r6
-	cbne	r2, r6, f348
+	cbne	r2, r6, fail348
 	mov.u8	7(r8), r2
 	mov	=0x88, r6
-	cbne	r2, r6, f349
+	cbne	r2, r6, fail349
 	mov.u8	8(r8), r2
 	mov	=0x77, r6
-	cbne	r2, r6, f350
+	cbne	r2, r6, fail350
 	mov.u8	9(r8), r2
 	mov	=0x66, r6
-	cbne	r2, r6, f351
+	cbne	r2, r6, fail351
 	mov.u8	10(r8), r2
 	mov	=0x55, r6
-	cbne	r2, r6, f352
+	cbne	r2, r6, fail352
 	mov.u8	11(r8), r2
 	mov	=0xa2, r6
-	cbne	r2, r6, f353
+	cbne	r2, r6, fail353
 	mov	$14, r3
 	mov.s8	r3, 7(r8)
 	mov	$51, r3
@@ -1593,22 +1593,22 @@ _start:
 	mov.s32	r1, 4089(r8)
 	mov.u8	4088(r8), r2
 	mov	=0xe3, r6
-	cbne	r2, r6, f354
+	cbne	r2, r6, fail354
 	mov.u8	4089(r8), r2
 	mov	=0x88, r6
-	cbne	r2, r6, f355
+	cbne	r2, r6, fail355
 	mov.u8	4090(r8), r2
 	mov	=0x77, r6
-	cbne	r2, r6, f356
+	cbne	r2, r6, fail356
 	mov.u8	4091(r8), r2
 	mov	=0x66, r6
-	cbne	r2, r6, f357
+	cbne	r2, r6, fail357
 	mov.u8	4092(r8), r2
 	mov	=0x55, r6
-	cbne	r2, r6, f358
+	cbne	r2, r6, fail358
 	mov.u8	4093(r8), r2
 	mov	=0x9c, r6
-	cbne	r2, r6, f359
+	cbne	r2, r6, fail359
 	mov	$8, r3
 	mov.s8	r3, 4089(r8)
 	mov	$45, r3
@@ -1622,22 +1622,22 @@ _start:
 	mov.s32	r1, 4090(r8)
 	mov.u8	4089(r8), r2
 	mov	=0x8, r6
-	cbne	r2, r6, f360
+	cbne	r2, r6, fail360
 	mov.u8	4090(r8), r2
 	mov	=0x88, r6
-	cbne	r2, r6, f361
+	cbne	r2, r6, fail361
 	mov.u8	4091(r8), r2
 	mov	=0x77, r6
-	cbne	r2, r6, f362
+	cbne	r2, r6, fail362
 	mov.u8	4092(r8), r2
 	mov	=0x66, r6
-	cbne	r2, r6, f363
+	cbne	r2, r6, fail363
 	mov.u8	4093(r8), r2
 	mov	=0x55, r6
-	cbne	r2, r6, f364
+	cbne	r2, r6, fail364
 	mov.u8	4094(r8), r2
 	mov	=0xc1, r6
-	cbne	r2, r6, f365
+	cbne	r2, r6, fail365
 	mov	$45, r3
 	mov.s8	r3, 4090(r8)
 	mov	$82, r3
@@ -1651,22 +1651,22 @@ _start:
 	mov.s32	r1, 4091(r8)
 	mov.u8	4090(r8), r2
 	mov	=0x2d, r6
-	cbne	r2, r6, f366
+	cbne	r2, r6, fail366
 	mov.u8	4091(r8), r2
 	mov	=0x88, r6
-	cbne	r2, r6, f367
+	cbne	r2, r6, fail367
 	mov.u8	4092(r8), r2
 	mov	=0x77, r6
-	cbne	r2, r6, f368
+	cbne	r2, r6, fail368
 	mov.u8	4093(r8), r2
 	mov	=0x66, r6
-	cbne	r2, r6, f369
+	cbne	r2, r6, fail369
 	mov.u8	4094(r8), r2
 	mov	=0x55, r6
-	cbne	r2, r6, f370
+	cbne	r2, r6, fail370
 	mov.u8	4095(r8), r2
 	mov	=0xe6, r6
-	cbne	r2, r6, f371
+	cbne	r2, r6, fail371
 	mov	$82, r3
 	mov.s8	r3, 4091(r8)
 	mov	$119, r3
@@ -1680,22 +1680,22 @@ _start:
 	mov.s32	r1, 4092(r8)
 	mov.u8	4091(r8), r2
 	mov	=0x52, r6
-	cbne	r2, r6, f372
+	cbne	r2, r6, fail372
 	mov.u8	4092(r8), r2
 	mov	=0x88, r6
-	cbne	r2, r6, f373
+	cbne	r2, r6, fail373
 	mov.u8	4093(r8), r2
 	mov	=0x77, r6
-	cbne	r2, r6, f374
+	cbne	r2, r6, fail374
 	mov.u8	4094(r8), r2
 	mov	=0x66, r6
-	cbne	r2, r6, f375
+	cbne	r2, r6, fail375
 	mov.u8	4095(r8), r2
 	mov	=0x55, r6
-	cbne	r2, r6, f376
+	cbne	r2, r6, fail376
 	mov.u8	4096(r8), r2
 	mov	=0xb, r6
-	cbne	r2, r6, f377
+	cbne	r2, r6, fail377
 	mov	$119, r3
 	mov.s8	r3, 4092(r8)
 	mov	$-100, r3
@@ -1709,22 +1709,22 @@ _start:
 	mov.s32	r1, 4093(r8)
 	mov.u8	4092(r8), r2
 	mov	=0x77, r6
-	cbne	r2, r6, f378
+	cbne	r2, r6, fail378
 	mov.u8	4093(r8), r2
 	mov	=0x88, r6
-	cbne	r2, r6, f379
+	cbne	r2, r6, fail379
 	mov.u8	4094(r8), r2
 	mov	=0x77, r6
-	cbne	r2, r6, f380
+	cbne	r2, r6, fail380
 	mov.u8	4095(r8), r2
 	mov	=0x66, r6
-	cbne	r2, r6, f381
+	cbne	r2, r6, fail381
 	mov.u8	4096(r8), r2
 	mov	=0x55, r6
-	cbne	r2, r6, f382
+	cbne	r2, r6, fail382
 	mov.u8	4097(r8), r2
 	mov	=0x30, r6
-	cbne	r2, r6, f383
+	cbne	r2, r6, fail383
 	mov	$-100, r3
 	mov.s8	r3, 4093(r8)
 	mov	$-63, r3
@@ -1738,22 +1738,22 @@ _start:
 	mov.s32	r1, 4094(r8)
 	mov.u8	4093(r8), r2
 	mov	=0x9c, r6
-	cbne	r2, r6, f384
+	cbne	r2, r6, fail384
 	mov.u8	4094(r8), r2
 	mov	=0x88, r6
-	cbne	r2, r6, f385
+	cbne	r2, r6, fail385
 	mov.u8	4095(r8), r2
 	mov	=0x77, r6
-	cbne	r2, r6, f386
+	cbne	r2, r6, fail386
 	mov.u8	4096(r8), r2
 	mov	=0x66, r6
-	cbne	r2, r6, f387
+	cbne	r2, r6, fail387
 	mov.u8	4097(r8), r2
 	mov	=0x55, r6
-	cbne	r2, r6, f388
+	cbne	r2, r6, fail388
 	mov.u8	4098(r8), r2
 	mov	=0x55, r6
-	cbne	r2, r6, f389
+	cbne	r2, r6, fail389
 	mov	$-63, r3
 	mov.s8	r3, 4094(r8)
 	mov	$-26, r3
@@ -1767,22 +1767,22 @@ _start:
 	mov.s32	r1, 4095(r8)
 	mov.u8	4094(r8), r2
 	mov	=0xc1, r6
-	cbne	r2, r6, f390
+	cbne	r2, r6, fail390
 	mov.u8	4095(r8), r2
 	mov	=0x88, r6
-	cbne	r2, r6, f391
+	cbne	r2, r6, fail391
 	mov.u8	4096(r8), r2
 	mov	=0x77, r6
-	cbne	r2, r6, f392
+	cbne	r2, r6, fail392
 	mov.u8	4097(r8), r2
 	mov	=0x66, r6
-	cbne	r2, r6, f393
+	cbne	r2, r6, fail393
 	mov.u8	4098(r8), r2
 	mov	=0x55, r6
-	cbne	r2, r6, f394
+	cbne	r2, r6, fail394
 	mov.u8	4099(r8), r2
 	mov	=0x7a, r6
-	cbne	r2, r6, f395
+	cbne	r2, r6, fail395
 	mov	$-26, r3
 	mov.s8	r3, 4095(r8)
 	mov	$11, r3
@@ -1796,22 +1796,22 @@ _start:
 	mov.s32	r1, 4095(r8)
 	mov.u8	4094(r8), r2
 	mov	=0xc1, r6
-	cbne	r2, r6, f396
+	cbne	r2, r6, fail396
 	mov.u8	4095(r8), r2
 	mov	=0x88, r6
-	cbne	r2, r6, f397
+	cbne	r2, r6, fail397
 	mov.u8	4096(r8), r2
 	mov	=0x77, r6
-	cbne	r2, r6, f398
+	cbne	r2, r6, fail398
 	mov.u8	4097(r8), r2
 	mov	=0x66, r6
-	cbne	r2, r6, f399
+	cbne	r2, r6, fail399
 	mov.u8	4098(r8), r2
 	mov	=0x55, r6
-	cbne	r2, r6, f400
+	cbne	r2, r6, fail400
 	mov.u8	4099(r8), r2
 	mov	=0x7a, r6
-	cbne	r2, r6, f401
+	cbne	r2, r6, fail401
 	mov	$-26, r3
 	mov.s8	r3, 4095(r8)
 	mov	$11, r3
@@ -1825,16 +1825,16 @@ _start:
 	mov.s16	r1, 1(r8)
 	mov.u8	0(r8), r2
 	mov	=0xb, r6
-	cbne	r2, r6, f402
+	cbne	r2, r6, fail402
 	mov.u8	1(r8), r2
 	mov	=0x88, r6
-	cbne	r2, r6, f403
+	cbne	r2, r6, fail403
 	mov.u8	2(r8), r2
 	mov	=0x77, r6
-	cbne	r2, r6, f404
+	cbne	r2, r6, fail404
 	mov.u8	3(r8), r2
 	mov	=0x7a, r6
-	cbne	r2, r6, f405
+	cbne	r2, r6, fail405
 	mov	$48, r3
 	mov.s8	r3, 1(r8)
 	mov	$85, r3
@@ -1844,16 +1844,16 @@ _start:
 	mov.s16	r1, 2(r8)
 	mov.u8	1(r8), r2
 	mov	=0x30, r6
-	cbne	r2, r6, f406
+	cbne	r2, r6, fail406
 	mov.u8	2(r8), r2
 	mov	=0x88, r6
-	cbne	r2, r6, f407
+	cbne	r2, r6, fail407
 	mov.u8	3(r8), r2
 	mov	=0x77, r6
-	cbne	r2, r6, f408
+	cbne	r2, r6, fail408
 	mov.u8	4(r8), r2
 	mov	=0x9f, r6
-	cbne	r2, r6, f409
+	cbne	r2, r6, fail409
 	mov	$85, r3
 	mov.s8	r3, 2(r8)
 	mov	$122, r3
@@ -1863,16 +1863,16 @@ _start:
 	mov.s16	r1, 3(r8)
 	mov.u8	2(r8), r2
 	mov	=0x55, r6
-	cbne	r2, r6, f410
+	cbne	r2, r6, fail410
 	mov.u8	3(r8), r2
 	mov	=0x88, r6
-	cbne	r2, r6, f411
+	cbne	r2, r6, fail411
 	mov.u8	4(r8), r2
 	mov	=0x77, r6
-	cbne	r2, r6, f412
+	cbne	r2, r6, fail412
 	mov.u8	5(r8), r2
 	mov	=0xc4, r6
-	cbne	r2, r6, f413
+	cbne	r2, r6, fail413
 	mov	$122, r3
 	mov.s8	r3, 3(r8)
 	mov	$-97, r3
@@ -1882,16 +1882,16 @@ _start:
 	mov.s16	r1, 4(r8)
 	mov.u8	3(r8), r2
 	mov	=0x7a, r6
-	cbne	r2, r6, f414
+	cbne	r2, r6, fail414
 	mov.u8	4(r8), r2
 	mov	=0x88, r6
-	cbne	r2, r6, f415
+	cbne	r2, r6, fail415
 	mov.u8	5(r8), r2
 	mov	=0x77, r6
-	cbne	r2, r6, f416
+	cbne	r2, r6, fail416
 	mov.u8	6(r8), r2
 	mov	=0xe9, r6
-	cbne	r2, r6, f417
+	cbne	r2, r6, fail417
 	mov	$-97, r3
 	mov.s8	r3, 4(r8)
 	mov	$-60, r3
@@ -1901,16 +1901,16 @@ _start:
 	mov.s16	r1, 5(r8)
 	mov.u8	4(r8), r2
 	mov	=0x9f, r6
-	cbne	r2, r6, f418
+	cbne	r2, r6, fail418
 	mov.u8	5(r8), r2
 	mov	=0x88, r6
-	cbne	r2, r6, f419
+	cbne	r2, r6, fail419
 	mov.u8	6(r8), r2
 	mov	=0x77, r6
-	cbne	r2, r6, f420
+	cbne	r2, r6, fail420
 	mov.u8	7(r8), r2
 	mov	=0xe, r6
-	cbne	r2, r6, f421
+	cbne	r2, r6, fail421
 	mov	$-60, r3
 	mov.s8	r3, 5(r8)
 	mov	$-23, r3
@@ -1920,16 +1920,16 @@ _start:
 	mov.s16	r1, 6(r8)
 	mov.u8	5(r8), r2
 	mov	=0xc4, r6
-	cbne	r2, r6, f422
+	cbne	r2, r6, fail422
 	mov.u8	6(r8), r2
 	mov	=0x88, r6
-	cbne	r2, r6, f423
+	cbne	r2, r6, fail423
 	mov.u8	7(r8), r2
 	mov	=0x77, r6
-	cbne	r2, r6, f424
+	cbne	r2, r6, fail424
 	mov.u8	8(r8), r2
 	mov	=0x33, r6
-	cbne	r2, r6, f425
+	cbne	r2, r6, fail425
 	mov	$-23, r3
 	mov.s8	r3, 6(r8)
 	mov	$14, r3
@@ -1939,16 +1939,16 @@ _start:
 	mov.s16	r1, 7(r8)
 	mov.u8	6(r8), r2
 	mov	=0xe9, r6
-	cbne	r2, r6, f426
+	cbne	r2, r6, fail426
 	mov.u8	7(r8), r2
 	mov	=0x88, r6
-	cbne	r2, r6, f427
+	cbne	r2, r6, fail427
 	mov.u8	8(r8), r2
 	mov	=0x77, r6
-	cbne	r2, r6, f428
+	cbne	r2, r6, fail428
 	mov.u8	9(r8), r2
 	mov	=0x58, r6
-	cbne	r2, r6, f429
+	cbne	r2, r6, fail429
 	mov	$14, r3
 	mov.s8	r3, 7(r8)
 	mov	$51, r3
@@ -1958,16 +1958,16 @@ _start:
 	mov.s16	r1, 4089(r8)
 	mov.u8	4088(r8), r2
 	mov	=0xe3, r6
-	cbne	r2, r6, f430
+	cbne	r2, r6, fail430
 	mov.u8	4089(r8), r2
 	mov	=0x88, r6
-	cbne	r2, r6, f431
+	cbne	r2, r6, fail431
 	mov.u8	4090(r8), r2
 	mov	=0x77, r6
-	cbne	r2, r6, f432
+	cbne	r2, r6, fail432
 	mov.u8	4091(r8), r2
 	mov	=0x52, r6
-	cbne	r2, r6, f433
+	cbne	r2, r6, fail433
 	mov	$8, r3
 	mov.s8	r3, 4089(r8)
 	mov	$45, r3
@@ -1977,16 +1977,16 @@ _start:
 	mov.s16	r1, 4090(r8)
 	mov.u8	4089(r8), r2
 	mov	=0x8, r6
-	cbne	r2, r6, f434
+	cbne	r2, r6, fail434
 	mov.u8	4090(r8), r2
 	mov	=0x88, r6
-	cbne	r2, r6, f435
+	cbne	r2, r6, fail435
 	mov.u8	4091(r8), r2
 	mov	=0x77, r6
-	cbne	r2, r6, f436
+	cbne	r2, r6, fail436
 	mov.u8	4092(r8), r2
 	mov	=0x77, r6
-	cbne	r2, r6, f437
+	cbne	r2, r6, fail437
 	mov	$45, r3
 	mov.s8	r3, 4090(r8)
 	mov	$82, r3
@@ -1996,16 +1996,16 @@ _start:
 	mov.s16	r1, 4091(r8)
 	mov.u8	4090(r8), r2
 	mov	=0x2d, r6
-	cbne	r2, r6, f438
+	cbne	r2, r6, fail438
 	mov.u8	4091(r8), r2
 	mov	=0x88, r6
-	cbne	r2, r6, f439
+	cbne	r2, r6, fail439
 	mov.u8	4092(r8), r2
 	mov	=0x77, r6
-	cbne	r2, r6, f440
+	cbne	r2, r6, fail440
 	mov.u8	4093(r8), r2
 	mov	=0x9c, r6
-	cbne	r2, r6, f441
+	cbne	r2, r6, fail441
 	mov	$82, r3
 	mov.s8	r3, 4091(r8)
 	mov	$119, r3
@@ -2015,16 +2015,16 @@ _start:
 	mov.s16	r1, 4092(r8)
 	mov.u8	4091(r8), r2
 	mov	=0x52, r6
-	cbne	r2, r6, f442
+	cbne	r2, r6, fail442
 	mov.u8	4092(r8), r2
 	mov	=0x88, r6
-	cbne	r2, r6, f443
+	cbne	r2, r6, fail443
 	mov.u8	4093(r8), r2
 	mov	=0x77, r6
-	cbne	r2, r6, f444
+	cbne	r2, r6, fail444
 	mov.u8	4094(r8), r2
 	mov	=0xc1, r6
-	cbne	r2, r6, f445
+	cbne	r2, r6, fail445
 	mov	$119, r3
 	mov.s8	r3, 4092(r8)
 	mov	$-100, r3
@@ -2034,16 +2034,16 @@ _start:
 	mov.s16	r1, 4093(r8)
 	mov.u8	4092(r8), r2
 	mov	=0x77, r6
-	cbne	r2, r6, f446
+	cbne	r2, r6, fail446
 	mov.u8	4093(r8), r2
 	mov	=0x88, r6
-	cbne	r2, r6, f447
+	cbne	r2, r6, fail447
 	mov.u8	4094(r8), r2
 	mov	=0x77, r6
-	cbne	r2, r6, f448
+	cbne	r2, r6, fail448
 	mov.u8	4095(r8), r2
 	mov	=0xe6, r6
-	cbne	r2, r6, f449
+	cbne	r2, r6, fail449
 	mov	$-100, r3
 	mov.s8	r3, 4093(r8)
 	mov	$-63, r3
@@ -2053,16 +2053,16 @@ _start:
 	mov.s16	r1, 4094(r8)
 	mov.u8	4093(r8), r2
 	mov	=0x9c, r6
-	cbne	r2, r6, f450
+	cbne	r2, r6, fail450
 	mov.u8	4094(r8), r2
 	mov	=0x88, r6
-	cbne	r2, r6, f451
+	cbne	r2, r6, fail451
 	mov.u8	4095(r8), r2
 	mov	=0x77, r6
-	cbne	r2, r6, f452
+	cbne	r2, r6, fail452
 	mov.u8	4096(r8), r2
 	mov	=0xb, r6
-	cbne	r2, r6, f453
+	cbne	r2, r6, fail453
 	mov	$-63, r3
 	mov.s8	r3, 4094(r8)
 	mov	$-26, r3
@@ -2072,16 +2072,16 @@ _start:
 	mov.s16	r1, 4095(r8)
 	mov.u8	4094(r8), r2
 	mov	=0xc1, r6
-	cbne	r2, r6, f454
+	cbne	r2, r6, fail454
 	mov.u8	4095(r8), r2
 	mov	=0x88, r6
-	cbne	r2, r6, f455
+	cbne	r2, r6, fail455
 	mov.u8	4096(r8), r2
 	mov	=0x77, r6
-	cbne	r2, r6, f456
+	cbne	r2, r6, fail456
 	mov.u8	4097(r8), r2
 	mov	=0x30, r6
-	cbne	r2, r6, f457
+	cbne	r2, r6, fail457
 	mov	$-26, r3
 	mov.s8	r3, 4095(r8)
 	mov	$11, r3
@@ -2091,16 +2091,16 @@ _start:
 	mov.s16	r1, 4095(r8)
 	mov.u8	4094(r8), r2
 	mov	=0xc1, r6
-	cbne	r2, r6, f458
+	cbne	r2, r6, fail458
 	mov.u8	4095(r8), r2
 	mov	=0x88, r6
-	cbne	r2, r6, f459
+	cbne	r2, r6, fail459
 	mov.u8	4096(r8), r2
 	mov	=0x77, r6
-	cbne	r2, r6, f460
+	cbne	r2, r6, fail460
 	mov.u8	4097(r8), r2
 	mov	=0x30, r6
-	cbne	r2, r6, f461
+	cbne	r2, r6, fail461
 	mov	$-26, r3
 	mov.s8	r3, 4095(r8)
 	mov	$11, r3
@@ -2110,13 +2110,13 @@ _start:
 	mov.s8	r1, 1(r8)
 	mov.u8	0(r8), r2
 	mov	=0xb, r6
-	cbne	r2, r6, f462
+	cbne	r2, r6, fail462
 	mov.u8	1(r8), r2
 	mov	=0x88, r6
-	cbne	r2, r6, f463
+	cbne	r2, r6, fail463
 	mov.u8	2(r8), r2
 	mov	=0x55, r6
-	cbne	r2, r6, f464
+	cbne	r2, r6, fail464
 	mov	$48, r3
 	mov.s8	r3, 1(r8)
 	lea	buf, r8
@@ -2124,13 +2124,13 @@ _start:
 	mov.s8	r1, 2(r8)
 	mov.u8	1(r8), r2
 	mov	=0x30, r6
-	cbne	r2, r6, f465
+	cbne	r2, r6, fail465
 	mov.u8	2(r8), r2
 	mov	=0x88, r6
-	cbne	r2, r6, f466
+	cbne	r2, r6, fail466
 	mov.u8	3(r8), r2
 	mov	=0x7a, r6
-	cbne	r2, r6, f467
+	cbne	r2, r6, fail467
 	mov	$85, r3
 	mov.s8	r3, 2(r8)
 	lea	buf, r8
@@ -2138,13 +2138,13 @@ _start:
 	mov.s8	r1, 3(r8)
 	mov.u8	2(r8), r2
 	mov	=0x55, r6
-	cbne	r2, r6, f468
+	cbne	r2, r6, fail468
 	mov.u8	3(r8), r2
 	mov	=0x88, r6
-	cbne	r2, r6, f469
+	cbne	r2, r6, fail469
 	mov.u8	4(r8), r2
 	mov	=0x9f, r6
-	cbne	r2, r6, f470
+	cbne	r2, r6, fail470
 	mov	$122, r3
 	mov.s8	r3, 3(r8)
 	lea	buf, r8
@@ -2152,13 +2152,13 @@ _start:
 	mov.s8	r1, 4(r8)
 	mov.u8	3(r8), r2
 	mov	=0x7a, r6
-	cbne	r2, r6, f471
+	cbne	r2, r6, fail471
 	mov.u8	4(r8), r2
 	mov	=0x88, r6
-	cbne	r2, r6, f472
+	cbne	r2, r6, fail472
 	mov.u8	5(r8), r2
 	mov	=0xc4, r6
-	cbne	r2, r6, f473
+	cbne	r2, r6, fail473
 	mov	$-97, r3
 	mov.s8	r3, 4(r8)
 	lea	buf, r8
@@ -2166,13 +2166,13 @@ _start:
 	mov.s8	r1, 5(r8)
 	mov.u8	4(r8), r2
 	mov	=0x9f, r6
-	cbne	r2, r6, f474
+	cbne	r2, r6, fail474
 	mov.u8	5(r8), r2
 	mov	=0x88, r6
-	cbne	r2, r6, f475
+	cbne	r2, r6, fail475
 	mov.u8	6(r8), r2
 	mov	=0xe9, r6
-	cbne	r2, r6, f476
+	cbne	r2, r6, fail476
 	mov	$-60, r3
 	mov.s8	r3, 5(r8)
 	lea	buf, r8
@@ -2180,13 +2180,13 @@ _start:
 	mov.s8	r1, 6(r8)
 	mov.u8	5(r8), r2
 	mov	=0xc4, r6
-	cbne	r2, r6, f477
+	cbne	r2, r6, fail477
 	mov.u8	6(r8), r2
 	mov	=0x88, r6
-	cbne	r2, r6, f478
+	cbne	r2, r6, fail478
 	mov.u8	7(r8), r2
 	mov	=0xe, r6
-	cbne	r2, r6, f479
+	cbne	r2, r6, fail479
 	mov	$-23, r3
 	mov.s8	r3, 6(r8)
 	lea	buf, r8
@@ -2194,13 +2194,13 @@ _start:
 	mov.s8	r1, 7(r8)
 	mov.u8	6(r8), r2
 	mov	=0xe9, r6
-	cbne	r2, r6, f480
+	cbne	r2, r6, fail480
 	mov.u8	7(r8), r2
 	mov	=0x88, r6
-	cbne	r2, r6, f481
+	cbne	r2, r6, fail481
 	mov.u8	8(r8), r2
 	mov	=0x33, r6
-	cbne	r2, r6, f482
+	cbne	r2, r6, fail482
 	mov	$14, r3
 	mov.s8	r3, 7(r8)
 	lea	buf, r8
@@ -2208,13 +2208,13 @@ _start:
 	mov.s8	r1, 4089(r8)
 	mov.u8	4088(r8), r2
 	mov	=0xe3, r6
-	cbne	r2, r6, f483
+	cbne	r2, r6, fail483
 	mov.u8	4089(r8), r2
 	mov	=0x88, r6
-	cbne	r2, r6, f484
+	cbne	r2, r6, fail484
 	mov.u8	4090(r8), r2
 	mov	=0x2d, r6
-	cbne	r2, r6, f485
+	cbne	r2, r6, fail485
 	mov	$8, r3
 	mov.s8	r3, 4089(r8)
 	lea	buf, r8
@@ -2222,13 +2222,13 @@ _start:
 	mov.s8	r1, 4090(r8)
 	mov.u8	4089(r8), r2
 	mov	=0x8, r6
-	cbne	r2, r6, f486
+	cbne	r2, r6, fail486
 	mov.u8	4090(r8), r2
 	mov	=0x88, r6
-	cbne	r2, r6, f487
+	cbne	r2, r6, fail487
 	mov.u8	4091(r8), r2
 	mov	=0x52, r6
-	cbne	r2, r6, f488
+	cbne	r2, r6, fail488
 	mov	$45, r3
 	mov.s8	r3, 4090(r8)
 	lea	buf, r8
@@ -2236,13 +2236,13 @@ _start:
 	mov.s8	r1, 4091(r8)
 	mov.u8	4090(r8), r2
 	mov	=0x2d, r6
-	cbne	r2, r6, f489
+	cbne	r2, r6, fail489
 	mov.u8	4091(r8), r2
 	mov	=0x88, r6
-	cbne	r2, r6, f490
+	cbne	r2, r6, fail490
 	mov.u8	4092(r8), r2
 	mov	=0x77, r6
-	cbne	r2, r6, f491
+	cbne	r2, r6, fail491
 	mov	$82, r3
 	mov.s8	r3, 4091(r8)
 	lea	buf, r8
@@ -2250,13 +2250,13 @@ _start:
 	mov.s8	r1, 4092(r8)
 	mov.u8	4091(r8), r2
 	mov	=0x52, r6
-	cbne	r2, r6, f492
+	cbne	r2, r6, fail492
 	mov.u8	4092(r8), r2
 	mov	=0x88, r6
-	cbne	r2, r6, f493
+	cbne	r2, r6, fail493
 	mov.u8	4093(r8), r2
 	mov	=0x9c, r6
-	cbne	r2, r6, f494
+	cbne	r2, r6, fail494
 	mov	$119, r3
 	mov.s8	r3, 4092(r8)
 	lea	buf, r8
@@ -2264,13 +2264,13 @@ _start:
 	mov.s8	r1, 4093(r8)
 	mov.u8	4092(r8), r2
 	mov	=0x77, r6
-	cbne	r2, r6, f495
+	cbne	r2, r6, fail495
 	mov.u8	4093(r8), r2
 	mov	=0x88, r6
-	cbne	r2, r6, f496
+	cbne	r2, r6, fail496
 	mov.u8	4094(r8), r2
 	mov	=0xc1, r6
-	cbne	r2, r6, f497
+	cbne	r2, r6, fail497
 	mov	$-100, r3
 	mov.s8	r3, 4093(r8)
 	lea	buf, r8
@@ -2278,13 +2278,13 @@ _start:
 	mov.s8	r1, 4094(r8)
 	mov.u8	4093(r8), r2
 	mov	=0x9c, r6
-	cbne	r2, r6, f498
+	cbne	r2, r6, fail498
 	mov.u8	4094(r8), r2
 	mov	=0x88, r6
-	cbne	r2, r6, f499
+	cbne	r2, r6, fail499
 	mov.u8	4095(r8), r2
 	mov	=0xe6, r6
-	cbne	r2, r6, f500
+	cbne	r2, r6, fail500
 	mov	$-63, r3
 	mov.s8	r3, 4094(r8)
 	lea	buf, r8
@@ -2292,13 +2292,13 @@ _start:
 	mov.s8	r1, 4095(r8)
 	mov.u8	4094(r8), r2
 	mov	=0xc1, r6
-	cbne	r2, r6, f501
+	cbne	r2, r6, fail501
 	mov.u8	4095(r8), r2
 	mov	=0x88, r6
-	cbne	r2, r6, f502
+	cbne	r2, r6, fail502
 	mov.u8	4096(r8), r2
 	mov	=0xb, r6
-	cbne	r2, r6, f503
+	cbne	r2, r6, fail503
 	mov	$-26, r3
 	mov.s8	r3, 4095(r8)
 	lea	buf, r8
@@ -2306,44 +2306,44 @@ _start:
 	mov.s8	r1, 4095(r8)
 	mov.u8	4094(r8), r2
 	mov	=0xc1, r6
-	cbne	r2, r6, f504
+	cbne	r2, r6, fail504
 	mov.u8	4095(r8), r2
 	mov	=0x88, r6
-	cbne	r2, r6, f505
+	cbne	r2, r6, fail505
 	mov.u8	4096(r8), r2
 	mov	=0xb, r6
-	cbne	r2, r6, f506
+	cbne	r2, r6, fail506
 	mov	$-26, r3
 	mov.s8	r3, 4095(r8)
 	lea	buf+4100, r8
 	mov	=0x0102030405060708, r1
 	mov	r1, -(r8)
 	lea	buf+4092, r5
-	cbne	r8, r5, f507
+	cbne	r8, r5, fail507
 	mov.u8	0(r8), r2
 	mov	=0x8, r6
-	cbne	r2, r6, f508
+	cbne	r2, r6, fail508
 	mov.u8	1(r8), r2
 	mov	=0x7, r6
-	cbne	r2, r6, f509
+	cbne	r2, r6, fail509
 	mov.u8	2(r8), r2
 	mov	=0x6, r6
-	cbne	r2, r6, f510
+	cbne	r2, r6, fail510
 	mov.u8	3(r8), r2
 	mov	=0x5, r6
-	cbne	r2, r6, f511
+	cbne	r2, r6, fail511
 	mov.u8	4(r8), r2
 	mov	=0x4, r6
-	cbne	r2, r6, f512
+	cbne	r2, r6, fail512
 	mov.u8	5(r8), r2
 	mov	=0x3, r6
-	cbne	r2, r6, f513
+	cbne	r2, r6, fail513
 	mov.u8	6(r8), r2
 	mov	=0x2, r6
-	cbne	r2, r6, f514
+	cbne	r2, r6, fail514
 	mov.u8	7(r8), r2
 	mov	=0x1, r6
-	cbne	r2, r6, f515
+	cbne	r2, r6, fail515
 	lea	buf+4093, r8
 	mov	=0x00000000ffffffff, r1
 	mov	r1, (r8)
@@ -2351,1040 +2351,1040 @@ _start:
 	addm	r2, (r8)
 	mov	(r8), r3
 	mov	=0x100000000, r6
-	cbne	r3, r6, f516
+	cbne	r3, r6, fail516
 	clr	r0
 	trap	$0
-f1:	mov	$1, r0
+fail1:	mov	$1, r0
 	trap	$0
-f2:	mov	$2, r0
+fail2:	mov	$2, r0
 	trap	$0
-f3:	mov	$3, r0
+fail3:	mov	$3, r0
 	trap	$0
-f4:	mov	$4, r0
+fail4:	mov	$4, r0
 	trap	$0
-f5:	mov	$5, r0
+fail5:	mov	$5, r0
 	trap	$0
-f6:	mov	$6, r0
+fail6:	mov	$6, r0
 	trap	$0
-f7:	mov	$7, r0
+fail7:	mov	$7, r0
 	trap	$0
-f8:	mov	$8, r0
+fail8:	mov	$8, r0
 	trap	$0
-f9:	mov	$9, r0
+fail9:	mov	$9, r0
 	trap	$0
-f10:	mov	$10, r0
+fail10:	mov	$10, r0
 	trap	$0
-f11:	mov	$11, r0
+fail11:	mov	$11, r0
 	trap	$0
-f12:	mov	$12, r0
+fail12:	mov	$12, r0
 	trap	$0
-f13:	mov	$13, r0
+fail13:	mov	$13, r0
 	trap	$0
-f14:	mov	$14, r0
+fail14:	mov	$14, r0
 	trap	$0
-f15:	mov	$15, r0
+fail15:	mov	$15, r0
 	trap	$0
-f16:	mov	$16, r0
+fail16:	mov	$16, r0
 	trap	$0
-f17:	mov	$17, r0
+fail17:	mov	$17, r0
 	trap	$0
-f18:	mov	$18, r0
+fail18:	mov	$18, r0
 	trap	$0
-f19:	mov	$19, r0
+fail19:	mov	$19, r0
 	trap	$0
-f20:	mov	$20, r0
+fail20:	mov	$20, r0
 	trap	$0
-f21:	mov	$21, r0
+fail21:	mov	$21, r0
 	trap	$0
-f22:	mov	$22, r0
+fail22:	mov	$22, r0
 	trap	$0
-f23:	mov	$23, r0
+fail23:	mov	$23, r0
 	trap	$0
-f24:	mov	$24, r0
+fail24:	mov	$24, r0
 	trap	$0
-f25:	mov	$25, r0
+fail25:	mov	$25, r0
 	trap	$0
-f26:	mov	$26, r0
+fail26:	mov	$26, r0
 	trap	$0
-f27:	mov	$27, r0
+fail27:	mov	$27, r0
 	trap	$0
-f28:	mov	$28, r0
+fail28:	mov	$28, r0
 	trap	$0
-f29:	mov	$29, r0
+fail29:	mov	$29, r0
 	trap	$0
-f30:	mov	$30, r0
+fail30:	mov	$30, r0
 	trap	$0
-f31:	mov	$31, r0
+fail31:	mov	$31, r0
 	trap	$0
-f32:	mov	$32, r0
+fail32:	mov	$32, r0
 	trap	$0
-f33:	mov	$33, r0
+fail33:	mov	$33, r0
 	trap	$0
-f34:	mov	$34, r0
+fail34:	mov	$34, r0
 	trap	$0
-f35:	mov	$35, r0
+fail35:	mov	$35, r0
 	trap	$0
-f36:	mov	$36, r0
+fail36:	mov	$36, r0
 	trap	$0
-f37:	mov	$37, r0
+fail37:	mov	$37, r0
 	trap	$0
-f38:	mov	$38, r0
+fail38:	mov	$38, r0
 	trap	$0
-f39:	mov	$39, r0
+fail39:	mov	$39, r0
 	trap	$0
-f40:	mov	$40, r0
+fail40:	mov	$40, r0
 	trap	$0
-f41:	mov	$41, r0
+fail41:	mov	$41, r0
 	trap	$0
-f42:	mov	$42, r0
+fail42:	mov	$42, r0
 	trap	$0
-f43:	mov	$43, r0
+fail43:	mov	$43, r0
 	trap	$0
-f44:	mov	$44, r0
+fail44:	mov	$44, r0
 	trap	$0
-f45:	mov	$45, r0
+fail45:	mov	$45, r0
 	trap	$0
-f46:	mov	$46, r0
+fail46:	mov	$46, r0
 	trap	$0
-f47:	mov	$47, r0
+fail47:	mov	$47, r0
 	trap	$0
-f48:	mov	$48, r0
+fail48:	mov	$48, r0
 	trap	$0
-f49:	mov	$49, r0
+fail49:	mov	$49, r0
 	trap	$0
-f50:	mov	$50, r0
+fail50:	mov	$50, r0
 	trap	$0
-f51:	mov	$51, r0
+fail51:	mov	$51, r0
 	trap	$0
-f52:	mov	$52, r0
+fail52:	mov	$52, r0
 	trap	$0
-f53:	mov	$53, r0
+fail53:	mov	$53, r0
 	trap	$0
-f54:	mov	$54, r0
+fail54:	mov	$54, r0
 	trap	$0
-f55:	mov	$55, r0
+fail55:	mov	$55, r0
 	trap	$0
-f56:	mov	$56, r0
+fail56:	mov	$56, r0
 	trap	$0
-f57:	mov	$57, r0
+fail57:	mov	$57, r0
 	trap	$0
-f58:	mov	$58, r0
+fail58:	mov	$58, r0
 	trap	$0
-f59:	mov	$59, r0
+fail59:	mov	$59, r0
 	trap	$0
-f60:	mov	$60, r0
+fail60:	mov	$60, r0
 	trap	$0
-f61:	mov	$61, r0
+fail61:	mov	$61, r0
 	trap	$0
-f62:	mov	$62, r0
+fail62:	mov	$62, r0
 	trap	$0
-f63:	mov	$63, r0
+fail63:	mov	$63, r0
 	trap	$0
-f64:	mov	$64, r0
+fail64:	mov	$64, r0
 	trap	$0
-f65:	mov	$65, r0
+fail65:	mov	$65, r0
 	trap	$0
-f66:	mov	$66, r0
+fail66:	mov	$66, r0
 	trap	$0
-f67:	mov	$67, r0
+fail67:	mov	$67, r0
 	trap	$0
-f68:	mov	$68, r0
+fail68:	mov	$68, r0
 	trap	$0
-f69:	mov	$69, r0
+fail69:	mov	$69, r0
 	trap	$0
-f70:	mov	$70, r0
+fail70:	mov	$70, r0
 	trap	$0
-f71:	mov	$71, r0
+fail71:	mov	$71, r0
 	trap	$0
-f72:	mov	$72, r0
+fail72:	mov	$72, r0
 	trap	$0
-f73:	mov	$73, r0
+fail73:	mov	$73, r0
 	trap	$0
-f74:	mov	$74, r0
+fail74:	mov	$74, r0
 	trap	$0
-f75:	mov	$75, r0
+fail75:	mov	$75, r0
 	trap	$0
-f76:	mov	$76, r0
+fail76:	mov	$76, r0
 	trap	$0
-f77:	mov	$77, r0
+fail77:	mov	$77, r0
 	trap	$0
-f78:	mov	$78, r0
+fail78:	mov	$78, r0
 	trap	$0
-f79:	mov	$79, r0
+fail79:	mov	$79, r0
 	trap	$0
-f80:	mov	$80, r0
+fail80:	mov	$80, r0
 	trap	$0
-f81:	mov	$81, r0
+fail81:	mov	$81, r0
 	trap	$0
-f82:	mov	$82, r0
+fail82:	mov	$82, r0
 	trap	$0
-f83:	mov	$83, r0
+fail83:	mov	$83, r0
 	trap	$0
-f84:	mov	$84, r0
+fail84:	mov	$84, r0
 	trap	$0
-f85:	mov	$85, r0
+fail85:	mov	$85, r0
 	trap	$0
-f86:	mov	$86, r0
+fail86:	mov	$86, r0
 	trap	$0
-f87:	mov	$87, r0
+fail87:	mov	$87, r0
 	trap	$0
-f88:	mov	$88, r0
+fail88:	mov	$88, r0
 	trap	$0
-f89:	mov	$89, r0
+fail89:	mov	$89, r0
 	trap	$0
-f90:	mov	$90, r0
+fail90:	mov	$90, r0
 	trap	$0
-f91:	mov	$91, r0
+fail91:	mov	$91, r0
 	trap	$0
-f92:	mov	$92, r0
+fail92:	mov	$92, r0
 	trap	$0
-f93:	mov	$93, r0
+fail93:	mov	$93, r0
 	trap	$0
-f94:	mov	$94, r0
+fail94:	mov	$94, r0
 	trap	$0
-f95:	mov	$95, r0
+fail95:	mov	$95, r0
 	trap	$0
-f96:	mov	$96, r0
+fail96:	mov	$96, r0
 	trap	$0
-f97:	mov	$97, r0
+fail97:	mov	$97, r0
 	trap	$0
-f98:	mov	$98, r0
+fail98:	mov	$98, r0
 	trap	$0
-f99:	mov	$99, r0
+fail99:	mov	$99, r0
 	trap	$0
-f100:	mov	$100, r0
+fail100:	mov	$100, r0
 	trap	$0
-f101:	mov	$101, r0
+fail101:	mov	$101, r0
 	trap	$0
-f102:	mov	$102, r0
+fail102:	mov	$102, r0
 	trap	$0
-f103:	mov	$103, r0
+fail103:	mov	$103, r0
 	trap	$0
-f104:	mov	$104, r0
+fail104:	mov	$104, r0
 	trap	$0
-f105:	mov	$105, r0
+fail105:	mov	$105, r0
 	trap	$0
-f106:	mov	$106, r0
+fail106:	mov	$106, r0
 	trap	$0
-f107:	mov	$107, r0
+fail107:	mov	$107, r0
 	trap	$0
-f108:	mov	$108, r0
+fail108:	mov	$108, r0
 	trap	$0
-f109:	mov	$109, r0
+fail109:	mov	$109, r0
 	trap	$0
-f110:	mov	$110, r0
+fail110:	mov	$110, r0
 	trap	$0
-f111:	mov	$111, r0
+fail111:	mov	$111, r0
 	trap	$0
-f112:	mov	$112, r0
+fail112:	mov	$112, r0
 	trap	$0
-f113:	mov	$113, r0
+fail113:	mov	$113, r0
 	trap	$0
-f114:	mov	$114, r0
+fail114:	mov	$114, r0
 	trap	$0
-f115:	mov	$115, r0
+fail115:	mov	$115, r0
 	trap	$0
-f116:	mov	$116, r0
+fail116:	mov	$116, r0
 	trap	$0
-f117:	mov	$117, r0
+fail117:	mov	$117, r0
 	trap	$0
-f118:	mov	$118, r0
+fail118:	mov	$118, r0
 	trap	$0
-f119:	mov	$119, r0
+fail119:	mov	$119, r0
 	trap	$0
-f120:	mov	$120, r0
+fail120:	mov	$120, r0
 	trap	$0
-f121:	mov	$121, r0
+fail121:	mov	$121, r0
 	trap	$0
-f122:	mov	$122, r0
+fail122:	mov	$122, r0
 	trap	$0
-f123:	mov	$123, r0
+fail123:	mov	$123, r0
 	trap	$0
-f124:	mov	$124, r0
+fail124:	mov	$124, r0
 	trap	$0
-f125:	mov	$125, r0
+fail125:	mov	$125, r0
 	trap	$0
-f126:	mov	$126, r0
+fail126:	mov	$126, r0
 	trap	$0
-f127:	mov	$127, r0
+fail127:	mov	$127, r0
 	trap	$0
-f128:	mov	$128, r0
+fail128:	mov	$128, r0
 	trap	$0
-f129:	mov	$129, r0
+fail129:	mov	$129, r0
 	trap	$0
-f130:	mov	$130, r0
+fail130:	mov	$130, r0
 	trap	$0
-f131:	mov	$131, r0
+fail131:	mov	$131, r0
 	trap	$0
-f132:	mov	$132, r0
+fail132:	mov	$132, r0
 	trap	$0
-f133:	mov	$133, r0
+fail133:	mov	$133, r0
 	trap	$0
-f134:	mov	$134, r0
+fail134:	mov	$134, r0
 	trap	$0
-f135:	mov	$135, r0
+fail135:	mov	$135, r0
 	trap	$0
-f136:	mov	$136, r0
+fail136:	mov	$136, r0
 	trap	$0
-f137:	mov	$137, r0
+fail137:	mov	$137, r0
 	trap	$0
-f138:	mov	$138, r0
+fail138:	mov	$138, r0
 	trap	$0
-f139:	mov	$139, r0
+fail139:	mov	$139, r0
 	trap	$0
-f140:	mov	$140, r0
+fail140:	mov	$140, r0
 	trap	$0
-f141:	mov	$141, r0
+fail141:	mov	$141, r0
 	trap	$0
-f142:	mov	$142, r0
+fail142:	mov	$142, r0
 	trap	$0
-f143:	mov	$143, r0
+fail143:	mov	$143, r0
 	trap	$0
-f144:	mov	$144, r0
+fail144:	mov	$144, r0
 	trap	$0
-f145:	mov	$145, r0
+fail145:	mov	$145, r0
 	trap	$0
-f146:	mov	$146, r0
+fail146:	mov	$146, r0
 	trap	$0
-f147:	mov	$147, r0
+fail147:	mov	$147, r0
 	trap	$0
-f148:	mov	$148, r0
+fail148:	mov	$148, r0
 	trap	$0
-f149:	mov	$149, r0
+fail149:	mov	$149, r0
 	trap	$0
-f150:	mov	$150, r0
+fail150:	mov	$150, r0
 	trap	$0
-f151:	mov	$151, r0
+fail151:	mov	$151, r0
 	trap	$0
-f152:	mov	$152, r0
+fail152:	mov	$152, r0
 	trap	$0
-f153:	mov	$153, r0
+fail153:	mov	$153, r0
 	trap	$0
-f154:	mov	$154, r0
+fail154:	mov	$154, r0
 	trap	$0
-f155:	mov	$155, r0
+fail155:	mov	$155, r0
 	trap	$0
-f156:	mov	$156, r0
+fail156:	mov	$156, r0
 	trap	$0
-f157:	mov	$157, r0
+fail157:	mov	$157, r0
 	trap	$0
-f158:	mov	$158, r0
+fail158:	mov	$158, r0
 	trap	$0
-f159:	mov	$159, r0
+fail159:	mov	$159, r0
 	trap	$0
-f160:	mov	$160, r0
+fail160:	mov	$160, r0
 	trap	$0
-f161:	mov	$161, r0
+fail161:	mov	$161, r0
 	trap	$0
-f162:	mov	$162, r0
+fail162:	mov	$162, r0
 	trap	$0
-f163:	mov	$163, r0
+fail163:	mov	$163, r0
 	trap	$0
-f164:	mov	$164, r0
+fail164:	mov	$164, r0
 	trap	$0
-f165:	mov	$165, r0
+fail165:	mov	$165, r0
 	trap	$0
-f166:	mov	$166, r0
+fail166:	mov	$166, r0
 	trap	$0
-f167:	mov	$167, r0
+fail167:	mov	$167, r0
 	trap	$0
-f168:	mov	$168, r0
+fail168:	mov	$168, r0
 	trap	$0
-f169:	mov	$169, r0
+fail169:	mov	$169, r0
 	trap	$0
-f170:	mov	$170, r0
+fail170:	mov	$170, r0
 	trap	$0
-f171:	mov	$171, r0
+fail171:	mov	$171, r0
 	trap	$0
-f172:	mov	$172, r0
+fail172:	mov	$172, r0
 	trap	$0
-f173:	mov	$173, r0
+fail173:	mov	$173, r0
 	trap	$0
-f174:	mov	$174, r0
+fail174:	mov	$174, r0
 	trap	$0
-f175:	mov	$175, r0
+fail175:	mov	$175, r0
 	trap	$0
-f176:	mov	$176, r0
+fail176:	mov	$176, r0
 	trap	$0
-f177:	mov	$177, r0
+fail177:	mov	$177, r0
 	trap	$0
-f178:	mov	$178, r0
+fail178:	mov	$178, r0
 	trap	$0
-f179:	mov	$179, r0
+fail179:	mov	$179, r0
 	trap	$0
-f180:	mov	$180, r0
+fail180:	mov	$180, r0
 	trap	$0
-f181:	mov	$181, r0
+fail181:	mov	$181, r0
 	trap	$0
-f182:	mov	$182, r0
+fail182:	mov	$182, r0
 	trap	$0
-f183:	mov	$183, r0
+fail183:	mov	$183, r0
 	trap	$0
-f184:	mov	$184, r0
+fail184:	mov	$184, r0
 	trap	$0
-f185:	mov	$185, r0
+fail185:	mov	$185, r0
 	trap	$0
-f186:	mov	$186, r0
+fail186:	mov	$186, r0
 	trap	$0
-f187:	mov	$187, r0
+fail187:	mov	$187, r0
 	trap	$0
-f188:	mov	$188, r0
+fail188:	mov	$188, r0
 	trap	$0
-f189:	mov	$189, r0
+fail189:	mov	$189, r0
 	trap	$0
-f190:	mov	$190, r0
+fail190:	mov	$190, r0
 	trap	$0
-f191:	mov	$191, r0
+fail191:	mov	$191, r0
 	trap	$0
-f192:	mov	$192, r0
+fail192:	mov	$192, r0
 	trap	$0
-f193:	mov	$193, r0
+fail193:	mov	$193, r0
 	trap	$0
-f194:	mov	$194, r0
+fail194:	mov	$194, r0
 	trap	$0
-f195:	mov	$195, r0
+fail195:	mov	$195, r0
 	trap	$0
-f196:	mov	$196, r0
+fail196:	mov	$196, r0
 	trap	$0
-f197:	mov	$197, r0
+fail197:	mov	$197, r0
 	trap	$0
-f198:	mov	$198, r0
+fail198:	mov	$198, r0
 	trap	$0
-f199:	mov	$199, r0
+fail199:	mov	$199, r0
 	trap	$0
-f200:	mov	$200, r0
+fail200:	mov	$200, r0
 	trap	$0
-f201:	mov	$201, r0
+fail201:	mov	$201, r0
 	trap	$0
-f202:	mov	$202, r0
+fail202:	mov	$202, r0
 	trap	$0
-f203:	mov	$203, r0
+fail203:	mov	$203, r0
 	trap	$0
-f204:	mov	$204, r0
+fail204:	mov	$204, r0
 	trap	$0
-f205:	mov	$205, r0
+fail205:	mov	$205, r0
 	trap	$0
-f206:	mov	$206, r0
+fail206:	mov	$206, r0
 	trap	$0
-f207:	mov	$207, r0
+fail207:	mov	$207, r0
 	trap	$0
-f208:	mov	$208, r0
+fail208:	mov	$208, r0
 	trap	$0
-f209:	mov	$209, r0
+fail209:	mov	$209, r0
 	trap	$0
-f210:	mov	$210, r0
+fail210:	mov	$210, r0
 	trap	$0
-f211:	mov	$211, r0
+fail211:	mov	$211, r0
 	trap	$0
-f212:	mov	$212, r0
+fail212:	mov	$212, r0
 	trap	$0
-f213:	mov	$213, r0
+fail213:	mov	$213, r0
 	trap	$0
-f214:	mov	$214, r0
+fail214:	mov	$214, r0
 	trap	$0
-f215:	mov	$215, r0
+fail215:	mov	$215, r0
 	trap	$0
-f216:	mov	$216, r0
+fail216:	mov	$216, r0
 	trap	$0
-f217:	mov	$217, r0
+fail217:	mov	$217, r0
 	trap	$0
-f218:	mov	$218, r0
+fail218:	mov	$218, r0
 	trap	$0
-f219:	mov	$219, r0
+fail219:	mov	$219, r0
 	trap	$0
-f220:	mov	$220, r0
+fail220:	mov	$220, r0
 	trap	$0
-f221:	mov	$221, r0
+fail221:	mov	$221, r0
 	trap	$0
-f222:	mov	$222, r0
+fail222:	mov	$222, r0
 	trap	$0
-f223:	mov	$223, r0
+fail223:	mov	$223, r0
 	trap	$0
-f224:	mov	$224, r0
+fail224:	mov	$224, r0
 	trap	$0
-f225:	mov	$225, r0
+fail225:	mov	$225, r0
 	trap	$0
-f226:	mov	$226, r0
+fail226:	mov	$226, r0
 	trap	$0
-f227:	mov	$227, r0
+fail227:	mov	$227, r0
 	trap	$0
-f228:	mov	$228, r0
+fail228:	mov	$228, r0
 	trap	$0
-f229:	mov	$229, r0
+fail229:	mov	$229, r0
 	trap	$0
-f230:	mov	$230, r0
+fail230:	mov	$230, r0
 	trap	$0
-f231:	mov	$231, r0
+fail231:	mov	$231, r0
 	trap	$0
-f232:	mov	$232, r0
+fail232:	mov	$232, r0
 	trap	$0
-f233:	mov	$233, r0
+fail233:	mov	$233, r0
 	trap	$0
-f234:	mov	$234, r0
+fail234:	mov	$234, r0
 	trap	$0
-f235:	mov	$235, r0
+fail235:	mov	$235, r0
 	trap	$0
-f236:	mov	$236, r0
+fail236:	mov	$236, r0
 	trap	$0
-f237:	mov	$237, r0
+fail237:	mov	$237, r0
 	trap	$0
-f238:	mov	$238, r0
+fail238:	mov	$238, r0
 	trap	$0
-f239:	mov	$239, r0
+fail239:	mov	$239, r0
 	trap	$0
-f240:	mov	$240, r0
+fail240:	mov	$240, r0
 	trap	$0
-f241:	mov	$241, r0
+fail241:	mov	$241, r0
 	trap	$0
-f242:	mov	$242, r0
+fail242:	mov	$242, r0
 	trap	$0
-f243:	mov	$243, r0
+fail243:	mov	$243, r0
 	trap	$0
-f244:	mov	$244, r0
+fail244:	mov	$244, r0
 	trap	$0
-f245:	mov	$245, r0
+fail245:	mov	$245, r0
 	trap	$0
-f246:	mov	$246, r0
+fail246:	mov	$246, r0
 	trap	$0
-f247:	mov	$247, r0
+fail247:	mov	$247, r0
 	trap	$0
-f248:	mov	$248, r0
+fail248:	mov	$248, r0
 	trap	$0
-f249:	mov	$249, r0
+fail249:	mov	$249, r0
 	trap	$0
-f250:	mov	$250, r0
+fail250:	mov	$250, r0
 	trap	$0
-f251:	mov	$251, r0
+fail251:	mov	$251, r0
 	trap	$0
-f252:	mov	$252, r0
+fail252:	mov	$252, r0
 	trap	$0
-f253:	mov	$253, r0
+fail253:	mov	$253, r0
 	trap	$0
-f254:	mov	$254, r0
+fail254:	mov	$254, r0
 	trap	$0
-f255:	mov	$255, r0
+fail255:	mov	$255, r0
 	trap	$0
-f256:	mov	$1, r0
+fail256:	mov	$1, r0
 	trap	$0
-f257:	mov	$2, r0
+fail257:	mov	$2, r0
 	trap	$0
-f258:	mov	$3, r0
+fail258:	mov	$3, r0
 	trap	$0
-f259:	mov	$4, r0
+fail259:	mov	$4, r0
 	trap	$0
-f260:	mov	$5, r0
+fail260:	mov	$5, r0
 	trap	$0
-f261:	mov	$6, r0
+fail261:	mov	$6, r0
 	trap	$0
-f262:	mov	$7, r0
+fail262:	mov	$7, r0
 	trap	$0
-f263:	mov	$8, r0
+fail263:	mov	$8, r0
 	trap	$0
-f264:	mov	$9, r0
+fail264:	mov	$9, r0
 	trap	$0
-f265:	mov	$10, r0
+fail265:	mov	$10, r0
 	trap	$0
-f266:	mov	$11, r0
+fail266:	mov	$11, r0
 	trap	$0
-f267:	mov	$12, r0
+fail267:	mov	$12, r0
 	trap	$0
-f268:	mov	$13, r0
+fail268:	mov	$13, r0
 	trap	$0
-f269:	mov	$14, r0
+fail269:	mov	$14, r0
 	trap	$0
-f270:	mov	$15, r0
+fail270:	mov	$15, r0
 	trap	$0
-f271:	mov	$16, r0
+fail271:	mov	$16, r0
 	trap	$0
-f272:	mov	$17, r0
+fail272:	mov	$17, r0
 	trap	$0
-f273:	mov	$18, r0
+fail273:	mov	$18, r0
 	trap	$0
-f274:	mov	$19, r0
+fail274:	mov	$19, r0
 	trap	$0
-f275:	mov	$20, r0
+fail275:	mov	$20, r0
 	trap	$0
-f276:	mov	$21, r0
+fail276:	mov	$21, r0
 	trap	$0
-f277:	mov	$22, r0
+fail277:	mov	$22, r0
 	trap	$0
-f278:	mov	$23, r0
+fail278:	mov	$23, r0
 	trap	$0
-f279:	mov	$24, r0
+fail279:	mov	$24, r0
 	trap	$0
-f280:	mov	$25, r0
+fail280:	mov	$25, r0
 	trap	$0
-f281:	mov	$26, r0
+fail281:	mov	$26, r0
 	trap	$0
-f282:	mov	$27, r0
+fail282:	mov	$27, r0
 	trap	$0
-f283:	mov	$28, r0
+fail283:	mov	$28, r0
 	trap	$0
-f284:	mov	$29, r0
+fail284:	mov	$29, r0
 	trap	$0
-f285:	mov	$30, r0
+fail285:	mov	$30, r0
 	trap	$0
-f286:	mov	$31, r0
+fail286:	mov	$31, r0
 	trap	$0
-f287:	mov	$32, r0
+fail287:	mov	$32, r0
 	trap	$0
-f288:	mov	$33, r0
+fail288:	mov	$33, r0
 	trap	$0
-f289:	mov	$34, r0
+fail289:	mov	$34, r0
 	trap	$0
-f290:	mov	$35, r0
+fail290:	mov	$35, r0
 	trap	$0
-f291:	mov	$36, r0
+fail291:	mov	$36, r0
 	trap	$0
-f292:	mov	$37, r0
+fail292:	mov	$37, r0
 	trap	$0
-f293:	mov	$38, r0
+fail293:	mov	$38, r0
 	trap	$0
-f294:	mov	$39, r0
+fail294:	mov	$39, r0
 	trap	$0
-f295:	mov	$40, r0
+fail295:	mov	$40, r0
 	trap	$0
-f296:	mov	$41, r0
+fail296:	mov	$41, r0
 	trap	$0
-f297:	mov	$42, r0
+fail297:	mov	$42, r0
 	trap	$0
-f298:	mov	$43, r0
+fail298:	mov	$43, r0
 	trap	$0
-f299:	mov	$44, r0
+fail299:	mov	$44, r0
 	trap	$0
-f300:	mov	$45, r0
+fail300:	mov	$45, r0
 	trap	$0
-f301:	mov	$46, r0
+fail301:	mov	$46, r0
 	trap	$0
-f302:	mov	$47, r0
+fail302:	mov	$47, r0
 	trap	$0
-f303:	mov	$48, r0
+fail303:	mov	$48, r0
 	trap	$0
-f304:	mov	$49, r0
+fail304:	mov	$49, r0
 	trap	$0
-f305:	mov	$50, r0
+fail305:	mov	$50, r0
 	trap	$0
-f306:	mov	$51, r0
+fail306:	mov	$51, r0
 	trap	$0
-f307:	mov	$52, r0
+fail307:	mov	$52, r0
 	trap	$0
-f308:	mov	$53, r0
+fail308:	mov	$53, r0
 	trap	$0
-f309:	mov	$54, r0
+fail309:	mov	$54, r0
 	trap	$0
-f310:	mov	$55, r0
+fail310:	mov	$55, r0
 	trap	$0
-f311:	mov	$56, r0
+fail311:	mov	$56, r0
 	trap	$0
-f312:	mov	$57, r0
+fail312:	mov	$57, r0
 	trap	$0
-f313:	mov	$58, r0
+fail313:	mov	$58, r0
 	trap	$0
-f314:	mov	$59, r0
+fail314:	mov	$59, r0
 	trap	$0
-f315:	mov	$60, r0
+fail315:	mov	$60, r0
 	trap	$0
-f316:	mov	$61, r0
+fail316:	mov	$61, r0
 	trap	$0
-f317:	mov	$62, r0
+fail317:	mov	$62, r0
 	trap	$0
-f318:	mov	$63, r0
+fail318:	mov	$63, r0
 	trap	$0
-f319:	mov	$64, r0
+fail319:	mov	$64, r0
 	trap	$0
-f320:	mov	$65, r0
+fail320:	mov	$65, r0
 	trap	$0
-f321:	mov	$66, r0
+fail321:	mov	$66, r0
 	trap	$0
-f322:	mov	$67, r0
+fail322:	mov	$67, r0
 	trap	$0
-f323:	mov	$68, r0
+fail323:	mov	$68, r0
 	trap	$0
-f324:	mov	$69, r0
+fail324:	mov	$69, r0
 	trap	$0
-f325:	mov	$70, r0
+fail325:	mov	$70, r0
 	trap	$0
-f326:	mov	$71, r0
+fail326:	mov	$71, r0
 	trap	$0
-f327:	mov	$72, r0
+fail327:	mov	$72, r0
 	trap	$0
-f328:	mov	$73, r0
+fail328:	mov	$73, r0
 	trap	$0
-f329:	mov	$74, r0
+fail329:	mov	$74, r0
 	trap	$0
-f330:	mov	$75, r0
+fail330:	mov	$75, r0
 	trap	$0
-f331:	mov	$76, r0
+fail331:	mov	$76, r0
 	trap	$0
-f332:	mov	$77, r0
+fail332:	mov	$77, r0
 	trap	$0
-f333:	mov	$78, r0
+fail333:	mov	$78, r0
 	trap	$0
-f334:	mov	$79, r0
+fail334:	mov	$79, r0
 	trap	$0
-f335:	mov	$80, r0
+fail335:	mov	$80, r0
 	trap	$0
-f336:	mov	$81, r0
+fail336:	mov	$81, r0
 	trap	$0
-f337:	mov	$82, r0
+fail337:	mov	$82, r0
 	trap	$0
-f338:	mov	$83, r0
+fail338:	mov	$83, r0
 	trap	$0
-f339:	mov	$84, r0
+fail339:	mov	$84, r0
 	trap	$0
-f340:	mov	$85, r0
+fail340:	mov	$85, r0
 	trap	$0
-f341:	mov	$86, r0
+fail341:	mov	$86, r0
 	trap	$0
-f342:	mov	$87, r0
+fail342:	mov	$87, r0
 	trap	$0
-f343:	mov	$88, r0
+fail343:	mov	$88, r0
 	trap	$0
-f344:	mov	$89, r0
+fail344:	mov	$89, r0
 	trap	$0
-f345:	mov	$90, r0
+fail345:	mov	$90, r0
 	trap	$0
-f346:	mov	$91, r0
+fail346:	mov	$91, r0
 	trap	$0
-f347:	mov	$92, r0
+fail347:	mov	$92, r0
 	trap	$0
-f348:	mov	$93, r0
+fail348:	mov	$93, r0
 	trap	$0
-f349:	mov	$94, r0
+fail349:	mov	$94, r0
 	trap	$0
-f350:	mov	$95, r0
+fail350:	mov	$95, r0
 	trap	$0
-f351:	mov	$96, r0
+fail351:	mov	$96, r0
 	trap	$0
-f352:	mov	$97, r0
+fail352:	mov	$97, r0
 	trap	$0
-f353:	mov	$98, r0
+fail353:	mov	$98, r0
 	trap	$0
-f354:	mov	$99, r0
+fail354:	mov	$99, r0
 	trap	$0
-f355:	mov	$100, r0
+fail355:	mov	$100, r0
 	trap	$0
-f356:	mov	$101, r0
+fail356:	mov	$101, r0
 	trap	$0
-f357:	mov	$102, r0
+fail357:	mov	$102, r0
 	trap	$0
-f358:	mov	$103, r0
+fail358:	mov	$103, r0
 	trap	$0
-f359:	mov	$104, r0
+fail359:	mov	$104, r0
 	trap	$0
-f360:	mov	$105, r0
+fail360:	mov	$105, r0
 	trap	$0
-f361:	mov	$106, r0
+fail361:	mov	$106, r0
 	trap	$0
-f362:	mov	$107, r0
+fail362:	mov	$107, r0
 	trap	$0
-f363:	mov	$108, r0
+fail363:	mov	$108, r0
 	trap	$0
-f364:	mov	$109, r0
+fail364:	mov	$109, r0
 	trap	$0
-f365:	mov	$110, r0
+fail365:	mov	$110, r0
 	trap	$0
-f366:	mov	$111, r0
+fail366:	mov	$111, r0
 	trap	$0
-f367:	mov	$112, r0
+fail367:	mov	$112, r0
 	trap	$0
-f368:	mov	$113, r0
+fail368:	mov	$113, r0
 	trap	$0
-f369:	mov	$114, r0
+fail369:	mov	$114, r0
 	trap	$0
-f370:	mov	$115, r0
+fail370:	mov	$115, r0
 	trap	$0
-f371:	mov	$116, r0
+fail371:	mov	$116, r0
 	trap	$0
-f372:	mov	$117, r0
+fail372:	mov	$117, r0
 	trap	$0
-f373:	mov	$118, r0
+fail373:	mov	$118, r0
 	trap	$0
-f374:	mov	$119, r0
+fail374:	mov	$119, r0
 	trap	$0
-f375:	mov	$120, r0
+fail375:	mov	$120, r0
 	trap	$0
-f376:	mov	$121, r0
+fail376:	mov	$121, r0
 	trap	$0
-f377:	mov	$122, r0
+fail377:	mov	$122, r0
 	trap	$0
-f378:	mov	$123, r0
+fail378:	mov	$123, r0
 	trap	$0
-f379:	mov	$124, r0
+fail379:	mov	$124, r0
 	trap	$0
-f380:	mov	$125, r0
+fail380:	mov	$125, r0
 	trap	$0
-f381:	mov	$126, r0
+fail381:	mov	$126, r0
 	trap	$0
-f382:	mov	$127, r0
+fail382:	mov	$127, r0
 	trap	$0
-f383:	mov	$128, r0
+fail383:	mov	$128, r0
 	trap	$0
-f384:	mov	$129, r0
+fail384:	mov	$129, r0
 	trap	$0
-f385:	mov	$130, r0
+fail385:	mov	$130, r0
 	trap	$0
-f386:	mov	$131, r0
+fail386:	mov	$131, r0
 	trap	$0
-f387:	mov	$132, r0
+fail387:	mov	$132, r0
 	trap	$0
-f388:	mov	$133, r0
+fail388:	mov	$133, r0
 	trap	$0
-f389:	mov	$134, r0
+fail389:	mov	$134, r0
 	trap	$0
-f390:	mov	$135, r0
+fail390:	mov	$135, r0
 	trap	$0
-f391:	mov	$136, r0
+fail391:	mov	$136, r0
 	trap	$0
-f392:	mov	$137, r0
+fail392:	mov	$137, r0
 	trap	$0
-f393:	mov	$138, r0
+fail393:	mov	$138, r0
 	trap	$0
-f394:	mov	$139, r0
+fail394:	mov	$139, r0
 	trap	$0
-f395:	mov	$140, r0
+fail395:	mov	$140, r0
 	trap	$0
-f396:	mov	$141, r0
+fail396:	mov	$141, r0
 	trap	$0
-f397:	mov	$142, r0
+fail397:	mov	$142, r0
 	trap	$0
-f398:	mov	$143, r0
+fail398:	mov	$143, r0
 	trap	$0
-f399:	mov	$144, r0
+fail399:	mov	$144, r0
 	trap	$0
-f400:	mov	$145, r0
+fail400:	mov	$145, r0
 	trap	$0
-f401:	mov	$146, r0
+fail401:	mov	$146, r0
 	trap	$0
-f402:	mov	$147, r0
+fail402:	mov	$147, r0
 	trap	$0
-f403:	mov	$148, r0
+fail403:	mov	$148, r0
 	trap	$0
-f404:	mov	$149, r0
+fail404:	mov	$149, r0
 	trap	$0
-f405:	mov	$150, r0
+fail405:	mov	$150, r0
 	trap	$0
-f406:	mov	$151, r0
+fail406:	mov	$151, r0
 	trap	$0
-f407:	mov	$152, r0
+fail407:	mov	$152, r0
 	trap	$0
-f408:	mov	$153, r0
+fail408:	mov	$153, r0
 	trap	$0
-f409:	mov	$154, r0
+fail409:	mov	$154, r0
 	trap	$0
-f410:	mov	$155, r0
+fail410:	mov	$155, r0
 	trap	$0
-f411:	mov	$156, r0
+fail411:	mov	$156, r0
 	trap	$0
-f412:	mov	$157, r0
+fail412:	mov	$157, r0
 	trap	$0
-f413:	mov	$158, r0
+fail413:	mov	$158, r0
 	trap	$0
-f414:	mov	$159, r0
+fail414:	mov	$159, r0
 	trap	$0
-f415:	mov	$160, r0
+fail415:	mov	$160, r0
 	trap	$0
-f416:	mov	$161, r0
+fail416:	mov	$161, r0
 	trap	$0
-f417:	mov	$162, r0
+fail417:	mov	$162, r0
 	trap	$0
-f418:	mov	$163, r0
+fail418:	mov	$163, r0
 	trap	$0
-f419:	mov	$164, r0
+fail419:	mov	$164, r0
 	trap	$0
-f420:	mov	$165, r0
+fail420:	mov	$165, r0
 	trap	$0
-f421:	mov	$166, r0
+fail421:	mov	$166, r0
 	trap	$0
-f422:	mov	$167, r0
+fail422:	mov	$167, r0
 	trap	$0
-f423:	mov	$168, r0
+fail423:	mov	$168, r0
 	trap	$0
-f424:	mov	$169, r0
+fail424:	mov	$169, r0
 	trap	$0
-f425:	mov	$170, r0
+fail425:	mov	$170, r0
 	trap	$0
-f426:	mov	$171, r0
+fail426:	mov	$171, r0
 	trap	$0
-f427:	mov	$172, r0
+fail427:	mov	$172, r0
 	trap	$0
-f428:	mov	$173, r0
+fail428:	mov	$173, r0
 	trap	$0
-f429:	mov	$174, r0
+fail429:	mov	$174, r0
 	trap	$0
-f430:	mov	$175, r0
+fail430:	mov	$175, r0
 	trap	$0
-f431:	mov	$176, r0
+fail431:	mov	$176, r0
 	trap	$0
-f432:	mov	$177, r0
+fail432:	mov	$177, r0
 	trap	$0
-f433:	mov	$178, r0
+fail433:	mov	$178, r0
 	trap	$0
-f434:	mov	$179, r0
+fail434:	mov	$179, r0
 	trap	$0
-f435:	mov	$180, r0
+fail435:	mov	$180, r0
 	trap	$0
-f436:	mov	$181, r0
+fail436:	mov	$181, r0
 	trap	$0
-f437:	mov	$182, r0
+fail437:	mov	$182, r0
 	trap	$0
-f438:	mov	$183, r0
+fail438:	mov	$183, r0
 	trap	$0
-f439:	mov	$184, r0
+fail439:	mov	$184, r0
 	trap	$0
-f440:	mov	$185, r0
+fail440:	mov	$185, r0
 	trap	$0
-f441:	mov	$186, r0
+fail441:	mov	$186, r0
 	trap	$0
-f442:	mov	$187, r0
+fail442:	mov	$187, r0
 	trap	$0
-f443:	mov	$188, r0
+fail443:	mov	$188, r0
 	trap	$0
-f444:	mov	$189, r0
+fail444:	mov	$189, r0
 	trap	$0
-f445:	mov	$190, r0
+fail445:	mov	$190, r0
 	trap	$0
-f446:	mov	$191, r0
+fail446:	mov	$191, r0
 	trap	$0
-f447:	mov	$192, r0
+fail447:	mov	$192, r0
 	trap	$0
-f448:	mov	$193, r0
+fail448:	mov	$193, r0
 	trap	$0
-f449:	mov	$194, r0
+fail449:	mov	$194, r0
 	trap	$0
-f450:	mov	$195, r0
+fail450:	mov	$195, r0
 	trap	$0
-f451:	mov	$196, r0
+fail451:	mov	$196, r0
 	trap	$0
-f452:	mov	$197, r0
+fail452:	mov	$197, r0
 	trap	$0
-f453:	mov	$198, r0
+fail453:	mov	$198, r0
 	trap	$0
-f454:	mov	$199, r0
+fail454:	mov	$199, r0
 	trap	$0
-f455:	mov	$200, r0
+fail455:	mov	$200, r0
 	trap	$0
-f456:	mov	$201, r0
+fail456:	mov	$201, r0
 	trap	$0
-f457:	mov	$202, r0
+fail457:	mov	$202, r0
 	trap	$0
-f458:	mov	$203, r0
+fail458:	mov	$203, r0
 	trap	$0
-f459:	mov	$204, r0
+fail459:	mov	$204, r0
 	trap	$0
-f460:	mov	$205, r0
+fail460:	mov	$205, r0
 	trap	$0
-f461:	mov	$206, r0
+fail461:	mov	$206, r0
 	trap	$0
-f462:	mov	$207, r0
+fail462:	mov	$207, r0
 	trap	$0
-f463:	mov	$208, r0
+fail463:	mov	$208, r0
 	trap	$0
-f464:	mov	$209, r0
+fail464:	mov	$209, r0
 	trap	$0
-f465:	mov	$210, r0
+fail465:	mov	$210, r0
 	trap	$0
-f466:	mov	$211, r0
+fail466:	mov	$211, r0
 	trap	$0
-f467:	mov	$212, r0
+fail467:	mov	$212, r0
 	trap	$0
-f468:	mov	$213, r0
+fail468:	mov	$213, r0
 	trap	$0
-f469:	mov	$214, r0
+fail469:	mov	$214, r0
 	trap	$0
-f470:	mov	$215, r0
+fail470:	mov	$215, r0
 	trap	$0
-f471:	mov	$216, r0
+fail471:	mov	$216, r0
 	trap	$0
-f472:	mov	$217, r0
+fail472:	mov	$217, r0
 	trap	$0
-f473:	mov	$218, r0
+fail473:	mov	$218, r0
 	trap	$0
-f474:	mov	$219, r0
+fail474:	mov	$219, r0
 	trap	$0
-f475:	mov	$220, r0
+fail475:	mov	$220, r0
 	trap	$0
-f476:	mov	$221, r0
+fail476:	mov	$221, r0
 	trap	$0
-f477:	mov	$222, r0
+fail477:	mov	$222, r0
 	trap	$0
-f478:	mov	$223, r0
+fail478:	mov	$223, r0
 	trap	$0
-f479:	mov	$224, r0
+fail479:	mov	$224, r0
 	trap	$0
-f480:	mov	$225, r0
+fail480:	mov	$225, r0
 	trap	$0
-f481:	mov	$226, r0
+fail481:	mov	$226, r0
 	trap	$0
-f482:	mov	$227, r0
+fail482:	mov	$227, r0
 	trap	$0
-f483:	mov	$228, r0
+fail483:	mov	$228, r0
 	trap	$0
-f484:	mov	$229, r0
+fail484:	mov	$229, r0
 	trap	$0
-f485:	mov	$230, r0
+fail485:	mov	$230, r0
 	trap	$0
-f486:	mov	$231, r0
+fail486:	mov	$231, r0
 	trap	$0
-f487:	mov	$232, r0
+fail487:	mov	$232, r0
 	trap	$0
-f488:	mov	$233, r0
+fail488:	mov	$233, r0
 	trap	$0
-f489:	mov	$234, r0
+fail489:	mov	$234, r0
 	trap	$0
-f490:	mov	$235, r0
+fail490:	mov	$235, r0
 	trap	$0
-f491:	mov	$236, r0
+fail491:	mov	$236, r0
 	trap	$0
-f492:	mov	$237, r0
+fail492:	mov	$237, r0
 	trap	$0
-f493:	mov	$238, r0
+fail493:	mov	$238, r0
 	trap	$0
-f494:	mov	$239, r0
+fail494:	mov	$239, r0
 	trap	$0
-f495:	mov	$240, r0
+fail495:	mov	$240, r0
 	trap	$0
-f496:	mov	$241, r0
+fail496:	mov	$241, r0
 	trap	$0
-f497:	mov	$242, r0
+fail497:	mov	$242, r0
 	trap	$0
-f498:	mov	$243, r0
+fail498:	mov	$243, r0
 	trap	$0
-f499:	mov	$244, r0
+fail499:	mov	$244, r0
 	trap	$0
-f500:	mov	$245, r0
+fail500:	mov	$245, r0
 	trap	$0
-f501:	mov	$246, r0
+fail501:	mov	$246, r0
 	trap	$0
-f502:	mov	$247, r0
+fail502:	mov	$247, r0
 	trap	$0
-f503:	mov	$248, r0
+fail503:	mov	$248, r0
 	trap	$0
-f504:	mov	$249, r0
+fail504:	mov	$249, r0
 	trap	$0
-f505:	mov	$250, r0
+fail505:	mov	$250, r0
 	trap	$0
-f506:	mov	$251, r0
+fail506:	mov	$251, r0
 	trap	$0
-f507:	mov	$252, r0
+fail507:	mov	$252, r0
 	trap	$0
-f508:	mov	$253, r0
+fail508:	mov	$253, r0
 	trap	$0
-f509:	mov	$254, r0
+fail509:	mov	$254, r0
 	trap	$0
-f510:	mov	$255, r0
+fail510:	mov	$255, r0
 	trap	$0
-f511:	mov	$1, r0
+fail511:	mov	$1, r0
 	trap	$0
-f512:	mov	$2, r0
+fail512:	mov	$2, r0
 	trap	$0
-f513:	mov	$3, r0
+fail513:	mov	$3, r0
 	trap	$0
-f514:	mov	$4, r0
+fail514:	mov	$4, r0
 	trap	$0
-f515:	mov	$5, r0
+fail515:	mov	$5, r0
 	trap	$0
-f516:	mov	$6, r0
+fail516:	mov	$6, r0
 	trap	$0
 	.data
 	.align	4096

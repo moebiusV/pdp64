@@ -89,7 +89,7 @@ Parallelism. R0, and the model side of R3, do not depend on LLVM; R4's start-up 
 
 ## Measuring each design choice on the OpenBSD port
 
-The emulators answer whether a feature works. Whether it is worth its cost is answered only by the running system. Once QEMU and `sim64` are both working and the OpenBSD port boots, each adopted feature (errata 84: memory colouring, the stack limit register, page-gated landing pads, the `SYS` page bit, predictor isolation, residue checks, ECC and watchpoint reporting, the restart contract, and those studied) is measured on its own, switched on and off one at a time, for performance and for the errors it catches. The measurement list is the last section of [`retire-stage-candidates.md`](retire-stage-candidates.md). The QEMU back end is brought to parity with `sim64`, which is the simulator the first measurements use.
+The emulators answer whether a feature works. Whether it is worth its cost is answered only by the running system. Once QEMU and `sim64` are both working and the OpenBSD port boots, each adopted feature (errata 84, as amended by errata 238: the stack limit register, page-gated landing pads, the `SYS` page bit, predictor isolation, residue checks, ECC and watchpoint reporting, the restart contract, and those studied) is measured on its own, switched on and off one at a time, for performance and for the errors it catches. The measurement list is the last section of [`retire-stage-candidates.md`](retire-stage-candidates.md). The QEMU back end is brought to parity with `sim64`, which is the simulator the first measurements use.
 
 ## Risks, and what would change the plan
 

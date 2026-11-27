@@ -102,10 +102,10 @@ def fig_pagetree():
 
 def fig_pte():
     """The 64-bit page-table entry, every bit."""
-    c = Canvas(300)
+    c = Canvas(324)
     c.text(20, 16, 'a page-table entry: 64 bits, the physical page number in place', 12, 'start', bold=True)
     # fields: (hi, lo, label, fill, width)
-    fields = [(63, 40, 'reserved, zero', GREY, 118), (39, 12, 'physical page number (PPN)', GREEN, 190), (11, 10, 'rsvd', GREY, 38),
+    fields = [(63, 40, 'reserved, zero', GREY, 118), (39, 12, 'physical page number (PPN)', GREEN, 190), (11, 11, 'rsvd', GREY, 24), (10, 10, 'C', YELLOW, 24),
               (9, 8, 'MT', BLUE, 38), (7, 7, 'D', PINK, 24), (6, 6, 'A', PINK, 24), (5, 5, 'G', YELLOW, 24), (4, 4, 'U', YELLOW, 24),
               (3, 3, 'X', YELLOW, 24), (2, 2, 'W', YELLOW, 24), (1, 1, 'R', YELLOW, 24), (0, 0, 'V', YELLOW, 24)]
     x = 20
@@ -124,11 +124,12 @@ def fig_pte():
          ('G', 'global: the entry ignores the address-space number'),
          ('A  D', 'accessed, dirty: set by the kernel, never by the hardware; a clear bit is a page fault'),
          ('MT', 'memory type, the number is the strictness: 0 normal cached, 1 normal uncached, 2 device weakly ordered, 3 device strongly ordered'),
-         ('rsvd', 'bits 10-11 and 40-63 must be zero; a set bit is a page fault (for a 40-bit physical address)')]
+         ('C', 'coloured: every access to the page compares the pointer\'s colour with the granule\'s (section {{r:granule-colours}})'),
+         ('rsvd', 'bit 11 and bits 40-63 must be zero; a set bit is a page fault (for a 40-bit physical address)')]
     for i, (k, v) in enumerate(d):
         c.text(24, 132 + i * 22, k, 11, 'start', bold=True, mono=True)
         c.text(90, 132 + i * 22, v, 10, 'start', '#222')
-    c.text(20, 292, 'Bit positions are those of statement {{r:page-table-entry-is-64}}; bits 0 to 7 are in the same places as in RISC-V.', 9, 'start', '#555')
+    c.text(20, 314, 'Bit positions are those of statement {{r:page-table-entry-is-64}}; bits 0 to 7 are in the same places as in RISC-V.', 9, 'start', '#555')
     return c.svg()
 
 
@@ -268,7 +269,7 @@ def fig_layout():
     c.text(x + w + 10, y + 77, 'one table for the whole system', 9, 'start', '#222')
     # gap
     gy = y + 122
-    c.box(x, gy, w, 40, 'not canonical: every address here faults', '#fff', 10, dash=True, sub='bits 63-39 are not all equal to bit 38 (ECAUSE 5)')
+    c.box(x, gy, w, 40, 'not canonical: every address here faults', '#fff', 10, dash=True, sub='bits 59-39 are not all equal to bit 38 (ECAUSE 5); bits 63-60 hold the colour')
     # user half
     uy = gy + 44
     c.box(x, uy, w, 34, 'stack', PINK, 10, sub='grows down')

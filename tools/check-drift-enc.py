@@ -18,7 +18,7 @@ sys.path.insert(0, HERE)
 import encgram, marks
 B = os.path.join(ROOT, os.environ.get('BUILD', 'build'))
 AS = os.path.join(B, 'as64')
-REWRITE = {'fneg32', 'fabs32', 'rol', 'abs', 'min', 'minu', 'max', 'maxu'}   # aliases that map onto an instruction with rewritten operands, not a plain rename
+REWRITE = {'fneg32', 'fabs32', 'rol', 'abs', 'min', 'minu', 'max', 'maxu', 'colset', 'colstrip'}   # aliases that map onto an instruction with rewritten operands, not a plain rename
 DRV = os.path.join(B, 'encdrv')
 # What the ABI pins and the grammar must keep (docs/abi.md, pcc's register allocation order follows it).  Nothing else is recorded here: the numbers of forms and leaves
 # are the grammar's, and the unassigned first parcels are checked against the space of its leaves.

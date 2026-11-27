@@ -4,6 +4,7 @@ set -e
 cd "$(dirname "$0")/.."
 tools/check-asmsyntax.sh | grep -c '^ok' | sed 's/$/ syntax tests ok/'
 tools/check-as64.sh
+python3 tools/check-fpconst.py
 tools/check-roundtrip-dis.sh
 tools/check-forms.sh
 tools/check-enc.sh

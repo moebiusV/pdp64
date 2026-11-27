@@ -13,425 +13,425 @@ _start:
 	shl	$16, r5
 	shl	$16, r5			; r5 = 0x8000000000000000, the most negative number
 	mov	$0, r6
-	cbne	r1, r2, f1
+	cbne	r1, r2, fail1
 	cbeq	r1, r2, 1f
-	br	f2
+	br	fail2
 1:
 1:
 1:
 	cbcc	r1, r2, 1f
-	br	f7
+	br	fail7
 1:
-	cbcs	r1, r2, f8
+	cbcs	r1, r2, fail8
 	cbge	r1, r2, 1f
-	br	f9
+	br	fail9
 1:
-	cblt	r1, r2, f10
-	cbgt	r1, r2, f11
+	cblt	r1, r2, fail10
+	cbgt	r1, r2, fail11
 	cble	r1, r2, 1f
-	br	f12
+	br	fail12
 1:
-	cbhi	r1, r2, f13
+	cbhi	r1, r2, fail13
 	cblos	r1, r2, 1f
-	br	f14
+	br	fail14
 1:
 	cbne	r1, r3, 1f
-	br	f15
+	br	fail15
 1:
-	cbeq	r1, r3, f16
+	cbeq	r1, r3, fail16
 1:
 1:
-	cbcc	r1, r3, f21
+	cbcc	r1, r3, fail21
 	cbcs	r1, r3, 1f
-	br	f22
+	br	fail22
 1:
-	cbge	r1, r3, f23
+	cbge	r1, r3, fail23
 	cblt	r1, r3, 1f
-	br	f24
+	br	fail24
 1:
-	cbgt	r1, r3, f25
+	cbgt	r1, r3, fail25
 	cble	r1, r3, 1f
-	br	f26
+	br	fail26
 1:
-	cbhi	r1, r3, f27
+	cbhi	r1, r3, fail27
 	cblos	r1, r3, 1f
-	br	f28
+	br	fail28
 1:
 	cbne	r3, r1, 1f
-	br	f29
+	br	fail29
 1:
-	cbeq	r3, r1, f30
+	cbeq	r3, r1, fail30
 1:
 1:
 	cbcc	r3, r1, 1f
-	br	f35
+	br	fail35
 1:
-	cbcs	r3, r1, f36
+	cbcs	r3, r1, fail36
 	cbge	r3, r1, 1f
-	br	f37
+	br	fail37
 1:
-	cblt	r3, r1, f38
+	cblt	r3, r1, fail38
 	cbgt	r3, r1, 1f
-	br	f39
+	br	fail39
 1:
-	cble	r3, r1, f40
+	cble	r3, r1, fail40
 	cbhi	r3, r1, 1f
-	br	f41
+	br	fail41
 1:
-	cblos	r3, r1, f42
+	cblos	r3, r1, fail42
 	cbne	r4, r1, 1f
-	br	f43
+	br	fail43
 1:
-	cbeq	r4, r1, f44
+	cbeq	r4, r1, fail44
 1:
 1:
 	cbcc	r4, r1, 1f
-	br	f49
+	br	fail49
 1:
-	cbcs	r4, r1, f50
-	cbge	r4, r1, f51
+	cbcs	r4, r1, fail50
+	cbge	r4, r1, fail51
 	cblt	r4, r1, 1f
-	br	f52
+	br	fail52
 1:
-	cbgt	r4, r1, f53
+	cbgt	r4, r1, fail53
 	cble	r4, r1, 1f
-	br	f54
+	br	fail54
 1:
 	cbhi	r4, r1, 1f
-	br	f55
+	br	fail55
 1:
-	cblos	r4, r1, f56
+	cblos	r4, r1, fail56
 	cbne	r1, r4, 1f
-	br	f57
+	br	fail57
 1:
-	cbeq	r1, r4, f58
+	cbeq	r1, r4, fail58
 1:
 1:
-	cbcc	r1, r4, f63
+	cbcc	r1, r4, fail63
 	cbcs	r1, r4, 1f
-	br	f64
+	br	fail64
 1:
 	cbge	r1, r4, 1f
-	br	f65
+	br	fail65
 1:
-	cblt	r1, r4, f66
+	cblt	r1, r4, fail66
 	cbgt	r1, r4, 1f
-	br	f67
+	br	fail67
 1:
-	cble	r1, r4, f68
-	cbhi	r1, r4, f69
+	cble	r1, r4, fail68
+	cbhi	r1, r4, fail69
 	cblos	r1, r4, 1f
-	br	f70
+	br	fail70
 1:
 	cbne	r5, r1, 1f
-	br	f71
+	br	fail71
 1:
-	cbeq	r5, r1, f72
+	cbeq	r5, r1, fail72
 1:
 1:
 	cbcc	r5, r1, 1f
-	br	f77
+	br	fail77
 1:
-	cbcs	r5, r1, f78
-	cbge	r5, r1, f79
+	cbcs	r5, r1, fail78
+	cbge	r5, r1, fail79
 	cblt	r5, r1, 1f
-	br	f80
+	br	fail80
 1:
-	cbgt	r5, r1, f81
+	cbgt	r5, r1, fail81
 	cble	r5, r1, 1f
-	br	f82
+	br	fail82
 1:
 	cbhi	r5, r1, 1f
-	br	f83
+	br	fail83
 1:
-	cblos	r5, r1, f84
+	cblos	r5, r1, fail84
 	cbne	r1, r5, 1f
-	br	f85
+	br	fail85
 1:
-	cbeq	r1, r5, f86
+	cbeq	r1, r5, fail86
 1:
 1:
-	cbcc	r1, r5, f91
+	cbcc	r1, r5, fail91
 	cbcs	r1, r5, 1f
-	br	f92
+	br	fail92
 1:
 	cbge	r1, r5, 1f
-	br	f93
+	br	fail93
 1:
-	cblt	r1, r5, f94
+	cblt	r1, r5, fail94
 	cbgt	r1, r5, 1f
-	br	f95
+	br	fail95
 1:
-	cble	r1, r5, f96
-	cbhi	r1, r5, f97
+	cble	r1, r5, fail96
+	cbhi	r1, r5, fail97
 	cblos	r1, r5, 1f
-	br	f98
+	br	fail98
 1:
 	cbne	r5, r4, 1f
-	br	f99
+	br	fail99
 1:
-	cbeq	r5, r4, f100
+	cbeq	r5, r4, fail100
 1:
 1:
-	cbcc	r5, r4, f105
+	cbcc	r5, r4, fail105
 	cbcs	r5, r4, 1f
-	br	f106
+	br	fail106
 1:
-	cbge	r5, r4, f107
+	cbge	r5, r4, fail107
 	cblt	r5, r4, 1f
-	br	f108
+	br	fail108
 1:
-	cbgt	r5, r4, f109
+	cbgt	r5, r4, fail109
 	cble	r5, r4, 1f
-	br	f110
+	br	fail110
 1:
-	cbhi	r5, r4, f111
+	cbhi	r5, r4, fail111
 	cblos	r5, r4, 1f
-	br	f112
+	br	fail112
 1:
 	cbne	r6, r5, 1f
-	br	f113
+	br	fail113
 1:
-	cbeq	r6, r5, f114
+	cbeq	r6, r5, fail114
 1:
 1:
-	cbcc	r6, r5, f119
+	cbcc	r6, r5, fail119
 	cbcs	r6, r5, 1f
-	br	f120
+	br	fail120
 1:
 	cbge	r6, r5, 1f
-	br	f121
+	br	fail121
 1:
-	cblt	r6, r5, f122
+	cblt	r6, r5, fail122
 	cbgt	r6, r5, 1f
-	br	f123
+	br	fail123
 1:
-	cble	r6, r5, f124
-	cbhi	r6, r5, f125
+	cble	r6, r5, fail124
+	cbhi	r6, r5, fail125
 	cblos	r6, r5, 1f
-	br	f126
+	br	fail126
 1:
 	cbne	r5, r6, 1f
-	br	f127
+	br	fail127
 1:
-	cbeq	r5, r6, f128
+	cbeq	r5, r6, fail128
 1:
 1:
 	cbcc	r5, r6, 1f
-	br	f133
+	br	fail133
 1:
-	cbcs	r5, r6, f134
-	cbge	r5, r6, f135
+	cbcs	r5, r6, fail134
+	cbge	r5, r6, fail135
 	cblt	r5, r6, 1f
-	br	f136
+	br	fail136
 1:
-	cbgt	r5, r6, f137
+	cbgt	r5, r6, fail137
 	cble	r5, r6, 1f
-	br	f138
+	br	fail138
 1:
 	cbhi	r5, r6, 1f
-	br	f139
+	br	fail139
 1:
-	cblos	r5, r6, f140
+	cblos	r5, r6, fail140
 	mov	$0, r0
 	trap	$0
-f1:	mov	$1, r0
+fail1:	mov	$1, r0
 	trap	$0
-f2:	mov	$2, r0
+fail2:	mov	$2, r0
 	trap	$0
-f7:	mov	$7, r0
+fail7:	mov	$7, r0
 	trap	$0
-f8:	mov	$8, r0
+fail8:	mov	$8, r0
 	trap	$0
-f9:	mov	$9, r0
+fail9:	mov	$9, r0
 	trap	$0
-f10:	mov	$10, r0
+fail10:	mov	$10, r0
 	trap	$0
-f11:	mov	$11, r0
+fail11:	mov	$11, r0
 	trap	$0
-f12:	mov	$12, r0
+fail12:	mov	$12, r0
 	trap	$0
-f13:	mov	$13, r0
+fail13:	mov	$13, r0
 	trap	$0
-f14:	mov	$14, r0
+fail14:	mov	$14, r0
 	trap	$0
-f15:	mov	$15, r0
+fail15:	mov	$15, r0
 	trap	$0
-f16:	mov	$16, r0
+fail16:	mov	$16, r0
 	trap	$0
-f21:	mov	$21, r0
+fail21:	mov	$21, r0
 	trap	$0
-f22:	mov	$22, r0
+fail22:	mov	$22, r0
 	trap	$0
-f23:	mov	$23, r0
+fail23:	mov	$23, r0
 	trap	$0
-f24:	mov	$24, r0
+fail24:	mov	$24, r0
 	trap	$0
-f25:	mov	$25, r0
+fail25:	mov	$25, r0
 	trap	$0
-f26:	mov	$26, r0
+fail26:	mov	$26, r0
 	trap	$0
-f27:	mov	$27, r0
+fail27:	mov	$27, r0
 	trap	$0
-f28:	mov	$28, r0
+fail28:	mov	$28, r0
 	trap	$0
-f29:	mov	$29, r0
+fail29:	mov	$29, r0
 	trap	$0
-f30:	mov	$30, r0
+fail30:	mov	$30, r0
 	trap	$0
-f35:	mov	$35, r0
+fail35:	mov	$35, r0
 	trap	$0
-f36:	mov	$36, r0
+fail36:	mov	$36, r0
 	trap	$0
-f37:	mov	$37, r0
+fail37:	mov	$37, r0
 	trap	$0
-f38:	mov	$38, r0
+fail38:	mov	$38, r0
 	trap	$0
-f39:	mov	$39, r0
+fail39:	mov	$39, r0
 	trap	$0
-f40:	mov	$40, r0
+fail40:	mov	$40, r0
 	trap	$0
-f41:	mov	$41, r0
+fail41:	mov	$41, r0
 	trap	$0
-f42:	mov	$42, r0
+fail42:	mov	$42, r0
 	trap	$0
-f43:	mov	$43, r0
+fail43:	mov	$43, r0
 	trap	$0
-f44:	mov	$44, r0
+fail44:	mov	$44, r0
 	trap	$0
-f49:	mov	$49, r0
+fail49:	mov	$49, r0
 	trap	$0
-f50:	mov	$50, r0
+fail50:	mov	$50, r0
 	trap	$0
-f51:	mov	$51, r0
+fail51:	mov	$51, r0
 	trap	$0
-f52:	mov	$52, r0
+fail52:	mov	$52, r0
 	trap	$0
-f53:	mov	$53, r0
+fail53:	mov	$53, r0
 	trap	$0
-f54:	mov	$54, r0
+fail54:	mov	$54, r0
 	trap	$0
-f55:	mov	$55, r0
+fail55:	mov	$55, r0
 	trap	$0
-f56:	mov	$56, r0
+fail56:	mov	$56, r0
 	trap	$0
-f57:	mov	$57, r0
+fail57:	mov	$57, r0
 	trap	$0
-f58:	mov	$58, r0
+fail58:	mov	$58, r0
 	trap	$0
-f63:	mov	$63, r0
+fail63:	mov	$63, r0
 	trap	$0
-f64:	mov	$64, r0
+fail64:	mov	$64, r0
 	trap	$0
-f65:	mov	$65, r0
+fail65:	mov	$65, r0
 	trap	$0
-f66:	mov	$66, r0
+fail66:	mov	$66, r0
 	trap	$0
-f67:	mov	$67, r0
+fail67:	mov	$67, r0
 	trap	$0
-f68:	mov	$68, r0
+fail68:	mov	$68, r0
 	trap	$0
-f69:	mov	$69, r0
+fail69:	mov	$69, r0
 	trap	$0
-f70:	mov	$70, r0
+fail70:	mov	$70, r0
 	trap	$0
-f71:	mov	$71, r0
+fail71:	mov	$71, r0
 	trap	$0
-f72:	mov	$72, r0
+fail72:	mov	$72, r0
 	trap	$0
-f77:	mov	$77, r0
+fail77:	mov	$77, r0
 	trap	$0
-f78:	mov	$78, r0
+fail78:	mov	$78, r0
 	trap	$0
-f79:	mov	$79, r0
+fail79:	mov	$79, r0
 	trap	$0
-f80:	mov	$80, r0
+fail80:	mov	$80, r0
 	trap	$0
-f81:	mov	$81, r0
+fail81:	mov	$81, r0
 	trap	$0
-f82:	mov	$82, r0
+fail82:	mov	$82, r0
 	trap	$0
-f83:	mov	$83, r0
+fail83:	mov	$83, r0
 	trap	$0
-f84:	mov	$84, r0
+fail84:	mov	$84, r0
 	trap	$0
-f85:	mov	$85, r0
+fail85:	mov	$85, r0
 	trap	$0
-f86:	mov	$86, r0
+fail86:	mov	$86, r0
 	trap	$0
-f91:	mov	$91, r0
+fail91:	mov	$91, r0
 	trap	$0
-f92:	mov	$92, r0
+fail92:	mov	$92, r0
 	trap	$0
-f93:	mov	$93, r0
+fail93:	mov	$93, r0
 	trap	$0
-f94:	mov	$94, r0
+fail94:	mov	$94, r0
 	trap	$0
-f95:	mov	$95, r0
+fail95:	mov	$95, r0
 	trap	$0
-f96:	mov	$96, r0
+fail96:	mov	$96, r0
 	trap	$0
-f97:	mov	$97, r0
+fail97:	mov	$97, r0
 	trap	$0
-f98:	mov	$98, r0
+fail98:	mov	$98, r0
 	trap	$0
-f99:	mov	$99, r0
+fail99:	mov	$99, r0
 	trap	$0
-f100:	mov	$100, r0
+fail100:	mov	$100, r0
 	trap	$0
-f105:	mov	$105, r0
+fail105:	mov	$105, r0
 	trap	$0
-f106:	mov	$106, r0
+fail106:	mov	$106, r0
 	trap	$0
-f107:	mov	$107, r0
+fail107:	mov	$107, r0
 	trap	$0
-f108:	mov	$108, r0
+fail108:	mov	$108, r0
 	trap	$0
-f109:	mov	$109, r0
+fail109:	mov	$109, r0
 	trap	$0
-f110:	mov	$110, r0
+fail110:	mov	$110, r0
 	trap	$0
-f111:	mov	$111, r0
+fail111:	mov	$111, r0
 	trap	$0
-f112:	mov	$112, r0
+fail112:	mov	$112, r0
 	trap	$0
-f113:	mov	$113, r0
+fail113:	mov	$113, r0
 	trap	$0
-f114:	mov	$114, r0
+fail114:	mov	$114, r0
 	trap	$0
-f119:	mov	$119, r0
+fail119:	mov	$119, r0
 	trap	$0
-f120:	mov	$120, r0
+fail120:	mov	$120, r0
 	trap	$0
-f121:	mov	$121, r0
+fail121:	mov	$121, r0
 	trap	$0
-f122:	mov	$122, r0
+fail122:	mov	$122, r0
 	trap	$0
-f123:	mov	$123, r0
+fail123:	mov	$123, r0
 	trap	$0
-f124:	mov	$124, r0
+fail124:	mov	$124, r0
 	trap	$0
-f125:	mov	$125, r0
+fail125:	mov	$125, r0
 	trap	$0
-f126:	mov	$126, r0
+fail126:	mov	$126, r0
 	trap	$0
-f127:	mov	$127, r0
+fail127:	mov	$127, r0
 	trap	$0
-f128:	mov	$128, r0
+fail128:	mov	$128, r0
 	trap	$0
-f133:	mov	$133, r0
+fail133:	mov	$133, r0
 	trap	$0
-f134:	mov	$134, r0
+fail134:	mov	$134, r0
 	trap	$0
-f135:	mov	$135, r0
+fail135:	mov	$135, r0
 	trap	$0
-f136:	mov	$136, r0
+fail136:	mov	$136, r0
 	trap	$0
-f137:	mov	$137, r0
+fail137:	mov	$137, r0
 	trap	$0
-f138:	mov	$138, r0
+fail138:	mov	$138, r0
 	trap	$0
-f139:	mov	$139, r0
+fail139:	mov	$139, r0
 	trap	$0
-f140:	mov	$140, r0
+fail140:	mov	$140, r0
 	trap	$0

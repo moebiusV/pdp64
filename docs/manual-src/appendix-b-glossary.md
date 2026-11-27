@@ -9,6 +9,7 @@
 | Term | Meaning |
 |---|---|
 | **pdp64** | the 64-bit extension of the PDP-11 this manual describes, as the PDP-11 extended the PDP-10's ideas down and the VAX extended the PDP-11 up (chapter {{c:id01001|n}}) |
+| **`binary16`, `binary32`, `binary64`** | the IEEE formats of 16, 32 and 64 bits; the suffixes `.f16`, `.f32` and `.f64` name them (`.f16` is `binary16`, not `bfloat16`), and the constants `f16(x)`, `f32(x)` and `f64(x)` write a value in them ({{r:a-value-says-how-it-reads}}) |
 | **parcel** | a 16-bit unit of instruction encoding; an instruction is one to three parcels, two to six bytes, or five parcels for `MOV` of a 64-bit constant ({{r:instruction-format}}) |
 | **leaf** | a group of mnemonics with one form, selected by a prefix of the first parcel; a sub-opcode picks the mnemonic ({{r:how-the-opcode-space-is-divided}}) |
 | **prefix** | the top 3 to 16 bits of the first parcel; the prefixes form a prefix code (no prefix begins another), so the first parcel matches at most one leaf and fixes the length of the instruction ({{r:how-the-opcode-space-is-divided}}) |
@@ -33,7 +34,8 @@
 | **`DP`** | the direct pointer: in user mode it is the thread pointer, in kernel mode the per-CPU pointer; a descendant of the 6502's zero page ({{r:state-registers-and-status-word}}, {{r:position-independent-code}}) |
 | **`PSW`** | the processor status word: trace bit, mode, priority and the guard bit ({{r:modes-and-the-status-word}}) |
 | **`N Z V C`** | the PDP-11's four condition codes: negative, zero, overflow, carry; the pdp64 has none ({{r:status-word-has-no-condition-codes}}) |
-| **canonical address** | a 64-bit address whose bits above the top bit of the virtual address (bit 38, 47 or 56 with three, four or five levels) equal that bit; any other value faults, so software cannot hide tags in the high bits ({{r:from-segments-to-pages-virtual-memory}}) |
+| **canonical address** | a 64-bit address whose bits from 59 down to the top bit of the virtual address (bit 38, 47 or 56 with three, four or five levels) equal that bit; any other value faults, and bits 63 to 60 are the colour of the pointer, which translation ignores ({{r:from-segments-to-pages-virtual-memory}}, {{r:granule-colours}}) |
+| **colour, granule** | a granule is 16 bytes of memory; its colour is a 4-bit number kept beside it, and a pointer carries the same four bits in bits 63 to 60; a load or a store whose pointer colour differs from the granule's faults ({{r:granule-colours}}) |
 | **`lowtag`** | a type tag stored in the low bits of a pointer, free because objects are quad-aligned (instruction-set text, section {{r:modes-and-the-status-word}}; not otherwise used in this manual) |
 | **SWAR** | SIMD within a register: using one wide scalar register as several narrow lanes through masking and carry-aware arithmetic (instruction-set text, glossary; the manual's bit and byte instructions of {{r:bits-bytes-and-text}} make it effective) |
 | **`FPSR`** | the sticky floating-point exception flag register, read and written by `FSFLAGS` ({{r:floating-point}}) |

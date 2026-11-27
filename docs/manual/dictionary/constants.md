@@ -37,20 +37,20 @@ The table has 512 entries of eight bytes at the physical address `VBR + 8 * vect
 | `MACHINE_CHECK` | 1 | an unrecoverable error (a posted write that timed out, an uncorrectable memory error, a failed vector fetch); not restartable |
 | `ILLEGAL` | 2 | a reserved or undefined opcode, a reserved encoding or an unassigned system register |
 | `PRIVILEGED` | 3 | a system instruction executed outside kernel mode |
-| `MISALIGNED` | 4 | an atomic, `PUSHX`, `POPX` or the operand of a vector block at an address that is not a multiple of its size (a plain load or store has no alignment fault) |
-| `NONCANONICAL` | 5 | a virtual address whose bits 63 to 39 differ from bit 38 |
+| `MISALIGNED` | 4 | an atomic, `PUSHX`, `POPX` or the operand of a vector block at an address that is not a multiple of its size, or `MCOL`, `MCOLRD` or `MCOLWR` with an address or a count that is not a multiple of its granule block (a plain load or store has no alignment fault) |
+| `NONCANONICAL` | 5 | a virtual address whose bits 59 to 39 differ from bit 38 (bits 63 to 60 are the colour of the pointer) |
 | `IFAULT` | 6 | instruction fetch from a page that is not mapped |
 | `LFAULT` | 7 | load from a page that is not mapped |
 | `SFAULT` | 8 | store to a page that is not mapped |
 | `IPROT` | 9 | instruction fetch denied by the page permissions |
-| `LPROT` | 10 | load denied by the page permissions |
-| `SPROT` | 11 | store denied by the page permissions |
+| `LPROT` | 10 | load denied by the page permissions, or by the colour check: the pointer's colour differs from the granule's (6.8.7) |
+| `SPROT` | 11 | store denied by the page permissions, or by the colour check (6.8.7) |
 | `DIVZERO` | 12 | division by zero (`DIV`, `DIVU`, `MOD`, `MODU`) |
 | `BUSFAULT` | 13 | a read of non-existent memory (a precise abort) |
 | `LPAD` | 14 | an indirect transfer that did not land on `LPAD` (enforcement off in ABI version 1) |
 | `BPT` | 15 | the `BPT` instruction |
 | `CHECK` | 16 | a failed run-time check (the compare-and-trap, `CHK2`, `ADDV`, `SUBV`, `MULV`) |
-| `HEXIT` | 17 | the instruction exit of a guest, in the hypervisor's vector table only (6.16.16) |
+| `HEXIT` | 17 | the instruction exit of a guest, in the hypervisor's vector table only (6.17.16) |
 | `GIFAULT` | 18 | a guest-physical instruction fault (stage 2), in the hypervisor's table only |
 | `GLFAULT` | 19 | a guest-physical load fault (stage 2), in the hypervisor's table only |
 | `GSFAULT` | 20 | a guest-physical store fault (stage 2), in the hypervisor's table only |
@@ -138,9 +138,9 @@ A non-leaf entry has `V` = 1 and `R` = `W` = `X` = 0 and points to the next tabl
 | `GSDP` | 146 | read and write |
 | `GUDP` | 147 | read and write |
 
-## The hypervisor mode (6.16)
+## The hypervisor mode (6.17)
 
-The numbers of the exit-reason codes, the trap-control bits and the stage-2 register, from `spec/grammars.d/52-hypervisor-v1.hbnf`; the registers themselves are in the table of 6.16.7 and in the table of the system registers above, and the new vectors 17 to 20 in the table of the exception vectors. A number is a position, a width or a value, as the description of its rule says.
+The numbers of the exit-reason codes, the trap-control bits and the stage-2 register, from `spec/grammars.d/52-hypervisor-v1.hbnf`; the registers themselves are in the table of 6.17.7 and in the table of the system registers above, and the new vectors 17 to 20 in the table of the exception vectors. A number is a position, a width or a value, as the description of its rule says.
 
 | Rule | Name | Number | What the rule is |
 |---|---|---|---|

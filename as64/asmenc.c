@@ -369,6 +369,35 @@ static int eplan(const struct stmt *src, int64_t pos, const int minn[8], struct 
 			return nh;
 		}
 	}
+	/* colset and colstrip are assembler aliases of the bit-field words, for the colour that a pointer carries in bits 63 to 60.  `colset Rc, Rd` inserts the low four bits of Rc into bits 63 to 60 of Rd, which is
+	   `insb Rc, $60, $4, Rd`; `colset $c, Rd` takes a constant colour from 0 to 15 and is `movq $c, r12` then that insb (r12 is the one scratch register, as for abs, and may not be an operand).  `colstrip Rs, Rd` sign-extends the low
+	   60 bits of Rs into Rd, which is `extb Rs, $0, $60, Rd`: it removes the colour and gives the canonical address back; `colstrip Rd` is `colstrip Rd, Rd`. */
+	if (mg == MG_BESC && (st->mnum == MN_BESC_COLSET || st->mnum == MN_BESC_COLSTRIP)) {
+		int set = st->mnum == MN_BESC_COLSET;
+		if (set ? n != 2 : (n != 1 && n != 2)) { err(st->line, set ? "colset Rc, Rd or colset $colour, Rd: the colour and the pointer register" : "colstrip Rs, Rd or colstrip Rd: a register, or a source and a destination register"); return -1; }
+		for (int k = 0; k < n; k++) {
+			if (st->ops[k].kind == OK_REG) { if (st->ops[k].reg == 12 && set && st->ops[0].kind == OK_IMM) { err(st->line, "colset: r12 is the assembler's scratch register for a constant colour and cannot be the pointer register"); return -1; } continue; }
+			if (set && k == 0 && st->ops[k].kind == OK_IMM) continue;
+			err(st->line, set ? "colset: the pointer must be a register, and the colour a register or a constant from 0 to 15" : "colstrip: the operands must be registers"); return -1;
+		}
+		struct hw *h = hw; int nh = 0;
+		static const int sl[2] = { 1, 4 };
+#define EMIT(...) do { if (!aemit(st, &h[nh], __VA_ARGS__, -1)) return -1; slot[nh] = nh ? sl[nh] : (set && st->ops[0].kind == OK_IMM ? sl[0] : 0); nh++; } while (0)
+		if (!set) {
+			int rs = st->ops[0].reg, rd = st->ops[n - 1].reg;
+			EMIT("extb", 'R', rs, 'I', 0, 'I', 60, 'R', rd);
+		} else if (st->ops[0].kind == OK_REG) {
+			EMIT("insb", 'R', st->ops[0].reg, 'I', 60, 'I', 4, 'R', st->ops[1].reg);
+		} else {
+			struct val v = st->ops[0].x ? eval(st->ops[0].x, st->line) : vconst(0);
+			if (!CONST(v)) { err(st->line, "colset: a constant colour is a number from 0 to 15"); return -1; }
+			if (v.c < 0 || v.c > 15) { err(st->line, "colset: the colour is from 0 to 15 (colour 0 is uncoloured memory and colour 15 is freed memory; a pointer carries four bits)"); return -1; }
+			EMIT("movq", 'I', (int)v.c, 'R', 12);
+			EMIT("insb", 'R', 12, 'I', 60, 'I', 4, 'R', st->ops[1].reg);
+		}
+#undef EMIT
+		return nh;
+	}
 	/* rol is an assembler mapping onto ror: a rotate left by n is a rotate right by 64 - n, so `rol Rs, #n, Rd` is `ror Rs, #(64-n), Rd` and `rol #n, Rd` is `ror #(64-n), Rd`.  The machine has the one rotate and its count is
 	   taken modulo 64, so a rotate left by a count in a register is not one instruction: rol takes a constant.  The count of either word is a constant from -64 to 63 (a negative count of ror rotates left, which is how the disassembler
 	   prints the short form's counts), taken modulo 64 as the machine does.  The shortest form that holds it is used: the two-byte `ror #c, Rd` (a signed count of four bits, -8 to 7, for a register that is the source and

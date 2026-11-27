@@ -1,0 +1,2 @@
+	.text
+colset r1

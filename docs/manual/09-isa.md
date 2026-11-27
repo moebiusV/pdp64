@@ -32,7 +32,7 @@
 
 **9.2.5** Anything that changes what an instruction means is, by default, visible state set by an instruction that names it, not hidden state; whether a mode bit is worth its cost is decided case by case. Compatibility is by conversion instructions where that is cheap.
 
-**9.2.6** Every instruction can be restarted after a fault, and exceptions are precise; the machine has no hidden instruction state that a program can see. The one exception is the hidden resume record of a vector block that an exception interrupted: a program sees nothing of it except its token and the time it saves, an implementation need not keep one, and it is discarded as 6.16.31 says, after which the block starts again from its first strip.
+**9.2.6** Every instruction can be restarted after a fault, and exceptions are precise; the machine has no hidden instruction state that a program can see. The one exception is the hidden resume record of a vector block that an exception interrupted: a program sees nothing of it except its token and the time it saves, an implementation need not keep one, and it is discarded as 6.17.32 says, after which the block starts again from its first strip.
 
 **9.2.7** Floating point is done in the general registers; there is no separate floating-point register file.
 
@@ -40,7 +40,7 @@
 
 **9.2.9** The ALU has one width, 64 bits; sizes appear only on loads, stores and conversions.
 
-**9.2.10** Addresses are canonical: 39, 48 or 57 bits of virtual address, according to the three, four or five levels of the page table (6.6.1), and a physical address of 40 to 64 bits, 40 in the present implementation (2.3.5).
+**9.2.10** Addresses are canonical: 39, 48 or 57 bits of virtual address, according to the three, four or five levels of the page table (6.6.1), and a physical address of 40 to 64 bits, 40 in the present implementation (2.3.5). Bits 59 down to the top translated bit repeat that bit; bits 63 to 60 are the colour of the pointer (6.8.1), which translation ignores (6.8.5).
 
 **9.2.11** Instructions are aligned to two bytes; a plain load or store works at any address, aligned or not (9.6.5), and the atomics, the operands of the vector blocks and `PUSHX` and `POPX` keep the alignment fault, as does a plain access that is not aligned to its size to strongly ordered device memory (9.6.6).
 
@@ -111,7 +111,7 @@
 
 **9.5.3** The kind says one of two things: how a value is widened into the 64-bit register (a load, a conversion between registers, what a 4-byte atomic or a 32-bit rotate leaves in its destination), or how two values are compared (`DIV`, `MIN`, `AMAX`). Where neither happens (a store, a byte swap, the 64-bit forms, `SC`) the kind means nothing, and both `.s` and `.u` are accepted and are the same instruction. Where the register receives a sign-extended result, only `.s32` is true and `.u32` is refused: the 4-byte atomics that return a value (`CAS`, `SWAP`, `AADD`, `AAND`, `ABIS`, `AXOR`, `LL`) and `ROR.s32`; the zero-extended value is `MOV.u32 Rd, Rd` after the instruction. `AMAX` and `AMIN` take both kinds, for the kind is the comparison, and `AMAX.u32` and `AMIN.u32` return the old value sign-extended, as every 4-byte atomic does. The suffix `.user` before the kind says that the memory operand of a move is a user access. A suffix on a move of a constant is refused: a constant has no width, and the move of a constant is the plain `MOV`. With `(Rn)+` and `-(Rn)` and no stride, the stride is the size the suffix names: `mov.s8 (r1)+, r2` steps by one byte. A word with a suffix that it does not have is an error that names the word and the suffixes it takes: `mov.s9` and `fadd.f8` are not guessed.
 
-**9.5.4** A number is a pattern of bits before it is anything else: `0xff` is a byte of ones, and whether that is 255 or minus one depends on how a reader takes it. The assembler leaves the value as written, at its full width, and a number or a symbol may carry a dotted mark of its own, with the letters of the suffix of a mnemonic, where the value deviates: `0xff.s8` is minus one, `0xff.u8` is 255. The mark belongs to the value and not to the instruction, so it is not a width of the operation, and it is refused where the value fits neither reading of the width; appendix D gives the rule and a table of examples. A leading zero is not a mark of octal: `0o` is, and a number written with a leading zero is an error that says so.
+**9.5.4** A number is a pattern of bits before it is anything else: `0xff` is a byte of ones, and whether that is 255 or minus one depends on how a reader takes it. The assembler leaves the value as written, at its full width, and a number or a symbol may carry a dotted mark of its own, with the letters of the suffix of a mnemonic, where the value deviates: `0xff.s8` is minus one, `0xff.u8` is 255. The mark belongs to the value and not to the instruction, so it is not a width of the operation, and it is refused where the value fits neither reading of the width; appendix D gives the rule and a table of examples. A floating-point constant is written `f64(1.5)`, `f32(0.1)` or `f16(1.5)`: the decimal is rounded once to the format and the constant is the number made of the bits, and the dotted mark `.f64` on a number is the other way, which converts nothing and says that the bits are a float's. A leading zero is not a mark of octal: `0o` is, and a number written with a leading zero is an error that says so.
 
 **9.5.5** The deferred modes of the PDP-11 are removed; indirection is done with `JMPI`, `CALLI` and a load.
 
@@ -156,7 +156,7 @@
 
 **9.6.8** The one-parcel forms abbreviate the common cases: loads and stores through a hot base register or the stack pointer at small offsets, `LEA` from `SP`, and `MOV $imm, rd` with an immediate of up to seven bits.
 
-**9.6.9** A load or store may be qualified `.user`, written before the kind: `MOV.user.s8`, `MOV.user.u8`, and the bare `MOV.user` for 64 bits. The memory operand is accessed with user privilege, which is how the kernel reaches user memory past the user-memory guard of 6.10; a `.user` move between registers is refused, for it has no memory operand. The block copy has the same qualifier for each of its sides, `MCPY.UR` and `MCPY.UW`.
+**9.6.9** A load or store may be qualified `.user`, written before the kind: `MOV.user.s8`, `MOV.user.u8`, and the bare `MOV.user` for 64 bits. The memory operand is accessed with user privilege, which is how the kernel reaches user memory past the user-memory guard of 6.11; a `.user` move between registers is refused, for it has no memory operand. The block copy has the same qualifier for each of its sides, `MCPY.UR` and `MCPY.UW`.
 
 *Commentary.* **Precedent.** The PDP-11 had `MOV` and `MOVB` with a byte sign-extended into a register; the VAX had a sized `MOV` for every width. The word carries the width, as it did for them, and the kind and the width in bits are a suffix, which says unsigned where the letter could not. **Trade-offs.** Keeping the sized loads costs extra opcodes against a quad-only design, but without `MOV.s32` a struct field load becomes two `MOV.s16`s, a shift and an or, and ELF, timestamps and most on-disk and wire structures are full of 32- and 16-bit fields. **Improvements.** There is no separate `CVT` group: the conversions are the moves with a register source, so they cost nothing. **Benefits.** No partial-register state anywhere. **Modern comparables.** AArch64 and RISC-V have the same sized loads with sign and zero extension; x86-64 keeps 8- and 16-bit register writes that preserve the upper bits, which makes narrow writes depend on the old value. **Use.** `LEA 0(PC)` is how a position-independent program finds itself; a plain load reads a packed on-disk or network structure at whatever address it has. **Impact.** *Kernel:* `LEA 0(PC)` lets position-independent kernel code find itself; the plain moves read packed on-disk and network structures where they lie. *Compiler:* Sized loads avoid the shift, mask and or of a struct-field read, and the conversions are moves, so no separate conversion selection exists. *Hardware:* No partial-register write anywhere; the conversions reuse the load-extend path.
 
@@ -202,7 +202,7 @@ A register is always written in full: a narrow load sign-extends to 64 bits and 
 
 **Why it is here.** A 64-bit constant otherwise comes from the literal pool. The mnemonic does not say how long the instruction is: `MOV $imm, Rd` is the one word for every constant, and the assembler picks the two-, four-, six- or ten-byte form. The alignment fault had been the one trap of an ordinary access, and it had been useful as a free tag check of tagged pointers; the explicit tag branches are the check now. ARM and x86 do the same (*unverified*); RISC-V leaves it to the implementation, which is the opposite of one binary for every core, so it is not the precedent. Copying between the kernel and the user is where kernels pay for the user-memory guard. x86 opens a window with `STAC` and closes it with `CLAC` (35 and 53 sites in the kernel-assembly corpus), and a forgotten `CLAC` on an error path is the bug class; Arm's `LDTR` and `STTR` make the access itself unprivileged (52 sites), but only for plain loads and stores. I accepted four of its five leanings; the fifth, keeping `PSW.UA`, `STUA` and `CLUA` beside the new qualifier, I gave up on 2026-11-25: one mechanism is enough, and it is the one that cannot be left open.
 
-**Cf.** 6.7 for the memory type that decides whether the access is cached; 6.4 for what a faulting access leaves behind; 6.10 (the user-memory guard).
+**Cf.** 6.7 for the memory type that decides whether the access is cached; 6.4 for what a faulting access leaves behind; 6.11 (the user-memory guard).
 
 <a id="w-movq"></a>
 #### MOV
@@ -847,7 +847,7 @@ The block copy of a copy-in (`MCPY.UR`) and of a copy-out (`MCPY.UW`): the user-
 
 **Why it is here.** The block copy is how a kernel copies a buffer, and it had no user-qualified form, which was the reason to keep the status bit and its two instructions. It has two now, one for each direction, because a copy-in reads user memory and writes kernel memory and a copy-out the other way round; a qualifier that said both sides were user would fault on the kernel side.
 
-**Cf.** 6.10 (the user-memory guard).
+**Cf.** 6.11 (the user-memory guard).
 
 <a id="w-mcpy-ur"></a>
 #### MCPY.ur
@@ -2797,7 +2797,7 @@ x86 `SHRD`, ARM `EXTR`. A 128-bit left shift by k is `DSHR hi, hi, lo, $(64-k)` 
 
 ### EXTB: Extract a bit field
 
-**Mnemonics:** `EXTB`, `EXTZB`
+**Mnemonics:** `EXTB`, `EXTZB`  (aliases: `COLSTRIP`)
 
 **Syntax**
 
@@ -2848,13 +2848,19 @@ EXTZB Rs, $pos, $width, Rd
 
 Operation and exceptions as for the entry EXTB above; 1 layout form, each a chart of its own (above).
 
+<a id="w-colstrip"></a>
+#### COLSTRIP
+
+An alias of [`EXTB`](#w-extb): the assembler writes it as that word.
+
 
 <a id="w-insb"></a>
+<a id="w-colset"></a>
 ### INSB: Insert a bit field
 
 ![INSB: BFy, prefix 10110000, sub-opcode 000000000000000010; operands reg5, imm6u, imm6u, reg5; 6 bytes](figures/w/insb/01.svg)
 
-**Mnemonics:** `INSB`
+**Mnemonics:** `INSB`  (aliases: `COLSET`)
 
 **Syntax**
 
@@ -2882,6 +2888,44 @@ Rd ← (Rd AND NOT mask) OR ((Rs << pos) AND mask)
 Six bytes. `Rd` is both source and destination.
 
 **Why it is here.** The VAX `INSV` idiom, with `EXTB`. No use in the compiled corpus is recorded.
+
+<a id="w-colset"></a>
+**`COLSET`** is an alias of `INSB`: the assembler writes it as that word.
+
+
+<a id="w-colset"></a>
+<a id="w-colstrip"></a>
+### COLOUR: Put a colour into a pointer, and take it out (assembler aliases)
+
+**Mnemonics:** `COLSET`, `COLSTRIP`
+
+**Alias** *(D)* `COLSET` and `COLSTRIP` are assembler aliases of the bit-field words. `COLSET Rc, Rd` assembles to `INSB Rc, $60, $4, Rd`: the low four bits of `Rc` replace bits 63 to 60 of `Rd`, the colour field of a pointer (6.8.1), and `Rd` is both the pointer and the result. `COLSET $c, Rd` takes a constant colour from 0 to 15, assembles to `MOV $c, R12` and then that `INSB`, and is refused for a constant outside that range; `R12` is the scratch register and may not be `Rd`. `COLSTRIP Rs, Rd` assembles to `EXTB Rs, $0, $60, Rd`: the low 60 bits of `Rs`, sign-extended, so the colour is replaced by copies of bit 59, which is what the canonical rule requires of those bits (6.8.5), and `COLSTRIP Rd` is `COLSTRIP Rd, Rd`. The disassembler and the compilers print the alias where it applies.
+
+**Syntax**
+
+```
+COLSET Rc, Rd
+COLSET $colour, Rd
+COLSTRIP Rs, Rd
+COLSTRIP Rd
+```
+
+**Encoding** None of its own: the assembler expands an alias into other instructions.
+
+**Operation**
+
+```
+COLSET : Rd[63:60] ← Rc[3:0]            ; the rest of Rd is unchanged;  COLSET $c, Rd takes a constant c from 0 to 15
+COLSTRIP: Rd ← sign-extension of Rs[59:0]    ; the colour is gone and the address is canonical again
+```
+
+**Exceptions** None.
+
+A pointer is stripped before it is compared with `<` against a pointer of another colour, before it is masked, hashed or tested against a range, and by the system calls that take an address (6.8.12); it is not stripped before a load or a store, which need the colour in the pointer to pass the check.
+
+**Why it is here.** The colour is four bits at the top of a pointer, and the bit-field instructions already insert and extract a field at a position of the programmer's choosing, so a new instruction would add nothing: the assembler names the two uses (`COLSET` and `COLSTRIP`) and the disassembler prints them, as `ROL` is named over `ROR` (9.8).
+
+**Cf.** 6.8.
 
 
 <a id="w-xnorpop"></a>
@@ -3430,7 +3474,7 @@ Operation and exceptions as for the entry SHA512 above; 1 layout form, each a ch
 
 ## 9.10 Branches and control flow
 
-*Cf. section 6.13 for `TRAP`, `RTI $mask` and `RTT $mask`, and section 6.3 for how a trap enters the kernel; section 9.16 for `CALLI` and `JMPI` in position-independent code.*
+*Cf. section 6.14 for `TRAP`, `RTI $mask` and `RTT $mask`, and section 6.3 for how a trap enters the kernel; section 9.16 for `CALLI` and `JMPI` in position-independent code.*
 
 **9.10.1** The machine has no condition codes. On the PDP-11 almost every instruction left four one-bit **flags** behind (`N` the result was negative, `Z` zero, `V` signed overflow, `C` carry out), and a branch looked at the flags that the previous instruction had left, so a decision was two instructions joined by a hidden register:
 
@@ -3526,7 +3570,7 @@ PC ← address of this instruction + 2 × disp
 
 The only branch that tests nothing: every conditional branch is a compare-and-branch, `SOB` or `BTAG`.
 
-**Cf.** 6.13 for `TRAP`, `RTI` and `RTT`.
+**Cf.** 6.14 for `TRAP`, `RTI` and `RTT`.
 
 
 <a id="w-sob"></a>
@@ -4407,11 +4451,13 @@ PC ← M[SP] ; SP ← SP + 8
 
 **9.11.3** The block operations `MCPY`, `MMOV` (overlap-safe), `MSET`, `MCMP`, `MSCN` and `MSCNN` take a destination pointer, a source pointer or value and a count in registers; `MVAL` validates a buffer as UTF-8.
 
-**9.11.4** `MCMP`, `MSCN` and `MSCNN` report their result in registers, not in flags. `MCMP` leaves `Rn` zero when the blocks are equal; when it stops at a difference, `Rn` is not zero and `Rd` and `Rs` point at the first bytes that differ (the order of those two bytes is two byte loads and a compare-and-branch). `MSCN` and `MSCNN`, which scan for a byte, leave `Rn` zero when no byte was found, and otherwise `Rn` is not zero and `Rd` points at the byte found.
+**9.11.4** `LDCOL` reads the colour of a granule into a register and `MCOL` sets the colours of a block of granules, the second a block operation of the same kind, taking a pointer, a colour and a count of bytes in registers; the privileged `MCOLRD` and `MCOLWR` copy the colours of a block of granules to and from a packed buffer (6.8.6, 6.8.11). `COLSET` and `COLSTRIP` put a colour into a pointer and take it out; they are the bit-field words `INSB` and `EXTB` with their fields fixed.
 
-**9.11.5** A block operation keeps its progress in its registers: when it completes, the count is zero and the pointers are one past the end; when it stops early or is interrupted, they point where it stopped, and it restarts by running again.
+**9.11.5** `MCMP`, `MSCN` and `MSCNN` report their result in registers, not in flags. `MCMP` leaves `Rn` zero when the blocks are equal; when it stops at a difference, `Rn` is not zero and `Rd` and `Rs` point at the first bytes that differ (the order of those two bytes is two byte loads and a compare-and-branch). `MSCN` and `MSCNN`, which scan for a byte, leave `Rn` zero when no byte was found, and otherwise `Rn` is not zero and `Rd` points at the byte found.
 
-**9.11.6** An implementation may move more than a byte per step, provided the registers are consistent with byte-at-a-time progress wherever an exception can be taken.
+**9.11.6** A block operation keeps its progress in its registers: when it completes, the count is zero and the pointers are one past the end; when it stops early or is interrupted, they point where it stopped, and it restarts by running again.
+
+**9.11.7** An implementation may move more than a byte per step, provided the registers are consistent with byte-at-a-time progress wherever an exception can be taken.
 
 *Commentary.* **Precedent.** The VAX's `MOVC5` is the canonical argument against such instructions: its operands could be memory, its architectural definition needed the original values to survive, and so it required hidden state and a first-part-done bit in the status word to resume. The PDP-10 had a block transfer, and x86's `REP MOVS` keeps its progress in registers as the pdp64's do. **Trade-offs.** This is the one admitted exception to the one-memory-operand rule, accepted because its mechanism, hidden state, is absent: the state is the registers, which are already architectural. **Improvements.** ARM reached the same design in 2022 with `FEAT_MOPS`, whose specification says the registers are updated so that progress is not lost. **Benefits.** The block-move sequencer is three counters and a byte-lane selector, about 1,500 transistors. **Modern comparables.** x86 `REP MOVSB` and `REP STOSB` with fast-string microcode; AArch64 `CPYP`/`CPYM`/`CPYE` and `SETP`/`SETM`/`SETE`; s390 `MVC`. **Use.** `memcpy`, `memmove`, `memset`, `memcmp` and `memchr` in the C library; `MVAL` in parsers and kernels. **Impact.** *Kernel:* `PUSHM`, `POPM`, `PUSHX` and `POPX` shorten entry, exit and the context switch, and the block operations are `copyin`, `copyout`, page clearing and `memcpy`. *Compiler:* A prologue and an epilogue are one instruction each, and `memcpy` and `memset` lower to the block operations. *Hardware:* The block-move sequencer is three counters and a byte-lane selector, about 1,500 transistors, with no hidden state.
 
@@ -4686,6 +4732,80 @@ while Rn ≠ 0:  M8[Rd] ← Rv[7:0] ; Rd ← Rd + 1 ; Rn ← Rn - 1
 **Why it is here.** With a zero value it is the range-zeroing instruction, so `bzero` and the clearing of `calloc` need no separate opcode.
 
 **Cf.** 6.4.
+
+
+<a id="w-ldcol"></a>
+### LDCOL: Read the colour of a granule
+
+![LDCOL: R2, prefix 110100000100, sub-opcode 0001000100; operands reg5, reg5; 4 bytes](figures/w/ldcol/01.svg)
+
+**Mnemonics:** `LDCOL`
+
+**Syntax**
+
+```
+LDCOL Rs, Rd
+```
+
+**Encoding**
+
+![Encoding of LDCOL](figures/R2-1.svg)
+
+The chart is the leaf `R2-1`, R2, prefix `110100000100`. `op1` is `reg5`: register, 5 bits. `op2` is `reg5`: register, 5 bits. `xsub` selects the mnemonic.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`R2-1`](dictionary/by-encoding.md#R2-1).
+
+**Operation**
+
+```
+Rd ← the 4-bit colour of the 16-byte granule that holds the address in Rs     ; 0 in a page that is not coloured
+bits 63 to 60 of Rs are not looked at; the colour of the pointer is not compared
+```
+
+**Exceptions** Page fault or protection fault as a load of one byte at the address (the page must be readable); a bus error is a precise abort. There is no colour fault: the instruction reads the colour and does not compare it. The address must be canonical in bits 59 down to the top translated bit.
+
+The result is a number from 0 to 15 in the low four bits, the rest of `Rd` zero. The allocator uses it to find out what colour a block has, in `free` to compare it with the pointer it was given.
+
+**Why it is here.** I asked for the colour of a granule to be readable by a program because `free` has to know the colour of the block it is given: it compares that colour with the pointer's, and a difference is a double free or a pointer that was never a block. It compares nothing itself, so an allocator can look at the colour of any block, a neighbour's for instance, when it chooses a colour for a new one. The record names no earlier machine for this word; the reason is the allocator's.
+
+**Cf.** 6.8 (the colours), 6.8.6.
+
+
+<a id="w-mcol"></a>
+### MCOL: Set the colours of a block of granules
+
+![MCOL: R3, prefix 1100101000, sub-opcode 0011110; operands reg5, reg5, reg5; 4 bytes](figures/w/mcol/01.svg)
+
+**Mnemonics:** `MCOL`
+
+**Syntax**
+
+```
+MCOL Rd, Rc, Rn        ; first byte, colour, count of bytes
+```
+
+**Encoding**
+
+![Encoding of MCOL](figures/R3-1.svg)
+
+The chart is the leaf `R3-1`, R3, prefix `1100101000`. `op1` is `reg5`: register, 5 bits. `op2` is `reg5`: register, 5 bits. `op3` is `reg5`: register, 5 bits. `xsub` selects the mnemonic.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`R3-1`](dictionary/by-encoding.md#R3-1).
+
+**Operation**
+
+```
+while Rn ≠ 0:  colour of the granule at Rd ← Rc[3:0] ; Rd ← Rd + 16 ; Rn ← Rn - 16
+Rd and Rn must be multiples of 16, or the misaligned-access vector is taken before anything changes
+```
+
+**Exceptions** Page fault or protection fault as a store to the granule (the page must be writable); the misaligned-access vector if `Rd` or `Rn` is not a multiple of 16. Through a page that is not coloured only colour 0 may be written (it clears the colours of the granules); any other colour takes the colour fault of a store. The pointer's own colour is not compared, so that the allocator can recolour freed memory. The three registers are updated as work completes, so a fault leaves a consistent state and the instruction restarts from its registers.
+
+The operands are in the order of `MSET`: the pointer, the value (here the colour, the low four bits of `Rc`) and the count of bytes. `MCOL` writes colours and leaves the data alone. On completion `Rn` is 0 and `Rd` is one past the end. A block whose count is the size of a page clears or sets the colours of a whole page with one instruction. Writing the colours of a line takes the line for writing, as a store does (7.6.3).
+
+**Why it is here.** I made the write of colours a block operation, in the family of `MSET`, because an allocator sets the colours of a whole block on every allocation and every free, and a block of a page or more would otherwise be a loop of one instruction a granule. It keeps its progress in its registers like the others. The record names no earlier machine for this word.
+
+**Cf.** 6.8, 6.8.6, 6.4.
 
 
 <a id="w-mcmp"></a>
@@ -6245,9 +6365,9 @@ Operation and exceptions as for the entry LLSC above; 1 layout form, each a char
 
 ## 9.14 System instructions, exceptions and interrupts
 
-*Cf. chapter 6, section 6.13 (system instructions, exceptions and interrupts), section 6.3 (exceptions and interrupts) and section 6.5 (system registers).*
+*Cf. chapter 6, section 6.14 (system instructions, exceptions and interrupts), section 6.3 (exceptions and interrupts) and section 6.5 (system registers).*
 
-**9.14.1** The system group `SYS` holds the privileged and system instructions: `TRAP`, `RTI $mask`, `RTT $mask`, `RET`, `HALT`, `BPT`, `MTPS`, `MFPS`, `SPL`, `MFSR`, `MTSR`, `MTDP`, `MFDP`, `PROBER`, `PROBEW`, `PUSHX`, `POPX`, `GENTER $mask`, and the translation and cache maintenance instructions (`TLBI`, `TLBIA`, `TLBIAS`, `TLBIGP`, `TLBSYNC`, `ICINV`, `ICINVA`).
+**9.14.1** The system group `SYS` holds the privileged and system instructions: `TRAP`, `RTI $mask`, `RTT $mask`, `RET`, `HALT`, `BPT`, `MTPS`, `MFPS`, `SPL`, `MFSR`, `MTSR`, `MTDP`, `MFDP`, `PROBER`, `PROBEW`, `MCOLRD`, `MCOLWR`, `PUSHX`, `POPX`, `GENTER $mask`, and the translation and cache maintenance instructions (`TLBI`, `TLBIA`, `TLBIAS`, `TLBIGP`, `TLBSYNC`, `ICINV`, `ICINVA`).
 
 *Commentary.* The official entry of each instruction is below, in this section; the kernel chapter gives the modes, the entry sequence, the system registers and the reasons. **Impact.** *Kernel:* the entries below are the complete list of what the kernel may execute that user code may not, and of what both may; chapter 6 explains how they are used. *Compiler:* none, apart from `TRAP` in system-call stubs. *Hardware:* a class decode and one privilege check.
 
@@ -6342,7 +6462,7 @@ RTT: and then set the trace bit T after the return
 
 **Why it is here.** `RTT` looks redundant against `RTI`, and stays: it sets the trace bit *after* the return rather than before, which is what lets a debugger single-step out of its own trap handler.
 
-**Cf.** 6.3 (exceptions and interrupts), 6.13.
+**Cf.** 6.3 (exceptions and interrupts), 6.14.
 
 <a id="w-rti"></a>
 #### RTI
@@ -6428,7 +6548,7 @@ stop the processor
 
 **Exceptions** Privileged: outside kernel mode the instruction aborts with the privileged-instruction vector.
 
-**Cf.** 6.12.
+**Cf.** 6.13.
 
 
 <a id="w-bpt"></a>
@@ -6671,7 +6791,7 @@ For a handler that wants to be interrupted: it can save the exception state and 
 
 **Why it is here.** A handler that can be interrupted must save `EPC` and `EPSW` before it lowers the priority; with only `MFSR` that costs two moves and two stores (sixteen bytes) on every such kernel entry, and the same to restore. The instructions may not show up high in the instruction count, but they save bytes and cycles in a tight, very often used kernel loop.
 
-**Cf.** 6.3, 6.13.
+**Cf.** 6.3, 6.14.
 
 <a id="w-pushx"></a>
 #### PUSHX
@@ -6797,9 +6917,9 @@ else: ISYNC ; discard the guest's cached translations if the arena's flag or the
 
 **Exceptions** Legal only in the hypervisor mode (H = 1). A guest (H = 0) that executes it, in kernel mode, exits to the hypervisor with exit code 12; in a guest's user mode it is the guest's privileged-instruction exception (the guest's own privilege check comes first). On a machine with no hypervisor (HVE clear) it is an illegal instruction. A reserved mode in `HEPSW` is an illegal instruction and nothing changes.
 
-The one new instruction of the hypervisor mode (6.16). It includes an `ISYNC`: the earlier writes to `PTBR`, `MMUCTL`, `ASID`, `VBR`, `GTBR` and `HTRAP` take effect for what follows. It loads the status word from `HEPSW` and the program counter from `HEPC`, makes the guest's registers the live ones (the ordinary register names mean the guest's own again), clears `H`, and clears every general register whose bit the mask does not name and, with bit 14 of the mask zero, the vector registers and the floating-point flags. There is only this form: the mask is in the instruction and no system register holds it, and the hypervisor keeps nothing in registers across the guest's run. Nothing else is done: no translation-buffer entry is removed unless the arena's flag or the epoch word says so (6.16.25), and no general register is written but the ones the mask clears. If a virtual interrupt line is pending and above the guest's priority, it is taken before the first guest instruction. There is no instruction that leaves a guest: a guest leaves by an exit (a trapped instruction, a hypercall by `TRAP $n`, an interrupt, a stage-2 fault).
+The one new instruction of the hypervisor mode (6.17). It includes an `ISYNC`: the earlier writes to `PTBR`, `MMUCTL`, `ASID`, `VBR`, `GTBR` and `HTRAP` take effect for what follows. It loads the status word from `HEPSW` and the program counter from `HEPC`, makes the guest's registers the live ones (the ordinary register names mean the guest's own again), clears `H`, and clears every general register whose bit the mask does not name and, with bit 14 of the mask zero, the vector registers and the floating-point flags. There is only this form: the mask is in the instruction and no system register holds it, and the hypervisor keeps nothing in registers across the guest's run. Nothing else is done: no translation-buffer entry is removed unless the arena's flag or the epoch word says so (6.17.26), and no general register is written but the ones the mask clears. If a virtual interrupt line is pending and above the guest's priority, it is taken before the first guest instruction. There is no instruction that leaves a guest: a guest leaves by an exit (a trapped instruction, a hypercall by `TRAP $n`, an interrupt, a stage-2 fault).
 
-**Cf.** 6.16.17, 6.16.18, 6.13.
+**Cf.** 6.17.17, 6.17.18, 6.14.
 
 
 ### MFSR: Move from and to a system register
@@ -6830,7 +6950,7 @@ MTSR: system register `name` ← Rs         ; read-only registers are an illegal
 
 **Exceptions** Privileged: outside kernel mode the instruction aborts with the privileged-instruction vector. An unassigned system register is an illegal instruction.
 
-The register is chosen by name. A write to `MMUCTL` that changes bit 0 discards every cached translation, and a write to `PTBR` that is not accompanied by a new `ASID` discards the entries of the current `ASID`; a write to `ASID` discards nothing that is promised (6.8.4); each takes effect at the next `ISYNC` (6.5.2).
+The register is chosen by name. A write to `MMUCTL` that changes bit 0 discards every cached translation, and a write to `PTBR` that is not accompanied by a new `ASID` discards the entries of the current `ASID`; a write to `ASID` discards nothing that is promised (6.9.4); each takes effect at the next `ISYNC` (6.5.2).
 
 | Name | Number | Access |
 |---|---|---|
@@ -7015,7 +7135,7 @@ The replacement for the PDP-11 `IOT` and `EMT`. `TRAP` is one word with an 8-bit
 
 **Why it is here.** One word carries an 8-bit vector number, so the vector range of 256 and the two-byte common case are kept together. `IOT` and `EMT`, which were `TRAP` at two particular vectors on the PDP-11, are not provided.
 
-**Cf.** 6.3, 6.10 (system calls).
+**Cf.** 6.3, 6.11 (system calls).
 
 
 <a id="w-tlbi"></a>
@@ -7049,7 +7169,7 @@ invalidate the translation-buffer entry for the page containing the address in R
 
 **Why it is here.** It broadcasts: a translation changed by one core must be invalidated on all of them, and `TLBSYNC` waits for it.
 
-**Cf.** 7.5, 6.8.
+**Cf.** 7.5, 6.9.
 
 
 ### TLBIAS: Invalidate by address-space number; invalidate by guest-physical page
@@ -7084,7 +7204,7 @@ An implementation may discard more than is asked: one that keeps no guest-physic
 
 **Why it is here.** A context switch that reuses an address-space number, or a process that ends, must remove every translation of that number, not one page at a time; `TLBIAS` does it in one instruction. `TLBIGP` is for the hypervisor, which changes a second-stage entry and knows only the guest-physical page.
 
-**Cf.** 6.8.3, 6.16.24.
+**Cf.** 6.9.3, 6.17.25.
 
 <a id="w-tlbias"></a>
 #### TLBIAS
@@ -7200,6 +7320,65 @@ invalidate the instruction-cache line containing the address in Rs
 **Cf.** 7.5.
 
 
+### MCOLRD: Read and write the colours of a block of granules, packed
+
+**Mnemonics:** `MCOLRD`, `MCOLWR`
+
+**Syntax**
+
+```
+MCOLRD Rd, Rs, Rn        ; buffer, first byte of data, count of data bytes
+MCOLWR Rd, Rs, Rn        ; first byte of data, buffer, count of data bytes
+```
+
+**Encoding**
+
+![Encoding of MCOLRD](figures/R3-1.svg)
+
+The chart is the leaf `R3-1`, R3, prefix `1100101000`. `op1` is `reg5`: register, 5 bits. `op2` is `reg5`: register, 5 bits. `op3` is `reg5`: register, 5 bits. `xsub` selects the mnemonic.
+
+**All the layouts of this entry** (a chart for each, with its fields and the sub-opcode of each mnemonic, in [the bit layouts of every opcode](dictionary/by-encoding.md)): [`R3-1`](dictionary/by-encoding.md#R3-1).
+
+**Operation**
+
+```
+MCOLRD: while Rn ≠ 0:  colour of the granule at Rs -> next nibble of the buffer at Rd (the lower-addressed granule in the low nibble)
+                              Rs ← Rs + 32 ; Rd ← Rd + 1 ; Rn ← Rn - 32
+MCOLWR: the same the other way: the nibbles of the buffer at Rs become the colours of the granules at Rd
+Rs and Rn (MCOLRD), Rd and Rn (MCOLWR) must be multiples of 32, or the misaligned-access vector is taken before anything changes
+```
+
+**Exceptions** Privileged: outside kernel mode the instruction aborts with the privileged-instruction vector. Page fault or protection fault as a load or a store of the data address (the buffer is ordinary memory, read or written as such); the misaligned-access vector for a count or an address that is not a multiple of 32. No colour is compared and the colour field of the pointers is not looked at. The registers are updated as work completes, so a fault leaves a consistent state and the instruction restarts from its registers.
+
+The colours are read and written whatever the page-table entry of the data address says about colour, so a kernel that has mapped a page without the coloured bit still reaches its colours. Two granules share a byte; the buffer is the form in which a kernel or hypervisor saves the colours of a page it writes out or moves, and restores them when the page comes back (6.8.11).
+
+**Why it is here.** A kernel or a hypervisor that writes a page out, moves it or hands it to another owner has to save the page's colours with the page and clear them for the new owner, or the colours of the old owner's blocks show through. Colours are held where no load or store reaches, so two privileged block words, one to read and one to write them in a packed form, are the only way. The record names no earlier machine for them.
+
+**Cf.** 6.8, 6.8.11.
+
+<a id="w-mcolrd"></a>
+#### MCOLRD
+
+![MCOLRD: R3, prefix 1100101000, sub-opcode 0011111; operands reg5, reg5, reg5; 4 bytes](figures/w/mcolrd/01.svg)
+
+```
+MCOLRD Rd, Rs, Rn
+```
+
+Operation and exceptions as for the entry MCOLRD above; 1 layout form, each a chart of its own (above).
+
+<a id="w-mcolwr"></a>
+#### MCOLWR
+
+![MCOLWR: R3, prefix 1100101000, sub-opcode 0100000; operands reg5, reg5, reg5; 4 bytes](figures/w/mcolwr/01.svg)
+
+```
+MCOLWR Rd, Rs, Rn
+```
+
+Operation and exceptions as for the entry MCOLRD above; 1 layout form, each a chart of its own (above).
+
+
 ### PROBE: Probe an address for read or write access
 
 **Mnemonics:** `PROBER`, `PROBEW`
@@ -7232,7 +7411,7 @@ Taken from the VAX `PROBER` and `PROBEW`: the kernel validates a user address be
 
 **Why it is here.** Taken from the VAX `PROBER` and `PROBEW`: the kernel validates a user address before using it, and it replaces the `nofault` global of the V7 kernel for the address-validation case.
 
-**Cf.** 6.10 (the user-memory guard), 6.6.
+**Cf.** 6.11 (the user-memory guard), 6.6.
 
 <a id="w-prober"></a>
 #### PROBER
@@ -7418,7 +7597,7 @@ The two-bound check, for an index whose lower bound is not zero (the Pascal and 
 
 ## 9.15 Faults, restart and memory management
 
-*Cf. chapter 6, section 6.4 (faults and restart) and sections 6.6 to 6.9 (memory management).*
+*Cf. chapter 6, section 6.4 (faults and restart) and sections 6.6 to 6.10 (memory management).*
 
 **9.15.1** A fault is a trap, an abort, a progress stop in a block operation or a machine check, and every instruction either completes or is annulled and restarted with no state to undo (`MCPY` and its kin keep their progress in registers); the page-table format, the memory types and the translation registers are in the kernel chapter.
 
@@ -7482,7 +7661,7 @@ The two-bound check, for an index whose lower bound is not zero (the Pascal and 
 
 ## 9.19 Side by side: the PDP-11, the VAX and the pdp64
 
-**9.19.1** The word is 64 bits against the PDP-11's 16 and the VAX's 32, the registers are 32, the virtual address is 39, 48 or 57 bits with 40 physical in the present implementation, and the instruction count is 614 instruction words in 226 leaves (361 of them in the vector family), against the VAX's 304.
+**9.19.1** The word is 64 bits against the PDP-11's 16 and the VAX's 32, the registers are 32, the virtual address is 39, 48 or 57 bits with 40 physical in the present implementation, and the instruction count is 618 instruction words in 226 leaves (361 of them in the vector family), against the VAX's 304.
 
 **9.19.2** The program counter is not a register, there is no argument pointer, and the frame pointer and the linker scratch are ordinary software conventions.
 

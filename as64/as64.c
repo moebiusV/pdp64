@@ -36,6 +36,7 @@ struct sym {
 	int global, assigned;
 	int islocal;		/* a numeric label's definition: never in the symbol table, relocs use the section */
 	int outidx;
+	int useline;		/* the line of the first use of the name written bare in an expression (0: none); see check_silent */
 };
 static struct sym *syms;
 static int nsyms, capsyms;
@@ -348,6 +349,7 @@ static struct val ev(const struct xnode *x)
 	switch (x->op) {
 	case XN_NUM:
 		return vconst((int64_t)xdigits(x->tok, x->base));
+	case XN_CONST: return vconst((int64_t)x->c);
 	case XN_LBACK: return ev_lref(x, 1);
 	case XN_LFWD: return ev_lref(x, 0);
 	case XN_CHAR: case XN_MCHAR: {				/* 'c', and (NASM) 'abcd': up to eight characters, the first the lowest byte */
@@ -361,7 +363,11 @@ static struct val ev(const struct xnode *x)
 		if (p < e) { xbad = 1; return vconst(0); }
 		return vconst((int64_t)v);
 	}
-	case XN_NAME: { struct val v = { 0, symget(x->tok.p, x->tok.n), -1 }; return v; }
+	case XN_NAME: {
+		struct val v = { 0, symget(x->tok.p, x->tok.n), -1 };
+		if (x->tok.p[0] != '"' && !syms[v.p].useline) syms[v.p].useline = xline;
+		return v;
+	}
 	case XN_DOT: { struct val v = { 0, dot_sym, -1 }; return v; }
 	case XN_MARK: return ev_mark(x);
 	case XN_NEG: case XN_NOT: case XN_LNOT: case XN_LOW: case XN_HIGH:
@@ -1104,6 +1110,78 @@ static int write_object(const char *path)
 	return 0;
 }
 
+
+/* ------------------------------------------------------------------------------------------------------------------ */
+/* A name that is used and never defined or declared is an external symbol, which only the linker sees.  Some words are written as a register,
+   a number or a register of another machine, and meant as one: they are no symbols, and the assembler says so (a name the program defines with a
+   label, `=`, .globl, .extern, .comm or in double quotes is a symbol, and is not looked at). */
+
+static int ci_eq(const char *a, const char *b) { for (; *a && *b; a++, b++) if ((*a | 0x20) != *b) return 0; return !*a && !*b; }
+static int all_dig(const char *p) { if (!*p) return 0; for (; *p; p++) if (*p < '0' || *p > '9') return 0; return 1; }
+
+/* the message for an undefined name that looks like something it is not, or NULL */
+static const char *silent_msg(const char *nm, char *buf, size_t bs)
+{
+	size_t n = strlen(nm);
+	if (!n) return NULL;
+	if (ci_eq(nm, "pc"))
+		return "the pdp64 has no program counter register: `pc` is only a base (`lea 0(pc), r1` is the address of this instruction; a label, or `.`, is the address of a place)";
+	if (ci_eq(nm, "dp")) return "`dp` is the direct-page register, which is not a general register: it is only a base (`d(dp)`), read with `mfdp rd` and written with `mtdp rs`";
+	if (ci_eq(nm, "ps") || ci_eq(nm, "psw")) return "the processor status word is not a register that an operand can name: it is read with `mfps rd` and written with `mtps rs`";
+	if (ci_eq(nm, "lr") || ci_eq(nm, "ra")) return "the pdp64 has no link register: `call` pushes the return address on the stack, and `ret` pops it";
+	if (ci_eq(nm, "sr")) return "`sr` is no register: the system registers are read with `mfsr rd, name` and written with `mtsr name, rs`";
+	if ((nm[0] | 0x20) == 'r' && all_dig(nm + 1)) {
+		int ok = n <= 3 && (n == 2 || nm[1] != '0') && atoi(nm + 1) < 32;
+		if (nm[0] == 'r' && ok) return "a register is no constant: `%s` here is a symbol of that name, not the register (a register is only an operand of an instruction that takes one)";
+		if (nm[0] == 'R' && ok) snprintf(buf, bs, "`%s` is not a register: the registers are written in lower case (`r%s`), and this would be a symbol of that name", nm, nm + 1);
+		else snprintf(buf, bs, "`%s` is not a register: the registers are `r0` to `r31`, and this would be a symbol of that name", nm);
+		return buf;
+	}
+	if (ci_eq(nm, "sp") || ci_eq(nm, "fp")) {
+		if (nm[0] == 's' || nm[0] == 'f') return "a register is no constant: `%s` here is a symbol of that name, not the register (a register is only an operand of an instruction that takes one)";
+		snprintf(buf, bs, "`%s` is not a register: write `%c%c` in lower case; this would be a symbol of that name", nm, nm[0] | 0x20, nm[1] | 0x20);
+		return buf;
+	}
+	if (n == 3 && nm[0] == 'f' && (!strcmp(nm + 1, "16") || !strcmp(nm + 1, "32") || !strcmp(nm + 1, "64"))) {
+		snprintf(buf, bs, "`%s` alone is no value: it is the functional form of a floating-point constant, `%s(1.5)` (with the parenthesis at once)", nm, nm);
+		return buf;
+	}
+	/* a number with a decimal point or an exponent: the lexer takes the word whole and it is no number */
+	{
+		const char *q = nm; int fl = 0;
+		if (q[0] == '0' && (q[1] | 0x20) == 'x') {
+			q += 2; while (isxdigit((unsigned char)*q)) q++;
+			if (*q == '.') { q++; while (isxdigit((unsigned char)*q)) q++; fl = 1; }
+			if ((*q | 0x20) == 'p' && (all_dig(q + 1) || ((q[1] == '+' || q[1] == '-') && all_dig(q + 2)))) { fl = 1; q = nm + n; }
+			if (*q) fl = 0;
+		} else if ((nm[0] >= '0' && nm[0] <= '9') || (nm[0] == '.' && nm[1] >= '0' && nm[1] <= '9')) {
+			while (*q >= '0' && *q <= '9') q++;
+			if (*q == '.') { fl = 1; q++; while (*q >= '0' && *q <= '9') q++; }
+			if ((*q | 0x20) == 'e') {
+				const char *e = q + 1;
+				if (*e == '+' || *e == '-') e++;
+				if (all_dig(e) || (!*e && q[1] == 0)) { fl = 1; q = nm + n; }
+			}
+			if (*q) fl = 0;
+		}
+		if (fl) return "a number with a decimal point or an exponent: the word would be a symbol; write f64(1.5), or the bits 0x3ff8000000000000.f64 (the mark .f64 says they are the bits of a float)";
+	}
+	return NULL;
+}
+
+static void check_silent(void)
+{
+	char buf[300];
+	for (int i = 0; i < nsyms; i++) {
+		struct sym *s = &syms[i];
+		if (s->sect != SC_UNDEF || s->global || s->islocal || !s->useline) continue;
+		const char *m = silent_msg(s->name, buf, sizeof buf);
+		if (!m) continue;
+		if (strstr(m, "%s")) { char b2[400]; snprintf(b2, sizeof b2, m, s->name); err(s->useline, "%s", b2); }
+		else err(s->useline, "%s", m);
+	}
+}
+
 /* ------------------------------------------------------------------------------------------------------------------ */
 
 static char *slurp(const char *path, size_t *len)
@@ -1177,6 +1255,7 @@ int main(int argc, char **argv)
 	for (int it = 0; it < 200; it++)
 		if (!run_pass(0) && it >= 1) break;
 	run_pass(1);
+	check_silent();
 	if (enc_lens) fclose(enc_lens);
 	if (enc_stats && !errors) fprintf(stderr, "%s: %ld instructions, %ld bytes (%ld cbCC expanded to the opposite cbCC and br)\n", progname, enc_ninsn, enc_nbytes, enc_nexpanded);
 	if (errors) { fprintf(stderr, "%s: %d error%s\n", progname, errors, errors == 1 ? "" : "s"); return 1; }

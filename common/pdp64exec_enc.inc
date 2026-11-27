@@ -8,7 +8,7 @@
  * MESC) is written here.
  *
  * What is not implemented traps as an illegal instruction with a message that names the mnemonic (list: H_UNIMPL below): the AES and SHA instructions,
- * UTF8DEC, UTF8ENC, MVAL.
+ * UTF8DEC, UTF8ENC, MVAL, and the granule-colour words LDCOL, MCOL, MCOLRD and MCOLWR (specified; the colour check itself is not run either: docs/implementation-status.md).
  */
 /* the register file is r in pdp64exec.c, a macro that would also take the field `r` of an eop: use RG here */
 #undef r
@@ -31,7 +31,7 @@ struct hdef { const char *name; int kind, a; };
 #define VECTOR_CHECK 16				/* the overflow / bounds check trap (docs/study-proposals.md item 9) */
 #include "pdp64exec_corehdefs.inc"	/* hdefs[]: word -> handler kind and argument, generated from spec/facts/core.toml (tools/gen-core-names.py) */
 /* every other mnemonic of the tables is H_UNIMPL: aeses aesesm aesds aesdsm aesks1 aesks2 aesim, sha256sig0/1 sha256sum0/1 sha512sig0/1 sha512sum0/1, msha256 msha512 maesctr, utf8dec utf8enc
-   mval */
+   mval, ldcol, mcol, mcolrd, mcolwr */
 
 static struct hinfo { uint8_t kind; uint8_t user; uint8_t ublk; int a; } *HT;
 static void vec_init(void);

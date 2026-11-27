@@ -734,6 +734,18 @@ exec = "H_UNIMPL"
 [mval]
 exec = "H_UNIMPL"
 
+[ldcol]
+exec = "H_UNIMPL"
+
+[mcol]
+exec = "H_UNIMPL"
+
+[mcolrd]
+exec = "H_UNIMPL"
+
+[mcolwr]
+exec = "H_UNIMPL"
+
 [aesim]
 exec = "H_UNIMPL"
 

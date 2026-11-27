@@ -6,1275 +6,1275 @@ _start:
 	mov	$-1, r2
 	rol	r1, $0, r2
 	mov	=0x123456789abcdef, r30
-	cbne	r2, r30, f1
+	cbne	r2, r30, fail1
 	mov	=0x123456789abcdef, r1
 	mov	$-1, r2
 	ror	r1, $0, r2
 	mov	=0x123456789abcdef, r30
-	cbne	r2, r30, f2
+	cbne	r2, r30, fail2
 	mov	=0x123456789abcdef, r3
 	rol	r3, $0, r3
 	mov	=0x123456789abcdef, r30
-	cbne	r3, r30, f3
+	cbne	r3, r30, fail3
 	mov	=0x123456789abcdef, r3
 	rol	$0, r3
 	mov	=0x123456789abcdef, r30
-	cbne	r3, r30, f4
+	cbne	r3, r30, fail4
 	mov	=0x123456789abcdef, r3
 	ror	r3, $0, r3
 	mov	=0x123456789abcdef, r30
-	cbne	r3, r30, f5
+	cbne	r3, r30, fail5
 	mov	=0x123456789abcdef, r3
 	ror	$0, r3
 	mov	=0x123456789abcdef, r30
-	cbne	r3, r30, f6
+	cbne	r3, r30, fail6
 	mov	=0x123456789abcdef, r17
 	mov	$-1, r18
 	rol	r17, $0, r18
 	mov	=0x123456789abcdef, r30
-	cbne	r18, r30, f7
+	cbne	r18, r30, fail7
 	mov	=0x123456789abcdef, r17
 	mov	$-1, r18
 	ror	r17, $0, r18
 	mov	=0x123456789abcdef, r30
-	cbne	r18, r30, f8
+	cbne	r18, r30, fail8
 	mov	=0x123456789abcdef, r20
 	rol	r20, $0, r20
 	mov	=0x123456789abcdef, r30
-	cbne	r20, r30, f9
+	cbne	r20, r30, fail9
 	mov	=0x123456789abcdef, r20
 	rol	$0, r20
 	mov	=0x123456789abcdef, r30
-	cbne	r20, r30, f10
+	cbne	r20, r30, fail10
 	mov	=0x123456789abcdef, r20
 	ror	r20, $0, r20
 	mov	=0x123456789abcdef, r30
-	cbne	r20, r30, f11
+	cbne	r20, r30, fail11
 	mov	=0x123456789abcdef, r20
 	ror	$0, r20
 	mov	=0x123456789abcdef, r30
-	cbne	r20, r30, f12
+	cbne	r20, r30, fail12
 	mov	=0x123456789abcdef, r4
 	mov	$77, r5
 	ror	$0, r4
 	mov	=0x4d, r30
-	cbne	r5, r30, f13
+	cbne	r5, r30, fail13
 	mov	=0x123456789abcdef, r1
 	mov	$-1, r2
 	rol	r1, $1, r2
 	mov	=0x2468acf13579bde, r30
-	cbne	r2, r30, f14
+	cbne	r2, r30, fail14
 	mov	=0x123456789abcdef, r1
 	mov	$-1, r2
 	ror	r1, $1, r2
 	mov	=0x8091a2b3c4d5e6f7, r30
-	cbne	r2, r30, f15
+	cbne	r2, r30, fail15
 	mov	=0x123456789abcdef, r3
 	rol	r3, $1, r3
 	mov	=0x2468acf13579bde, r30
-	cbne	r3, r30, f16
+	cbne	r3, r30, fail16
 	mov	=0x123456789abcdef, r3
 	rol	$1, r3
 	mov	=0x2468acf13579bde, r30
-	cbne	r3, r30, f17
+	cbne	r3, r30, fail17
 	mov	=0x123456789abcdef, r3
 	ror	r3, $1, r3
 	mov	=0x8091a2b3c4d5e6f7, r30
-	cbne	r3, r30, f18
+	cbne	r3, r30, fail18
 	mov	=0x123456789abcdef, r3
 	ror	$1, r3
 	mov	=0x8091a2b3c4d5e6f7, r30
-	cbne	r3, r30, f19
+	cbne	r3, r30, fail19
 	mov	=0x123456789abcdef, r17
 	mov	$-1, r18
 	rol	r17, $1, r18
 	mov	=0x2468acf13579bde, r30
-	cbne	r18, r30, f20
+	cbne	r18, r30, fail20
 	mov	=0x123456789abcdef, r17
 	mov	$-1, r18
 	ror	r17, $1, r18
 	mov	=0x8091a2b3c4d5e6f7, r30
-	cbne	r18, r30, f21
+	cbne	r18, r30, fail21
 	mov	=0x123456789abcdef, r20
 	rol	r20, $1, r20
 	mov	=0x2468acf13579bde, r30
-	cbne	r20, r30, f22
+	cbne	r20, r30, fail22
 	mov	=0x123456789abcdef, r20
 	rol	$1, r20
 	mov	=0x2468acf13579bde, r30
-	cbne	r20, r30, f23
+	cbne	r20, r30, fail23
 	mov	=0x123456789abcdef, r20
 	ror	r20, $1, r20
 	mov	=0x8091a2b3c4d5e6f7, r30
-	cbne	r20, r30, f24
+	cbne	r20, r30, fail24
 	mov	=0x123456789abcdef, r20
 	ror	$1, r20
 	mov	=0x8091a2b3c4d5e6f7, r30
-	cbne	r20, r30, f25
+	cbne	r20, r30, fail25
 	mov	=0x123456789abcdef, r4
 	mov	$77, r5
 	ror	$1, r4
 	mov	=0x4d, r30
-	cbne	r5, r30, f26
+	cbne	r5, r30, fail26
 	mov	=0x123456789abcdef, r1
 	mov	$-1, r2
 	rol	r1, $3, r2
 	mov	=0x91a2b3c4d5e6f78, r30
-	cbne	r2, r30, f27
+	cbne	r2, r30, fail27
 	mov	=0x123456789abcdef, r1
 	mov	$-1, r2
 	ror	r1, $3, r2
 	mov	=0xe02468acf13579bd, r30
-	cbne	r2, r30, f28
+	cbne	r2, r30, fail28
 	mov	=0x123456789abcdef, r3
 	rol	r3, $3, r3
 	mov	=0x91a2b3c4d5e6f78, r30
-	cbne	r3, r30, f29
+	cbne	r3, r30, fail29
 	mov	=0x123456789abcdef, r3
 	rol	$3, r3
 	mov	=0x91a2b3c4d5e6f78, r30
-	cbne	r3, r30, f30
+	cbne	r3, r30, fail30
 	mov	=0x123456789abcdef, r3
 	ror	r3, $3, r3
 	mov	=0xe02468acf13579bd, r30
-	cbne	r3, r30, f31
+	cbne	r3, r30, fail31
 	mov	=0x123456789abcdef, r3
 	ror	$3, r3
 	mov	=0xe02468acf13579bd, r30
-	cbne	r3, r30, f32
+	cbne	r3, r30, fail32
 	mov	=0x123456789abcdef, r17
 	mov	$-1, r18
 	rol	r17, $3, r18
 	mov	=0x91a2b3c4d5e6f78, r30
-	cbne	r18, r30, f33
+	cbne	r18, r30, fail33
 	mov	=0x123456789abcdef, r17
 	mov	$-1, r18
 	ror	r17, $3, r18
 	mov	=0xe02468acf13579bd, r30
-	cbne	r18, r30, f34
+	cbne	r18, r30, fail34
 	mov	=0x123456789abcdef, r20
 	rol	r20, $3, r20
 	mov	=0x91a2b3c4d5e6f78, r30
-	cbne	r20, r30, f35
+	cbne	r20, r30, fail35
 	mov	=0x123456789abcdef, r20
 	rol	$3, r20
 	mov	=0x91a2b3c4d5e6f78, r30
-	cbne	r20, r30, f36
+	cbne	r20, r30, fail36
 	mov	=0x123456789abcdef, r20
 	ror	r20, $3, r20
 	mov	=0xe02468acf13579bd, r30
-	cbne	r20, r30, f37
+	cbne	r20, r30, fail37
 	mov	=0x123456789abcdef, r20
 	ror	$3, r20
 	mov	=0xe02468acf13579bd, r30
-	cbne	r20, r30, f38
+	cbne	r20, r30, fail38
 	mov	=0x123456789abcdef, r4
 	mov	$77, r5
 	ror	$3, r4
 	mov	=0x4d, r30
-	cbne	r5, r30, f39
+	cbne	r5, r30, fail39
 	mov	=0x123456789abcdef, r1
 	mov	$-1, r2
 	rol	r1, $7, r2
 	mov	=0x91a2b3c4d5e6f780, r30
-	cbne	r2, r30, f40
+	cbne	r2, r30, fail40
 	mov	=0x123456789abcdef, r1
 	mov	$-1, r2
 	ror	r1, $7, r2
 	mov	=0xde02468acf13579b, r30
-	cbne	r2, r30, f41
+	cbne	r2, r30, fail41
 	mov	=0x123456789abcdef, r3
 	rol	r3, $7, r3
 	mov	=0x91a2b3c4d5e6f780, r30
-	cbne	r3, r30, f42
+	cbne	r3, r30, fail42
 	mov	=0x123456789abcdef, r3
 	rol	$7, r3
 	mov	=0x91a2b3c4d5e6f780, r30
-	cbne	r3, r30, f43
+	cbne	r3, r30, fail43
 	mov	=0x123456789abcdef, r3
 	ror	r3, $7, r3
 	mov	=0xde02468acf13579b, r30
-	cbne	r3, r30, f44
+	cbne	r3, r30, fail44
 	mov	=0x123456789abcdef, r3
 	ror	$7, r3
 	mov	=0xde02468acf13579b, r30
-	cbne	r3, r30, f45
+	cbne	r3, r30, fail45
 	mov	=0x123456789abcdef, r17
 	mov	$-1, r18
 	rol	r17, $7, r18
 	mov	=0x91a2b3c4d5e6f780, r30
-	cbne	r18, r30, f46
+	cbne	r18, r30, fail46
 	mov	=0x123456789abcdef, r17
 	mov	$-1, r18
 	ror	r17, $7, r18
 	mov	=0xde02468acf13579b, r30
-	cbne	r18, r30, f47
+	cbne	r18, r30, fail47
 	mov	=0x123456789abcdef, r20
 	rol	r20, $7, r20
 	mov	=0x91a2b3c4d5e6f780, r30
-	cbne	r20, r30, f48
+	cbne	r20, r30, fail48
 	mov	=0x123456789abcdef, r20
 	rol	$7, r20
 	mov	=0x91a2b3c4d5e6f780, r30
-	cbne	r20, r30, f49
+	cbne	r20, r30, fail49
 	mov	=0x123456789abcdef, r20
 	ror	r20, $7, r20
 	mov	=0xde02468acf13579b, r30
-	cbne	r20, r30, f50
+	cbne	r20, r30, fail50
 	mov	=0x123456789abcdef, r20
 	ror	$7, r20
 	mov	=0xde02468acf13579b, r30
-	cbne	r20, r30, f51
+	cbne	r20, r30, fail51
 	mov	=0x123456789abcdef, r4
 	mov	$77, r5
 	ror	$7, r4
 	mov	=0x4d, r30
-	cbne	r5, r30, f52
+	cbne	r5, r30, fail52
 	mov	=0x123456789abcdef, r1
 	mov	$-1, r2
 	rol	r1, $8, r2
 	mov	=0x23456789abcdef01, r30
-	cbne	r2, r30, f53
+	cbne	r2, r30, fail53
 	mov	=0x123456789abcdef, r1
 	mov	$-1, r2
 	ror	r1, $8, r2
 	mov	=0xef0123456789abcd, r30
-	cbne	r2, r30, f54
+	cbne	r2, r30, fail54
 	mov	=0x123456789abcdef, r3
 	rol	r3, $8, r3
 	mov	=0x23456789abcdef01, r30
-	cbne	r3, r30, f55
+	cbne	r3, r30, fail55
 	mov	=0x123456789abcdef, r3
 	rol	$8, r3
 	mov	=0x23456789abcdef01, r30
-	cbne	r3, r30, f56
+	cbne	r3, r30, fail56
 	mov	=0x123456789abcdef, r3
 	ror	r3, $8, r3
 	mov	=0xef0123456789abcd, r30
-	cbne	r3, r30, f57
+	cbne	r3, r30, fail57
 	mov	=0x123456789abcdef, r3
 	ror	$8, r3
 	mov	=0xef0123456789abcd, r30
-	cbne	r3, r30, f58
+	cbne	r3, r30, fail58
 	mov	=0x123456789abcdef, r17
 	mov	$-1, r18
 	rol	r17, $8, r18
 	mov	=0x23456789abcdef01, r30
-	cbne	r18, r30, f59
+	cbne	r18, r30, fail59
 	mov	=0x123456789abcdef, r17
 	mov	$-1, r18
 	ror	r17, $8, r18
 	mov	=0xef0123456789abcd, r30
-	cbne	r18, r30, f60
+	cbne	r18, r30, fail60
 	mov	=0x123456789abcdef, r20
 	rol	r20, $8, r20
 	mov	=0x23456789abcdef01, r30
-	cbne	r20, r30, f61
+	cbne	r20, r30, fail61
 	mov	=0x123456789abcdef, r20
 	rol	$8, r20
 	mov	=0x23456789abcdef01, r30
-	cbne	r20, r30, f62
+	cbne	r20, r30, fail62
 	mov	=0x123456789abcdef, r20
 	ror	r20, $8, r20
 	mov	=0xef0123456789abcd, r30
-	cbne	r20, r30, f63
+	cbne	r20, r30, fail63
 	mov	=0x123456789abcdef, r20
 	ror	$8, r20
 	mov	=0xef0123456789abcd, r30
-	cbne	r20, r30, f64
+	cbne	r20, r30, fail64
 	mov	=0x123456789abcdef, r4
 	mov	$77, r5
 	ror	$8, r4
 	mov	=0x4d, r30
-	cbne	r5, r30, f65
+	cbne	r5, r30, fail65
 	mov	=0x123456789abcdef, r1
 	mov	$-1, r2
 	rol	r1, $9, r2
 	mov	=0x468acf13579bde02, r30
-	cbne	r2, r30, f66
+	cbne	r2, r30, fail66
 	mov	=0x123456789abcdef, r1
 	mov	$-1, r2
 	ror	r1, $9, r2
 	mov	=0xf78091a2b3c4d5e6, r30
-	cbne	r2, r30, f67
+	cbne	r2, r30, fail67
 	mov	=0x123456789abcdef, r3
 	rol	r3, $9, r3
 	mov	=0x468acf13579bde02, r30
-	cbne	r3, r30, f68
+	cbne	r3, r30, fail68
 	mov	=0x123456789abcdef, r3
 	rol	$9, r3
 	mov	=0x468acf13579bde02, r30
-	cbne	r3, r30, f69
+	cbne	r3, r30, fail69
 	mov	=0x123456789abcdef, r3
 	ror	r3, $9, r3
 	mov	=0xf78091a2b3c4d5e6, r30
-	cbne	r3, r30, f70
+	cbne	r3, r30, fail70
 	mov	=0x123456789abcdef, r3
 	ror	$9, r3
 	mov	=0xf78091a2b3c4d5e6, r30
-	cbne	r3, r30, f71
+	cbne	r3, r30, fail71
 	mov	=0x123456789abcdef, r17
 	mov	$-1, r18
 	rol	r17, $9, r18
 	mov	=0x468acf13579bde02, r30
-	cbne	r18, r30, f72
+	cbne	r18, r30, fail72
 	mov	=0x123456789abcdef, r17
 	mov	$-1, r18
 	ror	r17, $9, r18
 	mov	=0xf78091a2b3c4d5e6, r30
-	cbne	r18, r30, f73
+	cbne	r18, r30, fail73
 	mov	=0x123456789abcdef, r20
 	rol	r20, $9, r20
 	mov	=0x468acf13579bde02, r30
-	cbne	r20, r30, f74
+	cbne	r20, r30, fail74
 	mov	=0x123456789abcdef, r20
 	rol	$9, r20
 	mov	=0x468acf13579bde02, r30
-	cbne	r20, r30, f75
+	cbne	r20, r30, fail75
 	mov	=0x123456789abcdef, r20
 	ror	r20, $9, r20
 	mov	=0xf78091a2b3c4d5e6, r30
-	cbne	r20, r30, f76
+	cbne	r20, r30, fail76
 	mov	=0x123456789abcdef, r20
 	ror	$9, r20
 	mov	=0xf78091a2b3c4d5e6, r30
-	cbne	r20, r30, f77
+	cbne	r20, r30, fail77
 	mov	=0x123456789abcdef, r4
 	mov	$77, r5
 	ror	$9, r4
 	mov	=0x4d, r30
-	cbne	r5, r30, f78
+	cbne	r5, r30, fail78
 	mov	=0x123456789abcdef, r1
 	mov	$-1, r2
 	rol	r1, $15, r2
 	mov	=0xa2b3c4d5e6f78091, r30
-	cbne	r2, r30, f79
+	cbne	r2, r30, fail79
 	mov	=0x123456789abcdef, r1
 	mov	$-1, r2
 	ror	r1, $15, r2
 	mov	=0x9bde02468acf1357, r30
-	cbne	r2, r30, f80
+	cbne	r2, r30, fail80
 	mov	=0x123456789abcdef, r3
 	rol	r3, $15, r3
 	mov	=0xa2b3c4d5e6f78091, r30
-	cbne	r3, r30, f81
+	cbne	r3, r30, fail81
 	mov	=0x123456789abcdef, r3
 	rol	$15, r3
 	mov	=0xa2b3c4d5e6f78091, r30
-	cbne	r3, r30, f82
+	cbne	r3, r30, fail82
 	mov	=0x123456789abcdef, r3
 	ror	r3, $15, r3
 	mov	=0x9bde02468acf1357, r30
-	cbne	r3, r30, f83
+	cbne	r3, r30, fail83
 	mov	=0x123456789abcdef, r3
 	ror	$15, r3
 	mov	=0x9bde02468acf1357, r30
-	cbne	r3, r30, f84
+	cbne	r3, r30, fail84
 	mov	=0x123456789abcdef, r17
 	mov	$-1, r18
 	rol	r17, $15, r18
 	mov	=0xa2b3c4d5e6f78091, r30
-	cbne	r18, r30, f85
+	cbne	r18, r30, fail85
 	mov	=0x123456789abcdef, r17
 	mov	$-1, r18
 	ror	r17, $15, r18
 	mov	=0x9bde02468acf1357, r30
-	cbne	r18, r30, f86
+	cbne	r18, r30, fail86
 	mov	=0x123456789abcdef, r20
 	rol	r20, $15, r20
 	mov	=0xa2b3c4d5e6f78091, r30
-	cbne	r20, r30, f87
+	cbne	r20, r30, fail87
 	mov	=0x123456789abcdef, r20
 	rol	$15, r20
 	mov	=0xa2b3c4d5e6f78091, r30
-	cbne	r20, r30, f88
+	cbne	r20, r30, fail88
 	mov	=0x123456789abcdef, r20
 	ror	r20, $15, r20
 	mov	=0x9bde02468acf1357, r30
-	cbne	r20, r30, f89
+	cbne	r20, r30, fail89
 	mov	=0x123456789abcdef, r20
 	ror	$15, r20
 	mov	=0x9bde02468acf1357, r30
-	cbne	r20, r30, f90
+	cbne	r20, r30, fail90
 	mov	=0x123456789abcdef, r4
 	mov	$77, r5
 	ror	$15, r4
 	mov	=0x4d, r30
-	cbne	r5, r30, f91
+	cbne	r5, r30, fail91
 	mov	=0x123456789abcdef, r1
 	mov	$-1, r2
 	rol	r1, $16, r2
 	mov	=0x456789abcdef0123, r30
-	cbne	r2, r30, f92
+	cbne	r2, r30, fail92
 	mov	=0x123456789abcdef, r1
 	mov	$-1, r2
 	ror	r1, $16, r2
 	mov	=0xcdef0123456789ab, r30
-	cbne	r2, r30, f93
+	cbne	r2, r30, fail93
 	mov	=0x123456789abcdef, r3
 	rol	r3, $16, r3
 	mov	=0x456789abcdef0123, r30
-	cbne	r3, r30, f94
+	cbne	r3, r30, fail94
 	mov	=0x123456789abcdef, r3
 	rol	$16, r3
 	mov	=0x456789abcdef0123, r30
-	cbne	r3, r30, f95
+	cbne	r3, r30, fail95
 	mov	=0x123456789abcdef, r3
 	ror	r3, $16, r3
 	mov	=0xcdef0123456789ab, r30
-	cbne	r3, r30, f96
+	cbne	r3, r30, fail96
 	mov	=0x123456789abcdef, r3
 	ror	$16, r3
 	mov	=0xcdef0123456789ab, r30
-	cbne	r3, r30, f97
+	cbne	r3, r30, fail97
 	mov	=0x123456789abcdef, r17
 	mov	$-1, r18
 	rol	r17, $16, r18
 	mov	=0x456789abcdef0123, r30
-	cbne	r18, r30, f98
+	cbne	r18, r30, fail98
 	mov	=0x123456789abcdef, r17
 	mov	$-1, r18
 	ror	r17, $16, r18
 	mov	=0xcdef0123456789ab, r30
-	cbne	r18, r30, f99
+	cbne	r18, r30, fail99
 	mov	=0x123456789abcdef, r20
 	rol	r20, $16, r20
 	mov	=0x456789abcdef0123, r30
-	cbne	r20, r30, f100
+	cbne	r20, r30, fail100
 	mov	=0x123456789abcdef, r20
 	rol	$16, r20
 	mov	=0x456789abcdef0123, r30
-	cbne	r20, r30, f101
+	cbne	r20, r30, fail101
 	mov	=0x123456789abcdef, r20
 	ror	r20, $16, r20
 	mov	=0xcdef0123456789ab, r30
-	cbne	r20, r30, f102
+	cbne	r20, r30, fail102
 	mov	=0x123456789abcdef, r20
 	ror	$16, r20
 	mov	=0xcdef0123456789ab, r30
-	cbne	r20, r30, f103
+	cbne	r20, r30, fail103
 	mov	=0x123456789abcdef, r4
 	mov	$77, r5
 	ror	$16, r4
 	mov	=0x4d, r30
-	cbne	r5, r30, f104
+	cbne	r5, r30, fail104
 	mov	=0x123456789abcdef, r1
 	mov	$-1, r2
 	rol	r1, $32, r2
 	mov	=0x89abcdef01234567, r30
-	cbne	r2, r30, f105
+	cbne	r2, r30, fail105
 	mov	=0x123456789abcdef, r1
 	mov	$-1, r2
 	ror	r1, $32, r2
 	mov	=0x89abcdef01234567, r30
-	cbne	r2, r30, f106
+	cbne	r2, r30, fail106
 	mov	=0x123456789abcdef, r3
 	rol	r3, $32, r3
 	mov	=0x89abcdef01234567, r30
-	cbne	r3, r30, f107
+	cbne	r3, r30, fail107
 	mov	=0x123456789abcdef, r3
 	rol	$32, r3
 	mov	=0x89abcdef01234567, r30
-	cbne	r3, r30, f108
+	cbne	r3, r30, fail108
 	mov	=0x123456789abcdef, r3
 	ror	r3, $32, r3
 	mov	=0x89abcdef01234567, r30
-	cbne	r3, r30, f109
+	cbne	r3, r30, fail109
 	mov	=0x123456789abcdef, r3
 	ror	$32, r3
 	mov	=0x89abcdef01234567, r30
-	cbne	r3, r30, f110
+	cbne	r3, r30, fail110
 	mov	=0x123456789abcdef, r17
 	mov	$-1, r18
 	rol	r17, $32, r18
 	mov	=0x89abcdef01234567, r30
-	cbne	r18, r30, f111
+	cbne	r18, r30, fail111
 	mov	=0x123456789abcdef, r17
 	mov	$-1, r18
 	ror	r17, $32, r18
 	mov	=0x89abcdef01234567, r30
-	cbne	r18, r30, f112
+	cbne	r18, r30, fail112
 	mov	=0x123456789abcdef, r20
 	rol	r20, $32, r20
 	mov	=0x89abcdef01234567, r30
-	cbne	r20, r30, f113
+	cbne	r20, r30, fail113
 	mov	=0x123456789abcdef, r20
 	rol	$32, r20
 	mov	=0x89abcdef01234567, r30
-	cbne	r20, r30, f114
+	cbne	r20, r30, fail114
 	mov	=0x123456789abcdef, r20
 	ror	r20, $32, r20
 	mov	=0x89abcdef01234567, r30
-	cbne	r20, r30, f115
+	cbne	r20, r30, fail115
 	mov	=0x123456789abcdef, r20
 	ror	$32, r20
 	mov	=0x89abcdef01234567, r30
-	cbne	r20, r30, f116
+	cbne	r20, r30, fail116
 	mov	=0x123456789abcdef, r4
 	mov	$77, r5
 	ror	$32, r4
 	mov	=0x4d, r30
-	cbne	r5, r30, f117
+	cbne	r5, r30, fail117
 	mov	=0x123456789abcdef, r1
 	mov	$-1, r2
 	rol	r1, $55, r2
 	mov	=0xf78091a2b3c4d5e6, r30
-	cbne	r2, r30, f118
+	cbne	r2, r30, fail118
 	mov	=0x123456789abcdef, r1
 	mov	$-1, r2
 	ror	r1, $55, r2
 	mov	=0x468acf13579bde02, r30
-	cbne	r2, r30, f119
+	cbne	r2, r30, fail119
 	mov	=0x123456789abcdef, r3
 	rol	r3, $55, r3
 	mov	=0xf78091a2b3c4d5e6, r30
-	cbne	r3, r30, f120
+	cbne	r3, r30, fail120
 	mov	=0x123456789abcdef, r3
 	rol	$55, r3
 	mov	=0xf78091a2b3c4d5e6, r30
-	cbne	r3, r30, f121
+	cbne	r3, r30, fail121
 	mov	=0x123456789abcdef, r3
 	ror	r3, $55, r3
 	mov	=0x468acf13579bde02, r30
-	cbne	r3, r30, f122
+	cbne	r3, r30, fail122
 	mov	=0x123456789abcdef, r3
 	ror	$55, r3
 	mov	=0x468acf13579bde02, r30
-	cbne	r3, r30, f123
+	cbne	r3, r30, fail123
 	mov	=0x123456789abcdef, r17
 	mov	$-1, r18
 	rol	r17, $55, r18
 	mov	=0xf78091a2b3c4d5e6, r30
-	cbne	r18, r30, f124
+	cbne	r18, r30, fail124
 	mov	=0x123456789abcdef, r17
 	mov	$-1, r18
 	ror	r17, $55, r18
 	mov	=0x468acf13579bde02, r30
-	cbne	r18, r30, f125
+	cbne	r18, r30, fail125
 	mov	=0x123456789abcdef, r20
 	rol	r20, $55, r20
 	mov	=0xf78091a2b3c4d5e6, r30
-	cbne	r20, r30, f126
+	cbne	r20, r30, fail126
 	mov	=0x123456789abcdef, r20
 	rol	$55, r20
 	mov	=0xf78091a2b3c4d5e6, r30
-	cbne	r20, r30, f127
+	cbne	r20, r30, fail127
 	mov	=0x123456789abcdef, r20
 	ror	r20, $55, r20
 	mov	=0x468acf13579bde02, r30
-	cbne	r20, r30, f128
+	cbne	r20, r30, fail128
 	mov	=0x123456789abcdef, r20
 	ror	$55, r20
 	mov	=0x468acf13579bde02, r30
-	cbne	r20, r30, f129
+	cbne	r20, r30, fail129
 	mov	=0x123456789abcdef, r4
 	mov	$77, r5
 	ror	$55, r4
 	mov	=0x4d, r30
-	cbne	r5, r30, f130
+	cbne	r5, r30, fail130
 	mov	=0x123456789abcdef, r1
 	mov	$-1, r2
 	rol	r1, $56, r2
 	mov	=0xef0123456789abcd, r30
-	cbne	r2, r30, f131
+	cbne	r2, r30, fail131
 	mov	=0x123456789abcdef, r1
 	mov	$-1, r2
 	ror	r1, $56, r2
 	mov	=0x23456789abcdef01, r30
-	cbne	r2, r30, f132
+	cbne	r2, r30, fail132
 	mov	=0x123456789abcdef, r3
 	rol	r3, $56, r3
 	mov	=0xef0123456789abcd, r30
-	cbne	r3, r30, f133
+	cbne	r3, r30, fail133
 	mov	=0x123456789abcdef, r3
 	rol	$56, r3
 	mov	=0xef0123456789abcd, r30
-	cbne	r3, r30, f134
+	cbne	r3, r30, fail134
 	mov	=0x123456789abcdef, r3
 	ror	r3, $56, r3
 	mov	=0x23456789abcdef01, r30
-	cbne	r3, r30, f135
+	cbne	r3, r30, fail135
 	mov	=0x123456789abcdef, r3
 	ror	$56, r3
 	mov	=0x23456789abcdef01, r30
-	cbne	r3, r30, f136
+	cbne	r3, r30, fail136
 	mov	=0x123456789abcdef, r17
 	mov	$-1, r18
 	rol	r17, $56, r18
 	mov	=0xef0123456789abcd, r30
-	cbne	r18, r30, f137
+	cbne	r18, r30, fail137
 	mov	=0x123456789abcdef, r17
 	mov	$-1, r18
 	ror	r17, $56, r18
 	mov	=0x23456789abcdef01, r30
-	cbne	r18, r30, f138
+	cbne	r18, r30, fail138
 	mov	=0x123456789abcdef, r20
 	rol	r20, $56, r20
 	mov	=0xef0123456789abcd, r30
-	cbne	r20, r30, f139
+	cbne	r20, r30, fail139
 	mov	=0x123456789abcdef, r20
 	rol	$56, r20
 	mov	=0xef0123456789abcd, r30
-	cbne	r20, r30, f140
+	cbne	r20, r30, fail140
 	mov	=0x123456789abcdef, r20
 	ror	r20, $56, r20
 	mov	=0x23456789abcdef01, r30
-	cbne	r20, r30, f141
+	cbne	r20, r30, fail141
 	mov	=0x123456789abcdef, r20
 	ror	$56, r20
 	mov	=0x23456789abcdef01, r30
-	cbne	r20, r30, f142
+	cbne	r20, r30, fail142
 	mov	=0x123456789abcdef, r4
 	mov	$77, r5
 	ror	$56, r4
 	mov	=0x4d, r30
-	cbne	r5, r30, f143
+	cbne	r5, r30, fail143
 	mov	=0x123456789abcdef, r1
 	mov	$-1, r2
 	rol	r1, $57, r2
 	mov	=0xde02468acf13579b, r30
-	cbne	r2, r30, f144
+	cbne	r2, r30, fail144
 	mov	=0x123456789abcdef, r1
 	mov	$-1, r2
 	ror	r1, $57, r2
 	mov	=0x91a2b3c4d5e6f780, r30
-	cbne	r2, r30, f145
+	cbne	r2, r30, fail145
 	mov	=0x123456789abcdef, r3
 	rol	r3, $57, r3
 	mov	=0xde02468acf13579b, r30
-	cbne	r3, r30, f146
+	cbne	r3, r30, fail146
 	mov	=0x123456789abcdef, r3
 	rol	$57, r3
 	mov	=0xde02468acf13579b, r30
-	cbne	r3, r30, f147
+	cbne	r3, r30, fail147
 	mov	=0x123456789abcdef, r3
 	ror	r3, $57, r3
 	mov	=0x91a2b3c4d5e6f780, r30
-	cbne	r3, r30, f148
+	cbne	r3, r30, fail148
 	mov	=0x123456789abcdef, r3
 	ror	$57, r3
 	mov	=0x91a2b3c4d5e6f780, r30
-	cbne	r3, r30, f149
+	cbne	r3, r30, fail149
 	mov	=0x123456789abcdef, r17
 	mov	$-1, r18
 	rol	r17, $57, r18
 	mov	=0xde02468acf13579b, r30
-	cbne	r18, r30, f150
+	cbne	r18, r30, fail150
 	mov	=0x123456789abcdef, r17
 	mov	$-1, r18
 	ror	r17, $57, r18
 	mov	=0x91a2b3c4d5e6f780, r30
-	cbne	r18, r30, f151
+	cbne	r18, r30, fail151
 	mov	=0x123456789abcdef, r20
 	rol	r20, $57, r20
 	mov	=0xde02468acf13579b, r30
-	cbne	r20, r30, f152
+	cbne	r20, r30, fail152
 	mov	=0x123456789abcdef, r20
 	rol	$57, r20
 	mov	=0xde02468acf13579b, r30
-	cbne	r20, r30, f153
+	cbne	r20, r30, fail153
 	mov	=0x123456789abcdef, r20
 	ror	r20, $57, r20
 	mov	=0x91a2b3c4d5e6f780, r30
-	cbne	r20, r30, f154
+	cbne	r20, r30, fail154
 	mov	=0x123456789abcdef, r20
 	ror	$57, r20
 	mov	=0x91a2b3c4d5e6f780, r30
-	cbne	r20, r30, f155
+	cbne	r20, r30, fail155
 	mov	=0x123456789abcdef, r4
 	mov	$77, r5
 	ror	$57, r4
 	mov	=0x4d, r30
-	cbne	r5, r30, f156
+	cbne	r5, r30, fail156
 	mov	=0x123456789abcdef, r1
 	mov	$-1, r2
 	rol	r1, $63, r2
 	mov	=0x8091a2b3c4d5e6f7, r30
-	cbne	r2, r30, f157
+	cbne	r2, r30, fail157
 	mov	=0x123456789abcdef, r1
 	mov	$-1, r2
 	ror	r1, $63, r2
 	mov	=0x2468acf13579bde, r30
-	cbne	r2, r30, f158
+	cbne	r2, r30, fail158
 	mov	=0x123456789abcdef, r3
 	rol	r3, $63, r3
 	mov	=0x8091a2b3c4d5e6f7, r30
-	cbne	r3, r30, f159
+	cbne	r3, r30, fail159
 	mov	=0x123456789abcdef, r3
 	rol	$63, r3
 	mov	=0x8091a2b3c4d5e6f7, r30
-	cbne	r3, r30, f160
+	cbne	r3, r30, fail160
 	mov	=0x123456789abcdef, r3
 	ror	r3, $63, r3
 	mov	=0x2468acf13579bde, r30
-	cbne	r3, r30, f161
+	cbne	r3, r30, fail161
 	mov	=0x123456789abcdef, r3
 	ror	$63, r3
 	mov	=0x2468acf13579bde, r30
-	cbne	r3, r30, f162
+	cbne	r3, r30, fail162
 	mov	=0x123456789abcdef, r17
 	mov	$-1, r18
 	rol	r17, $63, r18
 	mov	=0x8091a2b3c4d5e6f7, r30
-	cbne	r18, r30, f163
+	cbne	r18, r30, fail163
 	mov	=0x123456789abcdef, r17
 	mov	$-1, r18
 	ror	r17, $63, r18
 	mov	=0x2468acf13579bde, r30
-	cbne	r18, r30, f164
+	cbne	r18, r30, fail164
 	mov	=0x123456789abcdef, r20
 	rol	r20, $63, r20
 	mov	=0x8091a2b3c4d5e6f7, r30
-	cbne	r20, r30, f165
+	cbne	r20, r30, fail165
 	mov	=0x123456789abcdef, r20
 	rol	$63, r20
 	mov	=0x8091a2b3c4d5e6f7, r30
-	cbne	r20, r30, f166
+	cbne	r20, r30, fail166
 	mov	=0x123456789abcdef, r20
 	ror	r20, $63, r20
 	mov	=0x2468acf13579bde, r30
-	cbne	r20, r30, f167
+	cbne	r20, r30, fail167
 	mov	=0x123456789abcdef, r20
 	ror	$63, r20
 	mov	=0x2468acf13579bde, r30
-	cbne	r20, r30, f168
+	cbne	r20, r30, fail168
 	mov	=0x123456789abcdef, r4
 	mov	$77, r5
 	ror	$63, r4
 	mov	=0x4d, r30
-	cbne	r5, r30, f169
+	cbne	r5, r30, fail169
 	mov	=0x123456789abcdef, r6
 	ror	$-1, r6
 	mov	=0x2468acf13579bde, r30
-	cbne	r6, r30, f170
+	cbne	r6, r30, fail170
 	mov	=0x123456789abcdef, r6
 	rol	$-1, r6
 	mov	=0x8091a2b3c4d5e6f7, r30
-	cbne	r6, r30, f171
+	cbne	r6, r30, fail171
 	mov	=0x123456789abcdef, r6
 	ror	$-3, r6
 	mov	=0x91a2b3c4d5e6f78, r30
-	cbne	r6, r30, f172
+	cbne	r6, r30, fail172
 	mov	=0x123456789abcdef, r6
 	rol	$-3, r6
 	mov	=0xe02468acf13579bd, r30
-	cbne	r6, r30, f173
+	cbne	r6, r30, fail173
 	mov	=0x123456789abcdef, r6
 	ror	$-8, r6
 	mov	=0x23456789abcdef01, r30
-	cbne	r6, r30, f174
+	cbne	r6, r30, fail174
 	mov	=0x123456789abcdef, r6
 	rol	$-8, r6
 	mov	=0xef0123456789abcd, r30
-	cbne	r6, r30, f175
+	cbne	r6, r30, fail175
 	mov	=0x123456789abcdef, r6
 	ror	$-9, r6
 	mov	=0x468acf13579bde02, r30
-	cbne	r6, r30, f176
+	cbne	r6, r30, fail176
 	mov	=0x123456789abcdef, r6
 	rol	$-9, r6
 	mov	=0xf78091a2b3c4d5e6, r30
-	cbne	r6, r30, f177
+	cbne	r6, r30, fail177
 	mov	=0x123456789abcdef, r6
 	ror	$-33, r6
 	mov	=0x13579bde02468acf, r30
-	cbne	r6, r30, f178
+	cbne	r6, r30, fail178
 	mov	=0x123456789abcdef, r6
 	rol	$-33, r6
 	mov	=0xc4d5e6f78091a2b3, r30
-	cbne	r6, r30, f179
+	cbne	r6, r30, fail179
 	mov	=0x123456789abcdef, r6
 	ror	$-63, r6
 	mov	=0x8091a2b3c4d5e6f7, r30
-	cbne	r6, r30, f180
+	cbne	r6, r30, fail180
 	mov	=0x123456789abcdef, r6
 	rol	$-63, r6
 	mov	=0x2468acf13579bde, r30
-	cbne	r6, r30, f181
+	cbne	r6, r30, fail181
 	mov	=0x123456789abcdef, r6
 	ror	$-64, r6
 	mov	=0x123456789abcdef, r30
-	cbne	r6, r30, f182
+	cbne	r6, r30, fail182
 	mov	=0x123456789abcdef, r6
 	rol	$-64, r6
 	mov	=0x123456789abcdef, r30
-	cbne	r6, r30, f183
+	cbne	r6, r30, fail183
 	mov	=0x123456789abcdef, r1
 	mov	$0, r2
 	ror	r1, r2, r3
 	mov	=0x123456789abcdef, r30
-	cbne	r3, r30, f184
+	cbne	r3, r30, fail184
 	mov	=0x123456789abcdef, r1
 	mov	$0, r2
 	neg	r2
 	ror	r1, r2, r3
 	mov	=0x123456789abcdef, r30
-	cbne	r3, r30, f185
+	cbne	r3, r30, fail185
 	mov	=0x123456789abcdef, r1
 	mov	$1, r2
 	ror	r1, r2, r3
 	mov	=0x8091a2b3c4d5e6f7, r30
-	cbne	r3, r30, f186
+	cbne	r3, r30, fail186
 	mov	=0x123456789abcdef, r1
 	mov	$1, r2
 	neg	r2
 	ror	r1, r2, r3
 	mov	=0x2468acf13579bde, r30
-	cbne	r3, r30, f187
+	cbne	r3, r30, fail187
 	mov	=0x123456789abcdef, r1
 	mov	$7, r2
 	ror	r1, r2, r3
 	mov	=0xde02468acf13579b, r30
-	cbne	r3, r30, f188
+	cbne	r3, r30, fail188
 	mov	=0x123456789abcdef, r1
 	mov	$7, r2
 	neg	r2
 	ror	r1, r2, r3
 	mov	=0x91a2b3c4d5e6f780, r30
-	cbne	r3, r30, f189
+	cbne	r3, r30, fail189
 	mov	=0x123456789abcdef, r1
 	mov	$64, r2
 	ror	r1, r2, r3
 	mov	=0x123456789abcdef, r30
-	cbne	r3, r30, f190
+	cbne	r3, r30, fail190
 	mov	=0x123456789abcdef, r1
 	mov	$64, r2
 	neg	r2
 	ror	r1, r2, r3
 	mov	=0x123456789abcdef, r30
-	cbne	r3, r30, f191
+	cbne	r3, r30, fail191
 	mov	=0x123456789abcdef, r1
 	mov	$65, r2
 	ror	r1, r2, r3
 	mov	=0x8091a2b3c4d5e6f7, r30
-	cbne	r3, r30, f192
+	cbne	r3, r30, fail192
 	mov	=0x123456789abcdef, r1
 	mov	$65, r2
 	neg	r2
 	ror	r1, r2, r3
 	mov	=0x2468acf13579bde, r30
-	cbne	r3, r30, f193
+	cbne	r3, r30, fail193
 	mov	=0x123456789abcdef, r1
 	mov	$-1, r2
 	ror	r1, r2, r3
 	mov	=0x2468acf13579bde, r30
-	cbne	r3, r30, f194
+	cbne	r3, r30, fail194
 	mov	=0x123456789abcdef, r1
 	mov	$-1, r2
 	neg	r2
 	ror	r1, r2, r3
 	mov	=0x8091a2b3c4d5e6f7, r30
-	cbne	r3, r30, f195
+	cbne	r3, r30, fail195
 	mov	=0x123456789abcdef, r1
 	mov	$-64, r2
 	ror	r1, r2, r3
 	mov	=0x123456789abcdef, r30
-	cbne	r3, r30, f196
+	cbne	r3, r30, fail196
 	mov	=0x123456789abcdef, r1
 	mov	$-64, r2
 	neg	r2
 	ror	r1, r2, r3
 	mov	=0x123456789abcdef, r30
-	cbne	r3, r30, f197
+	cbne	r3, r30, fail197
 	mov	=0x123456789abcdef, r1
 	ror.s32	r1, $8, r2
 	mov	=0xffffffffef89abcd, r30
-	cbne	r2, r30, f198
+	cbne	r2, r30, fail198
 	mov	$0, r0
 	trap	$0
-f1:	mov	$1, r0
+fail1:	mov	$1, r0
 	trap	$0
-f2:	mov	$2, r0
+fail2:	mov	$2, r0
 	trap	$0
-f3:	mov	$3, r0
+fail3:	mov	$3, r0
 	trap	$0
-f4:	mov	$4, r0
+fail4:	mov	$4, r0
 	trap	$0
-f5:	mov	$5, r0
+fail5:	mov	$5, r0
 	trap	$0
-f6:	mov	$6, r0
+fail6:	mov	$6, r0
 	trap	$0
-f7:	mov	$7, r0
+fail7:	mov	$7, r0
 	trap	$0
-f8:	mov	$8, r0
+fail8:	mov	$8, r0
 	trap	$0
-f9:	mov	$9, r0
+fail9:	mov	$9, r0
 	trap	$0
-f10:	mov	$10, r0
+fail10:	mov	$10, r0
 	trap	$0
-f11:	mov	$11, r0
+fail11:	mov	$11, r0
 	trap	$0
-f12:	mov	$12, r0
+fail12:	mov	$12, r0
 	trap	$0
-f13:	mov	$13, r0
+fail13:	mov	$13, r0
 	trap	$0
-f14:	mov	$14, r0
+fail14:	mov	$14, r0
 	trap	$0
-f15:	mov	$15, r0
+fail15:	mov	$15, r0
 	trap	$0
-f16:	mov	$16, r0
+fail16:	mov	$16, r0
 	trap	$0
-f17:	mov	$17, r0
+fail17:	mov	$17, r0
 	trap	$0
-f18:	mov	$18, r0
+fail18:	mov	$18, r0
 	trap	$0
-f19:	mov	$19, r0
+fail19:	mov	$19, r0
 	trap	$0
-f20:	mov	$20, r0
+fail20:	mov	$20, r0
 	trap	$0
-f21:	mov	$21, r0
+fail21:	mov	$21, r0
 	trap	$0
-f22:	mov	$22, r0
+fail22:	mov	$22, r0
 	trap	$0
-f23:	mov	$23, r0
+fail23:	mov	$23, r0
 	trap	$0
-f24:	mov	$24, r0
+fail24:	mov	$24, r0
 	trap	$0
-f25:	mov	$25, r0
+fail25:	mov	$25, r0
 	trap	$0
-f26:	mov	$26, r0
+fail26:	mov	$26, r0
 	trap	$0
-f27:	mov	$27, r0
+fail27:	mov	$27, r0
 	trap	$0
-f28:	mov	$28, r0
+fail28:	mov	$28, r0
 	trap	$0
-f29:	mov	$29, r0
+fail29:	mov	$29, r0
 	trap	$0
-f30:	mov	$30, r0
+fail30:	mov	$30, r0
 	trap	$0
-f31:	mov	$31, r0
+fail31:	mov	$31, r0
 	trap	$0
-f32:	mov	$32, r0
+fail32:	mov	$32, r0
 	trap	$0
-f33:	mov	$33, r0
+fail33:	mov	$33, r0
 	trap	$0
-f34:	mov	$34, r0
+fail34:	mov	$34, r0
 	trap	$0
-f35:	mov	$35, r0
+fail35:	mov	$35, r0
 	trap	$0
-f36:	mov	$36, r0
+fail36:	mov	$36, r0
 	trap	$0
-f37:	mov	$37, r0
+fail37:	mov	$37, r0
 	trap	$0
-f38:	mov	$38, r0
+fail38:	mov	$38, r0
 	trap	$0
-f39:	mov	$39, r0
+fail39:	mov	$39, r0
 	trap	$0
-f40:	mov	$40, r0
+fail40:	mov	$40, r0
 	trap	$0
-f41:	mov	$41, r0
+fail41:	mov	$41, r0
 	trap	$0
-f42:	mov	$42, r0
+fail42:	mov	$42, r0
 	trap	$0
-f43:	mov	$43, r0
+fail43:	mov	$43, r0
 	trap	$0
-f44:	mov	$44, r0
+fail44:	mov	$44, r0
 	trap	$0
-f45:	mov	$45, r0
+fail45:	mov	$45, r0
 	trap	$0
-f46:	mov	$46, r0
+fail46:	mov	$46, r0
 	trap	$0
-f47:	mov	$47, r0
+fail47:	mov	$47, r0
 	trap	$0
-f48:	mov	$48, r0
+fail48:	mov	$48, r0
 	trap	$0
-f49:	mov	$49, r0
+fail49:	mov	$49, r0
 	trap	$0
-f50:	mov	$50, r0
+fail50:	mov	$50, r0
 	trap	$0
-f51:	mov	$51, r0
+fail51:	mov	$51, r0
 	trap	$0
-f52:	mov	$52, r0
+fail52:	mov	$52, r0
 	trap	$0
-f53:	mov	$53, r0
+fail53:	mov	$53, r0
 	trap	$0
-f54:	mov	$54, r0
+fail54:	mov	$54, r0
 	trap	$0
-f55:	mov	$55, r0
+fail55:	mov	$55, r0
 	trap	$0
-f56:	mov	$56, r0
+fail56:	mov	$56, r0
 	trap	$0
-f57:	mov	$57, r0
+fail57:	mov	$57, r0
 	trap	$0
-f58:	mov	$58, r0
+fail58:	mov	$58, r0
 	trap	$0
-f59:	mov	$59, r0
+fail59:	mov	$59, r0
 	trap	$0
-f60:	mov	$60, r0
+fail60:	mov	$60, r0
 	trap	$0
-f61:	mov	$61, r0
+fail61:	mov	$61, r0
 	trap	$0
-f62:	mov	$62, r0
+fail62:	mov	$62, r0
 	trap	$0
-f63:	mov	$63, r0
+fail63:	mov	$63, r0
 	trap	$0
-f64:	mov	$64, r0
+fail64:	mov	$64, r0
 	trap	$0
-f65:	mov	$65, r0
+fail65:	mov	$65, r0
 	trap	$0
-f66:	mov	$66, r0
+fail66:	mov	$66, r0
 	trap	$0
-f67:	mov	$67, r0
+fail67:	mov	$67, r0
 	trap	$0
-f68:	mov	$68, r0
+fail68:	mov	$68, r0
 	trap	$0
-f69:	mov	$69, r0
+fail69:	mov	$69, r0
 	trap	$0
-f70:	mov	$70, r0
+fail70:	mov	$70, r0
 	trap	$0
-f71:	mov	$71, r0
+fail71:	mov	$71, r0
 	trap	$0
-f72:	mov	$72, r0
+fail72:	mov	$72, r0
 	trap	$0
-f73:	mov	$73, r0
+fail73:	mov	$73, r0
 	trap	$0
-f74:	mov	$74, r0
+fail74:	mov	$74, r0
 	trap	$0
-f75:	mov	$75, r0
+fail75:	mov	$75, r0
 	trap	$0
-f76:	mov	$76, r0
+fail76:	mov	$76, r0
 	trap	$0
-f77:	mov	$77, r0
+fail77:	mov	$77, r0
 	trap	$0
-f78:	mov	$78, r0
+fail78:	mov	$78, r0
 	trap	$0
-f79:	mov	$79, r0
+fail79:	mov	$79, r0
 	trap	$0
-f80:	mov	$80, r0
+fail80:	mov	$80, r0
 	trap	$0
-f81:	mov	$81, r0
+fail81:	mov	$81, r0
 	trap	$0
-f82:	mov	$82, r0
+fail82:	mov	$82, r0
 	trap	$0
-f83:	mov	$83, r0
+fail83:	mov	$83, r0
 	trap	$0
-f84:	mov	$84, r0
+fail84:	mov	$84, r0
 	trap	$0
-f85:	mov	$85, r0
+fail85:	mov	$85, r0
 	trap	$0
-f86:	mov	$86, r0
+fail86:	mov	$86, r0
 	trap	$0
-f87:	mov	$87, r0
+fail87:	mov	$87, r0
 	trap	$0
-f88:	mov	$88, r0
+fail88:	mov	$88, r0
 	trap	$0
-f89:	mov	$89, r0
+fail89:	mov	$89, r0
 	trap	$0
-f90:	mov	$90, r0
+fail90:	mov	$90, r0
 	trap	$0
-f91:	mov	$91, r0
+fail91:	mov	$91, r0
 	trap	$0
-f92:	mov	$92, r0
+fail92:	mov	$92, r0
 	trap	$0
-f93:	mov	$93, r0
+fail93:	mov	$93, r0
 	trap	$0
-f94:	mov	$94, r0
+fail94:	mov	$94, r0
 	trap	$0
-f95:	mov	$95, r0
+fail95:	mov	$95, r0
 	trap	$0
-f96:	mov	$96, r0
+fail96:	mov	$96, r0
 	trap	$0
-f97:	mov	$97, r0
+fail97:	mov	$97, r0
 	trap	$0
-f98:	mov	$98, r0
+fail98:	mov	$98, r0
 	trap	$0
-f99:	mov	$99, r0
+fail99:	mov	$99, r0
 	trap	$0
-f100:	mov	$100, r0
+fail100:	mov	$100, r0
 	trap	$0
-f101:	mov	$101, r0
+fail101:	mov	$101, r0
 	trap	$0
-f102:	mov	$102, r0
+fail102:	mov	$102, r0
 	trap	$0
-f103:	mov	$103, r0
+fail103:	mov	$103, r0
 	trap	$0
-f104:	mov	$104, r0
+fail104:	mov	$104, r0
 	trap	$0
-f105:	mov	$105, r0
+fail105:	mov	$105, r0
 	trap	$0
-f106:	mov	$106, r0
+fail106:	mov	$106, r0
 	trap	$0
-f107:	mov	$107, r0
+fail107:	mov	$107, r0
 	trap	$0
-f108:	mov	$108, r0
+fail108:	mov	$108, r0
 	trap	$0
-f109:	mov	$109, r0
+fail109:	mov	$109, r0
 	trap	$0
-f110:	mov	$110, r0
+fail110:	mov	$110, r0
 	trap	$0
-f111:	mov	$111, r0
+fail111:	mov	$111, r0
 	trap	$0
-f112:	mov	$112, r0
+fail112:	mov	$112, r0
 	trap	$0
-f113:	mov	$113, r0
+fail113:	mov	$113, r0
 	trap	$0
-f114:	mov	$114, r0
+fail114:	mov	$114, r0
 	trap	$0
-f115:	mov	$115, r0
+fail115:	mov	$115, r0
 	trap	$0
-f116:	mov	$116, r0
+fail116:	mov	$116, r0
 	trap	$0
-f117:	mov	$117, r0
+fail117:	mov	$117, r0
 	trap	$0
-f118:	mov	$118, r0
+fail118:	mov	$118, r0
 	trap	$0
-f119:	mov	$119, r0
+fail119:	mov	$119, r0
 	trap	$0
-f120:	mov	$120, r0
+fail120:	mov	$120, r0
 	trap	$0
-f121:	mov	$121, r0
+fail121:	mov	$121, r0
 	trap	$0
-f122:	mov	$122, r0
+fail122:	mov	$122, r0
 	trap	$0
-f123:	mov	$123, r0
+fail123:	mov	$123, r0
 	trap	$0
-f124:	mov	$124, r0
+fail124:	mov	$124, r0
 	trap	$0
-f125:	mov	$125, r0
+fail125:	mov	$125, r0
 	trap	$0
-f126:	mov	$126, r0
+fail126:	mov	$126, r0
 	trap	$0
-f127:	mov	$127, r0
+fail127:	mov	$127, r0
 	trap	$0
-f128:	mov	$128, r0
+fail128:	mov	$128, r0
 	trap	$0
-f129:	mov	$129, r0
+fail129:	mov	$129, r0
 	trap	$0
-f130:	mov	$130, r0
+fail130:	mov	$130, r0
 	trap	$0
-f131:	mov	$131, r0
+fail131:	mov	$131, r0
 	trap	$0
-f132:	mov	$132, r0
+fail132:	mov	$132, r0
 	trap	$0
-f133:	mov	$133, r0
+fail133:	mov	$133, r0
 	trap	$0
-f134:	mov	$134, r0
+fail134:	mov	$134, r0
 	trap	$0
-f135:	mov	$135, r0
+fail135:	mov	$135, r0
 	trap	$0
-f136:	mov	$136, r0
+fail136:	mov	$136, r0
 	trap	$0
-f137:	mov	$137, r0
+fail137:	mov	$137, r0
 	trap	$0
-f138:	mov	$138, r0
+fail138:	mov	$138, r0
 	trap	$0
-f139:	mov	$139, r0
+fail139:	mov	$139, r0
 	trap	$0
-f140:	mov	$140, r0
+fail140:	mov	$140, r0
 	trap	$0
-f141:	mov	$141, r0
+fail141:	mov	$141, r0
 	trap	$0
-f142:	mov	$142, r0
+fail142:	mov	$142, r0
 	trap	$0
-f143:	mov	$143, r0
+fail143:	mov	$143, r0
 	trap	$0
-f144:	mov	$144, r0
+fail144:	mov	$144, r0
 	trap	$0
-f145:	mov	$145, r0
+fail145:	mov	$145, r0
 	trap	$0
-f146:	mov	$146, r0
+fail146:	mov	$146, r0
 	trap	$0
-f147:	mov	$147, r0
+fail147:	mov	$147, r0
 	trap	$0
-f148:	mov	$148, r0
+fail148:	mov	$148, r0
 	trap	$0
-f149:	mov	$149, r0
+fail149:	mov	$149, r0
 	trap	$0
-f150:	mov	$150, r0
+fail150:	mov	$150, r0
 	trap	$0
-f151:	mov	$151, r0
+fail151:	mov	$151, r0
 	trap	$0
-f152:	mov	$152, r0
+fail152:	mov	$152, r0
 	trap	$0
-f153:	mov	$153, r0
+fail153:	mov	$153, r0
 	trap	$0
-f154:	mov	$154, r0
+fail154:	mov	$154, r0
 	trap	$0
-f155:	mov	$155, r0
+fail155:	mov	$155, r0
 	trap	$0
-f156:	mov	$156, r0
+fail156:	mov	$156, r0
 	trap	$0
-f157:	mov	$157, r0
+fail157:	mov	$157, r0
 	trap	$0
-f158:	mov	$158, r0
+fail158:	mov	$158, r0
 	trap	$0
-f159:	mov	$159, r0
+fail159:	mov	$159, r0
 	trap	$0
-f160:	mov	$160, r0
+fail160:	mov	$160, r0
 	trap	$0
-f161:	mov	$161, r0
+fail161:	mov	$161, r0
 	trap	$0
-f162:	mov	$162, r0
+fail162:	mov	$162, r0
 	trap	$0
-f163:	mov	$163, r0
+fail163:	mov	$163, r0
 	trap	$0
-f164:	mov	$164, r0
+fail164:	mov	$164, r0
 	trap	$0
-f165:	mov	$165, r0
+fail165:	mov	$165, r0
 	trap	$0
-f166:	mov	$166, r0
+fail166:	mov	$166, r0
 	trap	$0
-f167:	mov	$167, r0
+fail167:	mov	$167, r0
 	trap	$0
-f168:	mov	$168, r0
+fail168:	mov	$168, r0
 	trap	$0
-f169:	mov	$169, r0
+fail169:	mov	$169, r0
 	trap	$0
-f170:	mov	$170, r0
+fail170:	mov	$170, r0
 	trap	$0
-f171:	mov	$171, r0
+fail171:	mov	$171, r0
 	trap	$0
-f172:	mov	$172, r0
+fail172:	mov	$172, r0
 	trap	$0
-f173:	mov	$173, r0
+fail173:	mov	$173, r0
 	trap	$0
-f174:	mov	$174, r0
+fail174:	mov	$174, r0
 	trap	$0
-f175:	mov	$175, r0
+fail175:	mov	$175, r0
 	trap	$0
-f176:	mov	$176, r0
+fail176:	mov	$176, r0
 	trap	$0
-f177:	mov	$177, r0
+fail177:	mov	$177, r0
 	trap	$0
-f178:	mov	$178, r0
+fail178:	mov	$178, r0
 	trap	$0
-f179:	mov	$179, r0
+fail179:	mov	$179, r0
 	trap	$0
-f180:	mov	$180, r0
+fail180:	mov	$180, r0
 	trap	$0
-f181:	mov	$181, r0
+fail181:	mov	$181, r0
 	trap	$0
-f182:	mov	$182, r0
+fail182:	mov	$182, r0
 	trap	$0
-f183:	mov	$183, r0
+fail183:	mov	$183, r0
 	trap	$0
-f184:	mov	$184, r0
+fail184:	mov	$184, r0
 	trap	$0
-f185:	mov	$185, r0
+fail185:	mov	$185, r0
 	trap	$0
-f186:	mov	$186, r0
+fail186:	mov	$186, r0
 	trap	$0
-f187:	mov	$187, r0
+fail187:	mov	$187, r0
 	trap	$0
-f188:	mov	$188, r0
+fail188:	mov	$188, r0
 	trap	$0
-f189:	mov	$189, r0
+fail189:	mov	$189, r0
 	trap	$0
-f190:	mov	$190, r0
+fail190:	mov	$190, r0
 	trap	$0
-f191:	mov	$191, r0
+fail191:	mov	$191, r0
 	trap	$0
-f192:	mov	$192, r0
+fail192:	mov	$192, r0
 	trap	$0
-f193:	mov	$193, r0
+fail193:	mov	$193, r0
 	trap	$0
-f194:	mov	$194, r0
+fail194:	mov	$194, r0
 	trap	$0
-f195:	mov	$195, r0
+fail195:	mov	$195, r0
 	trap	$0
-f196:	mov	$196, r0
+fail196:	mov	$196, r0
 	trap	$0
-f197:	mov	$197, r0
+fail197:	mov	$197, r0
 	trap	$0
-f198:	mov	$198, r0
+fail198:	mov	$198, r0
 	trap	$0

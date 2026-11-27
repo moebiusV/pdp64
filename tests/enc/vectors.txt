@@ -81,6 +81,15 @@ sha256sum0 R:1 R:2 | 2 d040 883b
 maesctr R:1 R:2 R:3 R:4 | 2 af44 8443
 addv R:1 R:2 | 2 d040 8841
 mulv R:1 R:2 | 2 d040 8843
+# granule colours: the load of a colour, the block write, the privileged block read and write; the colour insert and strip are insb and extb
+ldcol R:1 R:2 | 2 d040 8844
+ldcol R:31 R:30 | 2 d04f f844
+mcol R:2 R:1 R:3 | 2 ca03 7841
+mcolrd R:4 R:5 R:6 | 2 ca06 7c85
+mcolwr R:4 R:5 R:6 | 2 ca06 8085
+mcolwr R:31 R:30 R:29 | 2 ca1d 83fe
+insb R:1 I:60 I:4 R:2 | 3 b002 7c10 0002
+extb R:1 I:0 I:60 R:2 | 3 b002 40f0 0000
 # fused pairs
 movcall R:1 R:2 PC:100 | 2 8022 0032
 movcall R:1 R:2 PC:0:E | 3 7c22 0000 0000

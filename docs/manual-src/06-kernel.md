@@ -115,7 +115,7 @@ Three differences from the PDP-11 matter to a kernel writer. Entry **cannot faul
 
 **{{#rti-mask-loads-the-program}}** `RTI $mask` loads the program counter from `EPC` and the status word from `EPSW`; `RTT $mask` does the same and sets the trace bit after the return. There is no `RTI` or `RTT` without the mask: each is one six-byte instruction whose last four bytes are the mask of {{r:mask-is-32-bits-bit}}.
 
-**{{#vector-table-has-512-entries}}** The vector table has 512 entries and `ECAUSE` equals the vector number.
+**{{#vector-table-has-512-entries}}** The vector table has 512 entries and the low nine bits of `ECAUSE` equal the vector number; the bits above them are zero except for the marks of a fault on a user-qualified operand ({{r:move-with-the-user-qualifier}}) and of a colour fault ({{r:colour-fault-is-precise}}).
 
 | Vectors | Meaning |
 |---|---|
@@ -123,7 +123,7 @@ Three differences from the PDP-11 matter to a kernel writer. Entry **cannot faul
 | 1 | machine check |
 | 2, 3, 4, 5 | illegal instruction, privileged instruction, misaligned access (an atomic, `PUSHX` or `POPX`, an operand of a vector block, or a plain access that is not aligned to its size to strongly ordered device memory), non-canonical address |
 | 6, 7, 8 | instruction, load and store page fault |
-| 9, 10, 11 | protection violation on instruction, load and store |
+| 9, 10, 11 | protection violation on instruction, load and store (a load or a store also when the colour of the pointer differs from the granule's, {{r:colour-fault-is-precise}}) |
 | 12, 13 | divide by zero, bus fault |
 | 14, 15 | landing-pad violation, breakpoint |
 | 16 | check (`CT<cc>` and `CHK2`; `ADDV`, `SUBV` and `MULV` on overflow) |
@@ -252,7 +252,7 @@ The PDP-11 reached its control registers by address. The KT11's page registers, 
 
 ```
 translate(va, access, mode):                        # three, four or five levels
-    if va is not canonical:  fault NONCANONICAL     # bits above the top one must equal it
+    if va is not canonical:  fault NONCANONICAL     # bits 59 down to the top one must equal it; bits 63 to 60 are the colour
     table = PTBR                                    # physical address of the top table
     for level = LEVELS-1 down to 0:
         index = (va >> (12 + 9*level)) & 511
@@ -269,7 +269,7 @@ translate(va, access, mode):                        # three, four or five levels
 
 The pseudocode renders statements {{r:virtual-addresses-are-translated}}, {{r:page-table-entry-is-64}} and {{r:non-leaf-entry-has-v}}; a leaf not aligned to its size is a page fault. The cost is one memory read per level, three to five. A program that touches a few megabytes has a handful of tables, and the **sparse** address space (most of the 512 GB unused) costs nothing, because an entry that is not valid has no table under it. A leaf found above level 0 maps a larger piece, 2 MB at level 1 and 1 GB at level 2: a **large page** (many times the basic size, mapped by one entry; used for the kernel's own mapping and for big buffers). Its frame address must be aligned to its size.
 
-**Three, four or five.** I decided that the walk may have three levels (39 virtual bits: what System v1 specifies), four (48 bits) or five (57 bits), with the number discoverable at run time. Each level adds nine bits and one more memory read per miss. My own referent was the Loongson five-level table ("what other parts of the design are effected if we have 5 level tlb like loongson arch?"). A **canonical** address has all bits above the top virtual bit equal to that bit, so a 39-bit machine accepts a 64-bit pointer only if bits 63 to 38 are all the same. This rules out storing a tag in the unused high bits, which would stop working on a machine with more levels.
+**Three, four or five.** I decided that the walk may have three levels (39 virtual bits: what System v1 specifies), four (48 bits) or five (57 bits), with the number discoverable at run time. Each level adds nine bits and one more memory read per miss. My own referent was the Loongson five-level table ("what other parts of the design are effected if we have 5 level tlb like loongson arch?"). A **canonical** address has all bits from 59 down to the top virtual bit equal to that bit, so a 39-bit machine accepts a 64-bit pointer only if bits 59 to 38 are all the same; bits 63 to 60 are the colour of the pointer ({{r:granule-colours}}), which translation does not see. This rules out storing anything else in the unused high bits, which would stop working on a machine with more levels.
 
 **{{#virtual-addresses-are-translated}}** Virtual addresses are translated by three, four or five levels of nine bits over 4 KB pages, which gives virtual addresses of 39, 48 or 57 bits. With three levels, address bits 38 to 30 index level 2, 29 to 21 level 1 and 20 to 12 level 0; with four, bits 47 to 39 index level 3 above them; with five, bits 56 to 48 index level 4 above that; `PTBR` holds the physical address of the table of the top level.
 
@@ -277,7 +277,7 @@ The number of levels is readable by software at runtime, so a kernel adapts to t
 
 **{{#virtual-addresses-are-39-48}}** Virtual addresses are 39, 48 or 57 bits, translated by three, four or five levels of nine bits over 4 KB pages ({{r:virtual-addresses-are-translated}}) to a physical address of 40 to 64 bits (section {{r:no-bit-of-the-physical}}).
 
-*Lineage.* **PDP-11:** eight base-and-length segments per mode, no tables. **Between:** the VAX had a linear page table per region with a hardware modify bit and no reference bit (*unverified*, repository text); RISC-V's Sv39, Sv48 and Sv57 are the three-, four- and five-level forms with nine bits per level (`satp` modes 8, 9 and 10, checked in the QEMU source); x86-64 uses four levels, and five on newer parts through `LA57`; LoongArch describes the width of each level in a register (`PWCL`, checked). **pdp64:** the Sv39 geometry, with the level count left to the implementation. A leaf at any level makes large pages free for the kernel's own mapping, and the walker only reads, so it is a small state machine. Position-independent code uses PC-relative addressing, and pointers must not carry tags in the high bits.
+*Lineage.* **PDP-11:** eight base-and-length segments per mode, no tables. **Between:** the VAX had a linear page table per region with a hardware modify bit and no reference bit (*unverified*, repository text); RISC-V's Sv39, Sv48 and Sv57 are the three-, four- and five-level forms with nine bits per level (`satp` modes 8, 9 and 10, checked in the QEMU source); x86-64 uses four levels, and five on newer parts through `LA57`; LoongArch describes the width of each level in a register (`PWCL`, checked). **pdp64:** the Sv39 geometry, with the level count left to the implementation. A leaf at any level makes large pages free for the kernel's own mapping, and the walker only reads, so it is a small state machine. Position-independent code uses PC-relative addressing, and pointers carry nothing in the high bits but the colour.
 
 *Impact.* Thirty-nine bits is 512 GB, what three levels index with nine bits each; each further level adds nine bits (48, then 57) at the price of one more read on every miss, and the kernel chooses what the implementation offers. *Kernel:* the same walk code serves three, four and five levels, with the level count read at run time. *Hardware:* one read per level, three to five.
 
@@ -293,7 +293,7 @@ An entry has two shapes. A **leaf** maps: at least one of `R`, `W`, `X` is set, 
 
 **Memory types.** Each page says how the memory system may treat accesses to it, in the field `MT`. **Normal cached** (0) is ordinary memory, which the **caches** (small fast memories near the processor holding copies of recently used memory) may keep. **Normal uncached** (1) must not be cached, as for a frame buffer that the display hardware reads and the processor writes. The two device types are for device registers: **device weakly ordered** (2) lets the machine combine or reorder accesses, for device memory where only the final result matters, and **device strongly ordered** (3) sends every access to the device in exactly the order written, one at a time and never combined. The number is the strictness: a larger code is a stricter type, so cached is 0, uncached 1, device weakly ordered 2 and device strongly ordered 3. The strictness has one more consequence for a plain access: a load or store that is not aligned to its size works on the first three types and takes the misalignment fault on the last, where it would be two transactions on the device ({{r:strongly-ordered-device-access-faults}}). The architecture text gives the four names and numbers; the glosses of the last two are the usual meanings and are *unverified*. The PDP-11 had no memory type: everything at the top of the address space was a device. The pdp64 has **no address bit that says "device"**. The memory type is what a driver sets when it maps a device, and a device window can be anywhere in the physical address space except the first few pages (section {{r:no-bit-of-the-physical}}).
 
-**{{#page-table-entry-is-64}}** A page-table entry is 64 bits: `V` (valid) in bit 0, `R`, `W`, `X`, `U` and `G` (global) in bits 1 to 5, `A` (accessed) and `D` (dirty) in bits 6 and 7, the memory type `MT` in bits 8 and 9, and, for a 40-bit physical address, the physical page number in bits 12 to 39, in place; all other bits are zero, and a set reserved bit is a page fault.
+**{{#page-table-entry-is-64}}** A page-table entry is 64 bits: `V` (valid) in bit 0, `R`, `W`, `X`, `U` and `G` (global) in bits 1 to 5, `A` (accessed) and `D` (dirty) in bits 6 and 7, the memory type `MT` in bits 8 and 9, the coloured bit `C` in bit 10 ({{r:page-is-coloured}}), and, for a 40-bit physical address, the physical page number in bits 12 to 39, in place; all other bits are zero, and a set reserved bit is a page fault.
 
 The physical address is 40 to 64 bits ({{r:virtual-addresses-are-39-48}}), so the entry has a form for a physical address wider than 40 bits.
 
@@ -303,11 +303,86 @@ The physical address is 40 to 64 bits ({{r:virtual-addresses-are-39-48}}), so th
 
 **{{#memory-type-of-a-page}}** The memory type of a page is one of normal cached (0), normal uncached (1), device weakly ordered (2) and device strongly ordered (3); the larger the code, the stricter the type.
 
-**{{#page-table-entry-carries}}** A page-table entry carries the physical page number in place and read, write, execute and user permission bits; accessed and dirty bits are managed by software; one memory type per page selects cached, uncached, weakly ordered or strongly ordered.
+**{{#page-table-entry-carries}}** A page-table entry carries the physical page number in place and read, write, execute and user permission bits; accessed and dirty bits are managed by software; one memory type per page selects cached, uncached, weakly ordered or strongly ordered; the coloured bit says whether the access is compared with the colours of the granules.
 
 *Lineage.* **PDP-11:** a PDR with length and access bits, no per-page type. **Between:** the VAX entry held a hardware modify bit and a four-bit protection field (*unverified*); RISC-V's low eight bits are `V R W X U G A D` in the same places as here (checked in `cpu_bits.h`); ARM's memory types and LoongArch's cache attributes are the source of the four types, reduced to what a machine of this size can tell apart (`docs/pdp64-isa.md` section 8.2). **pdp64:** one entry shape at every level keeps the walker simple. A memory type per page, not per access, means the code that writes a frame buffer needs no cooperation to be uncached, and a driver maps a device register uncached and strongly ordered without a special instruction.
 
 *Impact.* One entry shape at every level makes the walker simple, and a leaf that is not aligned to its size is a fault, which costs a check and saves the walker from reasoning about partial frames. The physical page number is in place, so no shifting. *Kernel:* the entry is built and read with shifts and masks that are the same for every level, and leaves at any level let the kernel map itself with 1 GB pages. *Hardware:* a translation-buffer entry holds a page number as wide as the physical address, 28 bits at 40.
+
+## {{#granule-colours}} Colours: the stray write and the stale pointer
+
+**Two bugs that the PDP-11 could not see.** A C program asks for a block of memory, `p = malloc(32)`, and the library hands back the address of 32 bytes it keeps for the program. The program writes through `p`. The memory management of the PDP-11 (and of every machine of its time) knew about pieces of 8 KB, not about blocks of 32 bytes inside them, so two things went unnoticed. In the first, the program writes one element too far (`p[4] = x` on a block that holds four 8-byte elements): the store lands in the *next* block, which belongs to someone else, and nothing stops it. The program goes on, and the damage shows up much later, in the other block's owner, far from the line that did it. In the second, the program gives the block back (`free(p)`), the library hands the same bytes to another part of the program, and the old pointer `p`, which the program still holds, writes into what is now somebody else's data. The second bug has a name, **use after free**; a variation of it, **double free**, gives a block back twice, which leaves the library's list of free blocks pointing at itself. Both are the most common serious bugs in programs written in C, and both are caught only by luck: the store goes where the machine lets it.
+
+**A colour on the memory and on the pointer.** I give every 16 bytes of memory (a **granule**) a small number, its **colour**, from 0 to 15, kept beside the memory where no program can store to it as data, and I give a pointer the same number in its top four bits. A load or a store compares the two numbers, and if they differ the access does not happen and the processor takes a fault. The library that hands out blocks is the one that chooses the colours: it gives two blocks that sit side by side different colours, so a store that runs off the end of one block into the next meets a colour that is not the pointer's. When it takes a block back it sets the colour of the block to 15, the **freed** colour, which no pointer it gives out has, so the old pointer faults at its first use. Here is a small allocator, in assembler, to show the whole idea; the colour is chosen by the caller and `r1` is the address of a free block of two granules:
+
+```
+alloc:                          ; r1 = a free block, r2 = its colour
+        mov     r1, r4          ; the address I will hand out
+        mov     $32, r3         ; the length of the block in bytes
+        mcol    r1, r2, r3      ; both granules of the block get the colour in r2
+        colset  r2, r4          ; the colour goes into bits 63 to 60 of the pointer
+        mov     r4, r0
+        ret
+
+free:                           ; r0 = the pointer the program was given
+        ldcol   r0, r1          ; the colour the block has in memory
+        mov     r0, r2
+        shr     $60, r2         ; the colour the pointer carries
+        cbne    r1, r2, wrong   ; they differ: a second free, or a pointer that is not a block of mine
+        mov     $15, r1         ; 15 is "freed": no pointer I hand out has it
+        mov     $32, r3
+        mcol    r0, r1, r3
+        ret
+wrong:
+        halt                    ; a double free or a wild pointer stops here
+```
+
+Suppose the block at `r4` was given colour 5 and the block after it colour 6. Then the three bugs behave like this:
+
+```
+        mov     r0, (r4)        ; fine: pointer colour 5, granule colour 5
+        mov     r0, 24(r4)      ; fine: the second granule of the same block
+        mov     r0, 32(r4)      ; one block too far: granule colour 6, pointer colour 5: colour fault, nothing written
+        ; ... free(r4) is called here ...
+        mov     (r4), r1        ; the granule has colour 15, the pointer 5: colour fault
+        ; a second free(r4) would read colour 15 with ldcol, find the pointer's 5, and branch to `wrong`
+```
+
+The fault is an ordinary protection fault, so a program that has a handler for it learns the address, the two colours and the instruction, and nothing was changed. The rest of the section says exactly what the machine does. It does not catch everything: an overflow that stays inside the last, partly used 16 bytes of a block, a read that does not leave its granule, and a pointer that was made up and happens to have the right colour all pass, and so does a store by a device. What it does is turn the two bugs above, and the double free, from silent corruption into an immediate fault at the line that did it.
+
+**{{#memory-has-a-colour}}** I give every 16-byte granule of coloured memory a 4-bit colour, and I give every pointer into it the same four bits in bits 63 to 60. A load or a store whose pointer colour differs from the colour of a granule it touches takes a colour fault before it changes anything.
+
+**{{#colour-0-and-15}}** Colour 0 is uncoloured memory, and a pointer of colour 0 reaches only it. Colour 15 is freed memory: no pointer I give out has colour 15, so every access to it by an ordinary pointer faults. The colours 1 to 14 are the allocator's to hand out.
+
+**{{#page-is-coloured}}** A page is coloured when its page-table entry has the coloured bit `C`, bit 10 ({{r:page-table-entry-is-64}}). Every access to a coloured page compares the pointer's colour with the colour of each granule the access touches. A page whose `C` is clear is uncoloured: all its granules read as colour 0 through it, and the colour field of the pointer is not looked at, so an ordinary pointer, including a kernel pointer whose bits 63 to 60 are ones, works there as it always did. With two stages of translation the page is coloured only if both stages say so ({{r:colour-needs-both-stages}}).
+
+**{{#colour-check-covers-every-access}}** The comparison is made for every load, every store, every atomic operation, every push and pop, every access of a block operation (for each granule it touches) and by `PROBER` and `PROBEW`. An instruction fetch is not compared: code lives in pages that are not coloured.
+
+**{{#translation-ignores-the-colour}}** Translation ignores bits 63 to 60. The bits from 59 down to the top translated bit (38, 47 or 56) must still repeat that bit, or the address is refused as non-canonical ({{r:virtual-addresses-are-translated}}). I put nothing else in a pointer.
+
+**{{#ldcol-and-mcol}}** `LDCOL` reads a granule's colour, and compares nothing. `MCOL` sets the colours of a range of granules to one colour, and like the other block operations it keeps its progress in its registers, and can stop and restart ({{r:block-operation-keeps-its-progress}}); its address and its count must be multiples of 16, or it takes the misaligned-access fault before it changes anything. Neither instruction compares the pointer's colour, so that an allocator can recolour memory it has just freed. `MCOL` writes through a coloured page; through a page that is not coloured it can write only colour 0, which clears the granules' colours.
+
+**{{#colour-fault-is-precise}}** A colour fault is precise: the vector is the load or the store protection violation (10 or 11, {{r:vector-table-has-512-entries}}), `EPC` is the instruction, no register and no memory has changed, and the fault is reported in `EVA` and `ECAUSE`. `EVA` holds the address as the program formed it, colour field included; `ECAUSE` holds the vector number in its low bits, bit 14 set to say that the fault was a colour mismatch, the colour of the granule in bits 19 to 16 and the colour of the pointer in bits 23 to 20. A block operation faults at the byte it reached, with its registers as they stand.
+
+**{{#reserved-colours-are-the-allocators}}** Nothing in the hardware stops a program from writing colour 0 or 15 into a pointer or a granule: the colours are the allocator's to arrange, and a program that holds a colour-15 pointer reaches freed memory, which is what the allocator does to keep its own record in a free block.
+
+**{{#devices-carry-no-colour}}** A device carries no colour. It writes data and leaves colours alone, and no mapping of any core or device reaches the memory that holds the colours: they are read and written by `LDCOL`, `MCOL`, `MCOLRD` and `MCOLWR` and by nothing else. A device can still overwrite any granule its IOMMU mapping allows ({{r:unit-refuses-a-device}}): colour does not close that, the IOMMU does.
+
+**{{#colours-are-held-beside-the-memory}}** The colours are held in a side band, four bits for every 16 bytes of memory, which is one thirty-second of the memory, and a cache of recently used colours stands in front of it. What software can rely on is only the architecture: the colour that was last written is the colour that is read, and nothing about the size, the contents or the timing of the cache. The side band is cleared at reset, so all memory starts as colour 0.
+
+**{{#moving-a-page-moves-colours}}** A hypervisor or kernel that moves, saves or hands on a page moves its colours with it with `MCOLRD` and `MCOLWR` (128 bytes of colours for a 4 KB page), and clears them with `MCOL` and colour 0 when it gives the page to another owner, so that the colours of the old owner's blocks do not show. Both words are privileged, and neither compares a colour.
+
+**{{#system-calls-strip-the-colour}}** The system calls that take an address and test it against a range (`mmap`, `munmap`, `mprotect`, `madvise`, `mlock`, `minherit`, `msync` and `mquery`) strip the colour from it, with `COLSTRIP`, before the test; a range test in the kernel on a pointer with a colour in its top four bits would otherwise fail for a good address. The user-qualified moves and block copies of `copyin` and `copyout` take the user's pointer as it is, colour included, so that the kernel faults exactly where the user program would have, and a freed buffer is reported as an error and not read ({{r:move-with-the-user-qualifier}}).
+
+**{{#guests-have-no-colour-tables}}** Colours belong to the physical granule, and a guest has no table of colours of its own: a guest's `LDCOL` and `MCOL` act on the granule that stage 2 gives it. The hypervisor saves, restores and clears colours with `MCOLRD`, `MCOLWR` and `MCOL` when it moves, snapshots or hands on a page, as a kernel does.
+
+**{{#stack-objects-by-compiler-option}}** A compiler may give the objects of a stack frame a colour: it is an option, off by default, and the hardware treats such an object like any other block. A `longjmp` that leaves frames whose objects were coloured clears the colours of the abandoned stack with one `MCOL`.
+
+*Choosing the colours.* An allocator that keeps its blocks in slabs (a page of equal slots) gives slot *i* the colour that alternates with its neighbours and counts how many times the slot has been reused: an even and an odd colour for neighbouring slots and a count of reuses in the remaining bits, so that a slot that has been freed and handed out again has a different colour from the pointer left over from its last use. Blocks too large for a slab take whole pages, with an unmapped page after them and no colour. An allocator that has no slots looks at the colours of the blocks on both sides with `LDCOL` and picks one that differs from both. The reasons, the code and what each policy catches are in the annex; the hardware only compares.
+
+*What colouring does not catch.* An overflow inside the last 16 bytes of a block, a read that stays inside its granule, a pointer made up with the right colour (a guess is right about one time in fourteen), a stale pointer that is older than the count of reuses the allocator keeps, and a write by a device through its IOMMU mapping.
+
+*Lineage.* **PDP-11:** protection in segments of 8 KB, nothing inside them. **Between:** memory tagging in hardware has colours per block of memory and a matching tag in the pointer, and compares them on every access (*unverified*, general knowledge); the pdp64's four bits and sixteen bytes are chosen to leave the pointer's translation untouched and the memory cost small. **pdp64:** a colour of four bits in the pointer, one per granule of memory, chosen by the allocator and compared by the hardware, with the freed colour so that a returned block faults at once. *Impact.* *Kernel:* the page allocator clears the colours of a page it hands out; the system calls that take an address strip the colour. *Compiler:* a pointer compare across objects may need `COLSTRIP`, and code that masks a pointer must keep or strip the colour on purpose. *Hardware:* a 4-bit comparator on the address path, a side band of one thirty-second of the memory, and a cache of colours behind it.
 
 ## {{#accessed-dirty-tlb-and-asids}} Accessed, dirty, the translation buffer and address-space numbers
 
@@ -553,7 +628,7 @@ This section collects, in the vocabulary of the kernel, the statements of {{r:mo
 
 **{{#kernel-trap-n-n-from-0}}** `TRAP $n` (n from 0 to 255, two bytes) enters the kernel through vector 256 + n; `RTI $mask` returns, and `RTT $mask` returns and sets the trace bit after; the mask names the registers kept when the return is to a lesser mode ({{r:mask-is-32-bits-bit}}).
 
-**{{#exception-or-interrupt-writes-only}}** An exception or interrupt writes only registers: `EPC` receives the address of the faulting instruction (or the next one, for a trap or interrupt), `EPSW` the old status word, `EVA` the faulting address and `ECAUSE` the vector number; the new program counter is the 64-bit word at `VBR + 8 × vector`. At `H` = 1 these names are the hypervisor level's own registers ({{r:while-h-is-1-hypervisor-registers}}).
+**{{#exception-or-interrupt-writes-only}}** An exception or interrupt writes only registers: `EPC` receives the address of the faulting instruction (or the next one, for a trap or interrupt), `EPSW` the old status word, `EVA` the faulting address and `ECAUSE` the vector number (with the marks of {{r:colour-fault-is-precise}} and of {{r:move-with-the-user-qualifier}} in its upper bits); the new program counter is the 64-bit word at `VBR + 8 × vector`. At `H` = 1 these names are the hypervisor level's own registers ({{r:while-h-is-1-hypervisor-registers}}).
 
 **{{#entry-sets-the-priority}}** Entry sets the priority to 7 for every exception and every interrupt; the handler lowers it.
 
@@ -1116,6 +1191,8 @@ Flags: bit 8 `WALK`: the failing access was the read of a guest page-table entry
 | the rest | | zero (a write of a one is refused) |
 
 **{{#what-stage-2-does}}** What stage 2 does for each access of a guest. A guest page-table entry that stage 1 reads has a guest-physical address, which goes through stage 2 before it is read, and so does the final guest-physical address; with n levels in stage 1 and m in stage 2 a miss reads nm + n + m entries (15 for three and three), and a guest with its translation off walks stage 2 only. A stage-2 entry that is invalid or refuses the access is an exit: code 23 or 24, with `HCAUSE` 18, 19 or 20 for an instruction fetch, a load or a store; `HEPC` is the faulting instruction, `HEVA` the guest-virtual address, `HGPA` the guest-physical address that failed (for a table read, the address of the entry and the flag `WALK`; for the vector fetch, the guest's `VBR + 8 * vector` and the flag `VEC`) and `HINSN` the instruction. The hypervisor fills or corrects the entry, sets `A` and, for a write, `D`, and enters; the guest runs the instruction again. The same holds for a miss inside an exception entry of the guest: the instruction is undone. On the vector fetch of a guest's exception or interrupt, a miss exits with nothing changed, so that the guest takes the exception after the fill; a virtual line stays pending. **A bus error on a stage-2 table read or on a guest's access is split by what the platform map says about the address, not by what the bus does:** if the map says that no device answers there, it is an exit the hypervisor can handle (code 25; for a table read, the entry points at nothing, which is an invalid entry); if a device is there and answers with an error, it is a machine check (code 1). The same program on two interconnects gets the same exit.
+
+**{{#colour-needs-both-stages}}** An access of a guest is made to a coloured page only if the entry of stage 1 and the entry of stage 2 both have the coloured bit `C`; the translation-buffer entry holds the result with the permissions of both stages. With stage 2 off, the entry of stage 1 alone decides. The colours are those of the physical granule, which stage 2 selects ({{r:guests-have-no-colour-tables}}).
 
 **{{#each-translation-buffer-entry}}** Each translation-buffer entry is keyed by the guest tag, the address-space number, the guest-virtual page and the global bit, and holds the final physical page and the permissions of both stages. A hit needs the tag to match, and the global bit means global within the tag. While a guest runs the buffer uses the tag in `GTBR`. An invalidate acts as follows. *(a)* A guest's own `TLBI`, `TLBIA`, `TLBSYNC` and `MTSR` of `ASID`, when not trapped, act on entries of its own tag only, on every core. *(b)* The rules of {{r:writes-to-mmuctl-ptbr}} and {{r:reset-leaves-no-cached-translation}} apply per tag. *(c)* A write to `GTBR` that changes the root or `S2EN` discards every entry of the tag it writes; a write that changes only the tag discards nothing. *(d)* **`TLBIAS`** (invalidate by address-space number) exists: it invalidates every entry of an address-space number, in the issuer's tag, on every core, waited for by `TLBSYNC`. *(e)* **An invalidate by guest-physical page, `TLBIGP rN`, is a separate mnemonic**, used by the hypervisor after a change to a stage-2 entry; the hypervisor's `TLBI` of the guest-virtual form is not used for that. `TLBIGP` is legal only at `H` = 1: a guest in kernel mode that executes it exits with code 12, in a guest's user mode it is the guest's own privileged-instruction exception, and on a machine with `HVE` = 0 it is an illegal instruction. `TLBIAS` in a guest exits under the same `HTRAP` bit as `TLBI`. A change to a stage-2 entry that was valid is followed by an invalidate for the guest and `TLBSYNC`. As in {{r:writes-to-mmuctl-ptbr}} an implementation may discard more than these rules require, and no program may depend on an entry surviving.
 

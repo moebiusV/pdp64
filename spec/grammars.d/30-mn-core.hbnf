@@ -96,6 +96,8 @@ mn-besc = "clz"@0b00000000
         | "ror"@0b00010000
         | "ror32"@0b00010010
         | "rol"@0x110
+        | "colstrip"@0x121
+        | "colset"@0x123
         | "dshr"@0b00100000
         | "extb"@0b00100001
         | "extzb"@0b00100010

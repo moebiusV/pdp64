@@ -9,6 +9,7 @@
 #include "pdp64-asm-parser.c"
 #include "pdp64-consts.h"
 #include "asmir.h"
+#include "fpconv.c"
 
 static int line_of(const char *text, size_t pos)
 {
@@ -293,7 +294,9 @@ static void check_reserved(struct slice n)
 {
 	int m;
 	if (n.n > 0 && n.p[0] == '"') return;
-	if ((m = vmark_at(n)) != 0)
+	if (n.n == 3 && n.p[0] == 'f' && (!memcmp(n.p + 1, "16", 2) || !memcmp(n.p + 1, "32", 2) || !memcmp(n.p + 1, "64", 2)))
+		lex_fail("`%.*s` cannot be a name: it is the functional form of a floating-point constant, `%.*s(1.5)` (write another name, or put it in double quotes)", n.n, n.p, n.n, n.p);
+	else if ((m = vmark_at(n)) != 0)
 		lex_fail("`%.*s` cannot be a name: a name that ends in a value mark (%.*s) is reserved, because `%.*s%.*s` is the value of %.*s read as %.*s bits (write another name, or put it in double quotes)",
 			n.n, n.p, m, n.p + n.n - m, n.n - m, n.p, m, n.p + n.n - m, n.n - m, n.p, m - 2, n.p + n.n - m + 2);
 }
@@ -338,7 +341,7 @@ static struct xnode *word_x(struct slice t)
 static struct xnode *build_primary(const char *text, const primary_t *p)
 {
 	struct slice t = sl(text, p->_pos, p->_end), d = t;
-	if (p->_alt <= 3 && (memchr(t.p, ' ', t.n) || memchr(t.p, '\t', t.n))) return xn(XN_BAD, NULL, NULL);	/* a number with a blank in it: `5 h` */
+	if ((p->_alt <= 3) && (memchr(t.p, ' ', t.n) || memchr(t.p, '\t', t.n))) return xn(XN_BAD, NULL, NULL);	/* a number with a blank in it: `5 h` */
 	switch (p->_alt) {
 	case 1: {							/* 0x.. 0b.. 0o..: the digits after the prefix */
 		static const int pb[] = { 0, 16, 2, 8 };
@@ -354,7 +357,26 @@ static struct xnode *build_primary(const char *text, const primary_t *p)
 	case 4: case 5:						/* 'c', 'abcd': the text between the quotes */
 		d.p++; d.n -= 2;
 		return xtok(p->_alt == 4 ? XN_CHAR : XN_MCHAR, 0, d);
-	case 6: {							/* a symbol; or a word that starts with a digit and is a number the grammar did not take whole; either may end in a value mark */
+	case 6: {							/* f16(x), f32(x), f64(x), and a value mark after it */
+		const char *lp = memchr(t.p, '(', t.n), *rp = lp;
+		for (int dep = 0; rp < t.p + t.n; rp++) { if (*rp == '(') dep++; else if (*rp == ')' && --dep == 0) break; }
+		int w = (t.p[1] - '0') * 10 + (t.p[2] - '0');
+		uint64_t bits = 0;
+		const char *why = NULL;
+		if (lp != t.p + 3) lex_fail("f%d is followed by its parenthesis with no blank: write f%d(1.5)", w, w);
+		else if (fp_const(w, lp + 1, rp - lp - 1, &bits, &why)) lex_fail("f%d(%.*s): %s", w, (int)(rp - lp - 1), lp + 1, why);
+		struct xnode *x = xn(XN_CONST, NULL, NULL);
+		x->c = bits;
+		if (rp + 1 < t.p + t.n) {
+			struct slice mk = { rp + 1, (int)(t.p + t.n - rp - 1) };
+			if (mk.p[0] != '.') { lex_fail("a blank between f%d(...) and its value mark: write f%d(1.5).s64", w, w); return x; }
+			struct xnode *m = xn(XN_MARK, x, NULL);
+			m->tok = mk; m->base = atoi(mk.p + 2);
+			return m;
+		}
+		return x;
+	}
+	case 7: {							/* a symbol; or a word that starts with a digit and is a number the grammar did not take whole; either may end in a value mark */
 		int m = t.p[0] == '"' ? 0 : vmark_at(t);
 		if (m) {
 			struct slice b = t;
@@ -365,7 +387,7 @@ static struct xnode *build_primary(const char *text, const primary_t *p)
 		}
 		return word_x(t);
 	}
-	case 7: return xn(XN_DOT, NULL, NULL);
+	case 8: return xn(XN_DOT, NULL, NULL);
 	default: return build_expr(text, &p->expr, 0);		/* ( expr ) and [ expr ] group */
 	}
 }
@@ -499,14 +521,22 @@ static void operand(const char *text, const operand_t *oo, struct oper *r)
 		if (o->atindexed._alt == 2) r->x = expr_x(text, o->atindexed.expr);
 		break;
 	}
-	case OK_BASED2: {						/* base+expr, base-expr: the same as expr(base) */
-		const basereg_t *br = &o->based2.basereg;
+	case OK_BASED2: {						/* base+expr, base-expr: refused; the only spelling of a displacement is expr(base) */
 		int k = 0;
 		while (k < n && p[k] != '+' && p[k] != '-') k++;
+		if (k < n) {
+			const char *rest = p + k + 1;
+			int rn = n - k - 1, bk = k;
+			while (rn > 0 && (*rest == ' ' || *rest == '\t')) { rest++; rn--; }
+			while (bk > 0 && (p[bk - 1] == ' ' || p[bk - 1] == '\t')) bk--;
+			int special = bk == 2 && (!memcmp(p, "pc", 2) || !memcmp(p, "dp", 2));
+			if (special) lex_fail("`%.*s` is not accepted: the only spelling of a displacement is expr(base), here `%s%.*s(%.*s)`", n, p, p[k] == '-' ? "-" : "", rn, rest, bk, p);
+			else lex_fail("`%.*s` is not accepted: the only spelling of a displacement is expr(base), here `%s%.*s(%.*s)`; (%.*s)%c%.*s is a different operand, which changes the register",
+				n, p, p[k] == '-' ? "-" : "", rn, rest, bk, p, bk, p, p[k], rn, rest);
+		}
 		r->kind = OK_BASED;
-		if (br->_alt == 1) r->reg = reg_of(&br->reg); else r->special = (int)br->basespec;
-		/* `sp-4+x` is `-4+x` after the base: the minus belongs to the first operand (and to the text of an error message) */
-		r->x = xroot(build_expr(text, o->based2.expr, p[k] == '-'), (struct slice){ p[k] == '+' ? p + k + 1 : p + k, n - k - (p[k] == '+') });
+		r->reg = 0;
+		r->x = NULL;
 		break;
 	}
 	case OK_INDEXED: {						/* [expr](base)(index[*scale]) */

@@ -50,6 +50,7 @@ COMMON = [
  ('MESC', 'subm R:1 B:16:2'), ('', 'addm R:1 B:16:2'), ('', 'bism R:1 B:0:2'),
  ('new instructions', 'maskeqz R:1 R:2 R:3'), ('check instructions (errata 152)', 'ctcc R:1 R:2'), ('', 'ctne R:3 R:4'), ('', 'ctcc R:5 I:88'), ('', 'cthi R:6 I:4000'), ('', 'cteq R:7 I:0'), ('', 'cteq R:8'), ('', 'ctne R:9'), ('', 'chk2 R:10 R:11 R:12'), ('', 'masknez R:1 R:2 R:3'), ('', 'bsel R:1 R:2 R:3 R:4'), ('', 'aeses R:1 R:2 R:3'), ('', 'aesks1 R:1 I:3 R:2'),
  ('', 'sha256sum0 R:1 R:2'), ('', 'maesctr R:1 R:2 R:3 R:4'), ('', 'addv R:1 R:2'), ('', 'mulv R:1 R:2'),
+ ('granule colours: the load of a colour, the block write, the privileged block read and write; the colour insert and strip are insb and extb', 'ldcol R:1 R:2'), ('', 'ldcol R:31 R:30'), ('', 'mcol R:2 R:1 R:3'), ('', 'mcolrd R:4 R:5 R:6'), ('', 'mcolwr R:4 R:5 R:6'), ('', 'mcolwr R:31 R:30 R:29'), ('', 'insb R:1 I:60 I:4 R:2'), ('', 'extb R:1 I:0 I:60 R:2'),
  ('fused pairs', 'movcall R:1 R:2 PC:100'), ('', 'movcall R:1 R:2 PC:0:E'), ('', 'popmret I:36608'), ('', 'popret R:3'), ('', 'mov2 R:1 R:2 R:8 R:3'),
  ('user-qualified loads and stores', 'movq.u B:8:1 R:2'), ('', 'movzb.u B:8:1 R:2'),
  ('bit fields, rotates', 'extb R:1 I:4 I:8 R:2'), ('', 'dshr R:1 R:2 I:3 R:4'), ('', 'ror32 R:1 I:5 R:2'), ('', 'ror R:1 I:3 R:2'), ('', 'ror I:-3 R:1'), ('', 'ror I:7 R:9'),

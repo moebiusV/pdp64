@@ -6,1025 +6,1025 @@ _start:
 	mov	=9223372036854775807, r2
 	mov	$9, r3
 	seteq	r1, r2, r3
-	cbne	r3, $0, f1
+	cbne	r3, $0, fail1
 	mov	=9223372036854775807, r1
 	mov	=1, r2
 	mov	$9, r3
 	seteq	r1, r2, r3
-	cbne	r3, $0, f2
+	cbne	r3, $0, fail2
 	mov	=9223372036854775807, r1
 	mov	=5, r2
 	mov	$9, r3
 	seteq	r1, r2, r3
-	cbne	r3, $0, f3
+	cbne	r3, $0, fail3
 	mov	=0, r1
 	mov	=1, r2
 	mov	$9, r3
 	setne	r1, r2, r3
-	cbne	r3, $1, f4
+	cbne	r3, $1, fail4
 	mov	=0, r1
 	mov	=5, r2
 	mov	$9, r3
 	setne	r1, r2, r3
-	cbne	r3, $1, f5
+	cbne	r3, $1, fail5
 	mov	=0, r1
 	mov	=-2, r2
 	mov	$9, r3
 	setne	r1, r2, r3
-	cbne	r3, $1, f6
+	cbne	r3, $1, fail6
 	mov	=5, r1
 	mov	=7, r2
 	mov	$9, r3
 	setne	r1, r2, r3
-	cbne	r3, $1, f7
+	cbne	r3, $1, fail7
 	mov	=5, r1
 	mov	=-1, r2
 	mov	$9, r3
 	setne	r1, r2, r3
-	cbne	r3, $1, f8
+	cbne	r3, $1, fail8
 	mov	=5, r1
 	mov	=-9223372036854775808, r2
 	mov	$9, r3
 	setne	r1, r2, r3
-	cbne	r3, $1, f9
+	cbne	r3, $1, fail9
 	mov	=5, r1
 	mov	=9223372036854775807, r2
 	mov	$9, r3
 	setne	r1, r2, r3
-	cbne	r3, $1, f10
+	cbne	r3, $1, fail10
 	mov	=7, r1
 	mov	=1, r2
 	mov	$9, r3
 	setne	r1, r2, r3
-	cbne	r3, $1, f11
+	cbne	r3, $1, fail11
 	mov	=7, r1
 	mov	=5, r2
 	mov	$9, r3
 	setne	r1, r2, r3
-	cbne	r3, $1, f12
+	cbne	r3, $1, fail12
 	mov	=7, r1
 	mov	=-2, r2
 	mov	$9, r3
 	setne	r1, r2, r3
-	cbne	r3, $1, f13
+	cbne	r3, $1, fail13
 	mov	=-1, r1
 	mov	=1, r2
 	mov	$9, r3
 	setne	r1, r2, r3
-	cbne	r3, $1, f14
+	cbne	r3, $1, fail14
 	mov	=-1, r1
 	mov	=5, r2
 	mov	$9, r3
 	setne	r1, r2, r3
-	cbne	r3, $1, f15
+	cbne	r3, $1, fail15
 	mov	=-1, r1
 	mov	=-2, r2
 	mov	$9, r3
 	setne	r1, r2, r3
-	cbne	r3, $1, f16
+	cbne	r3, $1, fail16
 	mov	=-9223372036854775808, r1
 	mov	=1, r2
 	mov	$9, r3
 	setne	r1, r2, r3
-	cbne	r3, $1, f17
+	cbne	r3, $1, fail17
 	mov	=9223372036854775807, r1
 	mov	=7, r2
 	mov	$9, r3
 	setne	r1, r2, r3
-	cbne	r3, $1, f18
+	cbne	r3, $1, fail18
 	mov	=9223372036854775807, r1
 	mov	=-1, r2
 	mov	$9, r3
 	setne	r1, r2, r3
-	cbne	r3, $1, f19
+	cbne	r3, $1, fail19
 	mov	=9223372036854775807, r1
 	mov	=-9223372036854775808, r2
 	mov	$9, r3
 	setne	r1, r2, r3
-	cbne	r3, $1, f20
+	cbne	r3, $1, fail20
 	mov	=9223372036854775807, r1
 	mov	=9223372036854775807, r2
 	mov	$9, r3
 	setne	r1, r2, r3
-	cbne	r3, $0, f21
+	cbne	r3, $0, fail21
 	mov	=0, r1
 	mov	=9223372036854775807, r2
 	mov	$9, r3
 	setlt	r1, r2, r3
-	cbne	r3, $1, f22
+	cbne	r3, $1, fail22
 	mov	=7, r1
 	mov	=7, r2
 	mov	$9, r3
 	setlt	r1, r2, r3
-	cbne	r3, $0, f23
+	cbne	r3, $0, fail23
 	mov	=7, r1
 	mov	=-1, r2
 	mov	$9, r3
 	setlt	r1, r2, r3
-	cbne	r3, $0, f24
+	cbne	r3, $0, fail24
 	mov	=7, r1
 	mov	=-2, r2
 	mov	$9, r3
 	setlt	r1, r2, r3
-	cbne	r3, $0, f25
+	cbne	r3, $0, fail25
 	mov	=7, r1
 	mov	=9223372036854775807, r2
 	mov	$9, r3
 	setlt	r1, r2, r3
-	cbne	r3, $1, f26
+	cbne	r3, $1, fail26
 	mov	=-1, r1
 	mov	=7, r2
 	mov	$9, r3
 	setlt	r1, r2, r3
-	cbne	r3, $1, f27
+	cbne	r3, $1, fail27
 	mov	=-1, r1
 	mov	=-1, r2
 	mov	$9, r3
 	setlt	r1, r2, r3
-	cbne	r3, $0, f28
+	cbne	r3, $0, fail28
 	mov	=-1, r1
 	mov	=-2, r2
 	mov	$9, r3
 	setlt	r1, r2, r3
-	cbne	r3, $0, f29
+	cbne	r3, $0, fail29
 	mov	=-1, r1
 	mov	=9223372036854775807, r2
 	mov	$9, r3
 	setlt	r1, r2, r3
-	cbne	r3, $1, f30
+	cbne	r3, $1, fail30
 	mov	=-9223372036854775808, r1
 	mov	=1, r2
 	mov	$9, r3
 	setlt	r1, r2, r3
-	cbne	r3, $1, f31
+	cbne	r3, $1, fail31
 	mov	=-9223372036854775808, r1
 	mov	=5, r2
 	mov	$9, r3
 	setlt	r1, r2, r3
-	cbne	r3, $1, f32
+	cbne	r3, $1, fail32
 	mov	=-9223372036854775808, r1
 	mov	=-2, r2
 	mov	$9, r3
 	setlt	r1, r2, r3
-	cbne	r3, $1, f33
+	cbne	r3, $1, fail33
 	mov	=9223372036854775807, r1
 	mov	=0, r2
 	mov	$9, r3
 	setlt	r1, r2, r3
-	cbne	r3, $0, f34
+	cbne	r3, $0, fail34
 	mov	=9223372036854775807, r1
 	mov	=1, r2
 	mov	$9, r3
 	setlt	r1, r2, r3
-	cbne	r3, $0, f35
+	cbne	r3, $0, fail35
 	mov	=9223372036854775807, r1
 	mov	=5, r2
 	mov	$9, r3
 	setlt	r1, r2, r3
-	cbne	r3, $0, f36
+	cbne	r3, $0, fail36
 	mov	=9223372036854775807, r1
 	mov	=-9223372036854775808, r2
 	mov	$9, r3
 	setlt	r1, r2, r3
-	cbne	r3, $0, f37
+	cbne	r3, $0, fail37
 	mov	=0, r1
 	mov	=7, r2
 	mov	$9, r3
 	setle	r1, r2, r3
-	cbne	r3, $1, f38
+	cbne	r3, $1, fail38
 	mov	=0, r1
 	mov	=-1, r2
 	mov	$9, r3
 	setle	r1, r2, r3
-	cbne	r3, $0, f39
+	cbne	r3, $0, fail39
 	mov	=0, r1
 	mov	=-9223372036854775808, r2
 	mov	$9, r3
 	setle	r1, r2, r3
-	cbne	r3, $0, f40
+	cbne	r3, $0, fail40
 	mov	=0, r1
 	mov	=9223372036854775807, r2
 	mov	$9, r3
 	setle	r1, r2, r3
-	cbne	r3, $1, f41
+	cbne	r3, $1, fail41
 	mov	=1, r1
 	mov	=1, r2
 	mov	$9, r3
 	setle	r1, r2, r3
-	cbne	r3, $1, f42
+	cbne	r3, $1, fail42
 	mov	=5, r1
 	mov	=0, r2
 	mov	$9, r3
 	setle	r1, r2, r3
-	cbne	r3, $0, f43
+	cbne	r3, $0, fail43
 	mov	=5, r1
 	mov	=1, r2
 	mov	$9, r3
 	setle	r1, r2, r3
-	cbne	r3, $0, f44
+	cbne	r3, $0, fail44
 	mov	=5, r1
 	mov	=5, r2
 	mov	$9, r3
 	setle	r1, r2, r3
-	cbne	r3, $1, f45
+	cbne	r3, $1, fail45
 	mov	=7, r1
 	mov	=0, r2
 	mov	$9, r3
 	setle	r1, r2, r3
-	cbne	r3, $0, f46
+	cbne	r3, $0, fail46
 	mov	=7, r1
 	mov	=1, r2
 	mov	$9, r3
 	setle	r1, r2, r3
-	cbne	r3, $0, f47
+	cbne	r3, $0, fail47
 	mov	=7, r1
 	mov	=5, r2
 	mov	$9, r3
 	setle	r1, r2, r3
-	cbne	r3, $0, f48
+	cbne	r3, $0, fail48
 	mov	=7, r1
 	mov	=-2, r2
 	mov	$9, r3
 	setle	r1, r2, r3
-	cbne	r3, $0, f49
+	cbne	r3, $0, fail49
 	mov	=-1, r1
 	mov	=0, r2
 	mov	$9, r3
 	setle	r1, r2, r3
-	cbne	r3, $1, f50
+	cbne	r3, $1, fail50
 	mov	=-1, r1
 	mov	=1, r2
 	mov	$9, r3
 	setle	r1, r2, r3
-	cbne	r3, $1, f51
+	cbne	r3, $1, fail51
 	mov	=-1, r1
 	mov	=5, r2
 	mov	$9, r3
 	setle	r1, r2, r3
-	cbne	r3, $1, f52
+	cbne	r3, $1, fail52
 	mov	=-1, r1
 	mov	=-2, r2
 	mov	$9, r3
 	setle	r1, r2, r3
-	cbne	r3, $0, f53
+	cbne	r3, $0, fail53
 	mov	=0, r1
 	mov	=0, r2
 	mov	$9, r3
 	setgt	r1, r2, r3
-	cbne	r3, $0, f54
+	cbne	r3, $0, fail54
 	mov	=0, r1
 	mov	=-9223372036854775808, r2
 	mov	$9, r3
 	setgt	r1, r2, r3
-	cbne	r3, $1, f55
+	cbne	r3, $1, fail55
 	mov	=0, r1
 	mov	=9223372036854775807, r2
 	mov	$9, r3
 	setgt	r1, r2, r3
-	cbne	r3, $0, f56
+	cbne	r3, $0, fail56
 	mov	=5, r1
 	mov	=1, r2
 	mov	$9, r3
 	setgt	r1, r2, r3
-	cbne	r3, $1, f57
+	cbne	r3, $1, fail57
 	mov	=5, r1
 	mov	=5, r2
 	mov	$9, r3
 	setgt	r1, r2, r3
-	cbne	r3, $0, f58
+	cbne	r3, $0, fail58
 	mov	=5, r1
 	mov	=-2, r2
 	mov	$9, r3
 	setgt	r1, r2, r3
-	cbne	r3, $1, f59
+	cbne	r3, $1, fail59
 	mov	=7, r1
 	mov	=-2, r2
 	mov	$9, r3
 	setgt	r1, r2, r3
-	cbne	r3, $1, f60
+	cbne	r3, $1, fail60
 	mov	=-1, r1
 	mov	=-2, r2
 	mov	$9, r3
 	setgt	r1, r2, r3
-	cbne	r3, $1, f61
+	cbne	r3, $1, fail61
 	mov	=-9223372036854775808, r1
 	mov	=-2, r2
 	mov	$9, r3
 	setgt	r1, r2, r3
-	cbne	r3, $0, f62
+	cbne	r3, $0, fail62
 	mov	=0, r1
 	mov	=0, r2
 	mov	$9, r3
 	setge	r1, r2, r3
-	cbne	r3, $1, f63
+	cbne	r3, $1, fail63
 	mov	=0, r1
 	mov	=7, r2
 	mov	$9, r3
 	setge	r1, r2, r3
-	cbne	r3, $0, f64
+	cbne	r3, $0, fail64
 	mov	=0, r1
 	mov	=-1, r2
 	mov	$9, r3
 	setge	r1, r2, r3
-	cbne	r3, $1, f65
+	cbne	r3, $1, fail65
 	mov	=0, r1
 	mov	=-9223372036854775808, r2
 	mov	$9, r3
 	setge	r1, r2, r3
-	cbne	r3, $1, f66
+	cbne	r3, $1, fail66
 	mov	=0, r1
 	mov	=9223372036854775807, r2
 	mov	$9, r3
 	setge	r1, r2, r3
-	cbne	r3, $0, f67
+	cbne	r3, $0, fail67
 	mov	=5, r1
 	mov	=1, r2
 	mov	$9, r3
 	setge	r1, r2, r3
-	cbne	r3, $1, f68
+	cbne	r3, $1, fail68
 	mov	=5, r1
 	mov	=5, r2
 	mov	$9, r3
 	setge	r1, r2, r3
-	cbne	r3, $1, f69
+	cbne	r3, $1, fail69
 	mov	=7, r1
 	mov	=0, r2
 	mov	$9, r3
 	setge	r1, r2, r3
-	cbne	r3, $1, f70
+	cbne	r3, $1, fail70
 	mov	=-1, r1
 	mov	=0, r2
 	mov	$9, r3
 	setge	r1, r2, r3
-	cbne	r3, $0, f71
+	cbne	r3, $0, fail71
 	mov	=-2, r1
 	mov	=7, r2
 	mov	$9, r3
 	setge	r1, r2, r3
-	cbne	r3, $0, f72
+	cbne	r3, $0, fail72
 	mov	=-2, r1
 	mov	=-1, r2
 	mov	$9, r3
 	setge	r1, r2, r3
-	cbne	r3, $0, f73
+	cbne	r3, $0, fail73
 	mov	=-2, r1
 	mov	=9223372036854775807, r2
 	mov	$9, r3
 	setge	r1, r2, r3
-	cbne	r3, $0, f74
+	cbne	r3, $0, fail74
 	mov	=-9223372036854775808, r1
 	mov	=7, r2
 	mov	$9, r3
 	setge	r1, r2, r3
-	cbne	r3, $0, f75
+	cbne	r3, $0, fail75
 	mov	=-9223372036854775808, r1
 	mov	=-1, r2
 	mov	$9, r3
 	setge	r1, r2, r3
-	cbne	r3, $0, f76
+	cbne	r3, $0, fail76
 	mov	=-9223372036854775808, r1
 	mov	=9223372036854775807, r2
 	mov	$9, r3
 	setge	r1, r2, r3
-	cbne	r3, $0, f77
+	cbne	r3, $0, fail77
 	mov	=0, r1
 	mov	=1, r2
 	mov	$9, r3
 	setcs	r1, r2, r3
-	cbne	r3, $1, f78
+	cbne	r3, $1, fail78
 	mov	=0, r1
 	mov	=5, r2
 	mov	$9, r3
 	setcs	r1, r2, r3
-	cbne	r3, $1, f79
+	cbne	r3, $1, fail79
 	mov	=1, r1
 	mov	=7, r2
 	mov	$9, r3
 	setcs	r1, r2, r3
-	cbne	r3, $1, f80
+	cbne	r3, $1, fail80
 	mov	=1, r1
 	mov	=-1, r2
 	mov	$9, r3
 	setcs	r1, r2, r3
-	cbne	r3, $1, f81
+	cbne	r3, $1, fail81
 	mov	=1, r1
 	mov	=9223372036854775807, r2
 	mov	$9, r3
 	setcs	r1, r2, r3
-	cbne	r3, $1, f82
+	cbne	r3, $1, fail82
 	mov	=5, r1
 	mov	=7, r2
 	mov	$9, r3
 	setcs	r1, r2, r3
-	cbne	r3, $1, f83
+	cbne	r3, $1, fail83
 	mov	=5, r1
 	mov	=-1, r2
 	mov	$9, r3
 	setcs	r1, r2, r3
-	cbne	r3, $1, f84
+	cbne	r3, $1, fail84
 	mov	=5, r1
 	mov	=9223372036854775807, r2
 	mov	$9, r3
 	setcs	r1, r2, r3
-	cbne	r3, $1, f85
+	cbne	r3, $1, fail85
 	mov	=-9223372036854775808, r1
 	mov	=0, r2
 	mov	$9, r3
 	setcs	r1, r2, r3
-	cbne	r3, $0, f86
+	cbne	r3, $0, fail86
 	mov	=-9223372036854775808, r1
 	mov	=1, r2
 	mov	$9, r3
 	setcs	r1, r2, r3
-	cbne	r3, $0, f87
+	cbne	r3, $0, fail87
 	mov	=-9223372036854775808, r1
 	mov	=5, r2
 	mov	$9, r3
 	setcs	r1, r2, r3
-	cbne	r3, $0, f88
+	cbne	r3, $0, fail88
 	mov	=-9223372036854775808, r1
 	mov	=-9223372036854775808, r2
 	mov	$9, r3
 	setcs	r1, r2, r3
-	cbne	r3, $0, f89
+	cbne	r3, $0, fail89
 	mov	=9223372036854775807, r1
 	mov	=7, r2
 	mov	$9, r3
 	setcs	r1, r2, r3
-	cbne	r3, $0, f90
+	cbne	r3, $0, fail90
 	mov	=9223372036854775807, r1
 	mov	=-1, r2
 	mov	$9, r3
 	setcs	r1, r2, r3
-	cbne	r3, $1, f91
+	cbne	r3, $1, fail91
 	mov	=0, r1
 	mov	=7, r2
 	mov	$9, r3
 	setcc	r1, r2, r3
-	cbne	r3, $0, f92
+	cbne	r3, $0, fail92
 	mov	=0, r1
 	mov	=-1, r2
 	mov	$9, r3
 	setcc	r1, r2, r3
-	cbne	r3, $0, f93
+	cbne	r3, $0, fail93
 	mov	=0, r1
 	mov	=-2, r2
 	mov	$9, r3
 	setcc	r1, r2, r3
-	cbne	r3, $0, f94
+	cbne	r3, $0, fail94
 	mov	=0, r1
 	mov	=9223372036854775807, r2
 	mov	$9, r3
 	setcc	r1, r2, r3
-	cbne	r3, $0, f95
+	cbne	r3, $0, fail95
 	mov	=7, r1
 	mov	=0, r2
 	mov	$9, r3
 	setcc	r1, r2, r3
-	cbne	r3, $1, f96
+	cbne	r3, $1, fail96
 	mov	=7, r1
 	mov	=1, r2
 	mov	$9, r3
 	setcc	r1, r2, r3
-	cbne	r3, $1, f97
+	cbne	r3, $1, fail97
 	mov	=7, r1
 	mov	=5, r2
 	mov	$9, r3
 	setcc	r1, r2, r3
-	cbne	r3, $1, f98
+	cbne	r3, $1, fail98
 	mov	=7, r1
 	mov	=-9223372036854775808, r2
 	mov	$9, r3
 	setcc	r1, r2, r3
-	cbne	r3, $0, f99
+	cbne	r3, $0, fail99
 	mov	=-1, r1
 	mov	=0, r2
 	mov	$9, r3
 	setcc	r1, r2, r3
-	cbne	r3, $1, f100
+	cbne	r3, $1, fail100
 	mov	=-1, r1
 	mov	=1, r2
 	mov	$9, r3
 	setcc	r1, r2, r3
-	cbne	r3, $1, f101
+	cbne	r3, $1, fail101
 	mov	=-1, r1
 	mov	=5, r2
 	mov	$9, r3
 	setcc	r1, r2, r3
-	cbne	r3, $1, f102
+	cbne	r3, $1, fail102
 	mov	=-1, r1
 	mov	=-9223372036854775808, r2
 	mov	$9, r3
 	setcc	r1, r2, r3
-	cbne	r3, $1, f103
+	cbne	r3, $1, fail103
 	mov	=-2, r1
 	mov	=1, r2
 	mov	$9, r3
 	setcc	r1, r2, r3
-	cbne	r3, $1, f104
+	cbne	r3, $1, fail104
 	mov	=-2, r1
 	mov	=5, r2
 	mov	$9, r3
 	setcc	r1, r2, r3
-	cbne	r3, $1, f105
+	cbne	r3, $1, fail105
 	mov	=-2, r1
 	mov	=-2, r2
 	mov	$9, r3
 	setcc	r1, r2, r3
-	cbne	r3, $1, f106
+	cbne	r3, $1, fail106
 	mov	=-9223372036854775808, r1
 	mov	=1, r2
 	mov	$9, r3
 	setcc	r1, r2, r3
-	cbne	r3, $1, f107
+	cbne	r3, $1, fail107
 	mov	=0, r1
 	mov	=1, r2
 	mov	$9, r3
 	sethi	r1, r2, r3
-	cbne	r3, $0, f108
+	cbne	r3, $0, fail108
 	mov	=0, r1
 	mov	=5, r2
 	mov	$9, r3
 	sethi	r1, r2, r3
-	cbne	r3, $0, f109
+	cbne	r3, $0, fail109
 	mov	=0, r1
 	mov	=-2, r2
 	mov	$9, r3
 	sethi	r1, r2, r3
-	cbne	r3, $0, f110
+	cbne	r3, $0, fail110
 	mov	=1, r1
 	mov	=0, r2
 	mov	$9, r3
 	sethi	r1, r2, r3
-	cbne	r3, $1, f111
+	cbne	r3, $1, fail111
 	mov	=1, r1
 	mov	=5, r2
 	mov	$9, r3
 	sethi	r1, r2, r3
-	cbne	r3, $0, f112
+	cbne	r3, $0, fail112
 	mov	=1, r1
 	mov	=-9223372036854775808, r2
 	mov	$9, r3
 	sethi	r1, r2, r3
-	cbne	r3, $0, f113
+	cbne	r3, $0, fail113
 	mov	=5, r1
 	mov	=7, r2
 	mov	$9, r3
 	sethi	r1, r2, r3
-	cbne	r3, $0, f114
+	cbne	r3, $0, fail114
 	mov	=5, r1
 	mov	=-1, r2
 	mov	$9, r3
 	sethi	r1, r2, r3
-	cbne	r3, $0, f115
+	cbne	r3, $0, fail115
 	mov	=5, r1
 	mov	=-9223372036854775808, r2
 	mov	$9, r3
 	sethi	r1, r2, r3
-	cbne	r3, $0, f116
+	cbne	r3, $0, fail116
 	mov	=5, r1
 	mov	=9223372036854775807, r2
 	mov	$9, r3
 	sethi	r1, r2, r3
-	cbne	r3, $0, f117
+	cbne	r3, $0, fail117
 	mov	=7, r1
 	mov	=1, r2
 	mov	$9, r3
 	sethi	r1, r2, r3
-	cbne	r3, $1, f118
+	cbne	r3, $1, fail118
 	mov	=-1, r1
 	mov	=1, r2
 	mov	$9, r3
 	sethi	r1, r2, r3
-	cbne	r3, $1, f119
+	cbne	r3, $1, fail119
 	mov	=-9223372036854775808, r1
 	mov	=-9223372036854775808, r2
 	mov	$9, r3
 	sethi	r1, r2, r3
-	cbne	r3, $0, f120
+	cbne	r3, $0, fail120
 	mov	=9223372036854775807, r1
 	mov	=7, r2
 	mov	$9, r3
 	sethi	r1, r2, r3
-	cbne	r3, $1, f121
+	cbne	r3, $1, fail121
 	mov	=9223372036854775807, r1
 	mov	=-1, r2
 	mov	$9, r3
 	sethi	r1, r2, r3
-	cbne	r3, $0, f122
+	cbne	r3, $0, fail122
 	mov	=9223372036854775807, r1
 	mov	=9223372036854775807, r2
 	mov	$9, r3
 	sethi	r1, r2, r3
-	cbne	r3, $0, f123
+	cbne	r3, $0, fail123
 	mov	=0, r1
 	mov	=7, r2
 	mov	$9, r3
 	setlos	r1, r2, r3
-	cbne	r3, $1, f124
+	cbne	r3, $1, fail124
 	mov	=0, r1
 	mov	=-1, r2
 	mov	$9, r3
 	setlos	r1, r2, r3
-	cbne	r3, $1, f125
+	cbne	r3, $1, fail125
 	mov	=5, r1
 	mov	=-2, r2
 	mov	$9, r3
 	setlos	r1, r2, r3
-	cbne	r3, $1, f126
+	cbne	r3, $1, fail126
 	mov	=7, r1
 	mov	=0, r2
 	mov	$9, r3
 	setlos	r1, r2, r3
-	cbne	r3, $0, f127
+	cbne	r3, $0, fail127
 	mov	=7, r1
 	mov	=-9223372036854775808, r2
 	mov	$9, r3
 	setlos	r1, r2, r3
-	cbne	r3, $1, f128
+	cbne	r3, $1, fail128
 	mov	=-1, r1
 	mov	=0, r2
 	mov	$9, r3
 	setlos	r1, r2, r3
-	cbne	r3, $0, f129
+	cbne	r3, $0, fail129
 	mov	=-1, r1
 	mov	=-9223372036854775808, r2
 	mov	$9, r3
 	setlos	r1, r2, r3
-	cbne	r3, $0, f130
+	cbne	r3, $0, fail130
 	mov	=9223372036854775807, r1
 	mov	=1, r2
 	mov	$9, r3
 	setlos	r1, r2, r3
-	cbne	r3, $0, f131
+	cbne	r3, $0, fail131
 	mov	=9223372036854775807, r1
 	mov	=-2, r2
 	mov	$9, r3
 	setlos	r1, r2, r3
-	cbne	r3, $1, f132
+	cbne	r3, $1, fail132
 	mov	=0, r1
 	seteq	r1, $-128, r1
-	cbne	r1, $0, f133
+	cbne	r1, $0, fail133
 	mov	=1, r1
 	seteq	r1, $5, r1
-	cbne	r1, $0, f134
+	cbne	r1, $0, fail134
 	mov	=5, r1
 	seteq	r1, $5, r1
-	cbne	r1, $1, f135
+	cbne	r1, $1, fail135
 	mov	=7, r1
 	seteq	r1, $-128, r1
-	cbne	r1, $0, f136
+	cbne	r1, $0, fail136
 	mov	=-1, r1
 	seteq	r1, $-128, r1
-	cbne	r1, $0, f137
+	cbne	r1, $0, fail137
 	mov	=-2, r1
 	seteq	r1, $0, r1
-	cbne	r1, $0, f138
+	cbne	r1, $0, fail138
 	mov	=-2, r1
 	seteq	r1, $127, r1
-	cbne	r1, $0, f139
+	cbne	r1, $0, fail139
 	mov	=9223372036854775807, r1
 	seteq	r1, $-128, r1
-	cbne	r1, $0, f140
+	cbne	r1, $0, fail140
 	mov	=0, r1
 	setne	r1, $5, r1
-	cbne	r1, $1, f141
+	cbne	r1, $1, fail141
 	mov	=1, r1
 	setne	r1, $0, r1
-	cbne	r1, $1, f142
+	cbne	r1, $1, fail142
 	mov	=1, r1
 	setne	r1, $127, r1
-	cbne	r1, $1, f143
+	cbne	r1, $1, fail143
 	mov	=5, r1
 	setne	r1, $0, r1
-	cbne	r1, $1, f144
+	cbne	r1, $1, fail144
 	mov	=5, r1
 	setne	r1, $127, r1
-	cbne	r1, $1, f145
+	cbne	r1, $1, fail145
 	mov	=7, r1
 	setne	r1, $-1, r1
-	cbne	r1, $1, f146
+	cbne	r1, $1, fail146
 	mov	=7, r1
 	setne	r1, $1, r1
-	cbne	r1, $1, f147
+	cbne	r1, $1, fail147
 	mov	=-1, r1
 	setne	r1, $-1, r1
-	cbne	r1, $0, f148
+	cbne	r1, $0, fail148
 	mov	=-1, r1
 	setne	r1, $1, r1
-	cbne	r1, $1, f149
+	cbne	r1, $1, fail149
 	mov	=-2, r1
 	setne	r1, $-1, r1
-	cbne	r1, $1, f150
+	cbne	r1, $1, fail150
 	mov	=-2, r1
 	setne	r1, $1, r1
-	cbne	r1, $1, f151
+	cbne	r1, $1, fail151
 	mov	=-9223372036854775808, r1
 	setne	r1, $0, r1
-	cbne	r1, $1, f152
+	cbne	r1, $1, fail152
 	mov	=9223372036854775807, r1
 	setne	r1, $-1, r1
-	cbne	r1, $1, f153
+	cbne	r1, $1, fail153
 	mov	=9223372036854775807, r1
 	setne	r1, $1, r1
-	cbne	r1, $1, f154
+	cbne	r1, $1, fail154
 	mov	=0, r1
 	setlt	r1, $-128, r1
-	cbne	r1, $0, f155
+	cbne	r1, $0, fail155
 	mov	=0, r1
 	setlt	r1, $-1, r1
-	cbne	r1, $0, f156
+	cbne	r1, $0, fail156
 	mov	=0, r1
 	setlt	r1, $1, r1
-	cbne	r1, $1, f157
+	cbne	r1, $1, fail157
 	mov	=1, r1
 	setlt	r1, $-128, r1
-	cbne	r1, $0, f158
+	cbne	r1, $0, fail158
 	mov	=1, r1
 	setlt	r1, $1, r1
-	cbne	r1, $0, f159
+	cbne	r1, $0, fail159
 	mov	=7, r1
 	setlt	r1, $0, r1
-	cbne	r1, $0, f160
+	cbne	r1, $0, fail160
 	mov	=-1, r1
 	setlt	r1, $0, r1
-	cbne	r1, $1, f161
+	cbne	r1, $1, fail161
 	mov	=-2, r1
 	setlt	r1, $5, r1
-	cbne	r1, $1, f162
+	cbne	r1, $1, fail162
 	mov	=-9223372036854775808, r1
 	setlt	r1, $-128, r1
-	cbne	r1, $1, f163
+	cbne	r1, $1, fail163
 	mov	=-9223372036854775808, r1
 	setlt	r1, $-1, r1
-	cbne	r1, $1, f164
+	cbne	r1, $1, fail164
 	mov	=-9223372036854775808, r1
 	setlt	r1, $1, r1
-	cbne	r1, $1, f165
+	cbne	r1, $1, fail165
 	mov	=9223372036854775807, r1
 	setlt	r1, $0, r1
-	cbne	r1, $0, f166
+	cbne	r1, $0, fail166
 	mov	=0, r1
 	setle	r1, $-1, r1
-	cbne	r1, $0, f167
+	cbne	r1, $0, fail167
 	mov	=0, r1
 	setle	r1, $1, r1
-	cbne	r1, $1, f168
+	cbne	r1, $1, fail168
 	mov	=1, r1
 	setle	r1, $-128, r1
-	cbne	r1, $0, f169
+	cbne	r1, $0, fail169
 	mov	=1, r1
 	setle	r1, $-1, r1
-	cbne	r1, $0, f170
+	cbne	r1, $0, fail170
 	mov	=1, r1
 	setle	r1, $1, r1
-	cbne	r1, $1, f171
+	cbne	r1, $1, fail171
 	mov	=7, r1
 	setle	r1, $-1, r1
-	cbne	r1, $0, f172
+	cbne	r1, $0, fail172
 	mov	=7, r1
 	setle	r1, $1, r1
-	cbne	r1, $0, f173
+	cbne	r1, $0, fail173
 	mov	=-1, r1
 	setle	r1, $-1, r1
-	cbne	r1, $1, f174
+	cbne	r1, $1, fail174
 	mov	=-1, r1
 	setle	r1, $1, r1
-	cbne	r1, $1, f175
+	cbne	r1, $1, fail175
 	mov	=-2, r1
 	setle	r1, $5, r1
-	cbne	r1, $1, f176
+	cbne	r1, $1, fail176
 	mov	=-9223372036854775808, r1
 	setle	r1, $-128, r1
-	cbne	r1, $1, f177
+	cbne	r1, $1, fail177
 	mov	=-9223372036854775808, r1
 	setle	r1, $-1, r1
-	cbne	r1, $1, f178
+	cbne	r1, $1, fail178
 	mov	=-9223372036854775808, r1
 	setle	r1, $1, r1
-	cbne	r1, $1, f179
+	cbne	r1, $1, fail179
 	mov	=9223372036854775807, r1
 	setle	r1, $127, r1
-	cbne	r1, $0, f180
+	cbne	r1, $0, fail180
 	mov	=0, r1
 	setgt	r1, $0, r1
-	cbne	r1, $0, f181
+	cbne	r1, $0, fail181
 	mov	=0, r1
 	setgt	r1, $127, r1
-	cbne	r1, $0, f182
+	cbne	r1, $0, fail182
 	mov	=1, r1
 	setgt	r1, $0, r1
-	cbne	r1, $1, f183
+	cbne	r1, $1, fail183
 	mov	=1, r1
 	setgt	r1, $127, r1
-	cbne	r1, $0, f184
+	cbne	r1, $0, fail184
 	mov	=5, r1
 	setgt	r1, $-1, r1
-	cbne	r1, $1, f185
+	cbne	r1, $1, fail185
 	mov	=5, r1
 	setgt	r1, $1, r1
-	cbne	r1, $1, f186
+	cbne	r1, $1, fail186
 	mov	=7, r1
 	setgt	r1, $0, r1
-	cbne	r1, $1, f187
+	cbne	r1, $1, fail187
 	mov	=-1, r1
 	setgt	r1, $0, r1
-	cbne	r1, $0, f188
+	cbne	r1, $0, fail188
 	mov	=-2, r1
 	setgt	r1, $-1, r1
-	cbne	r1, $0, f189
+	cbne	r1, $0, fail189
 	mov	=-2, r1
 	setgt	r1, $1, r1
-	cbne	r1, $0, f190
+	cbne	r1, $0, fail190
 	mov	=-9223372036854775808, r1
 	setgt	r1, $0, r1
-	cbne	r1, $0, f191
+	cbne	r1, $0, fail191
 	mov	=-9223372036854775808, r1
 	setgt	r1, $127, r1
-	cbne	r1, $0, f192
+	cbne	r1, $0, fail192
 	mov	=9223372036854775807, r1
 	setgt	r1, $0, r1
-	cbne	r1, $1, f193
+	cbne	r1, $1, fail193
 	mov	=0, r1
 	setge	r1, $0, r1
-	cbne	r1, $1, f194
+	cbne	r1, $1, fail194
 	mov	=0, r1
 	setge	r1, $5, r1
-	cbne	r1, $0, f195
+	cbne	r1, $0, fail195
 	mov	=1, r1
 	setge	r1, $0, r1
-	cbne	r1, $1, f196
+	cbne	r1, $1, fail196
 	mov	=1, r1
 	setge	r1, $127, r1
-	cbne	r1, $0, f197
+	cbne	r1, $0, fail197
 	mov	=5, r1
 	setge	r1, $127, r1
-	cbne	r1, $0, f198
+	cbne	r1, $0, fail198
 	mov	=7, r1
 	setge	r1, $5, r1
-	cbne	r1, $1, f199
+	cbne	r1, $1, fail199
 	mov	=-1, r1
 	setge	r1, $5, r1
-	cbne	r1, $0, f200
+	cbne	r1, $0, fail200
 	mov	=-2, r1
 	setge	r1, $5, r1
-	cbne	r1, $0, f201
+	cbne	r1, $0, fail201
 	mov	=-9223372036854775808, r1
 	setge	r1, $0, r1
-	cbne	r1, $0, f202
+	cbne	r1, $0, fail202
 	mov	=-9223372036854775808, r1
 	setge	r1, $127, r1
-	cbne	r1, $0, f203
+	cbne	r1, $0, fail203
 	mov	=9223372036854775807, r1
 	setge	r1, $5, r1
-	cbne	r1, $1, f204
+	cbne	r1, $1, fail204
 	mov	=0, r1
 	setcs	r1, $-128, r1
-	cbne	r1, $1, f205
+	cbne	r1, $1, fail205
 	mov	=5, r1
 	setcs	r1, $5, r1
-	cbne	r1, $0, f206
+	cbne	r1, $0, fail206
 	mov	=7, r1
 	setcs	r1, $127, r1
-	cbne	r1, $1, f207
+	cbne	r1, $1, fail207
 	mov	=-1, r1
 	setcs	r1, $127, r1
-	cbne	r1, $0, f208
+	cbne	r1, $0, fail208
 	mov	=-2, r1
 	setcs	r1, $0, r1
-	cbne	r1, $0, f209
+	cbne	r1, $0, fail209
 	mov	=-2, r1
 	setcs	r1, $5, r1
-	cbne	r1, $0, f210
+	cbne	r1, $0, fail210
 	mov	=-9223372036854775808, r1
 	setcs	r1, $-1, r1
-	cbne	r1, $1, f211
+	cbne	r1, $1, fail211
 	mov	=-9223372036854775808, r1
 	setcs	r1, $127, r1
-	cbne	r1, $0, f212
+	cbne	r1, $0, fail212
 	mov	=9223372036854775807, r1
 	setcs	r1, $127, r1
-	cbne	r1, $0, f213
+	cbne	r1, $0, fail213
 	mov	=0, r1
 	setcc	r1, $-128, r1
-	cbne	r1, $0, f214
+	cbne	r1, $0, fail214
 	mov	=1, r1
 	setcc	r1, $0, r1
-	cbne	r1, $1, f215
+	cbne	r1, $1, fail215
 	mov	=1, r1
 	setcc	r1, $127, r1
-	cbne	r1, $0, f216
+	cbne	r1, $0, fail216
 	mov	=5, r1
 	setcc	r1, $0, r1
-	cbne	r1, $1, f217
+	cbne	r1, $1, fail217
 	mov	=5, r1
 	setcc	r1, $127, r1
-	cbne	r1, $0, f218
+	cbne	r1, $0, fail218
 	mov	=7, r1
 	setcc	r1, $-128, r1
-	cbne	r1, $0, f219
+	cbne	r1, $0, fail219
 	mov	=-1, r1
 	setcc	r1, $-128, r1
-	cbne	r1, $1, f220
+	cbne	r1, $1, fail220
 	mov	=-2, r1
 	setcc	r1, $-1, r1
-	cbne	r1, $0, f221
+	cbne	r1, $0, fail221
 	mov	=-2, r1
 	setcc	r1, $1, r1
-	cbne	r1, $1, f222
+	cbne	r1, $1, fail222
 	mov	=-9223372036854775808, r1
 	setcc	r1, $-128, r1
-	cbne	r1, $0, f223
+	cbne	r1, $0, fail223
 	mov	=9223372036854775807, r1
 	setcc	r1, $-1, r1
-	cbne	r1, $0, f224
+	cbne	r1, $0, fail224
 	mov	=9223372036854775807, r1
 	setcc	r1, $1, r1
-	cbne	r1, $1, f225
+	cbne	r1, $1, fail225
 	mov	=0, r1
 	sethi	r1, $0, r1
-	cbne	r1, $0, f226
+	cbne	r1, $0, fail226
 	mov	=0, r1
 	sethi	r1, $127, r1
-	cbne	r1, $0, f227
+	cbne	r1, $0, fail227
 	mov	=1, r1
 	sethi	r1, $-1, r1
-	cbne	r1, $0, f228
+	cbne	r1, $0, fail228
 	mov	=1, r1
 	sethi	r1, $1, r1
-	cbne	r1, $0, f229
+	cbne	r1, $0, fail229
 	mov	=5, r1
 	sethi	r1, $-1, r1
-	cbne	r1, $0, f230
+	cbne	r1, $0, fail230
 	mov	=5, r1
 	sethi	r1, $1, r1
-	cbne	r1, $1, f231
+	cbne	r1, $1, fail231
 	mov	=7, r1
 	sethi	r1, $-128, r1
-	cbne	r1, $0, f232
+	cbne	r1, $0, fail232
 	mov	=-1, r1
 	sethi	r1, $-128, r1
-	cbne	r1, $1, f233
+	cbne	r1, $1, fail233
 	mov	=-2, r1
 	sethi	r1, $-128, r1
-	cbne	r1, $1, f234
+	cbne	r1, $1, fail234
 	mov	=-9223372036854775808, r1
 	sethi	r1, $0, r1
-	cbne	r1, $1, f235
+	cbne	r1, $1, fail235
 	mov	=-9223372036854775808, r1
 	sethi	r1, $127, r1
-	cbne	r1, $1, f236
+	cbne	r1, $1, fail236
 	mov	=9223372036854775807, r1
 	sethi	r1, $-128, r1
-	cbne	r1, $0, f237
+	cbne	r1, $0, fail237
 	mov	=0, r1
 	setlos	r1, $0, r1
-	cbne	r1, $1, f238
+	cbne	r1, $1, fail238
 	mov	=0, r1
 	setlos	r1, $127, r1
-	cbne	r1, $1, f239
+	cbne	r1, $1, fail239
 	mov	=1, r1
 	setlos	r1, $5, r1
-	cbne	r1, $1, f240
+	cbne	r1, $1, fail240
 	mov	=5, r1
 	setlos	r1, $5, r1
-	cbne	r1, $1, f241
+	cbne	r1, $1, fail241
 	mov	=7, r1
 	setlos	r1, $0, r1
-	cbne	r1, $0, f242
+	cbne	r1, $0, fail242
 	mov	=7, r1
 	setlos	r1, $127, r1
-	cbne	r1, $1, f243
+	cbne	r1, $1, fail243
 	mov	=-1, r1
 	setlos	r1, $0, r1
-	cbne	r1, $0, f244
+	cbne	r1, $0, fail244
 	mov	=-1, r1
 	setlos	r1, $127, r1
-	cbne	r1, $0, f245
+	cbne	r1, $0, fail245
 	mov	=-2, r1
 	setlos	r1, $0, r1
-	cbne	r1, $0, f246
+	cbne	r1, $0, fail246
 	mov	=-2, r1
 	setlos	r1, $127, r1
-	cbne	r1, $0, f247
+	cbne	r1, $0, fail247
 	mov	=-9223372036854775808, r1
 	setlos	r1, $-1, r1
-	cbne	r1, $1, f248
+	cbne	r1, $1, fail248
 	mov	=-9223372036854775808, r1
 	setlos	r1, $1, r1
-	cbne	r1, $0, f249
+	cbne	r1, $0, fail249
 	mov	=9223372036854775807, r1
 	setlos	r1, $0, r1
-	cbne	r1, $0, f250
+	cbne	r1, $0, fail250
 	mov	=9223372036854775807, r1
 	setlos	r1, $127, r1
-	cbne	r1, $0, f251
+	cbne	r1, $0, fail251
 	mov	$3, r12
 	mov	$4, r31
 	setlt	r12, r31, r30
-	cbne	r30, $1, f252
+	cbne	r30, $1, fail252
 	sethi	r12, r31, r30
-	cbne	r30, $0, f253
+	cbne	r30, $0, fail253
 	mov	=0, r1
 	mov	=0, r2
 	clr	r3
@@ -1032,7 +1032,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f254
+	cbne	r3, $1, fail254
 	mov	=0, r1
 	mov	=-9223372036854775808, r2
 	clr	r3
@@ -1040,7 +1040,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f255
+	cbne	r3, $1, fail255
 	mov	=0, r1
 	mov	=4607182418800017408, r2
 	clr	r3
@@ -1048,7 +1048,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f256
+	cbne	r3, $0, fail256
 	mov	=0, r1
 	mov	=-4613937818241073152, r2
 	clr	r3
@@ -1056,7 +1056,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f257
+	cbne	r3, $0, fail257
 	mov	=0, r1
 	mov	=4612811918334230528, r2
 	clr	r3
@@ -1064,7 +1064,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f258
+	cbne	r3, $0, fail258
 	mov	=0, r1
 	mov	=9218868437227405312, r2
 	clr	r3
@@ -1072,7 +1072,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f259
+	cbne	r3, $0, fail259
 	mov	=0, r1
 	mov	=-4503599627370496, r2
 	clr	r3
@@ -1080,7 +1080,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f260
+	cbne	r3, $0, fail260
 	mov	=0, r1
 	mov	=9221120237041090560, r2
 	clr	r3
@@ -1088,7 +1088,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f261
+	cbne	r3, $0, fail261
 	mov	=-9223372036854775808, r1
 	mov	=0, r2
 	clr	r3
@@ -1096,7 +1096,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f262
+	cbne	r3, $1, fail262
 	mov	=-9223372036854775808, r1
 	mov	=-9223372036854775808, r2
 	clr	r3
@@ -1104,7 +1104,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f263
+	cbne	r3, $1, fail263
 	mov	=-9223372036854775808, r1
 	mov	=4607182418800017408, r2
 	clr	r3
@@ -1112,7 +1112,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f264
+	cbne	r3, $0, fail264
 	mov	=-9223372036854775808, r1
 	mov	=-4613937818241073152, r2
 	clr	r3
@@ -1120,7 +1120,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f265
+	cbne	r3, $0, fail265
 	mov	=-9223372036854775808, r1
 	mov	=4612811918334230528, r2
 	clr	r3
@@ -1128,7 +1128,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f266
+	cbne	r3, $0, fail266
 	mov	=-9223372036854775808, r1
 	mov	=9218868437227405312, r2
 	clr	r3
@@ -1136,7 +1136,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f267
+	cbne	r3, $0, fail267
 	mov	=-9223372036854775808, r1
 	mov	=-4503599627370496, r2
 	clr	r3
@@ -1144,7 +1144,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f268
+	cbne	r3, $0, fail268
 	mov	=-9223372036854775808, r1
 	mov	=9221120237041090560, r2
 	clr	r3
@@ -1152,7 +1152,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f269
+	cbne	r3, $0, fail269
 	mov	=4607182418800017408, r1
 	mov	=0, r2
 	clr	r3
@@ -1160,7 +1160,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f270
+	cbne	r3, $0, fail270
 	mov	=4607182418800017408, r1
 	mov	=-9223372036854775808, r2
 	clr	r3
@@ -1168,7 +1168,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f271
+	cbne	r3, $0, fail271
 	mov	=4607182418800017408, r1
 	mov	=4607182418800017408, r2
 	clr	r3
@@ -1176,7 +1176,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f272
+	cbne	r3, $1, fail272
 	mov	=4607182418800017408, r1
 	mov	=-4613937818241073152, r2
 	clr	r3
@@ -1184,7 +1184,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f273
+	cbne	r3, $0, fail273
 	mov	=4607182418800017408, r1
 	mov	=4612811918334230528, r2
 	clr	r3
@@ -1192,7 +1192,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f274
+	cbne	r3, $0, fail274
 	mov	=4607182418800017408, r1
 	mov	=9218868437227405312, r2
 	clr	r3
@@ -1200,7 +1200,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f275
+	cbne	r3, $0, fail275
 	mov	=4607182418800017408, r1
 	mov	=-4503599627370496, r2
 	clr	r3
@@ -1208,7 +1208,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f276
+	cbne	r3, $0, fail276
 	mov	=4607182418800017408, r1
 	mov	=9221120237041090560, r2
 	clr	r3
@@ -1216,7 +1216,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f277
+	cbne	r3, $0, fail277
 	mov	=-4613937818241073152, r1
 	mov	=0, r2
 	clr	r3
@@ -1224,7 +1224,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f278
+	cbne	r3, $0, fail278
 	mov	=-4613937818241073152, r1
 	mov	=-9223372036854775808, r2
 	clr	r3
@@ -1232,7 +1232,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f279
+	cbne	r3, $0, fail279
 	mov	=-4613937818241073152, r1
 	mov	=4607182418800017408, r2
 	clr	r3
@@ -1240,7 +1240,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f280
+	cbne	r3, $0, fail280
 	mov	=-4613937818241073152, r1
 	mov	=-4613937818241073152, r2
 	clr	r3
@@ -1248,7 +1248,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f281
+	cbne	r3, $1, fail281
 	mov	=-4613937818241073152, r1
 	mov	=4612811918334230528, r2
 	clr	r3
@@ -1256,7 +1256,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f282
+	cbne	r3, $0, fail282
 	mov	=-4613937818241073152, r1
 	mov	=9218868437227405312, r2
 	clr	r3
@@ -1264,7 +1264,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f283
+	cbne	r3, $0, fail283
 	mov	=-4613937818241073152, r1
 	mov	=-4503599627370496, r2
 	clr	r3
@@ -1272,7 +1272,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f284
+	cbne	r3, $0, fail284
 	mov	=-4613937818241073152, r1
 	mov	=9221120237041090560, r2
 	clr	r3
@@ -1280,7 +1280,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f285
+	cbne	r3, $0, fail285
 	mov	=4612811918334230528, r1
 	mov	=0, r2
 	clr	r3
@@ -1288,7 +1288,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f286
+	cbne	r3, $0, fail286
 	mov	=4612811918334230528, r1
 	mov	=-9223372036854775808, r2
 	clr	r3
@@ -1296,7 +1296,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f287
+	cbne	r3, $0, fail287
 	mov	=4612811918334230528, r1
 	mov	=4607182418800017408, r2
 	clr	r3
@@ -1304,7 +1304,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f288
+	cbne	r3, $0, fail288
 	mov	=4612811918334230528, r1
 	mov	=-4613937818241073152, r2
 	clr	r3
@@ -1312,7 +1312,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f289
+	cbne	r3, $0, fail289
 	mov	=4612811918334230528, r1
 	mov	=4612811918334230528, r2
 	clr	r3
@@ -1320,7 +1320,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f290
+	cbne	r3, $1, fail290
 	mov	=4612811918334230528, r1
 	mov	=9218868437227405312, r2
 	clr	r3
@@ -1328,7 +1328,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f291
+	cbne	r3, $0, fail291
 	mov	=4612811918334230528, r1
 	mov	=-4503599627370496, r2
 	clr	r3
@@ -1336,7 +1336,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f292
+	cbne	r3, $0, fail292
 	mov	=4612811918334230528, r1
 	mov	=9221120237041090560, r2
 	clr	r3
@@ -1344,7 +1344,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f293
+	cbne	r3, $0, fail293
 	mov	=9218868437227405312, r1
 	mov	=0, r2
 	clr	r3
@@ -1352,7 +1352,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f294
+	cbne	r3, $0, fail294
 	mov	=9218868437227405312, r1
 	mov	=-9223372036854775808, r2
 	clr	r3
@@ -1360,7 +1360,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f295
+	cbne	r3, $0, fail295
 	mov	=9218868437227405312, r1
 	mov	=4607182418800017408, r2
 	clr	r3
@@ -1368,7 +1368,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f296
+	cbne	r3, $0, fail296
 	mov	=9218868437227405312, r1
 	mov	=-4613937818241073152, r2
 	clr	r3
@@ -1376,7 +1376,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f297
+	cbne	r3, $0, fail297
 	mov	=9218868437227405312, r1
 	mov	=4612811918334230528, r2
 	clr	r3
@@ -1384,7 +1384,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f298
+	cbne	r3, $0, fail298
 	mov	=9218868437227405312, r1
 	mov	=9218868437227405312, r2
 	clr	r3
@@ -1392,7 +1392,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f299
+	cbne	r3, $1, fail299
 	mov	=9218868437227405312, r1
 	mov	=-4503599627370496, r2
 	clr	r3
@@ -1400,7 +1400,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f300
+	cbne	r3, $0, fail300
 	mov	=9218868437227405312, r1
 	mov	=9221120237041090560, r2
 	clr	r3
@@ -1408,7 +1408,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f301
+	cbne	r3, $0, fail301
 	mov	=-4503599627370496, r1
 	mov	=0, r2
 	clr	r3
@@ -1416,7 +1416,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f302
+	cbne	r3, $0, fail302
 	mov	=-4503599627370496, r1
 	mov	=-9223372036854775808, r2
 	clr	r3
@@ -1424,7 +1424,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f303
+	cbne	r3, $0, fail303
 	mov	=-4503599627370496, r1
 	mov	=4607182418800017408, r2
 	clr	r3
@@ -1432,7 +1432,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f304
+	cbne	r3, $0, fail304
 	mov	=-4503599627370496, r1
 	mov	=-4613937818241073152, r2
 	clr	r3
@@ -1440,7 +1440,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f305
+	cbne	r3, $0, fail305
 	mov	=-4503599627370496, r1
 	mov	=4612811918334230528, r2
 	clr	r3
@@ -1448,7 +1448,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f306
+	cbne	r3, $0, fail306
 	mov	=-4503599627370496, r1
 	mov	=9218868437227405312, r2
 	clr	r3
@@ -1456,7 +1456,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f307
+	cbne	r3, $0, fail307
 	mov	=-4503599627370496, r1
 	mov	=-4503599627370496, r2
 	clr	r3
@@ -1464,7 +1464,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f308
+	cbne	r3, $1, fail308
 	mov	=-4503599627370496, r1
 	mov	=9221120237041090560, r2
 	clr	r3
@@ -1472,7 +1472,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f309
+	cbne	r3, $0, fail309
 	mov	=9221120237041090560, r1
 	mov	=0, r2
 	clr	r3
@@ -1480,7 +1480,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f310
+	cbne	r3, $0, fail310
 	mov	=9221120237041090560, r1
 	mov	=-9223372036854775808, r2
 	clr	r3
@@ -1488,7 +1488,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f311
+	cbne	r3, $0, fail311
 	mov	=9221120237041090560, r1
 	mov	=4607182418800017408, r2
 	clr	r3
@@ -1496,7 +1496,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f312
+	cbne	r3, $0, fail312
 	mov	=9221120237041090560, r1
 	mov	=-4613937818241073152, r2
 	clr	r3
@@ -1504,7 +1504,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f313
+	cbne	r3, $0, fail313
 	mov	=9221120237041090560, r1
 	mov	=4612811918334230528, r2
 	clr	r3
@@ -1512,7 +1512,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f314
+	cbne	r3, $0, fail314
 	mov	=9221120237041090560, r1
 	mov	=9218868437227405312, r2
 	clr	r3
@@ -1520,7 +1520,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f315
+	cbne	r3, $0, fail315
 	mov	=9221120237041090560, r1
 	mov	=-4503599627370496, r2
 	clr	r3
@@ -1528,7 +1528,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f316
+	cbne	r3, $0, fail316
 	mov	=9221120237041090560, r1
 	mov	=9221120237041090560, r2
 	clr	r3
@@ -1536,7 +1536,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f317
+	cbne	r3, $0, fail317
 	mov	=0, r1
 	mov	=0, r2
 	clr	r3
@@ -1544,7 +1544,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f318
+	cbne	r3, $0, fail318
 	mov	=0, r1
 	mov	=-9223372036854775808, r2
 	clr	r3
@@ -1552,7 +1552,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f319
+	cbne	r3, $0, fail319
 	mov	=0, r1
 	mov	=4607182418800017408, r2
 	clr	r3
@@ -1560,7 +1560,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f320
+	cbne	r3, $1, fail320
 	mov	=0, r1
 	mov	=-4613937818241073152, r2
 	clr	r3
@@ -1568,7 +1568,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f321
+	cbne	r3, $1, fail321
 	mov	=0, r1
 	mov	=4612811918334230528, r2
 	clr	r3
@@ -1576,7 +1576,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f322
+	cbne	r3, $1, fail322
 	mov	=0, r1
 	mov	=9218868437227405312, r2
 	clr	r3
@@ -1584,7 +1584,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f323
+	cbne	r3, $1, fail323
 	mov	=0, r1
 	mov	=-4503599627370496, r2
 	clr	r3
@@ -1592,7 +1592,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f324
+	cbne	r3, $1, fail324
 	mov	=0, r1
 	mov	=9221120237041090560, r2
 	clr	r3
@@ -1600,7 +1600,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f325
+	cbne	r3, $1, fail325
 	mov	=-9223372036854775808, r1
 	mov	=0, r2
 	clr	r3
@@ -1608,7 +1608,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f326
+	cbne	r3, $0, fail326
 	mov	=-9223372036854775808, r1
 	mov	=-9223372036854775808, r2
 	clr	r3
@@ -1616,7 +1616,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f327
+	cbne	r3, $0, fail327
 	mov	=-9223372036854775808, r1
 	mov	=4607182418800017408, r2
 	clr	r3
@@ -1624,7 +1624,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f328
+	cbne	r3, $1, fail328
 	mov	=-9223372036854775808, r1
 	mov	=-4613937818241073152, r2
 	clr	r3
@@ -1632,7 +1632,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f329
+	cbne	r3, $1, fail329
 	mov	=-9223372036854775808, r1
 	mov	=4612811918334230528, r2
 	clr	r3
@@ -1640,7 +1640,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f330
+	cbne	r3, $1, fail330
 	mov	=-9223372036854775808, r1
 	mov	=9218868437227405312, r2
 	clr	r3
@@ -1648,7 +1648,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f331
+	cbne	r3, $1, fail331
 	mov	=-9223372036854775808, r1
 	mov	=-4503599627370496, r2
 	clr	r3
@@ -1656,7 +1656,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f332
+	cbne	r3, $1, fail332
 	mov	=-9223372036854775808, r1
 	mov	=9221120237041090560, r2
 	clr	r3
@@ -1664,7 +1664,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f333
+	cbne	r3, $1, fail333
 	mov	=4607182418800017408, r1
 	mov	=0, r2
 	clr	r3
@@ -1672,7 +1672,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f334
+	cbne	r3, $1, fail334
 	mov	=4607182418800017408, r1
 	mov	=-9223372036854775808, r2
 	clr	r3
@@ -1680,7 +1680,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f335
+	cbne	r3, $1, fail335
 	mov	=4607182418800017408, r1
 	mov	=4607182418800017408, r2
 	clr	r3
@@ -1688,7 +1688,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f336
+	cbne	r3, $0, fail336
 	mov	=4607182418800017408, r1
 	mov	=-4613937818241073152, r2
 	clr	r3
@@ -1696,7 +1696,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f337
+	cbne	r3, $1, fail337
 	mov	=4607182418800017408, r1
 	mov	=4612811918334230528, r2
 	clr	r3
@@ -1704,7 +1704,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f338
+	cbne	r3, $1, fail338
 	mov	=4607182418800017408, r1
 	mov	=9218868437227405312, r2
 	clr	r3
@@ -1712,7 +1712,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f339
+	cbne	r3, $1, fail339
 	mov	=4607182418800017408, r1
 	mov	=-4503599627370496, r2
 	clr	r3
@@ -1720,7 +1720,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f340
+	cbne	r3, $1, fail340
 	mov	=4607182418800017408, r1
 	mov	=9221120237041090560, r2
 	clr	r3
@@ -1728,7 +1728,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f341
+	cbne	r3, $1, fail341
 	mov	=-4613937818241073152, r1
 	mov	=0, r2
 	clr	r3
@@ -1736,7 +1736,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f342
+	cbne	r3, $1, fail342
 	mov	=-4613937818241073152, r1
 	mov	=-9223372036854775808, r2
 	clr	r3
@@ -1744,7 +1744,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f343
+	cbne	r3, $1, fail343
 	mov	=-4613937818241073152, r1
 	mov	=4607182418800017408, r2
 	clr	r3
@@ -1752,7 +1752,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f344
+	cbne	r3, $1, fail344
 	mov	=-4613937818241073152, r1
 	mov	=-4613937818241073152, r2
 	clr	r3
@@ -1760,7 +1760,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f345
+	cbne	r3, $0, fail345
 	mov	=-4613937818241073152, r1
 	mov	=4612811918334230528, r2
 	clr	r3
@@ -1768,7 +1768,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f346
+	cbne	r3, $1, fail346
 	mov	=-4613937818241073152, r1
 	mov	=9218868437227405312, r2
 	clr	r3
@@ -1776,7 +1776,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f347
+	cbne	r3, $1, fail347
 	mov	=-4613937818241073152, r1
 	mov	=-4503599627370496, r2
 	clr	r3
@@ -1784,7 +1784,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f348
+	cbne	r3, $1, fail348
 	mov	=-4613937818241073152, r1
 	mov	=9221120237041090560, r2
 	clr	r3
@@ -1792,7 +1792,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f349
+	cbne	r3, $1, fail349
 	mov	=4612811918334230528, r1
 	mov	=0, r2
 	clr	r3
@@ -1800,7 +1800,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f350
+	cbne	r3, $1, fail350
 	mov	=4612811918334230528, r1
 	mov	=-9223372036854775808, r2
 	clr	r3
@@ -1808,7 +1808,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f351
+	cbne	r3, $1, fail351
 	mov	=4612811918334230528, r1
 	mov	=4607182418800017408, r2
 	clr	r3
@@ -1816,7 +1816,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f352
+	cbne	r3, $1, fail352
 	mov	=4612811918334230528, r1
 	mov	=-4613937818241073152, r2
 	clr	r3
@@ -1824,7 +1824,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f353
+	cbne	r3, $1, fail353
 	mov	=4612811918334230528, r1
 	mov	=4612811918334230528, r2
 	clr	r3
@@ -1832,7 +1832,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f354
+	cbne	r3, $0, fail354
 	mov	=4612811918334230528, r1
 	mov	=9218868437227405312, r2
 	clr	r3
@@ -1840,7 +1840,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f355
+	cbne	r3, $1, fail355
 	mov	=4612811918334230528, r1
 	mov	=-4503599627370496, r2
 	clr	r3
@@ -1848,7 +1848,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f356
+	cbne	r3, $1, fail356
 	mov	=4612811918334230528, r1
 	mov	=9221120237041090560, r2
 	clr	r3
@@ -1856,7 +1856,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f357
+	cbne	r3, $1, fail357
 	mov	=9218868437227405312, r1
 	mov	=0, r2
 	clr	r3
@@ -1864,7 +1864,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f358
+	cbne	r3, $1, fail358
 	mov	=9218868437227405312, r1
 	mov	=-9223372036854775808, r2
 	clr	r3
@@ -1872,7 +1872,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f359
+	cbne	r3, $1, fail359
 	mov	=9218868437227405312, r1
 	mov	=4607182418800017408, r2
 	clr	r3
@@ -1880,7 +1880,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f360
+	cbne	r3, $1, fail360
 	mov	=9218868437227405312, r1
 	mov	=-4613937818241073152, r2
 	clr	r3
@@ -1888,7 +1888,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f361
+	cbne	r3, $1, fail361
 	mov	=9218868437227405312, r1
 	mov	=4612811918334230528, r2
 	clr	r3
@@ -1896,7 +1896,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f362
+	cbne	r3, $1, fail362
 	mov	=9218868437227405312, r1
 	mov	=9218868437227405312, r2
 	clr	r3
@@ -1904,7 +1904,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f363
+	cbne	r3, $0, fail363
 	mov	=9218868437227405312, r1
 	mov	=-4503599627370496, r2
 	clr	r3
@@ -1912,7 +1912,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f364
+	cbne	r3, $1, fail364
 	mov	=9218868437227405312, r1
 	mov	=9221120237041090560, r2
 	clr	r3
@@ -1920,7 +1920,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f365
+	cbne	r3, $1, fail365
 	mov	=-4503599627370496, r1
 	mov	=0, r2
 	clr	r3
@@ -1928,7 +1928,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f366
+	cbne	r3, $1, fail366
 	mov	=-4503599627370496, r1
 	mov	=-9223372036854775808, r2
 	clr	r3
@@ -1936,7 +1936,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f367
+	cbne	r3, $1, fail367
 	mov	=-4503599627370496, r1
 	mov	=4607182418800017408, r2
 	clr	r3
@@ -1944,7 +1944,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f368
+	cbne	r3, $1, fail368
 	mov	=-4503599627370496, r1
 	mov	=-4613937818241073152, r2
 	clr	r3
@@ -1952,7 +1952,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f369
+	cbne	r3, $1, fail369
 	mov	=-4503599627370496, r1
 	mov	=4612811918334230528, r2
 	clr	r3
@@ -1960,7 +1960,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f370
+	cbne	r3, $1, fail370
 	mov	=-4503599627370496, r1
 	mov	=9218868437227405312, r2
 	clr	r3
@@ -1968,7 +1968,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f371
+	cbne	r3, $1, fail371
 	mov	=-4503599627370496, r1
 	mov	=-4503599627370496, r2
 	clr	r3
@@ -1976,7 +1976,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f372
+	cbne	r3, $0, fail372
 	mov	=-4503599627370496, r1
 	mov	=9221120237041090560, r2
 	clr	r3
@@ -1984,7 +1984,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f373
+	cbne	r3, $1, fail373
 	mov	=9221120237041090560, r1
 	mov	=0, r2
 	clr	r3
@@ -1992,7 +1992,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f374
+	cbne	r3, $1, fail374
 	mov	=9221120237041090560, r1
 	mov	=-9223372036854775808, r2
 	clr	r3
@@ -2000,7 +2000,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f375
+	cbne	r3, $1, fail375
 	mov	=9221120237041090560, r1
 	mov	=4607182418800017408, r2
 	clr	r3
@@ -2008,7 +2008,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f376
+	cbne	r3, $1, fail376
 	mov	=9221120237041090560, r1
 	mov	=-4613937818241073152, r2
 	clr	r3
@@ -2016,7 +2016,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f377
+	cbne	r3, $1, fail377
 	mov	=9221120237041090560, r1
 	mov	=4612811918334230528, r2
 	clr	r3
@@ -2024,7 +2024,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f378
+	cbne	r3, $1, fail378
 	mov	=9221120237041090560, r1
 	mov	=9218868437227405312, r2
 	clr	r3
@@ -2032,7 +2032,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f379
+	cbne	r3, $1, fail379
 	mov	=9221120237041090560, r1
 	mov	=-4503599627370496, r2
 	clr	r3
@@ -2040,7 +2040,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f380
+	cbne	r3, $1, fail380
 	mov	=9221120237041090560, r1
 	mov	=9221120237041090560, r2
 	clr	r3
@@ -2048,7 +2048,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f381
+	cbne	r3, $1, fail381
 	mov	=0, r1
 	mov	=0, r2
 	clr	r3
@@ -2056,7 +2056,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f382
+	cbne	r3, $0, fail382
 	mov	=0, r1
 	mov	=-9223372036854775808, r2
 	clr	r3
@@ -2064,7 +2064,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f383
+	cbne	r3, $0, fail383
 	mov	=0, r1
 	mov	=4607182418800017408, r2
 	clr	r3
@@ -2072,7 +2072,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f384
+	cbne	r3, $1, fail384
 	mov	=0, r1
 	mov	=-4613937818241073152, r2
 	clr	r3
@@ -2080,7 +2080,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f385
+	cbne	r3, $0, fail385
 	mov	=0, r1
 	mov	=4612811918334230528, r2
 	clr	r3
@@ -2088,7 +2088,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f386
+	cbne	r3, $1, fail386
 	mov	=0, r1
 	mov	=9218868437227405312, r2
 	clr	r3
@@ -2096,7 +2096,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f387
+	cbne	r3, $1, fail387
 	mov	=0, r1
 	mov	=-4503599627370496, r2
 	clr	r3
@@ -2104,7 +2104,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f388
+	cbne	r3, $0, fail388
 	mov	=0, r1
 	mov	=9221120237041090560, r2
 	clr	r3
@@ -2112,7 +2112,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f389
+	cbne	r3, $0, fail389
 	mov	=-9223372036854775808, r1
 	mov	=0, r2
 	clr	r3
@@ -2120,7 +2120,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f390
+	cbne	r3, $0, fail390
 	mov	=-9223372036854775808, r1
 	mov	=-9223372036854775808, r2
 	clr	r3
@@ -2128,7 +2128,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f391
+	cbne	r3, $0, fail391
 	mov	=-9223372036854775808, r1
 	mov	=4607182418800017408, r2
 	clr	r3
@@ -2136,7 +2136,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f392
+	cbne	r3, $1, fail392
 	mov	=-9223372036854775808, r1
 	mov	=-4613937818241073152, r2
 	clr	r3
@@ -2144,7 +2144,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f393
+	cbne	r3, $0, fail393
 	mov	=-9223372036854775808, r1
 	mov	=4612811918334230528, r2
 	clr	r3
@@ -2152,7 +2152,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f394
+	cbne	r3, $1, fail394
 	mov	=-9223372036854775808, r1
 	mov	=9218868437227405312, r2
 	clr	r3
@@ -2160,7 +2160,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f395
+	cbne	r3, $1, fail395
 	mov	=-9223372036854775808, r1
 	mov	=-4503599627370496, r2
 	clr	r3
@@ -2168,7 +2168,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f396
+	cbne	r3, $0, fail396
 	mov	=-9223372036854775808, r1
 	mov	=9221120237041090560, r2
 	clr	r3
@@ -2176,7 +2176,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f397
+	cbne	r3, $0, fail397
 	mov	=4607182418800017408, r1
 	mov	=0, r2
 	clr	r3
@@ -2184,7 +2184,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f398
+	cbne	r3, $0, fail398
 	mov	=4607182418800017408, r1
 	mov	=-9223372036854775808, r2
 	clr	r3
@@ -2192,7 +2192,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f399
+	cbne	r3, $0, fail399
 	mov	=4607182418800017408, r1
 	mov	=4607182418800017408, r2
 	clr	r3
@@ -2200,7 +2200,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f400
+	cbne	r3, $0, fail400
 	mov	=4607182418800017408, r1
 	mov	=-4613937818241073152, r2
 	clr	r3
@@ -2208,7 +2208,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f401
+	cbne	r3, $0, fail401
 	mov	=4607182418800017408, r1
 	mov	=4612811918334230528, r2
 	clr	r3
@@ -2216,7 +2216,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f402
+	cbne	r3, $1, fail402
 	mov	=4607182418800017408, r1
 	mov	=9218868437227405312, r2
 	clr	r3
@@ -2224,7 +2224,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f403
+	cbne	r3, $1, fail403
 	mov	=4607182418800017408, r1
 	mov	=-4503599627370496, r2
 	clr	r3
@@ -2232,7 +2232,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f404
+	cbne	r3, $0, fail404
 	mov	=4607182418800017408, r1
 	mov	=9221120237041090560, r2
 	clr	r3
@@ -2240,7 +2240,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f405
+	cbne	r3, $0, fail405
 	mov	=-4613937818241073152, r1
 	mov	=0, r2
 	clr	r3
@@ -2248,7 +2248,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f406
+	cbne	r3, $1, fail406
 	mov	=-4613937818241073152, r1
 	mov	=-9223372036854775808, r2
 	clr	r3
@@ -2256,7 +2256,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f407
+	cbne	r3, $1, fail407
 	mov	=-4613937818241073152, r1
 	mov	=4607182418800017408, r2
 	clr	r3
@@ -2264,7 +2264,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f408
+	cbne	r3, $1, fail408
 	mov	=-4613937818241073152, r1
 	mov	=-4613937818241073152, r2
 	clr	r3
@@ -2272,7 +2272,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f409
+	cbne	r3, $0, fail409
 	mov	=-4613937818241073152, r1
 	mov	=4612811918334230528, r2
 	clr	r3
@@ -2280,7 +2280,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f410
+	cbne	r3, $1, fail410
 	mov	=-4613937818241073152, r1
 	mov	=9218868437227405312, r2
 	clr	r3
@@ -2288,7 +2288,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f411
+	cbne	r3, $1, fail411
 	mov	=-4613937818241073152, r1
 	mov	=-4503599627370496, r2
 	clr	r3
@@ -2296,7 +2296,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f412
+	cbne	r3, $0, fail412
 	mov	=-4613937818241073152, r1
 	mov	=9221120237041090560, r2
 	clr	r3
@@ -2304,7 +2304,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f413
+	cbne	r3, $0, fail413
 	mov	=4612811918334230528, r1
 	mov	=0, r2
 	clr	r3
@@ -2312,7 +2312,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f414
+	cbne	r3, $0, fail414
 	mov	=4612811918334230528, r1
 	mov	=-9223372036854775808, r2
 	clr	r3
@@ -2320,7 +2320,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f415
+	cbne	r3, $0, fail415
 	mov	=4612811918334230528, r1
 	mov	=4607182418800017408, r2
 	clr	r3
@@ -2328,7 +2328,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f416
+	cbne	r3, $0, fail416
 	mov	=4612811918334230528, r1
 	mov	=-4613937818241073152, r2
 	clr	r3
@@ -2336,7 +2336,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f417
+	cbne	r3, $0, fail417
 	mov	=4612811918334230528, r1
 	mov	=4612811918334230528, r2
 	clr	r3
@@ -2344,7 +2344,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f418
+	cbne	r3, $0, fail418
 	mov	=4612811918334230528, r1
 	mov	=9218868437227405312, r2
 	clr	r3
@@ -2352,7 +2352,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f419
+	cbne	r3, $1, fail419
 	mov	=4612811918334230528, r1
 	mov	=-4503599627370496, r2
 	clr	r3
@@ -2360,7 +2360,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f420
+	cbne	r3, $0, fail420
 	mov	=4612811918334230528, r1
 	mov	=9221120237041090560, r2
 	clr	r3
@@ -2368,7 +2368,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f421
+	cbne	r3, $0, fail421
 	mov	=9218868437227405312, r1
 	mov	=0, r2
 	clr	r3
@@ -2376,7 +2376,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f422
+	cbne	r3, $0, fail422
 	mov	=9218868437227405312, r1
 	mov	=-9223372036854775808, r2
 	clr	r3
@@ -2384,7 +2384,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f423
+	cbne	r3, $0, fail423
 	mov	=9218868437227405312, r1
 	mov	=4607182418800017408, r2
 	clr	r3
@@ -2392,7 +2392,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f424
+	cbne	r3, $0, fail424
 	mov	=9218868437227405312, r1
 	mov	=-4613937818241073152, r2
 	clr	r3
@@ -2400,7 +2400,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f425
+	cbne	r3, $0, fail425
 	mov	=9218868437227405312, r1
 	mov	=4612811918334230528, r2
 	clr	r3
@@ -2408,7 +2408,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f426
+	cbne	r3, $0, fail426
 	mov	=9218868437227405312, r1
 	mov	=9218868437227405312, r2
 	clr	r3
@@ -2416,7 +2416,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f427
+	cbne	r3, $0, fail427
 	mov	=9218868437227405312, r1
 	mov	=-4503599627370496, r2
 	clr	r3
@@ -2424,7 +2424,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f428
+	cbne	r3, $0, fail428
 	mov	=9218868437227405312, r1
 	mov	=9221120237041090560, r2
 	clr	r3
@@ -2432,7 +2432,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f429
+	cbne	r3, $0, fail429
 	mov	=-4503599627370496, r1
 	mov	=0, r2
 	clr	r3
@@ -2440,7 +2440,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f430
+	cbne	r3, $1, fail430
 	mov	=-4503599627370496, r1
 	mov	=-9223372036854775808, r2
 	clr	r3
@@ -2448,7 +2448,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f431
+	cbne	r3, $1, fail431
 	mov	=-4503599627370496, r1
 	mov	=4607182418800017408, r2
 	clr	r3
@@ -2456,7 +2456,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f432
+	cbne	r3, $1, fail432
 	mov	=-4503599627370496, r1
 	mov	=-4613937818241073152, r2
 	clr	r3
@@ -2464,7 +2464,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f433
+	cbne	r3, $1, fail433
 	mov	=-4503599627370496, r1
 	mov	=4612811918334230528, r2
 	clr	r3
@@ -2472,7 +2472,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f434
+	cbne	r3, $1, fail434
 	mov	=-4503599627370496, r1
 	mov	=9218868437227405312, r2
 	clr	r3
@@ -2480,7 +2480,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f435
+	cbne	r3, $1, fail435
 	mov	=-4503599627370496, r1
 	mov	=-4503599627370496, r2
 	clr	r3
@@ -2488,7 +2488,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f436
+	cbne	r3, $0, fail436
 	mov	=-4503599627370496, r1
 	mov	=9221120237041090560, r2
 	clr	r3
@@ -2496,7 +2496,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f437
+	cbne	r3, $0, fail437
 	mov	=9221120237041090560, r1
 	mov	=0, r2
 	clr	r3
@@ -2504,7 +2504,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f438
+	cbne	r3, $0, fail438
 	mov	=9221120237041090560, r1
 	mov	=-9223372036854775808, r2
 	clr	r3
@@ -2512,7 +2512,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f439
+	cbne	r3, $0, fail439
 	mov	=9221120237041090560, r1
 	mov	=4607182418800017408, r2
 	clr	r3
@@ -2520,7 +2520,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f440
+	cbne	r3, $0, fail440
 	mov	=9221120237041090560, r1
 	mov	=-4613937818241073152, r2
 	clr	r3
@@ -2528,7 +2528,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f441
+	cbne	r3, $0, fail441
 	mov	=9221120237041090560, r1
 	mov	=4612811918334230528, r2
 	clr	r3
@@ -2536,7 +2536,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f442
+	cbne	r3, $0, fail442
 	mov	=9221120237041090560, r1
 	mov	=9218868437227405312, r2
 	clr	r3
@@ -2544,7 +2544,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f443
+	cbne	r3, $0, fail443
 	mov	=9221120237041090560, r1
 	mov	=-4503599627370496, r2
 	clr	r3
@@ -2552,7 +2552,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f444
+	cbne	r3, $0, fail444
 	mov	=9221120237041090560, r1
 	mov	=9221120237041090560, r2
 	clr	r3
@@ -2560,7 +2560,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f445
+	cbne	r3, $0, fail445
 	mov	=0, r1
 	mov	=0, r2
 	clr	r3
@@ -2568,7 +2568,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f446
+	cbne	r3, $1, fail446
 	mov	=0, r1
 	mov	=-9223372036854775808, r2
 	clr	r3
@@ -2576,7 +2576,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f447
+	cbne	r3, $1, fail447
 	mov	=0, r1
 	mov	=4607182418800017408, r2
 	clr	r3
@@ -2584,7 +2584,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f448
+	cbne	r3, $1, fail448
 	mov	=0, r1
 	mov	=-4613937818241073152, r2
 	clr	r3
@@ -2592,7 +2592,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f449
+	cbne	r3, $0, fail449
 	mov	=0, r1
 	mov	=4612811918334230528, r2
 	clr	r3
@@ -2600,7 +2600,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f450
+	cbne	r3, $1, fail450
 	mov	=0, r1
 	mov	=9218868437227405312, r2
 	clr	r3
@@ -2608,7 +2608,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f451
+	cbne	r3, $1, fail451
 	mov	=0, r1
 	mov	=-4503599627370496, r2
 	clr	r3
@@ -2616,7 +2616,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f452
+	cbne	r3, $0, fail452
 	mov	=0, r1
 	mov	=9221120237041090560, r2
 	clr	r3
@@ -2624,7 +2624,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f453
+	cbne	r3, $0, fail453
 	mov	=-9223372036854775808, r1
 	mov	=0, r2
 	clr	r3
@@ -2632,7 +2632,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f454
+	cbne	r3, $1, fail454
 	mov	=-9223372036854775808, r1
 	mov	=-9223372036854775808, r2
 	clr	r3
@@ -2640,7 +2640,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f455
+	cbne	r3, $1, fail455
 	mov	=-9223372036854775808, r1
 	mov	=4607182418800017408, r2
 	clr	r3
@@ -2648,7 +2648,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f456
+	cbne	r3, $1, fail456
 	mov	=-9223372036854775808, r1
 	mov	=-4613937818241073152, r2
 	clr	r3
@@ -2656,7 +2656,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f457
+	cbne	r3, $0, fail457
 	mov	=-9223372036854775808, r1
 	mov	=4612811918334230528, r2
 	clr	r3
@@ -2664,7 +2664,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f458
+	cbne	r3, $1, fail458
 	mov	=-9223372036854775808, r1
 	mov	=9218868437227405312, r2
 	clr	r3
@@ -2672,7 +2672,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f459
+	cbne	r3, $1, fail459
 	mov	=-9223372036854775808, r1
 	mov	=-4503599627370496, r2
 	clr	r3
@@ -2680,7 +2680,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f460
+	cbne	r3, $0, fail460
 	mov	=-9223372036854775808, r1
 	mov	=9221120237041090560, r2
 	clr	r3
@@ -2688,7 +2688,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f461
+	cbne	r3, $0, fail461
 	mov	=4607182418800017408, r1
 	mov	=0, r2
 	clr	r3
@@ -2696,7 +2696,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f462
+	cbne	r3, $0, fail462
 	mov	=4607182418800017408, r1
 	mov	=-9223372036854775808, r2
 	clr	r3
@@ -2704,7 +2704,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f463
+	cbne	r3, $0, fail463
 	mov	=4607182418800017408, r1
 	mov	=4607182418800017408, r2
 	clr	r3
@@ -2712,7 +2712,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f464
+	cbne	r3, $1, fail464
 	mov	=4607182418800017408, r1
 	mov	=-4613937818241073152, r2
 	clr	r3
@@ -2720,7 +2720,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f465
+	cbne	r3, $0, fail465
 	mov	=4607182418800017408, r1
 	mov	=4612811918334230528, r2
 	clr	r3
@@ -2728,7 +2728,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f466
+	cbne	r3, $1, fail466
 	mov	=4607182418800017408, r1
 	mov	=9218868437227405312, r2
 	clr	r3
@@ -2736,7 +2736,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f467
+	cbne	r3, $1, fail467
 	mov	=4607182418800017408, r1
 	mov	=-4503599627370496, r2
 	clr	r3
@@ -2744,7 +2744,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f468
+	cbne	r3, $0, fail468
 	mov	=4607182418800017408, r1
 	mov	=9221120237041090560, r2
 	clr	r3
@@ -2752,7 +2752,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f469
+	cbne	r3, $0, fail469
 	mov	=-4613937818241073152, r1
 	mov	=0, r2
 	clr	r3
@@ -2760,7 +2760,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f470
+	cbne	r3, $1, fail470
 	mov	=-4613937818241073152, r1
 	mov	=-9223372036854775808, r2
 	clr	r3
@@ -2768,7 +2768,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f471
+	cbne	r3, $1, fail471
 	mov	=-4613937818241073152, r1
 	mov	=4607182418800017408, r2
 	clr	r3
@@ -2776,7 +2776,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f472
+	cbne	r3, $1, fail472
 	mov	=-4613937818241073152, r1
 	mov	=-4613937818241073152, r2
 	clr	r3
@@ -2784,7 +2784,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f473
+	cbne	r3, $1, fail473
 	mov	=-4613937818241073152, r1
 	mov	=4612811918334230528, r2
 	clr	r3
@@ -2792,7 +2792,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f474
+	cbne	r3, $1, fail474
 	mov	=-4613937818241073152, r1
 	mov	=9218868437227405312, r2
 	clr	r3
@@ -2800,7 +2800,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f475
+	cbne	r3, $1, fail475
 	mov	=-4613937818241073152, r1
 	mov	=-4503599627370496, r2
 	clr	r3
@@ -2808,7 +2808,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f476
+	cbne	r3, $0, fail476
 	mov	=-4613937818241073152, r1
 	mov	=9221120237041090560, r2
 	clr	r3
@@ -2816,7 +2816,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f477
+	cbne	r3, $0, fail477
 	mov	=4612811918334230528, r1
 	mov	=0, r2
 	clr	r3
@@ -2824,7 +2824,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f478
+	cbne	r3, $0, fail478
 	mov	=4612811918334230528, r1
 	mov	=-9223372036854775808, r2
 	clr	r3
@@ -2832,7 +2832,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f479
+	cbne	r3, $0, fail479
 	mov	=4612811918334230528, r1
 	mov	=4607182418800017408, r2
 	clr	r3
@@ -2840,7 +2840,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f480
+	cbne	r3, $0, fail480
 	mov	=4612811918334230528, r1
 	mov	=-4613937818241073152, r2
 	clr	r3
@@ -2848,7 +2848,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f481
+	cbne	r3, $0, fail481
 	mov	=4612811918334230528, r1
 	mov	=4612811918334230528, r2
 	clr	r3
@@ -2856,7 +2856,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f482
+	cbne	r3, $1, fail482
 	mov	=4612811918334230528, r1
 	mov	=9218868437227405312, r2
 	clr	r3
@@ -2864,7 +2864,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f483
+	cbne	r3, $1, fail483
 	mov	=4612811918334230528, r1
 	mov	=-4503599627370496, r2
 	clr	r3
@@ -2872,7 +2872,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f484
+	cbne	r3, $0, fail484
 	mov	=4612811918334230528, r1
 	mov	=9221120237041090560, r2
 	clr	r3
@@ -2880,7 +2880,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f485
+	cbne	r3, $0, fail485
 	mov	=9218868437227405312, r1
 	mov	=0, r2
 	clr	r3
@@ -2888,7 +2888,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f486
+	cbne	r3, $0, fail486
 	mov	=9218868437227405312, r1
 	mov	=-9223372036854775808, r2
 	clr	r3
@@ -2896,7 +2896,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f487
+	cbne	r3, $0, fail487
 	mov	=9218868437227405312, r1
 	mov	=4607182418800017408, r2
 	clr	r3
@@ -2904,7 +2904,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f488
+	cbne	r3, $0, fail488
 	mov	=9218868437227405312, r1
 	mov	=-4613937818241073152, r2
 	clr	r3
@@ -2912,7 +2912,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f489
+	cbne	r3, $0, fail489
 	mov	=9218868437227405312, r1
 	mov	=4612811918334230528, r2
 	clr	r3
@@ -2920,7 +2920,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f490
+	cbne	r3, $0, fail490
 	mov	=9218868437227405312, r1
 	mov	=9218868437227405312, r2
 	clr	r3
@@ -2928,7 +2928,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f491
+	cbne	r3, $1, fail491
 	mov	=9218868437227405312, r1
 	mov	=-4503599627370496, r2
 	clr	r3
@@ -2936,7 +2936,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f492
+	cbne	r3, $0, fail492
 	mov	=9218868437227405312, r1
 	mov	=9221120237041090560, r2
 	clr	r3
@@ -2944,7 +2944,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f493
+	cbne	r3, $0, fail493
 	mov	=-4503599627370496, r1
 	mov	=0, r2
 	clr	r3
@@ -2952,7 +2952,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f494
+	cbne	r3, $1, fail494
 	mov	=-4503599627370496, r1
 	mov	=-9223372036854775808, r2
 	clr	r3
@@ -2960,7 +2960,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f495
+	cbne	r3, $1, fail495
 	mov	=-4503599627370496, r1
 	mov	=4607182418800017408, r2
 	clr	r3
@@ -2968,7 +2968,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f496
+	cbne	r3, $1, fail496
 	mov	=-4503599627370496, r1
 	mov	=-4613937818241073152, r2
 	clr	r3
@@ -2976,7 +2976,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f497
+	cbne	r3, $1, fail497
 	mov	=-4503599627370496, r1
 	mov	=4612811918334230528, r2
 	clr	r3
@@ -2984,7 +2984,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f498
+	cbne	r3, $1, fail498
 	mov	=-4503599627370496, r1
 	mov	=9218868437227405312, r2
 	clr	r3
@@ -2992,7 +2992,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f499
+	cbne	r3, $1, fail499
 	mov	=-4503599627370496, r1
 	mov	=-4503599627370496, r2
 	clr	r3
@@ -3000,7 +3000,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f500
+	cbne	r3, $1, fail500
 	mov	=-4503599627370496, r1
 	mov	=9221120237041090560, r2
 	clr	r3
@@ -3008,7 +3008,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f501
+	cbne	r3, $0, fail501
 	mov	=9221120237041090560, r1
 	mov	=0, r2
 	clr	r3
@@ -3016,7 +3016,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f502
+	cbne	r3, $0, fail502
 	mov	=9221120237041090560, r1
 	mov	=-9223372036854775808, r2
 	clr	r3
@@ -3024,7 +3024,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f503
+	cbne	r3, $0, fail503
 	mov	=9221120237041090560, r1
 	mov	=4607182418800017408, r2
 	clr	r3
@@ -3032,7 +3032,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f504
+	cbne	r3, $0, fail504
 	mov	=9221120237041090560, r1
 	mov	=-4613937818241073152, r2
 	clr	r3
@@ -3040,7 +3040,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f505
+	cbne	r3, $0, fail505
 	mov	=9221120237041090560, r1
 	mov	=4612811918334230528, r2
 	clr	r3
@@ -3048,7 +3048,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f506
+	cbne	r3, $0, fail506
 	mov	=9221120237041090560, r1
 	mov	=9218868437227405312, r2
 	clr	r3
@@ -3056,7 +3056,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f507
+	cbne	r3, $0, fail507
 	mov	=9221120237041090560, r1
 	mov	=-4503599627370496, r2
 	clr	r3
@@ -3064,7 +3064,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f508
+	cbne	r3, $0, fail508
 	mov	=9221120237041090560, r1
 	mov	=9221120237041090560, r2
 	clr	r3
@@ -3072,7 +3072,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f509
+	cbne	r3, $0, fail509
 	mov	=0, r1
 	mov	=0, r2
 	clr	r3
@@ -3080,7 +3080,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f510
+	cbne	r3, $0, fail510
 	mov	=0, r1
 	mov	=-9223372036854775808, r2
 	clr	r3
@@ -3088,7 +3088,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f511
+	cbne	r3, $0, fail511
 	mov	=0, r1
 	mov	=4607182418800017408, r2
 	clr	r3
@@ -3096,7 +3096,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f512
+	cbne	r3, $0, fail512
 	mov	=0, r1
 	mov	=-4613937818241073152, r2
 	clr	r3
@@ -3104,7 +3104,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f513
+	cbne	r3, $1, fail513
 	mov	=0, r1
 	mov	=4612811918334230528, r2
 	clr	r3
@@ -3112,7 +3112,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f514
+	cbne	r3, $0, fail514
 	mov	=0, r1
 	mov	=9218868437227405312, r2
 	clr	r3
@@ -3120,7 +3120,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f515
+	cbne	r3, $0, fail515
 	mov	=0, r1
 	mov	=-4503599627370496, r2
 	clr	r3
@@ -3128,7 +3128,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f516
+	cbne	r3, $1, fail516
 	mov	=0, r1
 	mov	=9221120237041090560, r2
 	clr	r3
@@ -3136,7 +3136,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f517
+	cbne	r3, $0, fail517
 	mov	=-9223372036854775808, r1
 	mov	=0, r2
 	clr	r3
@@ -3144,7 +3144,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f518
+	cbne	r3, $0, fail518
 	mov	=-9223372036854775808, r1
 	mov	=-9223372036854775808, r2
 	clr	r3
@@ -3152,7 +3152,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f519
+	cbne	r3, $0, fail519
 	mov	=-9223372036854775808, r1
 	mov	=4607182418800017408, r2
 	clr	r3
@@ -3160,7 +3160,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f520
+	cbne	r3, $0, fail520
 	mov	=-9223372036854775808, r1
 	mov	=-4613937818241073152, r2
 	clr	r3
@@ -3168,7 +3168,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f521
+	cbne	r3, $1, fail521
 	mov	=-9223372036854775808, r1
 	mov	=4612811918334230528, r2
 	clr	r3
@@ -3176,7 +3176,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f522
+	cbne	r3, $0, fail522
 	mov	=-9223372036854775808, r1
 	mov	=9218868437227405312, r2
 	clr	r3
@@ -3184,7 +3184,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f523
+	cbne	r3, $0, fail523
 	mov	=-9223372036854775808, r1
 	mov	=-4503599627370496, r2
 	clr	r3
@@ -3192,7 +3192,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f524
+	cbne	r3, $1, fail524
 	mov	=-9223372036854775808, r1
 	mov	=9221120237041090560, r2
 	clr	r3
@@ -3200,7 +3200,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f525
+	cbne	r3, $0, fail525
 	mov	=4607182418800017408, r1
 	mov	=0, r2
 	clr	r3
@@ -3208,7 +3208,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f526
+	cbne	r3, $1, fail526
 	mov	=4607182418800017408, r1
 	mov	=-9223372036854775808, r2
 	clr	r3
@@ -3216,7 +3216,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f527
+	cbne	r3, $1, fail527
 	mov	=4607182418800017408, r1
 	mov	=4607182418800017408, r2
 	clr	r3
@@ -3224,7 +3224,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f528
+	cbne	r3, $0, fail528
 	mov	=4607182418800017408, r1
 	mov	=-4613937818241073152, r2
 	clr	r3
@@ -3232,7 +3232,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f529
+	cbne	r3, $1, fail529
 	mov	=4607182418800017408, r1
 	mov	=4612811918334230528, r2
 	clr	r3
@@ -3240,7 +3240,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f530
+	cbne	r3, $0, fail530
 	mov	=4607182418800017408, r1
 	mov	=9218868437227405312, r2
 	clr	r3
@@ -3248,7 +3248,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f531
+	cbne	r3, $0, fail531
 	mov	=4607182418800017408, r1
 	mov	=-4503599627370496, r2
 	clr	r3
@@ -3256,7 +3256,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f532
+	cbne	r3, $1, fail532
 	mov	=4607182418800017408, r1
 	mov	=9221120237041090560, r2
 	clr	r3
@@ -3264,7 +3264,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f533
+	cbne	r3, $0, fail533
 	mov	=-4613937818241073152, r1
 	mov	=0, r2
 	clr	r3
@@ -3272,7 +3272,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f534
+	cbne	r3, $0, fail534
 	mov	=-4613937818241073152, r1
 	mov	=-9223372036854775808, r2
 	clr	r3
@@ -3280,7 +3280,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f535
+	cbne	r3, $0, fail535
 	mov	=-4613937818241073152, r1
 	mov	=4607182418800017408, r2
 	clr	r3
@@ -3288,7 +3288,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f536
+	cbne	r3, $0, fail536
 	mov	=-4613937818241073152, r1
 	mov	=-4613937818241073152, r2
 	clr	r3
@@ -3296,7 +3296,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f537
+	cbne	r3, $0, fail537
 	mov	=-4613937818241073152, r1
 	mov	=4612811918334230528, r2
 	clr	r3
@@ -3304,7 +3304,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f538
+	cbne	r3, $0, fail538
 	mov	=-4613937818241073152, r1
 	mov	=9218868437227405312, r2
 	clr	r3
@@ -3312,7 +3312,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f539
+	cbne	r3, $0, fail539
 	mov	=-4613937818241073152, r1
 	mov	=-4503599627370496, r2
 	clr	r3
@@ -3320,7 +3320,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f540
+	cbne	r3, $1, fail540
 	mov	=-4613937818241073152, r1
 	mov	=9221120237041090560, r2
 	clr	r3
@@ -3328,7 +3328,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f541
+	cbne	r3, $0, fail541
 	mov	=4612811918334230528, r1
 	mov	=0, r2
 	clr	r3
@@ -3336,7 +3336,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f542
+	cbne	r3, $1, fail542
 	mov	=4612811918334230528, r1
 	mov	=-9223372036854775808, r2
 	clr	r3
@@ -3344,7 +3344,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f543
+	cbne	r3, $1, fail543
 	mov	=4612811918334230528, r1
 	mov	=4607182418800017408, r2
 	clr	r3
@@ -3352,7 +3352,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f544
+	cbne	r3, $1, fail544
 	mov	=4612811918334230528, r1
 	mov	=-4613937818241073152, r2
 	clr	r3
@@ -3360,7 +3360,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f545
+	cbne	r3, $1, fail545
 	mov	=4612811918334230528, r1
 	mov	=4612811918334230528, r2
 	clr	r3
@@ -3368,7 +3368,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f546
+	cbne	r3, $0, fail546
 	mov	=4612811918334230528, r1
 	mov	=9218868437227405312, r2
 	clr	r3
@@ -3376,7 +3376,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f547
+	cbne	r3, $0, fail547
 	mov	=4612811918334230528, r1
 	mov	=-4503599627370496, r2
 	clr	r3
@@ -3384,7 +3384,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f548
+	cbne	r3, $1, fail548
 	mov	=4612811918334230528, r1
 	mov	=9221120237041090560, r2
 	clr	r3
@@ -3392,7 +3392,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f549
+	cbne	r3, $0, fail549
 	mov	=9218868437227405312, r1
 	mov	=0, r2
 	clr	r3
@@ -3400,7 +3400,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f550
+	cbne	r3, $1, fail550
 	mov	=9218868437227405312, r1
 	mov	=-9223372036854775808, r2
 	clr	r3
@@ -3408,7 +3408,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f551
+	cbne	r3, $1, fail551
 	mov	=9218868437227405312, r1
 	mov	=4607182418800017408, r2
 	clr	r3
@@ -3416,7 +3416,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f552
+	cbne	r3, $1, fail552
 	mov	=9218868437227405312, r1
 	mov	=-4613937818241073152, r2
 	clr	r3
@@ -3424,7 +3424,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f553
+	cbne	r3, $1, fail553
 	mov	=9218868437227405312, r1
 	mov	=4612811918334230528, r2
 	clr	r3
@@ -3432,7 +3432,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f554
+	cbne	r3, $1, fail554
 	mov	=9218868437227405312, r1
 	mov	=9218868437227405312, r2
 	clr	r3
@@ -3440,7 +3440,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f555
+	cbne	r3, $0, fail555
 	mov	=9218868437227405312, r1
 	mov	=-4503599627370496, r2
 	clr	r3
@@ -3448,7 +3448,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f556
+	cbne	r3, $1, fail556
 	mov	=9218868437227405312, r1
 	mov	=9221120237041090560, r2
 	clr	r3
@@ -3456,7 +3456,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f557
+	cbne	r3, $0, fail557
 	mov	=-4503599627370496, r1
 	mov	=0, r2
 	clr	r3
@@ -3464,7 +3464,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f558
+	cbne	r3, $0, fail558
 	mov	=-4503599627370496, r1
 	mov	=-9223372036854775808, r2
 	clr	r3
@@ -3472,7 +3472,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f559
+	cbne	r3, $0, fail559
 	mov	=-4503599627370496, r1
 	mov	=4607182418800017408, r2
 	clr	r3
@@ -3480,7 +3480,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f560
+	cbne	r3, $0, fail560
 	mov	=-4503599627370496, r1
 	mov	=-4613937818241073152, r2
 	clr	r3
@@ -3488,7 +3488,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f561
+	cbne	r3, $0, fail561
 	mov	=-4503599627370496, r1
 	mov	=4612811918334230528, r2
 	clr	r3
@@ -3496,7 +3496,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f562
+	cbne	r3, $0, fail562
 	mov	=-4503599627370496, r1
 	mov	=9218868437227405312, r2
 	clr	r3
@@ -3504,7 +3504,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f563
+	cbne	r3, $0, fail563
 	mov	=-4503599627370496, r1
 	mov	=-4503599627370496, r2
 	clr	r3
@@ -3512,7 +3512,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f564
+	cbne	r3, $0, fail564
 	mov	=-4503599627370496, r1
 	mov	=9221120237041090560, r2
 	clr	r3
@@ -3520,7 +3520,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f565
+	cbne	r3, $0, fail565
 	mov	=9221120237041090560, r1
 	mov	=0, r2
 	clr	r3
@@ -3528,7 +3528,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f566
+	cbne	r3, $0, fail566
 	mov	=9221120237041090560, r1
 	mov	=-9223372036854775808, r2
 	clr	r3
@@ -3536,7 +3536,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f567
+	cbne	r3, $0, fail567
 	mov	=9221120237041090560, r1
 	mov	=4607182418800017408, r2
 	clr	r3
@@ -3544,7 +3544,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f568
+	cbne	r3, $0, fail568
 	mov	=9221120237041090560, r1
 	mov	=-4613937818241073152, r2
 	clr	r3
@@ -3552,7 +3552,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f569
+	cbne	r3, $0, fail569
 	mov	=9221120237041090560, r1
 	mov	=4612811918334230528, r2
 	clr	r3
@@ -3560,7 +3560,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f570
+	cbne	r3, $0, fail570
 	mov	=9221120237041090560, r1
 	mov	=9218868437227405312, r2
 	clr	r3
@@ -3568,7 +3568,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f571
+	cbne	r3, $0, fail571
 	mov	=9221120237041090560, r1
 	mov	=-4503599627370496, r2
 	clr	r3
@@ -3576,7 +3576,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f572
+	cbne	r3, $0, fail572
 	mov	=9221120237041090560, r1
 	mov	=9221120237041090560, r2
 	clr	r3
@@ -3584,7 +3584,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f573
+	cbne	r3, $0, fail573
 	mov	=0, r1
 	mov	=0, r2
 	clr	r3
@@ -3592,7 +3592,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f574
+	cbne	r3, $1, fail574
 	mov	=0, r1
 	mov	=-9223372036854775808, r2
 	clr	r3
@@ -3600,7 +3600,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f575
+	cbne	r3, $1, fail575
 	mov	=0, r1
 	mov	=4607182418800017408, r2
 	clr	r3
@@ -3608,7 +3608,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f576
+	cbne	r3, $0, fail576
 	mov	=0, r1
 	mov	=-4613937818241073152, r2
 	clr	r3
@@ -3616,7 +3616,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f577
+	cbne	r3, $1, fail577
 	mov	=0, r1
 	mov	=4612811918334230528, r2
 	clr	r3
@@ -3624,7 +3624,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f578
+	cbne	r3, $0, fail578
 	mov	=0, r1
 	mov	=9218868437227405312, r2
 	clr	r3
@@ -3632,7 +3632,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f579
+	cbne	r3, $0, fail579
 	mov	=0, r1
 	mov	=-4503599627370496, r2
 	clr	r3
@@ -3640,7 +3640,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f580
+	cbne	r3, $1, fail580
 	mov	=0, r1
 	mov	=9221120237041090560, r2
 	clr	r3
@@ -3648,7 +3648,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f581
+	cbne	r3, $0, fail581
 	mov	=-9223372036854775808, r1
 	mov	=0, r2
 	clr	r3
@@ -3656,7 +3656,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f582
+	cbne	r3, $1, fail582
 	mov	=-9223372036854775808, r1
 	mov	=-9223372036854775808, r2
 	clr	r3
@@ -3664,7 +3664,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f583
+	cbne	r3, $1, fail583
 	mov	=-9223372036854775808, r1
 	mov	=4607182418800017408, r2
 	clr	r3
@@ -3672,7 +3672,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f584
+	cbne	r3, $0, fail584
 	mov	=-9223372036854775808, r1
 	mov	=-4613937818241073152, r2
 	clr	r3
@@ -3680,7 +3680,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f585
+	cbne	r3, $1, fail585
 	mov	=-9223372036854775808, r1
 	mov	=4612811918334230528, r2
 	clr	r3
@@ -3688,7 +3688,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f586
+	cbne	r3, $0, fail586
 	mov	=-9223372036854775808, r1
 	mov	=9218868437227405312, r2
 	clr	r3
@@ -3696,7 +3696,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f587
+	cbne	r3, $0, fail587
 	mov	=-9223372036854775808, r1
 	mov	=-4503599627370496, r2
 	clr	r3
@@ -3704,7 +3704,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f588
+	cbne	r3, $1, fail588
 	mov	=-9223372036854775808, r1
 	mov	=9221120237041090560, r2
 	clr	r3
@@ -3712,7 +3712,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f589
+	cbne	r3, $0, fail589
 	mov	=4607182418800017408, r1
 	mov	=0, r2
 	clr	r3
@@ -3720,7 +3720,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f590
+	cbne	r3, $1, fail590
 	mov	=4607182418800017408, r1
 	mov	=-9223372036854775808, r2
 	clr	r3
@@ -3728,7 +3728,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f591
+	cbne	r3, $1, fail591
 	mov	=4607182418800017408, r1
 	mov	=4607182418800017408, r2
 	clr	r3
@@ -3736,7 +3736,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f592
+	cbne	r3, $1, fail592
 	mov	=4607182418800017408, r1
 	mov	=-4613937818241073152, r2
 	clr	r3
@@ -3744,7 +3744,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f593
+	cbne	r3, $1, fail593
 	mov	=4607182418800017408, r1
 	mov	=4612811918334230528, r2
 	clr	r3
@@ -3752,7 +3752,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f594
+	cbne	r3, $0, fail594
 	mov	=4607182418800017408, r1
 	mov	=9218868437227405312, r2
 	clr	r3
@@ -3760,7 +3760,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f595
+	cbne	r3, $0, fail595
 	mov	=4607182418800017408, r1
 	mov	=-4503599627370496, r2
 	clr	r3
@@ -3768,7 +3768,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f596
+	cbne	r3, $1, fail596
 	mov	=4607182418800017408, r1
 	mov	=9221120237041090560, r2
 	clr	r3
@@ -3776,7 +3776,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f597
+	cbne	r3, $0, fail597
 	mov	=-4613937818241073152, r1
 	mov	=0, r2
 	clr	r3
@@ -3784,7 +3784,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f598
+	cbne	r3, $0, fail598
 	mov	=-4613937818241073152, r1
 	mov	=-9223372036854775808, r2
 	clr	r3
@@ -3792,7 +3792,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f599
+	cbne	r3, $0, fail599
 	mov	=-4613937818241073152, r1
 	mov	=4607182418800017408, r2
 	clr	r3
@@ -3800,7 +3800,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f600
+	cbne	r3, $0, fail600
 	mov	=-4613937818241073152, r1
 	mov	=-4613937818241073152, r2
 	clr	r3
@@ -3808,7 +3808,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f601
+	cbne	r3, $1, fail601
 	mov	=-4613937818241073152, r1
 	mov	=4612811918334230528, r2
 	clr	r3
@@ -3816,7 +3816,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f602
+	cbne	r3, $0, fail602
 	mov	=-4613937818241073152, r1
 	mov	=9218868437227405312, r2
 	clr	r3
@@ -3824,7 +3824,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f603
+	cbne	r3, $0, fail603
 	mov	=-4613937818241073152, r1
 	mov	=-4503599627370496, r2
 	clr	r3
@@ -3832,7 +3832,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f604
+	cbne	r3, $1, fail604
 	mov	=-4613937818241073152, r1
 	mov	=9221120237041090560, r2
 	clr	r3
@@ -3840,7 +3840,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f605
+	cbne	r3, $0, fail605
 	mov	=4612811918334230528, r1
 	mov	=0, r2
 	clr	r3
@@ -3848,7 +3848,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f606
+	cbne	r3, $1, fail606
 	mov	=4612811918334230528, r1
 	mov	=-9223372036854775808, r2
 	clr	r3
@@ -3856,7 +3856,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f607
+	cbne	r3, $1, fail607
 	mov	=4612811918334230528, r1
 	mov	=4607182418800017408, r2
 	clr	r3
@@ -3864,7 +3864,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f608
+	cbne	r3, $1, fail608
 	mov	=4612811918334230528, r1
 	mov	=-4613937818241073152, r2
 	clr	r3
@@ -3872,7 +3872,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f609
+	cbne	r3, $1, fail609
 	mov	=4612811918334230528, r1
 	mov	=4612811918334230528, r2
 	clr	r3
@@ -3880,7 +3880,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f610
+	cbne	r3, $1, fail610
 	mov	=4612811918334230528, r1
 	mov	=9218868437227405312, r2
 	clr	r3
@@ -3888,7 +3888,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f611
+	cbne	r3, $0, fail611
 	mov	=4612811918334230528, r1
 	mov	=-4503599627370496, r2
 	clr	r3
@@ -3896,7 +3896,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f612
+	cbne	r3, $1, fail612
 	mov	=4612811918334230528, r1
 	mov	=9221120237041090560, r2
 	clr	r3
@@ -3904,7 +3904,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f613
+	cbne	r3, $0, fail613
 	mov	=9218868437227405312, r1
 	mov	=0, r2
 	clr	r3
@@ -3912,7 +3912,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f614
+	cbne	r3, $1, fail614
 	mov	=9218868437227405312, r1
 	mov	=-9223372036854775808, r2
 	clr	r3
@@ -3920,7 +3920,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f615
+	cbne	r3, $1, fail615
 	mov	=9218868437227405312, r1
 	mov	=4607182418800017408, r2
 	clr	r3
@@ -3928,7 +3928,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f616
+	cbne	r3, $1, fail616
 	mov	=9218868437227405312, r1
 	mov	=-4613937818241073152, r2
 	clr	r3
@@ -3936,7 +3936,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f617
+	cbne	r3, $1, fail617
 	mov	=9218868437227405312, r1
 	mov	=4612811918334230528, r2
 	clr	r3
@@ -3944,7 +3944,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f618
+	cbne	r3, $1, fail618
 	mov	=9218868437227405312, r1
 	mov	=9218868437227405312, r2
 	clr	r3
@@ -3952,7 +3952,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f619
+	cbne	r3, $1, fail619
 	mov	=9218868437227405312, r1
 	mov	=-4503599627370496, r2
 	clr	r3
@@ -3960,7 +3960,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f620
+	cbne	r3, $1, fail620
 	mov	=9218868437227405312, r1
 	mov	=9221120237041090560, r2
 	clr	r3
@@ -3968,7 +3968,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f621
+	cbne	r3, $0, fail621
 	mov	=-4503599627370496, r1
 	mov	=0, r2
 	clr	r3
@@ -3976,7 +3976,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f622
+	cbne	r3, $0, fail622
 	mov	=-4503599627370496, r1
 	mov	=-9223372036854775808, r2
 	clr	r3
@@ -3984,7 +3984,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f623
+	cbne	r3, $0, fail623
 	mov	=-4503599627370496, r1
 	mov	=4607182418800017408, r2
 	clr	r3
@@ -3992,7 +3992,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f624
+	cbne	r3, $0, fail624
 	mov	=-4503599627370496, r1
 	mov	=-4613937818241073152, r2
 	clr	r3
@@ -4000,7 +4000,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f625
+	cbne	r3, $0, fail625
 	mov	=-4503599627370496, r1
 	mov	=4612811918334230528, r2
 	clr	r3
@@ -4008,7 +4008,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f626
+	cbne	r3, $0, fail626
 	mov	=-4503599627370496, r1
 	mov	=9218868437227405312, r2
 	clr	r3
@@ -4016,7 +4016,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f627
+	cbne	r3, $0, fail627
 	mov	=-4503599627370496, r1
 	mov	=-4503599627370496, r2
 	clr	r3
@@ -4024,7 +4024,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f628
+	cbne	r3, $1, fail628
 	mov	=-4503599627370496, r1
 	mov	=9221120237041090560, r2
 	clr	r3
@@ -4032,7 +4032,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f629
+	cbne	r3, $0, fail629
 	mov	=9221120237041090560, r1
 	mov	=0, r2
 	clr	r3
@@ -4040,7 +4040,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f630
+	cbne	r3, $0, fail630
 	mov	=9221120237041090560, r1
 	mov	=-9223372036854775808, r2
 	clr	r3
@@ -4048,7 +4048,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f631
+	cbne	r3, $0, fail631
 	mov	=9221120237041090560, r1
 	mov	=4607182418800017408, r2
 	clr	r3
@@ -4056,7 +4056,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f632
+	cbne	r3, $0, fail632
 	mov	=9221120237041090560, r1
 	mov	=-4613937818241073152, r2
 	clr	r3
@@ -4064,7 +4064,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f633
+	cbne	r3, $0, fail633
 	mov	=9221120237041090560, r1
 	mov	=4612811918334230528, r2
 	clr	r3
@@ -4072,7 +4072,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f634
+	cbne	r3, $0, fail634
 	mov	=9221120237041090560, r1
 	mov	=9218868437227405312, r2
 	clr	r3
@@ -4080,7 +4080,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f635
+	cbne	r3, $0, fail635
 	mov	=9221120237041090560, r1
 	mov	=-4503599627370496, r2
 	clr	r3
@@ -4088,7 +4088,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f636
+	cbne	r3, $0, fail636
 	mov	=9221120237041090560, r1
 	mov	=9221120237041090560, r2
 	clr	r3
@@ -4096,7 +4096,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f637
+	cbne	r3, $0, fail637
 	mov	=0, r1
 	mov	=0, r2
 	clr	r3
@@ -4104,7 +4104,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f638
+	cbne	r3, $0, fail638
 	mov	=0, r1
 	mov	=-9223372036854775808, r2
 	clr	r3
@@ -4112,7 +4112,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f639
+	cbne	r3, $0, fail639
 	mov	=0, r1
 	mov	=4607182418800017408, r2
 	clr	r3
@@ -4120,7 +4120,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f640
+	cbne	r3, $0, fail640
 	mov	=0, r1
 	mov	=-4613937818241073152, r2
 	clr	r3
@@ -4128,7 +4128,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f641
+	cbne	r3, $0, fail641
 	mov	=0, r1
 	mov	=4612811918334230528, r2
 	clr	r3
@@ -4136,7 +4136,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f642
+	cbne	r3, $0, fail642
 	mov	=0, r1
 	mov	=9218868437227405312, r2
 	clr	r3
@@ -4144,7 +4144,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f643
+	cbne	r3, $0, fail643
 	mov	=0, r1
 	mov	=-4503599627370496, r2
 	clr	r3
@@ -4152,7 +4152,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f644
+	cbne	r3, $0, fail644
 	mov	=0, r1
 	mov	=9221120237041090560, r2
 	clr	r3
@@ -4160,7 +4160,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f645
+	cbne	r3, $1, fail645
 	mov	=-9223372036854775808, r1
 	mov	=0, r2
 	clr	r3
@@ -4168,7 +4168,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f646
+	cbne	r3, $0, fail646
 	mov	=-9223372036854775808, r1
 	mov	=-9223372036854775808, r2
 	clr	r3
@@ -4176,7 +4176,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f647
+	cbne	r3, $0, fail647
 	mov	=-9223372036854775808, r1
 	mov	=4607182418800017408, r2
 	clr	r3
@@ -4184,7 +4184,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f648
+	cbne	r3, $0, fail648
 	mov	=-9223372036854775808, r1
 	mov	=-4613937818241073152, r2
 	clr	r3
@@ -4192,7 +4192,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f649
+	cbne	r3, $0, fail649
 	mov	=-9223372036854775808, r1
 	mov	=4612811918334230528, r2
 	clr	r3
@@ -4200,7 +4200,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f650
+	cbne	r3, $0, fail650
 	mov	=-9223372036854775808, r1
 	mov	=9218868437227405312, r2
 	clr	r3
@@ -4208,7 +4208,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f651
+	cbne	r3, $0, fail651
 	mov	=-9223372036854775808, r1
 	mov	=-4503599627370496, r2
 	clr	r3
@@ -4216,7 +4216,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f652
+	cbne	r3, $0, fail652
 	mov	=-9223372036854775808, r1
 	mov	=9221120237041090560, r2
 	clr	r3
@@ -4224,7 +4224,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f653
+	cbne	r3, $1, fail653
 	mov	=4607182418800017408, r1
 	mov	=0, r2
 	clr	r3
@@ -4232,7 +4232,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f654
+	cbne	r3, $0, fail654
 	mov	=4607182418800017408, r1
 	mov	=-9223372036854775808, r2
 	clr	r3
@@ -4240,7 +4240,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f655
+	cbne	r3, $0, fail655
 	mov	=4607182418800017408, r1
 	mov	=4607182418800017408, r2
 	clr	r3
@@ -4248,7 +4248,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f656
+	cbne	r3, $0, fail656
 	mov	=4607182418800017408, r1
 	mov	=-4613937818241073152, r2
 	clr	r3
@@ -4256,7 +4256,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f657
+	cbne	r3, $0, fail657
 	mov	=4607182418800017408, r1
 	mov	=4612811918334230528, r2
 	clr	r3
@@ -4264,7 +4264,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f658
+	cbne	r3, $0, fail658
 	mov	=4607182418800017408, r1
 	mov	=9218868437227405312, r2
 	clr	r3
@@ -4272,7 +4272,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f659
+	cbne	r3, $0, fail659
 	mov	=4607182418800017408, r1
 	mov	=-4503599627370496, r2
 	clr	r3
@@ -4280,7 +4280,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f660
+	cbne	r3, $0, fail660
 	mov	=4607182418800017408, r1
 	mov	=9221120237041090560, r2
 	clr	r3
@@ -4288,7 +4288,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f661
+	cbne	r3, $1, fail661
 	mov	=-4613937818241073152, r1
 	mov	=0, r2
 	clr	r3
@@ -4296,7 +4296,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f662
+	cbne	r3, $0, fail662
 	mov	=-4613937818241073152, r1
 	mov	=-9223372036854775808, r2
 	clr	r3
@@ -4304,7 +4304,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f663
+	cbne	r3, $0, fail663
 	mov	=-4613937818241073152, r1
 	mov	=4607182418800017408, r2
 	clr	r3
@@ -4312,7 +4312,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f664
+	cbne	r3, $0, fail664
 	mov	=-4613937818241073152, r1
 	mov	=-4613937818241073152, r2
 	clr	r3
@@ -4320,7 +4320,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f665
+	cbne	r3, $0, fail665
 	mov	=-4613937818241073152, r1
 	mov	=4612811918334230528, r2
 	clr	r3
@@ -4328,7 +4328,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f666
+	cbne	r3, $0, fail666
 	mov	=-4613937818241073152, r1
 	mov	=9218868437227405312, r2
 	clr	r3
@@ -4336,7 +4336,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f667
+	cbne	r3, $0, fail667
 	mov	=-4613937818241073152, r1
 	mov	=-4503599627370496, r2
 	clr	r3
@@ -4344,7 +4344,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f668
+	cbne	r3, $0, fail668
 	mov	=-4613937818241073152, r1
 	mov	=9221120237041090560, r2
 	clr	r3
@@ -4352,7 +4352,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f669
+	cbne	r3, $1, fail669
 	mov	=4612811918334230528, r1
 	mov	=0, r2
 	clr	r3
@@ -4360,7 +4360,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f670
+	cbne	r3, $0, fail670
 	mov	=4612811918334230528, r1
 	mov	=-9223372036854775808, r2
 	clr	r3
@@ -4368,7 +4368,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f671
+	cbne	r3, $0, fail671
 	mov	=4612811918334230528, r1
 	mov	=4607182418800017408, r2
 	clr	r3
@@ -4376,7 +4376,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f672
+	cbne	r3, $0, fail672
 	mov	=4612811918334230528, r1
 	mov	=-4613937818241073152, r2
 	clr	r3
@@ -4384,7 +4384,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f673
+	cbne	r3, $0, fail673
 	mov	=4612811918334230528, r1
 	mov	=4612811918334230528, r2
 	clr	r3
@@ -4392,7 +4392,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f674
+	cbne	r3, $0, fail674
 	mov	=4612811918334230528, r1
 	mov	=9218868437227405312, r2
 	clr	r3
@@ -4400,7 +4400,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f675
+	cbne	r3, $0, fail675
 	mov	=4612811918334230528, r1
 	mov	=-4503599627370496, r2
 	clr	r3
@@ -4408,7 +4408,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f676
+	cbne	r3, $0, fail676
 	mov	=4612811918334230528, r1
 	mov	=9221120237041090560, r2
 	clr	r3
@@ -4416,7 +4416,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f677
+	cbne	r3, $1, fail677
 	mov	=9218868437227405312, r1
 	mov	=0, r2
 	clr	r3
@@ -4424,7 +4424,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f678
+	cbne	r3, $0, fail678
 	mov	=9218868437227405312, r1
 	mov	=-9223372036854775808, r2
 	clr	r3
@@ -4432,7 +4432,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f679
+	cbne	r3, $0, fail679
 	mov	=9218868437227405312, r1
 	mov	=4607182418800017408, r2
 	clr	r3
@@ -4440,7 +4440,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f680
+	cbne	r3, $0, fail680
 	mov	=9218868437227405312, r1
 	mov	=-4613937818241073152, r2
 	clr	r3
@@ -4448,7 +4448,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f681
+	cbne	r3, $0, fail681
 	mov	=9218868437227405312, r1
 	mov	=4612811918334230528, r2
 	clr	r3
@@ -4456,7 +4456,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f682
+	cbne	r3, $0, fail682
 	mov	=9218868437227405312, r1
 	mov	=9218868437227405312, r2
 	clr	r3
@@ -4464,7 +4464,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f683
+	cbne	r3, $0, fail683
 	mov	=9218868437227405312, r1
 	mov	=-4503599627370496, r2
 	clr	r3
@@ -4472,7 +4472,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f684
+	cbne	r3, $0, fail684
 	mov	=9218868437227405312, r1
 	mov	=9221120237041090560, r2
 	clr	r3
@@ -4480,7 +4480,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f685
+	cbne	r3, $1, fail685
 	mov	=-4503599627370496, r1
 	mov	=0, r2
 	clr	r3
@@ -4488,7 +4488,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f686
+	cbne	r3, $0, fail686
 	mov	=-4503599627370496, r1
 	mov	=-9223372036854775808, r2
 	clr	r3
@@ -4496,7 +4496,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f687
+	cbne	r3, $0, fail687
 	mov	=-4503599627370496, r1
 	mov	=4607182418800017408, r2
 	clr	r3
@@ -4504,7 +4504,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f688
+	cbne	r3, $0, fail688
 	mov	=-4503599627370496, r1
 	mov	=-4613937818241073152, r2
 	clr	r3
@@ -4512,7 +4512,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f689
+	cbne	r3, $0, fail689
 	mov	=-4503599627370496, r1
 	mov	=4612811918334230528, r2
 	clr	r3
@@ -4520,7 +4520,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f690
+	cbne	r3, $0, fail690
 	mov	=-4503599627370496, r1
 	mov	=9218868437227405312, r2
 	clr	r3
@@ -4528,7 +4528,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f691
+	cbne	r3, $0, fail691
 	mov	=-4503599627370496, r1
 	mov	=-4503599627370496, r2
 	clr	r3
@@ -4536,7 +4536,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f692
+	cbne	r3, $0, fail692
 	mov	=-4503599627370496, r1
 	mov	=9221120237041090560, r2
 	clr	r3
@@ -4544,7 +4544,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f693
+	cbne	r3, $1, fail693
 	mov	=9221120237041090560, r1
 	mov	=0, r2
 	clr	r3
@@ -4552,7 +4552,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f694
+	cbne	r3, $1, fail694
 	mov	=9221120237041090560, r1
 	mov	=-9223372036854775808, r2
 	clr	r3
@@ -4560,7 +4560,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f695
+	cbne	r3, $1, fail695
 	mov	=9221120237041090560, r1
 	mov	=4607182418800017408, r2
 	clr	r3
@@ -4568,7 +4568,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f696
+	cbne	r3, $1, fail696
 	mov	=9221120237041090560, r1
 	mov	=-4613937818241073152, r2
 	clr	r3
@@ -4576,7 +4576,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f697
+	cbne	r3, $1, fail697
 	mov	=9221120237041090560, r1
 	mov	=4612811918334230528, r2
 	clr	r3
@@ -4584,7 +4584,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f698
+	cbne	r3, $1, fail698
 	mov	=9221120237041090560, r1
 	mov	=9218868437227405312, r2
 	clr	r3
@@ -4592,7 +4592,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f699
+	cbne	r3, $1, fail699
 	mov	=9221120237041090560, r1
 	mov	=-4503599627370496, r2
 	clr	r3
@@ -4600,7 +4600,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f700
+	cbne	r3, $1, fail700
 	mov	=9221120237041090560, r1
 	mov	=9221120237041090560, r2
 	clr	r3
@@ -4608,7 +4608,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f701
+	cbne	r3, $1, fail701
 	mov	=0, r1
 	mov	=0, r2
 	clr	r3
@@ -4616,7 +4616,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f702
+	cbne	r3, $1, fail702
 	mov	=0, r1
 	mov	=-9223372036854775808, r2
 	clr	r3
@@ -4624,7 +4624,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f703
+	cbne	r3, $1, fail703
 	mov	=0, r1
 	mov	=4607182418800017408, r2
 	clr	r3
@@ -4632,7 +4632,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f704
+	cbne	r3, $1, fail704
 	mov	=0, r1
 	mov	=-4613937818241073152, r2
 	clr	r3
@@ -4640,7 +4640,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f705
+	cbne	r3, $1, fail705
 	mov	=0, r1
 	mov	=4612811918334230528, r2
 	clr	r3
@@ -4648,7 +4648,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f706
+	cbne	r3, $1, fail706
 	mov	=0, r1
 	mov	=9218868437227405312, r2
 	clr	r3
@@ -4656,7 +4656,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f707
+	cbne	r3, $1, fail707
 	mov	=0, r1
 	mov	=-4503599627370496, r2
 	clr	r3
@@ -4664,7 +4664,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f708
+	cbne	r3, $1, fail708
 	mov	=0, r1
 	mov	=9221120237041090560, r2
 	clr	r3
@@ -4672,7 +4672,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f709
+	cbne	r3, $0, fail709
 	mov	=-9223372036854775808, r1
 	mov	=0, r2
 	clr	r3
@@ -4680,7 +4680,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f710
+	cbne	r3, $1, fail710
 	mov	=-9223372036854775808, r1
 	mov	=-9223372036854775808, r2
 	clr	r3
@@ -4688,7 +4688,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f711
+	cbne	r3, $1, fail711
 	mov	=-9223372036854775808, r1
 	mov	=4607182418800017408, r2
 	clr	r3
@@ -4696,7 +4696,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f712
+	cbne	r3, $1, fail712
 	mov	=-9223372036854775808, r1
 	mov	=-4613937818241073152, r2
 	clr	r3
@@ -4704,7 +4704,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f713
+	cbne	r3, $1, fail713
 	mov	=-9223372036854775808, r1
 	mov	=4612811918334230528, r2
 	clr	r3
@@ -4712,7 +4712,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f714
+	cbne	r3, $1, fail714
 	mov	=-9223372036854775808, r1
 	mov	=9218868437227405312, r2
 	clr	r3
@@ -4720,7 +4720,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f715
+	cbne	r3, $1, fail715
 	mov	=-9223372036854775808, r1
 	mov	=-4503599627370496, r2
 	clr	r3
@@ -4728,7 +4728,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f716
+	cbne	r3, $1, fail716
 	mov	=-9223372036854775808, r1
 	mov	=9221120237041090560, r2
 	clr	r3
@@ -4736,7 +4736,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f717
+	cbne	r3, $0, fail717
 	mov	=4607182418800017408, r1
 	mov	=0, r2
 	clr	r3
@@ -4744,7 +4744,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f718
+	cbne	r3, $1, fail718
 	mov	=4607182418800017408, r1
 	mov	=-9223372036854775808, r2
 	clr	r3
@@ -4752,7 +4752,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f719
+	cbne	r3, $1, fail719
 	mov	=4607182418800017408, r1
 	mov	=4607182418800017408, r2
 	clr	r3
@@ -4760,7 +4760,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f720
+	cbne	r3, $1, fail720
 	mov	=4607182418800017408, r1
 	mov	=-4613937818241073152, r2
 	clr	r3
@@ -4768,7 +4768,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f721
+	cbne	r3, $1, fail721
 	mov	=4607182418800017408, r1
 	mov	=4612811918334230528, r2
 	clr	r3
@@ -4776,7 +4776,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f722
+	cbne	r3, $1, fail722
 	mov	=4607182418800017408, r1
 	mov	=9218868437227405312, r2
 	clr	r3
@@ -4784,7 +4784,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f723
+	cbne	r3, $1, fail723
 	mov	=4607182418800017408, r1
 	mov	=-4503599627370496, r2
 	clr	r3
@@ -4792,7 +4792,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f724
+	cbne	r3, $1, fail724
 	mov	=4607182418800017408, r1
 	mov	=9221120237041090560, r2
 	clr	r3
@@ -4800,7 +4800,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f725
+	cbne	r3, $0, fail725
 	mov	=-4613937818241073152, r1
 	mov	=0, r2
 	clr	r3
@@ -4808,7 +4808,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f726
+	cbne	r3, $1, fail726
 	mov	=-4613937818241073152, r1
 	mov	=-9223372036854775808, r2
 	clr	r3
@@ -4816,7 +4816,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f727
+	cbne	r3, $1, fail727
 	mov	=-4613937818241073152, r1
 	mov	=4607182418800017408, r2
 	clr	r3
@@ -4824,7 +4824,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f728
+	cbne	r3, $1, fail728
 	mov	=-4613937818241073152, r1
 	mov	=-4613937818241073152, r2
 	clr	r3
@@ -4832,7 +4832,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f729
+	cbne	r3, $1, fail729
 	mov	=-4613937818241073152, r1
 	mov	=4612811918334230528, r2
 	clr	r3
@@ -4840,7 +4840,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f730
+	cbne	r3, $1, fail730
 	mov	=-4613937818241073152, r1
 	mov	=9218868437227405312, r2
 	clr	r3
@@ -4848,7 +4848,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f731
+	cbne	r3, $1, fail731
 	mov	=-4613937818241073152, r1
 	mov	=-4503599627370496, r2
 	clr	r3
@@ -4856,7 +4856,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f732
+	cbne	r3, $1, fail732
 	mov	=-4613937818241073152, r1
 	mov	=9221120237041090560, r2
 	clr	r3
@@ -4864,7 +4864,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f733
+	cbne	r3, $0, fail733
 	mov	=4612811918334230528, r1
 	mov	=0, r2
 	clr	r3
@@ -4872,7 +4872,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f734
+	cbne	r3, $1, fail734
 	mov	=4612811918334230528, r1
 	mov	=-9223372036854775808, r2
 	clr	r3
@@ -4880,7 +4880,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f735
+	cbne	r3, $1, fail735
 	mov	=4612811918334230528, r1
 	mov	=4607182418800017408, r2
 	clr	r3
@@ -4888,7 +4888,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f736
+	cbne	r3, $1, fail736
 	mov	=4612811918334230528, r1
 	mov	=-4613937818241073152, r2
 	clr	r3
@@ -4896,7 +4896,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f737
+	cbne	r3, $1, fail737
 	mov	=4612811918334230528, r1
 	mov	=4612811918334230528, r2
 	clr	r3
@@ -4904,7 +4904,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f738
+	cbne	r3, $1, fail738
 	mov	=4612811918334230528, r1
 	mov	=9218868437227405312, r2
 	clr	r3
@@ -4912,7 +4912,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f739
+	cbne	r3, $1, fail739
 	mov	=4612811918334230528, r1
 	mov	=-4503599627370496, r2
 	clr	r3
@@ -4920,7 +4920,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f740
+	cbne	r3, $1, fail740
 	mov	=4612811918334230528, r1
 	mov	=9221120237041090560, r2
 	clr	r3
@@ -4928,7 +4928,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f741
+	cbne	r3, $0, fail741
 	mov	=9218868437227405312, r1
 	mov	=0, r2
 	clr	r3
@@ -4936,7 +4936,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f742
+	cbne	r3, $1, fail742
 	mov	=9218868437227405312, r1
 	mov	=-9223372036854775808, r2
 	clr	r3
@@ -4944,7 +4944,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f743
+	cbne	r3, $1, fail743
 	mov	=9218868437227405312, r1
 	mov	=4607182418800017408, r2
 	clr	r3
@@ -4952,7 +4952,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f744
+	cbne	r3, $1, fail744
 	mov	=9218868437227405312, r1
 	mov	=-4613937818241073152, r2
 	clr	r3
@@ -4960,7 +4960,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f745
+	cbne	r3, $1, fail745
 	mov	=9218868437227405312, r1
 	mov	=4612811918334230528, r2
 	clr	r3
@@ -4968,7 +4968,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f746
+	cbne	r3, $1, fail746
 	mov	=9218868437227405312, r1
 	mov	=9218868437227405312, r2
 	clr	r3
@@ -4976,7 +4976,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f747
+	cbne	r3, $1, fail747
 	mov	=9218868437227405312, r1
 	mov	=-4503599627370496, r2
 	clr	r3
@@ -4984,7 +4984,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f748
+	cbne	r3, $1, fail748
 	mov	=9218868437227405312, r1
 	mov	=9221120237041090560, r2
 	clr	r3
@@ -4992,7 +4992,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f749
+	cbne	r3, $0, fail749
 	mov	=-4503599627370496, r1
 	mov	=0, r2
 	clr	r3
@@ -5000,7 +5000,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f750
+	cbne	r3, $1, fail750
 	mov	=-4503599627370496, r1
 	mov	=-9223372036854775808, r2
 	clr	r3
@@ -5008,7 +5008,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f751
+	cbne	r3, $1, fail751
 	mov	=-4503599627370496, r1
 	mov	=4607182418800017408, r2
 	clr	r3
@@ -5016,7 +5016,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f752
+	cbne	r3, $1, fail752
 	mov	=-4503599627370496, r1
 	mov	=-4613937818241073152, r2
 	clr	r3
@@ -5024,7 +5024,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f753
+	cbne	r3, $1, fail753
 	mov	=-4503599627370496, r1
 	mov	=4612811918334230528, r2
 	clr	r3
@@ -5032,7 +5032,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f754
+	cbne	r3, $1, fail754
 	mov	=-4503599627370496, r1
 	mov	=9218868437227405312, r2
 	clr	r3
@@ -5040,7 +5040,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f755
+	cbne	r3, $1, fail755
 	mov	=-4503599627370496, r1
 	mov	=-4503599627370496, r2
 	clr	r3
@@ -5048,7 +5048,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f756
+	cbne	r3, $1, fail756
 	mov	=-4503599627370496, r1
 	mov	=9221120237041090560, r2
 	clr	r3
@@ -5056,7 +5056,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f757
+	cbne	r3, $0, fail757
 	mov	=9221120237041090560, r1
 	mov	=0, r2
 	clr	r3
@@ -5064,7 +5064,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f758
+	cbne	r3, $0, fail758
 	mov	=9221120237041090560, r1
 	mov	=-9223372036854775808, r2
 	clr	r3
@@ -5072,7 +5072,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f759
+	cbne	r3, $0, fail759
 	mov	=9221120237041090560, r1
 	mov	=4607182418800017408, r2
 	clr	r3
@@ -5080,7 +5080,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f760
+	cbne	r3, $0, fail760
 	mov	=9221120237041090560, r1
 	mov	=-4613937818241073152, r2
 	clr	r3
@@ -5088,7 +5088,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f761
+	cbne	r3, $0, fail761
 	mov	=9221120237041090560, r1
 	mov	=4612811918334230528, r2
 	clr	r3
@@ -5096,7 +5096,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f762
+	cbne	r3, $0, fail762
 	mov	=9221120237041090560, r1
 	mov	=9218868437227405312, r2
 	clr	r3
@@ -5104,7 +5104,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f763
+	cbne	r3, $0, fail763
 	mov	=9221120237041090560, r1
 	mov	=-4503599627370496, r2
 	clr	r3
@@ -5112,7 +5112,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f764
+	cbne	r3, $0, fail764
 	mov	=9221120237041090560, r1
 	mov	=9221120237041090560, r2
 	clr	r3
@@ -5120,7 +5120,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f765
+	cbne	r3, $0, fail765
 	mov	=0, r1
 	mov	=0, r2
 	clr	r3
@@ -5128,7 +5128,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f766
+	cbne	r3, $1, fail766
 	mov	=0, r1
 	mov	=-2147483648, r2
 	clr	r3
@@ -5136,7 +5136,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f767
+	cbne	r3, $1, fail767
 	mov	=0, r1
 	mov	=1065353216, r2
 	clr	r3
@@ -5144,7 +5144,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f768
+	cbne	r3, $0, fail768
 	mov	=0, r1
 	mov	=-1077936128, r2
 	clr	r3
@@ -5152,7 +5152,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f769
+	cbne	r3, $0, fail769
 	mov	=0, r1
 	mov	=1075838976, r2
 	clr	r3
@@ -5160,7 +5160,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f770
+	cbne	r3, $0, fail770
 	mov	=0, r1
 	mov	=2139095040, r2
 	clr	r3
@@ -5168,7 +5168,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f771
+	cbne	r3, $0, fail771
 	mov	=0, r1
 	mov	=-8388608, r2
 	clr	r3
@@ -5176,7 +5176,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f772
+	cbne	r3, $0, fail772
 	mov	=0, r1
 	mov	=2143289344, r2
 	clr	r3
@@ -5184,7 +5184,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f773
+	cbne	r3, $0, fail773
 	mov	=-2147483648, r1
 	mov	=0, r2
 	clr	r3
@@ -5192,7 +5192,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f774
+	cbne	r3, $1, fail774
 	mov	=-2147483648, r1
 	mov	=-2147483648, r2
 	clr	r3
@@ -5200,7 +5200,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f775
+	cbne	r3, $1, fail775
 	mov	=-2147483648, r1
 	mov	=1065353216, r2
 	clr	r3
@@ -5208,7 +5208,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f776
+	cbne	r3, $0, fail776
 	mov	=-2147483648, r1
 	mov	=-1077936128, r2
 	clr	r3
@@ -5216,7 +5216,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f777
+	cbne	r3, $0, fail777
 	mov	=-2147483648, r1
 	mov	=1075838976, r2
 	clr	r3
@@ -5224,7 +5224,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f778
+	cbne	r3, $0, fail778
 	mov	=-2147483648, r1
 	mov	=2139095040, r2
 	clr	r3
@@ -5232,7 +5232,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f779
+	cbne	r3, $0, fail779
 	mov	=-2147483648, r1
 	mov	=-8388608, r2
 	clr	r3
@@ -5240,7 +5240,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f780
+	cbne	r3, $0, fail780
 	mov	=-2147483648, r1
 	mov	=2143289344, r2
 	clr	r3
@@ -5248,7 +5248,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f781
+	cbne	r3, $0, fail781
 	mov	=1065353216, r1
 	mov	=0, r2
 	clr	r3
@@ -5256,7 +5256,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f782
+	cbne	r3, $0, fail782
 	mov	=1065353216, r1
 	mov	=-2147483648, r2
 	clr	r3
@@ -5264,7 +5264,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f783
+	cbne	r3, $0, fail783
 	mov	=1065353216, r1
 	mov	=1065353216, r2
 	clr	r3
@@ -5272,7 +5272,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f784
+	cbne	r3, $1, fail784
 	mov	=1065353216, r1
 	mov	=-1077936128, r2
 	clr	r3
@@ -5280,7 +5280,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f785
+	cbne	r3, $0, fail785
 	mov	=1065353216, r1
 	mov	=1075838976, r2
 	clr	r3
@@ -5288,7 +5288,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f786
+	cbne	r3, $0, fail786
 	mov	=1065353216, r1
 	mov	=2139095040, r2
 	clr	r3
@@ -5296,7 +5296,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f787
+	cbne	r3, $0, fail787
 	mov	=1065353216, r1
 	mov	=-8388608, r2
 	clr	r3
@@ -5304,7 +5304,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f788
+	cbne	r3, $0, fail788
 	mov	=1065353216, r1
 	mov	=2143289344, r2
 	clr	r3
@@ -5312,7 +5312,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f789
+	cbne	r3, $0, fail789
 	mov	=-1077936128, r1
 	mov	=0, r2
 	clr	r3
@@ -5320,7 +5320,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f790
+	cbne	r3, $0, fail790
 	mov	=-1077936128, r1
 	mov	=-2147483648, r2
 	clr	r3
@@ -5328,7 +5328,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f791
+	cbne	r3, $0, fail791
 	mov	=-1077936128, r1
 	mov	=1065353216, r2
 	clr	r3
@@ -5336,7 +5336,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f792
+	cbne	r3, $0, fail792
 	mov	=-1077936128, r1
 	mov	=-1077936128, r2
 	clr	r3
@@ -5344,7 +5344,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f793
+	cbne	r3, $1, fail793
 	mov	=-1077936128, r1
 	mov	=1075838976, r2
 	clr	r3
@@ -5352,7 +5352,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f794
+	cbne	r3, $0, fail794
 	mov	=-1077936128, r1
 	mov	=2139095040, r2
 	clr	r3
@@ -5360,7 +5360,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f795
+	cbne	r3, $0, fail795
 	mov	=-1077936128, r1
 	mov	=-8388608, r2
 	clr	r3
@@ -5368,7 +5368,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f796
+	cbne	r3, $0, fail796
 	mov	=-1077936128, r1
 	mov	=2143289344, r2
 	clr	r3
@@ -5376,7 +5376,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f797
+	cbne	r3, $0, fail797
 	mov	=1075838976, r1
 	mov	=0, r2
 	clr	r3
@@ -5384,7 +5384,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f798
+	cbne	r3, $0, fail798
 	mov	=1075838976, r1
 	mov	=-2147483648, r2
 	clr	r3
@@ -5392,7 +5392,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f799
+	cbne	r3, $0, fail799
 	mov	=1075838976, r1
 	mov	=1065353216, r2
 	clr	r3
@@ -5400,7 +5400,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f800
+	cbne	r3, $0, fail800
 	mov	=1075838976, r1
 	mov	=-1077936128, r2
 	clr	r3
@@ -5408,7 +5408,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f801
+	cbne	r3, $0, fail801
 	mov	=1075838976, r1
 	mov	=1075838976, r2
 	clr	r3
@@ -5416,7 +5416,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f802
+	cbne	r3, $1, fail802
 	mov	=1075838976, r1
 	mov	=2139095040, r2
 	clr	r3
@@ -5424,7 +5424,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f803
+	cbne	r3, $0, fail803
 	mov	=1075838976, r1
 	mov	=-8388608, r2
 	clr	r3
@@ -5432,7 +5432,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f804
+	cbne	r3, $0, fail804
 	mov	=1075838976, r1
 	mov	=2143289344, r2
 	clr	r3
@@ -5440,7 +5440,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f805
+	cbne	r3, $0, fail805
 	mov	=2139095040, r1
 	mov	=0, r2
 	clr	r3
@@ -5448,7 +5448,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f806
+	cbne	r3, $0, fail806
 	mov	=2139095040, r1
 	mov	=-2147483648, r2
 	clr	r3
@@ -5456,7 +5456,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f807
+	cbne	r3, $0, fail807
 	mov	=2139095040, r1
 	mov	=1065353216, r2
 	clr	r3
@@ -5464,7 +5464,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f808
+	cbne	r3, $0, fail808
 	mov	=2139095040, r1
 	mov	=-1077936128, r2
 	clr	r3
@@ -5472,7 +5472,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f809
+	cbne	r3, $0, fail809
 	mov	=2139095040, r1
 	mov	=1075838976, r2
 	clr	r3
@@ -5480,7 +5480,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f810
+	cbne	r3, $0, fail810
 	mov	=2139095040, r1
 	mov	=2139095040, r2
 	clr	r3
@@ -5488,7 +5488,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f811
+	cbne	r3, $1, fail811
 	mov	=2139095040, r1
 	mov	=-8388608, r2
 	clr	r3
@@ -5496,7 +5496,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f812
+	cbne	r3, $0, fail812
 	mov	=2139095040, r1
 	mov	=2143289344, r2
 	clr	r3
@@ -5504,7 +5504,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f813
+	cbne	r3, $0, fail813
 	mov	=-8388608, r1
 	mov	=0, r2
 	clr	r3
@@ -5512,7 +5512,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f814
+	cbne	r3, $0, fail814
 	mov	=-8388608, r1
 	mov	=-2147483648, r2
 	clr	r3
@@ -5520,7 +5520,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f815
+	cbne	r3, $0, fail815
 	mov	=-8388608, r1
 	mov	=1065353216, r2
 	clr	r3
@@ -5528,7 +5528,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f816
+	cbne	r3, $0, fail816
 	mov	=-8388608, r1
 	mov	=-1077936128, r2
 	clr	r3
@@ -5536,7 +5536,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f817
+	cbne	r3, $0, fail817
 	mov	=-8388608, r1
 	mov	=1075838976, r2
 	clr	r3
@@ -5544,7 +5544,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f818
+	cbne	r3, $0, fail818
 	mov	=-8388608, r1
 	mov	=2139095040, r2
 	clr	r3
@@ -5552,7 +5552,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f819
+	cbne	r3, $0, fail819
 	mov	=-8388608, r1
 	mov	=-8388608, r2
 	clr	r3
@@ -5560,7 +5560,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f820
+	cbne	r3, $1, fail820
 	mov	=-8388608, r1
 	mov	=2143289344, r2
 	clr	r3
@@ -5568,7 +5568,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f821
+	cbne	r3, $0, fail821
 	mov	=2143289344, r1
 	mov	=0, r2
 	clr	r3
@@ -5576,7 +5576,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f822
+	cbne	r3, $0, fail822
 	mov	=2143289344, r1
 	mov	=-2147483648, r2
 	clr	r3
@@ -5584,7 +5584,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f823
+	cbne	r3, $0, fail823
 	mov	=2143289344, r1
 	mov	=1065353216, r2
 	clr	r3
@@ -5592,7 +5592,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f824
+	cbne	r3, $0, fail824
 	mov	=2143289344, r1
 	mov	=-1077936128, r2
 	clr	r3
@@ -5600,7 +5600,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f825
+	cbne	r3, $0, fail825
 	mov	=2143289344, r1
 	mov	=1075838976, r2
 	clr	r3
@@ -5608,7 +5608,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f826
+	cbne	r3, $0, fail826
 	mov	=2143289344, r1
 	mov	=2139095040, r2
 	clr	r3
@@ -5616,7 +5616,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f827
+	cbne	r3, $0, fail827
 	mov	=2143289344, r1
 	mov	=-8388608, r2
 	clr	r3
@@ -5624,7 +5624,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f828
+	cbne	r3, $0, fail828
 	mov	=2143289344, r1
 	mov	=2143289344, r2
 	clr	r3
@@ -5632,7 +5632,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f829
+	cbne	r3, $0, fail829
 	mov	=0, r1
 	mov	=0, r2
 	clr	r3
@@ -5640,7 +5640,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f830
+	cbne	r3, $0, fail830
 	mov	=0, r1
 	mov	=-2147483648, r2
 	clr	r3
@@ -5648,7 +5648,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f831
+	cbne	r3, $0, fail831
 	mov	=0, r1
 	mov	=1065353216, r2
 	clr	r3
@@ -5656,7 +5656,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f832
+	cbne	r3, $1, fail832
 	mov	=0, r1
 	mov	=-1077936128, r2
 	clr	r3
@@ -5664,7 +5664,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f833
+	cbne	r3, $1, fail833
 	mov	=0, r1
 	mov	=1075838976, r2
 	clr	r3
@@ -5672,7 +5672,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f834
+	cbne	r3, $1, fail834
 	mov	=0, r1
 	mov	=2139095040, r2
 	clr	r3
@@ -5680,7 +5680,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f835
+	cbne	r3, $1, fail835
 	mov	=0, r1
 	mov	=-8388608, r2
 	clr	r3
@@ -5688,7 +5688,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f836
+	cbne	r3, $1, fail836
 	mov	=0, r1
 	mov	=2143289344, r2
 	clr	r3
@@ -5696,7 +5696,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f837
+	cbne	r3, $1, fail837
 	mov	=-2147483648, r1
 	mov	=0, r2
 	clr	r3
@@ -5704,7 +5704,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f838
+	cbne	r3, $0, fail838
 	mov	=-2147483648, r1
 	mov	=-2147483648, r2
 	clr	r3
@@ -5712,7 +5712,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f839
+	cbne	r3, $0, fail839
 	mov	=-2147483648, r1
 	mov	=1065353216, r2
 	clr	r3
@@ -5720,7 +5720,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f840
+	cbne	r3, $1, fail840
 	mov	=-2147483648, r1
 	mov	=-1077936128, r2
 	clr	r3
@@ -5728,7 +5728,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f841
+	cbne	r3, $1, fail841
 	mov	=-2147483648, r1
 	mov	=1075838976, r2
 	clr	r3
@@ -5736,7 +5736,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f842
+	cbne	r3, $1, fail842
 	mov	=-2147483648, r1
 	mov	=2139095040, r2
 	clr	r3
@@ -5744,7 +5744,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f843
+	cbne	r3, $1, fail843
 	mov	=-2147483648, r1
 	mov	=-8388608, r2
 	clr	r3
@@ -5752,7 +5752,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f844
+	cbne	r3, $1, fail844
 	mov	=-2147483648, r1
 	mov	=2143289344, r2
 	clr	r3
@@ -5760,7 +5760,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f845
+	cbne	r3, $1, fail845
 	mov	=1065353216, r1
 	mov	=0, r2
 	clr	r3
@@ -5768,7 +5768,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f846
+	cbne	r3, $1, fail846
 	mov	=1065353216, r1
 	mov	=-2147483648, r2
 	clr	r3
@@ -5776,7 +5776,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f847
+	cbne	r3, $1, fail847
 	mov	=1065353216, r1
 	mov	=1065353216, r2
 	clr	r3
@@ -5784,7 +5784,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f848
+	cbne	r3, $0, fail848
 	mov	=1065353216, r1
 	mov	=-1077936128, r2
 	clr	r3
@@ -5792,7 +5792,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f849
+	cbne	r3, $1, fail849
 	mov	=1065353216, r1
 	mov	=1075838976, r2
 	clr	r3
@@ -5800,7 +5800,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f850
+	cbne	r3, $1, fail850
 	mov	=1065353216, r1
 	mov	=2139095040, r2
 	clr	r3
@@ -5808,7 +5808,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f851
+	cbne	r3, $1, fail851
 	mov	=1065353216, r1
 	mov	=-8388608, r2
 	clr	r3
@@ -5816,7 +5816,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f852
+	cbne	r3, $1, fail852
 	mov	=1065353216, r1
 	mov	=2143289344, r2
 	clr	r3
@@ -5824,7 +5824,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f853
+	cbne	r3, $1, fail853
 	mov	=-1077936128, r1
 	mov	=0, r2
 	clr	r3
@@ -5832,7 +5832,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f854
+	cbne	r3, $1, fail854
 	mov	=-1077936128, r1
 	mov	=-2147483648, r2
 	clr	r3
@@ -5840,7 +5840,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f855
+	cbne	r3, $1, fail855
 	mov	=-1077936128, r1
 	mov	=1065353216, r2
 	clr	r3
@@ -5848,7 +5848,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f856
+	cbne	r3, $1, fail856
 	mov	=-1077936128, r1
 	mov	=-1077936128, r2
 	clr	r3
@@ -5856,7 +5856,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f857
+	cbne	r3, $0, fail857
 	mov	=-1077936128, r1
 	mov	=1075838976, r2
 	clr	r3
@@ -5864,7 +5864,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f858
+	cbne	r3, $1, fail858
 	mov	=-1077936128, r1
 	mov	=2139095040, r2
 	clr	r3
@@ -5872,7 +5872,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f859
+	cbne	r3, $1, fail859
 	mov	=-1077936128, r1
 	mov	=-8388608, r2
 	clr	r3
@@ -5880,7 +5880,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f860
+	cbne	r3, $1, fail860
 	mov	=-1077936128, r1
 	mov	=2143289344, r2
 	clr	r3
@@ -5888,7 +5888,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f861
+	cbne	r3, $1, fail861
 	mov	=1075838976, r1
 	mov	=0, r2
 	clr	r3
@@ -5896,7 +5896,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f862
+	cbne	r3, $1, fail862
 	mov	=1075838976, r1
 	mov	=-2147483648, r2
 	clr	r3
@@ -5904,7 +5904,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f863
+	cbne	r3, $1, fail863
 	mov	=1075838976, r1
 	mov	=1065353216, r2
 	clr	r3
@@ -5912,7 +5912,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f864
+	cbne	r3, $1, fail864
 	mov	=1075838976, r1
 	mov	=-1077936128, r2
 	clr	r3
@@ -5920,7 +5920,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f865
+	cbne	r3, $1, fail865
 	mov	=1075838976, r1
 	mov	=1075838976, r2
 	clr	r3
@@ -5928,7 +5928,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f866
+	cbne	r3, $0, fail866
 	mov	=1075838976, r1
 	mov	=2139095040, r2
 	clr	r3
@@ -5936,7 +5936,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f867
+	cbne	r3, $1, fail867
 	mov	=1075838976, r1
 	mov	=-8388608, r2
 	clr	r3
@@ -5944,7 +5944,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f868
+	cbne	r3, $1, fail868
 	mov	=1075838976, r1
 	mov	=2143289344, r2
 	clr	r3
@@ -5952,7 +5952,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f869
+	cbne	r3, $1, fail869
 	mov	=2139095040, r1
 	mov	=0, r2
 	clr	r3
@@ -5960,7 +5960,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f870
+	cbne	r3, $1, fail870
 	mov	=2139095040, r1
 	mov	=-2147483648, r2
 	clr	r3
@@ -5968,7 +5968,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f871
+	cbne	r3, $1, fail871
 	mov	=2139095040, r1
 	mov	=1065353216, r2
 	clr	r3
@@ -5976,7 +5976,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f872
+	cbne	r3, $1, fail872
 	mov	=2139095040, r1
 	mov	=-1077936128, r2
 	clr	r3
@@ -5984,7 +5984,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f873
+	cbne	r3, $1, fail873
 	mov	=2139095040, r1
 	mov	=1075838976, r2
 	clr	r3
@@ -5992,7 +5992,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f874
+	cbne	r3, $1, fail874
 	mov	=2139095040, r1
 	mov	=2139095040, r2
 	clr	r3
@@ -6000,7 +6000,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f875
+	cbne	r3, $0, fail875
 	mov	=2139095040, r1
 	mov	=-8388608, r2
 	clr	r3
@@ -6008,7 +6008,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f876
+	cbne	r3, $1, fail876
 	mov	=2139095040, r1
 	mov	=2143289344, r2
 	clr	r3
@@ -6016,7 +6016,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f877
+	cbne	r3, $1, fail877
 	mov	=-8388608, r1
 	mov	=0, r2
 	clr	r3
@@ -6024,7 +6024,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f878
+	cbne	r3, $1, fail878
 	mov	=-8388608, r1
 	mov	=-2147483648, r2
 	clr	r3
@@ -6032,7 +6032,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f879
+	cbne	r3, $1, fail879
 	mov	=-8388608, r1
 	mov	=1065353216, r2
 	clr	r3
@@ -6040,7 +6040,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f880
+	cbne	r3, $1, fail880
 	mov	=-8388608, r1
 	mov	=-1077936128, r2
 	clr	r3
@@ -6048,7 +6048,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f881
+	cbne	r3, $1, fail881
 	mov	=-8388608, r1
 	mov	=1075838976, r2
 	clr	r3
@@ -6056,7 +6056,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f882
+	cbne	r3, $1, fail882
 	mov	=-8388608, r1
 	mov	=2139095040, r2
 	clr	r3
@@ -6064,7 +6064,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f883
+	cbne	r3, $1, fail883
 	mov	=-8388608, r1
 	mov	=-8388608, r2
 	clr	r3
@@ -6072,7 +6072,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f884
+	cbne	r3, $0, fail884
 	mov	=-8388608, r1
 	mov	=2143289344, r2
 	clr	r3
@@ -6080,7 +6080,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f885
+	cbne	r3, $1, fail885
 	mov	=2143289344, r1
 	mov	=0, r2
 	clr	r3
@@ -6088,7 +6088,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f886
+	cbne	r3, $1, fail886
 	mov	=2143289344, r1
 	mov	=-2147483648, r2
 	clr	r3
@@ -6096,7 +6096,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f887
+	cbne	r3, $1, fail887
 	mov	=2143289344, r1
 	mov	=1065353216, r2
 	clr	r3
@@ -6104,7 +6104,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f888
+	cbne	r3, $1, fail888
 	mov	=2143289344, r1
 	mov	=-1077936128, r2
 	clr	r3
@@ -6112,7 +6112,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f889
+	cbne	r3, $1, fail889
 	mov	=2143289344, r1
 	mov	=1075838976, r2
 	clr	r3
@@ -6120,7 +6120,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f890
+	cbne	r3, $1, fail890
 	mov	=2143289344, r1
 	mov	=2139095040, r2
 	clr	r3
@@ -6128,7 +6128,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f891
+	cbne	r3, $1, fail891
 	mov	=2143289344, r1
 	mov	=-8388608, r2
 	clr	r3
@@ -6136,7 +6136,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f892
+	cbne	r3, $1, fail892
 	mov	=2143289344, r1
 	mov	=2143289344, r2
 	clr	r3
@@ -6144,7 +6144,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f893
+	cbne	r3, $1, fail893
 	mov	=0, r1
 	mov	=0, r2
 	clr	r3
@@ -6152,7 +6152,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f894
+	cbne	r3, $0, fail894
 	mov	=0, r1
 	mov	=-2147483648, r2
 	clr	r3
@@ -6160,7 +6160,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f895
+	cbne	r3, $0, fail895
 	mov	=0, r1
 	mov	=1065353216, r2
 	clr	r3
@@ -6168,7 +6168,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f896
+	cbne	r3, $1, fail896
 	mov	=0, r1
 	mov	=-1077936128, r2
 	clr	r3
@@ -6176,7 +6176,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f897
+	cbne	r3, $0, fail897
 	mov	=0, r1
 	mov	=1075838976, r2
 	clr	r3
@@ -6184,7 +6184,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f898
+	cbne	r3, $1, fail898
 	mov	=0, r1
 	mov	=2139095040, r2
 	clr	r3
@@ -6192,7 +6192,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f899
+	cbne	r3, $1, fail899
 	mov	=0, r1
 	mov	=-8388608, r2
 	clr	r3
@@ -6200,7 +6200,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f900
+	cbne	r3, $0, fail900
 	mov	=0, r1
 	mov	=2143289344, r2
 	clr	r3
@@ -6208,7 +6208,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f901
+	cbne	r3, $0, fail901
 	mov	=-2147483648, r1
 	mov	=0, r2
 	clr	r3
@@ -6216,7 +6216,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f902
+	cbne	r3, $0, fail902
 	mov	=-2147483648, r1
 	mov	=-2147483648, r2
 	clr	r3
@@ -6224,7 +6224,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f903
+	cbne	r3, $0, fail903
 	mov	=-2147483648, r1
 	mov	=1065353216, r2
 	clr	r3
@@ -6232,7 +6232,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f904
+	cbne	r3, $1, fail904
 	mov	=-2147483648, r1
 	mov	=-1077936128, r2
 	clr	r3
@@ -6240,7 +6240,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f905
+	cbne	r3, $0, fail905
 	mov	=-2147483648, r1
 	mov	=1075838976, r2
 	clr	r3
@@ -6248,7 +6248,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f906
+	cbne	r3, $1, fail906
 	mov	=-2147483648, r1
 	mov	=2139095040, r2
 	clr	r3
@@ -6256,7 +6256,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f907
+	cbne	r3, $1, fail907
 	mov	=-2147483648, r1
 	mov	=-8388608, r2
 	clr	r3
@@ -6264,7 +6264,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f908
+	cbne	r3, $0, fail908
 	mov	=-2147483648, r1
 	mov	=2143289344, r2
 	clr	r3
@@ -6272,7 +6272,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f909
+	cbne	r3, $0, fail909
 	mov	=1065353216, r1
 	mov	=0, r2
 	clr	r3
@@ -6280,7 +6280,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f910
+	cbne	r3, $0, fail910
 	mov	=1065353216, r1
 	mov	=-2147483648, r2
 	clr	r3
@@ -6288,7 +6288,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f911
+	cbne	r3, $0, fail911
 	mov	=1065353216, r1
 	mov	=1065353216, r2
 	clr	r3
@@ -6296,7 +6296,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f912
+	cbne	r3, $0, fail912
 	mov	=1065353216, r1
 	mov	=-1077936128, r2
 	clr	r3
@@ -6304,7 +6304,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f913
+	cbne	r3, $0, fail913
 	mov	=1065353216, r1
 	mov	=1075838976, r2
 	clr	r3
@@ -6312,7 +6312,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f914
+	cbne	r3, $1, fail914
 	mov	=1065353216, r1
 	mov	=2139095040, r2
 	clr	r3
@@ -6320,7 +6320,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f915
+	cbne	r3, $1, fail915
 	mov	=1065353216, r1
 	mov	=-8388608, r2
 	clr	r3
@@ -6328,7 +6328,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f916
+	cbne	r3, $0, fail916
 	mov	=1065353216, r1
 	mov	=2143289344, r2
 	clr	r3
@@ -6336,7 +6336,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f917
+	cbne	r3, $0, fail917
 	mov	=-1077936128, r1
 	mov	=0, r2
 	clr	r3
@@ -6344,7 +6344,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f918
+	cbne	r3, $1, fail918
 	mov	=-1077936128, r1
 	mov	=-2147483648, r2
 	clr	r3
@@ -6352,7 +6352,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f919
+	cbne	r3, $1, fail919
 	mov	=-1077936128, r1
 	mov	=1065353216, r2
 	clr	r3
@@ -6360,7 +6360,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f920
+	cbne	r3, $1, fail920
 	mov	=-1077936128, r1
 	mov	=-1077936128, r2
 	clr	r3
@@ -6368,7 +6368,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f921
+	cbne	r3, $0, fail921
 	mov	=-1077936128, r1
 	mov	=1075838976, r2
 	clr	r3
@@ -6376,7 +6376,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f922
+	cbne	r3, $1, fail922
 	mov	=-1077936128, r1
 	mov	=2139095040, r2
 	clr	r3
@@ -6384,7 +6384,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f923
+	cbne	r3, $1, fail923
 	mov	=-1077936128, r1
 	mov	=-8388608, r2
 	clr	r3
@@ -6392,7 +6392,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f924
+	cbne	r3, $0, fail924
 	mov	=-1077936128, r1
 	mov	=2143289344, r2
 	clr	r3
@@ -6400,7 +6400,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f925
+	cbne	r3, $0, fail925
 	mov	=1075838976, r1
 	mov	=0, r2
 	clr	r3
@@ -6408,7 +6408,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f926
+	cbne	r3, $0, fail926
 	mov	=1075838976, r1
 	mov	=-2147483648, r2
 	clr	r3
@@ -6416,7 +6416,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f927
+	cbne	r3, $0, fail927
 	mov	=1075838976, r1
 	mov	=1065353216, r2
 	clr	r3
@@ -6424,7 +6424,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f928
+	cbne	r3, $0, fail928
 	mov	=1075838976, r1
 	mov	=-1077936128, r2
 	clr	r3
@@ -6432,7 +6432,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f929
+	cbne	r3, $0, fail929
 	mov	=1075838976, r1
 	mov	=1075838976, r2
 	clr	r3
@@ -6440,7 +6440,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f930
+	cbne	r3, $0, fail930
 	mov	=1075838976, r1
 	mov	=2139095040, r2
 	clr	r3
@@ -6448,7 +6448,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f931
+	cbne	r3, $1, fail931
 	mov	=1075838976, r1
 	mov	=-8388608, r2
 	clr	r3
@@ -6456,7 +6456,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f932
+	cbne	r3, $0, fail932
 	mov	=1075838976, r1
 	mov	=2143289344, r2
 	clr	r3
@@ -6464,7 +6464,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f933
+	cbne	r3, $0, fail933
 	mov	=2139095040, r1
 	mov	=0, r2
 	clr	r3
@@ -6472,7 +6472,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f934
+	cbne	r3, $0, fail934
 	mov	=2139095040, r1
 	mov	=-2147483648, r2
 	clr	r3
@@ -6480,7 +6480,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f935
+	cbne	r3, $0, fail935
 	mov	=2139095040, r1
 	mov	=1065353216, r2
 	clr	r3
@@ -6488,7 +6488,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f936
+	cbne	r3, $0, fail936
 	mov	=2139095040, r1
 	mov	=-1077936128, r2
 	clr	r3
@@ -6496,7 +6496,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f937
+	cbne	r3, $0, fail937
 	mov	=2139095040, r1
 	mov	=1075838976, r2
 	clr	r3
@@ -6504,7 +6504,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f938
+	cbne	r3, $0, fail938
 	mov	=2139095040, r1
 	mov	=2139095040, r2
 	clr	r3
@@ -6512,7 +6512,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f939
+	cbne	r3, $0, fail939
 	mov	=2139095040, r1
 	mov	=-8388608, r2
 	clr	r3
@@ -6520,7 +6520,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f940
+	cbne	r3, $0, fail940
 	mov	=2139095040, r1
 	mov	=2143289344, r2
 	clr	r3
@@ -6528,7 +6528,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f941
+	cbne	r3, $0, fail941
 	mov	=-8388608, r1
 	mov	=0, r2
 	clr	r3
@@ -6536,7 +6536,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f942
+	cbne	r3, $1, fail942
 	mov	=-8388608, r1
 	mov	=-2147483648, r2
 	clr	r3
@@ -6544,7 +6544,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f943
+	cbne	r3, $1, fail943
 	mov	=-8388608, r1
 	mov	=1065353216, r2
 	clr	r3
@@ -6552,7 +6552,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f944
+	cbne	r3, $1, fail944
 	mov	=-8388608, r1
 	mov	=-1077936128, r2
 	clr	r3
@@ -6560,7 +6560,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f945
+	cbne	r3, $1, fail945
 	mov	=-8388608, r1
 	mov	=1075838976, r2
 	clr	r3
@@ -6568,7 +6568,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f946
+	cbne	r3, $1, fail946
 	mov	=-8388608, r1
 	mov	=2139095040, r2
 	clr	r3
@@ -6576,7 +6576,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f947
+	cbne	r3, $1, fail947
 	mov	=-8388608, r1
 	mov	=-8388608, r2
 	clr	r3
@@ -6584,7 +6584,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f948
+	cbne	r3, $0, fail948
 	mov	=-8388608, r1
 	mov	=2143289344, r2
 	clr	r3
@@ -6592,7 +6592,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f949
+	cbne	r3, $0, fail949
 	mov	=2143289344, r1
 	mov	=0, r2
 	clr	r3
@@ -6600,7 +6600,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f950
+	cbne	r3, $0, fail950
 	mov	=2143289344, r1
 	mov	=-2147483648, r2
 	clr	r3
@@ -6608,7 +6608,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f951
+	cbne	r3, $0, fail951
 	mov	=2143289344, r1
 	mov	=1065353216, r2
 	clr	r3
@@ -6616,7 +6616,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f952
+	cbne	r3, $0, fail952
 	mov	=2143289344, r1
 	mov	=-1077936128, r2
 	clr	r3
@@ -6624,7 +6624,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f953
+	cbne	r3, $0, fail953
 	mov	=2143289344, r1
 	mov	=1075838976, r2
 	clr	r3
@@ -6632,7 +6632,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f954
+	cbne	r3, $0, fail954
 	mov	=2143289344, r1
 	mov	=2139095040, r2
 	clr	r3
@@ -6640,7 +6640,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f955
+	cbne	r3, $0, fail955
 	mov	=2143289344, r1
 	mov	=-8388608, r2
 	clr	r3
@@ -6648,7 +6648,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f956
+	cbne	r3, $0, fail956
 	mov	=2143289344, r1
 	mov	=2143289344, r2
 	clr	r3
@@ -6656,7 +6656,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f957
+	cbne	r3, $0, fail957
 	mov	=0, r1
 	mov	=0, r2
 	clr	r3
@@ -6664,7 +6664,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f958
+	cbne	r3, $1, fail958
 	mov	=0, r1
 	mov	=-2147483648, r2
 	clr	r3
@@ -6672,7 +6672,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f959
+	cbne	r3, $1, fail959
 	mov	=0, r1
 	mov	=1065353216, r2
 	clr	r3
@@ -6680,7 +6680,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f960
+	cbne	r3, $1, fail960
 	mov	=0, r1
 	mov	=-1077936128, r2
 	clr	r3
@@ -6688,7 +6688,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f961
+	cbne	r3, $0, fail961
 	mov	=0, r1
 	mov	=1075838976, r2
 	clr	r3
@@ -6696,7 +6696,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f962
+	cbne	r3, $1, fail962
 	mov	=0, r1
 	mov	=2139095040, r2
 	clr	r3
@@ -6704,7 +6704,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f963
+	cbne	r3, $1, fail963
 	mov	=0, r1
 	mov	=-8388608, r2
 	clr	r3
@@ -6712,7 +6712,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f964
+	cbne	r3, $0, fail964
 	mov	=0, r1
 	mov	=2143289344, r2
 	clr	r3
@@ -6720,7 +6720,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f965
+	cbne	r3, $0, fail965
 	mov	=-2147483648, r1
 	mov	=0, r2
 	clr	r3
@@ -6728,7 +6728,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f966
+	cbne	r3, $1, fail966
 	mov	=-2147483648, r1
 	mov	=-2147483648, r2
 	clr	r3
@@ -6736,7 +6736,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f967
+	cbne	r3, $1, fail967
 	mov	=-2147483648, r1
 	mov	=1065353216, r2
 	clr	r3
@@ -6744,7 +6744,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f968
+	cbne	r3, $1, fail968
 	mov	=-2147483648, r1
 	mov	=-1077936128, r2
 	clr	r3
@@ -6752,7 +6752,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f969
+	cbne	r3, $0, fail969
 	mov	=-2147483648, r1
 	mov	=1075838976, r2
 	clr	r3
@@ -6760,7 +6760,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f970
+	cbne	r3, $1, fail970
 	mov	=-2147483648, r1
 	mov	=2139095040, r2
 	clr	r3
@@ -6768,7 +6768,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f971
+	cbne	r3, $1, fail971
 	mov	=-2147483648, r1
 	mov	=-8388608, r2
 	clr	r3
@@ -6776,7 +6776,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f972
+	cbne	r3, $0, fail972
 	mov	=-2147483648, r1
 	mov	=2143289344, r2
 	clr	r3
@@ -6784,7 +6784,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f973
+	cbne	r3, $0, fail973
 	mov	=1065353216, r1
 	mov	=0, r2
 	clr	r3
@@ -6792,7 +6792,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f974
+	cbne	r3, $0, fail974
 	mov	=1065353216, r1
 	mov	=-2147483648, r2
 	clr	r3
@@ -6800,7 +6800,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f975
+	cbne	r3, $0, fail975
 	mov	=1065353216, r1
 	mov	=1065353216, r2
 	clr	r3
@@ -6808,7 +6808,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f976
+	cbne	r3, $1, fail976
 	mov	=1065353216, r1
 	mov	=-1077936128, r2
 	clr	r3
@@ -6816,7 +6816,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f977
+	cbne	r3, $0, fail977
 	mov	=1065353216, r1
 	mov	=1075838976, r2
 	clr	r3
@@ -6824,7 +6824,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f978
+	cbne	r3, $1, fail978
 	mov	=1065353216, r1
 	mov	=2139095040, r2
 	clr	r3
@@ -6832,7 +6832,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f979
+	cbne	r3, $1, fail979
 	mov	=1065353216, r1
 	mov	=-8388608, r2
 	clr	r3
@@ -6840,7 +6840,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f980
+	cbne	r3, $0, fail980
 	mov	=1065353216, r1
 	mov	=2143289344, r2
 	clr	r3
@@ -6848,7 +6848,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f981
+	cbne	r3, $0, fail981
 	mov	=-1077936128, r1
 	mov	=0, r2
 	clr	r3
@@ -6856,7 +6856,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f982
+	cbne	r3, $1, fail982
 	mov	=-1077936128, r1
 	mov	=-2147483648, r2
 	clr	r3
@@ -6864,7 +6864,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f983
+	cbne	r3, $1, fail983
 	mov	=-1077936128, r1
 	mov	=1065353216, r2
 	clr	r3
@@ -6872,7 +6872,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f984
+	cbne	r3, $1, fail984
 	mov	=-1077936128, r1
 	mov	=-1077936128, r2
 	clr	r3
@@ -6880,7 +6880,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f985
+	cbne	r3, $1, fail985
 	mov	=-1077936128, r1
 	mov	=1075838976, r2
 	clr	r3
@@ -6888,7 +6888,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f986
+	cbne	r3, $1, fail986
 	mov	=-1077936128, r1
 	mov	=2139095040, r2
 	clr	r3
@@ -6896,7 +6896,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f987
+	cbne	r3, $1, fail987
 	mov	=-1077936128, r1
 	mov	=-8388608, r2
 	clr	r3
@@ -6904,7 +6904,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f988
+	cbne	r3, $0, fail988
 	mov	=-1077936128, r1
 	mov	=2143289344, r2
 	clr	r3
@@ -6912,7 +6912,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f989
+	cbne	r3, $0, fail989
 	mov	=1075838976, r1
 	mov	=0, r2
 	clr	r3
@@ -6920,7 +6920,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f990
+	cbne	r3, $0, fail990
 	mov	=1075838976, r1
 	mov	=-2147483648, r2
 	clr	r3
@@ -6928,7 +6928,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f991
+	cbne	r3, $0, fail991
 	mov	=1075838976, r1
 	mov	=1065353216, r2
 	clr	r3
@@ -6936,7 +6936,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f992
+	cbne	r3, $0, fail992
 	mov	=1075838976, r1
 	mov	=-1077936128, r2
 	clr	r3
@@ -6944,7 +6944,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f993
+	cbne	r3, $0, fail993
 	mov	=1075838976, r1
 	mov	=1075838976, r2
 	clr	r3
@@ -6952,7 +6952,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f994
+	cbne	r3, $1, fail994
 	mov	=1075838976, r1
 	mov	=2139095040, r2
 	clr	r3
@@ -6960,7 +6960,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f995
+	cbne	r3, $1, fail995
 	mov	=1075838976, r1
 	mov	=-8388608, r2
 	clr	r3
@@ -6968,7 +6968,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f996
+	cbne	r3, $0, fail996
 	mov	=1075838976, r1
 	mov	=2143289344, r2
 	clr	r3
@@ -6976,7 +6976,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f997
+	cbne	r3, $0, fail997
 	mov	=2139095040, r1
 	mov	=0, r2
 	clr	r3
@@ -6984,7 +6984,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f998
+	cbne	r3, $0, fail998
 	mov	=2139095040, r1
 	mov	=-2147483648, r2
 	clr	r3
@@ -6992,7 +6992,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f999
+	cbne	r3, $0, fail999
 	mov	=2139095040, r1
 	mov	=1065353216, r2
 	clr	r3
@@ -7000,7 +7000,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1000
+	cbne	r3, $0, fail1000
 	mov	=2139095040, r1
 	mov	=-1077936128, r2
 	clr	r3
@@ -7008,7 +7008,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1001
+	cbne	r3, $0, fail1001
 	mov	=2139095040, r1
 	mov	=1075838976, r2
 	clr	r3
@@ -7016,7 +7016,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1002
+	cbne	r3, $0, fail1002
 	mov	=2139095040, r1
 	mov	=2139095040, r2
 	clr	r3
@@ -7024,7 +7024,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1003
+	cbne	r3, $1, fail1003
 	mov	=2139095040, r1
 	mov	=-8388608, r2
 	clr	r3
@@ -7032,7 +7032,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1004
+	cbne	r3, $0, fail1004
 	mov	=2139095040, r1
 	mov	=2143289344, r2
 	clr	r3
@@ -7040,7 +7040,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1005
+	cbne	r3, $0, fail1005
 	mov	=-8388608, r1
 	mov	=0, r2
 	clr	r3
@@ -7048,7 +7048,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1006
+	cbne	r3, $1, fail1006
 	mov	=-8388608, r1
 	mov	=-2147483648, r2
 	clr	r3
@@ -7056,7 +7056,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1007
+	cbne	r3, $1, fail1007
 	mov	=-8388608, r1
 	mov	=1065353216, r2
 	clr	r3
@@ -7064,7 +7064,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1008
+	cbne	r3, $1, fail1008
 	mov	=-8388608, r1
 	mov	=-1077936128, r2
 	clr	r3
@@ -7072,7 +7072,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1009
+	cbne	r3, $1, fail1009
 	mov	=-8388608, r1
 	mov	=1075838976, r2
 	clr	r3
@@ -7080,7 +7080,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1010
+	cbne	r3, $1, fail1010
 	mov	=-8388608, r1
 	mov	=2139095040, r2
 	clr	r3
@@ -7088,7 +7088,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1011
+	cbne	r3, $1, fail1011
 	mov	=-8388608, r1
 	mov	=-8388608, r2
 	clr	r3
@@ -7096,7 +7096,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1012
+	cbne	r3, $1, fail1012
 	mov	=-8388608, r1
 	mov	=2143289344, r2
 	clr	r3
@@ -7104,7 +7104,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1013
+	cbne	r3, $0, fail1013
 	mov	=2143289344, r1
 	mov	=0, r2
 	clr	r3
@@ -7112,7 +7112,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1014
+	cbne	r3, $0, fail1014
 	mov	=2143289344, r1
 	mov	=-2147483648, r2
 	clr	r3
@@ -7120,7 +7120,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1015
+	cbne	r3, $0, fail1015
 	mov	=2143289344, r1
 	mov	=1065353216, r2
 	clr	r3
@@ -7128,7 +7128,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1016
+	cbne	r3, $0, fail1016
 	mov	=2143289344, r1
 	mov	=-1077936128, r2
 	clr	r3
@@ -7136,7 +7136,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1017
+	cbne	r3, $0, fail1017
 	mov	=2143289344, r1
 	mov	=1075838976, r2
 	clr	r3
@@ -7144,7 +7144,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1018
+	cbne	r3, $0, fail1018
 	mov	=2143289344, r1
 	mov	=2139095040, r2
 	clr	r3
@@ -7152,7 +7152,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1019
+	cbne	r3, $0, fail1019
 	mov	=2143289344, r1
 	mov	=-8388608, r2
 	clr	r3
@@ -7160,7 +7160,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1020
+	cbne	r3, $0, fail1020
 	mov	=2143289344, r1
 	mov	=2143289344, r2
 	clr	r3
@@ -7168,7 +7168,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1021
+	cbne	r3, $0, fail1021
 	mov	=0, r1
 	mov	=0, r2
 	clr	r3
@@ -7176,7 +7176,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1022
+	cbne	r3, $0, fail1022
 	mov	=0, r1
 	mov	=-2147483648, r2
 	clr	r3
@@ -7184,7 +7184,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1023
+	cbne	r3, $0, fail1023
 	mov	=0, r1
 	mov	=1065353216, r2
 	clr	r3
@@ -7192,7 +7192,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1024
+	cbne	r3, $0, fail1024
 	mov	=0, r1
 	mov	=-1077936128, r2
 	clr	r3
@@ -7200,7 +7200,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1025
+	cbne	r3, $1, fail1025
 	mov	=0, r1
 	mov	=1075838976, r2
 	clr	r3
@@ -7208,7 +7208,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1026
+	cbne	r3, $0, fail1026
 	mov	=0, r1
 	mov	=2139095040, r2
 	clr	r3
@@ -7216,7 +7216,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1027
+	cbne	r3, $0, fail1027
 	mov	=0, r1
 	mov	=-8388608, r2
 	clr	r3
@@ -7224,7 +7224,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1028
+	cbne	r3, $1, fail1028
 	mov	=0, r1
 	mov	=2143289344, r2
 	clr	r3
@@ -7232,7 +7232,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1029
+	cbne	r3, $0, fail1029
 	mov	=-2147483648, r1
 	mov	=0, r2
 	clr	r3
@@ -7240,7 +7240,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1030
+	cbne	r3, $0, fail1030
 	mov	=-2147483648, r1
 	mov	=-2147483648, r2
 	clr	r3
@@ -7248,7 +7248,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1031
+	cbne	r3, $0, fail1031
 	mov	=-2147483648, r1
 	mov	=1065353216, r2
 	clr	r3
@@ -7256,7 +7256,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1032
+	cbne	r3, $0, fail1032
 	mov	=-2147483648, r1
 	mov	=-1077936128, r2
 	clr	r3
@@ -7264,7 +7264,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1033
+	cbne	r3, $1, fail1033
 	mov	=-2147483648, r1
 	mov	=1075838976, r2
 	clr	r3
@@ -7272,7 +7272,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1034
+	cbne	r3, $0, fail1034
 	mov	=-2147483648, r1
 	mov	=2139095040, r2
 	clr	r3
@@ -7280,7 +7280,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1035
+	cbne	r3, $0, fail1035
 	mov	=-2147483648, r1
 	mov	=-8388608, r2
 	clr	r3
@@ -7288,7 +7288,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1036
+	cbne	r3, $1, fail1036
 	mov	=-2147483648, r1
 	mov	=2143289344, r2
 	clr	r3
@@ -7296,7 +7296,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1037
+	cbne	r3, $0, fail1037
 	mov	=1065353216, r1
 	mov	=0, r2
 	clr	r3
@@ -7304,7 +7304,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1038
+	cbne	r3, $1, fail1038
 	mov	=1065353216, r1
 	mov	=-2147483648, r2
 	clr	r3
@@ -7312,7 +7312,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1039
+	cbne	r3, $1, fail1039
 	mov	=1065353216, r1
 	mov	=1065353216, r2
 	clr	r3
@@ -7320,7 +7320,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1040
+	cbne	r3, $0, fail1040
 	mov	=1065353216, r1
 	mov	=-1077936128, r2
 	clr	r3
@@ -7328,7 +7328,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1041
+	cbne	r3, $1, fail1041
 	mov	=1065353216, r1
 	mov	=1075838976, r2
 	clr	r3
@@ -7336,7 +7336,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1042
+	cbne	r3, $0, fail1042
 	mov	=1065353216, r1
 	mov	=2139095040, r2
 	clr	r3
@@ -7344,7 +7344,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1043
+	cbne	r3, $0, fail1043
 	mov	=1065353216, r1
 	mov	=-8388608, r2
 	clr	r3
@@ -7352,7 +7352,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1044
+	cbne	r3, $1, fail1044
 	mov	=1065353216, r1
 	mov	=2143289344, r2
 	clr	r3
@@ -7360,7 +7360,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1045
+	cbne	r3, $0, fail1045
 	mov	=-1077936128, r1
 	mov	=0, r2
 	clr	r3
@@ -7368,7 +7368,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1046
+	cbne	r3, $0, fail1046
 	mov	=-1077936128, r1
 	mov	=-2147483648, r2
 	clr	r3
@@ -7376,7 +7376,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1047
+	cbne	r3, $0, fail1047
 	mov	=-1077936128, r1
 	mov	=1065353216, r2
 	clr	r3
@@ -7384,7 +7384,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1048
+	cbne	r3, $0, fail1048
 	mov	=-1077936128, r1
 	mov	=-1077936128, r2
 	clr	r3
@@ -7392,7 +7392,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1049
+	cbne	r3, $0, fail1049
 	mov	=-1077936128, r1
 	mov	=1075838976, r2
 	clr	r3
@@ -7400,7 +7400,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1050
+	cbne	r3, $0, fail1050
 	mov	=-1077936128, r1
 	mov	=2139095040, r2
 	clr	r3
@@ -7408,7 +7408,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1051
+	cbne	r3, $0, fail1051
 	mov	=-1077936128, r1
 	mov	=-8388608, r2
 	clr	r3
@@ -7416,7 +7416,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1052
+	cbne	r3, $1, fail1052
 	mov	=-1077936128, r1
 	mov	=2143289344, r2
 	clr	r3
@@ -7424,7 +7424,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1053
+	cbne	r3, $0, fail1053
 	mov	=1075838976, r1
 	mov	=0, r2
 	clr	r3
@@ -7432,7 +7432,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1054
+	cbne	r3, $1, fail1054
 	mov	=1075838976, r1
 	mov	=-2147483648, r2
 	clr	r3
@@ -7440,7 +7440,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1055
+	cbne	r3, $1, fail1055
 	mov	=1075838976, r1
 	mov	=1065353216, r2
 	clr	r3
@@ -7448,7 +7448,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1056
+	cbne	r3, $1, fail1056
 	mov	=1075838976, r1
 	mov	=-1077936128, r2
 	clr	r3
@@ -7456,7 +7456,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1057
+	cbne	r3, $1, fail1057
 	mov	=1075838976, r1
 	mov	=1075838976, r2
 	clr	r3
@@ -7464,7 +7464,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1058
+	cbne	r3, $0, fail1058
 	mov	=1075838976, r1
 	mov	=2139095040, r2
 	clr	r3
@@ -7472,7 +7472,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1059
+	cbne	r3, $0, fail1059
 	mov	=1075838976, r1
 	mov	=-8388608, r2
 	clr	r3
@@ -7480,7 +7480,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1060
+	cbne	r3, $1, fail1060
 	mov	=1075838976, r1
 	mov	=2143289344, r2
 	clr	r3
@@ -7488,7 +7488,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1061
+	cbne	r3, $0, fail1061
 	mov	=2139095040, r1
 	mov	=0, r2
 	clr	r3
@@ -7496,7 +7496,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1062
+	cbne	r3, $1, fail1062
 	mov	=2139095040, r1
 	mov	=-2147483648, r2
 	clr	r3
@@ -7504,7 +7504,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1063
+	cbne	r3, $1, fail1063
 	mov	=2139095040, r1
 	mov	=1065353216, r2
 	clr	r3
@@ -7512,7 +7512,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1064
+	cbne	r3, $1, fail1064
 	mov	=2139095040, r1
 	mov	=-1077936128, r2
 	clr	r3
@@ -7520,7 +7520,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1065
+	cbne	r3, $1, fail1065
 	mov	=2139095040, r1
 	mov	=1075838976, r2
 	clr	r3
@@ -7528,7 +7528,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1066
+	cbne	r3, $1, fail1066
 	mov	=2139095040, r1
 	mov	=2139095040, r2
 	clr	r3
@@ -7536,7 +7536,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1067
+	cbne	r3, $0, fail1067
 	mov	=2139095040, r1
 	mov	=-8388608, r2
 	clr	r3
@@ -7544,7 +7544,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1068
+	cbne	r3, $1, fail1068
 	mov	=2139095040, r1
 	mov	=2143289344, r2
 	clr	r3
@@ -7552,7 +7552,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1069
+	cbne	r3, $0, fail1069
 	mov	=-8388608, r1
 	mov	=0, r2
 	clr	r3
@@ -7560,7 +7560,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1070
+	cbne	r3, $0, fail1070
 	mov	=-8388608, r1
 	mov	=-2147483648, r2
 	clr	r3
@@ -7568,7 +7568,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1071
+	cbne	r3, $0, fail1071
 	mov	=-8388608, r1
 	mov	=1065353216, r2
 	clr	r3
@@ -7576,7 +7576,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1072
+	cbne	r3, $0, fail1072
 	mov	=-8388608, r1
 	mov	=-1077936128, r2
 	clr	r3
@@ -7584,7 +7584,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1073
+	cbne	r3, $0, fail1073
 	mov	=-8388608, r1
 	mov	=1075838976, r2
 	clr	r3
@@ -7592,7 +7592,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1074
+	cbne	r3, $0, fail1074
 	mov	=-8388608, r1
 	mov	=2139095040, r2
 	clr	r3
@@ -7600,7 +7600,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1075
+	cbne	r3, $0, fail1075
 	mov	=-8388608, r1
 	mov	=-8388608, r2
 	clr	r3
@@ -7608,7 +7608,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1076
+	cbne	r3, $0, fail1076
 	mov	=-8388608, r1
 	mov	=2143289344, r2
 	clr	r3
@@ -7616,7 +7616,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1077
+	cbne	r3, $0, fail1077
 	mov	=2143289344, r1
 	mov	=0, r2
 	clr	r3
@@ -7624,7 +7624,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1078
+	cbne	r3, $0, fail1078
 	mov	=2143289344, r1
 	mov	=-2147483648, r2
 	clr	r3
@@ -7632,7 +7632,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1079
+	cbne	r3, $0, fail1079
 	mov	=2143289344, r1
 	mov	=1065353216, r2
 	clr	r3
@@ -7640,7 +7640,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1080
+	cbne	r3, $0, fail1080
 	mov	=2143289344, r1
 	mov	=-1077936128, r2
 	clr	r3
@@ -7648,7 +7648,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1081
+	cbne	r3, $0, fail1081
 	mov	=2143289344, r1
 	mov	=1075838976, r2
 	clr	r3
@@ -7656,7 +7656,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1082
+	cbne	r3, $0, fail1082
 	mov	=2143289344, r1
 	mov	=2139095040, r2
 	clr	r3
@@ -7664,7 +7664,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1083
+	cbne	r3, $0, fail1083
 	mov	=2143289344, r1
 	mov	=-8388608, r2
 	clr	r3
@@ -7672,7 +7672,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1084
+	cbne	r3, $0, fail1084
 	mov	=2143289344, r1
 	mov	=2143289344, r2
 	clr	r3
@@ -7680,7 +7680,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1085
+	cbne	r3, $0, fail1085
 	mov	=0, r1
 	mov	=0, r2
 	clr	r3
@@ -7688,7 +7688,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1086
+	cbne	r3, $1, fail1086
 	mov	=0, r1
 	mov	=-2147483648, r2
 	clr	r3
@@ -7696,7 +7696,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1087
+	cbne	r3, $1, fail1087
 	mov	=0, r1
 	mov	=1065353216, r2
 	clr	r3
@@ -7704,7 +7704,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1088
+	cbne	r3, $0, fail1088
 	mov	=0, r1
 	mov	=-1077936128, r2
 	clr	r3
@@ -7712,7 +7712,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1089
+	cbne	r3, $1, fail1089
 	mov	=0, r1
 	mov	=1075838976, r2
 	clr	r3
@@ -7720,7 +7720,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1090
+	cbne	r3, $0, fail1090
 	mov	=0, r1
 	mov	=2139095040, r2
 	clr	r3
@@ -7728,7 +7728,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1091
+	cbne	r3, $0, fail1091
 	mov	=0, r1
 	mov	=-8388608, r2
 	clr	r3
@@ -7736,7 +7736,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1092
+	cbne	r3, $1, fail1092
 	mov	=0, r1
 	mov	=2143289344, r2
 	clr	r3
@@ -7744,7 +7744,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1093
+	cbne	r3, $0, fail1093
 	mov	=-2147483648, r1
 	mov	=0, r2
 	clr	r3
@@ -7752,7 +7752,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1094
+	cbne	r3, $1, fail1094
 	mov	=-2147483648, r1
 	mov	=-2147483648, r2
 	clr	r3
@@ -7760,7 +7760,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1095
+	cbne	r3, $1, fail1095
 	mov	=-2147483648, r1
 	mov	=1065353216, r2
 	clr	r3
@@ -7768,7 +7768,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1096
+	cbne	r3, $0, fail1096
 	mov	=-2147483648, r1
 	mov	=-1077936128, r2
 	clr	r3
@@ -7776,7 +7776,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1097
+	cbne	r3, $1, fail1097
 	mov	=-2147483648, r1
 	mov	=1075838976, r2
 	clr	r3
@@ -7784,7 +7784,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1098
+	cbne	r3, $0, fail1098
 	mov	=-2147483648, r1
 	mov	=2139095040, r2
 	clr	r3
@@ -7792,7 +7792,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1099
+	cbne	r3, $0, fail1099
 	mov	=-2147483648, r1
 	mov	=-8388608, r2
 	clr	r3
@@ -7800,7 +7800,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1100
+	cbne	r3, $1, fail1100
 	mov	=-2147483648, r1
 	mov	=2143289344, r2
 	clr	r3
@@ -7808,7 +7808,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1101
+	cbne	r3, $0, fail1101
 	mov	=1065353216, r1
 	mov	=0, r2
 	clr	r3
@@ -7816,7 +7816,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1102
+	cbne	r3, $1, fail1102
 	mov	=1065353216, r1
 	mov	=-2147483648, r2
 	clr	r3
@@ -7824,7 +7824,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1103
+	cbne	r3, $1, fail1103
 	mov	=1065353216, r1
 	mov	=1065353216, r2
 	clr	r3
@@ -7832,7 +7832,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1104
+	cbne	r3, $1, fail1104
 	mov	=1065353216, r1
 	mov	=-1077936128, r2
 	clr	r3
@@ -7840,7 +7840,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1105
+	cbne	r3, $1, fail1105
 	mov	=1065353216, r1
 	mov	=1075838976, r2
 	clr	r3
@@ -7848,7 +7848,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1106
+	cbne	r3, $0, fail1106
 	mov	=1065353216, r1
 	mov	=2139095040, r2
 	clr	r3
@@ -7856,7 +7856,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1107
+	cbne	r3, $0, fail1107
 	mov	=1065353216, r1
 	mov	=-8388608, r2
 	clr	r3
@@ -7864,7 +7864,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1108
+	cbne	r3, $1, fail1108
 	mov	=1065353216, r1
 	mov	=2143289344, r2
 	clr	r3
@@ -7872,7 +7872,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1109
+	cbne	r3, $0, fail1109
 	mov	=-1077936128, r1
 	mov	=0, r2
 	clr	r3
@@ -7880,7 +7880,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1110
+	cbne	r3, $0, fail1110
 	mov	=-1077936128, r1
 	mov	=-2147483648, r2
 	clr	r3
@@ -7888,7 +7888,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1111
+	cbne	r3, $0, fail1111
 	mov	=-1077936128, r1
 	mov	=1065353216, r2
 	clr	r3
@@ -7896,7 +7896,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1112
+	cbne	r3, $0, fail1112
 	mov	=-1077936128, r1
 	mov	=-1077936128, r2
 	clr	r3
@@ -7904,7 +7904,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1113
+	cbne	r3, $1, fail1113
 	mov	=-1077936128, r1
 	mov	=1075838976, r2
 	clr	r3
@@ -7912,7 +7912,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1114
+	cbne	r3, $0, fail1114
 	mov	=-1077936128, r1
 	mov	=2139095040, r2
 	clr	r3
@@ -7920,7 +7920,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1115
+	cbne	r3, $0, fail1115
 	mov	=-1077936128, r1
 	mov	=-8388608, r2
 	clr	r3
@@ -7928,7 +7928,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1116
+	cbne	r3, $1, fail1116
 	mov	=-1077936128, r1
 	mov	=2143289344, r2
 	clr	r3
@@ -7936,7 +7936,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1117
+	cbne	r3, $0, fail1117
 	mov	=1075838976, r1
 	mov	=0, r2
 	clr	r3
@@ -7944,7 +7944,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1118
+	cbne	r3, $1, fail1118
 	mov	=1075838976, r1
 	mov	=-2147483648, r2
 	clr	r3
@@ -7952,7 +7952,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1119
+	cbne	r3, $1, fail1119
 	mov	=1075838976, r1
 	mov	=1065353216, r2
 	clr	r3
@@ -7960,7 +7960,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1120
+	cbne	r3, $1, fail1120
 	mov	=1075838976, r1
 	mov	=-1077936128, r2
 	clr	r3
@@ -7968,7 +7968,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1121
+	cbne	r3, $1, fail1121
 	mov	=1075838976, r1
 	mov	=1075838976, r2
 	clr	r3
@@ -7976,7 +7976,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1122
+	cbne	r3, $1, fail1122
 	mov	=1075838976, r1
 	mov	=2139095040, r2
 	clr	r3
@@ -7984,7 +7984,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1123
+	cbne	r3, $0, fail1123
 	mov	=1075838976, r1
 	mov	=-8388608, r2
 	clr	r3
@@ -7992,7 +7992,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1124
+	cbne	r3, $1, fail1124
 	mov	=1075838976, r1
 	mov	=2143289344, r2
 	clr	r3
@@ -8000,7 +8000,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1125
+	cbne	r3, $0, fail1125
 	mov	=2139095040, r1
 	mov	=0, r2
 	clr	r3
@@ -8008,7 +8008,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1126
+	cbne	r3, $1, fail1126
 	mov	=2139095040, r1
 	mov	=-2147483648, r2
 	clr	r3
@@ -8016,7 +8016,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1127
+	cbne	r3, $1, fail1127
 	mov	=2139095040, r1
 	mov	=1065353216, r2
 	clr	r3
@@ -8024,7 +8024,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1128
+	cbne	r3, $1, fail1128
 	mov	=2139095040, r1
 	mov	=-1077936128, r2
 	clr	r3
@@ -8032,7 +8032,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1129
+	cbne	r3, $1, fail1129
 	mov	=2139095040, r1
 	mov	=1075838976, r2
 	clr	r3
@@ -8040,7 +8040,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1130
+	cbne	r3, $1, fail1130
 	mov	=2139095040, r1
 	mov	=2139095040, r2
 	clr	r3
@@ -8048,7 +8048,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1131
+	cbne	r3, $1, fail1131
 	mov	=2139095040, r1
 	mov	=-8388608, r2
 	clr	r3
@@ -8056,7 +8056,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1132
+	cbne	r3, $1, fail1132
 	mov	=2139095040, r1
 	mov	=2143289344, r2
 	clr	r3
@@ -8064,7 +8064,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1133
+	cbne	r3, $0, fail1133
 	mov	=-8388608, r1
 	mov	=0, r2
 	clr	r3
@@ -8072,7 +8072,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1134
+	cbne	r3, $0, fail1134
 	mov	=-8388608, r1
 	mov	=-2147483648, r2
 	clr	r3
@@ -8080,7 +8080,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1135
+	cbne	r3, $0, fail1135
 	mov	=-8388608, r1
 	mov	=1065353216, r2
 	clr	r3
@@ -8088,7 +8088,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1136
+	cbne	r3, $0, fail1136
 	mov	=-8388608, r1
 	mov	=-1077936128, r2
 	clr	r3
@@ -8096,7 +8096,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1137
+	cbne	r3, $0, fail1137
 	mov	=-8388608, r1
 	mov	=1075838976, r2
 	clr	r3
@@ -8104,7 +8104,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1138
+	cbne	r3, $0, fail1138
 	mov	=-8388608, r1
 	mov	=2139095040, r2
 	clr	r3
@@ -8112,7 +8112,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1139
+	cbne	r3, $0, fail1139
 	mov	=-8388608, r1
 	mov	=-8388608, r2
 	clr	r3
@@ -8120,7 +8120,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1140
+	cbne	r3, $1, fail1140
 	mov	=-8388608, r1
 	mov	=2143289344, r2
 	clr	r3
@@ -8128,7 +8128,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1141
+	cbne	r3, $0, fail1141
 	mov	=2143289344, r1
 	mov	=0, r2
 	clr	r3
@@ -8136,7 +8136,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1142
+	cbne	r3, $0, fail1142
 	mov	=2143289344, r1
 	mov	=-2147483648, r2
 	clr	r3
@@ -8144,7 +8144,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1143
+	cbne	r3, $0, fail1143
 	mov	=2143289344, r1
 	mov	=1065353216, r2
 	clr	r3
@@ -8152,7 +8152,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1144
+	cbne	r3, $0, fail1144
 	mov	=2143289344, r1
 	mov	=-1077936128, r2
 	clr	r3
@@ -8160,7 +8160,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1145
+	cbne	r3, $0, fail1145
 	mov	=2143289344, r1
 	mov	=1075838976, r2
 	clr	r3
@@ -8168,7 +8168,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1146
+	cbne	r3, $0, fail1146
 	mov	=2143289344, r1
 	mov	=2139095040, r2
 	clr	r3
@@ -8176,7 +8176,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1147
+	cbne	r3, $0, fail1147
 	mov	=2143289344, r1
 	mov	=-8388608, r2
 	clr	r3
@@ -8184,7 +8184,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1148
+	cbne	r3, $0, fail1148
 	mov	=2143289344, r1
 	mov	=2143289344, r2
 	clr	r3
@@ -8192,7 +8192,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1149
+	cbne	r3, $0, fail1149
 	mov	=0, r1
 	mov	=0, r2
 	clr	r3
@@ -8200,7 +8200,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1150
+	cbne	r3, $0, fail1150
 	mov	=0, r1
 	mov	=-2147483648, r2
 	clr	r3
@@ -8208,7 +8208,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1151
+	cbne	r3, $0, fail1151
 	mov	=0, r1
 	mov	=1065353216, r2
 	clr	r3
@@ -8216,7 +8216,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1152
+	cbne	r3, $0, fail1152
 	mov	=0, r1
 	mov	=-1077936128, r2
 	clr	r3
@@ -8224,7 +8224,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1153
+	cbne	r3, $0, fail1153
 	mov	=0, r1
 	mov	=1075838976, r2
 	clr	r3
@@ -8232,7 +8232,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1154
+	cbne	r3, $0, fail1154
 	mov	=0, r1
 	mov	=2139095040, r2
 	clr	r3
@@ -8240,7 +8240,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1155
+	cbne	r3, $0, fail1155
 	mov	=0, r1
 	mov	=-8388608, r2
 	clr	r3
@@ -8248,7 +8248,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1156
+	cbne	r3, $0, fail1156
 	mov	=0, r1
 	mov	=2143289344, r2
 	clr	r3
@@ -8256,7 +8256,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1157
+	cbne	r3, $1, fail1157
 	mov	=-2147483648, r1
 	mov	=0, r2
 	clr	r3
@@ -8264,7 +8264,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1158
+	cbne	r3, $0, fail1158
 	mov	=-2147483648, r1
 	mov	=-2147483648, r2
 	clr	r3
@@ -8272,7 +8272,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1159
+	cbne	r3, $0, fail1159
 	mov	=-2147483648, r1
 	mov	=1065353216, r2
 	clr	r3
@@ -8280,7 +8280,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1160
+	cbne	r3, $0, fail1160
 	mov	=-2147483648, r1
 	mov	=-1077936128, r2
 	clr	r3
@@ -8288,7 +8288,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1161
+	cbne	r3, $0, fail1161
 	mov	=-2147483648, r1
 	mov	=1075838976, r2
 	clr	r3
@@ -8296,7 +8296,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1162
+	cbne	r3, $0, fail1162
 	mov	=-2147483648, r1
 	mov	=2139095040, r2
 	clr	r3
@@ -8304,7 +8304,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1163
+	cbne	r3, $0, fail1163
 	mov	=-2147483648, r1
 	mov	=-8388608, r2
 	clr	r3
@@ -8312,7 +8312,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1164
+	cbne	r3, $0, fail1164
 	mov	=-2147483648, r1
 	mov	=2143289344, r2
 	clr	r3
@@ -8320,7 +8320,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1165
+	cbne	r3, $1, fail1165
 	mov	=1065353216, r1
 	mov	=0, r2
 	clr	r3
@@ -8328,7 +8328,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1166
+	cbne	r3, $0, fail1166
 	mov	=1065353216, r1
 	mov	=-2147483648, r2
 	clr	r3
@@ -8336,7 +8336,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1167
+	cbne	r3, $0, fail1167
 	mov	=1065353216, r1
 	mov	=1065353216, r2
 	clr	r3
@@ -8344,7 +8344,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1168
+	cbne	r3, $0, fail1168
 	mov	=1065353216, r1
 	mov	=-1077936128, r2
 	clr	r3
@@ -8352,7 +8352,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1169
+	cbne	r3, $0, fail1169
 	mov	=1065353216, r1
 	mov	=1075838976, r2
 	clr	r3
@@ -8360,7 +8360,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1170
+	cbne	r3, $0, fail1170
 	mov	=1065353216, r1
 	mov	=2139095040, r2
 	clr	r3
@@ -8368,7 +8368,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1171
+	cbne	r3, $0, fail1171
 	mov	=1065353216, r1
 	mov	=-8388608, r2
 	clr	r3
@@ -8376,7 +8376,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1172
+	cbne	r3, $0, fail1172
 	mov	=1065353216, r1
 	mov	=2143289344, r2
 	clr	r3
@@ -8384,7 +8384,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1173
+	cbne	r3, $1, fail1173
 	mov	=-1077936128, r1
 	mov	=0, r2
 	clr	r3
@@ -8392,7 +8392,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1174
+	cbne	r3, $0, fail1174
 	mov	=-1077936128, r1
 	mov	=-2147483648, r2
 	clr	r3
@@ -8400,7 +8400,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1175
+	cbne	r3, $0, fail1175
 	mov	=-1077936128, r1
 	mov	=1065353216, r2
 	clr	r3
@@ -8408,7 +8408,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1176
+	cbne	r3, $0, fail1176
 	mov	=-1077936128, r1
 	mov	=-1077936128, r2
 	clr	r3
@@ -8416,7 +8416,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1177
+	cbne	r3, $0, fail1177
 	mov	=-1077936128, r1
 	mov	=1075838976, r2
 	clr	r3
@@ -8424,7 +8424,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1178
+	cbne	r3, $0, fail1178
 	mov	=-1077936128, r1
 	mov	=2139095040, r2
 	clr	r3
@@ -8432,7 +8432,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1179
+	cbne	r3, $0, fail1179
 	mov	=-1077936128, r1
 	mov	=-8388608, r2
 	clr	r3
@@ -8440,7 +8440,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1180
+	cbne	r3, $0, fail1180
 	mov	=-1077936128, r1
 	mov	=2143289344, r2
 	clr	r3
@@ -8448,7 +8448,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1181
+	cbne	r3, $1, fail1181
 	mov	=1075838976, r1
 	mov	=0, r2
 	clr	r3
@@ -8456,7 +8456,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1182
+	cbne	r3, $0, fail1182
 	mov	=1075838976, r1
 	mov	=-2147483648, r2
 	clr	r3
@@ -8464,7 +8464,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1183
+	cbne	r3, $0, fail1183
 	mov	=1075838976, r1
 	mov	=1065353216, r2
 	clr	r3
@@ -8472,7 +8472,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1184
+	cbne	r3, $0, fail1184
 	mov	=1075838976, r1
 	mov	=-1077936128, r2
 	clr	r3
@@ -8480,7 +8480,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1185
+	cbne	r3, $0, fail1185
 	mov	=1075838976, r1
 	mov	=1075838976, r2
 	clr	r3
@@ -8488,7 +8488,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1186
+	cbne	r3, $0, fail1186
 	mov	=1075838976, r1
 	mov	=2139095040, r2
 	clr	r3
@@ -8496,7 +8496,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1187
+	cbne	r3, $0, fail1187
 	mov	=1075838976, r1
 	mov	=-8388608, r2
 	clr	r3
@@ -8504,7 +8504,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1188
+	cbne	r3, $0, fail1188
 	mov	=1075838976, r1
 	mov	=2143289344, r2
 	clr	r3
@@ -8512,7 +8512,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1189
+	cbne	r3, $1, fail1189
 	mov	=2139095040, r1
 	mov	=0, r2
 	clr	r3
@@ -8520,7 +8520,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1190
+	cbne	r3, $0, fail1190
 	mov	=2139095040, r1
 	mov	=-2147483648, r2
 	clr	r3
@@ -8528,7 +8528,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1191
+	cbne	r3, $0, fail1191
 	mov	=2139095040, r1
 	mov	=1065353216, r2
 	clr	r3
@@ -8536,7 +8536,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1192
+	cbne	r3, $0, fail1192
 	mov	=2139095040, r1
 	mov	=-1077936128, r2
 	clr	r3
@@ -8544,7 +8544,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1193
+	cbne	r3, $0, fail1193
 	mov	=2139095040, r1
 	mov	=1075838976, r2
 	clr	r3
@@ -8552,7 +8552,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1194
+	cbne	r3, $0, fail1194
 	mov	=2139095040, r1
 	mov	=2139095040, r2
 	clr	r3
@@ -8560,7 +8560,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1195
+	cbne	r3, $0, fail1195
 	mov	=2139095040, r1
 	mov	=-8388608, r2
 	clr	r3
@@ -8568,7 +8568,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1196
+	cbne	r3, $0, fail1196
 	mov	=2139095040, r1
 	mov	=2143289344, r2
 	clr	r3
@@ -8576,7 +8576,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1197
+	cbne	r3, $1, fail1197
 	mov	=-8388608, r1
 	mov	=0, r2
 	clr	r3
@@ -8584,7 +8584,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1198
+	cbne	r3, $0, fail1198
 	mov	=-8388608, r1
 	mov	=-2147483648, r2
 	clr	r3
@@ -8592,7 +8592,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1199
+	cbne	r3, $0, fail1199
 	mov	=-8388608, r1
 	mov	=1065353216, r2
 	clr	r3
@@ -8600,7 +8600,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1200
+	cbne	r3, $0, fail1200
 	mov	=-8388608, r1
 	mov	=-1077936128, r2
 	clr	r3
@@ -8608,7 +8608,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1201
+	cbne	r3, $0, fail1201
 	mov	=-8388608, r1
 	mov	=1075838976, r2
 	clr	r3
@@ -8616,7 +8616,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1202
+	cbne	r3, $0, fail1202
 	mov	=-8388608, r1
 	mov	=2139095040, r2
 	clr	r3
@@ -8624,7 +8624,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1203
+	cbne	r3, $0, fail1203
 	mov	=-8388608, r1
 	mov	=-8388608, r2
 	clr	r3
@@ -8632,7 +8632,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1204
+	cbne	r3, $0, fail1204
 	mov	=-8388608, r1
 	mov	=2143289344, r2
 	clr	r3
@@ -8640,7 +8640,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1205
+	cbne	r3, $1, fail1205
 	mov	=2143289344, r1
 	mov	=0, r2
 	clr	r3
@@ -8648,7 +8648,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1206
+	cbne	r3, $1, fail1206
 	mov	=2143289344, r1
 	mov	=-2147483648, r2
 	clr	r3
@@ -8656,7 +8656,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1207
+	cbne	r3, $1, fail1207
 	mov	=2143289344, r1
 	mov	=1065353216, r2
 	clr	r3
@@ -8664,7 +8664,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1208
+	cbne	r3, $1, fail1208
 	mov	=2143289344, r1
 	mov	=-1077936128, r2
 	clr	r3
@@ -8672,7 +8672,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1209
+	cbne	r3, $1, fail1209
 	mov	=2143289344, r1
 	mov	=1075838976, r2
 	clr	r3
@@ -8680,7 +8680,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1210
+	cbne	r3, $1, fail1210
 	mov	=2143289344, r1
 	mov	=2139095040, r2
 	clr	r3
@@ -8688,7 +8688,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1211
+	cbne	r3, $1, fail1211
 	mov	=2143289344, r1
 	mov	=-8388608, r2
 	clr	r3
@@ -8696,7 +8696,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1212
+	cbne	r3, $1, fail1212
 	mov	=2143289344, r1
 	mov	=2143289344, r2
 	clr	r3
@@ -8704,7 +8704,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1213
+	cbne	r3, $1, fail1213
 	mov	=0, r1
 	mov	=0, r2
 	clr	r3
@@ -8712,7 +8712,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1214
+	cbne	r3, $1, fail1214
 	mov	=0, r1
 	mov	=-2147483648, r2
 	clr	r3
@@ -8720,7 +8720,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1215
+	cbne	r3, $1, fail1215
 	mov	=0, r1
 	mov	=1065353216, r2
 	clr	r3
@@ -8728,7 +8728,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1216
+	cbne	r3, $1, fail1216
 	mov	=0, r1
 	mov	=-1077936128, r2
 	clr	r3
@@ -8736,7 +8736,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1217
+	cbne	r3, $1, fail1217
 	mov	=0, r1
 	mov	=1075838976, r2
 	clr	r3
@@ -8744,7 +8744,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1218
+	cbne	r3, $1, fail1218
 	mov	=0, r1
 	mov	=2139095040, r2
 	clr	r3
@@ -8752,7 +8752,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1219
+	cbne	r3, $1, fail1219
 	mov	=0, r1
 	mov	=-8388608, r2
 	clr	r3
@@ -8760,7 +8760,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1220
+	cbne	r3, $1, fail1220
 	mov	=0, r1
 	mov	=2143289344, r2
 	clr	r3
@@ -8768,7 +8768,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1221
+	cbne	r3, $0, fail1221
 	mov	=-2147483648, r1
 	mov	=0, r2
 	clr	r3
@@ -8776,7 +8776,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1222
+	cbne	r3, $1, fail1222
 	mov	=-2147483648, r1
 	mov	=-2147483648, r2
 	clr	r3
@@ -8784,7 +8784,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1223
+	cbne	r3, $1, fail1223
 	mov	=-2147483648, r1
 	mov	=1065353216, r2
 	clr	r3
@@ -8792,7 +8792,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1224
+	cbne	r3, $1, fail1224
 	mov	=-2147483648, r1
 	mov	=-1077936128, r2
 	clr	r3
@@ -8800,7 +8800,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1225
+	cbne	r3, $1, fail1225
 	mov	=-2147483648, r1
 	mov	=1075838976, r2
 	clr	r3
@@ -8808,7 +8808,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1226
+	cbne	r3, $1, fail1226
 	mov	=-2147483648, r1
 	mov	=2139095040, r2
 	clr	r3
@@ -8816,7 +8816,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1227
+	cbne	r3, $1, fail1227
 	mov	=-2147483648, r1
 	mov	=-8388608, r2
 	clr	r3
@@ -8824,7 +8824,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1228
+	cbne	r3, $1, fail1228
 	mov	=-2147483648, r1
 	mov	=2143289344, r2
 	clr	r3
@@ -8832,7 +8832,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1229
+	cbne	r3, $0, fail1229
 	mov	=1065353216, r1
 	mov	=0, r2
 	clr	r3
@@ -8840,7 +8840,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1230
+	cbne	r3, $1, fail1230
 	mov	=1065353216, r1
 	mov	=-2147483648, r2
 	clr	r3
@@ -8848,7 +8848,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1231
+	cbne	r3, $1, fail1231
 	mov	=1065353216, r1
 	mov	=1065353216, r2
 	clr	r3
@@ -8856,7 +8856,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1232
+	cbne	r3, $1, fail1232
 	mov	=1065353216, r1
 	mov	=-1077936128, r2
 	clr	r3
@@ -8864,7 +8864,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1233
+	cbne	r3, $1, fail1233
 	mov	=1065353216, r1
 	mov	=1075838976, r2
 	clr	r3
@@ -8872,7 +8872,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1234
+	cbne	r3, $1, fail1234
 	mov	=1065353216, r1
 	mov	=2139095040, r2
 	clr	r3
@@ -8880,7 +8880,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1235
+	cbne	r3, $1, fail1235
 	mov	=1065353216, r1
 	mov	=-8388608, r2
 	clr	r3
@@ -8888,7 +8888,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1236
+	cbne	r3, $1, fail1236
 	mov	=1065353216, r1
 	mov	=2143289344, r2
 	clr	r3
@@ -8896,7 +8896,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1237
+	cbne	r3, $0, fail1237
 	mov	=-1077936128, r1
 	mov	=0, r2
 	clr	r3
@@ -8904,7 +8904,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1238
+	cbne	r3, $1, fail1238
 	mov	=-1077936128, r1
 	mov	=-2147483648, r2
 	clr	r3
@@ -8912,7 +8912,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1239
+	cbne	r3, $1, fail1239
 	mov	=-1077936128, r1
 	mov	=1065353216, r2
 	clr	r3
@@ -8920,7 +8920,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1240
+	cbne	r3, $1, fail1240
 	mov	=-1077936128, r1
 	mov	=-1077936128, r2
 	clr	r3
@@ -8928,7 +8928,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1241
+	cbne	r3, $1, fail1241
 	mov	=-1077936128, r1
 	mov	=1075838976, r2
 	clr	r3
@@ -8936,7 +8936,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1242
+	cbne	r3, $1, fail1242
 	mov	=-1077936128, r1
 	mov	=2139095040, r2
 	clr	r3
@@ -8944,7 +8944,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1243
+	cbne	r3, $1, fail1243
 	mov	=-1077936128, r1
 	mov	=-8388608, r2
 	clr	r3
@@ -8952,7 +8952,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1244
+	cbne	r3, $1, fail1244
 	mov	=-1077936128, r1
 	mov	=2143289344, r2
 	clr	r3
@@ -8960,7 +8960,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1245
+	cbne	r3, $0, fail1245
 	mov	=1075838976, r1
 	mov	=0, r2
 	clr	r3
@@ -8968,7 +8968,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1246
+	cbne	r3, $1, fail1246
 	mov	=1075838976, r1
 	mov	=-2147483648, r2
 	clr	r3
@@ -8976,7 +8976,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1247
+	cbne	r3, $1, fail1247
 	mov	=1075838976, r1
 	mov	=1065353216, r2
 	clr	r3
@@ -8984,7 +8984,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1248
+	cbne	r3, $1, fail1248
 	mov	=1075838976, r1
 	mov	=-1077936128, r2
 	clr	r3
@@ -8992,7 +8992,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1249
+	cbne	r3, $1, fail1249
 	mov	=1075838976, r1
 	mov	=1075838976, r2
 	clr	r3
@@ -9000,7 +9000,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1250
+	cbne	r3, $1, fail1250
 	mov	=1075838976, r1
 	mov	=2139095040, r2
 	clr	r3
@@ -9008,7 +9008,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1251
+	cbne	r3, $1, fail1251
 	mov	=1075838976, r1
 	mov	=-8388608, r2
 	clr	r3
@@ -9016,7 +9016,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1252
+	cbne	r3, $1, fail1252
 	mov	=1075838976, r1
 	mov	=2143289344, r2
 	clr	r3
@@ -9024,7 +9024,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1253
+	cbne	r3, $0, fail1253
 	mov	=2139095040, r1
 	mov	=0, r2
 	clr	r3
@@ -9032,7 +9032,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1254
+	cbne	r3, $1, fail1254
 	mov	=2139095040, r1
 	mov	=-2147483648, r2
 	clr	r3
@@ -9040,7 +9040,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1255
+	cbne	r3, $1, fail1255
 	mov	=2139095040, r1
 	mov	=1065353216, r2
 	clr	r3
@@ -9048,7 +9048,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1256
+	cbne	r3, $1, fail1256
 	mov	=2139095040, r1
 	mov	=-1077936128, r2
 	clr	r3
@@ -9056,7 +9056,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1257
+	cbne	r3, $1, fail1257
 	mov	=2139095040, r1
 	mov	=1075838976, r2
 	clr	r3
@@ -9064,7 +9064,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1258
+	cbne	r3, $1, fail1258
 	mov	=2139095040, r1
 	mov	=2139095040, r2
 	clr	r3
@@ -9072,7 +9072,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1259
+	cbne	r3, $1, fail1259
 	mov	=2139095040, r1
 	mov	=-8388608, r2
 	clr	r3
@@ -9080,7 +9080,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1260
+	cbne	r3, $1, fail1260
 	mov	=2139095040, r1
 	mov	=2143289344, r2
 	clr	r3
@@ -9088,7 +9088,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1261
+	cbne	r3, $0, fail1261
 	mov	=-8388608, r1
 	mov	=0, r2
 	clr	r3
@@ -9096,7 +9096,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1262
+	cbne	r3, $1, fail1262
 	mov	=-8388608, r1
 	mov	=-2147483648, r2
 	clr	r3
@@ -9104,7 +9104,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1263
+	cbne	r3, $1, fail1263
 	mov	=-8388608, r1
 	mov	=1065353216, r2
 	clr	r3
@@ -9112,7 +9112,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1264
+	cbne	r3, $1, fail1264
 	mov	=-8388608, r1
 	mov	=-1077936128, r2
 	clr	r3
@@ -9120,7 +9120,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1265
+	cbne	r3, $1, fail1265
 	mov	=-8388608, r1
 	mov	=1075838976, r2
 	clr	r3
@@ -9128,7 +9128,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1266
+	cbne	r3, $1, fail1266
 	mov	=-8388608, r1
 	mov	=2139095040, r2
 	clr	r3
@@ -9136,7 +9136,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1267
+	cbne	r3, $1, fail1267
 	mov	=-8388608, r1
 	mov	=-8388608, r2
 	clr	r3
@@ -9144,7 +9144,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $1, f1268
+	cbne	r3, $1, fail1268
 	mov	=-8388608, r1
 	mov	=2143289344, r2
 	clr	r3
@@ -9152,7 +9152,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1269
+	cbne	r3, $0, fail1269
 	mov	=2143289344, r1
 	mov	=0, r2
 	clr	r3
@@ -9160,7 +9160,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1270
+	cbne	r3, $0, fail1270
 	mov	=2143289344, r1
 	mov	=-2147483648, r2
 	clr	r3
@@ -9168,7 +9168,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1271
+	cbne	r3, $0, fail1271
 	mov	=2143289344, r1
 	mov	=1065353216, r2
 	clr	r3
@@ -9176,7 +9176,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1272
+	cbne	r3, $0, fail1272
 	mov	=2143289344, r1
 	mov	=-1077936128, r2
 	clr	r3
@@ -9184,7 +9184,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1273
+	cbne	r3, $0, fail1273
 	mov	=2143289344, r1
 	mov	=1075838976, r2
 	clr	r3
@@ -9192,7 +9192,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1274
+	cbne	r3, $0, fail1274
 	mov	=2143289344, r1
 	mov	=2139095040, r2
 	clr	r3
@@ -9200,7 +9200,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1275
+	cbne	r3, $0, fail1275
 	mov	=2143289344, r1
 	mov	=-8388608, r2
 	clr	r3
@@ -9208,7 +9208,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1276
+	cbne	r3, $0, fail1276
 	mov	=2143289344, r1
 	mov	=2143289344, r2
 	clr	r3
@@ -9216,7 +9216,7 @@ _start:
 	br	2f
 1:	mov	$1, r3
 2:
-	cbne	r3, $0, f1277
+	cbne	r3, $0, fail1277
 	mov	=3, r1
 	mov	=4, r12
 	clr	r3
@@ -9225,7 +9225,7 @@ _start:
 	.fill	20000, 1, 0
 FA1278:	mov	$1, r3
 FB1278:
-	cbne	r3, $1, f1279
+	cbne	r3, $1, fail1279
 	mov	=3, r1
 	clr	r3
 	br	FD1280
@@ -9234,7 +9234,7 @@ FE1280:	mov	$1, r3
 	.fill	20000, 1, 0
 FD1280:	cbcs	r1, $4, FE1280
 FF1280:
-	cbne	r3, $1, f1281
+	cbne	r3, $1, fail1281
 	mov	=4, r1
 	mov	=4, r12
 	clr	r3
@@ -9243,7 +9243,7 @@ FF1280:
 	.fill	20000, 1, 0
 FA1282:	mov	$1, r3
 FB1282:
-	cbne	r3, $0, f1283
+	cbne	r3, $0, fail1283
 	mov	=4, r1
 	clr	r3
 	br	FD1284
@@ -9252,7 +9252,7 @@ FE1284:	mov	$1, r3
 	.fill	20000, 1, 0
 FD1284:	cbcs	r1, $4, FE1284
 FF1284:
-	cbne	r3, $0, f1285
+	cbne	r3, $0, fail1285
 	mov	=5, r1
 	mov	=4, r12
 	clr	r3
@@ -9261,7 +9261,7 @@ FF1284:
 	.fill	20000, 1, 0
 FA1286:	mov	$1, r3
 FB1286:
-	cbne	r3, $0, f1287
+	cbne	r3, $0, fail1287
 	mov	=5, r1
 	clr	r3
 	br	FD1288
@@ -9270,7 +9270,7 @@ FE1288:	mov	$1, r3
 	.fill	20000, 1, 0
 FD1288:	cbcs	r1, $4, FE1288
 FF1288:
-	cbne	r3, $0, f1289
+	cbne	r3, $0, fail1289
 	mov	=-1, r1
 	mov	=1, r12
 	clr	r3
@@ -9279,7 +9279,7 @@ FF1288:
 	.fill	20000, 1, 0
 FA1290:	mov	$1, r3
 FB1290:
-	cbne	r3, $0, f1291
+	cbne	r3, $0, fail1291
 	mov	=-1, r1
 	clr	r3
 	br	FD1292
@@ -9288,7 +9288,7 @@ FE1292:	mov	$1, r3
 	.fill	20000, 1, 0
 FD1292:	cbcs	r1, $1, FE1292
 FF1292:
-	cbne	r3, $0, f1293
+	cbne	r3, $0, fail1293
 	mov	=1, r1
 	mov	=-1, r12
 	clr	r3
@@ -9297,7 +9297,7 @@ FF1292:
 	.fill	20000, 1, 0
 FA1294:	mov	$1, r3
 FB1294:
-	cbne	r3, $1, f1295
+	cbne	r3, $1, fail1295
 	mov	=1, r1
 	clr	r3
 	br	FD1296
@@ -9306,7 +9306,7 @@ FE1296:	mov	$1, r3
 	.fill	20000, 1, 0
 FD1296:	cbcs	r1, $-1, FE1296
 FF1296:
-	cbne	r3, $1, f1297
+	cbne	r3, $1, fail1297
 	mov	=3, r1
 	mov	=4, r12
 	clr	r3
@@ -9315,7 +9315,7 @@ FF1296:
 	.fill	20000, 1, 0
 FA1298:	mov	$1, r3
 FB1298:
-	cbne	r3, $0, f1299
+	cbne	r3, $0, fail1299
 	mov	=3, r1
 	clr	r3
 	br	FD1300
@@ -9324,7 +9324,7 @@ FE1300:	mov	$1, r3
 	.fill	20000, 1, 0
 FD1300:	cbcc	r1, $4, FE1300
 FF1300:
-	cbne	r3, $0, f1301
+	cbne	r3, $0, fail1301
 	mov	=4, r1
 	mov	=4, r12
 	clr	r3
@@ -9333,7 +9333,7 @@ FF1300:
 	.fill	20000, 1, 0
 FA1302:	mov	$1, r3
 FB1302:
-	cbne	r3, $1, f1303
+	cbne	r3, $1, fail1303
 	mov	=4, r1
 	clr	r3
 	br	FD1304
@@ -9342,7 +9342,7 @@ FE1304:	mov	$1, r3
 	.fill	20000, 1, 0
 FD1304:	cbcc	r1, $4, FE1304
 FF1304:
-	cbne	r3, $1, f1305
+	cbne	r3, $1, fail1305
 	mov	=5, r1
 	mov	=4, r12
 	clr	r3
@@ -9351,7 +9351,7 @@ FF1304:
 	.fill	20000, 1, 0
 FA1306:	mov	$1, r3
 FB1306:
-	cbne	r3, $1, f1307
+	cbne	r3, $1, fail1307
 	mov	=5, r1
 	clr	r3
 	br	FD1308
@@ -9360,7 +9360,7 @@ FE1308:	mov	$1, r3
 	.fill	20000, 1, 0
 FD1308:	cbcc	r1, $4, FE1308
 FF1308:
-	cbne	r3, $1, f1309
+	cbne	r3, $1, fail1309
 	mov	=-1, r1
 	mov	=1, r12
 	clr	r3
@@ -9369,7 +9369,7 @@ FF1308:
 	.fill	20000, 1, 0
 FA1310:	mov	$1, r3
 FB1310:
-	cbne	r3, $1, f1311
+	cbne	r3, $1, fail1311
 	mov	=-1, r1
 	clr	r3
 	br	FD1312
@@ -9378,7 +9378,7 @@ FE1312:	mov	$1, r3
 	.fill	20000, 1, 0
 FD1312:	cbcc	r1, $1, FE1312
 FF1312:
-	cbne	r3, $1, f1313
+	cbne	r3, $1, fail1313
 	mov	=1, r1
 	mov	=-1, r12
 	clr	r3
@@ -9387,7 +9387,7 @@ FF1312:
 	.fill	20000, 1, 0
 FA1314:	mov	$1, r3
 FB1314:
-	cbne	r3, $0, f1315
+	cbne	r3, $0, fail1315
 	mov	=1, r1
 	clr	r3
 	br	FD1316
@@ -9396,7 +9396,7 @@ FE1316:	mov	$1, r3
 	.fill	20000, 1, 0
 FD1316:	cbcc	r1, $-1, FE1316
 FF1316:
-	cbne	r3, $0, f1317
+	cbne	r3, $0, fail1317
 	mov	=3, r1
 	mov	=4, r12
 	clr	r3
@@ -9405,7 +9405,7 @@ FF1316:
 	.fill	20000, 1, 0
 FA1318:	mov	$1, r3
 FB1318:
-	cbne	r3, $0, f1319
+	cbne	r3, $0, fail1319
 	mov	=3, r1
 	clr	r3
 	br	FD1320
@@ -9414,7 +9414,7 @@ FE1320:	mov	$1, r3
 	.fill	20000, 1, 0
 FD1320:	cbhi	r1, $4, FE1320
 FF1320:
-	cbne	r3, $0, f1321
+	cbne	r3, $0, fail1321
 	mov	=4, r1
 	mov	=4, r12
 	clr	r3
@@ -9423,7 +9423,7 @@ FF1320:
 	.fill	20000, 1, 0
 FA1322:	mov	$1, r3
 FB1322:
-	cbne	r3, $0, f1323
+	cbne	r3, $0, fail1323
 	mov	=4, r1
 	clr	r3
 	br	FD1324
@@ -9432,7 +9432,7 @@ FE1324:	mov	$1, r3
 	.fill	20000, 1, 0
 FD1324:	cbhi	r1, $4, FE1324
 FF1324:
-	cbne	r3, $0, f1325
+	cbne	r3, $0, fail1325
 	mov	=5, r1
 	mov	=4, r12
 	clr	r3
@@ -9441,7 +9441,7 @@ FF1324:
 	.fill	20000, 1, 0
 FA1326:	mov	$1, r3
 FB1326:
-	cbne	r3, $1, f1327
+	cbne	r3, $1, fail1327
 	mov	=5, r1
 	clr	r3
 	br	FD1328
@@ -9450,7 +9450,7 @@ FE1328:	mov	$1, r3
 	.fill	20000, 1, 0
 FD1328:	cbhi	r1, $4, FE1328
 FF1328:
-	cbne	r3, $1, f1329
+	cbne	r3, $1, fail1329
 	mov	=-1, r1
 	mov	=1, r12
 	clr	r3
@@ -9459,7 +9459,7 @@ FF1328:
 	.fill	20000, 1, 0
 FA1330:	mov	$1, r3
 FB1330:
-	cbne	r3, $1, f1331
+	cbne	r3, $1, fail1331
 	mov	=-1, r1
 	clr	r3
 	br	FD1332
@@ -9468,7 +9468,7 @@ FE1332:	mov	$1, r3
 	.fill	20000, 1, 0
 FD1332:	cbhi	r1, $1, FE1332
 FF1332:
-	cbne	r3, $1, f1333
+	cbne	r3, $1, fail1333
 	mov	=1, r1
 	mov	=-1, r12
 	clr	r3
@@ -9477,7 +9477,7 @@ FF1332:
 	.fill	20000, 1, 0
 FA1334:	mov	$1, r3
 FB1334:
-	cbne	r3, $0, f1335
+	cbne	r3, $0, fail1335
 	mov	=1, r1
 	clr	r3
 	br	FD1336
@@ -9486,7 +9486,7 @@ FE1336:	mov	$1, r3
 	.fill	20000, 1, 0
 FD1336:	cbhi	r1, $-1, FE1336
 FF1336:
-	cbne	r3, $0, f1337
+	cbne	r3, $0, fail1337
 	mov	=3, r1
 	mov	=4, r12
 	clr	r3
@@ -9495,7 +9495,7 @@ FF1336:
 	.fill	20000, 1, 0
 FA1338:	mov	$1, r3
 FB1338:
-	cbne	r3, $1, f1339
+	cbne	r3, $1, fail1339
 	mov	=3, r1
 	clr	r3
 	br	FD1340
@@ -9504,7 +9504,7 @@ FE1340:	mov	$1, r3
 	.fill	20000, 1, 0
 FD1340:	cblos	r1, $4, FE1340
 FF1340:
-	cbne	r3, $1, f1341
+	cbne	r3, $1, fail1341
 	mov	=4, r1
 	mov	=4, r12
 	clr	r3
@@ -9513,7 +9513,7 @@ FF1340:
 	.fill	20000, 1, 0
 FA1342:	mov	$1, r3
 FB1342:
-	cbne	r3, $1, f1343
+	cbne	r3, $1, fail1343
 	mov	=4, r1
 	clr	r3
 	br	FD1344
@@ -9522,7 +9522,7 @@ FE1344:	mov	$1, r3
 	.fill	20000, 1, 0
 FD1344:	cblos	r1, $4, FE1344
 FF1344:
-	cbne	r3, $1, f1345
+	cbne	r3, $1, fail1345
 	mov	=5, r1
 	mov	=4, r12
 	clr	r3
@@ -9531,7 +9531,7 @@ FF1344:
 	.fill	20000, 1, 0
 FA1346:	mov	$1, r3
 FB1346:
-	cbne	r3, $0, f1347
+	cbne	r3, $0, fail1347
 	mov	=5, r1
 	clr	r3
 	br	FD1348
@@ -9540,7 +9540,7 @@ FE1348:	mov	$1, r3
 	.fill	20000, 1, 0
 FD1348:	cblos	r1, $4, FE1348
 FF1348:
-	cbne	r3, $0, f1349
+	cbne	r3, $0, fail1349
 	mov	=-1, r1
 	mov	=1, r12
 	clr	r3
@@ -9549,7 +9549,7 @@ FF1348:
 	.fill	20000, 1, 0
 FA1350:	mov	$1, r3
 FB1350:
-	cbne	r3, $0, f1351
+	cbne	r3, $0, fail1351
 	mov	=-1, r1
 	clr	r3
 	br	FD1352
@@ -9558,7 +9558,7 @@ FE1352:	mov	$1, r3
 	.fill	20000, 1, 0
 FD1352:	cblos	r1, $1, FE1352
 FF1352:
-	cbne	r3, $0, f1353
+	cbne	r3, $0, fail1353
 	mov	=1, r1
 	mov	=-1, r12
 	clr	r3
@@ -9567,7 +9567,7 @@ FF1352:
 	.fill	20000, 1, 0
 FA1354:	mov	$1, r3
 FB1354:
-	cbne	r3, $1, f1355
+	cbne	r3, $1, fail1355
 	mov	=1, r1
 	clr	r3
 	br	FD1356
@@ -9576,7 +9576,7 @@ FE1356:	mov	$1, r3
 	.fill	20000, 1, 0
 FD1356:	cblos	r1, $-1, FE1356
 FF1356:
-	cbne	r3, $1, f1357
+	cbne	r3, $1, fail1357
 	mov	=3, r1
 	mov	=4, r12
 	clr	r3
@@ -9585,7 +9585,7 @@ FF1356:
 	.fill	20000, 1, 0
 FA1358:	mov	$1, r3
 FB1358:
-	cbne	r3, $1, f1359
+	cbne	r3, $1, fail1359
 	mov	=3, r1
 	clr	r3
 	br	FD1360
@@ -9594,7 +9594,7 @@ FE1360:	mov	$1, r3
 	.fill	20000, 1, 0
 FD1360:	cblt	r1, $4, FE1360
 FF1360:
-	cbne	r3, $1, f1361
+	cbne	r3, $1, fail1361
 	mov	=4, r1
 	mov	=4, r12
 	clr	r3
@@ -9603,7 +9603,7 @@ FF1360:
 	.fill	20000, 1, 0
 FA1362:	mov	$1, r3
 FB1362:
-	cbne	r3, $0, f1363
+	cbne	r3, $0, fail1363
 	mov	=4, r1
 	clr	r3
 	br	FD1364
@@ -9612,7 +9612,7 @@ FE1364:	mov	$1, r3
 	.fill	20000, 1, 0
 FD1364:	cblt	r1, $4, FE1364
 FF1364:
-	cbne	r3, $0, f1365
+	cbne	r3, $0, fail1365
 	mov	=5, r1
 	mov	=4, r12
 	clr	r3
@@ -9621,7 +9621,7 @@ FF1364:
 	.fill	20000, 1, 0
 FA1366:	mov	$1, r3
 FB1366:
-	cbne	r3, $0, f1367
+	cbne	r3, $0, fail1367
 	mov	=5, r1
 	clr	r3
 	br	FD1368
@@ -9630,7 +9630,7 @@ FE1368:	mov	$1, r3
 	.fill	20000, 1, 0
 FD1368:	cblt	r1, $4, FE1368
 FF1368:
-	cbne	r3, $0, f1369
+	cbne	r3, $0, fail1369
 	mov	=-1, r1
 	mov	=1, r12
 	clr	r3
@@ -9639,7 +9639,7 @@ FF1368:
 	.fill	20000, 1, 0
 FA1370:	mov	$1, r3
 FB1370:
-	cbne	r3, $1, f1371
+	cbne	r3, $1, fail1371
 	mov	=-1, r1
 	clr	r3
 	br	FD1372
@@ -9648,7 +9648,7 @@ FE1372:	mov	$1, r3
 	.fill	20000, 1, 0
 FD1372:	cblt	r1, $1, FE1372
 FF1372:
-	cbne	r3, $1, f1373
+	cbne	r3, $1, fail1373
 	mov	=1, r1
 	mov	=-1, r12
 	clr	r3
@@ -9657,7 +9657,7 @@ FF1372:
 	.fill	20000, 1, 0
 FA1374:	mov	$1, r3
 FB1374:
-	cbne	r3, $0, f1375
+	cbne	r3, $0, fail1375
 	mov	=1, r1
 	clr	r3
 	br	FD1376
@@ -9666,7 +9666,7 @@ FE1376:	mov	$1, r3
 	.fill	20000, 1, 0
 FD1376:	cblt	r1, $-1, FE1376
 FF1376:
-	cbne	r3, $0, f1377
+	cbne	r3, $0, fail1377
 	mov	=3, r1
 	mov	=4, r12
 	clr	r3
@@ -9675,7 +9675,7 @@ FF1376:
 	.fill	20000, 1, 0
 FA1378:	mov	$1, r3
 FB1378:
-	cbne	r3, $0, f1379
+	cbne	r3, $0, fail1379
 	mov	=3, r1
 	clr	r3
 	br	FD1380
@@ -9684,7 +9684,7 @@ FE1380:	mov	$1, r3
 	.fill	20000, 1, 0
 FD1380:	cbge	r1, $4, FE1380
 FF1380:
-	cbne	r3, $0, f1381
+	cbne	r3, $0, fail1381
 	mov	=4, r1
 	mov	=4, r12
 	clr	r3
@@ -9693,7 +9693,7 @@ FF1380:
 	.fill	20000, 1, 0
 FA1382:	mov	$1, r3
 FB1382:
-	cbne	r3, $1, f1383
+	cbne	r3, $1, fail1383
 	mov	=4, r1
 	clr	r3
 	br	FD1384
@@ -9702,7 +9702,7 @@ FE1384:	mov	$1, r3
 	.fill	20000, 1, 0
 FD1384:	cbge	r1, $4, FE1384
 FF1384:
-	cbne	r3, $1, f1385
+	cbne	r3, $1, fail1385
 	mov	=5, r1
 	mov	=4, r12
 	clr	r3
@@ -9711,7 +9711,7 @@ FF1384:
 	.fill	20000, 1, 0
 FA1386:	mov	$1, r3
 FB1386:
-	cbne	r3, $1, f1387
+	cbne	r3, $1, fail1387
 	mov	=5, r1
 	clr	r3
 	br	FD1388
@@ -9720,7 +9720,7 @@ FE1388:	mov	$1, r3
 	.fill	20000, 1, 0
 FD1388:	cbge	r1, $4, FE1388
 FF1388:
-	cbne	r3, $1, f1389
+	cbne	r3, $1, fail1389
 	mov	=-1, r1
 	mov	=1, r12
 	clr	r3
@@ -9729,7 +9729,7 @@ FF1388:
 	.fill	20000, 1, 0
 FA1390:	mov	$1, r3
 FB1390:
-	cbne	r3, $0, f1391
+	cbne	r3, $0, fail1391
 	mov	=-1, r1
 	clr	r3
 	br	FD1392
@@ -9738,7 +9738,7 @@ FE1392:	mov	$1, r3
 	.fill	20000, 1, 0
 FD1392:	cbge	r1, $1, FE1392
 FF1392:
-	cbne	r3, $0, f1393
+	cbne	r3, $0, fail1393
 	mov	=1, r1
 	mov	=-1, r12
 	clr	r3
@@ -9747,7 +9747,7 @@ FF1392:
 	.fill	20000, 1, 0
 FA1394:	mov	$1, r3
 FB1394:
-	cbne	r3, $1, f1395
+	cbne	r3, $1, fail1395
 	mov	=1, r1
 	clr	r3
 	br	FD1396
@@ -9756,7 +9756,7 @@ FE1396:	mov	$1, r3
 	.fill	20000, 1, 0
 FD1396:	cbge	r1, $-1, FE1396
 FF1396:
-	cbne	r3, $1, f1397
+	cbne	r3, $1, fail1397
 	mov	=3, r1
 	mov	=4, r12
 	clr	r3
@@ -9765,7 +9765,7 @@ FF1396:
 	.fill	20000, 1, 0
 FA1398:	mov	$1, r3
 FB1398:
-	cbne	r3, $0, f1399
+	cbne	r3, $0, fail1399
 	mov	=3, r1
 	clr	r3
 	br	FD1400
@@ -9774,7 +9774,7 @@ FE1400:	mov	$1, r3
 	.fill	20000, 1, 0
 FD1400:	cbgt	r1, $4, FE1400
 FF1400:
-	cbne	r3, $0, f1401
+	cbne	r3, $0, fail1401
 	mov	=4, r1
 	mov	=4, r12
 	clr	r3
@@ -9783,7 +9783,7 @@ FF1400:
 	.fill	20000, 1, 0
 FA1402:	mov	$1, r3
 FB1402:
-	cbne	r3, $0, f1403
+	cbne	r3, $0, fail1403
 	mov	=4, r1
 	clr	r3
 	br	FD1404
@@ -9792,7 +9792,7 @@ FE1404:	mov	$1, r3
 	.fill	20000, 1, 0
 FD1404:	cbgt	r1, $4, FE1404
 FF1404:
-	cbne	r3, $0, f1405
+	cbne	r3, $0, fail1405
 	mov	=5, r1
 	mov	=4, r12
 	clr	r3
@@ -9801,7 +9801,7 @@ FF1404:
 	.fill	20000, 1, 0
 FA1406:	mov	$1, r3
 FB1406:
-	cbne	r3, $1, f1407
+	cbne	r3, $1, fail1407
 	mov	=5, r1
 	clr	r3
 	br	FD1408
@@ -9810,7 +9810,7 @@ FE1408:	mov	$1, r3
 	.fill	20000, 1, 0
 FD1408:	cbgt	r1, $4, FE1408
 FF1408:
-	cbne	r3, $1, f1409
+	cbne	r3, $1, fail1409
 	mov	=-1, r1
 	mov	=1, r12
 	clr	r3
@@ -9819,7 +9819,7 @@ FF1408:
 	.fill	20000, 1, 0
 FA1410:	mov	$1, r3
 FB1410:
-	cbne	r3, $0, f1411
+	cbne	r3, $0, fail1411
 	mov	=-1, r1
 	clr	r3
 	br	FD1412
@@ -9828,7 +9828,7 @@ FE1412:	mov	$1, r3
 	.fill	20000, 1, 0
 FD1412:	cbgt	r1, $1, FE1412
 FF1412:
-	cbne	r3, $0, f1413
+	cbne	r3, $0, fail1413
 	mov	=1, r1
 	mov	=-1, r12
 	clr	r3
@@ -9837,7 +9837,7 @@ FF1412:
 	.fill	20000, 1, 0
 FA1414:	mov	$1, r3
 FB1414:
-	cbne	r3, $1, f1415
+	cbne	r3, $1, fail1415
 	mov	=1, r1
 	clr	r3
 	br	FD1416
@@ -9846,7 +9846,7 @@ FE1416:	mov	$1, r3
 	.fill	20000, 1, 0
 FD1416:	cbgt	r1, $-1, FE1416
 FF1416:
-	cbne	r3, $1, f1417
+	cbne	r3, $1, fail1417
 	mov	=3, r1
 	mov	=4, r12
 	clr	r3
@@ -9855,7 +9855,7 @@ FF1416:
 	.fill	20000, 1, 0
 FA1418:	mov	$1, r3
 FB1418:
-	cbne	r3, $1, f1419
+	cbne	r3, $1, fail1419
 	mov	=3, r1
 	clr	r3
 	br	FD1420
@@ -9864,7 +9864,7 @@ FE1420:	mov	$1, r3
 	.fill	20000, 1, 0
 FD1420:	cble	r1, $4, FE1420
 FF1420:
-	cbne	r3, $1, f1421
+	cbne	r3, $1, fail1421
 	mov	=4, r1
 	mov	=4, r12
 	clr	r3
@@ -9873,7 +9873,7 @@ FF1420:
 	.fill	20000, 1, 0
 FA1422:	mov	$1, r3
 FB1422:
-	cbne	r3, $1, f1423
+	cbne	r3, $1, fail1423
 	mov	=4, r1
 	clr	r3
 	br	FD1424
@@ -9882,7 +9882,7 @@ FE1424:	mov	$1, r3
 	.fill	20000, 1, 0
 FD1424:	cble	r1, $4, FE1424
 FF1424:
-	cbne	r3, $1, f1425
+	cbne	r3, $1, fail1425
 	mov	=5, r1
 	mov	=4, r12
 	clr	r3
@@ -9891,7 +9891,7 @@ FF1424:
 	.fill	20000, 1, 0
 FA1426:	mov	$1, r3
 FB1426:
-	cbne	r3, $0, f1427
+	cbne	r3, $0, fail1427
 	mov	=5, r1
 	clr	r3
 	br	FD1428
@@ -9900,7 +9900,7 @@ FE1428:	mov	$1, r3
 	.fill	20000, 1, 0
 FD1428:	cble	r1, $4, FE1428
 FF1428:
-	cbne	r3, $0, f1429
+	cbne	r3, $0, fail1429
 	mov	=-1, r1
 	mov	=1, r12
 	clr	r3
@@ -9909,7 +9909,7 @@ FF1428:
 	.fill	20000, 1, 0
 FA1430:	mov	$1, r3
 FB1430:
-	cbne	r3, $1, f1431
+	cbne	r3, $1, fail1431
 	mov	=-1, r1
 	clr	r3
 	br	FD1432
@@ -9918,7 +9918,7 @@ FE1432:	mov	$1, r3
 	.fill	20000, 1, 0
 FD1432:	cble	r1, $1, FE1432
 FF1432:
-	cbne	r3, $1, f1433
+	cbne	r3, $1, fail1433
 	mov	=1, r1
 	mov	=-1, r12
 	clr	r3
@@ -9927,7 +9927,7 @@ FF1432:
 	.fill	20000, 1, 0
 FA1434:	mov	$1, r3
 FB1434:
-	cbne	r3, $0, f1435
+	cbne	r3, $0, fail1435
 	mov	=1, r1
 	clr	r3
 	br	FD1436
@@ -9936,2720 +9936,2720 @@ FE1436:	mov	$1, r3
 	.fill	20000, 1, 0
 FD1436:	cble	r1, $-1, FE1436
 FF1436:
-	cbne	r3, $0, f1437
+	cbne	r3, $0, fail1437
 	mov	$0, r0
 	trap	$0
-f1:	mov	$1, r0
+fail1:	mov	$1, r0
 	trap	$0
-f2:	mov	$2, r0
+fail2:	mov	$2, r0
 	trap	$0
-f3:	mov	$3, r0
+fail3:	mov	$3, r0
 	trap	$0
-f4:	mov	$4, r0
+fail4:	mov	$4, r0
 	trap	$0
-f5:	mov	$5, r0
+fail5:	mov	$5, r0
 	trap	$0
-f6:	mov	$6, r0
+fail6:	mov	$6, r0
 	trap	$0
-f7:	mov	$7, r0
+fail7:	mov	$7, r0
 	trap	$0
-f8:	mov	$8, r0
+fail8:	mov	$8, r0
 	trap	$0
-f9:	mov	$9, r0
+fail9:	mov	$9, r0
 	trap	$0
-f10:	mov	$10, r0
+fail10:	mov	$10, r0
 	trap	$0
-f11:	mov	$11, r0
+fail11:	mov	$11, r0
 	trap	$0
-f12:	mov	$12, r0
+fail12:	mov	$12, r0
 	trap	$0
-f13:	mov	$13, r0
+fail13:	mov	$13, r0
 	trap	$0
-f14:	mov	$14, r0
+fail14:	mov	$14, r0
 	trap	$0
-f15:	mov	$15, r0
+fail15:	mov	$15, r0
 	trap	$0
-f16:	mov	$16, r0
+fail16:	mov	$16, r0
 	trap	$0
-f17:	mov	$17, r0
+fail17:	mov	$17, r0
 	trap	$0
-f18:	mov	$18, r0
+fail18:	mov	$18, r0
 	trap	$0
-f19:	mov	$19, r0
+fail19:	mov	$19, r0
 	trap	$0
-f20:	mov	$20, r0
+fail20:	mov	$20, r0
 	trap	$0
-f21:	mov	$21, r0
+fail21:	mov	$21, r0
 	trap	$0
-f22:	mov	$22, r0
+fail22:	mov	$22, r0
 	trap	$0
-f23:	mov	$23, r0
+fail23:	mov	$23, r0
 	trap	$0
-f24:	mov	$24, r0
+fail24:	mov	$24, r0
 	trap	$0
-f25:	mov	$25, r0
+fail25:	mov	$25, r0
 	trap	$0
-f26:	mov	$26, r0
+fail26:	mov	$26, r0
 	trap	$0
-f27:	mov	$27, r0
+fail27:	mov	$27, r0
 	trap	$0
-f28:	mov	$28, r0
+fail28:	mov	$28, r0
 	trap	$0
-f29:	mov	$29, r0
+fail29:	mov	$29, r0
 	trap	$0
-f30:	mov	$30, r0
+fail30:	mov	$30, r0
 	trap	$0
-f31:	mov	$31, r0
+fail31:	mov	$31, r0
 	trap	$0
-f32:	mov	$32, r0
+fail32:	mov	$32, r0
 	trap	$0
-f33:	mov	$33, r0
+fail33:	mov	$33, r0
 	trap	$0
-f34:	mov	$34, r0
+fail34:	mov	$34, r0
 	trap	$0
-f35:	mov	$35, r0
+fail35:	mov	$35, r0
 	trap	$0
-f36:	mov	$36, r0
+fail36:	mov	$36, r0
 	trap	$0
-f37:	mov	$37, r0
+fail37:	mov	$37, r0
 	trap	$0
-f38:	mov	$38, r0
+fail38:	mov	$38, r0
 	trap	$0
-f39:	mov	$39, r0
+fail39:	mov	$39, r0
 	trap	$0
-f40:	mov	$40, r0
+fail40:	mov	$40, r0
 	trap	$0
-f41:	mov	$41, r0
+fail41:	mov	$41, r0
 	trap	$0
-f42:	mov	$42, r0
+fail42:	mov	$42, r0
 	trap	$0
-f43:	mov	$43, r0
+fail43:	mov	$43, r0
 	trap	$0
-f44:	mov	$44, r0
+fail44:	mov	$44, r0
 	trap	$0
-f45:	mov	$45, r0
+fail45:	mov	$45, r0
 	trap	$0
-f46:	mov	$46, r0
+fail46:	mov	$46, r0
 	trap	$0
-f47:	mov	$47, r0
+fail47:	mov	$47, r0
 	trap	$0
-f48:	mov	$48, r0
+fail48:	mov	$48, r0
 	trap	$0
-f49:	mov	$49, r0
+fail49:	mov	$49, r0
 	trap	$0
-f50:	mov	$50, r0
+fail50:	mov	$50, r0
 	trap	$0
-f51:	mov	$51, r0
+fail51:	mov	$51, r0
 	trap	$0
-f52:	mov	$52, r0
+fail52:	mov	$52, r0
 	trap	$0
-f53:	mov	$53, r0
+fail53:	mov	$53, r0
 	trap	$0
-f54:	mov	$54, r0
+fail54:	mov	$54, r0
 	trap	$0
-f55:	mov	$55, r0
+fail55:	mov	$55, r0
 	trap	$0
-f56:	mov	$56, r0
+fail56:	mov	$56, r0
 	trap	$0
-f57:	mov	$57, r0
+fail57:	mov	$57, r0
 	trap	$0
-f58:	mov	$58, r0
+fail58:	mov	$58, r0
 	trap	$0
-f59:	mov	$59, r0
+fail59:	mov	$59, r0
 	trap	$0
-f60:	mov	$60, r0
+fail60:	mov	$60, r0
 	trap	$0
-f61:	mov	$61, r0
+fail61:	mov	$61, r0
 	trap	$0
-f62:	mov	$62, r0
+fail62:	mov	$62, r0
 	trap	$0
-f63:	mov	$63, r0
+fail63:	mov	$63, r0
 	trap	$0
-f64:	mov	$64, r0
+fail64:	mov	$64, r0
 	trap	$0
-f65:	mov	$65, r0
+fail65:	mov	$65, r0
 	trap	$0
-f66:	mov	$66, r0
+fail66:	mov	$66, r0
 	trap	$0
-f67:	mov	$67, r0
+fail67:	mov	$67, r0
 	trap	$0
-f68:	mov	$68, r0
+fail68:	mov	$68, r0
 	trap	$0
-f69:	mov	$69, r0
+fail69:	mov	$69, r0
 	trap	$0
-f70:	mov	$70, r0
+fail70:	mov	$70, r0
 	trap	$0
-f71:	mov	$71, r0
+fail71:	mov	$71, r0
 	trap	$0
-f72:	mov	$72, r0
+fail72:	mov	$72, r0
 	trap	$0
-f73:	mov	$73, r0
+fail73:	mov	$73, r0
 	trap	$0
-f74:	mov	$74, r0
+fail74:	mov	$74, r0
 	trap	$0
-f75:	mov	$75, r0
+fail75:	mov	$75, r0
 	trap	$0
-f76:	mov	$76, r0
+fail76:	mov	$76, r0
 	trap	$0
-f77:	mov	$77, r0
+fail77:	mov	$77, r0
 	trap	$0
-f78:	mov	$78, r0
+fail78:	mov	$78, r0
 	trap	$0
-f79:	mov	$79, r0
+fail79:	mov	$79, r0
 	trap	$0
-f80:	mov	$80, r0
+fail80:	mov	$80, r0
 	trap	$0
-f81:	mov	$81, r0
+fail81:	mov	$81, r0
 	trap	$0
-f82:	mov	$82, r0
+fail82:	mov	$82, r0
 	trap	$0
-f83:	mov	$83, r0
+fail83:	mov	$83, r0
 	trap	$0
-f84:	mov	$84, r0
+fail84:	mov	$84, r0
 	trap	$0
-f85:	mov	$85, r0
+fail85:	mov	$85, r0
 	trap	$0
-f86:	mov	$86, r0
+fail86:	mov	$86, r0
 	trap	$0
-f87:	mov	$87, r0
+fail87:	mov	$87, r0
 	trap	$0
-f88:	mov	$88, r0
+fail88:	mov	$88, r0
 	trap	$0
-f89:	mov	$89, r0
+fail89:	mov	$89, r0
 	trap	$0
-f90:	mov	$90, r0
+fail90:	mov	$90, r0
 	trap	$0
-f91:	mov	$91, r0
+fail91:	mov	$91, r0
 	trap	$0
-f92:	mov	$92, r0
+fail92:	mov	$92, r0
 	trap	$0
-f93:	mov	$93, r0
+fail93:	mov	$93, r0
 	trap	$0
-f94:	mov	$94, r0
+fail94:	mov	$94, r0
 	trap	$0
-f95:	mov	$95, r0
+fail95:	mov	$95, r0
 	trap	$0
-f96:	mov	$96, r0
+fail96:	mov	$96, r0
 	trap	$0
-f97:	mov	$97, r0
+fail97:	mov	$97, r0
 	trap	$0
-f98:	mov	$98, r0
+fail98:	mov	$98, r0
 	trap	$0
-f99:	mov	$99, r0
+fail99:	mov	$99, r0
 	trap	$0
-f100:	mov	$100, r0
+fail100:	mov	$100, r0
 	trap	$0
-f101:	mov	$101, r0
+fail101:	mov	$101, r0
 	trap	$0
-f102:	mov	$102, r0
+fail102:	mov	$102, r0
 	trap	$0
-f103:	mov	$103, r0
+fail103:	mov	$103, r0
 	trap	$0
-f104:	mov	$104, r0
+fail104:	mov	$104, r0
 	trap	$0
-f105:	mov	$105, r0
+fail105:	mov	$105, r0
 	trap	$0
-f106:	mov	$106, r0
+fail106:	mov	$106, r0
 	trap	$0
-f107:	mov	$107, r0
+fail107:	mov	$107, r0
 	trap	$0
-f108:	mov	$108, r0
+fail108:	mov	$108, r0
 	trap	$0
-f109:	mov	$109, r0
+fail109:	mov	$109, r0
 	trap	$0
-f110:	mov	$110, r0
+fail110:	mov	$110, r0
 	trap	$0
-f111:	mov	$111, r0
+fail111:	mov	$111, r0
 	trap	$0
-f112:	mov	$112, r0
+fail112:	mov	$112, r0
 	trap	$0
-f113:	mov	$113, r0
+fail113:	mov	$113, r0
 	trap	$0
-f114:	mov	$114, r0
+fail114:	mov	$114, r0
 	trap	$0
-f115:	mov	$115, r0
+fail115:	mov	$115, r0
 	trap	$0
-f116:	mov	$116, r0
+fail116:	mov	$116, r0
 	trap	$0
-f117:	mov	$117, r0
+fail117:	mov	$117, r0
 	trap	$0
-f118:	mov	$118, r0
+fail118:	mov	$118, r0
 	trap	$0
-f119:	mov	$119, r0
+fail119:	mov	$119, r0
 	trap	$0
-f120:	mov	$120, r0
+fail120:	mov	$120, r0
 	trap	$0
-f121:	mov	$121, r0
+fail121:	mov	$121, r0
 	trap	$0
-f122:	mov	$122, r0
+fail122:	mov	$122, r0
 	trap	$0
-f123:	mov	$123, r0
+fail123:	mov	$123, r0
 	trap	$0
-f124:	mov	$124, r0
+fail124:	mov	$124, r0
 	trap	$0
-f125:	mov	$125, r0
+fail125:	mov	$125, r0
 	trap	$0
-f126:	mov	$126, r0
+fail126:	mov	$126, r0
 	trap	$0
-f127:	mov	$127, r0
+fail127:	mov	$127, r0
 	trap	$0
-f128:	mov	$128, r0
+fail128:	mov	$128, r0
 	trap	$0
-f129:	mov	$129, r0
+fail129:	mov	$129, r0
 	trap	$0
-f130:	mov	$130, r0
+fail130:	mov	$130, r0
 	trap	$0
-f131:	mov	$131, r0
+fail131:	mov	$131, r0
 	trap	$0
-f132:	mov	$132, r0
+fail132:	mov	$132, r0
 	trap	$0
-f133:	mov	$133, r0
+fail133:	mov	$133, r0
 	trap	$0
-f134:	mov	$134, r0
+fail134:	mov	$134, r0
 	trap	$0
-f135:	mov	$135, r0
+fail135:	mov	$135, r0
 	trap	$0
-f136:	mov	$136, r0
+fail136:	mov	$136, r0
 	trap	$0
-f137:	mov	$137, r0
+fail137:	mov	$137, r0
 	trap	$0
-f138:	mov	$138, r0
+fail138:	mov	$138, r0
 	trap	$0
-f139:	mov	$139, r0
+fail139:	mov	$139, r0
 	trap	$0
-f140:	mov	$140, r0
+fail140:	mov	$140, r0
 	trap	$0
-f141:	mov	$141, r0
+fail141:	mov	$141, r0
 	trap	$0
-f142:	mov	$142, r0
+fail142:	mov	$142, r0
 	trap	$0
-f143:	mov	$143, r0
+fail143:	mov	$143, r0
 	trap	$0
-f144:	mov	$144, r0
+fail144:	mov	$144, r0
 	trap	$0
-f145:	mov	$145, r0
+fail145:	mov	$145, r0
 	trap	$0
-f146:	mov	$146, r0
+fail146:	mov	$146, r0
 	trap	$0
-f147:	mov	$147, r0
+fail147:	mov	$147, r0
 	trap	$0
-f148:	mov	$148, r0
+fail148:	mov	$148, r0
 	trap	$0
-f149:	mov	$149, r0
+fail149:	mov	$149, r0
 	trap	$0
-f150:	mov	$150, r0
+fail150:	mov	$150, r0
 	trap	$0
-f151:	mov	$151, r0
+fail151:	mov	$151, r0
 	trap	$0
-f152:	mov	$152, r0
+fail152:	mov	$152, r0
 	trap	$0
-f153:	mov	$153, r0
+fail153:	mov	$153, r0
 	trap	$0
-f154:	mov	$154, r0
+fail154:	mov	$154, r0
 	trap	$0
-f155:	mov	$155, r0
+fail155:	mov	$155, r0
 	trap	$0
-f156:	mov	$156, r0
+fail156:	mov	$156, r0
 	trap	$0
-f157:	mov	$157, r0
+fail157:	mov	$157, r0
 	trap	$0
-f158:	mov	$158, r0
+fail158:	mov	$158, r0
 	trap	$0
-f159:	mov	$159, r0
+fail159:	mov	$159, r0
 	trap	$0
-f160:	mov	$160, r0
+fail160:	mov	$160, r0
 	trap	$0
-f161:	mov	$161, r0
+fail161:	mov	$161, r0
 	trap	$0
-f162:	mov	$162, r0
+fail162:	mov	$162, r0
 	trap	$0
-f163:	mov	$163, r0
+fail163:	mov	$163, r0
 	trap	$0
-f164:	mov	$164, r0
+fail164:	mov	$164, r0
 	trap	$0
-f165:	mov	$165, r0
+fail165:	mov	$165, r0
 	trap	$0
-f166:	mov	$166, r0
+fail166:	mov	$166, r0
 	trap	$0
-f167:	mov	$167, r0
+fail167:	mov	$167, r0
 	trap	$0
-f168:	mov	$168, r0
+fail168:	mov	$168, r0
 	trap	$0
-f169:	mov	$169, r0
+fail169:	mov	$169, r0
 	trap	$0
-f170:	mov	$170, r0
+fail170:	mov	$170, r0
 	trap	$0
-f171:	mov	$171, r0
+fail171:	mov	$171, r0
 	trap	$0
-f172:	mov	$172, r0
+fail172:	mov	$172, r0
 	trap	$0
-f173:	mov	$173, r0
+fail173:	mov	$173, r0
 	trap	$0
-f174:	mov	$174, r0
+fail174:	mov	$174, r0
 	trap	$0
-f175:	mov	$175, r0
+fail175:	mov	$175, r0
 	trap	$0
-f176:	mov	$176, r0
+fail176:	mov	$176, r0
 	trap	$0
-f177:	mov	$177, r0
+fail177:	mov	$177, r0
 	trap	$0
-f178:	mov	$178, r0
+fail178:	mov	$178, r0
 	trap	$0
-f179:	mov	$179, r0
+fail179:	mov	$179, r0
 	trap	$0
-f180:	mov	$180, r0
+fail180:	mov	$180, r0
 	trap	$0
-f181:	mov	$181, r0
+fail181:	mov	$181, r0
 	trap	$0
-f182:	mov	$182, r0
+fail182:	mov	$182, r0
 	trap	$0
-f183:	mov	$183, r0
+fail183:	mov	$183, r0
 	trap	$0
-f184:	mov	$184, r0
+fail184:	mov	$184, r0
 	trap	$0
-f185:	mov	$185, r0
+fail185:	mov	$185, r0
 	trap	$0
-f186:	mov	$186, r0
+fail186:	mov	$186, r0
 	trap	$0
-f187:	mov	$187, r0
+fail187:	mov	$187, r0
 	trap	$0
-f188:	mov	$188, r0
+fail188:	mov	$188, r0
 	trap	$0
-f189:	mov	$189, r0
+fail189:	mov	$189, r0
 	trap	$0
-f190:	mov	$190, r0
+fail190:	mov	$190, r0
 	trap	$0
-f191:	mov	$191, r0
+fail191:	mov	$191, r0
 	trap	$0
-f192:	mov	$192, r0
+fail192:	mov	$192, r0
 	trap	$0
-f193:	mov	$193, r0
+fail193:	mov	$193, r0
 	trap	$0
-f194:	mov	$194, r0
+fail194:	mov	$194, r0
 	trap	$0
-f195:	mov	$195, r0
+fail195:	mov	$195, r0
 	trap	$0
-f196:	mov	$196, r0
+fail196:	mov	$196, r0
 	trap	$0
-f197:	mov	$197, r0
+fail197:	mov	$197, r0
 	trap	$0
-f198:	mov	$198, r0
+fail198:	mov	$198, r0
 	trap	$0
-f199:	mov	$199, r0
+fail199:	mov	$199, r0
 	trap	$0
-f200:	mov	$200, r0
+fail200:	mov	$200, r0
 	trap	$0
-f201:	mov	$201, r0
+fail201:	mov	$201, r0
 	trap	$0
-f202:	mov	$202, r0
+fail202:	mov	$202, r0
 	trap	$0
-f203:	mov	$203, r0
+fail203:	mov	$203, r0
 	trap	$0
-f204:	mov	$204, r0
+fail204:	mov	$204, r0
 	trap	$0
-f205:	mov	$205, r0
+fail205:	mov	$205, r0
 	trap	$0
-f206:	mov	$206, r0
+fail206:	mov	$206, r0
 	trap	$0
-f207:	mov	$207, r0
+fail207:	mov	$207, r0
 	trap	$0
-f208:	mov	$208, r0
+fail208:	mov	$208, r0
 	trap	$0
-f209:	mov	$209, r0
+fail209:	mov	$209, r0
 	trap	$0
-f210:	mov	$210, r0
+fail210:	mov	$210, r0
 	trap	$0
-f211:	mov	$211, r0
+fail211:	mov	$211, r0
 	trap	$0
-f212:	mov	$212, r0
+fail212:	mov	$212, r0
 	trap	$0
-f213:	mov	$213, r0
+fail213:	mov	$213, r0
 	trap	$0
-f214:	mov	$214, r0
+fail214:	mov	$214, r0
 	trap	$0
-f215:	mov	$215, r0
+fail215:	mov	$215, r0
 	trap	$0
-f216:	mov	$216, r0
+fail216:	mov	$216, r0
 	trap	$0
-f217:	mov	$217, r0
+fail217:	mov	$217, r0
 	trap	$0
-f218:	mov	$218, r0
+fail218:	mov	$218, r0
 	trap	$0
-f219:	mov	$219, r0
+fail219:	mov	$219, r0
 	trap	$0
-f220:	mov	$220, r0
+fail220:	mov	$220, r0
 	trap	$0
-f221:	mov	$221, r0
+fail221:	mov	$221, r0
 	trap	$0
-f222:	mov	$222, r0
+fail222:	mov	$222, r0
 	trap	$0
-f223:	mov	$223, r0
+fail223:	mov	$223, r0
 	trap	$0
-f224:	mov	$224, r0
+fail224:	mov	$224, r0
 	trap	$0
-f225:	mov	$225, r0
+fail225:	mov	$225, r0
 	trap	$0
-f226:	mov	$226, r0
+fail226:	mov	$226, r0
 	trap	$0
-f227:	mov	$227, r0
+fail227:	mov	$227, r0
 	trap	$0
-f228:	mov	$228, r0
+fail228:	mov	$228, r0
 	trap	$0
-f229:	mov	$229, r0
+fail229:	mov	$229, r0
 	trap	$0
-f230:	mov	$230, r0
+fail230:	mov	$230, r0
 	trap	$0
-f231:	mov	$231, r0
+fail231:	mov	$231, r0
 	trap	$0
-f232:	mov	$232, r0
+fail232:	mov	$232, r0
 	trap	$0
-f233:	mov	$233, r0
+fail233:	mov	$233, r0
 	trap	$0
-f234:	mov	$234, r0
+fail234:	mov	$234, r0
 	trap	$0
-f235:	mov	$235, r0
+fail235:	mov	$235, r0
 	trap	$0
-f236:	mov	$236, r0
+fail236:	mov	$236, r0
 	trap	$0
-f237:	mov	$237, r0
+fail237:	mov	$237, r0
 	trap	$0
-f238:	mov	$238, r0
+fail238:	mov	$238, r0
 	trap	$0
-f239:	mov	$239, r0
+fail239:	mov	$239, r0
 	trap	$0
-f240:	mov	$240, r0
+fail240:	mov	$240, r0
 	trap	$0
-f241:	mov	$241, r0
+fail241:	mov	$241, r0
 	trap	$0
-f242:	mov	$242, r0
+fail242:	mov	$242, r0
 	trap	$0
-f243:	mov	$243, r0
+fail243:	mov	$243, r0
 	trap	$0
-f244:	mov	$244, r0
+fail244:	mov	$244, r0
 	trap	$0
-f245:	mov	$245, r0
+fail245:	mov	$245, r0
 	trap	$0
-f246:	mov	$246, r0
+fail246:	mov	$246, r0
 	trap	$0
-f247:	mov	$247, r0
+fail247:	mov	$247, r0
 	trap	$0
-f248:	mov	$248, r0
+fail248:	mov	$248, r0
 	trap	$0
-f249:	mov	$249, r0
+fail249:	mov	$249, r0
 	trap	$0
-f250:	mov	$250, r0
+fail250:	mov	$250, r0
 	trap	$0
-f251:	mov	$251, r0
+fail251:	mov	$251, r0
 	trap	$0
-f252:	mov	$252, r0
+fail252:	mov	$252, r0
 	trap	$0
-f253:	mov	$253, r0
+fail253:	mov	$253, r0
 	trap	$0
-f254:	mov	$254, r0
+fail254:	mov	$254, r0
 	trap	$0
-f255:	mov	$255, r0
+fail255:	mov	$255, r0
 	trap	$0
-f256:	mov	$256, r0
+fail256:	mov	$256, r0
 	trap	$0
-f257:	mov	$257, r0
+fail257:	mov	$257, r0
 	trap	$0
-f258:	mov	$258, r0
+fail258:	mov	$258, r0
 	trap	$0
-f259:	mov	$259, r0
+fail259:	mov	$259, r0
 	trap	$0
-f260:	mov	$260, r0
+fail260:	mov	$260, r0
 	trap	$0
-f261:	mov	$261, r0
+fail261:	mov	$261, r0
 	trap	$0
-f262:	mov	$262, r0
+fail262:	mov	$262, r0
 	trap	$0
-f263:	mov	$263, r0
+fail263:	mov	$263, r0
 	trap	$0
-f264:	mov	$264, r0
+fail264:	mov	$264, r0
 	trap	$0
-f265:	mov	$265, r0
+fail265:	mov	$265, r0
 	trap	$0
-f266:	mov	$266, r0
+fail266:	mov	$266, r0
 	trap	$0
-f267:	mov	$267, r0
+fail267:	mov	$267, r0
 	trap	$0
-f268:	mov	$268, r0
+fail268:	mov	$268, r0
 	trap	$0
-f269:	mov	$269, r0
+fail269:	mov	$269, r0
 	trap	$0
-f270:	mov	$270, r0
+fail270:	mov	$270, r0
 	trap	$0
-f271:	mov	$271, r0
+fail271:	mov	$271, r0
 	trap	$0
-f272:	mov	$272, r0
+fail272:	mov	$272, r0
 	trap	$0
-f273:	mov	$273, r0
+fail273:	mov	$273, r0
 	trap	$0
-f274:	mov	$274, r0
+fail274:	mov	$274, r0
 	trap	$0
-f275:	mov	$275, r0
+fail275:	mov	$275, r0
 	trap	$0
-f276:	mov	$276, r0
+fail276:	mov	$276, r0
 	trap	$0
-f277:	mov	$277, r0
+fail277:	mov	$277, r0
 	trap	$0
-f278:	mov	$278, r0
+fail278:	mov	$278, r0
 	trap	$0
-f279:	mov	$279, r0
+fail279:	mov	$279, r0
 	trap	$0
-f280:	mov	$280, r0
+fail280:	mov	$280, r0
 	trap	$0
-f281:	mov	$281, r0
+fail281:	mov	$281, r0
 	trap	$0
-f282:	mov	$282, r0
+fail282:	mov	$282, r0
 	trap	$0
-f283:	mov	$283, r0
+fail283:	mov	$283, r0
 	trap	$0
-f284:	mov	$284, r0
+fail284:	mov	$284, r0
 	trap	$0
-f285:	mov	$285, r0
+fail285:	mov	$285, r0
 	trap	$0
-f286:	mov	$286, r0
+fail286:	mov	$286, r0
 	trap	$0
-f287:	mov	$287, r0
+fail287:	mov	$287, r0
 	trap	$0
-f288:	mov	$288, r0
+fail288:	mov	$288, r0
 	trap	$0
-f289:	mov	$289, r0
+fail289:	mov	$289, r0
 	trap	$0
-f290:	mov	$290, r0
+fail290:	mov	$290, r0
 	trap	$0
-f291:	mov	$291, r0
+fail291:	mov	$291, r0
 	trap	$0
-f292:	mov	$292, r0
+fail292:	mov	$292, r0
 	trap	$0
-f293:	mov	$293, r0
+fail293:	mov	$293, r0
 	trap	$0
-f294:	mov	$294, r0
+fail294:	mov	$294, r0
 	trap	$0
-f295:	mov	$295, r0
+fail295:	mov	$295, r0
 	trap	$0
-f296:	mov	$296, r0
+fail296:	mov	$296, r0
 	trap	$0
-f297:	mov	$297, r0
+fail297:	mov	$297, r0
 	trap	$0
-f298:	mov	$298, r0
+fail298:	mov	$298, r0
 	trap	$0
-f299:	mov	$299, r0
+fail299:	mov	$299, r0
 	trap	$0
-f300:	mov	$300, r0
+fail300:	mov	$300, r0
 	trap	$0
-f301:	mov	$301, r0
+fail301:	mov	$301, r0
 	trap	$0
-f302:	mov	$302, r0
+fail302:	mov	$302, r0
 	trap	$0
-f303:	mov	$303, r0
+fail303:	mov	$303, r0
 	trap	$0
-f304:	mov	$304, r0
+fail304:	mov	$304, r0
 	trap	$0
-f305:	mov	$305, r0
+fail305:	mov	$305, r0
 	trap	$0
-f306:	mov	$306, r0
+fail306:	mov	$306, r0
 	trap	$0
-f307:	mov	$307, r0
+fail307:	mov	$307, r0
 	trap	$0
-f308:	mov	$308, r0
+fail308:	mov	$308, r0
 	trap	$0
-f309:	mov	$309, r0
+fail309:	mov	$309, r0
 	trap	$0
-f310:	mov	$310, r0
+fail310:	mov	$310, r0
 	trap	$0
-f311:	mov	$311, r0
+fail311:	mov	$311, r0
 	trap	$0
-f312:	mov	$312, r0
+fail312:	mov	$312, r0
 	trap	$0
-f313:	mov	$313, r0
+fail313:	mov	$313, r0
 	trap	$0
-f314:	mov	$314, r0
+fail314:	mov	$314, r0
 	trap	$0
-f315:	mov	$315, r0
+fail315:	mov	$315, r0
 	trap	$0
-f316:	mov	$316, r0
+fail316:	mov	$316, r0
 	trap	$0
-f317:	mov	$317, r0
+fail317:	mov	$317, r0
 	trap	$0
-f318:	mov	$318, r0
+fail318:	mov	$318, r0
 	trap	$0
-f319:	mov	$319, r0
+fail319:	mov	$319, r0
 	trap	$0
-f320:	mov	$320, r0
+fail320:	mov	$320, r0
 	trap	$0
-f321:	mov	$321, r0
+fail321:	mov	$321, r0
 	trap	$0
-f322:	mov	$322, r0
+fail322:	mov	$322, r0
 	trap	$0
-f323:	mov	$323, r0
+fail323:	mov	$323, r0
 	trap	$0
-f324:	mov	$324, r0
+fail324:	mov	$324, r0
 	trap	$0
-f325:	mov	$325, r0
+fail325:	mov	$325, r0
 	trap	$0
-f326:	mov	$326, r0
+fail326:	mov	$326, r0
 	trap	$0
-f327:	mov	$327, r0
+fail327:	mov	$327, r0
 	trap	$0
-f328:	mov	$328, r0
+fail328:	mov	$328, r0
 	trap	$0
-f329:	mov	$329, r0
+fail329:	mov	$329, r0
 	trap	$0
-f330:	mov	$330, r0
+fail330:	mov	$330, r0
 	trap	$0
-f331:	mov	$331, r0
+fail331:	mov	$331, r0
 	trap	$0
-f332:	mov	$332, r0
+fail332:	mov	$332, r0
 	trap	$0
-f333:	mov	$333, r0
+fail333:	mov	$333, r0
 	trap	$0
-f334:	mov	$334, r0
+fail334:	mov	$334, r0
 	trap	$0
-f335:	mov	$335, r0
+fail335:	mov	$335, r0
 	trap	$0
-f336:	mov	$336, r0
+fail336:	mov	$336, r0
 	trap	$0
-f337:	mov	$337, r0
+fail337:	mov	$337, r0
 	trap	$0
-f338:	mov	$338, r0
+fail338:	mov	$338, r0
 	trap	$0
-f339:	mov	$339, r0
+fail339:	mov	$339, r0
 	trap	$0
-f340:	mov	$340, r0
+fail340:	mov	$340, r0
 	trap	$0
-f341:	mov	$341, r0
+fail341:	mov	$341, r0
 	trap	$0
-f342:	mov	$342, r0
+fail342:	mov	$342, r0
 	trap	$0
-f343:	mov	$343, r0
+fail343:	mov	$343, r0
 	trap	$0
-f344:	mov	$344, r0
+fail344:	mov	$344, r0
 	trap	$0
-f345:	mov	$345, r0
+fail345:	mov	$345, r0
 	trap	$0
-f346:	mov	$346, r0
+fail346:	mov	$346, r0
 	trap	$0
-f347:	mov	$347, r0
+fail347:	mov	$347, r0
 	trap	$0
-f348:	mov	$348, r0
+fail348:	mov	$348, r0
 	trap	$0
-f349:	mov	$349, r0
+fail349:	mov	$349, r0
 	trap	$0
-f350:	mov	$350, r0
+fail350:	mov	$350, r0
 	trap	$0
-f351:	mov	$351, r0
+fail351:	mov	$351, r0
 	trap	$0
-f352:	mov	$352, r0
+fail352:	mov	$352, r0
 	trap	$0
-f353:	mov	$353, r0
+fail353:	mov	$353, r0
 	trap	$0
-f354:	mov	$354, r0
+fail354:	mov	$354, r0
 	trap	$0
-f355:	mov	$355, r0
+fail355:	mov	$355, r0
 	trap	$0
-f356:	mov	$356, r0
+fail356:	mov	$356, r0
 	trap	$0
-f357:	mov	$357, r0
+fail357:	mov	$357, r0
 	trap	$0
-f358:	mov	$358, r0
+fail358:	mov	$358, r0
 	trap	$0
-f359:	mov	$359, r0
+fail359:	mov	$359, r0
 	trap	$0
-f360:	mov	$360, r0
+fail360:	mov	$360, r0
 	trap	$0
-f361:	mov	$361, r0
+fail361:	mov	$361, r0
 	trap	$0
-f362:	mov	$362, r0
+fail362:	mov	$362, r0
 	trap	$0
-f363:	mov	$363, r0
+fail363:	mov	$363, r0
 	trap	$0
-f364:	mov	$364, r0
+fail364:	mov	$364, r0
 	trap	$0
-f365:	mov	$365, r0
+fail365:	mov	$365, r0
 	trap	$0
-f366:	mov	$366, r0
+fail366:	mov	$366, r0
 	trap	$0
-f367:	mov	$367, r0
+fail367:	mov	$367, r0
 	trap	$0
-f368:	mov	$368, r0
+fail368:	mov	$368, r0
 	trap	$0
-f369:	mov	$369, r0
+fail369:	mov	$369, r0
 	trap	$0
-f370:	mov	$370, r0
+fail370:	mov	$370, r0
 	trap	$0
-f371:	mov	$371, r0
+fail371:	mov	$371, r0
 	trap	$0
-f372:	mov	$372, r0
+fail372:	mov	$372, r0
 	trap	$0
-f373:	mov	$373, r0
+fail373:	mov	$373, r0
 	trap	$0
-f374:	mov	$374, r0
+fail374:	mov	$374, r0
 	trap	$0
-f375:	mov	$375, r0
+fail375:	mov	$375, r0
 	trap	$0
-f376:	mov	$376, r0
+fail376:	mov	$376, r0
 	trap	$0
-f377:	mov	$377, r0
+fail377:	mov	$377, r0
 	trap	$0
-f378:	mov	$378, r0
+fail378:	mov	$378, r0
 	trap	$0
-f379:	mov	$379, r0
+fail379:	mov	$379, r0
 	trap	$0
-f380:	mov	$380, r0
+fail380:	mov	$380, r0
 	trap	$0
-f381:	mov	$381, r0
+fail381:	mov	$381, r0
 	trap	$0
-f382:	mov	$382, r0
+fail382:	mov	$382, r0
 	trap	$0
-f383:	mov	$383, r0
+fail383:	mov	$383, r0
 	trap	$0
-f384:	mov	$384, r0
+fail384:	mov	$384, r0
 	trap	$0
-f385:	mov	$385, r0
+fail385:	mov	$385, r0
 	trap	$0
-f386:	mov	$386, r0
+fail386:	mov	$386, r0
 	trap	$0
-f387:	mov	$387, r0
+fail387:	mov	$387, r0
 	trap	$0
-f388:	mov	$388, r0
+fail388:	mov	$388, r0
 	trap	$0
-f389:	mov	$389, r0
+fail389:	mov	$389, r0
 	trap	$0
-f390:	mov	$390, r0
+fail390:	mov	$390, r0
 	trap	$0
-f391:	mov	$391, r0
+fail391:	mov	$391, r0
 	trap	$0
-f392:	mov	$392, r0
+fail392:	mov	$392, r0
 	trap	$0
-f393:	mov	$393, r0
+fail393:	mov	$393, r0
 	trap	$0
-f394:	mov	$394, r0
+fail394:	mov	$394, r0
 	trap	$0
-f395:	mov	$395, r0
+fail395:	mov	$395, r0
 	trap	$0
-f396:	mov	$396, r0
+fail396:	mov	$396, r0
 	trap	$0
-f397:	mov	$397, r0
+fail397:	mov	$397, r0
 	trap	$0
-f398:	mov	$398, r0
+fail398:	mov	$398, r0
 	trap	$0
-f399:	mov	$399, r0
+fail399:	mov	$399, r0
 	trap	$0
-f400:	mov	$400, r0
+fail400:	mov	$400, r0
 	trap	$0
-f401:	mov	$401, r0
+fail401:	mov	$401, r0
 	trap	$0
-f402:	mov	$402, r0
+fail402:	mov	$402, r0
 	trap	$0
-f403:	mov	$403, r0
+fail403:	mov	$403, r0
 	trap	$0
-f404:	mov	$404, r0
+fail404:	mov	$404, r0
 	trap	$0
-f405:	mov	$405, r0
+fail405:	mov	$405, r0
 	trap	$0
-f406:	mov	$406, r0
+fail406:	mov	$406, r0
 	trap	$0
-f407:	mov	$407, r0
+fail407:	mov	$407, r0
 	trap	$0
-f408:	mov	$408, r0
+fail408:	mov	$408, r0
 	trap	$0
-f409:	mov	$409, r0
+fail409:	mov	$409, r0
 	trap	$0
-f410:	mov	$410, r0
+fail410:	mov	$410, r0
 	trap	$0
-f411:	mov	$411, r0
+fail411:	mov	$411, r0
 	trap	$0
-f412:	mov	$412, r0
+fail412:	mov	$412, r0
 	trap	$0
-f413:	mov	$413, r0
+fail413:	mov	$413, r0
 	trap	$0
-f414:	mov	$414, r0
+fail414:	mov	$414, r0
 	trap	$0
-f415:	mov	$415, r0
+fail415:	mov	$415, r0
 	trap	$0
-f416:	mov	$416, r0
+fail416:	mov	$416, r0
 	trap	$0
-f417:	mov	$417, r0
+fail417:	mov	$417, r0
 	trap	$0
-f418:	mov	$418, r0
+fail418:	mov	$418, r0
 	trap	$0
-f419:	mov	$419, r0
+fail419:	mov	$419, r0
 	trap	$0
-f420:	mov	$420, r0
+fail420:	mov	$420, r0
 	trap	$0
-f421:	mov	$421, r0
+fail421:	mov	$421, r0
 	trap	$0
-f422:	mov	$422, r0
+fail422:	mov	$422, r0
 	trap	$0
-f423:	mov	$423, r0
+fail423:	mov	$423, r0
 	trap	$0
-f424:	mov	$424, r0
+fail424:	mov	$424, r0
 	trap	$0
-f425:	mov	$425, r0
+fail425:	mov	$425, r0
 	trap	$0
-f426:	mov	$426, r0
+fail426:	mov	$426, r0
 	trap	$0
-f427:	mov	$427, r0
+fail427:	mov	$427, r0
 	trap	$0
-f428:	mov	$428, r0
+fail428:	mov	$428, r0
 	trap	$0
-f429:	mov	$429, r0
+fail429:	mov	$429, r0
 	trap	$0
-f430:	mov	$430, r0
+fail430:	mov	$430, r0
 	trap	$0
-f431:	mov	$431, r0
+fail431:	mov	$431, r0
 	trap	$0
-f432:	mov	$432, r0
+fail432:	mov	$432, r0
 	trap	$0
-f433:	mov	$433, r0
+fail433:	mov	$433, r0
 	trap	$0
-f434:	mov	$434, r0
+fail434:	mov	$434, r0
 	trap	$0
-f435:	mov	$435, r0
+fail435:	mov	$435, r0
 	trap	$0
-f436:	mov	$436, r0
+fail436:	mov	$436, r0
 	trap	$0
-f437:	mov	$437, r0
+fail437:	mov	$437, r0
 	trap	$0
-f438:	mov	$438, r0
+fail438:	mov	$438, r0
 	trap	$0
-f439:	mov	$439, r0
+fail439:	mov	$439, r0
 	trap	$0
-f440:	mov	$440, r0
+fail440:	mov	$440, r0
 	trap	$0
-f441:	mov	$441, r0
+fail441:	mov	$441, r0
 	trap	$0
-f442:	mov	$442, r0
+fail442:	mov	$442, r0
 	trap	$0
-f443:	mov	$443, r0
+fail443:	mov	$443, r0
 	trap	$0
-f444:	mov	$444, r0
+fail444:	mov	$444, r0
 	trap	$0
-f445:	mov	$445, r0
+fail445:	mov	$445, r0
 	trap	$0
-f446:	mov	$446, r0
+fail446:	mov	$446, r0
 	trap	$0
-f447:	mov	$447, r0
+fail447:	mov	$447, r0
 	trap	$0
-f448:	mov	$448, r0
+fail448:	mov	$448, r0
 	trap	$0
-f449:	mov	$449, r0
+fail449:	mov	$449, r0
 	trap	$0
-f450:	mov	$450, r0
+fail450:	mov	$450, r0
 	trap	$0
-f451:	mov	$451, r0
+fail451:	mov	$451, r0
 	trap	$0
-f452:	mov	$452, r0
+fail452:	mov	$452, r0
 	trap	$0
-f453:	mov	$453, r0
+fail453:	mov	$453, r0
 	trap	$0
-f454:	mov	$454, r0
+fail454:	mov	$454, r0
 	trap	$0
-f455:	mov	$455, r0
+fail455:	mov	$455, r0
 	trap	$0
-f456:	mov	$456, r0
+fail456:	mov	$456, r0
 	trap	$0
-f457:	mov	$457, r0
+fail457:	mov	$457, r0
 	trap	$0
-f458:	mov	$458, r0
+fail458:	mov	$458, r0
 	trap	$0
-f459:	mov	$459, r0
+fail459:	mov	$459, r0
 	trap	$0
-f460:	mov	$460, r0
+fail460:	mov	$460, r0
 	trap	$0
-f461:	mov	$461, r0
+fail461:	mov	$461, r0
 	trap	$0
-f462:	mov	$462, r0
+fail462:	mov	$462, r0
 	trap	$0
-f463:	mov	$463, r0
+fail463:	mov	$463, r0
 	trap	$0
-f464:	mov	$464, r0
+fail464:	mov	$464, r0
 	trap	$0
-f465:	mov	$465, r0
+fail465:	mov	$465, r0
 	trap	$0
-f466:	mov	$466, r0
+fail466:	mov	$466, r0
 	trap	$0
-f467:	mov	$467, r0
+fail467:	mov	$467, r0
 	trap	$0
-f468:	mov	$468, r0
+fail468:	mov	$468, r0
 	trap	$0
-f469:	mov	$469, r0
+fail469:	mov	$469, r0
 	trap	$0
-f470:	mov	$470, r0
+fail470:	mov	$470, r0
 	trap	$0
-f471:	mov	$471, r0
+fail471:	mov	$471, r0
 	trap	$0
-f472:	mov	$472, r0
+fail472:	mov	$472, r0
 	trap	$0
-f473:	mov	$473, r0
+fail473:	mov	$473, r0
 	trap	$0
-f474:	mov	$474, r0
+fail474:	mov	$474, r0
 	trap	$0
-f475:	mov	$475, r0
+fail475:	mov	$475, r0
 	trap	$0
-f476:	mov	$476, r0
+fail476:	mov	$476, r0
 	trap	$0
-f477:	mov	$477, r0
+fail477:	mov	$477, r0
 	trap	$0
-f478:	mov	$478, r0
+fail478:	mov	$478, r0
 	trap	$0
-f479:	mov	$479, r0
+fail479:	mov	$479, r0
 	trap	$0
-f480:	mov	$480, r0
+fail480:	mov	$480, r0
 	trap	$0
-f481:	mov	$481, r0
+fail481:	mov	$481, r0
 	trap	$0
-f482:	mov	$482, r0
+fail482:	mov	$482, r0
 	trap	$0
-f483:	mov	$483, r0
+fail483:	mov	$483, r0
 	trap	$0
-f484:	mov	$484, r0
+fail484:	mov	$484, r0
 	trap	$0
-f485:	mov	$485, r0
+fail485:	mov	$485, r0
 	trap	$0
-f486:	mov	$486, r0
+fail486:	mov	$486, r0
 	trap	$0
-f487:	mov	$487, r0
+fail487:	mov	$487, r0
 	trap	$0
-f488:	mov	$488, r0
+fail488:	mov	$488, r0
 	trap	$0
-f489:	mov	$489, r0
+fail489:	mov	$489, r0
 	trap	$0
-f490:	mov	$490, r0
+fail490:	mov	$490, r0
 	trap	$0
-f491:	mov	$491, r0
+fail491:	mov	$491, r0
 	trap	$0
-f492:	mov	$492, r0
+fail492:	mov	$492, r0
 	trap	$0
-f493:	mov	$493, r0
+fail493:	mov	$493, r0
 	trap	$0
-f494:	mov	$494, r0
+fail494:	mov	$494, r0
 	trap	$0
-f495:	mov	$495, r0
+fail495:	mov	$495, r0
 	trap	$0
-f496:	mov	$496, r0
+fail496:	mov	$496, r0
 	trap	$0
-f497:	mov	$497, r0
+fail497:	mov	$497, r0
 	trap	$0
-f498:	mov	$498, r0
+fail498:	mov	$498, r0
 	trap	$0
-f499:	mov	$499, r0
+fail499:	mov	$499, r0
 	trap	$0
-f500:	mov	$500, r0
+fail500:	mov	$500, r0
 	trap	$0
-f501:	mov	$501, r0
+fail501:	mov	$501, r0
 	trap	$0
-f502:	mov	$502, r0
+fail502:	mov	$502, r0
 	trap	$0
-f503:	mov	$503, r0
+fail503:	mov	$503, r0
 	trap	$0
-f504:	mov	$504, r0
+fail504:	mov	$504, r0
 	trap	$0
-f505:	mov	$505, r0
+fail505:	mov	$505, r0
 	trap	$0
-f506:	mov	$506, r0
+fail506:	mov	$506, r0
 	trap	$0
-f507:	mov	$507, r0
+fail507:	mov	$507, r0
 	trap	$0
-f508:	mov	$508, r0
+fail508:	mov	$508, r0
 	trap	$0
-f509:	mov	$509, r0
+fail509:	mov	$509, r0
 	trap	$0
-f510:	mov	$510, r0
+fail510:	mov	$510, r0
 	trap	$0
-f511:	mov	$511, r0
+fail511:	mov	$511, r0
 	trap	$0
-f512:	mov	$512, r0
+fail512:	mov	$512, r0
 	trap	$0
-f513:	mov	$513, r0
+fail513:	mov	$513, r0
 	trap	$0
-f514:	mov	$514, r0
+fail514:	mov	$514, r0
 	trap	$0
-f515:	mov	$515, r0
+fail515:	mov	$515, r0
 	trap	$0
-f516:	mov	$516, r0
+fail516:	mov	$516, r0
 	trap	$0
-f517:	mov	$517, r0
+fail517:	mov	$517, r0
 	trap	$0
-f518:	mov	$518, r0
+fail518:	mov	$518, r0
 	trap	$0
-f519:	mov	$519, r0
+fail519:	mov	$519, r0
 	trap	$0
-f520:	mov	$520, r0
+fail520:	mov	$520, r0
 	trap	$0
-f521:	mov	$521, r0
+fail521:	mov	$521, r0
 	trap	$0
-f522:	mov	$522, r0
+fail522:	mov	$522, r0
 	trap	$0
-f523:	mov	$523, r0
+fail523:	mov	$523, r0
 	trap	$0
-f524:	mov	$524, r0
+fail524:	mov	$524, r0
 	trap	$0
-f525:	mov	$525, r0
+fail525:	mov	$525, r0
 	trap	$0
-f526:	mov	$526, r0
+fail526:	mov	$526, r0
 	trap	$0
-f527:	mov	$527, r0
+fail527:	mov	$527, r0
 	trap	$0
-f528:	mov	$528, r0
+fail528:	mov	$528, r0
 	trap	$0
-f529:	mov	$529, r0
+fail529:	mov	$529, r0
 	trap	$0
-f530:	mov	$530, r0
+fail530:	mov	$530, r0
 	trap	$0
-f531:	mov	$531, r0
+fail531:	mov	$531, r0
 	trap	$0
-f532:	mov	$532, r0
+fail532:	mov	$532, r0
 	trap	$0
-f533:	mov	$533, r0
+fail533:	mov	$533, r0
 	trap	$0
-f534:	mov	$534, r0
+fail534:	mov	$534, r0
 	trap	$0
-f535:	mov	$535, r0
+fail535:	mov	$535, r0
 	trap	$0
-f536:	mov	$536, r0
+fail536:	mov	$536, r0
 	trap	$0
-f537:	mov	$537, r0
+fail537:	mov	$537, r0
 	trap	$0
-f538:	mov	$538, r0
+fail538:	mov	$538, r0
 	trap	$0
-f539:	mov	$539, r0
+fail539:	mov	$539, r0
 	trap	$0
-f540:	mov	$540, r0
+fail540:	mov	$540, r0
 	trap	$0
-f541:	mov	$541, r0
+fail541:	mov	$541, r0
 	trap	$0
-f542:	mov	$542, r0
+fail542:	mov	$542, r0
 	trap	$0
-f543:	mov	$543, r0
+fail543:	mov	$543, r0
 	trap	$0
-f544:	mov	$544, r0
+fail544:	mov	$544, r0
 	trap	$0
-f545:	mov	$545, r0
+fail545:	mov	$545, r0
 	trap	$0
-f546:	mov	$546, r0
+fail546:	mov	$546, r0
 	trap	$0
-f547:	mov	$547, r0
+fail547:	mov	$547, r0
 	trap	$0
-f548:	mov	$548, r0
+fail548:	mov	$548, r0
 	trap	$0
-f549:	mov	$549, r0
+fail549:	mov	$549, r0
 	trap	$0
-f550:	mov	$550, r0
+fail550:	mov	$550, r0
 	trap	$0
-f551:	mov	$551, r0
+fail551:	mov	$551, r0
 	trap	$0
-f552:	mov	$552, r0
+fail552:	mov	$552, r0
 	trap	$0
-f553:	mov	$553, r0
+fail553:	mov	$553, r0
 	trap	$0
-f554:	mov	$554, r0
+fail554:	mov	$554, r0
 	trap	$0
-f555:	mov	$555, r0
+fail555:	mov	$555, r0
 	trap	$0
-f556:	mov	$556, r0
+fail556:	mov	$556, r0
 	trap	$0
-f557:	mov	$557, r0
+fail557:	mov	$557, r0
 	trap	$0
-f558:	mov	$558, r0
+fail558:	mov	$558, r0
 	trap	$0
-f559:	mov	$559, r0
+fail559:	mov	$559, r0
 	trap	$0
-f560:	mov	$560, r0
+fail560:	mov	$560, r0
 	trap	$0
-f561:	mov	$561, r0
+fail561:	mov	$561, r0
 	trap	$0
-f562:	mov	$562, r0
+fail562:	mov	$562, r0
 	trap	$0
-f563:	mov	$563, r0
+fail563:	mov	$563, r0
 	trap	$0
-f564:	mov	$564, r0
+fail564:	mov	$564, r0
 	trap	$0
-f565:	mov	$565, r0
+fail565:	mov	$565, r0
 	trap	$0
-f566:	mov	$566, r0
+fail566:	mov	$566, r0
 	trap	$0
-f567:	mov	$567, r0
+fail567:	mov	$567, r0
 	trap	$0
-f568:	mov	$568, r0
+fail568:	mov	$568, r0
 	trap	$0
-f569:	mov	$569, r0
+fail569:	mov	$569, r0
 	trap	$0
-f570:	mov	$570, r0
+fail570:	mov	$570, r0
 	trap	$0
-f571:	mov	$571, r0
+fail571:	mov	$571, r0
 	trap	$0
-f572:	mov	$572, r0
+fail572:	mov	$572, r0
 	trap	$0
-f573:	mov	$573, r0
+fail573:	mov	$573, r0
 	trap	$0
-f574:	mov	$574, r0
+fail574:	mov	$574, r0
 	trap	$0
-f575:	mov	$575, r0
+fail575:	mov	$575, r0
 	trap	$0
-f576:	mov	$576, r0
+fail576:	mov	$576, r0
 	trap	$0
-f577:	mov	$577, r0
+fail577:	mov	$577, r0
 	trap	$0
-f578:	mov	$578, r0
+fail578:	mov	$578, r0
 	trap	$0
-f579:	mov	$579, r0
+fail579:	mov	$579, r0
 	trap	$0
-f580:	mov	$580, r0
+fail580:	mov	$580, r0
 	trap	$0
-f581:	mov	$581, r0
+fail581:	mov	$581, r0
 	trap	$0
-f582:	mov	$582, r0
+fail582:	mov	$582, r0
 	trap	$0
-f583:	mov	$583, r0
+fail583:	mov	$583, r0
 	trap	$0
-f584:	mov	$584, r0
+fail584:	mov	$584, r0
 	trap	$0
-f585:	mov	$585, r0
+fail585:	mov	$585, r0
 	trap	$0
-f586:	mov	$586, r0
+fail586:	mov	$586, r0
 	trap	$0
-f587:	mov	$587, r0
+fail587:	mov	$587, r0
 	trap	$0
-f588:	mov	$588, r0
+fail588:	mov	$588, r0
 	trap	$0
-f589:	mov	$589, r0
+fail589:	mov	$589, r0
 	trap	$0
-f590:	mov	$590, r0
+fail590:	mov	$590, r0
 	trap	$0
-f591:	mov	$591, r0
+fail591:	mov	$591, r0
 	trap	$0
-f592:	mov	$592, r0
+fail592:	mov	$592, r0
 	trap	$0
-f593:	mov	$593, r0
+fail593:	mov	$593, r0
 	trap	$0
-f594:	mov	$594, r0
+fail594:	mov	$594, r0
 	trap	$0
-f595:	mov	$595, r0
+fail595:	mov	$595, r0
 	trap	$0
-f596:	mov	$596, r0
+fail596:	mov	$596, r0
 	trap	$0
-f597:	mov	$597, r0
+fail597:	mov	$597, r0
 	trap	$0
-f598:	mov	$598, r0
+fail598:	mov	$598, r0
 	trap	$0
-f599:	mov	$599, r0
+fail599:	mov	$599, r0
 	trap	$0
-f600:	mov	$600, r0
+fail600:	mov	$600, r0
 	trap	$0
-f601:	mov	$601, r0
+fail601:	mov	$601, r0
 	trap	$0
-f602:	mov	$602, r0
+fail602:	mov	$602, r0
 	trap	$0
-f603:	mov	$603, r0
+fail603:	mov	$603, r0
 	trap	$0
-f604:	mov	$604, r0
+fail604:	mov	$604, r0
 	trap	$0
-f605:	mov	$605, r0
+fail605:	mov	$605, r0
 	trap	$0
-f606:	mov	$606, r0
+fail606:	mov	$606, r0
 	trap	$0
-f607:	mov	$607, r0
+fail607:	mov	$607, r0
 	trap	$0
-f608:	mov	$608, r0
+fail608:	mov	$608, r0
 	trap	$0
-f609:	mov	$609, r0
+fail609:	mov	$609, r0
 	trap	$0
-f610:	mov	$610, r0
+fail610:	mov	$610, r0
 	trap	$0
-f611:	mov	$611, r0
+fail611:	mov	$611, r0
 	trap	$0
-f612:	mov	$612, r0
+fail612:	mov	$612, r0
 	trap	$0
-f613:	mov	$613, r0
+fail613:	mov	$613, r0
 	trap	$0
-f614:	mov	$614, r0
+fail614:	mov	$614, r0
 	trap	$0
-f615:	mov	$615, r0
+fail615:	mov	$615, r0
 	trap	$0
-f616:	mov	$616, r0
+fail616:	mov	$616, r0
 	trap	$0
-f617:	mov	$617, r0
+fail617:	mov	$617, r0
 	trap	$0
-f618:	mov	$618, r0
+fail618:	mov	$618, r0
 	trap	$0
-f619:	mov	$619, r0
+fail619:	mov	$619, r0
 	trap	$0
-f620:	mov	$620, r0
+fail620:	mov	$620, r0
 	trap	$0
-f621:	mov	$621, r0
+fail621:	mov	$621, r0
 	trap	$0
-f622:	mov	$622, r0
+fail622:	mov	$622, r0
 	trap	$0
-f623:	mov	$623, r0
+fail623:	mov	$623, r0
 	trap	$0
-f624:	mov	$624, r0
+fail624:	mov	$624, r0
 	trap	$0
-f625:	mov	$625, r0
+fail625:	mov	$625, r0
 	trap	$0
-f626:	mov	$626, r0
+fail626:	mov	$626, r0
 	trap	$0
-f627:	mov	$627, r0
+fail627:	mov	$627, r0
 	trap	$0
-f628:	mov	$628, r0
+fail628:	mov	$628, r0
 	trap	$0
-f629:	mov	$629, r0
+fail629:	mov	$629, r0
 	trap	$0
-f630:	mov	$630, r0
+fail630:	mov	$630, r0
 	trap	$0
-f631:	mov	$631, r0
+fail631:	mov	$631, r0
 	trap	$0
-f632:	mov	$632, r0
+fail632:	mov	$632, r0
 	trap	$0
-f633:	mov	$633, r0
+fail633:	mov	$633, r0
 	trap	$0
-f634:	mov	$634, r0
+fail634:	mov	$634, r0
 	trap	$0
-f635:	mov	$635, r0
+fail635:	mov	$635, r0
 	trap	$0
-f636:	mov	$636, r0
+fail636:	mov	$636, r0
 	trap	$0
-f637:	mov	$637, r0
+fail637:	mov	$637, r0
 	trap	$0
-f638:	mov	$638, r0
+fail638:	mov	$638, r0
 	trap	$0
-f639:	mov	$639, r0
+fail639:	mov	$639, r0
 	trap	$0
-f640:	mov	$640, r0
+fail640:	mov	$640, r0
 	trap	$0
-f641:	mov	$641, r0
+fail641:	mov	$641, r0
 	trap	$0
-f642:	mov	$642, r0
+fail642:	mov	$642, r0
 	trap	$0
-f643:	mov	$643, r0
+fail643:	mov	$643, r0
 	trap	$0
-f644:	mov	$644, r0
+fail644:	mov	$644, r0
 	trap	$0
-f645:	mov	$645, r0
+fail645:	mov	$645, r0
 	trap	$0
-f646:	mov	$646, r0
+fail646:	mov	$646, r0
 	trap	$0
-f647:	mov	$647, r0
+fail647:	mov	$647, r0
 	trap	$0
-f648:	mov	$648, r0
+fail648:	mov	$648, r0
 	trap	$0
-f649:	mov	$649, r0
+fail649:	mov	$649, r0
 	trap	$0
-f650:	mov	$650, r0
+fail650:	mov	$650, r0
 	trap	$0
-f651:	mov	$651, r0
+fail651:	mov	$651, r0
 	trap	$0
-f652:	mov	$652, r0
+fail652:	mov	$652, r0
 	trap	$0
-f653:	mov	$653, r0
+fail653:	mov	$653, r0
 	trap	$0
-f654:	mov	$654, r0
+fail654:	mov	$654, r0
 	trap	$0
-f655:	mov	$655, r0
+fail655:	mov	$655, r0
 	trap	$0
-f656:	mov	$656, r0
+fail656:	mov	$656, r0
 	trap	$0
-f657:	mov	$657, r0
+fail657:	mov	$657, r0
 	trap	$0
-f658:	mov	$658, r0
+fail658:	mov	$658, r0
 	trap	$0
-f659:	mov	$659, r0
+fail659:	mov	$659, r0
 	trap	$0
-f660:	mov	$660, r0
+fail660:	mov	$660, r0
 	trap	$0
-f661:	mov	$661, r0
+fail661:	mov	$661, r0
 	trap	$0
-f662:	mov	$662, r0
+fail662:	mov	$662, r0
 	trap	$0
-f663:	mov	$663, r0
+fail663:	mov	$663, r0
 	trap	$0
-f664:	mov	$664, r0
+fail664:	mov	$664, r0
 	trap	$0
-f665:	mov	$665, r0
+fail665:	mov	$665, r0
 	trap	$0
-f666:	mov	$666, r0
+fail666:	mov	$666, r0
 	trap	$0
-f667:	mov	$667, r0
+fail667:	mov	$667, r0
 	trap	$0
-f668:	mov	$668, r0
+fail668:	mov	$668, r0
 	trap	$0
-f669:	mov	$669, r0
+fail669:	mov	$669, r0
 	trap	$0
-f670:	mov	$670, r0
+fail670:	mov	$670, r0
 	trap	$0
-f671:	mov	$671, r0
+fail671:	mov	$671, r0
 	trap	$0
-f672:	mov	$672, r0
+fail672:	mov	$672, r0
 	trap	$0
-f673:	mov	$673, r0
+fail673:	mov	$673, r0
 	trap	$0
-f674:	mov	$674, r0
+fail674:	mov	$674, r0
 	trap	$0
-f675:	mov	$675, r0
+fail675:	mov	$675, r0
 	trap	$0
-f676:	mov	$676, r0
+fail676:	mov	$676, r0
 	trap	$0
-f677:	mov	$677, r0
+fail677:	mov	$677, r0
 	trap	$0
-f678:	mov	$678, r0
+fail678:	mov	$678, r0
 	trap	$0
-f679:	mov	$679, r0
+fail679:	mov	$679, r0
 	trap	$0
-f680:	mov	$680, r0
+fail680:	mov	$680, r0
 	trap	$0
-f681:	mov	$681, r0
+fail681:	mov	$681, r0
 	trap	$0
-f682:	mov	$682, r0
+fail682:	mov	$682, r0
 	trap	$0
-f683:	mov	$683, r0
+fail683:	mov	$683, r0
 	trap	$0
-f684:	mov	$684, r0
+fail684:	mov	$684, r0
 	trap	$0
-f685:	mov	$685, r0
+fail685:	mov	$685, r0
 	trap	$0
-f686:	mov	$686, r0
+fail686:	mov	$686, r0
 	trap	$0
-f687:	mov	$687, r0
+fail687:	mov	$687, r0
 	trap	$0
-f688:	mov	$688, r0
+fail688:	mov	$688, r0
 	trap	$0
-f689:	mov	$689, r0
+fail689:	mov	$689, r0
 	trap	$0
-f690:	mov	$690, r0
+fail690:	mov	$690, r0
 	trap	$0
-f691:	mov	$691, r0
+fail691:	mov	$691, r0
 	trap	$0
-f692:	mov	$692, r0
+fail692:	mov	$692, r0
 	trap	$0
-f693:	mov	$693, r0
+fail693:	mov	$693, r0
 	trap	$0
-f694:	mov	$694, r0
+fail694:	mov	$694, r0
 	trap	$0
-f695:	mov	$695, r0
+fail695:	mov	$695, r0
 	trap	$0
-f696:	mov	$696, r0
+fail696:	mov	$696, r0
 	trap	$0
-f697:	mov	$697, r0
+fail697:	mov	$697, r0
 	trap	$0
-f698:	mov	$698, r0
+fail698:	mov	$698, r0
 	trap	$0
-f699:	mov	$699, r0
+fail699:	mov	$699, r0
 	trap	$0
-f700:	mov	$700, r0
+fail700:	mov	$700, r0
 	trap	$0
-f701:	mov	$701, r0
+fail701:	mov	$701, r0
 	trap	$0
-f702:	mov	$702, r0
+fail702:	mov	$702, r0
 	trap	$0
-f703:	mov	$703, r0
+fail703:	mov	$703, r0
 	trap	$0
-f704:	mov	$704, r0
+fail704:	mov	$704, r0
 	trap	$0
-f705:	mov	$705, r0
+fail705:	mov	$705, r0
 	trap	$0
-f706:	mov	$706, r0
+fail706:	mov	$706, r0
 	trap	$0
-f707:	mov	$707, r0
+fail707:	mov	$707, r0
 	trap	$0
-f708:	mov	$708, r0
+fail708:	mov	$708, r0
 	trap	$0
-f709:	mov	$709, r0
+fail709:	mov	$709, r0
 	trap	$0
-f710:	mov	$710, r0
+fail710:	mov	$710, r0
 	trap	$0
-f711:	mov	$711, r0
+fail711:	mov	$711, r0
 	trap	$0
-f712:	mov	$712, r0
+fail712:	mov	$712, r0
 	trap	$0
-f713:	mov	$713, r0
+fail713:	mov	$713, r0
 	trap	$0
-f714:	mov	$714, r0
+fail714:	mov	$714, r0
 	trap	$0
-f715:	mov	$715, r0
+fail715:	mov	$715, r0
 	trap	$0
-f716:	mov	$716, r0
+fail716:	mov	$716, r0
 	trap	$0
-f717:	mov	$717, r0
+fail717:	mov	$717, r0
 	trap	$0
-f718:	mov	$718, r0
+fail718:	mov	$718, r0
 	trap	$0
-f719:	mov	$719, r0
+fail719:	mov	$719, r0
 	trap	$0
-f720:	mov	$720, r0
+fail720:	mov	$720, r0
 	trap	$0
-f721:	mov	$721, r0
+fail721:	mov	$721, r0
 	trap	$0
-f722:	mov	$722, r0
+fail722:	mov	$722, r0
 	trap	$0
-f723:	mov	$723, r0
+fail723:	mov	$723, r0
 	trap	$0
-f724:	mov	$724, r0
+fail724:	mov	$724, r0
 	trap	$0
-f725:	mov	$725, r0
+fail725:	mov	$725, r0
 	trap	$0
-f726:	mov	$726, r0
+fail726:	mov	$726, r0
 	trap	$0
-f727:	mov	$727, r0
+fail727:	mov	$727, r0
 	trap	$0
-f728:	mov	$728, r0
+fail728:	mov	$728, r0
 	trap	$0
-f729:	mov	$729, r0
+fail729:	mov	$729, r0
 	trap	$0
-f730:	mov	$730, r0
+fail730:	mov	$730, r0
 	trap	$0
-f731:	mov	$731, r0
+fail731:	mov	$731, r0
 	trap	$0
-f732:	mov	$732, r0
+fail732:	mov	$732, r0
 	trap	$0
-f733:	mov	$733, r0
+fail733:	mov	$733, r0
 	trap	$0
-f734:	mov	$734, r0
+fail734:	mov	$734, r0
 	trap	$0
-f735:	mov	$735, r0
+fail735:	mov	$735, r0
 	trap	$0
-f736:	mov	$736, r0
+fail736:	mov	$736, r0
 	trap	$0
-f737:	mov	$737, r0
+fail737:	mov	$737, r0
 	trap	$0
-f738:	mov	$738, r0
+fail738:	mov	$738, r0
 	trap	$0
-f739:	mov	$739, r0
+fail739:	mov	$739, r0
 	trap	$0
-f740:	mov	$740, r0
+fail740:	mov	$740, r0
 	trap	$0
-f741:	mov	$741, r0
+fail741:	mov	$741, r0
 	trap	$0
-f742:	mov	$742, r0
+fail742:	mov	$742, r0
 	trap	$0
-f743:	mov	$743, r0
+fail743:	mov	$743, r0
 	trap	$0
-f744:	mov	$744, r0
+fail744:	mov	$744, r0
 	trap	$0
-f745:	mov	$745, r0
+fail745:	mov	$745, r0
 	trap	$0
-f746:	mov	$746, r0
+fail746:	mov	$746, r0
 	trap	$0
-f747:	mov	$747, r0
+fail747:	mov	$747, r0
 	trap	$0
-f748:	mov	$748, r0
+fail748:	mov	$748, r0
 	trap	$0
-f749:	mov	$749, r0
+fail749:	mov	$749, r0
 	trap	$0
-f750:	mov	$750, r0
+fail750:	mov	$750, r0
 	trap	$0
-f751:	mov	$751, r0
+fail751:	mov	$751, r0
 	trap	$0
-f752:	mov	$752, r0
+fail752:	mov	$752, r0
 	trap	$0
-f753:	mov	$753, r0
+fail753:	mov	$753, r0
 	trap	$0
-f754:	mov	$754, r0
+fail754:	mov	$754, r0
 	trap	$0
-f755:	mov	$755, r0
+fail755:	mov	$755, r0
 	trap	$0
-f756:	mov	$756, r0
+fail756:	mov	$756, r0
 	trap	$0
-f757:	mov	$757, r0
+fail757:	mov	$757, r0
 	trap	$0
-f758:	mov	$758, r0
+fail758:	mov	$758, r0
 	trap	$0
-f759:	mov	$759, r0
+fail759:	mov	$759, r0
 	trap	$0
-f760:	mov	$760, r0
+fail760:	mov	$760, r0
 	trap	$0
-f761:	mov	$761, r0
+fail761:	mov	$761, r0
 	trap	$0
-f762:	mov	$762, r0
+fail762:	mov	$762, r0
 	trap	$0
-f763:	mov	$763, r0
+fail763:	mov	$763, r0
 	trap	$0
-f764:	mov	$764, r0
+fail764:	mov	$764, r0
 	trap	$0
-f765:	mov	$765, r0
+fail765:	mov	$765, r0
 	trap	$0
-f766:	mov	$766, r0
+fail766:	mov	$766, r0
 	trap	$0
-f767:	mov	$767, r0
+fail767:	mov	$767, r0
 	trap	$0
-f768:	mov	$768, r0
+fail768:	mov	$768, r0
 	trap	$0
-f769:	mov	$769, r0
+fail769:	mov	$769, r0
 	trap	$0
-f770:	mov	$770, r0
+fail770:	mov	$770, r0
 	trap	$0
-f771:	mov	$771, r0
+fail771:	mov	$771, r0
 	trap	$0
-f772:	mov	$772, r0
+fail772:	mov	$772, r0
 	trap	$0
-f773:	mov	$773, r0
+fail773:	mov	$773, r0
 	trap	$0
-f774:	mov	$774, r0
+fail774:	mov	$774, r0
 	trap	$0
-f775:	mov	$775, r0
+fail775:	mov	$775, r0
 	trap	$0
-f776:	mov	$776, r0
+fail776:	mov	$776, r0
 	trap	$0
-f777:	mov	$777, r0
+fail777:	mov	$777, r0
 	trap	$0
-f778:	mov	$778, r0
+fail778:	mov	$778, r0
 	trap	$0
-f779:	mov	$779, r0
+fail779:	mov	$779, r0
 	trap	$0
-f780:	mov	$780, r0
+fail780:	mov	$780, r0
 	trap	$0
-f781:	mov	$781, r0
+fail781:	mov	$781, r0
 	trap	$0
-f782:	mov	$782, r0
+fail782:	mov	$782, r0
 	trap	$0
-f783:	mov	$783, r0
+fail783:	mov	$783, r0
 	trap	$0
-f784:	mov	$784, r0
+fail784:	mov	$784, r0
 	trap	$0
-f785:	mov	$785, r0
+fail785:	mov	$785, r0
 	trap	$0
-f786:	mov	$786, r0
+fail786:	mov	$786, r0
 	trap	$0
-f787:	mov	$787, r0
+fail787:	mov	$787, r0
 	trap	$0
-f788:	mov	$788, r0
+fail788:	mov	$788, r0
 	trap	$0
-f789:	mov	$789, r0
+fail789:	mov	$789, r0
 	trap	$0
-f790:	mov	$790, r0
+fail790:	mov	$790, r0
 	trap	$0
-f791:	mov	$791, r0
+fail791:	mov	$791, r0
 	trap	$0
-f792:	mov	$792, r0
+fail792:	mov	$792, r0
 	trap	$0
-f793:	mov	$793, r0
+fail793:	mov	$793, r0
 	trap	$0
-f794:	mov	$794, r0
+fail794:	mov	$794, r0
 	trap	$0
-f795:	mov	$795, r0
+fail795:	mov	$795, r0
 	trap	$0
-f796:	mov	$796, r0
+fail796:	mov	$796, r0
 	trap	$0
-f797:	mov	$797, r0
+fail797:	mov	$797, r0
 	trap	$0
-f798:	mov	$798, r0
+fail798:	mov	$798, r0
 	trap	$0
-f799:	mov	$799, r0
+fail799:	mov	$799, r0
 	trap	$0
-f800:	mov	$800, r0
+fail800:	mov	$800, r0
 	trap	$0
-f801:	mov	$801, r0
+fail801:	mov	$801, r0
 	trap	$0
-f802:	mov	$802, r0
+fail802:	mov	$802, r0
 	trap	$0
-f803:	mov	$803, r0
+fail803:	mov	$803, r0
 	trap	$0
-f804:	mov	$804, r0
+fail804:	mov	$804, r0
 	trap	$0
-f805:	mov	$805, r0
+fail805:	mov	$805, r0
 	trap	$0
-f806:	mov	$806, r0
+fail806:	mov	$806, r0
 	trap	$0
-f807:	mov	$807, r0
+fail807:	mov	$807, r0
 	trap	$0
-f808:	mov	$808, r0
+fail808:	mov	$808, r0
 	trap	$0
-f809:	mov	$809, r0
+fail809:	mov	$809, r0
 	trap	$0
-f810:	mov	$810, r0
+fail810:	mov	$810, r0
 	trap	$0
-f811:	mov	$811, r0
+fail811:	mov	$811, r0
 	trap	$0
-f812:	mov	$812, r0
+fail812:	mov	$812, r0
 	trap	$0
-f813:	mov	$813, r0
+fail813:	mov	$813, r0
 	trap	$0
-f814:	mov	$814, r0
+fail814:	mov	$814, r0
 	trap	$0
-f815:	mov	$815, r0
+fail815:	mov	$815, r0
 	trap	$0
-f816:	mov	$816, r0
+fail816:	mov	$816, r0
 	trap	$0
-f817:	mov	$817, r0
+fail817:	mov	$817, r0
 	trap	$0
-f818:	mov	$818, r0
+fail818:	mov	$818, r0
 	trap	$0
-f819:	mov	$819, r0
+fail819:	mov	$819, r0
 	trap	$0
-f820:	mov	$820, r0
+fail820:	mov	$820, r0
 	trap	$0
-f821:	mov	$821, r0
+fail821:	mov	$821, r0
 	trap	$0
-f822:	mov	$822, r0
+fail822:	mov	$822, r0
 	trap	$0
-f823:	mov	$823, r0
+fail823:	mov	$823, r0
 	trap	$0
-f824:	mov	$824, r0
+fail824:	mov	$824, r0
 	trap	$0
-f825:	mov	$825, r0
+fail825:	mov	$825, r0
 	trap	$0
-f826:	mov	$826, r0
+fail826:	mov	$826, r0
 	trap	$0
-f827:	mov	$827, r0
+fail827:	mov	$827, r0
 	trap	$0
-f828:	mov	$828, r0
+fail828:	mov	$828, r0
 	trap	$0
-f829:	mov	$829, r0
+fail829:	mov	$829, r0
 	trap	$0
-f830:	mov	$830, r0
+fail830:	mov	$830, r0
 	trap	$0
-f831:	mov	$831, r0
+fail831:	mov	$831, r0
 	trap	$0
-f832:	mov	$832, r0
+fail832:	mov	$832, r0
 	trap	$0
-f833:	mov	$833, r0
+fail833:	mov	$833, r0
 	trap	$0
-f834:	mov	$834, r0
+fail834:	mov	$834, r0
 	trap	$0
-f835:	mov	$835, r0
+fail835:	mov	$835, r0
 	trap	$0
-f836:	mov	$836, r0
+fail836:	mov	$836, r0
 	trap	$0
-f837:	mov	$837, r0
+fail837:	mov	$837, r0
 	trap	$0
-f838:	mov	$838, r0
+fail838:	mov	$838, r0
 	trap	$0
-f839:	mov	$839, r0
+fail839:	mov	$839, r0
 	trap	$0
-f840:	mov	$840, r0
+fail840:	mov	$840, r0
 	trap	$0
-f841:	mov	$841, r0
+fail841:	mov	$841, r0
 	trap	$0
-f842:	mov	$842, r0
+fail842:	mov	$842, r0
 	trap	$0
-f843:	mov	$843, r0
+fail843:	mov	$843, r0
 	trap	$0
-f844:	mov	$844, r0
+fail844:	mov	$844, r0
 	trap	$0
-f845:	mov	$845, r0
+fail845:	mov	$845, r0
 	trap	$0
-f846:	mov	$846, r0
+fail846:	mov	$846, r0
 	trap	$0
-f847:	mov	$847, r0
+fail847:	mov	$847, r0
 	trap	$0
-f848:	mov	$848, r0
+fail848:	mov	$848, r0
 	trap	$0
-f849:	mov	$849, r0
+fail849:	mov	$849, r0
 	trap	$0
-f850:	mov	$850, r0
+fail850:	mov	$850, r0
 	trap	$0
-f851:	mov	$851, r0
+fail851:	mov	$851, r0
 	trap	$0
-f852:	mov	$852, r0
+fail852:	mov	$852, r0
 	trap	$0
-f853:	mov	$853, r0
+fail853:	mov	$853, r0
 	trap	$0
-f854:	mov	$854, r0
+fail854:	mov	$854, r0
 	trap	$0
-f855:	mov	$855, r0
+fail855:	mov	$855, r0
 	trap	$0
-f856:	mov	$856, r0
+fail856:	mov	$856, r0
 	trap	$0
-f857:	mov	$857, r0
+fail857:	mov	$857, r0
 	trap	$0
-f858:	mov	$858, r0
+fail858:	mov	$858, r0
 	trap	$0
-f859:	mov	$859, r0
+fail859:	mov	$859, r0
 	trap	$0
-f860:	mov	$860, r0
+fail860:	mov	$860, r0
 	trap	$0
-f861:	mov	$861, r0
+fail861:	mov	$861, r0
 	trap	$0
-f862:	mov	$862, r0
+fail862:	mov	$862, r0
 	trap	$0
-f863:	mov	$863, r0
+fail863:	mov	$863, r0
 	trap	$0
-f864:	mov	$864, r0
+fail864:	mov	$864, r0
 	trap	$0
-f865:	mov	$865, r0
+fail865:	mov	$865, r0
 	trap	$0
-f866:	mov	$866, r0
+fail866:	mov	$866, r0
 	trap	$0
-f867:	mov	$867, r0
+fail867:	mov	$867, r0
 	trap	$0
-f868:	mov	$868, r0
+fail868:	mov	$868, r0
 	trap	$0
-f869:	mov	$869, r0
+fail869:	mov	$869, r0
 	trap	$0
-f870:	mov	$870, r0
+fail870:	mov	$870, r0
 	trap	$0
-f871:	mov	$871, r0
+fail871:	mov	$871, r0
 	trap	$0
-f872:	mov	$872, r0
+fail872:	mov	$872, r0
 	trap	$0
-f873:	mov	$873, r0
+fail873:	mov	$873, r0
 	trap	$0
-f874:	mov	$874, r0
+fail874:	mov	$874, r0
 	trap	$0
-f875:	mov	$875, r0
+fail875:	mov	$875, r0
 	trap	$0
-f876:	mov	$876, r0
+fail876:	mov	$876, r0
 	trap	$0
-f877:	mov	$877, r0
+fail877:	mov	$877, r0
 	trap	$0
-f878:	mov	$878, r0
+fail878:	mov	$878, r0
 	trap	$0
-f879:	mov	$879, r0
+fail879:	mov	$879, r0
 	trap	$0
-f880:	mov	$880, r0
+fail880:	mov	$880, r0
 	trap	$0
-f881:	mov	$881, r0
+fail881:	mov	$881, r0
 	trap	$0
-f882:	mov	$882, r0
+fail882:	mov	$882, r0
 	trap	$0
-f883:	mov	$883, r0
+fail883:	mov	$883, r0
 	trap	$0
-f884:	mov	$884, r0
+fail884:	mov	$884, r0
 	trap	$0
-f885:	mov	$885, r0
+fail885:	mov	$885, r0
 	trap	$0
-f886:	mov	$886, r0
+fail886:	mov	$886, r0
 	trap	$0
-f887:	mov	$887, r0
+fail887:	mov	$887, r0
 	trap	$0
-f888:	mov	$888, r0
+fail888:	mov	$888, r0
 	trap	$0
-f889:	mov	$889, r0
+fail889:	mov	$889, r0
 	trap	$0
-f890:	mov	$890, r0
+fail890:	mov	$890, r0
 	trap	$0
-f891:	mov	$891, r0
+fail891:	mov	$891, r0
 	trap	$0
-f892:	mov	$892, r0
+fail892:	mov	$892, r0
 	trap	$0
-f893:	mov	$893, r0
+fail893:	mov	$893, r0
 	trap	$0
-f894:	mov	$894, r0
+fail894:	mov	$894, r0
 	trap	$0
-f895:	mov	$895, r0
+fail895:	mov	$895, r0
 	trap	$0
-f896:	mov	$896, r0
+fail896:	mov	$896, r0
 	trap	$0
-f897:	mov	$897, r0
+fail897:	mov	$897, r0
 	trap	$0
-f898:	mov	$898, r0
+fail898:	mov	$898, r0
 	trap	$0
-f899:	mov	$899, r0
+fail899:	mov	$899, r0
 	trap	$0
-f900:	mov	$900, r0
+fail900:	mov	$900, r0
 	trap	$0
-f901:	mov	$901, r0
+fail901:	mov	$901, r0
 	trap	$0
-f902:	mov	$902, r0
+fail902:	mov	$902, r0
 	trap	$0
-f903:	mov	$903, r0
+fail903:	mov	$903, r0
 	trap	$0
-f904:	mov	$904, r0
+fail904:	mov	$904, r0
 	trap	$0
-f905:	mov	$905, r0
+fail905:	mov	$905, r0
 	trap	$0
-f906:	mov	$906, r0
+fail906:	mov	$906, r0
 	trap	$0
-f907:	mov	$907, r0
+fail907:	mov	$907, r0
 	trap	$0
-f908:	mov	$908, r0
+fail908:	mov	$908, r0
 	trap	$0
-f909:	mov	$909, r0
+fail909:	mov	$909, r0
 	trap	$0
-f910:	mov	$910, r0
+fail910:	mov	$910, r0
 	trap	$0
-f911:	mov	$911, r0
+fail911:	mov	$911, r0
 	trap	$0
-f912:	mov	$912, r0
+fail912:	mov	$912, r0
 	trap	$0
-f913:	mov	$913, r0
+fail913:	mov	$913, r0
 	trap	$0
-f914:	mov	$914, r0
+fail914:	mov	$914, r0
 	trap	$0
-f915:	mov	$915, r0
+fail915:	mov	$915, r0
 	trap	$0
-f916:	mov	$916, r0
+fail916:	mov	$916, r0
 	trap	$0
-f917:	mov	$917, r0
+fail917:	mov	$917, r0
 	trap	$0
-f918:	mov	$918, r0
+fail918:	mov	$918, r0
 	trap	$0
-f919:	mov	$919, r0
+fail919:	mov	$919, r0
 	trap	$0
-f920:	mov	$920, r0
+fail920:	mov	$920, r0
 	trap	$0
-f921:	mov	$921, r0
+fail921:	mov	$921, r0
 	trap	$0
-f922:	mov	$922, r0
+fail922:	mov	$922, r0
 	trap	$0
-f923:	mov	$923, r0
+fail923:	mov	$923, r0
 	trap	$0
-f924:	mov	$924, r0
+fail924:	mov	$924, r0
 	trap	$0
-f925:	mov	$925, r0
+fail925:	mov	$925, r0
 	trap	$0
-f926:	mov	$926, r0
+fail926:	mov	$926, r0
 	trap	$0
-f927:	mov	$927, r0
+fail927:	mov	$927, r0
 	trap	$0
-f928:	mov	$928, r0
+fail928:	mov	$928, r0
 	trap	$0
-f929:	mov	$929, r0
+fail929:	mov	$929, r0
 	trap	$0
-f930:	mov	$930, r0
+fail930:	mov	$930, r0
 	trap	$0
-f931:	mov	$931, r0
+fail931:	mov	$931, r0
 	trap	$0
-f932:	mov	$932, r0
+fail932:	mov	$932, r0
 	trap	$0
-f933:	mov	$933, r0
+fail933:	mov	$933, r0
 	trap	$0
-f934:	mov	$934, r0
+fail934:	mov	$934, r0
 	trap	$0
-f935:	mov	$935, r0
+fail935:	mov	$935, r0
 	trap	$0
-f936:	mov	$936, r0
+fail936:	mov	$936, r0
 	trap	$0
-f937:	mov	$937, r0
+fail937:	mov	$937, r0
 	trap	$0
-f938:	mov	$938, r0
+fail938:	mov	$938, r0
 	trap	$0
-f939:	mov	$939, r0
+fail939:	mov	$939, r0
 	trap	$0
-f940:	mov	$940, r0
+fail940:	mov	$940, r0
 	trap	$0
-f941:	mov	$941, r0
+fail941:	mov	$941, r0
 	trap	$0
-f942:	mov	$942, r0
+fail942:	mov	$942, r0
 	trap	$0
-f943:	mov	$943, r0
+fail943:	mov	$943, r0
 	trap	$0
-f944:	mov	$944, r0
+fail944:	mov	$944, r0
 	trap	$0
-f945:	mov	$945, r0
+fail945:	mov	$945, r0
 	trap	$0
-f946:	mov	$946, r0
+fail946:	mov	$946, r0
 	trap	$0
-f947:	mov	$947, r0
+fail947:	mov	$947, r0
 	trap	$0
-f948:	mov	$948, r0
+fail948:	mov	$948, r0
 	trap	$0
-f949:	mov	$949, r0
+fail949:	mov	$949, r0
 	trap	$0
-f950:	mov	$950, r0
+fail950:	mov	$950, r0
 	trap	$0
-f951:	mov	$951, r0
+fail951:	mov	$951, r0
 	trap	$0
-f952:	mov	$952, r0
+fail952:	mov	$952, r0
 	trap	$0
-f953:	mov	$953, r0
+fail953:	mov	$953, r0
 	trap	$0
-f954:	mov	$954, r0
+fail954:	mov	$954, r0
 	trap	$0
-f955:	mov	$955, r0
+fail955:	mov	$955, r0
 	trap	$0
-f956:	mov	$956, r0
+fail956:	mov	$956, r0
 	trap	$0
-f957:	mov	$957, r0
+fail957:	mov	$957, r0
 	trap	$0
-f958:	mov	$958, r0
+fail958:	mov	$958, r0
 	trap	$0
-f959:	mov	$959, r0
+fail959:	mov	$959, r0
 	trap	$0
-f960:	mov	$960, r0
+fail960:	mov	$960, r0
 	trap	$0
-f961:	mov	$961, r0
+fail961:	mov	$961, r0
 	trap	$0
-f962:	mov	$962, r0
+fail962:	mov	$962, r0
 	trap	$0
-f963:	mov	$963, r0
+fail963:	mov	$963, r0
 	trap	$0
-f964:	mov	$964, r0
+fail964:	mov	$964, r0
 	trap	$0
-f965:	mov	$965, r0
+fail965:	mov	$965, r0
 	trap	$0
-f966:	mov	$966, r0
+fail966:	mov	$966, r0
 	trap	$0
-f967:	mov	$967, r0
+fail967:	mov	$967, r0
 	trap	$0
-f968:	mov	$968, r0
+fail968:	mov	$968, r0
 	trap	$0
-f969:	mov	$969, r0
+fail969:	mov	$969, r0
 	trap	$0
-f970:	mov	$970, r0
+fail970:	mov	$970, r0
 	trap	$0
-f971:	mov	$971, r0
+fail971:	mov	$971, r0
 	trap	$0
-f972:	mov	$972, r0
+fail972:	mov	$972, r0
 	trap	$0
-f973:	mov	$973, r0
+fail973:	mov	$973, r0
 	trap	$0
-f974:	mov	$974, r0
+fail974:	mov	$974, r0
 	trap	$0
-f975:	mov	$975, r0
+fail975:	mov	$975, r0
 	trap	$0
-f976:	mov	$976, r0
+fail976:	mov	$976, r0
 	trap	$0
-f977:	mov	$977, r0
+fail977:	mov	$977, r0
 	trap	$0
-f978:	mov	$978, r0
+fail978:	mov	$978, r0
 	trap	$0
-f979:	mov	$979, r0
+fail979:	mov	$979, r0
 	trap	$0
-f980:	mov	$980, r0
+fail980:	mov	$980, r0
 	trap	$0
-f981:	mov	$981, r0
+fail981:	mov	$981, r0
 	trap	$0
-f982:	mov	$982, r0
+fail982:	mov	$982, r0
 	trap	$0
-f983:	mov	$983, r0
+fail983:	mov	$983, r0
 	trap	$0
-f984:	mov	$984, r0
+fail984:	mov	$984, r0
 	trap	$0
-f985:	mov	$985, r0
+fail985:	mov	$985, r0
 	trap	$0
-f986:	mov	$986, r0
+fail986:	mov	$986, r0
 	trap	$0
-f987:	mov	$987, r0
+fail987:	mov	$987, r0
 	trap	$0
-f988:	mov	$988, r0
+fail988:	mov	$988, r0
 	trap	$0
-f989:	mov	$989, r0
+fail989:	mov	$989, r0
 	trap	$0
-f990:	mov	$990, r0
+fail990:	mov	$990, r0
 	trap	$0
-f991:	mov	$991, r0
+fail991:	mov	$991, r0
 	trap	$0
-f992:	mov	$992, r0
+fail992:	mov	$992, r0
 	trap	$0
-f993:	mov	$993, r0
+fail993:	mov	$993, r0
 	trap	$0
-f994:	mov	$994, r0
+fail994:	mov	$994, r0
 	trap	$0
-f995:	mov	$995, r0
+fail995:	mov	$995, r0
 	trap	$0
-f996:	mov	$996, r0
+fail996:	mov	$996, r0
 	trap	$0
-f997:	mov	$997, r0
+fail997:	mov	$997, r0
 	trap	$0
-f998:	mov	$998, r0
+fail998:	mov	$998, r0
 	trap	$0
-f999:	mov	$999, r0
+fail999:	mov	$999, r0
 	trap	$0
-f1000:	mov	$1000, r0
+fail1000:	mov	$1000, r0
 	trap	$0
-f1001:	mov	$1001, r0
+fail1001:	mov	$1001, r0
 	trap	$0
-f1002:	mov	$1002, r0
+fail1002:	mov	$1002, r0
 	trap	$0
-f1003:	mov	$1003, r0
+fail1003:	mov	$1003, r0
 	trap	$0
-f1004:	mov	$1004, r0
+fail1004:	mov	$1004, r0
 	trap	$0
-f1005:	mov	$1005, r0
+fail1005:	mov	$1005, r0
 	trap	$0
-f1006:	mov	$1006, r0
+fail1006:	mov	$1006, r0
 	trap	$0
-f1007:	mov	$1007, r0
+fail1007:	mov	$1007, r0
 	trap	$0
-f1008:	mov	$1008, r0
+fail1008:	mov	$1008, r0
 	trap	$0
-f1009:	mov	$1009, r0
+fail1009:	mov	$1009, r0
 	trap	$0
-f1010:	mov	$1010, r0
+fail1010:	mov	$1010, r0
 	trap	$0
-f1011:	mov	$1011, r0
+fail1011:	mov	$1011, r0
 	trap	$0
-f1012:	mov	$1012, r0
+fail1012:	mov	$1012, r0
 	trap	$0
-f1013:	mov	$1013, r0
+fail1013:	mov	$1013, r0
 	trap	$0
-f1014:	mov	$1014, r0
+fail1014:	mov	$1014, r0
 	trap	$0
-f1015:	mov	$1015, r0
+fail1015:	mov	$1015, r0
 	trap	$0
-f1016:	mov	$1016, r0
+fail1016:	mov	$1016, r0
 	trap	$0
-f1017:	mov	$1017, r0
+fail1017:	mov	$1017, r0
 	trap	$0
-f1018:	mov	$1018, r0
+fail1018:	mov	$1018, r0
 	trap	$0
-f1019:	mov	$1019, r0
+fail1019:	mov	$1019, r0
 	trap	$0
-f1020:	mov	$1020, r0
+fail1020:	mov	$1020, r0
 	trap	$0
-f1021:	mov	$1021, r0
+fail1021:	mov	$1021, r0
 	trap	$0
-f1022:	mov	$1022, r0
+fail1022:	mov	$1022, r0
 	trap	$0
-f1023:	mov	$1023, r0
+fail1023:	mov	$1023, r0
 	trap	$0
-f1024:	mov	$1024, r0
+fail1024:	mov	$1024, r0
 	trap	$0
-f1025:	mov	$1025, r0
+fail1025:	mov	$1025, r0
 	trap	$0
-f1026:	mov	$1026, r0
+fail1026:	mov	$1026, r0
 	trap	$0
-f1027:	mov	$1027, r0
+fail1027:	mov	$1027, r0
 	trap	$0
-f1028:	mov	$1028, r0
+fail1028:	mov	$1028, r0
 	trap	$0
-f1029:	mov	$1029, r0
+fail1029:	mov	$1029, r0
 	trap	$0
-f1030:	mov	$1030, r0
+fail1030:	mov	$1030, r0
 	trap	$0
-f1031:	mov	$1031, r0
+fail1031:	mov	$1031, r0
 	trap	$0
-f1032:	mov	$1032, r0
+fail1032:	mov	$1032, r0
 	trap	$0
-f1033:	mov	$1033, r0
+fail1033:	mov	$1033, r0
 	trap	$0
-f1034:	mov	$1034, r0
+fail1034:	mov	$1034, r0
 	trap	$0
-f1035:	mov	$1035, r0
+fail1035:	mov	$1035, r0
 	trap	$0
-f1036:	mov	$1036, r0
+fail1036:	mov	$1036, r0
 	trap	$0
-f1037:	mov	$1037, r0
+fail1037:	mov	$1037, r0
 	trap	$0
-f1038:	mov	$1038, r0
+fail1038:	mov	$1038, r0
 	trap	$0
-f1039:	mov	$1039, r0
+fail1039:	mov	$1039, r0
 	trap	$0
-f1040:	mov	$1040, r0
+fail1040:	mov	$1040, r0
 	trap	$0
-f1041:	mov	$1041, r0
+fail1041:	mov	$1041, r0
 	trap	$0
-f1042:	mov	$1042, r0
+fail1042:	mov	$1042, r0
 	trap	$0
-f1043:	mov	$1043, r0
+fail1043:	mov	$1043, r0
 	trap	$0
-f1044:	mov	$1044, r0
+fail1044:	mov	$1044, r0
 	trap	$0
-f1045:	mov	$1045, r0
+fail1045:	mov	$1045, r0
 	trap	$0
-f1046:	mov	$1046, r0
+fail1046:	mov	$1046, r0
 	trap	$0
-f1047:	mov	$1047, r0
+fail1047:	mov	$1047, r0
 	trap	$0
-f1048:	mov	$1048, r0
+fail1048:	mov	$1048, r0
 	trap	$0
-f1049:	mov	$1049, r0
+fail1049:	mov	$1049, r0
 	trap	$0
-f1050:	mov	$1050, r0
+fail1050:	mov	$1050, r0
 	trap	$0
-f1051:	mov	$1051, r0
+fail1051:	mov	$1051, r0
 	trap	$0
-f1052:	mov	$1052, r0
+fail1052:	mov	$1052, r0
 	trap	$0
-f1053:	mov	$1053, r0
+fail1053:	mov	$1053, r0
 	trap	$0
-f1054:	mov	$1054, r0
+fail1054:	mov	$1054, r0
 	trap	$0
-f1055:	mov	$1055, r0
+fail1055:	mov	$1055, r0
 	trap	$0
-f1056:	mov	$1056, r0
+fail1056:	mov	$1056, r0
 	trap	$0
-f1057:	mov	$1057, r0
+fail1057:	mov	$1057, r0
 	trap	$0
-f1058:	mov	$1058, r0
+fail1058:	mov	$1058, r0
 	trap	$0
-f1059:	mov	$1059, r0
+fail1059:	mov	$1059, r0
 	trap	$0
-f1060:	mov	$1060, r0
+fail1060:	mov	$1060, r0
 	trap	$0
-f1061:	mov	$1061, r0
+fail1061:	mov	$1061, r0
 	trap	$0
-f1062:	mov	$1062, r0
+fail1062:	mov	$1062, r0
 	trap	$0
-f1063:	mov	$1063, r0
+fail1063:	mov	$1063, r0
 	trap	$0
-f1064:	mov	$1064, r0
+fail1064:	mov	$1064, r0
 	trap	$0
-f1065:	mov	$1065, r0
+fail1065:	mov	$1065, r0
 	trap	$0
-f1066:	mov	$1066, r0
+fail1066:	mov	$1066, r0
 	trap	$0
-f1067:	mov	$1067, r0
+fail1067:	mov	$1067, r0
 	trap	$0
-f1068:	mov	$1068, r0
+fail1068:	mov	$1068, r0
 	trap	$0
-f1069:	mov	$1069, r0
+fail1069:	mov	$1069, r0
 	trap	$0
-f1070:	mov	$1070, r0
+fail1070:	mov	$1070, r0
 	trap	$0
-f1071:	mov	$1071, r0
+fail1071:	mov	$1071, r0
 	trap	$0
-f1072:	mov	$1072, r0
+fail1072:	mov	$1072, r0
 	trap	$0
-f1073:	mov	$1073, r0
+fail1073:	mov	$1073, r0
 	trap	$0
-f1074:	mov	$1074, r0
+fail1074:	mov	$1074, r0
 	trap	$0
-f1075:	mov	$1075, r0
+fail1075:	mov	$1075, r0
 	trap	$0
-f1076:	mov	$1076, r0
+fail1076:	mov	$1076, r0
 	trap	$0
-f1077:	mov	$1077, r0
+fail1077:	mov	$1077, r0
 	trap	$0
-f1078:	mov	$1078, r0
+fail1078:	mov	$1078, r0
 	trap	$0
-f1079:	mov	$1079, r0
+fail1079:	mov	$1079, r0
 	trap	$0
-f1080:	mov	$1080, r0
+fail1080:	mov	$1080, r0
 	trap	$0
-f1081:	mov	$1081, r0
+fail1081:	mov	$1081, r0
 	trap	$0
-f1082:	mov	$1082, r0
+fail1082:	mov	$1082, r0
 	trap	$0
-f1083:	mov	$1083, r0
+fail1083:	mov	$1083, r0
 	trap	$0
-f1084:	mov	$1084, r0
+fail1084:	mov	$1084, r0
 	trap	$0
-f1085:	mov	$1085, r0
+fail1085:	mov	$1085, r0
 	trap	$0
-f1086:	mov	$1086, r0
+fail1086:	mov	$1086, r0
 	trap	$0
-f1087:	mov	$1087, r0
+fail1087:	mov	$1087, r0
 	trap	$0
-f1088:	mov	$1088, r0
+fail1088:	mov	$1088, r0
 	trap	$0
-f1089:	mov	$1089, r0
+fail1089:	mov	$1089, r0
 	trap	$0
-f1090:	mov	$1090, r0
+fail1090:	mov	$1090, r0
 	trap	$0
-f1091:	mov	$1091, r0
+fail1091:	mov	$1091, r0
 	trap	$0
-f1092:	mov	$1092, r0
+fail1092:	mov	$1092, r0
 	trap	$0
-f1093:	mov	$1093, r0
+fail1093:	mov	$1093, r0
 	trap	$0
-f1094:	mov	$1094, r0
+fail1094:	mov	$1094, r0
 	trap	$0
-f1095:	mov	$1095, r0
+fail1095:	mov	$1095, r0
 	trap	$0
-f1096:	mov	$1096, r0
+fail1096:	mov	$1096, r0
 	trap	$0
-f1097:	mov	$1097, r0
+fail1097:	mov	$1097, r0
 	trap	$0
-f1098:	mov	$1098, r0
+fail1098:	mov	$1098, r0
 	trap	$0
-f1099:	mov	$1099, r0
+fail1099:	mov	$1099, r0
 	trap	$0
-f1100:	mov	$1100, r0
+fail1100:	mov	$1100, r0
 	trap	$0
-f1101:	mov	$1101, r0
+fail1101:	mov	$1101, r0
 	trap	$0
-f1102:	mov	$1102, r0
+fail1102:	mov	$1102, r0
 	trap	$0
-f1103:	mov	$1103, r0
+fail1103:	mov	$1103, r0
 	trap	$0
-f1104:	mov	$1104, r0
+fail1104:	mov	$1104, r0
 	trap	$0
-f1105:	mov	$1105, r0
+fail1105:	mov	$1105, r0
 	trap	$0
-f1106:	mov	$1106, r0
+fail1106:	mov	$1106, r0
 	trap	$0
-f1107:	mov	$1107, r0
+fail1107:	mov	$1107, r0
 	trap	$0
-f1108:	mov	$1108, r0
+fail1108:	mov	$1108, r0
 	trap	$0
-f1109:	mov	$1109, r0
+fail1109:	mov	$1109, r0
 	trap	$0
-f1110:	mov	$1110, r0
+fail1110:	mov	$1110, r0
 	trap	$0
-f1111:	mov	$1111, r0
+fail1111:	mov	$1111, r0
 	trap	$0
-f1112:	mov	$1112, r0
+fail1112:	mov	$1112, r0
 	trap	$0
-f1113:	mov	$1113, r0
+fail1113:	mov	$1113, r0
 	trap	$0
-f1114:	mov	$1114, r0
+fail1114:	mov	$1114, r0
 	trap	$0
-f1115:	mov	$1115, r0
+fail1115:	mov	$1115, r0
 	trap	$0
-f1116:	mov	$1116, r0
+fail1116:	mov	$1116, r0
 	trap	$0
-f1117:	mov	$1117, r0
+fail1117:	mov	$1117, r0
 	trap	$0
-f1118:	mov	$1118, r0
+fail1118:	mov	$1118, r0
 	trap	$0
-f1119:	mov	$1119, r0
+fail1119:	mov	$1119, r0
 	trap	$0
-f1120:	mov	$1120, r0
+fail1120:	mov	$1120, r0
 	trap	$0
-f1121:	mov	$1121, r0
+fail1121:	mov	$1121, r0
 	trap	$0
-f1122:	mov	$1122, r0
+fail1122:	mov	$1122, r0
 	trap	$0
-f1123:	mov	$1123, r0
+fail1123:	mov	$1123, r0
 	trap	$0
-f1124:	mov	$1124, r0
+fail1124:	mov	$1124, r0
 	trap	$0
-f1125:	mov	$1125, r0
+fail1125:	mov	$1125, r0
 	trap	$0
-f1126:	mov	$1126, r0
+fail1126:	mov	$1126, r0
 	trap	$0
-f1127:	mov	$1127, r0
+fail1127:	mov	$1127, r0
 	trap	$0
-f1128:	mov	$1128, r0
+fail1128:	mov	$1128, r0
 	trap	$0
-f1129:	mov	$1129, r0
+fail1129:	mov	$1129, r0
 	trap	$0
-f1130:	mov	$1130, r0
+fail1130:	mov	$1130, r0
 	trap	$0
-f1131:	mov	$1131, r0
+fail1131:	mov	$1131, r0
 	trap	$0
-f1132:	mov	$1132, r0
+fail1132:	mov	$1132, r0
 	trap	$0
-f1133:	mov	$1133, r0
+fail1133:	mov	$1133, r0
 	trap	$0
-f1134:	mov	$1134, r0
+fail1134:	mov	$1134, r0
 	trap	$0
-f1135:	mov	$1135, r0
+fail1135:	mov	$1135, r0
 	trap	$0
-f1136:	mov	$1136, r0
+fail1136:	mov	$1136, r0
 	trap	$0
-f1137:	mov	$1137, r0
+fail1137:	mov	$1137, r0
 	trap	$0
-f1138:	mov	$1138, r0
+fail1138:	mov	$1138, r0
 	trap	$0
-f1139:	mov	$1139, r0
+fail1139:	mov	$1139, r0
 	trap	$0
-f1140:	mov	$1140, r0
+fail1140:	mov	$1140, r0
 	trap	$0
-f1141:	mov	$1141, r0
+fail1141:	mov	$1141, r0
 	trap	$0
-f1142:	mov	$1142, r0
+fail1142:	mov	$1142, r0
 	trap	$0
-f1143:	mov	$1143, r0
+fail1143:	mov	$1143, r0
 	trap	$0
-f1144:	mov	$1144, r0
+fail1144:	mov	$1144, r0
 	trap	$0
-f1145:	mov	$1145, r0
+fail1145:	mov	$1145, r0
 	trap	$0
-f1146:	mov	$1146, r0
+fail1146:	mov	$1146, r0
 	trap	$0
-f1147:	mov	$1147, r0
+fail1147:	mov	$1147, r0
 	trap	$0
-f1148:	mov	$1148, r0
+fail1148:	mov	$1148, r0
 	trap	$0
-f1149:	mov	$1149, r0
+fail1149:	mov	$1149, r0
 	trap	$0
-f1150:	mov	$1150, r0
+fail1150:	mov	$1150, r0
 	trap	$0
-f1151:	mov	$1151, r0
+fail1151:	mov	$1151, r0
 	trap	$0
-f1152:	mov	$1152, r0
+fail1152:	mov	$1152, r0
 	trap	$0
-f1153:	mov	$1153, r0
+fail1153:	mov	$1153, r0
 	trap	$0
-f1154:	mov	$1154, r0
+fail1154:	mov	$1154, r0
 	trap	$0
-f1155:	mov	$1155, r0
+fail1155:	mov	$1155, r0
 	trap	$0
-f1156:	mov	$1156, r0
+fail1156:	mov	$1156, r0
 	trap	$0
-f1157:	mov	$1157, r0
+fail1157:	mov	$1157, r0
 	trap	$0
-f1158:	mov	$1158, r0
+fail1158:	mov	$1158, r0
 	trap	$0
-f1159:	mov	$1159, r0
+fail1159:	mov	$1159, r0
 	trap	$0
-f1160:	mov	$1160, r0
+fail1160:	mov	$1160, r0
 	trap	$0
-f1161:	mov	$1161, r0
+fail1161:	mov	$1161, r0
 	trap	$0
-f1162:	mov	$1162, r0
+fail1162:	mov	$1162, r0
 	trap	$0
-f1163:	mov	$1163, r0
+fail1163:	mov	$1163, r0
 	trap	$0
-f1164:	mov	$1164, r0
+fail1164:	mov	$1164, r0
 	trap	$0
-f1165:	mov	$1165, r0
+fail1165:	mov	$1165, r0
 	trap	$0
-f1166:	mov	$1166, r0
+fail1166:	mov	$1166, r0
 	trap	$0
-f1167:	mov	$1167, r0
+fail1167:	mov	$1167, r0
 	trap	$0
-f1168:	mov	$1168, r0
+fail1168:	mov	$1168, r0
 	trap	$0
-f1169:	mov	$1169, r0
+fail1169:	mov	$1169, r0
 	trap	$0
-f1170:	mov	$1170, r0
+fail1170:	mov	$1170, r0
 	trap	$0
-f1171:	mov	$1171, r0
+fail1171:	mov	$1171, r0
 	trap	$0
-f1172:	mov	$1172, r0
+fail1172:	mov	$1172, r0
 	trap	$0
-f1173:	mov	$1173, r0
+fail1173:	mov	$1173, r0
 	trap	$0
-f1174:	mov	$1174, r0
+fail1174:	mov	$1174, r0
 	trap	$0
-f1175:	mov	$1175, r0
+fail1175:	mov	$1175, r0
 	trap	$0
-f1176:	mov	$1176, r0
+fail1176:	mov	$1176, r0
 	trap	$0
-f1177:	mov	$1177, r0
+fail1177:	mov	$1177, r0
 	trap	$0
-f1178:	mov	$1178, r0
+fail1178:	mov	$1178, r0
 	trap	$0
-f1179:	mov	$1179, r0
+fail1179:	mov	$1179, r0
 	trap	$0
-f1180:	mov	$1180, r0
+fail1180:	mov	$1180, r0
 	trap	$0
-f1181:	mov	$1181, r0
+fail1181:	mov	$1181, r0
 	trap	$0
-f1182:	mov	$1182, r0
+fail1182:	mov	$1182, r0
 	trap	$0
-f1183:	mov	$1183, r0
+fail1183:	mov	$1183, r0
 	trap	$0
-f1184:	mov	$1184, r0
+fail1184:	mov	$1184, r0
 	trap	$0
-f1185:	mov	$1185, r0
+fail1185:	mov	$1185, r0
 	trap	$0
-f1186:	mov	$1186, r0
+fail1186:	mov	$1186, r0
 	trap	$0
-f1187:	mov	$1187, r0
+fail1187:	mov	$1187, r0
 	trap	$0
-f1188:	mov	$1188, r0
+fail1188:	mov	$1188, r0
 	trap	$0
-f1189:	mov	$1189, r0
+fail1189:	mov	$1189, r0
 	trap	$0
-f1190:	mov	$1190, r0
+fail1190:	mov	$1190, r0
 	trap	$0
-f1191:	mov	$1191, r0
+fail1191:	mov	$1191, r0
 	trap	$0
-f1192:	mov	$1192, r0
+fail1192:	mov	$1192, r0
 	trap	$0
-f1193:	mov	$1193, r0
+fail1193:	mov	$1193, r0
 	trap	$0
-f1194:	mov	$1194, r0
+fail1194:	mov	$1194, r0
 	trap	$0
-f1195:	mov	$1195, r0
+fail1195:	mov	$1195, r0
 	trap	$0
-f1196:	mov	$1196, r0
+fail1196:	mov	$1196, r0
 	trap	$0
-f1197:	mov	$1197, r0
+fail1197:	mov	$1197, r0
 	trap	$0
-f1198:	mov	$1198, r0
+fail1198:	mov	$1198, r0
 	trap	$0
-f1199:	mov	$1199, r0
+fail1199:	mov	$1199, r0
 	trap	$0
-f1200:	mov	$1200, r0
+fail1200:	mov	$1200, r0
 	trap	$0
-f1201:	mov	$1201, r0
+fail1201:	mov	$1201, r0
 	trap	$0
-f1202:	mov	$1202, r0
+fail1202:	mov	$1202, r0
 	trap	$0
-f1203:	mov	$1203, r0
+fail1203:	mov	$1203, r0
 	trap	$0
-f1204:	mov	$1204, r0
+fail1204:	mov	$1204, r0
 	trap	$0
-f1205:	mov	$1205, r0
+fail1205:	mov	$1205, r0
 	trap	$0
-f1206:	mov	$1206, r0
+fail1206:	mov	$1206, r0
 	trap	$0
-f1207:	mov	$1207, r0
+fail1207:	mov	$1207, r0
 	trap	$0
-f1208:	mov	$1208, r0
+fail1208:	mov	$1208, r0
 	trap	$0
-f1209:	mov	$1209, r0
+fail1209:	mov	$1209, r0
 	trap	$0
-f1210:	mov	$1210, r0
+fail1210:	mov	$1210, r0
 	trap	$0
-f1211:	mov	$1211, r0
+fail1211:	mov	$1211, r0
 	trap	$0
-f1212:	mov	$1212, r0
+fail1212:	mov	$1212, r0
 	trap	$0
-f1213:	mov	$1213, r0
+fail1213:	mov	$1213, r0
 	trap	$0
-f1214:	mov	$1214, r0
+fail1214:	mov	$1214, r0
 	trap	$0
-f1215:	mov	$1215, r0
+fail1215:	mov	$1215, r0
 	trap	$0
-f1216:	mov	$1216, r0
+fail1216:	mov	$1216, r0
 	trap	$0
-f1217:	mov	$1217, r0
+fail1217:	mov	$1217, r0
 	trap	$0
-f1218:	mov	$1218, r0
+fail1218:	mov	$1218, r0
 	trap	$0
-f1219:	mov	$1219, r0
+fail1219:	mov	$1219, r0
 	trap	$0
-f1220:	mov	$1220, r0
+fail1220:	mov	$1220, r0
 	trap	$0
-f1221:	mov	$1221, r0
+fail1221:	mov	$1221, r0
 	trap	$0
-f1222:	mov	$1222, r0
+fail1222:	mov	$1222, r0
 	trap	$0
-f1223:	mov	$1223, r0
+fail1223:	mov	$1223, r0
 	trap	$0
-f1224:	mov	$1224, r0
+fail1224:	mov	$1224, r0
 	trap	$0
-f1225:	mov	$1225, r0
+fail1225:	mov	$1225, r0
 	trap	$0
-f1226:	mov	$1226, r0
+fail1226:	mov	$1226, r0
 	trap	$0
-f1227:	mov	$1227, r0
+fail1227:	mov	$1227, r0
 	trap	$0
-f1228:	mov	$1228, r0
+fail1228:	mov	$1228, r0
 	trap	$0
-f1229:	mov	$1229, r0
+fail1229:	mov	$1229, r0
 	trap	$0
-f1230:	mov	$1230, r0
+fail1230:	mov	$1230, r0
 	trap	$0
-f1231:	mov	$1231, r0
+fail1231:	mov	$1231, r0
 	trap	$0
-f1232:	mov	$1232, r0
+fail1232:	mov	$1232, r0
 	trap	$0
-f1233:	mov	$1233, r0
+fail1233:	mov	$1233, r0
 	trap	$0
-f1234:	mov	$1234, r0
+fail1234:	mov	$1234, r0
 	trap	$0
-f1235:	mov	$1235, r0
+fail1235:	mov	$1235, r0
 	trap	$0
-f1236:	mov	$1236, r0
+fail1236:	mov	$1236, r0
 	trap	$0
-f1237:	mov	$1237, r0
+fail1237:	mov	$1237, r0
 	trap	$0
-f1238:	mov	$1238, r0
+fail1238:	mov	$1238, r0
 	trap	$0
-f1239:	mov	$1239, r0
+fail1239:	mov	$1239, r0
 	trap	$0
-f1240:	mov	$1240, r0
+fail1240:	mov	$1240, r0
 	trap	$0
-f1241:	mov	$1241, r0
+fail1241:	mov	$1241, r0
 	trap	$0
-f1242:	mov	$1242, r0
+fail1242:	mov	$1242, r0
 	trap	$0
-f1243:	mov	$1243, r0
+fail1243:	mov	$1243, r0
 	trap	$0
-f1244:	mov	$1244, r0
+fail1244:	mov	$1244, r0
 	trap	$0
-f1245:	mov	$1245, r0
+fail1245:	mov	$1245, r0
 	trap	$0
-f1246:	mov	$1246, r0
+fail1246:	mov	$1246, r0
 	trap	$0
-f1247:	mov	$1247, r0
+fail1247:	mov	$1247, r0
 	trap	$0
-f1248:	mov	$1248, r0
+fail1248:	mov	$1248, r0
 	trap	$0
-f1249:	mov	$1249, r0
+fail1249:	mov	$1249, r0
 	trap	$0
-f1250:	mov	$1250, r0
+fail1250:	mov	$1250, r0
 	trap	$0
-f1251:	mov	$1251, r0
+fail1251:	mov	$1251, r0
 	trap	$0
-f1252:	mov	$1252, r0
+fail1252:	mov	$1252, r0
 	trap	$0
-f1253:	mov	$1253, r0
+fail1253:	mov	$1253, r0
 	trap	$0
-f1254:	mov	$1254, r0
+fail1254:	mov	$1254, r0
 	trap	$0
-f1255:	mov	$1255, r0
+fail1255:	mov	$1255, r0
 	trap	$0
-f1256:	mov	$1256, r0
+fail1256:	mov	$1256, r0
 	trap	$0
-f1257:	mov	$1257, r0
+fail1257:	mov	$1257, r0
 	trap	$0
-f1258:	mov	$1258, r0
+fail1258:	mov	$1258, r0
 	trap	$0
-f1259:	mov	$1259, r0
+fail1259:	mov	$1259, r0
 	trap	$0
-f1260:	mov	$1260, r0
+fail1260:	mov	$1260, r0
 	trap	$0
-f1261:	mov	$1261, r0
+fail1261:	mov	$1261, r0
 	trap	$0
-f1262:	mov	$1262, r0
+fail1262:	mov	$1262, r0
 	trap	$0
-f1263:	mov	$1263, r0
+fail1263:	mov	$1263, r0
 	trap	$0
-f1264:	mov	$1264, r0
+fail1264:	mov	$1264, r0
 	trap	$0
-f1265:	mov	$1265, r0
+fail1265:	mov	$1265, r0
 	trap	$0
-f1266:	mov	$1266, r0
+fail1266:	mov	$1266, r0
 	trap	$0
-f1267:	mov	$1267, r0
+fail1267:	mov	$1267, r0
 	trap	$0
-f1268:	mov	$1268, r0
+fail1268:	mov	$1268, r0
 	trap	$0
-f1269:	mov	$1269, r0
+fail1269:	mov	$1269, r0
 	trap	$0
-f1270:	mov	$1270, r0
+fail1270:	mov	$1270, r0
 	trap	$0
-f1271:	mov	$1271, r0
+fail1271:	mov	$1271, r0
 	trap	$0
-f1272:	mov	$1272, r0
+fail1272:	mov	$1272, r0
 	trap	$0
-f1273:	mov	$1273, r0
+fail1273:	mov	$1273, r0
 	trap	$0
-f1274:	mov	$1274, r0
+fail1274:	mov	$1274, r0
 	trap	$0
-f1275:	mov	$1275, r0
+fail1275:	mov	$1275, r0
 	trap	$0
-f1276:	mov	$1276, r0
+fail1276:	mov	$1276, r0
 	trap	$0
-f1277:	mov	$1277, r0
+fail1277:	mov	$1277, r0
 	trap	$0
-f1279:	mov	$1279, r0
+fail1279:	mov	$1279, r0
 	trap	$0
-f1281:	mov	$1281, r0
+fail1281:	mov	$1281, r0
 	trap	$0
-f1283:	mov	$1283, r0
+fail1283:	mov	$1283, r0
 	trap	$0
-f1285:	mov	$1285, r0
+fail1285:	mov	$1285, r0
 	trap	$0
-f1287:	mov	$1287, r0
+fail1287:	mov	$1287, r0
 	trap	$0
-f1289:	mov	$1289, r0
+fail1289:	mov	$1289, r0
 	trap	$0
-f1291:	mov	$1291, r0
+fail1291:	mov	$1291, r0
 	trap	$0
-f1293:	mov	$1293, r0
+fail1293:	mov	$1293, r0
 	trap	$0
-f1295:	mov	$1295, r0
+fail1295:	mov	$1295, r0
 	trap	$0
-f1297:	mov	$1297, r0
+fail1297:	mov	$1297, r0
 	trap	$0
-f1299:	mov	$1299, r0
+fail1299:	mov	$1299, r0
 	trap	$0
-f1301:	mov	$1301, r0
+fail1301:	mov	$1301, r0
 	trap	$0
-f1303:	mov	$1303, r0
+fail1303:	mov	$1303, r0
 	trap	$0
-f1305:	mov	$1305, r0
+fail1305:	mov	$1305, r0
 	trap	$0
-f1307:	mov	$1307, r0
+fail1307:	mov	$1307, r0
 	trap	$0
-f1309:	mov	$1309, r0
+fail1309:	mov	$1309, r0
 	trap	$0
-f1311:	mov	$1311, r0
+fail1311:	mov	$1311, r0
 	trap	$0
-f1313:	mov	$1313, r0
+fail1313:	mov	$1313, r0
 	trap	$0
-f1315:	mov	$1315, r0
+fail1315:	mov	$1315, r0
 	trap	$0
-f1317:	mov	$1317, r0
+fail1317:	mov	$1317, r0
 	trap	$0
-f1319:	mov	$1319, r0
+fail1319:	mov	$1319, r0
 	trap	$0
-f1321:	mov	$1321, r0
+fail1321:	mov	$1321, r0
 	trap	$0
-f1323:	mov	$1323, r0
+fail1323:	mov	$1323, r0
 	trap	$0
-f1325:	mov	$1325, r0
+fail1325:	mov	$1325, r0
 	trap	$0
-f1327:	mov	$1327, r0
+fail1327:	mov	$1327, r0
 	trap	$0
-f1329:	mov	$1329, r0
+fail1329:	mov	$1329, r0
 	trap	$0
-f1331:	mov	$1331, r0
+fail1331:	mov	$1331, r0
 	trap	$0
-f1333:	mov	$1333, r0
+fail1333:	mov	$1333, r0
 	trap	$0
-f1335:	mov	$1335, r0
+fail1335:	mov	$1335, r0
 	trap	$0
-f1337:	mov	$1337, r0
+fail1337:	mov	$1337, r0
 	trap	$0
-f1339:	mov	$1339, r0
+fail1339:	mov	$1339, r0
 	trap	$0
-f1341:	mov	$1341, r0
+fail1341:	mov	$1341, r0
 	trap	$0
-f1343:	mov	$1343, r0
+fail1343:	mov	$1343, r0
 	trap	$0
-f1345:	mov	$1345, r0
+fail1345:	mov	$1345, r0
 	trap	$0
-f1347:	mov	$1347, r0
+fail1347:	mov	$1347, r0
 	trap	$0
-f1349:	mov	$1349, r0
+fail1349:	mov	$1349, r0
 	trap	$0
-f1351:	mov	$1351, r0
+fail1351:	mov	$1351, r0
 	trap	$0
-f1353:	mov	$1353, r0
+fail1353:	mov	$1353, r0
 	trap	$0
-f1355:	mov	$1355, r0
+fail1355:	mov	$1355, r0
 	trap	$0
-f1357:	mov	$1357, r0
+fail1357:	mov	$1357, r0
 	trap	$0
-f1359:	mov	$1359, r0
+fail1359:	mov	$1359, r0
 	trap	$0
-f1361:	mov	$1361, r0
+fail1361:	mov	$1361, r0
 	trap	$0
-f1363:	mov	$1363, r0
+fail1363:	mov	$1363, r0
 	trap	$0
-f1365:	mov	$1365, r0
+fail1365:	mov	$1365, r0
 	trap	$0
-f1367:	mov	$1367, r0
+fail1367:	mov	$1367, r0
 	trap	$0
-f1369:	mov	$1369, r0
+fail1369:	mov	$1369, r0
 	trap	$0
-f1371:	mov	$1371, r0
+fail1371:	mov	$1371, r0
 	trap	$0
-f1373:	mov	$1373, r0
+fail1373:	mov	$1373, r0
 	trap	$0
-f1375:	mov	$1375, r0
+fail1375:	mov	$1375, r0
 	trap	$0
-f1377:	mov	$1377, r0
+fail1377:	mov	$1377, r0
 	trap	$0
-f1379:	mov	$1379, r0
+fail1379:	mov	$1379, r0
 	trap	$0
-f1381:	mov	$1381, r0
+fail1381:	mov	$1381, r0
 	trap	$0
-f1383:	mov	$1383, r0
+fail1383:	mov	$1383, r0
 	trap	$0
-f1385:	mov	$1385, r0
+fail1385:	mov	$1385, r0
 	trap	$0
-f1387:	mov	$1387, r0
+fail1387:	mov	$1387, r0
 	trap	$0
-f1389:	mov	$1389, r0
+fail1389:	mov	$1389, r0
 	trap	$0
-f1391:	mov	$1391, r0
+fail1391:	mov	$1391, r0
 	trap	$0
-f1393:	mov	$1393, r0
+fail1393:	mov	$1393, r0
 	trap	$0
-f1395:	mov	$1395, r0
+fail1395:	mov	$1395, r0
 	trap	$0
-f1397:	mov	$1397, r0
+fail1397:	mov	$1397, r0
 	trap	$0
-f1399:	mov	$1399, r0
+fail1399:	mov	$1399, r0
 	trap	$0
-f1401:	mov	$1401, r0
+fail1401:	mov	$1401, r0
 	trap	$0
-f1403:	mov	$1403, r0
+fail1403:	mov	$1403, r0
 	trap	$0
-f1405:	mov	$1405, r0
+fail1405:	mov	$1405, r0
 	trap	$0
-f1407:	mov	$1407, r0
+fail1407:	mov	$1407, r0
 	trap	$0
-f1409:	mov	$1409, r0
+fail1409:	mov	$1409, r0
 	trap	$0
-f1411:	mov	$1411, r0
+fail1411:	mov	$1411, r0
 	trap	$0
-f1413:	mov	$1413, r0
+fail1413:	mov	$1413, r0
 	trap	$0
-f1415:	mov	$1415, r0
+fail1415:	mov	$1415, r0
 	trap	$0
-f1417:	mov	$1417, r0
+fail1417:	mov	$1417, r0
 	trap	$0
-f1419:	mov	$1419, r0
+fail1419:	mov	$1419, r0
 	trap	$0
-f1421:	mov	$1421, r0
+fail1421:	mov	$1421, r0
 	trap	$0
-f1423:	mov	$1423, r0
+fail1423:	mov	$1423, r0
 	trap	$0
-f1425:	mov	$1425, r0
+fail1425:	mov	$1425, r0
 	trap	$0
-f1427:	mov	$1427, r0
+fail1427:	mov	$1427, r0
 	trap	$0
-f1429:	mov	$1429, r0
+fail1429:	mov	$1429, r0
 	trap	$0
-f1431:	mov	$1431, r0
+fail1431:	mov	$1431, r0
 	trap	$0
-f1433:	mov	$1433, r0
+fail1433:	mov	$1433, r0
 	trap	$0
-f1435:	mov	$1435, r0
+fail1435:	mov	$1435, r0
 	trap	$0
-f1437:	mov	$1437, r0
+fail1437:	mov	$1437, r0
 	trap	$0

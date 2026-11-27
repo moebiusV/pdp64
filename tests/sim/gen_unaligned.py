@@ -26,7 +26,7 @@ class T:
     def a(self, *ls): self.l += ['\t' + x for x in ls]
     def chk(self, reg, want):
         self.n += 1
-        self.a('movq\t=0x%x, r6' % (want & (2 ** 64 - 1)), 'cbne\t%s, r6, f%d' % (reg, self.n))
+        self.a('movq\t=0x%x, r6' % (want & (2 ** 64 - 1)), 'cbne\t%s, r6, fail%d' % (reg, self.n))
 
 
 def gen():
@@ -49,7 +49,7 @@ def gen():
         want = sext(v, 8 * size) if sx else v
         t.a('lea\tbuf, r8', 'movq\t$%d, r9' % (off - 3), '%s\t3(r8)(r9*1), r2' % mn); t.chk('r2', want)
         t.a('lea\tbuf+%d, r8' % off, '%s\t(r8)+, r2' % mn); t.chk('r2', want)
-        t.a('lea\tbuf+%d, r2' % (off + size), 'cbne\tr8, r2, f%d' % (t.n + 1)); t.n += 1
+        t.a('lea\tbuf+%d, r2' % (off + size), 'cbne\tr8, r2, fail%d' % (t.n + 1)); t.n += 1
     # the stores: the value lands in the bytes, the neighbours do not change
     for mn, size in (('movq', 8), ('movl', 4), ('movw', 2), ('movb', 1)):
         for off in list(range(1, 8)) + [4096 - 8 + k for k in range(1, 8)] + [4096 - 1]:
@@ -62,14 +62,14 @@ def gen():
             for i in range(size):
                 t.a('movq\t$%d, r3' % sext(pat(off + i), 8), 'movb\tr3, %d(r8)' % (off + i))
     # a quad store with auto-decrement, across a page
-    t.a('lea\tbuf+4100, r8', 'movq\t=0x0102030405060708, r1', 'movq\tr1, -(r8)', 'lea\tbuf+4092, r5', 'cbne\tr8, r5, f%d' % (t.n + 1)); t.n += 1
+    t.a('lea\tbuf+4100, r8', 'movq\t=0x0102030405060708, r1', 'movq\tr1, -(r8)', 'lea\tbuf+4092, r5', 'cbne\tr8, r5, fail%d' % (t.n + 1)); t.n += 1
     for i in range(8):
         t.a('movzb\t%d(r8), r2' % i); t.chk('r2', 8 - i)
     # an add to memory on a quad that crosses a page
     t.a('lea\tbuf+4093, r8', 'movq\t=0x00000000ffffffff, r1', 'movq\tr1, (r8)', 'movq\t$1, r2', 'addm\tr2, (r8)', 'movq\t(r8), r3'); t.chk('r3', 0x100000000)
     t.a('clr\tr0', 'trap\t$0')
     for i in range(1, t.n + 1):
-        t.l.append('f%d:\tmovq\t$%d, r0' % (i, (i - 1) % 255 + 1))
+        t.l.append('fail%d:\tmovq\t$%d, r0' % (i, (i - 1) % 255 + 1))
         t.a('trap\t$0')
     t.l += ['\t.data', '\t.align\t4096', 'buf:\t.space\t8192']
     return '\n'.join(t.l) + '\n'

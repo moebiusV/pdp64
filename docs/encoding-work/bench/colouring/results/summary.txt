@@ -1,0 +1,27 @@
+traces 18
+size%16!=0 share of allocs         median 72.60  min 3.00 max 99.10
+mean slack B                       median 5.75  min 0.20 max 10.70
+slack % of requested bytes         median 0.69  min 0.00 max 12.55
+reuse of freed address %           median 47.20  min 1.50 max 98.80
+granules in allocs>=4KB %          median 85.70  min 0.40 max 100.00
+adjacent live neighbour either %   median 94.65  min 63.90 max 100.00
+allocs beyond 13th generation %    median 9.38  min 0.00 max 96.63
+Q0.10                              median 1.07  min 1.00 max 1.10
+Q0.25                              median 1.09  min 1.00 max 1.25
+Q1.00                              median 1.38  min 1.00 max 2.00
+freed small: reused in live page % median 73.650  min 0.800 max 99.600
+page drained first %               median 7.850  min 0.000 max 98.200
+still free at end %                median 10.550  min 0.000 max 88.600
+slot reuse % of small allocs       median 34.450  min 0.800 max 98.400
+gen<=1 %                           median 46.250  min 0.800 max 73.700
+gen<=6 %                           median 93.650  min 3.800 max 99.800
+gen<=13 %                          median 99.750  min 7.300 max 100.000
+peak foot/live baseline            median 1.217  min 1.000 max 2.346
+redzone                            median 1.310  min 1.000 max 2.721
+quar16                             median 1.334  min 1.000 max 2.440
+quar256                            median 1.539  min 1.000 max 6.668
+quar4096                           median 1.968  min 1.000 max 54.381
+redzone/baseline                   median 1.065  p75 1.160 max 1.304
+quarantine16/baseline              median 1.025  p75 1.081 max 1.530
+quarantine256/baseline             median 1.192  p75 1.530 max 4.031
+quarantine4096/baseline            median 1.282  p75 3.159 max 32.878

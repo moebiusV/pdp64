@@ -68,7 +68,7 @@ table below, not a register number.
 | 2 | LDI18H/b | 9 | 110010000 | add sub | op1.imm=p0[5:4]+p1[15:0] op2.r=p0[3:0] subop=p0[6] |
 | 2 | CBI8_10H/a | 9 | 110010001 | cbeq cbne | op2.imm=p0[5:4]+p1[15:10] op3.pcrel=p1[9:0] op1.r=p0[3:0] subop=p0[6] |
 | 2 | CBI10_8H/a | 9 | 110010010 | cbeq cbne | op2.imm=p0[5:4]+p1[15:8] op3.pcrel=p1[7:0] op1.r=p0[3:0] subop=p0[6] |
-| 2 | R3 | 10 | 1100101000 | chk2 ror xnorpop clmull clmulh mcpy mmov mset mcmp mscn mscnn div divu mod modu mulhu fcopysign fmin fmax maskeqz masknez aeses aesesm aesds aesdsm aesks2 msha256 msha512 mcpy.ur mcpy.uw | subop=p0[5]+p1[15:10] op1.r=p1[9:5] op2.r=p1[4:0] op3.r=p0[4:0] |
+| 2 | R3 | 10 | 1100101000 | chk2 ror xnorpop clmull clmulh mcpy mmov mset mcmp mscn mscnn div divu mod modu mulhu fcopysign fmin fmax maskeqz masknez aeses aesesm aesds aesdsm aesks2 msha256 msha512 mcpy.ur mcpy.uw mcol mcolrd mcolwr | subop=p0[5]+p1[15:10] op1.r=p1[9:5] op2.r=p1[4:0] op3.r=p0[4:0] |
 | 2 | LDU.B12 | 10 | 1100101010 | movzb.u | op1.base=p0[5]+p1[15:12] op1.d=p1[11:0] op2.r=p0[4:0] |
 | 2 | TAG | 10 | 1100101110 | btag bntag | op2.imm=p1[15:13] op3.pcrel=p1[12:0] op1.r=p0[4:0] subop=p0[5] |
 | 2 | LDBs10/a | 10 | 1100101111 | movq movl movzb lea | op1.base=p0[3:0]+p1[15] op2.r=p1[14:10] op1.d=p1[9:0] subop=p0[5:4] |
@@ -89,7 +89,7 @@ table below, not a register number.
 | 2 | STBu12H/b | 11 | 11001111110 | movw movb | op1.r=p1[15:12] op2.d=p1[11:0] op2.base=p0[3:0] subop=p0[4] |
 | 2 | LDX4H/b | 11 | 11001111111 | movw movb movzl movzw | op1.base=p0[2:0]+p1[15] op1.index=p1[14:11] op1.scale=p1[10:9] op1.d=p1[8:5] op2.r=p1[4:0] subop=p0[4:3] |
 | 2 | VFIR | 11 | 11010000001 | vfir.w vfir.l vfir.f | subop=p1[15:14] op1.v=p1[13:10] op2.v=p1[9:6] op4.imm=p1[5:0] op3.r=p0[4:0] |
-| 2 | R2 | 12 | 110100000100 | clz ctz clo cto popcnt bswap bswapw bswapl bitrev utf8len utf8dec utf8enc ctcc ctcs cthi ctlos cteq ctne ctge ctlt ctgt ctle mval prober probew fdiv fsqrt fadd32 fsub32 fmul32 fdiv32 fsqrt32 fneg fabs fclass fclass32 frint frintz frintm frintp frinta fcvtdq fcvtqd fcvtds fcvtsd fcvtsl fcvtls fcvtdqu fcvtqud fsflags fcvtsh fcvths fcvtdh fcvthd fcvthl fcvtlh aesim sha256sig0 sha256sig1 sha256sum0 sha256sum1 sha512sig0 sha512sig1 sha512sum0 sha512sum1 addv subv mulv | op1.r=p0[3:0]+p1[15] op2.r=p1[14:10] subop=p1[9:0] |
+| 2 | R2 | 12 | 110100000100 | clz ctz clo cto popcnt bswap bswapw bswapl bitrev utf8len utf8dec utf8enc ctcc ctcs cthi ctlos cteq ctne ctge ctlt ctgt ctle mval prober probew fdiv fsqrt fadd32 fsub32 fmul32 fdiv32 fsqrt32 fneg fabs fclass fclass32 frint frintz frintm frintp frinta fcvtdq fcvtqd fcvtds fcvtsd fcvtsl fcvtls fcvtdqu fcvtqud fsflags fcvtsh fcvths fcvtdh fcvthd fcvthl fcvtlh aesim sha256sig0 sha256sig1 sha256sum0 sha256sum1 sha512sig0 sha512sig1 sha512sum0 sha512sum1 addv subv mulv ldcol | op1.r=p0[3:0]+p1[15] op2.r=p1[14:10] subop=p1[9:0] |
 | 2 | RRI | 12 | 110100000101 | ror ror32 aesks1 | op1.r=p1[15:11] op2.imm=p1[10:5] op3.r=p1[4:0] subop=p0[3:0] |
 | 2 | SOF.PI12 | 12 | 110100001000 | clr com inc dec neg asl asr push | op1.base=p0[0]+p1[15:12] op1.stride=p1[11:0] subop=p0[3:1] |
 | 2 | SOF.PD12 | 12 | 110100001001 | clr com inc dec neg asl asr push | op1.base=p0[0]+p1[15:12] op1.stride=p1[11:0] subop=p0[3:1] |

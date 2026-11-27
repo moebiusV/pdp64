@@ -18,7 +18,7 @@ NF = 40
 M = (1 << 64) - 1
 lib = ['\t.text']
 for i in range(NF):
-    lib += ['\t.globl f%d' % i, 'f%d:' % i, '\tadd $%d, r6' % (i + 1), '\tret']
+    lib += ['\t.globl fn%d' % i, 'fn%d:' % i, '\tadd $%d, r6' % (i + 1), '\tret']
 lib += ['\t.globl fhook', 'fhook:\tcall hook', '\tret']      # a global of main.s, behind its relaxed code
 lib += ['\t.globl farf', '\t.space 700000', 'farf:\tadd $7, r6', '\tret']      # beyond the reach of the 16- and 18-bit calls
 lib += ['\t.data']
@@ -37,7 +37,7 @@ def calls(k):
     global acc
     out = []; s = 0
     for _ in range(k):
-        i = rnd.randrange(NF); out.append('\tcall f%d' % i); s += i + 1
+        i = rnd.randrange(NF); out.append('\tcall fn%d' % i); s += i + 1
     return out, s
 def add(x):
     global acc
@@ -99,7 +99,7 @@ for r in range(120):
     elif t == 9:
         body += ['\tcall farf', '\tcall fhook']; add(7 + 11)
     elif t == 12:
-        i = rnd.randrange(NF); body += ['\tmovcall r1, r2, f%d' % i]; add(i + 1)
+        i = rnd.randrange(NF); body += ['\tmovcall r1, r2, fn%d' % i]; add(i + 1)
     elif t == 10:
         body += ['\tlea cbuf, r0', '\tmovq $%d, r1' % r, '\tmovq r1, (r0)', '\tadd (r0), r6']; add(r)
     else:
@@ -119,6 +119,6 @@ for i, v in enumerate(lfs):
     m += ['lf%d:\tadd $%d, r6' % (i, v), '\tret']
 m += ['\t.align 8', 'codetab:\t.quad lf0, lf1, lf2', '\t.pool']
 m += data
-m += ['ftab:'] + ['\t.quad f%d' % i for i in range(NF)]
+m += ['ftab:'] + ['\t.quad fn%d' % i for i in range(NF)]
 m += ['ltab2:\t.quad lf0, lf1, lf2', '\t.long lf1']
 open(d + '/main.s', 'w').write(marks.spell_text('\n'.join(m)) + '\n')

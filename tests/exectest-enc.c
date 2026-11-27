@@ -3,7 +3,7 @@
  *     length to is run, with the following parcels random, at least 3 times,
  *   - an instruction the tables decode never runs as `illegal instruction` (the sub-opcode beyond the leaf's mnemonics is the one other illegal pattern: the
  *     decoder rejects it, and so does the executor),
- *   - an instruction is `unimplemented` only if it is one of the known words (AES, SHA, UTF8DEC/ENC, MVAL),
+ *   - an instruction is `unimplemented` only if it is one of the known words (AES, SHA, UTF8DEC/ENC, MVAL, and the colour words LDCOL, MCOL, MCOLRD, MCOLWR until the executor runs them),
  *   - the registers of a decoded instruction are below the number of registers of the encoding,
  *   - no other message names an internal inconsistency ("unimplemented operand form").
  * usage: exectest-enc [ILLEGAL16 ILLEGAL32]   the number of first parcels the grammar leaves unassigned (tools/check-exec-enc.sh computes it from the leaves; without it only
@@ -69,7 +69,7 @@ static void h_raise(void *u, int vector, uint64_t eva) { flt("exception"); __bui
 static const struct pdp64_env env = { h_ld, h_st, h_fault, h_trap, h_halt, h_probe, h_fetch, h_vecread, h_check, h_tlb, h_raise, NULL, NULL, NULL, h_atomic };
 static uint64_t seed = 99;
 static uint64_t rnd(void) { seed = seed * 6364136223846793005ULL + 1442695040888963407ULL; return seed >> 11 ^ seed << 20; }
-static const char *const known[] = { "aes", "sha", "msha", "maesctr", "utf8dec", "utf8enc", "mval" };
+static const char *const known[] = { "aes", "sha", "msha", "maesctr", "utf8dec", "utf8enc", "mval", "ldcol", "mcol" };
 static int is_known(const char *msg)
 {
 	const char *p = strstr(msg, "unimplemented instruction ");

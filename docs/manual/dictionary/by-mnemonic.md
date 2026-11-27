@@ -87,6 +87,8 @@
 | `CLO` | [COUNT](../09-isa.md#count-count-leading-and-trailing-zeros-and-ones) (section 9.9) | [1](by-encoding.md#mn-clo), [entry](../09-isa.md#w-clo) | Bits and fields (BESC) |
 | `CLR` | [CLR](../09-isa.md#clr-clear) (section 9.8) | [10](by-encoding.md#mn-clr), [entry](../09-isa.md#w-clr) | Single operand (SOP) |
 | `CLZ` | [COUNT](../09-isa.md#count-count-leading-and-trailing-zeros-and-ones) (section 9.9) | [1](by-encoding.md#mn-clz), [entry](../09-isa.md#w-clz) | Bits and fields (BESC) |
+| `COLSET` (alias of `INSB`) | [COLOUR](../09-isa.md#colour-put-a-colour-into-a-pointer-and-take-it-out-assembler-aliases) (section 9.9) | [1](by-encoding.md#mn-insb), [entry](../09-isa.md#w-insb) | Bits and fields (BESC) |
+| `COLSTRIP` (alias of `EXTB`) | [COLOUR](../09-isa.md#colour-put-a-colour-into-a-pointer-and-take-it-out-assembler-aliases) (section 9.9) | [1](by-encoding.md#mn-extb), [entry](../09-isa.md#w-extb) | Bits and fields (BESC) |
 | `COM` | [COM](../09-isa.md#com-complement) (section 9.8) | [7](by-encoding.md#mn-com), [entry](../09-isa.md#w-com) | Single operand (SOP) |
 | `CTCC` | [CT](../09-isa.md#ct-compare-and-trap) (section 9.14) | [2](by-encoding.md#mn-ctcc), [entry](../09-isa.md#w-ctcc) | Added by the prefix-coded encoding |
 | `CTCS` | [CT](../09-isa.md#ct-compare-and-trap) (section 9.14) | [1](by-encoding.md#mn-ctcs), [entry](../09-isa.md#w-ctcs) | Added by the prefix-coded encoding |
@@ -201,6 +203,7 @@
 | `JMP` | [JMP](../09-isa.md#jmp-jump) (section 9.10) | [9](by-encoding.md#mn-jmp), [entry](../09-isa.md#w-jmp) | Single operand (SOP) |
 | `JMPI` | [JMPI](../09-isa.md#jmpi-jump-and-call-through-memory) (section 9.10) | [8](by-encoding.md#mn-jmpi), [entry](../09-isa.md#w-jmpi) | Indirect transfers (XFER) |
 | `JTAG` | [JTAG](../09-isa.md#jtag-jump-through-a-tag-table) (section 9.10) | [2](by-encoding.md#mn-jtag), [entry](../09-isa.md#w-jtag) | Indirect transfers (XFER) |
+| `LDCOL` | [LDCOL](../09-isa.md#ldcol-read-the-colour-of-a-granule) (section 9.11) | [1](by-encoding.md#mn-ldcol), [entry](../09-isa.md#w-ldcol) | Added by the prefix-coded encoding |
 | `LEA` | [LEA](../09-isa.md#lea-load-effective-address) (section 9.6) | [17](by-encoding.md#mn-lea), [entry](../09-isa.md#w-lea) | Moves, address formation and the ALU |
 | `LL` | [LLSC](../09-isa.md#llsc-load-linked-and-store-conditional) (section 9.13) | [1](by-encoding.md#mn-ll), [entry](../09-isa.md#w-ll) | Atomics (ATOM) |
 | `LL.s32` | [LLSC](../09-isa.md#llsc-load-linked-and-store-conditional) (section 9.13) | [1](by-encoding.md#mn-lll), [entry](../09-isa.md#w-lll) | Atomics (ATOM) |
@@ -214,6 +217,9 @@
 | `MAX.u64` (assembler alias, a sequence) | [MINMAX](../09-isa.md#minmax-minimum-and-maximum-signed-and-unsigned-assembler-aliases) (section 9.7) | [entry](../09-isa.md#w-maxu) | Added by the prefix-coded encoding |
 | `MAX.u64` (assembler alias, a sequence) | [MINMAX](../09-isa.md#minmax-minimum-and-maximum-signed-and-unsigned-assembler-aliases) (section 9.7) | [entry](../09-isa.md#w-maxu) | Added by the prefix-coded encoding |
 | `MCMP` | [MCMP](../09-isa.md#mcmp-compare-two-blocks-of-bytes) (section 9.11) | [1](by-encoding.md#mn-mcmp), [entry](../09-isa.md#w-mcmp) | Block memory (MBLK) |
+| `MCOL` | [MCOL](../09-isa.md#mcol-set-the-colours-of-a-block-of-granules) (section 9.11) | [1](by-encoding.md#mn-mcol), [entry](../09-isa.md#w-mcol) | Added by the prefix-coded encoding |
+| `MCOLRD` | [MCOLRD](../09-isa.md#mcolrd-read-and-write-the-colours-of-a-block-of-granules-packed) (section 9.14) | [1](by-encoding.md#mn-mcolrd), [entry](../09-isa.md#w-mcolrd) | Added by the prefix-coded encoding |
+| `MCOLWR` | [MCOLRD](../09-isa.md#mcolrd-read-and-write-the-colours-of-a-block-of-granules-packed) (section 9.14) | [1](by-encoding.md#mn-mcolwr), [entry](../09-isa.md#w-mcolwr) | Added by the prefix-coded encoding |
 | `MCPY` | [MCPY](../09-isa.md#mcpy-copy-a-block-of-bytes) (section 9.11) | [1](by-encoding.md#mn-mcpy), [entry](../09-isa.md#w-mcpy) | Block memory (MBLK) |
 | `MCPY.ur` | [MCPYU](../09-isa.md#mcpyu-user-qualified-block-copy) (section 9.6) | [1](by-encoding.md#mn-mcpy-ur), [entry](../09-isa.md#w-mcpy-ur) | Added by the prefix-coded encoding |
 | `MCPY.uw` | [MCPYU](../09-isa.md#mcpyu-user-qualified-block-copy) (section 9.6) | [1](by-encoding.md#mn-mcpy-uw), [entry](../09-isa.md#w-mcpy-uw) | Added by the prefix-coded encoding |

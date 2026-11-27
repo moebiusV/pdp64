@@ -34,6 +34,13 @@ Rd <- (t >> n)[63:0]          ; n = 0..63''', 'None written.', NONE,
     E('INSB', 'bits', ['insb'], 'Insert a bit field', ['INSB Rs, $pos, $width, Rd'],
       '''mask <- ((1 << width) - 1) << pos
 Rd <- (Rd AND NOT mask) OR ((Rs << pos) AND mask)''', 'None written.', NONE, notes='Six bytes. `Rd` is both source and destination.'),
+    E('COLOUR', 'bits', ['colset', 'colstrip'], 'Put a colour into a pointer, and take it out (assembler aliases)',
+      ['COLSET Rc, Rd', 'COLSET $colour, Rd', 'COLSTRIP Rs, Rd', 'COLSTRIP Rd'],
+      '''COLSET : Rd[63:60] <- Rc[3:0]            ; the rest of Rd is unchanged;  COLSET $c, Rd takes a constant c from 0 to 15
+COLSTRIP: Rd <- sign-extension of Rs[59:0]    ; the colour is gone and the address is canonical again''', 'Those of the instructions they expand to.', NONE,
+      alias="`COLSET` and `COLSTRIP` are assembler aliases of the bit-field words. `COLSET Rc, Rd` assembles to `INSB Rc, $60, $4, Rd`: the low four bits of `Rc` replace bits 63 to 60 of `Rd`, the colour field of a pointer ({{r:memory-has-a-colour}}), and `Rd` is both the pointer and the result. `COLSET $c, Rd` takes a constant colour from 0 to 15, assembles to `MOV $c, R12` and then that `INSB`, and is refused for a constant outside that range; `R12` is the scratch register and may not be `Rd`. `COLSTRIP Rs, Rd` assembles to `EXTB Rs, $0, $60, Rd`: the low 60 bits of `Rs`, sign-extended, so the colour is replaced by copies of bit 59, which is what the canonical rule requires of those bits ({{r:translation-ignores-the-colour}}), and `COLSTRIP Rd` is `COLSTRIP Rd, Rd`. The disassembler and the compilers print the alias where it applies.",
+      notes='Each is six bytes (`COLSET` with a constant, ten), the size of the bit-field word it stands for, with no shorter form. A pointer is stripped before it is compared with `<` against a pointer of another colour, before it is masked, hashed or tested against a range, and by the system calls that take an address ({{r:system-calls-strip-the-colour}}); it is not stripped before a load or a store, which need the colour in the pointer to pass the check.',
+      cf='{{r:granule-colours}}.'),
     E('XNORPOP', 'bits', ['xnorpop'], 'Population count of the equality of two words', ['XNORPOP Ra, Rb, Rd'],
       'Rd <- popcount(NOT (Ra XOR Rb))', 'None written.', NONE,
       notes='For binary-activation networks, Hamming distance and bitset intersection cardinality. It does **not** serve sub-1-bit language models (section {{r:inference-array-languages-and-the-bit}}).'),
@@ -65,6 +72,18 @@ MMOV: as MCPY, but the direction is chosen from the pointers so that an overlapp
     E('MSET', 'block', ['mset'], 'Fill a block of bytes', ['MSET Rd, Rv, Rn'],
       'while Rn != 0:  M8[Rd] <- Rv[7:0] ; Rd <- Rd + 1 ; Rn <- Rn - 1', NOFLAGS, MEMX,
       notes='`MSET` with `Rv = 0` is the range-zeroing instruction: `bzero` and the clear of `calloc` are one instruction.', cf='{{r:faults-and-restart-what-precise-means}}.'),
+    E('LDCOL', 'block', ['ldcol'], 'Read the colour of a granule', ['LDCOL Rs, Rd'],
+      '''Rd <- the 4-bit colour of the 16-byte granule that holds the address in Rs     ; 0 in a page that is not coloured
+bits 63 to 60 of Rs are not looked at; the colour of the pointer is not compared''', NOFLAGS,
+      'Page fault or protection fault as a load of one byte at the address (the page must be readable); a bus error is a precise abort. There is no colour fault: the instruction reads the colour and does not compare it. The address must be canonical in bits 59 down to the top translated bit.',
+      notes='The result is a number from 0 to 15 in the low four bits, the rest of `Rd` zero. The allocator uses it to find out what colour a block has, in `free` to compare it with the pointer it was given.',
+      cf='{{r:granule-colours}} (the colours), {{r:ldcol-and-mcol}}.'),
+    E('MCOL', 'block', ['mcol'], 'Set the colours of a block of granules', ['MCOL Rd, Rc, Rn        ; first byte, colour, count of bytes'],
+      '''while Rn != 0:  colour of the granule at Rd <- Rc[3:0] ; Rd <- Rd + 16 ; Rn <- Rn - 16
+Rd and Rn must be multiples of 16, or the misaligned-access vector is taken before anything changes''', NOFLAGS,
+      'Page fault or protection fault as a store to the granule (the page must be writable); the misaligned-access vector if `Rd` or `Rn` is not a multiple of 16. Through a page that is not coloured only colour 0 may be written (it clears the colours of the granules); any other colour takes the colour fault of a store. The pointer\'s own colour is not compared, so that the allocator can recolour freed memory. The three registers are updated as work completes, so a fault leaves a consistent state and the instruction restarts from its registers.',
+      notes='The operands are in the order of `MSET`: the pointer, the value (here the colour, the low four bits of `Rc`) and the count of bytes. `MCOL` writes colours and leaves the data alone. On completion `Rn` is 0 and `Rd` is one past the end. A block whose count is the size of a page clears or sets the colours of a whole page with one instruction. Writing the colours of a line takes the line for writing, as a store does ({{r:colour-write-is-a-write}}).',
+      cf='{{r:granule-colours}}, {{r:ldcol-and-mcol}}, {{r:faults-and-restart-what-precise-means}}.'),
     E('MCMP', 'block', ['mcmp'], 'Compare two blocks of bytes', ['MCMP Rd, Rs, Rn'],
       '''while Rn != 0:
     x <- M8[Rd] ; y <- M8[Rs]

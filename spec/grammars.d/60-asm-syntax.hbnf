@@ -64,7 +64,7 @@ sysregw = sysreg
 
 ; --- operands (ISA section 5) -----------------------------------------------------------------------------------
 ; the order of `opbody` matters (the first that matches is taken, and the C that reads the tree numbers the alternatives, as64/asmir.h):
-; based2 (`r5+8`, `r5-8`, a synonym of `8(r5)`) and atindexed (AT&T's `(r1,r2,4)` and `8(r1,r2,4)`) come before regop and bare
+; based2 (`r5+8`, `r5-8`: parsed only so that as64 refuses it with a message that gives `8(r5)`; the one spelling of a displacement is `expr(base)`) and atindexed (AT&T's `(r1,r2,4)` and `8(r1,r2,4)`) come before regop and bare
 opbody = markop | immop | absop | postinc | predec | predec2 | indexed | based | atindexed | based2 | regop | bare | poolop
 ; an operand is a body.  The width and kind of an instruction are a suffix of its mnemonic (61-asm-suffixes.hbnf); only `fcvt`, which has two formats, writes them on its operands.
 operand = opbody
@@ -87,6 +87,7 @@ predec2 = "(" reg ")" "-" expr
 indexed = "(" reg ")" "(" reg [ "*" scale ] ")" | expr "(" reg ")" "(" reg [ "*" scale ] ")"
 based   = "(" basereg ")" | expr "(" basereg ")"
 atindexed = "(" reg "," reg [ "," scale ] ")" | expr "(" reg "," reg [ "," scale ] ")"
+; refused by as64 (asmp.c), which says to write expr(base); `(r5)-8` and `(r5)+` are other operands (the base register changes)
 based2  = basereg ( "+" | "-" ) expr
 bare    = expr
 ; a literal-pool load (`mov =0x123456789ABC, r1`): the constant goes to the literal pool, the operand is the pool entry, a pc-relative memory operand.  Written last: nothing else starts with "="
@@ -110,7 +111,17 @@ unary   = *( "-" | "~" | "!" | "<" | ">" ) primary
 ; a number is a whole bareword: 3dfx is a name, 3 and 0x3d and 1f are not.  A number is decimal, or 0x hexadecimal, 0o octal, 0b binary, the prefixes in lower case; a decimal number with a leading
 ; zero (`077`) and every number of an older spelling (`0FFh`, `17q`, `10d`, `0X1F`) is read by as64 (asmp.c) so that it can say what to write instead.  A value mark (`.s8 .u8 ... .u64`, `.f8 ... .f64`) after a number or a
 ; symbol is read by as64 too: `limit.u16` is one word to this grammar, and a name that ends in a mark is reserved (as64 refuses to define it)
-primary = prefixnum !idchar | localref !idchar | decnum !idchar | charlit | mcharlit | symbol | "." | "(" expr ")" | "[" expr "]"
+primary = prefixnum !idchar | localref !idchar | decnum !idchar | charlit | mcharlit | fpconst | symbol | "." | "(" expr ")" | "[" expr "]"
+
+; a floating-point constant `f16(1.5)`, `f32(0.1)`, `f64(2)`: the name, a parenthesis at once, the literal (as64 reads and converts it: asmp.c, fpconv.c), and a value mark after it (`f64(1.5).s64`).  The three names
+; are reserved (a label cannot be called f64); `inf`, `nan` and `nan(p)` are words of this form only
+fpconst  = fpname "(" fpbody ")" [ fpmarkw ]
+; one inner parenthesis is allowed for the payload of a NaN, `nan(0x1)`
+fpbody   = *fpch [ "(" *fpch ")" ]
+fpname   = "f16" | "f32" | "f64"
+fpch     = 0x20..0x27 | 0x2A..0x3A | 0x3C..0x7E | uni
+fpmarkw = fpmark !idchar
+fpmark   = r"\.[suf](8|16|32|64)"
 
 prefixnum = hexnum | binnum | octnum
 hexnum   = "0" xch 1*HEXDIG

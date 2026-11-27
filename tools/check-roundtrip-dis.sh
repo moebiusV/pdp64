@@ -29,7 +29,7 @@ def text_obj(obj):
     off, size = struct.unpack_from('<QQ', d, shoff + 64 + 24)
     return d[off:off + size]
 srcs = sorted(glob.glob('tests/asm/*.s') + glob.glob('tests/sim/*.s') + glob.glob('tests/sim/*.S') + glob.glob('tests/qemu/*.s') + glob.glob('tests/qemu/*.S') +
-              glob.glob('tests/ld/*.s') + glob.glob('docs/encoding-work/hypervisor-text-v3-snippets/*.S'))
+              glob.glob('tests/ld/*.s') + glob.glob('docs/encoding-work/hypervisor-text-v3-snippets/*.S') + glob.glob('docs/encoding-work/colour-snippets/*.S'))
 n = ok = skipped = 0; tot = [0, 0, 0]; bad = []
 for s in srcs:
     src = s

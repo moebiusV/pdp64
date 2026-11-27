@@ -23,13 +23,14 @@ enum xop {
 	XN_NAME,		/* a symbol: tok its text (a quoted name with its quotes) */
 	XN_DOT,			/* `.`: the location counter */
 	XN_MARK,		/* a value mark on a number or a symbol (`0xff.s8`, `limit.u16`): a is the value, tok the mark with its dot, base its width in bits */
+	XN_CONST,		/* a number computed when the line was read (a floating-point constant f64(1.5)): c the value */
 	XN_BAD,			/* not an expression (`text` in backquotes where a number is wanted) */
 	XN_NEG, XN_NOT, XN_LNOT, XN_LOW, XN_HIGH,		/* unary - ~ ! < >: a is the operand */
 	XN_ADD, XN_SUB, XN_OR, XN_XOR, XN_ORNOT,		/* a + - | ^ ! b */
 	XN_MUL, XN_DIV, XN_MOD, XN_AND, XN_SHL, XN_SHR		/* a * / % & << >> b */
 };
 
-struct xnode { int op; int base; struct slice tok; struct xnode *a, *b; };
+struct xnode { int op; int base; unsigned long long c; struct slice tok; struct xnode *a, *b; };
 
 struct oper {
 	int kind;

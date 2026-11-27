@@ -13,6 +13,8 @@ A mnemonic that assembles to another instruction (`FNEG.f32` and `FABS.f32` to a
 | `ABS` | the sequence `MOV Rs, R12`, `SAR $63, R12`, `MOV Rs, Rd` (left out when `Rd` is `Rs`), `XOR R12, Rd`, `SUB R12, Rd` | `alu` |
 | `CBHIS` | `CBCC` | `cbranch` |
 | `CBLO` | `CBCS` | `cbranch` |
+| `COLSET` | `INSB` with the fields `$60, $4` (a constant colour goes through `R12`) | `besc` |
+| `COLSTRIP` | `EXTB` with the fields `$0, $60` | `besc` |
 | `MAX` | the sequence `SETGT Ra, Rb, R12`, `NEG R12`, `BSEL R12, Ra, Rb, Rd` | `ext` |
 | `MAX.u64` | the sequence `SETHI Ra, Rb, R12`, `NEG R12`, `BSEL R12, Ra, Rb, Rd` | `ext` |
 | `MIN` | the sequence `SETLT Ra, Rb, R12`, `NEG R12`, `BSEL R12, Ra, Rb, Rd` | `ext` |

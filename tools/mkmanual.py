@@ -408,9 +408,9 @@ def page_for(e):
 
 VEC = {'reset': 'processor reset: the first instruction fetch', 'machine-check': 'an unrecoverable error (a posted write that timed out, an uncorrectable memory error, a failed vector fetch); not restartable',
        'illegal': 'a reserved or undefined opcode, a reserved encoding or an unassigned system register', 'privileged': 'a system instruction executed outside kernel mode',
-       'misaligned': 'an atomic, `PUSHX`, `POPX` or the operand of a vector block at an address that is not a multiple of its size (a plain load or store has no alignment fault)', 'noncanonical': 'a virtual address whose bits 63 to 39 differ from bit 38',
+       'misaligned': 'an atomic, `PUSHX`, `POPX` or the operand of a vector block at an address that is not a multiple of its size, or `MCOL`, `MCOLRD` or `MCOLWR` with an address or a count that is not a multiple of its granule block (a plain load or store has no alignment fault)', 'noncanonical': 'a virtual address whose bits 59 to 39 differ from bit 38 (bits 63 to 60 are the colour of the pointer)',
        'ifault': 'instruction fetch from a page that is not mapped', 'lfault': 'load from a page that is not mapped', 'sfault': 'store to a page that is not mapped',
-       'iprot': 'instruction fetch denied by the page permissions', 'lprot': 'load denied by the page permissions', 'sprot': 'store denied by the page permissions',
+       'iprot': 'instruction fetch denied by the page permissions', 'lprot': 'load denied by the page permissions, or by the colour check: the pointer\'s colour differs from the granule\'s ({{r:colour-fault-is-precise}})', 'sprot': 'store denied by the page permissions, or by the colour check ({{r:colour-fault-is-precise}})',
        'divzero': 'division by zero (`DIV`, `DIVU`, `MOD`, `MODU`)', 'busfault': 'a read of non-existent memory (a precise abort)', 'lpad': 'an indirect transfer that did not land on `LPAD` (enforcement off in ABI version 1)',
        'bpt': 'the `BPT` instruction', 'check': 'a failed run-time check (the compare-and-trap, `CHK2`, `ADDV`, `SUBV`, `MULV`)', 'irq-base': 'the first interrupt vector', 'timer': 'the timer interrupt (level 6)', 'console-in': 'console receive interrupt (level 4)',
        'console-out': 'console transmit interrupt (level 4)',
@@ -506,12 +506,12 @@ HOME = {}
 for _i in 'MOV LEA'.split(): HOME[_i] = ('09-isa.md', 'moves-conversions-and-address-formation')
 for _i in 'ADD SUB MUL MULH ADDM INC DEC NEG DIV ABS MINMAX SETCC'.split(): HOME[_i] = ('09-isa.md', 'integer-arithmetic')
 for _i in 'BIC BIS XOR AND SHIFT CLR COM ASL ASR'.split(): HOME[_i] = ('09-isa.md', 'logic-shifts-and-rotates')
-for _i in 'COUNT POPCNT BSWAP BITREV ROR DSHR EXTB INSB XNORPOP CLMUL UTF8LEN UTF8DEC UTF8ENC'.split(): HOME[_i] = ('09-isa.md', 'bits-bytes-and-text')
+for _i in 'COUNT POPCNT BSWAP BITREV ROR DSHR EXTB INSB COLOUR XNORPOP CLMUL UTF8LEN UTF8DEC UTF8ENC'.split(): HOME[_i] = ('09-isa.md', 'bits-bytes-and-text')
 for _i in 'BR SOB CBCC FCBCC BTAG JMP CALL JMPI JTAG'.split(): HOME[_i] = ('09-isa.md', 'branches-and-control-flow')
-for _i in 'PUSH POP PUSHM POPM MCPY MSET MCMP MSCN MVAL'.split(): HOME[_i] = ('09-isa.md', 'stack-and-block-operations')
+for _i in 'PUSH POP PUSHM POPM MCPY LDCOL MCOL MSET MCMP MSCN MVAL'.split(): HOME[_i] = ('09-isa.md', 'stack-and-block-operations')
 for _i in 'FADD FDIV FSINGLE FMADD FMADD32 FSIGN FMIN FCLASS FRINT FCVT FSFLAGS'.split(): HOME[_i] = ('09-isa.md', 'floating-point')
 for _i in 'CAS SWAP AADD AAND AMAX LLSC'.split(): HOME[_i] = ('09-isa.md', 'atomics-and-ordering')
-for _i in ('NOP RTI RET HALT BPT FENCE WFE SEV TLBA PUSHX ISYNC HINT GENTER MFSR MTPS SPL TRAP TLBI TLBIAS MTDP ICINV PROBE').split(): HOME[_i] = ('09-isa.md', 'isa-system-instructions-exceptions')
+for _i in ('NOP RTI RET HALT BPT FENCE WFE SEV TLBA PUSHX ISYNC HINT GENTER MFSR MTPS SPL TRAP TLBI TLBIAS MTDP ICINV MCOLRD PROBE').split(): HOME[_i] = ('09-isa.md', 'isa-system-instructions-exceptions')
 
 
 for _i in 'MOV2 MCPYU'.split(): HOME[_i] = ('09-isa.md', 'moves-conversions-and-address-formation')
@@ -719,7 +719,7 @@ def build():
         m = re.search(r'(?m)^## %s (.*)$' % re.escape(sec), texts[fn])
         return '../%s#%s' % (fn, slug('%s %s' % (sec, m.group(1))))
     # aliases
-    EXPANDS = {'rol': ' with the count `$n` complemented to `$(64-n)` (a constant count only)'}
+    EXPANDS = {'rol': ' with the count `$n` complemented to `$(64-n)` (a constant count only)', 'colset': ' with the fields `$60, $4` (a constant colour goes through `R12`)', 'colstrip': ' with the fields `$0, $60`'}
     SEQ = {'abs': '`MOV Rs, R12`, `SAR $63, R12`, `MOV Rs, Rd` (left out when `Rd` is `Rs`), `XOR R12, Rd`, `SUB R12, Rd`',
            'min': '`SETLT Ra, Rb, R12`, `NEG R12`, `BSEL R12, Ra, Rb, Rd`', 'minu': '`SETLO Ra, Rb, R12`, `NEG R12`, `BSEL R12, Ra, Rb, Rd`',
            'max': '`SETGT Ra, Rb, R12`, `NEG R12`, `BSEL R12, Ra, Rb, Rd`', 'maxu': '`SETHI Ra, Rb, R12`, `NEG R12`, `BSEL R12, Ra, Rb, Rd`'}

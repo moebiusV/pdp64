@@ -12,9 +12,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f1
+	cbne	r5, r6, fail1
 	mov	=0x0, r6
-	cbne	r8, r6, f2
+	cbne	r8, r6, fail2
 	mov	=0x0, r1
 	mov	=0x0, r2
 	mov	=0x0, r3
@@ -24,9 +24,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x8000000000000000, r6
-	cbne	r5, r6, f3
+	cbne	r5, r6, fail3
 	mov	=0x0, r6
-	cbne	r8, r6, f4
+	cbne	r8, r6, fail4
 	mov	=0x0, r1
 	mov	=0x0, r2
 	mov	=0x8000000000000000, r3
@@ -36,9 +36,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f5
+	cbne	r5, r6, fail5
 	mov	=0x0, r6
-	cbne	r8, r6, f6
+	cbne	r8, r6, fail6
 	mov	=0x0, r1
 	mov	=0x0, r2
 	mov	=0x8000000000000000, r3
@@ -48,9 +48,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f7
+	cbne	r5, r6, fail7
 	mov	=0x0, r6
-	cbne	r8, r6, f8
+	cbne	r8, r6, fail8
 	mov	=0x0, r1
 	mov	=0x0, r2
 	mov	=0x3ff0000000000000, r3
@@ -60,9 +60,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f9
+	cbne	r5, r6, fail9
 	mov	=0x0, r6
-	cbne	r8, r6, f10
+	cbne	r8, r6, fail10
 	mov	=0x0, r1
 	mov	=0x0, r2
 	mov	=0x3ff0000000000000, r3
@@ -72,9 +72,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f11
+	cbne	r5, r6, fail11
 	mov	=0x0, r6
-	cbne	r8, r6, f12
+	cbne	r8, r6, fail12
 	mov	=0x0, r1
 	mov	=0x0, r2
 	mov	=0xbff0000000000000, r3
@@ -84,9 +84,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff0000000000000, r6
-	cbne	r5, r6, f13
+	cbne	r5, r6, fail13
 	mov	=0x0, r6
-	cbne	r8, r6, f14
+	cbne	r8, r6, fail14
 	mov	=0x0, r1
 	mov	=0x0, r2
 	mov	=0xbff0000000000000, r3
@@ -96,9 +96,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff0000000000000, r6
-	cbne	r5, r6, f15
+	cbne	r5, r6, fail15
 	mov	=0x0, r6
-	cbne	r8, r6, f16
+	cbne	r8, r6, fail16
 	mov	=0x0, r1
 	mov	=0x0, r2
 	mov	=0x4000000000000000, r3
@@ -108,9 +108,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc000000000000000, r6
-	cbne	r5, r6, f17
+	cbne	r5, r6, fail17
 	mov	=0x0, r6
-	cbne	r8, r6, f18
+	cbne	r8, r6, fail18
 	mov	=0x0, r1
 	mov	=0x0, r2
 	mov	=0x4000000000000000, r3
@@ -120,9 +120,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc000000000000000, r6
-	cbne	r5, r6, f19
+	cbne	r5, r6, fail19
 	mov	=0x0, r6
-	cbne	r8, r6, f20
+	cbne	r8, r6, fail20
 	mov	=0x0, r1
 	mov	=0x0, r2
 	mov	=0x4008000000000000, r3
@@ -132,9 +132,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc008000000000000, r6
-	cbne	r5, r6, f21
+	cbne	r5, r6, fail21
 	mov	=0x0, r6
-	cbne	r8, r6, f22
+	cbne	r8, r6, fail22
 	mov	=0x0, r1
 	mov	=0x0, r2
 	mov	=0x4008000000000000, r3
@@ -144,9 +144,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc008000000000000, r6
-	cbne	r5, r6, f23
+	cbne	r5, r6, fail23
 	mov	=0x0, r6
-	cbne	r8, r6, f24
+	cbne	r8, r6, fail24
 	mov	=0x0, r1
 	mov	=0x0, r2
 	mov	=0x3ff8000000000000, r3
@@ -156,9 +156,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f25
+	cbne	r5, r6, fail25
 	mov	=0x0, r6
-	cbne	r8, r6, f26
+	cbne	r8, r6, fail26
 	mov	=0x0, r1
 	mov	=0x0, r2
 	mov	=0x3ff8000000000000, r3
@@ -168,9 +168,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f27
+	cbne	r5, r6, fail27
 	mov	=0x0, r6
-	cbne	r8, r6, f28
+	cbne	r8, r6, fail28
 	mov	=0x0, r1
 	mov	=0x0, r2
 	mov	=0x4004000000000000, r3
@@ -180,9 +180,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc004000000000000, r6
-	cbne	r5, r6, f29
+	cbne	r5, r6, fail29
 	mov	=0x0, r6
-	cbne	r8, r6, f30
+	cbne	r8, r6, fail30
 	mov	=0x0, r1
 	mov	=0x0, r2
 	mov	=0x4004000000000000, r3
@@ -192,9 +192,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc004000000000000, r6
-	cbne	r5, r6, f31
+	cbne	r5, r6, fail31
 	mov	=0x0, r6
-	cbne	r8, r6, f32
+	cbne	r8, r6, fail32
 	mov	=0x0, r1
 	mov	=0x0, r2
 	mov	=0x400e000000000000, r3
@@ -204,9 +204,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00e000000000000, r6
-	cbne	r5, r6, f33
+	cbne	r5, r6, fail33
 	mov	=0x0, r6
-	cbne	r8, r6, f34
+	cbne	r8, r6, fail34
 	mov	=0x0, r1
 	mov	=0x0, r2
 	mov	=0x400e000000000000, r3
@@ -216,9 +216,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00e000000000000, r6
-	cbne	r5, r6, f35
+	cbne	r5, r6, fail35
 	mov	=0x0, r6
-	cbne	r8, r6, f36
+	cbne	r8, r6, fail36
 	mov	=0x0, r1
 	mov	=0x0, r2
 	mov	=0xc00e000000000000, r3
@@ -228,9 +228,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x400e000000000000, r6
-	cbne	r5, r6, f37
+	cbne	r5, r6, fail37
 	mov	=0x0, r6
-	cbne	r8, r6, f38
+	cbne	r8, r6, fail38
 	mov	=0x0, r1
 	mov	=0x0, r2
 	mov	=0xc00e000000000000, r3
@@ -240,9 +240,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x400e000000000000, r6
-	cbne	r5, r6, f39
+	cbne	r5, r6, fail39
 	mov	=0x0, r6
-	cbne	r8, r6, f40
+	cbne	r8, r6, fail40
 	mov	=0x0, r1
 	mov	=0x0, r2
 	mov	=0x401e000000000000, r3
@@ -252,9 +252,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01e000000000000, r6
-	cbne	r5, r6, f41
+	cbne	r5, r6, fail41
 	mov	=0x0, r6
-	cbne	r8, r6, f42
+	cbne	r8, r6, fail42
 	mov	=0x0, r1
 	mov	=0x0, r2
 	mov	=0x401e000000000000, r3
@@ -264,9 +264,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01e000000000000, r6
-	cbne	r5, r6, f43
+	cbne	r5, r6, fail43
 	mov	=0x0, r6
-	cbne	r8, r6, f44
+	cbne	r8, r6, fail44
 	mov	=0x0, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x0, r3
@@ -276,9 +276,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x8000000000000000, r6
-	cbne	r5, r6, f45
+	cbne	r5, r6, fail45
 	mov	=0x0, r6
-	cbne	r8, r6, f46
+	cbne	r8, r6, fail46
 	mov	=0x0, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x0, r3
@@ -288,9 +288,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f47
+	cbne	r5, r6, fail47
 	mov	=0x0, r6
-	cbne	r8, r6, f48
+	cbne	r8, r6, fail48
 	mov	=0x0, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -300,9 +300,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f49
+	cbne	r5, r6, fail49
 	mov	=0x0, r6
-	cbne	r8, r6, f50
+	cbne	r8, r6, fail50
 	mov	=0x0, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -312,9 +312,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f51
+	cbne	r5, r6, fail51
 	mov	=0x0, r6
-	cbne	r8, r6, f52
+	cbne	r8, r6, fail52
 	mov	=0x0, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -324,9 +324,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f53
+	cbne	r5, r6, fail53
 	mov	=0x0, r6
-	cbne	r8, r6, f54
+	cbne	r8, r6, fail54
 	mov	=0x0, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -336,9 +336,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f55
+	cbne	r5, r6, fail55
 	mov	=0x0, r6
-	cbne	r8, r6, f56
+	cbne	r8, r6, fail56
 	mov	=0x0, r1
 	mov	=0x8000000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -348,9 +348,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff0000000000000, r6
-	cbne	r5, r6, f57
+	cbne	r5, r6, fail57
 	mov	=0x0, r6
-	cbne	r8, r6, f58
+	cbne	r8, r6, fail58
 	mov	=0x0, r1
 	mov	=0x8000000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -360,9 +360,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff0000000000000, r6
-	cbne	r5, r6, f59
+	cbne	r5, r6, fail59
 	mov	=0x0, r6
-	cbne	r8, r6, f60
+	cbne	r8, r6, fail60
 	mov	=0x0, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -372,9 +372,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc000000000000000, r6
-	cbne	r5, r6, f61
+	cbne	r5, r6, fail61
 	mov	=0x0, r6
-	cbne	r8, r6, f62
+	cbne	r8, r6, fail62
 	mov	=0x0, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -384,9 +384,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc000000000000000, r6
-	cbne	r5, r6, f63
+	cbne	r5, r6, fail63
 	mov	=0x0, r6
-	cbne	r8, r6, f64
+	cbne	r8, r6, fail64
 	mov	=0x0, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -396,9 +396,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc008000000000000, r6
-	cbne	r5, r6, f65
+	cbne	r5, r6, fail65
 	mov	=0x0, r6
-	cbne	r8, r6, f66
+	cbne	r8, r6, fail66
 	mov	=0x0, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -408,9 +408,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc008000000000000, r6
-	cbne	r5, r6, f67
+	cbne	r5, r6, fail67
 	mov	=0x0, r6
-	cbne	r8, r6, f68
+	cbne	r8, r6, fail68
 	mov	=0x0, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -420,9 +420,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f69
+	cbne	r5, r6, fail69
 	mov	=0x0, r6
-	cbne	r8, r6, f70
+	cbne	r8, r6, fail70
 	mov	=0x0, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -432,9 +432,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f71
+	cbne	r5, r6, fail71
 	mov	=0x0, r6
-	cbne	r8, r6, f72
+	cbne	r8, r6, fail72
 	mov	=0x0, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -444,9 +444,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc004000000000000, r6
-	cbne	r5, r6, f73
+	cbne	r5, r6, fail73
 	mov	=0x0, r6
-	cbne	r8, r6, f74
+	cbne	r8, r6, fail74
 	mov	=0x0, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -456,9 +456,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc004000000000000, r6
-	cbne	r5, r6, f75
+	cbne	r5, r6, fail75
 	mov	=0x0, r6
-	cbne	r8, r6, f76
+	cbne	r8, r6, fail76
 	mov	=0x0, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -468,9 +468,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00e000000000000, r6
-	cbne	r5, r6, f77
+	cbne	r5, r6, fail77
 	mov	=0x0, r6
-	cbne	r8, r6, f78
+	cbne	r8, r6, fail78
 	mov	=0x0, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -480,9 +480,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00e000000000000, r6
-	cbne	r5, r6, f79
+	cbne	r5, r6, fail79
 	mov	=0x0, r6
-	cbne	r8, r6, f80
+	cbne	r8, r6, fail80
 	mov	=0x0, r1
 	mov	=0x8000000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -492,9 +492,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x400e000000000000, r6
-	cbne	r5, r6, f81
+	cbne	r5, r6, fail81
 	mov	=0x0, r6
-	cbne	r8, r6, f82
+	cbne	r8, r6, fail82
 	mov	=0x0, r1
 	mov	=0x8000000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -504,9 +504,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x400e000000000000, r6
-	cbne	r5, r6, f83
+	cbne	r5, r6, fail83
 	mov	=0x0, r6
-	cbne	r8, r6, f84
+	cbne	r8, r6, fail84
 	mov	=0x0, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -516,9 +516,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01e000000000000, r6
-	cbne	r5, r6, f85
+	cbne	r5, r6, fail85
 	mov	=0x0, r6
-	cbne	r8, r6, f86
+	cbne	r8, r6, fail86
 	mov	=0x0, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -528,9 +528,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01e000000000000, r6
-	cbne	r5, r6, f87
+	cbne	r5, r6, fail87
 	mov	=0x0, r6
-	cbne	r8, r6, f88
+	cbne	r8, r6, fail88
 	mov	=0x0, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x0, r3
@@ -540,9 +540,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f89
+	cbne	r5, r6, fail89
 	mov	=0x0, r6
-	cbne	r8, r6, f90
+	cbne	r8, r6, fail90
 	mov	=0x0, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x0, r3
@@ -552,9 +552,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x8000000000000000, r6
-	cbne	r5, r6, f91
+	cbne	r5, r6, fail91
 	mov	=0x0, r6
-	cbne	r8, r6, f92
+	cbne	r8, r6, fail92
 	mov	=0x0, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -564,9 +564,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f93
+	cbne	r5, r6, fail93
 	mov	=0x0, r6
-	cbne	r8, r6, f94
+	cbne	r8, r6, fail94
 	mov	=0x0, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -576,9 +576,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f95
+	cbne	r5, r6, fail95
 	mov	=0x0, r6
-	cbne	r8, r6, f96
+	cbne	r8, r6, fail96
 	mov	=0x0, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -588,9 +588,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f97
+	cbne	r5, r6, fail97
 	mov	=0x0, r6
-	cbne	r8, r6, f98
+	cbne	r8, r6, fail98
 	mov	=0x0, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -600,9 +600,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f99
+	cbne	r5, r6, fail99
 	mov	=0x0, r6
-	cbne	r8, r6, f100
+	cbne	r8, r6, fail100
 	mov	=0x0, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -612,9 +612,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff0000000000000, r6
-	cbne	r5, r6, f101
+	cbne	r5, r6, fail101
 	mov	=0x0, r6
-	cbne	r8, r6, f102
+	cbne	r8, r6, fail102
 	mov	=0x0, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -624,9 +624,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff0000000000000, r6
-	cbne	r5, r6, f103
+	cbne	r5, r6, fail103
 	mov	=0x0, r6
-	cbne	r8, r6, f104
+	cbne	r8, r6, fail104
 	mov	=0x0, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -636,9 +636,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc000000000000000, r6
-	cbne	r5, r6, f105
+	cbne	r5, r6, fail105
 	mov	=0x0, r6
-	cbne	r8, r6, f106
+	cbne	r8, r6, fail106
 	mov	=0x0, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -648,9 +648,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc000000000000000, r6
-	cbne	r5, r6, f107
+	cbne	r5, r6, fail107
 	mov	=0x0, r6
-	cbne	r8, r6, f108
+	cbne	r8, r6, fail108
 	mov	=0x0, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -660,9 +660,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc008000000000000, r6
-	cbne	r5, r6, f109
+	cbne	r5, r6, fail109
 	mov	=0x0, r6
-	cbne	r8, r6, f110
+	cbne	r8, r6, fail110
 	mov	=0x0, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -672,9 +672,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc008000000000000, r6
-	cbne	r5, r6, f111
+	cbne	r5, r6, fail111
 	mov	=0x0, r6
-	cbne	r8, r6, f112
+	cbne	r8, r6, fail112
 	mov	=0x0, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -684,9 +684,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f113
+	cbne	r5, r6, fail113
 	mov	=0x0, r6
-	cbne	r8, r6, f114
+	cbne	r8, r6, fail114
 	mov	=0x0, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -696,9 +696,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f115
+	cbne	r5, r6, fail115
 	mov	=0x0, r6
-	cbne	r8, r6, f116
+	cbne	r8, r6, fail116
 	mov	=0x0, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -708,9 +708,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc004000000000000, r6
-	cbne	r5, r6, f117
+	cbne	r5, r6, fail117
 	mov	=0x0, r6
-	cbne	r8, r6, f118
+	cbne	r8, r6, fail118
 	mov	=0x0, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -720,9 +720,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc004000000000000, r6
-	cbne	r5, r6, f119
+	cbne	r5, r6, fail119
 	mov	=0x0, r6
-	cbne	r8, r6, f120
+	cbne	r8, r6, fail120
 	mov	=0x0, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -732,9 +732,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00e000000000000, r6
-	cbne	r5, r6, f121
+	cbne	r5, r6, fail121
 	mov	=0x0, r6
-	cbne	r8, r6, f122
+	cbne	r8, r6, fail122
 	mov	=0x0, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -744,9 +744,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00e000000000000, r6
-	cbne	r5, r6, f123
+	cbne	r5, r6, fail123
 	mov	=0x0, r6
-	cbne	r8, r6, f124
+	cbne	r8, r6, fail124
 	mov	=0x0, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -756,9 +756,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x400e000000000000, r6
-	cbne	r5, r6, f125
+	cbne	r5, r6, fail125
 	mov	=0x0, r6
-	cbne	r8, r6, f126
+	cbne	r8, r6, fail126
 	mov	=0x0, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -768,9 +768,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x400e000000000000, r6
-	cbne	r5, r6, f127
+	cbne	r5, r6, fail127
 	mov	=0x0, r6
-	cbne	r8, r6, f128
+	cbne	r8, r6, fail128
 	mov	=0x0, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -780,9 +780,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01e000000000000, r6
-	cbne	r5, r6, f129
+	cbne	r5, r6, fail129
 	mov	=0x0, r6
-	cbne	r8, r6, f130
+	cbne	r8, r6, fail130
 	mov	=0x0, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -792,9 +792,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01e000000000000, r6
-	cbne	r5, r6, f131
+	cbne	r5, r6, fail131
 	mov	=0x0, r6
-	cbne	r8, r6, f132
+	cbne	r8, r6, fail132
 	mov	=0x0, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x0, r3
@@ -804,9 +804,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x8000000000000000, r6
-	cbne	r5, r6, f133
+	cbne	r5, r6, fail133
 	mov	=0x0, r6
-	cbne	r8, r6, f134
+	cbne	r8, r6, fail134
 	mov	=0x0, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x0, r3
@@ -816,9 +816,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f135
+	cbne	r5, r6, fail135
 	mov	=0x0, r6
-	cbne	r8, r6, f136
+	cbne	r8, r6, fail136
 	mov	=0x0, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -828,9 +828,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f137
+	cbne	r5, r6, fail137
 	mov	=0x0, r6
-	cbne	r8, r6, f138
+	cbne	r8, r6, fail138
 	mov	=0x0, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -840,9 +840,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f139
+	cbne	r5, r6, fail139
 	mov	=0x0, r6
-	cbne	r8, r6, f140
+	cbne	r8, r6, fail140
 	mov	=0x0, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -852,9 +852,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f141
+	cbne	r5, r6, fail141
 	mov	=0x0, r6
-	cbne	r8, r6, f142
+	cbne	r8, r6, fail142
 	mov	=0x0, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -864,9 +864,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f143
+	cbne	r5, r6, fail143
 	mov	=0x0, r6
-	cbne	r8, r6, f144
+	cbne	r8, r6, fail144
 	mov	=0x0, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -876,9 +876,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff0000000000000, r6
-	cbne	r5, r6, f145
+	cbne	r5, r6, fail145
 	mov	=0x0, r6
-	cbne	r8, r6, f146
+	cbne	r8, r6, fail146
 	mov	=0x0, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -888,9 +888,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff0000000000000, r6
-	cbne	r5, r6, f147
+	cbne	r5, r6, fail147
 	mov	=0x0, r6
-	cbne	r8, r6, f148
+	cbne	r8, r6, fail148
 	mov	=0x0, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -900,9 +900,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc000000000000000, r6
-	cbne	r5, r6, f149
+	cbne	r5, r6, fail149
 	mov	=0x0, r6
-	cbne	r8, r6, f150
+	cbne	r8, r6, fail150
 	mov	=0x0, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -912,9 +912,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc000000000000000, r6
-	cbne	r5, r6, f151
+	cbne	r5, r6, fail151
 	mov	=0x0, r6
-	cbne	r8, r6, f152
+	cbne	r8, r6, fail152
 	mov	=0x0, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -924,9 +924,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc008000000000000, r6
-	cbne	r5, r6, f153
+	cbne	r5, r6, fail153
 	mov	=0x0, r6
-	cbne	r8, r6, f154
+	cbne	r8, r6, fail154
 	mov	=0x0, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -936,9 +936,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc008000000000000, r6
-	cbne	r5, r6, f155
+	cbne	r5, r6, fail155
 	mov	=0x0, r6
-	cbne	r8, r6, f156
+	cbne	r8, r6, fail156
 	mov	=0x0, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -948,9 +948,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f157
+	cbne	r5, r6, fail157
 	mov	=0x0, r6
-	cbne	r8, r6, f158
+	cbne	r8, r6, fail158
 	mov	=0x0, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -960,9 +960,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f159
+	cbne	r5, r6, fail159
 	mov	=0x0, r6
-	cbne	r8, r6, f160
+	cbne	r8, r6, fail160
 	mov	=0x0, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -972,9 +972,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc004000000000000, r6
-	cbne	r5, r6, f161
+	cbne	r5, r6, fail161
 	mov	=0x0, r6
-	cbne	r8, r6, f162
+	cbne	r8, r6, fail162
 	mov	=0x0, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -984,9 +984,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc004000000000000, r6
-	cbne	r5, r6, f163
+	cbne	r5, r6, fail163
 	mov	=0x0, r6
-	cbne	r8, r6, f164
+	cbne	r8, r6, fail164
 	mov	=0x0, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -996,9 +996,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00e000000000000, r6
-	cbne	r5, r6, f165
+	cbne	r5, r6, fail165
 	mov	=0x0, r6
-	cbne	r8, r6, f166
+	cbne	r8, r6, fail166
 	mov	=0x0, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -1008,9 +1008,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00e000000000000, r6
-	cbne	r5, r6, f167
+	cbne	r5, r6, fail167
 	mov	=0x0, r6
-	cbne	r8, r6, f168
+	cbne	r8, r6, fail168
 	mov	=0x0, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -1020,9 +1020,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x400e000000000000, r6
-	cbne	r5, r6, f169
+	cbne	r5, r6, fail169
 	mov	=0x0, r6
-	cbne	r8, r6, f170
+	cbne	r8, r6, fail170
 	mov	=0x0, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -1032,9 +1032,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x400e000000000000, r6
-	cbne	r5, r6, f171
+	cbne	r5, r6, fail171
 	mov	=0x0, r6
-	cbne	r8, r6, f172
+	cbne	r8, r6, fail172
 	mov	=0x0, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -1044,9 +1044,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01e000000000000, r6
-	cbne	r5, r6, f173
+	cbne	r5, r6, fail173
 	mov	=0x0, r6
-	cbne	r8, r6, f174
+	cbne	r8, r6, fail174
 	mov	=0x0, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -1056,9 +1056,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01e000000000000, r6
-	cbne	r5, r6, f175
+	cbne	r5, r6, fail175
 	mov	=0x0, r6
-	cbne	r8, r6, f176
+	cbne	r8, r6, fail176
 	mov	=0x0, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x0, r3
@@ -1068,9 +1068,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f177
+	cbne	r5, r6, fail177
 	mov	=0x0, r6
-	cbne	r8, r6, f178
+	cbne	r8, r6, fail178
 	mov	=0x0, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x0, r3
@@ -1080,9 +1080,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x8000000000000000, r6
-	cbne	r5, r6, f179
+	cbne	r5, r6, fail179
 	mov	=0x0, r6
-	cbne	r8, r6, f180
+	cbne	r8, r6, fail180
 	mov	=0x0, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -1092,9 +1092,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f181
+	cbne	r5, r6, fail181
 	mov	=0x0, r6
-	cbne	r8, r6, f182
+	cbne	r8, r6, fail182
 	mov	=0x0, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -1104,9 +1104,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f183
+	cbne	r5, r6, fail183
 	mov	=0x0, r6
-	cbne	r8, r6, f184
+	cbne	r8, r6, fail184
 	mov	=0x0, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -1116,9 +1116,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f185
+	cbne	r5, r6, fail185
 	mov	=0x0, r6
-	cbne	r8, r6, f186
+	cbne	r8, r6, fail186
 	mov	=0x0, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -1128,9 +1128,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f187
+	cbne	r5, r6, fail187
 	mov	=0x0, r6
-	cbne	r8, r6, f188
+	cbne	r8, r6, fail188
 	mov	=0x0, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -1140,9 +1140,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff0000000000000, r6
-	cbne	r5, r6, f189
+	cbne	r5, r6, fail189
 	mov	=0x0, r6
-	cbne	r8, r6, f190
+	cbne	r8, r6, fail190
 	mov	=0x0, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -1152,9 +1152,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff0000000000000, r6
-	cbne	r5, r6, f191
+	cbne	r5, r6, fail191
 	mov	=0x0, r6
-	cbne	r8, r6, f192
+	cbne	r8, r6, fail192
 	mov	=0x0, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -1164,9 +1164,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc000000000000000, r6
-	cbne	r5, r6, f193
+	cbne	r5, r6, fail193
 	mov	=0x0, r6
-	cbne	r8, r6, f194
+	cbne	r8, r6, fail194
 	mov	=0x0, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -1176,9 +1176,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc000000000000000, r6
-	cbne	r5, r6, f195
+	cbne	r5, r6, fail195
 	mov	=0x0, r6
-	cbne	r8, r6, f196
+	cbne	r8, r6, fail196
 	mov	=0x0, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -1188,9 +1188,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc008000000000000, r6
-	cbne	r5, r6, f197
+	cbne	r5, r6, fail197
 	mov	=0x0, r6
-	cbne	r8, r6, f198
+	cbne	r8, r6, fail198
 	mov	=0x0, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -1200,9 +1200,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc008000000000000, r6
-	cbne	r5, r6, f199
+	cbne	r5, r6, fail199
 	mov	=0x0, r6
-	cbne	r8, r6, f200
+	cbne	r8, r6, fail200
 	mov	=0x0, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -1212,9 +1212,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f201
+	cbne	r5, r6, fail201
 	mov	=0x0, r6
-	cbne	r8, r6, f202
+	cbne	r8, r6, fail202
 	mov	=0x0, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -1224,9 +1224,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f203
+	cbne	r5, r6, fail203
 	mov	=0x0, r6
-	cbne	r8, r6, f204
+	cbne	r8, r6, fail204
 	mov	=0x0, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -1236,9 +1236,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc004000000000000, r6
-	cbne	r5, r6, f205
+	cbne	r5, r6, fail205
 	mov	=0x0, r6
-	cbne	r8, r6, f206
+	cbne	r8, r6, fail206
 	mov	=0x0, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -1248,9 +1248,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc004000000000000, r6
-	cbne	r5, r6, f207
+	cbne	r5, r6, fail207
 	mov	=0x0, r6
-	cbne	r8, r6, f208
+	cbne	r8, r6, fail208
 	mov	=0x0, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -1260,9 +1260,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00e000000000000, r6
-	cbne	r5, r6, f209
+	cbne	r5, r6, fail209
 	mov	=0x0, r6
-	cbne	r8, r6, f210
+	cbne	r8, r6, fail210
 	mov	=0x0, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -1272,9 +1272,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00e000000000000, r6
-	cbne	r5, r6, f211
+	cbne	r5, r6, fail211
 	mov	=0x0, r6
-	cbne	r8, r6, f212
+	cbne	r8, r6, fail212
 	mov	=0x0, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -1284,9 +1284,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x400e000000000000, r6
-	cbne	r5, r6, f213
+	cbne	r5, r6, fail213
 	mov	=0x0, r6
-	cbne	r8, r6, f214
+	cbne	r8, r6, fail214
 	mov	=0x0, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -1296,9 +1296,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x400e000000000000, r6
-	cbne	r5, r6, f215
+	cbne	r5, r6, fail215
 	mov	=0x0, r6
-	cbne	r8, r6, f216
+	cbne	r8, r6, fail216
 	mov	=0x0, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -1308,9 +1308,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01e000000000000, r6
-	cbne	r5, r6, f217
+	cbne	r5, r6, fail217
 	mov	=0x0, r6
-	cbne	r8, r6, f218
+	cbne	r8, r6, fail218
 	mov	=0x0, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -1320,9 +1320,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01e000000000000, r6
-	cbne	r5, r6, f219
+	cbne	r5, r6, fail219
 	mov	=0x0, r6
-	cbne	r8, r6, f220
+	cbne	r8, r6, fail220
 	mov	=0x8000000000000000, r1
 	mov	=0x0, r2
 	mov	=0x0, r3
@@ -1332,9 +1332,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x8000000000000000, r6
-	cbne	r5, r6, f221
+	cbne	r5, r6, fail221
 	mov	=0x0, r6
-	cbne	r8, r6, f222
+	cbne	r8, r6, fail222
 	mov	=0x8000000000000000, r1
 	mov	=0x0, r2
 	mov	=0x0, r3
@@ -1344,9 +1344,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f223
+	cbne	r5, r6, fail223
 	mov	=0x0, r6
-	cbne	r8, r6, f224
+	cbne	r8, r6, fail224
 	mov	=0x8000000000000000, r1
 	mov	=0x0, r2
 	mov	=0x8000000000000000, r3
@@ -1356,9 +1356,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f225
+	cbne	r5, r6, fail225
 	mov	=0x0, r6
-	cbne	r8, r6, f226
+	cbne	r8, r6, fail226
 	mov	=0x8000000000000000, r1
 	mov	=0x0, r2
 	mov	=0x8000000000000000, r3
@@ -1368,9 +1368,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f227
+	cbne	r5, r6, fail227
 	mov	=0x0, r6
-	cbne	r8, r6, f228
+	cbne	r8, r6, fail228
 	mov	=0x8000000000000000, r1
 	mov	=0x0, r2
 	mov	=0x3ff0000000000000, r3
@@ -1380,9 +1380,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f229
+	cbne	r5, r6, fail229
 	mov	=0x0, r6
-	cbne	r8, r6, f230
+	cbne	r8, r6, fail230
 	mov	=0x8000000000000000, r1
 	mov	=0x0, r2
 	mov	=0x3ff0000000000000, r3
@@ -1392,9 +1392,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f231
+	cbne	r5, r6, fail231
 	mov	=0x0, r6
-	cbne	r8, r6, f232
+	cbne	r8, r6, fail232
 	mov	=0x8000000000000000, r1
 	mov	=0x0, r2
 	mov	=0xbff0000000000000, r3
@@ -1404,9 +1404,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff0000000000000, r6
-	cbne	r5, r6, f233
+	cbne	r5, r6, fail233
 	mov	=0x0, r6
-	cbne	r8, r6, f234
+	cbne	r8, r6, fail234
 	mov	=0x8000000000000000, r1
 	mov	=0x0, r2
 	mov	=0xbff0000000000000, r3
@@ -1416,9 +1416,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff0000000000000, r6
-	cbne	r5, r6, f235
+	cbne	r5, r6, fail235
 	mov	=0x0, r6
-	cbne	r8, r6, f236
+	cbne	r8, r6, fail236
 	mov	=0x8000000000000000, r1
 	mov	=0x0, r2
 	mov	=0x4000000000000000, r3
@@ -1428,9 +1428,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc000000000000000, r6
-	cbne	r5, r6, f237
+	cbne	r5, r6, fail237
 	mov	=0x0, r6
-	cbne	r8, r6, f238
+	cbne	r8, r6, fail238
 	mov	=0x8000000000000000, r1
 	mov	=0x0, r2
 	mov	=0x4000000000000000, r3
@@ -1440,9 +1440,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc000000000000000, r6
-	cbne	r5, r6, f239
+	cbne	r5, r6, fail239
 	mov	=0x0, r6
-	cbne	r8, r6, f240
+	cbne	r8, r6, fail240
 	mov	=0x8000000000000000, r1
 	mov	=0x0, r2
 	mov	=0x4008000000000000, r3
@@ -1452,9 +1452,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc008000000000000, r6
-	cbne	r5, r6, f241
+	cbne	r5, r6, fail241
 	mov	=0x0, r6
-	cbne	r8, r6, f242
+	cbne	r8, r6, fail242
 	mov	=0x8000000000000000, r1
 	mov	=0x0, r2
 	mov	=0x4008000000000000, r3
@@ -1464,9 +1464,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc008000000000000, r6
-	cbne	r5, r6, f243
+	cbne	r5, r6, fail243
 	mov	=0x0, r6
-	cbne	r8, r6, f244
+	cbne	r8, r6, fail244
 	mov	=0x8000000000000000, r1
 	mov	=0x0, r2
 	mov	=0x3ff8000000000000, r3
@@ -1476,9 +1476,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f245
+	cbne	r5, r6, fail245
 	mov	=0x0, r6
-	cbne	r8, r6, f246
+	cbne	r8, r6, fail246
 	mov	=0x8000000000000000, r1
 	mov	=0x0, r2
 	mov	=0x3ff8000000000000, r3
@@ -1488,9 +1488,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f247
+	cbne	r5, r6, fail247
 	mov	=0x0, r6
-	cbne	r8, r6, f248
+	cbne	r8, r6, fail248
 	mov	=0x8000000000000000, r1
 	mov	=0x0, r2
 	mov	=0x4004000000000000, r3
@@ -1500,9 +1500,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc004000000000000, r6
-	cbne	r5, r6, f249
+	cbne	r5, r6, fail249
 	mov	=0x0, r6
-	cbne	r8, r6, f250
+	cbne	r8, r6, fail250
 	mov	=0x8000000000000000, r1
 	mov	=0x0, r2
 	mov	=0x4004000000000000, r3
@@ -1512,9 +1512,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc004000000000000, r6
-	cbne	r5, r6, f251
+	cbne	r5, r6, fail251
 	mov	=0x0, r6
-	cbne	r8, r6, f252
+	cbne	r8, r6, fail252
 	mov	=0x8000000000000000, r1
 	mov	=0x0, r2
 	mov	=0x400e000000000000, r3
@@ -1524,9 +1524,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00e000000000000, r6
-	cbne	r5, r6, f253
+	cbne	r5, r6, fail253
 	mov	=0x0, r6
-	cbne	r8, r6, f254
+	cbne	r8, r6, fail254
 	mov	=0x8000000000000000, r1
 	mov	=0x0, r2
 	mov	=0x400e000000000000, r3
@@ -1536,9 +1536,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00e000000000000, r6
-	cbne	r5, r6, f255
+	cbne	r5, r6, fail255
 	mov	=0x0, r6
-	cbne	r8, r6, f256
+	cbne	r8, r6, fail256
 	mov	=0x8000000000000000, r1
 	mov	=0x0, r2
 	mov	=0xc00e000000000000, r3
@@ -1548,9 +1548,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x400e000000000000, r6
-	cbne	r5, r6, f257
+	cbne	r5, r6, fail257
 	mov	=0x0, r6
-	cbne	r8, r6, f258
+	cbne	r8, r6, fail258
 	mov	=0x8000000000000000, r1
 	mov	=0x0, r2
 	mov	=0xc00e000000000000, r3
@@ -1560,9 +1560,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x400e000000000000, r6
-	cbne	r5, r6, f259
+	cbne	r5, r6, fail259
 	mov	=0x0, r6
-	cbne	r8, r6, f260
+	cbne	r8, r6, fail260
 	mov	=0x8000000000000000, r1
 	mov	=0x0, r2
 	mov	=0x401e000000000000, r3
@@ -1572,9 +1572,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01e000000000000, r6
-	cbne	r5, r6, f261
+	cbne	r5, r6, fail261
 	mov	=0x0, r6
-	cbne	r8, r6, f262
+	cbne	r8, r6, fail262
 	mov	=0x8000000000000000, r1
 	mov	=0x0, r2
 	mov	=0x401e000000000000, r3
@@ -1584,9 +1584,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01e000000000000, r6
-	cbne	r5, r6, f263
+	cbne	r5, r6, fail263
 	mov	=0x0, r6
-	cbne	r8, r6, f264
+	cbne	r8, r6, fail264
 	mov	=0x8000000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x0, r3
@@ -1596,9 +1596,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f265
+	cbne	r5, r6, fail265
 	mov	=0x0, r6
-	cbne	r8, r6, f266
+	cbne	r8, r6, fail266
 	mov	=0x8000000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x0, r3
@@ -1608,9 +1608,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x8000000000000000, r6
-	cbne	r5, r6, f267
+	cbne	r5, r6, fail267
 	mov	=0x0, r6
-	cbne	r8, r6, f268
+	cbne	r8, r6, fail268
 	mov	=0x8000000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -1620,9 +1620,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f269
+	cbne	r5, r6, fail269
 	mov	=0x0, r6
-	cbne	r8, r6, f270
+	cbne	r8, r6, fail270
 	mov	=0x8000000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -1632,9 +1632,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f271
+	cbne	r5, r6, fail271
 	mov	=0x0, r6
-	cbne	r8, r6, f272
+	cbne	r8, r6, fail272
 	mov	=0x8000000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -1644,9 +1644,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f273
+	cbne	r5, r6, fail273
 	mov	=0x0, r6
-	cbne	r8, r6, f274
+	cbne	r8, r6, fail274
 	mov	=0x8000000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -1656,9 +1656,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f275
+	cbne	r5, r6, fail275
 	mov	=0x0, r6
-	cbne	r8, r6, f276
+	cbne	r8, r6, fail276
 	mov	=0x8000000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -1668,9 +1668,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff0000000000000, r6
-	cbne	r5, r6, f277
+	cbne	r5, r6, fail277
 	mov	=0x0, r6
-	cbne	r8, r6, f278
+	cbne	r8, r6, fail278
 	mov	=0x8000000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -1680,9 +1680,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff0000000000000, r6
-	cbne	r5, r6, f279
+	cbne	r5, r6, fail279
 	mov	=0x0, r6
-	cbne	r8, r6, f280
+	cbne	r8, r6, fail280
 	mov	=0x8000000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -1692,9 +1692,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc000000000000000, r6
-	cbne	r5, r6, f281
+	cbne	r5, r6, fail281
 	mov	=0x0, r6
-	cbne	r8, r6, f282
+	cbne	r8, r6, fail282
 	mov	=0x8000000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -1704,9 +1704,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc000000000000000, r6
-	cbne	r5, r6, f283
+	cbne	r5, r6, fail283
 	mov	=0x0, r6
-	cbne	r8, r6, f284
+	cbne	r8, r6, fail284
 	mov	=0x8000000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -1716,9 +1716,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc008000000000000, r6
-	cbne	r5, r6, f285
+	cbne	r5, r6, fail285
 	mov	=0x0, r6
-	cbne	r8, r6, f286
+	cbne	r8, r6, fail286
 	mov	=0x8000000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -1728,9 +1728,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc008000000000000, r6
-	cbne	r5, r6, f287
+	cbne	r5, r6, fail287
 	mov	=0x0, r6
-	cbne	r8, r6, f288
+	cbne	r8, r6, fail288
 	mov	=0x8000000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -1740,9 +1740,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f289
+	cbne	r5, r6, fail289
 	mov	=0x0, r6
-	cbne	r8, r6, f290
+	cbne	r8, r6, fail290
 	mov	=0x8000000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -1752,9 +1752,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f291
+	cbne	r5, r6, fail291
 	mov	=0x0, r6
-	cbne	r8, r6, f292
+	cbne	r8, r6, fail292
 	mov	=0x8000000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -1764,9 +1764,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc004000000000000, r6
-	cbne	r5, r6, f293
+	cbne	r5, r6, fail293
 	mov	=0x0, r6
-	cbne	r8, r6, f294
+	cbne	r8, r6, fail294
 	mov	=0x8000000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -1776,9 +1776,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc004000000000000, r6
-	cbne	r5, r6, f295
+	cbne	r5, r6, fail295
 	mov	=0x0, r6
-	cbne	r8, r6, f296
+	cbne	r8, r6, fail296
 	mov	=0x8000000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -1788,9 +1788,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00e000000000000, r6
-	cbne	r5, r6, f297
+	cbne	r5, r6, fail297
 	mov	=0x0, r6
-	cbne	r8, r6, f298
+	cbne	r8, r6, fail298
 	mov	=0x8000000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -1800,9 +1800,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00e000000000000, r6
-	cbne	r5, r6, f299
+	cbne	r5, r6, fail299
 	mov	=0x0, r6
-	cbne	r8, r6, f300
+	cbne	r8, r6, fail300
 	mov	=0x8000000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -1812,9 +1812,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x400e000000000000, r6
-	cbne	r5, r6, f301
+	cbne	r5, r6, fail301
 	mov	=0x0, r6
-	cbne	r8, r6, f302
+	cbne	r8, r6, fail302
 	mov	=0x8000000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -1824,9 +1824,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x400e000000000000, r6
-	cbne	r5, r6, f303
+	cbne	r5, r6, fail303
 	mov	=0x0, r6
-	cbne	r8, r6, f304
+	cbne	r8, r6, fail304
 	mov	=0x8000000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -1836,9 +1836,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01e000000000000, r6
-	cbne	r5, r6, f305
+	cbne	r5, r6, fail305
 	mov	=0x0, r6
-	cbne	r8, r6, f306
+	cbne	r8, r6, fail306
 	mov	=0x8000000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -1848,9 +1848,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01e000000000000, r6
-	cbne	r5, r6, f307
+	cbne	r5, r6, fail307
 	mov	=0x0, r6
-	cbne	r8, r6, f308
+	cbne	r8, r6, fail308
 	mov	=0x8000000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x0, r3
@@ -1860,9 +1860,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x8000000000000000, r6
-	cbne	r5, r6, f309
+	cbne	r5, r6, fail309
 	mov	=0x0, r6
-	cbne	r8, r6, f310
+	cbne	r8, r6, fail310
 	mov	=0x8000000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x0, r3
@@ -1872,9 +1872,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f311
+	cbne	r5, r6, fail311
 	mov	=0x0, r6
-	cbne	r8, r6, f312
+	cbne	r8, r6, fail312
 	mov	=0x8000000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -1884,9 +1884,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f313
+	cbne	r5, r6, fail313
 	mov	=0x0, r6
-	cbne	r8, r6, f314
+	cbne	r8, r6, fail314
 	mov	=0x8000000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -1896,9 +1896,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f315
+	cbne	r5, r6, fail315
 	mov	=0x0, r6
-	cbne	r8, r6, f316
+	cbne	r8, r6, fail316
 	mov	=0x8000000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -1908,9 +1908,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f317
+	cbne	r5, r6, fail317
 	mov	=0x0, r6
-	cbne	r8, r6, f318
+	cbne	r8, r6, fail318
 	mov	=0x8000000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -1920,9 +1920,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f319
+	cbne	r5, r6, fail319
 	mov	=0x0, r6
-	cbne	r8, r6, f320
+	cbne	r8, r6, fail320
 	mov	=0x8000000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -1932,9 +1932,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff0000000000000, r6
-	cbne	r5, r6, f321
+	cbne	r5, r6, fail321
 	mov	=0x0, r6
-	cbne	r8, r6, f322
+	cbne	r8, r6, fail322
 	mov	=0x8000000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -1944,9 +1944,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff0000000000000, r6
-	cbne	r5, r6, f323
+	cbne	r5, r6, fail323
 	mov	=0x0, r6
-	cbne	r8, r6, f324
+	cbne	r8, r6, fail324
 	mov	=0x8000000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -1956,9 +1956,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc000000000000000, r6
-	cbne	r5, r6, f325
+	cbne	r5, r6, fail325
 	mov	=0x0, r6
-	cbne	r8, r6, f326
+	cbne	r8, r6, fail326
 	mov	=0x8000000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -1968,9 +1968,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc000000000000000, r6
-	cbne	r5, r6, f327
+	cbne	r5, r6, fail327
 	mov	=0x0, r6
-	cbne	r8, r6, f328
+	cbne	r8, r6, fail328
 	mov	=0x8000000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -1980,9 +1980,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc008000000000000, r6
-	cbne	r5, r6, f329
+	cbne	r5, r6, fail329
 	mov	=0x0, r6
-	cbne	r8, r6, f330
+	cbne	r8, r6, fail330
 	mov	=0x8000000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -1992,9 +1992,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc008000000000000, r6
-	cbne	r5, r6, f331
+	cbne	r5, r6, fail331
 	mov	=0x0, r6
-	cbne	r8, r6, f332
+	cbne	r8, r6, fail332
 	mov	=0x8000000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -2004,9 +2004,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f333
+	cbne	r5, r6, fail333
 	mov	=0x0, r6
-	cbne	r8, r6, f334
+	cbne	r8, r6, fail334
 	mov	=0x8000000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -2016,9 +2016,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f335
+	cbne	r5, r6, fail335
 	mov	=0x0, r6
-	cbne	r8, r6, f336
+	cbne	r8, r6, fail336
 	mov	=0x8000000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -2028,9 +2028,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc004000000000000, r6
-	cbne	r5, r6, f337
+	cbne	r5, r6, fail337
 	mov	=0x0, r6
-	cbne	r8, r6, f338
+	cbne	r8, r6, fail338
 	mov	=0x8000000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -2040,9 +2040,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc004000000000000, r6
-	cbne	r5, r6, f339
+	cbne	r5, r6, fail339
 	mov	=0x0, r6
-	cbne	r8, r6, f340
+	cbne	r8, r6, fail340
 	mov	=0x8000000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -2052,9 +2052,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00e000000000000, r6
-	cbne	r5, r6, f341
+	cbne	r5, r6, fail341
 	mov	=0x0, r6
-	cbne	r8, r6, f342
+	cbne	r8, r6, fail342
 	mov	=0x8000000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -2064,9 +2064,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00e000000000000, r6
-	cbne	r5, r6, f343
+	cbne	r5, r6, fail343
 	mov	=0x0, r6
-	cbne	r8, r6, f344
+	cbne	r8, r6, fail344
 	mov	=0x8000000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -2076,9 +2076,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x400e000000000000, r6
-	cbne	r5, r6, f345
+	cbne	r5, r6, fail345
 	mov	=0x0, r6
-	cbne	r8, r6, f346
+	cbne	r8, r6, fail346
 	mov	=0x8000000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -2088,9 +2088,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x400e000000000000, r6
-	cbne	r5, r6, f347
+	cbne	r5, r6, fail347
 	mov	=0x0, r6
-	cbne	r8, r6, f348
+	cbne	r8, r6, fail348
 	mov	=0x8000000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -2100,9 +2100,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01e000000000000, r6
-	cbne	r5, r6, f349
+	cbne	r5, r6, fail349
 	mov	=0x0, r6
-	cbne	r8, r6, f350
+	cbne	r8, r6, fail350
 	mov	=0x8000000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -2112,9 +2112,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01e000000000000, r6
-	cbne	r5, r6, f351
+	cbne	r5, r6, fail351
 	mov	=0x0, r6
-	cbne	r8, r6, f352
+	cbne	r8, r6, fail352
 	mov	=0x8000000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x0, r3
@@ -2124,9 +2124,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f353
+	cbne	r5, r6, fail353
 	mov	=0x0, r6
-	cbne	r8, r6, f354
+	cbne	r8, r6, fail354
 	mov	=0x8000000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x0, r3
@@ -2136,9 +2136,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x8000000000000000, r6
-	cbne	r5, r6, f355
+	cbne	r5, r6, fail355
 	mov	=0x0, r6
-	cbne	r8, r6, f356
+	cbne	r8, r6, fail356
 	mov	=0x8000000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -2148,9 +2148,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f357
+	cbne	r5, r6, fail357
 	mov	=0x0, r6
-	cbne	r8, r6, f358
+	cbne	r8, r6, fail358
 	mov	=0x8000000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -2160,9 +2160,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f359
+	cbne	r5, r6, fail359
 	mov	=0x0, r6
-	cbne	r8, r6, f360
+	cbne	r8, r6, fail360
 	mov	=0x8000000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -2172,9 +2172,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f361
+	cbne	r5, r6, fail361
 	mov	=0x0, r6
-	cbne	r8, r6, f362
+	cbne	r8, r6, fail362
 	mov	=0x8000000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -2184,9 +2184,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f363
+	cbne	r5, r6, fail363
 	mov	=0x0, r6
-	cbne	r8, r6, f364
+	cbne	r8, r6, fail364
 	mov	=0x8000000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -2196,9 +2196,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff0000000000000, r6
-	cbne	r5, r6, f365
+	cbne	r5, r6, fail365
 	mov	=0x0, r6
-	cbne	r8, r6, f366
+	cbne	r8, r6, fail366
 	mov	=0x8000000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -2208,9 +2208,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff0000000000000, r6
-	cbne	r5, r6, f367
+	cbne	r5, r6, fail367
 	mov	=0x0, r6
-	cbne	r8, r6, f368
+	cbne	r8, r6, fail368
 	mov	=0x8000000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -2220,9 +2220,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc000000000000000, r6
-	cbne	r5, r6, f369
+	cbne	r5, r6, fail369
 	mov	=0x0, r6
-	cbne	r8, r6, f370
+	cbne	r8, r6, fail370
 	mov	=0x8000000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -2232,9 +2232,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc000000000000000, r6
-	cbne	r5, r6, f371
+	cbne	r5, r6, fail371
 	mov	=0x0, r6
-	cbne	r8, r6, f372
+	cbne	r8, r6, fail372
 	mov	=0x8000000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -2244,9 +2244,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc008000000000000, r6
-	cbne	r5, r6, f373
+	cbne	r5, r6, fail373
 	mov	=0x0, r6
-	cbne	r8, r6, f374
+	cbne	r8, r6, fail374
 	mov	=0x8000000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -2256,9 +2256,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc008000000000000, r6
-	cbne	r5, r6, f375
+	cbne	r5, r6, fail375
 	mov	=0x0, r6
-	cbne	r8, r6, f376
+	cbne	r8, r6, fail376
 	mov	=0x8000000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -2268,9 +2268,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f377
+	cbne	r5, r6, fail377
 	mov	=0x0, r6
-	cbne	r8, r6, f378
+	cbne	r8, r6, fail378
 	mov	=0x8000000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -2280,9 +2280,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f379
+	cbne	r5, r6, fail379
 	mov	=0x0, r6
-	cbne	r8, r6, f380
+	cbne	r8, r6, fail380
 	mov	=0x8000000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -2292,9 +2292,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc004000000000000, r6
-	cbne	r5, r6, f381
+	cbne	r5, r6, fail381
 	mov	=0x0, r6
-	cbne	r8, r6, f382
+	cbne	r8, r6, fail382
 	mov	=0x8000000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -2304,9 +2304,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc004000000000000, r6
-	cbne	r5, r6, f383
+	cbne	r5, r6, fail383
 	mov	=0x0, r6
-	cbne	r8, r6, f384
+	cbne	r8, r6, fail384
 	mov	=0x8000000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -2316,9 +2316,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00e000000000000, r6
-	cbne	r5, r6, f385
+	cbne	r5, r6, fail385
 	mov	=0x0, r6
-	cbne	r8, r6, f386
+	cbne	r8, r6, fail386
 	mov	=0x8000000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -2328,9 +2328,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00e000000000000, r6
-	cbne	r5, r6, f387
+	cbne	r5, r6, fail387
 	mov	=0x0, r6
-	cbne	r8, r6, f388
+	cbne	r8, r6, fail388
 	mov	=0x8000000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -2340,9 +2340,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x400e000000000000, r6
-	cbne	r5, r6, f389
+	cbne	r5, r6, fail389
 	mov	=0x0, r6
-	cbne	r8, r6, f390
+	cbne	r8, r6, fail390
 	mov	=0x8000000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -2352,9 +2352,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x400e000000000000, r6
-	cbne	r5, r6, f391
+	cbne	r5, r6, fail391
 	mov	=0x0, r6
-	cbne	r8, r6, f392
+	cbne	r8, r6, fail392
 	mov	=0x8000000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -2364,9 +2364,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01e000000000000, r6
-	cbne	r5, r6, f393
+	cbne	r5, r6, fail393
 	mov	=0x0, r6
-	cbne	r8, r6, f394
+	cbne	r8, r6, fail394
 	mov	=0x8000000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -2376,9 +2376,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01e000000000000, r6
-	cbne	r5, r6, f395
+	cbne	r5, r6, fail395
 	mov	=0x0, r6
-	cbne	r8, r6, f396
+	cbne	r8, r6, fail396
 	mov	=0x8000000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x0, r3
@@ -2388,9 +2388,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x8000000000000000, r6
-	cbne	r5, r6, f397
+	cbne	r5, r6, fail397
 	mov	=0x0, r6
-	cbne	r8, r6, f398
+	cbne	r8, r6, fail398
 	mov	=0x8000000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x0, r3
@@ -2400,9 +2400,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f399
+	cbne	r5, r6, fail399
 	mov	=0x0, r6
-	cbne	r8, r6, f400
+	cbne	r8, r6, fail400
 	mov	=0x8000000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -2412,9 +2412,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f401
+	cbne	r5, r6, fail401
 	mov	=0x0, r6
-	cbne	r8, r6, f402
+	cbne	r8, r6, fail402
 	mov	=0x8000000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -2424,9 +2424,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f403
+	cbne	r5, r6, fail403
 	mov	=0x0, r6
-	cbne	r8, r6, f404
+	cbne	r8, r6, fail404
 	mov	=0x8000000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -2436,9 +2436,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f405
+	cbne	r5, r6, fail405
 	mov	=0x0, r6
-	cbne	r8, r6, f406
+	cbne	r8, r6, fail406
 	mov	=0x8000000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -2448,9 +2448,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f407
+	cbne	r5, r6, fail407
 	mov	=0x0, r6
-	cbne	r8, r6, f408
+	cbne	r8, r6, fail408
 	mov	=0x8000000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -2460,9 +2460,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff0000000000000, r6
-	cbne	r5, r6, f409
+	cbne	r5, r6, fail409
 	mov	=0x0, r6
-	cbne	r8, r6, f410
+	cbne	r8, r6, fail410
 	mov	=0x8000000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -2472,9 +2472,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff0000000000000, r6
-	cbne	r5, r6, f411
+	cbne	r5, r6, fail411
 	mov	=0x0, r6
-	cbne	r8, r6, f412
+	cbne	r8, r6, fail412
 	mov	=0x8000000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -2484,9 +2484,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc000000000000000, r6
-	cbne	r5, r6, f413
+	cbne	r5, r6, fail413
 	mov	=0x0, r6
-	cbne	r8, r6, f414
+	cbne	r8, r6, fail414
 	mov	=0x8000000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -2496,9 +2496,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc000000000000000, r6
-	cbne	r5, r6, f415
+	cbne	r5, r6, fail415
 	mov	=0x0, r6
-	cbne	r8, r6, f416
+	cbne	r8, r6, fail416
 	mov	=0x8000000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -2508,9 +2508,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc008000000000000, r6
-	cbne	r5, r6, f417
+	cbne	r5, r6, fail417
 	mov	=0x0, r6
-	cbne	r8, r6, f418
+	cbne	r8, r6, fail418
 	mov	=0x8000000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -2520,9 +2520,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc008000000000000, r6
-	cbne	r5, r6, f419
+	cbne	r5, r6, fail419
 	mov	=0x0, r6
-	cbne	r8, r6, f420
+	cbne	r8, r6, fail420
 	mov	=0x8000000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -2532,9 +2532,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f421
+	cbne	r5, r6, fail421
 	mov	=0x0, r6
-	cbne	r8, r6, f422
+	cbne	r8, r6, fail422
 	mov	=0x8000000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -2544,9 +2544,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f423
+	cbne	r5, r6, fail423
 	mov	=0x0, r6
-	cbne	r8, r6, f424
+	cbne	r8, r6, fail424
 	mov	=0x8000000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -2556,9 +2556,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc004000000000000, r6
-	cbne	r5, r6, f425
+	cbne	r5, r6, fail425
 	mov	=0x0, r6
-	cbne	r8, r6, f426
+	cbne	r8, r6, fail426
 	mov	=0x8000000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -2568,9 +2568,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc004000000000000, r6
-	cbne	r5, r6, f427
+	cbne	r5, r6, fail427
 	mov	=0x0, r6
-	cbne	r8, r6, f428
+	cbne	r8, r6, fail428
 	mov	=0x8000000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -2580,9 +2580,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00e000000000000, r6
-	cbne	r5, r6, f429
+	cbne	r5, r6, fail429
 	mov	=0x0, r6
-	cbne	r8, r6, f430
+	cbne	r8, r6, fail430
 	mov	=0x8000000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -2592,9 +2592,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00e000000000000, r6
-	cbne	r5, r6, f431
+	cbne	r5, r6, fail431
 	mov	=0x0, r6
-	cbne	r8, r6, f432
+	cbne	r8, r6, fail432
 	mov	=0x8000000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -2604,9 +2604,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x400e000000000000, r6
-	cbne	r5, r6, f433
+	cbne	r5, r6, fail433
 	mov	=0x0, r6
-	cbne	r8, r6, f434
+	cbne	r8, r6, fail434
 	mov	=0x8000000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -2616,9 +2616,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x400e000000000000, r6
-	cbne	r5, r6, f435
+	cbne	r5, r6, fail435
 	mov	=0x0, r6
-	cbne	r8, r6, f436
+	cbne	r8, r6, fail436
 	mov	=0x8000000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -2628,9 +2628,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01e000000000000, r6
-	cbne	r5, r6, f437
+	cbne	r5, r6, fail437
 	mov	=0x0, r6
-	cbne	r8, r6, f438
+	cbne	r8, r6, fail438
 	mov	=0x8000000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -2640,9 +2640,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01e000000000000, r6
-	cbne	r5, r6, f439
+	cbne	r5, r6, fail439
 	mov	=0x0, r6
-	cbne	r8, r6, f440
+	cbne	r8, r6, fail440
 	mov	=0x3ff0000000000000, r1
 	mov	=0x0, r2
 	mov	=0x0, r3
@@ -2652,9 +2652,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f441
+	cbne	r5, r6, fail441
 	mov	=0x0, r6
-	cbne	r8, r6, f442
+	cbne	r8, r6, fail442
 	mov	=0x3ff0000000000000, r1
 	mov	=0x0, r2
 	mov	=0x0, r3
@@ -2664,9 +2664,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x8000000000000000, r6
-	cbne	r5, r6, f443
+	cbne	r5, r6, fail443
 	mov	=0x0, r6
-	cbne	r8, r6, f444
+	cbne	r8, r6, fail444
 	mov	=0x3ff0000000000000, r1
 	mov	=0x0, r2
 	mov	=0x8000000000000000, r3
@@ -2676,9 +2676,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f445
+	cbne	r5, r6, fail445
 	mov	=0x0, r6
-	cbne	r8, r6, f446
+	cbne	r8, r6, fail446
 	mov	=0x3ff0000000000000, r1
 	mov	=0x0, r2
 	mov	=0x8000000000000000, r3
@@ -2688,9 +2688,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f447
+	cbne	r5, r6, fail447
 	mov	=0x0, r6
-	cbne	r8, r6, f448
+	cbne	r8, r6, fail448
 	mov	=0x3ff0000000000000, r1
 	mov	=0x0, r2
 	mov	=0x3ff0000000000000, r3
@@ -2700,9 +2700,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f449
+	cbne	r5, r6, fail449
 	mov	=0x0, r6
-	cbne	r8, r6, f450
+	cbne	r8, r6, fail450
 	mov	=0x3ff0000000000000, r1
 	mov	=0x0, r2
 	mov	=0x3ff0000000000000, r3
@@ -2712,9 +2712,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f451
+	cbne	r5, r6, fail451
 	mov	=0x0, r6
-	cbne	r8, r6, f452
+	cbne	r8, r6, fail452
 	mov	=0x3ff0000000000000, r1
 	mov	=0x0, r2
 	mov	=0xbff0000000000000, r3
@@ -2724,9 +2724,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff0000000000000, r6
-	cbne	r5, r6, f453
+	cbne	r5, r6, fail453
 	mov	=0x0, r6
-	cbne	r8, r6, f454
+	cbne	r8, r6, fail454
 	mov	=0x3ff0000000000000, r1
 	mov	=0x0, r2
 	mov	=0xbff0000000000000, r3
@@ -2736,9 +2736,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff0000000000000, r6
-	cbne	r5, r6, f455
+	cbne	r5, r6, fail455
 	mov	=0x0, r6
-	cbne	r8, r6, f456
+	cbne	r8, r6, fail456
 	mov	=0x3ff0000000000000, r1
 	mov	=0x0, r2
 	mov	=0x4000000000000000, r3
@@ -2748,9 +2748,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc000000000000000, r6
-	cbne	r5, r6, f457
+	cbne	r5, r6, fail457
 	mov	=0x0, r6
-	cbne	r8, r6, f458
+	cbne	r8, r6, fail458
 	mov	=0x3ff0000000000000, r1
 	mov	=0x0, r2
 	mov	=0x4000000000000000, r3
@@ -2760,9 +2760,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc000000000000000, r6
-	cbne	r5, r6, f459
+	cbne	r5, r6, fail459
 	mov	=0x0, r6
-	cbne	r8, r6, f460
+	cbne	r8, r6, fail460
 	mov	=0x3ff0000000000000, r1
 	mov	=0x0, r2
 	mov	=0x4008000000000000, r3
@@ -2772,9 +2772,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc008000000000000, r6
-	cbne	r5, r6, f461
+	cbne	r5, r6, fail461
 	mov	=0x0, r6
-	cbne	r8, r6, f462
+	cbne	r8, r6, fail462
 	mov	=0x3ff0000000000000, r1
 	mov	=0x0, r2
 	mov	=0x4008000000000000, r3
@@ -2784,9 +2784,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc008000000000000, r6
-	cbne	r5, r6, f463
+	cbne	r5, r6, fail463
 	mov	=0x0, r6
-	cbne	r8, r6, f464
+	cbne	r8, r6, fail464
 	mov	=0x3ff0000000000000, r1
 	mov	=0x0, r2
 	mov	=0x3ff8000000000000, r3
@@ -2796,9 +2796,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f465
+	cbne	r5, r6, fail465
 	mov	=0x0, r6
-	cbne	r8, r6, f466
+	cbne	r8, r6, fail466
 	mov	=0x3ff0000000000000, r1
 	mov	=0x0, r2
 	mov	=0x3ff8000000000000, r3
@@ -2808,9 +2808,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f467
+	cbne	r5, r6, fail467
 	mov	=0x0, r6
-	cbne	r8, r6, f468
+	cbne	r8, r6, fail468
 	mov	=0x3ff0000000000000, r1
 	mov	=0x0, r2
 	mov	=0x4004000000000000, r3
@@ -2820,9 +2820,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc004000000000000, r6
-	cbne	r5, r6, f469
+	cbne	r5, r6, fail469
 	mov	=0x0, r6
-	cbne	r8, r6, f470
+	cbne	r8, r6, fail470
 	mov	=0x3ff0000000000000, r1
 	mov	=0x0, r2
 	mov	=0x4004000000000000, r3
@@ -2832,9 +2832,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc004000000000000, r6
-	cbne	r5, r6, f471
+	cbne	r5, r6, fail471
 	mov	=0x0, r6
-	cbne	r8, r6, f472
+	cbne	r8, r6, fail472
 	mov	=0x3ff0000000000000, r1
 	mov	=0x0, r2
 	mov	=0x400e000000000000, r3
@@ -2844,9 +2844,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00e000000000000, r6
-	cbne	r5, r6, f473
+	cbne	r5, r6, fail473
 	mov	=0x0, r6
-	cbne	r8, r6, f474
+	cbne	r8, r6, fail474
 	mov	=0x3ff0000000000000, r1
 	mov	=0x0, r2
 	mov	=0x400e000000000000, r3
@@ -2856,9 +2856,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00e000000000000, r6
-	cbne	r5, r6, f475
+	cbne	r5, r6, fail475
 	mov	=0x0, r6
-	cbne	r8, r6, f476
+	cbne	r8, r6, fail476
 	mov	=0x3ff0000000000000, r1
 	mov	=0x0, r2
 	mov	=0xc00e000000000000, r3
@@ -2868,9 +2868,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x400e000000000000, r6
-	cbne	r5, r6, f477
+	cbne	r5, r6, fail477
 	mov	=0x0, r6
-	cbne	r8, r6, f478
+	cbne	r8, r6, fail478
 	mov	=0x3ff0000000000000, r1
 	mov	=0x0, r2
 	mov	=0xc00e000000000000, r3
@@ -2880,9 +2880,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x400e000000000000, r6
-	cbne	r5, r6, f479
+	cbne	r5, r6, fail479
 	mov	=0x0, r6
-	cbne	r8, r6, f480
+	cbne	r8, r6, fail480
 	mov	=0x3ff0000000000000, r1
 	mov	=0x0, r2
 	mov	=0x401e000000000000, r3
@@ -2892,9 +2892,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01e000000000000, r6
-	cbne	r5, r6, f481
+	cbne	r5, r6, fail481
 	mov	=0x0, r6
-	cbne	r8, r6, f482
+	cbne	r8, r6, fail482
 	mov	=0x3ff0000000000000, r1
 	mov	=0x0, r2
 	mov	=0x401e000000000000, r3
@@ -2904,9 +2904,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01e000000000000, r6
-	cbne	r5, r6, f483
+	cbne	r5, r6, fail483
 	mov	=0x0, r6
-	cbne	r8, r6, f484
+	cbne	r8, r6, fail484
 	mov	=0x3ff0000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x0, r3
@@ -2916,9 +2916,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x8000000000000000, r6
-	cbne	r5, r6, f485
+	cbne	r5, r6, fail485
 	mov	=0x0, r6
-	cbne	r8, r6, f486
+	cbne	r8, r6, fail486
 	mov	=0x3ff0000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x0, r3
@@ -2928,9 +2928,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f487
+	cbne	r5, r6, fail487
 	mov	=0x0, r6
-	cbne	r8, r6, f488
+	cbne	r8, r6, fail488
 	mov	=0x3ff0000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -2940,9 +2940,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f489
+	cbne	r5, r6, fail489
 	mov	=0x0, r6
-	cbne	r8, r6, f490
+	cbne	r8, r6, fail490
 	mov	=0x3ff0000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -2952,9 +2952,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f491
+	cbne	r5, r6, fail491
 	mov	=0x0, r6
-	cbne	r8, r6, f492
+	cbne	r8, r6, fail492
 	mov	=0x3ff0000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -2964,9 +2964,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f493
+	cbne	r5, r6, fail493
 	mov	=0x0, r6
-	cbne	r8, r6, f494
+	cbne	r8, r6, fail494
 	mov	=0x3ff0000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -2976,9 +2976,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f495
+	cbne	r5, r6, fail495
 	mov	=0x0, r6
-	cbne	r8, r6, f496
+	cbne	r8, r6, fail496
 	mov	=0x3ff0000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -2988,9 +2988,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff0000000000000, r6
-	cbne	r5, r6, f497
+	cbne	r5, r6, fail497
 	mov	=0x0, r6
-	cbne	r8, r6, f498
+	cbne	r8, r6, fail498
 	mov	=0x3ff0000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -3000,9 +3000,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff0000000000000, r6
-	cbne	r5, r6, f499
+	cbne	r5, r6, fail499
 	mov	=0x0, r6
-	cbne	r8, r6, f500
+	cbne	r8, r6, fail500
 	mov	=0x3ff0000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -3012,9 +3012,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc000000000000000, r6
-	cbne	r5, r6, f501
+	cbne	r5, r6, fail501
 	mov	=0x0, r6
-	cbne	r8, r6, f502
+	cbne	r8, r6, fail502
 	mov	=0x3ff0000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -3024,9 +3024,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc000000000000000, r6
-	cbne	r5, r6, f503
+	cbne	r5, r6, fail503
 	mov	=0x0, r6
-	cbne	r8, r6, f504
+	cbne	r8, r6, fail504
 	mov	=0x3ff0000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -3036,9 +3036,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc008000000000000, r6
-	cbne	r5, r6, f505
+	cbne	r5, r6, fail505
 	mov	=0x0, r6
-	cbne	r8, r6, f506
+	cbne	r8, r6, fail506
 	mov	=0x3ff0000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -3048,9 +3048,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc008000000000000, r6
-	cbne	r5, r6, f507
+	cbne	r5, r6, fail507
 	mov	=0x0, r6
-	cbne	r8, r6, f508
+	cbne	r8, r6, fail508
 	mov	=0x3ff0000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -3060,9 +3060,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f509
+	cbne	r5, r6, fail509
 	mov	=0x0, r6
-	cbne	r8, r6, f510
+	cbne	r8, r6, fail510
 	mov	=0x3ff0000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -3072,9 +3072,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f511
+	cbne	r5, r6, fail511
 	mov	=0x0, r6
-	cbne	r8, r6, f512
+	cbne	r8, r6, fail512
 	mov	=0x3ff0000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -3084,9 +3084,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc004000000000000, r6
-	cbne	r5, r6, f513
+	cbne	r5, r6, fail513
 	mov	=0x0, r6
-	cbne	r8, r6, f514
+	cbne	r8, r6, fail514
 	mov	=0x3ff0000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -3096,9 +3096,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc004000000000000, r6
-	cbne	r5, r6, f515
+	cbne	r5, r6, fail515
 	mov	=0x0, r6
-	cbne	r8, r6, f516
+	cbne	r8, r6, fail516
 	mov	=0x3ff0000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -3108,9 +3108,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00e000000000000, r6
-	cbne	r5, r6, f517
+	cbne	r5, r6, fail517
 	mov	=0x0, r6
-	cbne	r8, r6, f518
+	cbne	r8, r6, fail518
 	mov	=0x3ff0000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -3120,9 +3120,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00e000000000000, r6
-	cbne	r5, r6, f519
+	cbne	r5, r6, fail519
 	mov	=0x0, r6
-	cbne	r8, r6, f520
+	cbne	r8, r6, fail520
 	mov	=0x3ff0000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -3132,9 +3132,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x400e000000000000, r6
-	cbne	r5, r6, f521
+	cbne	r5, r6, fail521
 	mov	=0x0, r6
-	cbne	r8, r6, f522
+	cbne	r8, r6, fail522
 	mov	=0x3ff0000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -3144,9 +3144,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x400e000000000000, r6
-	cbne	r5, r6, f523
+	cbne	r5, r6, fail523
 	mov	=0x0, r6
-	cbne	r8, r6, f524
+	cbne	r8, r6, fail524
 	mov	=0x3ff0000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -3156,9 +3156,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01e000000000000, r6
-	cbne	r5, r6, f525
+	cbne	r5, r6, fail525
 	mov	=0x0, r6
-	cbne	r8, r6, f526
+	cbne	r8, r6, fail526
 	mov	=0x3ff0000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -3168,9 +3168,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01e000000000000, r6
-	cbne	r5, r6, f527
+	cbne	r5, r6, fail527
 	mov	=0x0, r6
-	cbne	r8, r6, f528
+	cbne	r8, r6, fail528
 	mov	=0x3ff0000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x0, r3
@@ -3180,9 +3180,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff0000000000000, r6
-	cbne	r5, r6, f529
+	cbne	r5, r6, fail529
 	mov	=0x0, r6
-	cbne	r8, r6, f530
+	cbne	r8, r6, fail530
 	mov	=0x3ff0000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x0, r3
@@ -3192,9 +3192,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f531
+	cbne	r5, r6, fail531
 	mov	=0x0, r6
-	cbne	r8, r6, f532
+	cbne	r8, r6, fail532
 	mov	=0x3ff0000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -3204,9 +3204,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff0000000000000, r6
-	cbne	r5, r6, f533
+	cbne	r5, r6, fail533
 	mov	=0x0, r6
-	cbne	r8, r6, f534
+	cbne	r8, r6, fail534
 	mov	=0x3ff0000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -3216,9 +3216,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f535
+	cbne	r5, r6, fail535
 	mov	=0x0, r6
-	cbne	r8, r6, f536
+	cbne	r8, r6, fail536
 	mov	=0x3ff0000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -3228,9 +3228,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f537
+	cbne	r5, r6, fail537
 	mov	=0x0, r6
-	cbne	r8, r6, f538
+	cbne	r8, r6, fail538
 	mov	=0x3ff0000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -3240,9 +3240,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc000000000000000, r6
-	cbne	r5, r6, f539
+	cbne	r5, r6, fail539
 	mov	=0x0, r6
-	cbne	r8, r6, f540
+	cbne	r8, r6, fail540
 	mov	=0x3ff0000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -3252,9 +3252,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4000000000000000, r6
-	cbne	r5, r6, f541
+	cbne	r5, r6, fail541
 	mov	=0x0, r6
-	cbne	r8, r6, f542
+	cbne	r8, r6, fail542
 	mov	=0x3ff0000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -3264,9 +3264,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f543
+	cbne	r5, r6, fail543
 	mov	=0x0, r6
-	cbne	r8, r6, f544
+	cbne	r8, r6, fail544
 	mov	=0x3ff0000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -3276,9 +3276,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f545
+	cbne	r5, r6, fail545
 	mov	=0x0, r6
-	cbne	r8, r6, f546
+	cbne	r8, r6, fail546
 	mov	=0x3ff0000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -3288,9 +3288,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc008000000000000, r6
-	cbne	r5, r6, f547
+	cbne	r5, r6, fail547
 	mov	=0x0, r6
-	cbne	r8, r6, f548
+	cbne	r8, r6, fail548
 	mov	=0x3ff0000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -3300,9 +3300,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc000000000000000, r6
-	cbne	r5, r6, f549
+	cbne	r5, r6, fail549
 	mov	=0x0, r6
-	cbne	r8, r6, f550
+	cbne	r8, r6, fail550
 	mov	=0x3ff0000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -3312,9 +3312,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc010000000000000, r6
-	cbne	r5, r6, f551
+	cbne	r5, r6, fail551
 	mov	=0x0, r6
-	cbne	r8, r6, f552
+	cbne	r8, r6, fail552
 	mov	=0x3ff0000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -3324,9 +3324,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbfe0000000000000, r6
-	cbne	r5, r6, f553
+	cbne	r5, r6, fail553
 	mov	=0x0, r6
-	cbne	r8, r6, f554
+	cbne	r8, r6, fail554
 	mov	=0x3ff0000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -3336,9 +3336,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc004000000000000, r6
-	cbne	r5, r6, f555
+	cbne	r5, r6, fail555
 	mov	=0x0, r6
-	cbne	r8, r6, f556
+	cbne	r8, r6, fail556
 	mov	=0x3ff0000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -3348,9 +3348,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f557
+	cbne	r5, r6, fail557
 	mov	=0x0, r6
-	cbne	r8, r6, f558
+	cbne	r8, r6, fail558
 	mov	=0x3ff0000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -3360,9 +3360,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00c000000000000, r6
-	cbne	r5, r6, f559
+	cbne	r5, r6, fail559
 	mov	=0x0, r6
-	cbne	r8, r6, f560
+	cbne	r8, r6, fail560
 	mov	=0x3ff0000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -3372,9 +3372,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc006000000000000, r6
-	cbne	r5, r6, f561
+	cbne	r5, r6, fail561
 	mov	=0x0, r6
-	cbne	r8, r6, f562
+	cbne	r8, r6, fail562
 	mov	=0x3ff0000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -3384,9 +3384,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc013000000000000, r6
-	cbne	r5, r6, f563
+	cbne	r5, r6, fail563
 	mov	=0x0, r6
-	cbne	r8, r6, f564
+	cbne	r8, r6, fail564
 	mov	=0x3ff0000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -3396,9 +3396,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4013000000000000, r6
-	cbne	r5, r6, f565
+	cbne	r5, r6, fail565
 	mov	=0x0, r6
-	cbne	r8, r6, f566
+	cbne	r8, r6, fail566
 	mov	=0x3ff0000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -3408,9 +3408,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4006000000000000, r6
-	cbne	r5, r6, f567
+	cbne	r5, r6, fail567
 	mov	=0x0, r6
-	cbne	r8, r6, f568
+	cbne	r8, r6, fail568
 	mov	=0x3ff0000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -3420,9 +3420,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01a000000000000, r6
-	cbne	r5, r6, f569
+	cbne	r5, r6, fail569
 	mov	=0x0, r6
-	cbne	r8, r6, f570
+	cbne	r8, r6, fail570
 	mov	=0x3ff0000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -3432,9 +3432,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc021000000000000, r6
-	cbne	r5, r6, f571
+	cbne	r5, r6, fail571
 	mov	=0x0, r6
-	cbne	r8, r6, f572
+	cbne	r8, r6, fail572
 	mov	=0x3ff0000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x0, r3
@@ -3444,9 +3444,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f573
+	cbne	r5, r6, fail573
 	mov	=0x0, r6
-	cbne	r8, r6, f574
+	cbne	r8, r6, fail574
 	mov	=0x3ff0000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x0, r3
@@ -3456,9 +3456,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff0000000000000, r6
-	cbne	r5, r6, f575
+	cbne	r5, r6, fail575
 	mov	=0x0, r6
-	cbne	r8, r6, f576
+	cbne	r8, r6, fail576
 	mov	=0x3ff0000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -3468,9 +3468,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f577
+	cbne	r5, r6, fail577
 	mov	=0x0, r6
-	cbne	r8, r6, f578
+	cbne	r8, r6, fail578
 	mov	=0x3ff0000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -3480,9 +3480,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff0000000000000, r6
-	cbne	r5, r6, f579
+	cbne	r5, r6, fail579
 	mov	=0x0, r6
-	cbne	r8, r6, f580
+	cbne	r8, r6, fail580
 	mov	=0x3ff0000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -3492,9 +3492,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc000000000000000, r6
-	cbne	r5, r6, f581
+	cbne	r5, r6, fail581
 	mov	=0x0, r6
-	cbne	r8, r6, f582
+	cbne	r8, r6, fail582
 	mov	=0x3ff0000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -3504,9 +3504,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f583
+	cbne	r5, r6, fail583
 	mov	=0x0, r6
-	cbne	r8, r6, f584
+	cbne	r8, r6, fail584
 	mov	=0x3ff0000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -3516,9 +3516,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f585
+	cbne	r5, r6, fail585
 	mov	=0x0, r6
-	cbne	r8, r6, f586
+	cbne	r8, r6, fail586
 	mov	=0x3ff0000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -3528,9 +3528,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4000000000000000, r6
-	cbne	r5, r6, f587
+	cbne	r5, r6, fail587
 	mov	=0x0, r6
-	cbne	r8, r6, f588
+	cbne	r8, r6, fail588
 	mov	=0x3ff0000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -3540,9 +3540,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc008000000000000, r6
-	cbne	r5, r6, f589
+	cbne	r5, r6, fail589
 	mov	=0x0, r6
-	cbne	r8, r6, f590
+	cbne	r8, r6, fail590
 	mov	=0x3ff0000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -3552,9 +3552,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f591
+	cbne	r5, r6, fail591
 	mov	=0x0, r6
-	cbne	r8, r6, f592
+	cbne	r8, r6, fail592
 	mov	=0x3ff0000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -3564,9 +3564,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc010000000000000, r6
-	cbne	r5, r6, f593
+	cbne	r5, r6, fail593
 	mov	=0x0, r6
-	cbne	r8, r6, f594
+	cbne	r8, r6, fail594
 	mov	=0x3ff0000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -3576,9 +3576,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc000000000000000, r6
-	cbne	r5, r6, f595
+	cbne	r5, r6, fail595
 	mov	=0x0, r6
-	cbne	r8, r6, f596
+	cbne	r8, r6, fail596
 	mov	=0x3ff0000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -3588,9 +3588,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc004000000000000, r6
-	cbne	r5, r6, f597
+	cbne	r5, r6, fail597
 	mov	=0x0, r6
-	cbne	r8, r6, f598
+	cbne	r8, r6, fail598
 	mov	=0x3ff0000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -3600,9 +3600,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbfe0000000000000, r6
-	cbne	r5, r6, f599
+	cbne	r5, r6, fail599
 	mov	=0x0, r6
-	cbne	r8, r6, f600
+	cbne	r8, r6, fail600
 	mov	=0x3ff0000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -3612,9 +3612,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00c000000000000, r6
-	cbne	r5, r6, f601
+	cbne	r5, r6, fail601
 	mov	=0x0, r6
-	cbne	r8, r6, f602
+	cbne	r8, r6, fail602
 	mov	=0x3ff0000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -3624,9 +3624,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f603
+	cbne	r5, r6, fail603
 	mov	=0x0, r6
-	cbne	r8, r6, f604
+	cbne	r8, r6, fail604
 	mov	=0x3ff0000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -3636,9 +3636,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc013000000000000, r6
-	cbne	r5, r6, f605
+	cbne	r5, r6, fail605
 	mov	=0x0, r6
-	cbne	r8, r6, f606
+	cbne	r8, r6, fail606
 	mov	=0x3ff0000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -3648,9 +3648,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc006000000000000, r6
-	cbne	r5, r6, f607
+	cbne	r5, r6, fail607
 	mov	=0x0, r6
-	cbne	r8, r6, f608
+	cbne	r8, r6, fail608
 	mov	=0x3ff0000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -3660,9 +3660,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4006000000000000, r6
-	cbne	r5, r6, f609
+	cbne	r5, r6, fail609
 	mov	=0x0, r6
-	cbne	r8, r6, f610
+	cbne	r8, r6, fail610
 	mov	=0x3ff0000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -3672,9 +3672,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4013000000000000, r6
-	cbne	r5, r6, f611
+	cbne	r5, r6, fail611
 	mov	=0x0, r6
-	cbne	r8, r6, f612
+	cbne	r8, r6, fail612
 	mov	=0x3ff0000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -3684,9 +3684,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc021000000000000, r6
-	cbne	r5, r6, f613
+	cbne	r5, r6, fail613
 	mov	=0x0, r6
-	cbne	r8, r6, f614
+	cbne	r8, r6, fail614
 	mov	=0x3ff0000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -3696,9 +3696,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01a000000000000, r6
-	cbne	r5, r6, f615
+	cbne	r5, r6, fail615
 	mov	=0x0, r6
-	cbne	r8, r6, f616
+	cbne	r8, r6, fail616
 	mov	=0x3ff0000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x0, r3
@@ -3708,9 +3708,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff8000000000000, r6
-	cbne	r5, r6, f617
+	cbne	r5, r6, fail617
 	mov	=0x0, r6
-	cbne	r8, r6, f618
+	cbne	r8, r6, fail618
 	mov	=0x3ff0000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x0, r3
@@ -3720,9 +3720,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f619
+	cbne	r5, r6, fail619
 	mov	=0x0, r6
-	cbne	r8, r6, f620
+	cbne	r8, r6, fail620
 	mov	=0x3ff0000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -3732,9 +3732,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff8000000000000, r6
-	cbne	r5, r6, f621
+	cbne	r5, r6, fail621
 	mov	=0x0, r6
-	cbne	r8, r6, f622
+	cbne	r8, r6, fail622
 	mov	=0x3ff0000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -3744,9 +3744,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f623
+	cbne	r5, r6, fail623
 	mov	=0x0, r6
-	cbne	r8, r6, f624
+	cbne	r8, r6, fail624
 	mov	=0x3ff0000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -3756,9 +3756,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3fe0000000000000, r6
-	cbne	r5, r6, f625
+	cbne	r5, r6, fail625
 	mov	=0x0, r6
-	cbne	r8, r6, f626
+	cbne	r8, r6, fail626
 	mov	=0x3ff0000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -3768,9 +3768,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc004000000000000, r6
-	cbne	r5, r6, f627
+	cbne	r5, r6, fail627
 	mov	=0x0, r6
-	cbne	r8, r6, f628
+	cbne	r8, r6, fail628
 	mov	=0x3ff0000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -3780,9 +3780,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4004000000000000, r6
-	cbne	r5, r6, f629
+	cbne	r5, r6, fail629
 	mov	=0x0, r6
-	cbne	r8, r6, f630
+	cbne	r8, r6, fail630
 	mov	=0x3ff0000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -3792,9 +3792,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbfe0000000000000, r6
-	cbne	r5, r6, f631
+	cbne	r5, r6, fail631
 	mov	=0x0, r6
-	cbne	r8, r6, f632
+	cbne	r8, r6, fail632
 	mov	=0x3ff0000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -3804,9 +3804,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbfe0000000000000, r6
-	cbne	r5, r6, f633
+	cbne	r5, r6, fail633
 	mov	=0x0, r6
-	cbne	r8, r6, f634
+	cbne	r8, r6, fail634
 	mov	=0x3ff0000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -3816,9 +3816,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00c000000000000, r6
-	cbne	r5, r6, f635
+	cbne	r5, r6, fail635
 	mov	=0x0, r6
-	cbne	r8, r6, f636
+	cbne	r8, r6, fail636
 	mov	=0x3ff0000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -3828,9 +3828,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f637
+	cbne	r5, r6, fail637
 	mov	=0x0, r6
-	cbne	r8, r6, f638
+	cbne	r8, r6, fail638
 	mov	=0x3ff0000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -3840,9 +3840,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc012000000000000, r6
-	cbne	r5, r6, f639
+	cbne	r5, r6, fail639
 	mov	=0x0, r6
-	cbne	r8, r6, f640
+	cbne	r8, r6, fail640
 	mov	=0x3ff0000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -3852,9 +3852,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f641
+	cbne	r5, r6, fail641
 	mov	=0x0, r6
-	cbne	r8, r6, f642
+	cbne	r8, r6, fail642
 	mov	=0x3ff0000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -3864,9 +3864,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc008000000000000, r6
-	cbne	r5, r6, f643
+	cbne	r5, r6, fail643
 	mov	=0x0, r6
-	cbne	r8, r6, f644
+	cbne	r8, r6, fail644
 	mov	=0x3ff0000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -3876,9 +3876,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f645
+	cbne	r5, r6, fail645
 	mov	=0x0, r6
-	cbne	r8, r6, f646
+	cbne	r8, r6, fail646
 	mov	=0x3ff0000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -3888,9 +3888,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc010000000000000, r6
-	cbne	r5, r6, f647
+	cbne	r5, r6, fail647
 	mov	=0x0, r6
-	cbne	r8, r6, f648
+	cbne	r8, r6, fail648
 	mov	=0x3ff0000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -3900,9 +3900,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc002000000000000, r6
-	cbne	r5, r6, f649
+	cbne	r5, r6, fail649
 	mov	=0x0, r6
-	cbne	r8, r6, f650
+	cbne	r8, r6, fail650
 	mov	=0x3ff0000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -3912,9 +3912,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc015000000000000, r6
-	cbne	r5, r6, f651
+	cbne	r5, r6, fail651
 	mov	=0x0, r6
-	cbne	r8, r6, f652
+	cbne	r8, r6, fail652
 	mov	=0x3ff0000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -3924,9 +3924,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4015000000000000, r6
-	cbne	r5, r6, f653
+	cbne	r5, r6, fail653
 	mov	=0x0, r6
-	cbne	r8, r6, f654
+	cbne	r8, r6, fail654
 	mov	=0x3ff0000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -3936,9 +3936,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4002000000000000, r6
-	cbne	r5, r6, f655
+	cbne	r5, r6, fail655
 	mov	=0x0, r6
-	cbne	r8, r6, f656
+	cbne	r8, r6, fail656
 	mov	=0x3ff0000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -3948,9 +3948,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc018000000000000, r6
-	cbne	r5, r6, f657
+	cbne	r5, r6, fail657
 	mov	=0x0, r6
-	cbne	r8, r6, f658
+	cbne	r8, r6, fail658
 	mov	=0x3ff0000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -3960,9 +3960,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc022000000000000, r6
-	cbne	r5, r6, f659
+	cbne	r5, r6, fail659
 	mov	=0x0, r6
-	cbne	r8, r6, f660
+	cbne	r8, r6, fail660
 	mov	=0xbff0000000000000, r1
 	mov	=0x0, r2
 	mov	=0x0, r3
@@ -3972,9 +3972,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x8000000000000000, r6
-	cbne	r5, r6, f661
+	cbne	r5, r6, fail661
 	mov	=0x0, r6
-	cbne	r8, r6, f662
+	cbne	r8, r6, fail662
 	mov	=0xbff0000000000000, r1
 	mov	=0x0, r2
 	mov	=0x0, r3
@@ -3984,9 +3984,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f663
+	cbne	r5, r6, fail663
 	mov	=0x0, r6
-	cbne	r8, r6, f664
+	cbne	r8, r6, fail664
 	mov	=0xbff0000000000000, r1
 	mov	=0x0, r2
 	mov	=0x8000000000000000, r3
@@ -3996,9 +3996,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f665
+	cbne	r5, r6, fail665
 	mov	=0x0, r6
-	cbne	r8, r6, f666
+	cbne	r8, r6, fail666
 	mov	=0xbff0000000000000, r1
 	mov	=0x0, r2
 	mov	=0x8000000000000000, r3
@@ -4008,9 +4008,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f667
+	cbne	r5, r6, fail667
 	mov	=0x0, r6
-	cbne	r8, r6, f668
+	cbne	r8, r6, fail668
 	mov	=0xbff0000000000000, r1
 	mov	=0x0, r2
 	mov	=0x3ff0000000000000, r3
@@ -4020,9 +4020,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f669
+	cbne	r5, r6, fail669
 	mov	=0x0, r6
-	cbne	r8, r6, f670
+	cbne	r8, r6, fail670
 	mov	=0xbff0000000000000, r1
 	mov	=0x0, r2
 	mov	=0x3ff0000000000000, r3
@@ -4032,9 +4032,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f671
+	cbne	r5, r6, fail671
 	mov	=0x0, r6
-	cbne	r8, r6, f672
+	cbne	r8, r6, fail672
 	mov	=0xbff0000000000000, r1
 	mov	=0x0, r2
 	mov	=0xbff0000000000000, r3
@@ -4044,9 +4044,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff0000000000000, r6
-	cbne	r5, r6, f673
+	cbne	r5, r6, fail673
 	mov	=0x0, r6
-	cbne	r8, r6, f674
+	cbne	r8, r6, fail674
 	mov	=0xbff0000000000000, r1
 	mov	=0x0, r2
 	mov	=0xbff0000000000000, r3
@@ -4056,9 +4056,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff0000000000000, r6
-	cbne	r5, r6, f675
+	cbne	r5, r6, fail675
 	mov	=0x0, r6
-	cbne	r8, r6, f676
+	cbne	r8, r6, fail676
 	mov	=0xbff0000000000000, r1
 	mov	=0x0, r2
 	mov	=0x4000000000000000, r3
@@ -4068,9 +4068,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc000000000000000, r6
-	cbne	r5, r6, f677
+	cbne	r5, r6, fail677
 	mov	=0x0, r6
-	cbne	r8, r6, f678
+	cbne	r8, r6, fail678
 	mov	=0xbff0000000000000, r1
 	mov	=0x0, r2
 	mov	=0x4000000000000000, r3
@@ -4080,9 +4080,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc000000000000000, r6
-	cbne	r5, r6, f679
+	cbne	r5, r6, fail679
 	mov	=0x0, r6
-	cbne	r8, r6, f680
+	cbne	r8, r6, fail680
 	mov	=0xbff0000000000000, r1
 	mov	=0x0, r2
 	mov	=0x4008000000000000, r3
@@ -4092,9 +4092,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc008000000000000, r6
-	cbne	r5, r6, f681
+	cbne	r5, r6, fail681
 	mov	=0x0, r6
-	cbne	r8, r6, f682
+	cbne	r8, r6, fail682
 	mov	=0xbff0000000000000, r1
 	mov	=0x0, r2
 	mov	=0x4008000000000000, r3
@@ -4104,9 +4104,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc008000000000000, r6
-	cbne	r5, r6, f683
+	cbne	r5, r6, fail683
 	mov	=0x0, r6
-	cbne	r8, r6, f684
+	cbne	r8, r6, fail684
 	mov	=0xbff0000000000000, r1
 	mov	=0x0, r2
 	mov	=0x3ff8000000000000, r3
@@ -4116,9 +4116,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f685
+	cbne	r5, r6, fail685
 	mov	=0x0, r6
-	cbne	r8, r6, f686
+	cbne	r8, r6, fail686
 	mov	=0xbff0000000000000, r1
 	mov	=0x0, r2
 	mov	=0x3ff8000000000000, r3
@@ -4128,9 +4128,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f687
+	cbne	r5, r6, fail687
 	mov	=0x0, r6
-	cbne	r8, r6, f688
+	cbne	r8, r6, fail688
 	mov	=0xbff0000000000000, r1
 	mov	=0x0, r2
 	mov	=0x4004000000000000, r3
@@ -4140,9 +4140,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc004000000000000, r6
-	cbne	r5, r6, f689
+	cbne	r5, r6, fail689
 	mov	=0x0, r6
-	cbne	r8, r6, f690
+	cbne	r8, r6, fail690
 	mov	=0xbff0000000000000, r1
 	mov	=0x0, r2
 	mov	=0x4004000000000000, r3
@@ -4152,9 +4152,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc004000000000000, r6
-	cbne	r5, r6, f691
+	cbne	r5, r6, fail691
 	mov	=0x0, r6
-	cbne	r8, r6, f692
+	cbne	r8, r6, fail692
 	mov	=0xbff0000000000000, r1
 	mov	=0x0, r2
 	mov	=0x400e000000000000, r3
@@ -4164,9 +4164,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00e000000000000, r6
-	cbne	r5, r6, f693
+	cbne	r5, r6, fail693
 	mov	=0x0, r6
-	cbne	r8, r6, f694
+	cbne	r8, r6, fail694
 	mov	=0xbff0000000000000, r1
 	mov	=0x0, r2
 	mov	=0x400e000000000000, r3
@@ -4176,9 +4176,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00e000000000000, r6
-	cbne	r5, r6, f695
+	cbne	r5, r6, fail695
 	mov	=0x0, r6
-	cbne	r8, r6, f696
+	cbne	r8, r6, fail696
 	mov	=0xbff0000000000000, r1
 	mov	=0x0, r2
 	mov	=0xc00e000000000000, r3
@@ -4188,9 +4188,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x400e000000000000, r6
-	cbne	r5, r6, f697
+	cbne	r5, r6, fail697
 	mov	=0x0, r6
-	cbne	r8, r6, f698
+	cbne	r8, r6, fail698
 	mov	=0xbff0000000000000, r1
 	mov	=0x0, r2
 	mov	=0xc00e000000000000, r3
@@ -4200,9 +4200,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x400e000000000000, r6
-	cbne	r5, r6, f699
+	cbne	r5, r6, fail699
 	mov	=0x0, r6
-	cbne	r8, r6, f700
+	cbne	r8, r6, fail700
 	mov	=0xbff0000000000000, r1
 	mov	=0x0, r2
 	mov	=0x401e000000000000, r3
@@ -4212,9 +4212,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01e000000000000, r6
-	cbne	r5, r6, f701
+	cbne	r5, r6, fail701
 	mov	=0x0, r6
-	cbne	r8, r6, f702
+	cbne	r8, r6, fail702
 	mov	=0xbff0000000000000, r1
 	mov	=0x0, r2
 	mov	=0x401e000000000000, r3
@@ -4224,9 +4224,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01e000000000000, r6
-	cbne	r5, r6, f703
+	cbne	r5, r6, fail703
 	mov	=0x0, r6
-	cbne	r8, r6, f704
+	cbne	r8, r6, fail704
 	mov	=0xbff0000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x0, r3
@@ -4236,9 +4236,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f705
+	cbne	r5, r6, fail705
 	mov	=0x0, r6
-	cbne	r8, r6, f706
+	cbne	r8, r6, fail706
 	mov	=0xbff0000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x0, r3
@@ -4248,9 +4248,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x8000000000000000, r6
-	cbne	r5, r6, f707
+	cbne	r5, r6, fail707
 	mov	=0x0, r6
-	cbne	r8, r6, f708
+	cbne	r8, r6, fail708
 	mov	=0xbff0000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -4260,9 +4260,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f709
+	cbne	r5, r6, fail709
 	mov	=0x0, r6
-	cbne	r8, r6, f710
+	cbne	r8, r6, fail710
 	mov	=0xbff0000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -4272,9 +4272,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f711
+	cbne	r5, r6, fail711
 	mov	=0x0, r6
-	cbne	r8, r6, f712
+	cbne	r8, r6, fail712
 	mov	=0xbff0000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -4284,9 +4284,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f713
+	cbne	r5, r6, fail713
 	mov	=0x0, r6
-	cbne	r8, r6, f714
+	cbne	r8, r6, fail714
 	mov	=0xbff0000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -4296,9 +4296,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f715
+	cbne	r5, r6, fail715
 	mov	=0x0, r6
-	cbne	r8, r6, f716
+	cbne	r8, r6, fail716
 	mov	=0xbff0000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -4308,9 +4308,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff0000000000000, r6
-	cbne	r5, r6, f717
+	cbne	r5, r6, fail717
 	mov	=0x0, r6
-	cbne	r8, r6, f718
+	cbne	r8, r6, fail718
 	mov	=0xbff0000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -4320,9 +4320,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff0000000000000, r6
-	cbne	r5, r6, f719
+	cbne	r5, r6, fail719
 	mov	=0x0, r6
-	cbne	r8, r6, f720
+	cbne	r8, r6, fail720
 	mov	=0xbff0000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -4332,9 +4332,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc000000000000000, r6
-	cbne	r5, r6, f721
+	cbne	r5, r6, fail721
 	mov	=0x0, r6
-	cbne	r8, r6, f722
+	cbne	r8, r6, fail722
 	mov	=0xbff0000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -4344,9 +4344,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc000000000000000, r6
-	cbne	r5, r6, f723
+	cbne	r5, r6, fail723
 	mov	=0x0, r6
-	cbne	r8, r6, f724
+	cbne	r8, r6, fail724
 	mov	=0xbff0000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -4356,9 +4356,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc008000000000000, r6
-	cbne	r5, r6, f725
+	cbne	r5, r6, fail725
 	mov	=0x0, r6
-	cbne	r8, r6, f726
+	cbne	r8, r6, fail726
 	mov	=0xbff0000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -4368,9 +4368,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc008000000000000, r6
-	cbne	r5, r6, f727
+	cbne	r5, r6, fail727
 	mov	=0x0, r6
-	cbne	r8, r6, f728
+	cbne	r8, r6, fail728
 	mov	=0xbff0000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -4380,9 +4380,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f729
+	cbne	r5, r6, fail729
 	mov	=0x0, r6
-	cbne	r8, r6, f730
+	cbne	r8, r6, fail730
 	mov	=0xbff0000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -4392,9 +4392,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f731
+	cbne	r5, r6, fail731
 	mov	=0x0, r6
-	cbne	r8, r6, f732
+	cbne	r8, r6, fail732
 	mov	=0xbff0000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -4404,9 +4404,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc004000000000000, r6
-	cbne	r5, r6, f733
+	cbne	r5, r6, fail733
 	mov	=0x0, r6
-	cbne	r8, r6, f734
+	cbne	r8, r6, fail734
 	mov	=0xbff0000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -4416,9 +4416,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc004000000000000, r6
-	cbne	r5, r6, f735
+	cbne	r5, r6, fail735
 	mov	=0x0, r6
-	cbne	r8, r6, f736
+	cbne	r8, r6, fail736
 	mov	=0xbff0000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -4428,9 +4428,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00e000000000000, r6
-	cbne	r5, r6, f737
+	cbne	r5, r6, fail737
 	mov	=0x0, r6
-	cbne	r8, r6, f738
+	cbne	r8, r6, fail738
 	mov	=0xbff0000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -4440,9 +4440,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00e000000000000, r6
-	cbne	r5, r6, f739
+	cbne	r5, r6, fail739
 	mov	=0x0, r6
-	cbne	r8, r6, f740
+	cbne	r8, r6, fail740
 	mov	=0xbff0000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -4452,9 +4452,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x400e000000000000, r6
-	cbne	r5, r6, f741
+	cbne	r5, r6, fail741
 	mov	=0x0, r6
-	cbne	r8, r6, f742
+	cbne	r8, r6, fail742
 	mov	=0xbff0000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -4464,9 +4464,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x400e000000000000, r6
-	cbne	r5, r6, f743
+	cbne	r5, r6, fail743
 	mov	=0x0, r6
-	cbne	r8, r6, f744
+	cbne	r8, r6, fail744
 	mov	=0xbff0000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -4476,9 +4476,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01e000000000000, r6
-	cbne	r5, r6, f745
+	cbne	r5, r6, fail745
 	mov	=0x0, r6
-	cbne	r8, r6, f746
+	cbne	r8, r6, fail746
 	mov	=0xbff0000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -4488,9 +4488,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01e000000000000, r6
-	cbne	r5, r6, f747
+	cbne	r5, r6, fail747
 	mov	=0x0, r6
-	cbne	r8, r6, f748
+	cbne	r8, r6, fail748
 	mov	=0xbff0000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x0, r3
@@ -4500,9 +4500,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f749
+	cbne	r5, r6, fail749
 	mov	=0x0, r6
-	cbne	r8, r6, f750
+	cbne	r8, r6, fail750
 	mov	=0xbff0000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x0, r3
@@ -4512,9 +4512,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff0000000000000, r6
-	cbne	r5, r6, f751
+	cbne	r5, r6, fail751
 	mov	=0x0, r6
-	cbne	r8, r6, f752
+	cbne	r8, r6, fail752
 	mov	=0xbff0000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -4524,9 +4524,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f753
+	cbne	r5, r6, fail753
 	mov	=0x0, r6
-	cbne	r8, r6, f754
+	cbne	r8, r6, fail754
 	mov	=0xbff0000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -4536,9 +4536,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff0000000000000, r6
-	cbne	r5, r6, f755
+	cbne	r5, r6, fail755
 	mov	=0x0, r6
-	cbne	r8, r6, f756
+	cbne	r8, r6, fail756
 	mov	=0xbff0000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -4548,9 +4548,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc000000000000000, r6
-	cbne	r5, r6, f757
+	cbne	r5, r6, fail757
 	mov	=0x0, r6
-	cbne	r8, r6, f758
+	cbne	r8, r6, fail758
 	mov	=0xbff0000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -4560,9 +4560,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f759
+	cbne	r5, r6, fail759
 	mov	=0x0, r6
-	cbne	r8, r6, f760
+	cbne	r8, r6, fail760
 	mov	=0xbff0000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -4572,9 +4572,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f761
+	cbne	r5, r6, fail761
 	mov	=0x0, r6
-	cbne	r8, r6, f762
+	cbne	r8, r6, fail762
 	mov	=0xbff0000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -4584,9 +4584,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4000000000000000, r6
-	cbne	r5, r6, f763
+	cbne	r5, r6, fail763
 	mov	=0x0, r6
-	cbne	r8, r6, f764
+	cbne	r8, r6, fail764
 	mov	=0xbff0000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -4596,9 +4596,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc008000000000000, r6
-	cbne	r5, r6, f765
+	cbne	r5, r6, fail765
 	mov	=0x0, r6
-	cbne	r8, r6, f766
+	cbne	r8, r6, fail766
 	mov	=0xbff0000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -4608,9 +4608,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f767
+	cbne	r5, r6, fail767
 	mov	=0x0, r6
-	cbne	r8, r6, f768
+	cbne	r8, r6, fail768
 	mov	=0xbff0000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -4620,9 +4620,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc010000000000000, r6
-	cbne	r5, r6, f769
+	cbne	r5, r6, fail769
 	mov	=0x0, r6
-	cbne	r8, r6, f770
+	cbne	r8, r6, fail770
 	mov	=0xbff0000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -4632,9 +4632,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc000000000000000, r6
-	cbne	r5, r6, f771
+	cbne	r5, r6, fail771
 	mov	=0x0, r6
-	cbne	r8, r6, f772
+	cbne	r8, r6, fail772
 	mov	=0xbff0000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -4644,9 +4644,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc004000000000000, r6
-	cbne	r5, r6, f773
+	cbne	r5, r6, fail773
 	mov	=0x0, r6
-	cbne	r8, r6, f774
+	cbne	r8, r6, fail774
 	mov	=0xbff0000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -4656,9 +4656,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbfe0000000000000, r6
-	cbne	r5, r6, f775
+	cbne	r5, r6, fail775
 	mov	=0x0, r6
-	cbne	r8, r6, f776
+	cbne	r8, r6, fail776
 	mov	=0xbff0000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -4668,9 +4668,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00c000000000000, r6
-	cbne	r5, r6, f777
+	cbne	r5, r6, fail777
 	mov	=0x0, r6
-	cbne	r8, r6, f778
+	cbne	r8, r6, fail778
 	mov	=0xbff0000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -4680,9 +4680,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f779
+	cbne	r5, r6, fail779
 	mov	=0x0, r6
-	cbne	r8, r6, f780
+	cbne	r8, r6, fail780
 	mov	=0xbff0000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -4692,9 +4692,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc013000000000000, r6
-	cbne	r5, r6, f781
+	cbne	r5, r6, fail781
 	mov	=0x0, r6
-	cbne	r8, r6, f782
+	cbne	r8, r6, fail782
 	mov	=0xbff0000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -4704,9 +4704,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc006000000000000, r6
-	cbne	r5, r6, f783
+	cbne	r5, r6, fail783
 	mov	=0x0, r6
-	cbne	r8, r6, f784
+	cbne	r8, r6, fail784
 	mov	=0xbff0000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -4716,9 +4716,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4006000000000000, r6
-	cbne	r5, r6, f785
+	cbne	r5, r6, fail785
 	mov	=0x0, r6
-	cbne	r8, r6, f786
+	cbne	r8, r6, fail786
 	mov	=0xbff0000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -4728,9 +4728,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4013000000000000, r6
-	cbne	r5, r6, f787
+	cbne	r5, r6, fail787
 	mov	=0x0, r6
-	cbne	r8, r6, f788
+	cbne	r8, r6, fail788
 	mov	=0xbff0000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -4740,9 +4740,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc021000000000000, r6
-	cbne	r5, r6, f789
+	cbne	r5, r6, fail789
 	mov	=0x0, r6
-	cbne	r8, r6, f790
+	cbne	r8, r6, fail790
 	mov	=0xbff0000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -4752,9 +4752,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01a000000000000, r6
-	cbne	r5, r6, f791
+	cbne	r5, r6, fail791
 	mov	=0x0, r6
-	cbne	r8, r6, f792
+	cbne	r8, r6, fail792
 	mov	=0xbff0000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x0, r3
@@ -4764,9 +4764,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff0000000000000, r6
-	cbne	r5, r6, f793
+	cbne	r5, r6, fail793
 	mov	=0x0, r6
-	cbne	r8, r6, f794
+	cbne	r8, r6, fail794
 	mov	=0xbff0000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x0, r3
@@ -4776,9 +4776,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f795
+	cbne	r5, r6, fail795
 	mov	=0x0, r6
-	cbne	r8, r6, f796
+	cbne	r8, r6, fail796
 	mov	=0xbff0000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -4788,9 +4788,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff0000000000000, r6
-	cbne	r5, r6, f797
+	cbne	r5, r6, fail797
 	mov	=0x0, r6
-	cbne	r8, r6, f798
+	cbne	r8, r6, fail798
 	mov	=0xbff0000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -4800,9 +4800,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f799
+	cbne	r5, r6, fail799
 	mov	=0x0, r6
-	cbne	r8, r6, f800
+	cbne	r8, r6, fail800
 	mov	=0xbff0000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -4812,9 +4812,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f801
+	cbne	r5, r6, fail801
 	mov	=0x0, r6
-	cbne	r8, r6, f802
+	cbne	r8, r6, fail802
 	mov	=0xbff0000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -4824,9 +4824,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc000000000000000, r6
-	cbne	r5, r6, f803
+	cbne	r5, r6, fail803
 	mov	=0x0, r6
-	cbne	r8, r6, f804
+	cbne	r8, r6, fail804
 	mov	=0xbff0000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -4836,9 +4836,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4000000000000000, r6
-	cbne	r5, r6, f805
+	cbne	r5, r6, fail805
 	mov	=0x0, r6
-	cbne	r8, r6, f806
+	cbne	r8, r6, fail806
 	mov	=0xbff0000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -4848,9 +4848,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f807
+	cbne	r5, r6, fail807
 	mov	=0x0, r6
-	cbne	r8, r6, f808
+	cbne	r8, r6, fail808
 	mov	=0xbff0000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -4860,9 +4860,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f809
+	cbne	r5, r6, fail809
 	mov	=0x0, r6
-	cbne	r8, r6, f810
+	cbne	r8, r6, fail810
 	mov	=0xbff0000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -4872,9 +4872,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc008000000000000, r6
-	cbne	r5, r6, f811
+	cbne	r5, r6, fail811
 	mov	=0x0, r6
-	cbne	r8, r6, f812
+	cbne	r8, r6, fail812
 	mov	=0xbff0000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -4884,9 +4884,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc000000000000000, r6
-	cbne	r5, r6, f813
+	cbne	r5, r6, fail813
 	mov	=0x0, r6
-	cbne	r8, r6, f814
+	cbne	r8, r6, fail814
 	mov	=0xbff0000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -4896,9 +4896,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc010000000000000, r6
-	cbne	r5, r6, f815
+	cbne	r5, r6, fail815
 	mov	=0x0, r6
-	cbne	r8, r6, f816
+	cbne	r8, r6, fail816
 	mov	=0xbff0000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -4908,9 +4908,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbfe0000000000000, r6
-	cbne	r5, r6, f817
+	cbne	r5, r6, fail817
 	mov	=0x0, r6
-	cbne	r8, r6, f818
+	cbne	r8, r6, fail818
 	mov	=0xbff0000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -4920,9 +4920,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc004000000000000, r6
-	cbne	r5, r6, f819
+	cbne	r5, r6, fail819
 	mov	=0x0, r6
-	cbne	r8, r6, f820
+	cbne	r8, r6, fail820
 	mov	=0xbff0000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -4932,9 +4932,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f821
+	cbne	r5, r6, fail821
 	mov	=0x0, r6
-	cbne	r8, r6, f822
+	cbne	r8, r6, fail822
 	mov	=0xbff0000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -4944,9 +4944,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00c000000000000, r6
-	cbne	r5, r6, f823
+	cbne	r5, r6, fail823
 	mov	=0x0, r6
-	cbne	r8, r6, f824
+	cbne	r8, r6, fail824
 	mov	=0xbff0000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -4956,9 +4956,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc006000000000000, r6
-	cbne	r5, r6, f825
+	cbne	r5, r6, fail825
 	mov	=0x0, r6
-	cbne	r8, r6, f826
+	cbne	r8, r6, fail826
 	mov	=0xbff0000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -4968,9 +4968,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc013000000000000, r6
-	cbne	r5, r6, f827
+	cbne	r5, r6, fail827
 	mov	=0x0, r6
-	cbne	r8, r6, f828
+	cbne	r8, r6, fail828
 	mov	=0xbff0000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -4980,9 +4980,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4013000000000000, r6
-	cbne	r5, r6, f829
+	cbne	r5, r6, fail829
 	mov	=0x0, r6
-	cbne	r8, r6, f830
+	cbne	r8, r6, fail830
 	mov	=0xbff0000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -4992,9 +4992,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4006000000000000, r6
-	cbne	r5, r6, f831
+	cbne	r5, r6, fail831
 	mov	=0x0, r6
-	cbne	r8, r6, f832
+	cbne	r8, r6, fail832
 	mov	=0xbff0000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -5004,9 +5004,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01a000000000000, r6
-	cbne	r5, r6, f833
+	cbne	r5, r6, fail833
 	mov	=0x0, r6
-	cbne	r8, r6, f834
+	cbne	r8, r6, fail834
 	mov	=0xbff0000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -5016,9 +5016,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc021000000000000, r6
-	cbne	r5, r6, f835
+	cbne	r5, r6, fail835
 	mov	=0x0, r6
-	cbne	r8, r6, f836
+	cbne	r8, r6, fail836
 	mov	=0xbff0000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x0, r3
@@ -5028,9 +5028,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f837
+	cbne	r5, r6, fail837
 	mov	=0x0, r6
-	cbne	r8, r6, f838
+	cbne	r8, r6, fail838
 	mov	=0xbff0000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x0, r3
@@ -5040,9 +5040,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff8000000000000, r6
-	cbne	r5, r6, f839
+	cbne	r5, r6, fail839
 	mov	=0x0, r6
-	cbne	r8, r6, f840
+	cbne	r8, r6, fail840
 	mov	=0xbff0000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -5052,9 +5052,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f841
+	cbne	r5, r6, fail841
 	mov	=0x0, r6
-	cbne	r8, r6, f842
+	cbne	r8, r6, fail842
 	mov	=0xbff0000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -5064,9 +5064,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff8000000000000, r6
-	cbne	r5, r6, f843
+	cbne	r5, r6, fail843
 	mov	=0x0, r6
-	cbne	r8, r6, f844
+	cbne	r8, r6, fail844
 	mov	=0xbff0000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -5076,9 +5076,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc004000000000000, r6
-	cbne	r5, r6, f845
+	cbne	r5, r6, fail845
 	mov	=0x0, r6
-	cbne	r8, r6, f846
+	cbne	r8, r6, fail846
 	mov	=0xbff0000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -5088,9 +5088,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3fe0000000000000, r6
-	cbne	r5, r6, f847
+	cbne	r5, r6, fail847
 	mov	=0x0, r6
-	cbne	r8, r6, f848
+	cbne	r8, r6, fail848
 	mov	=0xbff0000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -5100,9 +5100,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbfe0000000000000, r6
-	cbne	r5, r6, f849
+	cbne	r5, r6, fail849
 	mov	=0x0, r6
-	cbne	r8, r6, f850
+	cbne	r8, r6, fail850
 	mov	=0xbff0000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -5112,9 +5112,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4004000000000000, r6
-	cbne	r5, r6, f851
+	cbne	r5, r6, fail851
 	mov	=0x0, r6
-	cbne	r8, r6, f852
+	cbne	r8, r6, fail852
 	mov	=0xbff0000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -5124,9 +5124,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00c000000000000, r6
-	cbne	r5, r6, f853
+	cbne	r5, r6, fail853
 	mov	=0x0, r6
-	cbne	r8, r6, f854
+	cbne	r8, r6, fail854
 	mov	=0xbff0000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -5136,9 +5136,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbfe0000000000000, r6
-	cbne	r5, r6, f855
+	cbne	r5, r6, fail855
 	mov	=0x0, r6
-	cbne	r8, r6, f856
+	cbne	r8, r6, fail856
 	mov	=0xbff0000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -5148,9 +5148,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc012000000000000, r6
-	cbne	r5, r6, f857
+	cbne	r5, r6, fail857
 	mov	=0x0, r6
-	cbne	r8, r6, f858
+	cbne	r8, r6, fail858
 	mov	=0xbff0000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -5160,9 +5160,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f859
+	cbne	r5, r6, fail859
 	mov	=0x0, r6
-	cbne	r8, r6, f860
+	cbne	r8, r6, fail860
 	mov	=0xbff0000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -5172,9 +5172,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc008000000000000, r6
-	cbne	r5, r6, f861
+	cbne	r5, r6, fail861
 	mov	=0x0, r6
-	cbne	r8, r6, f862
+	cbne	r8, r6, fail862
 	mov	=0xbff0000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -5184,9 +5184,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f863
+	cbne	r5, r6, fail863
 	mov	=0x0, r6
-	cbne	r8, r6, f864
+	cbne	r8, r6, fail864
 	mov	=0xbff0000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -5196,9 +5196,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc010000000000000, r6
-	cbne	r5, r6, f865
+	cbne	r5, r6, fail865
 	mov	=0x0, r6
-	cbne	r8, r6, f866
+	cbne	r8, r6, fail866
 	mov	=0xbff0000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -5208,9 +5208,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f867
+	cbne	r5, r6, fail867
 	mov	=0x0, r6
-	cbne	r8, r6, f868
+	cbne	r8, r6, fail868
 	mov	=0xbff0000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -5220,9 +5220,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc015000000000000, r6
-	cbne	r5, r6, f869
+	cbne	r5, r6, fail869
 	mov	=0x0, r6
-	cbne	r8, r6, f870
+	cbne	r8, r6, fail870
 	mov	=0xbff0000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -5232,9 +5232,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc002000000000000, r6
-	cbne	r5, r6, f871
+	cbne	r5, r6, fail871
 	mov	=0x0, r6
-	cbne	r8, r6, f872
+	cbne	r8, r6, fail872
 	mov	=0xbff0000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -5244,9 +5244,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4002000000000000, r6
-	cbne	r5, r6, f873
+	cbne	r5, r6, fail873
 	mov	=0x0, r6
-	cbne	r8, r6, f874
+	cbne	r8, r6, fail874
 	mov	=0xbff0000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -5256,9 +5256,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4015000000000000, r6
-	cbne	r5, r6, f875
+	cbne	r5, r6, fail875
 	mov	=0x0, r6
-	cbne	r8, r6, f876
+	cbne	r8, r6, fail876
 	mov	=0xbff0000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -5268,9 +5268,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc022000000000000, r6
-	cbne	r5, r6, f877
+	cbne	r5, r6, fail877
 	mov	=0x0, r6
-	cbne	r8, r6, f878
+	cbne	r8, r6, fail878
 	mov	=0xbff0000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -5280,9 +5280,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc018000000000000, r6
-	cbne	r5, r6, f879
+	cbne	r5, r6, fail879
 	mov	=0x0, r6
-	cbne	r8, r6, f880
+	cbne	r8, r6, fail880
 	mov	=0x4000000000000000, r1
 	mov	=0x0, r2
 	mov	=0x0, r3
@@ -5292,9 +5292,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f881
+	cbne	r5, r6, fail881
 	mov	=0x0, r6
-	cbne	r8, r6, f882
+	cbne	r8, r6, fail882
 	mov	=0x4000000000000000, r1
 	mov	=0x0, r2
 	mov	=0x0, r3
@@ -5304,9 +5304,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x8000000000000000, r6
-	cbne	r5, r6, f883
+	cbne	r5, r6, fail883
 	mov	=0x0, r6
-	cbne	r8, r6, f884
+	cbne	r8, r6, fail884
 	mov	=0x4000000000000000, r1
 	mov	=0x0, r2
 	mov	=0x8000000000000000, r3
@@ -5316,9 +5316,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f885
+	cbne	r5, r6, fail885
 	mov	=0x0, r6
-	cbne	r8, r6, f886
+	cbne	r8, r6, fail886
 	mov	=0x4000000000000000, r1
 	mov	=0x0, r2
 	mov	=0x8000000000000000, r3
@@ -5328,9 +5328,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f887
+	cbne	r5, r6, fail887
 	mov	=0x0, r6
-	cbne	r8, r6, f888
+	cbne	r8, r6, fail888
 	mov	=0x4000000000000000, r1
 	mov	=0x0, r2
 	mov	=0x3ff0000000000000, r3
@@ -5340,9 +5340,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f889
+	cbne	r5, r6, fail889
 	mov	=0x0, r6
-	cbne	r8, r6, f890
+	cbne	r8, r6, fail890
 	mov	=0x4000000000000000, r1
 	mov	=0x0, r2
 	mov	=0x3ff0000000000000, r3
@@ -5352,9 +5352,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f891
+	cbne	r5, r6, fail891
 	mov	=0x0, r6
-	cbne	r8, r6, f892
+	cbne	r8, r6, fail892
 	mov	=0x4000000000000000, r1
 	mov	=0x0, r2
 	mov	=0xbff0000000000000, r3
@@ -5364,9 +5364,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff0000000000000, r6
-	cbne	r5, r6, f893
+	cbne	r5, r6, fail893
 	mov	=0x0, r6
-	cbne	r8, r6, f894
+	cbne	r8, r6, fail894
 	mov	=0x4000000000000000, r1
 	mov	=0x0, r2
 	mov	=0xbff0000000000000, r3
@@ -5376,9 +5376,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff0000000000000, r6
-	cbne	r5, r6, f895
+	cbne	r5, r6, fail895
 	mov	=0x0, r6
-	cbne	r8, r6, f896
+	cbne	r8, r6, fail896
 	mov	=0x4000000000000000, r1
 	mov	=0x0, r2
 	mov	=0x4000000000000000, r3
@@ -5388,9 +5388,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc000000000000000, r6
-	cbne	r5, r6, f897
+	cbne	r5, r6, fail897
 	mov	=0x0, r6
-	cbne	r8, r6, f898
+	cbne	r8, r6, fail898
 	mov	=0x4000000000000000, r1
 	mov	=0x0, r2
 	mov	=0x4000000000000000, r3
@@ -5400,9 +5400,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc000000000000000, r6
-	cbne	r5, r6, f899
+	cbne	r5, r6, fail899
 	mov	=0x0, r6
-	cbne	r8, r6, f900
+	cbne	r8, r6, fail900
 	mov	=0x4000000000000000, r1
 	mov	=0x0, r2
 	mov	=0x4008000000000000, r3
@@ -5412,9 +5412,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc008000000000000, r6
-	cbne	r5, r6, f901
+	cbne	r5, r6, fail901
 	mov	=0x0, r6
-	cbne	r8, r6, f902
+	cbne	r8, r6, fail902
 	mov	=0x4000000000000000, r1
 	mov	=0x0, r2
 	mov	=0x4008000000000000, r3
@@ -5424,9 +5424,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc008000000000000, r6
-	cbne	r5, r6, f903
+	cbne	r5, r6, fail903
 	mov	=0x0, r6
-	cbne	r8, r6, f904
+	cbne	r8, r6, fail904
 	mov	=0x4000000000000000, r1
 	mov	=0x0, r2
 	mov	=0x3ff8000000000000, r3
@@ -5436,9 +5436,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f905
+	cbne	r5, r6, fail905
 	mov	=0x0, r6
-	cbne	r8, r6, f906
+	cbne	r8, r6, fail906
 	mov	=0x4000000000000000, r1
 	mov	=0x0, r2
 	mov	=0x3ff8000000000000, r3
@@ -5448,9 +5448,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f907
+	cbne	r5, r6, fail907
 	mov	=0x0, r6
-	cbne	r8, r6, f908
+	cbne	r8, r6, fail908
 	mov	=0x4000000000000000, r1
 	mov	=0x0, r2
 	mov	=0x4004000000000000, r3
@@ -5460,9 +5460,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc004000000000000, r6
-	cbne	r5, r6, f909
+	cbne	r5, r6, fail909
 	mov	=0x0, r6
-	cbne	r8, r6, f910
+	cbne	r8, r6, fail910
 	mov	=0x4000000000000000, r1
 	mov	=0x0, r2
 	mov	=0x4004000000000000, r3
@@ -5472,9 +5472,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc004000000000000, r6
-	cbne	r5, r6, f911
+	cbne	r5, r6, fail911
 	mov	=0x0, r6
-	cbne	r8, r6, f912
+	cbne	r8, r6, fail912
 	mov	=0x4000000000000000, r1
 	mov	=0x0, r2
 	mov	=0x400e000000000000, r3
@@ -5484,9 +5484,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00e000000000000, r6
-	cbne	r5, r6, f913
+	cbne	r5, r6, fail913
 	mov	=0x0, r6
-	cbne	r8, r6, f914
+	cbne	r8, r6, fail914
 	mov	=0x4000000000000000, r1
 	mov	=0x0, r2
 	mov	=0x400e000000000000, r3
@@ -5496,9 +5496,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00e000000000000, r6
-	cbne	r5, r6, f915
+	cbne	r5, r6, fail915
 	mov	=0x0, r6
-	cbne	r8, r6, f916
+	cbne	r8, r6, fail916
 	mov	=0x4000000000000000, r1
 	mov	=0x0, r2
 	mov	=0xc00e000000000000, r3
@@ -5508,9 +5508,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x400e000000000000, r6
-	cbne	r5, r6, f917
+	cbne	r5, r6, fail917
 	mov	=0x0, r6
-	cbne	r8, r6, f918
+	cbne	r8, r6, fail918
 	mov	=0x4000000000000000, r1
 	mov	=0x0, r2
 	mov	=0xc00e000000000000, r3
@@ -5520,9 +5520,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x400e000000000000, r6
-	cbne	r5, r6, f919
+	cbne	r5, r6, fail919
 	mov	=0x0, r6
-	cbne	r8, r6, f920
+	cbne	r8, r6, fail920
 	mov	=0x4000000000000000, r1
 	mov	=0x0, r2
 	mov	=0x401e000000000000, r3
@@ -5532,9 +5532,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01e000000000000, r6
-	cbne	r5, r6, f921
+	cbne	r5, r6, fail921
 	mov	=0x0, r6
-	cbne	r8, r6, f922
+	cbne	r8, r6, fail922
 	mov	=0x4000000000000000, r1
 	mov	=0x0, r2
 	mov	=0x401e000000000000, r3
@@ -5544,9 +5544,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01e000000000000, r6
-	cbne	r5, r6, f923
+	cbne	r5, r6, fail923
 	mov	=0x0, r6
-	cbne	r8, r6, f924
+	cbne	r8, r6, fail924
 	mov	=0x4000000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x0, r3
@@ -5556,9 +5556,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x8000000000000000, r6
-	cbne	r5, r6, f925
+	cbne	r5, r6, fail925
 	mov	=0x0, r6
-	cbne	r8, r6, f926
+	cbne	r8, r6, fail926
 	mov	=0x4000000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x0, r3
@@ -5568,9 +5568,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f927
+	cbne	r5, r6, fail927
 	mov	=0x0, r6
-	cbne	r8, r6, f928
+	cbne	r8, r6, fail928
 	mov	=0x4000000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -5580,9 +5580,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f929
+	cbne	r5, r6, fail929
 	mov	=0x0, r6
-	cbne	r8, r6, f930
+	cbne	r8, r6, fail930
 	mov	=0x4000000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -5592,9 +5592,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f931
+	cbne	r5, r6, fail931
 	mov	=0x0, r6
-	cbne	r8, r6, f932
+	cbne	r8, r6, fail932
 	mov	=0x4000000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -5604,9 +5604,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f933
+	cbne	r5, r6, fail933
 	mov	=0x0, r6
-	cbne	r8, r6, f934
+	cbne	r8, r6, fail934
 	mov	=0x4000000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -5616,9 +5616,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f935
+	cbne	r5, r6, fail935
 	mov	=0x0, r6
-	cbne	r8, r6, f936
+	cbne	r8, r6, fail936
 	mov	=0x4000000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -5628,9 +5628,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff0000000000000, r6
-	cbne	r5, r6, f937
+	cbne	r5, r6, fail937
 	mov	=0x0, r6
-	cbne	r8, r6, f938
+	cbne	r8, r6, fail938
 	mov	=0x4000000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -5640,9 +5640,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff0000000000000, r6
-	cbne	r5, r6, f939
+	cbne	r5, r6, fail939
 	mov	=0x0, r6
-	cbne	r8, r6, f940
+	cbne	r8, r6, fail940
 	mov	=0x4000000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -5652,9 +5652,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc000000000000000, r6
-	cbne	r5, r6, f941
+	cbne	r5, r6, fail941
 	mov	=0x0, r6
-	cbne	r8, r6, f942
+	cbne	r8, r6, fail942
 	mov	=0x4000000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -5664,9 +5664,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc000000000000000, r6
-	cbne	r5, r6, f943
+	cbne	r5, r6, fail943
 	mov	=0x0, r6
-	cbne	r8, r6, f944
+	cbne	r8, r6, fail944
 	mov	=0x4000000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -5676,9 +5676,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc008000000000000, r6
-	cbne	r5, r6, f945
+	cbne	r5, r6, fail945
 	mov	=0x0, r6
-	cbne	r8, r6, f946
+	cbne	r8, r6, fail946
 	mov	=0x4000000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -5688,9 +5688,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc008000000000000, r6
-	cbne	r5, r6, f947
+	cbne	r5, r6, fail947
 	mov	=0x0, r6
-	cbne	r8, r6, f948
+	cbne	r8, r6, fail948
 	mov	=0x4000000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -5700,9 +5700,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f949
+	cbne	r5, r6, fail949
 	mov	=0x0, r6
-	cbne	r8, r6, f950
+	cbne	r8, r6, fail950
 	mov	=0x4000000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -5712,9 +5712,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f951
+	cbne	r5, r6, fail951
 	mov	=0x0, r6
-	cbne	r8, r6, f952
+	cbne	r8, r6, fail952
 	mov	=0x4000000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -5724,9 +5724,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc004000000000000, r6
-	cbne	r5, r6, f953
+	cbne	r5, r6, fail953
 	mov	=0x0, r6
-	cbne	r8, r6, f954
+	cbne	r8, r6, fail954
 	mov	=0x4000000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -5736,9 +5736,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc004000000000000, r6
-	cbne	r5, r6, f955
+	cbne	r5, r6, fail955
 	mov	=0x0, r6
-	cbne	r8, r6, f956
+	cbne	r8, r6, fail956
 	mov	=0x4000000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -5748,9 +5748,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00e000000000000, r6
-	cbne	r5, r6, f957
+	cbne	r5, r6, fail957
 	mov	=0x0, r6
-	cbne	r8, r6, f958
+	cbne	r8, r6, fail958
 	mov	=0x4000000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -5760,9 +5760,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00e000000000000, r6
-	cbne	r5, r6, f959
+	cbne	r5, r6, fail959
 	mov	=0x0, r6
-	cbne	r8, r6, f960
+	cbne	r8, r6, fail960
 	mov	=0x4000000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -5772,9 +5772,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x400e000000000000, r6
-	cbne	r5, r6, f961
+	cbne	r5, r6, fail961
 	mov	=0x0, r6
-	cbne	r8, r6, f962
+	cbne	r8, r6, fail962
 	mov	=0x4000000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -5784,9 +5784,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x400e000000000000, r6
-	cbne	r5, r6, f963
+	cbne	r5, r6, fail963
 	mov	=0x0, r6
-	cbne	r8, r6, f964
+	cbne	r8, r6, fail964
 	mov	=0x4000000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -5796,9 +5796,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01e000000000000, r6
-	cbne	r5, r6, f965
+	cbne	r5, r6, fail965
 	mov	=0x0, r6
-	cbne	r8, r6, f966
+	cbne	r8, r6, fail966
 	mov	=0x4000000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -5808,9 +5808,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01e000000000000, r6
-	cbne	r5, r6, f967
+	cbne	r5, r6, fail967
 	mov	=0x0, r6
-	cbne	r8, r6, f968
+	cbne	r8, r6, fail968
 	mov	=0x4000000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x0, r3
@@ -5820,9 +5820,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4000000000000000, r6
-	cbne	r5, r6, f969
+	cbne	r5, r6, fail969
 	mov	=0x0, r6
-	cbne	r8, r6, f970
+	cbne	r8, r6, fail970
 	mov	=0x4000000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x0, r3
@@ -5832,9 +5832,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc000000000000000, r6
-	cbne	r5, r6, f971
+	cbne	r5, r6, fail971
 	mov	=0x0, r6
-	cbne	r8, r6, f972
+	cbne	r8, r6, fail972
 	mov	=0x4000000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -5844,9 +5844,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4000000000000000, r6
-	cbne	r5, r6, f973
+	cbne	r5, r6, fail973
 	mov	=0x0, r6
-	cbne	r8, r6, f974
+	cbne	r8, r6, fail974
 	mov	=0x4000000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -5856,9 +5856,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc000000000000000, r6
-	cbne	r5, r6, f975
+	cbne	r5, r6, fail975
 	mov	=0x0, r6
-	cbne	r8, r6, f976
+	cbne	r8, r6, fail976
 	mov	=0x4000000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -5868,9 +5868,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff0000000000000, r6
-	cbne	r5, r6, f977
+	cbne	r5, r6, fail977
 	mov	=0x0, r6
-	cbne	r8, r6, f978
+	cbne	r8, r6, fail978
 	mov	=0x4000000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -5880,9 +5880,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc008000000000000, r6
-	cbne	r5, r6, f979
+	cbne	r5, r6, fail979
 	mov	=0x0, r6
-	cbne	r8, r6, f980
+	cbne	r8, r6, fail980
 	mov	=0x4000000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -5892,9 +5892,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4008000000000000, r6
-	cbne	r5, r6, f981
+	cbne	r5, r6, fail981
 	mov	=0x0, r6
-	cbne	r8, r6, f982
+	cbne	r8, r6, fail982
 	mov	=0x4000000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -5904,9 +5904,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f983
+	cbne	r5, r6, fail983
 	mov	=0x0, r6
-	cbne	r8, r6, f984
+	cbne	r8, r6, fail984
 	mov	=0x4000000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -5916,9 +5916,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f985
+	cbne	r5, r6, fail985
 	mov	=0x0, r6
-	cbne	r8, r6, f986
+	cbne	r8, r6, fail986
 	mov	=0x4000000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -5928,9 +5928,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc010000000000000, r6
-	cbne	r5, r6, f987
+	cbne	r5, r6, fail987
 	mov	=0x0, r6
-	cbne	r8, r6, f988
+	cbne	r8, r6, fail988
 	mov	=0x4000000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -5940,9 +5940,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f989
+	cbne	r5, r6, fail989
 	mov	=0x0, r6
-	cbne	r8, r6, f990
+	cbne	r8, r6, fail990
 	mov	=0x4000000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -5952,9 +5952,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc014000000000000, r6
-	cbne	r5, r6, f991
+	cbne	r5, r6, fail991
 	mov	=0x0, r6
-	cbne	r8, r6, f992
+	cbne	r8, r6, fail992
 	mov	=0x4000000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -5964,9 +5964,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3fe0000000000000, r6
-	cbne	r5, r6, f993
+	cbne	r5, r6, fail993
 	mov	=0x0, r6
-	cbne	r8, r6, f994
+	cbne	r8, r6, fail994
 	mov	=0x4000000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -5976,9 +5976,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00c000000000000, r6
-	cbne	r5, r6, f995
+	cbne	r5, r6, fail995
 	mov	=0x0, r6
-	cbne	r8, r6, f996
+	cbne	r8, r6, fail996
 	mov	=0x4000000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -5988,9 +5988,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbfe0000000000000, r6
-	cbne	r5, r6, f997
+	cbne	r5, r6, fail997
 	mov	=0x0, r6
-	cbne	r8, r6, f998
+	cbne	r8, r6, fail998
 	mov	=0x4000000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -6000,9 +6000,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc012000000000000, r6
-	cbne	r5, r6, f999
+	cbne	r5, r6, fail999
 	mov	=0x0, r6
-	cbne	r8, r6, f1000
+	cbne	r8, r6, fail1000
 	mov	=0x4000000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -6012,9 +6012,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbffc000000000000, r6
-	cbne	r5, r6, f1001
+	cbne	r5, r6, fail1001
 	mov	=0x0, r6
-	cbne	r8, r6, f1002
+	cbne	r8, r6, fail1002
 	mov	=0x4000000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -6024,9 +6024,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc017000000000000, r6
-	cbne	r5, r6, f1003
+	cbne	r5, r6, fail1003
 	mov	=0x0, r6
-	cbne	r8, r6, f1004
+	cbne	r8, r6, fail1004
 	mov	=0x4000000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -6036,9 +6036,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4017000000000000, r6
-	cbne	r5, r6, f1005
+	cbne	r5, r6, fail1005
 	mov	=0x0, r6
-	cbne	r8, r6, f1006
+	cbne	r8, r6, fail1006
 	mov	=0x4000000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -6048,9 +6048,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ffc000000000000, r6
-	cbne	r5, r6, f1007
+	cbne	r5, r6, fail1007
 	mov	=0x0, r6
-	cbne	r8, r6, f1008
+	cbne	r8, r6, fail1008
 	mov	=0x4000000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -6060,9 +6060,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc016000000000000, r6
-	cbne	r5, r6, f1009
+	cbne	r5, r6, fail1009
 	mov	=0x0, r6
-	cbne	r8, r6, f1010
+	cbne	r8, r6, fail1010
 	mov	=0x4000000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -6072,9 +6072,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc023000000000000, r6
-	cbne	r5, r6, f1011
+	cbne	r5, r6, fail1011
 	mov	=0x0, r6
-	cbne	r8, r6, f1012
+	cbne	r8, r6, fail1012
 	mov	=0x4000000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x0, r3
@@ -6084,9 +6084,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc000000000000000, r6
-	cbne	r5, r6, f1013
+	cbne	r5, r6, fail1013
 	mov	=0x0, r6
-	cbne	r8, r6, f1014
+	cbne	r8, r6, fail1014
 	mov	=0x4000000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x0, r3
@@ -6096,9 +6096,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4000000000000000, r6
-	cbne	r5, r6, f1015
+	cbne	r5, r6, fail1015
 	mov	=0x0, r6
-	cbne	r8, r6, f1016
+	cbne	r8, r6, fail1016
 	mov	=0x4000000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -6108,9 +6108,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc000000000000000, r6
-	cbne	r5, r6, f1017
+	cbne	r5, r6, fail1017
 	mov	=0x0, r6
-	cbne	r8, r6, f1018
+	cbne	r8, r6, fail1018
 	mov	=0x4000000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -6120,9 +6120,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4000000000000000, r6
-	cbne	r5, r6, f1019
+	cbne	r5, r6, fail1019
 	mov	=0x0, r6
-	cbne	r8, r6, f1020
+	cbne	r8, r6, fail1020
 	mov	=0x4000000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -6132,9 +6132,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc008000000000000, r6
-	cbne	r5, r6, f1021
+	cbne	r5, r6, fail1021
 	mov	=0x0, r6
-	cbne	r8, r6, f1022
+	cbne	r8, r6, fail1022
 	mov	=0x4000000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -6144,9 +6144,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff0000000000000, r6
-	cbne	r5, r6, f1023
+	cbne	r5, r6, fail1023
 	mov	=0x0, r6
-	cbne	r8, r6, f1024
+	cbne	r8, r6, fail1024
 	mov	=0x4000000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -6156,9 +6156,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f1025
+	cbne	r5, r6, fail1025
 	mov	=0x0, r6
-	cbne	r8, r6, f1026
+	cbne	r8, r6, fail1026
 	mov	=0x4000000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -6168,9 +6168,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4008000000000000, r6
-	cbne	r5, r6, f1027
+	cbne	r5, r6, fail1027
 	mov	=0x0, r6
-	cbne	r8, r6, f1028
+	cbne	r8, r6, fail1028
 	mov	=0x4000000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -6180,9 +6180,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc010000000000000, r6
-	cbne	r5, r6, f1029
+	cbne	r5, r6, fail1029
 	mov	=0x0, r6
-	cbne	r8, r6, f1030
+	cbne	r8, r6, fail1030
 	mov	=0x4000000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -6192,9 +6192,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f1031
+	cbne	r5, r6, fail1031
 	mov	=0x0, r6
-	cbne	r8, r6, f1032
+	cbne	r8, r6, fail1032
 	mov	=0x4000000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -6204,9 +6204,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc014000000000000, r6
-	cbne	r5, r6, f1033
+	cbne	r5, r6, fail1033
 	mov	=0x0, r6
-	cbne	r8, r6, f1034
+	cbne	r8, r6, fail1034
 	mov	=0x4000000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -6216,9 +6216,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f1035
+	cbne	r5, r6, fail1035
 	mov	=0x0, r6
-	cbne	r8, r6, f1036
+	cbne	r8, r6, fail1036
 	mov	=0x4000000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -6228,9 +6228,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00c000000000000, r6
-	cbne	r5, r6, f1037
+	cbne	r5, r6, fail1037
 	mov	=0x0, r6
-	cbne	r8, r6, f1038
+	cbne	r8, r6, fail1038
 	mov	=0x4000000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -6240,9 +6240,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3fe0000000000000, r6
-	cbne	r5, r6, f1039
+	cbne	r5, r6, fail1039
 	mov	=0x0, r6
-	cbne	r8, r6, f1040
+	cbne	r8, r6, fail1040
 	mov	=0x4000000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -6252,9 +6252,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc012000000000000, r6
-	cbne	r5, r6, f1041
+	cbne	r5, r6, fail1041
 	mov	=0x0, r6
-	cbne	r8, r6, f1042
+	cbne	r8, r6, fail1042
 	mov	=0x4000000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -6264,9 +6264,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbfe0000000000000, r6
-	cbne	r5, r6, f1043
+	cbne	r5, r6, fail1043
 	mov	=0x0, r6
-	cbne	r8, r6, f1044
+	cbne	r8, r6, fail1044
 	mov	=0x4000000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -6276,9 +6276,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc017000000000000, r6
-	cbne	r5, r6, f1045
+	cbne	r5, r6, fail1045
 	mov	=0x0, r6
-	cbne	r8, r6, f1046
+	cbne	r8, r6, fail1046
 	mov	=0x4000000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -6288,9 +6288,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbffc000000000000, r6
-	cbne	r5, r6, f1047
+	cbne	r5, r6, fail1047
 	mov	=0x0, r6
-	cbne	r8, r6, f1048
+	cbne	r8, r6, fail1048
 	mov	=0x4000000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -6300,9 +6300,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ffc000000000000, r6
-	cbne	r5, r6, f1049
+	cbne	r5, r6, fail1049
 	mov	=0x0, r6
-	cbne	r8, r6, f1050
+	cbne	r8, r6, fail1050
 	mov	=0x4000000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -6312,9 +6312,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4017000000000000, r6
-	cbne	r5, r6, f1051
+	cbne	r5, r6, fail1051
 	mov	=0x0, r6
-	cbne	r8, r6, f1052
+	cbne	r8, r6, fail1052
 	mov	=0x4000000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -6324,9 +6324,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc023000000000000, r6
-	cbne	r5, r6, f1053
+	cbne	r5, r6, fail1053
 	mov	=0x0, r6
-	cbne	r8, r6, f1054
+	cbne	r8, r6, fail1054
 	mov	=0x4000000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -6336,9 +6336,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc016000000000000, r6
-	cbne	r5, r6, f1055
+	cbne	r5, r6, fail1055
 	mov	=0x0, r6
-	cbne	r8, r6, f1056
+	cbne	r8, r6, fail1056
 	mov	=0x4000000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x0, r3
@@ -6348,9 +6348,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4008000000000000, r6
-	cbne	r5, r6, f1057
+	cbne	r5, r6, fail1057
 	mov	=0x0, r6
-	cbne	r8, r6, f1058
+	cbne	r8, r6, fail1058
 	mov	=0x4000000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x0, r3
@@ -6360,9 +6360,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc008000000000000, r6
-	cbne	r5, r6, f1059
+	cbne	r5, r6, fail1059
 	mov	=0x0, r6
-	cbne	r8, r6, f1060
+	cbne	r8, r6, fail1060
 	mov	=0x4000000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -6372,9 +6372,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4008000000000000, r6
-	cbne	r5, r6, f1061
+	cbne	r5, r6, fail1061
 	mov	=0x0, r6
-	cbne	r8, r6, f1062
+	cbne	r8, r6, fail1062
 	mov	=0x4000000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -6384,9 +6384,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc008000000000000, r6
-	cbne	r5, r6, f1063
+	cbne	r5, r6, fail1063
 	mov	=0x0, r6
-	cbne	r8, r6, f1064
+	cbne	r8, r6, fail1064
 	mov	=0x4000000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -6396,9 +6396,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4000000000000000, r6
-	cbne	r5, r6, f1065
+	cbne	r5, r6, fail1065
 	mov	=0x0, r6
-	cbne	r8, r6, f1066
+	cbne	r8, r6, fail1066
 	mov	=0x4000000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -6408,9 +6408,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc010000000000000, r6
-	cbne	r5, r6, f1067
+	cbne	r5, r6, fail1067
 	mov	=0x0, r6
-	cbne	r8, r6, f1068
+	cbne	r8, r6, fail1068
 	mov	=0x4000000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -6420,9 +6420,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4010000000000000, r6
-	cbne	r5, r6, f1069
+	cbne	r5, r6, fail1069
 	mov	=0x0, r6
-	cbne	r8, r6, f1070
+	cbne	r8, r6, fail1070
 	mov	=0x4000000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -6432,9 +6432,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc000000000000000, r6
-	cbne	r5, r6, f1071
+	cbne	r5, r6, fail1071
 	mov	=0x0, r6
-	cbne	r8, r6, f1072
+	cbne	r8, r6, fail1072
 	mov	=0x4000000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -6444,9 +6444,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff0000000000000, r6
-	cbne	r5, r6, f1073
+	cbne	r5, r6, fail1073
 	mov	=0x0, r6
-	cbne	r8, r6, f1074
+	cbne	r8, r6, fail1074
 	mov	=0x4000000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -6456,9 +6456,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc014000000000000, r6
-	cbne	r5, r6, f1075
+	cbne	r5, r6, fail1075
 	mov	=0x0, r6
-	cbne	r8, r6, f1076
+	cbne	r8, r6, fail1076
 	mov	=0x4000000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -6468,9 +6468,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f1077
+	cbne	r5, r6, fail1077
 	mov	=0x0, r6
-	cbne	r8, r6, f1078
+	cbne	r8, r6, fail1078
 	mov	=0x4000000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -6480,9 +6480,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc018000000000000, r6
-	cbne	r5, r6, f1079
+	cbne	r5, r6, fail1079
 	mov	=0x0, r6
-	cbne	r8, r6, f1080
+	cbne	r8, r6, fail1080
 	mov	=0x4000000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -6492,9 +6492,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff8000000000000, r6
-	cbne	r5, r6, f1081
+	cbne	r5, r6, fail1081
 	mov	=0x0, r6
-	cbne	r8, r6, f1082
+	cbne	r8, r6, fail1082
 	mov	=0x4000000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -6504,9 +6504,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc012000000000000, r6
-	cbne	r5, r6, f1083
+	cbne	r5, r6, fail1083
 	mov	=0x0, r6
-	cbne	r8, r6, f1084
+	cbne	r8, r6, fail1084
 	mov	=0x4000000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -6516,9 +6516,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3fe0000000000000, r6
-	cbne	r5, r6, f1085
+	cbne	r5, r6, fail1085
 	mov	=0x0, r6
-	cbne	r8, r6, f1086
+	cbne	r8, r6, fail1086
 	mov	=0x4000000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -6528,9 +6528,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc016000000000000, r6
-	cbne	r5, r6, f1087
+	cbne	r5, r6, fail1087
 	mov	=0x0, r6
-	cbne	r8, r6, f1088
+	cbne	r8, r6, fail1088
 	mov	=0x4000000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -6540,9 +6540,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbfe8000000000000, r6
-	cbne	r5, r6, f1089
+	cbne	r5, r6, fail1089
 	mov	=0x0, r6
-	cbne	r8, r6, f1090
+	cbne	r8, r6, fail1090
 	mov	=0x4000000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -6552,9 +6552,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01b000000000000, r6
-	cbne	r5, r6, f1091
+	cbne	r5, r6, fail1091
 	mov	=0x0, r6
-	cbne	r8, r6, f1092
+	cbne	r8, r6, fail1092
 	mov	=0x4000000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -6564,9 +6564,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x401b000000000000, r6
-	cbne	r5, r6, f1093
+	cbne	r5, r6, fail1093
 	mov	=0x0, r6
-	cbne	r8, r6, f1094
+	cbne	r8, r6, fail1094
 	mov	=0x4000000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -6576,9 +6576,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3fe8000000000000, r6
-	cbne	r5, r6, f1095
+	cbne	r5, r6, fail1095
 	mov	=0x0, r6
-	cbne	r8, r6, f1096
+	cbne	r8, r6, fail1096
 	mov	=0x4000000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -6588,9 +6588,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc012000000000000, r6
-	cbne	r5, r6, f1097
+	cbne	r5, r6, fail1097
 	mov	=0x0, r6
-	cbne	r8, r6, f1098
+	cbne	r8, r6, fail1098
 	mov	=0x4000000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -6600,9 +6600,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc025000000000000, r6
-	cbne	r5, r6, f1099
+	cbne	r5, r6, fail1099
 	mov	=0x0, r6
-	cbne	r8, r6, f1100
+	cbne	r8, r6, fail1100
 	mov	=0x4008000000000000, r1
 	mov	=0x0, r2
 	mov	=0x0, r3
@@ -6612,9 +6612,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f1101
+	cbne	r5, r6, fail1101
 	mov	=0x0, r6
-	cbne	r8, r6, f1102
+	cbne	r8, r6, fail1102
 	mov	=0x4008000000000000, r1
 	mov	=0x0, r2
 	mov	=0x0, r3
@@ -6624,9 +6624,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x8000000000000000, r6
-	cbne	r5, r6, f1103
+	cbne	r5, r6, fail1103
 	mov	=0x0, r6
-	cbne	r8, r6, f1104
+	cbne	r8, r6, fail1104
 	mov	=0x4008000000000000, r1
 	mov	=0x0, r2
 	mov	=0x8000000000000000, r3
@@ -6636,9 +6636,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f1105
+	cbne	r5, r6, fail1105
 	mov	=0x0, r6
-	cbne	r8, r6, f1106
+	cbne	r8, r6, fail1106
 	mov	=0x4008000000000000, r1
 	mov	=0x0, r2
 	mov	=0x8000000000000000, r3
@@ -6648,9 +6648,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f1107
+	cbne	r5, r6, fail1107
 	mov	=0x0, r6
-	cbne	r8, r6, f1108
+	cbne	r8, r6, fail1108
 	mov	=0x4008000000000000, r1
 	mov	=0x0, r2
 	mov	=0x3ff0000000000000, r3
@@ -6660,9 +6660,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f1109
+	cbne	r5, r6, fail1109
 	mov	=0x0, r6
-	cbne	r8, r6, f1110
+	cbne	r8, r6, fail1110
 	mov	=0x4008000000000000, r1
 	mov	=0x0, r2
 	mov	=0x3ff0000000000000, r3
@@ -6672,9 +6672,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f1111
+	cbne	r5, r6, fail1111
 	mov	=0x0, r6
-	cbne	r8, r6, f1112
+	cbne	r8, r6, fail1112
 	mov	=0x4008000000000000, r1
 	mov	=0x0, r2
 	mov	=0xbff0000000000000, r3
@@ -6684,9 +6684,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff0000000000000, r6
-	cbne	r5, r6, f1113
+	cbne	r5, r6, fail1113
 	mov	=0x0, r6
-	cbne	r8, r6, f1114
+	cbne	r8, r6, fail1114
 	mov	=0x4008000000000000, r1
 	mov	=0x0, r2
 	mov	=0xbff0000000000000, r3
@@ -6696,9 +6696,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff0000000000000, r6
-	cbne	r5, r6, f1115
+	cbne	r5, r6, fail1115
 	mov	=0x0, r6
-	cbne	r8, r6, f1116
+	cbne	r8, r6, fail1116
 	mov	=0x4008000000000000, r1
 	mov	=0x0, r2
 	mov	=0x4000000000000000, r3
@@ -6708,9 +6708,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc000000000000000, r6
-	cbne	r5, r6, f1117
+	cbne	r5, r6, fail1117
 	mov	=0x0, r6
-	cbne	r8, r6, f1118
+	cbne	r8, r6, fail1118
 	mov	=0x4008000000000000, r1
 	mov	=0x0, r2
 	mov	=0x4000000000000000, r3
@@ -6720,9 +6720,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc000000000000000, r6
-	cbne	r5, r6, f1119
+	cbne	r5, r6, fail1119
 	mov	=0x0, r6
-	cbne	r8, r6, f1120
+	cbne	r8, r6, fail1120
 	mov	=0x4008000000000000, r1
 	mov	=0x0, r2
 	mov	=0x4008000000000000, r3
@@ -6732,9 +6732,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc008000000000000, r6
-	cbne	r5, r6, f1121
+	cbne	r5, r6, fail1121
 	mov	=0x0, r6
-	cbne	r8, r6, f1122
+	cbne	r8, r6, fail1122
 	mov	=0x4008000000000000, r1
 	mov	=0x0, r2
 	mov	=0x4008000000000000, r3
@@ -6744,9 +6744,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc008000000000000, r6
-	cbne	r5, r6, f1123
+	cbne	r5, r6, fail1123
 	mov	=0x0, r6
-	cbne	r8, r6, f1124
+	cbne	r8, r6, fail1124
 	mov	=0x4008000000000000, r1
 	mov	=0x0, r2
 	mov	=0x3ff8000000000000, r3
@@ -6756,9 +6756,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f1125
+	cbne	r5, r6, fail1125
 	mov	=0x0, r6
-	cbne	r8, r6, f1126
+	cbne	r8, r6, fail1126
 	mov	=0x4008000000000000, r1
 	mov	=0x0, r2
 	mov	=0x3ff8000000000000, r3
@@ -6768,9 +6768,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f1127
+	cbne	r5, r6, fail1127
 	mov	=0x0, r6
-	cbne	r8, r6, f1128
+	cbne	r8, r6, fail1128
 	mov	=0x4008000000000000, r1
 	mov	=0x0, r2
 	mov	=0x4004000000000000, r3
@@ -6780,9 +6780,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc004000000000000, r6
-	cbne	r5, r6, f1129
+	cbne	r5, r6, fail1129
 	mov	=0x0, r6
-	cbne	r8, r6, f1130
+	cbne	r8, r6, fail1130
 	mov	=0x4008000000000000, r1
 	mov	=0x0, r2
 	mov	=0x4004000000000000, r3
@@ -6792,9 +6792,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc004000000000000, r6
-	cbne	r5, r6, f1131
+	cbne	r5, r6, fail1131
 	mov	=0x0, r6
-	cbne	r8, r6, f1132
+	cbne	r8, r6, fail1132
 	mov	=0x4008000000000000, r1
 	mov	=0x0, r2
 	mov	=0x400e000000000000, r3
@@ -6804,9 +6804,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00e000000000000, r6
-	cbne	r5, r6, f1133
+	cbne	r5, r6, fail1133
 	mov	=0x0, r6
-	cbne	r8, r6, f1134
+	cbne	r8, r6, fail1134
 	mov	=0x4008000000000000, r1
 	mov	=0x0, r2
 	mov	=0x400e000000000000, r3
@@ -6816,9 +6816,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00e000000000000, r6
-	cbne	r5, r6, f1135
+	cbne	r5, r6, fail1135
 	mov	=0x0, r6
-	cbne	r8, r6, f1136
+	cbne	r8, r6, fail1136
 	mov	=0x4008000000000000, r1
 	mov	=0x0, r2
 	mov	=0xc00e000000000000, r3
@@ -6828,9 +6828,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x400e000000000000, r6
-	cbne	r5, r6, f1137
+	cbne	r5, r6, fail1137
 	mov	=0x0, r6
-	cbne	r8, r6, f1138
+	cbne	r8, r6, fail1138
 	mov	=0x4008000000000000, r1
 	mov	=0x0, r2
 	mov	=0xc00e000000000000, r3
@@ -6840,9 +6840,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x400e000000000000, r6
-	cbne	r5, r6, f1139
+	cbne	r5, r6, fail1139
 	mov	=0x0, r6
-	cbne	r8, r6, f1140
+	cbne	r8, r6, fail1140
 	mov	=0x4008000000000000, r1
 	mov	=0x0, r2
 	mov	=0x401e000000000000, r3
@@ -6852,9 +6852,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01e000000000000, r6
-	cbne	r5, r6, f1141
+	cbne	r5, r6, fail1141
 	mov	=0x0, r6
-	cbne	r8, r6, f1142
+	cbne	r8, r6, fail1142
 	mov	=0x4008000000000000, r1
 	mov	=0x0, r2
 	mov	=0x401e000000000000, r3
@@ -6864,9 +6864,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01e000000000000, r6
-	cbne	r5, r6, f1143
+	cbne	r5, r6, fail1143
 	mov	=0x0, r6
-	cbne	r8, r6, f1144
+	cbne	r8, r6, fail1144
 	mov	=0x4008000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x0, r3
@@ -6876,9 +6876,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x8000000000000000, r6
-	cbne	r5, r6, f1145
+	cbne	r5, r6, fail1145
 	mov	=0x0, r6
-	cbne	r8, r6, f1146
+	cbne	r8, r6, fail1146
 	mov	=0x4008000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x0, r3
@@ -6888,9 +6888,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f1147
+	cbne	r5, r6, fail1147
 	mov	=0x0, r6
-	cbne	r8, r6, f1148
+	cbne	r8, r6, fail1148
 	mov	=0x4008000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -6900,9 +6900,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f1149
+	cbne	r5, r6, fail1149
 	mov	=0x0, r6
-	cbne	r8, r6, f1150
+	cbne	r8, r6, fail1150
 	mov	=0x4008000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -6912,9 +6912,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f1151
+	cbne	r5, r6, fail1151
 	mov	=0x0, r6
-	cbne	r8, r6, f1152
+	cbne	r8, r6, fail1152
 	mov	=0x4008000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -6924,9 +6924,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f1153
+	cbne	r5, r6, fail1153
 	mov	=0x0, r6
-	cbne	r8, r6, f1154
+	cbne	r8, r6, fail1154
 	mov	=0x4008000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -6936,9 +6936,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f1155
+	cbne	r5, r6, fail1155
 	mov	=0x0, r6
-	cbne	r8, r6, f1156
+	cbne	r8, r6, fail1156
 	mov	=0x4008000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -6948,9 +6948,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff0000000000000, r6
-	cbne	r5, r6, f1157
+	cbne	r5, r6, fail1157
 	mov	=0x0, r6
-	cbne	r8, r6, f1158
+	cbne	r8, r6, fail1158
 	mov	=0x4008000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -6960,9 +6960,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff0000000000000, r6
-	cbne	r5, r6, f1159
+	cbne	r5, r6, fail1159
 	mov	=0x0, r6
-	cbne	r8, r6, f1160
+	cbne	r8, r6, fail1160
 	mov	=0x4008000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -6972,9 +6972,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc000000000000000, r6
-	cbne	r5, r6, f1161
+	cbne	r5, r6, fail1161
 	mov	=0x0, r6
-	cbne	r8, r6, f1162
+	cbne	r8, r6, fail1162
 	mov	=0x4008000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -6984,9 +6984,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc000000000000000, r6
-	cbne	r5, r6, f1163
+	cbne	r5, r6, fail1163
 	mov	=0x0, r6
-	cbne	r8, r6, f1164
+	cbne	r8, r6, fail1164
 	mov	=0x4008000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -6996,9 +6996,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc008000000000000, r6
-	cbne	r5, r6, f1165
+	cbne	r5, r6, fail1165
 	mov	=0x0, r6
-	cbne	r8, r6, f1166
+	cbne	r8, r6, fail1166
 	mov	=0x4008000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -7008,9 +7008,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc008000000000000, r6
-	cbne	r5, r6, f1167
+	cbne	r5, r6, fail1167
 	mov	=0x0, r6
-	cbne	r8, r6, f1168
+	cbne	r8, r6, fail1168
 	mov	=0x4008000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -7020,9 +7020,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f1169
+	cbne	r5, r6, fail1169
 	mov	=0x0, r6
-	cbne	r8, r6, f1170
+	cbne	r8, r6, fail1170
 	mov	=0x4008000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -7032,9 +7032,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f1171
+	cbne	r5, r6, fail1171
 	mov	=0x0, r6
-	cbne	r8, r6, f1172
+	cbne	r8, r6, fail1172
 	mov	=0x4008000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -7044,9 +7044,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc004000000000000, r6
-	cbne	r5, r6, f1173
+	cbne	r5, r6, fail1173
 	mov	=0x0, r6
-	cbne	r8, r6, f1174
+	cbne	r8, r6, fail1174
 	mov	=0x4008000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -7056,9 +7056,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc004000000000000, r6
-	cbne	r5, r6, f1175
+	cbne	r5, r6, fail1175
 	mov	=0x0, r6
-	cbne	r8, r6, f1176
+	cbne	r8, r6, fail1176
 	mov	=0x4008000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -7068,9 +7068,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00e000000000000, r6
-	cbne	r5, r6, f1177
+	cbne	r5, r6, fail1177
 	mov	=0x0, r6
-	cbne	r8, r6, f1178
+	cbne	r8, r6, fail1178
 	mov	=0x4008000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -7080,9 +7080,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00e000000000000, r6
-	cbne	r5, r6, f1179
+	cbne	r5, r6, fail1179
 	mov	=0x0, r6
-	cbne	r8, r6, f1180
+	cbne	r8, r6, fail1180
 	mov	=0x4008000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -7092,9 +7092,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x400e000000000000, r6
-	cbne	r5, r6, f1181
+	cbne	r5, r6, fail1181
 	mov	=0x0, r6
-	cbne	r8, r6, f1182
+	cbne	r8, r6, fail1182
 	mov	=0x4008000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -7104,9 +7104,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x400e000000000000, r6
-	cbne	r5, r6, f1183
+	cbne	r5, r6, fail1183
 	mov	=0x0, r6
-	cbne	r8, r6, f1184
+	cbne	r8, r6, fail1184
 	mov	=0x4008000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -7116,9 +7116,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01e000000000000, r6
-	cbne	r5, r6, f1185
+	cbne	r5, r6, fail1185
 	mov	=0x0, r6
-	cbne	r8, r6, f1186
+	cbne	r8, r6, fail1186
 	mov	=0x4008000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -7128,9 +7128,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01e000000000000, r6
-	cbne	r5, r6, f1187
+	cbne	r5, r6, fail1187
 	mov	=0x0, r6
-	cbne	r8, r6, f1188
+	cbne	r8, r6, fail1188
 	mov	=0x4008000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x0, r3
@@ -7140,9 +7140,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4008000000000000, r6
-	cbne	r5, r6, f1189
+	cbne	r5, r6, fail1189
 	mov	=0x0, r6
-	cbne	r8, r6, f1190
+	cbne	r8, r6, fail1190
 	mov	=0x4008000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x0, r3
@@ -7152,9 +7152,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc008000000000000, r6
-	cbne	r5, r6, f1191
+	cbne	r5, r6, fail1191
 	mov	=0x0, r6
-	cbne	r8, r6, f1192
+	cbne	r8, r6, fail1192
 	mov	=0x4008000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -7164,9 +7164,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4008000000000000, r6
-	cbne	r5, r6, f1193
+	cbne	r5, r6, fail1193
 	mov	=0x0, r6
-	cbne	r8, r6, f1194
+	cbne	r8, r6, fail1194
 	mov	=0x4008000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -7176,9 +7176,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc008000000000000, r6
-	cbne	r5, r6, f1195
+	cbne	r5, r6, fail1195
 	mov	=0x0, r6
-	cbne	r8, r6, f1196
+	cbne	r8, r6, fail1196
 	mov	=0x4008000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -7188,9 +7188,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4000000000000000, r6
-	cbne	r5, r6, f1197
+	cbne	r5, r6, fail1197
 	mov	=0x0, r6
-	cbne	r8, r6, f1198
+	cbne	r8, r6, fail1198
 	mov	=0x4008000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -7200,9 +7200,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc010000000000000, r6
-	cbne	r5, r6, f1199
+	cbne	r5, r6, fail1199
 	mov	=0x0, r6
-	cbne	r8, r6, f1200
+	cbne	r8, r6, fail1200
 	mov	=0x4008000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -7212,9 +7212,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4010000000000000, r6
-	cbne	r5, r6, f1201
+	cbne	r5, r6, fail1201
 	mov	=0x0, r6
-	cbne	r8, r6, f1202
+	cbne	r8, r6, fail1202
 	mov	=0x4008000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -7224,9 +7224,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc000000000000000, r6
-	cbne	r5, r6, f1203
+	cbne	r5, r6, fail1203
 	mov	=0x0, r6
-	cbne	r8, r6, f1204
+	cbne	r8, r6, fail1204
 	mov	=0x4008000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -7236,9 +7236,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff0000000000000, r6
-	cbne	r5, r6, f1205
+	cbne	r5, r6, fail1205
 	mov	=0x0, r6
-	cbne	r8, r6, f1206
+	cbne	r8, r6, fail1206
 	mov	=0x4008000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -7248,9 +7248,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc014000000000000, r6
-	cbne	r5, r6, f1207
+	cbne	r5, r6, fail1207
 	mov	=0x0, r6
-	cbne	r8, r6, f1208
+	cbne	r8, r6, fail1208
 	mov	=0x4008000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -7260,9 +7260,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f1209
+	cbne	r5, r6, fail1209
 	mov	=0x0, r6
-	cbne	r8, r6, f1210
+	cbne	r8, r6, fail1210
 	mov	=0x4008000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -7272,9 +7272,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc018000000000000, r6
-	cbne	r5, r6, f1211
+	cbne	r5, r6, fail1211
 	mov	=0x0, r6
-	cbne	r8, r6, f1212
+	cbne	r8, r6, fail1212
 	mov	=0x4008000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -7284,9 +7284,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff8000000000000, r6
-	cbne	r5, r6, f1213
+	cbne	r5, r6, fail1213
 	mov	=0x0, r6
-	cbne	r8, r6, f1214
+	cbne	r8, r6, fail1214
 	mov	=0x4008000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -7296,9 +7296,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc012000000000000, r6
-	cbne	r5, r6, f1215
+	cbne	r5, r6, fail1215
 	mov	=0x0, r6
-	cbne	r8, r6, f1216
+	cbne	r8, r6, fail1216
 	mov	=0x4008000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -7308,9 +7308,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3fe0000000000000, r6
-	cbne	r5, r6, f1217
+	cbne	r5, r6, fail1217
 	mov	=0x0, r6
-	cbne	r8, r6, f1218
+	cbne	r8, r6, fail1218
 	mov	=0x4008000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -7320,9 +7320,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc016000000000000, r6
-	cbne	r5, r6, f1219
+	cbne	r5, r6, fail1219
 	mov	=0x0, r6
-	cbne	r8, r6, f1220
+	cbne	r8, r6, fail1220
 	mov	=0x4008000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -7332,9 +7332,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbfe8000000000000, r6
-	cbne	r5, r6, f1221
+	cbne	r5, r6, fail1221
 	mov	=0x0, r6
-	cbne	r8, r6, f1222
+	cbne	r8, r6, fail1222
 	mov	=0x4008000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -7344,9 +7344,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01b000000000000, r6
-	cbne	r5, r6, f1223
+	cbne	r5, r6, fail1223
 	mov	=0x0, r6
-	cbne	r8, r6, f1224
+	cbne	r8, r6, fail1224
 	mov	=0x4008000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -7356,9 +7356,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x401b000000000000, r6
-	cbne	r5, r6, f1225
+	cbne	r5, r6, fail1225
 	mov	=0x0, r6
-	cbne	r8, r6, f1226
+	cbne	r8, r6, fail1226
 	mov	=0x4008000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -7368,9 +7368,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3fe8000000000000, r6
-	cbne	r5, r6, f1227
+	cbne	r5, r6, fail1227
 	mov	=0x0, r6
-	cbne	r8, r6, f1228
+	cbne	r8, r6, fail1228
 	mov	=0x4008000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -7380,9 +7380,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc012000000000000, r6
-	cbne	r5, r6, f1229
+	cbne	r5, r6, fail1229
 	mov	=0x0, r6
-	cbne	r8, r6, f1230
+	cbne	r8, r6, fail1230
 	mov	=0x4008000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -7392,9 +7392,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc025000000000000, r6
-	cbne	r5, r6, f1231
+	cbne	r5, r6, fail1231
 	mov	=0x0, r6
-	cbne	r8, r6, f1232
+	cbne	r8, r6, fail1232
 	mov	=0x4008000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x0, r3
@@ -7404,9 +7404,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc008000000000000, r6
-	cbne	r5, r6, f1233
+	cbne	r5, r6, fail1233
 	mov	=0x0, r6
-	cbne	r8, r6, f1234
+	cbne	r8, r6, fail1234
 	mov	=0x4008000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x0, r3
@@ -7416,9 +7416,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4008000000000000, r6
-	cbne	r5, r6, f1235
+	cbne	r5, r6, fail1235
 	mov	=0x0, r6
-	cbne	r8, r6, f1236
+	cbne	r8, r6, fail1236
 	mov	=0x4008000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -7428,9 +7428,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc008000000000000, r6
-	cbne	r5, r6, f1237
+	cbne	r5, r6, fail1237
 	mov	=0x0, r6
-	cbne	r8, r6, f1238
+	cbne	r8, r6, fail1238
 	mov	=0x4008000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -7440,9 +7440,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4008000000000000, r6
-	cbne	r5, r6, f1239
+	cbne	r5, r6, fail1239
 	mov	=0x0, r6
-	cbne	r8, r6, f1240
+	cbne	r8, r6, fail1240
 	mov	=0x4008000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -7452,9 +7452,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc010000000000000, r6
-	cbne	r5, r6, f1241
+	cbne	r5, r6, fail1241
 	mov	=0x0, r6
-	cbne	r8, r6, f1242
+	cbne	r8, r6, fail1242
 	mov	=0x4008000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -7464,9 +7464,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4000000000000000, r6
-	cbne	r5, r6, f1243
+	cbne	r5, r6, fail1243
 	mov	=0x0, r6
-	cbne	r8, r6, f1244
+	cbne	r8, r6, fail1244
 	mov	=0x4008000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -7476,9 +7476,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc000000000000000, r6
-	cbne	r5, r6, f1245
+	cbne	r5, r6, fail1245
 	mov	=0x0, r6
-	cbne	r8, r6, f1246
+	cbne	r8, r6, fail1246
 	mov	=0x4008000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -7488,9 +7488,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4010000000000000, r6
-	cbne	r5, r6, f1247
+	cbne	r5, r6, fail1247
 	mov	=0x0, r6
-	cbne	r8, r6, f1248
+	cbne	r8, r6, fail1248
 	mov	=0x4008000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -7500,9 +7500,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc014000000000000, r6
-	cbne	r5, r6, f1249
+	cbne	r5, r6, fail1249
 	mov	=0x0, r6
-	cbne	r8, r6, f1250
+	cbne	r8, r6, fail1250
 	mov	=0x4008000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -7512,9 +7512,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff0000000000000, r6
-	cbne	r5, r6, f1251
+	cbne	r5, r6, fail1251
 	mov	=0x0, r6
-	cbne	r8, r6, f1252
+	cbne	r8, r6, fail1252
 	mov	=0x4008000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -7524,9 +7524,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc018000000000000, r6
-	cbne	r5, r6, f1253
+	cbne	r5, r6, fail1253
 	mov	=0x0, r6
-	cbne	r8, r6, f1254
+	cbne	r8, r6, fail1254
 	mov	=0x4008000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -7536,9 +7536,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f1255
+	cbne	r5, r6, fail1255
 	mov	=0x0, r6
-	cbne	r8, r6, f1256
+	cbne	r8, r6, fail1256
 	mov	=0x4008000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -7548,9 +7548,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc012000000000000, r6
-	cbne	r5, r6, f1257
+	cbne	r5, r6, fail1257
 	mov	=0x0, r6
-	cbne	r8, r6, f1258
+	cbne	r8, r6, fail1258
 	mov	=0x4008000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -7560,9 +7560,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff8000000000000, r6
-	cbne	r5, r6, f1259
+	cbne	r5, r6, fail1259
 	mov	=0x0, r6
-	cbne	r8, r6, f1260
+	cbne	r8, r6, fail1260
 	mov	=0x4008000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -7572,9 +7572,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc016000000000000, r6
-	cbne	r5, r6, f1261
+	cbne	r5, r6, fail1261
 	mov	=0x0, r6
-	cbne	r8, r6, f1262
+	cbne	r8, r6, fail1262
 	mov	=0x4008000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -7584,9 +7584,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3fe0000000000000, r6
-	cbne	r5, r6, f1263
+	cbne	r5, r6, fail1263
 	mov	=0x0, r6
-	cbne	r8, r6, f1264
+	cbne	r8, r6, fail1264
 	mov	=0x4008000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -7596,9 +7596,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01b000000000000, r6
-	cbne	r5, r6, f1265
+	cbne	r5, r6, fail1265
 	mov	=0x0, r6
-	cbne	r8, r6, f1266
+	cbne	r8, r6, fail1266
 	mov	=0x4008000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -7608,9 +7608,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbfe8000000000000, r6
-	cbne	r5, r6, f1267
+	cbne	r5, r6, fail1267
 	mov	=0x0, r6
-	cbne	r8, r6, f1268
+	cbne	r8, r6, fail1268
 	mov	=0x4008000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -7620,9 +7620,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3fe8000000000000, r6
-	cbne	r5, r6, f1269
+	cbne	r5, r6, fail1269
 	mov	=0x0, r6
-	cbne	r8, r6, f1270
+	cbne	r8, r6, fail1270
 	mov	=0x4008000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -7632,9 +7632,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x401b000000000000, r6
-	cbne	r5, r6, f1271
+	cbne	r5, r6, fail1271
 	mov	=0x0, r6
-	cbne	r8, r6, f1272
+	cbne	r8, r6, fail1272
 	mov	=0x4008000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -7644,9 +7644,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc025000000000000, r6
-	cbne	r5, r6, f1273
+	cbne	r5, r6, fail1273
 	mov	=0x0, r6
-	cbne	r8, r6, f1274
+	cbne	r8, r6, fail1274
 	mov	=0x4008000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -7656,9 +7656,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc012000000000000, r6
-	cbne	r5, r6, f1275
+	cbne	r5, r6, fail1275
 	mov	=0x0, r6
-	cbne	r8, r6, f1276
+	cbne	r8, r6, fail1276
 	mov	=0x4008000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x0, r3
@@ -7668,9 +7668,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4012000000000000, r6
-	cbne	r5, r6, f1277
+	cbne	r5, r6, fail1277
 	mov	=0x0, r6
-	cbne	r8, r6, f1278
+	cbne	r8, r6, fail1278
 	mov	=0x4008000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x0, r3
@@ -7680,9 +7680,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc012000000000000, r6
-	cbne	r5, r6, f1279
+	cbne	r5, r6, fail1279
 	mov	=0x0, r6
-	cbne	r8, r6, f1280
+	cbne	r8, r6, fail1280
 	mov	=0x4008000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -7692,9 +7692,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4012000000000000, r6
-	cbne	r5, r6, f1281
+	cbne	r5, r6, fail1281
 	mov	=0x0, r6
-	cbne	r8, r6, f1282
+	cbne	r8, r6, fail1282
 	mov	=0x4008000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -7704,9 +7704,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc012000000000000, r6
-	cbne	r5, r6, f1283
+	cbne	r5, r6, fail1283
 	mov	=0x0, r6
-	cbne	r8, r6, f1284
+	cbne	r8, r6, fail1284
 	mov	=0x4008000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -7716,9 +7716,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x400c000000000000, r6
-	cbne	r5, r6, f1285
+	cbne	r5, r6, fail1285
 	mov	=0x0, r6
-	cbne	r8, r6, f1286
+	cbne	r8, r6, fail1286
 	mov	=0x4008000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -7728,9 +7728,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc016000000000000, r6
-	cbne	r5, r6, f1287
+	cbne	r5, r6, fail1287
 	mov	=0x0, r6
-	cbne	r8, r6, f1288
+	cbne	r8, r6, fail1288
 	mov	=0x4008000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -7740,9 +7740,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4016000000000000, r6
-	cbne	r5, r6, f1289
+	cbne	r5, r6, fail1289
 	mov	=0x0, r6
-	cbne	r8, r6, f1290
+	cbne	r8, r6, fail1290
 	mov	=0x4008000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -7752,9 +7752,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00c000000000000, r6
-	cbne	r5, r6, f1291
+	cbne	r5, r6, fail1291
 	mov	=0x0, r6
-	cbne	r8, r6, f1292
+	cbne	r8, r6, fail1292
 	mov	=0x4008000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -7764,9 +7764,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4004000000000000, r6
-	cbne	r5, r6, f1293
+	cbne	r5, r6, fail1293
 	mov	=0x0, r6
-	cbne	r8, r6, f1294
+	cbne	r8, r6, fail1294
 	mov	=0x4008000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -7776,9 +7776,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01a000000000000, r6
-	cbne	r5, r6, f1295
+	cbne	r5, r6, fail1295
 	mov	=0x0, r6
-	cbne	r8, r6, f1296
+	cbne	r8, r6, fail1296
 	mov	=0x4008000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -7788,9 +7788,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff8000000000000, r6
-	cbne	r5, r6, f1297
+	cbne	r5, r6, fail1297
 	mov	=0x0, r6
-	cbne	r8, r6, f1298
+	cbne	r8, r6, fail1298
 	mov	=0x4008000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -7800,9 +7800,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01e000000000000, r6
-	cbne	r5, r6, f1299
+	cbne	r5, r6, fail1299
 	mov	=0x0, r6
-	cbne	r8, r6, f1300
+	cbne	r8, r6, fail1300
 	mov	=0x4008000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -7812,9 +7812,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4008000000000000, r6
-	cbne	r5, r6, f1301
+	cbne	r5, r6, fail1301
 	mov	=0x0, r6
-	cbne	r8, r6, f1302
+	cbne	r8, r6, fail1302
 	mov	=0x4008000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -7824,9 +7824,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc018000000000000, r6
-	cbne	r5, r6, f1303
+	cbne	r5, r6, fail1303
 	mov	=0x0, r6
-	cbne	r8, r6, f1304
+	cbne	r8, r6, fail1304
 	mov	=0x4008000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -7836,9 +7836,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4000000000000000, r6
-	cbne	r5, r6, f1305
+	cbne	r5, r6, fail1305
 	mov	=0x0, r6
-	cbne	r8, r6, f1306
+	cbne	r8, r6, fail1306
 	mov	=0x4008000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -7848,9 +7848,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01c000000000000, r6
-	cbne	r5, r6, f1307
+	cbne	r5, r6, fail1307
 	mov	=0x0, r6
-	cbne	r8, r6, f1308
+	cbne	r8, r6, fail1308
 	mov	=0x4008000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -7860,9 +7860,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3fe8000000000000, r6
-	cbne	r5, r6, f1309
+	cbne	r5, r6, fail1309
 	mov	=0x0, r6
-	cbne	r8, r6, f1310
+	cbne	r8, r6, fail1310
 	mov	=0x4008000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -7872,9 +7872,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc020800000000000, r6
-	cbne	r5, r6, f1311
+	cbne	r5, r6, fail1311
 	mov	=0x0, r6
-	cbne	r8, r6, f1312
+	cbne	r8, r6, fail1312
 	mov	=0x4008000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -7884,9 +7884,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4020800000000000, r6
-	cbne	r5, r6, f1313
+	cbne	r5, r6, fail1313
 	mov	=0x0, r6
-	cbne	r8, r6, f1314
+	cbne	r8, r6, fail1314
 	mov	=0x4008000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -7896,9 +7896,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbfe8000000000000, r6
-	cbne	r5, r6, f1315
+	cbne	r5, r6, fail1315
 	mov	=0x0, r6
-	cbne	r8, r6, f1316
+	cbne	r8, r6, fail1316
 	mov	=0x4008000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -7908,9 +7908,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc008000000000000, r6
-	cbne	r5, r6, f1317
+	cbne	r5, r6, fail1317
 	mov	=0x0, r6
-	cbne	r8, r6, f1318
+	cbne	r8, r6, fail1318
 	mov	=0x4008000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -7920,9 +7920,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc028000000000000, r6
-	cbne	r5, r6, f1319
+	cbne	r5, r6, fail1319
 	mov	=0x0, r6
-	cbne	r8, r6, f1320
+	cbne	r8, r6, fail1320
 	mov	=0x3ff8000000000000, r1
 	mov	=0x0, r2
 	mov	=0x0, r3
@@ -7932,9 +7932,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f1321
+	cbne	r5, r6, fail1321
 	mov	=0x0, r6
-	cbne	r8, r6, f1322
+	cbne	r8, r6, fail1322
 	mov	=0x3ff8000000000000, r1
 	mov	=0x0, r2
 	mov	=0x0, r3
@@ -7944,9 +7944,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x8000000000000000, r6
-	cbne	r5, r6, f1323
+	cbne	r5, r6, fail1323
 	mov	=0x0, r6
-	cbne	r8, r6, f1324
+	cbne	r8, r6, fail1324
 	mov	=0x3ff8000000000000, r1
 	mov	=0x0, r2
 	mov	=0x8000000000000000, r3
@@ -7956,9 +7956,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f1325
+	cbne	r5, r6, fail1325
 	mov	=0x0, r6
-	cbne	r8, r6, f1326
+	cbne	r8, r6, fail1326
 	mov	=0x3ff8000000000000, r1
 	mov	=0x0, r2
 	mov	=0x8000000000000000, r3
@@ -7968,9 +7968,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f1327
+	cbne	r5, r6, fail1327
 	mov	=0x0, r6
-	cbne	r8, r6, f1328
+	cbne	r8, r6, fail1328
 	mov	=0x3ff8000000000000, r1
 	mov	=0x0, r2
 	mov	=0x3ff0000000000000, r3
@@ -7980,9 +7980,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f1329
+	cbne	r5, r6, fail1329
 	mov	=0x0, r6
-	cbne	r8, r6, f1330
+	cbne	r8, r6, fail1330
 	mov	=0x3ff8000000000000, r1
 	mov	=0x0, r2
 	mov	=0x3ff0000000000000, r3
@@ -7992,9 +7992,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f1331
+	cbne	r5, r6, fail1331
 	mov	=0x0, r6
-	cbne	r8, r6, f1332
+	cbne	r8, r6, fail1332
 	mov	=0x3ff8000000000000, r1
 	mov	=0x0, r2
 	mov	=0xbff0000000000000, r3
@@ -8004,9 +8004,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff0000000000000, r6
-	cbne	r5, r6, f1333
+	cbne	r5, r6, fail1333
 	mov	=0x0, r6
-	cbne	r8, r6, f1334
+	cbne	r8, r6, fail1334
 	mov	=0x3ff8000000000000, r1
 	mov	=0x0, r2
 	mov	=0xbff0000000000000, r3
@@ -8016,9 +8016,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff0000000000000, r6
-	cbne	r5, r6, f1335
+	cbne	r5, r6, fail1335
 	mov	=0x0, r6
-	cbne	r8, r6, f1336
+	cbne	r8, r6, fail1336
 	mov	=0x3ff8000000000000, r1
 	mov	=0x0, r2
 	mov	=0x4000000000000000, r3
@@ -8028,9 +8028,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc000000000000000, r6
-	cbne	r5, r6, f1337
+	cbne	r5, r6, fail1337
 	mov	=0x0, r6
-	cbne	r8, r6, f1338
+	cbne	r8, r6, fail1338
 	mov	=0x3ff8000000000000, r1
 	mov	=0x0, r2
 	mov	=0x4000000000000000, r3
@@ -8040,9 +8040,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc000000000000000, r6
-	cbne	r5, r6, f1339
+	cbne	r5, r6, fail1339
 	mov	=0x0, r6
-	cbne	r8, r6, f1340
+	cbne	r8, r6, fail1340
 	mov	=0x3ff8000000000000, r1
 	mov	=0x0, r2
 	mov	=0x4008000000000000, r3
@@ -8052,9 +8052,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc008000000000000, r6
-	cbne	r5, r6, f1341
+	cbne	r5, r6, fail1341
 	mov	=0x0, r6
-	cbne	r8, r6, f1342
+	cbne	r8, r6, fail1342
 	mov	=0x3ff8000000000000, r1
 	mov	=0x0, r2
 	mov	=0x4008000000000000, r3
@@ -8064,9 +8064,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc008000000000000, r6
-	cbne	r5, r6, f1343
+	cbne	r5, r6, fail1343
 	mov	=0x0, r6
-	cbne	r8, r6, f1344
+	cbne	r8, r6, fail1344
 	mov	=0x3ff8000000000000, r1
 	mov	=0x0, r2
 	mov	=0x3ff8000000000000, r3
@@ -8076,9 +8076,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f1345
+	cbne	r5, r6, fail1345
 	mov	=0x0, r6
-	cbne	r8, r6, f1346
+	cbne	r8, r6, fail1346
 	mov	=0x3ff8000000000000, r1
 	mov	=0x0, r2
 	mov	=0x3ff8000000000000, r3
@@ -8088,9 +8088,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f1347
+	cbne	r5, r6, fail1347
 	mov	=0x0, r6
-	cbne	r8, r6, f1348
+	cbne	r8, r6, fail1348
 	mov	=0x3ff8000000000000, r1
 	mov	=0x0, r2
 	mov	=0x4004000000000000, r3
@@ -8100,9 +8100,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc004000000000000, r6
-	cbne	r5, r6, f1349
+	cbne	r5, r6, fail1349
 	mov	=0x0, r6
-	cbne	r8, r6, f1350
+	cbne	r8, r6, fail1350
 	mov	=0x3ff8000000000000, r1
 	mov	=0x0, r2
 	mov	=0x4004000000000000, r3
@@ -8112,9 +8112,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc004000000000000, r6
-	cbne	r5, r6, f1351
+	cbne	r5, r6, fail1351
 	mov	=0x0, r6
-	cbne	r8, r6, f1352
+	cbne	r8, r6, fail1352
 	mov	=0x3ff8000000000000, r1
 	mov	=0x0, r2
 	mov	=0x400e000000000000, r3
@@ -8124,9 +8124,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00e000000000000, r6
-	cbne	r5, r6, f1353
+	cbne	r5, r6, fail1353
 	mov	=0x0, r6
-	cbne	r8, r6, f1354
+	cbne	r8, r6, fail1354
 	mov	=0x3ff8000000000000, r1
 	mov	=0x0, r2
 	mov	=0x400e000000000000, r3
@@ -8136,9 +8136,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00e000000000000, r6
-	cbne	r5, r6, f1355
+	cbne	r5, r6, fail1355
 	mov	=0x0, r6
-	cbne	r8, r6, f1356
+	cbne	r8, r6, fail1356
 	mov	=0x3ff8000000000000, r1
 	mov	=0x0, r2
 	mov	=0xc00e000000000000, r3
@@ -8148,9 +8148,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x400e000000000000, r6
-	cbne	r5, r6, f1357
+	cbne	r5, r6, fail1357
 	mov	=0x0, r6
-	cbne	r8, r6, f1358
+	cbne	r8, r6, fail1358
 	mov	=0x3ff8000000000000, r1
 	mov	=0x0, r2
 	mov	=0xc00e000000000000, r3
@@ -8160,9 +8160,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x400e000000000000, r6
-	cbne	r5, r6, f1359
+	cbne	r5, r6, fail1359
 	mov	=0x0, r6
-	cbne	r8, r6, f1360
+	cbne	r8, r6, fail1360
 	mov	=0x3ff8000000000000, r1
 	mov	=0x0, r2
 	mov	=0x401e000000000000, r3
@@ -8172,9 +8172,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01e000000000000, r6
-	cbne	r5, r6, f1361
+	cbne	r5, r6, fail1361
 	mov	=0x0, r6
-	cbne	r8, r6, f1362
+	cbne	r8, r6, fail1362
 	mov	=0x3ff8000000000000, r1
 	mov	=0x0, r2
 	mov	=0x401e000000000000, r3
@@ -8184,9 +8184,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01e000000000000, r6
-	cbne	r5, r6, f1363
+	cbne	r5, r6, fail1363
 	mov	=0x0, r6
-	cbne	r8, r6, f1364
+	cbne	r8, r6, fail1364
 	mov	=0x3ff8000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x0, r3
@@ -8196,9 +8196,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x8000000000000000, r6
-	cbne	r5, r6, f1365
+	cbne	r5, r6, fail1365
 	mov	=0x0, r6
-	cbne	r8, r6, f1366
+	cbne	r8, r6, fail1366
 	mov	=0x3ff8000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x0, r3
@@ -8208,9 +8208,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f1367
+	cbne	r5, r6, fail1367
 	mov	=0x0, r6
-	cbne	r8, r6, f1368
+	cbne	r8, r6, fail1368
 	mov	=0x3ff8000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -8220,9 +8220,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f1369
+	cbne	r5, r6, fail1369
 	mov	=0x0, r6
-	cbne	r8, r6, f1370
+	cbne	r8, r6, fail1370
 	mov	=0x3ff8000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -8232,9 +8232,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f1371
+	cbne	r5, r6, fail1371
 	mov	=0x0, r6
-	cbne	r8, r6, f1372
+	cbne	r8, r6, fail1372
 	mov	=0x3ff8000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -8244,9 +8244,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f1373
+	cbne	r5, r6, fail1373
 	mov	=0x0, r6
-	cbne	r8, r6, f1374
+	cbne	r8, r6, fail1374
 	mov	=0x3ff8000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -8256,9 +8256,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f1375
+	cbne	r5, r6, fail1375
 	mov	=0x0, r6
-	cbne	r8, r6, f1376
+	cbne	r8, r6, fail1376
 	mov	=0x3ff8000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -8268,9 +8268,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff0000000000000, r6
-	cbne	r5, r6, f1377
+	cbne	r5, r6, fail1377
 	mov	=0x0, r6
-	cbne	r8, r6, f1378
+	cbne	r8, r6, fail1378
 	mov	=0x3ff8000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -8280,9 +8280,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff0000000000000, r6
-	cbne	r5, r6, f1379
+	cbne	r5, r6, fail1379
 	mov	=0x0, r6
-	cbne	r8, r6, f1380
+	cbne	r8, r6, fail1380
 	mov	=0x3ff8000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -8292,9 +8292,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc000000000000000, r6
-	cbne	r5, r6, f1381
+	cbne	r5, r6, fail1381
 	mov	=0x0, r6
-	cbne	r8, r6, f1382
+	cbne	r8, r6, fail1382
 	mov	=0x3ff8000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -8304,9 +8304,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc000000000000000, r6
-	cbne	r5, r6, f1383
+	cbne	r5, r6, fail1383
 	mov	=0x0, r6
-	cbne	r8, r6, f1384
+	cbne	r8, r6, fail1384
 	mov	=0x3ff8000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -8316,9 +8316,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc008000000000000, r6
-	cbne	r5, r6, f1385
+	cbne	r5, r6, fail1385
 	mov	=0x0, r6
-	cbne	r8, r6, f1386
+	cbne	r8, r6, fail1386
 	mov	=0x3ff8000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -8328,9 +8328,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc008000000000000, r6
-	cbne	r5, r6, f1387
+	cbne	r5, r6, fail1387
 	mov	=0x0, r6
-	cbne	r8, r6, f1388
+	cbne	r8, r6, fail1388
 	mov	=0x3ff8000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -8340,9 +8340,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f1389
+	cbne	r5, r6, fail1389
 	mov	=0x0, r6
-	cbne	r8, r6, f1390
+	cbne	r8, r6, fail1390
 	mov	=0x3ff8000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -8352,9 +8352,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f1391
+	cbne	r5, r6, fail1391
 	mov	=0x0, r6
-	cbne	r8, r6, f1392
+	cbne	r8, r6, fail1392
 	mov	=0x3ff8000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -8364,9 +8364,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc004000000000000, r6
-	cbne	r5, r6, f1393
+	cbne	r5, r6, fail1393
 	mov	=0x0, r6
-	cbne	r8, r6, f1394
+	cbne	r8, r6, fail1394
 	mov	=0x3ff8000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -8376,9 +8376,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc004000000000000, r6
-	cbne	r5, r6, f1395
+	cbne	r5, r6, fail1395
 	mov	=0x0, r6
-	cbne	r8, r6, f1396
+	cbne	r8, r6, fail1396
 	mov	=0x3ff8000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -8388,9 +8388,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00e000000000000, r6
-	cbne	r5, r6, f1397
+	cbne	r5, r6, fail1397
 	mov	=0x0, r6
-	cbne	r8, r6, f1398
+	cbne	r8, r6, fail1398
 	mov	=0x3ff8000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -8400,9 +8400,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00e000000000000, r6
-	cbne	r5, r6, f1399
+	cbne	r5, r6, fail1399
 	mov	=0x0, r6
-	cbne	r8, r6, f1400
+	cbne	r8, r6, fail1400
 	mov	=0x3ff8000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -8412,9 +8412,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x400e000000000000, r6
-	cbne	r5, r6, f1401
+	cbne	r5, r6, fail1401
 	mov	=0x0, r6
-	cbne	r8, r6, f1402
+	cbne	r8, r6, fail1402
 	mov	=0x3ff8000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -8424,9 +8424,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x400e000000000000, r6
-	cbne	r5, r6, f1403
+	cbne	r5, r6, fail1403
 	mov	=0x0, r6
-	cbne	r8, r6, f1404
+	cbne	r8, r6, fail1404
 	mov	=0x3ff8000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -8436,9 +8436,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01e000000000000, r6
-	cbne	r5, r6, f1405
+	cbne	r5, r6, fail1405
 	mov	=0x0, r6
-	cbne	r8, r6, f1406
+	cbne	r8, r6, fail1406
 	mov	=0x3ff8000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -8448,9 +8448,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01e000000000000, r6
-	cbne	r5, r6, f1407
+	cbne	r5, r6, fail1407
 	mov	=0x0, r6
-	cbne	r8, r6, f1408
+	cbne	r8, r6, fail1408
 	mov	=0x3ff8000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x0, r3
@@ -8460,9 +8460,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff8000000000000, r6
-	cbne	r5, r6, f1409
+	cbne	r5, r6, fail1409
 	mov	=0x0, r6
-	cbne	r8, r6, f1410
+	cbne	r8, r6, fail1410
 	mov	=0x3ff8000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x0, r3
@@ -8472,9 +8472,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f1411
+	cbne	r5, r6, fail1411
 	mov	=0x0, r6
-	cbne	r8, r6, f1412
+	cbne	r8, r6, fail1412
 	mov	=0x3ff8000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -8484,9 +8484,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff8000000000000, r6
-	cbne	r5, r6, f1413
+	cbne	r5, r6, fail1413
 	mov	=0x0, r6
-	cbne	r8, r6, f1414
+	cbne	r8, r6, fail1414
 	mov	=0x3ff8000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -8496,9 +8496,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f1415
+	cbne	r5, r6, fail1415
 	mov	=0x0, r6
-	cbne	r8, r6, f1416
+	cbne	r8, r6, fail1416
 	mov	=0x3ff8000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -8508,9 +8508,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3fe0000000000000, r6
-	cbne	r5, r6, f1417
+	cbne	r5, r6, fail1417
 	mov	=0x0, r6
-	cbne	r8, r6, f1418
+	cbne	r8, r6, fail1418
 	mov	=0x3ff8000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -8520,9 +8520,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc004000000000000, r6
-	cbne	r5, r6, f1419
+	cbne	r5, r6, fail1419
 	mov	=0x0, r6
-	cbne	r8, r6, f1420
+	cbne	r8, r6, fail1420
 	mov	=0x3ff8000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -8532,9 +8532,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4004000000000000, r6
-	cbne	r5, r6, f1421
+	cbne	r5, r6, fail1421
 	mov	=0x0, r6
-	cbne	r8, r6, f1422
+	cbne	r8, r6, fail1422
 	mov	=0x3ff8000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -8544,9 +8544,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbfe0000000000000, r6
-	cbne	r5, r6, f1423
+	cbne	r5, r6, fail1423
 	mov	=0x0, r6
-	cbne	r8, r6, f1424
+	cbne	r8, r6, fail1424
 	mov	=0x3ff8000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -8556,9 +8556,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbfe0000000000000, r6
-	cbne	r5, r6, f1425
+	cbne	r5, r6, fail1425
 	mov	=0x0, r6
-	cbne	r8, r6, f1426
+	cbne	r8, r6, fail1426
 	mov	=0x3ff8000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -8568,9 +8568,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00c000000000000, r6
-	cbne	r5, r6, f1427
+	cbne	r5, r6, fail1427
 	mov	=0x0, r6
-	cbne	r8, r6, f1428
+	cbne	r8, r6, fail1428
 	mov	=0x3ff8000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -8580,9 +8580,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f1429
+	cbne	r5, r6, fail1429
 	mov	=0x0, r6
-	cbne	r8, r6, f1430
+	cbne	r8, r6, fail1430
 	mov	=0x3ff8000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -8592,9 +8592,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc012000000000000, r6
-	cbne	r5, r6, f1431
+	cbne	r5, r6, fail1431
 	mov	=0x0, r6
-	cbne	r8, r6, f1432
+	cbne	r8, r6, fail1432
 	mov	=0x3ff8000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -8604,9 +8604,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f1433
+	cbne	r5, r6, fail1433
 	mov	=0x0, r6
-	cbne	r8, r6, f1434
+	cbne	r8, r6, fail1434
 	mov	=0x3ff8000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -8616,9 +8616,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc008000000000000, r6
-	cbne	r5, r6, f1435
+	cbne	r5, r6, fail1435
 	mov	=0x0, r6
-	cbne	r8, r6, f1436
+	cbne	r8, r6, fail1436
 	mov	=0x3ff8000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -8628,9 +8628,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f1437
+	cbne	r5, r6, fail1437
 	mov	=0x0, r6
-	cbne	r8, r6, f1438
+	cbne	r8, r6, fail1438
 	mov	=0x3ff8000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -8640,9 +8640,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc010000000000000, r6
-	cbne	r5, r6, f1439
+	cbne	r5, r6, fail1439
 	mov	=0x0, r6
-	cbne	r8, r6, f1440
+	cbne	r8, r6, fail1440
 	mov	=0x3ff8000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -8652,9 +8652,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc002000000000000, r6
-	cbne	r5, r6, f1441
+	cbne	r5, r6, fail1441
 	mov	=0x0, r6
-	cbne	r8, r6, f1442
+	cbne	r8, r6, fail1442
 	mov	=0x3ff8000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -8664,9 +8664,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc015000000000000, r6
-	cbne	r5, r6, f1443
+	cbne	r5, r6, fail1443
 	mov	=0x0, r6
-	cbne	r8, r6, f1444
+	cbne	r8, r6, fail1444
 	mov	=0x3ff8000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -8676,9 +8676,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4015000000000000, r6
-	cbne	r5, r6, f1445
+	cbne	r5, r6, fail1445
 	mov	=0x0, r6
-	cbne	r8, r6, f1446
+	cbne	r8, r6, fail1446
 	mov	=0x3ff8000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -8688,9 +8688,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4002000000000000, r6
-	cbne	r5, r6, f1447
+	cbne	r5, r6, fail1447
 	mov	=0x0, r6
-	cbne	r8, r6, f1448
+	cbne	r8, r6, fail1448
 	mov	=0x3ff8000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -8700,9 +8700,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc018000000000000, r6
-	cbne	r5, r6, f1449
+	cbne	r5, r6, fail1449
 	mov	=0x0, r6
-	cbne	r8, r6, f1450
+	cbne	r8, r6, fail1450
 	mov	=0x3ff8000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -8712,9 +8712,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc022000000000000, r6
-	cbne	r5, r6, f1451
+	cbne	r5, r6, fail1451
 	mov	=0x0, r6
-	cbne	r8, r6, f1452
+	cbne	r8, r6, fail1452
 	mov	=0x3ff8000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x0, r3
@@ -8724,9 +8724,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f1453
+	cbne	r5, r6, fail1453
 	mov	=0x0, r6
-	cbne	r8, r6, f1454
+	cbne	r8, r6, fail1454
 	mov	=0x3ff8000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x0, r3
@@ -8736,9 +8736,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff8000000000000, r6
-	cbne	r5, r6, f1455
+	cbne	r5, r6, fail1455
 	mov	=0x0, r6
-	cbne	r8, r6, f1456
+	cbne	r8, r6, fail1456
 	mov	=0x3ff8000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -8748,9 +8748,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f1457
+	cbne	r5, r6, fail1457
 	mov	=0x0, r6
-	cbne	r8, r6, f1458
+	cbne	r8, r6, fail1458
 	mov	=0x3ff8000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -8760,9 +8760,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff8000000000000, r6
-	cbne	r5, r6, f1459
+	cbne	r5, r6, fail1459
 	mov	=0x0, r6
-	cbne	r8, r6, f1460
+	cbne	r8, r6, fail1460
 	mov	=0x3ff8000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -8772,9 +8772,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc004000000000000, r6
-	cbne	r5, r6, f1461
+	cbne	r5, r6, fail1461
 	mov	=0x0, r6
-	cbne	r8, r6, f1462
+	cbne	r8, r6, fail1462
 	mov	=0x3ff8000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -8784,9 +8784,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3fe0000000000000, r6
-	cbne	r5, r6, f1463
+	cbne	r5, r6, fail1463
 	mov	=0x0, r6
-	cbne	r8, r6, f1464
+	cbne	r8, r6, fail1464
 	mov	=0x3ff8000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -8796,9 +8796,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbfe0000000000000, r6
-	cbne	r5, r6, f1465
+	cbne	r5, r6, fail1465
 	mov	=0x0, r6
-	cbne	r8, r6, f1466
+	cbne	r8, r6, fail1466
 	mov	=0x3ff8000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -8808,9 +8808,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4004000000000000, r6
-	cbne	r5, r6, f1467
+	cbne	r5, r6, fail1467
 	mov	=0x0, r6
-	cbne	r8, r6, f1468
+	cbne	r8, r6, fail1468
 	mov	=0x3ff8000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -8820,9 +8820,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00c000000000000, r6
-	cbne	r5, r6, f1469
+	cbne	r5, r6, fail1469
 	mov	=0x0, r6
-	cbne	r8, r6, f1470
+	cbne	r8, r6, fail1470
 	mov	=0x3ff8000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -8832,9 +8832,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbfe0000000000000, r6
-	cbne	r5, r6, f1471
+	cbne	r5, r6, fail1471
 	mov	=0x0, r6
-	cbne	r8, r6, f1472
+	cbne	r8, r6, fail1472
 	mov	=0x3ff8000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -8844,9 +8844,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc012000000000000, r6
-	cbne	r5, r6, f1473
+	cbne	r5, r6, fail1473
 	mov	=0x0, r6
-	cbne	r8, r6, f1474
+	cbne	r8, r6, fail1474
 	mov	=0x3ff8000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -8856,9 +8856,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f1475
+	cbne	r5, r6, fail1475
 	mov	=0x0, r6
-	cbne	r8, r6, f1476
+	cbne	r8, r6, fail1476
 	mov	=0x3ff8000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -8868,9 +8868,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc008000000000000, r6
-	cbne	r5, r6, f1477
+	cbne	r5, r6, fail1477
 	mov	=0x0, r6
-	cbne	r8, r6, f1478
+	cbne	r8, r6, fail1478
 	mov	=0x3ff8000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -8880,9 +8880,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f1479
+	cbne	r5, r6, fail1479
 	mov	=0x0, r6
-	cbne	r8, r6, f1480
+	cbne	r8, r6, fail1480
 	mov	=0x3ff8000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -8892,9 +8892,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc010000000000000, r6
-	cbne	r5, r6, f1481
+	cbne	r5, r6, fail1481
 	mov	=0x0, r6
-	cbne	r8, r6, f1482
+	cbne	r8, r6, fail1482
 	mov	=0x3ff8000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -8904,9 +8904,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f1483
+	cbne	r5, r6, fail1483
 	mov	=0x0, r6
-	cbne	r8, r6, f1484
+	cbne	r8, r6, fail1484
 	mov	=0x3ff8000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -8916,9 +8916,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc015000000000000, r6
-	cbne	r5, r6, f1485
+	cbne	r5, r6, fail1485
 	mov	=0x0, r6
-	cbne	r8, r6, f1486
+	cbne	r8, r6, fail1486
 	mov	=0x3ff8000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -8928,9 +8928,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc002000000000000, r6
-	cbne	r5, r6, f1487
+	cbne	r5, r6, fail1487
 	mov	=0x0, r6
-	cbne	r8, r6, f1488
+	cbne	r8, r6, fail1488
 	mov	=0x3ff8000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -8940,9 +8940,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4002000000000000, r6
-	cbne	r5, r6, f1489
+	cbne	r5, r6, fail1489
 	mov	=0x0, r6
-	cbne	r8, r6, f1490
+	cbne	r8, r6, fail1490
 	mov	=0x3ff8000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -8952,9 +8952,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4015000000000000, r6
-	cbne	r5, r6, f1491
+	cbne	r5, r6, fail1491
 	mov	=0x0, r6
-	cbne	r8, r6, f1492
+	cbne	r8, r6, fail1492
 	mov	=0x3ff8000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -8964,9 +8964,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc022000000000000, r6
-	cbne	r5, r6, f1493
+	cbne	r5, r6, fail1493
 	mov	=0x0, r6
-	cbne	r8, r6, f1494
+	cbne	r8, r6, fail1494
 	mov	=0x3ff8000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -8976,9 +8976,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc018000000000000, r6
-	cbne	r5, r6, f1495
+	cbne	r5, r6, fail1495
 	mov	=0x0, r6
-	cbne	r8, r6, f1496
+	cbne	r8, r6, fail1496
 	mov	=0x3ff8000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x0, r3
@@ -8988,9 +8988,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4002000000000000, r6
-	cbne	r5, r6, f1497
+	cbne	r5, r6, fail1497
 	mov	=0x0, r6
-	cbne	r8, r6, f1498
+	cbne	r8, r6, fail1498
 	mov	=0x3ff8000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x0, r3
@@ -9000,9 +9000,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc002000000000000, r6
-	cbne	r5, r6, f1499
+	cbne	r5, r6, fail1499
 	mov	=0x0, r6
-	cbne	r8, r6, f1500
+	cbne	r8, r6, fail1500
 	mov	=0x3ff8000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -9012,9 +9012,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4002000000000000, r6
-	cbne	r5, r6, f1501
+	cbne	r5, r6, fail1501
 	mov	=0x0, r6
-	cbne	r8, r6, f1502
+	cbne	r8, r6, fail1502
 	mov	=0x3ff8000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -9024,9 +9024,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc002000000000000, r6
-	cbne	r5, r6, f1503
+	cbne	r5, r6, fail1503
 	mov	=0x0, r6
-	cbne	r8, r6, f1504
+	cbne	r8, r6, fail1504
 	mov	=0x3ff8000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -9036,9 +9036,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff4000000000000, r6
-	cbne	r5, r6, f1505
+	cbne	r5, r6, fail1505
 	mov	=0x0, r6
-	cbne	r8, r6, f1506
+	cbne	r8, r6, fail1506
 	mov	=0x3ff8000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -9048,9 +9048,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00a000000000000, r6
-	cbne	r5, r6, f1507
+	cbne	r5, r6, fail1507
 	mov	=0x0, r6
-	cbne	r8, r6, f1508
+	cbne	r8, r6, fail1508
 	mov	=0x3ff8000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -9060,9 +9060,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x400a000000000000, r6
-	cbne	r5, r6, f1509
+	cbne	r5, r6, fail1509
 	mov	=0x0, r6
-	cbne	r8, r6, f1510
+	cbne	r8, r6, fail1510
 	mov	=0x3ff8000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -9072,9 +9072,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff4000000000000, r6
-	cbne	r5, r6, f1511
+	cbne	r5, r6, fail1511
 	mov	=0x0, r6
-	cbne	r8, r6, f1512
+	cbne	r8, r6, fail1512
 	mov	=0x3ff8000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -9084,9 +9084,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3fd0000000000000, r6
-	cbne	r5, r6, f1513
+	cbne	r5, r6, fail1513
 	mov	=0x0, r6
-	cbne	r8, r6, f1514
+	cbne	r8, r6, fail1514
 	mov	=0x3ff8000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -9096,9 +9096,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc011000000000000, r6
-	cbne	r5, r6, f1515
+	cbne	r5, r6, fail1515
 	mov	=0x0, r6
-	cbne	r8, r6, f1516
+	cbne	r8, r6, fail1516
 	mov	=0x3ff8000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -9108,9 +9108,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbfe8000000000000, r6
-	cbne	r5, r6, f1517
+	cbne	r5, r6, fail1517
 	mov	=0x0, r6
-	cbne	r8, r6, f1518
+	cbne	r8, r6, fail1518
 	mov	=0x3ff8000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -9120,9 +9120,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc015000000000000, r6
-	cbne	r5, r6, f1519
+	cbne	r5, r6, fail1519
 	mov	=0x0, r6
-	cbne	r8, r6, f1520
+	cbne	r8, r6, fail1520
 	mov	=0x3ff8000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -9132,9 +9132,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3fe8000000000000, r6
-	cbne	r5, r6, f1521
+	cbne	r5, r6, fail1521
 	mov	=0x0, r6
-	cbne	r8, r6, f1522
+	cbne	r8, r6, fail1522
 	mov	=0x3ff8000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -9144,9 +9144,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00e000000000000, r6
-	cbne	r5, r6, f1523
+	cbne	r5, r6, fail1523
 	mov	=0x0, r6
-	cbne	r8, r6, f1524
+	cbne	r8, r6, fail1524
 	mov	=0x3ff8000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -9156,9 +9156,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbfd0000000000000, r6
-	cbne	r5, r6, f1525
+	cbne	r5, r6, fail1525
 	mov	=0x0, r6
-	cbne	r8, r6, f1526
+	cbne	r8, r6, fail1526
 	mov	=0x3ff8000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -9168,9 +9168,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc013000000000000, r6
-	cbne	r5, r6, f1527
+	cbne	r5, r6, fail1527
 	mov	=0x0, r6
-	cbne	r8, r6, f1528
+	cbne	r8, r6, fail1528
 	mov	=0x3ff8000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -9180,9 +9180,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f1529
+	cbne	r5, r6, fail1529
 	mov	=0x0, r6
-	cbne	r8, r6, f1530
+	cbne	r8, r6, fail1530
 	mov	=0x3ff8000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -9192,9 +9192,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc018000000000000, r6
-	cbne	r5, r6, f1531
+	cbne	r5, r6, fail1531
 	mov	=0x0, r6
-	cbne	r8, r6, f1532
+	cbne	r8, r6, fail1532
 	mov	=0x3ff8000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -9204,9 +9204,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4018000000000000, r6
-	cbne	r5, r6, f1533
+	cbne	r5, r6, fail1533
 	mov	=0x0, r6
-	cbne	r8, r6, f1534
+	cbne	r8, r6, fail1534
 	mov	=0x3ff8000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -9216,9 +9216,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff8000000000000, r6
-	cbne	r5, r6, f1535
+	cbne	r5, r6, fail1535
 	mov	=0x0, r6
-	cbne	r8, r6, f1536
+	cbne	r8, r6, fail1536
 	mov	=0x3ff8000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -9228,9 +9228,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc015000000000000, r6
-	cbne	r5, r6, f1537
+	cbne	r5, r6, fail1537
 	mov	=0x0, r6
-	cbne	r8, r6, f1538
+	cbne	r8, r6, fail1538
 	mov	=0x3ff8000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -9240,9 +9240,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc023800000000000, r6
-	cbne	r5, r6, f1539
+	cbne	r5, r6, fail1539
 	mov	=0x0, r6
-	cbne	r8, r6, f1540
+	cbne	r8, r6, fail1540
 	mov	=0x4004000000000000, r1
 	mov	=0x0, r2
 	mov	=0x0, r3
@@ -9252,9 +9252,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f1541
+	cbne	r5, r6, fail1541
 	mov	=0x0, r6
-	cbne	r8, r6, f1542
+	cbne	r8, r6, fail1542
 	mov	=0x4004000000000000, r1
 	mov	=0x0, r2
 	mov	=0x0, r3
@@ -9264,9 +9264,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x8000000000000000, r6
-	cbne	r5, r6, f1543
+	cbne	r5, r6, fail1543
 	mov	=0x0, r6
-	cbne	r8, r6, f1544
+	cbne	r8, r6, fail1544
 	mov	=0x4004000000000000, r1
 	mov	=0x0, r2
 	mov	=0x8000000000000000, r3
@@ -9276,9 +9276,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f1545
+	cbne	r5, r6, fail1545
 	mov	=0x0, r6
-	cbne	r8, r6, f1546
+	cbne	r8, r6, fail1546
 	mov	=0x4004000000000000, r1
 	mov	=0x0, r2
 	mov	=0x8000000000000000, r3
@@ -9288,9 +9288,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f1547
+	cbne	r5, r6, fail1547
 	mov	=0x0, r6
-	cbne	r8, r6, f1548
+	cbne	r8, r6, fail1548
 	mov	=0x4004000000000000, r1
 	mov	=0x0, r2
 	mov	=0x3ff0000000000000, r3
@@ -9300,9 +9300,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f1549
+	cbne	r5, r6, fail1549
 	mov	=0x0, r6
-	cbne	r8, r6, f1550
+	cbne	r8, r6, fail1550
 	mov	=0x4004000000000000, r1
 	mov	=0x0, r2
 	mov	=0x3ff0000000000000, r3
@@ -9312,9 +9312,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f1551
+	cbne	r5, r6, fail1551
 	mov	=0x0, r6
-	cbne	r8, r6, f1552
+	cbne	r8, r6, fail1552
 	mov	=0x4004000000000000, r1
 	mov	=0x0, r2
 	mov	=0xbff0000000000000, r3
@@ -9324,9 +9324,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff0000000000000, r6
-	cbne	r5, r6, f1553
+	cbne	r5, r6, fail1553
 	mov	=0x0, r6
-	cbne	r8, r6, f1554
+	cbne	r8, r6, fail1554
 	mov	=0x4004000000000000, r1
 	mov	=0x0, r2
 	mov	=0xbff0000000000000, r3
@@ -9336,9 +9336,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff0000000000000, r6
-	cbne	r5, r6, f1555
+	cbne	r5, r6, fail1555
 	mov	=0x0, r6
-	cbne	r8, r6, f1556
+	cbne	r8, r6, fail1556
 	mov	=0x4004000000000000, r1
 	mov	=0x0, r2
 	mov	=0x4000000000000000, r3
@@ -9348,9 +9348,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc000000000000000, r6
-	cbne	r5, r6, f1557
+	cbne	r5, r6, fail1557
 	mov	=0x0, r6
-	cbne	r8, r6, f1558
+	cbne	r8, r6, fail1558
 	mov	=0x4004000000000000, r1
 	mov	=0x0, r2
 	mov	=0x4000000000000000, r3
@@ -9360,9 +9360,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc000000000000000, r6
-	cbne	r5, r6, f1559
+	cbne	r5, r6, fail1559
 	mov	=0x0, r6
-	cbne	r8, r6, f1560
+	cbne	r8, r6, fail1560
 	mov	=0x4004000000000000, r1
 	mov	=0x0, r2
 	mov	=0x4008000000000000, r3
@@ -9372,9 +9372,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc008000000000000, r6
-	cbne	r5, r6, f1561
+	cbne	r5, r6, fail1561
 	mov	=0x0, r6
-	cbne	r8, r6, f1562
+	cbne	r8, r6, fail1562
 	mov	=0x4004000000000000, r1
 	mov	=0x0, r2
 	mov	=0x4008000000000000, r3
@@ -9384,9 +9384,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc008000000000000, r6
-	cbne	r5, r6, f1563
+	cbne	r5, r6, fail1563
 	mov	=0x0, r6
-	cbne	r8, r6, f1564
+	cbne	r8, r6, fail1564
 	mov	=0x4004000000000000, r1
 	mov	=0x0, r2
 	mov	=0x3ff8000000000000, r3
@@ -9396,9 +9396,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f1565
+	cbne	r5, r6, fail1565
 	mov	=0x0, r6
-	cbne	r8, r6, f1566
+	cbne	r8, r6, fail1566
 	mov	=0x4004000000000000, r1
 	mov	=0x0, r2
 	mov	=0x3ff8000000000000, r3
@@ -9408,9 +9408,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f1567
+	cbne	r5, r6, fail1567
 	mov	=0x0, r6
-	cbne	r8, r6, f1568
+	cbne	r8, r6, fail1568
 	mov	=0x4004000000000000, r1
 	mov	=0x0, r2
 	mov	=0x4004000000000000, r3
@@ -9420,9 +9420,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc004000000000000, r6
-	cbne	r5, r6, f1569
+	cbne	r5, r6, fail1569
 	mov	=0x0, r6
-	cbne	r8, r6, f1570
+	cbne	r8, r6, fail1570
 	mov	=0x4004000000000000, r1
 	mov	=0x0, r2
 	mov	=0x4004000000000000, r3
@@ -9432,9 +9432,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc004000000000000, r6
-	cbne	r5, r6, f1571
+	cbne	r5, r6, fail1571
 	mov	=0x0, r6
-	cbne	r8, r6, f1572
+	cbne	r8, r6, fail1572
 	mov	=0x4004000000000000, r1
 	mov	=0x0, r2
 	mov	=0x400e000000000000, r3
@@ -9444,9 +9444,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00e000000000000, r6
-	cbne	r5, r6, f1573
+	cbne	r5, r6, fail1573
 	mov	=0x0, r6
-	cbne	r8, r6, f1574
+	cbne	r8, r6, fail1574
 	mov	=0x4004000000000000, r1
 	mov	=0x0, r2
 	mov	=0x400e000000000000, r3
@@ -9456,9 +9456,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00e000000000000, r6
-	cbne	r5, r6, f1575
+	cbne	r5, r6, fail1575
 	mov	=0x0, r6
-	cbne	r8, r6, f1576
+	cbne	r8, r6, fail1576
 	mov	=0x4004000000000000, r1
 	mov	=0x0, r2
 	mov	=0xc00e000000000000, r3
@@ -9468,9 +9468,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x400e000000000000, r6
-	cbne	r5, r6, f1577
+	cbne	r5, r6, fail1577
 	mov	=0x0, r6
-	cbne	r8, r6, f1578
+	cbne	r8, r6, fail1578
 	mov	=0x4004000000000000, r1
 	mov	=0x0, r2
 	mov	=0xc00e000000000000, r3
@@ -9480,9 +9480,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x400e000000000000, r6
-	cbne	r5, r6, f1579
+	cbne	r5, r6, fail1579
 	mov	=0x0, r6
-	cbne	r8, r6, f1580
+	cbne	r8, r6, fail1580
 	mov	=0x4004000000000000, r1
 	mov	=0x0, r2
 	mov	=0x401e000000000000, r3
@@ -9492,9 +9492,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01e000000000000, r6
-	cbne	r5, r6, f1581
+	cbne	r5, r6, fail1581
 	mov	=0x0, r6
-	cbne	r8, r6, f1582
+	cbne	r8, r6, fail1582
 	mov	=0x4004000000000000, r1
 	mov	=0x0, r2
 	mov	=0x401e000000000000, r3
@@ -9504,9 +9504,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01e000000000000, r6
-	cbne	r5, r6, f1583
+	cbne	r5, r6, fail1583
 	mov	=0x0, r6
-	cbne	r8, r6, f1584
+	cbne	r8, r6, fail1584
 	mov	=0x4004000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x0, r3
@@ -9516,9 +9516,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x8000000000000000, r6
-	cbne	r5, r6, f1585
+	cbne	r5, r6, fail1585
 	mov	=0x0, r6
-	cbne	r8, r6, f1586
+	cbne	r8, r6, fail1586
 	mov	=0x4004000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x0, r3
@@ -9528,9 +9528,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f1587
+	cbne	r5, r6, fail1587
 	mov	=0x0, r6
-	cbne	r8, r6, f1588
+	cbne	r8, r6, fail1588
 	mov	=0x4004000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -9540,9 +9540,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f1589
+	cbne	r5, r6, fail1589
 	mov	=0x0, r6
-	cbne	r8, r6, f1590
+	cbne	r8, r6, fail1590
 	mov	=0x4004000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -9552,9 +9552,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f1591
+	cbne	r5, r6, fail1591
 	mov	=0x0, r6
-	cbne	r8, r6, f1592
+	cbne	r8, r6, fail1592
 	mov	=0x4004000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -9564,9 +9564,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f1593
+	cbne	r5, r6, fail1593
 	mov	=0x0, r6
-	cbne	r8, r6, f1594
+	cbne	r8, r6, fail1594
 	mov	=0x4004000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -9576,9 +9576,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f1595
+	cbne	r5, r6, fail1595
 	mov	=0x0, r6
-	cbne	r8, r6, f1596
+	cbne	r8, r6, fail1596
 	mov	=0x4004000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -9588,9 +9588,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff0000000000000, r6
-	cbne	r5, r6, f1597
+	cbne	r5, r6, fail1597
 	mov	=0x0, r6
-	cbne	r8, r6, f1598
+	cbne	r8, r6, fail1598
 	mov	=0x4004000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -9600,9 +9600,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff0000000000000, r6
-	cbne	r5, r6, f1599
+	cbne	r5, r6, fail1599
 	mov	=0x0, r6
-	cbne	r8, r6, f1600
+	cbne	r8, r6, fail1600
 	mov	=0x4004000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -9612,9 +9612,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc000000000000000, r6
-	cbne	r5, r6, f1601
+	cbne	r5, r6, fail1601
 	mov	=0x0, r6
-	cbne	r8, r6, f1602
+	cbne	r8, r6, fail1602
 	mov	=0x4004000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -9624,9 +9624,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc000000000000000, r6
-	cbne	r5, r6, f1603
+	cbne	r5, r6, fail1603
 	mov	=0x0, r6
-	cbne	r8, r6, f1604
+	cbne	r8, r6, fail1604
 	mov	=0x4004000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -9636,9 +9636,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc008000000000000, r6
-	cbne	r5, r6, f1605
+	cbne	r5, r6, fail1605
 	mov	=0x0, r6
-	cbne	r8, r6, f1606
+	cbne	r8, r6, fail1606
 	mov	=0x4004000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -9648,9 +9648,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc008000000000000, r6
-	cbne	r5, r6, f1607
+	cbne	r5, r6, fail1607
 	mov	=0x0, r6
-	cbne	r8, r6, f1608
+	cbne	r8, r6, fail1608
 	mov	=0x4004000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -9660,9 +9660,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f1609
+	cbne	r5, r6, fail1609
 	mov	=0x0, r6
-	cbne	r8, r6, f1610
+	cbne	r8, r6, fail1610
 	mov	=0x4004000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -9672,9 +9672,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f1611
+	cbne	r5, r6, fail1611
 	mov	=0x0, r6
-	cbne	r8, r6, f1612
+	cbne	r8, r6, fail1612
 	mov	=0x4004000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -9684,9 +9684,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc004000000000000, r6
-	cbne	r5, r6, f1613
+	cbne	r5, r6, fail1613
 	mov	=0x0, r6
-	cbne	r8, r6, f1614
+	cbne	r8, r6, fail1614
 	mov	=0x4004000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -9696,9 +9696,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc004000000000000, r6
-	cbne	r5, r6, f1615
+	cbne	r5, r6, fail1615
 	mov	=0x0, r6
-	cbne	r8, r6, f1616
+	cbne	r8, r6, fail1616
 	mov	=0x4004000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -9708,9 +9708,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00e000000000000, r6
-	cbne	r5, r6, f1617
+	cbne	r5, r6, fail1617
 	mov	=0x0, r6
-	cbne	r8, r6, f1618
+	cbne	r8, r6, fail1618
 	mov	=0x4004000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -9720,9 +9720,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00e000000000000, r6
-	cbne	r5, r6, f1619
+	cbne	r5, r6, fail1619
 	mov	=0x0, r6
-	cbne	r8, r6, f1620
+	cbne	r8, r6, fail1620
 	mov	=0x4004000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -9732,9 +9732,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x400e000000000000, r6
-	cbne	r5, r6, f1621
+	cbne	r5, r6, fail1621
 	mov	=0x0, r6
-	cbne	r8, r6, f1622
+	cbne	r8, r6, fail1622
 	mov	=0x4004000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -9744,9 +9744,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x400e000000000000, r6
-	cbne	r5, r6, f1623
+	cbne	r5, r6, fail1623
 	mov	=0x0, r6
-	cbne	r8, r6, f1624
+	cbne	r8, r6, fail1624
 	mov	=0x4004000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -9756,9 +9756,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01e000000000000, r6
-	cbne	r5, r6, f1625
+	cbne	r5, r6, fail1625
 	mov	=0x0, r6
-	cbne	r8, r6, f1626
+	cbne	r8, r6, fail1626
 	mov	=0x4004000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -9768,9 +9768,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01e000000000000, r6
-	cbne	r5, r6, f1627
+	cbne	r5, r6, fail1627
 	mov	=0x0, r6
-	cbne	r8, r6, f1628
+	cbne	r8, r6, fail1628
 	mov	=0x4004000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x0, r3
@@ -9780,9 +9780,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4004000000000000, r6
-	cbne	r5, r6, f1629
+	cbne	r5, r6, fail1629
 	mov	=0x0, r6
-	cbne	r8, r6, f1630
+	cbne	r8, r6, fail1630
 	mov	=0x4004000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x0, r3
@@ -9792,9 +9792,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc004000000000000, r6
-	cbne	r5, r6, f1631
+	cbne	r5, r6, fail1631
 	mov	=0x0, r6
-	cbne	r8, r6, f1632
+	cbne	r8, r6, fail1632
 	mov	=0x4004000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -9804,9 +9804,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4004000000000000, r6
-	cbne	r5, r6, f1633
+	cbne	r5, r6, fail1633
 	mov	=0x0, r6
-	cbne	r8, r6, f1634
+	cbne	r8, r6, fail1634
 	mov	=0x4004000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -9816,9 +9816,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc004000000000000, r6
-	cbne	r5, r6, f1635
+	cbne	r5, r6, fail1635
 	mov	=0x0, r6
-	cbne	r8, r6, f1636
+	cbne	r8, r6, fail1636
 	mov	=0x4004000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -9828,9 +9828,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff8000000000000, r6
-	cbne	r5, r6, f1637
+	cbne	r5, r6, fail1637
 	mov	=0x0, r6
-	cbne	r8, r6, f1638
+	cbne	r8, r6, fail1638
 	mov	=0x4004000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -9840,9 +9840,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00c000000000000, r6
-	cbne	r5, r6, f1639
+	cbne	r5, r6, fail1639
 	mov	=0x0, r6
-	cbne	r8, r6, f1640
+	cbne	r8, r6, fail1640
 	mov	=0x4004000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -9852,9 +9852,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x400c000000000000, r6
-	cbne	r5, r6, f1641
+	cbne	r5, r6, fail1641
 	mov	=0x0, r6
-	cbne	r8, r6, f1642
+	cbne	r8, r6, fail1642
 	mov	=0x4004000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -9864,9 +9864,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f1643
+	cbne	r5, r6, fail1643
 	mov	=0x0, r6
-	cbne	r8, r6, f1644
+	cbne	r8, r6, fail1644
 	mov	=0x4004000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -9876,9 +9876,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3fe0000000000000, r6
-	cbne	r5, r6, f1645
+	cbne	r5, r6, fail1645
 	mov	=0x0, r6
-	cbne	r8, r6, f1646
+	cbne	r8, r6, fail1646
 	mov	=0x4004000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -9888,9 +9888,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc012000000000000, r6
-	cbne	r5, r6, f1647
+	cbne	r5, r6, fail1647
 	mov	=0x0, r6
-	cbne	r8, r6, f1648
+	cbne	r8, r6, fail1648
 	mov	=0x4004000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -9900,9 +9900,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbfe0000000000000, r6
-	cbne	r5, r6, f1649
+	cbne	r5, r6, fail1649
 	mov	=0x0, r6
-	cbne	r8, r6, f1650
+	cbne	r8, r6, fail1650
 	mov	=0x4004000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -9912,9 +9912,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc016000000000000, r6
-	cbne	r5, r6, f1651
+	cbne	r5, r6, fail1651
 	mov	=0x0, r6
-	cbne	r8, r6, f1652
+	cbne	r8, r6, fail1652
 	mov	=0x4004000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -9924,9 +9924,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff0000000000000, r6
-	cbne	r5, r6, f1653
+	cbne	r5, r6, fail1653
 	mov	=0x0, r6
-	cbne	r8, r6, f1654
+	cbne	r8, r6, fail1654
 	mov	=0x4004000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -9936,9 +9936,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc010000000000000, r6
-	cbne	r5, r6, f1655
+	cbne	r5, r6, fail1655
 	mov	=0x0, r6
-	cbne	r8, r6, f1656
+	cbne	r8, r6, fail1656
 	mov	=0x4004000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -9948,9 +9948,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f1657
+	cbne	r5, r6, fail1657
 	mov	=0x0, r6
-	cbne	r8, r6, f1658
+	cbne	r8, r6, fail1658
 	mov	=0x4004000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -9960,9 +9960,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc014000000000000, r6
-	cbne	r5, r6, f1659
+	cbne	r5, r6, fail1659
 	mov	=0x0, r6
-	cbne	r8, r6, f1660
+	cbne	r8, r6, fail1660
 	mov	=0x4004000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -9972,9 +9972,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff4000000000000, r6
-	cbne	r5, r6, f1661
+	cbne	r5, r6, fail1661
 	mov	=0x0, r6
-	cbne	r8, r6, f1662
+	cbne	r8, r6, fail1662
 	mov	=0x4004000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -9984,9 +9984,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc019000000000000, r6
-	cbne	r5, r6, f1663
+	cbne	r5, r6, fail1663
 	mov	=0x0, r6
-	cbne	r8, r6, f1664
+	cbne	r8, r6, fail1664
 	mov	=0x4004000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -9996,9 +9996,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4019000000000000, r6
-	cbne	r5, r6, f1665
+	cbne	r5, r6, fail1665
 	mov	=0x0, r6
-	cbne	r8, r6, f1666
+	cbne	r8, r6, fail1666
 	mov	=0x4004000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -10008,9 +10008,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff4000000000000, r6
-	cbne	r5, r6, f1667
+	cbne	r5, r6, fail1667
 	mov	=0x0, r6
-	cbne	r8, r6, f1668
+	cbne	r8, r6, fail1668
 	mov	=0x4004000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -10020,9 +10020,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc014000000000000, r6
-	cbne	r5, r6, f1669
+	cbne	r5, r6, fail1669
 	mov	=0x0, r6
-	cbne	r8, r6, f1670
+	cbne	r8, r6, fail1670
 	mov	=0x4004000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -10032,9 +10032,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc024000000000000, r6
-	cbne	r5, r6, f1671
+	cbne	r5, r6, fail1671
 	mov	=0x0, r6
-	cbne	r8, r6, f1672
+	cbne	r8, r6, fail1672
 	mov	=0x4004000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x0, r3
@@ -10044,9 +10044,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc004000000000000, r6
-	cbne	r5, r6, f1673
+	cbne	r5, r6, fail1673
 	mov	=0x0, r6
-	cbne	r8, r6, f1674
+	cbne	r8, r6, fail1674
 	mov	=0x4004000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x0, r3
@@ -10056,9 +10056,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4004000000000000, r6
-	cbne	r5, r6, f1675
+	cbne	r5, r6, fail1675
 	mov	=0x0, r6
-	cbne	r8, r6, f1676
+	cbne	r8, r6, fail1676
 	mov	=0x4004000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -10068,9 +10068,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc004000000000000, r6
-	cbne	r5, r6, f1677
+	cbne	r5, r6, fail1677
 	mov	=0x0, r6
-	cbne	r8, r6, f1678
+	cbne	r8, r6, fail1678
 	mov	=0x4004000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -10080,9 +10080,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4004000000000000, r6
-	cbne	r5, r6, f1679
+	cbne	r5, r6, fail1679
 	mov	=0x0, r6
-	cbne	r8, r6, f1680
+	cbne	r8, r6, fail1680
 	mov	=0x4004000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -10092,9 +10092,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00c000000000000, r6
-	cbne	r5, r6, f1681
+	cbne	r5, r6, fail1681
 	mov	=0x0, r6
-	cbne	r8, r6, f1682
+	cbne	r8, r6, fail1682
 	mov	=0x4004000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -10104,9 +10104,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff8000000000000, r6
-	cbne	r5, r6, f1683
+	cbne	r5, r6, fail1683
 	mov	=0x0, r6
-	cbne	r8, r6, f1684
+	cbne	r8, r6, fail1684
 	mov	=0x4004000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -10116,9 +10116,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f1685
+	cbne	r5, r6, fail1685
 	mov	=0x0, r6
-	cbne	r8, r6, f1686
+	cbne	r8, r6, fail1686
 	mov	=0x4004000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -10128,9 +10128,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x400c000000000000, r6
-	cbne	r5, r6, f1687
+	cbne	r5, r6, fail1687
 	mov	=0x0, r6
-	cbne	r8, r6, f1688
+	cbne	r8, r6, fail1688
 	mov	=0x4004000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -10140,9 +10140,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc012000000000000, r6
-	cbne	r5, r6, f1689
+	cbne	r5, r6, fail1689
 	mov	=0x0, r6
-	cbne	r8, r6, f1690
+	cbne	r8, r6, fail1690
 	mov	=0x4004000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -10152,9 +10152,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3fe0000000000000, r6
-	cbne	r5, r6, f1691
+	cbne	r5, r6, fail1691
 	mov	=0x0, r6
-	cbne	r8, r6, f1692
+	cbne	r8, r6, fail1692
 	mov	=0x4004000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -10164,9 +10164,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc016000000000000, r6
-	cbne	r5, r6, f1693
+	cbne	r5, r6, fail1693
 	mov	=0x0, r6
-	cbne	r8, r6, f1694
+	cbne	r8, r6, fail1694
 	mov	=0x4004000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -10176,9 +10176,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbfe0000000000000, r6
-	cbne	r5, r6, f1695
+	cbne	r5, r6, fail1695
 	mov	=0x0, r6
-	cbne	r8, r6, f1696
+	cbne	r8, r6, fail1696
 	mov	=0x4004000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -10188,9 +10188,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc010000000000000, r6
-	cbne	r5, r6, f1697
+	cbne	r5, r6, fail1697
 	mov	=0x0, r6
-	cbne	r8, r6, f1698
+	cbne	r8, r6, fail1698
 	mov	=0x4004000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -10200,9 +10200,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff0000000000000, r6
-	cbne	r5, r6, f1699
+	cbne	r5, r6, fail1699
 	mov	=0x0, r6
-	cbne	r8, r6, f1700
+	cbne	r8, r6, fail1700
 	mov	=0x4004000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -10212,9 +10212,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc014000000000000, r6
-	cbne	r5, r6, f1701
+	cbne	r5, r6, fail1701
 	mov	=0x0, r6
-	cbne	r8, r6, f1702
+	cbne	r8, r6, fail1702
 	mov	=0x4004000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -10224,9 +10224,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f1703
+	cbne	r5, r6, fail1703
 	mov	=0x0, r6
-	cbne	r8, r6, f1704
+	cbne	r8, r6, fail1704
 	mov	=0x4004000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -10236,9 +10236,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc019000000000000, r6
-	cbne	r5, r6, f1705
+	cbne	r5, r6, fail1705
 	mov	=0x0, r6
-	cbne	r8, r6, f1706
+	cbne	r8, r6, fail1706
 	mov	=0x4004000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -10248,9 +10248,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff4000000000000, r6
-	cbne	r5, r6, f1707
+	cbne	r5, r6, fail1707
 	mov	=0x0, r6
-	cbne	r8, r6, f1708
+	cbne	r8, r6, fail1708
 	mov	=0x4004000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -10260,9 +10260,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff4000000000000, r6
-	cbne	r5, r6, f1709
+	cbne	r5, r6, fail1709
 	mov	=0x0, r6
-	cbne	r8, r6, f1710
+	cbne	r8, r6, fail1710
 	mov	=0x4004000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -10272,9 +10272,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4019000000000000, r6
-	cbne	r5, r6, f1711
+	cbne	r5, r6, fail1711
 	mov	=0x0, r6
-	cbne	r8, r6, f1712
+	cbne	r8, r6, fail1712
 	mov	=0x4004000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -10284,9 +10284,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc024000000000000, r6
-	cbne	r5, r6, f1713
+	cbne	r5, r6, fail1713
 	mov	=0x0, r6
-	cbne	r8, r6, f1714
+	cbne	r8, r6, fail1714
 	mov	=0x4004000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -10296,9 +10296,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc014000000000000, r6
-	cbne	r5, r6, f1715
+	cbne	r5, r6, fail1715
 	mov	=0x0, r6
-	cbne	r8, r6, f1716
+	cbne	r8, r6, fail1716
 	mov	=0x4004000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x0, r3
@@ -10308,9 +10308,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x400e000000000000, r6
-	cbne	r5, r6, f1717
+	cbne	r5, r6, fail1717
 	mov	=0x0, r6
-	cbne	r8, r6, f1718
+	cbne	r8, r6, fail1718
 	mov	=0x4004000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x0, r3
@@ -10320,9 +10320,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00e000000000000, r6
-	cbne	r5, r6, f1719
+	cbne	r5, r6, fail1719
 	mov	=0x0, r6
-	cbne	r8, r6, f1720
+	cbne	r8, r6, fail1720
 	mov	=0x4004000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -10332,9 +10332,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x400e000000000000, r6
-	cbne	r5, r6, f1721
+	cbne	r5, r6, fail1721
 	mov	=0x0, r6
-	cbne	r8, r6, f1722
+	cbne	r8, r6, fail1722
 	mov	=0x4004000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -10344,9 +10344,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00e000000000000, r6
-	cbne	r5, r6, f1723
+	cbne	r5, r6, fail1723
 	mov	=0x0, r6
-	cbne	r8, r6, f1724
+	cbne	r8, r6, fail1724
 	mov	=0x4004000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -10356,9 +10356,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4006000000000000, r6
-	cbne	r5, r6, f1725
+	cbne	r5, r6, fail1725
 	mov	=0x0, r6
-	cbne	r8, r6, f1726
+	cbne	r8, r6, fail1726
 	mov	=0x4004000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -10368,9 +10368,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc013000000000000, r6
-	cbne	r5, r6, f1727
+	cbne	r5, r6, fail1727
 	mov	=0x0, r6
-	cbne	r8, r6, f1728
+	cbne	r8, r6, fail1728
 	mov	=0x4004000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -10380,9 +10380,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4013000000000000, r6
-	cbne	r5, r6, f1729
+	cbne	r5, r6, fail1729
 	mov	=0x0, r6
-	cbne	r8, r6, f1730
+	cbne	r8, r6, fail1730
 	mov	=0x4004000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -10392,9 +10392,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc006000000000000, r6
-	cbne	r5, r6, f1731
+	cbne	r5, r6, fail1731
 	mov	=0x0, r6
-	cbne	r8, r6, f1732
+	cbne	r8, r6, fail1732
 	mov	=0x4004000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -10404,9 +10404,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ffc000000000000, r6
-	cbne	r5, r6, f1733
+	cbne	r5, r6, fail1733
 	mov	=0x0, r6
-	cbne	r8, r6, f1734
+	cbne	r8, r6, fail1734
 	mov	=0x4004000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -10416,9 +10416,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc017000000000000, r6
-	cbne	r5, r6, f1735
+	cbne	r5, r6, fail1735
 	mov	=0x0, r6
-	cbne	r8, r6, f1736
+	cbne	r8, r6, fail1736
 	mov	=0x4004000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -10428,9 +10428,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3fe8000000000000, r6
-	cbne	r5, r6, f1737
+	cbne	r5, r6, fail1737
 	mov	=0x0, r6
-	cbne	r8, r6, f1738
+	cbne	r8, r6, fail1738
 	mov	=0x4004000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -10440,9 +10440,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01b000000000000, r6
-	cbne	r5, r6, f1739
+	cbne	r5, r6, fail1739
 	mov	=0x0, r6
-	cbne	r8, r6, f1740
+	cbne	r8, r6, fail1740
 	mov	=0x4004000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -10452,9 +10452,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4002000000000000, r6
-	cbne	r5, r6, f1741
+	cbne	r5, r6, fail1741
 	mov	=0x0, r6
-	cbne	r8, r6, f1742
+	cbne	r8, r6, fail1742
 	mov	=0x4004000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -10464,9 +10464,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc015000000000000, r6
-	cbne	r5, r6, f1743
+	cbne	r5, r6, fail1743
 	mov	=0x0, r6
-	cbne	r8, r6, f1744
+	cbne	r8, r6, fail1744
 	mov	=0x4004000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -10476,9 +10476,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff4000000000000, r6
-	cbne	r5, r6, f1745
+	cbne	r5, r6, fail1745
 	mov	=0x0, r6
-	cbne	r8, r6, f1746
+	cbne	r8, r6, fail1746
 	mov	=0x4004000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -10488,9 +10488,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc019000000000000, r6
-	cbne	r5, r6, f1747
+	cbne	r5, r6, fail1747
 	mov	=0x0, r6
-	cbne	r8, r6, f1748
+	cbne	r8, r6, fail1748
 	mov	=0x4004000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -10500,9 +10500,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f1749
+	cbne	r5, r6, fail1749
 	mov	=0x0, r6
-	cbne	r8, r6, f1750
+	cbne	r8, r6, fail1750
 	mov	=0x4004000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -10512,9 +10512,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01e000000000000, r6
-	cbne	r5, r6, f1751
+	cbne	r5, r6, fail1751
 	mov	=0x0, r6
-	cbne	r8, r6, f1752
+	cbne	r8, r6, fail1752
 	mov	=0x4004000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -10524,9 +10524,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x401e000000000000, r6
-	cbne	r5, r6, f1753
+	cbne	r5, r6, fail1753
 	mov	=0x0, r6
-	cbne	r8, r6, f1754
+	cbne	r8, r6, fail1754
 	mov	=0x4004000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -10536,9 +10536,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f1755
+	cbne	r5, r6, fail1755
 	mov	=0x0, r6
-	cbne	r8, r6, f1756
+	cbne	r8, r6, fail1756
 	mov	=0x4004000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -10548,9 +10548,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00e000000000000, r6
-	cbne	r5, r6, f1757
+	cbne	r5, r6, fail1757
 	mov	=0x0, r6
-	cbne	r8, r6, f1758
+	cbne	r8, r6, fail1758
 	mov	=0x4004000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -10560,9 +10560,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc026800000000000, r6
-	cbne	r5, r6, f1759
+	cbne	r5, r6, fail1759
 	mov	=0x0, r6
-	cbne	r8, r6, f1760
+	cbne	r8, r6, fail1760
 	mov	=0x400e000000000000, r1
 	mov	=0x0, r2
 	mov	=0x0, r3
@@ -10572,9 +10572,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f1761
+	cbne	r5, r6, fail1761
 	mov	=0x0, r6
-	cbne	r8, r6, f1762
+	cbne	r8, r6, fail1762
 	mov	=0x400e000000000000, r1
 	mov	=0x0, r2
 	mov	=0x0, r3
@@ -10584,9 +10584,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x8000000000000000, r6
-	cbne	r5, r6, f1763
+	cbne	r5, r6, fail1763
 	mov	=0x0, r6
-	cbne	r8, r6, f1764
+	cbne	r8, r6, fail1764
 	mov	=0x400e000000000000, r1
 	mov	=0x0, r2
 	mov	=0x8000000000000000, r3
@@ -10596,9 +10596,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f1765
+	cbne	r5, r6, fail1765
 	mov	=0x0, r6
-	cbne	r8, r6, f1766
+	cbne	r8, r6, fail1766
 	mov	=0x400e000000000000, r1
 	mov	=0x0, r2
 	mov	=0x8000000000000000, r3
@@ -10608,9 +10608,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f1767
+	cbne	r5, r6, fail1767
 	mov	=0x0, r6
-	cbne	r8, r6, f1768
+	cbne	r8, r6, fail1768
 	mov	=0x400e000000000000, r1
 	mov	=0x0, r2
 	mov	=0x3ff0000000000000, r3
@@ -10620,9 +10620,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f1769
+	cbne	r5, r6, fail1769
 	mov	=0x0, r6
-	cbne	r8, r6, f1770
+	cbne	r8, r6, fail1770
 	mov	=0x400e000000000000, r1
 	mov	=0x0, r2
 	mov	=0x3ff0000000000000, r3
@@ -10632,9 +10632,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f1771
+	cbne	r5, r6, fail1771
 	mov	=0x0, r6
-	cbne	r8, r6, f1772
+	cbne	r8, r6, fail1772
 	mov	=0x400e000000000000, r1
 	mov	=0x0, r2
 	mov	=0xbff0000000000000, r3
@@ -10644,9 +10644,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff0000000000000, r6
-	cbne	r5, r6, f1773
+	cbne	r5, r6, fail1773
 	mov	=0x0, r6
-	cbne	r8, r6, f1774
+	cbne	r8, r6, fail1774
 	mov	=0x400e000000000000, r1
 	mov	=0x0, r2
 	mov	=0xbff0000000000000, r3
@@ -10656,9 +10656,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff0000000000000, r6
-	cbne	r5, r6, f1775
+	cbne	r5, r6, fail1775
 	mov	=0x0, r6
-	cbne	r8, r6, f1776
+	cbne	r8, r6, fail1776
 	mov	=0x400e000000000000, r1
 	mov	=0x0, r2
 	mov	=0x4000000000000000, r3
@@ -10668,9 +10668,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc000000000000000, r6
-	cbne	r5, r6, f1777
+	cbne	r5, r6, fail1777
 	mov	=0x0, r6
-	cbne	r8, r6, f1778
+	cbne	r8, r6, fail1778
 	mov	=0x400e000000000000, r1
 	mov	=0x0, r2
 	mov	=0x4000000000000000, r3
@@ -10680,9 +10680,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc000000000000000, r6
-	cbne	r5, r6, f1779
+	cbne	r5, r6, fail1779
 	mov	=0x0, r6
-	cbne	r8, r6, f1780
+	cbne	r8, r6, fail1780
 	mov	=0x400e000000000000, r1
 	mov	=0x0, r2
 	mov	=0x4008000000000000, r3
@@ -10692,9 +10692,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc008000000000000, r6
-	cbne	r5, r6, f1781
+	cbne	r5, r6, fail1781
 	mov	=0x0, r6
-	cbne	r8, r6, f1782
+	cbne	r8, r6, fail1782
 	mov	=0x400e000000000000, r1
 	mov	=0x0, r2
 	mov	=0x4008000000000000, r3
@@ -10704,9 +10704,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc008000000000000, r6
-	cbne	r5, r6, f1783
+	cbne	r5, r6, fail1783
 	mov	=0x0, r6
-	cbne	r8, r6, f1784
+	cbne	r8, r6, fail1784
 	mov	=0x400e000000000000, r1
 	mov	=0x0, r2
 	mov	=0x3ff8000000000000, r3
@@ -10716,9 +10716,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f1785
+	cbne	r5, r6, fail1785
 	mov	=0x0, r6
-	cbne	r8, r6, f1786
+	cbne	r8, r6, fail1786
 	mov	=0x400e000000000000, r1
 	mov	=0x0, r2
 	mov	=0x3ff8000000000000, r3
@@ -10728,9 +10728,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f1787
+	cbne	r5, r6, fail1787
 	mov	=0x0, r6
-	cbne	r8, r6, f1788
+	cbne	r8, r6, fail1788
 	mov	=0x400e000000000000, r1
 	mov	=0x0, r2
 	mov	=0x4004000000000000, r3
@@ -10740,9 +10740,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc004000000000000, r6
-	cbne	r5, r6, f1789
+	cbne	r5, r6, fail1789
 	mov	=0x0, r6
-	cbne	r8, r6, f1790
+	cbne	r8, r6, fail1790
 	mov	=0x400e000000000000, r1
 	mov	=0x0, r2
 	mov	=0x4004000000000000, r3
@@ -10752,9 +10752,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc004000000000000, r6
-	cbne	r5, r6, f1791
+	cbne	r5, r6, fail1791
 	mov	=0x0, r6
-	cbne	r8, r6, f1792
+	cbne	r8, r6, fail1792
 	mov	=0x400e000000000000, r1
 	mov	=0x0, r2
 	mov	=0x400e000000000000, r3
@@ -10764,9 +10764,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00e000000000000, r6
-	cbne	r5, r6, f1793
+	cbne	r5, r6, fail1793
 	mov	=0x0, r6
-	cbne	r8, r6, f1794
+	cbne	r8, r6, fail1794
 	mov	=0x400e000000000000, r1
 	mov	=0x0, r2
 	mov	=0x400e000000000000, r3
@@ -10776,9 +10776,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00e000000000000, r6
-	cbne	r5, r6, f1795
+	cbne	r5, r6, fail1795
 	mov	=0x0, r6
-	cbne	r8, r6, f1796
+	cbne	r8, r6, fail1796
 	mov	=0x400e000000000000, r1
 	mov	=0x0, r2
 	mov	=0xc00e000000000000, r3
@@ -10788,9 +10788,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x400e000000000000, r6
-	cbne	r5, r6, f1797
+	cbne	r5, r6, fail1797
 	mov	=0x0, r6
-	cbne	r8, r6, f1798
+	cbne	r8, r6, fail1798
 	mov	=0x400e000000000000, r1
 	mov	=0x0, r2
 	mov	=0xc00e000000000000, r3
@@ -10800,9 +10800,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x400e000000000000, r6
-	cbne	r5, r6, f1799
+	cbne	r5, r6, fail1799
 	mov	=0x0, r6
-	cbne	r8, r6, f1800
+	cbne	r8, r6, fail1800
 	mov	=0x400e000000000000, r1
 	mov	=0x0, r2
 	mov	=0x401e000000000000, r3
@@ -10812,9 +10812,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01e000000000000, r6
-	cbne	r5, r6, f1801
+	cbne	r5, r6, fail1801
 	mov	=0x0, r6
-	cbne	r8, r6, f1802
+	cbne	r8, r6, fail1802
 	mov	=0x400e000000000000, r1
 	mov	=0x0, r2
 	mov	=0x401e000000000000, r3
@@ -10824,9 +10824,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01e000000000000, r6
-	cbne	r5, r6, f1803
+	cbne	r5, r6, fail1803
 	mov	=0x0, r6
-	cbne	r8, r6, f1804
+	cbne	r8, r6, fail1804
 	mov	=0x400e000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x0, r3
@@ -10836,9 +10836,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x8000000000000000, r6
-	cbne	r5, r6, f1805
+	cbne	r5, r6, fail1805
 	mov	=0x0, r6
-	cbne	r8, r6, f1806
+	cbne	r8, r6, fail1806
 	mov	=0x400e000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x0, r3
@@ -10848,9 +10848,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f1807
+	cbne	r5, r6, fail1807
 	mov	=0x0, r6
-	cbne	r8, r6, f1808
+	cbne	r8, r6, fail1808
 	mov	=0x400e000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -10860,9 +10860,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f1809
+	cbne	r5, r6, fail1809
 	mov	=0x0, r6
-	cbne	r8, r6, f1810
+	cbne	r8, r6, fail1810
 	mov	=0x400e000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -10872,9 +10872,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f1811
+	cbne	r5, r6, fail1811
 	mov	=0x0, r6
-	cbne	r8, r6, f1812
+	cbne	r8, r6, fail1812
 	mov	=0x400e000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -10884,9 +10884,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f1813
+	cbne	r5, r6, fail1813
 	mov	=0x0, r6
-	cbne	r8, r6, f1814
+	cbne	r8, r6, fail1814
 	mov	=0x400e000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -10896,9 +10896,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff0000000000000, r6
-	cbne	r5, r6, f1815
+	cbne	r5, r6, fail1815
 	mov	=0x0, r6
-	cbne	r8, r6, f1816
+	cbne	r8, r6, fail1816
 	mov	=0x400e000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -10908,9 +10908,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff0000000000000, r6
-	cbne	r5, r6, f1817
+	cbne	r5, r6, fail1817
 	mov	=0x0, r6
-	cbne	r8, r6, f1818
+	cbne	r8, r6, fail1818
 	mov	=0x400e000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -10920,9 +10920,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff0000000000000, r6
-	cbne	r5, r6, f1819
+	cbne	r5, r6, fail1819
 	mov	=0x0, r6
-	cbne	r8, r6, f1820
+	cbne	r8, r6, fail1820
 	mov	=0x400e000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -10932,9 +10932,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc000000000000000, r6
-	cbne	r5, r6, f1821
+	cbne	r5, r6, fail1821
 	mov	=0x0, r6
-	cbne	r8, r6, f1822
+	cbne	r8, r6, fail1822
 	mov	=0x400e000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -10944,9 +10944,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc000000000000000, r6
-	cbne	r5, r6, f1823
+	cbne	r5, r6, fail1823
 	mov	=0x0, r6
-	cbne	r8, r6, f1824
+	cbne	r8, r6, fail1824
 	mov	=0x400e000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -10956,9 +10956,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc008000000000000, r6
-	cbne	r5, r6, f1825
+	cbne	r5, r6, fail1825
 	mov	=0x0, r6
-	cbne	r8, r6, f1826
+	cbne	r8, r6, fail1826
 	mov	=0x400e000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -10968,9 +10968,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc008000000000000, r6
-	cbne	r5, r6, f1827
+	cbne	r5, r6, fail1827
 	mov	=0x0, r6
-	cbne	r8, r6, f1828
+	cbne	r8, r6, fail1828
 	mov	=0x400e000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -10980,9 +10980,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f1829
+	cbne	r5, r6, fail1829
 	mov	=0x0, r6
-	cbne	r8, r6, f1830
+	cbne	r8, r6, fail1830
 	mov	=0x400e000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -10992,9 +10992,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbff8000000000000, r6
-	cbne	r5, r6, f1831
+	cbne	r5, r6, fail1831
 	mov	=0x0, r6
-	cbne	r8, r6, f1832
+	cbne	r8, r6, fail1832
 	mov	=0x400e000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -11004,9 +11004,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc004000000000000, r6
-	cbne	r5, r6, f1833
+	cbne	r5, r6, fail1833
 	mov	=0x0, r6
-	cbne	r8, r6, f1834
+	cbne	r8, r6, fail1834
 	mov	=0x400e000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -11016,9 +11016,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc004000000000000, r6
-	cbne	r5, r6, f1835
+	cbne	r5, r6, fail1835
 	mov	=0x0, r6
-	cbne	r8, r6, f1836
+	cbne	r8, r6, fail1836
 	mov	=0x400e000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -11028,9 +11028,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00e000000000000, r6
-	cbne	r5, r6, f1837
+	cbne	r5, r6, fail1837
 	mov	=0x0, r6
-	cbne	r8, r6, f1838
+	cbne	r8, r6, fail1838
 	mov	=0x400e000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -11040,9 +11040,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00e000000000000, r6
-	cbne	r5, r6, f1839
+	cbne	r5, r6, fail1839
 	mov	=0x0, r6
-	cbne	r8, r6, f1840
+	cbne	r8, r6, fail1840
 	mov	=0x400e000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -11052,9 +11052,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x400e000000000000, r6
-	cbne	r5, r6, f1841
+	cbne	r5, r6, fail1841
 	mov	=0x0, r6
-	cbne	r8, r6, f1842
+	cbne	r8, r6, fail1842
 	mov	=0x400e000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -11064,9 +11064,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x400e000000000000, r6
-	cbne	r5, r6, f1843
+	cbne	r5, r6, fail1843
 	mov	=0x0, r6
-	cbne	r8, r6, f1844
+	cbne	r8, r6, fail1844
 	mov	=0x400e000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -11076,9 +11076,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01e000000000000, r6
-	cbne	r5, r6, f1845
+	cbne	r5, r6, fail1845
 	mov	=0x0, r6
-	cbne	r8, r6, f1846
+	cbne	r8, r6, fail1846
 	mov	=0x400e000000000000, r1
 	mov	=0x8000000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -11088,9 +11088,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01e000000000000, r6
-	cbne	r5, r6, f1847
+	cbne	r5, r6, fail1847
 	mov	=0x0, r6
-	cbne	r8, r6, f1848
+	cbne	r8, r6, fail1848
 	mov	=0x400e000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x0, r3
@@ -11100,9 +11100,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x400e000000000000, r6
-	cbne	r5, r6, f1849
+	cbne	r5, r6, fail1849
 	mov	=0x0, r6
-	cbne	r8, r6, f1850
+	cbne	r8, r6, fail1850
 	mov	=0x400e000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x0, r3
@@ -11112,9 +11112,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00e000000000000, r6
-	cbne	r5, r6, f1851
+	cbne	r5, r6, fail1851
 	mov	=0x0, r6
-	cbne	r8, r6, f1852
+	cbne	r8, r6, fail1852
 	mov	=0x400e000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -11124,9 +11124,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x400e000000000000, r6
-	cbne	r5, r6, f1853
+	cbne	r5, r6, fail1853
 	mov	=0x0, r6
-	cbne	r8, r6, f1854
+	cbne	r8, r6, fail1854
 	mov	=0x400e000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -11136,9 +11136,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00e000000000000, r6
-	cbne	r5, r6, f1855
+	cbne	r5, r6, fail1855
 	mov	=0x0, r6
-	cbne	r8, r6, f1856
+	cbne	r8, r6, fail1856
 	mov	=0x400e000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -11148,9 +11148,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4006000000000000, r6
-	cbne	r5, r6, f1857
+	cbne	r5, r6, fail1857
 	mov	=0x0, r6
-	cbne	r8, r6, f1858
+	cbne	r8, r6, fail1858
 	mov	=0x400e000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -11160,9 +11160,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc013000000000000, r6
-	cbne	r5, r6, f1859
+	cbne	r5, r6, fail1859
 	mov	=0x0, r6
-	cbne	r8, r6, f1860
+	cbne	r8, r6, fail1860
 	mov	=0x400e000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -11172,9 +11172,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4013000000000000, r6
-	cbne	r5, r6, f1861
+	cbne	r5, r6, fail1861
 	mov	=0x0, r6
-	cbne	r8, r6, f1862
+	cbne	r8, r6, fail1862
 	mov	=0x400e000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -11184,9 +11184,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc006000000000000, r6
-	cbne	r5, r6, f1863
+	cbne	r5, r6, fail1863
 	mov	=0x0, r6
-	cbne	r8, r6, f1864
+	cbne	r8, r6, fail1864
 	mov	=0x400e000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -11196,9 +11196,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ffc000000000000, r6
-	cbne	r5, r6, f1865
+	cbne	r5, r6, fail1865
 	mov	=0x0, r6
-	cbne	r8, r6, f1866
+	cbne	r8, r6, fail1866
 	mov	=0x400e000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -11208,9 +11208,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc017000000000000, r6
-	cbne	r5, r6, f1867
+	cbne	r5, r6, fail1867
 	mov	=0x0, r6
-	cbne	r8, r6, f1868
+	cbne	r8, r6, fail1868
 	mov	=0x400e000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -11220,9 +11220,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3fe8000000000000, r6
-	cbne	r5, r6, f1869
+	cbne	r5, r6, fail1869
 	mov	=0x0, r6
-	cbne	r8, r6, f1870
+	cbne	r8, r6, fail1870
 	mov	=0x400e000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -11232,9 +11232,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01b000000000000, r6
-	cbne	r5, r6, f1871
+	cbne	r5, r6, fail1871
 	mov	=0x0, r6
-	cbne	r8, r6, f1872
+	cbne	r8, r6, fail1872
 	mov	=0x400e000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -11244,9 +11244,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4002000000000000, r6
-	cbne	r5, r6, f1873
+	cbne	r5, r6, fail1873
 	mov	=0x0, r6
-	cbne	r8, r6, f1874
+	cbne	r8, r6, fail1874
 	mov	=0x400e000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -11256,9 +11256,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc015000000000000, r6
-	cbne	r5, r6, f1875
+	cbne	r5, r6, fail1875
 	mov	=0x0, r6
-	cbne	r8, r6, f1876
+	cbne	r8, r6, fail1876
 	mov	=0x400e000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -11268,9 +11268,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff4000000000000, r6
-	cbne	r5, r6, f1877
+	cbne	r5, r6, fail1877
 	mov	=0x0, r6
-	cbne	r8, r6, f1878
+	cbne	r8, r6, fail1878
 	mov	=0x400e000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -11280,9 +11280,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc019000000000000, r6
-	cbne	r5, r6, f1879
+	cbne	r5, r6, fail1879
 	mov	=0x0, r6
-	cbne	r8, r6, f1880
+	cbne	r8, r6, fail1880
 	mov	=0x400e000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -11292,9 +11292,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f1881
+	cbne	r5, r6, fail1881
 	mov	=0x0, r6
-	cbne	r8, r6, f1882
+	cbne	r8, r6, fail1882
 	mov	=0x400e000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -11304,9 +11304,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01e000000000000, r6
-	cbne	r5, r6, f1883
+	cbne	r5, r6, fail1883
 	mov	=0x0, r6
-	cbne	r8, r6, f1884
+	cbne	r8, r6, fail1884
 	mov	=0x400e000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -11316,9 +11316,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x401e000000000000, r6
-	cbne	r5, r6, f1885
+	cbne	r5, r6, fail1885
 	mov	=0x0, r6
-	cbne	r8, r6, f1886
+	cbne	r8, r6, fail1886
 	mov	=0x400e000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -11328,9 +11328,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f1887
+	cbne	r5, r6, fail1887
 	mov	=0x0, r6
-	cbne	r8, r6, f1888
+	cbne	r8, r6, fail1888
 	mov	=0x400e000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -11340,9 +11340,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00e000000000000, r6
-	cbne	r5, r6, f1889
+	cbne	r5, r6, fail1889
 	mov	=0x0, r6
-	cbne	r8, r6, f1890
+	cbne	r8, r6, fail1890
 	mov	=0x400e000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -11352,9 +11352,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc026800000000000, r6
-	cbne	r5, r6, f1891
+	cbne	r5, r6, fail1891
 	mov	=0x0, r6
-	cbne	r8, r6, f1892
+	cbne	r8, r6, fail1892
 	mov	=0x400e000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x0, r3
@@ -11364,9 +11364,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00e000000000000, r6
-	cbne	r5, r6, f1893
+	cbne	r5, r6, fail1893
 	mov	=0x0, r6
-	cbne	r8, r6, f1894
+	cbne	r8, r6, fail1894
 	mov	=0x400e000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x0, r3
@@ -11376,9 +11376,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x400e000000000000, r6
-	cbne	r5, r6, f1895
+	cbne	r5, r6, fail1895
 	mov	=0x0, r6
-	cbne	r8, r6, f1896
+	cbne	r8, r6, fail1896
 	mov	=0x400e000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -11388,9 +11388,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00e000000000000, r6
-	cbne	r5, r6, f1897
+	cbne	r5, r6, fail1897
 	mov	=0x0, r6
-	cbne	r8, r6, f1898
+	cbne	r8, r6, fail1898
 	mov	=0x400e000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -11400,9 +11400,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x400e000000000000, r6
-	cbne	r5, r6, f1899
+	cbne	r5, r6, fail1899
 	mov	=0x0, r6
-	cbne	r8, r6, f1900
+	cbne	r8, r6, fail1900
 	mov	=0x400e000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -11412,9 +11412,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc013000000000000, r6
-	cbne	r5, r6, f1901
+	cbne	r5, r6, fail1901
 	mov	=0x0, r6
-	cbne	r8, r6, f1902
+	cbne	r8, r6, fail1902
 	mov	=0x400e000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -11424,9 +11424,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4006000000000000, r6
-	cbne	r5, r6, f1903
+	cbne	r5, r6, fail1903
 	mov	=0x0, r6
-	cbne	r8, r6, f1904
+	cbne	r8, r6, fail1904
 	mov	=0x400e000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -11436,9 +11436,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc006000000000000, r6
-	cbne	r5, r6, f1905
+	cbne	r5, r6, fail1905
 	mov	=0x0, r6
-	cbne	r8, r6, f1906
+	cbne	r8, r6, fail1906
 	mov	=0x400e000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -11448,9 +11448,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4013000000000000, r6
-	cbne	r5, r6, f1907
+	cbne	r5, r6, fail1907
 	mov	=0x0, r6
-	cbne	r8, r6, f1908
+	cbne	r8, r6, fail1908
 	mov	=0x400e000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -11460,9 +11460,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc017000000000000, r6
-	cbne	r5, r6, f1909
+	cbne	r5, r6, fail1909
 	mov	=0x0, r6
-	cbne	r8, r6, f1910
+	cbne	r8, r6, fail1910
 	mov	=0x400e000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -11472,9 +11472,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ffc000000000000, r6
-	cbne	r5, r6, f1911
+	cbne	r5, r6, fail1911
 	mov	=0x0, r6
-	cbne	r8, r6, f1912
+	cbne	r8, r6, fail1912
 	mov	=0x400e000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -11484,9 +11484,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01b000000000000, r6
-	cbne	r5, r6, f1913
+	cbne	r5, r6, fail1913
 	mov	=0x0, r6
-	cbne	r8, r6, f1914
+	cbne	r8, r6, fail1914
 	mov	=0x400e000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -11496,9 +11496,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3fe8000000000000, r6
-	cbne	r5, r6, f1915
+	cbne	r5, r6, fail1915
 	mov	=0x0, r6
-	cbne	r8, r6, f1916
+	cbne	r8, r6, fail1916
 	mov	=0x400e000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -11508,9 +11508,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc015000000000000, r6
-	cbne	r5, r6, f1917
+	cbne	r5, r6, fail1917
 	mov	=0x0, r6
-	cbne	r8, r6, f1918
+	cbne	r8, r6, fail1918
 	mov	=0x400e000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -11520,9 +11520,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4002000000000000, r6
-	cbne	r5, r6, f1919
+	cbne	r5, r6, fail1919
 	mov	=0x0, r6
-	cbne	r8, r6, f1920
+	cbne	r8, r6, fail1920
 	mov	=0x400e000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -11532,9 +11532,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc019000000000000, r6
-	cbne	r5, r6, f1921
+	cbne	r5, r6, fail1921
 	mov	=0x0, r6
-	cbne	r8, r6, f1922
+	cbne	r8, r6, fail1922
 	mov	=0x400e000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -11544,9 +11544,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff4000000000000, r6
-	cbne	r5, r6, f1923
+	cbne	r5, r6, fail1923
 	mov	=0x0, r6
-	cbne	r8, r6, f1924
+	cbne	r8, r6, fail1924
 	mov	=0x400e000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -11556,9 +11556,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01e000000000000, r6
-	cbne	r5, r6, f1925
+	cbne	r5, r6, fail1925
 	mov	=0x0, r6
-	cbne	r8, r6, f1926
+	cbne	r8, r6, fail1926
 	mov	=0x400e000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -11568,9 +11568,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f1927
+	cbne	r5, r6, fail1927
 	mov	=0x0, r6
-	cbne	r8, r6, f1928
+	cbne	r8, r6, fail1928
 	mov	=0x400e000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -11580,9 +11580,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f1929
+	cbne	r5, r6, fail1929
 	mov	=0x0, r6
-	cbne	r8, r6, f1930
+	cbne	r8, r6, fail1930
 	mov	=0x400e000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -11592,9 +11592,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x401e000000000000, r6
-	cbne	r5, r6, f1931
+	cbne	r5, r6, fail1931
 	mov	=0x0, r6
-	cbne	r8, r6, f1932
+	cbne	r8, r6, fail1932
 	mov	=0x400e000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -11604,9 +11604,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc026800000000000, r6
-	cbne	r5, r6, f1933
+	cbne	r5, r6, fail1933
 	mov	=0x0, r6
-	cbne	r8, r6, f1934
+	cbne	r8, r6, fail1934
 	mov	=0x400e000000000000, r1
 	mov	=0xbff0000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -11616,9 +11616,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc00e000000000000, r6
-	cbne	r5, r6, f1935
+	cbne	r5, r6, fail1935
 	mov	=0x0, r6
-	cbne	r8, r6, f1936
+	cbne	r8, r6, fail1936
 	mov	=0x400e000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x0, r3
@@ -11628,9 +11628,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4016800000000000, r6
-	cbne	r5, r6, f1937
+	cbne	r5, r6, fail1937
 	mov	=0x0, r6
-	cbne	r8, r6, f1938
+	cbne	r8, r6, fail1938
 	mov	=0x400e000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x0, r3
@@ -11640,9 +11640,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc016800000000000, r6
-	cbne	r5, r6, f1939
+	cbne	r5, r6, fail1939
 	mov	=0x0, r6
-	cbne	r8, r6, f1940
+	cbne	r8, r6, fail1940
 	mov	=0x400e000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -11652,9 +11652,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4016800000000000, r6
-	cbne	r5, r6, f1941
+	cbne	r5, r6, fail1941
 	mov	=0x0, r6
-	cbne	r8, r6, f1942
+	cbne	r8, r6, fail1942
 	mov	=0x400e000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x8000000000000000, r3
@@ -11664,9 +11664,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc016800000000000, r6
-	cbne	r5, r6, f1943
+	cbne	r5, r6, fail1943
 	mov	=0x0, r6
-	cbne	r8, r6, f1944
+	cbne	r8, r6, fail1944
 	mov	=0x400e000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -11676,9 +11676,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4012800000000000, r6
-	cbne	r5, r6, f1945
+	cbne	r5, r6, fail1945
 	mov	=0x0, r6
-	cbne	r8, r6, f1946
+	cbne	r8, r6, fail1946
 	mov	=0x400e000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -11688,9 +11688,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01a800000000000, r6
-	cbne	r5, r6, f1947
+	cbne	r5, r6, fail1947
 	mov	=0x0, r6
-	cbne	r8, r6, f1948
+	cbne	r8, r6, fail1948
 	mov	=0x400e000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -11700,9 +11700,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x401a800000000000, r6
-	cbne	r5, r6, f1949
+	cbne	r5, r6, fail1949
 	mov	=0x0, r6
-	cbne	r8, r6, f1950
+	cbne	r8, r6, fail1950
 	mov	=0x400e000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -11712,9 +11712,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc012800000000000, r6
-	cbne	r5, r6, f1951
+	cbne	r5, r6, fail1951
 	mov	=0x0, r6
-	cbne	r8, r6, f1952
+	cbne	r8, r6, fail1952
 	mov	=0x400e000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -11724,9 +11724,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x400d000000000000, r6
-	cbne	r5, r6, f1953
+	cbne	r5, r6, fail1953
 	mov	=0x0, r6
-	cbne	r8, r6, f1954
+	cbne	r8, r6, fail1954
 	mov	=0x400e000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x4000000000000000, r3
@@ -11736,9 +11736,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01e800000000000, r6
-	cbne	r5, r6, f1955
+	cbne	r5, r6, fail1955
 	mov	=0x0, r6
-	cbne	r8, r6, f1956
+	cbne	r8, r6, fail1956
 	mov	=0x400e000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -11748,9 +11748,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4005000000000000, r6
-	cbne	r5, r6, f1957
+	cbne	r5, r6, fail1957
 	mov	=0x0, r6
-	cbne	r8, r6, f1958
+	cbne	r8, r6, fail1958
 	mov	=0x400e000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x4008000000000000, r3
@@ -11760,9 +11760,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc021400000000000, r6
-	cbne	r5, r6, f1959
+	cbne	r5, r6, fail1959
 	mov	=0x0, r6
-	cbne	r8, r6, f1960
+	cbne	r8, r6, fail1960
 	mov	=0x400e000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -11772,9 +11772,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4010800000000000, r6
-	cbne	r5, r6, f1961
+	cbne	r5, r6, fail1961
 	mov	=0x0, r6
-	cbne	r8, r6, f1962
+	cbne	r8, r6, fail1962
 	mov	=0x400e000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x3ff8000000000000, r3
@@ -11784,9 +11784,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01c800000000000, r6
-	cbne	r5, r6, f1963
+	cbne	r5, r6, fail1963
 	mov	=0x0, r6
-	cbne	r8, r6, f1964
+	cbne	r8, r6, fail1964
 	mov	=0x400e000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -11796,9 +11796,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4009000000000000, r6
-	cbne	r5, r6, f1965
+	cbne	r5, r6, fail1965
 	mov	=0x0, r6
-	cbne	r8, r6, f1966
+	cbne	r8, r6, fail1966
 	mov	=0x400e000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x4004000000000000, r3
@@ -11808,9 +11808,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc020400000000000, r6
-	cbne	r5, r6, f1967
+	cbne	r5, r6, fail1967
 	mov	=0x0, r6
-	cbne	r8, r6, f1968
+	cbne	r8, r6, fail1968
 	mov	=0x400e000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -11820,9 +11820,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ffe000000000000, r6
-	cbne	r5, r6, f1969
+	cbne	r5, r6, fail1969
 	mov	=0x0, r6
-	cbne	r8, r6, f1970
+	cbne	r8, r6, fail1970
 	mov	=0x400e000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -11832,9 +11832,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc022c00000000000, r6
-	cbne	r5, r6, f1971
+	cbne	r5, r6, fail1971
 	mov	=0x0, r6
-	cbne	r8, r6, f1972
+	cbne	r8, r6, fail1972
 	mov	=0x400e000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -11844,9 +11844,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4022c00000000000, r6
-	cbne	r5, r6, f1973
+	cbne	r5, r6, fail1973
 	mov	=0x0, r6
-	cbne	r8, r6, f1974
+	cbne	r8, r6, fail1974
 	mov	=0x400e000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -11856,9 +11856,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbffe000000000000, r6
-	cbne	r5, r6, f1975
+	cbne	r5, r6, fail1975
 	mov	=0x0, r6
-	cbne	r8, r6, f1976
+	cbne	r8, r6, fail1976
 	mov	=0x400e000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -11868,9 +11868,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbffe000000000000, r6
-	cbne	r5, r6, f1977
+	cbne	r5, r6, fail1977
 	mov	=0x0, r6
-	cbne	r8, r6, f1978
+	cbne	r8, r6, fail1978
 	mov	=0x400e000000000000, r1
 	mov	=0x3ff8000000000000, r2
 	mov	=0x401e000000000000, r3
@@ -11880,9 +11880,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc02a400000000000, r6
-	cbne	r5, r6, f1979
+	cbne	r5, r6, fail1979
 	mov	=0x0, r6
-	cbne	r8, r6, f1980
+	cbne	r8, r6, fail1980
 	mov	=0x3ff8000000000000, r1
 	mov	=0x4004000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -11892,9 +11892,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f1981
+	cbne	r5, r6, fail1981
 	mov	=0x0, r6
-	cbne	r8, r6, f1982
+	cbne	r8, r6, fail1982
 	mov	=0x3ff8000000000000, r1
 	mov	=0x4004000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -11904,9 +11904,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01e000000000000, r6
-	cbne	r5, r6, f1983
+	cbne	r5, r6, fail1983
 	mov	=0x0, r6
-	cbne	r8, r6, f1984
+	cbne	r8, r6, fail1984
 	mov	=0x3ff8000000000000, r1
 	mov	=0x4004000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -11916,9 +11916,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x401e000000000000, r6
-	cbne	r5, r6, f1985
+	cbne	r5, r6, fail1985
 	mov	=0x0, r6
-	cbne	r8, r6, f1986
+	cbne	r8, r6, fail1986
 	mov	=0x3ff8000000000000, r1
 	mov	=0x4004000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -11928,9 +11928,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f1987
+	cbne	r5, r6, fail1987
 	mov	=0x0, r6
-	cbne	r8, r6, f1988
+	cbne	r8, r6, fail1988
 	mov	=0xbff8000000000000, r1
 	mov	=0x4004000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -11940,9 +11940,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc01e000000000000, r6
-	cbne	r5, r6, f1989
+	cbne	r5, r6, fail1989
 	mov	=0x0, r6
-	cbne	r8, r6, f1990
+	cbne	r8, r6, fail1990
 	mov	=0xbff8000000000000, r1
 	mov	=0x4004000000000000, r2
 	mov	=0x400e000000000000, r3
@@ -11952,9 +11952,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f1991
+	cbne	r5, r6, fail1991
 	mov	=0x0, r6
-	cbne	r8, r6, f1992
+	cbne	r8, r6, fail1992
 	mov	=0x3ff8000000000000, r1
 	mov	=0xc004000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -11964,9 +11964,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f1993
+	cbne	r5, r6, fail1993
 	mov	=0x0, r6
-	cbne	r8, r6, f1994
+	cbne	r8, r6, fail1994
 	mov	=0x3ff8000000000000, r1
 	mov	=0xc004000000000000, r2
 	mov	=0xc00e000000000000, r3
@@ -11976,9 +11976,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x401e000000000000, r6
-	cbne	r5, r6, f1995
+	cbne	r5, r6, fail1995
 	mov	=0x0, r6
-	cbne	r8, r6, f1996
+	cbne	r8, r6, fail1996
 	mov	=0x7fe1ccf385ebc8a0, r1
 	mov	=0x4024000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -11988,9 +11988,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff0000000000000, r6
-	cbne	r5, r6, f1997
+	cbne	r5, r6, fail1997
 	mov	=0x5, r6
-	cbne	r8, r6, f1998
+	cbne	r8, r6, fail1998
 	mov	=0x7fe1ccf385ebc8a0, r1
 	mov	=0x4024000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -12000,9 +12000,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xfff0000000000000, r6
-	cbne	r5, r6, f1999
+	cbne	r5, r6, fail1999
 	mov	=0x5, r6
-	cbne	r8, r6, f2000
+	cbne	r8, r6, fail2000
 	mov	=0x7fe1ccf385ebc8a0, r1
 	mov	=0x4024000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -12012,9 +12012,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff0000000000000, r6
-	cbne	r5, r6, f2001
+	cbne	r5, r6, fail2001
 	mov	=0x5, r6
-	cbne	r8, r6, f2002
+	cbne	r8, r6, fail2002
 	mov	=0x7fe1ccf385ebc8a0, r1
 	mov	=0x4024000000000000, r2
 	mov	=0xbff0000000000000, r3
@@ -12024,9 +12024,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xfff0000000000000, r6
-	cbne	r5, r6, f2003
+	cbne	r5, r6, fail2003
 	mov	=0x5, r6
-	cbne	r8, r6, f2004
+	cbne	r8, r6, fail2004
 	mov	=0x7fe1ccf385ebc8a0, r1
 	mov	=0xc024000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -12036,9 +12036,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xfff0000000000000, r6
-	cbne	r5, r6, f2005
+	cbne	r5, r6, fail2005
 	mov	=0x5, r6
-	cbne	r8, r6, f2006
+	cbne	r8, r6, fail2006
 	mov	=0x7fe1ccf385ebc8a0, r1
 	mov	=0xc024000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -12048,9 +12048,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff0000000000000, r6
-	cbne	r5, r6, f2007
+	cbne	r5, r6, fail2007
 	mov	=0x5, r6
-	cbne	r8, r6, f2008
+	cbne	r8, r6, fail2008
 	mov	=0x3fb999999999999a, r1
 	mov	=0x3fd3333333333333, r2
 	mov	=0x3fe6666666666666, r3
@@ -12060,9 +12060,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbfe570a3d70a3d70, r6
-	cbne	r5, r6, f2009
+	cbne	r5, r6, fail2009
 	mov	=0x1, r6
-	cbne	r8, r6, f2010
+	cbne	r8, r6, fail2010
 	mov	=0x3fb999999999999a, r1
 	mov	=0x3fd3333333333333, r2
 	mov	=0x3fe6666666666666, r3
@@ -12072,9 +12072,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbfe75c28f5c28f5c, r6
-	cbne	r5, r6, f2011
+	cbne	r5, r6, fail2011
 	mov	=0x1, r6
-	cbne	r8, r6, f2012
+	cbne	r8, r6, fail2012
 	mov	=0x4202a05f20000000, r1
 	mov	=0x4202a05f20000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -12084,9 +12084,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4415af1d78b58c40, r6
-	cbne	r5, r6, f2013
+	cbne	r5, r6, fail2013
 	mov	=0x1, r6
-	cbne	r8, r6, f2014
+	cbne	r8, r6, fail2014
 	mov	=0x4202a05f20000000, r1
 	mov	=0x4202a05f20000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -12096,9 +12096,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc415af1d78b58c40, r6
-	cbne	r5, r6, f2015
+	cbne	r5, r6, fail2015
 	mov	=0x1, r6
-	cbne	r8, r6, f2016
+	cbne	r8, r6, fail2016
 	mov	=0x3ff0000100000000, r1
 	mov	=0x3ff0000100000000, r2
 	mov	=0xbff0000200000000, r3
@@ -12108,9 +12108,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x4000000200000800, r6
-	cbne	r5, r6, f2017
+	cbne	r5, r6, fail2017
 	mov	=0x0, r6
-	cbne	r8, r6, f2018
+	cbne	r8, r6, fail2018
 	mov	=0x3ff0000100000000, r1
 	mov	=0x3ff0000100000000, r2
 	mov	=0xbff0000200000000, r3
@@ -12120,9 +12120,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xbd70000000000000, r6
-	cbne	r5, r6, f2019
+	cbne	r5, r6, fail2019
 	mov	=0x0, r6
-	cbne	r8, r6, f2020
+	cbne	r8, r6, fail2020
 	mov	=0x3ff0000100000000, r1
 	mov	=0x3ff0000100000000, r2
 	mov	=0x3ff0000200000000, r3
@@ -12132,9 +12132,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3d70000000000000, r6
-	cbne	r5, r6, f2021
+	cbne	r5, r6, fail2021
 	mov	=0x0, r6
-	cbne	r8, r6, f2022
+	cbne	r8, r6, fail2022
 	mov	=0x3ff0000100000000, r1
 	mov	=0x3ff0000100000000, r2
 	mov	=0x3ff0000200000000, r3
@@ -12144,9 +12144,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xc000000200000800, r6
-	cbne	r5, r6, f2023
+	cbne	r5, r6, fail2023
 	mov	=0x0, r6
-	cbne	r8, r6, f2024
+	cbne	r8, r6, fail2024
 	mov	=0x7ff0000000000000, r1
 	mov	=0x4000000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -12156,9 +12156,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff0000000000000, r6
-	cbne	r5, r6, f2025
+	cbne	r5, r6, fail2025
 	mov	=0x0, r6
-	cbne	r8, r6, f2026
+	cbne	r8, r6, fail2026
 	mov	=0x7ff0000000000000, r1
 	mov	=0x4000000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -12168,9 +12168,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xfff0000000000000, r6
-	cbne	r5, r6, f2027
+	cbne	r5, r6, fail2027
 	mov	=0x0, r6
-	cbne	r8, r6, f2028
+	cbne	r8, r6, fail2028
 	mov	=0x4000000000000000, r1
 	mov	=0x7ff0000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -12180,9 +12180,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff0000000000000, r6
-	cbne	r5, r6, f2029
+	cbne	r5, r6, fail2029
 	mov	=0x0, r6
-	cbne	r8, r6, f2030
+	cbne	r8, r6, fail2030
 	mov	=0x4000000000000000, r1
 	mov	=0x7ff0000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -12192,9 +12192,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xfff0000000000000, r6
-	cbne	r5, r6, f2031
+	cbne	r5, r6, fail2031
 	mov	=0x0, r6
-	cbne	r8, r6, f2032
+	cbne	r8, r6, fail2032
 	mov	=0x4000000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x7ff0000000000000, r3
@@ -12204,9 +12204,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xfff0000000000000, r6
-	cbne	r5, r6, f2033
+	cbne	r5, r6, fail2033
 	mov	=0x0, r6
-	cbne	r8, r6, f2034
+	cbne	r8, r6, fail2034
 	mov	=0x4000000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x7ff0000000000000, r3
@@ -12216,9 +12216,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xfff0000000000000, r6
-	cbne	r5, r6, f2035
+	cbne	r5, r6, fail2035
 	mov	=0x0, r6
-	cbne	r8, r6, f2036
+	cbne	r8, r6, fail2036
 	mov	=0x7ff0000000000000, r1
 	mov	=0x0, r2
 	mov	=0x3ff0000000000000, r3
@@ -12228,9 +12228,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2037
+	cbne	r5, r6, fail2037
 	mov	=0x10, r6
-	cbne	r8, r6, f2038
+	cbne	r8, r6, fail2038
 	mov	=0x7ff0000000000000, r1
 	mov	=0x0, r2
 	mov	=0x3ff0000000000000, r3
@@ -12240,9 +12240,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2039
+	cbne	r5, r6, fail2039
 	mov	=0x10, r6
-	cbne	r8, r6, f2040
+	cbne	r8, r6, fail2040
 	mov	=0x0, r1
 	mov	=0x7ff0000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -12252,9 +12252,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2041
+	cbne	r5, r6, fail2041
 	mov	=0x10, r6
-	cbne	r8, r6, f2042
+	cbne	r8, r6, fail2042
 	mov	=0x0, r1
 	mov	=0x7ff0000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -12264,9 +12264,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2043
+	cbne	r5, r6, fail2043
 	mov	=0x10, r6
-	cbne	r8, r6, f2044
+	cbne	r8, r6, fail2044
 	mov	=0x7ff0000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x7ff0000000000000, r3
@@ -12276,9 +12276,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2045
+	cbne	r5, r6, fail2045
 	mov	=0x10, r6
-	cbne	r8, r6, f2046
+	cbne	r8, r6, fail2046
 	mov	=0x7ff0000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x7ff0000000000000, r3
@@ -12288,9 +12288,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xfff0000000000000, r6
-	cbne	r5, r6, f2047
+	cbne	r5, r6, fail2047
 	mov	=0x0, r6
-	cbne	r8, r6, f2048
+	cbne	r8, r6, fail2048
 	mov	=0xfff0000000000000, r1
 	mov	=0x4000000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -12300,9 +12300,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xfff0000000000000, r6
-	cbne	r5, r6, f2049
+	cbne	r5, r6, fail2049
 	mov	=0x0, r6
-	cbne	r8, r6, f2050
+	cbne	r8, r6, fail2050
 	mov	=0xfff0000000000000, r1
 	mov	=0x4000000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -12312,9 +12312,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff0000000000000, r6
-	cbne	r5, r6, f2051
+	cbne	r5, r6, fail2051
 	mov	=0x0, r6
-	cbne	r8, r6, f2052
+	cbne	r8, r6, fail2052
 	mov	=0x4000000000000000, r1
 	mov	=0xfff0000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -12324,9 +12324,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xfff0000000000000, r6
-	cbne	r5, r6, f2053
+	cbne	r5, r6, fail2053
 	mov	=0x0, r6
-	cbne	r8, r6, f2054
+	cbne	r8, r6, fail2054
 	mov	=0x4000000000000000, r1
 	mov	=0xfff0000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -12336,9 +12336,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff0000000000000, r6
-	cbne	r5, r6, f2055
+	cbne	r5, r6, fail2055
 	mov	=0x0, r6
-	cbne	r8, r6, f2056
+	cbne	r8, r6, fail2056
 	mov	=0x4000000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0xfff0000000000000, r3
@@ -12348,9 +12348,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff0000000000000, r6
-	cbne	r5, r6, f2057
+	cbne	r5, r6, fail2057
 	mov	=0x0, r6
-	cbne	r8, r6, f2058
+	cbne	r8, r6, fail2058
 	mov	=0x4000000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0xfff0000000000000, r3
@@ -12360,9 +12360,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff0000000000000, r6
-	cbne	r5, r6, f2059
+	cbne	r5, r6, fail2059
 	mov	=0x0, r6
-	cbne	r8, r6, f2060
+	cbne	r8, r6, fail2060
 	mov	=0xfff0000000000000, r1
 	mov	=0x0, r2
 	mov	=0x3ff0000000000000, r3
@@ -12372,9 +12372,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2061
+	cbne	r5, r6, fail2061
 	mov	=0x10, r6
-	cbne	r8, r6, f2062
+	cbne	r8, r6, fail2062
 	mov	=0xfff0000000000000, r1
 	mov	=0x0, r2
 	mov	=0x3ff0000000000000, r3
@@ -12384,9 +12384,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2063
+	cbne	r5, r6, fail2063
 	mov	=0x10, r6
-	cbne	r8, r6, f2064
+	cbne	r8, r6, fail2064
 	mov	=0x0, r1
 	mov	=0xfff0000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -12396,9 +12396,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2065
+	cbne	r5, r6, fail2065
 	mov	=0x10, r6
-	cbne	r8, r6, f2066
+	cbne	r8, r6, fail2066
 	mov	=0x0, r1
 	mov	=0xfff0000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -12408,9 +12408,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2067
+	cbne	r5, r6, fail2067
 	mov	=0x10, r6
-	cbne	r8, r6, f2068
+	cbne	r8, r6, fail2068
 	mov	=0xfff0000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0xfff0000000000000, r3
@@ -12420,9 +12420,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2069
+	cbne	r5, r6, fail2069
 	mov	=0x10, r6
-	cbne	r8, r6, f2070
+	cbne	r8, r6, fail2070
 	mov	=0xfff0000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0xfff0000000000000, r3
@@ -12432,9 +12432,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff0000000000000, r6
-	cbne	r5, r6, f2071
+	cbne	r5, r6, fail2071
 	mov	=0x0, r6
-	cbne	r8, r6, f2072
+	cbne	r8, r6, fail2072
 	mov	=0x7ff8000000000123, r1
 	mov	=0x4000000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -12444,9 +12444,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2073
+	cbne	r5, r6, fail2073
 	mov	=0x0, r6
-	cbne	r8, r6, f2074
+	cbne	r8, r6, fail2074
 	mov	=0x7ff8000000000123, r1
 	mov	=0x4000000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -12456,9 +12456,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2075
+	cbne	r5, r6, fail2075
 	mov	=0x0, r6
-	cbne	r8, r6, f2076
+	cbne	r8, r6, fail2076
 	mov	=0x4000000000000000, r1
 	mov	=0x7ff8000000000123, r2
 	mov	=0x3ff0000000000000, r3
@@ -12468,9 +12468,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2077
+	cbne	r5, r6, fail2077
 	mov	=0x0, r6
-	cbne	r8, r6, f2078
+	cbne	r8, r6, fail2078
 	mov	=0x4000000000000000, r1
 	mov	=0x7ff8000000000123, r2
 	mov	=0x3ff0000000000000, r3
@@ -12480,9 +12480,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2079
+	cbne	r5, r6, fail2079
 	mov	=0x0, r6
-	cbne	r8, r6, f2080
+	cbne	r8, r6, fail2080
 	mov	=0x4000000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x7ff8000000000123, r3
@@ -12492,9 +12492,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2081
+	cbne	r5, r6, fail2081
 	mov	=0x0, r6
-	cbne	r8, r6, f2082
+	cbne	r8, r6, fail2082
 	mov	=0x4000000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x7ff8000000000123, r3
@@ -12504,9 +12504,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2083
+	cbne	r5, r6, fail2083
 	mov	=0x0, r6
-	cbne	r8, r6, f2084
+	cbne	r8, r6, fail2084
 	mov	=0x7ff8000000000123, r1
 	mov	=0x0, r2
 	mov	=0x3ff0000000000000, r3
@@ -12516,9 +12516,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2085
+	cbne	r5, r6, fail2085
 	mov	=0x0, r6
-	cbne	r8, r6, f2086
+	cbne	r8, r6, fail2086
 	mov	=0x7ff8000000000123, r1
 	mov	=0x0, r2
 	mov	=0x3ff0000000000000, r3
@@ -12528,9 +12528,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2087
+	cbne	r5, r6, fail2087
 	mov	=0x0, r6
-	cbne	r8, r6, f2088
+	cbne	r8, r6, fail2088
 	mov	=0x0, r1
 	mov	=0x7ff8000000000123, r2
 	mov	=0x3ff0000000000000, r3
@@ -12540,9 +12540,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2089
+	cbne	r5, r6, fail2089
 	mov	=0x0, r6
-	cbne	r8, r6, f2090
+	cbne	r8, r6, fail2090
 	mov	=0x0, r1
 	mov	=0x7ff8000000000123, r2
 	mov	=0x3ff0000000000000, r3
@@ -12552,9 +12552,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2091
+	cbne	r5, r6, fail2091
 	mov	=0x0, r6
-	cbne	r8, r6, f2092
+	cbne	r8, r6, fail2092
 	mov	=0x7ff8000000000123, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x7ff8000000000123, r3
@@ -12564,9 +12564,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2093
+	cbne	r5, r6, fail2093
 	mov	=0x0, r6
-	cbne	r8, r6, f2094
+	cbne	r8, r6, fail2094
 	mov	=0x7ff8000000000123, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x7ff8000000000123, r3
@@ -12576,9 +12576,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2095
+	cbne	r5, r6, fail2095
 	mov	=0x0, r6
-	cbne	r8, r6, f2096
+	cbne	r8, r6, fail2096
 	mov	=0xfff8000000000456, r1
 	mov	=0x4000000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -12588,9 +12588,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2097
+	cbne	r5, r6, fail2097
 	mov	=0x0, r6
-	cbne	r8, r6, f2098
+	cbne	r8, r6, fail2098
 	mov	=0xfff8000000000456, r1
 	mov	=0x4000000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -12600,9 +12600,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2099
+	cbne	r5, r6, fail2099
 	mov	=0x0, r6
-	cbne	r8, r6, f2100
+	cbne	r8, r6, fail2100
 	mov	=0x4000000000000000, r1
 	mov	=0xfff8000000000456, r2
 	mov	=0x3ff0000000000000, r3
@@ -12612,9 +12612,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2101
+	cbne	r5, r6, fail2101
 	mov	=0x0, r6
-	cbne	r8, r6, f2102
+	cbne	r8, r6, fail2102
 	mov	=0x4000000000000000, r1
 	mov	=0xfff8000000000456, r2
 	mov	=0x3ff0000000000000, r3
@@ -12624,9 +12624,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2103
+	cbne	r5, r6, fail2103
 	mov	=0x0, r6
-	cbne	r8, r6, f2104
+	cbne	r8, r6, fail2104
 	mov	=0x4000000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0xfff8000000000456, r3
@@ -12636,9 +12636,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2105
+	cbne	r5, r6, fail2105
 	mov	=0x0, r6
-	cbne	r8, r6, f2106
+	cbne	r8, r6, fail2106
 	mov	=0x4000000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0xfff8000000000456, r3
@@ -12648,9 +12648,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2107
+	cbne	r5, r6, fail2107
 	mov	=0x0, r6
-	cbne	r8, r6, f2108
+	cbne	r8, r6, fail2108
 	mov	=0xfff8000000000456, r1
 	mov	=0x0, r2
 	mov	=0x3ff0000000000000, r3
@@ -12660,9 +12660,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2109
+	cbne	r5, r6, fail2109
 	mov	=0x0, r6
-	cbne	r8, r6, f2110
+	cbne	r8, r6, fail2110
 	mov	=0xfff8000000000456, r1
 	mov	=0x0, r2
 	mov	=0x3ff0000000000000, r3
@@ -12672,9 +12672,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2111
+	cbne	r5, r6, fail2111
 	mov	=0x0, r6
-	cbne	r8, r6, f2112
+	cbne	r8, r6, fail2112
 	mov	=0x0, r1
 	mov	=0xfff8000000000456, r2
 	mov	=0x3ff0000000000000, r3
@@ -12684,9 +12684,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2113
+	cbne	r5, r6, fail2113
 	mov	=0x0, r6
-	cbne	r8, r6, f2114
+	cbne	r8, r6, fail2114
 	mov	=0x0, r1
 	mov	=0xfff8000000000456, r2
 	mov	=0x3ff0000000000000, r3
@@ -12696,9 +12696,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2115
+	cbne	r5, r6, fail2115
 	mov	=0x0, r6
-	cbne	r8, r6, f2116
+	cbne	r8, r6, fail2116
 	mov	=0xfff8000000000456, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0xfff8000000000456, r3
@@ -12708,9 +12708,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2117
+	cbne	r5, r6, fail2117
 	mov	=0x0, r6
-	cbne	r8, r6, f2118
+	cbne	r8, r6, fail2118
 	mov	=0xfff8000000000456, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0xfff8000000000456, r3
@@ -12720,9 +12720,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2119
+	cbne	r5, r6, fail2119
 	mov	=0x0, r6
-	cbne	r8, r6, f2120
+	cbne	r8, r6, fail2120
 	mov	=0x7ff0000000000789, r1
 	mov	=0x4000000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -12732,9 +12732,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2121
+	cbne	r5, r6, fail2121
 	mov	=0x10, r6
-	cbne	r8, r6, f2122
+	cbne	r8, r6, fail2122
 	mov	=0x7ff0000000000789, r1
 	mov	=0x4000000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -12744,9 +12744,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2123
+	cbne	r5, r6, fail2123
 	mov	=0x10, r6
-	cbne	r8, r6, f2124
+	cbne	r8, r6, fail2124
 	mov	=0x4000000000000000, r1
 	mov	=0x7ff0000000000789, r2
 	mov	=0x3ff0000000000000, r3
@@ -12756,9 +12756,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2125
+	cbne	r5, r6, fail2125
 	mov	=0x10, r6
-	cbne	r8, r6, f2126
+	cbne	r8, r6, fail2126
 	mov	=0x4000000000000000, r1
 	mov	=0x7ff0000000000789, r2
 	mov	=0x3ff0000000000000, r3
@@ -12768,9 +12768,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2127
+	cbne	r5, r6, fail2127
 	mov	=0x10, r6
-	cbne	r8, r6, f2128
+	cbne	r8, r6, fail2128
 	mov	=0x4000000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x7ff0000000000789, r3
@@ -12780,9 +12780,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2129
+	cbne	r5, r6, fail2129
 	mov	=0x10, r6
-	cbne	r8, r6, f2130
+	cbne	r8, r6, fail2130
 	mov	=0x4000000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x7ff0000000000789, r3
@@ -12792,9 +12792,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2131
+	cbne	r5, r6, fail2131
 	mov	=0x10, r6
-	cbne	r8, r6, f2132
+	cbne	r8, r6, fail2132
 	mov	=0x7ff0000000000789, r1
 	mov	=0x0, r2
 	mov	=0x3ff0000000000000, r3
@@ -12804,9 +12804,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2133
+	cbne	r5, r6, fail2133
 	mov	=0x10, r6
-	cbne	r8, r6, f2134
+	cbne	r8, r6, fail2134
 	mov	=0x7ff0000000000789, r1
 	mov	=0x0, r2
 	mov	=0x3ff0000000000000, r3
@@ -12816,9 +12816,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2135
+	cbne	r5, r6, fail2135
 	mov	=0x10, r6
-	cbne	r8, r6, f2136
+	cbne	r8, r6, fail2136
 	mov	=0x0, r1
 	mov	=0x7ff0000000000789, r2
 	mov	=0x3ff0000000000000, r3
@@ -12828,9 +12828,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2137
+	cbne	r5, r6, fail2137
 	mov	=0x10, r6
-	cbne	r8, r6, f2138
+	cbne	r8, r6, fail2138
 	mov	=0x0, r1
 	mov	=0x7ff0000000000789, r2
 	mov	=0x3ff0000000000000, r3
@@ -12840,9 +12840,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2139
+	cbne	r5, r6, fail2139
 	mov	=0x10, r6
-	cbne	r8, r6, f2140
+	cbne	r8, r6, fail2140
 	mov	=0x7ff0000000000789, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x7ff0000000000789, r3
@@ -12852,9 +12852,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2141
+	cbne	r5, r6, fail2141
 	mov	=0x10, r6
-	cbne	r8, r6, f2142
+	cbne	r8, r6, fail2142
 	mov	=0x7ff0000000000789, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x7ff0000000000789, r3
@@ -12864,9 +12864,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2143
+	cbne	r5, r6, fail2143
 	mov	=0x10, r6
-	cbne	r8, r6, f2144
+	cbne	r8, r6, fail2144
 	mov	=0xfff0000000000789, r1
 	mov	=0x4000000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -12876,9 +12876,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2145
+	cbne	r5, r6, fail2145
 	mov	=0x10, r6
-	cbne	r8, r6, f2146
+	cbne	r8, r6, fail2146
 	mov	=0xfff0000000000789, r1
 	mov	=0x4000000000000000, r2
 	mov	=0x3ff0000000000000, r3
@@ -12888,9 +12888,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2147
+	cbne	r5, r6, fail2147
 	mov	=0x10, r6
-	cbne	r8, r6, f2148
+	cbne	r8, r6, fail2148
 	mov	=0x4000000000000000, r1
 	mov	=0xfff0000000000789, r2
 	mov	=0x3ff0000000000000, r3
@@ -12900,9 +12900,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2149
+	cbne	r5, r6, fail2149
 	mov	=0x10, r6
-	cbne	r8, r6, f2150
+	cbne	r8, r6, fail2150
 	mov	=0x4000000000000000, r1
 	mov	=0xfff0000000000789, r2
 	mov	=0x3ff0000000000000, r3
@@ -12912,9 +12912,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2151
+	cbne	r5, r6, fail2151
 	mov	=0x10, r6
-	cbne	r8, r6, f2152
+	cbne	r8, r6, fail2152
 	mov	=0x4000000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0xfff0000000000789, r3
@@ -12924,9 +12924,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2153
+	cbne	r5, r6, fail2153
 	mov	=0x10, r6
-	cbne	r8, r6, f2154
+	cbne	r8, r6, fail2154
 	mov	=0x4000000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0xfff0000000000789, r3
@@ -12936,9 +12936,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2155
+	cbne	r5, r6, fail2155
 	mov	=0x10, r6
-	cbne	r8, r6, f2156
+	cbne	r8, r6, fail2156
 	mov	=0xfff0000000000789, r1
 	mov	=0x0, r2
 	mov	=0x3ff0000000000000, r3
@@ -12948,9 +12948,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2157
+	cbne	r5, r6, fail2157
 	mov	=0x10, r6
-	cbne	r8, r6, f2158
+	cbne	r8, r6, fail2158
 	mov	=0xfff0000000000789, r1
 	mov	=0x0, r2
 	mov	=0x3ff0000000000000, r3
@@ -12960,9 +12960,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2159
+	cbne	r5, r6, fail2159
 	mov	=0x10, r6
-	cbne	r8, r6, f2160
+	cbne	r8, r6, fail2160
 	mov	=0x0, r1
 	mov	=0xfff0000000000789, r2
 	mov	=0x3ff0000000000000, r3
@@ -12972,9 +12972,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2161
+	cbne	r5, r6, fail2161
 	mov	=0x10, r6
-	cbne	r8, r6, f2162
+	cbne	r8, r6, fail2162
 	mov	=0x0, r1
 	mov	=0xfff0000000000789, r2
 	mov	=0x3ff0000000000000, r3
@@ -12984,9 +12984,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2163
+	cbne	r5, r6, fail2163
 	mov	=0x10, r6
-	cbne	r8, r6, f2164
+	cbne	r8, r6, fail2164
 	mov	=0xfff0000000000789, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0xfff0000000000789, r3
@@ -12996,9 +12996,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2165
+	cbne	r5, r6, fail2165
 	mov	=0x10, r6
-	cbne	r8, r6, f2166
+	cbne	r8, r6, fail2166
 	mov	=0xfff0000000000789, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0xfff0000000000789, r3
@@ -13008,9 +13008,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2167
+	cbne	r5, r6, fail2167
 	mov	=0x10, r6
-	cbne	r8, r6, f2168
+	cbne	r8, r6, fail2168
 	mov	=0x7ff0000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x7ff0000000000000, r3
@@ -13020,9 +13020,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2169
+	cbne	r5, r6, fail2169
 	mov	=0x10, r6
-	cbne	r8, r6, f2170
+	cbne	r8, r6, fail2170
 	mov	=0x7ff0000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x7ff0000000000000, r3
@@ -13032,9 +13032,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xfff0000000000000, r6
-	cbne	r5, r6, f2171
+	cbne	r5, r6, fail2171
 	mov	=0x0, r6
-	cbne	r8, r6, f2172
+	cbne	r8, r6, fail2172
 	mov	=0x7ff0000000000000, r1
 	mov	=0x0, r2
 	mov	=0x7ff0000000000000, r3
@@ -13044,9 +13044,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2173
+	cbne	r5, r6, fail2173
 	mov	=0x10, r6
-	cbne	r8, r6, f2174
+	cbne	r8, r6, fail2174
 	mov	=0x7ff0000000000000, r1
 	mov	=0x0, r2
 	mov	=0x7ff0000000000000, r3
@@ -13056,9 +13056,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2175
+	cbne	r5, r6, fail2175
 	mov	=0x10, r6
-	cbne	r8, r6, f2176
+	cbne	r8, r6, fail2176
 	mov	=0x3ff0000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x7ff0000000000000, r3
@@ -13068,9 +13068,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xfff0000000000000, r6
-	cbne	r5, r6, f2177
+	cbne	r5, r6, fail2177
 	mov	=0x0, r6
-	cbne	r8, r6, f2178
+	cbne	r8, r6, fail2178
 	mov	=0x3ff0000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x7ff0000000000000, r3
@@ -13080,9 +13080,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xfff0000000000000, r6
-	cbne	r5, r6, f2179
+	cbne	r5, r6, fail2179
 	mov	=0x0, r6
-	cbne	r8, r6, f2180
+	cbne	r8, r6, fail2180
 	mov	=0x7ff0000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0xfff0000000000000, r3
@@ -13092,9 +13092,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff0000000000000, r6
-	cbne	r5, r6, f2181
+	cbne	r5, r6, fail2181
 	mov	=0x0, r6
-	cbne	r8, r6, f2182
+	cbne	r8, r6, fail2182
 	mov	=0x7ff0000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0xfff0000000000000, r3
@@ -13104,9 +13104,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2183
+	cbne	r5, r6, fail2183
 	mov	=0x10, r6
-	cbne	r8, r6, f2184
+	cbne	r8, r6, fail2184
 	mov	=0x7ff0000000000000, r1
 	mov	=0x0, r2
 	mov	=0xfff0000000000000, r3
@@ -13116,9 +13116,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2185
+	cbne	r5, r6, fail2185
 	mov	=0x10, r6
-	cbne	r8, r6, f2186
+	cbne	r8, r6, fail2186
 	mov	=0x7ff0000000000000, r1
 	mov	=0x0, r2
 	mov	=0xfff0000000000000, r3
@@ -13128,9 +13128,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2187
+	cbne	r5, r6, fail2187
 	mov	=0x10, r6
-	cbne	r8, r6, f2188
+	cbne	r8, r6, fail2188
 	mov	=0x3ff0000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0xfff0000000000000, r3
@@ -13140,9 +13140,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff0000000000000, r6
-	cbne	r5, r6, f2189
+	cbne	r5, r6, fail2189
 	mov	=0x0, r6
-	cbne	r8, r6, f2190
+	cbne	r8, r6, fail2190
 	mov	=0x3ff0000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0xfff0000000000000, r3
@@ -13152,9 +13152,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff0000000000000, r6
-	cbne	r5, r6, f2191
+	cbne	r5, r6, fail2191
 	mov	=0x0, r6
-	cbne	r8, r6, f2192
+	cbne	r8, r6, fail2192
 	mov	=0xfff0000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x7ff0000000000000, r3
@@ -13164,9 +13164,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xfff0000000000000, r6
-	cbne	r5, r6, f2193
+	cbne	r5, r6, fail2193
 	mov	=0x0, r6
-	cbne	r8, r6, f2194
+	cbne	r8, r6, fail2194
 	mov	=0xfff0000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x7ff0000000000000, r3
@@ -13176,9 +13176,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2195
+	cbne	r5, r6, fail2195
 	mov	=0x10, r6
-	cbne	r8, r6, f2196
+	cbne	r8, r6, fail2196
 	mov	=0xfff0000000000000, r1
 	mov	=0x0, r2
 	mov	=0x7ff0000000000000, r3
@@ -13188,9 +13188,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2197
+	cbne	r5, r6, fail2197
 	mov	=0x10, r6
-	cbne	r8, r6, f2198
+	cbne	r8, r6, fail2198
 	mov	=0xfff0000000000000, r1
 	mov	=0x0, r2
 	mov	=0x7ff0000000000000, r3
@@ -13200,9 +13200,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2199
+	cbne	r5, r6, fail2199
 	mov	=0x10, r6
-	cbne	r8, r6, f2200
+	cbne	r8, r6, fail2200
 	mov	=0x3ff0000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x7ff0000000000000, r3
@@ -13212,9 +13212,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xfff0000000000000, r6
-	cbne	r5, r6, f2201
+	cbne	r5, r6, fail2201
 	mov	=0x0, r6
-	cbne	r8, r6, f2202
+	cbne	r8, r6, fail2202
 	mov	=0x3ff0000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0x7ff0000000000000, r3
@@ -13224,9 +13224,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xfff0000000000000, r6
-	cbne	r5, r6, f2203
+	cbne	r5, r6, fail2203
 	mov	=0x0, r6
-	cbne	r8, r6, f2204
+	cbne	r8, r6, fail2204
 	mov	=0xfff0000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0xfff0000000000000, r3
@@ -13236,9 +13236,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2205
+	cbne	r5, r6, fail2205
 	mov	=0x10, r6
-	cbne	r8, r6, f2206
+	cbne	r8, r6, fail2206
 	mov	=0xfff0000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0xfff0000000000000, r3
@@ -13248,9 +13248,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff0000000000000, r6
-	cbne	r5, r6, f2207
+	cbne	r5, r6, fail2207
 	mov	=0x0, r6
-	cbne	r8, r6, f2208
+	cbne	r8, r6, fail2208
 	mov	=0xfff0000000000000, r1
 	mov	=0x0, r2
 	mov	=0xfff0000000000000, r3
@@ -13260,9 +13260,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2209
+	cbne	r5, r6, fail2209
 	mov	=0x10, r6
-	cbne	r8, r6, f2210
+	cbne	r8, r6, fail2210
 	mov	=0xfff0000000000000, r1
 	mov	=0x0, r2
 	mov	=0xfff0000000000000, r3
@@ -13272,9 +13272,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff8000000000000, r6
-	cbne	r5, r6, f2211
+	cbne	r5, r6, fail2211
 	mov	=0x10, r6
-	cbne	r8, r6, f2212
+	cbne	r8, r6, fail2212
 	mov	=0x3ff0000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0xfff0000000000000, r3
@@ -13284,9 +13284,9 @@ _start:
 	fmadd	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff0000000000000, r6
-	cbne	r5, r6, f2213
+	cbne	r5, r6, fail2213
 	mov	=0x0, r6
-	cbne	r8, r6, f2214
+	cbne	r8, r6, fail2214
 	mov	=0x3ff0000000000000, r1
 	mov	=0x3ff0000000000000, r2
 	mov	=0xfff0000000000000, r3
@@ -13296,9 +13296,9 @@ _start:
 	fnmsub	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7ff0000000000000, r6
-	cbne	r5, r6, f2215
+	cbne	r5, r6, fail2215
 	mov	=0x0, r6
-	cbne	r8, r6, f2216
+	cbne	r8, r6, fail2216
 	mov	=0x0, r1
 	mov	=0x0, r2
 	mov	=0x0, r3
@@ -13309,2870 +13309,10 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f2217
+	cbne	r5, r6, fail2217
 	mov	=0x0, r6
-	cbne	r8, r6, f2218
+	cbne	r8, r6, fail2218
 	mov	=0x0, r1
-	mov	=0x0, r2
-	mov	=0x0, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffff80000000, r6
-	cbne	r5, r6, f2219
-	mov	=0x0, r6
-	cbne	r8, r6, f2220
-	mov	=0x0, r1
-	mov	=0x0, r2
-	mov	=0xffffffff80000000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x0, r6
-	cbne	r5, r6, f2221
-	mov	=0x0, r6
-	cbne	r8, r6, f2222
-	mov	=0x0, r1
-	mov	=0x0, r2
-	mov	=0xffffffff80000000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x0, r6
-	cbne	r5, r6, f2223
-	mov	=0x0, r6
-	cbne	r8, r6, f2224
-	mov	=0x0, r1
-	mov	=0x0, r2
-	mov	=0x3f800000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f2225
-	mov	=0x0, r6
-	cbne	r8, r6, f2226
-	mov	=0x0, r1
-	mov	=0x0, r2
-	mov	=0x3f800000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f2227
-	mov	=0x0, r6
-	cbne	r8, r6, f2228
-	mov	=0x0, r1
-	mov	=0x0, r2
-	mov	=0xffffffffbf800000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x3f800000, r6
-	cbne	r5, r6, f2229
-	mov	=0x0, r6
-	cbne	r8, r6, f2230
-	mov	=0x0, r1
-	mov	=0x0, r2
-	mov	=0xffffffffbf800000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x3f800000, r6
-	cbne	r5, r6, f2231
-	mov	=0x0, r6
-	cbne	r8, r6, f2232
-	mov	=0x0, r1
-	mov	=0x0, r2
-	mov	=0x40000000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0000000, r6
-	cbne	r5, r6, f2233
-	mov	=0x0, r6
-	cbne	r8, r6, f2234
-	mov	=0x0, r1
-	mov	=0x0, r2
-	mov	=0x40000000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0000000, r6
-	cbne	r5, r6, f2235
-	mov	=0x0, r6
-	cbne	r8, r6, f2236
-	mov	=0x0, r1
-	mov	=0x0, r2
-	mov	=0x40400000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0400000, r6
-	cbne	r5, r6, f2237
-	mov	=0x0, r6
-	cbne	r8, r6, f2238
-	mov	=0x0, r1
-	mov	=0x0, r2
-	mov	=0x40400000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0400000, r6
-	cbne	r5, r6, f2239
-	mov	=0x0, r6
-	cbne	r8, r6, f2240
-	mov	=0x0, r1
-	mov	=0x0, r2
-	mov	=0x3fc00000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f2241
-	mov	=0x0, r6
-	cbne	r8, r6, f2242
-	mov	=0x0, r1
-	mov	=0x0, r2
-	mov	=0x3fc00000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f2243
-	mov	=0x0, r6
-	cbne	r8, r6, f2244
-	mov	=0x0, r1
-	mov	=0x0, r2
-	mov	=0x40200000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0200000, r6
-	cbne	r5, r6, f2245
-	mov	=0x0, r6
-	cbne	r8, r6, f2246
-	mov	=0x0, r1
-	mov	=0x0, r2
-	mov	=0x40200000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0200000, r6
-	cbne	r5, r6, f2247
-	mov	=0x0, r6
-	cbne	r8, r6, f2248
-	mov	=0x0, r1
-	mov	=0x0, r2
-	mov	=0x40700000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0700000, r6
-	cbne	r5, r6, f2249
-	mov	=0x0, r6
-	cbne	r8, r6, f2250
-	mov	=0x0, r1
-	mov	=0x0, r2
-	mov	=0x40700000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0700000, r6
-	cbne	r5, r6, f2251
-	mov	=0x0, r6
-	cbne	r8, r6, f2252
-	mov	=0x0, r1
-	mov	=0x0, r2
-	mov	=0xffffffffc0700000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x40700000, r6
-	cbne	r5, r6, f2253
-	mov	=0x0, r6
-	cbne	r8, r6, f2254
-	mov	=0x0, r1
-	mov	=0x0, r2
-	mov	=0xffffffffc0700000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x40700000, r6
-	cbne	r5, r6, f2255
-	mov	=0x0, r6
-	cbne	r8, r6, f2256
-	mov	=0x0, r1
-	mov	=0x0, r2
-	mov	=0x40f00000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0f00000, r6
-	cbne	r5, r6, f2257
-	mov	=0x0, r6
-	cbne	r8, r6, f2258
-	mov	=0x0, r1
-	mov	=0x0, r2
-	mov	=0x40f00000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0f00000, r6
-	cbne	r5, r6, f2259
-	mov	=0x0, r6
-	cbne	r8, r6, f2260
-	mov	=0x0, r1
-	mov	=0xffffffff80000000, r2
-	mov	=0x0, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffff80000000, r6
-	cbne	r5, r6, f2261
-	mov	=0x0, r6
-	cbne	r8, r6, f2262
-	mov	=0x0, r1
-	mov	=0xffffffff80000000, r2
-	mov	=0x0, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x0, r6
-	cbne	r5, r6, f2263
-	mov	=0x0, r6
-	cbne	r8, r6, f2264
-	mov	=0x0, r1
-	mov	=0xffffffff80000000, r2
-	mov	=0xffffffff80000000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x0, r6
-	cbne	r5, r6, f2265
-	mov	=0x0, r6
-	cbne	r8, r6, f2266
-	mov	=0x0, r1
-	mov	=0xffffffff80000000, r2
-	mov	=0xffffffff80000000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x0, r6
-	cbne	r5, r6, f2267
-	mov	=0x0, r6
-	cbne	r8, r6, f2268
-	mov	=0x0, r1
-	mov	=0xffffffff80000000, r2
-	mov	=0x3f800000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f2269
-	mov	=0x0, r6
-	cbne	r8, r6, f2270
-	mov	=0x0, r1
-	mov	=0xffffffff80000000, r2
-	mov	=0x3f800000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f2271
-	mov	=0x0, r6
-	cbne	r8, r6, f2272
-	mov	=0x0, r1
-	mov	=0xffffffff80000000, r2
-	mov	=0xffffffffbf800000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x3f800000, r6
-	cbne	r5, r6, f2273
-	mov	=0x0, r6
-	cbne	r8, r6, f2274
-	mov	=0x0, r1
-	mov	=0xffffffff80000000, r2
-	mov	=0xffffffffbf800000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x3f800000, r6
-	cbne	r5, r6, f2275
-	mov	=0x0, r6
-	cbne	r8, r6, f2276
-	mov	=0x0, r1
-	mov	=0xffffffff80000000, r2
-	mov	=0x40000000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0000000, r6
-	cbne	r5, r6, f2277
-	mov	=0x0, r6
-	cbne	r8, r6, f2278
-	mov	=0x0, r1
-	mov	=0xffffffff80000000, r2
-	mov	=0x40000000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0000000, r6
-	cbne	r5, r6, f2279
-	mov	=0x0, r6
-	cbne	r8, r6, f2280
-	mov	=0x0, r1
-	mov	=0xffffffff80000000, r2
-	mov	=0x40400000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0400000, r6
-	cbne	r5, r6, f2281
-	mov	=0x0, r6
-	cbne	r8, r6, f2282
-	mov	=0x0, r1
-	mov	=0xffffffff80000000, r2
-	mov	=0x40400000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0400000, r6
-	cbne	r5, r6, f2283
-	mov	=0x0, r6
-	cbne	r8, r6, f2284
-	mov	=0x0, r1
-	mov	=0xffffffff80000000, r2
-	mov	=0x3fc00000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f2285
-	mov	=0x0, r6
-	cbne	r8, r6, f2286
-	mov	=0x0, r1
-	mov	=0xffffffff80000000, r2
-	mov	=0x3fc00000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f2287
-	mov	=0x0, r6
-	cbne	r8, r6, f2288
-	mov	=0x0, r1
-	mov	=0xffffffff80000000, r2
-	mov	=0x40200000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0200000, r6
-	cbne	r5, r6, f2289
-	mov	=0x0, r6
-	cbne	r8, r6, f2290
-	mov	=0x0, r1
-	mov	=0xffffffff80000000, r2
-	mov	=0x40200000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0200000, r6
-	cbne	r5, r6, f2291
-	mov	=0x0, r6
-	cbne	r8, r6, f2292
-	mov	=0x0, r1
-	mov	=0xffffffff80000000, r2
-	mov	=0x40700000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0700000, r6
-	cbne	r5, r6, f2293
-	mov	=0x0, r6
-	cbne	r8, r6, f2294
-	mov	=0x0, r1
-	mov	=0xffffffff80000000, r2
-	mov	=0x40700000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0700000, r6
-	cbne	r5, r6, f2295
-	mov	=0x0, r6
-	cbne	r8, r6, f2296
-	mov	=0x0, r1
-	mov	=0xffffffff80000000, r2
-	mov	=0xffffffffc0700000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x40700000, r6
-	cbne	r5, r6, f2297
-	mov	=0x0, r6
-	cbne	r8, r6, f2298
-	mov	=0x0, r1
-	mov	=0xffffffff80000000, r2
-	mov	=0xffffffffc0700000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x40700000, r6
-	cbne	r5, r6, f2299
-	mov	=0x0, r6
-	cbne	r8, r6, f2300
-	mov	=0x0, r1
-	mov	=0xffffffff80000000, r2
-	mov	=0x40f00000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0f00000, r6
-	cbne	r5, r6, f2301
-	mov	=0x0, r6
-	cbne	r8, r6, f2302
-	mov	=0x0, r1
-	mov	=0xffffffff80000000, r2
-	mov	=0x40f00000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0f00000, r6
-	cbne	r5, r6, f2303
-	mov	=0x0, r6
-	cbne	r8, r6, f2304
-	mov	=0x0, r1
-	mov	=0x3f800000, r2
-	mov	=0x0, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x0, r6
-	cbne	r5, r6, f2305
-	mov	=0x0, r6
-	cbne	r8, r6, f2306
-	mov	=0x0, r1
-	mov	=0x3f800000, r2
-	mov	=0x0, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffff80000000, r6
-	cbne	r5, r6, f2307
-	mov	=0x0, r6
-	cbne	r8, r6, f2308
-	mov	=0x0, r1
-	mov	=0x3f800000, r2
-	mov	=0xffffffff80000000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x0, r6
-	cbne	r5, r6, f2309
-	mov	=0x0, r6
-	cbne	r8, r6, f2310
-	mov	=0x0, r1
-	mov	=0x3f800000, r2
-	mov	=0xffffffff80000000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x0, r6
-	cbne	r5, r6, f2311
-	mov	=0x0, r6
-	cbne	r8, r6, f2312
-	mov	=0x0, r1
-	mov	=0x3f800000, r2
-	mov	=0x3f800000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f2313
-	mov	=0x0, r6
-	cbne	r8, r6, f2314
-	mov	=0x0, r1
-	mov	=0x3f800000, r2
-	mov	=0x3f800000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f2315
-	mov	=0x0, r6
-	cbne	r8, r6, f2316
-	mov	=0x0, r1
-	mov	=0x3f800000, r2
-	mov	=0xffffffffbf800000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x3f800000, r6
-	cbne	r5, r6, f2317
-	mov	=0x0, r6
-	cbne	r8, r6, f2318
-	mov	=0x0, r1
-	mov	=0x3f800000, r2
-	mov	=0xffffffffbf800000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x3f800000, r6
-	cbne	r5, r6, f2319
-	mov	=0x0, r6
-	cbne	r8, r6, f2320
-	mov	=0x0, r1
-	mov	=0x3f800000, r2
-	mov	=0x40000000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0000000, r6
-	cbne	r5, r6, f2321
-	mov	=0x0, r6
-	cbne	r8, r6, f2322
-	mov	=0x0, r1
-	mov	=0x3f800000, r2
-	mov	=0x40000000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0000000, r6
-	cbne	r5, r6, f2323
-	mov	=0x0, r6
-	cbne	r8, r6, f2324
-	mov	=0x0, r1
-	mov	=0x3f800000, r2
-	mov	=0x40400000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0400000, r6
-	cbne	r5, r6, f2325
-	mov	=0x0, r6
-	cbne	r8, r6, f2326
-	mov	=0x0, r1
-	mov	=0x3f800000, r2
-	mov	=0x40400000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0400000, r6
-	cbne	r5, r6, f2327
-	mov	=0x0, r6
-	cbne	r8, r6, f2328
-	mov	=0x0, r1
-	mov	=0x3f800000, r2
-	mov	=0x3fc00000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f2329
-	mov	=0x0, r6
-	cbne	r8, r6, f2330
-	mov	=0x0, r1
-	mov	=0x3f800000, r2
-	mov	=0x3fc00000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f2331
-	mov	=0x0, r6
-	cbne	r8, r6, f2332
-	mov	=0x0, r1
-	mov	=0x3f800000, r2
-	mov	=0x40200000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0200000, r6
-	cbne	r5, r6, f2333
-	mov	=0x0, r6
-	cbne	r8, r6, f2334
-	mov	=0x0, r1
-	mov	=0x3f800000, r2
-	mov	=0x40200000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0200000, r6
-	cbne	r5, r6, f2335
-	mov	=0x0, r6
-	cbne	r8, r6, f2336
-	mov	=0x0, r1
-	mov	=0x3f800000, r2
-	mov	=0x40700000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0700000, r6
-	cbne	r5, r6, f2337
-	mov	=0x0, r6
-	cbne	r8, r6, f2338
-	mov	=0x0, r1
-	mov	=0x3f800000, r2
-	mov	=0x40700000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0700000, r6
-	cbne	r5, r6, f2339
-	mov	=0x0, r6
-	cbne	r8, r6, f2340
-	mov	=0x0, r1
-	mov	=0x3f800000, r2
-	mov	=0xffffffffc0700000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x40700000, r6
-	cbne	r5, r6, f2341
-	mov	=0x0, r6
-	cbne	r8, r6, f2342
-	mov	=0x0, r1
-	mov	=0x3f800000, r2
-	mov	=0xffffffffc0700000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x40700000, r6
-	cbne	r5, r6, f2343
-	mov	=0x0, r6
-	cbne	r8, r6, f2344
-	mov	=0x0, r1
-	mov	=0x3f800000, r2
-	mov	=0x40f00000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0f00000, r6
-	cbne	r5, r6, f2345
-	mov	=0x0, r6
-	cbne	r8, r6, f2346
-	mov	=0x0, r1
-	mov	=0x3f800000, r2
-	mov	=0x40f00000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0f00000, r6
-	cbne	r5, r6, f2347
-	mov	=0x0, r6
-	cbne	r8, r6, f2348
-	mov	=0x0, r1
-	mov	=0xffffffffbf800000, r2
-	mov	=0x0, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffff80000000, r6
-	cbne	r5, r6, f2349
-	mov	=0x0, r6
-	cbne	r8, r6, f2350
-	mov	=0x0, r1
-	mov	=0xffffffffbf800000, r2
-	mov	=0x0, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x0, r6
-	cbne	r5, r6, f2351
-	mov	=0x0, r6
-	cbne	r8, r6, f2352
-	mov	=0x0, r1
-	mov	=0xffffffffbf800000, r2
-	mov	=0xffffffff80000000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x0, r6
-	cbne	r5, r6, f2353
-	mov	=0x0, r6
-	cbne	r8, r6, f2354
-	mov	=0x0, r1
-	mov	=0xffffffffbf800000, r2
-	mov	=0xffffffff80000000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x0, r6
-	cbne	r5, r6, f2355
-	mov	=0x0, r6
-	cbne	r8, r6, f2356
-	mov	=0x0, r1
-	mov	=0xffffffffbf800000, r2
-	mov	=0x3f800000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f2357
-	mov	=0x0, r6
-	cbne	r8, r6, f2358
-	mov	=0x0, r1
-	mov	=0xffffffffbf800000, r2
-	mov	=0x3f800000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f2359
-	mov	=0x0, r6
-	cbne	r8, r6, f2360
-	mov	=0x0, r1
-	mov	=0xffffffffbf800000, r2
-	mov	=0xffffffffbf800000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x3f800000, r6
-	cbne	r5, r6, f2361
-	mov	=0x0, r6
-	cbne	r8, r6, f2362
-	mov	=0x0, r1
-	mov	=0xffffffffbf800000, r2
-	mov	=0xffffffffbf800000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x3f800000, r6
-	cbne	r5, r6, f2363
-	mov	=0x0, r6
-	cbne	r8, r6, f2364
-	mov	=0x0, r1
-	mov	=0xffffffffbf800000, r2
-	mov	=0x40000000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0000000, r6
-	cbne	r5, r6, f2365
-	mov	=0x0, r6
-	cbne	r8, r6, f2366
-	mov	=0x0, r1
-	mov	=0xffffffffbf800000, r2
-	mov	=0x40000000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0000000, r6
-	cbne	r5, r6, f2367
-	mov	=0x0, r6
-	cbne	r8, r6, f2368
-	mov	=0x0, r1
-	mov	=0xffffffffbf800000, r2
-	mov	=0x40400000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0400000, r6
-	cbne	r5, r6, f2369
-	mov	=0x0, r6
-	cbne	r8, r6, f2370
-	mov	=0x0, r1
-	mov	=0xffffffffbf800000, r2
-	mov	=0x40400000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0400000, r6
-	cbne	r5, r6, f2371
-	mov	=0x0, r6
-	cbne	r8, r6, f2372
-	mov	=0x0, r1
-	mov	=0xffffffffbf800000, r2
-	mov	=0x3fc00000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f2373
-	mov	=0x0, r6
-	cbne	r8, r6, f2374
-	mov	=0x0, r1
-	mov	=0xffffffffbf800000, r2
-	mov	=0x3fc00000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f2375
-	mov	=0x0, r6
-	cbne	r8, r6, f2376
-	mov	=0x0, r1
-	mov	=0xffffffffbf800000, r2
-	mov	=0x40200000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0200000, r6
-	cbne	r5, r6, f2377
-	mov	=0x0, r6
-	cbne	r8, r6, f2378
-	mov	=0x0, r1
-	mov	=0xffffffffbf800000, r2
-	mov	=0x40200000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0200000, r6
-	cbne	r5, r6, f2379
-	mov	=0x0, r6
-	cbne	r8, r6, f2380
-	mov	=0x0, r1
-	mov	=0xffffffffbf800000, r2
-	mov	=0x40700000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0700000, r6
-	cbne	r5, r6, f2381
-	mov	=0x0, r6
-	cbne	r8, r6, f2382
-	mov	=0x0, r1
-	mov	=0xffffffffbf800000, r2
-	mov	=0x40700000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0700000, r6
-	cbne	r5, r6, f2383
-	mov	=0x0, r6
-	cbne	r8, r6, f2384
-	mov	=0x0, r1
-	mov	=0xffffffffbf800000, r2
-	mov	=0xffffffffc0700000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x40700000, r6
-	cbne	r5, r6, f2385
-	mov	=0x0, r6
-	cbne	r8, r6, f2386
-	mov	=0x0, r1
-	mov	=0xffffffffbf800000, r2
-	mov	=0xffffffffc0700000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x40700000, r6
-	cbne	r5, r6, f2387
-	mov	=0x0, r6
-	cbne	r8, r6, f2388
-	mov	=0x0, r1
-	mov	=0xffffffffbf800000, r2
-	mov	=0x40f00000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0f00000, r6
-	cbne	r5, r6, f2389
-	mov	=0x0, r6
-	cbne	r8, r6, f2390
-	mov	=0x0, r1
-	mov	=0xffffffffbf800000, r2
-	mov	=0x40f00000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0f00000, r6
-	cbne	r5, r6, f2391
-	mov	=0x0, r6
-	cbne	r8, r6, f2392
-	mov	=0x0, r1
-	mov	=0x3fc00000, r2
-	mov	=0x0, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x0, r6
-	cbne	r5, r6, f2393
-	mov	=0x0, r6
-	cbne	r8, r6, f2394
-	mov	=0x0, r1
-	mov	=0x3fc00000, r2
-	mov	=0x0, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffff80000000, r6
-	cbne	r5, r6, f2395
-	mov	=0x0, r6
-	cbne	r8, r6, f2396
-	mov	=0x0, r1
-	mov	=0x3fc00000, r2
-	mov	=0xffffffff80000000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x0, r6
-	cbne	r5, r6, f2397
-	mov	=0x0, r6
-	cbne	r8, r6, f2398
-	mov	=0x0, r1
-	mov	=0x3fc00000, r2
-	mov	=0xffffffff80000000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x0, r6
-	cbne	r5, r6, f2399
-	mov	=0x0, r6
-	cbne	r8, r6, f2400
-	mov	=0x0, r1
-	mov	=0x3fc00000, r2
-	mov	=0x3f800000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f2401
-	mov	=0x0, r6
-	cbne	r8, r6, f2402
-	mov	=0x0, r1
-	mov	=0x3fc00000, r2
-	mov	=0x3f800000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f2403
-	mov	=0x0, r6
-	cbne	r8, r6, f2404
-	mov	=0x0, r1
-	mov	=0x3fc00000, r2
-	mov	=0xffffffffbf800000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x3f800000, r6
-	cbne	r5, r6, f2405
-	mov	=0x0, r6
-	cbne	r8, r6, f2406
-	mov	=0x0, r1
-	mov	=0x3fc00000, r2
-	mov	=0xffffffffbf800000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x3f800000, r6
-	cbne	r5, r6, f2407
-	mov	=0x0, r6
-	cbne	r8, r6, f2408
-	mov	=0x0, r1
-	mov	=0x3fc00000, r2
-	mov	=0x40000000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0000000, r6
-	cbne	r5, r6, f2409
-	mov	=0x0, r6
-	cbne	r8, r6, f2410
-	mov	=0x0, r1
-	mov	=0x3fc00000, r2
-	mov	=0x40000000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0000000, r6
-	cbne	r5, r6, f2411
-	mov	=0x0, r6
-	cbne	r8, r6, f2412
-	mov	=0x0, r1
-	mov	=0x3fc00000, r2
-	mov	=0x40400000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0400000, r6
-	cbne	r5, r6, f2413
-	mov	=0x0, r6
-	cbne	r8, r6, f2414
-	mov	=0x0, r1
-	mov	=0x3fc00000, r2
-	mov	=0x40400000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0400000, r6
-	cbne	r5, r6, f2415
-	mov	=0x0, r6
-	cbne	r8, r6, f2416
-	mov	=0x0, r1
-	mov	=0x3fc00000, r2
-	mov	=0x3fc00000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f2417
-	mov	=0x0, r6
-	cbne	r8, r6, f2418
-	mov	=0x0, r1
-	mov	=0x3fc00000, r2
-	mov	=0x3fc00000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f2419
-	mov	=0x0, r6
-	cbne	r8, r6, f2420
-	mov	=0x0, r1
-	mov	=0x3fc00000, r2
-	mov	=0x40200000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0200000, r6
-	cbne	r5, r6, f2421
-	mov	=0x0, r6
-	cbne	r8, r6, f2422
-	mov	=0x0, r1
-	mov	=0x3fc00000, r2
-	mov	=0x40200000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0200000, r6
-	cbne	r5, r6, f2423
-	mov	=0x0, r6
-	cbne	r8, r6, f2424
-	mov	=0x0, r1
-	mov	=0x3fc00000, r2
-	mov	=0x40700000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0700000, r6
-	cbne	r5, r6, f2425
-	mov	=0x0, r6
-	cbne	r8, r6, f2426
-	mov	=0x0, r1
-	mov	=0x3fc00000, r2
-	mov	=0x40700000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0700000, r6
-	cbne	r5, r6, f2427
-	mov	=0x0, r6
-	cbne	r8, r6, f2428
-	mov	=0x0, r1
-	mov	=0x3fc00000, r2
-	mov	=0xffffffffc0700000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x40700000, r6
-	cbne	r5, r6, f2429
-	mov	=0x0, r6
-	cbne	r8, r6, f2430
-	mov	=0x0, r1
-	mov	=0x3fc00000, r2
-	mov	=0xffffffffc0700000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x40700000, r6
-	cbne	r5, r6, f2431
-	mov	=0x0, r6
-	cbne	r8, r6, f2432
-	mov	=0x0, r1
-	mov	=0x3fc00000, r2
-	mov	=0x40f00000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0f00000, r6
-	cbne	r5, r6, f2433
-	mov	=0x0, r6
-	cbne	r8, r6, f2434
-	mov	=0x0, r1
-	mov	=0x3fc00000, r2
-	mov	=0x40f00000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0f00000, r6
-	cbne	r5, r6, f2435
-	mov	=0x0, r6
-	cbne	r8, r6, f2436
-	mov	=0xffffffff80000000, r1
-	mov	=0x0, r2
-	mov	=0x0, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffff80000000, r6
-	cbne	r5, r6, f2437
-	mov	=0x0, r6
-	cbne	r8, r6, f2438
-	mov	=0xffffffff80000000, r1
-	mov	=0x0, r2
-	mov	=0x0, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x0, r6
-	cbne	r5, r6, f2439
-	mov	=0x0, r6
-	cbne	r8, r6, f2440
-	mov	=0xffffffff80000000, r1
-	mov	=0x0, r2
-	mov	=0xffffffff80000000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x0, r6
-	cbne	r5, r6, f2441
-	mov	=0x0, r6
-	cbne	r8, r6, f2442
-	mov	=0xffffffff80000000, r1
-	mov	=0x0, r2
-	mov	=0xffffffff80000000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x0, r6
-	cbne	r5, r6, f2443
-	mov	=0x0, r6
-	cbne	r8, r6, f2444
-	mov	=0xffffffff80000000, r1
-	mov	=0x0, r2
-	mov	=0x3f800000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f2445
-	mov	=0x0, r6
-	cbne	r8, r6, f2446
-	mov	=0xffffffff80000000, r1
-	mov	=0x0, r2
-	mov	=0x3f800000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f2447
-	mov	=0x0, r6
-	cbne	r8, r6, f2448
-	mov	=0xffffffff80000000, r1
-	mov	=0x0, r2
-	mov	=0xffffffffbf800000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x3f800000, r6
-	cbne	r5, r6, f2449
-	mov	=0x0, r6
-	cbne	r8, r6, f2450
-	mov	=0xffffffff80000000, r1
-	mov	=0x0, r2
-	mov	=0xffffffffbf800000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x3f800000, r6
-	cbne	r5, r6, f2451
-	mov	=0x0, r6
-	cbne	r8, r6, f2452
-	mov	=0xffffffff80000000, r1
-	mov	=0x0, r2
-	mov	=0x40000000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0000000, r6
-	cbne	r5, r6, f2453
-	mov	=0x0, r6
-	cbne	r8, r6, f2454
-	mov	=0xffffffff80000000, r1
-	mov	=0x0, r2
-	mov	=0x40000000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0000000, r6
-	cbne	r5, r6, f2455
-	mov	=0x0, r6
-	cbne	r8, r6, f2456
-	mov	=0xffffffff80000000, r1
-	mov	=0x0, r2
-	mov	=0x40400000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0400000, r6
-	cbne	r5, r6, f2457
-	mov	=0x0, r6
-	cbne	r8, r6, f2458
-	mov	=0xffffffff80000000, r1
-	mov	=0x0, r2
-	mov	=0x40400000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0400000, r6
-	cbne	r5, r6, f2459
-	mov	=0x0, r6
-	cbne	r8, r6, f2460
-	mov	=0xffffffff80000000, r1
-	mov	=0x0, r2
-	mov	=0x3fc00000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f2461
-	mov	=0x0, r6
-	cbne	r8, r6, f2462
-	mov	=0xffffffff80000000, r1
-	mov	=0x0, r2
-	mov	=0x3fc00000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f2463
-	mov	=0x0, r6
-	cbne	r8, r6, f2464
-	mov	=0xffffffff80000000, r1
-	mov	=0x0, r2
-	mov	=0x40200000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0200000, r6
-	cbne	r5, r6, f2465
-	mov	=0x0, r6
-	cbne	r8, r6, f2466
-	mov	=0xffffffff80000000, r1
-	mov	=0x0, r2
-	mov	=0x40200000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0200000, r6
-	cbne	r5, r6, f2467
-	mov	=0x0, r6
-	cbne	r8, r6, f2468
-	mov	=0xffffffff80000000, r1
-	mov	=0x0, r2
-	mov	=0x40700000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0700000, r6
-	cbne	r5, r6, f2469
-	mov	=0x0, r6
-	cbne	r8, r6, f2470
-	mov	=0xffffffff80000000, r1
-	mov	=0x0, r2
-	mov	=0x40700000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0700000, r6
-	cbne	r5, r6, f2471
-	mov	=0x0, r6
-	cbne	r8, r6, f2472
-	mov	=0xffffffff80000000, r1
-	mov	=0x0, r2
-	mov	=0xffffffffc0700000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x40700000, r6
-	cbne	r5, r6, f2473
-	mov	=0x0, r6
-	cbne	r8, r6, f2474
-	mov	=0xffffffff80000000, r1
-	mov	=0x0, r2
-	mov	=0xffffffffc0700000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x40700000, r6
-	cbne	r5, r6, f2475
-	mov	=0x0, r6
-	cbne	r8, r6, f2476
-	mov	=0xffffffff80000000, r1
-	mov	=0x0, r2
-	mov	=0x40f00000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0f00000, r6
-	cbne	r5, r6, f2477
-	mov	=0x0, r6
-	cbne	r8, r6, f2478
-	mov	=0xffffffff80000000, r1
-	mov	=0x0, r2
-	mov	=0x40f00000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0f00000, r6
-	cbne	r5, r6, f2479
-	mov	=0x0, r6
-	cbne	r8, r6, f2480
-	mov	=0xffffffff80000000, r1
-	mov	=0xffffffff80000000, r2
-	mov	=0x0, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x0, r6
-	cbne	r5, r6, f2481
-	mov	=0x0, r6
-	cbne	r8, r6, f2482
-	mov	=0xffffffff80000000, r1
-	mov	=0xffffffff80000000, r2
-	mov	=0x0, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffff80000000, r6
-	cbne	r5, r6, f2483
-	mov	=0x0, r6
-	cbne	r8, r6, f2484
-	mov	=0xffffffff80000000, r1
-	mov	=0xffffffff80000000, r2
-	mov	=0xffffffff80000000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x0, r6
-	cbne	r5, r6, f2485
-	mov	=0x0, r6
-	cbne	r8, r6, f2486
-	mov	=0xffffffff80000000, r1
-	mov	=0xffffffff80000000, r2
-	mov	=0xffffffff80000000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x0, r6
-	cbne	r5, r6, f2487
-	mov	=0x0, r6
-	cbne	r8, r6, f2488
-	mov	=0xffffffff80000000, r1
-	mov	=0xffffffff80000000, r2
-	mov	=0x3f800000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f2489
-	mov	=0x0, r6
-	cbne	r8, r6, f2490
-	mov	=0xffffffff80000000, r1
-	mov	=0xffffffff80000000, r2
-	mov	=0x3f800000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f2491
-	mov	=0x0, r6
-	cbne	r8, r6, f2492
-	mov	=0xffffffff80000000, r1
-	mov	=0xffffffff80000000, r2
-	mov	=0xffffffffbf800000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x3f800000, r6
-	cbne	r5, r6, f2493
-	mov	=0x0, r6
-	cbne	r8, r6, f2494
-	mov	=0xffffffff80000000, r1
-	mov	=0xffffffff80000000, r2
-	mov	=0xffffffffbf800000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x3f800000, r6
-	cbne	r5, r6, f2495
-	mov	=0x0, r6
-	cbne	r8, r6, f2496
-	mov	=0xffffffff80000000, r1
-	mov	=0xffffffff80000000, r2
-	mov	=0x40000000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0000000, r6
-	cbne	r5, r6, f2497
-	mov	=0x0, r6
-	cbne	r8, r6, f2498
-	mov	=0xffffffff80000000, r1
-	mov	=0xffffffff80000000, r2
-	mov	=0x40000000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0000000, r6
-	cbne	r5, r6, f2499
-	mov	=0x0, r6
-	cbne	r8, r6, f2500
-	mov	=0xffffffff80000000, r1
-	mov	=0xffffffff80000000, r2
-	mov	=0x40400000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0400000, r6
-	cbne	r5, r6, f2501
-	mov	=0x0, r6
-	cbne	r8, r6, f2502
-	mov	=0xffffffff80000000, r1
-	mov	=0xffffffff80000000, r2
-	mov	=0x40400000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0400000, r6
-	cbne	r5, r6, f2503
-	mov	=0x0, r6
-	cbne	r8, r6, f2504
-	mov	=0xffffffff80000000, r1
-	mov	=0xffffffff80000000, r2
-	mov	=0x3fc00000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f2505
-	mov	=0x0, r6
-	cbne	r8, r6, f2506
-	mov	=0xffffffff80000000, r1
-	mov	=0xffffffff80000000, r2
-	mov	=0x3fc00000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f2507
-	mov	=0x0, r6
-	cbne	r8, r6, f2508
-	mov	=0xffffffff80000000, r1
-	mov	=0xffffffff80000000, r2
-	mov	=0x40200000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0200000, r6
-	cbne	r5, r6, f2509
-	mov	=0x0, r6
-	cbne	r8, r6, f2510
-	mov	=0xffffffff80000000, r1
-	mov	=0xffffffff80000000, r2
-	mov	=0x40200000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0200000, r6
-	cbne	r5, r6, f2511
-	mov	=0x0, r6
-	cbne	r8, r6, f2512
-	mov	=0xffffffff80000000, r1
-	mov	=0xffffffff80000000, r2
-	mov	=0x40700000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0700000, r6
-	cbne	r5, r6, f2513
-	mov	=0x0, r6
-	cbne	r8, r6, f2514
-	mov	=0xffffffff80000000, r1
-	mov	=0xffffffff80000000, r2
-	mov	=0x40700000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0700000, r6
-	cbne	r5, r6, f2515
-	mov	=0x0, r6
-	cbne	r8, r6, f2516
-	mov	=0xffffffff80000000, r1
-	mov	=0xffffffff80000000, r2
-	mov	=0xffffffffc0700000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x40700000, r6
-	cbne	r5, r6, f2517
-	mov	=0x0, r6
-	cbne	r8, r6, f2518
-	mov	=0xffffffff80000000, r1
-	mov	=0xffffffff80000000, r2
-	mov	=0xffffffffc0700000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x40700000, r6
-	cbne	r5, r6, f2519
-	mov	=0x0, r6
-	cbne	r8, r6, f2520
-	mov	=0xffffffff80000000, r1
-	mov	=0xffffffff80000000, r2
-	mov	=0x40f00000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0f00000, r6
-	cbne	r5, r6, f2521
-	mov	=0x0, r6
-	cbne	r8, r6, f2522
-	mov	=0xffffffff80000000, r1
-	mov	=0xffffffff80000000, r2
-	mov	=0x40f00000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0f00000, r6
-	cbne	r5, r6, f2523
-	mov	=0x0, r6
-	cbne	r8, r6, f2524
-	mov	=0xffffffff80000000, r1
-	mov	=0x3f800000, r2
-	mov	=0x0, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffff80000000, r6
-	cbne	r5, r6, f2525
-	mov	=0x0, r6
-	cbne	r8, r6, f2526
-	mov	=0xffffffff80000000, r1
-	mov	=0x3f800000, r2
-	mov	=0x0, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x0, r6
-	cbne	r5, r6, f2527
-	mov	=0x0, r6
-	cbne	r8, r6, f2528
-	mov	=0xffffffff80000000, r1
-	mov	=0x3f800000, r2
-	mov	=0xffffffff80000000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x0, r6
-	cbne	r5, r6, f2529
-	mov	=0x0, r6
-	cbne	r8, r6, f2530
-	mov	=0xffffffff80000000, r1
-	mov	=0x3f800000, r2
-	mov	=0xffffffff80000000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x0, r6
-	cbne	r5, r6, f2531
-	mov	=0x0, r6
-	cbne	r8, r6, f2532
-	mov	=0xffffffff80000000, r1
-	mov	=0x3f800000, r2
-	mov	=0x3f800000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f2533
-	mov	=0x0, r6
-	cbne	r8, r6, f2534
-	mov	=0xffffffff80000000, r1
-	mov	=0x3f800000, r2
-	mov	=0x3f800000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f2535
-	mov	=0x0, r6
-	cbne	r8, r6, f2536
-	mov	=0xffffffff80000000, r1
-	mov	=0x3f800000, r2
-	mov	=0xffffffffbf800000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x3f800000, r6
-	cbne	r5, r6, f2537
-	mov	=0x0, r6
-	cbne	r8, r6, f2538
-	mov	=0xffffffff80000000, r1
-	mov	=0x3f800000, r2
-	mov	=0xffffffffbf800000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x3f800000, r6
-	cbne	r5, r6, f2539
-	mov	=0x0, r6
-	cbne	r8, r6, f2540
-	mov	=0xffffffff80000000, r1
-	mov	=0x3f800000, r2
-	mov	=0x40000000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0000000, r6
-	cbne	r5, r6, f2541
-	mov	=0x0, r6
-	cbne	r8, r6, f2542
-	mov	=0xffffffff80000000, r1
-	mov	=0x3f800000, r2
-	mov	=0x40000000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0000000, r6
-	cbne	r5, r6, f2543
-	mov	=0x0, r6
-	cbne	r8, r6, f2544
-	mov	=0xffffffff80000000, r1
-	mov	=0x3f800000, r2
-	mov	=0x40400000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0400000, r6
-	cbne	r5, r6, f2545
-	mov	=0x0, r6
-	cbne	r8, r6, f2546
-	mov	=0xffffffff80000000, r1
-	mov	=0x3f800000, r2
-	mov	=0x40400000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0400000, r6
-	cbne	r5, r6, f2547
-	mov	=0x0, r6
-	cbne	r8, r6, f2548
-	mov	=0xffffffff80000000, r1
-	mov	=0x3f800000, r2
-	mov	=0x3fc00000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f2549
-	mov	=0x0, r6
-	cbne	r8, r6, f2550
-	mov	=0xffffffff80000000, r1
-	mov	=0x3f800000, r2
-	mov	=0x3fc00000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f2551
-	mov	=0x0, r6
-	cbne	r8, r6, f2552
-	mov	=0xffffffff80000000, r1
-	mov	=0x3f800000, r2
-	mov	=0x40200000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0200000, r6
-	cbne	r5, r6, f2553
-	mov	=0x0, r6
-	cbne	r8, r6, f2554
-	mov	=0xffffffff80000000, r1
-	mov	=0x3f800000, r2
-	mov	=0x40200000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0200000, r6
-	cbne	r5, r6, f2555
-	mov	=0x0, r6
-	cbne	r8, r6, f2556
-	mov	=0xffffffff80000000, r1
-	mov	=0x3f800000, r2
-	mov	=0x40700000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0700000, r6
-	cbne	r5, r6, f2557
-	mov	=0x0, r6
-	cbne	r8, r6, f2558
-	mov	=0xffffffff80000000, r1
-	mov	=0x3f800000, r2
-	mov	=0x40700000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0700000, r6
-	cbne	r5, r6, f2559
-	mov	=0x0, r6
-	cbne	r8, r6, f2560
-	mov	=0xffffffff80000000, r1
-	mov	=0x3f800000, r2
-	mov	=0xffffffffc0700000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x40700000, r6
-	cbne	r5, r6, f2561
-	mov	=0x0, r6
-	cbne	r8, r6, f2562
-	mov	=0xffffffff80000000, r1
-	mov	=0x3f800000, r2
-	mov	=0xffffffffc0700000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x40700000, r6
-	cbne	r5, r6, f2563
-	mov	=0x0, r6
-	cbne	r8, r6, f2564
-	mov	=0xffffffff80000000, r1
-	mov	=0x3f800000, r2
-	mov	=0x40f00000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0f00000, r6
-	cbne	r5, r6, f2565
-	mov	=0x0, r6
-	cbne	r8, r6, f2566
-	mov	=0xffffffff80000000, r1
-	mov	=0x3f800000, r2
-	mov	=0x40f00000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0f00000, r6
-	cbne	r5, r6, f2567
-	mov	=0x0, r6
-	cbne	r8, r6, f2568
-	mov	=0xffffffff80000000, r1
-	mov	=0xffffffffbf800000, r2
-	mov	=0x0, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x0, r6
-	cbne	r5, r6, f2569
-	mov	=0x0, r6
-	cbne	r8, r6, f2570
-	mov	=0xffffffff80000000, r1
-	mov	=0xffffffffbf800000, r2
-	mov	=0x0, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffff80000000, r6
-	cbne	r5, r6, f2571
-	mov	=0x0, r6
-	cbne	r8, r6, f2572
-	mov	=0xffffffff80000000, r1
-	mov	=0xffffffffbf800000, r2
-	mov	=0xffffffff80000000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x0, r6
-	cbne	r5, r6, f2573
-	mov	=0x0, r6
-	cbne	r8, r6, f2574
-	mov	=0xffffffff80000000, r1
-	mov	=0xffffffffbf800000, r2
-	mov	=0xffffffff80000000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x0, r6
-	cbne	r5, r6, f2575
-	mov	=0x0, r6
-	cbne	r8, r6, f2576
-	mov	=0xffffffff80000000, r1
-	mov	=0xffffffffbf800000, r2
-	mov	=0x3f800000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f2577
-	mov	=0x0, r6
-	cbne	r8, r6, f2578
-	mov	=0xffffffff80000000, r1
-	mov	=0xffffffffbf800000, r2
-	mov	=0x3f800000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f2579
-	mov	=0x0, r6
-	cbne	r8, r6, f2580
-	mov	=0xffffffff80000000, r1
-	mov	=0xffffffffbf800000, r2
-	mov	=0xffffffffbf800000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x3f800000, r6
-	cbne	r5, r6, f2581
-	mov	=0x0, r6
-	cbne	r8, r6, f2582
-	mov	=0xffffffff80000000, r1
-	mov	=0xffffffffbf800000, r2
-	mov	=0xffffffffbf800000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x3f800000, r6
-	cbne	r5, r6, f2583
-	mov	=0x0, r6
-	cbne	r8, r6, f2584
-	mov	=0xffffffff80000000, r1
-	mov	=0xffffffffbf800000, r2
-	mov	=0x40000000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0000000, r6
-	cbne	r5, r6, f2585
-	mov	=0x0, r6
-	cbne	r8, r6, f2586
-	mov	=0xffffffff80000000, r1
-	mov	=0xffffffffbf800000, r2
-	mov	=0x40000000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0000000, r6
-	cbne	r5, r6, f2587
-	mov	=0x0, r6
-	cbne	r8, r6, f2588
-	mov	=0xffffffff80000000, r1
-	mov	=0xffffffffbf800000, r2
-	mov	=0x40400000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0400000, r6
-	cbne	r5, r6, f2589
-	mov	=0x0, r6
-	cbne	r8, r6, f2590
-	mov	=0xffffffff80000000, r1
-	mov	=0xffffffffbf800000, r2
-	mov	=0x40400000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0400000, r6
-	cbne	r5, r6, f2591
-	mov	=0x0, r6
-	cbne	r8, r6, f2592
-	mov	=0xffffffff80000000, r1
-	mov	=0xffffffffbf800000, r2
-	mov	=0x3fc00000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f2593
-	mov	=0x0, r6
-	cbne	r8, r6, f2594
-	mov	=0xffffffff80000000, r1
-	mov	=0xffffffffbf800000, r2
-	mov	=0x3fc00000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f2595
-	mov	=0x0, r6
-	cbne	r8, r6, f2596
-	mov	=0xffffffff80000000, r1
-	mov	=0xffffffffbf800000, r2
-	mov	=0x40200000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0200000, r6
-	cbne	r5, r6, f2597
-	mov	=0x0, r6
-	cbne	r8, r6, f2598
-	mov	=0xffffffff80000000, r1
-	mov	=0xffffffffbf800000, r2
-	mov	=0x40200000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0200000, r6
-	cbne	r5, r6, f2599
-	mov	=0x0, r6
-	cbne	r8, r6, f2600
-	mov	=0xffffffff80000000, r1
-	mov	=0xffffffffbf800000, r2
-	mov	=0x40700000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0700000, r6
-	cbne	r5, r6, f2601
-	mov	=0x0, r6
-	cbne	r8, r6, f2602
-	mov	=0xffffffff80000000, r1
-	mov	=0xffffffffbf800000, r2
-	mov	=0x40700000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0700000, r6
-	cbne	r5, r6, f2603
-	mov	=0x0, r6
-	cbne	r8, r6, f2604
-	mov	=0xffffffff80000000, r1
-	mov	=0xffffffffbf800000, r2
-	mov	=0xffffffffc0700000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x40700000, r6
-	cbne	r5, r6, f2605
-	mov	=0x0, r6
-	cbne	r8, r6, f2606
-	mov	=0xffffffff80000000, r1
-	mov	=0xffffffffbf800000, r2
-	mov	=0xffffffffc0700000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x40700000, r6
-	cbne	r5, r6, f2607
-	mov	=0x0, r6
-	cbne	r8, r6, f2608
-	mov	=0xffffffff80000000, r1
-	mov	=0xffffffffbf800000, r2
-	mov	=0x40f00000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0f00000, r6
-	cbne	r5, r6, f2609
-	mov	=0x0, r6
-	cbne	r8, r6, f2610
-	mov	=0xffffffff80000000, r1
-	mov	=0xffffffffbf800000, r2
-	mov	=0x40f00000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0f00000, r6
-	cbne	r5, r6, f2611
-	mov	=0x0, r6
-	cbne	r8, r6, f2612
-	mov	=0xffffffff80000000, r1
-	mov	=0x3fc00000, r2
-	mov	=0x0, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffff80000000, r6
-	cbne	r5, r6, f2613
-	mov	=0x0, r6
-	cbne	r8, r6, f2614
-	mov	=0xffffffff80000000, r1
-	mov	=0x3fc00000, r2
-	mov	=0x0, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x0, r6
-	cbne	r5, r6, f2615
-	mov	=0x0, r6
-	cbne	r8, r6, f2616
-	mov	=0xffffffff80000000, r1
-	mov	=0x3fc00000, r2
-	mov	=0xffffffff80000000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x0, r6
-	cbne	r5, r6, f2617
-	mov	=0x0, r6
-	cbne	r8, r6, f2618
-	mov	=0xffffffff80000000, r1
-	mov	=0x3fc00000, r2
-	mov	=0xffffffff80000000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x0, r6
-	cbne	r5, r6, f2619
-	mov	=0x0, r6
-	cbne	r8, r6, f2620
-	mov	=0xffffffff80000000, r1
-	mov	=0x3fc00000, r2
-	mov	=0x3f800000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f2621
-	mov	=0x0, r6
-	cbne	r8, r6, f2622
-	mov	=0xffffffff80000000, r1
-	mov	=0x3fc00000, r2
-	mov	=0x3f800000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f2623
-	mov	=0x0, r6
-	cbne	r8, r6, f2624
-	mov	=0xffffffff80000000, r1
-	mov	=0x3fc00000, r2
-	mov	=0xffffffffbf800000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x3f800000, r6
-	cbne	r5, r6, f2625
-	mov	=0x0, r6
-	cbne	r8, r6, f2626
-	mov	=0xffffffff80000000, r1
-	mov	=0x3fc00000, r2
-	mov	=0xffffffffbf800000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x3f800000, r6
-	cbne	r5, r6, f2627
-	mov	=0x0, r6
-	cbne	r8, r6, f2628
-	mov	=0xffffffff80000000, r1
-	mov	=0x3fc00000, r2
-	mov	=0x40000000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0000000, r6
-	cbne	r5, r6, f2629
-	mov	=0x0, r6
-	cbne	r8, r6, f2630
-	mov	=0xffffffff80000000, r1
-	mov	=0x3fc00000, r2
-	mov	=0x40000000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0000000, r6
-	cbne	r5, r6, f2631
-	mov	=0x0, r6
-	cbne	r8, r6, f2632
-	mov	=0xffffffff80000000, r1
-	mov	=0x3fc00000, r2
-	mov	=0x40400000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0400000, r6
-	cbne	r5, r6, f2633
-	mov	=0x0, r6
-	cbne	r8, r6, f2634
-	mov	=0xffffffff80000000, r1
-	mov	=0x3fc00000, r2
-	mov	=0x40400000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0400000, r6
-	cbne	r5, r6, f2635
-	mov	=0x0, r6
-	cbne	r8, r6, f2636
-	mov	=0xffffffff80000000, r1
-	mov	=0x3fc00000, r2
-	mov	=0x3fc00000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f2637
-	mov	=0x0, r6
-	cbne	r8, r6, f2638
-	mov	=0xffffffff80000000, r1
-	mov	=0x3fc00000, r2
-	mov	=0x3fc00000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f2639
-	mov	=0x0, r6
-	cbne	r8, r6, f2640
-	mov	=0xffffffff80000000, r1
-	mov	=0x3fc00000, r2
-	mov	=0x40200000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0200000, r6
-	cbne	r5, r6, f2641
-	mov	=0x0, r6
-	cbne	r8, r6, f2642
-	mov	=0xffffffff80000000, r1
-	mov	=0x3fc00000, r2
-	mov	=0x40200000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0200000, r6
-	cbne	r5, r6, f2643
-	mov	=0x0, r6
-	cbne	r8, r6, f2644
-	mov	=0xffffffff80000000, r1
-	mov	=0x3fc00000, r2
-	mov	=0x40700000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0700000, r6
-	cbne	r5, r6, f2645
-	mov	=0x0, r6
-	cbne	r8, r6, f2646
-	mov	=0xffffffff80000000, r1
-	mov	=0x3fc00000, r2
-	mov	=0x40700000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0700000, r6
-	cbne	r5, r6, f2647
-	mov	=0x0, r6
-	cbne	r8, r6, f2648
-	mov	=0xffffffff80000000, r1
-	mov	=0x3fc00000, r2
-	mov	=0xffffffffc0700000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x40700000, r6
-	cbne	r5, r6, f2649
-	mov	=0x0, r6
-	cbne	r8, r6, f2650
-	mov	=0xffffffff80000000, r1
-	mov	=0x3fc00000, r2
-	mov	=0xffffffffc0700000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x40700000, r6
-	cbne	r5, r6, f2651
-	mov	=0x0, r6
-	cbne	r8, r6, f2652
-	mov	=0xffffffff80000000, r1
-	mov	=0x3fc00000, r2
-	mov	=0x40f00000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0f00000, r6
-	cbne	r5, r6, f2653
-	mov	=0x0, r6
-	cbne	r8, r6, f2654
-	mov	=0xffffffff80000000, r1
-	mov	=0x3fc00000, r2
-	mov	=0x40f00000, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fnmsub.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0xffffffffc0f00000, r6
-	cbne	r5, r6, f2655
-	mov	=0x0, r6
-	cbne	r8, r6, f2656
-	mov	=0x3f800000, r1
-	mov	=0x0, r2
-	mov	=0x0, r3
-	mov	r3, r4
-	xor	$-2147483648, r4
-	mov	$0, r9
-	fsflags	r9, r8
-	fmadd.f32	r1, r2, r4, r5
-	fsflags	r9, r8
-	mov	=0x0, r6
-	cbne	r5, r6, f2657
-	mov	=0x0, r6
-	cbne	r8, r6, f2658
-	mov	=0x3f800000, r1
 	mov	=0x0, r2
 	mov	=0x0, r3
 	mov	r3, r4
@@ -16182,9 +13322,2869 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffff80000000, r6
-	cbne	r5, r6, f2659
+	cbne	r5, r6, fail2219
 	mov	=0x0, r6
-	cbne	r8, r6, f2660
+	cbne	r8, r6, fail2220
+	mov	=0x0, r1
+	mov	=0x0, r2
+	mov	=0xffffffff80000000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x0, r6
+	cbne	r5, r6, fail2221
+	mov	=0x0, r6
+	cbne	r8, r6, fail2222
+	mov	=0x0, r1
+	mov	=0x0, r2
+	mov	=0xffffffff80000000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x0, r6
+	cbne	r5, r6, fail2223
+	mov	=0x0, r6
+	cbne	r8, r6, fail2224
+	mov	=0x0, r1
+	mov	=0x0, r2
+	mov	=0x3f800000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffbf800000, r6
+	cbne	r5, r6, fail2225
+	mov	=0x0, r6
+	cbne	r8, r6, fail2226
+	mov	=0x0, r1
+	mov	=0x0, r2
+	mov	=0x3f800000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffbf800000, r6
+	cbne	r5, r6, fail2227
+	mov	=0x0, r6
+	cbne	r8, r6, fail2228
+	mov	=0x0, r1
+	mov	=0x0, r2
+	mov	=0xffffffffbf800000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x3f800000, r6
+	cbne	r5, r6, fail2229
+	mov	=0x0, r6
+	cbne	r8, r6, fail2230
+	mov	=0x0, r1
+	mov	=0x0, r2
+	mov	=0xffffffffbf800000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x3f800000, r6
+	cbne	r5, r6, fail2231
+	mov	=0x0, r6
+	cbne	r8, r6, fail2232
+	mov	=0x0, r1
+	mov	=0x0, r2
+	mov	=0x40000000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0000000, r6
+	cbne	r5, r6, fail2233
+	mov	=0x0, r6
+	cbne	r8, r6, fail2234
+	mov	=0x0, r1
+	mov	=0x0, r2
+	mov	=0x40000000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0000000, r6
+	cbne	r5, r6, fail2235
+	mov	=0x0, r6
+	cbne	r8, r6, fail2236
+	mov	=0x0, r1
+	mov	=0x0, r2
+	mov	=0x40400000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0400000, r6
+	cbne	r5, r6, fail2237
+	mov	=0x0, r6
+	cbne	r8, r6, fail2238
+	mov	=0x0, r1
+	mov	=0x0, r2
+	mov	=0x40400000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0400000, r6
+	cbne	r5, r6, fail2239
+	mov	=0x0, r6
+	cbne	r8, r6, fail2240
+	mov	=0x0, r1
+	mov	=0x0, r2
+	mov	=0x3fc00000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffbfc00000, r6
+	cbne	r5, r6, fail2241
+	mov	=0x0, r6
+	cbne	r8, r6, fail2242
+	mov	=0x0, r1
+	mov	=0x0, r2
+	mov	=0x3fc00000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffbfc00000, r6
+	cbne	r5, r6, fail2243
+	mov	=0x0, r6
+	cbne	r8, r6, fail2244
+	mov	=0x0, r1
+	mov	=0x0, r2
+	mov	=0x40200000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0200000, r6
+	cbne	r5, r6, fail2245
+	mov	=0x0, r6
+	cbne	r8, r6, fail2246
+	mov	=0x0, r1
+	mov	=0x0, r2
+	mov	=0x40200000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0200000, r6
+	cbne	r5, r6, fail2247
+	mov	=0x0, r6
+	cbne	r8, r6, fail2248
+	mov	=0x0, r1
+	mov	=0x0, r2
+	mov	=0x40700000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0700000, r6
+	cbne	r5, r6, fail2249
+	mov	=0x0, r6
+	cbne	r8, r6, fail2250
+	mov	=0x0, r1
+	mov	=0x0, r2
+	mov	=0x40700000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0700000, r6
+	cbne	r5, r6, fail2251
+	mov	=0x0, r6
+	cbne	r8, r6, fail2252
+	mov	=0x0, r1
+	mov	=0x0, r2
+	mov	=0xffffffffc0700000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x40700000, r6
+	cbne	r5, r6, fail2253
+	mov	=0x0, r6
+	cbne	r8, r6, fail2254
+	mov	=0x0, r1
+	mov	=0x0, r2
+	mov	=0xffffffffc0700000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x40700000, r6
+	cbne	r5, r6, fail2255
+	mov	=0x0, r6
+	cbne	r8, r6, fail2256
+	mov	=0x0, r1
+	mov	=0x0, r2
+	mov	=0x40f00000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0f00000, r6
+	cbne	r5, r6, fail2257
+	mov	=0x0, r6
+	cbne	r8, r6, fail2258
+	mov	=0x0, r1
+	mov	=0x0, r2
+	mov	=0x40f00000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0f00000, r6
+	cbne	r5, r6, fail2259
+	mov	=0x0, r6
+	cbne	r8, r6, fail2260
+	mov	=0x0, r1
+	mov	=0xffffffff80000000, r2
+	mov	=0x0, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffff80000000, r6
+	cbne	r5, r6, fail2261
+	mov	=0x0, r6
+	cbne	r8, r6, fail2262
+	mov	=0x0, r1
+	mov	=0xffffffff80000000, r2
+	mov	=0x0, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x0, r6
+	cbne	r5, r6, fail2263
+	mov	=0x0, r6
+	cbne	r8, r6, fail2264
+	mov	=0x0, r1
+	mov	=0xffffffff80000000, r2
+	mov	=0xffffffff80000000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x0, r6
+	cbne	r5, r6, fail2265
+	mov	=0x0, r6
+	cbne	r8, r6, fail2266
+	mov	=0x0, r1
+	mov	=0xffffffff80000000, r2
+	mov	=0xffffffff80000000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x0, r6
+	cbne	r5, r6, fail2267
+	mov	=0x0, r6
+	cbne	r8, r6, fail2268
+	mov	=0x0, r1
+	mov	=0xffffffff80000000, r2
+	mov	=0x3f800000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffbf800000, r6
+	cbne	r5, r6, fail2269
+	mov	=0x0, r6
+	cbne	r8, r6, fail2270
+	mov	=0x0, r1
+	mov	=0xffffffff80000000, r2
+	mov	=0x3f800000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffbf800000, r6
+	cbne	r5, r6, fail2271
+	mov	=0x0, r6
+	cbne	r8, r6, fail2272
+	mov	=0x0, r1
+	mov	=0xffffffff80000000, r2
+	mov	=0xffffffffbf800000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x3f800000, r6
+	cbne	r5, r6, fail2273
+	mov	=0x0, r6
+	cbne	r8, r6, fail2274
+	mov	=0x0, r1
+	mov	=0xffffffff80000000, r2
+	mov	=0xffffffffbf800000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x3f800000, r6
+	cbne	r5, r6, fail2275
+	mov	=0x0, r6
+	cbne	r8, r6, fail2276
+	mov	=0x0, r1
+	mov	=0xffffffff80000000, r2
+	mov	=0x40000000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0000000, r6
+	cbne	r5, r6, fail2277
+	mov	=0x0, r6
+	cbne	r8, r6, fail2278
+	mov	=0x0, r1
+	mov	=0xffffffff80000000, r2
+	mov	=0x40000000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0000000, r6
+	cbne	r5, r6, fail2279
+	mov	=0x0, r6
+	cbne	r8, r6, fail2280
+	mov	=0x0, r1
+	mov	=0xffffffff80000000, r2
+	mov	=0x40400000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0400000, r6
+	cbne	r5, r6, fail2281
+	mov	=0x0, r6
+	cbne	r8, r6, fail2282
+	mov	=0x0, r1
+	mov	=0xffffffff80000000, r2
+	mov	=0x40400000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0400000, r6
+	cbne	r5, r6, fail2283
+	mov	=0x0, r6
+	cbne	r8, r6, fail2284
+	mov	=0x0, r1
+	mov	=0xffffffff80000000, r2
+	mov	=0x3fc00000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffbfc00000, r6
+	cbne	r5, r6, fail2285
+	mov	=0x0, r6
+	cbne	r8, r6, fail2286
+	mov	=0x0, r1
+	mov	=0xffffffff80000000, r2
+	mov	=0x3fc00000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffbfc00000, r6
+	cbne	r5, r6, fail2287
+	mov	=0x0, r6
+	cbne	r8, r6, fail2288
+	mov	=0x0, r1
+	mov	=0xffffffff80000000, r2
+	mov	=0x40200000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0200000, r6
+	cbne	r5, r6, fail2289
+	mov	=0x0, r6
+	cbne	r8, r6, fail2290
+	mov	=0x0, r1
+	mov	=0xffffffff80000000, r2
+	mov	=0x40200000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0200000, r6
+	cbne	r5, r6, fail2291
+	mov	=0x0, r6
+	cbne	r8, r6, fail2292
+	mov	=0x0, r1
+	mov	=0xffffffff80000000, r2
+	mov	=0x40700000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0700000, r6
+	cbne	r5, r6, fail2293
+	mov	=0x0, r6
+	cbne	r8, r6, fail2294
+	mov	=0x0, r1
+	mov	=0xffffffff80000000, r2
+	mov	=0x40700000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0700000, r6
+	cbne	r5, r6, fail2295
+	mov	=0x0, r6
+	cbne	r8, r6, fail2296
+	mov	=0x0, r1
+	mov	=0xffffffff80000000, r2
+	mov	=0xffffffffc0700000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x40700000, r6
+	cbne	r5, r6, fail2297
+	mov	=0x0, r6
+	cbne	r8, r6, fail2298
+	mov	=0x0, r1
+	mov	=0xffffffff80000000, r2
+	mov	=0xffffffffc0700000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x40700000, r6
+	cbne	r5, r6, fail2299
+	mov	=0x0, r6
+	cbne	r8, r6, fail2300
+	mov	=0x0, r1
+	mov	=0xffffffff80000000, r2
+	mov	=0x40f00000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0f00000, r6
+	cbne	r5, r6, fail2301
+	mov	=0x0, r6
+	cbne	r8, r6, fail2302
+	mov	=0x0, r1
+	mov	=0xffffffff80000000, r2
+	mov	=0x40f00000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0f00000, r6
+	cbne	r5, r6, fail2303
+	mov	=0x0, r6
+	cbne	r8, r6, fail2304
+	mov	=0x0, r1
+	mov	=0x3f800000, r2
+	mov	=0x0, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x0, r6
+	cbne	r5, r6, fail2305
+	mov	=0x0, r6
+	cbne	r8, r6, fail2306
+	mov	=0x0, r1
+	mov	=0x3f800000, r2
+	mov	=0x0, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffff80000000, r6
+	cbne	r5, r6, fail2307
+	mov	=0x0, r6
+	cbne	r8, r6, fail2308
+	mov	=0x0, r1
+	mov	=0x3f800000, r2
+	mov	=0xffffffff80000000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x0, r6
+	cbne	r5, r6, fail2309
+	mov	=0x0, r6
+	cbne	r8, r6, fail2310
+	mov	=0x0, r1
+	mov	=0x3f800000, r2
+	mov	=0xffffffff80000000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x0, r6
+	cbne	r5, r6, fail2311
+	mov	=0x0, r6
+	cbne	r8, r6, fail2312
+	mov	=0x0, r1
+	mov	=0x3f800000, r2
+	mov	=0x3f800000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffbf800000, r6
+	cbne	r5, r6, fail2313
+	mov	=0x0, r6
+	cbne	r8, r6, fail2314
+	mov	=0x0, r1
+	mov	=0x3f800000, r2
+	mov	=0x3f800000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffbf800000, r6
+	cbne	r5, r6, fail2315
+	mov	=0x0, r6
+	cbne	r8, r6, fail2316
+	mov	=0x0, r1
+	mov	=0x3f800000, r2
+	mov	=0xffffffffbf800000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x3f800000, r6
+	cbne	r5, r6, fail2317
+	mov	=0x0, r6
+	cbne	r8, r6, fail2318
+	mov	=0x0, r1
+	mov	=0x3f800000, r2
+	mov	=0xffffffffbf800000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x3f800000, r6
+	cbne	r5, r6, fail2319
+	mov	=0x0, r6
+	cbne	r8, r6, fail2320
+	mov	=0x0, r1
+	mov	=0x3f800000, r2
+	mov	=0x40000000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0000000, r6
+	cbne	r5, r6, fail2321
+	mov	=0x0, r6
+	cbne	r8, r6, fail2322
+	mov	=0x0, r1
+	mov	=0x3f800000, r2
+	mov	=0x40000000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0000000, r6
+	cbne	r5, r6, fail2323
+	mov	=0x0, r6
+	cbne	r8, r6, fail2324
+	mov	=0x0, r1
+	mov	=0x3f800000, r2
+	mov	=0x40400000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0400000, r6
+	cbne	r5, r6, fail2325
+	mov	=0x0, r6
+	cbne	r8, r6, fail2326
+	mov	=0x0, r1
+	mov	=0x3f800000, r2
+	mov	=0x40400000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0400000, r6
+	cbne	r5, r6, fail2327
+	mov	=0x0, r6
+	cbne	r8, r6, fail2328
+	mov	=0x0, r1
+	mov	=0x3f800000, r2
+	mov	=0x3fc00000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffbfc00000, r6
+	cbne	r5, r6, fail2329
+	mov	=0x0, r6
+	cbne	r8, r6, fail2330
+	mov	=0x0, r1
+	mov	=0x3f800000, r2
+	mov	=0x3fc00000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffbfc00000, r6
+	cbne	r5, r6, fail2331
+	mov	=0x0, r6
+	cbne	r8, r6, fail2332
+	mov	=0x0, r1
+	mov	=0x3f800000, r2
+	mov	=0x40200000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0200000, r6
+	cbne	r5, r6, fail2333
+	mov	=0x0, r6
+	cbne	r8, r6, fail2334
+	mov	=0x0, r1
+	mov	=0x3f800000, r2
+	mov	=0x40200000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0200000, r6
+	cbne	r5, r6, fail2335
+	mov	=0x0, r6
+	cbne	r8, r6, fail2336
+	mov	=0x0, r1
+	mov	=0x3f800000, r2
+	mov	=0x40700000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0700000, r6
+	cbne	r5, r6, fail2337
+	mov	=0x0, r6
+	cbne	r8, r6, fail2338
+	mov	=0x0, r1
+	mov	=0x3f800000, r2
+	mov	=0x40700000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0700000, r6
+	cbne	r5, r6, fail2339
+	mov	=0x0, r6
+	cbne	r8, r6, fail2340
+	mov	=0x0, r1
+	mov	=0x3f800000, r2
+	mov	=0xffffffffc0700000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x40700000, r6
+	cbne	r5, r6, fail2341
+	mov	=0x0, r6
+	cbne	r8, r6, fail2342
+	mov	=0x0, r1
+	mov	=0x3f800000, r2
+	mov	=0xffffffffc0700000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x40700000, r6
+	cbne	r5, r6, fail2343
+	mov	=0x0, r6
+	cbne	r8, r6, fail2344
+	mov	=0x0, r1
+	mov	=0x3f800000, r2
+	mov	=0x40f00000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0f00000, r6
+	cbne	r5, r6, fail2345
+	mov	=0x0, r6
+	cbne	r8, r6, fail2346
+	mov	=0x0, r1
+	mov	=0x3f800000, r2
+	mov	=0x40f00000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0f00000, r6
+	cbne	r5, r6, fail2347
+	mov	=0x0, r6
+	cbne	r8, r6, fail2348
+	mov	=0x0, r1
+	mov	=0xffffffffbf800000, r2
+	mov	=0x0, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffff80000000, r6
+	cbne	r5, r6, fail2349
+	mov	=0x0, r6
+	cbne	r8, r6, fail2350
+	mov	=0x0, r1
+	mov	=0xffffffffbf800000, r2
+	mov	=0x0, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x0, r6
+	cbne	r5, r6, fail2351
+	mov	=0x0, r6
+	cbne	r8, r6, fail2352
+	mov	=0x0, r1
+	mov	=0xffffffffbf800000, r2
+	mov	=0xffffffff80000000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x0, r6
+	cbne	r5, r6, fail2353
+	mov	=0x0, r6
+	cbne	r8, r6, fail2354
+	mov	=0x0, r1
+	mov	=0xffffffffbf800000, r2
+	mov	=0xffffffff80000000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x0, r6
+	cbne	r5, r6, fail2355
+	mov	=0x0, r6
+	cbne	r8, r6, fail2356
+	mov	=0x0, r1
+	mov	=0xffffffffbf800000, r2
+	mov	=0x3f800000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffbf800000, r6
+	cbne	r5, r6, fail2357
+	mov	=0x0, r6
+	cbne	r8, r6, fail2358
+	mov	=0x0, r1
+	mov	=0xffffffffbf800000, r2
+	mov	=0x3f800000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffbf800000, r6
+	cbne	r5, r6, fail2359
+	mov	=0x0, r6
+	cbne	r8, r6, fail2360
+	mov	=0x0, r1
+	mov	=0xffffffffbf800000, r2
+	mov	=0xffffffffbf800000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x3f800000, r6
+	cbne	r5, r6, fail2361
+	mov	=0x0, r6
+	cbne	r8, r6, fail2362
+	mov	=0x0, r1
+	mov	=0xffffffffbf800000, r2
+	mov	=0xffffffffbf800000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x3f800000, r6
+	cbne	r5, r6, fail2363
+	mov	=0x0, r6
+	cbne	r8, r6, fail2364
+	mov	=0x0, r1
+	mov	=0xffffffffbf800000, r2
+	mov	=0x40000000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0000000, r6
+	cbne	r5, r6, fail2365
+	mov	=0x0, r6
+	cbne	r8, r6, fail2366
+	mov	=0x0, r1
+	mov	=0xffffffffbf800000, r2
+	mov	=0x40000000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0000000, r6
+	cbne	r5, r6, fail2367
+	mov	=0x0, r6
+	cbne	r8, r6, fail2368
+	mov	=0x0, r1
+	mov	=0xffffffffbf800000, r2
+	mov	=0x40400000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0400000, r6
+	cbne	r5, r6, fail2369
+	mov	=0x0, r6
+	cbne	r8, r6, fail2370
+	mov	=0x0, r1
+	mov	=0xffffffffbf800000, r2
+	mov	=0x40400000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0400000, r6
+	cbne	r5, r6, fail2371
+	mov	=0x0, r6
+	cbne	r8, r6, fail2372
+	mov	=0x0, r1
+	mov	=0xffffffffbf800000, r2
+	mov	=0x3fc00000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffbfc00000, r6
+	cbne	r5, r6, fail2373
+	mov	=0x0, r6
+	cbne	r8, r6, fail2374
+	mov	=0x0, r1
+	mov	=0xffffffffbf800000, r2
+	mov	=0x3fc00000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffbfc00000, r6
+	cbne	r5, r6, fail2375
+	mov	=0x0, r6
+	cbne	r8, r6, fail2376
+	mov	=0x0, r1
+	mov	=0xffffffffbf800000, r2
+	mov	=0x40200000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0200000, r6
+	cbne	r5, r6, fail2377
+	mov	=0x0, r6
+	cbne	r8, r6, fail2378
+	mov	=0x0, r1
+	mov	=0xffffffffbf800000, r2
+	mov	=0x40200000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0200000, r6
+	cbne	r5, r6, fail2379
+	mov	=0x0, r6
+	cbne	r8, r6, fail2380
+	mov	=0x0, r1
+	mov	=0xffffffffbf800000, r2
+	mov	=0x40700000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0700000, r6
+	cbne	r5, r6, fail2381
+	mov	=0x0, r6
+	cbne	r8, r6, fail2382
+	mov	=0x0, r1
+	mov	=0xffffffffbf800000, r2
+	mov	=0x40700000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0700000, r6
+	cbne	r5, r6, fail2383
+	mov	=0x0, r6
+	cbne	r8, r6, fail2384
+	mov	=0x0, r1
+	mov	=0xffffffffbf800000, r2
+	mov	=0xffffffffc0700000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x40700000, r6
+	cbne	r5, r6, fail2385
+	mov	=0x0, r6
+	cbne	r8, r6, fail2386
+	mov	=0x0, r1
+	mov	=0xffffffffbf800000, r2
+	mov	=0xffffffffc0700000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x40700000, r6
+	cbne	r5, r6, fail2387
+	mov	=0x0, r6
+	cbne	r8, r6, fail2388
+	mov	=0x0, r1
+	mov	=0xffffffffbf800000, r2
+	mov	=0x40f00000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0f00000, r6
+	cbne	r5, r6, fail2389
+	mov	=0x0, r6
+	cbne	r8, r6, fail2390
+	mov	=0x0, r1
+	mov	=0xffffffffbf800000, r2
+	mov	=0x40f00000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0f00000, r6
+	cbne	r5, r6, fail2391
+	mov	=0x0, r6
+	cbne	r8, r6, fail2392
+	mov	=0x0, r1
+	mov	=0x3fc00000, r2
+	mov	=0x0, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x0, r6
+	cbne	r5, r6, fail2393
+	mov	=0x0, r6
+	cbne	r8, r6, fail2394
+	mov	=0x0, r1
+	mov	=0x3fc00000, r2
+	mov	=0x0, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffff80000000, r6
+	cbne	r5, r6, fail2395
+	mov	=0x0, r6
+	cbne	r8, r6, fail2396
+	mov	=0x0, r1
+	mov	=0x3fc00000, r2
+	mov	=0xffffffff80000000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x0, r6
+	cbne	r5, r6, fail2397
+	mov	=0x0, r6
+	cbne	r8, r6, fail2398
+	mov	=0x0, r1
+	mov	=0x3fc00000, r2
+	mov	=0xffffffff80000000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x0, r6
+	cbne	r5, r6, fail2399
+	mov	=0x0, r6
+	cbne	r8, r6, fail2400
+	mov	=0x0, r1
+	mov	=0x3fc00000, r2
+	mov	=0x3f800000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffbf800000, r6
+	cbne	r5, r6, fail2401
+	mov	=0x0, r6
+	cbne	r8, r6, fail2402
+	mov	=0x0, r1
+	mov	=0x3fc00000, r2
+	mov	=0x3f800000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffbf800000, r6
+	cbne	r5, r6, fail2403
+	mov	=0x0, r6
+	cbne	r8, r6, fail2404
+	mov	=0x0, r1
+	mov	=0x3fc00000, r2
+	mov	=0xffffffffbf800000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x3f800000, r6
+	cbne	r5, r6, fail2405
+	mov	=0x0, r6
+	cbne	r8, r6, fail2406
+	mov	=0x0, r1
+	mov	=0x3fc00000, r2
+	mov	=0xffffffffbf800000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x3f800000, r6
+	cbne	r5, r6, fail2407
+	mov	=0x0, r6
+	cbne	r8, r6, fail2408
+	mov	=0x0, r1
+	mov	=0x3fc00000, r2
+	mov	=0x40000000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0000000, r6
+	cbne	r5, r6, fail2409
+	mov	=0x0, r6
+	cbne	r8, r6, fail2410
+	mov	=0x0, r1
+	mov	=0x3fc00000, r2
+	mov	=0x40000000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0000000, r6
+	cbne	r5, r6, fail2411
+	mov	=0x0, r6
+	cbne	r8, r6, fail2412
+	mov	=0x0, r1
+	mov	=0x3fc00000, r2
+	mov	=0x40400000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0400000, r6
+	cbne	r5, r6, fail2413
+	mov	=0x0, r6
+	cbne	r8, r6, fail2414
+	mov	=0x0, r1
+	mov	=0x3fc00000, r2
+	mov	=0x40400000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0400000, r6
+	cbne	r5, r6, fail2415
+	mov	=0x0, r6
+	cbne	r8, r6, fail2416
+	mov	=0x0, r1
+	mov	=0x3fc00000, r2
+	mov	=0x3fc00000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffbfc00000, r6
+	cbne	r5, r6, fail2417
+	mov	=0x0, r6
+	cbne	r8, r6, fail2418
+	mov	=0x0, r1
+	mov	=0x3fc00000, r2
+	mov	=0x3fc00000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffbfc00000, r6
+	cbne	r5, r6, fail2419
+	mov	=0x0, r6
+	cbne	r8, r6, fail2420
+	mov	=0x0, r1
+	mov	=0x3fc00000, r2
+	mov	=0x40200000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0200000, r6
+	cbne	r5, r6, fail2421
+	mov	=0x0, r6
+	cbne	r8, r6, fail2422
+	mov	=0x0, r1
+	mov	=0x3fc00000, r2
+	mov	=0x40200000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0200000, r6
+	cbne	r5, r6, fail2423
+	mov	=0x0, r6
+	cbne	r8, r6, fail2424
+	mov	=0x0, r1
+	mov	=0x3fc00000, r2
+	mov	=0x40700000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0700000, r6
+	cbne	r5, r6, fail2425
+	mov	=0x0, r6
+	cbne	r8, r6, fail2426
+	mov	=0x0, r1
+	mov	=0x3fc00000, r2
+	mov	=0x40700000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0700000, r6
+	cbne	r5, r6, fail2427
+	mov	=0x0, r6
+	cbne	r8, r6, fail2428
+	mov	=0x0, r1
+	mov	=0x3fc00000, r2
+	mov	=0xffffffffc0700000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x40700000, r6
+	cbne	r5, r6, fail2429
+	mov	=0x0, r6
+	cbne	r8, r6, fail2430
+	mov	=0x0, r1
+	mov	=0x3fc00000, r2
+	mov	=0xffffffffc0700000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x40700000, r6
+	cbne	r5, r6, fail2431
+	mov	=0x0, r6
+	cbne	r8, r6, fail2432
+	mov	=0x0, r1
+	mov	=0x3fc00000, r2
+	mov	=0x40f00000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0f00000, r6
+	cbne	r5, r6, fail2433
+	mov	=0x0, r6
+	cbne	r8, r6, fail2434
+	mov	=0x0, r1
+	mov	=0x3fc00000, r2
+	mov	=0x40f00000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0f00000, r6
+	cbne	r5, r6, fail2435
+	mov	=0x0, r6
+	cbne	r8, r6, fail2436
+	mov	=0xffffffff80000000, r1
+	mov	=0x0, r2
+	mov	=0x0, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffff80000000, r6
+	cbne	r5, r6, fail2437
+	mov	=0x0, r6
+	cbne	r8, r6, fail2438
+	mov	=0xffffffff80000000, r1
+	mov	=0x0, r2
+	mov	=0x0, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x0, r6
+	cbne	r5, r6, fail2439
+	mov	=0x0, r6
+	cbne	r8, r6, fail2440
+	mov	=0xffffffff80000000, r1
+	mov	=0x0, r2
+	mov	=0xffffffff80000000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x0, r6
+	cbne	r5, r6, fail2441
+	mov	=0x0, r6
+	cbne	r8, r6, fail2442
+	mov	=0xffffffff80000000, r1
+	mov	=0x0, r2
+	mov	=0xffffffff80000000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x0, r6
+	cbne	r5, r6, fail2443
+	mov	=0x0, r6
+	cbne	r8, r6, fail2444
+	mov	=0xffffffff80000000, r1
+	mov	=0x0, r2
+	mov	=0x3f800000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffbf800000, r6
+	cbne	r5, r6, fail2445
+	mov	=0x0, r6
+	cbne	r8, r6, fail2446
+	mov	=0xffffffff80000000, r1
+	mov	=0x0, r2
+	mov	=0x3f800000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffbf800000, r6
+	cbne	r5, r6, fail2447
+	mov	=0x0, r6
+	cbne	r8, r6, fail2448
+	mov	=0xffffffff80000000, r1
+	mov	=0x0, r2
+	mov	=0xffffffffbf800000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x3f800000, r6
+	cbne	r5, r6, fail2449
+	mov	=0x0, r6
+	cbne	r8, r6, fail2450
+	mov	=0xffffffff80000000, r1
+	mov	=0x0, r2
+	mov	=0xffffffffbf800000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x3f800000, r6
+	cbne	r5, r6, fail2451
+	mov	=0x0, r6
+	cbne	r8, r6, fail2452
+	mov	=0xffffffff80000000, r1
+	mov	=0x0, r2
+	mov	=0x40000000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0000000, r6
+	cbne	r5, r6, fail2453
+	mov	=0x0, r6
+	cbne	r8, r6, fail2454
+	mov	=0xffffffff80000000, r1
+	mov	=0x0, r2
+	mov	=0x40000000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0000000, r6
+	cbne	r5, r6, fail2455
+	mov	=0x0, r6
+	cbne	r8, r6, fail2456
+	mov	=0xffffffff80000000, r1
+	mov	=0x0, r2
+	mov	=0x40400000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0400000, r6
+	cbne	r5, r6, fail2457
+	mov	=0x0, r6
+	cbne	r8, r6, fail2458
+	mov	=0xffffffff80000000, r1
+	mov	=0x0, r2
+	mov	=0x40400000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0400000, r6
+	cbne	r5, r6, fail2459
+	mov	=0x0, r6
+	cbne	r8, r6, fail2460
+	mov	=0xffffffff80000000, r1
+	mov	=0x0, r2
+	mov	=0x3fc00000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffbfc00000, r6
+	cbne	r5, r6, fail2461
+	mov	=0x0, r6
+	cbne	r8, r6, fail2462
+	mov	=0xffffffff80000000, r1
+	mov	=0x0, r2
+	mov	=0x3fc00000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffbfc00000, r6
+	cbne	r5, r6, fail2463
+	mov	=0x0, r6
+	cbne	r8, r6, fail2464
+	mov	=0xffffffff80000000, r1
+	mov	=0x0, r2
+	mov	=0x40200000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0200000, r6
+	cbne	r5, r6, fail2465
+	mov	=0x0, r6
+	cbne	r8, r6, fail2466
+	mov	=0xffffffff80000000, r1
+	mov	=0x0, r2
+	mov	=0x40200000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0200000, r6
+	cbne	r5, r6, fail2467
+	mov	=0x0, r6
+	cbne	r8, r6, fail2468
+	mov	=0xffffffff80000000, r1
+	mov	=0x0, r2
+	mov	=0x40700000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0700000, r6
+	cbne	r5, r6, fail2469
+	mov	=0x0, r6
+	cbne	r8, r6, fail2470
+	mov	=0xffffffff80000000, r1
+	mov	=0x0, r2
+	mov	=0x40700000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0700000, r6
+	cbne	r5, r6, fail2471
+	mov	=0x0, r6
+	cbne	r8, r6, fail2472
+	mov	=0xffffffff80000000, r1
+	mov	=0x0, r2
+	mov	=0xffffffffc0700000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x40700000, r6
+	cbne	r5, r6, fail2473
+	mov	=0x0, r6
+	cbne	r8, r6, fail2474
+	mov	=0xffffffff80000000, r1
+	mov	=0x0, r2
+	mov	=0xffffffffc0700000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x40700000, r6
+	cbne	r5, r6, fail2475
+	mov	=0x0, r6
+	cbne	r8, r6, fail2476
+	mov	=0xffffffff80000000, r1
+	mov	=0x0, r2
+	mov	=0x40f00000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0f00000, r6
+	cbne	r5, r6, fail2477
+	mov	=0x0, r6
+	cbne	r8, r6, fail2478
+	mov	=0xffffffff80000000, r1
+	mov	=0x0, r2
+	mov	=0x40f00000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0f00000, r6
+	cbne	r5, r6, fail2479
+	mov	=0x0, r6
+	cbne	r8, r6, fail2480
+	mov	=0xffffffff80000000, r1
+	mov	=0xffffffff80000000, r2
+	mov	=0x0, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x0, r6
+	cbne	r5, r6, fail2481
+	mov	=0x0, r6
+	cbne	r8, r6, fail2482
+	mov	=0xffffffff80000000, r1
+	mov	=0xffffffff80000000, r2
+	mov	=0x0, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffff80000000, r6
+	cbne	r5, r6, fail2483
+	mov	=0x0, r6
+	cbne	r8, r6, fail2484
+	mov	=0xffffffff80000000, r1
+	mov	=0xffffffff80000000, r2
+	mov	=0xffffffff80000000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x0, r6
+	cbne	r5, r6, fail2485
+	mov	=0x0, r6
+	cbne	r8, r6, fail2486
+	mov	=0xffffffff80000000, r1
+	mov	=0xffffffff80000000, r2
+	mov	=0xffffffff80000000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x0, r6
+	cbne	r5, r6, fail2487
+	mov	=0x0, r6
+	cbne	r8, r6, fail2488
+	mov	=0xffffffff80000000, r1
+	mov	=0xffffffff80000000, r2
+	mov	=0x3f800000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffbf800000, r6
+	cbne	r5, r6, fail2489
+	mov	=0x0, r6
+	cbne	r8, r6, fail2490
+	mov	=0xffffffff80000000, r1
+	mov	=0xffffffff80000000, r2
+	mov	=0x3f800000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffbf800000, r6
+	cbne	r5, r6, fail2491
+	mov	=0x0, r6
+	cbne	r8, r6, fail2492
+	mov	=0xffffffff80000000, r1
+	mov	=0xffffffff80000000, r2
+	mov	=0xffffffffbf800000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x3f800000, r6
+	cbne	r5, r6, fail2493
+	mov	=0x0, r6
+	cbne	r8, r6, fail2494
+	mov	=0xffffffff80000000, r1
+	mov	=0xffffffff80000000, r2
+	mov	=0xffffffffbf800000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x3f800000, r6
+	cbne	r5, r6, fail2495
+	mov	=0x0, r6
+	cbne	r8, r6, fail2496
+	mov	=0xffffffff80000000, r1
+	mov	=0xffffffff80000000, r2
+	mov	=0x40000000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0000000, r6
+	cbne	r5, r6, fail2497
+	mov	=0x0, r6
+	cbne	r8, r6, fail2498
+	mov	=0xffffffff80000000, r1
+	mov	=0xffffffff80000000, r2
+	mov	=0x40000000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0000000, r6
+	cbne	r5, r6, fail2499
+	mov	=0x0, r6
+	cbne	r8, r6, fail2500
+	mov	=0xffffffff80000000, r1
+	mov	=0xffffffff80000000, r2
+	mov	=0x40400000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0400000, r6
+	cbne	r5, r6, fail2501
+	mov	=0x0, r6
+	cbne	r8, r6, fail2502
+	mov	=0xffffffff80000000, r1
+	mov	=0xffffffff80000000, r2
+	mov	=0x40400000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0400000, r6
+	cbne	r5, r6, fail2503
+	mov	=0x0, r6
+	cbne	r8, r6, fail2504
+	mov	=0xffffffff80000000, r1
+	mov	=0xffffffff80000000, r2
+	mov	=0x3fc00000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffbfc00000, r6
+	cbne	r5, r6, fail2505
+	mov	=0x0, r6
+	cbne	r8, r6, fail2506
+	mov	=0xffffffff80000000, r1
+	mov	=0xffffffff80000000, r2
+	mov	=0x3fc00000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffbfc00000, r6
+	cbne	r5, r6, fail2507
+	mov	=0x0, r6
+	cbne	r8, r6, fail2508
+	mov	=0xffffffff80000000, r1
+	mov	=0xffffffff80000000, r2
+	mov	=0x40200000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0200000, r6
+	cbne	r5, r6, fail2509
+	mov	=0x0, r6
+	cbne	r8, r6, fail2510
+	mov	=0xffffffff80000000, r1
+	mov	=0xffffffff80000000, r2
+	mov	=0x40200000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0200000, r6
+	cbne	r5, r6, fail2511
+	mov	=0x0, r6
+	cbne	r8, r6, fail2512
+	mov	=0xffffffff80000000, r1
+	mov	=0xffffffff80000000, r2
+	mov	=0x40700000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0700000, r6
+	cbne	r5, r6, fail2513
+	mov	=0x0, r6
+	cbne	r8, r6, fail2514
+	mov	=0xffffffff80000000, r1
+	mov	=0xffffffff80000000, r2
+	mov	=0x40700000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0700000, r6
+	cbne	r5, r6, fail2515
+	mov	=0x0, r6
+	cbne	r8, r6, fail2516
+	mov	=0xffffffff80000000, r1
+	mov	=0xffffffff80000000, r2
+	mov	=0xffffffffc0700000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x40700000, r6
+	cbne	r5, r6, fail2517
+	mov	=0x0, r6
+	cbne	r8, r6, fail2518
+	mov	=0xffffffff80000000, r1
+	mov	=0xffffffff80000000, r2
+	mov	=0xffffffffc0700000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x40700000, r6
+	cbne	r5, r6, fail2519
+	mov	=0x0, r6
+	cbne	r8, r6, fail2520
+	mov	=0xffffffff80000000, r1
+	mov	=0xffffffff80000000, r2
+	mov	=0x40f00000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0f00000, r6
+	cbne	r5, r6, fail2521
+	mov	=0x0, r6
+	cbne	r8, r6, fail2522
+	mov	=0xffffffff80000000, r1
+	mov	=0xffffffff80000000, r2
+	mov	=0x40f00000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0f00000, r6
+	cbne	r5, r6, fail2523
+	mov	=0x0, r6
+	cbne	r8, r6, fail2524
+	mov	=0xffffffff80000000, r1
+	mov	=0x3f800000, r2
+	mov	=0x0, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffff80000000, r6
+	cbne	r5, r6, fail2525
+	mov	=0x0, r6
+	cbne	r8, r6, fail2526
+	mov	=0xffffffff80000000, r1
+	mov	=0x3f800000, r2
+	mov	=0x0, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x0, r6
+	cbne	r5, r6, fail2527
+	mov	=0x0, r6
+	cbne	r8, r6, fail2528
+	mov	=0xffffffff80000000, r1
+	mov	=0x3f800000, r2
+	mov	=0xffffffff80000000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x0, r6
+	cbne	r5, r6, fail2529
+	mov	=0x0, r6
+	cbne	r8, r6, fail2530
+	mov	=0xffffffff80000000, r1
+	mov	=0x3f800000, r2
+	mov	=0xffffffff80000000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x0, r6
+	cbne	r5, r6, fail2531
+	mov	=0x0, r6
+	cbne	r8, r6, fail2532
+	mov	=0xffffffff80000000, r1
+	mov	=0x3f800000, r2
+	mov	=0x3f800000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffbf800000, r6
+	cbne	r5, r6, fail2533
+	mov	=0x0, r6
+	cbne	r8, r6, fail2534
+	mov	=0xffffffff80000000, r1
+	mov	=0x3f800000, r2
+	mov	=0x3f800000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffbf800000, r6
+	cbne	r5, r6, fail2535
+	mov	=0x0, r6
+	cbne	r8, r6, fail2536
+	mov	=0xffffffff80000000, r1
+	mov	=0x3f800000, r2
+	mov	=0xffffffffbf800000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x3f800000, r6
+	cbne	r5, r6, fail2537
+	mov	=0x0, r6
+	cbne	r8, r6, fail2538
+	mov	=0xffffffff80000000, r1
+	mov	=0x3f800000, r2
+	mov	=0xffffffffbf800000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x3f800000, r6
+	cbne	r5, r6, fail2539
+	mov	=0x0, r6
+	cbne	r8, r6, fail2540
+	mov	=0xffffffff80000000, r1
+	mov	=0x3f800000, r2
+	mov	=0x40000000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0000000, r6
+	cbne	r5, r6, fail2541
+	mov	=0x0, r6
+	cbne	r8, r6, fail2542
+	mov	=0xffffffff80000000, r1
+	mov	=0x3f800000, r2
+	mov	=0x40000000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0000000, r6
+	cbne	r5, r6, fail2543
+	mov	=0x0, r6
+	cbne	r8, r6, fail2544
+	mov	=0xffffffff80000000, r1
+	mov	=0x3f800000, r2
+	mov	=0x40400000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0400000, r6
+	cbne	r5, r6, fail2545
+	mov	=0x0, r6
+	cbne	r8, r6, fail2546
+	mov	=0xffffffff80000000, r1
+	mov	=0x3f800000, r2
+	mov	=0x40400000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0400000, r6
+	cbne	r5, r6, fail2547
+	mov	=0x0, r6
+	cbne	r8, r6, fail2548
+	mov	=0xffffffff80000000, r1
+	mov	=0x3f800000, r2
+	mov	=0x3fc00000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffbfc00000, r6
+	cbne	r5, r6, fail2549
+	mov	=0x0, r6
+	cbne	r8, r6, fail2550
+	mov	=0xffffffff80000000, r1
+	mov	=0x3f800000, r2
+	mov	=0x3fc00000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffbfc00000, r6
+	cbne	r5, r6, fail2551
+	mov	=0x0, r6
+	cbne	r8, r6, fail2552
+	mov	=0xffffffff80000000, r1
+	mov	=0x3f800000, r2
+	mov	=0x40200000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0200000, r6
+	cbne	r5, r6, fail2553
+	mov	=0x0, r6
+	cbne	r8, r6, fail2554
+	mov	=0xffffffff80000000, r1
+	mov	=0x3f800000, r2
+	mov	=0x40200000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0200000, r6
+	cbne	r5, r6, fail2555
+	mov	=0x0, r6
+	cbne	r8, r6, fail2556
+	mov	=0xffffffff80000000, r1
+	mov	=0x3f800000, r2
+	mov	=0x40700000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0700000, r6
+	cbne	r5, r6, fail2557
+	mov	=0x0, r6
+	cbne	r8, r6, fail2558
+	mov	=0xffffffff80000000, r1
+	mov	=0x3f800000, r2
+	mov	=0x40700000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0700000, r6
+	cbne	r5, r6, fail2559
+	mov	=0x0, r6
+	cbne	r8, r6, fail2560
+	mov	=0xffffffff80000000, r1
+	mov	=0x3f800000, r2
+	mov	=0xffffffffc0700000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x40700000, r6
+	cbne	r5, r6, fail2561
+	mov	=0x0, r6
+	cbne	r8, r6, fail2562
+	mov	=0xffffffff80000000, r1
+	mov	=0x3f800000, r2
+	mov	=0xffffffffc0700000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x40700000, r6
+	cbne	r5, r6, fail2563
+	mov	=0x0, r6
+	cbne	r8, r6, fail2564
+	mov	=0xffffffff80000000, r1
+	mov	=0x3f800000, r2
+	mov	=0x40f00000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0f00000, r6
+	cbne	r5, r6, fail2565
+	mov	=0x0, r6
+	cbne	r8, r6, fail2566
+	mov	=0xffffffff80000000, r1
+	mov	=0x3f800000, r2
+	mov	=0x40f00000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0f00000, r6
+	cbne	r5, r6, fail2567
+	mov	=0x0, r6
+	cbne	r8, r6, fail2568
+	mov	=0xffffffff80000000, r1
+	mov	=0xffffffffbf800000, r2
+	mov	=0x0, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x0, r6
+	cbne	r5, r6, fail2569
+	mov	=0x0, r6
+	cbne	r8, r6, fail2570
+	mov	=0xffffffff80000000, r1
+	mov	=0xffffffffbf800000, r2
+	mov	=0x0, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffff80000000, r6
+	cbne	r5, r6, fail2571
+	mov	=0x0, r6
+	cbne	r8, r6, fail2572
+	mov	=0xffffffff80000000, r1
+	mov	=0xffffffffbf800000, r2
+	mov	=0xffffffff80000000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x0, r6
+	cbne	r5, r6, fail2573
+	mov	=0x0, r6
+	cbne	r8, r6, fail2574
+	mov	=0xffffffff80000000, r1
+	mov	=0xffffffffbf800000, r2
+	mov	=0xffffffff80000000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x0, r6
+	cbne	r5, r6, fail2575
+	mov	=0x0, r6
+	cbne	r8, r6, fail2576
+	mov	=0xffffffff80000000, r1
+	mov	=0xffffffffbf800000, r2
+	mov	=0x3f800000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffbf800000, r6
+	cbne	r5, r6, fail2577
+	mov	=0x0, r6
+	cbne	r8, r6, fail2578
+	mov	=0xffffffff80000000, r1
+	mov	=0xffffffffbf800000, r2
+	mov	=0x3f800000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffbf800000, r6
+	cbne	r5, r6, fail2579
+	mov	=0x0, r6
+	cbne	r8, r6, fail2580
+	mov	=0xffffffff80000000, r1
+	mov	=0xffffffffbf800000, r2
+	mov	=0xffffffffbf800000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x3f800000, r6
+	cbne	r5, r6, fail2581
+	mov	=0x0, r6
+	cbne	r8, r6, fail2582
+	mov	=0xffffffff80000000, r1
+	mov	=0xffffffffbf800000, r2
+	mov	=0xffffffffbf800000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x3f800000, r6
+	cbne	r5, r6, fail2583
+	mov	=0x0, r6
+	cbne	r8, r6, fail2584
+	mov	=0xffffffff80000000, r1
+	mov	=0xffffffffbf800000, r2
+	mov	=0x40000000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0000000, r6
+	cbne	r5, r6, fail2585
+	mov	=0x0, r6
+	cbne	r8, r6, fail2586
+	mov	=0xffffffff80000000, r1
+	mov	=0xffffffffbf800000, r2
+	mov	=0x40000000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0000000, r6
+	cbne	r5, r6, fail2587
+	mov	=0x0, r6
+	cbne	r8, r6, fail2588
+	mov	=0xffffffff80000000, r1
+	mov	=0xffffffffbf800000, r2
+	mov	=0x40400000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0400000, r6
+	cbne	r5, r6, fail2589
+	mov	=0x0, r6
+	cbne	r8, r6, fail2590
+	mov	=0xffffffff80000000, r1
+	mov	=0xffffffffbf800000, r2
+	mov	=0x40400000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0400000, r6
+	cbne	r5, r6, fail2591
+	mov	=0x0, r6
+	cbne	r8, r6, fail2592
+	mov	=0xffffffff80000000, r1
+	mov	=0xffffffffbf800000, r2
+	mov	=0x3fc00000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffbfc00000, r6
+	cbne	r5, r6, fail2593
+	mov	=0x0, r6
+	cbne	r8, r6, fail2594
+	mov	=0xffffffff80000000, r1
+	mov	=0xffffffffbf800000, r2
+	mov	=0x3fc00000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffbfc00000, r6
+	cbne	r5, r6, fail2595
+	mov	=0x0, r6
+	cbne	r8, r6, fail2596
+	mov	=0xffffffff80000000, r1
+	mov	=0xffffffffbf800000, r2
+	mov	=0x40200000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0200000, r6
+	cbne	r5, r6, fail2597
+	mov	=0x0, r6
+	cbne	r8, r6, fail2598
+	mov	=0xffffffff80000000, r1
+	mov	=0xffffffffbf800000, r2
+	mov	=0x40200000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0200000, r6
+	cbne	r5, r6, fail2599
+	mov	=0x0, r6
+	cbne	r8, r6, fail2600
+	mov	=0xffffffff80000000, r1
+	mov	=0xffffffffbf800000, r2
+	mov	=0x40700000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0700000, r6
+	cbne	r5, r6, fail2601
+	mov	=0x0, r6
+	cbne	r8, r6, fail2602
+	mov	=0xffffffff80000000, r1
+	mov	=0xffffffffbf800000, r2
+	mov	=0x40700000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0700000, r6
+	cbne	r5, r6, fail2603
+	mov	=0x0, r6
+	cbne	r8, r6, fail2604
+	mov	=0xffffffff80000000, r1
+	mov	=0xffffffffbf800000, r2
+	mov	=0xffffffffc0700000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x40700000, r6
+	cbne	r5, r6, fail2605
+	mov	=0x0, r6
+	cbne	r8, r6, fail2606
+	mov	=0xffffffff80000000, r1
+	mov	=0xffffffffbf800000, r2
+	mov	=0xffffffffc0700000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x40700000, r6
+	cbne	r5, r6, fail2607
+	mov	=0x0, r6
+	cbne	r8, r6, fail2608
+	mov	=0xffffffff80000000, r1
+	mov	=0xffffffffbf800000, r2
+	mov	=0x40f00000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0f00000, r6
+	cbne	r5, r6, fail2609
+	mov	=0x0, r6
+	cbne	r8, r6, fail2610
+	mov	=0xffffffff80000000, r1
+	mov	=0xffffffffbf800000, r2
+	mov	=0x40f00000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0f00000, r6
+	cbne	r5, r6, fail2611
+	mov	=0x0, r6
+	cbne	r8, r6, fail2612
+	mov	=0xffffffff80000000, r1
+	mov	=0x3fc00000, r2
+	mov	=0x0, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffff80000000, r6
+	cbne	r5, r6, fail2613
+	mov	=0x0, r6
+	cbne	r8, r6, fail2614
+	mov	=0xffffffff80000000, r1
+	mov	=0x3fc00000, r2
+	mov	=0x0, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x0, r6
+	cbne	r5, r6, fail2615
+	mov	=0x0, r6
+	cbne	r8, r6, fail2616
+	mov	=0xffffffff80000000, r1
+	mov	=0x3fc00000, r2
+	mov	=0xffffffff80000000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x0, r6
+	cbne	r5, r6, fail2617
+	mov	=0x0, r6
+	cbne	r8, r6, fail2618
+	mov	=0xffffffff80000000, r1
+	mov	=0x3fc00000, r2
+	mov	=0xffffffff80000000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x0, r6
+	cbne	r5, r6, fail2619
+	mov	=0x0, r6
+	cbne	r8, r6, fail2620
+	mov	=0xffffffff80000000, r1
+	mov	=0x3fc00000, r2
+	mov	=0x3f800000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffbf800000, r6
+	cbne	r5, r6, fail2621
+	mov	=0x0, r6
+	cbne	r8, r6, fail2622
+	mov	=0xffffffff80000000, r1
+	mov	=0x3fc00000, r2
+	mov	=0x3f800000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffbf800000, r6
+	cbne	r5, r6, fail2623
+	mov	=0x0, r6
+	cbne	r8, r6, fail2624
+	mov	=0xffffffff80000000, r1
+	mov	=0x3fc00000, r2
+	mov	=0xffffffffbf800000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x3f800000, r6
+	cbne	r5, r6, fail2625
+	mov	=0x0, r6
+	cbne	r8, r6, fail2626
+	mov	=0xffffffff80000000, r1
+	mov	=0x3fc00000, r2
+	mov	=0xffffffffbf800000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x3f800000, r6
+	cbne	r5, r6, fail2627
+	mov	=0x0, r6
+	cbne	r8, r6, fail2628
+	mov	=0xffffffff80000000, r1
+	mov	=0x3fc00000, r2
+	mov	=0x40000000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0000000, r6
+	cbne	r5, r6, fail2629
+	mov	=0x0, r6
+	cbne	r8, r6, fail2630
+	mov	=0xffffffff80000000, r1
+	mov	=0x3fc00000, r2
+	mov	=0x40000000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0000000, r6
+	cbne	r5, r6, fail2631
+	mov	=0x0, r6
+	cbne	r8, r6, fail2632
+	mov	=0xffffffff80000000, r1
+	mov	=0x3fc00000, r2
+	mov	=0x40400000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0400000, r6
+	cbne	r5, r6, fail2633
+	mov	=0x0, r6
+	cbne	r8, r6, fail2634
+	mov	=0xffffffff80000000, r1
+	mov	=0x3fc00000, r2
+	mov	=0x40400000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0400000, r6
+	cbne	r5, r6, fail2635
+	mov	=0x0, r6
+	cbne	r8, r6, fail2636
+	mov	=0xffffffff80000000, r1
+	mov	=0x3fc00000, r2
+	mov	=0x3fc00000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffbfc00000, r6
+	cbne	r5, r6, fail2637
+	mov	=0x0, r6
+	cbne	r8, r6, fail2638
+	mov	=0xffffffff80000000, r1
+	mov	=0x3fc00000, r2
+	mov	=0x3fc00000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffbfc00000, r6
+	cbne	r5, r6, fail2639
+	mov	=0x0, r6
+	cbne	r8, r6, fail2640
+	mov	=0xffffffff80000000, r1
+	mov	=0x3fc00000, r2
+	mov	=0x40200000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0200000, r6
+	cbne	r5, r6, fail2641
+	mov	=0x0, r6
+	cbne	r8, r6, fail2642
+	mov	=0xffffffff80000000, r1
+	mov	=0x3fc00000, r2
+	mov	=0x40200000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0200000, r6
+	cbne	r5, r6, fail2643
+	mov	=0x0, r6
+	cbne	r8, r6, fail2644
+	mov	=0xffffffff80000000, r1
+	mov	=0x3fc00000, r2
+	mov	=0x40700000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0700000, r6
+	cbne	r5, r6, fail2645
+	mov	=0x0, r6
+	cbne	r8, r6, fail2646
+	mov	=0xffffffff80000000, r1
+	mov	=0x3fc00000, r2
+	mov	=0x40700000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0700000, r6
+	cbne	r5, r6, fail2647
+	mov	=0x0, r6
+	cbne	r8, r6, fail2648
+	mov	=0xffffffff80000000, r1
+	mov	=0x3fc00000, r2
+	mov	=0xffffffffc0700000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x40700000, r6
+	cbne	r5, r6, fail2649
+	mov	=0x0, r6
+	cbne	r8, r6, fail2650
+	mov	=0xffffffff80000000, r1
+	mov	=0x3fc00000, r2
+	mov	=0xffffffffc0700000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x40700000, r6
+	cbne	r5, r6, fail2651
+	mov	=0x0, r6
+	cbne	r8, r6, fail2652
+	mov	=0xffffffff80000000, r1
+	mov	=0x3fc00000, r2
+	mov	=0x40f00000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0f00000, r6
+	cbne	r5, r6, fail2653
+	mov	=0x0, r6
+	cbne	r8, r6, fail2654
+	mov	=0xffffffff80000000, r1
+	mov	=0x3fc00000, r2
+	mov	=0x40f00000, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffffc0f00000, r6
+	cbne	r5, r6, fail2655
+	mov	=0x0, r6
+	cbne	r8, r6, fail2656
+	mov	=0x3f800000, r1
+	mov	=0x0, r2
+	mov	=0x0, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fmadd.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0x0, r6
+	cbne	r5, r6, fail2657
+	mov	=0x0, r6
+	cbne	r8, r6, fail2658
+	mov	=0x3f800000, r1
+	mov	=0x0, r2
+	mov	=0x0, r3
+	mov	r3, r4
+	xor	$-2147483648, r4
+	mov	$0, r9
+	fsflags	r9, r8
+	fnmsub.f32	r1, r2, r4, r5
+	fsflags	r9, r8
+	mov	=0xffffffff80000000, r6
+	cbne	r5, r6, fail2659
+	mov	=0x0, r6
+	cbne	r8, r6, fail2660
 	mov	=0x3f800000, r1
 	mov	=0x0, r2
 	mov	=0xffffffff80000000, r3
@@ -16195,9 +16195,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f2661
+	cbne	r5, r6, fail2661
 	mov	=0x0, r6
-	cbne	r8, r6, f2662
+	cbne	r8, r6, fail2662
 	mov	=0x3f800000, r1
 	mov	=0x0, r2
 	mov	=0xffffffff80000000, r3
@@ -16208,9 +16208,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f2663
+	cbne	r5, r6, fail2663
 	mov	=0x0, r6
-	cbne	r8, r6, f2664
+	cbne	r8, r6, fail2664
 	mov	=0x3f800000, r1
 	mov	=0x0, r2
 	mov	=0x3f800000, r3
@@ -16221,9 +16221,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f2665
+	cbne	r5, r6, fail2665
 	mov	=0x0, r6
-	cbne	r8, r6, f2666
+	cbne	r8, r6, fail2666
 	mov	=0x3f800000, r1
 	mov	=0x0, r2
 	mov	=0x3f800000, r3
@@ -16234,9 +16234,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f2667
+	cbne	r5, r6, fail2667
 	mov	=0x0, r6
-	cbne	r8, r6, f2668
+	cbne	r8, r6, fail2668
 	mov	=0x3f800000, r1
 	mov	=0x0, r2
 	mov	=0xffffffffbf800000, r3
@@ -16247,9 +16247,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3f800000, r6
-	cbne	r5, r6, f2669
+	cbne	r5, r6, fail2669
 	mov	=0x0, r6
-	cbne	r8, r6, f2670
+	cbne	r8, r6, fail2670
 	mov	=0x3f800000, r1
 	mov	=0x0, r2
 	mov	=0xffffffffbf800000, r3
@@ -16260,9 +16260,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3f800000, r6
-	cbne	r5, r6, f2671
+	cbne	r5, r6, fail2671
 	mov	=0x0, r6
-	cbne	r8, r6, f2672
+	cbne	r8, r6, fail2672
 	mov	=0x3f800000, r1
 	mov	=0x0, r2
 	mov	=0x40000000, r3
@@ -16273,9 +16273,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0000000, r6
-	cbne	r5, r6, f2673
+	cbne	r5, r6, fail2673
 	mov	=0x0, r6
-	cbne	r8, r6, f2674
+	cbne	r8, r6, fail2674
 	mov	=0x3f800000, r1
 	mov	=0x0, r2
 	mov	=0x40000000, r3
@@ -16286,9 +16286,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0000000, r6
-	cbne	r5, r6, f2675
+	cbne	r5, r6, fail2675
 	mov	=0x0, r6
-	cbne	r8, r6, f2676
+	cbne	r8, r6, fail2676
 	mov	=0x3f800000, r1
 	mov	=0x0, r2
 	mov	=0x40400000, r3
@@ -16299,9 +16299,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0400000, r6
-	cbne	r5, r6, f2677
+	cbne	r5, r6, fail2677
 	mov	=0x0, r6
-	cbne	r8, r6, f2678
+	cbne	r8, r6, fail2678
 	mov	=0x3f800000, r1
 	mov	=0x0, r2
 	mov	=0x40400000, r3
@@ -16312,9 +16312,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0400000, r6
-	cbne	r5, r6, f2679
+	cbne	r5, r6, fail2679
 	mov	=0x0, r6
-	cbne	r8, r6, f2680
+	cbne	r8, r6, fail2680
 	mov	=0x3f800000, r1
 	mov	=0x0, r2
 	mov	=0x3fc00000, r3
@@ -16325,9 +16325,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f2681
+	cbne	r5, r6, fail2681
 	mov	=0x0, r6
-	cbne	r8, r6, f2682
+	cbne	r8, r6, fail2682
 	mov	=0x3f800000, r1
 	mov	=0x0, r2
 	mov	=0x3fc00000, r3
@@ -16338,9 +16338,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f2683
+	cbne	r5, r6, fail2683
 	mov	=0x0, r6
-	cbne	r8, r6, f2684
+	cbne	r8, r6, fail2684
 	mov	=0x3f800000, r1
 	mov	=0x0, r2
 	mov	=0x40200000, r3
@@ -16351,9 +16351,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0200000, r6
-	cbne	r5, r6, f2685
+	cbne	r5, r6, fail2685
 	mov	=0x0, r6
-	cbne	r8, r6, f2686
+	cbne	r8, r6, fail2686
 	mov	=0x3f800000, r1
 	mov	=0x0, r2
 	mov	=0x40200000, r3
@@ -16364,9 +16364,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0200000, r6
-	cbne	r5, r6, f2687
+	cbne	r5, r6, fail2687
 	mov	=0x0, r6
-	cbne	r8, r6, f2688
+	cbne	r8, r6, fail2688
 	mov	=0x3f800000, r1
 	mov	=0x0, r2
 	mov	=0x40700000, r3
@@ -16377,9 +16377,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0700000, r6
-	cbne	r5, r6, f2689
+	cbne	r5, r6, fail2689
 	mov	=0x0, r6
-	cbne	r8, r6, f2690
+	cbne	r8, r6, fail2690
 	mov	=0x3f800000, r1
 	mov	=0x0, r2
 	mov	=0x40700000, r3
@@ -16390,9 +16390,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0700000, r6
-	cbne	r5, r6, f2691
+	cbne	r5, r6, fail2691
 	mov	=0x0, r6
-	cbne	r8, r6, f2692
+	cbne	r8, r6, fail2692
 	mov	=0x3f800000, r1
 	mov	=0x0, r2
 	mov	=0xffffffffc0700000, r3
@@ -16403,9 +16403,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40700000, r6
-	cbne	r5, r6, f2693
+	cbne	r5, r6, fail2693
 	mov	=0x0, r6
-	cbne	r8, r6, f2694
+	cbne	r8, r6, fail2694
 	mov	=0x3f800000, r1
 	mov	=0x0, r2
 	mov	=0xffffffffc0700000, r3
@@ -16416,9 +16416,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40700000, r6
-	cbne	r5, r6, f2695
+	cbne	r5, r6, fail2695
 	mov	=0x0, r6
-	cbne	r8, r6, f2696
+	cbne	r8, r6, fail2696
 	mov	=0x3f800000, r1
 	mov	=0x0, r2
 	mov	=0x40f00000, r3
@@ -16429,9 +16429,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0f00000, r6
-	cbne	r5, r6, f2697
+	cbne	r5, r6, fail2697
 	mov	=0x0, r6
-	cbne	r8, r6, f2698
+	cbne	r8, r6, fail2698
 	mov	=0x3f800000, r1
 	mov	=0x0, r2
 	mov	=0x40f00000, r3
@@ -16442,9 +16442,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0f00000, r6
-	cbne	r5, r6, f2699
+	cbne	r5, r6, fail2699
 	mov	=0x0, r6
-	cbne	r8, r6, f2700
+	cbne	r8, r6, fail2700
 	mov	=0x3f800000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x0, r3
@@ -16455,9 +16455,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffff80000000, r6
-	cbne	r5, r6, f2701
+	cbne	r5, r6, fail2701
 	mov	=0x0, r6
-	cbne	r8, r6, f2702
+	cbne	r8, r6, fail2702
 	mov	=0x3f800000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x0, r3
@@ -16468,9 +16468,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f2703
+	cbne	r5, r6, fail2703
 	mov	=0x0, r6
-	cbne	r8, r6, f2704
+	cbne	r8, r6, fail2704
 	mov	=0x3f800000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0xffffffff80000000, r3
@@ -16481,9 +16481,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f2705
+	cbne	r5, r6, fail2705
 	mov	=0x0, r6
-	cbne	r8, r6, f2706
+	cbne	r8, r6, fail2706
 	mov	=0x3f800000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0xffffffff80000000, r3
@@ -16494,9 +16494,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f2707
+	cbne	r5, r6, fail2707
 	mov	=0x0, r6
-	cbne	r8, r6, f2708
+	cbne	r8, r6, fail2708
 	mov	=0x3f800000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x3f800000, r3
@@ -16507,9 +16507,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f2709
+	cbne	r5, r6, fail2709
 	mov	=0x0, r6
-	cbne	r8, r6, f2710
+	cbne	r8, r6, fail2710
 	mov	=0x3f800000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x3f800000, r3
@@ -16520,9 +16520,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f2711
+	cbne	r5, r6, fail2711
 	mov	=0x0, r6
-	cbne	r8, r6, f2712
+	cbne	r8, r6, fail2712
 	mov	=0x3f800000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0xffffffffbf800000, r3
@@ -16533,9 +16533,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3f800000, r6
-	cbne	r5, r6, f2713
+	cbne	r5, r6, fail2713
 	mov	=0x0, r6
-	cbne	r8, r6, f2714
+	cbne	r8, r6, fail2714
 	mov	=0x3f800000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0xffffffffbf800000, r3
@@ -16546,9 +16546,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3f800000, r6
-	cbne	r5, r6, f2715
+	cbne	r5, r6, fail2715
 	mov	=0x0, r6
-	cbne	r8, r6, f2716
+	cbne	r8, r6, fail2716
 	mov	=0x3f800000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40000000, r3
@@ -16559,9 +16559,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0000000, r6
-	cbne	r5, r6, f2717
+	cbne	r5, r6, fail2717
 	mov	=0x0, r6
-	cbne	r8, r6, f2718
+	cbne	r8, r6, fail2718
 	mov	=0x3f800000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40000000, r3
@@ -16572,9 +16572,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0000000, r6
-	cbne	r5, r6, f2719
+	cbne	r5, r6, fail2719
 	mov	=0x0, r6
-	cbne	r8, r6, f2720
+	cbne	r8, r6, fail2720
 	mov	=0x3f800000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40400000, r3
@@ -16585,9 +16585,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0400000, r6
-	cbne	r5, r6, f2721
+	cbne	r5, r6, fail2721
 	mov	=0x0, r6
-	cbne	r8, r6, f2722
+	cbne	r8, r6, fail2722
 	mov	=0x3f800000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40400000, r3
@@ -16598,9 +16598,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0400000, r6
-	cbne	r5, r6, f2723
+	cbne	r5, r6, fail2723
 	mov	=0x0, r6
-	cbne	r8, r6, f2724
+	cbne	r8, r6, fail2724
 	mov	=0x3f800000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x3fc00000, r3
@@ -16611,9 +16611,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f2725
+	cbne	r5, r6, fail2725
 	mov	=0x0, r6
-	cbne	r8, r6, f2726
+	cbne	r8, r6, fail2726
 	mov	=0x3f800000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x3fc00000, r3
@@ -16624,9 +16624,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f2727
+	cbne	r5, r6, fail2727
 	mov	=0x0, r6
-	cbne	r8, r6, f2728
+	cbne	r8, r6, fail2728
 	mov	=0x3f800000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40200000, r3
@@ -16637,9 +16637,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0200000, r6
-	cbne	r5, r6, f2729
+	cbne	r5, r6, fail2729
 	mov	=0x0, r6
-	cbne	r8, r6, f2730
+	cbne	r8, r6, fail2730
 	mov	=0x3f800000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40200000, r3
@@ -16650,9 +16650,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0200000, r6
-	cbne	r5, r6, f2731
+	cbne	r5, r6, fail2731
 	mov	=0x0, r6
-	cbne	r8, r6, f2732
+	cbne	r8, r6, fail2732
 	mov	=0x3f800000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40700000, r3
@@ -16663,9 +16663,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0700000, r6
-	cbne	r5, r6, f2733
+	cbne	r5, r6, fail2733
 	mov	=0x0, r6
-	cbne	r8, r6, f2734
+	cbne	r8, r6, fail2734
 	mov	=0x3f800000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40700000, r3
@@ -16676,9 +16676,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0700000, r6
-	cbne	r5, r6, f2735
+	cbne	r5, r6, fail2735
 	mov	=0x0, r6
-	cbne	r8, r6, f2736
+	cbne	r8, r6, fail2736
 	mov	=0x3f800000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0xffffffffc0700000, r3
@@ -16689,9 +16689,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40700000, r6
-	cbne	r5, r6, f2737
+	cbne	r5, r6, fail2737
 	mov	=0x0, r6
-	cbne	r8, r6, f2738
+	cbne	r8, r6, fail2738
 	mov	=0x3f800000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0xffffffffc0700000, r3
@@ -16702,9 +16702,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40700000, r6
-	cbne	r5, r6, f2739
+	cbne	r5, r6, fail2739
 	mov	=0x0, r6
-	cbne	r8, r6, f2740
+	cbne	r8, r6, fail2740
 	mov	=0x3f800000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40f00000, r3
@@ -16715,9 +16715,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0f00000, r6
-	cbne	r5, r6, f2741
+	cbne	r5, r6, fail2741
 	mov	=0x0, r6
-	cbne	r8, r6, f2742
+	cbne	r8, r6, fail2742
 	mov	=0x3f800000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40f00000, r3
@@ -16728,9 +16728,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0f00000, r6
-	cbne	r5, r6, f2743
+	cbne	r5, r6, fail2743
 	mov	=0x0, r6
-	cbne	r8, r6, f2744
+	cbne	r8, r6, fail2744
 	mov	=0x3f800000, r1
 	mov	=0x3f800000, r2
 	mov	=0x0, r3
@@ -16741,9 +16741,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3f800000, r6
-	cbne	r5, r6, f2745
+	cbne	r5, r6, fail2745
 	mov	=0x0, r6
-	cbne	r8, r6, f2746
+	cbne	r8, r6, fail2746
 	mov	=0x3f800000, r1
 	mov	=0x3f800000, r2
 	mov	=0x0, r3
@@ -16754,9 +16754,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f2747
+	cbne	r5, r6, fail2747
 	mov	=0x0, r6
-	cbne	r8, r6, f2748
+	cbne	r8, r6, fail2748
 	mov	=0x3f800000, r1
 	mov	=0x3f800000, r2
 	mov	=0xffffffff80000000, r3
@@ -16767,9 +16767,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3f800000, r6
-	cbne	r5, r6, f2749
+	cbne	r5, r6, fail2749
 	mov	=0x0, r6
-	cbne	r8, r6, f2750
+	cbne	r8, r6, fail2750
 	mov	=0x3f800000, r1
 	mov	=0x3f800000, r2
 	mov	=0xffffffff80000000, r3
@@ -16780,9 +16780,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f2751
+	cbne	r5, r6, fail2751
 	mov	=0x0, r6
-	cbne	r8, r6, f2752
+	cbne	r8, r6, fail2752
 	mov	=0x3f800000, r1
 	mov	=0x3f800000, r2
 	mov	=0x3f800000, r3
@@ -16793,9 +16793,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f2753
+	cbne	r5, r6, fail2753
 	mov	=0x0, r6
-	cbne	r8, r6, f2754
+	cbne	r8, r6, fail2754
 	mov	=0x3f800000, r1
 	mov	=0x3f800000, r2
 	mov	=0x3f800000, r3
@@ -16806,9 +16806,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0000000, r6
-	cbne	r5, r6, f2755
+	cbne	r5, r6, fail2755
 	mov	=0x0, r6
-	cbne	r8, r6, f2756
+	cbne	r8, r6, fail2756
 	mov	=0x3f800000, r1
 	mov	=0x3f800000, r2
 	mov	=0xffffffffbf800000, r3
@@ -16819,9 +16819,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40000000, r6
-	cbne	r5, r6, f2757
+	cbne	r5, r6, fail2757
 	mov	=0x0, r6
-	cbne	r8, r6, f2758
+	cbne	r8, r6, fail2758
 	mov	=0x3f800000, r1
 	mov	=0x3f800000, r2
 	mov	=0xffffffffbf800000, r3
@@ -16832,9 +16832,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f2759
+	cbne	r5, r6, fail2759
 	mov	=0x0, r6
-	cbne	r8, r6, f2760
+	cbne	r8, r6, fail2760
 	mov	=0x3f800000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40000000, r3
@@ -16845,9 +16845,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f2761
+	cbne	r5, r6, fail2761
 	mov	=0x0, r6
-	cbne	r8, r6, f2762
+	cbne	r8, r6, fail2762
 	mov	=0x3f800000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40000000, r3
@@ -16858,9 +16858,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0400000, r6
-	cbne	r5, r6, f2763
+	cbne	r5, r6, fail2763
 	mov	=0x0, r6
-	cbne	r8, r6, f2764
+	cbne	r8, r6, fail2764
 	mov	=0x3f800000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40400000, r3
@@ -16871,9 +16871,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0000000, r6
-	cbne	r5, r6, f2765
+	cbne	r5, r6, fail2765
 	mov	=0x0, r6
-	cbne	r8, r6, f2766
+	cbne	r8, r6, fail2766
 	mov	=0x3f800000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40400000, r3
@@ -16884,9 +16884,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0800000, r6
-	cbne	r5, r6, f2767
+	cbne	r5, r6, fail2767
 	mov	=0x0, r6
-	cbne	r8, r6, f2768
+	cbne	r8, r6, fail2768
 	mov	=0x3f800000, r1
 	mov	=0x3f800000, r2
 	mov	=0x3fc00000, r3
@@ -16897,9 +16897,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf000000, r6
-	cbne	r5, r6, f2769
+	cbne	r5, r6, fail2769
 	mov	=0x0, r6
-	cbne	r8, r6, f2770
+	cbne	r8, r6, fail2770
 	mov	=0x3f800000, r1
 	mov	=0x3f800000, r2
 	mov	=0x3fc00000, r3
@@ -16910,9 +16910,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0200000, r6
-	cbne	r5, r6, f2771
+	cbne	r5, r6, fail2771
 	mov	=0x0, r6
-	cbne	r8, r6, f2772
+	cbne	r8, r6, fail2772
 	mov	=0x3f800000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40200000, r3
@@ -16923,9 +16923,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f2773
+	cbne	r5, r6, fail2773
 	mov	=0x0, r6
-	cbne	r8, r6, f2774
+	cbne	r8, r6, fail2774
 	mov	=0x3f800000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40200000, r3
@@ -16936,9 +16936,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0600000, r6
-	cbne	r5, r6, f2775
+	cbne	r5, r6, fail2775
 	mov	=0x0, r6
-	cbne	r8, r6, f2776
+	cbne	r8, r6, fail2776
 	mov	=0x3f800000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40700000, r3
@@ -16949,9 +16949,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0300000, r6
-	cbne	r5, r6, f2777
+	cbne	r5, r6, fail2777
 	mov	=0x0, r6
-	cbne	r8, r6, f2778
+	cbne	r8, r6, fail2778
 	mov	=0x3f800000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40700000, r3
@@ -16962,9 +16962,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0980000, r6
-	cbne	r5, r6, f2779
+	cbne	r5, r6, fail2779
 	mov	=0x0, r6
-	cbne	r8, r6, f2780
+	cbne	r8, r6, fail2780
 	mov	=0x3f800000, r1
 	mov	=0x3f800000, r2
 	mov	=0xffffffffc0700000, r3
@@ -16975,9 +16975,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40980000, r6
-	cbne	r5, r6, f2781
+	cbne	r5, r6, fail2781
 	mov	=0x0, r6
-	cbne	r8, r6, f2782
+	cbne	r8, r6, fail2782
 	mov	=0x3f800000, r1
 	mov	=0x3f800000, r2
 	mov	=0xffffffffc0700000, r3
@@ -16988,9 +16988,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40300000, r6
-	cbne	r5, r6, f2783
+	cbne	r5, r6, fail2783
 	mov	=0x0, r6
-	cbne	r8, r6, f2784
+	cbne	r8, r6, fail2784
 	mov	=0x3f800000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40f00000, r3
@@ -17001,9 +17001,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0d00000, r6
-	cbne	r5, r6, f2785
+	cbne	r5, r6, fail2785
 	mov	=0x0, r6
-	cbne	r8, r6, f2786
+	cbne	r8, r6, fail2786
 	mov	=0x3f800000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40f00000, r3
@@ -17014,9 +17014,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc1080000, r6
-	cbne	r5, r6, f2787
+	cbne	r5, r6, fail2787
 	mov	=0x0, r6
-	cbne	r8, r6, f2788
+	cbne	r8, r6, fail2788
 	mov	=0x3f800000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x0, r3
@@ -17027,9 +17027,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f2789
+	cbne	r5, r6, fail2789
 	mov	=0x0, r6
-	cbne	r8, r6, f2790
+	cbne	r8, r6, fail2790
 	mov	=0x3f800000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x0, r3
@@ -17040,9 +17040,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3f800000, r6
-	cbne	r5, r6, f2791
+	cbne	r5, r6, fail2791
 	mov	=0x0, r6
-	cbne	r8, r6, f2792
+	cbne	r8, r6, fail2792
 	mov	=0x3f800000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0xffffffff80000000, r3
@@ -17053,9 +17053,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f2793
+	cbne	r5, r6, fail2793
 	mov	=0x0, r6
-	cbne	r8, r6, f2794
+	cbne	r8, r6, fail2794
 	mov	=0x3f800000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0xffffffff80000000, r3
@@ -17066,9 +17066,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3f800000, r6
-	cbne	r5, r6, f2795
+	cbne	r5, r6, fail2795
 	mov	=0x0, r6
-	cbne	r8, r6, f2796
+	cbne	r8, r6, fail2796
 	mov	=0x3f800000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x3f800000, r3
@@ -17079,9 +17079,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0000000, r6
-	cbne	r5, r6, f2797
+	cbne	r5, r6, fail2797
 	mov	=0x0, r6
-	cbne	r8, r6, f2798
+	cbne	r8, r6, fail2798
 	mov	=0x3f800000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x3f800000, r3
@@ -17092,9 +17092,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f2799
+	cbne	r5, r6, fail2799
 	mov	=0x0, r6
-	cbne	r8, r6, f2800
+	cbne	r8, r6, fail2800
 	mov	=0x3f800000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0xffffffffbf800000, r3
@@ -17105,9 +17105,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f2801
+	cbne	r5, r6, fail2801
 	mov	=0x0, r6
-	cbne	r8, r6, f2802
+	cbne	r8, r6, fail2802
 	mov	=0x3f800000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0xffffffffbf800000, r3
@@ -17118,9 +17118,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40000000, r6
-	cbne	r5, r6, f2803
+	cbne	r5, r6, fail2803
 	mov	=0x0, r6
-	cbne	r8, r6, f2804
+	cbne	r8, r6, fail2804
 	mov	=0x3f800000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40000000, r3
@@ -17131,9 +17131,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0400000, r6
-	cbne	r5, r6, f2805
+	cbne	r5, r6, fail2805
 	mov	=0x0, r6
-	cbne	r8, r6, f2806
+	cbne	r8, r6, fail2806
 	mov	=0x3f800000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40000000, r3
@@ -17144,9 +17144,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f2807
+	cbne	r5, r6, fail2807
 	mov	=0x0, r6
-	cbne	r8, r6, f2808
+	cbne	r8, r6, fail2808
 	mov	=0x3f800000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40400000, r3
@@ -17157,9 +17157,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0800000, r6
-	cbne	r5, r6, f2809
+	cbne	r5, r6, fail2809
 	mov	=0x0, r6
-	cbne	r8, r6, f2810
+	cbne	r8, r6, fail2810
 	mov	=0x3f800000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40400000, r3
@@ -17170,9 +17170,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0000000, r6
-	cbne	r5, r6, f2811
+	cbne	r5, r6, fail2811
 	mov	=0x0, r6
-	cbne	r8, r6, f2812
+	cbne	r8, r6, fail2812
 	mov	=0x3f800000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x3fc00000, r3
@@ -17183,9 +17183,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0200000, r6
-	cbne	r5, r6, f2813
+	cbne	r5, r6, fail2813
 	mov	=0x0, r6
-	cbne	r8, r6, f2814
+	cbne	r8, r6, fail2814
 	mov	=0x3f800000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x3fc00000, r3
@@ -17196,9 +17196,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf000000, r6
-	cbne	r5, r6, f2815
+	cbne	r5, r6, fail2815
 	mov	=0x0, r6
-	cbne	r8, r6, f2816
+	cbne	r8, r6, fail2816
 	mov	=0x3f800000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40200000, r3
@@ -17209,9 +17209,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0600000, r6
-	cbne	r5, r6, f2817
+	cbne	r5, r6, fail2817
 	mov	=0x0, r6
-	cbne	r8, r6, f2818
+	cbne	r8, r6, fail2818
 	mov	=0x3f800000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40200000, r3
@@ -17222,9 +17222,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f2819
+	cbne	r5, r6, fail2819
 	mov	=0x0, r6
-	cbne	r8, r6, f2820
+	cbne	r8, r6, fail2820
 	mov	=0x3f800000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40700000, r3
@@ -17235,9 +17235,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0980000, r6
-	cbne	r5, r6, f2821
+	cbne	r5, r6, fail2821
 	mov	=0x0, r6
-	cbne	r8, r6, f2822
+	cbne	r8, r6, fail2822
 	mov	=0x3f800000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40700000, r3
@@ -17248,9 +17248,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0300000, r6
-	cbne	r5, r6, f2823
+	cbne	r5, r6, fail2823
 	mov	=0x0, r6
-	cbne	r8, r6, f2824
+	cbne	r8, r6, fail2824
 	mov	=0x3f800000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0xffffffffc0700000, r3
@@ -17261,9 +17261,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40300000, r6
-	cbne	r5, r6, f2825
+	cbne	r5, r6, fail2825
 	mov	=0x0, r6
-	cbne	r8, r6, f2826
+	cbne	r8, r6, fail2826
 	mov	=0x3f800000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0xffffffffc0700000, r3
@@ -17274,9 +17274,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40980000, r6
-	cbne	r5, r6, f2827
+	cbne	r5, r6, fail2827
 	mov	=0x0, r6
-	cbne	r8, r6, f2828
+	cbne	r8, r6, fail2828
 	mov	=0x3f800000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40f00000, r3
@@ -17287,9 +17287,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc1080000, r6
-	cbne	r5, r6, f2829
+	cbne	r5, r6, fail2829
 	mov	=0x0, r6
-	cbne	r8, r6, f2830
+	cbne	r8, r6, fail2830
 	mov	=0x3f800000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40f00000, r3
@@ -17300,9 +17300,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0d00000, r6
-	cbne	r5, r6, f2831
+	cbne	r5, r6, fail2831
 	mov	=0x0, r6
-	cbne	r8, r6, f2832
+	cbne	r8, r6, fail2832
 	mov	=0x3f800000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x0, r3
@@ -17313,9 +17313,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3fc00000, r6
-	cbne	r5, r6, f2833
+	cbne	r5, r6, fail2833
 	mov	=0x0, r6
-	cbne	r8, r6, f2834
+	cbne	r8, r6, fail2834
 	mov	=0x3f800000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x0, r3
@@ -17326,9 +17326,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f2835
+	cbne	r5, r6, fail2835
 	mov	=0x0, r6
-	cbne	r8, r6, f2836
+	cbne	r8, r6, fail2836
 	mov	=0x3f800000, r1
 	mov	=0x3fc00000, r2
 	mov	=0xffffffff80000000, r3
@@ -17339,9 +17339,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3fc00000, r6
-	cbne	r5, r6, f2837
+	cbne	r5, r6, fail2837
 	mov	=0x0, r6
-	cbne	r8, r6, f2838
+	cbne	r8, r6, fail2838
 	mov	=0x3f800000, r1
 	mov	=0x3fc00000, r2
 	mov	=0xffffffff80000000, r3
@@ -17352,9 +17352,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f2839
+	cbne	r5, r6, fail2839
 	mov	=0x0, r6
-	cbne	r8, r6, f2840
+	cbne	r8, r6, fail2840
 	mov	=0x3f800000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x3f800000, r3
@@ -17365,9 +17365,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3f000000, r6
-	cbne	r5, r6, f2841
+	cbne	r5, r6, fail2841
 	mov	=0x0, r6
-	cbne	r8, r6, f2842
+	cbne	r8, r6, fail2842
 	mov	=0x3f800000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x3f800000, r3
@@ -17378,9 +17378,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0200000, r6
-	cbne	r5, r6, f2843
+	cbne	r5, r6, fail2843
 	mov	=0x0, r6
-	cbne	r8, r6, f2844
+	cbne	r8, r6, fail2844
 	mov	=0x3f800000, r1
 	mov	=0x3fc00000, r2
 	mov	=0xffffffffbf800000, r3
@@ -17391,9 +17391,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40200000, r6
-	cbne	r5, r6, f2845
+	cbne	r5, r6, fail2845
 	mov	=0x0, r6
-	cbne	r8, r6, f2846
+	cbne	r8, r6, fail2846
 	mov	=0x3f800000, r1
 	mov	=0x3fc00000, r2
 	mov	=0xffffffffbf800000, r3
@@ -17404,9 +17404,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf000000, r6
-	cbne	r5, r6, f2847
+	cbne	r5, r6, fail2847
 	mov	=0x0, r6
-	cbne	r8, r6, f2848
+	cbne	r8, r6, fail2848
 	mov	=0x3f800000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40000000, r3
@@ -17417,9 +17417,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf000000, r6
-	cbne	r5, r6, f2849
+	cbne	r5, r6, fail2849
 	mov	=0x0, r6
-	cbne	r8, r6, f2850
+	cbne	r8, r6, fail2850
 	mov	=0x3f800000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40000000, r3
@@ -17430,9 +17430,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0600000, r6
-	cbne	r5, r6, f2851
+	cbne	r5, r6, fail2851
 	mov	=0x0, r6
-	cbne	r8, r6, f2852
+	cbne	r8, r6, fail2852
 	mov	=0x3f800000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40400000, r3
@@ -17443,9 +17443,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f2853
+	cbne	r5, r6, fail2853
 	mov	=0x0, r6
-	cbne	r8, r6, f2854
+	cbne	r8, r6, fail2854
 	mov	=0x3f800000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40400000, r3
@@ -17456,9 +17456,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0900000, r6
-	cbne	r5, r6, f2855
+	cbne	r5, r6, fail2855
 	mov	=0x0, r6
-	cbne	r8, r6, f2856
+	cbne	r8, r6, fail2856
 	mov	=0x3f800000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x3fc00000, r3
@@ -17469,9 +17469,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f2857
+	cbne	r5, r6, fail2857
 	mov	=0x0, r6
-	cbne	r8, r6, f2858
+	cbne	r8, r6, fail2858
 	mov	=0x3f800000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x3fc00000, r3
@@ -17482,9 +17482,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0400000, r6
-	cbne	r5, r6, f2859
+	cbne	r5, r6, fail2859
 	mov	=0x0, r6
-	cbne	r8, r6, f2860
+	cbne	r8, r6, fail2860
 	mov	=0x3f800000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40200000, r3
@@ -17495,9 +17495,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f2861
+	cbne	r5, r6, fail2861
 	mov	=0x0, r6
-	cbne	r8, r6, f2862
+	cbne	r8, r6, fail2862
 	mov	=0x3f800000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40200000, r3
@@ -17508,9 +17508,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0800000, r6
-	cbne	r5, r6, f2863
+	cbne	r5, r6, fail2863
 	mov	=0x0, r6
-	cbne	r8, r6, f2864
+	cbne	r8, r6, fail2864
 	mov	=0x3f800000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40700000, r3
@@ -17521,9 +17521,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0100000, r6
-	cbne	r5, r6, f2865
+	cbne	r5, r6, fail2865
 	mov	=0x0, r6
-	cbne	r8, r6, f2866
+	cbne	r8, r6, fail2866
 	mov	=0x3f800000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40700000, r3
@@ -17534,9 +17534,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0a80000, r6
-	cbne	r5, r6, f2867
+	cbne	r5, r6, fail2867
 	mov	=0x0, r6
-	cbne	r8, r6, f2868
+	cbne	r8, r6, fail2868
 	mov	=0x3f800000, r1
 	mov	=0x3fc00000, r2
 	mov	=0xffffffffc0700000, r3
@@ -17547,9 +17547,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40a80000, r6
-	cbne	r5, r6, f2869
+	cbne	r5, r6, fail2869
 	mov	=0x0, r6
-	cbne	r8, r6, f2870
+	cbne	r8, r6, fail2870
 	mov	=0x3f800000, r1
 	mov	=0x3fc00000, r2
 	mov	=0xffffffffc0700000, r3
@@ -17560,9 +17560,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40100000, r6
-	cbne	r5, r6, f2871
+	cbne	r5, r6, fail2871
 	mov	=0x0, r6
-	cbne	r8, r6, f2872
+	cbne	r8, r6, fail2872
 	mov	=0x3f800000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40f00000, r3
@@ -17573,9 +17573,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0c00000, r6
-	cbne	r5, r6, f2873
+	cbne	r5, r6, fail2873
 	mov	=0x0, r6
-	cbne	r8, r6, f2874
+	cbne	r8, r6, fail2874
 	mov	=0x3f800000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40f00000, r3
@@ -17586,9 +17586,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc1100000, r6
-	cbne	r5, r6, f2875
+	cbne	r5, r6, fail2875
 	mov	=0x0, r6
-	cbne	r8, r6, f2876
+	cbne	r8, r6, fail2876
 	mov	=0xffffffffbf800000, r1
 	mov	=0x0, r2
 	mov	=0x0, r3
@@ -17599,9 +17599,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffff80000000, r6
-	cbne	r5, r6, f2877
+	cbne	r5, r6, fail2877
 	mov	=0x0, r6
-	cbne	r8, r6, f2878
+	cbne	r8, r6, fail2878
 	mov	=0xffffffffbf800000, r1
 	mov	=0x0, r2
 	mov	=0x0, r3
@@ -17612,9 +17612,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f2879
+	cbne	r5, r6, fail2879
 	mov	=0x0, r6
-	cbne	r8, r6, f2880
+	cbne	r8, r6, fail2880
 	mov	=0xffffffffbf800000, r1
 	mov	=0x0, r2
 	mov	=0xffffffff80000000, r3
@@ -17625,9 +17625,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f2881
+	cbne	r5, r6, fail2881
 	mov	=0x0, r6
-	cbne	r8, r6, f2882
+	cbne	r8, r6, fail2882
 	mov	=0xffffffffbf800000, r1
 	mov	=0x0, r2
 	mov	=0xffffffff80000000, r3
@@ -17638,9 +17638,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f2883
+	cbne	r5, r6, fail2883
 	mov	=0x0, r6
-	cbne	r8, r6, f2884
+	cbne	r8, r6, fail2884
 	mov	=0xffffffffbf800000, r1
 	mov	=0x0, r2
 	mov	=0x3f800000, r3
@@ -17651,9 +17651,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f2885
+	cbne	r5, r6, fail2885
 	mov	=0x0, r6
-	cbne	r8, r6, f2886
+	cbne	r8, r6, fail2886
 	mov	=0xffffffffbf800000, r1
 	mov	=0x0, r2
 	mov	=0x3f800000, r3
@@ -17664,9 +17664,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f2887
+	cbne	r5, r6, fail2887
 	mov	=0x0, r6
-	cbne	r8, r6, f2888
+	cbne	r8, r6, fail2888
 	mov	=0xffffffffbf800000, r1
 	mov	=0x0, r2
 	mov	=0xffffffffbf800000, r3
@@ -17677,9 +17677,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3f800000, r6
-	cbne	r5, r6, f2889
+	cbne	r5, r6, fail2889
 	mov	=0x0, r6
-	cbne	r8, r6, f2890
+	cbne	r8, r6, fail2890
 	mov	=0xffffffffbf800000, r1
 	mov	=0x0, r2
 	mov	=0xffffffffbf800000, r3
@@ -17690,9 +17690,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3f800000, r6
-	cbne	r5, r6, f2891
+	cbne	r5, r6, fail2891
 	mov	=0x0, r6
-	cbne	r8, r6, f2892
+	cbne	r8, r6, fail2892
 	mov	=0xffffffffbf800000, r1
 	mov	=0x0, r2
 	mov	=0x40000000, r3
@@ -17703,9 +17703,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0000000, r6
-	cbne	r5, r6, f2893
+	cbne	r5, r6, fail2893
 	mov	=0x0, r6
-	cbne	r8, r6, f2894
+	cbne	r8, r6, fail2894
 	mov	=0xffffffffbf800000, r1
 	mov	=0x0, r2
 	mov	=0x40000000, r3
@@ -17716,9 +17716,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0000000, r6
-	cbne	r5, r6, f2895
+	cbne	r5, r6, fail2895
 	mov	=0x0, r6
-	cbne	r8, r6, f2896
+	cbne	r8, r6, fail2896
 	mov	=0xffffffffbf800000, r1
 	mov	=0x0, r2
 	mov	=0x40400000, r3
@@ -17729,9 +17729,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0400000, r6
-	cbne	r5, r6, f2897
+	cbne	r5, r6, fail2897
 	mov	=0x0, r6
-	cbne	r8, r6, f2898
+	cbne	r8, r6, fail2898
 	mov	=0xffffffffbf800000, r1
 	mov	=0x0, r2
 	mov	=0x40400000, r3
@@ -17742,9 +17742,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0400000, r6
-	cbne	r5, r6, f2899
+	cbne	r5, r6, fail2899
 	mov	=0x0, r6
-	cbne	r8, r6, f2900
+	cbne	r8, r6, fail2900
 	mov	=0xffffffffbf800000, r1
 	mov	=0x0, r2
 	mov	=0x3fc00000, r3
@@ -17755,9 +17755,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f2901
+	cbne	r5, r6, fail2901
 	mov	=0x0, r6
-	cbne	r8, r6, f2902
+	cbne	r8, r6, fail2902
 	mov	=0xffffffffbf800000, r1
 	mov	=0x0, r2
 	mov	=0x3fc00000, r3
@@ -17768,9 +17768,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f2903
+	cbne	r5, r6, fail2903
 	mov	=0x0, r6
-	cbne	r8, r6, f2904
+	cbne	r8, r6, fail2904
 	mov	=0xffffffffbf800000, r1
 	mov	=0x0, r2
 	mov	=0x40200000, r3
@@ -17781,9 +17781,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0200000, r6
-	cbne	r5, r6, f2905
+	cbne	r5, r6, fail2905
 	mov	=0x0, r6
-	cbne	r8, r6, f2906
+	cbne	r8, r6, fail2906
 	mov	=0xffffffffbf800000, r1
 	mov	=0x0, r2
 	mov	=0x40200000, r3
@@ -17794,9 +17794,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0200000, r6
-	cbne	r5, r6, f2907
+	cbne	r5, r6, fail2907
 	mov	=0x0, r6
-	cbne	r8, r6, f2908
+	cbne	r8, r6, fail2908
 	mov	=0xffffffffbf800000, r1
 	mov	=0x0, r2
 	mov	=0x40700000, r3
@@ -17807,9 +17807,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0700000, r6
-	cbne	r5, r6, f2909
+	cbne	r5, r6, fail2909
 	mov	=0x0, r6
-	cbne	r8, r6, f2910
+	cbne	r8, r6, fail2910
 	mov	=0xffffffffbf800000, r1
 	mov	=0x0, r2
 	mov	=0x40700000, r3
@@ -17820,9 +17820,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0700000, r6
-	cbne	r5, r6, f2911
+	cbne	r5, r6, fail2911
 	mov	=0x0, r6
-	cbne	r8, r6, f2912
+	cbne	r8, r6, fail2912
 	mov	=0xffffffffbf800000, r1
 	mov	=0x0, r2
 	mov	=0xffffffffc0700000, r3
@@ -17833,9 +17833,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40700000, r6
-	cbne	r5, r6, f2913
+	cbne	r5, r6, fail2913
 	mov	=0x0, r6
-	cbne	r8, r6, f2914
+	cbne	r8, r6, fail2914
 	mov	=0xffffffffbf800000, r1
 	mov	=0x0, r2
 	mov	=0xffffffffc0700000, r3
@@ -17846,9 +17846,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40700000, r6
-	cbne	r5, r6, f2915
+	cbne	r5, r6, fail2915
 	mov	=0x0, r6
-	cbne	r8, r6, f2916
+	cbne	r8, r6, fail2916
 	mov	=0xffffffffbf800000, r1
 	mov	=0x0, r2
 	mov	=0x40f00000, r3
@@ -17859,9 +17859,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0f00000, r6
-	cbne	r5, r6, f2917
+	cbne	r5, r6, fail2917
 	mov	=0x0, r6
-	cbne	r8, r6, f2918
+	cbne	r8, r6, fail2918
 	mov	=0xffffffffbf800000, r1
 	mov	=0x0, r2
 	mov	=0x40f00000, r3
@@ -17872,9 +17872,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0f00000, r6
-	cbne	r5, r6, f2919
+	cbne	r5, r6, fail2919
 	mov	=0x0, r6
-	cbne	r8, r6, f2920
+	cbne	r8, r6, fail2920
 	mov	=0xffffffffbf800000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x0, r3
@@ -17885,9 +17885,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f2921
+	cbne	r5, r6, fail2921
 	mov	=0x0, r6
-	cbne	r8, r6, f2922
+	cbne	r8, r6, fail2922
 	mov	=0xffffffffbf800000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x0, r3
@@ -17898,9 +17898,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffff80000000, r6
-	cbne	r5, r6, f2923
+	cbne	r5, r6, fail2923
 	mov	=0x0, r6
-	cbne	r8, r6, f2924
+	cbne	r8, r6, fail2924
 	mov	=0xffffffffbf800000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0xffffffff80000000, r3
@@ -17911,9 +17911,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f2925
+	cbne	r5, r6, fail2925
 	mov	=0x0, r6
-	cbne	r8, r6, f2926
+	cbne	r8, r6, fail2926
 	mov	=0xffffffffbf800000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0xffffffff80000000, r3
@@ -17924,9 +17924,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f2927
+	cbne	r5, r6, fail2927
 	mov	=0x0, r6
-	cbne	r8, r6, f2928
+	cbne	r8, r6, fail2928
 	mov	=0xffffffffbf800000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x3f800000, r3
@@ -17937,9 +17937,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f2929
+	cbne	r5, r6, fail2929
 	mov	=0x0, r6
-	cbne	r8, r6, f2930
+	cbne	r8, r6, fail2930
 	mov	=0xffffffffbf800000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x3f800000, r3
@@ -17950,9 +17950,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f2931
+	cbne	r5, r6, fail2931
 	mov	=0x0, r6
-	cbne	r8, r6, f2932
+	cbne	r8, r6, fail2932
 	mov	=0xffffffffbf800000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0xffffffffbf800000, r3
@@ -17963,9 +17963,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3f800000, r6
-	cbne	r5, r6, f2933
+	cbne	r5, r6, fail2933
 	mov	=0x0, r6
-	cbne	r8, r6, f2934
+	cbne	r8, r6, fail2934
 	mov	=0xffffffffbf800000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0xffffffffbf800000, r3
@@ -17976,9 +17976,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3f800000, r6
-	cbne	r5, r6, f2935
+	cbne	r5, r6, fail2935
 	mov	=0x0, r6
-	cbne	r8, r6, f2936
+	cbne	r8, r6, fail2936
 	mov	=0xffffffffbf800000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40000000, r3
@@ -17989,9 +17989,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0000000, r6
-	cbne	r5, r6, f2937
+	cbne	r5, r6, fail2937
 	mov	=0x0, r6
-	cbne	r8, r6, f2938
+	cbne	r8, r6, fail2938
 	mov	=0xffffffffbf800000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40000000, r3
@@ -18002,9 +18002,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0000000, r6
-	cbne	r5, r6, f2939
+	cbne	r5, r6, fail2939
 	mov	=0x0, r6
-	cbne	r8, r6, f2940
+	cbne	r8, r6, fail2940
 	mov	=0xffffffffbf800000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40400000, r3
@@ -18015,9 +18015,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0400000, r6
-	cbne	r5, r6, f2941
+	cbne	r5, r6, fail2941
 	mov	=0x0, r6
-	cbne	r8, r6, f2942
+	cbne	r8, r6, fail2942
 	mov	=0xffffffffbf800000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40400000, r3
@@ -18028,9 +18028,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0400000, r6
-	cbne	r5, r6, f2943
+	cbne	r5, r6, fail2943
 	mov	=0x0, r6
-	cbne	r8, r6, f2944
+	cbne	r8, r6, fail2944
 	mov	=0xffffffffbf800000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x3fc00000, r3
@@ -18041,9 +18041,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f2945
+	cbne	r5, r6, fail2945
 	mov	=0x0, r6
-	cbne	r8, r6, f2946
+	cbne	r8, r6, fail2946
 	mov	=0xffffffffbf800000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x3fc00000, r3
@@ -18054,9 +18054,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f2947
+	cbne	r5, r6, fail2947
 	mov	=0x0, r6
-	cbne	r8, r6, f2948
+	cbne	r8, r6, fail2948
 	mov	=0xffffffffbf800000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40200000, r3
@@ -18067,9 +18067,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0200000, r6
-	cbne	r5, r6, f2949
+	cbne	r5, r6, fail2949
 	mov	=0x0, r6
-	cbne	r8, r6, f2950
+	cbne	r8, r6, fail2950
 	mov	=0xffffffffbf800000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40200000, r3
@@ -18080,9 +18080,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0200000, r6
-	cbne	r5, r6, f2951
+	cbne	r5, r6, fail2951
 	mov	=0x0, r6
-	cbne	r8, r6, f2952
+	cbne	r8, r6, fail2952
 	mov	=0xffffffffbf800000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40700000, r3
@@ -18093,9 +18093,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0700000, r6
-	cbne	r5, r6, f2953
+	cbne	r5, r6, fail2953
 	mov	=0x0, r6
-	cbne	r8, r6, f2954
+	cbne	r8, r6, fail2954
 	mov	=0xffffffffbf800000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40700000, r3
@@ -18106,9 +18106,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0700000, r6
-	cbne	r5, r6, f2955
+	cbne	r5, r6, fail2955
 	mov	=0x0, r6
-	cbne	r8, r6, f2956
+	cbne	r8, r6, fail2956
 	mov	=0xffffffffbf800000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0xffffffffc0700000, r3
@@ -18119,9 +18119,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40700000, r6
-	cbne	r5, r6, f2957
+	cbne	r5, r6, fail2957
 	mov	=0x0, r6
-	cbne	r8, r6, f2958
+	cbne	r8, r6, fail2958
 	mov	=0xffffffffbf800000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0xffffffffc0700000, r3
@@ -18132,9 +18132,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40700000, r6
-	cbne	r5, r6, f2959
+	cbne	r5, r6, fail2959
 	mov	=0x0, r6
-	cbne	r8, r6, f2960
+	cbne	r8, r6, fail2960
 	mov	=0xffffffffbf800000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40f00000, r3
@@ -18145,9 +18145,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0f00000, r6
-	cbne	r5, r6, f2961
+	cbne	r5, r6, fail2961
 	mov	=0x0, r6
-	cbne	r8, r6, f2962
+	cbne	r8, r6, fail2962
 	mov	=0xffffffffbf800000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40f00000, r3
@@ -18158,9 +18158,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0f00000, r6
-	cbne	r5, r6, f2963
+	cbne	r5, r6, fail2963
 	mov	=0x0, r6
-	cbne	r8, r6, f2964
+	cbne	r8, r6, fail2964
 	mov	=0xffffffffbf800000, r1
 	mov	=0x3f800000, r2
 	mov	=0x0, r3
@@ -18171,9 +18171,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f2965
+	cbne	r5, r6, fail2965
 	mov	=0x0, r6
-	cbne	r8, r6, f2966
+	cbne	r8, r6, fail2966
 	mov	=0xffffffffbf800000, r1
 	mov	=0x3f800000, r2
 	mov	=0x0, r3
@@ -18184,9 +18184,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3f800000, r6
-	cbne	r5, r6, f2967
+	cbne	r5, r6, fail2967
 	mov	=0x0, r6
-	cbne	r8, r6, f2968
+	cbne	r8, r6, fail2968
 	mov	=0xffffffffbf800000, r1
 	mov	=0x3f800000, r2
 	mov	=0xffffffff80000000, r3
@@ -18197,9 +18197,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f2969
+	cbne	r5, r6, fail2969
 	mov	=0x0, r6
-	cbne	r8, r6, f2970
+	cbne	r8, r6, fail2970
 	mov	=0xffffffffbf800000, r1
 	mov	=0x3f800000, r2
 	mov	=0xffffffff80000000, r3
@@ -18210,9 +18210,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3f800000, r6
-	cbne	r5, r6, f2971
+	cbne	r5, r6, fail2971
 	mov	=0x0, r6
-	cbne	r8, r6, f2972
+	cbne	r8, r6, fail2972
 	mov	=0xffffffffbf800000, r1
 	mov	=0x3f800000, r2
 	mov	=0x3f800000, r3
@@ -18223,9 +18223,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0000000, r6
-	cbne	r5, r6, f2973
+	cbne	r5, r6, fail2973
 	mov	=0x0, r6
-	cbne	r8, r6, f2974
+	cbne	r8, r6, fail2974
 	mov	=0xffffffffbf800000, r1
 	mov	=0x3f800000, r2
 	mov	=0x3f800000, r3
@@ -18236,9 +18236,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f2975
+	cbne	r5, r6, fail2975
 	mov	=0x0, r6
-	cbne	r8, r6, f2976
+	cbne	r8, r6, fail2976
 	mov	=0xffffffffbf800000, r1
 	mov	=0x3f800000, r2
 	mov	=0xffffffffbf800000, r3
@@ -18249,9 +18249,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f2977
+	cbne	r5, r6, fail2977
 	mov	=0x0, r6
-	cbne	r8, r6, f2978
+	cbne	r8, r6, fail2978
 	mov	=0xffffffffbf800000, r1
 	mov	=0x3f800000, r2
 	mov	=0xffffffffbf800000, r3
@@ -18262,9 +18262,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40000000, r6
-	cbne	r5, r6, f2979
+	cbne	r5, r6, fail2979
 	mov	=0x0, r6
-	cbne	r8, r6, f2980
+	cbne	r8, r6, fail2980
 	mov	=0xffffffffbf800000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40000000, r3
@@ -18275,9 +18275,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0400000, r6
-	cbne	r5, r6, f2981
+	cbne	r5, r6, fail2981
 	mov	=0x0, r6
-	cbne	r8, r6, f2982
+	cbne	r8, r6, fail2982
 	mov	=0xffffffffbf800000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40000000, r3
@@ -18288,9 +18288,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f2983
+	cbne	r5, r6, fail2983
 	mov	=0x0, r6
-	cbne	r8, r6, f2984
+	cbne	r8, r6, fail2984
 	mov	=0xffffffffbf800000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40400000, r3
@@ -18301,9 +18301,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0800000, r6
-	cbne	r5, r6, f2985
+	cbne	r5, r6, fail2985
 	mov	=0x0, r6
-	cbne	r8, r6, f2986
+	cbne	r8, r6, fail2986
 	mov	=0xffffffffbf800000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40400000, r3
@@ -18314,9 +18314,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0000000, r6
-	cbne	r5, r6, f2987
+	cbne	r5, r6, fail2987
 	mov	=0x0, r6
-	cbne	r8, r6, f2988
+	cbne	r8, r6, fail2988
 	mov	=0xffffffffbf800000, r1
 	mov	=0x3f800000, r2
 	mov	=0x3fc00000, r3
@@ -18327,9 +18327,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0200000, r6
-	cbne	r5, r6, f2989
+	cbne	r5, r6, fail2989
 	mov	=0x0, r6
-	cbne	r8, r6, f2990
+	cbne	r8, r6, fail2990
 	mov	=0xffffffffbf800000, r1
 	mov	=0x3f800000, r2
 	mov	=0x3fc00000, r3
@@ -18340,9 +18340,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf000000, r6
-	cbne	r5, r6, f2991
+	cbne	r5, r6, fail2991
 	mov	=0x0, r6
-	cbne	r8, r6, f2992
+	cbne	r8, r6, fail2992
 	mov	=0xffffffffbf800000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40200000, r3
@@ -18353,9 +18353,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0600000, r6
-	cbne	r5, r6, f2993
+	cbne	r5, r6, fail2993
 	mov	=0x0, r6
-	cbne	r8, r6, f2994
+	cbne	r8, r6, fail2994
 	mov	=0xffffffffbf800000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40200000, r3
@@ -18366,9 +18366,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f2995
+	cbne	r5, r6, fail2995
 	mov	=0x0, r6
-	cbne	r8, r6, f2996
+	cbne	r8, r6, fail2996
 	mov	=0xffffffffbf800000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40700000, r3
@@ -18379,9 +18379,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0980000, r6
-	cbne	r5, r6, f2997
+	cbne	r5, r6, fail2997
 	mov	=0x0, r6
-	cbne	r8, r6, f2998
+	cbne	r8, r6, fail2998
 	mov	=0xffffffffbf800000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40700000, r3
@@ -18392,9 +18392,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0300000, r6
-	cbne	r5, r6, f2999
+	cbne	r5, r6, fail2999
 	mov	=0x0, r6
-	cbne	r8, r6, f3000
+	cbne	r8, r6, fail3000
 	mov	=0xffffffffbf800000, r1
 	mov	=0x3f800000, r2
 	mov	=0xffffffffc0700000, r3
@@ -18405,9 +18405,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40300000, r6
-	cbne	r5, r6, f3001
+	cbne	r5, r6, fail3001
 	mov	=0x0, r6
-	cbne	r8, r6, f3002
+	cbne	r8, r6, fail3002
 	mov	=0xffffffffbf800000, r1
 	mov	=0x3f800000, r2
 	mov	=0xffffffffc0700000, r3
@@ -18418,9 +18418,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40980000, r6
-	cbne	r5, r6, f3003
+	cbne	r5, r6, fail3003
 	mov	=0x0, r6
-	cbne	r8, r6, f3004
+	cbne	r8, r6, fail3004
 	mov	=0xffffffffbf800000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40f00000, r3
@@ -18431,9 +18431,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc1080000, r6
-	cbne	r5, r6, f3005
+	cbne	r5, r6, fail3005
 	mov	=0x0, r6
-	cbne	r8, r6, f3006
+	cbne	r8, r6, fail3006
 	mov	=0xffffffffbf800000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40f00000, r3
@@ -18444,9 +18444,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0d00000, r6
-	cbne	r5, r6, f3007
+	cbne	r5, r6, fail3007
 	mov	=0x0, r6
-	cbne	r8, r6, f3008
+	cbne	r8, r6, fail3008
 	mov	=0xffffffffbf800000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x0, r3
@@ -18457,9 +18457,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3f800000, r6
-	cbne	r5, r6, f3009
+	cbne	r5, r6, fail3009
 	mov	=0x0, r6
-	cbne	r8, r6, f3010
+	cbne	r8, r6, fail3010
 	mov	=0xffffffffbf800000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x0, r3
@@ -18470,9 +18470,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f3011
+	cbne	r5, r6, fail3011
 	mov	=0x0, r6
-	cbne	r8, r6, f3012
+	cbne	r8, r6, fail3012
 	mov	=0xffffffffbf800000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0xffffffff80000000, r3
@@ -18483,9 +18483,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3f800000, r6
-	cbne	r5, r6, f3013
+	cbne	r5, r6, fail3013
 	mov	=0x0, r6
-	cbne	r8, r6, f3014
+	cbne	r8, r6, fail3014
 	mov	=0xffffffffbf800000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0xffffffff80000000, r3
@@ -18496,9 +18496,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f3015
+	cbne	r5, r6, fail3015
 	mov	=0x0, r6
-	cbne	r8, r6, f3016
+	cbne	r8, r6, fail3016
 	mov	=0xffffffffbf800000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x3f800000, r3
@@ -18509,9 +18509,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f3017
+	cbne	r5, r6, fail3017
 	mov	=0x0, r6
-	cbne	r8, r6, f3018
+	cbne	r8, r6, fail3018
 	mov	=0xffffffffbf800000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x3f800000, r3
@@ -18522,9 +18522,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0000000, r6
-	cbne	r5, r6, f3019
+	cbne	r5, r6, fail3019
 	mov	=0x0, r6
-	cbne	r8, r6, f3020
+	cbne	r8, r6, fail3020
 	mov	=0xffffffffbf800000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0xffffffffbf800000, r3
@@ -18535,9 +18535,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40000000, r6
-	cbne	r5, r6, f3021
+	cbne	r5, r6, fail3021
 	mov	=0x0, r6
-	cbne	r8, r6, f3022
+	cbne	r8, r6, fail3022
 	mov	=0xffffffffbf800000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0xffffffffbf800000, r3
@@ -18548,9 +18548,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f3023
+	cbne	r5, r6, fail3023
 	mov	=0x0, r6
-	cbne	r8, r6, f3024
+	cbne	r8, r6, fail3024
 	mov	=0xffffffffbf800000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40000000, r3
@@ -18561,9 +18561,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f3025
+	cbne	r5, r6, fail3025
 	mov	=0x0, r6
-	cbne	r8, r6, f3026
+	cbne	r8, r6, fail3026
 	mov	=0xffffffffbf800000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40000000, r3
@@ -18574,9 +18574,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0400000, r6
-	cbne	r5, r6, f3027
+	cbne	r5, r6, fail3027
 	mov	=0x0, r6
-	cbne	r8, r6, f3028
+	cbne	r8, r6, fail3028
 	mov	=0xffffffffbf800000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40400000, r3
@@ -18587,9 +18587,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0000000, r6
-	cbne	r5, r6, f3029
+	cbne	r5, r6, fail3029
 	mov	=0x0, r6
-	cbne	r8, r6, f3030
+	cbne	r8, r6, fail3030
 	mov	=0xffffffffbf800000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40400000, r3
@@ -18600,9 +18600,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0800000, r6
-	cbne	r5, r6, f3031
+	cbne	r5, r6, fail3031
 	mov	=0x0, r6
-	cbne	r8, r6, f3032
+	cbne	r8, r6, fail3032
 	mov	=0xffffffffbf800000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x3fc00000, r3
@@ -18613,9 +18613,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf000000, r6
-	cbne	r5, r6, f3033
+	cbne	r5, r6, fail3033
 	mov	=0x0, r6
-	cbne	r8, r6, f3034
+	cbne	r8, r6, fail3034
 	mov	=0xffffffffbf800000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x3fc00000, r3
@@ -18626,9 +18626,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0200000, r6
-	cbne	r5, r6, f3035
+	cbne	r5, r6, fail3035
 	mov	=0x0, r6
-	cbne	r8, r6, f3036
+	cbne	r8, r6, fail3036
 	mov	=0xffffffffbf800000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40200000, r3
@@ -18639,9 +18639,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f3037
+	cbne	r5, r6, fail3037
 	mov	=0x0, r6
-	cbne	r8, r6, f3038
+	cbne	r8, r6, fail3038
 	mov	=0xffffffffbf800000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40200000, r3
@@ -18652,9 +18652,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0600000, r6
-	cbne	r5, r6, f3039
+	cbne	r5, r6, fail3039
 	mov	=0x0, r6
-	cbne	r8, r6, f3040
+	cbne	r8, r6, fail3040
 	mov	=0xffffffffbf800000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40700000, r3
@@ -18665,9 +18665,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0300000, r6
-	cbne	r5, r6, f3041
+	cbne	r5, r6, fail3041
 	mov	=0x0, r6
-	cbne	r8, r6, f3042
+	cbne	r8, r6, fail3042
 	mov	=0xffffffffbf800000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40700000, r3
@@ -18678,9 +18678,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0980000, r6
-	cbne	r5, r6, f3043
+	cbne	r5, r6, fail3043
 	mov	=0x0, r6
-	cbne	r8, r6, f3044
+	cbne	r8, r6, fail3044
 	mov	=0xffffffffbf800000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0xffffffffc0700000, r3
@@ -18691,9 +18691,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40980000, r6
-	cbne	r5, r6, f3045
+	cbne	r5, r6, fail3045
 	mov	=0x0, r6
-	cbne	r8, r6, f3046
+	cbne	r8, r6, fail3046
 	mov	=0xffffffffbf800000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0xffffffffc0700000, r3
@@ -18704,9 +18704,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40300000, r6
-	cbne	r5, r6, f3047
+	cbne	r5, r6, fail3047
 	mov	=0x0, r6
-	cbne	r8, r6, f3048
+	cbne	r8, r6, fail3048
 	mov	=0xffffffffbf800000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40f00000, r3
@@ -18717,9 +18717,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0d00000, r6
-	cbne	r5, r6, f3049
+	cbne	r5, r6, fail3049
 	mov	=0x0, r6
-	cbne	r8, r6, f3050
+	cbne	r8, r6, fail3050
 	mov	=0xffffffffbf800000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40f00000, r3
@@ -18730,9 +18730,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc1080000, r6
-	cbne	r5, r6, f3051
+	cbne	r5, r6, fail3051
 	mov	=0x0, r6
-	cbne	r8, r6, f3052
+	cbne	r8, r6, fail3052
 	mov	=0xffffffffbf800000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x0, r3
@@ -18743,9 +18743,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f3053
+	cbne	r5, r6, fail3053
 	mov	=0x0, r6
-	cbne	r8, r6, f3054
+	cbne	r8, r6, fail3054
 	mov	=0xffffffffbf800000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x0, r3
@@ -18756,9 +18756,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3fc00000, r6
-	cbne	r5, r6, f3055
+	cbne	r5, r6, fail3055
 	mov	=0x0, r6
-	cbne	r8, r6, f3056
+	cbne	r8, r6, fail3056
 	mov	=0xffffffffbf800000, r1
 	mov	=0x3fc00000, r2
 	mov	=0xffffffff80000000, r3
@@ -18769,9 +18769,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f3057
+	cbne	r5, r6, fail3057
 	mov	=0x0, r6
-	cbne	r8, r6, f3058
+	cbne	r8, r6, fail3058
 	mov	=0xffffffffbf800000, r1
 	mov	=0x3fc00000, r2
 	mov	=0xffffffff80000000, r3
@@ -18782,9 +18782,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3fc00000, r6
-	cbne	r5, r6, f3059
+	cbne	r5, r6, fail3059
 	mov	=0x0, r6
-	cbne	r8, r6, f3060
+	cbne	r8, r6, fail3060
 	mov	=0xffffffffbf800000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x3f800000, r3
@@ -18795,9 +18795,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0200000, r6
-	cbne	r5, r6, f3061
+	cbne	r5, r6, fail3061
 	mov	=0x0, r6
-	cbne	r8, r6, f3062
+	cbne	r8, r6, fail3062
 	mov	=0xffffffffbf800000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x3f800000, r3
@@ -18808,9 +18808,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3f000000, r6
-	cbne	r5, r6, f3063
+	cbne	r5, r6, fail3063
 	mov	=0x0, r6
-	cbne	r8, r6, f3064
+	cbne	r8, r6, fail3064
 	mov	=0xffffffffbf800000, r1
 	mov	=0x3fc00000, r2
 	mov	=0xffffffffbf800000, r3
@@ -18821,9 +18821,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf000000, r6
-	cbne	r5, r6, f3065
+	cbne	r5, r6, fail3065
 	mov	=0x0, r6
-	cbne	r8, r6, f3066
+	cbne	r8, r6, fail3066
 	mov	=0xffffffffbf800000, r1
 	mov	=0x3fc00000, r2
 	mov	=0xffffffffbf800000, r3
@@ -18834,9 +18834,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40200000, r6
-	cbne	r5, r6, f3067
+	cbne	r5, r6, fail3067
 	mov	=0x0, r6
-	cbne	r8, r6, f3068
+	cbne	r8, r6, fail3068
 	mov	=0xffffffffbf800000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40000000, r3
@@ -18847,9 +18847,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0600000, r6
-	cbne	r5, r6, f3069
+	cbne	r5, r6, fail3069
 	mov	=0x0, r6
-	cbne	r8, r6, f3070
+	cbne	r8, r6, fail3070
 	mov	=0xffffffffbf800000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40000000, r3
@@ -18860,9 +18860,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf000000, r6
-	cbne	r5, r6, f3071
+	cbne	r5, r6, fail3071
 	mov	=0x0, r6
-	cbne	r8, r6, f3072
+	cbne	r8, r6, fail3072
 	mov	=0xffffffffbf800000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40400000, r3
@@ -18873,9 +18873,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0900000, r6
-	cbne	r5, r6, f3073
+	cbne	r5, r6, fail3073
 	mov	=0x0, r6
-	cbne	r8, r6, f3074
+	cbne	r8, r6, fail3074
 	mov	=0xffffffffbf800000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40400000, r3
@@ -18886,9 +18886,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f3075
+	cbne	r5, r6, fail3075
 	mov	=0x0, r6
-	cbne	r8, r6, f3076
+	cbne	r8, r6, fail3076
 	mov	=0xffffffffbf800000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x3fc00000, r3
@@ -18899,9 +18899,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0400000, r6
-	cbne	r5, r6, f3077
+	cbne	r5, r6, fail3077
 	mov	=0x0, r6
-	cbne	r8, r6, f3078
+	cbne	r8, r6, fail3078
 	mov	=0xffffffffbf800000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x3fc00000, r3
@@ -18912,9 +18912,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f3079
+	cbne	r5, r6, fail3079
 	mov	=0x0, r6
-	cbne	r8, r6, f3080
+	cbne	r8, r6, fail3080
 	mov	=0xffffffffbf800000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40200000, r3
@@ -18925,9 +18925,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0800000, r6
-	cbne	r5, r6, f3081
+	cbne	r5, r6, fail3081
 	mov	=0x0, r6
-	cbne	r8, r6, f3082
+	cbne	r8, r6, fail3082
 	mov	=0xffffffffbf800000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40200000, r3
@@ -18938,9 +18938,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f3083
+	cbne	r5, r6, fail3083
 	mov	=0x0, r6
-	cbne	r8, r6, f3084
+	cbne	r8, r6, fail3084
 	mov	=0xffffffffbf800000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40700000, r3
@@ -18951,9 +18951,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0a80000, r6
-	cbne	r5, r6, f3085
+	cbne	r5, r6, fail3085
 	mov	=0x0, r6
-	cbne	r8, r6, f3086
+	cbne	r8, r6, fail3086
 	mov	=0xffffffffbf800000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40700000, r3
@@ -18964,9 +18964,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0100000, r6
-	cbne	r5, r6, f3087
+	cbne	r5, r6, fail3087
 	mov	=0x0, r6
-	cbne	r8, r6, f3088
+	cbne	r8, r6, fail3088
 	mov	=0xffffffffbf800000, r1
 	mov	=0x3fc00000, r2
 	mov	=0xffffffffc0700000, r3
@@ -18977,9 +18977,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40100000, r6
-	cbne	r5, r6, f3089
+	cbne	r5, r6, fail3089
 	mov	=0x0, r6
-	cbne	r8, r6, f3090
+	cbne	r8, r6, fail3090
 	mov	=0xffffffffbf800000, r1
 	mov	=0x3fc00000, r2
 	mov	=0xffffffffc0700000, r3
@@ -18990,9 +18990,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40a80000, r6
-	cbne	r5, r6, f3091
+	cbne	r5, r6, fail3091
 	mov	=0x0, r6
-	cbne	r8, r6, f3092
+	cbne	r8, r6, fail3092
 	mov	=0xffffffffbf800000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40f00000, r3
@@ -19003,9 +19003,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc1100000, r6
-	cbne	r5, r6, f3093
+	cbne	r5, r6, fail3093
 	mov	=0x0, r6
-	cbne	r8, r6, f3094
+	cbne	r8, r6, fail3094
 	mov	=0xffffffffbf800000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40f00000, r3
@@ -19016,9 +19016,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0c00000, r6
-	cbne	r5, r6, f3095
+	cbne	r5, r6, fail3095
 	mov	=0x0, r6
-	cbne	r8, r6, f3096
+	cbne	r8, r6, fail3096
 	mov	=0x40000000, r1
 	mov	=0x0, r2
 	mov	=0x0, r3
@@ -19029,9 +19029,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f3097
+	cbne	r5, r6, fail3097
 	mov	=0x0, r6
-	cbne	r8, r6, f3098
+	cbne	r8, r6, fail3098
 	mov	=0x40000000, r1
 	mov	=0x0, r2
 	mov	=0x0, r3
@@ -19042,9 +19042,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffff80000000, r6
-	cbne	r5, r6, f3099
+	cbne	r5, r6, fail3099
 	mov	=0x0, r6
-	cbne	r8, r6, f3100
+	cbne	r8, r6, fail3100
 	mov	=0x40000000, r1
 	mov	=0x0, r2
 	mov	=0xffffffff80000000, r3
@@ -19055,9 +19055,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f3101
+	cbne	r5, r6, fail3101
 	mov	=0x0, r6
-	cbne	r8, r6, f3102
+	cbne	r8, r6, fail3102
 	mov	=0x40000000, r1
 	mov	=0x0, r2
 	mov	=0xffffffff80000000, r3
@@ -19068,9 +19068,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f3103
+	cbne	r5, r6, fail3103
 	mov	=0x0, r6
-	cbne	r8, r6, f3104
+	cbne	r8, r6, fail3104
 	mov	=0x40000000, r1
 	mov	=0x0, r2
 	mov	=0x3f800000, r3
@@ -19081,9 +19081,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f3105
+	cbne	r5, r6, fail3105
 	mov	=0x0, r6
-	cbne	r8, r6, f3106
+	cbne	r8, r6, fail3106
 	mov	=0x40000000, r1
 	mov	=0x0, r2
 	mov	=0x3f800000, r3
@@ -19094,9 +19094,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f3107
+	cbne	r5, r6, fail3107
 	mov	=0x0, r6
-	cbne	r8, r6, f3108
+	cbne	r8, r6, fail3108
 	mov	=0x40000000, r1
 	mov	=0x0, r2
 	mov	=0xffffffffbf800000, r3
@@ -19107,9 +19107,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3f800000, r6
-	cbne	r5, r6, f3109
+	cbne	r5, r6, fail3109
 	mov	=0x0, r6
-	cbne	r8, r6, f3110
+	cbne	r8, r6, fail3110
 	mov	=0x40000000, r1
 	mov	=0x0, r2
 	mov	=0xffffffffbf800000, r3
@@ -19120,9 +19120,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3f800000, r6
-	cbne	r5, r6, f3111
+	cbne	r5, r6, fail3111
 	mov	=0x0, r6
-	cbne	r8, r6, f3112
+	cbne	r8, r6, fail3112
 	mov	=0x40000000, r1
 	mov	=0x0, r2
 	mov	=0x40000000, r3
@@ -19133,9 +19133,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0000000, r6
-	cbne	r5, r6, f3113
+	cbne	r5, r6, fail3113
 	mov	=0x0, r6
-	cbne	r8, r6, f3114
+	cbne	r8, r6, fail3114
 	mov	=0x40000000, r1
 	mov	=0x0, r2
 	mov	=0x40000000, r3
@@ -19146,9 +19146,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0000000, r6
-	cbne	r5, r6, f3115
+	cbne	r5, r6, fail3115
 	mov	=0x0, r6
-	cbne	r8, r6, f3116
+	cbne	r8, r6, fail3116
 	mov	=0x40000000, r1
 	mov	=0x0, r2
 	mov	=0x40400000, r3
@@ -19159,9 +19159,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0400000, r6
-	cbne	r5, r6, f3117
+	cbne	r5, r6, fail3117
 	mov	=0x0, r6
-	cbne	r8, r6, f3118
+	cbne	r8, r6, fail3118
 	mov	=0x40000000, r1
 	mov	=0x0, r2
 	mov	=0x40400000, r3
@@ -19172,9 +19172,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0400000, r6
-	cbne	r5, r6, f3119
+	cbne	r5, r6, fail3119
 	mov	=0x0, r6
-	cbne	r8, r6, f3120
+	cbne	r8, r6, fail3120
 	mov	=0x40000000, r1
 	mov	=0x0, r2
 	mov	=0x3fc00000, r3
@@ -19185,9 +19185,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f3121
+	cbne	r5, r6, fail3121
 	mov	=0x0, r6
-	cbne	r8, r6, f3122
+	cbne	r8, r6, fail3122
 	mov	=0x40000000, r1
 	mov	=0x0, r2
 	mov	=0x3fc00000, r3
@@ -19198,9 +19198,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f3123
+	cbne	r5, r6, fail3123
 	mov	=0x0, r6
-	cbne	r8, r6, f3124
+	cbne	r8, r6, fail3124
 	mov	=0x40000000, r1
 	mov	=0x0, r2
 	mov	=0x40200000, r3
@@ -19211,9 +19211,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0200000, r6
-	cbne	r5, r6, f3125
+	cbne	r5, r6, fail3125
 	mov	=0x0, r6
-	cbne	r8, r6, f3126
+	cbne	r8, r6, fail3126
 	mov	=0x40000000, r1
 	mov	=0x0, r2
 	mov	=0x40200000, r3
@@ -19224,9 +19224,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0200000, r6
-	cbne	r5, r6, f3127
+	cbne	r5, r6, fail3127
 	mov	=0x0, r6
-	cbne	r8, r6, f3128
+	cbne	r8, r6, fail3128
 	mov	=0x40000000, r1
 	mov	=0x0, r2
 	mov	=0x40700000, r3
@@ -19237,9 +19237,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0700000, r6
-	cbne	r5, r6, f3129
+	cbne	r5, r6, fail3129
 	mov	=0x0, r6
-	cbne	r8, r6, f3130
+	cbne	r8, r6, fail3130
 	mov	=0x40000000, r1
 	mov	=0x0, r2
 	mov	=0x40700000, r3
@@ -19250,9 +19250,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0700000, r6
-	cbne	r5, r6, f3131
+	cbne	r5, r6, fail3131
 	mov	=0x0, r6
-	cbne	r8, r6, f3132
+	cbne	r8, r6, fail3132
 	mov	=0x40000000, r1
 	mov	=0x0, r2
 	mov	=0xffffffffc0700000, r3
@@ -19263,9 +19263,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40700000, r6
-	cbne	r5, r6, f3133
+	cbne	r5, r6, fail3133
 	mov	=0x0, r6
-	cbne	r8, r6, f3134
+	cbne	r8, r6, fail3134
 	mov	=0x40000000, r1
 	mov	=0x0, r2
 	mov	=0xffffffffc0700000, r3
@@ -19276,9 +19276,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40700000, r6
-	cbne	r5, r6, f3135
+	cbne	r5, r6, fail3135
 	mov	=0x0, r6
-	cbne	r8, r6, f3136
+	cbne	r8, r6, fail3136
 	mov	=0x40000000, r1
 	mov	=0x0, r2
 	mov	=0x40f00000, r3
@@ -19289,9 +19289,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0f00000, r6
-	cbne	r5, r6, f3137
+	cbne	r5, r6, fail3137
 	mov	=0x0, r6
-	cbne	r8, r6, f3138
+	cbne	r8, r6, fail3138
 	mov	=0x40000000, r1
 	mov	=0x0, r2
 	mov	=0x40f00000, r3
@@ -19302,9 +19302,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0f00000, r6
-	cbne	r5, r6, f3139
+	cbne	r5, r6, fail3139
 	mov	=0x0, r6
-	cbne	r8, r6, f3140
+	cbne	r8, r6, fail3140
 	mov	=0x40000000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x0, r3
@@ -19315,9 +19315,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffff80000000, r6
-	cbne	r5, r6, f3141
+	cbne	r5, r6, fail3141
 	mov	=0x0, r6
-	cbne	r8, r6, f3142
+	cbne	r8, r6, fail3142
 	mov	=0x40000000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x0, r3
@@ -19328,9 +19328,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f3143
+	cbne	r5, r6, fail3143
 	mov	=0x0, r6
-	cbne	r8, r6, f3144
+	cbne	r8, r6, fail3144
 	mov	=0x40000000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0xffffffff80000000, r3
@@ -19341,9 +19341,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f3145
+	cbne	r5, r6, fail3145
 	mov	=0x0, r6
-	cbne	r8, r6, f3146
+	cbne	r8, r6, fail3146
 	mov	=0x40000000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0xffffffff80000000, r3
@@ -19354,9 +19354,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f3147
+	cbne	r5, r6, fail3147
 	mov	=0x0, r6
-	cbne	r8, r6, f3148
+	cbne	r8, r6, fail3148
 	mov	=0x40000000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x3f800000, r3
@@ -19367,9 +19367,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f3149
+	cbne	r5, r6, fail3149
 	mov	=0x0, r6
-	cbne	r8, r6, f3150
+	cbne	r8, r6, fail3150
 	mov	=0x40000000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x3f800000, r3
@@ -19380,9 +19380,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f3151
+	cbne	r5, r6, fail3151
 	mov	=0x0, r6
-	cbne	r8, r6, f3152
+	cbne	r8, r6, fail3152
 	mov	=0x40000000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0xffffffffbf800000, r3
@@ -19393,9 +19393,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3f800000, r6
-	cbne	r5, r6, f3153
+	cbne	r5, r6, fail3153
 	mov	=0x0, r6
-	cbne	r8, r6, f3154
+	cbne	r8, r6, fail3154
 	mov	=0x40000000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0xffffffffbf800000, r3
@@ -19406,9 +19406,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3f800000, r6
-	cbne	r5, r6, f3155
+	cbne	r5, r6, fail3155
 	mov	=0x0, r6
-	cbne	r8, r6, f3156
+	cbne	r8, r6, fail3156
 	mov	=0x40000000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40000000, r3
@@ -19419,9 +19419,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0000000, r6
-	cbne	r5, r6, f3157
+	cbne	r5, r6, fail3157
 	mov	=0x0, r6
-	cbne	r8, r6, f3158
+	cbne	r8, r6, fail3158
 	mov	=0x40000000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40000000, r3
@@ -19432,9 +19432,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0000000, r6
-	cbne	r5, r6, f3159
+	cbne	r5, r6, fail3159
 	mov	=0x0, r6
-	cbne	r8, r6, f3160
+	cbne	r8, r6, fail3160
 	mov	=0x40000000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40400000, r3
@@ -19445,9 +19445,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0400000, r6
-	cbne	r5, r6, f3161
+	cbne	r5, r6, fail3161
 	mov	=0x0, r6
-	cbne	r8, r6, f3162
+	cbne	r8, r6, fail3162
 	mov	=0x40000000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40400000, r3
@@ -19458,9 +19458,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0400000, r6
-	cbne	r5, r6, f3163
+	cbne	r5, r6, fail3163
 	mov	=0x0, r6
-	cbne	r8, r6, f3164
+	cbne	r8, r6, fail3164
 	mov	=0x40000000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x3fc00000, r3
@@ -19471,9 +19471,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f3165
+	cbne	r5, r6, fail3165
 	mov	=0x0, r6
-	cbne	r8, r6, f3166
+	cbne	r8, r6, fail3166
 	mov	=0x40000000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x3fc00000, r3
@@ -19484,9 +19484,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f3167
+	cbne	r5, r6, fail3167
 	mov	=0x0, r6
-	cbne	r8, r6, f3168
+	cbne	r8, r6, fail3168
 	mov	=0x40000000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40200000, r3
@@ -19497,9 +19497,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0200000, r6
-	cbne	r5, r6, f3169
+	cbne	r5, r6, fail3169
 	mov	=0x0, r6
-	cbne	r8, r6, f3170
+	cbne	r8, r6, fail3170
 	mov	=0x40000000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40200000, r3
@@ -19510,9 +19510,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0200000, r6
-	cbne	r5, r6, f3171
+	cbne	r5, r6, fail3171
 	mov	=0x0, r6
-	cbne	r8, r6, f3172
+	cbne	r8, r6, fail3172
 	mov	=0x40000000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40700000, r3
@@ -19523,9 +19523,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0700000, r6
-	cbne	r5, r6, f3173
+	cbne	r5, r6, fail3173
 	mov	=0x0, r6
-	cbne	r8, r6, f3174
+	cbne	r8, r6, fail3174
 	mov	=0x40000000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40700000, r3
@@ -19536,9 +19536,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0700000, r6
-	cbne	r5, r6, f3175
+	cbne	r5, r6, fail3175
 	mov	=0x0, r6
-	cbne	r8, r6, f3176
+	cbne	r8, r6, fail3176
 	mov	=0x40000000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0xffffffffc0700000, r3
@@ -19549,9 +19549,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40700000, r6
-	cbne	r5, r6, f3177
+	cbne	r5, r6, fail3177
 	mov	=0x0, r6
-	cbne	r8, r6, f3178
+	cbne	r8, r6, fail3178
 	mov	=0x40000000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0xffffffffc0700000, r3
@@ -19562,9 +19562,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40700000, r6
-	cbne	r5, r6, f3179
+	cbne	r5, r6, fail3179
 	mov	=0x0, r6
-	cbne	r8, r6, f3180
+	cbne	r8, r6, fail3180
 	mov	=0x40000000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40f00000, r3
@@ -19575,9 +19575,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0f00000, r6
-	cbne	r5, r6, f3181
+	cbne	r5, r6, fail3181
 	mov	=0x0, r6
-	cbne	r8, r6, f3182
+	cbne	r8, r6, fail3182
 	mov	=0x40000000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40f00000, r3
@@ -19588,9 +19588,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0f00000, r6
-	cbne	r5, r6, f3183
+	cbne	r5, r6, fail3183
 	mov	=0x0, r6
-	cbne	r8, r6, f3184
+	cbne	r8, r6, fail3184
 	mov	=0x40000000, r1
 	mov	=0x3f800000, r2
 	mov	=0x0, r3
@@ -19601,9 +19601,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40000000, r6
-	cbne	r5, r6, f3185
+	cbne	r5, r6, fail3185
 	mov	=0x0, r6
-	cbne	r8, r6, f3186
+	cbne	r8, r6, fail3186
 	mov	=0x40000000, r1
 	mov	=0x3f800000, r2
 	mov	=0x0, r3
@@ -19614,9 +19614,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0000000, r6
-	cbne	r5, r6, f3187
+	cbne	r5, r6, fail3187
 	mov	=0x0, r6
-	cbne	r8, r6, f3188
+	cbne	r8, r6, fail3188
 	mov	=0x40000000, r1
 	mov	=0x3f800000, r2
 	mov	=0xffffffff80000000, r3
@@ -19627,9 +19627,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40000000, r6
-	cbne	r5, r6, f3189
+	cbne	r5, r6, fail3189
 	mov	=0x0, r6
-	cbne	r8, r6, f3190
+	cbne	r8, r6, fail3190
 	mov	=0x40000000, r1
 	mov	=0x3f800000, r2
 	mov	=0xffffffff80000000, r3
@@ -19640,9 +19640,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0000000, r6
-	cbne	r5, r6, f3191
+	cbne	r5, r6, fail3191
 	mov	=0x0, r6
-	cbne	r8, r6, f3192
+	cbne	r8, r6, fail3192
 	mov	=0x40000000, r1
 	mov	=0x3f800000, r2
 	mov	=0x3f800000, r3
@@ -19653,9 +19653,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3f800000, r6
-	cbne	r5, r6, f3193
+	cbne	r5, r6, fail3193
 	mov	=0x0, r6
-	cbne	r8, r6, f3194
+	cbne	r8, r6, fail3194
 	mov	=0x40000000, r1
 	mov	=0x3f800000, r2
 	mov	=0x3f800000, r3
@@ -19666,9 +19666,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0400000, r6
-	cbne	r5, r6, f3195
+	cbne	r5, r6, fail3195
 	mov	=0x0, r6
-	cbne	r8, r6, f3196
+	cbne	r8, r6, fail3196
 	mov	=0x40000000, r1
 	mov	=0x3f800000, r2
 	mov	=0xffffffffbf800000, r3
@@ -19679,9 +19679,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40400000, r6
-	cbne	r5, r6, f3197
+	cbne	r5, r6, fail3197
 	mov	=0x0, r6
-	cbne	r8, r6, f3198
+	cbne	r8, r6, fail3198
 	mov	=0x40000000, r1
 	mov	=0x3f800000, r2
 	mov	=0xffffffffbf800000, r3
@@ -19692,9 +19692,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f3199
+	cbne	r5, r6, fail3199
 	mov	=0x0, r6
-	cbne	r8, r6, f3200
+	cbne	r8, r6, fail3200
 	mov	=0x40000000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40000000, r3
@@ -19705,9 +19705,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f3201
+	cbne	r5, r6, fail3201
 	mov	=0x0, r6
-	cbne	r8, r6, f3202
+	cbne	r8, r6, fail3202
 	mov	=0x40000000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40000000, r3
@@ -19718,9 +19718,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0800000, r6
-	cbne	r5, r6, f3203
+	cbne	r5, r6, fail3203
 	mov	=0x0, r6
-	cbne	r8, r6, f3204
+	cbne	r8, r6, fail3204
 	mov	=0x40000000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40400000, r3
@@ -19731,9 +19731,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f3205
+	cbne	r5, r6, fail3205
 	mov	=0x0, r6
-	cbne	r8, r6, f3206
+	cbne	r8, r6, fail3206
 	mov	=0x40000000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40400000, r3
@@ -19744,9 +19744,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0a00000, r6
-	cbne	r5, r6, f3207
+	cbne	r5, r6, fail3207
 	mov	=0x0, r6
-	cbne	r8, r6, f3208
+	cbne	r8, r6, fail3208
 	mov	=0x40000000, r1
 	mov	=0x3f800000, r2
 	mov	=0x3fc00000, r3
@@ -19757,9 +19757,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3f000000, r6
-	cbne	r5, r6, f3209
+	cbne	r5, r6, fail3209
 	mov	=0x0, r6
-	cbne	r8, r6, f3210
+	cbne	r8, r6, fail3210
 	mov	=0x40000000, r1
 	mov	=0x3f800000, r2
 	mov	=0x3fc00000, r3
@@ -19770,9 +19770,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0600000, r6
-	cbne	r5, r6, f3211
+	cbne	r5, r6, fail3211
 	mov	=0x0, r6
-	cbne	r8, r6, f3212
+	cbne	r8, r6, fail3212
 	mov	=0x40000000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40200000, r3
@@ -19783,9 +19783,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf000000, r6
-	cbne	r5, r6, f3213
+	cbne	r5, r6, fail3213
 	mov	=0x0, r6
-	cbne	r8, r6, f3214
+	cbne	r8, r6, fail3214
 	mov	=0x40000000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40200000, r3
@@ -19796,9 +19796,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0900000, r6
-	cbne	r5, r6, f3215
+	cbne	r5, r6, fail3215
 	mov	=0x0, r6
-	cbne	r8, r6, f3216
+	cbne	r8, r6, fail3216
 	mov	=0x40000000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40700000, r3
@@ -19809,9 +19809,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbfe00000, r6
-	cbne	r5, r6, f3217
+	cbne	r5, r6, fail3217
 	mov	=0x0, r6
-	cbne	r8, r6, f3218
+	cbne	r8, r6, fail3218
 	mov	=0x40000000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40700000, r3
@@ -19822,9 +19822,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0b80000, r6
-	cbne	r5, r6, f3219
+	cbne	r5, r6, fail3219
 	mov	=0x0, r6
-	cbne	r8, r6, f3220
+	cbne	r8, r6, fail3220
 	mov	=0x40000000, r1
 	mov	=0x3f800000, r2
 	mov	=0xffffffffc0700000, r3
@@ -19835,9 +19835,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40b80000, r6
-	cbne	r5, r6, f3221
+	cbne	r5, r6, fail3221
 	mov	=0x0, r6
-	cbne	r8, r6, f3222
+	cbne	r8, r6, fail3222
 	mov	=0x40000000, r1
 	mov	=0x3f800000, r2
 	mov	=0xffffffffc0700000, r3
@@ -19848,9 +19848,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3fe00000, r6
-	cbne	r5, r6, f3223
+	cbne	r5, r6, fail3223
 	mov	=0x0, r6
-	cbne	r8, r6, f3224
+	cbne	r8, r6, fail3224
 	mov	=0x40000000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40f00000, r3
@@ -19861,9 +19861,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0b00000, r6
-	cbne	r5, r6, f3225
+	cbne	r5, r6, fail3225
 	mov	=0x0, r6
-	cbne	r8, r6, f3226
+	cbne	r8, r6, fail3226
 	mov	=0x40000000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40f00000, r3
@@ -19874,9 +19874,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc1180000, r6
-	cbne	r5, r6, f3227
+	cbne	r5, r6, fail3227
 	mov	=0x0, r6
-	cbne	r8, r6, f3228
+	cbne	r8, r6, fail3228
 	mov	=0x40000000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x0, r3
@@ -19887,9 +19887,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0000000, r6
-	cbne	r5, r6, f3229
+	cbne	r5, r6, fail3229
 	mov	=0x0, r6
-	cbne	r8, r6, f3230
+	cbne	r8, r6, fail3230
 	mov	=0x40000000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x0, r3
@@ -19900,9 +19900,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40000000, r6
-	cbne	r5, r6, f3231
+	cbne	r5, r6, fail3231
 	mov	=0x0, r6
-	cbne	r8, r6, f3232
+	cbne	r8, r6, fail3232
 	mov	=0x40000000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0xffffffff80000000, r3
@@ -19913,9 +19913,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0000000, r6
-	cbne	r5, r6, f3233
+	cbne	r5, r6, fail3233
 	mov	=0x0, r6
-	cbne	r8, r6, f3234
+	cbne	r8, r6, fail3234
 	mov	=0x40000000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0xffffffff80000000, r3
@@ -19926,9 +19926,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40000000, r6
-	cbne	r5, r6, f3235
+	cbne	r5, r6, fail3235
 	mov	=0x0, r6
-	cbne	r8, r6, f3236
+	cbne	r8, r6, fail3236
 	mov	=0x40000000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x3f800000, r3
@@ -19939,9 +19939,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0400000, r6
-	cbne	r5, r6, f3237
+	cbne	r5, r6, fail3237
 	mov	=0x0, r6
-	cbne	r8, r6, f3238
+	cbne	r8, r6, fail3238
 	mov	=0x40000000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x3f800000, r3
@@ -19952,9 +19952,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3f800000, r6
-	cbne	r5, r6, f3239
+	cbne	r5, r6, fail3239
 	mov	=0x0, r6
-	cbne	r8, r6, f3240
+	cbne	r8, r6, fail3240
 	mov	=0x40000000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0xffffffffbf800000, r3
@@ -19965,9 +19965,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f3241
+	cbne	r5, r6, fail3241
 	mov	=0x0, r6
-	cbne	r8, r6, f3242
+	cbne	r8, r6, fail3242
 	mov	=0x40000000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0xffffffffbf800000, r3
@@ -19978,9 +19978,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40400000, r6
-	cbne	r5, r6, f3243
+	cbne	r5, r6, fail3243
 	mov	=0x0, r6
-	cbne	r8, r6, f3244
+	cbne	r8, r6, fail3244
 	mov	=0x40000000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40000000, r3
@@ -19991,9 +19991,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0800000, r6
-	cbne	r5, r6, f3245
+	cbne	r5, r6, fail3245
 	mov	=0x0, r6
-	cbne	r8, r6, f3246
+	cbne	r8, r6, fail3246
 	mov	=0x40000000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40000000, r3
@@ -20004,9 +20004,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f3247
+	cbne	r5, r6, fail3247
 	mov	=0x0, r6
-	cbne	r8, r6, f3248
+	cbne	r8, r6, fail3248
 	mov	=0x40000000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40400000, r3
@@ -20017,9 +20017,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0a00000, r6
-	cbne	r5, r6, f3249
+	cbne	r5, r6, fail3249
 	mov	=0x0, r6
-	cbne	r8, r6, f3250
+	cbne	r8, r6, fail3250
 	mov	=0x40000000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40400000, r3
@@ -20030,9 +20030,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f3251
+	cbne	r5, r6, fail3251
 	mov	=0x0, r6
-	cbne	r8, r6, f3252
+	cbne	r8, r6, fail3252
 	mov	=0x40000000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x3fc00000, r3
@@ -20043,9 +20043,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0600000, r6
-	cbne	r5, r6, f3253
+	cbne	r5, r6, fail3253
 	mov	=0x0, r6
-	cbne	r8, r6, f3254
+	cbne	r8, r6, fail3254
 	mov	=0x40000000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x3fc00000, r3
@@ -20056,9 +20056,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3f000000, r6
-	cbne	r5, r6, f3255
+	cbne	r5, r6, fail3255
 	mov	=0x0, r6
-	cbne	r8, r6, f3256
+	cbne	r8, r6, fail3256
 	mov	=0x40000000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40200000, r3
@@ -20069,9 +20069,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0900000, r6
-	cbne	r5, r6, f3257
+	cbne	r5, r6, fail3257
 	mov	=0x0, r6
-	cbne	r8, r6, f3258
+	cbne	r8, r6, fail3258
 	mov	=0x40000000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40200000, r3
@@ -20082,9 +20082,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf000000, r6
-	cbne	r5, r6, f3259
+	cbne	r5, r6, fail3259
 	mov	=0x0, r6
-	cbne	r8, r6, f3260
+	cbne	r8, r6, fail3260
 	mov	=0x40000000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40700000, r3
@@ -20095,9 +20095,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0b80000, r6
-	cbne	r5, r6, f3261
+	cbne	r5, r6, fail3261
 	mov	=0x0, r6
-	cbne	r8, r6, f3262
+	cbne	r8, r6, fail3262
 	mov	=0x40000000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40700000, r3
@@ -20108,9 +20108,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbfe00000, r6
-	cbne	r5, r6, f3263
+	cbne	r5, r6, fail3263
 	mov	=0x0, r6
-	cbne	r8, r6, f3264
+	cbne	r8, r6, fail3264
 	mov	=0x40000000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0xffffffffc0700000, r3
@@ -20121,9 +20121,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3fe00000, r6
-	cbne	r5, r6, f3265
+	cbne	r5, r6, fail3265
 	mov	=0x0, r6
-	cbne	r8, r6, f3266
+	cbne	r8, r6, fail3266
 	mov	=0x40000000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0xffffffffc0700000, r3
@@ -20134,9 +20134,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40b80000, r6
-	cbne	r5, r6, f3267
+	cbne	r5, r6, fail3267
 	mov	=0x0, r6
-	cbne	r8, r6, f3268
+	cbne	r8, r6, fail3268
 	mov	=0x40000000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40f00000, r3
@@ -20147,9 +20147,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc1180000, r6
-	cbne	r5, r6, f3269
+	cbne	r5, r6, fail3269
 	mov	=0x0, r6
-	cbne	r8, r6, f3270
+	cbne	r8, r6, fail3270
 	mov	=0x40000000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40f00000, r3
@@ -20160,9 +20160,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0b00000, r6
-	cbne	r5, r6, f3271
+	cbne	r5, r6, fail3271
 	mov	=0x0, r6
-	cbne	r8, r6, f3272
+	cbne	r8, r6, fail3272
 	mov	=0x40000000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x0, r3
@@ -20173,9 +20173,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40400000, r6
-	cbne	r5, r6, f3273
+	cbne	r5, r6, fail3273
 	mov	=0x0, r6
-	cbne	r8, r6, f3274
+	cbne	r8, r6, fail3274
 	mov	=0x40000000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x0, r3
@@ -20186,9 +20186,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0400000, r6
-	cbne	r5, r6, f3275
+	cbne	r5, r6, fail3275
 	mov	=0x0, r6
-	cbne	r8, r6, f3276
+	cbne	r8, r6, fail3276
 	mov	=0x40000000, r1
 	mov	=0x3fc00000, r2
 	mov	=0xffffffff80000000, r3
@@ -20199,9 +20199,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40400000, r6
-	cbne	r5, r6, f3277
+	cbne	r5, r6, fail3277
 	mov	=0x0, r6
-	cbne	r8, r6, f3278
+	cbne	r8, r6, fail3278
 	mov	=0x40000000, r1
 	mov	=0x3fc00000, r2
 	mov	=0xffffffff80000000, r3
@@ -20212,9 +20212,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0400000, r6
-	cbne	r5, r6, f3279
+	cbne	r5, r6, fail3279
 	mov	=0x0, r6
-	cbne	r8, r6, f3280
+	cbne	r8, r6, fail3280
 	mov	=0x40000000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x3f800000, r3
@@ -20225,9 +20225,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40000000, r6
-	cbne	r5, r6, f3281
+	cbne	r5, r6, fail3281
 	mov	=0x0, r6
-	cbne	r8, r6, f3282
+	cbne	r8, r6, fail3282
 	mov	=0x40000000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x3f800000, r3
@@ -20238,9 +20238,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0800000, r6
-	cbne	r5, r6, f3283
+	cbne	r5, r6, fail3283
 	mov	=0x0, r6
-	cbne	r8, r6, f3284
+	cbne	r8, r6, fail3284
 	mov	=0x40000000, r1
 	mov	=0x3fc00000, r2
 	mov	=0xffffffffbf800000, r3
@@ -20251,9 +20251,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40800000, r6
-	cbne	r5, r6, f3285
+	cbne	r5, r6, fail3285
 	mov	=0x0, r6
-	cbne	r8, r6, f3286
+	cbne	r8, r6, fail3286
 	mov	=0x40000000, r1
 	mov	=0x3fc00000, r2
 	mov	=0xffffffffbf800000, r3
@@ -20264,9 +20264,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0000000, r6
-	cbne	r5, r6, f3287
+	cbne	r5, r6, fail3287
 	mov	=0x0, r6
-	cbne	r8, r6, f3288
+	cbne	r8, r6, fail3288
 	mov	=0x40000000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40000000, r3
@@ -20277,9 +20277,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3f800000, r6
-	cbne	r5, r6, f3289
+	cbne	r5, r6, fail3289
 	mov	=0x0, r6
-	cbne	r8, r6, f3290
+	cbne	r8, r6, fail3290
 	mov	=0x40000000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40000000, r3
@@ -20290,9 +20290,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0a00000, r6
-	cbne	r5, r6, f3291
+	cbne	r5, r6, fail3291
 	mov	=0x0, r6
-	cbne	r8, r6, f3292
+	cbne	r8, r6, fail3292
 	mov	=0x40000000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40400000, r3
@@ -20303,9 +20303,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f3293
+	cbne	r5, r6, fail3293
 	mov	=0x0, r6
-	cbne	r8, r6, f3294
+	cbne	r8, r6, fail3294
 	mov	=0x40000000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40400000, r3
@@ -20316,9 +20316,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0c00000, r6
-	cbne	r5, r6, f3295
+	cbne	r5, r6, fail3295
 	mov	=0x0, r6
-	cbne	r8, r6, f3296
+	cbne	r8, r6, fail3296
 	mov	=0x40000000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x3fc00000, r3
@@ -20329,9 +20329,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3fc00000, r6
-	cbne	r5, r6, f3297
+	cbne	r5, r6, fail3297
 	mov	=0x0, r6
-	cbne	r8, r6, f3298
+	cbne	r8, r6, fail3298
 	mov	=0x40000000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x3fc00000, r3
@@ -20342,9 +20342,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0900000, r6
-	cbne	r5, r6, f3299
+	cbne	r5, r6, fail3299
 	mov	=0x0, r6
-	cbne	r8, r6, f3300
+	cbne	r8, r6, fail3300
 	mov	=0x40000000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40200000, r3
@@ -20355,9 +20355,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3f000000, r6
-	cbne	r5, r6, f3301
+	cbne	r5, r6, fail3301
 	mov	=0x0, r6
-	cbne	r8, r6, f3302
+	cbne	r8, r6, fail3302
 	mov	=0x40000000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40200000, r3
@@ -20368,9 +20368,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0b00000, r6
-	cbne	r5, r6, f3303
+	cbne	r5, r6, fail3303
 	mov	=0x0, r6
-	cbne	r8, r6, f3304
+	cbne	r8, r6, fail3304
 	mov	=0x40000000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40700000, r3
@@ -20381,9 +20381,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf400000, r6
-	cbne	r5, r6, f3305
+	cbne	r5, r6, fail3305
 	mov	=0x0, r6
-	cbne	r8, r6, f3306
+	cbne	r8, r6, fail3306
 	mov	=0x40000000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40700000, r3
@@ -20394,9 +20394,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0d80000, r6
-	cbne	r5, r6, f3307
+	cbne	r5, r6, fail3307
 	mov	=0x0, r6
-	cbne	r8, r6, f3308
+	cbne	r8, r6, fail3308
 	mov	=0x40000000, r1
 	mov	=0x3fc00000, r2
 	mov	=0xffffffffc0700000, r3
@@ -20407,9 +20407,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40d80000, r6
-	cbne	r5, r6, f3309
+	cbne	r5, r6, fail3309
 	mov	=0x0, r6
-	cbne	r8, r6, f3310
+	cbne	r8, r6, fail3310
 	mov	=0x40000000, r1
 	mov	=0x3fc00000, r2
 	mov	=0xffffffffc0700000, r3
@@ -20420,9 +20420,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3f400000, r6
-	cbne	r5, r6, f3311
+	cbne	r5, r6, fail3311
 	mov	=0x0, r6
-	cbne	r8, r6, f3312
+	cbne	r8, r6, fail3312
 	mov	=0x40000000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40f00000, r3
@@ -20433,9 +20433,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0900000, r6
-	cbne	r5, r6, f3313
+	cbne	r5, r6, fail3313
 	mov	=0x0, r6
-	cbne	r8, r6, f3314
+	cbne	r8, r6, fail3314
 	mov	=0x40000000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40f00000, r3
@@ -20446,9 +20446,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc1280000, r6
-	cbne	r5, r6, f3315
+	cbne	r5, r6, fail3315
 	mov	=0x0, r6
-	cbne	r8, r6, f3316
+	cbne	r8, r6, fail3316
 	mov	=0x40400000, r1
 	mov	=0x0, r2
 	mov	=0x0, r3
@@ -20459,9 +20459,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f3317
+	cbne	r5, r6, fail3317
 	mov	=0x0, r6
-	cbne	r8, r6, f3318
+	cbne	r8, r6, fail3318
 	mov	=0x40400000, r1
 	mov	=0x0, r2
 	mov	=0x0, r3
@@ -20472,9 +20472,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffff80000000, r6
-	cbne	r5, r6, f3319
+	cbne	r5, r6, fail3319
 	mov	=0x0, r6
-	cbne	r8, r6, f3320
+	cbne	r8, r6, fail3320
 	mov	=0x40400000, r1
 	mov	=0x0, r2
 	mov	=0xffffffff80000000, r3
@@ -20485,9 +20485,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f3321
+	cbne	r5, r6, fail3321
 	mov	=0x0, r6
-	cbne	r8, r6, f3322
+	cbne	r8, r6, fail3322
 	mov	=0x40400000, r1
 	mov	=0x0, r2
 	mov	=0xffffffff80000000, r3
@@ -20498,9 +20498,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f3323
+	cbne	r5, r6, fail3323
 	mov	=0x0, r6
-	cbne	r8, r6, f3324
+	cbne	r8, r6, fail3324
 	mov	=0x40400000, r1
 	mov	=0x0, r2
 	mov	=0x3f800000, r3
@@ -20511,9 +20511,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f3325
+	cbne	r5, r6, fail3325
 	mov	=0x0, r6
-	cbne	r8, r6, f3326
+	cbne	r8, r6, fail3326
 	mov	=0x40400000, r1
 	mov	=0x0, r2
 	mov	=0x3f800000, r3
@@ -20524,9 +20524,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f3327
+	cbne	r5, r6, fail3327
 	mov	=0x0, r6
-	cbne	r8, r6, f3328
+	cbne	r8, r6, fail3328
 	mov	=0x40400000, r1
 	mov	=0x0, r2
 	mov	=0xffffffffbf800000, r3
@@ -20537,9 +20537,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3f800000, r6
-	cbne	r5, r6, f3329
+	cbne	r5, r6, fail3329
 	mov	=0x0, r6
-	cbne	r8, r6, f3330
+	cbne	r8, r6, fail3330
 	mov	=0x40400000, r1
 	mov	=0x0, r2
 	mov	=0xffffffffbf800000, r3
@@ -20550,9 +20550,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3f800000, r6
-	cbne	r5, r6, f3331
+	cbne	r5, r6, fail3331
 	mov	=0x0, r6
-	cbne	r8, r6, f3332
+	cbne	r8, r6, fail3332
 	mov	=0x40400000, r1
 	mov	=0x0, r2
 	mov	=0x40000000, r3
@@ -20563,9 +20563,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0000000, r6
-	cbne	r5, r6, f3333
+	cbne	r5, r6, fail3333
 	mov	=0x0, r6
-	cbne	r8, r6, f3334
+	cbne	r8, r6, fail3334
 	mov	=0x40400000, r1
 	mov	=0x0, r2
 	mov	=0x40000000, r3
@@ -20576,9 +20576,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0000000, r6
-	cbne	r5, r6, f3335
+	cbne	r5, r6, fail3335
 	mov	=0x0, r6
-	cbne	r8, r6, f3336
+	cbne	r8, r6, fail3336
 	mov	=0x40400000, r1
 	mov	=0x0, r2
 	mov	=0x40400000, r3
@@ -20589,9 +20589,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0400000, r6
-	cbne	r5, r6, f3337
+	cbne	r5, r6, fail3337
 	mov	=0x0, r6
-	cbne	r8, r6, f3338
+	cbne	r8, r6, fail3338
 	mov	=0x40400000, r1
 	mov	=0x0, r2
 	mov	=0x40400000, r3
@@ -20602,9 +20602,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0400000, r6
-	cbne	r5, r6, f3339
+	cbne	r5, r6, fail3339
 	mov	=0x0, r6
-	cbne	r8, r6, f3340
+	cbne	r8, r6, fail3340
 	mov	=0x40400000, r1
 	mov	=0x0, r2
 	mov	=0x3fc00000, r3
@@ -20615,9 +20615,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f3341
+	cbne	r5, r6, fail3341
 	mov	=0x0, r6
-	cbne	r8, r6, f3342
+	cbne	r8, r6, fail3342
 	mov	=0x40400000, r1
 	mov	=0x0, r2
 	mov	=0x3fc00000, r3
@@ -20628,9 +20628,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f3343
+	cbne	r5, r6, fail3343
 	mov	=0x0, r6
-	cbne	r8, r6, f3344
+	cbne	r8, r6, fail3344
 	mov	=0x40400000, r1
 	mov	=0x0, r2
 	mov	=0x40200000, r3
@@ -20641,9 +20641,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0200000, r6
-	cbne	r5, r6, f3345
+	cbne	r5, r6, fail3345
 	mov	=0x0, r6
-	cbne	r8, r6, f3346
+	cbne	r8, r6, fail3346
 	mov	=0x40400000, r1
 	mov	=0x0, r2
 	mov	=0x40200000, r3
@@ -20654,9 +20654,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0200000, r6
-	cbne	r5, r6, f3347
+	cbne	r5, r6, fail3347
 	mov	=0x0, r6
-	cbne	r8, r6, f3348
+	cbne	r8, r6, fail3348
 	mov	=0x40400000, r1
 	mov	=0x0, r2
 	mov	=0x40700000, r3
@@ -20667,9 +20667,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0700000, r6
-	cbne	r5, r6, f3349
+	cbne	r5, r6, fail3349
 	mov	=0x0, r6
-	cbne	r8, r6, f3350
+	cbne	r8, r6, fail3350
 	mov	=0x40400000, r1
 	mov	=0x0, r2
 	mov	=0x40700000, r3
@@ -20680,9 +20680,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0700000, r6
-	cbne	r5, r6, f3351
+	cbne	r5, r6, fail3351
 	mov	=0x0, r6
-	cbne	r8, r6, f3352
+	cbne	r8, r6, fail3352
 	mov	=0x40400000, r1
 	mov	=0x0, r2
 	mov	=0xffffffffc0700000, r3
@@ -20693,9 +20693,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40700000, r6
-	cbne	r5, r6, f3353
+	cbne	r5, r6, fail3353
 	mov	=0x0, r6
-	cbne	r8, r6, f3354
+	cbne	r8, r6, fail3354
 	mov	=0x40400000, r1
 	mov	=0x0, r2
 	mov	=0xffffffffc0700000, r3
@@ -20706,9 +20706,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40700000, r6
-	cbne	r5, r6, f3355
+	cbne	r5, r6, fail3355
 	mov	=0x0, r6
-	cbne	r8, r6, f3356
+	cbne	r8, r6, fail3356
 	mov	=0x40400000, r1
 	mov	=0x0, r2
 	mov	=0x40f00000, r3
@@ -20719,9 +20719,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0f00000, r6
-	cbne	r5, r6, f3357
+	cbne	r5, r6, fail3357
 	mov	=0x0, r6
-	cbne	r8, r6, f3358
+	cbne	r8, r6, fail3358
 	mov	=0x40400000, r1
 	mov	=0x0, r2
 	mov	=0x40f00000, r3
@@ -20732,9 +20732,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0f00000, r6
-	cbne	r5, r6, f3359
+	cbne	r5, r6, fail3359
 	mov	=0x0, r6
-	cbne	r8, r6, f3360
+	cbne	r8, r6, fail3360
 	mov	=0x40400000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x0, r3
@@ -20745,9 +20745,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffff80000000, r6
-	cbne	r5, r6, f3361
+	cbne	r5, r6, fail3361
 	mov	=0x0, r6
-	cbne	r8, r6, f3362
+	cbne	r8, r6, fail3362
 	mov	=0x40400000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x0, r3
@@ -20758,9 +20758,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f3363
+	cbne	r5, r6, fail3363
 	mov	=0x0, r6
-	cbne	r8, r6, f3364
+	cbne	r8, r6, fail3364
 	mov	=0x40400000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0xffffffff80000000, r3
@@ -20771,9 +20771,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f3365
+	cbne	r5, r6, fail3365
 	mov	=0x0, r6
-	cbne	r8, r6, f3366
+	cbne	r8, r6, fail3366
 	mov	=0x40400000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0xffffffff80000000, r3
@@ -20784,9 +20784,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f3367
+	cbne	r5, r6, fail3367
 	mov	=0x0, r6
-	cbne	r8, r6, f3368
+	cbne	r8, r6, fail3368
 	mov	=0x40400000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x3f800000, r3
@@ -20797,9 +20797,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f3369
+	cbne	r5, r6, fail3369
 	mov	=0x0, r6
-	cbne	r8, r6, f3370
+	cbne	r8, r6, fail3370
 	mov	=0x40400000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x3f800000, r3
@@ -20810,9 +20810,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f3371
+	cbne	r5, r6, fail3371
 	mov	=0x0, r6
-	cbne	r8, r6, f3372
+	cbne	r8, r6, fail3372
 	mov	=0x40400000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0xffffffffbf800000, r3
@@ -20823,9 +20823,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3f800000, r6
-	cbne	r5, r6, f3373
+	cbne	r5, r6, fail3373
 	mov	=0x0, r6
-	cbne	r8, r6, f3374
+	cbne	r8, r6, fail3374
 	mov	=0x40400000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0xffffffffbf800000, r3
@@ -20836,9 +20836,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3f800000, r6
-	cbne	r5, r6, f3375
+	cbne	r5, r6, fail3375
 	mov	=0x0, r6
-	cbne	r8, r6, f3376
+	cbne	r8, r6, fail3376
 	mov	=0x40400000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40000000, r3
@@ -20849,9 +20849,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0000000, r6
-	cbne	r5, r6, f3377
+	cbne	r5, r6, fail3377
 	mov	=0x0, r6
-	cbne	r8, r6, f3378
+	cbne	r8, r6, fail3378
 	mov	=0x40400000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40000000, r3
@@ -20862,9 +20862,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0000000, r6
-	cbne	r5, r6, f3379
+	cbne	r5, r6, fail3379
 	mov	=0x0, r6
-	cbne	r8, r6, f3380
+	cbne	r8, r6, fail3380
 	mov	=0x40400000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40400000, r3
@@ -20875,9 +20875,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0400000, r6
-	cbne	r5, r6, f3381
+	cbne	r5, r6, fail3381
 	mov	=0x0, r6
-	cbne	r8, r6, f3382
+	cbne	r8, r6, fail3382
 	mov	=0x40400000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40400000, r3
@@ -20888,9 +20888,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0400000, r6
-	cbne	r5, r6, f3383
+	cbne	r5, r6, fail3383
 	mov	=0x0, r6
-	cbne	r8, r6, f3384
+	cbne	r8, r6, fail3384
 	mov	=0x40400000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x3fc00000, r3
@@ -20901,9 +20901,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f3385
+	cbne	r5, r6, fail3385
 	mov	=0x0, r6
-	cbne	r8, r6, f3386
+	cbne	r8, r6, fail3386
 	mov	=0x40400000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x3fc00000, r3
@@ -20914,9 +20914,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f3387
+	cbne	r5, r6, fail3387
 	mov	=0x0, r6
-	cbne	r8, r6, f3388
+	cbne	r8, r6, fail3388
 	mov	=0x40400000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40200000, r3
@@ -20927,9 +20927,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0200000, r6
-	cbne	r5, r6, f3389
+	cbne	r5, r6, fail3389
 	mov	=0x0, r6
-	cbne	r8, r6, f3390
+	cbne	r8, r6, fail3390
 	mov	=0x40400000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40200000, r3
@@ -20940,9 +20940,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0200000, r6
-	cbne	r5, r6, f3391
+	cbne	r5, r6, fail3391
 	mov	=0x0, r6
-	cbne	r8, r6, f3392
+	cbne	r8, r6, fail3392
 	mov	=0x40400000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40700000, r3
@@ -20953,9 +20953,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0700000, r6
-	cbne	r5, r6, f3393
+	cbne	r5, r6, fail3393
 	mov	=0x0, r6
-	cbne	r8, r6, f3394
+	cbne	r8, r6, fail3394
 	mov	=0x40400000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40700000, r3
@@ -20966,9 +20966,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0700000, r6
-	cbne	r5, r6, f3395
+	cbne	r5, r6, fail3395
 	mov	=0x0, r6
-	cbne	r8, r6, f3396
+	cbne	r8, r6, fail3396
 	mov	=0x40400000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0xffffffffc0700000, r3
@@ -20979,9 +20979,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40700000, r6
-	cbne	r5, r6, f3397
+	cbne	r5, r6, fail3397
 	mov	=0x0, r6
-	cbne	r8, r6, f3398
+	cbne	r8, r6, fail3398
 	mov	=0x40400000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0xffffffffc0700000, r3
@@ -20992,9 +20992,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40700000, r6
-	cbne	r5, r6, f3399
+	cbne	r5, r6, fail3399
 	mov	=0x0, r6
-	cbne	r8, r6, f3400
+	cbne	r8, r6, fail3400
 	mov	=0x40400000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40f00000, r3
@@ -21005,9 +21005,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0f00000, r6
-	cbne	r5, r6, f3401
+	cbne	r5, r6, fail3401
 	mov	=0x0, r6
-	cbne	r8, r6, f3402
+	cbne	r8, r6, fail3402
 	mov	=0x40400000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40f00000, r3
@@ -21018,9 +21018,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0f00000, r6
-	cbne	r5, r6, f3403
+	cbne	r5, r6, fail3403
 	mov	=0x0, r6
-	cbne	r8, r6, f3404
+	cbne	r8, r6, fail3404
 	mov	=0x40400000, r1
 	mov	=0x3f800000, r2
 	mov	=0x0, r3
@@ -21031,9 +21031,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40400000, r6
-	cbne	r5, r6, f3405
+	cbne	r5, r6, fail3405
 	mov	=0x0, r6
-	cbne	r8, r6, f3406
+	cbne	r8, r6, fail3406
 	mov	=0x40400000, r1
 	mov	=0x3f800000, r2
 	mov	=0x0, r3
@@ -21044,9 +21044,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0400000, r6
-	cbne	r5, r6, f3407
+	cbne	r5, r6, fail3407
 	mov	=0x0, r6
-	cbne	r8, r6, f3408
+	cbne	r8, r6, fail3408
 	mov	=0x40400000, r1
 	mov	=0x3f800000, r2
 	mov	=0xffffffff80000000, r3
@@ -21057,9 +21057,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40400000, r6
-	cbne	r5, r6, f3409
+	cbne	r5, r6, fail3409
 	mov	=0x0, r6
-	cbne	r8, r6, f3410
+	cbne	r8, r6, fail3410
 	mov	=0x40400000, r1
 	mov	=0x3f800000, r2
 	mov	=0xffffffff80000000, r3
@@ -21070,9 +21070,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0400000, r6
-	cbne	r5, r6, f3411
+	cbne	r5, r6, fail3411
 	mov	=0x0, r6
-	cbne	r8, r6, f3412
+	cbne	r8, r6, fail3412
 	mov	=0x40400000, r1
 	mov	=0x3f800000, r2
 	mov	=0x3f800000, r3
@@ -21083,9 +21083,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40000000, r6
-	cbne	r5, r6, f3413
+	cbne	r5, r6, fail3413
 	mov	=0x0, r6
-	cbne	r8, r6, f3414
+	cbne	r8, r6, fail3414
 	mov	=0x40400000, r1
 	mov	=0x3f800000, r2
 	mov	=0x3f800000, r3
@@ -21096,9 +21096,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0800000, r6
-	cbne	r5, r6, f3415
+	cbne	r5, r6, fail3415
 	mov	=0x0, r6
-	cbne	r8, r6, f3416
+	cbne	r8, r6, fail3416
 	mov	=0x40400000, r1
 	mov	=0x3f800000, r2
 	mov	=0xffffffffbf800000, r3
@@ -21109,9 +21109,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40800000, r6
-	cbne	r5, r6, f3417
+	cbne	r5, r6, fail3417
 	mov	=0x0, r6
-	cbne	r8, r6, f3418
+	cbne	r8, r6, fail3418
 	mov	=0x40400000, r1
 	mov	=0x3f800000, r2
 	mov	=0xffffffffbf800000, r3
@@ -21122,9 +21122,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0000000, r6
-	cbne	r5, r6, f3419
+	cbne	r5, r6, fail3419
 	mov	=0x0, r6
-	cbne	r8, r6, f3420
+	cbne	r8, r6, fail3420
 	mov	=0x40400000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40000000, r3
@@ -21135,9 +21135,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3f800000, r6
-	cbne	r5, r6, f3421
+	cbne	r5, r6, fail3421
 	mov	=0x0, r6
-	cbne	r8, r6, f3422
+	cbne	r8, r6, fail3422
 	mov	=0x40400000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40000000, r3
@@ -21148,9 +21148,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0a00000, r6
-	cbne	r5, r6, f3423
+	cbne	r5, r6, fail3423
 	mov	=0x0, r6
-	cbne	r8, r6, f3424
+	cbne	r8, r6, fail3424
 	mov	=0x40400000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40400000, r3
@@ -21161,9 +21161,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f3425
+	cbne	r5, r6, fail3425
 	mov	=0x0, r6
-	cbne	r8, r6, f3426
+	cbne	r8, r6, fail3426
 	mov	=0x40400000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40400000, r3
@@ -21174,9 +21174,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0c00000, r6
-	cbne	r5, r6, f3427
+	cbne	r5, r6, fail3427
 	mov	=0x0, r6
-	cbne	r8, r6, f3428
+	cbne	r8, r6, fail3428
 	mov	=0x40400000, r1
 	mov	=0x3f800000, r2
 	mov	=0x3fc00000, r3
@@ -21187,9 +21187,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3fc00000, r6
-	cbne	r5, r6, f3429
+	cbne	r5, r6, fail3429
 	mov	=0x0, r6
-	cbne	r8, r6, f3430
+	cbne	r8, r6, fail3430
 	mov	=0x40400000, r1
 	mov	=0x3f800000, r2
 	mov	=0x3fc00000, r3
@@ -21200,9 +21200,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0900000, r6
-	cbne	r5, r6, f3431
+	cbne	r5, r6, fail3431
 	mov	=0x0, r6
-	cbne	r8, r6, f3432
+	cbne	r8, r6, fail3432
 	mov	=0x40400000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40200000, r3
@@ -21213,9 +21213,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3f000000, r6
-	cbne	r5, r6, f3433
+	cbne	r5, r6, fail3433
 	mov	=0x0, r6
-	cbne	r8, r6, f3434
+	cbne	r8, r6, fail3434
 	mov	=0x40400000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40200000, r3
@@ -21226,9 +21226,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0b00000, r6
-	cbne	r5, r6, f3435
+	cbne	r5, r6, fail3435
 	mov	=0x0, r6
-	cbne	r8, r6, f3436
+	cbne	r8, r6, fail3436
 	mov	=0x40400000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40700000, r3
@@ -21239,9 +21239,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf400000, r6
-	cbne	r5, r6, f3437
+	cbne	r5, r6, fail3437
 	mov	=0x0, r6
-	cbne	r8, r6, f3438
+	cbne	r8, r6, fail3438
 	mov	=0x40400000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40700000, r3
@@ -21252,9 +21252,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0d80000, r6
-	cbne	r5, r6, f3439
+	cbne	r5, r6, fail3439
 	mov	=0x0, r6
-	cbne	r8, r6, f3440
+	cbne	r8, r6, fail3440
 	mov	=0x40400000, r1
 	mov	=0x3f800000, r2
 	mov	=0xffffffffc0700000, r3
@@ -21265,9 +21265,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40d80000, r6
-	cbne	r5, r6, f3441
+	cbne	r5, r6, fail3441
 	mov	=0x0, r6
-	cbne	r8, r6, f3442
+	cbne	r8, r6, fail3442
 	mov	=0x40400000, r1
 	mov	=0x3f800000, r2
 	mov	=0xffffffffc0700000, r3
@@ -21278,9 +21278,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3f400000, r6
-	cbne	r5, r6, f3443
+	cbne	r5, r6, fail3443
 	mov	=0x0, r6
-	cbne	r8, r6, f3444
+	cbne	r8, r6, fail3444
 	mov	=0x40400000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40f00000, r3
@@ -21291,9 +21291,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0900000, r6
-	cbne	r5, r6, f3445
+	cbne	r5, r6, fail3445
 	mov	=0x0, r6
-	cbne	r8, r6, f3446
+	cbne	r8, r6, fail3446
 	mov	=0x40400000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40f00000, r3
@@ -21304,9 +21304,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc1280000, r6
-	cbne	r5, r6, f3447
+	cbne	r5, r6, fail3447
 	mov	=0x0, r6
-	cbne	r8, r6, f3448
+	cbne	r8, r6, fail3448
 	mov	=0x40400000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x0, r3
@@ -21317,9 +21317,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0400000, r6
-	cbne	r5, r6, f3449
+	cbne	r5, r6, fail3449
 	mov	=0x0, r6
-	cbne	r8, r6, f3450
+	cbne	r8, r6, fail3450
 	mov	=0x40400000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x0, r3
@@ -21330,9 +21330,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40400000, r6
-	cbne	r5, r6, f3451
+	cbne	r5, r6, fail3451
 	mov	=0x0, r6
-	cbne	r8, r6, f3452
+	cbne	r8, r6, fail3452
 	mov	=0x40400000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0xffffffff80000000, r3
@@ -21343,9 +21343,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0400000, r6
-	cbne	r5, r6, f3453
+	cbne	r5, r6, fail3453
 	mov	=0x0, r6
-	cbne	r8, r6, f3454
+	cbne	r8, r6, fail3454
 	mov	=0x40400000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0xffffffff80000000, r3
@@ -21356,9 +21356,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40400000, r6
-	cbne	r5, r6, f3455
+	cbne	r5, r6, fail3455
 	mov	=0x0, r6
-	cbne	r8, r6, f3456
+	cbne	r8, r6, fail3456
 	mov	=0x40400000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x3f800000, r3
@@ -21369,9 +21369,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0800000, r6
-	cbne	r5, r6, f3457
+	cbne	r5, r6, fail3457
 	mov	=0x0, r6
-	cbne	r8, r6, f3458
+	cbne	r8, r6, fail3458
 	mov	=0x40400000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x3f800000, r3
@@ -21382,9 +21382,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40000000, r6
-	cbne	r5, r6, f3459
+	cbne	r5, r6, fail3459
 	mov	=0x0, r6
-	cbne	r8, r6, f3460
+	cbne	r8, r6, fail3460
 	mov	=0x40400000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0xffffffffbf800000, r3
@@ -21395,9 +21395,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0000000, r6
-	cbne	r5, r6, f3461
+	cbne	r5, r6, fail3461
 	mov	=0x0, r6
-	cbne	r8, r6, f3462
+	cbne	r8, r6, fail3462
 	mov	=0x40400000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0xffffffffbf800000, r3
@@ -21408,9 +21408,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40800000, r6
-	cbne	r5, r6, f3463
+	cbne	r5, r6, fail3463
 	mov	=0x0, r6
-	cbne	r8, r6, f3464
+	cbne	r8, r6, fail3464
 	mov	=0x40400000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40000000, r3
@@ -21421,9 +21421,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0a00000, r6
-	cbne	r5, r6, f3465
+	cbne	r5, r6, fail3465
 	mov	=0x0, r6
-	cbne	r8, r6, f3466
+	cbne	r8, r6, fail3466
 	mov	=0x40400000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40000000, r3
@@ -21434,9 +21434,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3f800000, r6
-	cbne	r5, r6, f3467
+	cbne	r5, r6, fail3467
 	mov	=0x0, r6
-	cbne	r8, r6, f3468
+	cbne	r8, r6, fail3468
 	mov	=0x40400000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40400000, r3
@@ -21447,9 +21447,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0c00000, r6
-	cbne	r5, r6, f3469
+	cbne	r5, r6, fail3469
 	mov	=0x0, r6
-	cbne	r8, r6, f3470
+	cbne	r8, r6, fail3470
 	mov	=0x40400000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40400000, r3
@@ -21460,9 +21460,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f3471
+	cbne	r5, r6, fail3471
 	mov	=0x0, r6
-	cbne	r8, r6, f3472
+	cbne	r8, r6, fail3472
 	mov	=0x40400000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x3fc00000, r3
@@ -21473,9 +21473,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0900000, r6
-	cbne	r5, r6, f3473
+	cbne	r5, r6, fail3473
 	mov	=0x0, r6
-	cbne	r8, r6, f3474
+	cbne	r8, r6, fail3474
 	mov	=0x40400000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x3fc00000, r3
@@ -21486,9 +21486,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3fc00000, r6
-	cbne	r5, r6, f3475
+	cbne	r5, r6, fail3475
 	mov	=0x0, r6
-	cbne	r8, r6, f3476
+	cbne	r8, r6, fail3476
 	mov	=0x40400000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40200000, r3
@@ -21499,9 +21499,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0b00000, r6
-	cbne	r5, r6, f3477
+	cbne	r5, r6, fail3477
 	mov	=0x0, r6
-	cbne	r8, r6, f3478
+	cbne	r8, r6, fail3478
 	mov	=0x40400000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40200000, r3
@@ -21512,9 +21512,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3f000000, r6
-	cbne	r5, r6, f3479
+	cbne	r5, r6, fail3479
 	mov	=0x0, r6
-	cbne	r8, r6, f3480
+	cbne	r8, r6, fail3480
 	mov	=0x40400000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40700000, r3
@@ -21525,9 +21525,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0d80000, r6
-	cbne	r5, r6, f3481
+	cbne	r5, r6, fail3481
 	mov	=0x0, r6
-	cbne	r8, r6, f3482
+	cbne	r8, r6, fail3482
 	mov	=0x40400000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40700000, r3
@@ -21538,9 +21538,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf400000, r6
-	cbne	r5, r6, f3483
+	cbne	r5, r6, fail3483
 	mov	=0x0, r6
-	cbne	r8, r6, f3484
+	cbne	r8, r6, fail3484
 	mov	=0x40400000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0xffffffffc0700000, r3
@@ -21551,9 +21551,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3f400000, r6
-	cbne	r5, r6, f3485
+	cbne	r5, r6, fail3485
 	mov	=0x0, r6
-	cbne	r8, r6, f3486
+	cbne	r8, r6, fail3486
 	mov	=0x40400000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0xffffffffc0700000, r3
@@ -21564,9 +21564,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40d80000, r6
-	cbne	r5, r6, f3487
+	cbne	r5, r6, fail3487
 	mov	=0x0, r6
-	cbne	r8, r6, f3488
+	cbne	r8, r6, fail3488
 	mov	=0x40400000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40f00000, r3
@@ -21577,9 +21577,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc1280000, r6
-	cbne	r5, r6, f3489
+	cbne	r5, r6, fail3489
 	mov	=0x0, r6
-	cbne	r8, r6, f3490
+	cbne	r8, r6, fail3490
 	mov	=0x40400000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40f00000, r3
@@ -21590,9 +21590,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0900000, r6
-	cbne	r5, r6, f3491
+	cbne	r5, r6, fail3491
 	mov	=0x0, r6
-	cbne	r8, r6, f3492
+	cbne	r8, r6, fail3492
 	mov	=0x40400000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x0, r3
@@ -21603,9 +21603,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40900000, r6
-	cbne	r5, r6, f3493
+	cbne	r5, r6, fail3493
 	mov	=0x0, r6
-	cbne	r8, r6, f3494
+	cbne	r8, r6, fail3494
 	mov	=0x40400000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x0, r3
@@ -21616,9 +21616,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0900000, r6
-	cbne	r5, r6, f3495
+	cbne	r5, r6, fail3495
 	mov	=0x0, r6
-	cbne	r8, r6, f3496
+	cbne	r8, r6, fail3496
 	mov	=0x40400000, r1
 	mov	=0x3fc00000, r2
 	mov	=0xffffffff80000000, r3
@@ -21629,9 +21629,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40900000, r6
-	cbne	r5, r6, f3497
+	cbne	r5, r6, fail3497
 	mov	=0x0, r6
-	cbne	r8, r6, f3498
+	cbne	r8, r6, fail3498
 	mov	=0x40400000, r1
 	mov	=0x3fc00000, r2
 	mov	=0xffffffff80000000, r3
@@ -21642,9 +21642,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0900000, r6
-	cbne	r5, r6, f3499
+	cbne	r5, r6, fail3499
 	mov	=0x0, r6
-	cbne	r8, r6, f3500
+	cbne	r8, r6, fail3500
 	mov	=0x40400000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x3f800000, r3
@@ -21655,9 +21655,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40600000, r6
-	cbne	r5, r6, f3501
+	cbne	r5, r6, fail3501
 	mov	=0x0, r6
-	cbne	r8, r6, f3502
+	cbne	r8, r6, fail3502
 	mov	=0x40400000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x3f800000, r3
@@ -21668,9 +21668,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0b00000, r6
-	cbne	r5, r6, f3503
+	cbne	r5, r6, fail3503
 	mov	=0x0, r6
-	cbne	r8, r6, f3504
+	cbne	r8, r6, fail3504
 	mov	=0x40400000, r1
 	mov	=0x3fc00000, r2
 	mov	=0xffffffffbf800000, r3
@@ -21681,9 +21681,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40b00000, r6
-	cbne	r5, r6, f3505
+	cbne	r5, r6, fail3505
 	mov	=0x0, r6
-	cbne	r8, r6, f3506
+	cbne	r8, r6, fail3506
 	mov	=0x40400000, r1
 	mov	=0x3fc00000, r2
 	mov	=0xffffffffbf800000, r3
@@ -21694,9 +21694,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0600000, r6
-	cbne	r5, r6, f3507
+	cbne	r5, r6, fail3507
 	mov	=0x0, r6
-	cbne	r8, r6, f3508
+	cbne	r8, r6, fail3508
 	mov	=0x40400000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40000000, r3
@@ -21707,9 +21707,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40200000, r6
-	cbne	r5, r6, f3509
+	cbne	r5, r6, fail3509
 	mov	=0x0, r6
-	cbne	r8, r6, f3510
+	cbne	r8, r6, fail3510
 	mov	=0x40400000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40000000, r3
@@ -21720,9 +21720,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0d00000, r6
-	cbne	r5, r6, f3511
+	cbne	r5, r6, fail3511
 	mov	=0x0, r6
-	cbne	r8, r6, f3512
+	cbne	r8, r6, fail3512
 	mov	=0x40400000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40400000, r3
@@ -21733,9 +21733,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3fc00000, r6
-	cbne	r5, r6, f3513
+	cbne	r5, r6, fail3513
 	mov	=0x0, r6
-	cbne	r8, r6, f3514
+	cbne	r8, r6, fail3514
 	mov	=0x40400000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40400000, r3
@@ -21746,9 +21746,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0f00000, r6
-	cbne	r5, r6, f3515
+	cbne	r5, r6, fail3515
 	mov	=0x0, r6
-	cbne	r8, r6, f3516
+	cbne	r8, r6, fail3516
 	mov	=0x40400000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x3fc00000, r3
@@ -21759,9 +21759,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40400000, r6
-	cbne	r5, r6, f3517
+	cbne	r5, r6, fail3517
 	mov	=0x0, r6
-	cbne	r8, r6, f3518
+	cbne	r8, r6, fail3518
 	mov	=0x40400000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x3fc00000, r3
@@ -21772,9 +21772,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0c00000, r6
-	cbne	r5, r6, f3519
+	cbne	r5, r6, fail3519
 	mov	=0x0, r6
-	cbne	r8, r6, f3520
+	cbne	r8, r6, fail3520
 	mov	=0x40400000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40200000, r3
@@ -21785,9 +21785,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40000000, r6
-	cbne	r5, r6, f3521
+	cbne	r5, r6, fail3521
 	mov	=0x0, r6
-	cbne	r8, r6, f3522
+	cbne	r8, r6, fail3522
 	mov	=0x40400000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40200000, r3
@@ -21798,9 +21798,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0e00000, r6
-	cbne	r5, r6, f3523
+	cbne	r5, r6, fail3523
 	mov	=0x0, r6
-	cbne	r8, r6, f3524
+	cbne	r8, r6, fail3524
 	mov	=0x40400000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40700000, r3
@@ -21811,9 +21811,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3f400000, r6
-	cbne	r5, r6, f3525
+	cbne	r5, r6, fail3525
 	mov	=0x0, r6
-	cbne	r8, r6, f3526
+	cbne	r8, r6, fail3526
 	mov	=0x40400000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40700000, r3
@@ -21824,9 +21824,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc1040000, r6
-	cbne	r5, r6, f3527
+	cbne	r5, r6, fail3527
 	mov	=0x0, r6
-	cbne	r8, r6, f3528
+	cbne	r8, r6, fail3528
 	mov	=0x40400000, r1
 	mov	=0x3fc00000, r2
 	mov	=0xffffffffc0700000, r3
@@ -21837,9 +21837,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x41040000, r6
-	cbne	r5, r6, f3529
+	cbne	r5, r6, fail3529
 	mov	=0x0, r6
-	cbne	r8, r6, f3530
+	cbne	r8, r6, fail3530
 	mov	=0x40400000, r1
 	mov	=0x3fc00000, r2
 	mov	=0xffffffffc0700000, r3
@@ -21850,9 +21850,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf400000, r6
-	cbne	r5, r6, f3531
+	cbne	r5, r6, fail3531
 	mov	=0x0, r6
-	cbne	r8, r6, f3532
+	cbne	r8, r6, fail3532
 	mov	=0x40400000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40f00000, r3
@@ -21863,9 +21863,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0400000, r6
-	cbne	r5, r6, f3533
+	cbne	r5, r6, fail3533
 	mov	=0x0, r6
-	cbne	r8, r6, f3534
+	cbne	r8, r6, fail3534
 	mov	=0x40400000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40f00000, r3
@@ -21876,9 +21876,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc1400000, r6
-	cbne	r5, r6, f3535
+	cbne	r5, r6, fail3535
 	mov	=0x0, r6
-	cbne	r8, r6, f3536
+	cbne	r8, r6, fail3536
 	mov	=0x3fc00000, r1
 	mov	=0x0, r2
 	mov	=0x0, r3
@@ -21889,9 +21889,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f3537
+	cbne	r5, r6, fail3537
 	mov	=0x0, r6
-	cbne	r8, r6, f3538
+	cbne	r8, r6, fail3538
 	mov	=0x3fc00000, r1
 	mov	=0x0, r2
 	mov	=0x0, r3
@@ -21902,9 +21902,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffff80000000, r6
-	cbne	r5, r6, f3539
+	cbne	r5, r6, fail3539
 	mov	=0x0, r6
-	cbne	r8, r6, f3540
+	cbne	r8, r6, fail3540
 	mov	=0x3fc00000, r1
 	mov	=0x0, r2
 	mov	=0xffffffff80000000, r3
@@ -21915,9 +21915,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f3541
+	cbne	r5, r6, fail3541
 	mov	=0x0, r6
-	cbne	r8, r6, f3542
+	cbne	r8, r6, fail3542
 	mov	=0x3fc00000, r1
 	mov	=0x0, r2
 	mov	=0xffffffff80000000, r3
@@ -21928,9 +21928,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f3543
+	cbne	r5, r6, fail3543
 	mov	=0x0, r6
-	cbne	r8, r6, f3544
+	cbne	r8, r6, fail3544
 	mov	=0x3fc00000, r1
 	mov	=0x0, r2
 	mov	=0x3f800000, r3
@@ -21941,9 +21941,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f3545
+	cbne	r5, r6, fail3545
 	mov	=0x0, r6
-	cbne	r8, r6, f3546
+	cbne	r8, r6, fail3546
 	mov	=0x3fc00000, r1
 	mov	=0x0, r2
 	mov	=0x3f800000, r3
@@ -21954,9 +21954,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f3547
+	cbne	r5, r6, fail3547
 	mov	=0x0, r6
-	cbne	r8, r6, f3548
+	cbne	r8, r6, fail3548
 	mov	=0x3fc00000, r1
 	mov	=0x0, r2
 	mov	=0xffffffffbf800000, r3
@@ -21967,9 +21967,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3f800000, r6
-	cbne	r5, r6, f3549
+	cbne	r5, r6, fail3549
 	mov	=0x0, r6
-	cbne	r8, r6, f3550
+	cbne	r8, r6, fail3550
 	mov	=0x3fc00000, r1
 	mov	=0x0, r2
 	mov	=0xffffffffbf800000, r3
@@ -21980,9 +21980,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3f800000, r6
-	cbne	r5, r6, f3551
+	cbne	r5, r6, fail3551
 	mov	=0x0, r6
-	cbne	r8, r6, f3552
+	cbne	r8, r6, fail3552
 	mov	=0x3fc00000, r1
 	mov	=0x0, r2
 	mov	=0x40000000, r3
@@ -21993,9 +21993,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0000000, r6
-	cbne	r5, r6, f3553
+	cbne	r5, r6, fail3553
 	mov	=0x0, r6
-	cbne	r8, r6, f3554
+	cbne	r8, r6, fail3554
 	mov	=0x3fc00000, r1
 	mov	=0x0, r2
 	mov	=0x40000000, r3
@@ -22006,9 +22006,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0000000, r6
-	cbne	r5, r6, f3555
+	cbne	r5, r6, fail3555
 	mov	=0x0, r6
-	cbne	r8, r6, f3556
+	cbne	r8, r6, fail3556
 	mov	=0x3fc00000, r1
 	mov	=0x0, r2
 	mov	=0x40400000, r3
@@ -22019,9 +22019,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0400000, r6
-	cbne	r5, r6, f3557
+	cbne	r5, r6, fail3557
 	mov	=0x0, r6
-	cbne	r8, r6, f3558
+	cbne	r8, r6, fail3558
 	mov	=0x3fc00000, r1
 	mov	=0x0, r2
 	mov	=0x40400000, r3
@@ -22032,9 +22032,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0400000, r6
-	cbne	r5, r6, f3559
+	cbne	r5, r6, fail3559
 	mov	=0x0, r6
-	cbne	r8, r6, f3560
+	cbne	r8, r6, fail3560
 	mov	=0x3fc00000, r1
 	mov	=0x0, r2
 	mov	=0x3fc00000, r3
@@ -22045,9 +22045,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f3561
+	cbne	r5, r6, fail3561
 	mov	=0x0, r6
-	cbne	r8, r6, f3562
+	cbne	r8, r6, fail3562
 	mov	=0x3fc00000, r1
 	mov	=0x0, r2
 	mov	=0x3fc00000, r3
@@ -22058,9 +22058,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f3563
+	cbne	r5, r6, fail3563
 	mov	=0x0, r6
-	cbne	r8, r6, f3564
+	cbne	r8, r6, fail3564
 	mov	=0x3fc00000, r1
 	mov	=0x0, r2
 	mov	=0x40200000, r3
@@ -22071,9 +22071,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0200000, r6
-	cbne	r5, r6, f3565
+	cbne	r5, r6, fail3565
 	mov	=0x0, r6
-	cbne	r8, r6, f3566
+	cbne	r8, r6, fail3566
 	mov	=0x3fc00000, r1
 	mov	=0x0, r2
 	mov	=0x40200000, r3
@@ -22084,9 +22084,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0200000, r6
-	cbne	r5, r6, f3567
+	cbne	r5, r6, fail3567
 	mov	=0x0, r6
-	cbne	r8, r6, f3568
+	cbne	r8, r6, fail3568
 	mov	=0x3fc00000, r1
 	mov	=0x0, r2
 	mov	=0x40700000, r3
@@ -22097,9 +22097,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0700000, r6
-	cbne	r5, r6, f3569
+	cbne	r5, r6, fail3569
 	mov	=0x0, r6
-	cbne	r8, r6, f3570
+	cbne	r8, r6, fail3570
 	mov	=0x3fc00000, r1
 	mov	=0x0, r2
 	mov	=0x40700000, r3
@@ -22110,9 +22110,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0700000, r6
-	cbne	r5, r6, f3571
+	cbne	r5, r6, fail3571
 	mov	=0x0, r6
-	cbne	r8, r6, f3572
+	cbne	r8, r6, fail3572
 	mov	=0x3fc00000, r1
 	mov	=0x0, r2
 	mov	=0xffffffffc0700000, r3
@@ -22123,9 +22123,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40700000, r6
-	cbne	r5, r6, f3573
+	cbne	r5, r6, fail3573
 	mov	=0x0, r6
-	cbne	r8, r6, f3574
+	cbne	r8, r6, fail3574
 	mov	=0x3fc00000, r1
 	mov	=0x0, r2
 	mov	=0xffffffffc0700000, r3
@@ -22136,9 +22136,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40700000, r6
-	cbne	r5, r6, f3575
+	cbne	r5, r6, fail3575
 	mov	=0x0, r6
-	cbne	r8, r6, f3576
+	cbne	r8, r6, fail3576
 	mov	=0x3fc00000, r1
 	mov	=0x0, r2
 	mov	=0x40f00000, r3
@@ -22149,9 +22149,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0f00000, r6
-	cbne	r5, r6, f3577
+	cbne	r5, r6, fail3577
 	mov	=0x0, r6
-	cbne	r8, r6, f3578
+	cbne	r8, r6, fail3578
 	mov	=0x3fc00000, r1
 	mov	=0x0, r2
 	mov	=0x40f00000, r3
@@ -22162,9 +22162,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0f00000, r6
-	cbne	r5, r6, f3579
+	cbne	r5, r6, fail3579
 	mov	=0x0, r6
-	cbne	r8, r6, f3580
+	cbne	r8, r6, fail3580
 	mov	=0x3fc00000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x0, r3
@@ -22175,9 +22175,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffff80000000, r6
-	cbne	r5, r6, f3581
+	cbne	r5, r6, fail3581
 	mov	=0x0, r6
-	cbne	r8, r6, f3582
+	cbne	r8, r6, fail3582
 	mov	=0x3fc00000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x0, r3
@@ -22188,9 +22188,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f3583
+	cbne	r5, r6, fail3583
 	mov	=0x0, r6
-	cbne	r8, r6, f3584
+	cbne	r8, r6, fail3584
 	mov	=0x3fc00000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0xffffffff80000000, r3
@@ -22201,9 +22201,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f3585
+	cbne	r5, r6, fail3585
 	mov	=0x0, r6
-	cbne	r8, r6, f3586
+	cbne	r8, r6, fail3586
 	mov	=0x3fc00000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0xffffffff80000000, r3
@@ -22214,9 +22214,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f3587
+	cbne	r5, r6, fail3587
 	mov	=0x0, r6
-	cbne	r8, r6, f3588
+	cbne	r8, r6, fail3588
 	mov	=0x3fc00000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x3f800000, r3
@@ -22227,9 +22227,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f3589
+	cbne	r5, r6, fail3589
 	mov	=0x0, r6
-	cbne	r8, r6, f3590
+	cbne	r8, r6, fail3590
 	mov	=0x3fc00000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x3f800000, r3
@@ -22240,9 +22240,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f3591
+	cbne	r5, r6, fail3591
 	mov	=0x0, r6
-	cbne	r8, r6, f3592
+	cbne	r8, r6, fail3592
 	mov	=0x3fc00000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0xffffffffbf800000, r3
@@ -22253,9 +22253,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3f800000, r6
-	cbne	r5, r6, f3593
+	cbne	r5, r6, fail3593
 	mov	=0x0, r6
-	cbne	r8, r6, f3594
+	cbne	r8, r6, fail3594
 	mov	=0x3fc00000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0xffffffffbf800000, r3
@@ -22266,9 +22266,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3f800000, r6
-	cbne	r5, r6, f3595
+	cbne	r5, r6, fail3595
 	mov	=0x0, r6
-	cbne	r8, r6, f3596
+	cbne	r8, r6, fail3596
 	mov	=0x3fc00000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40000000, r3
@@ -22279,9 +22279,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0000000, r6
-	cbne	r5, r6, f3597
+	cbne	r5, r6, fail3597
 	mov	=0x0, r6
-	cbne	r8, r6, f3598
+	cbne	r8, r6, fail3598
 	mov	=0x3fc00000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40000000, r3
@@ -22292,9 +22292,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0000000, r6
-	cbne	r5, r6, f3599
+	cbne	r5, r6, fail3599
 	mov	=0x0, r6
-	cbne	r8, r6, f3600
+	cbne	r8, r6, fail3600
 	mov	=0x3fc00000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40400000, r3
@@ -22305,9 +22305,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0400000, r6
-	cbne	r5, r6, f3601
+	cbne	r5, r6, fail3601
 	mov	=0x0, r6
-	cbne	r8, r6, f3602
+	cbne	r8, r6, fail3602
 	mov	=0x3fc00000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40400000, r3
@@ -22318,9 +22318,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0400000, r6
-	cbne	r5, r6, f3603
+	cbne	r5, r6, fail3603
 	mov	=0x0, r6
-	cbne	r8, r6, f3604
+	cbne	r8, r6, fail3604
 	mov	=0x3fc00000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x3fc00000, r3
@@ -22331,9 +22331,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f3605
+	cbne	r5, r6, fail3605
 	mov	=0x0, r6
-	cbne	r8, r6, f3606
+	cbne	r8, r6, fail3606
 	mov	=0x3fc00000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x3fc00000, r3
@@ -22344,9 +22344,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f3607
+	cbne	r5, r6, fail3607
 	mov	=0x0, r6
-	cbne	r8, r6, f3608
+	cbne	r8, r6, fail3608
 	mov	=0x3fc00000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40200000, r3
@@ -22357,9 +22357,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0200000, r6
-	cbne	r5, r6, f3609
+	cbne	r5, r6, fail3609
 	mov	=0x0, r6
-	cbne	r8, r6, f3610
+	cbne	r8, r6, fail3610
 	mov	=0x3fc00000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40200000, r3
@@ -22370,9 +22370,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0200000, r6
-	cbne	r5, r6, f3611
+	cbne	r5, r6, fail3611
 	mov	=0x0, r6
-	cbne	r8, r6, f3612
+	cbne	r8, r6, fail3612
 	mov	=0x3fc00000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40700000, r3
@@ -22383,9 +22383,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0700000, r6
-	cbne	r5, r6, f3613
+	cbne	r5, r6, fail3613
 	mov	=0x0, r6
-	cbne	r8, r6, f3614
+	cbne	r8, r6, fail3614
 	mov	=0x3fc00000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40700000, r3
@@ -22396,9 +22396,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0700000, r6
-	cbne	r5, r6, f3615
+	cbne	r5, r6, fail3615
 	mov	=0x0, r6
-	cbne	r8, r6, f3616
+	cbne	r8, r6, fail3616
 	mov	=0x3fc00000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0xffffffffc0700000, r3
@@ -22409,9 +22409,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40700000, r6
-	cbne	r5, r6, f3617
+	cbne	r5, r6, fail3617
 	mov	=0x0, r6
-	cbne	r8, r6, f3618
+	cbne	r8, r6, fail3618
 	mov	=0x3fc00000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0xffffffffc0700000, r3
@@ -22422,9 +22422,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40700000, r6
-	cbne	r5, r6, f3619
+	cbne	r5, r6, fail3619
 	mov	=0x0, r6
-	cbne	r8, r6, f3620
+	cbne	r8, r6, fail3620
 	mov	=0x3fc00000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40f00000, r3
@@ -22435,9 +22435,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0f00000, r6
-	cbne	r5, r6, f3621
+	cbne	r5, r6, fail3621
 	mov	=0x0, r6
-	cbne	r8, r6, f3622
+	cbne	r8, r6, fail3622
 	mov	=0x3fc00000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40f00000, r3
@@ -22448,9 +22448,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0f00000, r6
-	cbne	r5, r6, f3623
+	cbne	r5, r6, fail3623
 	mov	=0x0, r6
-	cbne	r8, r6, f3624
+	cbne	r8, r6, fail3624
 	mov	=0x3fc00000, r1
 	mov	=0x3f800000, r2
 	mov	=0x0, r3
@@ -22461,9 +22461,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3fc00000, r6
-	cbne	r5, r6, f3625
+	cbne	r5, r6, fail3625
 	mov	=0x0, r6
-	cbne	r8, r6, f3626
+	cbne	r8, r6, fail3626
 	mov	=0x3fc00000, r1
 	mov	=0x3f800000, r2
 	mov	=0x0, r3
@@ -22474,9 +22474,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f3627
+	cbne	r5, r6, fail3627
 	mov	=0x0, r6
-	cbne	r8, r6, f3628
+	cbne	r8, r6, fail3628
 	mov	=0x3fc00000, r1
 	mov	=0x3f800000, r2
 	mov	=0xffffffff80000000, r3
@@ -22487,9 +22487,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3fc00000, r6
-	cbne	r5, r6, f3629
+	cbne	r5, r6, fail3629
 	mov	=0x0, r6
-	cbne	r8, r6, f3630
+	cbne	r8, r6, fail3630
 	mov	=0x3fc00000, r1
 	mov	=0x3f800000, r2
 	mov	=0xffffffff80000000, r3
@@ -22500,9 +22500,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f3631
+	cbne	r5, r6, fail3631
 	mov	=0x0, r6
-	cbne	r8, r6, f3632
+	cbne	r8, r6, fail3632
 	mov	=0x3fc00000, r1
 	mov	=0x3f800000, r2
 	mov	=0x3f800000, r3
@@ -22513,9 +22513,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3f000000, r6
-	cbne	r5, r6, f3633
+	cbne	r5, r6, fail3633
 	mov	=0x0, r6
-	cbne	r8, r6, f3634
+	cbne	r8, r6, fail3634
 	mov	=0x3fc00000, r1
 	mov	=0x3f800000, r2
 	mov	=0x3f800000, r3
@@ -22526,9 +22526,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0200000, r6
-	cbne	r5, r6, f3635
+	cbne	r5, r6, fail3635
 	mov	=0x0, r6
-	cbne	r8, r6, f3636
+	cbne	r8, r6, fail3636
 	mov	=0x3fc00000, r1
 	mov	=0x3f800000, r2
 	mov	=0xffffffffbf800000, r3
@@ -22539,9 +22539,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40200000, r6
-	cbne	r5, r6, f3637
+	cbne	r5, r6, fail3637
 	mov	=0x0, r6
-	cbne	r8, r6, f3638
+	cbne	r8, r6, fail3638
 	mov	=0x3fc00000, r1
 	mov	=0x3f800000, r2
 	mov	=0xffffffffbf800000, r3
@@ -22552,9 +22552,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf000000, r6
-	cbne	r5, r6, f3639
+	cbne	r5, r6, fail3639
 	mov	=0x0, r6
-	cbne	r8, r6, f3640
+	cbne	r8, r6, fail3640
 	mov	=0x3fc00000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40000000, r3
@@ -22565,9 +22565,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf000000, r6
-	cbne	r5, r6, f3641
+	cbne	r5, r6, fail3641
 	mov	=0x0, r6
-	cbne	r8, r6, f3642
+	cbne	r8, r6, fail3642
 	mov	=0x3fc00000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40000000, r3
@@ -22578,9 +22578,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0600000, r6
-	cbne	r5, r6, f3643
+	cbne	r5, r6, fail3643
 	mov	=0x0, r6
-	cbne	r8, r6, f3644
+	cbne	r8, r6, fail3644
 	mov	=0x3fc00000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40400000, r3
@@ -22591,9 +22591,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f3645
+	cbne	r5, r6, fail3645
 	mov	=0x0, r6
-	cbne	r8, r6, f3646
+	cbne	r8, r6, fail3646
 	mov	=0x3fc00000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40400000, r3
@@ -22604,9 +22604,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0900000, r6
-	cbne	r5, r6, f3647
+	cbne	r5, r6, fail3647
 	mov	=0x0, r6
-	cbne	r8, r6, f3648
+	cbne	r8, r6, fail3648
 	mov	=0x3fc00000, r1
 	mov	=0x3f800000, r2
 	mov	=0x3fc00000, r3
@@ -22617,9 +22617,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f3649
+	cbne	r5, r6, fail3649
 	mov	=0x0, r6
-	cbne	r8, r6, f3650
+	cbne	r8, r6, fail3650
 	mov	=0x3fc00000, r1
 	mov	=0x3f800000, r2
 	mov	=0x3fc00000, r3
@@ -22630,9 +22630,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0400000, r6
-	cbne	r5, r6, f3651
+	cbne	r5, r6, fail3651
 	mov	=0x0, r6
-	cbne	r8, r6, f3652
+	cbne	r8, r6, fail3652
 	mov	=0x3fc00000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40200000, r3
@@ -22643,9 +22643,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f3653
+	cbne	r5, r6, fail3653
 	mov	=0x0, r6
-	cbne	r8, r6, f3654
+	cbne	r8, r6, fail3654
 	mov	=0x3fc00000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40200000, r3
@@ -22656,9 +22656,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0800000, r6
-	cbne	r5, r6, f3655
+	cbne	r5, r6, fail3655
 	mov	=0x0, r6
-	cbne	r8, r6, f3656
+	cbne	r8, r6, fail3656
 	mov	=0x3fc00000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40700000, r3
@@ -22669,9 +22669,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0100000, r6
-	cbne	r5, r6, f3657
+	cbne	r5, r6, fail3657
 	mov	=0x0, r6
-	cbne	r8, r6, f3658
+	cbne	r8, r6, fail3658
 	mov	=0x3fc00000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40700000, r3
@@ -22682,9 +22682,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0a80000, r6
-	cbne	r5, r6, f3659
+	cbne	r5, r6, fail3659
 	mov	=0x0, r6
-	cbne	r8, r6, f3660
+	cbne	r8, r6, fail3660
 	mov	=0x3fc00000, r1
 	mov	=0x3f800000, r2
 	mov	=0xffffffffc0700000, r3
@@ -22695,9 +22695,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40a80000, r6
-	cbne	r5, r6, f3661
+	cbne	r5, r6, fail3661
 	mov	=0x0, r6
-	cbne	r8, r6, f3662
+	cbne	r8, r6, fail3662
 	mov	=0x3fc00000, r1
 	mov	=0x3f800000, r2
 	mov	=0xffffffffc0700000, r3
@@ -22708,9 +22708,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40100000, r6
-	cbne	r5, r6, f3663
+	cbne	r5, r6, fail3663
 	mov	=0x0, r6
-	cbne	r8, r6, f3664
+	cbne	r8, r6, fail3664
 	mov	=0x3fc00000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40f00000, r3
@@ -22721,9 +22721,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0c00000, r6
-	cbne	r5, r6, f3665
+	cbne	r5, r6, fail3665
 	mov	=0x0, r6
-	cbne	r8, r6, f3666
+	cbne	r8, r6, fail3666
 	mov	=0x3fc00000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40f00000, r3
@@ -22734,9 +22734,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc1100000, r6
-	cbne	r5, r6, f3667
+	cbne	r5, r6, fail3667
 	mov	=0x0, r6
-	cbne	r8, r6, f3668
+	cbne	r8, r6, fail3668
 	mov	=0x3fc00000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x0, r3
@@ -22747,9 +22747,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f3669
+	cbne	r5, r6, fail3669
 	mov	=0x0, r6
-	cbne	r8, r6, f3670
+	cbne	r8, r6, fail3670
 	mov	=0x3fc00000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x0, r3
@@ -22760,9 +22760,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3fc00000, r6
-	cbne	r5, r6, f3671
+	cbne	r5, r6, fail3671
 	mov	=0x0, r6
-	cbne	r8, r6, f3672
+	cbne	r8, r6, fail3672
 	mov	=0x3fc00000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0xffffffff80000000, r3
@@ -22773,9 +22773,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f3673
+	cbne	r5, r6, fail3673
 	mov	=0x0, r6
-	cbne	r8, r6, f3674
+	cbne	r8, r6, fail3674
 	mov	=0x3fc00000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0xffffffff80000000, r3
@@ -22786,9 +22786,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3fc00000, r6
-	cbne	r5, r6, f3675
+	cbne	r5, r6, fail3675
 	mov	=0x0, r6
-	cbne	r8, r6, f3676
+	cbne	r8, r6, fail3676
 	mov	=0x3fc00000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x3f800000, r3
@@ -22799,9 +22799,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0200000, r6
-	cbne	r5, r6, f3677
+	cbne	r5, r6, fail3677
 	mov	=0x0, r6
-	cbne	r8, r6, f3678
+	cbne	r8, r6, fail3678
 	mov	=0x3fc00000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x3f800000, r3
@@ -22812,9 +22812,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3f000000, r6
-	cbne	r5, r6, f3679
+	cbne	r5, r6, fail3679
 	mov	=0x0, r6
-	cbne	r8, r6, f3680
+	cbne	r8, r6, fail3680
 	mov	=0x3fc00000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0xffffffffbf800000, r3
@@ -22825,9 +22825,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf000000, r6
-	cbne	r5, r6, f3681
+	cbne	r5, r6, fail3681
 	mov	=0x0, r6
-	cbne	r8, r6, f3682
+	cbne	r8, r6, fail3682
 	mov	=0x3fc00000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0xffffffffbf800000, r3
@@ -22838,9 +22838,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40200000, r6
-	cbne	r5, r6, f3683
+	cbne	r5, r6, fail3683
 	mov	=0x0, r6
-	cbne	r8, r6, f3684
+	cbne	r8, r6, fail3684
 	mov	=0x3fc00000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40000000, r3
@@ -22851,9 +22851,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0600000, r6
-	cbne	r5, r6, f3685
+	cbne	r5, r6, fail3685
 	mov	=0x0, r6
-	cbne	r8, r6, f3686
+	cbne	r8, r6, fail3686
 	mov	=0x3fc00000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40000000, r3
@@ -22864,9 +22864,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf000000, r6
-	cbne	r5, r6, f3687
+	cbne	r5, r6, fail3687
 	mov	=0x0, r6
-	cbne	r8, r6, f3688
+	cbne	r8, r6, fail3688
 	mov	=0x3fc00000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40400000, r3
@@ -22877,9 +22877,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0900000, r6
-	cbne	r5, r6, f3689
+	cbne	r5, r6, fail3689
 	mov	=0x0, r6
-	cbne	r8, r6, f3690
+	cbne	r8, r6, fail3690
 	mov	=0x3fc00000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40400000, r3
@@ -22890,9 +22890,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f3691
+	cbne	r5, r6, fail3691
 	mov	=0x0, r6
-	cbne	r8, r6, f3692
+	cbne	r8, r6, fail3692
 	mov	=0x3fc00000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x3fc00000, r3
@@ -22903,9 +22903,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0400000, r6
-	cbne	r5, r6, f3693
+	cbne	r5, r6, fail3693
 	mov	=0x0, r6
-	cbne	r8, r6, f3694
+	cbne	r8, r6, fail3694
 	mov	=0x3fc00000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x3fc00000, r3
@@ -22916,9 +22916,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f3695
+	cbne	r5, r6, fail3695
 	mov	=0x0, r6
-	cbne	r8, r6, f3696
+	cbne	r8, r6, fail3696
 	mov	=0x3fc00000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40200000, r3
@@ -22929,9 +22929,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0800000, r6
-	cbne	r5, r6, f3697
+	cbne	r5, r6, fail3697
 	mov	=0x0, r6
-	cbne	r8, r6, f3698
+	cbne	r8, r6, fail3698
 	mov	=0x3fc00000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40200000, r3
@@ -22942,9 +22942,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f3699
+	cbne	r5, r6, fail3699
 	mov	=0x0, r6
-	cbne	r8, r6, f3700
+	cbne	r8, r6, fail3700
 	mov	=0x3fc00000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40700000, r3
@@ -22955,9 +22955,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0a80000, r6
-	cbne	r5, r6, f3701
+	cbne	r5, r6, fail3701
 	mov	=0x0, r6
-	cbne	r8, r6, f3702
+	cbne	r8, r6, fail3702
 	mov	=0x3fc00000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40700000, r3
@@ -22968,9 +22968,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0100000, r6
-	cbne	r5, r6, f3703
+	cbne	r5, r6, fail3703
 	mov	=0x0, r6
-	cbne	r8, r6, f3704
+	cbne	r8, r6, fail3704
 	mov	=0x3fc00000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0xffffffffc0700000, r3
@@ -22981,9 +22981,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40100000, r6
-	cbne	r5, r6, f3705
+	cbne	r5, r6, fail3705
 	mov	=0x0, r6
-	cbne	r8, r6, f3706
+	cbne	r8, r6, fail3706
 	mov	=0x3fc00000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0xffffffffc0700000, r3
@@ -22994,9 +22994,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40a80000, r6
-	cbne	r5, r6, f3707
+	cbne	r5, r6, fail3707
 	mov	=0x0, r6
-	cbne	r8, r6, f3708
+	cbne	r8, r6, fail3708
 	mov	=0x3fc00000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40f00000, r3
@@ -23007,9 +23007,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc1100000, r6
-	cbne	r5, r6, f3709
+	cbne	r5, r6, fail3709
 	mov	=0x0, r6
-	cbne	r8, r6, f3710
+	cbne	r8, r6, fail3710
 	mov	=0x3fc00000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40f00000, r3
@@ -23020,9 +23020,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0c00000, r6
-	cbne	r5, r6, f3711
+	cbne	r5, r6, fail3711
 	mov	=0x0, r6
-	cbne	r8, r6, f3712
+	cbne	r8, r6, fail3712
 	mov	=0x3fc00000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x0, r3
@@ -23033,9 +23033,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40100000, r6
-	cbne	r5, r6, f3713
+	cbne	r5, r6, fail3713
 	mov	=0x0, r6
-	cbne	r8, r6, f3714
+	cbne	r8, r6, fail3714
 	mov	=0x3fc00000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x0, r3
@@ -23046,9 +23046,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0100000, r6
-	cbne	r5, r6, f3715
+	cbne	r5, r6, fail3715
 	mov	=0x0, r6
-	cbne	r8, r6, f3716
+	cbne	r8, r6, fail3716
 	mov	=0x3fc00000, r1
 	mov	=0x3fc00000, r2
 	mov	=0xffffffff80000000, r3
@@ -23059,9 +23059,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40100000, r6
-	cbne	r5, r6, f3717
+	cbne	r5, r6, fail3717
 	mov	=0x0, r6
-	cbne	r8, r6, f3718
+	cbne	r8, r6, fail3718
 	mov	=0x3fc00000, r1
 	mov	=0x3fc00000, r2
 	mov	=0xffffffff80000000, r3
@@ -23072,9 +23072,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0100000, r6
-	cbne	r5, r6, f3719
+	cbne	r5, r6, fail3719
 	mov	=0x0, r6
-	cbne	r8, r6, f3720
+	cbne	r8, r6, fail3720
 	mov	=0x3fc00000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x3f800000, r3
@@ -23085,9 +23085,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3fa00000, r6
-	cbne	r5, r6, f3721
+	cbne	r5, r6, fail3721
 	mov	=0x0, r6
-	cbne	r8, r6, f3722
+	cbne	r8, r6, fail3722
 	mov	=0x3fc00000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x3f800000, r3
@@ -23098,9 +23098,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0500000, r6
-	cbne	r5, r6, f3723
+	cbne	r5, r6, fail3723
 	mov	=0x0, r6
-	cbne	r8, r6, f3724
+	cbne	r8, r6, fail3724
 	mov	=0x3fc00000, r1
 	mov	=0x3fc00000, r2
 	mov	=0xffffffffbf800000, r3
@@ -23111,9 +23111,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40500000, r6
-	cbne	r5, r6, f3725
+	cbne	r5, r6, fail3725
 	mov	=0x0, r6
-	cbne	r8, r6, f3726
+	cbne	r8, r6, fail3726
 	mov	=0x3fc00000, r1
 	mov	=0x3fc00000, r2
 	mov	=0xffffffffbf800000, r3
@@ -23124,9 +23124,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbfa00000, r6
-	cbne	r5, r6, f3727
+	cbne	r5, r6, fail3727
 	mov	=0x0, r6
-	cbne	r8, r6, f3728
+	cbne	r8, r6, fail3728
 	mov	=0x3fc00000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40000000, r3
@@ -23137,9 +23137,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3e800000, r6
-	cbne	r5, r6, f3729
+	cbne	r5, r6, fail3729
 	mov	=0x0, r6
-	cbne	r8, r6, f3730
+	cbne	r8, r6, fail3730
 	mov	=0x3fc00000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40000000, r3
@@ -23150,9 +23150,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0880000, r6
-	cbne	r5, r6, f3731
+	cbne	r5, r6, fail3731
 	mov	=0x0, r6
-	cbne	r8, r6, f3732
+	cbne	r8, r6, fail3732
 	mov	=0x3fc00000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40400000, r3
@@ -23163,9 +23163,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf400000, r6
-	cbne	r5, r6, f3733
+	cbne	r5, r6, fail3733
 	mov	=0x0, r6
-	cbne	r8, r6, f3734
+	cbne	r8, r6, fail3734
 	mov	=0x3fc00000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40400000, r3
@@ -23176,9 +23176,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0a80000, r6
-	cbne	r5, r6, f3735
+	cbne	r5, r6, fail3735
 	mov	=0x0, r6
-	cbne	r8, r6, f3736
+	cbne	r8, r6, fail3736
 	mov	=0x3fc00000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x3fc00000, r3
@@ -23189,9 +23189,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3f400000, r6
-	cbne	r5, r6, f3737
+	cbne	r5, r6, fail3737
 	mov	=0x0, r6
-	cbne	r8, r6, f3738
+	cbne	r8, r6, fail3738
 	mov	=0x3fc00000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x3fc00000, r3
@@ -23202,9 +23202,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0700000, r6
-	cbne	r5, r6, f3739
+	cbne	r5, r6, fail3739
 	mov	=0x0, r6
-	cbne	r8, r6, f3740
+	cbne	r8, r6, fail3740
 	mov	=0x3fc00000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40200000, r3
@@ -23215,9 +23215,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbe800000, r6
-	cbne	r5, r6, f3741
+	cbne	r5, r6, fail3741
 	mov	=0x0, r6
-	cbne	r8, r6, f3742
+	cbne	r8, r6, fail3742
 	mov	=0x3fc00000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40200000, r3
@@ -23228,9 +23228,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0980000, r6
-	cbne	r5, r6, f3743
+	cbne	r5, r6, fail3743
 	mov	=0x0, r6
-	cbne	r8, r6, f3744
+	cbne	r8, r6, fail3744
 	mov	=0x3fc00000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40700000, r3
@@ -23241,9 +23241,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f3745
+	cbne	r5, r6, fail3745
 	mov	=0x0, r6
-	cbne	r8, r6, f3746
+	cbne	r8, r6, fail3746
 	mov	=0x3fc00000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40700000, r3
@@ -23254,9 +23254,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0c00000, r6
-	cbne	r5, r6, f3747
+	cbne	r5, r6, fail3747
 	mov	=0x0, r6
-	cbne	r8, r6, f3748
+	cbne	r8, r6, fail3748
 	mov	=0x3fc00000, r1
 	mov	=0x3fc00000, r2
 	mov	=0xffffffffc0700000, r3
@@ -23267,9 +23267,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40c00000, r6
-	cbne	r5, r6, f3749
+	cbne	r5, r6, fail3749
 	mov	=0x0, r6
-	cbne	r8, r6, f3750
+	cbne	r8, r6, fail3750
 	mov	=0x3fc00000, r1
 	mov	=0x3fc00000, r2
 	mov	=0xffffffffc0700000, r3
@@ -23280,9 +23280,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3fc00000, r6
-	cbne	r5, r6, f3751
+	cbne	r5, r6, fail3751
 	mov	=0x0, r6
-	cbne	r8, r6, f3752
+	cbne	r8, r6, fail3752
 	mov	=0x3fc00000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40f00000, r3
@@ -23293,9 +23293,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0a80000, r6
-	cbne	r5, r6, f3753
+	cbne	r5, r6, fail3753
 	mov	=0x0, r6
-	cbne	r8, r6, f3754
+	cbne	r8, r6, fail3754
 	mov	=0x3fc00000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40f00000, r3
@@ -23306,9 +23306,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc11c0000, r6
-	cbne	r5, r6, f3755
+	cbne	r5, r6, fail3755
 	mov	=0x0, r6
-	cbne	r8, r6, f3756
+	cbne	r8, r6, fail3756
 	mov	=0x40200000, r1
 	mov	=0x0, r2
 	mov	=0x0, r3
@@ -23319,9 +23319,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f3757
+	cbne	r5, r6, fail3757
 	mov	=0x0, r6
-	cbne	r8, r6, f3758
+	cbne	r8, r6, fail3758
 	mov	=0x40200000, r1
 	mov	=0x0, r2
 	mov	=0x0, r3
@@ -23332,9 +23332,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffff80000000, r6
-	cbne	r5, r6, f3759
+	cbne	r5, r6, fail3759
 	mov	=0x0, r6
-	cbne	r8, r6, f3760
+	cbne	r8, r6, fail3760
 	mov	=0x40200000, r1
 	mov	=0x0, r2
 	mov	=0xffffffff80000000, r3
@@ -23345,9 +23345,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f3761
+	cbne	r5, r6, fail3761
 	mov	=0x0, r6
-	cbne	r8, r6, f3762
+	cbne	r8, r6, fail3762
 	mov	=0x40200000, r1
 	mov	=0x0, r2
 	mov	=0xffffffff80000000, r3
@@ -23358,9 +23358,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f3763
+	cbne	r5, r6, fail3763
 	mov	=0x0, r6
-	cbne	r8, r6, f3764
+	cbne	r8, r6, fail3764
 	mov	=0x40200000, r1
 	mov	=0x0, r2
 	mov	=0x3f800000, r3
@@ -23371,9 +23371,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f3765
+	cbne	r5, r6, fail3765
 	mov	=0x0, r6
-	cbne	r8, r6, f3766
+	cbne	r8, r6, fail3766
 	mov	=0x40200000, r1
 	mov	=0x0, r2
 	mov	=0x3f800000, r3
@@ -23384,9 +23384,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f3767
+	cbne	r5, r6, fail3767
 	mov	=0x0, r6
-	cbne	r8, r6, f3768
+	cbne	r8, r6, fail3768
 	mov	=0x40200000, r1
 	mov	=0x0, r2
 	mov	=0xffffffffbf800000, r3
@@ -23397,9 +23397,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3f800000, r6
-	cbne	r5, r6, f3769
+	cbne	r5, r6, fail3769
 	mov	=0x0, r6
-	cbne	r8, r6, f3770
+	cbne	r8, r6, fail3770
 	mov	=0x40200000, r1
 	mov	=0x0, r2
 	mov	=0xffffffffbf800000, r3
@@ -23410,9 +23410,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3f800000, r6
-	cbne	r5, r6, f3771
+	cbne	r5, r6, fail3771
 	mov	=0x0, r6
-	cbne	r8, r6, f3772
+	cbne	r8, r6, fail3772
 	mov	=0x40200000, r1
 	mov	=0x0, r2
 	mov	=0x40000000, r3
@@ -23423,9 +23423,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0000000, r6
-	cbne	r5, r6, f3773
+	cbne	r5, r6, fail3773
 	mov	=0x0, r6
-	cbne	r8, r6, f3774
+	cbne	r8, r6, fail3774
 	mov	=0x40200000, r1
 	mov	=0x0, r2
 	mov	=0x40000000, r3
@@ -23436,9 +23436,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0000000, r6
-	cbne	r5, r6, f3775
+	cbne	r5, r6, fail3775
 	mov	=0x0, r6
-	cbne	r8, r6, f3776
+	cbne	r8, r6, fail3776
 	mov	=0x40200000, r1
 	mov	=0x0, r2
 	mov	=0x40400000, r3
@@ -23449,9 +23449,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0400000, r6
-	cbne	r5, r6, f3777
+	cbne	r5, r6, fail3777
 	mov	=0x0, r6
-	cbne	r8, r6, f3778
+	cbne	r8, r6, fail3778
 	mov	=0x40200000, r1
 	mov	=0x0, r2
 	mov	=0x40400000, r3
@@ -23462,9 +23462,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0400000, r6
-	cbne	r5, r6, f3779
+	cbne	r5, r6, fail3779
 	mov	=0x0, r6
-	cbne	r8, r6, f3780
+	cbne	r8, r6, fail3780
 	mov	=0x40200000, r1
 	mov	=0x0, r2
 	mov	=0x3fc00000, r3
@@ -23475,9 +23475,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f3781
+	cbne	r5, r6, fail3781
 	mov	=0x0, r6
-	cbne	r8, r6, f3782
+	cbne	r8, r6, fail3782
 	mov	=0x40200000, r1
 	mov	=0x0, r2
 	mov	=0x3fc00000, r3
@@ -23488,9 +23488,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f3783
+	cbne	r5, r6, fail3783
 	mov	=0x0, r6
-	cbne	r8, r6, f3784
+	cbne	r8, r6, fail3784
 	mov	=0x40200000, r1
 	mov	=0x0, r2
 	mov	=0x40200000, r3
@@ -23501,9 +23501,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0200000, r6
-	cbne	r5, r6, f3785
+	cbne	r5, r6, fail3785
 	mov	=0x0, r6
-	cbne	r8, r6, f3786
+	cbne	r8, r6, fail3786
 	mov	=0x40200000, r1
 	mov	=0x0, r2
 	mov	=0x40200000, r3
@@ -23514,9 +23514,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0200000, r6
-	cbne	r5, r6, f3787
+	cbne	r5, r6, fail3787
 	mov	=0x0, r6
-	cbne	r8, r6, f3788
+	cbne	r8, r6, fail3788
 	mov	=0x40200000, r1
 	mov	=0x0, r2
 	mov	=0x40700000, r3
@@ -23527,9 +23527,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0700000, r6
-	cbne	r5, r6, f3789
+	cbne	r5, r6, fail3789
 	mov	=0x0, r6
-	cbne	r8, r6, f3790
+	cbne	r8, r6, fail3790
 	mov	=0x40200000, r1
 	mov	=0x0, r2
 	mov	=0x40700000, r3
@@ -23540,9 +23540,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0700000, r6
-	cbne	r5, r6, f3791
+	cbne	r5, r6, fail3791
 	mov	=0x0, r6
-	cbne	r8, r6, f3792
+	cbne	r8, r6, fail3792
 	mov	=0x40200000, r1
 	mov	=0x0, r2
 	mov	=0xffffffffc0700000, r3
@@ -23553,9 +23553,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40700000, r6
-	cbne	r5, r6, f3793
+	cbne	r5, r6, fail3793
 	mov	=0x0, r6
-	cbne	r8, r6, f3794
+	cbne	r8, r6, fail3794
 	mov	=0x40200000, r1
 	mov	=0x0, r2
 	mov	=0xffffffffc0700000, r3
@@ -23566,9 +23566,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40700000, r6
-	cbne	r5, r6, f3795
+	cbne	r5, r6, fail3795
 	mov	=0x0, r6
-	cbne	r8, r6, f3796
+	cbne	r8, r6, fail3796
 	mov	=0x40200000, r1
 	mov	=0x0, r2
 	mov	=0x40f00000, r3
@@ -23579,9 +23579,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0f00000, r6
-	cbne	r5, r6, f3797
+	cbne	r5, r6, fail3797
 	mov	=0x0, r6
-	cbne	r8, r6, f3798
+	cbne	r8, r6, fail3798
 	mov	=0x40200000, r1
 	mov	=0x0, r2
 	mov	=0x40f00000, r3
@@ -23592,9 +23592,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0f00000, r6
-	cbne	r5, r6, f3799
+	cbne	r5, r6, fail3799
 	mov	=0x0, r6
-	cbne	r8, r6, f3800
+	cbne	r8, r6, fail3800
 	mov	=0x40200000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x0, r3
@@ -23605,9 +23605,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffff80000000, r6
-	cbne	r5, r6, f3801
+	cbne	r5, r6, fail3801
 	mov	=0x0, r6
-	cbne	r8, r6, f3802
+	cbne	r8, r6, fail3802
 	mov	=0x40200000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x0, r3
@@ -23618,9 +23618,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f3803
+	cbne	r5, r6, fail3803
 	mov	=0x0, r6
-	cbne	r8, r6, f3804
+	cbne	r8, r6, fail3804
 	mov	=0x40200000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0xffffffff80000000, r3
@@ -23631,9 +23631,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f3805
+	cbne	r5, r6, fail3805
 	mov	=0x0, r6
-	cbne	r8, r6, f3806
+	cbne	r8, r6, fail3806
 	mov	=0x40200000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0xffffffff80000000, r3
@@ -23644,9 +23644,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f3807
+	cbne	r5, r6, fail3807
 	mov	=0x0, r6
-	cbne	r8, r6, f3808
+	cbne	r8, r6, fail3808
 	mov	=0x40200000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x3f800000, r3
@@ -23657,9 +23657,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f3809
+	cbne	r5, r6, fail3809
 	mov	=0x0, r6
-	cbne	r8, r6, f3810
+	cbne	r8, r6, fail3810
 	mov	=0x40200000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x3f800000, r3
@@ -23670,9 +23670,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f3811
+	cbne	r5, r6, fail3811
 	mov	=0x0, r6
-	cbne	r8, r6, f3812
+	cbne	r8, r6, fail3812
 	mov	=0x40200000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0xffffffffbf800000, r3
@@ -23683,9 +23683,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3f800000, r6
-	cbne	r5, r6, f3813
+	cbne	r5, r6, fail3813
 	mov	=0x0, r6
-	cbne	r8, r6, f3814
+	cbne	r8, r6, fail3814
 	mov	=0x40200000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0xffffffffbf800000, r3
@@ -23696,9 +23696,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3f800000, r6
-	cbne	r5, r6, f3815
+	cbne	r5, r6, fail3815
 	mov	=0x0, r6
-	cbne	r8, r6, f3816
+	cbne	r8, r6, fail3816
 	mov	=0x40200000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40000000, r3
@@ -23709,9 +23709,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0000000, r6
-	cbne	r5, r6, f3817
+	cbne	r5, r6, fail3817
 	mov	=0x0, r6
-	cbne	r8, r6, f3818
+	cbne	r8, r6, fail3818
 	mov	=0x40200000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40000000, r3
@@ -23722,9 +23722,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0000000, r6
-	cbne	r5, r6, f3819
+	cbne	r5, r6, fail3819
 	mov	=0x0, r6
-	cbne	r8, r6, f3820
+	cbne	r8, r6, fail3820
 	mov	=0x40200000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40400000, r3
@@ -23735,9 +23735,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0400000, r6
-	cbne	r5, r6, f3821
+	cbne	r5, r6, fail3821
 	mov	=0x0, r6
-	cbne	r8, r6, f3822
+	cbne	r8, r6, fail3822
 	mov	=0x40200000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40400000, r3
@@ -23748,9 +23748,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0400000, r6
-	cbne	r5, r6, f3823
+	cbne	r5, r6, fail3823
 	mov	=0x0, r6
-	cbne	r8, r6, f3824
+	cbne	r8, r6, fail3824
 	mov	=0x40200000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x3fc00000, r3
@@ -23761,9 +23761,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f3825
+	cbne	r5, r6, fail3825
 	mov	=0x0, r6
-	cbne	r8, r6, f3826
+	cbne	r8, r6, fail3826
 	mov	=0x40200000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x3fc00000, r3
@@ -23774,9 +23774,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f3827
+	cbne	r5, r6, fail3827
 	mov	=0x0, r6
-	cbne	r8, r6, f3828
+	cbne	r8, r6, fail3828
 	mov	=0x40200000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40200000, r3
@@ -23787,9 +23787,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0200000, r6
-	cbne	r5, r6, f3829
+	cbne	r5, r6, fail3829
 	mov	=0x0, r6
-	cbne	r8, r6, f3830
+	cbne	r8, r6, fail3830
 	mov	=0x40200000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40200000, r3
@@ -23800,9 +23800,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0200000, r6
-	cbne	r5, r6, f3831
+	cbne	r5, r6, fail3831
 	mov	=0x0, r6
-	cbne	r8, r6, f3832
+	cbne	r8, r6, fail3832
 	mov	=0x40200000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40700000, r3
@@ -23813,9 +23813,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0700000, r6
-	cbne	r5, r6, f3833
+	cbne	r5, r6, fail3833
 	mov	=0x0, r6
-	cbne	r8, r6, f3834
+	cbne	r8, r6, fail3834
 	mov	=0x40200000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40700000, r3
@@ -23826,9 +23826,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0700000, r6
-	cbne	r5, r6, f3835
+	cbne	r5, r6, fail3835
 	mov	=0x0, r6
-	cbne	r8, r6, f3836
+	cbne	r8, r6, fail3836
 	mov	=0x40200000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0xffffffffc0700000, r3
@@ -23839,9 +23839,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40700000, r6
-	cbne	r5, r6, f3837
+	cbne	r5, r6, fail3837
 	mov	=0x0, r6
-	cbne	r8, r6, f3838
+	cbne	r8, r6, fail3838
 	mov	=0x40200000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0xffffffffc0700000, r3
@@ -23852,9 +23852,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40700000, r6
-	cbne	r5, r6, f3839
+	cbne	r5, r6, fail3839
 	mov	=0x0, r6
-	cbne	r8, r6, f3840
+	cbne	r8, r6, fail3840
 	mov	=0x40200000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40f00000, r3
@@ -23865,9 +23865,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0f00000, r6
-	cbne	r5, r6, f3841
+	cbne	r5, r6, fail3841
 	mov	=0x0, r6
-	cbne	r8, r6, f3842
+	cbne	r8, r6, fail3842
 	mov	=0x40200000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40f00000, r3
@@ -23878,9 +23878,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0f00000, r6
-	cbne	r5, r6, f3843
+	cbne	r5, r6, fail3843
 	mov	=0x0, r6
-	cbne	r8, r6, f3844
+	cbne	r8, r6, fail3844
 	mov	=0x40200000, r1
 	mov	=0x3f800000, r2
 	mov	=0x0, r3
@@ -23891,9 +23891,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40200000, r6
-	cbne	r5, r6, f3845
+	cbne	r5, r6, fail3845
 	mov	=0x0, r6
-	cbne	r8, r6, f3846
+	cbne	r8, r6, fail3846
 	mov	=0x40200000, r1
 	mov	=0x3f800000, r2
 	mov	=0x0, r3
@@ -23904,9 +23904,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0200000, r6
-	cbne	r5, r6, f3847
+	cbne	r5, r6, fail3847
 	mov	=0x0, r6
-	cbne	r8, r6, f3848
+	cbne	r8, r6, fail3848
 	mov	=0x40200000, r1
 	mov	=0x3f800000, r2
 	mov	=0xffffffff80000000, r3
@@ -23917,9 +23917,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40200000, r6
-	cbne	r5, r6, f3849
+	cbne	r5, r6, fail3849
 	mov	=0x0, r6
-	cbne	r8, r6, f3850
+	cbne	r8, r6, fail3850
 	mov	=0x40200000, r1
 	mov	=0x3f800000, r2
 	mov	=0xffffffff80000000, r3
@@ -23930,9 +23930,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0200000, r6
-	cbne	r5, r6, f3851
+	cbne	r5, r6, fail3851
 	mov	=0x0, r6
-	cbne	r8, r6, f3852
+	cbne	r8, r6, fail3852
 	mov	=0x40200000, r1
 	mov	=0x3f800000, r2
 	mov	=0x3f800000, r3
@@ -23943,9 +23943,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3fc00000, r6
-	cbne	r5, r6, f3853
+	cbne	r5, r6, fail3853
 	mov	=0x0, r6
-	cbne	r8, r6, f3854
+	cbne	r8, r6, fail3854
 	mov	=0x40200000, r1
 	mov	=0x3f800000, r2
 	mov	=0x3f800000, r3
@@ -23956,9 +23956,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0600000, r6
-	cbne	r5, r6, f3855
+	cbne	r5, r6, fail3855
 	mov	=0x0, r6
-	cbne	r8, r6, f3856
+	cbne	r8, r6, fail3856
 	mov	=0x40200000, r1
 	mov	=0x3f800000, r2
 	mov	=0xffffffffbf800000, r3
@@ -23969,9 +23969,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40600000, r6
-	cbne	r5, r6, f3857
+	cbne	r5, r6, fail3857
 	mov	=0x0, r6
-	cbne	r8, r6, f3858
+	cbne	r8, r6, fail3858
 	mov	=0x40200000, r1
 	mov	=0x3f800000, r2
 	mov	=0xffffffffbf800000, r3
@@ -23982,9 +23982,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f3859
+	cbne	r5, r6, fail3859
 	mov	=0x0, r6
-	cbne	r8, r6, f3860
+	cbne	r8, r6, fail3860
 	mov	=0x40200000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40000000, r3
@@ -23995,9 +23995,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3f000000, r6
-	cbne	r5, r6, f3861
+	cbne	r5, r6, fail3861
 	mov	=0x0, r6
-	cbne	r8, r6, f3862
+	cbne	r8, r6, fail3862
 	mov	=0x40200000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40000000, r3
@@ -24008,9 +24008,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0900000, r6
-	cbne	r5, r6, f3863
+	cbne	r5, r6, fail3863
 	mov	=0x0, r6
-	cbne	r8, r6, f3864
+	cbne	r8, r6, fail3864
 	mov	=0x40200000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40400000, r3
@@ -24021,9 +24021,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf000000, r6
-	cbne	r5, r6, f3865
+	cbne	r5, r6, fail3865
 	mov	=0x0, r6
-	cbne	r8, r6, f3866
+	cbne	r8, r6, fail3866
 	mov	=0x40200000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40400000, r3
@@ -24034,9 +24034,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0b00000, r6
-	cbne	r5, r6, f3867
+	cbne	r5, r6, fail3867
 	mov	=0x0, r6
-	cbne	r8, r6, f3868
+	cbne	r8, r6, fail3868
 	mov	=0x40200000, r1
 	mov	=0x3f800000, r2
 	mov	=0x3fc00000, r3
@@ -24047,9 +24047,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3f800000, r6
-	cbne	r5, r6, f3869
+	cbne	r5, r6, fail3869
 	mov	=0x0, r6
-	cbne	r8, r6, f3870
+	cbne	r8, r6, fail3870
 	mov	=0x40200000, r1
 	mov	=0x3f800000, r2
 	mov	=0x3fc00000, r3
@@ -24060,9 +24060,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0800000, r6
-	cbne	r5, r6, f3871
+	cbne	r5, r6, fail3871
 	mov	=0x0, r6
-	cbne	r8, r6, f3872
+	cbne	r8, r6, fail3872
 	mov	=0x40200000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40200000, r3
@@ -24073,9 +24073,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f3873
+	cbne	r5, r6, fail3873
 	mov	=0x0, r6
-	cbne	r8, r6, f3874
+	cbne	r8, r6, fail3874
 	mov	=0x40200000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40200000, r3
@@ -24086,9 +24086,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0a00000, r6
-	cbne	r5, r6, f3875
+	cbne	r5, r6, fail3875
 	mov	=0x0, r6
-	cbne	r8, r6, f3876
+	cbne	r8, r6, fail3876
 	mov	=0x40200000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40700000, r3
@@ -24099,9 +24099,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbfa00000, r6
-	cbne	r5, r6, f3877
+	cbne	r5, r6, fail3877
 	mov	=0x0, r6
-	cbne	r8, r6, f3878
+	cbne	r8, r6, fail3878
 	mov	=0x40200000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40700000, r3
@@ -24112,9 +24112,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0c80000, r6
-	cbne	r5, r6, f3879
+	cbne	r5, r6, fail3879
 	mov	=0x0, r6
-	cbne	r8, r6, f3880
+	cbne	r8, r6, fail3880
 	mov	=0x40200000, r1
 	mov	=0x3f800000, r2
 	mov	=0xffffffffc0700000, r3
@@ -24125,9 +24125,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40c80000, r6
-	cbne	r5, r6, f3881
+	cbne	r5, r6, fail3881
 	mov	=0x0, r6
-	cbne	r8, r6, f3882
+	cbne	r8, r6, fail3882
 	mov	=0x40200000, r1
 	mov	=0x3f800000, r2
 	mov	=0xffffffffc0700000, r3
@@ -24138,9 +24138,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3fa00000, r6
-	cbne	r5, r6, f3883
+	cbne	r5, r6, fail3883
 	mov	=0x0, r6
-	cbne	r8, r6, f3884
+	cbne	r8, r6, fail3884
 	mov	=0x40200000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40f00000, r3
@@ -24151,9 +24151,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0a00000, r6
-	cbne	r5, r6, f3885
+	cbne	r5, r6, fail3885
 	mov	=0x0, r6
-	cbne	r8, r6, f3886
+	cbne	r8, r6, fail3886
 	mov	=0x40200000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40f00000, r3
@@ -24164,9 +24164,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc1200000, r6
-	cbne	r5, r6, f3887
+	cbne	r5, r6, fail3887
 	mov	=0x0, r6
-	cbne	r8, r6, f3888
+	cbne	r8, r6, fail3888
 	mov	=0x40200000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x0, r3
@@ -24177,9 +24177,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0200000, r6
-	cbne	r5, r6, f3889
+	cbne	r5, r6, fail3889
 	mov	=0x0, r6
-	cbne	r8, r6, f3890
+	cbne	r8, r6, fail3890
 	mov	=0x40200000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x0, r3
@@ -24190,9 +24190,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40200000, r6
-	cbne	r5, r6, f3891
+	cbne	r5, r6, fail3891
 	mov	=0x0, r6
-	cbne	r8, r6, f3892
+	cbne	r8, r6, fail3892
 	mov	=0x40200000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0xffffffff80000000, r3
@@ -24203,9 +24203,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0200000, r6
-	cbne	r5, r6, f3893
+	cbne	r5, r6, fail3893
 	mov	=0x0, r6
-	cbne	r8, r6, f3894
+	cbne	r8, r6, fail3894
 	mov	=0x40200000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0xffffffff80000000, r3
@@ -24216,9 +24216,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40200000, r6
-	cbne	r5, r6, f3895
+	cbne	r5, r6, fail3895
 	mov	=0x0, r6
-	cbne	r8, r6, f3896
+	cbne	r8, r6, fail3896
 	mov	=0x40200000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x3f800000, r3
@@ -24229,9 +24229,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0600000, r6
-	cbne	r5, r6, f3897
+	cbne	r5, r6, fail3897
 	mov	=0x0, r6
-	cbne	r8, r6, f3898
+	cbne	r8, r6, fail3898
 	mov	=0x40200000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x3f800000, r3
@@ -24242,9 +24242,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3fc00000, r6
-	cbne	r5, r6, f3899
+	cbne	r5, r6, fail3899
 	mov	=0x0, r6
-	cbne	r8, r6, f3900
+	cbne	r8, r6, fail3900
 	mov	=0x40200000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0xffffffffbf800000, r3
@@ -24255,9 +24255,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f3901
+	cbne	r5, r6, fail3901
 	mov	=0x0, r6
-	cbne	r8, r6, f3902
+	cbne	r8, r6, fail3902
 	mov	=0x40200000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0xffffffffbf800000, r3
@@ -24268,9 +24268,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40600000, r6
-	cbne	r5, r6, f3903
+	cbne	r5, r6, fail3903
 	mov	=0x0, r6
-	cbne	r8, r6, f3904
+	cbne	r8, r6, fail3904
 	mov	=0x40200000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40000000, r3
@@ -24281,9 +24281,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0900000, r6
-	cbne	r5, r6, f3905
+	cbne	r5, r6, fail3905
 	mov	=0x0, r6
-	cbne	r8, r6, f3906
+	cbne	r8, r6, fail3906
 	mov	=0x40200000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40000000, r3
@@ -24294,9 +24294,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3f000000, r6
-	cbne	r5, r6, f3907
+	cbne	r5, r6, fail3907
 	mov	=0x0, r6
-	cbne	r8, r6, f3908
+	cbne	r8, r6, fail3908
 	mov	=0x40200000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40400000, r3
@@ -24307,9 +24307,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0b00000, r6
-	cbne	r5, r6, f3909
+	cbne	r5, r6, fail3909
 	mov	=0x0, r6
-	cbne	r8, r6, f3910
+	cbne	r8, r6, fail3910
 	mov	=0x40200000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40400000, r3
@@ -24320,9 +24320,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf000000, r6
-	cbne	r5, r6, f3911
+	cbne	r5, r6, fail3911
 	mov	=0x0, r6
-	cbne	r8, r6, f3912
+	cbne	r8, r6, fail3912
 	mov	=0x40200000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x3fc00000, r3
@@ -24333,9 +24333,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0800000, r6
-	cbne	r5, r6, f3913
+	cbne	r5, r6, fail3913
 	mov	=0x0, r6
-	cbne	r8, r6, f3914
+	cbne	r8, r6, fail3914
 	mov	=0x40200000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x3fc00000, r3
@@ -24346,9 +24346,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3f800000, r6
-	cbne	r5, r6, f3915
+	cbne	r5, r6, fail3915
 	mov	=0x0, r6
-	cbne	r8, r6, f3916
+	cbne	r8, r6, fail3916
 	mov	=0x40200000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40200000, r3
@@ -24359,9 +24359,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0a00000, r6
-	cbne	r5, r6, f3917
+	cbne	r5, r6, fail3917
 	mov	=0x0, r6
-	cbne	r8, r6, f3918
+	cbne	r8, r6, fail3918
 	mov	=0x40200000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40200000, r3
@@ -24372,9 +24372,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f3919
+	cbne	r5, r6, fail3919
 	mov	=0x0, r6
-	cbne	r8, r6, f3920
+	cbne	r8, r6, fail3920
 	mov	=0x40200000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40700000, r3
@@ -24385,9 +24385,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0c80000, r6
-	cbne	r5, r6, f3921
+	cbne	r5, r6, fail3921
 	mov	=0x0, r6
-	cbne	r8, r6, f3922
+	cbne	r8, r6, fail3922
 	mov	=0x40200000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40700000, r3
@@ -24398,9 +24398,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbfa00000, r6
-	cbne	r5, r6, f3923
+	cbne	r5, r6, fail3923
 	mov	=0x0, r6
-	cbne	r8, r6, f3924
+	cbne	r8, r6, fail3924
 	mov	=0x40200000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0xffffffffc0700000, r3
@@ -24411,9 +24411,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3fa00000, r6
-	cbne	r5, r6, f3925
+	cbne	r5, r6, fail3925
 	mov	=0x0, r6
-	cbne	r8, r6, f3926
+	cbne	r8, r6, fail3926
 	mov	=0x40200000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0xffffffffc0700000, r3
@@ -24424,9 +24424,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40c80000, r6
-	cbne	r5, r6, f3927
+	cbne	r5, r6, fail3927
 	mov	=0x0, r6
-	cbne	r8, r6, f3928
+	cbne	r8, r6, fail3928
 	mov	=0x40200000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40f00000, r3
@@ -24437,9 +24437,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc1200000, r6
-	cbne	r5, r6, f3929
+	cbne	r5, r6, fail3929
 	mov	=0x0, r6
-	cbne	r8, r6, f3930
+	cbne	r8, r6, fail3930
 	mov	=0x40200000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40f00000, r3
@@ -24450,9 +24450,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0a00000, r6
-	cbne	r5, r6, f3931
+	cbne	r5, r6, fail3931
 	mov	=0x0, r6
-	cbne	r8, r6, f3932
+	cbne	r8, r6, fail3932
 	mov	=0x40200000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x0, r3
@@ -24463,9 +24463,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40700000, r6
-	cbne	r5, r6, f3933
+	cbne	r5, r6, fail3933
 	mov	=0x0, r6
-	cbne	r8, r6, f3934
+	cbne	r8, r6, fail3934
 	mov	=0x40200000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x0, r3
@@ -24476,9 +24476,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0700000, r6
-	cbne	r5, r6, f3935
+	cbne	r5, r6, fail3935
 	mov	=0x0, r6
-	cbne	r8, r6, f3936
+	cbne	r8, r6, fail3936
 	mov	=0x40200000, r1
 	mov	=0x3fc00000, r2
 	mov	=0xffffffff80000000, r3
@@ -24489,9 +24489,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40700000, r6
-	cbne	r5, r6, f3937
+	cbne	r5, r6, fail3937
 	mov	=0x0, r6
-	cbne	r8, r6, f3938
+	cbne	r8, r6, fail3938
 	mov	=0x40200000, r1
 	mov	=0x3fc00000, r2
 	mov	=0xffffffff80000000, r3
@@ -24502,9 +24502,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0700000, r6
-	cbne	r5, r6, f3939
+	cbne	r5, r6, fail3939
 	mov	=0x0, r6
-	cbne	r8, r6, f3940
+	cbne	r8, r6, fail3940
 	mov	=0x40200000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x3f800000, r3
@@ -24515,9 +24515,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40300000, r6
-	cbne	r5, r6, f3941
+	cbne	r5, r6, fail3941
 	mov	=0x0, r6
-	cbne	r8, r6, f3942
+	cbne	r8, r6, fail3942
 	mov	=0x40200000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x3f800000, r3
@@ -24528,9 +24528,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0980000, r6
-	cbne	r5, r6, f3943
+	cbne	r5, r6, fail3943
 	mov	=0x0, r6
-	cbne	r8, r6, f3944
+	cbne	r8, r6, fail3944
 	mov	=0x40200000, r1
 	mov	=0x3fc00000, r2
 	mov	=0xffffffffbf800000, r3
@@ -24541,9 +24541,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40980000, r6
-	cbne	r5, r6, f3945
+	cbne	r5, r6, fail3945
 	mov	=0x0, r6
-	cbne	r8, r6, f3946
+	cbne	r8, r6, fail3946
 	mov	=0x40200000, r1
 	mov	=0x3fc00000, r2
 	mov	=0xffffffffbf800000, r3
@@ -24554,9 +24554,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0300000, r6
-	cbne	r5, r6, f3947
+	cbne	r5, r6, fail3947
 	mov	=0x0, r6
-	cbne	r8, r6, f3948
+	cbne	r8, r6, fail3948
 	mov	=0x40200000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40000000, r3
@@ -24567,9 +24567,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3fe00000, r6
-	cbne	r5, r6, f3949
+	cbne	r5, r6, fail3949
 	mov	=0x0, r6
-	cbne	r8, r6, f3950
+	cbne	r8, r6, fail3950
 	mov	=0x40200000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40000000, r3
@@ -24580,9 +24580,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0b80000, r6
-	cbne	r5, r6, f3951
+	cbne	r5, r6, fail3951
 	mov	=0x0, r6
-	cbne	r8, r6, f3952
+	cbne	r8, r6, fail3952
 	mov	=0x40200000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40400000, r3
@@ -24593,9 +24593,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3f400000, r6
-	cbne	r5, r6, f3953
+	cbne	r5, r6, fail3953
 	mov	=0x0, r6
-	cbne	r8, r6, f3954
+	cbne	r8, r6, fail3954
 	mov	=0x40200000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40400000, r3
@@ -24606,9 +24606,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0d80000, r6
-	cbne	r5, r6, f3955
+	cbne	r5, r6, fail3955
 	mov	=0x0, r6
-	cbne	r8, r6, f3956
+	cbne	r8, r6, fail3956
 	mov	=0x40200000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x3fc00000, r3
@@ -24619,9 +24619,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40100000, r6
-	cbne	r5, r6, f3957
+	cbne	r5, r6, fail3957
 	mov	=0x0, r6
-	cbne	r8, r6, f3958
+	cbne	r8, r6, fail3958
 	mov	=0x40200000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x3fc00000, r3
@@ -24632,9 +24632,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0a80000, r6
-	cbne	r5, r6, f3959
+	cbne	r5, r6, fail3959
 	mov	=0x0, r6
-	cbne	r8, r6, f3960
+	cbne	r8, r6, fail3960
 	mov	=0x40200000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40200000, r3
@@ -24645,9 +24645,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3fa00000, r6
-	cbne	r5, r6, f3961
+	cbne	r5, r6, fail3961
 	mov	=0x0, r6
-	cbne	r8, r6, f3962
+	cbne	r8, r6, fail3962
 	mov	=0x40200000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40200000, r3
@@ -24658,9 +24658,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0c80000, r6
-	cbne	r5, r6, f3963
+	cbne	r5, r6, fail3963
 	mov	=0x0, r6
-	cbne	r8, r6, f3964
+	cbne	r8, r6, fail3964
 	mov	=0x40200000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40700000, r3
@@ -24671,9 +24671,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f3965
+	cbne	r5, r6, fail3965
 	mov	=0x0, r6
-	cbne	r8, r6, f3966
+	cbne	r8, r6, fail3966
 	mov	=0x40200000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40700000, r3
@@ -24684,9 +24684,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0f00000, r6
-	cbne	r5, r6, f3967
+	cbne	r5, r6, fail3967
 	mov	=0x0, r6
-	cbne	r8, r6, f3968
+	cbne	r8, r6, fail3968
 	mov	=0x40200000, r1
 	mov	=0x3fc00000, r2
 	mov	=0xffffffffc0700000, r3
@@ -24697,9 +24697,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40f00000, r6
-	cbne	r5, r6, f3969
+	cbne	r5, r6, fail3969
 	mov	=0x0, r6
-	cbne	r8, r6, f3970
+	cbne	r8, r6, fail3970
 	mov	=0x40200000, r1
 	mov	=0x3fc00000, r2
 	mov	=0xffffffffc0700000, r3
@@ -24710,9 +24710,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f3971
+	cbne	r5, r6, fail3971
 	mov	=0x0, r6
-	cbne	r8, r6, f3972
+	cbne	r8, r6, fail3972
 	mov	=0x40200000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40f00000, r3
@@ -24723,9 +24723,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0700000, r6
-	cbne	r5, r6, f3973
+	cbne	r5, r6, fail3973
 	mov	=0x0, r6
-	cbne	r8, r6, f3974
+	cbne	r8, r6, fail3974
 	mov	=0x40200000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40f00000, r3
@@ -24736,9 +24736,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc1340000, r6
-	cbne	r5, r6, f3975
+	cbne	r5, r6, fail3975
 	mov	=0x0, r6
-	cbne	r8, r6, f3976
+	cbne	r8, r6, fail3976
 	mov	=0x40700000, r1
 	mov	=0x0, r2
 	mov	=0x0, r3
@@ -24749,9 +24749,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f3977
+	cbne	r5, r6, fail3977
 	mov	=0x0, r6
-	cbne	r8, r6, f3978
+	cbne	r8, r6, fail3978
 	mov	=0x40700000, r1
 	mov	=0x0, r2
 	mov	=0x0, r3
@@ -24762,9 +24762,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffff80000000, r6
-	cbne	r5, r6, f3979
+	cbne	r5, r6, fail3979
 	mov	=0x0, r6
-	cbne	r8, r6, f3980
+	cbne	r8, r6, fail3980
 	mov	=0x40700000, r1
 	mov	=0x0, r2
 	mov	=0xffffffff80000000, r3
@@ -24775,9 +24775,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f3981
+	cbne	r5, r6, fail3981
 	mov	=0x0, r6
-	cbne	r8, r6, f3982
+	cbne	r8, r6, fail3982
 	mov	=0x40700000, r1
 	mov	=0x0, r2
 	mov	=0xffffffff80000000, r3
@@ -24788,9 +24788,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f3983
+	cbne	r5, r6, fail3983
 	mov	=0x0, r6
-	cbne	r8, r6, f3984
+	cbne	r8, r6, fail3984
 	mov	=0x40700000, r1
 	mov	=0x0, r2
 	mov	=0x3f800000, r3
@@ -24801,9 +24801,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f3985
+	cbne	r5, r6, fail3985
 	mov	=0x0, r6
-	cbne	r8, r6, f3986
+	cbne	r8, r6, fail3986
 	mov	=0x40700000, r1
 	mov	=0x0, r2
 	mov	=0x3f800000, r3
@@ -24814,9 +24814,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f3987
+	cbne	r5, r6, fail3987
 	mov	=0x0, r6
-	cbne	r8, r6, f3988
+	cbne	r8, r6, fail3988
 	mov	=0x40700000, r1
 	mov	=0x0, r2
 	mov	=0xffffffffbf800000, r3
@@ -24827,9 +24827,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3f800000, r6
-	cbne	r5, r6, f3989
+	cbne	r5, r6, fail3989
 	mov	=0x0, r6
-	cbne	r8, r6, f3990
+	cbne	r8, r6, fail3990
 	mov	=0x40700000, r1
 	mov	=0x0, r2
 	mov	=0xffffffffbf800000, r3
@@ -24840,9 +24840,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3f800000, r6
-	cbne	r5, r6, f3991
+	cbne	r5, r6, fail3991
 	mov	=0x0, r6
-	cbne	r8, r6, f3992
+	cbne	r8, r6, fail3992
 	mov	=0x40700000, r1
 	mov	=0x0, r2
 	mov	=0x40000000, r3
@@ -24853,9 +24853,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0000000, r6
-	cbne	r5, r6, f3993
+	cbne	r5, r6, fail3993
 	mov	=0x0, r6
-	cbne	r8, r6, f3994
+	cbne	r8, r6, fail3994
 	mov	=0x40700000, r1
 	mov	=0x0, r2
 	mov	=0x40000000, r3
@@ -24866,9 +24866,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0000000, r6
-	cbne	r5, r6, f3995
+	cbne	r5, r6, fail3995
 	mov	=0x0, r6
-	cbne	r8, r6, f3996
+	cbne	r8, r6, fail3996
 	mov	=0x40700000, r1
 	mov	=0x0, r2
 	mov	=0x40400000, r3
@@ -24879,9 +24879,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0400000, r6
-	cbne	r5, r6, f3997
+	cbne	r5, r6, fail3997
 	mov	=0x0, r6
-	cbne	r8, r6, f3998
+	cbne	r8, r6, fail3998
 	mov	=0x40700000, r1
 	mov	=0x0, r2
 	mov	=0x40400000, r3
@@ -24892,9 +24892,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0400000, r6
-	cbne	r5, r6, f3999
+	cbne	r5, r6, fail3999
 	mov	=0x0, r6
-	cbne	r8, r6, f4000
+	cbne	r8, r6, fail4000
 	mov	=0x40700000, r1
 	mov	=0x0, r2
 	mov	=0x3fc00000, r3
@@ -24905,9 +24905,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f4001
+	cbne	r5, r6, fail4001
 	mov	=0x0, r6
-	cbne	r8, r6, f4002
+	cbne	r8, r6, fail4002
 	mov	=0x40700000, r1
 	mov	=0x0, r2
 	mov	=0x3fc00000, r3
@@ -24918,9 +24918,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f4003
+	cbne	r5, r6, fail4003
 	mov	=0x0, r6
-	cbne	r8, r6, f4004
+	cbne	r8, r6, fail4004
 	mov	=0x40700000, r1
 	mov	=0x0, r2
 	mov	=0x40200000, r3
@@ -24931,9 +24931,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0200000, r6
-	cbne	r5, r6, f4005
+	cbne	r5, r6, fail4005
 	mov	=0x0, r6
-	cbne	r8, r6, f4006
+	cbne	r8, r6, fail4006
 	mov	=0x40700000, r1
 	mov	=0x0, r2
 	mov	=0x40200000, r3
@@ -24944,9 +24944,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0200000, r6
-	cbne	r5, r6, f4007
+	cbne	r5, r6, fail4007
 	mov	=0x0, r6
-	cbne	r8, r6, f4008
+	cbne	r8, r6, fail4008
 	mov	=0x40700000, r1
 	mov	=0x0, r2
 	mov	=0x40700000, r3
@@ -24957,9 +24957,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0700000, r6
-	cbne	r5, r6, f4009
+	cbne	r5, r6, fail4009
 	mov	=0x0, r6
-	cbne	r8, r6, f4010
+	cbne	r8, r6, fail4010
 	mov	=0x40700000, r1
 	mov	=0x0, r2
 	mov	=0x40700000, r3
@@ -24970,9 +24970,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0700000, r6
-	cbne	r5, r6, f4011
+	cbne	r5, r6, fail4011
 	mov	=0x0, r6
-	cbne	r8, r6, f4012
+	cbne	r8, r6, fail4012
 	mov	=0x40700000, r1
 	mov	=0x0, r2
 	mov	=0xffffffffc0700000, r3
@@ -24983,9 +24983,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40700000, r6
-	cbne	r5, r6, f4013
+	cbne	r5, r6, fail4013
 	mov	=0x0, r6
-	cbne	r8, r6, f4014
+	cbne	r8, r6, fail4014
 	mov	=0x40700000, r1
 	mov	=0x0, r2
 	mov	=0xffffffffc0700000, r3
@@ -24996,9 +24996,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40700000, r6
-	cbne	r5, r6, f4015
+	cbne	r5, r6, fail4015
 	mov	=0x0, r6
-	cbne	r8, r6, f4016
+	cbne	r8, r6, fail4016
 	mov	=0x40700000, r1
 	mov	=0x0, r2
 	mov	=0x40f00000, r3
@@ -25009,9 +25009,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0f00000, r6
-	cbne	r5, r6, f4017
+	cbne	r5, r6, fail4017
 	mov	=0x0, r6
-	cbne	r8, r6, f4018
+	cbne	r8, r6, fail4018
 	mov	=0x40700000, r1
 	mov	=0x0, r2
 	mov	=0x40f00000, r3
@@ -25022,9 +25022,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0f00000, r6
-	cbne	r5, r6, f4019
+	cbne	r5, r6, fail4019
 	mov	=0x0, r6
-	cbne	r8, r6, f4020
+	cbne	r8, r6, fail4020
 	mov	=0x40700000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x0, r3
@@ -25035,9 +25035,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffff80000000, r6
-	cbne	r5, r6, f4021
+	cbne	r5, r6, fail4021
 	mov	=0x0, r6
-	cbne	r8, r6, f4022
+	cbne	r8, r6, fail4022
 	mov	=0x40700000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x0, r3
@@ -25048,9 +25048,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f4023
+	cbne	r5, r6, fail4023
 	mov	=0x0, r6
-	cbne	r8, r6, f4024
+	cbne	r8, r6, fail4024
 	mov	=0x40700000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0xffffffff80000000, r3
@@ -25061,9 +25061,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f4025
+	cbne	r5, r6, fail4025
 	mov	=0x0, r6
-	cbne	r8, r6, f4026
+	cbne	r8, r6, fail4026
 	mov	=0x40700000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0xffffffff80000000, r3
@@ -25074,9 +25074,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f4027
+	cbne	r5, r6, fail4027
 	mov	=0x0, r6
-	cbne	r8, r6, f4028
+	cbne	r8, r6, fail4028
 	mov	=0x40700000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x3f800000, r3
@@ -25087,9 +25087,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f4029
+	cbne	r5, r6, fail4029
 	mov	=0x0, r6
-	cbne	r8, r6, f4030
+	cbne	r8, r6, fail4030
 	mov	=0x40700000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x3f800000, r3
@@ -25100,9 +25100,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf800000, r6
-	cbne	r5, r6, f4031
+	cbne	r5, r6, fail4031
 	mov	=0x0, r6
-	cbne	r8, r6, f4032
+	cbne	r8, r6, fail4032
 	mov	=0x40700000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0xffffffffbf800000, r3
@@ -25113,9 +25113,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3f800000, r6
-	cbne	r5, r6, f4033
+	cbne	r5, r6, fail4033
 	mov	=0x0, r6
-	cbne	r8, r6, f4034
+	cbne	r8, r6, fail4034
 	mov	=0x40700000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0xffffffffbf800000, r3
@@ -25126,9 +25126,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3f800000, r6
-	cbne	r5, r6, f4035
+	cbne	r5, r6, fail4035
 	mov	=0x0, r6
-	cbne	r8, r6, f4036
+	cbne	r8, r6, fail4036
 	mov	=0x40700000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40000000, r3
@@ -25139,9 +25139,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0000000, r6
-	cbne	r5, r6, f4037
+	cbne	r5, r6, fail4037
 	mov	=0x0, r6
-	cbne	r8, r6, f4038
+	cbne	r8, r6, fail4038
 	mov	=0x40700000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40000000, r3
@@ -25152,9 +25152,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0000000, r6
-	cbne	r5, r6, f4039
+	cbne	r5, r6, fail4039
 	mov	=0x0, r6
-	cbne	r8, r6, f4040
+	cbne	r8, r6, fail4040
 	mov	=0x40700000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40400000, r3
@@ -25165,9 +25165,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0400000, r6
-	cbne	r5, r6, f4041
+	cbne	r5, r6, fail4041
 	mov	=0x0, r6
-	cbne	r8, r6, f4042
+	cbne	r8, r6, fail4042
 	mov	=0x40700000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40400000, r3
@@ -25178,9 +25178,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0400000, r6
-	cbne	r5, r6, f4043
+	cbne	r5, r6, fail4043
 	mov	=0x0, r6
-	cbne	r8, r6, f4044
+	cbne	r8, r6, fail4044
 	mov	=0x40700000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x3fc00000, r3
@@ -25191,9 +25191,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f4045
+	cbne	r5, r6, fail4045
 	mov	=0x0, r6
-	cbne	r8, r6, f4046
+	cbne	r8, r6, fail4046
 	mov	=0x40700000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x3fc00000, r3
@@ -25204,9 +25204,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbfc00000, r6
-	cbne	r5, r6, f4047
+	cbne	r5, r6, fail4047
 	mov	=0x0, r6
-	cbne	r8, r6, f4048
+	cbne	r8, r6, fail4048
 	mov	=0x40700000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40200000, r3
@@ -25217,9 +25217,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0200000, r6
-	cbne	r5, r6, f4049
+	cbne	r5, r6, fail4049
 	mov	=0x0, r6
-	cbne	r8, r6, f4050
+	cbne	r8, r6, fail4050
 	mov	=0x40700000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40200000, r3
@@ -25230,9 +25230,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0200000, r6
-	cbne	r5, r6, f4051
+	cbne	r5, r6, fail4051
 	mov	=0x0, r6
-	cbne	r8, r6, f4052
+	cbne	r8, r6, fail4052
 	mov	=0x40700000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40700000, r3
@@ -25243,9 +25243,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0700000, r6
-	cbne	r5, r6, f4053
+	cbne	r5, r6, fail4053
 	mov	=0x0, r6
-	cbne	r8, r6, f4054
+	cbne	r8, r6, fail4054
 	mov	=0x40700000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40700000, r3
@@ -25256,9 +25256,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0700000, r6
-	cbne	r5, r6, f4055
+	cbne	r5, r6, fail4055
 	mov	=0x0, r6
-	cbne	r8, r6, f4056
+	cbne	r8, r6, fail4056
 	mov	=0x40700000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0xffffffffc0700000, r3
@@ -25269,9 +25269,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40700000, r6
-	cbne	r5, r6, f4057
+	cbne	r5, r6, fail4057
 	mov	=0x0, r6
-	cbne	r8, r6, f4058
+	cbne	r8, r6, fail4058
 	mov	=0x40700000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0xffffffffc0700000, r3
@@ -25282,9 +25282,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40700000, r6
-	cbne	r5, r6, f4059
+	cbne	r5, r6, fail4059
 	mov	=0x0, r6
-	cbne	r8, r6, f4060
+	cbne	r8, r6, fail4060
 	mov	=0x40700000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40f00000, r3
@@ -25295,9 +25295,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0f00000, r6
-	cbne	r5, r6, f4061
+	cbne	r5, r6, fail4061
 	mov	=0x0, r6
-	cbne	r8, r6, f4062
+	cbne	r8, r6, fail4062
 	mov	=0x40700000, r1
 	mov	=0xffffffff80000000, r2
 	mov	=0x40f00000, r3
@@ -25308,9 +25308,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0f00000, r6
-	cbne	r5, r6, f4063
+	cbne	r5, r6, fail4063
 	mov	=0x0, r6
-	cbne	r8, r6, f4064
+	cbne	r8, r6, fail4064
 	mov	=0x40700000, r1
 	mov	=0x3f800000, r2
 	mov	=0x0, r3
@@ -25321,9 +25321,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40700000, r6
-	cbne	r5, r6, f4065
+	cbne	r5, r6, fail4065
 	mov	=0x0, r6
-	cbne	r8, r6, f4066
+	cbne	r8, r6, fail4066
 	mov	=0x40700000, r1
 	mov	=0x3f800000, r2
 	mov	=0x0, r3
@@ -25334,9 +25334,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0700000, r6
-	cbne	r5, r6, f4067
+	cbne	r5, r6, fail4067
 	mov	=0x0, r6
-	cbne	r8, r6, f4068
+	cbne	r8, r6, fail4068
 	mov	=0x40700000, r1
 	mov	=0x3f800000, r2
 	mov	=0xffffffff80000000, r3
@@ -25347,9 +25347,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40700000, r6
-	cbne	r5, r6, f4069
+	cbne	r5, r6, fail4069
 	mov	=0x0, r6
-	cbne	r8, r6, f4070
+	cbne	r8, r6, fail4070
 	mov	=0x40700000, r1
 	mov	=0x3f800000, r2
 	mov	=0xffffffff80000000, r3
@@ -25360,9 +25360,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0700000, r6
-	cbne	r5, r6, f4071
+	cbne	r5, r6, fail4071
 	mov	=0x0, r6
-	cbne	r8, r6, f4072
+	cbne	r8, r6, fail4072
 	mov	=0x40700000, r1
 	mov	=0x3f800000, r2
 	mov	=0x3f800000, r3
@@ -25373,9 +25373,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40300000, r6
-	cbne	r5, r6, f4073
+	cbne	r5, r6, fail4073
 	mov	=0x0, r6
-	cbne	r8, r6, f4074
+	cbne	r8, r6, fail4074
 	mov	=0x40700000, r1
 	mov	=0x3f800000, r2
 	mov	=0x3f800000, r3
@@ -25386,9 +25386,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0980000, r6
-	cbne	r5, r6, f4075
+	cbne	r5, r6, fail4075
 	mov	=0x0, r6
-	cbne	r8, r6, f4076
+	cbne	r8, r6, fail4076
 	mov	=0x40700000, r1
 	mov	=0x3f800000, r2
 	mov	=0xffffffffbf800000, r3
@@ -25399,9 +25399,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40980000, r6
-	cbne	r5, r6, f4077
+	cbne	r5, r6, fail4077
 	mov	=0x0, r6
-	cbne	r8, r6, f4078
+	cbne	r8, r6, fail4078
 	mov	=0x40700000, r1
 	mov	=0x3f800000, r2
 	mov	=0xffffffffbf800000, r3
@@ -25412,9 +25412,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0300000, r6
-	cbne	r5, r6, f4079
+	cbne	r5, r6, fail4079
 	mov	=0x0, r6
-	cbne	r8, r6, f4080
+	cbne	r8, r6, fail4080
 	mov	=0x40700000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40000000, r3
@@ -25425,9 +25425,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3fe00000, r6
-	cbne	r5, r6, f4081
+	cbne	r5, r6, fail4081
 	mov	=0x0, r6
-	cbne	r8, r6, f4082
+	cbne	r8, r6, fail4082
 	mov	=0x40700000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40000000, r3
@@ -25438,9 +25438,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0b80000, r6
-	cbne	r5, r6, f4083
+	cbne	r5, r6, fail4083
 	mov	=0x0, r6
-	cbne	r8, r6, f4084
+	cbne	r8, r6, fail4084
 	mov	=0x40700000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40400000, r3
@@ -25451,9 +25451,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3f400000, r6
-	cbne	r5, r6, f4085
+	cbne	r5, r6, fail4085
 	mov	=0x0, r6
-	cbne	r8, r6, f4086
+	cbne	r8, r6, fail4086
 	mov	=0x40700000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40400000, r3
@@ -25464,9 +25464,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0d80000, r6
-	cbne	r5, r6, f4087
+	cbne	r5, r6, fail4087
 	mov	=0x0, r6
-	cbne	r8, r6, f4088
+	cbne	r8, r6, fail4088
 	mov	=0x40700000, r1
 	mov	=0x3f800000, r2
 	mov	=0x3fc00000, r3
@@ -25477,9 +25477,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40100000, r6
-	cbne	r5, r6, f4089
+	cbne	r5, r6, fail4089
 	mov	=0x0, r6
-	cbne	r8, r6, f4090
+	cbne	r8, r6, fail4090
 	mov	=0x40700000, r1
 	mov	=0x3f800000, r2
 	mov	=0x3fc00000, r3
@@ -25490,9 +25490,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0a80000, r6
-	cbne	r5, r6, f4091
+	cbne	r5, r6, fail4091
 	mov	=0x0, r6
-	cbne	r8, r6, f4092
+	cbne	r8, r6, fail4092
 	mov	=0x40700000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40200000, r3
@@ -25503,9 +25503,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3fa00000, r6
-	cbne	r5, r6, f4093
+	cbne	r5, r6, fail4093
 	mov	=0x0, r6
-	cbne	r8, r6, f4094
+	cbne	r8, r6, fail4094
 	mov	=0x40700000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40200000, r3
@@ -25516,9 +25516,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0c80000, r6
-	cbne	r5, r6, f4095
+	cbne	r5, r6, fail4095
 	mov	=0x0, r6
-	cbne	r8, r6, f4096
+	cbne	r8, r6, fail4096
 	mov	=0x40700000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40700000, r3
@@ -25529,9 +25529,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f4097
+	cbne	r5, r6, fail4097
 	mov	=0x0, r6
-	cbne	r8, r6, f4098
+	cbne	r8, r6, fail4098
 	mov	=0x40700000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40700000, r3
@@ -25542,9 +25542,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0f00000, r6
-	cbne	r5, r6, f4099
+	cbne	r5, r6, fail4099
 	mov	=0x0, r6
-	cbne	r8, r6, f4100
+	cbne	r8, r6, fail4100
 	mov	=0x40700000, r1
 	mov	=0x3f800000, r2
 	mov	=0xffffffffc0700000, r3
@@ -25555,9 +25555,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40f00000, r6
-	cbne	r5, r6, f4101
+	cbne	r5, r6, fail4101
 	mov	=0x0, r6
-	cbne	r8, r6, f4102
+	cbne	r8, r6, fail4102
 	mov	=0x40700000, r1
 	mov	=0x3f800000, r2
 	mov	=0xffffffffc0700000, r3
@@ -25568,9 +25568,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f4103
+	cbne	r5, r6, fail4103
 	mov	=0x0, r6
-	cbne	r8, r6, f4104
+	cbne	r8, r6, fail4104
 	mov	=0x40700000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40f00000, r3
@@ -25581,9 +25581,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0700000, r6
-	cbne	r5, r6, f4105
+	cbne	r5, r6, fail4105
 	mov	=0x0, r6
-	cbne	r8, r6, f4106
+	cbne	r8, r6, fail4106
 	mov	=0x40700000, r1
 	mov	=0x3f800000, r2
 	mov	=0x40f00000, r3
@@ -25594,9 +25594,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc1340000, r6
-	cbne	r5, r6, f4107
+	cbne	r5, r6, fail4107
 	mov	=0x0, r6
-	cbne	r8, r6, f4108
+	cbne	r8, r6, fail4108
 	mov	=0x40700000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x0, r3
@@ -25607,9 +25607,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0700000, r6
-	cbne	r5, r6, f4109
+	cbne	r5, r6, fail4109
 	mov	=0x0, r6
-	cbne	r8, r6, f4110
+	cbne	r8, r6, fail4110
 	mov	=0x40700000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x0, r3
@@ -25620,9 +25620,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40700000, r6
-	cbne	r5, r6, f4111
+	cbne	r5, r6, fail4111
 	mov	=0x0, r6
-	cbne	r8, r6, f4112
+	cbne	r8, r6, fail4112
 	mov	=0x40700000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0xffffffff80000000, r3
@@ -25633,9 +25633,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0700000, r6
-	cbne	r5, r6, f4113
+	cbne	r5, r6, fail4113
 	mov	=0x0, r6
-	cbne	r8, r6, f4114
+	cbne	r8, r6, fail4114
 	mov	=0x40700000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0xffffffff80000000, r3
@@ -25646,9 +25646,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40700000, r6
-	cbne	r5, r6, f4115
+	cbne	r5, r6, fail4115
 	mov	=0x0, r6
-	cbne	r8, r6, f4116
+	cbne	r8, r6, fail4116
 	mov	=0x40700000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x3f800000, r3
@@ -25659,9 +25659,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0980000, r6
-	cbne	r5, r6, f4117
+	cbne	r5, r6, fail4117
 	mov	=0x0, r6
-	cbne	r8, r6, f4118
+	cbne	r8, r6, fail4118
 	mov	=0x40700000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x3f800000, r3
@@ -25672,9 +25672,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40300000, r6
-	cbne	r5, r6, f4119
+	cbne	r5, r6, fail4119
 	mov	=0x0, r6
-	cbne	r8, r6, f4120
+	cbne	r8, r6, fail4120
 	mov	=0x40700000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0xffffffffbf800000, r3
@@ -25685,9 +25685,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0300000, r6
-	cbne	r5, r6, f4121
+	cbne	r5, r6, fail4121
 	mov	=0x0, r6
-	cbne	r8, r6, f4122
+	cbne	r8, r6, fail4122
 	mov	=0x40700000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0xffffffffbf800000, r3
@@ -25698,9 +25698,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40980000, r6
-	cbne	r5, r6, f4123
+	cbne	r5, r6, fail4123
 	mov	=0x0, r6
-	cbne	r8, r6, f4124
+	cbne	r8, r6, fail4124
 	mov	=0x40700000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40000000, r3
@@ -25711,9 +25711,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0b80000, r6
-	cbne	r5, r6, f4125
+	cbne	r5, r6, fail4125
 	mov	=0x0, r6
-	cbne	r8, r6, f4126
+	cbne	r8, r6, fail4126
 	mov	=0x40700000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40000000, r3
@@ -25724,9 +25724,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3fe00000, r6
-	cbne	r5, r6, f4127
+	cbne	r5, r6, fail4127
 	mov	=0x0, r6
-	cbne	r8, r6, f4128
+	cbne	r8, r6, fail4128
 	mov	=0x40700000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40400000, r3
@@ -25737,9 +25737,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0d80000, r6
-	cbne	r5, r6, f4129
+	cbne	r5, r6, fail4129
 	mov	=0x0, r6
-	cbne	r8, r6, f4130
+	cbne	r8, r6, fail4130
 	mov	=0x40700000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40400000, r3
@@ -25750,9 +25750,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3f400000, r6
-	cbne	r5, r6, f4131
+	cbne	r5, r6, fail4131
 	mov	=0x0, r6
-	cbne	r8, r6, f4132
+	cbne	r8, r6, fail4132
 	mov	=0x40700000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x3fc00000, r3
@@ -25763,9 +25763,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0a80000, r6
-	cbne	r5, r6, f4133
+	cbne	r5, r6, fail4133
 	mov	=0x0, r6
-	cbne	r8, r6, f4134
+	cbne	r8, r6, fail4134
 	mov	=0x40700000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x3fc00000, r3
@@ -25776,9 +25776,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40100000, r6
-	cbne	r5, r6, f4135
+	cbne	r5, r6, fail4135
 	mov	=0x0, r6
-	cbne	r8, r6, f4136
+	cbne	r8, r6, fail4136
 	mov	=0x40700000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40200000, r3
@@ -25789,9 +25789,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0c80000, r6
-	cbne	r5, r6, f4137
+	cbne	r5, r6, fail4137
 	mov	=0x0, r6
-	cbne	r8, r6, f4138
+	cbne	r8, r6, fail4138
 	mov	=0x40700000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40200000, r3
@@ -25802,9 +25802,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3fa00000, r6
-	cbne	r5, r6, f4139
+	cbne	r5, r6, fail4139
 	mov	=0x0, r6
-	cbne	r8, r6, f4140
+	cbne	r8, r6, fail4140
 	mov	=0x40700000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40700000, r3
@@ -25815,9 +25815,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0f00000, r6
-	cbne	r5, r6, f4141
+	cbne	r5, r6, fail4141
 	mov	=0x0, r6
-	cbne	r8, r6, f4142
+	cbne	r8, r6, fail4142
 	mov	=0x40700000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40700000, r3
@@ -25828,9 +25828,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f4143
+	cbne	r5, r6, fail4143
 	mov	=0x0, r6
-	cbne	r8, r6, f4144
+	cbne	r8, r6, fail4144
 	mov	=0x40700000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0xffffffffc0700000, r3
@@ -25841,9 +25841,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f4145
+	cbne	r5, r6, fail4145
 	mov	=0x0, r6
-	cbne	r8, r6, f4146
+	cbne	r8, r6, fail4146
 	mov	=0x40700000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0xffffffffc0700000, r3
@@ -25854,9 +25854,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40f00000, r6
-	cbne	r5, r6, f4147
+	cbne	r5, r6, fail4147
 	mov	=0x0, r6
-	cbne	r8, r6, f4148
+	cbne	r8, r6, fail4148
 	mov	=0x40700000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40f00000, r3
@@ -25867,9 +25867,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc1340000, r6
-	cbne	r5, r6, f4149
+	cbne	r5, r6, fail4149
 	mov	=0x0, r6
-	cbne	r8, r6, f4150
+	cbne	r8, r6, fail4150
 	mov	=0x40700000, r1
 	mov	=0xffffffffbf800000, r2
 	mov	=0x40f00000, r3
@@ -25880,9 +25880,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0700000, r6
-	cbne	r5, r6, f4151
+	cbne	r5, r6, fail4151
 	mov	=0x0, r6
-	cbne	r8, r6, f4152
+	cbne	r8, r6, fail4152
 	mov	=0x40700000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x0, r3
@@ -25893,9 +25893,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40b40000, r6
-	cbne	r5, r6, f4153
+	cbne	r5, r6, fail4153
 	mov	=0x0, r6
-	cbne	r8, r6, f4154
+	cbne	r8, r6, fail4154
 	mov	=0x40700000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x0, r3
@@ -25906,9 +25906,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0b40000, r6
-	cbne	r5, r6, f4155
+	cbne	r5, r6, fail4155
 	mov	=0x0, r6
-	cbne	r8, r6, f4156
+	cbne	r8, r6, fail4156
 	mov	=0x40700000, r1
 	mov	=0x3fc00000, r2
 	mov	=0xffffffff80000000, r3
@@ -25919,9 +25919,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40b40000, r6
-	cbne	r5, r6, f4157
+	cbne	r5, r6, fail4157
 	mov	=0x0, r6
-	cbne	r8, r6, f4158
+	cbne	r8, r6, fail4158
 	mov	=0x40700000, r1
 	mov	=0x3fc00000, r2
 	mov	=0xffffffff80000000, r3
@@ -25932,9 +25932,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0b40000, r6
-	cbne	r5, r6, f4159
+	cbne	r5, r6, fail4159
 	mov	=0x0, r6
-	cbne	r8, r6, f4160
+	cbne	r8, r6, fail4160
 	mov	=0x40700000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x3f800000, r3
@@ -25945,9 +25945,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40940000, r6
-	cbne	r5, r6, f4161
+	cbne	r5, r6, fail4161
 	mov	=0x0, r6
-	cbne	r8, r6, f4162
+	cbne	r8, r6, fail4162
 	mov	=0x40700000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x3f800000, r3
@@ -25958,9 +25958,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0d40000, r6
-	cbne	r5, r6, f4163
+	cbne	r5, r6, fail4163
 	mov	=0x0, r6
-	cbne	r8, r6, f4164
+	cbne	r8, r6, fail4164
 	mov	=0x40700000, r1
 	mov	=0x3fc00000, r2
 	mov	=0xffffffffbf800000, r3
@@ -25971,9 +25971,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40d40000, r6
-	cbne	r5, r6, f4165
+	cbne	r5, r6, fail4165
 	mov	=0x0, r6
-	cbne	r8, r6, f4166
+	cbne	r8, r6, fail4166
 	mov	=0x40700000, r1
 	mov	=0x3fc00000, r2
 	mov	=0xffffffffbf800000, r3
@@ -25984,9 +25984,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0940000, r6
-	cbne	r5, r6, f4167
+	cbne	r5, r6, fail4167
 	mov	=0x0, r6
-	cbne	r8, r6, f4168
+	cbne	r8, r6, fail4168
 	mov	=0x40700000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40000000, r3
@@ -25997,9 +25997,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40680000, r6
-	cbne	r5, r6, f4169
+	cbne	r5, r6, fail4169
 	mov	=0x0, r6
-	cbne	r8, r6, f4170
+	cbne	r8, r6, fail4170
 	mov	=0x40700000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40000000, r3
@@ -26010,9 +26010,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0f40000, r6
-	cbne	r5, r6, f4171
+	cbne	r5, r6, fail4171
 	mov	=0x0, r6
-	cbne	r8, r6, f4172
+	cbne	r8, r6, fail4172
 	mov	=0x40700000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40400000, r3
@@ -26023,9 +26023,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40280000, r6
-	cbne	r5, r6, f4173
+	cbne	r5, r6, fail4173
 	mov	=0x0, r6
-	cbne	r8, r6, f4174
+	cbne	r8, r6, fail4174
 	mov	=0x40700000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40400000, r3
@@ -26036,9 +26036,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc10a0000, r6
-	cbne	r5, r6, f4175
+	cbne	r5, r6, fail4175
 	mov	=0x0, r6
-	cbne	r8, r6, f4176
+	cbne	r8, r6, fail4176
 	mov	=0x40700000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x3fc00000, r3
@@ -26049,9 +26049,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40840000, r6
-	cbne	r5, r6, f4177
+	cbne	r5, r6, fail4177
 	mov	=0x0, r6
-	cbne	r8, r6, f4178
+	cbne	r8, r6, fail4178
 	mov	=0x40700000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x3fc00000, r3
@@ -26062,9 +26062,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0e40000, r6
-	cbne	r5, r6, f4179
+	cbne	r5, r6, fail4179
 	mov	=0x0, r6
-	cbne	r8, r6, f4180
+	cbne	r8, r6, fail4180
 	mov	=0x40700000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40200000, r3
@@ -26075,9 +26075,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40480000, r6
-	cbne	r5, r6, f4181
+	cbne	r5, r6, fail4181
 	mov	=0x0, r6
-	cbne	r8, r6, f4182
+	cbne	r8, r6, fail4182
 	mov	=0x40700000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40200000, r3
@@ -26088,9 +26088,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc1020000, r6
-	cbne	r5, r6, f4183
+	cbne	r5, r6, fail4183
 	mov	=0x0, r6
-	cbne	r8, r6, f4184
+	cbne	r8, r6, fail4184
 	mov	=0x40700000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40700000, r3
@@ -26101,9 +26101,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x3ff00000, r6
-	cbne	r5, r6, f4185
+	cbne	r5, r6, fail4185
 	mov	=0x0, r6
-	cbne	r8, r6, f4186
+	cbne	r8, r6, fail4186
 	mov	=0x40700000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40700000, r3
@@ -26114,9 +26114,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc1160000, r6
-	cbne	r5, r6, f4187
+	cbne	r5, r6, fail4187
 	mov	=0x0, r6
-	cbne	r8, r6, f4188
+	cbne	r8, r6, fail4188
 	mov	=0x40700000, r1
 	mov	=0x3fc00000, r2
 	mov	=0xffffffffc0700000, r3
@@ -26127,9 +26127,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x41160000, r6
-	cbne	r5, r6, f4189
+	cbne	r5, r6, fail4189
 	mov	=0x0, r6
-	cbne	r8, r6, f4190
+	cbne	r8, r6, fail4190
 	mov	=0x40700000, r1
 	mov	=0x3fc00000, r2
 	mov	=0xffffffffc0700000, r3
@@ -26140,9 +26140,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbff00000, r6
-	cbne	r5, r6, f4191
+	cbne	r5, r6, fail4191
 	mov	=0x0, r6
-	cbne	r8, r6, f4192
+	cbne	r8, r6, fail4192
 	mov	=0x40700000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40f00000, r3
@@ -26153,9 +26153,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbff00000, r6
-	cbne	r5, r6, f4193
+	cbne	r5, r6, fail4193
 	mov	=0x0, r6
-	cbne	r8, r6, f4194
+	cbne	r8, r6, fail4194
 	mov	=0x40700000, r1
 	mov	=0x3fc00000, r2
 	mov	=0x40f00000, r3
@@ -26166,9 +26166,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc1520000, r6
-	cbne	r5, r6, f4195
+	cbne	r5, r6, fail4195
 	mov	=0x0, r6
-	cbne	r8, r6, f4196
+	cbne	r8, r6, fail4196
 	mov	=0x3fc00000, r1
 	mov	=0x40200000, r2
 	mov	=0x40700000, r3
@@ -26179,9 +26179,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f4197
+	cbne	r5, r6, fail4197
 	mov	=0x0, r6
-	cbne	r8, r6, f4198
+	cbne	r8, r6, fail4198
 	mov	=0x3fc00000, r1
 	mov	=0x40200000, r2
 	mov	=0x40700000, r3
@@ -26192,9 +26192,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0f00000, r6
-	cbne	r5, r6, f4199
+	cbne	r5, r6, fail4199
 	mov	=0x0, r6
-	cbne	r8, r6, f4200
+	cbne	r8, r6, fail4200
 	mov	=0x3fc00000, r1
 	mov	=0x40200000, r2
 	mov	=0xffffffffc0700000, r3
@@ -26205,9 +26205,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40f00000, r6
-	cbne	r5, r6, f4201
+	cbne	r5, r6, fail4201
 	mov	=0x0, r6
-	cbne	r8, r6, f4202
+	cbne	r8, r6, fail4202
 	mov	=0x3fc00000, r1
 	mov	=0x40200000, r2
 	mov	=0xffffffffc0700000, r3
@@ -26218,9 +26218,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f4203
+	cbne	r5, r6, fail4203
 	mov	=0x0, r6
-	cbne	r8, r6, f4204
+	cbne	r8, r6, fail4204
 	mov	=0xffffffffbfc00000, r1
 	mov	=0x40200000, r2
 	mov	=0x40700000, r3
@@ -26231,9 +26231,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0f00000, r6
-	cbne	r5, r6, f4205
+	cbne	r5, r6, fail4205
 	mov	=0x0, r6
-	cbne	r8, r6, f4206
+	cbne	r8, r6, fail4206
 	mov	=0xffffffffbfc00000, r1
 	mov	=0x40200000, r2
 	mov	=0x40700000, r3
@@ -26244,9 +26244,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f4207
+	cbne	r5, r6, fail4207
 	mov	=0x0, r6
-	cbne	r8, r6, f4208
+	cbne	r8, r6, fail4208
 	mov	=0x3fc00000, r1
 	mov	=0xffffffffc0200000, r2
 	mov	=0xffffffffc0700000, r3
@@ -26257,9 +26257,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x0, r6
-	cbne	r5, r6, f4209
+	cbne	r5, r6, fail4209
 	mov	=0x0, r6
-	cbne	r8, r6, f4210
+	cbne	r8, r6, fail4210
 	mov	=0x3fc00000, r1
 	mov	=0xffffffffc0200000, r2
 	mov	=0xffffffffc0700000, r3
@@ -26270,9 +26270,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40f00000, r6
-	cbne	r5, r6, f4211
+	cbne	r5, r6, fail4211
 	mov	=0x0, r6
-	cbne	r8, r6, f4212
+	cbne	r8, r6, fail4212
 	mov	=0x7f61b1e6, r1
 	mov	=0x41200000, r2
 	mov	=0x3f800000, r3
@@ -26283,9 +26283,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7f800000, r6
-	cbne	r5, r6, f4213
+	cbne	r5, r6, fail4213
 	mov	=0x5, r6
-	cbne	r8, r6, f4214
+	cbne	r8, r6, fail4214
 	mov	=0x7f61b1e6, r1
 	mov	=0x41200000, r2
 	mov	=0x3f800000, r3
@@ -26296,9 +26296,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffff800000, r6
-	cbne	r5, r6, f4215
+	cbne	r5, r6, fail4215
 	mov	=0x5, r6
-	cbne	r8, r6, f4216
+	cbne	r8, r6, fail4216
 	mov	=0x7f61b1e6, r1
 	mov	=0x41200000, r2
 	mov	=0xffffffffbf800000, r3
@@ -26309,9 +26309,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7f800000, r6
-	cbne	r5, r6, f4217
+	cbne	r5, r6, fail4217
 	mov	=0x5, r6
-	cbne	r8, r6, f4218
+	cbne	r8, r6, fail4218
 	mov	=0x7f61b1e6, r1
 	mov	=0x41200000, r2
 	mov	=0xffffffffbf800000, r3
@@ -26322,9 +26322,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffff800000, r6
-	cbne	r5, r6, f4219
+	cbne	r5, r6, fail4219
 	mov	=0x5, r6
-	cbne	r8, r6, f4220
+	cbne	r8, r6, fail4220
 	mov	=0x7f61b1e6, r1
 	mov	=0xffffffffc1200000, r2
 	mov	=0x3f800000, r3
@@ -26335,9 +26335,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffff800000, r6
-	cbne	r5, r6, f4221
+	cbne	r5, r6, fail4221
 	mov	=0x5, r6
-	cbne	r8, r6, f4222
+	cbne	r8, r6, fail4222
 	mov	=0x7f61b1e6, r1
 	mov	=0xffffffffc1200000, r2
 	mov	=0x3f800000, r3
@@ -26348,9 +26348,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7f800000, r6
-	cbne	r5, r6, f4223
+	cbne	r5, r6, fail4223
 	mov	=0x5, r6
-	cbne	r8, r6, f4224
+	cbne	r8, r6, fail4224
 	mov	=0x3dcccccd, r1
 	mov	=0x3e99999a, r2
 	mov	=0x3f333333, r3
@@ -26361,9 +26361,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf2b851e, r6
-	cbne	r5, r6, f4225
+	cbne	r5, r6, fail4225
 	mov	=0x1, r6
-	cbne	r8, r6, f4226
+	cbne	r8, r6, fail4226
 	mov	=0x3dcccccd, r1
 	mov	=0x3e99999a, r2
 	mov	=0x3f333333, r3
@@ -26374,9 +26374,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffbf3ae148, r6
-	cbne	r5, r6, f4227
+	cbne	r5, r6, fail4227
 	mov	=0x1, r6
-	cbne	r8, r6, f4228
+	cbne	r8, r6, fail4228
 	mov	=0x501502f9, r1
 	mov	=0x501502f9, r2
 	mov	=0x3f800000, r3
@@ -26387,9 +26387,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x60ad78ec, r6
-	cbne	r5, r6, f4229
+	cbne	r5, r6, fail4229
 	mov	=0x1, r6
-	cbne	r8, r6, f4230
+	cbne	r8, r6, fail4230
 	mov	=0x501502f9, r1
 	mov	=0x501502f9, r2
 	mov	=0x3f800000, r3
@@ -26400,9 +26400,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffe0ad78ec, r6
-	cbne	r5, r6, f4231
+	cbne	r5, r6, fail4231
 	mov	=0x1, r6
-	cbne	r8, r6, f4232
+	cbne	r8, r6, fail4232
 	mov	=0x3f800008, r1
 	mov	=0x3f800008, r2
 	mov	=0xffffffffbf800010, r3
@@ -26413,9 +26413,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x40000010, r6
-	cbne	r5, r6, f4233
+	cbne	r5, r6, fail4233
 	mov	=0x1, r6
-	cbne	r8, r6, f4234
+	cbne	r8, r6, fail4234
 	mov	=0x3f800008, r1
 	mov	=0x3f800008, r2
 	mov	=0xffffffffbf800010, r3
@@ -26426,9 +26426,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffab800000, r6
-	cbne	r5, r6, f4235
+	cbne	r5, r6, fail4235
 	mov	=0x0, r6
-	cbne	r8, r6, f4236
+	cbne	r8, r6, fail4236
 	mov	=0x3f800008, r1
 	mov	=0x3f800008, r2
 	mov	=0x3f800010, r3
@@ -26439,9 +26439,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x2b800000, r6
-	cbne	r5, r6, f4237
+	cbne	r5, r6, fail4237
 	mov	=0x0, r6
-	cbne	r8, r6, f4238
+	cbne	r8, r6, fail4238
 	mov	=0x3f800008, r1
 	mov	=0x3f800008, r2
 	mov	=0x3f800010, r3
@@ -26452,9 +26452,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffc0000010, r6
-	cbne	r5, r6, f4239
+	cbne	r5, r6, fail4239
 	mov	=0x1, r6
-	cbne	r8, r6, f4240
+	cbne	r8, r6, fail4240
 	mov	=0x7f800000, r1
 	mov	=0x40000000, r2
 	mov	=0x3f800000, r3
@@ -26465,9 +26465,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7f800000, r6
-	cbne	r5, r6, f4241
+	cbne	r5, r6, fail4241
 	mov	=0x0, r6
-	cbne	r8, r6, f4242
+	cbne	r8, r6, fail4242
 	mov	=0x7f800000, r1
 	mov	=0x40000000, r2
 	mov	=0x3f800000, r3
@@ -26478,9 +26478,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffff800000, r6
-	cbne	r5, r6, f4243
+	cbne	r5, r6, fail4243
 	mov	=0x0, r6
-	cbne	r8, r6, f4244
+	cbne	r8, r6, fail4244
 	mov	=0x40000000, r1
 	mov	=0x7f800000, r2
 	mov	=0x3f800000, r3
@@ -26491,9 +26491,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7f800000, r6
-	cbne	r5, r6, f4245
+	cbne	r5, r6, fail4245
 	mov	=0x0, r6
-	cbne	r8, r6, f4246
+	cbne	r8, r6, fail4246
 	mov	=0x40000000, r1
 	mov	=0x7f800000, r2
 	mov	=0x3f800000, r3
@@ -26504,9 +26504,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffff800000, r6
-	cbne	r5, r6, f4247
+	cbne	r5, r6, fail4247
 	mov	=0x0, r6
-	cbne	r8, r6, f4248
+	cbne	r8, r6, fail4248
 	mov	=0x40000000, r1
 	mov	=0x3f800000, r2
 	mov	=0x7f800000, r3
@@ -26517,9 +26517,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffff800000, r6
-	cbne	r5, r6, f4249
+	cbne	r5, r6, fail4249
 	mov	=0x0, r6
-	cbne	r8, r6, f4250
+	cbne	r8, r6, fail4250
 	mov	=0x40000000, r1
 	mov	=0x3f800000, r2
 	mov	=0x7f800000, r3
@@ -26530,9 +26530,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffff800000, r6
-	cbne	r5, r6, f4251
+	cbne	r5, r6, fail4251
 	mov	=0x0, r6
-	cbne	r8, r6, f4252
+	cbne	r8, r6, fail4252
 	mov	=0x7f800000, r1
 	mov	=0x0, r2
 	mov	=0x3f800000, r3
@@ -26543,9 +26543,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4253
+	cbne	r5, r6, fail4253
 	mov	=0x10, r6
-	cbne	r8, r6, f4254
+	cbne	r8, r6, fail4254
 	mov	=0x7f800000, r1
 	mov	=0x0, r2
 	mov	=0x3f800000, r3
@@ -26556,9 +26556,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4255
+	cbne	r5, r6, fail4255
 	mov	=0x10, r6
-	cbne	r8, r6, f4256
+	cbne	r8, r6, fail4256
 	mov	=0x0, r1
 	mov	=0x7f800000, r2
 	mov	=0x3f800000, r3
@@ -26569,9 +26569,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4257
+	cbne	r5, r6, fail4257
 	mov	=0x10, r6
-	cbne	r8, r6, f4258
+	cbne	r8, r6, fail4258
 	mov	=0x0, r1
 	mov	=0x7f800000, r2
 	mov	=0x3f800000, r3
@@ -26582,9 +26582,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4259
+	cbne	r5, r6, fail4259
 	mov	=0x10, r6
-	cbne	r8, r6, f4260
+	cbne	r8, r6, fail4260
 	mov	=0x7f800000, r1
 	mov	=0x3f800000, r2
 	mov	=0x7f800000, r3
@@ -26595,9 +26595,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4261
+	cbne	r5, r6, fail4261
 	mov	=0x10, r6
-	cbne	r8, r6, f4262
+	cbne	r8, r6, fail4262
 	mov	=0x7f800000, r1
 	mov	=0x3f800000, r2
 	mov	=0x7f800000, r3
@@ -26608,9 +26608,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffff800000, r6
-	cbne	r5, r6, f4263
+	cbne	r5, r6, fail4263
 	mov	=0x0, r6
-	cbne	r8, r6, f4264
+	cbne	r8, r6, fail4264
 	mov	=0xffffffffff800000, r1
 	mov	=0x40000000, r2
 	mov	=0x3f800000, r3
@@ -26621,9 +26621,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffff800000, r6
-	cbne	r5, r6, f4265
+	cbne	r5, r6, fail4265
 	mov	=0x0, r6
-	cbne	r8, r6, f4266
+	cbne	r8, r6, fail4266
 	mov	=0xffffffffff800000, r1
 	mov	=0x40000000, r2
 	mov	=0x3f800000, r3
@@ -26634,9 +26634,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7f800000, r6
-	cbne	r5, r6, f4267
+	cbne	r5, r6, fail4267
 	mov	=0x0, r6
-	cbne	r8, r6, f4268
+	cbne	r8, r6, fail4268
 	mov	=0x40000000, r1
 	mov	=0xffffffffff800000, r2
 	mov	=0x3f800000, r3
@@ -26647,9 +26647,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffff800000, r6
-	cbne	r5, r6, f4269
+	cbne	r5, r6, fail4269
 	mov	=0x0, r6
-	cbne	r8, r6, f4270
+	cbne	r8, r6, fail4270
 	mov	=0x40000000, r1
 	mov	=0xffffffffff800000, r2
 	mov	=0x3f800000, r3
@@ -26660,9 +26660,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7f800000, r6
-	cbne	r5, r6, f4271
+	cbne	r5, r6, fail4271
 	mov	=0x0, r6
-	cbne	r8, r6, f4272
+	cbne	r8, r6, fail4272
 	mov	=0x40000000, r1
 	mov	=0x3f800000, r2
 	mov	=0xffffffffff800000, r3
@@ -26673,9 +26673,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7f800000, r6
-	cbne	r5, r6, f4273
+	cbne	r5, r6, fail4273
 	mov	=0x0, r6
-	cbne	r8, r6, f4274
+	cbne	r8, r6, fail4274
 	mov	=0x40000000, r1
 	mov	=0x3f800000, r2
 	mov	=0xffffffffff800000, r3
@@ -26686,9 +26686,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7f800000, r6
-	cbne	r5, r6, f4275
+	cbne	r5, r6, fail4275
 	mov	=0x0, r6
-	cbne	r8, r6, f4276
+	cbne	r8, r6, fail4276
 	mov	=0xffffffffff800000, r1
 	mov	=0x0, r2
 	mov	=0x3f800000, r3
@@ -26699,9 +26699,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4277
+	cbne	r5, r6, fail4277
 	mov	=0x10, r6
-	cbne	r8, r6, f4278
+	cbne	r8, r6, fail4278
 	mov	=0xffffffffff800000, r1
 	mov	=0x0, r2
 	mov	=0x3f800000, r3
@@ -26712,9 +26712,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4279
+	cbne	r5, r6, fail4279
 	mov	=0x10, r6
-	cbne	r8, r6, f4280
+	cbne	r8, r6, fail4280
 	mov	=0x0, r1
 	mov	=0xffffffffff800000, r2
 	mov	=0x3f800000, r3
@@ -26725,9 +26725,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4281
+	cbne	r5, r6, fail4281
 	mov	=0x10, r6
-	cbne	r8, r6, f4282
+	cbne	r8, r6, fail4282
 	mov	=0x0, r1
 	mov	=0xffffffffff800000, r2
 	mov	=0x3f800000, r3
@@ -26738,9 +26738,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4283
+	cbne	r5, r6, fail4283
 	mov	=0x10, r6
-	cbne	r8, r6, f4284
+	cbne	r8, r6, fail4284
 	mov	=0xffffffffff800000, r1
 	mov	=0x3f800000, r2
 	mov	=0xffffffffff800000, r3
@@ -26751,9 +26751,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4285
+	cbne	r5, r6, fail4285
 	mov	=0x10, r6
-	cbne	r8, r6, f4286
+	cbne	r8, r6, fail4286
 	mov	=0xffffffffff800000, r1
 	mov	=0x3f800000, r2
 	mov	=0xffffffffff800000, r3
@@ -26764,9 +26764,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7f800000, r6
-	cbne	r5, r6, f4287
+	cbne	r5, r6, fail4287
 	mov	=0x0, r6
-	cbne	r8, r6, f4288
+	cbne	r8, r6, fail4288
 	mov	=0x7fc00123, r1
 	mov	=0x40000000, r2
 	mov	=0x3f800000, r3
@@ -26777,9 +26777,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4289
+	cbne	r5, r6, fail4289
 	mov	=0x0, r6
-	cbne	r8, r6, f4290
+	cbne	r8, r6, fail4290
 	mov	=0x7fc00123, r1
 	mov	=0x40000000, r2
 	mov	=0x3f800000, r3
@@ -26790,9 +26790,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4291
+	cbne	r5, r6, fail4291
 	mov	=0x0, r6
-	cbne	r8, r6, f4292
+	cbne	r8, r6, fail4292
 	mov	=0x40000000, r1
 	mov	=0x7fc00123, r2
 	mov	=0x3f800000, r3
@@ -26803,9 +26803,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4293
+	cbne	r5, r6, fail4293
 	mov	=0x0, r6
-	cbne	r8, r6, f4294
+	cbne	r8, r6, fail4294
 	mov	=0x40000000, r1
 	mov	=0x7fc00123, r2
 	mov	=0x3f800000, r3
@@ -26816,9 +26816,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4295
+	cbne	r5, r6, fail4295
 	mov	=0x0, r6
-	cbne	r8, r6, f4296
+	cbne	r8, r6, fail4296
 	mov	=0x40000000, r1
 	mov	=0x3f800000, r2
 	mov	=0x7fc00123, r3
@@ -26829,9 +26829,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4297
+	cbne	r5, r6, fail4297
 	mov	=0x0, r6
-	cbne	r8, r6, f4298
+	cbne	r8, r6, fail4298
 	mov	=0x40000000, r1
 	mov	=0x3f800000, r2
 	mov	=0x7fc00123, r3
@@ -26842,9 +26842,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4299
+	cbne	r5, r6, fail4299
 	mov	=0x0, r6
-	cbne	r8, r6, f4300
+	cbne	r8, r6, fail4300
 	mov	=0x7fc00123, r1
 	mov	=0x0, r2
 	mov	=0x3f800000, r3
@@ -26855,9 +26855,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4301
+	cbne	r5, r6, fail4301
 	mov	=0x0, r6
-	cbne	r8, r6, f4302
+	cbne	r8, r6, fail4302
 	mov	=0x7fc00123, r1
 	mov	=0x0, r2
 	mov	=0x3f800000, r3
@@ -26868,9 +26868,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4303
+	cbne	r5, r6, fail4303
 	mov	=0x0, r6
-	cbne	r8, r6, f4304
+	cbne	r8, r6, fail4304
 	mov	=0x0, r1
 	mov	=0x7fc00123, r2
 	mov	=0x3f800000, r3
@@ -26881,9 +26881,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4305
+	cbne	r5, r6, fail4305
 	mov	=0x0, r6
-	cbne	r8, r6, f4306
+	cbne	r8, r6, fail4306
 	mov	=0x0, r1
 	mov	=0x7fc00123, r2
 	mov	=0x3f800000, r3
@@ -26894,9 +26894,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4307
+	cbne	r5, r6, fail4307
 	mov	=0x0, r6
-	cbne	r8, r6, f4308
+	cbne	r8, r6, fail4308
 	mov	=0x7fc00123, r1
 	mov	=0x3f800000, r2
 	mov	=0x7fc00123, r3
@@ -26907,9 +26907,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4309
+	cbne	r5, r6, fail4309
 	mov	=0x0, r6
-	cbne	r8, r6, f4310
+	cbne	r8, r6, fail4310
 	mov	=0x7fc00123, r1
 	mov	=0x3f800000, r2
 	mov	=0x7fc00123, r3
@@ -26920,9 +26920,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4311
+	cbne	r5, r6, fail4311
 	mov	=0x0, r6
-	cbne	r8, r6, f4312
+	cbne	r8, r6, fail4312
 	mov	=0xffffffffffc00456, r1
 	mov	=0x40000000, r2
 	mov	=0x3f800000, r3
@@ -26933,9 +26933,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4313
+	cbne	r5, r6, fail4313
 	mov	=0x0, r6
-	cbne	r8, r6, f4314
+	cbne	r8, r6, fail4314
 	mov	=0xffffffffffc00456, r1
 	mov	=0x40000000, r2
 	mov	=0x3f800000, r3
@@ -26946,9 +26946,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4315
+	cbne	r5, r6, fail4315
 	mov	=0x0, r6
-	cbne	r8, r6, f4316
+	cbne	r8, r6, fail4316
 	mov	=0x40000000, r1
 	mov	=0xffffffffffc00456, r2
 	mov	=0x3f800000, r3
@@ -26959,9 +26959,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4317
+	cbne	r5, r6, fail4317
 	mov	=0x0, r6
-	cbne	r8, r6, f4318
+	cbne	r8, r6, fail4318
 	mov	=0x40000000, r1
 	mov	=0xffffffffffc00456, r2
 	mov	=0x3f800000, r3
@@ -26972,9 +26972,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4319
+	cbne	r5, r6, fail4319
 	mov	=0x0, r6
-	cbne	r8, r6, f4320
+	cbne	r8, r6, fail4320
 	mov	=0x40000000, r1
 	mov	=0x3f800000, r2
 	mov	=0xffffffffffc00456, r3
@@ -26985,9 +26985,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4321
+	cbne	r5, r6, fail4321
 	mov	=0x0, r6
-	cbne	r8, r6, f4322
+	cbne	r8, r6, fail4322
 	mov	=0x40000000, r1
 	mov	=0x3f800000, r2
 	mov	=0xffffffffffc00456, r3
@@ -26998,9 +26998,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4323
+	cbne	r5, r6, fail4323
 	mov	=0x0, r6
-	cbne	r8, r6, f4324
+	cbne	r8, r6, fail4324
 	mov	=0xffffffffffc00456, r1
 	mov	=0x0, r2
 	mov	=0x3f800000, r3
@@ -27011,9 +27011,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4325
+	cbne	r5, r6, fail4325
 	mov	=0x0, r6
-	cbne	r8, r6, f4326
+	cbne	r8, r6, fail4326
 	mov	=0xffffffffffc00456, r1
 	mov	=0x0, r2
 	mov	=0x3f800000, r3
@@ -27024,9 +27024,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4327
+	cbne	r5, r6, fail4327
 	mov	=0x0, r6
-	cbne	r8, r6, f4328
+	cbne	r8, r6, fail4328
 	mov	=0x0, r1
 	mov	=0xffffffffffc00456, r2
 	mov	=0x3f800000, r3
@@ -27037,9 +27037,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4329
+	cbne	r5, r6, fail4329
 	mov	=0x0, r6
-	cbne	r8, r6, f4330
+	cbne	r8, r6, fail4330
 	mov	=0x0, r1
 	mov	=0xffffffffffc00456, r2
 	mov	=0x3f800000, r3
@@ -27050,9 +27050,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4331
+	cbne	r5, r6, fail4331
 	mov	=0x0, r6
-	cbne	r8, r6, f4332
+	cbne	r8, r6, fail4332
 	mov	=0xffffffffffc00456, r1
 	mov	=0x3f800000, r2
 	mov	=0xffffffffffc00456, r3
@@ -27063,9 +27063,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4333
+	cbne	r5, r6, fail4333
 	mov	=0x0, r6
-	cbne	r8, r6, f4334
+	cbne	r8, r6, fail4334
 	mov	=0xffffffffffc00456, r1
 	mov	=0x3f800000, r2
 	mov	=0xffffffffffc00456, r3
@@ -27076,9 +27076,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4335
+	cbne	r5, r6, fail4335
 	mov	=0x0, r6
-	cbne	r8, r6, f4336
+	cbne	r8, r6, fail4336
 	mov	=0x7f800789, r1
 	mov	=0x40000000, r2
 	mov	=0x3f800000, r3
@@ -27089,9 +27089,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4337
+	cbne	r5, r6, fail4337
 	mov	=0x10, r6
-	cbne	r8, r6, f4338
+	cbne	r8, r6, fail4338
 	mov	=0x7f800789, r1
 	mov	=0x40000000, r2
 	mov	=0x3f800000, r3
@@ -27102,9 +27102,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4339
+	cbne	r5, r6, fail4339
 	mov	=0x10, r6
-	cbne	r8, r6, f4340
+	cbne	r8, r6, fail4340
 	mov	=0x40000000, r1
 	mov	=0x7f800789, r2
 	mov	=0x3f800000, r3
@@ -27115,9 +27115,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4341
+	cbne	r5, r6, fail4341
 	mov	=0x10, r6
-	cbne	r8, r6, f4342
+	cbne	r8, r6, fail4342
 	mov	=0x40000000, r1
 	mov	=0x7f800789, r2
 	mov	=0x3f800000, r3
@@ -27128,9 +27128,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4343
+	cbne	r5, r6, fail4343
 	mov	=0x10, r6
-	cbne	r8, r6, f4344
+	cbne	r8, r6, fail4344
 	mov	=0x40000000, r1
 	mov	=0x3f800000, r2
 	mov	=0x7f800789, r3
@@ -27141,9 +27141,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4345
+	cbne	r5, r6, fail4345
 	mov	=0x10, r6
-	cbne	r8, r6, f4346
+	cbne	r8, r6, fail4346
 	mov	=0x40000000, r1
 	mov	=0x3f800000, r2
 	mov	=0x7f800789, r3
@@ -27154,9 +27154,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4347
+	cbne	r5, r6, fail4347
 	mov	=0x10, r6
-	cbne	r8, r6, f4348
+	cbne	r8, r6, fail4348
 	mov	=0x7f800789, r1
 	mov	=0x0, r2
 	mov	=0x3f800000, r3
@@ -27167,9 +27167,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4349
+	cbne	r5, r6, fail4349
 	mov	=0x10, r6
-	cbne	r8, r6, f4350
+	cbne	r8, r6, fail4350
 	mov	=0x7f800789, r1
 	mov	=0x0, r2
 	mov	=0x3f800000, r3
@@ -27180,9 +27180,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4351
+	cbne	r5, r6, fail4351
 	mov	=0x10, r6
-	cbne	r8, r6, f4352
+	cbne	r8, r6, fail4352
 	mov	=0x0, r1
 	mov	=0x7f800789, r2
 	mov	=0x3f800000, r3
@@ -27193,9 +27193,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4353
+	cbne	r5, r6, fail4353
 	mov	=0x10, r6
-	cbne	r8, r6, f4354
+	cbne	r8, r6, fail4354
 	mov	=0x0, r1
 	mov	=0x7f800789, r2
 	mov	=0x3f800000, r3
@@ -27206,9 +27206,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4355
+	cbne	r5, r6, fail4355
 	mov	=0x10, r6
-	cbne	r8, r6, f4356
+	cbne	r8, r6, fail4356
 	mov	=0x7f800789, r1
 	mov	=0x3f800000, r2
 	mov	=0x7f800789, r3
@@ -27219,9 +27219,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4357
+	cbne	r5, r6, fail4357
 	mov	=0x10, r6
-	cbne	r8, r6, f4358
+	cbne	r8, r6, fail4358
 	mov	=0x7f800789, r1
 	mov	=0x3f800000, r2
 	mov	=0x7f800789, r3
@@ -27232,9 +27232,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4359
+	cbne	r5, r6, fail4359
 	mov	=0x10, r6
-	cbne	r8, r6, f4360
+	cbne	r8, r6, fail4360
 	mov	=0xffffffffff800789, r1
 	mov	=0x40000000, r2
 	mov	=0x3f800000, r3
@@ -27245,9 +27245,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4361
+	cbne	r5, r6, fail4361
 	mov	=0x10, r6
-	cbne	r8, r6, f4362
+	cbne	r8, r6, fail4362
 	mov	=0xffffffffff800789, r1
 	mov	=0x40000000, r2
 	mov	=0x3f800000, r3
@@ -27258,9 +27258,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4363
+	cbne	r5, r6, fail4363
 	mov	=0x10, r6
-	cbne	r8, r6, f4364
+	cbne	r8, r6, fail4364
 	mov	=0x40000000, r1
 	mov	=0xffffffffff800789, r2
 	mov	=0x3f800000, r3
@@ -27271,9 +27271,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4365
+	cbne	r5, r6, fail4365
 	mov	=0x10, r6
-	cbne	r8, r6, f4366
+	cbne	r8, r6, fail4366
 	mov	=0x40000000, r1
 	mov	=0xffffffffff800789, r2
 	mov	=0x3f800000, r3
@@ -27284,9 +27284,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4367
+	cbne	r5, r6, fail4367
 	mov	=0x10, r6
-	cbne	r8, r6, f4368
+	cbne	r8, r6, fail4368
 	mov	=0x40000000, r1
 	mov	=0x3f800000, r2
 	mov	=0xffffffffff800789, r3
@@ -27297,9 +27297,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4369
+	cbne	r5, r6, fail4369
 	mov	=0x10, r6
-	cbne	r8, r6, f4370
+	cbne	r8, r6, fail4370
 	mov	=0x40000000, r1
 	mov	=0x3f800000, r2
 	mov	=0xffffffffff800789, r3
@@ -27310,9 +27310,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4371
+	cbne	r5, r6, fail4371
 	mov	=0x10, r6
-	cbne	r8, r6, f4372
+	cbne	r8, r6, fail4372
 	mov	=0xffffffffff800789, r1
 	mov	=0x0, r2
 	mov	=0x3f800000, r3
@@ -27323,9 +27323,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4373
+	cbne	r5, r6, fail4373
 	mov	=0x10, r6
-	cbne	r8, r6, f4374
+	cbne	r8, r6, fail4374
 	mov	=0xffffffffff800789, r1
 	mov	=0x0, r2
 	mov	=0x3f800000, r3
@@ -27336,9 +27336,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4375
+	cbne	r5, r6, fail4375
 	mov	=0x10, r6
-	cbne	r8, r6, f4376
+	cbne	r8, r6, fail4376
 	mov	=0x0, r1
 	mov	=0xffffffffff800789, r2
 	mov	=0x3f800000, r3
@@ -27349,9 +27349,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4377
+	cbne	r5, r6, fail4377
 	mov	=0x10, r6
-	cbne	r8, r6, f4378
+	cbne	r8, r6, fail4378
 	mov	=0x0, r1
 	mov	=0xffffffffff800789, r2
 	mov	=0x3f800000, r3
@@ -27362,9 +27362,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4379
+	cbne	r5, r6, fail4379
 	mov	=0x10, r6
-	cbne	r8, r6, f4380
+	cbne	r8, r6, fail4380
 	mov	=0xffffffffff800789, r1
 	mov	=0x3f800000, r2
 	mov	=0xffffffffff800789, r3
@@ -27375,9 +27375,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4381
+	cbne	r5, r6, fail4381
 	mov	=0x10, r6
-	cbne	r8, r6, f4382
+	cbne	r8, r6, fail4382
 	mov	=0xffffffffff800789, r1
 	mov	=0x3f800000, r2
 	mov	=0xffffffffff800789, r3
@@ -27388,9 +27388,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4383
+	cbne	r5, r6, fail4383
 	mov	=0x10, r6
-	cbne	r8, r6, f4384
+	cbne	r8, r6, fail4384
 	mov	=0x7f800000, r1
 	mov	=0x3f800000, r2
 	mov	=0x7f800000, r3
@@ -27401,9 +27401,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4385
+	cbne	r5, r6, fail4385
 	mov	=0x10, r6
-	cbne	r8, r6, f4386
+	cbne	r8, r6, fail4386
 	mov	=0x7f800000, r1
 	mov	=0x3f800000, r2
 	mov	=0x7f800000, r3
@@ -27414,9 +27414,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffff800000, r6
-	cbne	r5, r6, f4387
+	cbne	r5, r6, fail4387
 	mov	=0x0, r6
-	cbne	r8, r6, f4388
+	cbne	r8, r6, fail4388
 	mov	=0x7f800000, r1
 	mov	=0x0, r2
 	mov	=0x7f800000, r3
@@ -27427,9 +27427,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4389
+	cbne	r5, r6, fail4389
 	mov	=0x10, r6
-	cbne	r8, r6, f4390
+	cbne	r8, r6, fail4390
 	mov	=0x7f800000, r1
 	mov	=0x0, r2
 	mov	=0x7f800000, r3
@@ -27440,9 +27440,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4391
+	cbne	r5, r6, fail4391
 	mov	=0x10, r6
-	cbne	r8, r6, f4392
+	cbne	r8, r6, fail4392
 	mov	=0x3f800000, r1
 	mov	=0x3f800000, r2
 	mov	=0x7f800000, r3
@@ -27453,9 +27453,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffff800000, r6
-	cbne	r5, r6, f4393
+	cbne	r5, r6, fail4393
 	mov	=0x0, r6
-	cbne	r8, r6, f4394
+	cbne	r8, r6, fail4394
 	mov	=0x3f800000, r1
 	mov	=0x3f800000, r2
 	mov	=0x7f800000, r3
@@ -27466,9 +27466,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffff800000, r6
-	cbne	r5, r6, f4395
+	cbne	r5, r6, fail4395
 	mov	=0x0, r6
-	cbne	r8, r6, f4396
+	cbne	r8, r6, fail4396
 	mov	=0x7f800000, r1
 	mov	=0x3f800000, r2
 	mov	=0xffffffffff800000, r3
@@ -27479,9 +27479,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7f800000, r6
-	cbne	r5, r6, f4397
+	cbne	r5, r6, fail4397
 	mov	=0x0, r6
-	cbne	r8, r6, f4398
+	cbne	r8, r6, fail4398
 	mov	=0x7f800000, r1
 	mov	=0x3f800000, r2
 	mov	=0xffffffffff800000, r3
@@ -27492,9 +27492,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4399
+	cbne	r5, r6, fail4399
 	mov	=0x10, r6
-	cbne	r8, r6, f4400
+	cbne	r8, r6, fail4400
 	mov	=0x7f800000, r1
 	mov	=0x0, r2
 	mov	=0xffffffffff800000, r3
@@ -27505,9 +27505,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4401
+	cbne	r5, r6, fail4401
 	mov	=0x10, r6
-	cbne	r8, r6, f4402
+	cbne	r8, r6, fail4402
 	mov	=0x7f800000, r1
 	mov	=0x0, r2
 	mov	=0xffffffffff800000, r3
@@ -27518,9 +27518,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4403
+	cbne	r5, r6, fail4403
 	mov	=0x10, r6
-	cbne	r8, r6, f4404
+	cbne	r8, r6, fail4404
 	mov	=0x3f800000, r1
 	mov	=0x3f800000, r2
 	mov	=0xffffffffff800000, r3
@@ -27531,9 +27531,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7f800000, r6
-	cbne	r5, r6, f4405
+	cbne	r5, r6, fail4405
 	mov	=0x0, r6
-	cbne	r8, r6, f4406
+	cbne	r8, r6, fail4406
 	mov	=0x3f800000, r1
 	mov	=0x3f800000, r2
 	mov	=0xffffffffff800000, r3
@@ -27544,9 +27544,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7f800000, r6
-	cbne	r5, r6, f4407
+	cbne	r5, r6, fail4407
 	mov	=0x0, r6
-	cbne	r8, r6, f4408
+	cbne	r8, r6, fail4408
 	mov	=0xffffffffff800000, r1
 	mov	=0x3f800000, r2
 	mov	=0x7f800000, r3
@@ -27557,9 +27557,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffff800000, r6
-	cbne	r5, r6, f4409
+	cbne	r5, r6, fail4409
 	mov	=0x0, r6
-	cbne	r8, r6, f4410
+	cbne	r8, r6, fail4410
 	mov	=0xffffffffff800000, r1
 	mov	=0x3f800000, r2
 	mov	=0x7f800000, r3
@@ -27570,9 +27570,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4411
+	cbne	r5, r6, fail4411
 	mov	=0x10, r6
-	cbne	r8, r6, f4412
+	cbne	r8, r6, fail4412
 	mov	=0xffffffffff800000, r1
 	mov	=0x0, r2
 	mov	=0x7f800000, r3
@@ -27583,9 +27583,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4413
+	cbne	r5, r6, fail4413
 	mov	=0x10, r6
-	cbne	r8, r6, f4414
+	cbne	r8, r6, fail4414
 	mov	=0xffffffffff800000, r1
 	mov	=0x0, r2
 	mov	=0x7f800000, r3
@@ -27596,9 +27596,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4415
+	cbne	r5, r6, fail4415
 	mov	=0x10, r6
-	cbne	r8, r6, f4416
+	cbne	r8, r6, fail4416
 	mov	=0x3f800000, r1
 	mov	=0x3f800000, r2
 	mov	=0x7f800000, r3
@@ -27609,9 +27609,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffff800000, r6
-	cbne	r5, r6, f4417
+	cbne	r5, r6, fail4417
 	mov	=0x0, r6
-	cbne	r8, r6, f4418
+	cbne	r8, r6, fail4418
 	mov	=0x3f800000, r1
 	mov	=0x3f800000, r2
 	mov	=0x7f800000, r3
@@ -27622,9 +27622,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0xffffffffff800000, r6
-	cbne	r5, r6, f4419
+	cbne	r5, r6, fail4419
 	mov	=0x0, r6
-	cbne	r8, r6, f4420
+	cbne	r8, r6, fail4420
 	mov	=0xffffffffff800000, r1
 	mov	=0x3f800000, r2
 	mov	=0xffffffffff800000, r3
@@ -27635,9 +27635,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4421
+	cbne	r5, r6, fail4421
 	mov	=0x10, r6
-	cbne	r8, r6, f4422
+	cbne	r8, r6, fail4422
 	mov	=0xffffffffff800000, r1
 	mov	=0x3f800000, r2
 	mov	=0xffffffffff800000, r3
@@ -27648,9 +27648,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7f800000, r6
-	cbne	r5, r6, f4423
+	cbne	r5, r6, fail4423
 	mov	=0x0, r6
-	cbne	r8, r6, f4424
+	cbne	r8, r6, fail4424
 	mov	=0xffffffffff800000, r1
 	mov	=0x0, r2
 	mov	=0xffffffffff800000, r3
@@ -27661,9 +27661,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4425
+	cbne	r5, r6, fail4425
 	mov	=0x10, r6
-	cbne	r8, r6, f4426
+	cbne	r8, r6, fail4426
 	mov	=0xffffffffff800000, r1
 	mov	=0x0, r2
 	mov	=0xffffffffff800000, r3
@@ -27674,9 +27674,9 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7fc00000, r6
-	cbne	r5, r6, f4427
+	cbne	r5, r6, fail4427
 	mov	=0x10, r6
-	cbne	r8, r6, f4428
+	cbne	r8, r6, fail4428
 	mov	=0x3f800000, r1
 	mov	=0x3f800000, r2
 	mov	=0xffffffffff800000, r3
@@ -27687,9 +27687,9 @@ _start:
 	fmadd.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7f800000, r6
-	cbne	r5, r6, f4429
+	cbne	r5, r6, fail4429
 	mov	=0x0, r6
-	cbne	r8, r6, f4430
+	cbne	r8, r6, fail4430
 	mov	=0x3f800000, r1
 	mov	=0x3f800000, r2
 	mov	=0xffffffffff800000, r3
@@ -27700,8872 +27700,8872 @@ _start:
 	fnmsub.f32	r1, r2, r4, r5
 	fsflags	r9, r8
 	mov	=0x7f800000, r6
-	cbne	r5, r6, f4431
+	cbne	r5, r6, fail4431
 	mov	=0x0, r6
-	cbne	r8, r6, f4432
+	cbne	r8, r6, fail4432
 	clr	r0
 	trap	$0
-f1:	mov	$1, r0
+fail1:	mov	$1, r0
 	trap	$0
-f2:	mov	$2, r0
+fail2:	mov	$2, r0
 	trap	$0
-f3:	mov	$3, r0
+fail3:	mov	$3, r0
 	trap	$0
-f4:	mov	$4, r0
+fail4:	mov	$4, r0
 	trap	$0
-f5:	mov	$5, r0
+fail5:	mov	$5, r0
 	trap	$0
-f6:	mov	$6, r0
+fail6:	mov	$6, r0
 	trap	$0
-f7:	mov	$7, r0
+fail7:	mov	$7, r0
 	trap	$0
-f8:	mov	$8, r0
+fail8:	mov	$8, r0
 	trap	$0
-f9:	mov	$9, r0
+fail9:	mov	$9, r0
 	trap	$0
-f10:	mov	$10, r0
+fail10:	mov	$10, r0
 	trap	$0
-f11:	mov	$11, r0
+fail11:	mov	$11, r0
 	trap	$0
-f12:	mov	$12, r0
+fail12:	mov	$12, r0
 	trap	$0
-f13:	mov	$13, r0
+fail13:	mov	$13, r0
 	trap	$0
-f14:	mov	$14, r0
+fail14:	mov	$14, r0
 	trap	$0
-f15:	mov	$15, r0
+fail15:	mov	$15, r0
 	trap	$0
-f16:	mov	$16, r0
+fail16:	mov	$16, r0
 	trap	$0
-f17:	mov	$17, r0
+fail17:	mov	$17, r0
 	trap	$0
-f18:	mov	$18, r0
+fail18:	mov	$18, r0
 	trap	$0
-f19:	mov	$19, r0
+fail19:	mov	$19, r0
 	trap	$0
-f20:	mov	$20, r0
+fail20:	mov	$20, r0
 	trap	$0
-f21:	mov	$21, r0
+fail21:	mov	$21, r0
 	trap	$0
-f22:	mov	$22, r0
+fail22:	mov	$22, r0
 	trap	$0
-f23:	mov	$23, r0
+fail23:	mov	$23, r0
 	trap	$0
-f24:	mov	$24, r0
+fail24:	mov	$24, r0
 	trap	$0
-f25:	mov	$25, r0
+fail25:	mov	$25, r0
 	trap	$0
-f26:	mov	$26, r0
+fail26:	mov	$26, r0
 	trap	$0
-f27:	mov	$27, r0
+fail27:	mov	$27, r0
 	trap	$0
-f28:	mov	$28, r0
+fail28:	mov	$28, r0
 	trap	$0
-f29:	mov	$29, r0
+fail29:	mov	$29, r0
 	trap	$0
-f30:	mov	$30, r0
+fail30:	mov	$30, r0
 	trap	$0
-f31:	mov	$31, r0
+fail31:	mov	$31, r0
 	trap	$0
-f32:	mov	$32, r0
+fail32:	mov	$32, r0
 	trap	$0
-f33:	mov	$33, r0
+fail33:	mov	$33, r0
 	trap	$0
-f34:	mov	$34, r0
+fail34:	mov	$34, r0
 	trap	$0
-f35:	mov	$35, r0
+fail35:	mov	$35, r0
 	trap	$0
-f36:	mov	$36, r0
+fail36:	mov	$36, r0
 	trap	$0
-f37:	mov	$37, r0
+fail37:	mov	$37, r0
 	trap	$0
-f38:	mov	$38, r0
+fail38:	mov	$38, r0
 	trap	$0
-f39:	mov	$39, r0
+fail39:	mov	$39, r0
 	trap	$0
-f40:	mov	$40, r0
+fail40:	mov	$40, r0
 	trap	$0
-f41:	mov	$41, r0
+fail41:	mov	$41, r0
 	trap	$0
-f42:	mov	$42, r0
+fail42:	mov	$42, r0
 	trap	$0
-f43:	mov	$43, r0
+fail43:	mov	$43, r0
 	trap	$0
-f44:	mov	$44, r0
+fail44:	mov	$44, r0
 	trap	$0
-f45:	mov	$45, r0
+fail45:	mov	$45, r0
 	trap	$0
-f46:	mov	$46, r0
+fail46:	mov	$46, r0
 	trap	$0
-f47:	mov	$47, r0
+fail47:	mov	$47, r0
 	trap	$0
-f48:	mov	$48, r0
+fail48:	mov	$48, r0
 	trap	$0
-f49:	mov	$49, r0
+fail49:	mov	$49, r0
 	trap	$0
-f50:	mov	$50, r0
+fail50:	mov	$50, r0
 	trap	$0
-f51:	mov	$51, r0
+fail51:	mov	$51, r0
 	trap	$0
-f52:	mov	$52, r0
+fail52:	mov	$52, r0
 	trap	$0
-f53:	mov	$53, r0
+fail53:	mov	$53, r0
 	trap	$0
-f54:	mov	$54, r0
+fail54:	mov	$54, r0
 	trap	$0
-f55:	mov	$55, r0
+fail55:	mov	$55, r0
 	trap	$0
-f56:	mov	$56, r0
+fail56:	mov	$56, r0
 	trap	$0
-f57:	mov	$57, r0
+fail57:	mov	$57, r0
 	trap	$0
-f58:	mov	$58, r0
+fail58:	mov	$58, r0
 	trap	$0
-f59:	mov	$59, r0
+fail59:	mov	$59, r0
 	trap	$0
-f60:	mov	$60, r0
+fail60:	mov	$60, r0
 	trap	$0
-f61:	mov	$61, r0
+fail61:	mov	$61, r0
 	trap	$0
-f62:	mov	$62, r0
+fail62:	mov	$62, r0
 	trap	$0
-f63:	mov	$63, r0
+fail63:	mov	$63, r0
 	trap	$0
-f64:	mov	$64, r0
+fail64:	mov	$64, r0
 	trap	$0
-f65:	mov	$65, r0
+fail65:	mov	$65, r0
 	trap	$0
-f66:	mov	$66, r0
+fail66:	mov	$66, r0
 	trap	$0
-f67:	mov	$67, r0
+fail67:	mov	$67, r0
 	trap	$0
-f68:	mov	$68, r0
+fail68:	mov	$68, r0
 	trap	$0
-f69:	mov	$69, r0
+fail69:	mov	$69, r0
 	trap	$0
-f70:	mov	$70, r0
+fail70:	mov	$70, r0
 	trap	$0
-f71:	mov	$71, r0
+fail71:	mov	$71, r0
 	trap	$0
-f72:	mov	$72, r0
+fail72:	mov	$72, r0
 	trap	$0
-f73:	mov	$73, r0
+fail73:	mov	$73, r0
 	trap	$0
-f74:	mov	$74, r0
+fail74:	mov	$74, r0
 	trap	$0
-f75:	mov	$75, r0
+fail75:	mov	$75, r0
 	trap	$0
-f76:	mov	$76, r0
+fail76:	mov	$76, r0
 	trap	$0
-f77:	mov	$77, r0
+fail77:	mov	$77, r0
 	trap	$0
-f78:	mov	$78, r0
+fail78:	mov	$78, r0
 	trap	$0
-f79:	mov	$79, r0
+fail79:	mov	$79, r0
 	trap	$0
-f80:	mov	$80, r0
+fail80:	mov	$80, r0
 	trap	$0
-f81:	mov	$81, r0
+fail81:	mov	$81, r0
 	trap	$0
-f82:	mov	$82, r0
+fail82:	mov	$82, r0
 	trap	$0
-f83:	mov	$83, r0
+fail83:	mov	$83, r0
 	trap	$0
-f84:	mov	$84, r0
+fail84:	mov	$84, r0
 	trap	$0
-f85:	mov	$85, r0
+fail85:	mov	$85, r0
 	trap	$0
-f86:	mov	$86, r0
+fail86:	mov	$86, r0
 	trap	$0
-f87:	mov	$87, r0
+fail87:	mov	$87, r0
 	trap	$0
-f88:	mov	$88, r0
+fail88:	mov	$88, r0
 	trap	$0
-f89:	mov	$89, r0
+fail89:	mov	$89, r0
 	trap	$0
-f90:	mov	$90, r0
+fail90:	mov	$90, r0
 	trap	$0
-f91:	mov	$91, r0
+fail91:	mov	$91, r0
 	trap	$0
-f92:	mov	$92, r0
+fail92:	mov	$92, r0
 	trap	$0
-f93:	mov	$93, r0
+fail93:	mov	$93, r0
 	trap	$0
-f94:	mov	$94, r0
+fail94:	mov	$94, r0
 	trap	$0
-f95:	mov	$95, r0
+fail95:	mov	$95, r0
 	trap	$0
-f96:	mov	$96, r0
+fail96:	mov	$96, r0
 	trap	$0
-f97:	mov	$97, r0
+fail97:	mov	$97, r0
 	trap	$0
-f98:	mov	$98, r0
+fail98:	mov	$98, r0
 	trap	$0
-f99:	mov	$99, r0
+fail99:	mov	$99, r0
 	trap	$0
-f100:	mov	$100, r0
+fail100:	mov	$100, r0
 	trap	$0
-f101:	mov	$101, r0
+fail101:	mov	$101, r0
 	trap	$0
-f102:	mov	$102, r0
+fail102:	mov	$102, r0
 	trap	$0
-f103:	mov	$103, r0
+fail103:	mov	$103, r0
 	trap	$0
-f104:	mov	$104, r0
+fail104:	mov	$104, r0
 	trap	$0
-f105:	mov	$105, r0
+fail105:	mov	$105, r0
 	trap	$0
-f106:	mov	$106, r0
+fail106:	mov	$106, r0
 	trap	$0
-f107:	mov	$107, r0
+fail107:	mov	$107, r0
 	trap	$0
-f108:	mov	$108, r0
+fail108:	mov	$108, r0
 	trap	$0
-f109:	mov	$109, r0
+fail109:	mov	$109, r0
 	trap	$0
-f110:	mov	$110, r0
+fail110:	mov	$110, r0
 	trap	$0
-f111:	mov	$111, r0
+fail111:	mov	$111, r0
 	trap	$0
-f112:	mov	$112, r0
+fail112:	mov	$112, r0
 	trap	$0
-f113:	mov	$113, r0
+fail113:	mov	$113, r0
 	trap	$0
-f114:	mov	$114, r0
+fail114:	mov	$114, r0
 	trap	$0
-f115:	mov	$115, r0
+fail115:	mov	$115, r0
 	trap	$0
-f116:	mov	$116, r0
+fail116:	mov	$116, r0
 	trap	$0
-f117:	mov	$117, r0
+fail117:	mov	$117, r0
 	trap	$0
-f118:	mov	$118, r0
+fail118:	mov	$118, r0
 	trap	$0
-f119:	mov	$119, r0
+fail119:	mov	$119, r0
 	trap	$0
-f120:	mov	$120, r0
+fail120:	mov	$120, r0
 	trap	$0
-f121:	mov	$121, r0
+fail121:	mov	$121, r0
 	trap	$0
-f122:	mov	$122, r0
+fail122:	mov	$122, r0
 	trap	$0
-f123:	mov	$123, r0
+fail123:	mov	$123, r0
 	trap	$0
-f124:	mov	$124, r0
+fail124:	mov	$124, r0
 	trap	$0
-f125:	mov	$125, r0
+fail125:	mov	$125, r0
 	trap	$0
-f126:	mov	$126, r0
+fail126:	mov	$126, r0
 	trap	$0
-f127:	mov	$127, r0
+fail127:	mov	$127, r0
 	trap	$0
-f128:	mov	$128, r0
+fail128:	mov	$128, r0
 	trap	$0
-f129:	mov	$129, r0
+fail129:	mov	$129, r0
 	trap	$0
-f130:	mov	$130, r0
+fail130:	mov	$130, r0
 	trap	$0
-f131:	mov	$131, r0
+fail131:	mov	$131, r0
 	trap	$0
-f132:	mov	$132, r0
+fail132:	mov	$132, r0
 	trap	$0
-f133:	mov	$133, r0
+fail133:	mov	$133, r0
 	trap	$0
-f134:	mov	$134, r0
+fail134:	mov	$134, r0
 	trap	$0
-f135:	mov	$135, r0
+fail135:	mov	$135, r0
 	trap	$0
-f136:	mov	$136, r0
+fail136:	mov	$136, r0
 	trap	$0
-f137:	mov	$137, r0
+fail137:	mov	$137, r0
 	trap	$0
-f138:	mov	$138, r0
+fail138:	mov	$138, r0
 	trap	$0
-f139:	mov	$139, r0
+fail139:	mov	$139, r0
 	trap	$0
-f140:	mov	$140, r0
+fail140:	mov	$140, r0
 	trap	$0
-f141:	mov	$141, r0
+fail141:	mov	$141, r0
 	trap	$0
-f142:	mov	$142, r0
+fail142:	mov	$142, r0
 	trap	$0
-f143:	mov	$143, r0
+fail143:	mov	$143, r0
 	trap	$0
-f144:	mov	$144, r0
+fail144:	mov	$144, r0
 	trap	$0
-f145:	mov	$145, r0
+fail145:	mov	$145, r0
 	trap	$0
-f146:	mov	$146, r0
+fail146:	mov	$146, r0
 	trap	$0
-f147:	mov	$147, r0
+fail147:	mov	$147, r0
 	trap	$0
-f148:	mov	$148, r0
+fail148:	mov	$148, r0
 	trap	$0
-f149:	mov	$149, r0
+fail149:	mov	$149, r0
 	trap	$0
-f150:	mov	$150, r0
+fail150:	mov	$150, r0
 	trap	$0
-f151:	mov	$151, r0
+fail151:	mov	$151, r0
 	trap	$0
-f152:	mov	$152, r0
+fail152:	mov	$152, r0
 	trap	$0
-f153:	mov	$153, r0
+fail153:	mov	$153, r0
 	trap	$0
-f154:	mov	$154, r0
+fail154:	mov	$154, r0
 	trap	$0
-f155:	mov	$155, r0
+fail155:	mov	$155, r0
 	trap	$0
-f156:	mov	$156, r0
+fail156:	mov	$156, r0
 	trap	$0
-f157:	mov	$157, r0
+fail157:	mov	$157, r0
 	trap	$0
-f158:	mov	$158, r0
+fail158:	mov	$158, r0
 	trap	$0
-f159:	mov	$159, r0
+fail159:	mov	$159, r0
 	trap	$0
-f160:	mov	$160, r0
+fail160:	mov	$160, r0
 	trap	$0
-f161:	mov	$161, r0
+fail161:	mov	$161, r0
 	trap	$0
-f162:	mov	$162, r0
+fail162:	mov	$162, r0
 	trap	$0
-f163:	mov	$163, r0
+fail163:	mov	$163, r0
 	trap	$0
-f164:	mov	$164, r0
+fail164:	mov	$164, r0
 	trap	$0
-f165:	mov	$165, r0
+fail165:	mov	$165, r0
 	trap	$0
-f166:	mov	$166, r0
+fail166:	mov	$166, r0
 	trap	$0
-f167:	mov	$167, r0
+fail167:	mov	$167, r0
 	trap	$0
-f168:	mov	$168, r0
+fail168:	mov	$168, r0
 	trap	$0
-f169:	mov	$169, r0
+fail169:	mov	$169, r0
 	trap	$0
-f170:	mov	$170, r0
+fail170:	mov	$170, r0
 	trap	$0
-f171:	mov	$171, r0
+fail171:	mov	$171, r0
 	trap	$0
-f172:	mov	$172, r0
+fail172:	mov	$172, r0
 	trap	$0
-f173:	mov	$173, r0
+fail173:	mov	$173, r0
 	trap	$0
-f174:	mov	$174, r0
+fail174:	mov	$174, r0
 	trap	$0
-f175:	mov	$175, r0
+fail175:	mov	$175, r0
 	trap	$0
-f176:	mov	$176, r0
+fail176:	mov	$176, r0
 	trap	$0
-f177:	mov	$177, r0
+fail177:	mov	$177, r0
 	trap	$0
-f178:	mov	$178, r0
+fail178:	mov	$178, r0
 	trap	$0
-f179:	mov	$179, r0
+fail179:	mov	$179, r0
 	trap	$0
-f180:	mov	$180, r0
+fail180:	mov	$180, r0
 	trap	$0
-f181:	mov	$181, r0
+fail181:	mov	$181, r0
 	trap	$0
-f182:	mov	$182, r0
+fail182:	mov	$182, r0
 	trap	$0
-f183:	mov	$183, r0
+fail183:	mov	$183, r0
 	trap	$0
-f184:	mov	$184, r0
+fail184:	mov	$184, r0
 	trap	$0
-f185:	mov	$185, r0
+fail185:	mov	$185, r0
 	trap	$0
-f186:	mov	$186, r0
+fail186:	mov	$186, r0
 	trap	$0
-f187:	mov	$187, r0
+fail187:	mov	$187, r0
 	trap	$0
-f188:	mov	$188, r0
+fail188:	mov	$188, r0
 	trap	$0
-f189:	mov	$189, r0
+fail189:	mov	$189, r0
 	trap	$0
-f190:	mov	$190, r0
+fail190:	mov	$190, r0
 	trap	$0
-f191:	mov	$191, r0
+fail191:	mov	$191, r0
 	trap	$0
-f192:	mov	$192, r0
+fail192:	mov	$192, r0
 	trap	$0
-f193:	mov	$193, r0
+fail193:	mov	$193, r0
 	trap	$0
-f194:	mov	$194, r0
+fail194:	mov	$194, r0
 	trap	$0
-f195:	mov	$195, r0
+fail195:	mov	$195, r0
 	trap	$0
-f196:	mov	$196, r0
+fail196:	mov	$196, r0
 	trap	$0
-f197:	mov	$197, r0
+fail197:	mov	$197, r0
 	trap	$0
-f198:	mov	$198, r0
+fail198:	mov	$198, r0
 	trap	$0
-f199:	mov	$199, r0
+fail199:	mov	$199, r0
 	trap	$0
-f200:	mov	$200, r0
+fail200:	mov	$200, r0
 	trap	$0
-f201:	mov	$201, r0
+fail201:	mov	$201, r0
 	trap	$0
-f202:	mov	$202, r0
+fail202:	mov	$202, r0
 	trap	$0
-f203:	mov	$203, r0
+fail203:	mov	$203, r0
 	trap	$0
-f204:	mov	$204, r0
+fail204:	mov	$204, r0
 	trap	$0
-f205:	mov	$205, r0
+fail205:	mov	$205, r0
 	trap	$0
-f206:	mov	$206, r0
+fail206:	mov	$206, r0
 	trap	$0
-f207:	mov	$207, r0
+fail207:	mov	$207, r0
 	trap	$0
-f208:	mov	$208, r0
+fail208:	mov	$208, r0
 	trap	$0
-f209:	mov	$209, r0
+fail209:	mov	$209, r0
 	trap	$0
-f210:	mov	$210, r0
+fail210:	mov	$210, r0
 	trap	$0
-f211:	mov	$211, r0
+fail211:	mov	$211, r0
 	trap	$0
-f212:	mov	$212, r0
+fail212:	mov	$212, r0
 	trap	$0
-f213:	mov	$213, r0
+fail213:	mov	$213, r0
 	trap	$0
-f214:	mov	$214, r0
+fail214:	mov	$214, r0
 	trap	$0
-f215:	mov	$215, r0
+fail215:	mov	$215, r0
 	trap	$0
-f216:	mov	$216, r0
+fail216:	mov	$216, r0
 	trap	$0
-f217:	mov	$217, r0
+fail217:	mov	$217, r0
 	trap	$0
-f218:	mov	$218, r0
+fail218:	mov	$218, r0
 	trap	$0
-f219:	mov	$219, r0
+fail219:	mov	$219, r0
 	trap	$0
-f220:	mov	$220, r0
+fail220:	mov	$220, r0
 	trap	$0
-f221:	mov	$221, r0
+fail221:	mov	$221, r0
 	trap	$0
-f222:	mov	$222, r0
+fail222:	mov	$222, r0
 	trap	$0
-f223:	mov	$223, r0
+fail223:	mov	$223, r0
 	trap	$0
-f224:	mov	$224, r0
+fail224:	mov	$224, r0
 	trap	$0
-f225:	mov	$225, r0
+fail225:	mov	$225, r0
 	trap	$0
-f226:	mov	$226, r0
+fail226:	mov	$226, r0
 	trap	$0
-f227:	mov	$227, r0
+fail227:	mov	$227, r0
 	trap	$0
-f228:	mov	$228, r0
+fail228:	mov	$228, r0
 	trap	$0
-f229:	mov	$229, r0
+fail229:	mov	$229, r0
 	trap	$0
-f230:	mov	$230, r0
+fail230:	mov	$230, r0
 	trap	$0
-f231:	mov	$231, r0
+fail231:	mov	$231, r0
 	trap	$0
-f232:	mov	$232, r0
+fail232:	mov	$232, r0
 	trap	$0
-f233:	mov	$233, r0
+fail233:	mov	$233, r0
 	trap	$0
-f234:	mov	$234, r0
+fail234:	mov	$234, r0
 	trap	$0
-f235:	mov	$235, r0
+fail235:	mov	$235, r0
 	trap	$0
-f236:	mov	$236, r0
+fail236:	mov	$236, r0
 	trap	$0
-f237:	mov	$237, r0
+fail237:	mov	$237, r0
 	trap	$0
-f238:	mov	$238, r0
+fail238:	mov	$238, r0
 	trap	$0
-f239:	mov	$239, r0
+fail239:	mov	$239, r0
 	trap	$0
-f240:	mov	$240, r0
+fail240:	mov	$240, r0
 	trap	$0
-f241:	mov	$241, r0
+fail241:	mov	$241, r0
 	trap	$0
-f242:	mov	$242, r0
+fail242:	mov	$242, r0
 	trap	$0
-f243:	mov	$243, r0
+fail243:	mov	$243, r0
 	trap	$0
-f244:	mov	$244, r0
+fail244:	mov	$244, r0
 	trap	$0
-f245:	mov	$245, r0
+fail245:	mov	$245, r0
 	trap	$0
-f246:	mov	$246, r0
+fail246:	mov	$246, r0
 	trap	$0
-f247:	mov	$247, r0
+fail247:	mov	$247, r0
 	trap	$0
-f248:	mov	$248, r0
+fail248:	mov	$248, r0
 	trap	$0
-f249:	mov	$249, r0
+fail249:	mov	$249, r0
 	trap	$0
-f250:	mov	$250, r0
+fail250:	mov	$250, r0
 	trap	$0
-f251:	mov	$251, r0
+fail251:	mov	$251, r0
 	trap	$0
-f252:	mov	$252, r0
+fail252:	mov	$252, r0
 	trap	$0
-f253:	mov	$253, r0
+fail253:	mov	$253, r0
 	trap	$0
-f254:	mov	$254, r0
+fail254:	mov	$254, r0
 	trap	$0
-f255:	mov	$255, r0
+fail255:	mov	$255, r0
 	trap	$0
-f256:	mov	$1, r0
+fail256:	mov	$1, r0
 	trap	$0
-f257:	mov	$2, r0
+fail257:	mov	$2, r0
 	trap	$0
-f258:	mov	$3, r0
+fail258:	mov	$3, r0
 	trap	$0
-f259:	mov	$4, r0
+fail259:	mov	$4, r0
 	trap	$0
-f260:	mov	$5, r0
+fail260:	mov	$5, r0
 	trap	$0
-f261:	mov	$6, r0
+fail261:	mov	$6, r0
 	trap	$0
-f262:	mov	$7, r0
+fail262:	mov	$7, r0
 	trap	$0
-f263:	mov	$8, r0
+fail263:	mov	$8, r0
 	trap	$0
-f264:	mov	$9, r0
+fail264:	mov	$9, r0
 	trap	$0
-f265:	mov	$10, r0
+fail265:	mov	$10, r0
 	trap	$0
-f266:	mov	$11, r0
+fail266:	mov	$11, r0
 	trap	$0
-f267:	mov	$12, r0
+fail267:	mov	$12, r0
 	trap	$0
-f268:	mov	$13, r0
+fail268:	mov	$13, r0
 	trap	$0
-f269:	mov	$14, r0
+fail269:	mov	$14, r0
 	trap	$0
-f270:	mov	$15, r0
+fail270:	mov	$15, r0
 	trap	$0
-f271:	mov	$16, r0
+fail271:	mov	$16, r0
 	trap	$0
-f272:	mov	$17, r0
+fail272:	mov	$17, r0
 	trap	$0
-f273:	mov	$18, r0
+fail273:	mov	$18, r0
 	trap	$0
-f274:	mov	$19, r0
+fail274:	mov	$19, r0
 	trap	$0
-f275:	mov	$20, r0
+fail275:	mov	$20, r0
 	trap	$0
-f276:	mov	$21, r0
+fail276:	mov	$21, r0
 	trap	$0
-f277:	mov	$22, r0
+fail277:	mov	$22, r0
 	trap	$0
-f278:	mov	$23, r0
+fail278:	mov	$23, r0
 	trap	$0
-f279:	mov	$24, r0
+fail279:	mov	$24, r0
 	trap	$0
-f280:	mov	$25, r0
+fail280:	mov	$25, r0
 	trap	$0
-f281:	mov	$26, r0
+fail281:	mov	$26, r0
 	trap	$0
-f282:	mov	$27, r0
+fail282:	mov	$27, r0
 	trap	$0
-f283:	mov	$28, r0
+fail283:	mov	$28, r0
 	trap	$0
-f284:	mov	$29, r0
+fail284:	mov	$29, r0
 	trap	$0
-f285:	mov	$30, r0
+fail285:	mov	$30, r0
 	trap	$0
-f286:	mov	$31, r0
+fail286:	mov	$31, r0
 	trap	$0
-f287:	mov	$32, r0
+fail287:	mov	$32, r0
 	trap	$0
-f288:	mov	$33, r0
+fail288:	mov	$33, r0
 	trap	$0
-f289:	mov	$34, r0
+fail289:	mov	$34, r0
 	trap	$0
-f290:	mov	$35, r0
+fail290:	mov	$35, r0
 	trap	$0
-f291:	mov	$36, r0
+fail291:	mov	$36, r0
 	trap	$0
-f292:	mov	$37, r0
+fail292:	mov	$37, r0
 	trap	$0
-f293:	mov	$38, r0
+fail293:	mov	$38, r0
 	trap	$0
-f294:	mov	$39, r0
+fail294:	mov	$39, r0
 	trap	$0
-f295:	mov	$40, r0
+fail295:	mov	$40, r0
 	trap	$0
-f296:	mov	$41, r0
+fail296:	mov	$41, r0
 	trap	$0
-f297:	mov	$42, r0
+fail297:	mov	$42, r0
 	trap	$0
-f298:	mov	$43, r0
+fail298:	mov	$43, r0
 	trap	$0
-f299:	mov	$44, r0
+fail299:	mov	$44, r0
 	trap	$0
-f300:	mov	$45, r0
+fail300:	mov	$45, r0
 	trap	$0
-f301:	mov	$46, r0
+fail301:	mov	$46, r0
 	trap	$0
-f302:	mov	$47, r0
+fail302:	mov	$47, r0
 	trap	$0
-f303:	mov	$48, r0
+fail303:	mov	$48, r0
 	trap	$0
-f304:	mov	$49, r0
+fail304:	mov	$49, r0
 	trap	$0
-f305:	mov	$50, r0
+fail305:	mov	$50, r0
 	trap	$0
-f306:	mov	$51, r0
+fail306:	mov	$51, r0
 	trap	$0
-f307:	mov	$52, r0
+fail307:	mov	$52, r0
 	trap	$0
-f308:	mov	$53, r0
+fail308:	mov	$53, r0
 	trap	$0
-f309:	mov	$54, r0
+fail309:	mov	$54, r0
 	trap	$0
-f310:	mov	$55, r0
+fail310:	mov	$55, r0
 	trap	$0
-f311:	mov	$56, r0
+fail311:	mov	$56, r0
 	trap	$0
-f312:	mov	$57, r0
+fail312:	mov	$57, r0
 	trap	$0
-f313:	mov	$58, r0
+fail313:	mov	$58, r0
 	trap	$0
-f314:	mov	$59, r0
+fail314:	mov	$59, r0
 	trap	$0
-f315:	mov	$60, r0
+fail315:	mov	$60, r0
 	trap	$0
-f316:	mov	$61, r0
+fail316:	mov	$61, r0
 	trap	$0
-f317:	mov	$62, r0
+fail317:	mov	$62, r0
 	trap	$0
-f318:	mov	$63, r0
+fail318:	mov	$63, r0
 	trap	$0
-f319:	mov	$64, r0
+fail319:	mov	$64, r0
 	trap	$0
-f320:	mov	$65, r0
+fail320:	mov	$65, r0
 	trap	$0
-f321:	mov	$66, r0
+fail321:	mov	$66, r0
 	trap	$0
-f322:	mov	$67, r0
+fail322:	mov	$67, r0
 	trap	$0
-f323:	mov	$68, r0
+fail323:	mov	$68, r0
 	trap	$0
-f324:	mov	$69, r0
+fail324:	mov	$69, r0
 	trap	$0
-f325:	mov	$70, r0
+fail325:	mov	$70, r0
 	trap	$0
-f326:	mov	$71, r0
+fail326:	mov	$71, r0
 	trap	$0
-f327:	mov	$72, r0
+fail327:	mov	$72, r0
 	trap	$0
-f328:	mov	$73, r0
+fail328:	mov	$73, r0
 	trap	$0
-f329:	mov	$74, r0
+fail329:	mov	$74, r0
 	trap	$0
-f330:	mov	$75, r0
+fail330:	mov	$75, r0
 	trap	$0
-f331:	mov	$76, r0
+fail331:	mov	$76, r0
 	trap	$0
-f332:	mov	$77, r0
+fail332:	mov	$77, r0
 	trap	$0
-f333:	mov	$78, r0
+fail333:	mov	$78, r0
 	trap	$0
-f334:	mov	$79, r0
+fail334:	mov	$79, r0
 	trap	$0
-f335:	mov	$80, r0
+fail335:	mov	$80, r0
 	trap	$0
-f336:	mov	$81, r0
+fail336:	mov	$81, r0
 	trap	$0
-f337:	mov	$82, r0
+fail337:	mov	$82, r0
 	trap	$0
-f338:	mov	$83, r0
+fail338:	mov	$83, r0
 	trap	$0
-f339:	mov	$84, r0
+fail339:	mov	$84, r0
 	trap	$0
-f340:	mov	$85, r0
+fail340:	mov	$85, r0
 	trap	$0
-f341:	mov	$86, r0
+fail341:	mov	$86, r0
 	trap	$0
-f342:	mov	$87, r0
+fail342:	mov	$87, r0
 	trap	$0
-f343:	mov	$88, r0
+fail343:	mov	$88, r0
 	trap	$0
-f344:	mov	$89, r0
+fail344:	mov	$89, r0
 	trap	$0
-f345:	mov	$90, r0
+fail345:	mov	$90, r0
 	trap	$0
-f346:	mov	$91, r0
+fail346:	mov	$91, r0
 	trap	$0
-f347:	mov	$92, r0
+fail347:	mov	$92, r0
 	trap	$0
-f348:	mov	$93, r0
+fail348:	mov	$93, r0
 	trap	$0
-f349:	mov	$94, r0
+fail349:	mov	$94, r0
 	trap	$0
-f350:	mov	$95, r0
+fail350:	mov	$95, r0
 	trap	$0
-f351:	mov	$96, r0
+fail351:	mov	$96, r0
 	trap	$0
-f352:	mov	$97, r0
+fail352:	mov	$97, r0
 	trap	$0
-f353:	mov	$98, r0
+fail353:	mov	$98, r0
 	trap	$0
-f354:	mov	$99, r0
+fail354:	mov	$99, r0
 	trap	$0
-f355:	mov	$100, r0
+fail355:	mov	$100, r0
 	trap	$0
-f356:	mov	$101, r0
+fail356:	mov	$101, r0
 	trap	$0
-f357:	mov	$102, r0
+fail357:	mov	$102, r0
 	trap	$0
-f358:	mov	$103, r0
+fail358:	mov	$103, r0
 	trap	$0
-f359:	mov	$104, r0
+fail359:	mov	$104, r0
 	trap	$0
-f360:	mov	$105, r0
+fail360:	mov	$105, r0
 	trap	$0
-f361:	mov	$106, r0
+fail361:	mov	$106, r0
 	trap	$0
-f362:	mov	$107, r0
+fail362:	mov	$107, r0
 	trap	$0
-f363:	mov	$108, r0
+fail363:	mov	$108, r0
 	trap	$0
-f364:	mov	$109, r0
+fail364:	mov	$109, r0
 	trap	$0
-f365:	mov	$110, r0
+fail365:	mov	$110, r0
 	trap	$0
-f366:	mov	$111, r0
+fail366:	mov	$111, r0
 	trap	$0
-f367:	mov	$112, r0
+fail367:	mov	$112, r0
 	trap	$0
-f368:	mov	$113, r0
+fail368:	mov	$113, r0
 	trap	$0
-f369:	mov	$114, r0
+fail369:	mov	$114, r0
 	trap	$0
-f370:	mov	$115, r0
+fail370:	mov	$115, r0
 	trap	$0
-f371:	mov	$116, r0
+fail371:	mov	$116, r0
 	trap	$0
-f372:	mov	$117, r0
+fail372:	mov	$117, r0
 	trap	$0
-f373:	mov	$118, r0
+fail373:	mov	$118, r0
 	trap	$0
-f374:	mov	$119, r0
+fail374:	mov	$119, r0
 	trap	$0
-f375:	mov	$120, r0
+fail375:	mov	$120, r0
 	trap	$0
-f376:	mov	$121, r0
+fail376:	mov	$121, r0
 	trap	$0
-f377:	mov	$122, r0
+fail377:	mov	$122, r0
 	trap	$0
-f378:	mov	$123, r0
+fail378:	mov	$123, r0
 	trap	$0
-f379:	mov	$124, r0
+fail379:	mov	$124, r0
 	trap	$0
-f380:	mov	$125, r0
+fail380:	mov	$125, r0
 	trap	$0
-f381:	mov	$126, r0
+fail381:	mov	$126, r0
 	trap	$0
-f382:	mov	$127, r0
+fail382:	mov	$127, r0
 	trap	$0
-f383:	mov	$128, r0
+fail383:	mov	$128, r0
 	trap	$0
-f384:	mov	$129, r0
+fail384:	mov	$129, r0
 	trap	$0
-f385:	mov	$130, r0
+fail385:	mov	$130, r0
 	trap	$0
-f386:	mov	$131, r0
+fail386:	mov	$131, r0
 	trap	$0
-f387:	mov	$132, r0
+fail387:	mov	$132, r0
 	trap	$0
-f388:	mov	$133, r0
+fail388:	mov	$133, r0
 	trap	$0
-f389:	mov	$134, r0
+fail389:	mov	$134, r0
 	trap	$0
-f390:	mov	$135, r0
+fail390:	mov	$135, r0
 	trap	$0
-f391:	mov	$136, r0
+fail391:	mov	$136, r0
 	trap	$0
-f392:	mov	$137, r0
+fail392:	mov	$137, r0
 	trap	$0
-f393:	mov	$138, r0
+fail393:	mov	$138, r0
 	trap	$0
-f394:	mov	$139, r0
+fail394:	mov	$139, r0
 	trap	$0
-f395:	mov	$140, r0
+fail395:	mov	$140, r0
 	trap	$0
-f396:	mov	$141, r0
+fail396:	mov	$141, r0
 	trap	$0
-f397:	mov	$142, r0
+fail397:	mov	$142, r0
 	trap	$0
-f398:	mov	$143, r0
+fail398:	mov	$143, r0
 	trap	$0
-f399:	mov	$144, r0
+fail399:	mov	$144, r0
 	trap	$0
-f400:	mov	$145, r0
+fail400:	mov	$145, r0
 	trap	$0
-f401:	mov	$146, r0
+fail401:	mov	$146, r0
 	trap	$0
-f402:	mov	$147, r0
+fail402:	mov	$147, r0
 	trap	$0
-f403:	mov	$148, r0
+fail403:	mov	$148, r0
 	trap	$0
-f404:	mov	$149, r0
+fail404:	mov	$149, r0
 	trap	$0
-f405:	mov	$150, r0
+fail405:	mov	$150, r0
 	trap	$0
-f406:	mov	$151, r0
+fail406:	mov	$151, r0
 	trap	$0
-f407:	mov	$152, r0
+fail407:	mov	$152, r0
 	trap	$0
-f408:	mov	$153, r0
+fail408:	mov	$153, r0
 	trap	$0
-f409:	mov	$154, r0
+fail409:	mov	$154, r0
 	trap	$0
-f410:	mov	$155, r0
+fail410:	mov	$155, r0
 	trap	$0
-f411:	mov	$156, r0
+fail411:	mov	$156, r0
 	trap	$0
-f412:	mov	$157, r0
+fail412:	mov	$157, r0
 	trap	$0
-f413:	mov	$158, r0
+fail413:	mov	$158, r0
 	trap	$0
-f414:	mov	$159, r0
+fail414:	mov	$159, r0
 	trap	$0
-f415:	mov	$160, r0
+fail415:	mov	$160, r0
 	trap	$0
-f416:	mov	$161, r0
+fail416:	mov	$161, r0
 	trap	$0
-f417:	mov	$162, r0
+fail417:	mov	$162, r0
 	trap	$0
-f418:	mov	$163, r0
+fail418:	mov	$163, r0
 	trap	$0
-f419:	mov	$164, r0
+fail419:	mov	$164, r0
 	trap	$0
-f420:	mov	$165, r0
+fail420:	mov	$165, r0
 	trap	$0
-f421:	mov	$166, r0
+fail421:	mov	$166, r0
 	trap	$0
-f422:	mov	$167, r0
+fail422:	mov	$167, r0
 	trap	$0
-f423:	mov	$168, r0
+fail423:	mov	$168, r0
 	trap	$0
-f424:	mov	$169, r0
+fail424:	mov	$169, r0
 	trap	$0
-f425:	mov	$170, r0
+fail425:	mov	$170, r0
 	trap	$0
-f426:	mov	$171, r0
+fail426:	mov	$171, r0
 	trap	$0
-f427:	mov	$172, r0
+fail427:	mov	$172, r0
 	trap	$0
-f428:	mov	$173, r0
+fail428:	mov	$173, r0
 	trap	$0
-f429:	mov	$174, r0
+fail429:	mov	$174, r0
 	trap	$0
-f430:	mov	$175, r0
+fail430:	mov	$175, r0
 	trap	$0
-f431:	mov	$176, r0
+fail431:	mov	$176, r0
 	trap	$0
-f432:	mov	$177, r0
+fail432:	mov	$177, r0
 	trap	$0
-f433:	mov	$178, r0
+fail433:	mov	$178, r0
 	trap	$0
-f434:	mov	$179, r0
+fail434:	mov	$179, r0
 	trap	$0
-f435:	mov	$180, r0
+fail435:	mov	$180, r0
 	trap	$0
-f436:	mov	$181, r0
+fail436:	mov	$181, r0
 	trap	$0
-f437:	mov	$182, r0
+fail437:	mov	$182, r0
 	trap	$0
-f438:	mov	$183, r0
+fail438:	mov	$183, r0
 	trap	$0
-f439:	mov	$184, r0
+fail439:	mov	$184, r0
 	trap	$0
-f440:	mov	$185, r0
+fail440:	mov	$185, r0
 	trap	$0
-f441:	mov	$186, r0
+fail441:	mov	$186, r0
 	trap	$0
-f442:	mov	$187, r0
+fail442:	mov	$187, r0
 	trap	$0
-f443:	mov	$188, r0
+fail443:	mov	$188, r0
 	trap	$0
-f444:	mov	$189, r0
+fail444:	mov	$189, r0
 	trap	$0
-f445:	mov	$190, r0
+fail445:	mov	$190, r0
 	trap	$0
-f446:	mov	$191, r0
+fail446:	mov	$191, r0
 	trap	$0
-f447:	mov	$192, r0
+fail447:	mov	$192, r0
 	trap	$0
-f448:	mov	$193, r0
+fail448:	mov	$193, r0
 	trap	$0
-f449:	mov	$194, r0
+fail449:	mov	$194, r0
 	trap	$0
-f450:	mov	$195, r0
+fail450:	mov	$195, r0
 	trap	$0
-f451:	mov	$196, r0
+fail451:	mov	$196, r0
 	trap	$0
-f452:	mov	$197, r0
+fail452:	mov	$197, r0
 	trap	$0
-f453:	mov	$198, r0
+fail453:	mov	$198, r0
 	trap	$0
-f454:	mov	$199, r0
+fail454:	mov	$199, r0
 	trap	$0
-f455:	mov	$200, r0
+fail455:	mov	$200, r0
 	trap	$0
-f456:	mov	$201, r0
+fail456:	mov	$201, r0
 	trap	$0
-f457:	mov	$202, r0
+fail457:	mov	$202, r0
 	trap	$0
-f458:	mov	$203, r0
+fail458:	mov	$203, r0
 	trap	$0
-f459:	mov	$204, r0
+fail459:	mov	$204, r0
 	trap	$0
-f460:	mov	$205, r0
+fail460:	mov	$205, r0
 	trap	$0
-f461:	mov	$206, r0
+fail461:	mov	$206, r0
 	trap	$0
-f462:	mov	$207, r0
+fail462:	mov	$207, r0
 	trap	$0
-f463:	mov	$208, r0
+fail463:	mov	$208, r0
 	trap	$0
-f464:	mov	$209, r0
+fail464:	mov	$209, r0
 	trap	$0
-f465:	mov	$210, r0
+fail465:	mov	$210, r0
 	trap	$0
-f466:	mov	$211, r0
+fail466:	mov	$211, r0
 	trap	$0
-f467:	mov	$212, r0
+fail467:	mov	$212, r0
 	trap	$0
-f468:	mov	$213, r0
+fail468:	mov	$213, r0
 	trap	$0
-f469:	mov	$214, r0
+fail469:	mov	$214, r0
 	trap	$0
-f470:	mov	$215, r0
+fail470:	mov	$215, r0
 	trap	$0
-f471:	mov	$216, r0
+fail471:	mov	$216, r0
 	trap	$0
-f472:	mov	$217, r0
+fail472:	mov	$217, r0
 	trap	$0
-f473:	mov	$218, r0
+fail473:	mov	$218, r0
 	trap	$0
-f474:	mov	$219, r0
+fail474:	mov	$219, r0
 	trap	$0
-f475:	mov	$220, r0
+fail475:	mov	$220, r0
 	trap	$0
-f476:	mov	$221, r0
+fail476:	mov	$221, r0
 	trap	$0
-f477:	mov	$222, r0
+fail477:	mov	$222, r0
 	trap	$0
-f478:	mov	$223, r0
+fail478:	mov	$223, r0
 	trap	$0
-f479:	mov	$224, r0
+fail479:	mov	$224, r0
 	trap	$0
-f480:	mov	$225, r0
+fail480:	mov	$225, r0
 	trap	$0
-f481:	mov	$226, r0
+fail481:	mov	$226, r0
 	trap	$0
-f482:	mov	$227, r0
+fail482:	mov	$227, r0
 	trap	$0
-f483:	mov	$228, r0
+fail483:	mov	$228, r0
 	trap	$0
-f484:	mov	$229, r0
+fail484:	mov	$229, r0
 	trap	$0
-f485:	mov	$230, r0
+fail485:	mov	$230, r0
 	trap	$0
-f486:	mov	$231, r0
+fail486:	mov	$231, r0
 	trap	$0
-f487:	mov	$232, r0
+fail487:	mov	$232, r0
 	trap	$0
-f488:	mov	$233, r0
+fail488:	mov	$233, r0
 	trap	$0
-f489:	mov	$234, r0
+fail489:	mov	$234, r0
 	trap	$0
-f490:	mov	$235, r0
+fail490:	mov	$235, r0
 	trap	$0
-f491:	mov	$236, r0
+fail491:	mov	$236, r0
 	trap	$0
-f492:	mov	$237, r0
+fail492:	mov	$237, r0
 	trap	$0
-f493:	mov	$238, r0
+fail493:	mov	$238, r0
 	trap	$0
-f494:	mov	$239, r0
+fail494:	mov	$239, r0
 	trap	$0
-f495:	mov	$240, r0
+fail495:	mov	$240, r0
 	trap	$0
-f496:	mov	$241, r0
+fail496:	mov	$241, r0
 	trap	$0
-f497:	mov	$242, r0
+fail497:	mov	$242, r0
 	trap	$0
-f498:	mov	$243, r0
+fail498:	mov	$243, r0
 	trap	$0
-f499:	mov	$244, r0
+fail499:	mov	$244, r0
 	trap	$0
-f500:	mov	$245, r0
+fail500:	mov	$245, r0
 	trap	$0
-f501:	mov	$246, r0
+fail501:	mov	$246, r0
 	trap	$0
-f502:	mov	$247, r0
+fail502:	mov	$247, r0
 	trap	$0
-f503:	mov	$248, r0
+fail503:	mov	$248, r0
 	trap	$0
-f504:	mov	$249, r0
+fail504:	mov	$249, r0
 	trap	$0
-f505:	mov	$250, r0
+fail505:	mov	$250, r0
 	trap	$0
-f506:	mov	$251, r0
+fail506:	mov	$251, r0
 	trap	$0
-f507:	mov	$252, r0
+fail507:	mov	$252, r0
 	trap	$0
-f508:	mov	$253, r0
+fail508:	mov	$253, r0
 	trap	$0
-f509:	mov	$254, r0
+fail509:	mov	$254, r0
 	trap	$0
-f510:	mov	$255, r0
+fail510:	mov	$255, r0
 	trap	$0
-f511:	mov	$1, r0
+fail511:	mov	$1, r0
 	trap	$0
-f512:	mov	$2, r0
+fail512:	mov	$2, r0
 	trap	$0
-f513:	mov	$3, r0
+fail513:	mov	$3, r0
 	trap	$0
-f514:	mov	$4, r0
+fail514:	mov	$4, r0
 	trap	$0
-f515:	mov	$5, r0
+fail515:	mov	$5, r0
 	trap	$0
-f516:	mov	$6, r0
+fail516:	mov	$6, r0
 	trap	$0
-f517:	mov	$7, r0
+fail517:	mov	$7, r0
 	trap	$0
-f518:	mov	$8, r0
+fail518:	mov	$8, r0
 	trap	$0
-f519:	mov	$9, r0
+fail519:	mov	$9, r0
 	trap	$0
-f520:	mov	$10, r0
+fail520:	mov	$10, r0
 	trap	$0
-f521:	mov	$11, r0
+fail521:	mov	$11, r0
 	trap	$0
-f522:	mov	$12, r0
+fail522:	mov	$12, r0
 	trap	$0
-f523:	mov	$13, r0
+fail523:	mov	$13, r0
 	trap	$0
-f524:	mov	$14, r0
+fail524:	mov	$14, r0
 	trap	$0
-f525:	mov	$15, r0
+fail525:	mov	$15, r0
 	trap	$0
-f526:	mov	$16, r0
+fail526:	mov	$16, r0
 	trap	$0
-f527:	mov	$17, r0
+fail527:	mov	$17, r0
 	trap	$0
-f528:	mov	$18, r0
+fail528:	mov	$18, r0
 	trap	$0
-f529:	mov	$19, r0
+fail529:	mov	$19, r0
 	trap	$0
-f530:	mov	$20, r0
+fail530:	mov	$20, r0
 	trap	$0
-f531:	mov	$21, r0
+fail531:	mov	$21, r0
 	trap	$0
-f532:	mov	$22, r0
+fail532:	mov	$22, r0
 	trap	$0
-f533:	mov	$23, r0
+fail533:	mov	$23, r0
 	trap	$0
-f534:	mov	$24, r0
+fail534:	mov	$24, r0
 	trap	$0
-f535:	mov	$25, r0
+fail535:	mov	$25, r0
 	trap	$0
-f536:	mov	$26, r0
+fail536:	mov	$26, r0
 	trap	$0
-f537:	mov	$27, r0
+fail537:	mov	$27, r0
 	trap	$0
-f538:	mov	$28, r0
+fail538:	mov	$28, r0
 	trap	$0
-f539:	mov	$29, r0
+fail539:	mov	$29, r0
 	trap	$0
-f540:	mov	$30, r0
+fail540:	mov	$30, r0
 	trap	$0
-f541:	mov	$31, r0
+fail541:	mov	$31, r0
 	trap	$0
-f542:	mov	$32, r0
+fail542:	mov	$32, r0
 	trap	$0
-f543:	mov	$33, r0
+fail543:	mov	$33, r0
 	trap	$0
-f544:	mov	$34, r0
+fail544:	mov	$34, r0
 	trap	$0
-f545:	mov	$35, r0
+fail545:	mov	$35, r0
 	trap	$0
-f546:	mov	$36, r0
+fail546:	mov	$36, r0
 	trap	$0
-f547:	mov	$37, r0
+fail547:	mov	$37, r0
 	trap	$0
-f548:	mov	$38, r0
+fail548:	mov	$38, r0
 	trap	$0
-f549:	mov	$39, r0
+fail549:	mov	$39, r0
 	trap	$0
-f550:	mov	$40, r0
+fail550:	mov	$40, r0
 	trap	$0
-f551:	mov	$41, r0
+fail551:	mov	$41, r0
 	trap	$0
-f552:	mov	$42, r0
+fail552:	mov	$42, r0
 	trap	$0
-f553:	mov	$43, r0
+fail553:	mov	$43, r0
 	trap	$0
-f554:	mov	$44, r0
+fail554:	mov	$44, r0
 	trap	$0
-f555:	mov	$45, r0
+fail555:	mov	$45, r0
 	trap	$0
-f556:	mov	$46, r0
+fail556:	mov	$46, r0
 	trap	$0
-f557:	mov	$47, r0
+fail557:	mov	$47, r0
 	trap	$0
-f558:	mov	$48, r0
+fail558:	mov	$48, r0
 	trap	$0
-f559:	mov	$49, r0
+fail559:	mov	$49, r0
 	trap	$0
-f560:	mov	$50, r0
+fail560:	mov	$50, r0
 	trap	$0
-f561:	mov	$51, r0
+fail561:	mov	$51, r0
 	trap	$0
-f562:	mov	$52, r0
+fail562:	mov	$52, r0
 	trap	$0
-f563:	mov	$53, r0
+fail563:	mov	$53, r0
 	trap	$0
-f564:	mov	$54, r0
+fail564:	mov	$54, r0
 	trap	$0
-f565:	mov	$55, r0
+fail565:	mov	$55, r0
 	trap	$0
-f566:	mov	$56, r0
+fail566:	mov	$56, r0
 	trap	$0
-f567:	mov	$57, r0
+fail567:	mov	$57, r0
 	trap	$0
-f568:	mov	$58, r0
+fail568:	mov	$58, r0
 	trap	$0
-f569:	mov	$59, r0
+fail569:	mov	$59, r0
 	trap	$0
-f570:	mov	$60, r0
+fail570:	mov	$60, r0
 	trap	$0
-f571:	mov	$61, r0
+fail571:	mov	$61, r0
 	trap	$0
-f572:	mov	$62, r0
+fail572:	mov	$62, r0
 	trap	$0
-f573:	mov	$63, r0
+fail573:	mov	$63, r0
 	trap	$0
-f574:	mov	$64, r0
+fail574:	mov	$64, r0
 	trap	$0
-f575:	mov	$65, r0
+fail575:	mov	$65, r0
 	trap	$0
-f576:	mov	$66, r0
+fail576:	mov	$66, r0
 	trap	$0
-f577:	mov	$67, r0
+fail577:	mov	$67, r0
 	trap	$0
-f578:	mov	$68, r0
+fail578:	mov	$68, r0
 	trap	$0
-f579:	mov	$69, r0
+fail579:	mov	$69, r0
 	trap	$0
-f580:	mov	$70, r0
+fail580:	mov	$70, r0
 	trap	$0
-f581:	mov	$71, r0
+fail581:	mov	$71, r0
 	trap	$0
-f582:	mov	$72, r0
+fail582:	mov	$72, r0
 	trap	$0
-f583:	mov	$73, r0
+fail583:	mov	$73, r0
 	trap	$0
-f584:	mov	$74, r0
+fail584:	mov	$74, r0
 	trap	$0
-f585:	mov	$75, r0
+fail585:	mov	$75, r0
 	trap	$0
-f586:	mov	$76, r0
+fail586:	mov	$76, r0
 	trap	$0
-f587:	mov	$77, r0
+fail587:	mov	$77, r0
 	trap	$0
-f588:	mov	$78, r0
+fail588:	mov	$78, r0
 	trap	$0
-f589:	mov	$79, r0
+fail589:	mov	$79, r0
 	trap	$0
-f590:	mov	$80, r0
+fail590:	mov	$80, r0
 	trap	$0
-f591:	mov	$81, r0
+fail591:	mov	$81, r0
 	trap	$0
-f592:	mov	$82, r0
+fail592:	mov	$82, r0
 	trap	$0
-f593:	mov	$83, r0
+fail593:	mov	$83, r0
 	trap	$0
-f594:	mov	$84, r0
+fail594:	mov	$84, r0
 	trap	$0
-f595:	mov	$85, r0
+fail595:	mov	$85, r0
 	trap	$0
-f596:	mov	$86, r0
+fail596:	mov	$86, r0
 	trap	$0
-f597:	mov	$87, r0
+fail597:	mov	$87, r0
 	trap	$0
-f598:	mov	$88, r0
+fail598:	mov	$88, r0
 	trap	$0
-f599:	mov	$89, r0
+fail599:	mov	$89, r0
 	trap	$0
-f600:	mov	$90, r0
+fail600:	mov	$90, r0
 	trap	$0
-f601:	mov	$91, r0
+fail601:	mov	$91, r0
 	trap	$0
-f602:	mov	$92, r0
+fail602:	mov	$92, r0
 	trap	$0
-f603:	mov	$93, r0
+fail603:	mov	$93, r0
 	trap	$0
-f604:	mov	$94, r0
+fail604:	mov	$94, r0
 	trap	$0
-f605:	mov	$95, r0
+fail605:	mov	$95, r0
 	trap	$0
-f606:	mov	$96, r0
+fail606:	mov	$96, r0
 	trap	$0
-f607:	mov	$97, r0
+fail607:	mov	$97, r0
 	trap	$0
-f608:	mov	$98, r0
+fail608:	mov	$98, r0
 	trap	$0
-f609:	mov	$99, r0
+fail609:	mov	$99, r0
 	trap	$0
-f610:	mov	$100, r0
+fail610:	mov	$100, r0
 	trap	$0
-f611:	mov	$101, r0
+fail611:	mov	$101, r0
 	trap	$0
-f612:	mov	$102, r0
+fail612:	mov	$102, r0
 	trap	$0
-f613:	mov	$103, r0
+fail613:	mov	$103, r0
 	trap	$0
-f614:	mov	$104, r0
+fail614:	mov	$104, r0
 	trap	$0
-f615:	mov	$105, r0
+fail615:	mov	$105, r0
 	trap	$0
-f616:	mov	$106, r0
+fail616:	mov	$106, r0
 	trap	$0
-f617:	mov	$107, r0
+fail617:	mov	$107, r0
 	trap	$0
-f618:	mov	$108, r0
+fail618:	mov	$108, r0
 	trap	$0
-f619:	mov	$109, r0
+fail619:	mov	$109, r0
 	trap	$0
-f620:	mov	$110, r0
+fail620:	mov	$110, r0
 	trap	$0
-f621:	mov	$111, r0
+fail621:	mov	$111, r0
 	trap	$0
-f622:	mov	$112, r0
+fail622:	mov	$112, r0
 	trap	$0
-f623:	mov	$113, r0
+fail623:	mov	$113, r0
 	trap	$0
-f624:	mov	$114, r0
+fail624:	mov	$114, r0
 	trap	$0
-f625:	mov	$115, r0
+fail625:	mov	$115, r0
 	trap	$0
-f626:	mov	$116, r0
+fail626:	mov	$116, r0
 	trap	$0
-f627:	mov	$117, r0
+fail627:	mov	$117, r0
 	trap	$0
-f628:	mov	$118, r0
+fail628:	mov	$118, r0
 	trap	$0
-f629:	mov	$119, r0
+fail629:	mov	$119, r0
 	trap	$0
-f630:	mov	$120, r0
+fail630:	mov	$120, r0
 	trap	$0
-f631:	mov	$121, r0
+fail631:	mov	$121, r0
 	trap	$0
-f632:	mov	$122, r0
+fail632:	mov	$122, r0
 	trap	$0
-f633:	mov	$123, r0
+fail633:	mov	$123, r0
 	trap	$0
-f634:	mov	$124, r0
+fail634:	mov	$124, r0
 	trap	$0
-f635:	mov	$125, r0
+fail635:	mov	$125, r0
 	trap	$0
-f636:	mov	$126, r0
+fail636:	mov	$126, r0
 	trap	$0
-f637:	mov	$127, r0
+fail637:	mov	$127, r0
 	trap	$0
-f638:	mov	$128, r0
+fail638:	mov	$128, r0
 	trap	$0
-f639:	mov	$129, r0
+fail639:	mov	$129, r0
 	trap	$0
-f640:	mov	$130, r0
+fail640:	mov	$130, r0
 	trap	$0
-f641:	mov	$131, r0
+fail641:	mov	$131, r0
 	trap	$0
-f642:	mov	$132, r0
+fail642:	mov	$132, r0
 	trap	$0
-f643:	mov	$133, r0
+fail643:	mov	$133, r0
 	trap	$0
-f644:	mov	$134, r0
+fail644:	mov	$134, r0
 	trap	$0
-f645:	mov	$135, r0
+fail645:	mov	$135, r0
 	trap	$0
-f646:	mov	$136, r0
+fail646:	mov	$136, r0
 	trap	$0
-f647:	mov	$137, r0
+fail647:	mov	$137, r0
 	trap	$0
-f648:	mov	$138, r0
+fail648:	mov	$138, r0
 	trap	$0
-f649:	mov	$139, r0
+fail649:	mov	$139, r0
 	trap	$0
-f650:	mov	$140, r0
+fail650:	mov	$140, r0
 	trap	$0
-f651:	mov	$141, r0
+fail651:	mov	$141, r0
 	trap	$0
-f652:	mov	$142, r0
+fail652:	mov	$142, r0
 	trap	$0
-f653:	mov	$143, r0
+fail653:	mov	$143, r0
 	trap	$0
-f654:	mov	$144, r0
+fail654:	mov	$144, r0
 	trap	$0
-f655:	mov	$145, r0
+fail655:	mov	$145, r0
 	trap	$0
-f656:	mov	$146, r0
+fail656:	mov	$146, r0
 	trap	$0
-f657:	mov	$147, r0
+fail657:	mov	$147, r0
 	trap	$0
-f658:	mov	$148, r0
+fail658:	mov	$148, r0
 	trap	$0
-f659:	mov	$149, r0
+fail659:	mov	$149, r0
 	trap	$0
-f660:	mov	$150, r0
+fail660:	mov	$150, r0
 	trap	$0
-f661:	mov	$151, r0
+fail661:	mov	$151, r0
 	trap	$0
-f662:	mov	$152, r0
+fail662:	mov	$152, r0
 	trap	$0
-f663:	mov	$153, r0
+fail663:	mov	$153, r0
 	trap	$0
-f664:	mov	$154, r0
+fail664:	mov	$154, r0
 	trap	$0
-f665:	mov	$155, r0
+fail665:	mov	$155, r0
 	trap	$0
-f666:	mov	$156, r0
+fail666:	mov	$156, r0
 	trap	$0
-f667:	mov	$157, r0
+fail667:	mov	$157, r0
 	trap	$0
-f668:	mov	$158, r0
+fail668:	mov	$158, r0
 	trap	$0
-f669:	mov	$159, r0
+fail669:	mov	$159, r0
 	trap	$0
-f670:	mov	$160, r0
+fail670:	mov	$160, r0
 	trap	$0
-f671:	mov	$161, r0
+fail671:	mov	$161, r0
 	trap	$0
-f672:	mov	$162, r0
+fail672:	mov	$162, r0
 	trap	$0
-f673:	mov	$163, r0
+fail673:	mov	$163, r0
 	trap	$0
-f674:	mov	$164, r0
+fail674:	mov	$164, r0
 	trap	$0
-f675:	mov	$165, r0
+fail675:	mov	$165, r0
 	trap	$0
-f676:	mov	$166, r0
+fail676:	mov	$166, r0
 	trap	$0
-f677:	mov	$167, r0
+fail677:	mov	$167, r0
 	trap	$0
-f678:	mov	$168, r0
+fail678:	mov	$168, r0
 	trap	$0
-f679:	mov	$169, r0
+fail679:	mov	$169, r0
 	trap	$0
-f680:	mov	$170, r0
+fail680:	mov	$170, r0
 	trap	$0
-f681:	mov	$171, r0
+fail681:	mov	$171, r0
 	trap	$0
-f682:	mov	$172, r0
+fail682:	mov	$172, r0
 	trap	$0
-f683:	mov	$173, r0
+fail683:	mov	$173, r0
 	trap	$0
-f684:	mov	$174, r0
+fail684:	mov	$174, r0
 	trap	$0
-f685:	mov	$175, r0
+fail685:	mov	$175, r0
 	trap	$0
-f686:	mov	$176, r0
+fail686:	mov	$176, r0
 	trap	$0
-f687:	mov	$177, r0
+fail687:	mov	$177, r0
 	trap	$0
-f688:	mov	$178, r0
+fail688:	mov	$178, r0
 	trap	$0
-f689:	mov	$179, r0
+fail689:	mov	$179, r0
 	trap	$0
-f690:	mov	$180, r0
+fail690:	mov	$180, r0
 	trap	$0
-f691:	mov	$181, r0
+fail691:	mov	$181, r0
 	trap	$0
-f692:	mov	$182, r0
+fail692:	mov	$182, r0
 	trap	$0
-f693:	mov	$183, r0
+fail693:	mov	$183, r0
 	trap	$0
-f694:	mov	$184, r0
+fail694:	mov	$184, r0
 	trap	$0
-f695:	mov	$185, r0
+fail695:	mov	$185, r0
 	trap	$0
-f696:	mov	$186, r0
+fail696:	mov	$186, r0
 	trap	$0
-f697:	mov	$187, r0
+fail697:	mov	$187, r0
 	trap	$0
-f698:	mov	$188, r0
+fail698:	mov	$188, r0
 	trap	$0
-f699:	mov	$189, r0
+fail699:	mov	$189, r0
 	trap	$0
-f700:	mov	$190, r0
+fail700:	mov	$190, r0
 	trap	$0
-f701:	mov	$191, r0
+fail701:	mov	$191, r0
 	trap	$0
-f702:	mov	$192, r0
+fail702:	mov	$192, r0
 	trap	$0
-f703:	mov	$193, r0
+fail703:	mov	$193, r0
 	trap	$0
-f704:	mov	$194, r0
+fail704:	mov	$194, r0
 	trap	$0
-f705:	mov	$195, r0
+fail705:	mov	$195, r0
 	trap	$0
-f706:	mov	$196, r0
+fail706:	mov	$196, r0
 	trap	$0
-f707:	mov	$197, r0
+fail707:	mov	$197, r0
 	trap	$0
-f708:	mov	$198, r0
+fail708:	mov	$198, r0
 	trap	$0
-f709:	mov	$199, r0
+fail709:	mov	$199, r0
 	trap	$0
-f710:	mov	$200, r0
+fail710:	mov	$200, r0
 	trap	$0
-f711:	mov	$201, r0
+fail711:	mov	$201, r0
 	trap	$0
-f712:	mov	$202, r0
+fail712:	mov	$202, r0
 	trap	$0
-f713:	mov	$203, r0
+fail713:	mov	$203, r0
 	trap	$0
-f714:	mov	$204, r0
+fail714:	mov	$204, r0
 	trap	$0
-f715:	mov	$205, r0
+fail715:	mov	$205, r0
 	trap	$0
-f716:	mov	$206, r0
+fail716:	mov	$206, r0
 	trap	$0
-f717:	mov	$207, r0
+fail717:	mov	$207, r0
 	trap	$0
-f718:	mov	$208, r0
+fail718:	mov	$208, r0
 	trap	$0
-f719:	mov	$209, r0
+fail719:	mov	$209, r0
 	trap	$0
-f720:	mov	$210, r0
+fail720:	mov	$210, r0
 	trap	$0
-f721:	mov	$211, r0
+fail721:	mov	$211, r0
 	trap	$0
-f722:	mov	$212, r0
+fail722:	mov	$212, r0
 	trap	$0
-f723:	mov	$213, r0
+fail723:	mov	$213, r0
 	trap	$0
-f724:	mov	$214, r0
+fail724:	mov	$214, r0
 	trap	$0
-f725:	mov	$215, r0
+fail725:	mov	$215, r0
 	trap	$0
-f726:	mov	$216, r0
+fail726:	mov	$216, r0
 	trap	$0
-f727:	mov	$217, r0
+fail727:	mov	$217, r0
 	trap	$0
-f728:	mov	$218, r0
+fail728:	mov	$218, r0
 	trap	$0
-f729:	mov	$219, r0
+fail729:	mov	$219, r0
 	trap	$0
-f730:	mov	$220, r0
+fail730:	mov	$220, r0
 	trap	$0
-f731:	mov	$221, r0
+fail731:	mov	$221, r0
 	trap	$0
-f732:	mov	$222, r0
+fail732:	mov	$222, r0
 	trap	$0
-f733:	mov	$223, r0
+fail733:	mov	$223, r0
 	trap	$0
-f734:	mov	$224, r0
+fail734:	mov	$224, r0
 	trap	$0
-f735:	mov	$225, r0
+fail735:	mov	$225, r0
 	trap	$0
-f736:	mov	$226, r0
+fail736:	mov	$226, r0
 	trap	$0
-f737:	mov	$227, r0
+fail737:	mov	$227, r0
 	trap	$0
-f738:	mov	$228, r0
+fail738:	mov	$228, r0
 	trap	$0
-f739:	mov	$229, r0
+fail739:	mov	$229, r0
 	trap	$0
-f740:	mov	$230, r0
+fail740:	mov	$230, r0
 	trap	$0
-f741:	mov	$231, r0
+fail741:	mov	$231, r0
 	trap	$0
-f742:	mov	$232, r0
+fail742:	mov	$232, r0
 	trap	$0
-f743:	mov	$233, r0
+fail743:	mov	$233, r0
 	trap	$0
-f744:	mov	$234, r0
+fail744:	mov	$234, r0
 	trap	$0
-f745:	mov	$235, r0
+fail745:	mov	$235, r0
 	trap	$0
-f746:	mov	$236, r0
+fail746:	mov	$236, r0
 	trap	$0
-f747:	mov	$237, r0
+fail747:	mov	$237, r0
 	trap	$0
-f748:	mov	$238, r0
+fail748:	mov	$238, r0
 	trap	$0
-f749:	mov	$239, r0
+fail749:	mov	$239, r0
 	trap	$0
-f750:	mov	$240, r0
+fail750:	mov	$240, r0
 	trap	$0
-f751:	mov	$241, r0
+fail751:	mov	$241, r0
 	trap	$0
-f752:	mov	$242, r0
+fail752:	mov	$242, r0
 	trap	$0
-f753:	mov	$243, r0
+fail753:	mov	$243, r0
 	trap	$0
-f754:	mov	$244, r0
+fail754:	mov	$244, r0
 	trap	$0
-f755:	mov	$245, r0
+fail755:	mov	$245, r0
 	trap	$0
-f756:	mov	$246, r0
+fail756:	mov	$246, r0
 	trap	$0
-f757:	mov	$247, r0
+fail757:	mov	$247, r0
 	trap	$0
-f758:	mov	$248, r0
+fail758:	mov	$248, r0
 	trap	$0
-f759:	mov	$249, r0
+fail759:	mov	$249, r0
 	trap	$0
-f760:	mov	$250, r0
+fail760:	mov	$250, r0
 	trap	$0
-f761:	mov	$251, r0
+fail761:	mov	$251, r0
 	trap	$0
-f762:	mov	$252, r0
+fail762:	mov	$252, r0
 	trap	$0
-f763:	mov	$253, r0
+fail763:	mov	$253, r0
 	trap	$0
-f764:	mov	$254, r0
+fail764:	mov	$254, r0
 	trap	$0
-f765:	mov	$255, r0
+fail765:	mov	$255, r0
 	trap	$0
-f766:	mov	$1, r0
+fail766:	mov	$1, r0
 	trap	$0
-f767:	mov	$2, r0
+fail767:	mov	$2, r0
 	trap	$0
-f768:	mov	$3, r0
+fail768:	mov	$3, r0
 	trap	$0
-f769:	mov	$4, r0
+fail769:	mov	$4, r0
 	trap	$0
-f770:	mov	$5, r0
+fail770:	mov	$5, r0
 	trap	$0
-f771:	mov	$6, r0
+fail771:	mov	$6, r0
 	trap	$0
-f772:	mov	$7, r0
+fail772:	mov	$7, r0
 	trap	$0
-f773:	mov	$8, r0
+fail773:	mov	$8, r0
 	trap	$0
-f774:	mov	$9, r0
+fail774:	mov	$9, r0
 	trap	$0
-f775:	mov	$10, r0
+fail775:	mov	$10, r0
 	trap	$0
-f776:	mov	$11, r0
+fail776:	mov	$11, r0
 	trap	$0
-f777:	mov	$12, r0
+fail777:	mov	$12, r0
 	trap	$0
-f778:	mov	$13, r0
+fail778:	mov	$13, r0
 	trap	$0
-f779:	mov	$14, r0
+fail779:	mov	$14, r0
 	trap	$0
-f780:	mov	$15, r0
+fail780:	mov	$15, r0
 	trap	$0
-f781:	mov	$16, r0
+fail781:	mov	$16, r0
 	trap	$0
-f782:	mov	$17, r0
+fail782:	mov	$17, r0
 	trap	$0
-f783:	mov	$18, r0
+fail783:	mov	$18, r0
 	trap	$0
-f784:	mov	$19, r0
+fail784:	mov	$19, r0
 	trap	$0
-f785:	mov	$20, r0
+fail785:	mov	$20, r0
 	trap	$0
-f786:	mov	$21, r0
+fail786:	mov	$21, r0
 	trap	$0
-f787:	mov	$22, r0
+fail787:	mov	$22, r0
 	trap	$0
-f788:	mov	$23, r0
+fail788:	mov	$23, r0
 	trap	$0
-f789:	mov	$24, r0
+fail789:	mov	$24, r0
 	trap	$0
-f790:	mov	$25, r0
+fail790:	mov	$25, r0
 	trap	$0
-f791:	mov	$26, r0
+fail791:	mov	$26, r0
 	trap	$0
-f792:	mov	$27, r0
+fail792:	mov	$27, r0
 	trap	$0
-f793:	mov	$28, r0
+fail793:	mov	$28, r0
 	trap	$0
-f794:	mov	$29, r0
+fail794:	mov	$29, r0
 	trap	$0
-f795:	mov	$30, r0
+fail795:	mov	$30, r0
 	trap	$0
-f796:	mov	$31, r0
+fail796:	mov	$31, r0
 	trap	$0
-f797:	mov	$32, r0
+fail797:	mov	$32, r0
 	trap	$0
-f798:	mov	$33, r0
+fail798:	mov	$33, r0
 	trap	$0
-f799:	mov	$34, r0
+fail799:	mov	$34, r0
 	trap	$0
-f800:	mov	$35, r0
+fail800:	mov	$35, r0
 	trap	$0
-f801:	mov	$36, r0
+fail801:	mov	$36, r0
 	trap	$0
-f802:	mov	$37, r0
+fail802:	mov	$37, r0
 	trap	$0
-f803:	mov	$38, r0
+fail803:	mov	$38, r0
 	trap	$0
-f804:	mov	$39, r0
+fail804:	mov	$39, r0
 	trap	$0
-f805:	mov	$40, r0
+fail805:	mov	$40, r0
 	trap	$0
-f806:	mov	$41, r0
+fail806:	mov	$41, r0
 	trap	$0
-f807:	mov	$42, r0
+fail807:	mov	$42, r0
 	trap	$0
-f808:	mov	$43, r0
+fail808:	mov	$43, r0
 	trap	$0
-f809:	mov	$44, r0
+fail809:	mov	$44, r0
 	trap	$0
-f810:	mov	$45, r0
+fail810:	mov	$45, r0
 	trap	$0
-f811:	mov	$46, r0
+fail811:	mov	$46, r0
 	trap	$0
-f812:	mov	$47, r0
+fail812:	mov	$47, r0
 	trap	$0
-f813:	mov	$48, r0
+fail813:	mov	$48, r0
 	trap	$0
-f814:	mov	$49, r0
+fail814:	mov	$49, r0
 	trap	$0
-f815:	mov	$50, r0
+fail815:	mov	$50, r0
 	trap	$0
-f816:	mov	$51, r0
+fail816:	mov	$51, r0
 	trap	$0
-f817:	mov	$52, r0
+fail817:	mov	$52, r0
 	trap	$0
-f818:	mov	$53, r0
+fail818:	mov	$53, r0
 	trap	$0
-f819:	mov	$54, r0
+fail819:	mov	$54, r0
 	trap	$0
-f820:	mov	$55, r0
+fail820:	mov	$55, r0
 	trap	$0
-f821:	mov	$56, r0
+fail821:	mov	$56, r0
 	trap	$0
-f822:	mov	$57, r0
+fail822:	mov	$57, r0
 	trap	$0
-f823:	mov	$58, r0
+fail823:	mov	$58, r0
 	trap	$0
-f824:	mov	$59, r0
+fail824:	mov	$59, r0
 	trap	$0
-f825:	mov	$60, r0
+fail825:	mov	$60, r0
 	trap	$0
-f826:	mov	$61, r0
+fail826:	mov	$61, r0
 	trap	$0
-f827:	mov	$62, r0
+fail827:	mov	$62, r0
 	trap	$0
-f828:	mov	$63, r0
+fail828:	mov	$63, r0
 	trap	$0
-f829:	mov	$64, r0
+fail829:	mov	$64, r0
 	trap	$0
-f830:	mov	$65, r0
+fail830:	mov	$65, r0
 	trap	$0
-f831:	mov	$66, r0
+fail831:	mov	$66, r0
 	trap	$0
-f832:	mov	$67, r0
+fail832:	mov	$67, r0
 	trap	$0
-f833:	mov	$68, r0
+fail833:	mov	$68, r0
 	trap	$0
-f834:	mov	$69, r0
+fail834:	mov	$69, r0
 	trap	$0
-f835:	mov	$70, r0
+fail835:	mov	$70, r0
 	trap	$0
-f836:	mov	$71, r0
+fail836:	mov	$71, r0
 	trap	$0
-f837:	mov	$72, r0
+fail837:	mov	$72, r0
 	trap	$0
-f838:	mov	$73, r0
+fail838:	mov	$73, r0
 	trap	$0
-f839:	mov	$74, r0
+fail839:	mov	$74, r0
 	trap	$0
-f840:	mov	$75, r0
+fail840:	mov	$75, r0
 	trap	$0
-f841:	mov	$76, r0
+fail841:	mov	$76, r0
 	trap	$0
-f842:	mov	$77, r0
+fail842:	mov	$77, r0
 	trap	$0
-f843:	mov	$78, r0
+fail843:	mov	$78, r0
 	trap	$0
-f844:	mov	$79, r0
+fail844:	mov	$79, r0
 	trap	$0
-f845:	mov	$80, r0
+fail845:	mov	$80, r0
 	trap	$0
-f846:	mov	$81, r0
+fail846:	mov	$81, r0
 	trap	$0
-f847:	mov	$82, r0
+fail847:	mov	$82, r0
 	trap	$0
-f848:	mov	$83, r0
+fail848:	mov	$83, r0
 	trap	$0
-f849:	mov	$84, r0
+fail849:	mov	$84, r0
 	trap	$0
-f850:	mov	$85, r0
+fail850:	mov	$85, r0
 	trap	$0
-f851:	mov	$86, r0
+fail851:	mov	$86, r0
 	trap	$0
-f852:	mov	$87, r0
+fail852:	mov	$87, r0
 	trap	$0
-f853:	mov	$88, r0
+fail853:	mov	$88, r0
 	trap	$0
-f854:	mov	$89, r0
+fail854:	mov	$89, r0
 	trap	$0
-f855:	mov	$90, r0
+fail855:	mov	$90, r0
 	trap	$0
-f856:	mov	$91, r0
+fail856:	mov	$91, r0
 	trap	$0
-f857:	mov	$92, r0
+fail857:	mov	$92, r0
 	trap	$0
-f858:	mov	$93, r0
+fail858:	mov	$93, r0
 	trap	$0
-f859:	mov	$94, r0
+fail859:	mov	$94, r0
 	trap	$0
-f860:	mov	$95, r0
+fail860:	mov	$95, r0
 	trap	$0
-f861:	mov	$96, r0
+fail861:	mov	$96, r0
 	trap	$0
-f862:	mov	$97, r0
+fail862:	mov	$97, r0
 	trap	$0
-f863:	mov	$98, r0
+fail863:	mov	$98, r0
 	trap	$0
-f864:	mov	$99, r0
+fail864:	mov	$99, r0
 	trap	$0
-f865:	mov	$100, r0
+fail865:	mov	$100, r0
 	trap	$0
-f866:	mov	$101, r0
+fail866:	mov	$101, r0
 	trap	$0
-f867:	mov	$102, r0
+fail867:	mov	$102, r0
 	trap	$0
-f868:	mov	$103, r0
+fail868:	mov	$103, r0
 	trap	$0
-f869:	mov	$104, r0
+fail869:	mov	$104, r0
 	trap	$0
-f870:	mov	$105, r0
+fail870:	mov	$105, r0
 	trap	$0
-f871:	mov	$106, r0
+fail871:	mov	$106, r0
 	trap	$0
-f872:	mov	$107, r0
+fail872:	mov	$107, r0
 	trap	$0
-f873:	mov	$108, r0
+fail873:	mov	$108, r0
 	trap	$0
-f874:	mov	$109, r0
+fail874:	mov	$109, r0
 	trap	$0
-f875:	mov	$110, r0
+fail875:	mov	$110, r0
 	trap	$0
-f876:	mov	$111, r0
+fail876:	mov	$111, r0
 	trap	$0
-f877:	mov	$112, r0
+fail877:	mov	$112, r0
 	trap	$0
-f878:	mov	$113, r0
+fail878:	mov	$113, r0
 	trap	$0
-f879:	mov	$114, r0
+fail879:	mov	$114, r0
 	trap	$0
-f880:	mov	$115, r0
+fail880:	mov	$115, r0
 	trap	$0
-f881:	mov	$116, r0
+fail881:	mov	$116, r0
 	trap	$0
-f882:	mov	$117, r0
+fail882:	mov	$117, r0
 	trap	$0
-f883:	mov	$118, r0
+fail883:	mov	$118, r0
 	trap	$0
-f884:	mov	$119, r0
+fail884:	mov	$119, r0
 	trap	$0
-f885:	mov	$120, r0
+fail885:	mov	$120, r0
 	trap	$0
-f886:	mov	$121, r0
+fail886:	mov	$121, r0
 	trap	$0
-f887:	mov	$122, r0
+fail887:	mov	$122, r0
 	trap	$0
-f888:	mov	$123, r0
+fail888:	mov	$123, r0
 	trap	$0
-f889:	mov	$124, r0
+fail889:	mov	$124, r0
 	trap	$0
-f890:	mov	$125, r0
+fail890:	mov	$125, r0
 	trap	$0
-f891:	mov	$126, r0
+fail891:	mov	$126, r0
 	trap	$0
-f892:	mov	$127, r0
+fail892:	mov	$127, r0
 	trap	$0
-f893:	mov	$128, r0
+fail893:	mov	$128, r0
 	trap	$0
-f894:	mov	$129, r0
+fail894:	mov	$129, r0
 	trap	$0
-f895:	mov	$130, r0
+fail895:	mov	$130, r0
 	trap	$0
-f896:	mov	$131, r0
+fail896:	mov	$131, r0
 	trap	$0
-f897:	mov	$132, r0
+fail897:	mov	$132, r0
 	trap	$0
-f898:	mov	$133, r0
+fail898:	mov	$133, r0
 	trap	$0
-f899:	mov	$134, r0
+fail899:	mov	$134, r0
 	trap	$0
-f900:	mov	$135, r0
+fail900:	mov	$135, r0
 	trap	$0
-f901:	mov	$136, r0
+fail901:	mov	$136, r0
 	trap	$0
-f902:	mov	$137, r0
+fail902:	mov	$137, r0
 	trap	$0
-f903:	mov	$138, r0
+fail903:	mov	$138, r0
 	trap	$0
-f904:	mov	$139, r0
+fail904:	mov	$139, r0
 	trap	$0
-f905:	mov	$140, r0
+fail905:	mov	$140, r0
 	trap	$0
-f906:	mov	$141, r0
+fail906:	mov	$141, r0
 	trap	$0
-f907:	mov	$142, r0
+fail907:	mov	$142, r0
 	trap	$0
-f908:	mov	$143, r0
+fail908:	mov	$143, r0
 	trap	$0
-f909:	mov	$144, r0
+fail909:	mov	$144, r0
 	trap	$0
-f910:	mov	$145, r0
+fail910:	mov	$145, r0
 	trap	$0
-f911:	mov	$146, r0
+fail911:	mov	$146, r0
 	trap	$0
-f912:	mov	$147, r0
+fail912:	mov	$147, r0
 	trap	$0
-f913:	mov	$148, r0
+fail913:	mov	$148, r0
 	trap	$0
-f914:	mov	$149, r0
+fail914:	mov	$149, r0
 	trap	$0
-f915:	mov	$150, r0
+fail915:	mov	$150, r0
 	trap	$0
-f916:	mov	$151, r0
+fail916:	mov	$151, r0
 	trap	$0
-f917:	mov	$152, r0
+fail917:	mov	$152, r0
 	trap	$0
-f918:	mov	$153, r0
+fail918:	mov	$153, r0
 	trap	$0
-f919:	mov	$154, r0
+fail919:	mov	$154, r0
 	trap	$0
-f920:	mov	$155, r0
+fail920:	mov	$155, r0
 	trap	$0
-f921:	mov	$156, r0
+fail921:	mov	$156, r0
 	trap	$0
-f922:	mov	$157, r0
+fail922:	mov	$157, r0
 	trap	$0
-f923:	mov	$158, r0
+fail923:	mov	$158, r0
 	trap	$0
-f924:	mov	$159, r0
+fail924:	mov	$159, r0
 	trap	$0
-f925:	mov	$160, r0
+fail925:	mov	$160, r0
 	trap	$0
-f926:	mov	$161, r0
+fail926:	mov	$161, r0
 	trap	$0
-f927:	mov	$162, r0
+fail927:	mov	$162, r0
 	trap	$0
-f928:	mov	$163, r0
+fail928:	mov	$163, r0
 	trap	$0
-f929:	mov	$164, r0
+fail929:	mov	$164, r0
 	trap	$0
-f930:	mov	$165, r0
+fail930:	mov	$165, r0
 	trap	$0
-f931:	mov	$166, r0
+fail931:	mov	$166, r0
 	trap	$0
-f932:	mov	$167, r0
+fail932:	mov	$167, r0
 	trap	$0
-f933:	mov	$168, r0
+fail933:	mov	$168, r0
 	trap	$0
-f934:	mov	$169, r0
+fail934:	mov	$169, r0
 	trap	$0
-f935:	mov	$170, r0
+fail935:	mov	$170, r0
 	trap	$0
-f936:	mov	$171, r0
+fail936:	mov	$171, r0
 	trap	$0
-f937:	mov	$172, r0
+fail937:	mov	$172, r0
 	trap	$0
-f938:	mov	$173, r0
+fail938:	mov	$173, r0
 	trap	$0
-f939:	mov	$174, r0
+fail939:	mov	$174, r0
 	trap	$0
-f940:	mov	$175, r0
+fail940:	mov	$175, r0
 	trap	$0
-f941:	mov	$176, r0
+fail941:	mov	$176, r0
 	trap	$0
-f942:	mov	$177, r0
+fail942:	mov	$177, r0
 	trap	$0
-f943:	mov	$178, r0
+fail943:	mov	$178, r0
 	trap	$0
-f944:	mov	$179, r0
+fail944:	mov	$179, r0
 	trap	$0
-f945:	mov	$180, r0
+fail945:	mov	$180, r0
 	trap	$0
-f946:	mov	$181, r0
+fail946:	mov	$181, r0
 	trap	$0
-f947:	mov	$182, r0
+fail947:	mov	$182, r0
 	trap	$0
-f948:	mov	$183, r0
+fail948:	mov	$183, r0
 	trap	$0
-f949:	mov	$184, r0
+fail949:	mov	$184, r0
 	trap	$0
-f950:	mov	$185, r0
+fail950:	mov	$185, r0
 	trap	$0
-f951:	mov	$186, r0
+fail951:	mov	$186, r0
 	trap	$0
-f952:	mov	$187, r0
+fail952:	mov	$187, r0
 	trap	$0
-f953:	mov	$188, r0
+fail953:	mov	$188, r0
 	trap	$0
-f954:	mov	$189, r0
+fail954:	mov	$189, r0
 	trap	$0
-f955:	mov	$190, r0
+fail955:	mov	$190, r0
 	trap	$0
-f956:	mov	$191, r0
+fail956:	mov	$191, r0
 	trap	$0
-f957:	mov	$192, r0
+fail957:	mov	$192, r0
 	trap	$0
-f958:	mov	$193, r0
+fail958:	mov	$193, r0
 	trap	$0
-f959:	mov	$194, r0
+fail959:	mov	$194, r0
 	trap	$0
-f960:	mov	$195, r0
+fail960:	mov	$195, r0
 	trap	$0
-f961:	mov	$196, r0
+fail961:	mov	$196, r0
 	trap	$0
-f962:	mov	$197, r0
+fail962:	mov	$197, r0
 	trap	$0
-f963:	mov	$198, r0
+fail963:	mov	$198, r0
 	trap	$0
-f964:	mov	$199, r0
+fail964:	mov	$199, r0
 	trap	$0
-f965:	mov	$200, r0
+fail965:	mov	$200, r0
 	trap	$0
-f966:	mov	$201, r0
+fail966:	mov	$201, r0
 	trap	$0
-f967:	mov	$202, r0
+fail967:	mov	$202, r0
 	trap	$0
-f968:	mov	$203, r0
+fail968:	mov	$203, r0
 	trap	$0
-f969:	mov	$204, r0
+fail969:	mov	$204, r0
 	trap	$0
-f970:	mov	$205, r0
+fail970:	mov	$205, r0
 	trap	$0
-f971:	mov	$206, r0
+fail971:	mov	$206, r0
 	trap	$0
-f972:	mov	$207, r0
+fail972:	mov	$207, r0
 	trap	$0
-f973:	mov	$208, r0
+fail973:	mov	$208, r0
 	trap	$0
-f974:	mov	$209, r0
+fail974:	mov	$209, r0
 	trap	$0
-f975:	mov	$210, r0
+fail975:	mov	$210, r0
 	trap	$0
-f976:	mov	$211, r0
+fail976:	mov	$211, r0
 	trap	$0
-f977:	mov	$212, r0
+fail977:	mov	$212, r0
 	trap	$0
-f978:	mov	$213, r0
+fail978:	mov	$213, r0
 	trap	$0
-f979:	mov	$214, r0
+fail979:	mov	$214, r0
 	trap	$0
-f980:	mov	$215, r0
+fail980:	mov	$215, r0
 	trap	$0
-f981:	mov	$216, r0
+fail981:	mov	$216, r0
 	trap	$0
-f982:	mov	$217, r0
+fail982:	mov	$217, r0
 	trap	$0
-f983:	mov	$218, r0
+fail983:	mov	$218, r0
 	trap	$0
-f984:	mov	$219, r0
+fail984:	mov	$219, r0
 	trap	$0
-f985:	mov	$220, r0
+fail985:	mov	$220, r0
 	trap	$0
-f986:	mov	$221, r0
+fail986:	mov	$221, r0
 	trap	$0
-f987:	mov	$222, r0
+fail987:	mov	$222, r0
 	trap	$0
-f988:	mov	$223, r0
+fail988:	mov	$223, r0
 	trap	$0
-f989:	mov	$224, r0
+fail989:	mov	$224, r0
 	trap	$0
-f990:	mov	$225, r0
+fail990:	mov	$225, r0
 	trap	$0
-f991:	mov	$226, r0
+fail991:	mov	$226, r0
 	trap	$0
-f992:	mov	$227, r0
+fail992:	mov	$227, r0
 	trap	$0
-f993:	mov	$228, r0
+fail993:	mov	$228, r0
 	trap	$0
-f994:	mov	$229, r0
+fail994:	mov	$229, r0
 	trap	$0
-f995:	mov	$230, r0
+fail995:	mov	$230, r0
 	trap	$0
-f996:	mov	$231, r0
+fail996:	mov	$231, r0
 	trap	$0
-f997:	mov	$232, r0
+fail997:	mov	$232, r0
 	trap	$0
-f998:	mov	$233, r0
+fail998:	mov	$233, r0
 	trap	$0
-f999:	mov	$234, r0
+fail999:	mov	$234, r0
 	trap	$0
-f1000:	mov	$235, r0
+fail1000:	mov	$235, r0
 	trap	$0
-f1001:	mov	$236, r0
+fail1001:	mov	$236, r0
 	trap	$0
-f1002:	mov	$237, r0
+fail1002:	mov	$237, r0
 	trap	$0
-f1003:	mov	$238, r0
+fail1003:	mov	$238, r0
 	trap	$0
-f1004:	mov	$239, r0
+fail1004:	mov	$239, r0
 	trap	$0
-f1005:	mov	$240, r0
+fail1005:	mov	$240, r0
 	trap	$0
-f1006:	mov	$241, r0
+fail1006:	mov	$241, r0
 	trap	$0
-f1007:	mov	$242, r0
+fail1007:	mov	$242, r0
 	trap	$0
-f1008:	mov	$243, r0
+fail1008:	mov	$243, r0
 	trap	$0
-f1009:	mov	$244, r0
+fail1009:	mov	$244, r0
 	trap	$0
-f1010:	mov	$245, r0
+fail1010:	mov	$245, r0
 	trap	$0
-f1011:	mov	$246, r0
+fail1011:	mov	$246, r0
 	trap	$0
-f1012:	mov	$247, r0
+fail1012:	mov	$247, r0
 	trap	$0
-f1013:	mov	$248, r0
+fail1013:	mov	$248, r0
 	trap	$0
-f1014:	mov	$249, r0
+fail1014:	mov	$249, r0
 	trap	$0
-f1015:	mov	$250, r0
+fail1015:	mov	$250, r0
 	trap	$0
-f1016:	mov	$251, r0
+fail1016:	mov	$251, r0
 	trap	$0
-f1017:	mov	$252, r0
+fail1017:	mov	$252, r0
 	trap	$0
-f1018:	mov	$253, r0
+fail1018:	mov	$253, r0
 	trap	$0
-f1019:	mov	$254, r0
+fail1019:	mov	$254, r0
 	trap	$0
-f1020:	mov	$255, r0
+fail1020:	mov	$255, r0
 	trap	$0
-f1021:	mov	$1, r0
+fail1021:	mov	$1, r0
 	trap	$0
-f1022:	mov	$2, r0
+fail1022:	mov	$2, r0
 	trap	$0
-f1023:	mov	$3, r0
+fail1023:	mov	$3, r0
 	trap	$0
-f1024:	mov	$4, r0
+fail1024:	mov	$4, r0
 	trap	$0
-f1025:	mov	$5, r0
+fail1025:	mov	$5, r0
 	trap	$0
-f1026:	mov	$6, r0
+fail1026:	mov	$6, r0
 	trap	$0
-f1027:	mov	$7, r0
+fail1027:	mov	$7, r0
 	trap	$0
-f1028:	mov	$8, r0
+fail1028:	mov	$8, r0
 	trap	$0
-f1029:	mov	$9, r0
+fail1029:	mov	$9, r0
 	trap	$0
-f1030:	mov	$10, r0
+fail1030:	mov	$10, r0
 	trap	$0
-f1031:	mov	$11, r0
+fail1031:	mov	$11, r0
 	trap	$0
-f1032:	mov	$12, r0
+fail1032:	mov	$12, r0
 	trap	$0
-f1033:	mov	$13, r0
+fail1033:	mov	$13, r0
 	trap	$0
-f1034:	mov	$14, r0
+fail1034:	mov	$14, r0
 	trap	$0
-f1035:	mov	$15, r0
+fail1035:	mov	$15, r0
 	trap	$0
-f1036:	mov	$16, r0
+fail1036:	mov	$16, r0
 	trap	$0
-f1037:	mov	$17, r0
+fail1037:	mov	$17, r0
 	trap	$0
-f1038:	mov	$18, r0
+fail1038:	mov	$18, r0
 	trap	$0
-f1039:	mov	$19, r0
+fail1039:	mov	$19, r0
 	trap	$0
-f1040:	mov	$20, r0
+fail1040:	mov	$20, r0
 	trap	$0
-f1041:	mov	$21, r0
+fail1041:	mov	$21, r0
 	trap	$0
-f1042:	mov	$22, r0
+fail1042:	mov	$22, r0
 	trap	$0
-f1043:	mov	$23, r0
+fail1043:	mov	$23, r0
 	trap	$0
-f1044:	mov	$24, r0
+fail1044:	mov	$24, r0
 	trap	$0
-f1045:	mov	$25, r0
+fail1045:	mov	$25, r0
 	trap	$0
-f1046:	mov	$26, r0
+fail1046:	mov	$26, r0
 	trap	$0
-f1047:	mov	$27, r0
+fail1047:	mov	$27, r0
 	trap	$0
-f1048:	mov	$28, r0
+fail1048:	mov	$28, r0
 	trap	$0
-f1049:	mov	$29, r0
+fail1049:	mov	$29, r0
 	trap	$0
-f1050:	mov	$30, r0
+fail1050:	mov	$30, r0
 	trap	$0
-f1051:	mov	$31, r0
+fail1051:	mov	$31, r0
 	trap	$0
-f1052:	mov	$32, r0
+fail1052:	mov	$32, r0
 	trap	$0
-f1053:	mov	$33, r0
+fail1053:	mov	$33, r0
 	trap	$0
-f1054:	mov	$34, r0
+fail1054:	mov	$34, r0
 	trap	$0
-f1055:	mov	$35, r0
+fail1055:	mov	$35, r0
 	trap	$0
-f1056:	mov	$36, r0
+fail1056:	mov	$36, r0
 	trap	$0
-f1057:	mov	$37, r0
+fail1057:	mov	$37, r0
 	trap	$0
-f1058:	mov	$38, r0
+fail1058:	mov	$38, r0
 	trap	$0
-f1059:	mov	$39, r0
+fail1059:	mov	$39, r0
 	trap	$0
-f1060:	mov	$40, r0
+fail1060:	mov	$40, r0
 	trap	$0
-f1061:	mov	$41, r0
+fail1061:	mov	$41, r0
 	trap	$0
-f1062:	mov	$42, r0
+fail1062:	mov	$42, r0
 	trap	$0
-f1063:	mov	$43, r0
+fail1063:	mov	$43, r0
 	trap	$0
-f1064:	mov	$44, r0
+fail1064:	mov	$44, r0
 	trap	$0
-f1065:	mov	$45, r0
+fail1065:	mov	$45, r0
 	trap	$0
-f1066:	mov	$46, r0
+fail1066:	mov	$46, r0
 	trap	$0
-f1067:	mov	$47, r0
+fail1067:	mov	$47, r0
 	trap	$0
-f1068:	mov	$48, r0
+fail1068:	mov	$48, r0
 	trap	$0
-f1069:	mov	$49, r0
+fail1069:	mov	$49, r0
 	trap	$0
-f1070:	mov	$50, r0
+fail1070:	mov	$50, r0
 	trap	$0
-f1071:	mov	$51, r0
+fail1071:	mov	$51, r0
 	trap	$0
-f1072:	mov	$52, r0
+fail1072:	mov	$52, r0
 	trap	$0
-f1073:	mov	$53, r0
+fail1073:	mov	$53, r0
 	trap	$0
-f1074:	mov	$54, r0
+fail1074:	mov	$54, r0
 	trap	$0
-f1075:	mov	$55, r0
+fail1075:	mov	$55, r0
 	trap	$0
-f1076:	mov	$56, r0
+fail1076:	mov	$56, r0
 	trap	$0
-f1077:	mov	$57, r0
+fail1077:	mov	$57, r0
 	trap	$0
-f1078:	mov	$58, r0
+fail1078:	mov	$58, r0
 	trap	$0
-f1079:	mov	$59, r0
+fail1079:	mov	$59, r0
 	trap	$0
-f1080:	mov	$60, r0
+fail1080:	mov	$60, r0
 	trap	$0
-f1081:	mov	$61, r0
+fail1081:	mov	$61, r0
 	trap	$0
-f1082:	mov	$62, r0
+fail1082:	mov	$62, r0
 	trap	$0
-f1083:	mov	$63, r0
+fail1083:	mov	$63, r0
 	trap	$0
-f1084:	mov	$64, r0
+fail1084:	mov	$64, r0
 	trap	$0
-f1085:	mov	$65, r0
+fail1085:	mov	$65, r0
 	trap	$0
-f1086:	mov	$66, r0
+fail1086:	mov	$66, r0
 	trap	$0
-f1087:	mov	$67, r0
+fail1087:	mov	$67, r0
 	trap	$0
-f1088:	mov	$68, r0
+fail1088:	mov	$68, r0
 	trap	$0
-f1089:	mov	$69, r0
+fail1089:	mov	$69, r0
 	trap	$0
-f1090:	mov	$70, r0
+fail1090:	mov	$70, r0
 	trap	$0
-f1091:	mov	$71, r0
+fail1091:	mov	$71, r0
 	trap	$0
-f1092:	mov	$72, r0
+fail1092:	mov	$72, r0
 	trap	$0
-f1093:	mov	$73, r0
+fail1093:	mov	$73, r0
 	trap	$0
-f1094:	mov	$74, r0
+fail1094:	mov	$74, r0
 	trap	$0
-f1095:	mov	$75, r0
+fail1095:	mov	$75, r0
 	trap	$0
-f1096:	mov	$76, r0
+fail1096:	mov	$76, r0
 	trap	$0
-f1097:	mov	$77, r0
+fail1097:	mov	$77, r0
 	trap	$0
-f1098:	mov	$78, r0
+fail1098:	mov	$78, r0
 	trap	$0
-f1099:	mov	$79, r0
+fail1099:	mov	$79, r0
 	trap	$0
-f1100:	mov	$80, r0
+fail1100:	mov	$80, r0
 	trap	$0
-f1101:	mov	$81, r0
+fail1101:	mov	$81, r0
 	trap	$0
-f1102:	mov	$82, r0
+fail1102:	mov	$82, r0
 	trap	$0
-f1103:	mov	$83, r0
+fail1103:	mov	$83, r0
 	trap	$0
-f1104:	mov	$84, r0
+fail1104:	mov	$84, r0
 	trap	$0
-f1105:	mov	$85, r0
+fail1105:	mov	$85, r0
 	trap	$0
-f1106:	mov	$86, r0
+fail1106:	mov	$86, r0
 	trap	$0
-f1107:	mov	$87, r0
+fail1107:	mov	$87, r0
 	trap	$0
-f1108:	mov	$88, r0
+fail1108:	mov	$88, r0
 	trap	$0
-f1109:	mov	$89, r0
+fail1109:	mov	$89, r0
 	trap	$0
-f1110:	mov	$90, r0
+fail1110:	mov	$90, r0
 	trap	$0
-f1111:	mov	$91, r0
+fail1111:	mov	$91, r0
 	trap	$0
-f1112:	mov	$92, r0
+fail1112:	mov	$92, r0
 	trap	$0
-f1113:	mov	$93, r0
+fail1113:	mov	$93, r0
 	trap	$0
-f1114:	mov	$94, r0
+fail1114:	mov	$94, r0
 	trap	$0
-f1115:	mov	$95, r0
+fail1115:	mov	$95, r0
 	trap	$0
-f1116:	mov	$96, r0
+fail1116:	mov	$96, r0
 	trap	$0
-f1117:	mov	$97, r0
+fail1117:	mov	$97, r0
 	trap	$0
-f1118:	mov	$98, r0
+fail1118:	mov	$98, r0
 	trap	$0
-f1119:	mov	$99, r0
+fail1119:	mov	$99, r0
 	trap	$0
-f1120:	mov	$100, r0
+fail1120:	mov	$100, r0
 	trap	$0
-f1121:	mov	$101, r0
+fail1121:	mov	$101, r0
 	trap	$0
-f1122:	mov	$102, r0
+fail1122:	mov	$102, r0
 	trap	$0
-f1123:	mov	$103, r0
+fail1123:	mov	$103, r0
 	trap	$0
-f1124:	mov	$104, r0
+fail1124:	mov	$104, r0
 	trap	$0
-f1125:	mov	$105, r0
+fail1125:	mov	$105, r0
 	trap	$0
-f1126:	mov	$106, r0
+fail1126:	mov	$106, r0
 	trap	$0
-f1127:	mov	$107, r0
+fail1127:	mov	$107, r0
 	trap	$0
-f1128:	mov	$108, r0
+fail1128:	mov	$108, r0
 	trap	$0
-f1129:	mov	$109, r0
+fail1129:	mov	$109, r0
 	trap	$0
-f1130:	mov	$110, r0
+fail1130:	mov	$110, r0
 	trap	$0
-f1131:	mov	$111, r0
+fail1131:	mov	$111, r0
 	trap	$0
-f1132:	mov	$112, r0
+fail1132:	mov	$112, r0
 	trap	$0
-f1133:	mov	$113, r0
+fail1133:	mov	$113, r0
 	trap	$0
-f1134:	mov	$114, r0
+fail1134:	mov	$114, r0
 	trap	$0
-f1135:	mov	$115, r0
+fail1135:	mov	$115, r0
 	trap	$0
-f1136:	mov	$116, r0
+fail1136:	mov	$116, r0
 	trap	$0
-f1137:	mov	$117, r0
+fail1137:	mov	$117, r0
 	trap	$0
-f1138:	mov	$118, r0
+fail1138:	mov	$118, r0
 	trap	$0
-f1139:	mov	$119, r0
+fail1139:	mov	$119, r0
 	trap	$0
-f1140:	mov	$120, r0
+fail1140:	mov	$120, r0
 	trap	$0
-f1141:	mov	$121, r0
+fail1141:	mov	$121, r0
 	trap	$0
-f1142:	mov	$122, r0
+fail1142:	mov	$122, r0
 	trap	$0
-f1143:	mov	$123, r0
+fail1143:	mov	$123, r0
 	trap	$0
-f1144:	mov	$124, r0
+fail1144:	mov	$124, r0
 	trap	$0
-f1145:	mov	$125, r0
+fail1145:	mov	$125, r0
 	trap	$0
-f1146:	mov	$126, r0
+fail1146:	mov	$126, r0
 	trap	$0
-f1147:	mov	$127, r0
+fail1147:	mov	$127, r0
 	trap	$0
-f1148:	mov	$128, r0
+fail1148:	mov	$128, r0
 	trap	$0
-f1149:	mov	$129, r0
+fail1149:	mov	$129, r0
 	trap	$0
-f1150:	mov	$130, r0
+fail1150:	mov	$130, r0
 	trap	$0
-f1151:	mov	$131, r0
+fail1151:	mov	$131, r0
 	trap	$0
-f1152:	mov	$132, r0
+fail1152:	mov	$132, r0
 	trap	$0
-f1153:	mov	$133, r0
+fail1153:	mov	$133, r0
 	trap	$0
-f1154:	mov	$134, r0
+fail1154:	mov	$134, r0
 	trap	$0
-f1155:	mov	$135, r0
+fail1155:	mov	$135, r0
 	trap	$0
-f1156:	mov	$136, r0
+fail1156:	mov	$136, r0
 	trap	$0
-f1157:	mov	$137, r0
+fail1157:	mov	$137, r0
 	trap	$0
-f1158:	mov	$138, r0
+fail1158:	mov	$138, r0
 	trap	$0
-f1159:	mov	$139, r0
+fail1159:	mov	$139, r0
 	trap	$0
-f1160:	mov	$140, r0
+fail1160:	mov	$140, r0
 	trap	$0
-f1161:	mov	$141, r0
+fail1161:	mov	$141, r0
 	trap	$0
-f1162:	mov	$142, r0
+fail1162:	mov	$142, r0
 	trap	$0
-f1163:	mov	$143, r0
+fail1163:	mov	$143, r0
 	trap	$0
-f1164:	mov	$144, r0
+fail1164:	mov	$144, r0
 	trap	$0
-f1165:	mov	$145, r0
+fail1165:	mov	$145, r0
 	trap	$0
-f1166:	mov	$146, r0
+fail1166:	mov	$146, r0
 	trap	$0
-f1167:	mov	$147, r0
+fail1167:	mov	$147, r0
 	trap	$0
-f1168:	mov	$148, r0
+fail1168:	mov	$148, r0
 	trap	$0
-f1169:	mov	$149, r0
+fail1169:	mov	$149, r0
 	trap	$0
-f1170:	mov	$150, r0
+fail1170:	mov	$150, r0
 	trap	$0
-f1171:	mov	$151, r0
+fail1171:	mov	$151, r0
 	trap	$0
-f1172:	mov	$152, r0
+fail1172:	mov	$152, r0
 	trap	$0
-f1173:	mov	$153, r0
+fail1173:	mov	$153, r0
 	trap	$0
-f1174:	mov	$154, r0
+fail1174:	mov	$154, r0
 	trap	$0
-f1175:	mov	$155, r0
+fail1175:	mov	$155, r0
 	trap	$0
-f1176:	mov	$156, r0
+fail1176:	mov	$156, r0
 	trap	$0
-f1177:	mov	$157, r0
+fail1177:	mov	$157, r0
 	trap	$0
-f1178:	mov	$158, r0
+fail1178:	mov	$158, r0
 	trap	$0
-f1179:	mov	$159, r0
+fail1179:	mov	$159, r0
 	trap	$0
-f1180:	mov	$160, r0
+fail1180:	mov	$160, r0
 	trap	$0
-f1181:	mov	$161, r0
+fail1181:	mov	$161, r0
 	trap	$0
-f1182:	mov	$162, r0
+fail1182:	mov	$162, r0
 	trap	$0
-f1183:	mov	$163, r0
+fail1183:	mov	$163, r0
 	trap	$0
-f1184:	mov	$164, r0
+fail1184:	mov	$164, r0
 	trap	$0
-f1185:	mov	$165, r0
+fail1185:	mov	$165, r0
 	trap	$0
-f1186:	mov	$166, r0
+fail1186:	mov	$166, r0
 	trap	$0
-f1187:	mov	$167, r0
+fail1187:	mov	$167, r0
 	trap	$0
-f1188:	mov	$168, r0
+fail1188:	mov	$168, r0
 	trap	$0
-f1189:	mov	$169, r0
+fail1189:	mov	$169, r0
 	trap	$0
-f1190:	mov	$170, r0
+fail1190:	mov	$170, r0
 	trap	$0
-f1191:	mov	$171, r0
+fail1191:	mov	$171, r0
 	trap	$0
-f1192:	mov	$172, r0
+fail1192:	mov	$172, r0
 	trap	$0
-f1193:	mov	$173, r0
+fail1193:	mov	$173, r0
 	trap	$0
-f1194:	mov	$174, r0
+fail1194:	mov	$174, r0
 	trap	$0
-f1195:	mov	$175, r0
+fail1195:	mov	$175, r0
 	trap	$0
-f1196:	mov	$176, r0
+fail1196:	mov	$176, r0
 	trap	$0
-f1197:	mov	$177, r0
+fail1197:	mov	$177, r0
 	trap	$0
-f1198:	mov	$178, r0
+fail1198:	mov	$178, r0
 	trap	$0
-f1199:	mov	$179, r0
+fail1199:	mov	$179, r0
 	trap	$0
-f1200:	mov	$180, r0
+fail1200:	mov	$180, r0
 	trap	$0
-f1201:	mov	$181, r0
+fail1201:	mov	$181, r0
 	trap	$0
-f1202:	mov	$182, r0
+fail1202:	mov	$182, r0
 	trap	$0
-f1203:	mov	$183, r0
+fail1203:	mov	$183, r0
 	trap	$0
-f1204:	mov	$184, r0
+fail1204:	mov	$184, r0
 	trap	$0
-f1205:	mov	$185, r0
+fail1205:	mov	$185, r0
 	trap	$0
-f1206:	mov	$186, r0
+fail1206:	mov	$186, r0
 	trap	$0
-f1207:	mov	$187, r0
+fail1207:	mov	$187, r0
 	trap	$0
-f1208:	mov	$188, r0
+fail1208:	mov	$188, r0
 	trap	$0
-f1209:	mov	$189, r0
+fail1209:	mov	$189, r0
 	trap	$0
-f1210:	mov	$190, r0
+fail1210:	mov	$190, r0
 	trap	$0
-f1211:	mov	$191, r0
+fail1211:	mov	$191, r0
 	trap	$0
-f1212:	mov	$192, r0
+fail1212:	mov	$192, r0
 	trap	$0
-f1213:	mov	$193, r0
+fail1213:	mov	$193, r0
 	trap	$0
-f1214:	mov	$194, r0
+fail1214:	mov	$194, r0
 	trap	$0
-f1215:	mov	$195, r0
+fail1215:	mov	$195, r0
 	trap	$0
-f1216:	mov	$196, r0
+fail1216:	mov	$196, r0
 	trap	$0
-f1217:	mov	$197, r0
+fail1217:	mov	$197, r0
 	trap	$0
-f1218:	mov	$198, r0
+fail1218:	mov	$198, r0
 	trap	$0
-f1219:	mov	$199, r0
+fail1219:	mov	$199, r0
 	trap	$0
-f1220:	mov	$200, r0
+fail1220:	mov	$200, r0
 	trap	$0
-f1221:	mov	$201, r0
+fail1221:	mov	$201, r0
 	trap	$0
-f1222:	mov	$202, r0
+fail1222:	mov	$202, r0
 	trap	$0
-f1223:	mov	$203, r0
+fail1223:	mov	$203, r0
 	trap	$0
-f1224:	mov	$204, r0
+fail1224:	mov	$204, r0
 	trap	$0
-f1225:	mov	$205, r0
+fail1225:	mov	$205, r0
 	trap	$0
-f1226:	mov	$206, r0
+fail1226:	mov	$206, r0
 	trap	$0
-f1227:	mov	$207, r0
+fail1227:	mov	$207, r0
 	trap	$0
-f1228:	mov	$208, r0
+fail1228:	mov	$208, r0
 	trap	$0
-f1229:	mov	$209, r0
+fail1229:	mov	$209, r0
 	trap	$0
-f1230:	mov	$210, r0
+fail1230:	mov	$210, r0
 	trap	$0
-f1231:	mov	$211, r0
+fail1231:	mov	$211, r0
 	trap	$0
-f1232:	mov	$212, r0
+fail1232:	mov	$212, r0
 	trap	$0
-f1233:	mov	$213, r0
+fail1233:	mov	$213, r0
 	trap	$0
-f1234:	mov	$214, r0
+fail1234:	mov	$214, r0
 	trap	$0
-f1235:	mov	$215, r0
+fail1235:	mov	$215, r0
 	trap	$0
-f1236:	mov	$216, r0
+fail1236:	mov	$216, r0
 	trap	$0
-f1237:	mov	$217, r0
+fail1237:	mov	$217, r0
 	trap	$0
-f1238:	mov	$218, r0
+fail1238:	mov	$218, r0
 	trap	$0
-f1239:	mov	$219, r0
+fail1239:	mov	$219, r0
 	trap	$0
-f1240:	mov	$220, r0
+fail1240:	mov	$220, r0
 	trap	$0
-f1241:	mov	$221, r0
+fail1241:	mov	$221, r0
 	trap	$0
-f1242:	mov	$222, r0
+fail1242:	mov	$222, r0
 	trap	$0
-f1243:	mov	$223, r0
+fail1243:	mov	$223, r0
 	trap	$0
-f1244:	mov	$224, r0
+fail1244:	mov	$224, r0
 	trap	$0
-f1245:	mov	$225, r0
+fail1245:	mov	$225, r0
 	trap	$0
-f1246:	mov	$226, r0
+fail1246:	mov	$226, r0
 	trap	$0
-f1247:	mov	$227, r0
+fail1247:	mov	$227, r0
 	trap	$0
-f1248:	mov	$228, r0
+fail1248:	mov	$228, r0
 	trap	$0
-f1249:	mov	$229, r0
+fail1249:	mov	$229, r0
 	trap	$0
-f1250:	mov	$230, r0
+fail1250:	mov	$230, r0
 	trap	$0
-f1251:	mov	$231, r0
+fail1251:	mov	$231, r0
 	trap	$0
-f1252:	mov	$232, r0
+fail1252:	mov	$232, r0
 	trap	$0
-f1253:	mov	$233, r0
+fail1253:	mov	$233, r0
 	trap	$0
-f1254:	mov	$234, r0
+fail1254:	mov	$234, r0
 	trap	$0
-f1255:	mov	$235, r0
+fail1255:	mov	$235, r0
 	trap	$0
-f1256:	mov	$236, r0
+fail1256:	mov	$236, r0
 	trap	$0
-f1257:	mov	$237, r0
+fail1257:	mov	$237, r0
 	trap	$0
-f1258:	mov	$238, r0
+fail1258:	mov	$238, r0
 	trap	$0
-f1259:	mov	$239, r0
+fail1259:	mov	$239, r0
 	trap	$0
-f1260:	mov	$240, r0
+fail1260:	mov	$240, r0
 	trap	$0
-f1261:	mov	$241, r0
+fail1261:	mov	$241, r0
 	trap	$0
-f1262:	mov	$242, r0
+fail1262:	mov	$242, r0
 	trap	$0
-f1263:	mov	$243, r0
+fail1263:	mov	$243, r0
 	trap	$0
-f1264:	mov	$244, r0
+fail1264:	mov	$244, r0
 	trap	$0
-f1265:	mov	$245, r0
+fail1265:	mov	$245, r0
 	trap	$0
-f1266:	mov	$246, r0
+fail1266:	mov	$246, r0
 	trap	$0
-f1267:	mov	$247, r0
+fail1267:	mov	$247, r0
 	trap	$0
-f1268:	mov	$248, r0
+fail1268:	mov	$248, r0
 	trap	$0
-f1269:	mov	$249, r0
+fail1269:	mov	$249, r0
 	trap	$0
-f1270:	mov	$250, r0
+fail1270:	mov	$250, r0
 	trap	$0
-f1271:	mov	$251, r0
+fail1271:	mov	$251, r0
 	trap	$0
-f1272:	mov	$252, r0
+fail1272:	mov	$252, r0
 	trap	$0
-f1273:	mov	$253, r0
+fail1273:	mov	$253, r0
 	trap	$0
-f1274:	mov	$254, r0
+fail1274:	mov	$254, r0
 	trap	$0
-f1275:	mov	$255, r0
+fail1275:	mov	$255, r0
 	trap	$0
-f1276:	mov	$1, r0
+fail1276:	mov	$1, r0
 	trap	$0
-f1277:	mov	$2, r0
+fail1277:	mov	$2, r0
 	trap	$0
-f1278:	mov	$3, r0
+fail1278:	mov	$3, r0
 	trap	$0
-f1279:	mov	$4, r0
+fail1279:	mov	$4, r0
 	trap	$0
-f1280:	mov	$5, r0
+fail1280:	mov	$5, r0
 	trap	$0
-f1281:	mov	$6, r0
+fail1281:	mov	$6, r0
 	trap	$0
-f1282:	mov	$7, r0
+fail1282:	mov	$7, r0
 	trap	$0
-f1283:	mov	$8, r0
+fail1283:	mov	$8, r0
 	trap	$0
-f1284:	mov	$9, r0
+fail1284:	mov	$9, r0
 	trap	$0
-f1285:	mov	$10, r0
+fail1285:	mov	$10, r0
 	trap	$0
-f1286:	mov	$11, r0
+fail1286:	mov	$11, r0
 	trap	$0
-f1287:	mov	$12, r0
+fail1287:	mov	$12, r0
 	trap	$0
-f1288:	mov	$13, r0
+fail1288:	mov	$13, r0
 	trap	$0
-f1289:	mov	$14, r0
+fail1289:	mov	$14, r0
 	trap	$0
-f1290:	mov	$15, r0
+fail1290:	mov	$15, r0
 	trap	$0
-f1291:	mov	$16, r0
+fail1291:	mov	$16, r0
 	trap	$0
-f1292:	mov	$17, r0
+fail1292:	mov	$17, r0
 	trap	$0
-f1293:	mov	$18, r0
+fail1293:	mov	$18, r0
 	trap	$0
-f1294:	mov	$19, r0
+fail1294:	mov	$19, r0
 	trap	$0
-f1295:	mov	$20, r0
+fail1295:	mov	$20, r0
 	trap	$0
-f1296:	mov	$21, r0
+fail1296:	mov	$21, r0
 	trap	$0
-f1297:	mov	$22, r0
+fail1297:	mov	$22, r0
 	trap	$0
-f1298:	mov	$23, r0
+fail1298:	mov	$23, r0
 	trap	$0
-f1299:	mov	$24, r0
+fail1299:	mov	$24, r0
 	trap	$0
-f1300:	mov	$25, r0
+fail1300:	mov	$25, r0
 	trap	$0
-f1301:	mov	$26, r0
+fail1301:	mov	$26, r0
 	trap	$0
-f1302:	mov	$27, r0
+fail1302:	mov	$27, r0
 	trap	$0
-f1303:	mov	$28, r0
+fail1303:	mov	$28, r0
 	trap	$0
-f1304:	mov	$29, r0
+fail1304:	mov	$29, r0
 	trap	$0
-f1305:	mov	$30, r0
+fail1305:	mov	$30, r0
 	trap	$0
-f1306:	mov	$31, r0
+fail1306:	mov	$31, r0
 	trap	$0
-f1307:	mov	$32, r0
+fail1307:	mov	$32, r0
 	trap	$0
-f1308:	mov	$33, r0
+fail1308:	mov	$33, r0
 	trap	$0
-f1309:	mov	$34, r0
+fail1309:	mov	$34, r0
 	trap	$0
-f1310:	mov	$35, r0
+fail1310:	mov	$35, r0
 	trap	$0
-f1311:	mov	$36, r0
+fail1311:	mov	$36, r0
 	trap	$0
-f1312:	mov	$37, r0
+fail1312:	mov	$37, r0
 	trap	$0
-f1313:	mov	$38, r0
+fail1313:	mov	$38, r0
 	trap	$0
-f1314:	mov	$39, r0
+fail1314:	mov	$39, r0
 	trap	$0
-f1315:	mov	$40, r0
+fail1315:	mov	$40, r0
 	trap	$0
-f1316:	mov	$41, r0
+fail1316:	mov	$41, r0
 	trap	$0
-f1317:	mov	$42, r0
+fail1317:	mov	$42, r0
 	trap	$0
-f1318:	mov	$43, r0
+fail1318:	mov	$43, r0
 	trap	$0
-f1319:	mov	$44, r0
+fail1319:	mov	$44, r0
 	trap	$0
-f1320:	mov	$45, r0
+fail1320:	mov	$45, r0
 	trap	$0
-f1321:	mov	$46, r0
+fail1321:	mov	$46, r0
 	trap	$0
-f1322:	mov	$47, r0
+fail1322:	mov	$47, r0
 	trap	$0
-f1323:	mov	$48, r0
+fail1323:	mov	$48, r0
 	trap	$0
-f1324:	mov	$49, r0
+fail1324:	mov	$49, r0
 	trap	$0
-f1325:	mov	$50, r0
+fail1325:	mov	$50, r0
 	trap	$0
-f1326:	mov	$51, r0
+fail1326:	mov	$51, r0
 	trap	$0
-f1327:	mov	$52, r0
+fail1327:	mov	$52, r0
 	trap	$0
-f1328:	mov	$53, r0
+fail1328:	mov	$53, r0
 	trap	$0
-f1329:	mov	$54, r0
+fail1329:	mov	$54, r0
 	trap	$0
-f1330:	mov	$55, r0
+fail1330:	mov	$55, r0
 	trap	$0
-f1331:	mov	$56, r0
+fail1331:	mov	$56, r0
 	trap	$0
-f1332:	mov	$57, r0
+fail1332:	mov	$57, r0
 	trap	$0
-f1333:	mov	$58, r0
+fail1333:	mov	$58, r0
 	trap	$0
-f1334:	mov	$59, r0
+fail1334:	mov	$59, r0
 	trap	$0
-f1335:	mov	$60, r0
+fail1335:	mov	$60, r0
 	trap	$0
-f1336:	mov	$61, r0
+fail1336:	mov	$61, r0
 	trap	$0
-f1337:	mov	$62, r0
+fail1337:	mov	$62, r0
 	trap	$0
-f1338:	mov	$63, r0
+fail1338:	mov	$63, r0
 	trap	$0
-f1339:	mov	$64, r0
+fail1339:	mov	$64, r0
 	trap	$0
-f1340:	mov	$65, r0
+fail1340:	mov	$65, r0
 	trap	$0
-f1341:	mov	$66, r0
+fail1341:	mov	$66, r0
 	trap	$0
-f1342:	mov	$67, r0
+fail1342:	mov	$67, r0
 	trap	$0
-f1343:	mov	$68, r0
+fail1343:	mov	$68, r0
 	trap	$0
-f1344:	mov	$69, r0
+fail1344:	mov	$69, r0
 	trap	$0
-f1345:	mov	$70, r0
+fail1345:	mov	$70, r0
 	trap	$0
-f1346:	mov	$71, r0
+fail1346:	mov	$71, r0
 	trap	$0
-f1347:	mov	$72, r0
+fail1347:	mov	$72, r0
 	trap	$0
-f1348:	mov	$73, r0
+fail1348:	mov	$73, r0
 	trap	$0
-f1349:	mov	$74, r0
+fail1349:	mov	$74, r0
 	trap	$0
-f1350:	mov	$75, r0
+fail1350:	mov	$75, r0
 	trap	$0
-f1351:	mov	$76, r0
+fail1351:	mov	$76, r0
 	trap	$0
-f1352:	mov	$77, r0
+fail1352:	mov	$77, r0
 	trap	$0
-f1353:	mov	$78, r0
+fail1353:	mov	$78, r0
 	trap	$0
-f1354:	mov	$79, r0
+fail1354:	mov	$79, r0
 	trap	$0
-f1355:	mov	$80, r0
+fail1355:	mov	$80, r0
 	trap	$0
-f1356:	mov	$81, r0
+fail1356:	mov	$81, r0
 	trap	$0
-f1357:	mov	$82, r0
+fail1357:	mov	$82, r0
 	trap	$0
-f1358:	mov	$83, r0
+fail1358:	mov	$83, r0
 	trap	$0
-f1359:	mov	$84, r0
+fail1359:	mov	$84, r0
 	trap	$0
-f1360:	mov	$85, r0
+fail1360:	mov	$85, r0
 	trap	$0
-f1361:	mov	$86, r0
+fail1361:	mov	$86, r0
 	trap	$0
-f1362:	mov	$87, r0
+fail1362:	mov	$87, r0
 	trap	$0
-f1363:	mov	$88, r0
+fail1363:	mov	$88, r0
 	trap	$0
-f1364:	mov	$89, r0
+fail1364:	mov	$89, r0
 	trap	$0
-f1365:	mov	$90, r0
+fail1365:	mov	$90, r0
 	trap	$0
-f1366:	mov	$91, r0
+fail1366:	mov	$91, r0
 	trap	$0
-f1367:	mov	$92, r0
+fail1367:	mov	$92, r0
 	trap	$0
-f1368:	mov	$93, r0
+fail1368:	mov	$93, r0
 	trap	$0
-f1369:	mov	$94, r0
+fail1369:	mov	$94, r0
 	trap	$0
-f1370:	mov	$95, r0
+fail1370:	mov	$95, r0
 	trap	$0
-f1371:	mov	$96, r0
+fail1371:	mov	$96, r0
 	trap	$0
-f1372:	mov	$97, r0
+fail1372:	mov	$97, r0
 	trap	$0
-f1373:	mov	$98, r0
+fail1373:	mov	$98, r0
 	trap	$0
-f1374:	mov	$99, r0
+fail1374:	mov	$99, r0
 	trap	$0
-f1375:	mov	$100, r0
+fail1375:	mov	$100, r0
 	trap	$0
-f1376:	mov	$101, r0
+fail1376:	mov	$101, r0
 	trap	$0
-f1377:	mov	$102, r0
+fail1377:	mov	$102, r0
 	trap	$0
-f1378:	mov	$103, r0
+fail1378:	mov	$103, r0
 	trap	$0
-f1379:	mov	$104, r0
+fail1379:	mov	$104, r0
 	trap	$0
-f1380:	mov	$105, r0
+fail1380:	mov	$105, r0
 	trap	$0
-f1381:	mov	$106, r0
+fail1381:	mov	$106, r0
 	trap	$0
-f1382:	mov	$107, r0
+fail1382:	mov	$107, r0
 	trap	$0
-f1383:	mov	$108, r0
+fail1383:	mov	$108, r0
 	trap	$0
-f1384:	mov	$109, r0
+fail1384:	mov	$109, r0
 	trap	$0
-f1385:	mov	$110, r0
+fail1385:	mov	$110, r0
 	trap	$0
-f1386:	mov	$111, r0
+fail1386:	mov	$111, r0
 	trap	$0
-f1387:	mov	$112, r0
+fail1387:	mov	$112, r0
 	trap	$0
-f1388:	mov	$113, r0
+fail1388:	mov	$113, r0
 	trap	$0
-f1389:	mov	$114, r0
+fail1389:	mov	$114, r0
 	trap	$0
-f1390:	mov	$115, r0
+fail1390:	mov	$115, r0
 	trap	$0
-f1391:	mov	$116, r0
+fail1391:	mov	$116, r0
 	trap	$0
-f1392:	mov	$117, r0
+fail1392:	mov	$117, r0
 	trap	$0
-f1393:	mov	$118, r0
+fail1393:	mov	$118, r0
 	trap	$0
-f1394:	mov	$119, r0
+fail1394:	mov	$119, r0
 	trap	$0
-f1395:	mov	$120, r0
+fail1395:	mov	$120, r0
 	trap	$0
-f1396:	mov	$121, r0
+fail1396:	mov	$121, r0
 	trap	$0
-f1397:	mov	$122, r0
+fail1397:	mov	$122, r0
 	trap	$0
-f1398:	mov	$123, r0
+fail1398:	mov	$123, r0
 	trap	$0
-f1399:	mov	$124, r0
+fail1399:	mov	$124, r0
 	trap	$0
-f1400:	mov	$125, r0
+fail1400:	mov	$125, r0
 	trap	$0
-f1401:	mov	$126, r0
+fail1401:	mov	$126, r0
 	trap	$0
-f1402:	mov	$127, r0
+fail1402:	mov	$127, r0
 	trap	$0
-f1403:	mov	$128, r0
+fail1403:	mov	$128, r0
 	trap	$0
-f1404:	mov	$129, r0
+fail1404:	mov	$129, r0
 	trap	$0
-f1405:	mov	$130, r0
+fail1405:	mov	$130, r0
 	trap	$0
-f1406:	mov	$131, r0
+fail1406:	mov	$131, r0
 	trap	$0
-f1407:	mov	$132, r0
+fail1407:	mov	$132, r0
 	trap	$0
-f1408:	mov	$133, r0
+fail1408:	mov	$133, r0
 	trap	$0
-f1409:	mov	$134, r0
+fail1409:	mov	$134, r0
 	trap	$0
-f1410:	mov	$135, r0
+fail1410:	mov	$135, r0
 	trap	$0
-f1411:	mov	$136, r0
+fail1411:	mov	$136, r0
 	trap	$0
-f1412:	mov	$137, r0
+fail1412:	mov	$137, r0
 	trap	$0
-f1413:	mov	$138, r0
+fail1413:	mov	$138, r0
 	trap	$0
-f1414:	mov	$139, r0
+fail1414:	mov	$139, r0
 	trap	$0
-f1415:	mov	$140, r0
+fail1415:	mov	$140, r0
 	trap	$0
-f1416:	mov	$141, r0
+fail1416:	mov	$141, r0
 	trap	$0
-f1417:	mov	$142, r0
+fail1417:	mov	$142, r0
 	trap	$0
-f1418:	mov	$143, r0
+fail1418:	mov	$143, r0
 	trap	$0
-f1419:	mov	$144, r0
+fail1419:	mov	$144, r0
 	trap	$0
-f1420:	mov	$145, r0
+fail1420:	mov	$145, r0
 	trap	$0
-f1421:	mov	$146, r0
+fail1421:	mov	$146, r0
 	trap	$0
-f1422:	mov	$147, r0
+fail1422:	mov	$147, r0
 	trap	$0
-f1423:	mov	$148, r0
+fail1423:	mov	$148, r0
 	trap	$0
-f1424:	mov	$149, r0
+fail1424:	mov	$149, r0
 	trap	$0
-f1425:	mov	$150, r0
+fail1425:	mov	$150, r0
 	trap	$0
-f1426:	mov	$151, r0
+fail1426:	mov	$151, r0
 	trap	$0
-f1427:	mov	$152, r0
+fail1427:	mov	$152, r0
 	trap	$0
-f1428:	mov	$153, r0
+fail1428:	mov	$153, r0
 	trap	$0
-f1429:	mov	$154, r0
+fail1429:	mov	$154, r0
 	trap	$0
-f1430:	mov	$155, r0
+fail1430:	mov	$155, r0
 	trap	$0
-f1431:	mov	$156, r0
+fail1431:	mov	$156, r0
 	trap	$0
-f1432:	mov	$157, r0
+fail1432:	mov	$157, r0
 	trap	$0
-f1433:	mov	$158, r0
+fail1433:	mov	$158, r0
 	trap	$0
-f1434:	mov	$159, r0
+fail1434:	mov	$159, r0
 	trap	$0
-f1435:	mov	$160, r0
+fail1435:	mov	$160, r0
 	trap	$0
-f1436:	mov	$161, r0
+fail1436:	mov	$161, r0
 	trap	$0
-f1437:	mov	$162, r0
+fail1437:	mov	$162, r0
 	trap	$0
-f1438:	mov	$163, r0
+fail1438:	mov	$163, r0
 	trap	$0
-f1439:	mov	$164, r0
+fail1439:	mov	$164, r0
 	trap	$0
-f1440:	mov	$165, r0
+fail1440:	mov	$165, r0
 	trap	$0
-f1441:	mov	$166, r0
+fail1441:	mov	$166, r0
 	trap	$0
-f1442:	mov	$167, r0
+fail1442:	mov	$167, r0
 	trap	$0
-f1443:	mov	$168, r0
+fail1443:	mov	$168, r0
 	trap	$0
-f1444:	mov	$169, r0
+fail1444:	mov	$169, r0
 	trap	$0
-f1445:	mov	$170, r0
+fail1445:	mov	$170, r0
 	trap	$0
-f1446:	mov	$171, r0
+fail1446:	mov	$171, r0
 	trap	$0
-f1447:	mov	$172, r0
+fail1447:	mov	$172, r0
 	trap	$0
-f1448:	mov	$173, r0
+fail1448:	mov	$173, r0
 	trap	$0
-f1449:	mov	$174, r0
+fail1449:	mov	$174, r0
 	trap	$0
-f1450:	mov	$175, r0
+fail1450:	mov	$175, r0
 	trap	$0
-f1451:	mov	$176, r0
+fail1451:	mov	$176, r0
 	trap	$0
-f1452:	mov	$177, r0
+fail1452:	mov	$177, r0
 	trap	$0
-f1453:	mov	$178, r0
+fail1453:	mov	$178, r0
 	trap	$0
-f1454:	mov	$179, r0
+fail1454:	mov	$179, r0
 	trap	$0
-f1455:	mov	$180, r0
+fail1455:	mov	$180, r0
 	trap	$0
-f1456:	mov	$181, r0
+fail1456:	mov	$181, r0
 	trap	$0
-f1457:	mov	$182, r0
+fail1457:	mov	$182, r0
 	trap	$0
-f1458:	mov	$183, r0
+fail1458:	mov	$183, r0
 	trap	$0
-f1459:	mov	$184, r0
+fail1459:	mov	$184, r0
 	trap	$0
-f1460:	mov	$185, r0
+fail1460:	mov	$185, r0
 	trap	$0
-f1461:	mov	$186, r0
+fail1461:	mov	$186, r0
 	trap	$0
-f1462:	mov	$187, r0
+fail1462:	mov	$187, r0
 	trap	$0
-f1463:	mov	$188, r0
+fail1463:	mov	$188, r0
 	trap	$0
-f1464:	mov	$189, r0
+fail1464:	mov	$189, r0
 	trap	$0
-f1465:	mov	$190, r0
+fail1465:	mov	$190, r0
 	trap	$0
-f1466:	mov	$191, r0
+fail1466:	mov	$191, r0
 	trap	$0
-f1467:	mov	$192, r0
+fail1467:	mov	$192, r0
 	trap	$0
-f1468:	mov	$193, r0
+fail1468:	mov	$193, r0
 	trap	$0
-f1469:	mov	$194, r0
+fail1469:	mov	$194, r0
 	trap	$0
-f1470:	mov	$195, r0
+fail1470:	mov	$195, r0
 	trap	$0
-f1471:	mov	$196, r0
+fail1471:	mov	$196, r0
 	trap	$0
-f1472:	mov	$197, r0
+fail1472:	mov	$197, r0
 	trap	$0
-f1473:	mov	$198, r0
+fail1473:	mov	$198, r0
 	trap	$0
-f1474:	mov	$199, r0
+fail1474:	mov	$199, r0
 	trap	$0
-f1475:	mov	$200, r0
+fail1475:	mov	$200, r0
 	trap	$0
-f1476:	mov	$201, r0
+fail1476:	mov	$201, r0
 	trap	$0
-f1477:	mov	$202, r0
+fail1477:	mov	$202, r0
 	trap	$0
-f1478:	mov	$203, r0
+fail1478:	mov	$203, r0
 	trap	$0
-f1479:	mov	$204, r0
+fail1479:	mov	$204, r0
 	trap	$0
-f1480:	mov	$205, r0
+fail1480:	mov	$205, r0
 	trap	$0
-f1481:	mov	$206, r0
+fail1481:	mov	$206, r0
 	trap	$0
-f1482:	mov	$207, r0
+fail1482:	mov	$207, r0
 	trap	$0
-f1483:	mov	$208, r0
+fail1483:	mov	$208, r0
 	trap	$0
-f1484:	mov	$209, r0
+fail1484:	mov	$209, r0
 	trap	$0
-f1485:	mov	$210, r0
+fail1485:	mov	$210, r0
 	trap	$0
-f1486:	mov	$211, r0
+fail1486:	mov	$211, r0
 	trap	$0
-f1487:	mov	$212, r0
+fail1487:	mov	$212, r0
 	trap	$0
-f1488:	mov	$213, r0
+fail1488:	mov	$213, r0
 	trap	$0
-f1489:	mov	$214, r0
+fail1489:	mov	$214, r0
 	trap	$0
-f1490:	mov	$215, r0
+fail1490:	mov	$215, r0
 	trap	$0
-f1491:	mov	$216, r0
+fail1491:	mov	$216, r0
 	trap	$0
-f1492:	mov	$217, r0
+fail1492:	mov	$217, r0
 	trap	$0
-f1493:	mov	$218, r0
+fail1493:	mov	$218, r0
 	trap	$0
-f1494:	mov	$219, r0
+fail1494:	mov	$219, r0
 	trap	$0
-f1495:	mov	$220, r0
+fail1495:	mov	$220, r0
 	trap	$0
-f1496:	mov	$221, r0
+fail1496:	mov	$221, r0
 	trap	$0
-f1497:	mov	$222, r0
+fail1497:	mov	$222, r0
 	trap	$0
-f1498:	mov	$223, r0
+fail1498:	mov	$223, r0
 	trap	$0
-f1499:	mov	$224, r0
+fail1499:	mov	$224, r0
 	trap	$0
-f1500:	mov	$225, r0
+fail1500:	mov	$225, r0
 	trap	$0
-f1501:	mov	$226, r0
+fail1501:	mov	$226, r0
 	trap	$0
-f1502:	mov	$227, r0
+fail1502:	mov	$227, r0
 	trap	$0
-f1503:	mov	$228, r0
+fail1503:	mov	$228, r0
 	trap	$0
-f1504:	mov	$229, r0
+fail1504:	mov	$229, r0
 	trap	$0
-f1505:	mov	$230, r0
+fail1505:	mov	$230, r0
 	trap	$0
-f1506:	mov	$231, r0
+fail1506:	mov	$231, r0
 	trap	$0
-f1507:	mov	$232, r0
+fail1507:	mov	$232, r0
 	trap	$0
-f1508:	mov	$233, r0
+fail1508:	mov	$233, r0
 	trap	$0
-f1509:	mov	$234, r0
+fail1509:	mov	$234, r0
 	trap	$0
-f1510:	mov	$235, r0
+fail1510:	mov	$235, r0
 	trap	$0
-f1511:	mov	$236, r0
+fail1511:	mov	$236, r0
 	trap	$0
-f1512:	mov	$237, r0
+fail1512:	mov	$237, r0
 	trap	$0
-f1513:	mov	$238, r0
+fail1513:	mov	$238, r0
 	trap	$0
-f1514:	mov	$239, r0
+fail1514:	mov	$239, r0
 	trap	$0
-f1515:	mov	$240, r0
+fail1515:	mov	$240, r0
 	trap	$0
-f1516:	mov	$241, r0
+fail1516:	mov	$241, r0
 	trap	$0
-f1517:	mov	$242, r0
+fail1517:	mov	$242, r0
 	trap	$0
-f1518:	mov	$243, r0
+fail1518:	mov	$243, r0
 	trap	$0
-f1519:	mov	$244, r0
+fail1519:	mov	$244, r0
 	trap	$0
-f1520:	mov	$245, r0
+fail1520:	mov	$245, r0
 	trap	$0
-f1521:	mov	$246, r0
+fail1521:	mov	$246, r0
 	trap	$0
-f1522:	mov	$247, r0
+fail1522:	mov	$247, r0
 	trap	$0
-f1523:	mov	$248, r0
+fail1523:	mov	$248, r0
 	trap	$0
-f1524:	mov	$249, r0
+fail1524:	mov	$249, r0
 	trap	$0
-f1525:	mov	$250, r0
+fail1525:	mov	$250, r0
 	trap	$0
-f1526:	mov	$251, r0
+fail1526:	mov	$251, r0
 	trap	$0
-f1527:	mov	$252, r0
+fail1527:	mov	$252, r0
 	trap	$0
-f1528:	mov	$253, r0
+fail1528:	mov	$253, r0
 	trap	$0
-f1529:	mov	$254, r0
+fail1529:	mov	$254, r0
 	trap	$0
-f1530:	mov	$255, r0
+fail1530:	mov	$255, r0
 	trap	$0
-f1531:	mov	$1, r0
+fail1531:	mov	$1, r0
 	trap	$0
-f1532:	mov	$2, r0
+fail1532:	mov	$2, r0
 	trap	$0
-f1533:	mov	$3, r0
+fail1533:	mov	$3, r0
 	trap	$0
-f1534:	mov	$4, r0
+fail1534:	mov	$4, r0
 	trap	$0
-f1535:	mov	$5, r0
+fail1535:	mov	$5, r0
 	trap	$0
-f1536:	mov	$6, r0
+fail1536:	mov	$6, r0
 	trap	$0
-f1537:	mov	$7, r0
+fail1537:	mov	$7, r0
 	trap	$0
-f1538:	mov	$8, r0
+fail1538:	mov	$8, r0
 	trap	$0
-f1539:	mov	$9, r0
+fail1539:	mov	$9, r0
 	trap	$0
-f1540:	mov	$10, r0
+fail1540:	mov	$10, r0
 	trap	$0
-f1541:	mov	$11, r0
+fail1541:	mov	$11, r0
 	trap	$0
-f1542:	mov	$12, r0
+fail1542:	mov	$12, r0
 	trap	$0
-f1543:	mov	$13, r0
+fail1543:	mov	$13, r0
 	trap	$0
-f1544:	mov	$14, r0
+fail1544:	mov	$14, r0
 	trap	$0
-f1545:	mov	$15, r0
+fail1545:	mov	$15, r0
 	trap	$0
-f1546:	mov	$16, r0
+fail1546:	mov	$16, r0
 	trap	$0
-f1547:	mov	$17, r0
+fail1547:	mov	$17, r0
 	trap	$0
-f1548:	mov	$18, r0
+fail1548:	mov	$18, r0
 	trap	$0
-f1549:	mov	$19, r0
+fail1549:	mov	$19, r0
 	trap	$0
-f1550:	mov	$20, r0
+fail1550:	mov	$20, r0
 	trap	$0
-f1551:	mov	$21, r0
+fail1551:	mov	$21, r0
 	trap	$0
-f1552:	mov	$22, r0
+fail1552:	mov	$22, r0
 	trap	$0
-f1553:	mov	$23, r0
+fail1553:	mov	$23, r0
 	trap	$0
-f1554:	mov	$24, r0
+fail1554:	mov	$24, r0
 	trap	$0
-f1555:	mov	$25, r0
+fail1555:	mov	$25, r0
 	trap	$0
-f1556:	mov	$26, r0
+fail1556:	mov	$26, r0
 	trap	$0
-f1557:	mov	$27, r0
+fail1557:	mov	$27, r0
 	trap	$0
-f1558:	mov	$28, r0
+fail1558:	mov	$28, r0
 	trap	$0
-f1559:	mov	$29, r0
+fail1559:	mov	$29, r0
 	trap	$0
-f1560:	mov	$30, r0
+fail1560:	mov	$30, r0
 	trap	$0
-f1561:	mov	$31, r0
+fail1561:	mov	$31, r0
 	trap	$0
-f1562:	mov	$32, r0
+fail1562:	mov	$32, r0
 	trap	$0
-f1563:	mov	$33, r0
+fail1563:	mov	$33, r0
 	trap	$0
-f1564:	mov	$34, r0
+fail1564:	mov	$34, r0
 	trap	$0
-f1565:	mov	$35, r0
+fail1565:	mov	$35, r0
 	trap	$0
-f1566:	mov	$36, r0
+fail1566:	mov	$36, r0
 	trap	$0
-f1567:	mov	$37, r0
+fail1567:	mov	$37, r0
 	trap	$0
-f1568:	mov	$38, r0
+fail1568:	mov	$38, r0
 	trap	$0
-f1569:	mov	$39, r0
+fail1569:	mov	$39, r0
 	trap	$0
-f1570:	mov	$40, r0
+fail1570:	mov	$40, r0
 	trap	$0
-f1571:	mov	$41, r0
+fail1571:	mov	$41, r0
 	trap	$0
-f1572:	mov	$42, r0
+fail1572:	mov	$42, r0
 	trap	$0
-f1573:	mov	$43, r0
+fail1573:	mov	$43, r0
 	trap	$0
-f1574:	mov	$44, r0
+fail1574:	mov	$44, r0
 	trap	$0
-f1575:	mov	$45, r0
+fail1575:	mov	$45, r0
 	trap	$0
-f1576:	mov	$46, r0
+fail1576:	mov	$46, r0
 	trap	$0
-f1577:	mov	$47, r0
+fail1577:	mov	$47, r0
 	trap	$0
-f1578:	mov	$48, r0
+fail1578:	mov	$48, r0
 	trap	$0
-f1579:	mov	$49, r0
+fail1579:	mov	$49, r0
 	trap	$0
-f1580:	mov	$50, r0
+fail1580:	mov	$50, r0
 	trap	$0
-f1581:	mov	$51, r0
+fail1581:	mov	$51, r0
 	trap	$0
-f1582:	mov	$52, r0
+fail1582:	mov	$52, r0
 	trap	$0
-f1583:	mov	$53, r0
+fail1583:	mov	$53, r0
 	trap	$0
-f1584:	mov	$54, r0
+fail1584:	mov	$54, r0
 	trap	$0
-f1585:	mov	$55, r0
+fail1585:	mov	$55, r0
 	trap	$0
-f1586:	mov	$56, r0
+fail1586:	mov	$56, r0
 	trap	$0
-f1587:	mov	$57, r0
+fail1587:	mov	$57, r0
 	trap	$0
-f1588:	mov	$58, r0
+fail1588:	mov	$58, r0
 	trap	$0
-f1589:	mov	$59, r0
+fail1589:	mov	$59, r0
 	trap	$0
-f1590:	mov	$60, r0
+fail1590:	mov	$60, r0
 	trap	$0
-f1591:	mov	$61, r0
+fail1591:	mov	$61, r0
 	trap	$0
-f1592:	mov	$62, r0
+fail1592:	mov	$62, r0
 	trap	$0
-f1593:	mov	$63, r0
+fail1593:	mov	$63, r0
 	trap	$0
-f1594:	mov	$64, r0
+fail1594:	mov	$64, r0
 	trap	$0
-f1595:	mov	$65, r0
+fail1595:	mov	$65, r0
 	trap	$0
-f1596:	mov	$66, r0
+fail1596:	mov	$66, r0
 	trap	$0
-f1597:	mov	$67, r0
+fail1597:	mov	$67, r0
 	trap	$0
-f1598:	mov	$68, r0
+fail1598:	mov	$68, r0
 	trap	$0
-f1599:	mov	$69, r0
+fail1599:	mov	$69, r0
 	trap	$0
-f1600:	mov	$70, r0
+fail1600:	mov	$70, r0
 	trap	$0
-f1601:	mov	$71, r0
+fail1601:	mov	$71, r0
 	trap	$0
-f1602:	mov	$72, r0
+fail1602:	mov	$72, r0
 	trap	$0
-f1603:	mov	$73, r0
+fail1603:	mov	$73, r0
 	trap	$0
-f1604:	mov	$74, r0
+fail1604:	mov	$74, r0
 	trap	$0
-f1605:	mov	$75, r0
+fail1605:	mov	$75, r0
 	trap	$0
-f1606:	mov	$76, r0
+fail1606:	mov	$76, r0
 	trap	$0
-f1607:	mov	$77, r0
+fail1607:	mov	$77, r0
 	trap	$0
-f1608:	mov	$78, r0
+fail1608:	mov	$78, r0
 	trap	$0
-f1609:	mov	$79, r0
+fail1609:	mov	$79, r0
 	trap	$0
-f1610:	mov	$80, r0
+fail1610:	mov	$80, r0
 	trap	$0
-f1611:	mov	$81, r0
+fail1611:	mov	$81, r0
 	trap	$0
-f1612:	mov	$82, r0
+fail1612:	mov	$82, r0
 	trap	$0
-f1613:	mov	$83, r0
+fail1613:	mov	$83, r0
 	trap	$0
-f1614:	mov	$84, r0
+fail1614:	mov	$84, r0
 	trap	$0
-f1615:	mov	$85, r0
+fail1615:	mov	$85, r0
 	trap	$0
-f1616:	mov	$86, r0
+fail1616:	mov	$86, r0
 	trap	$0
-f1617:	mov	$87, r0
+fail1617:	mov	$87, r0
 	trap	$0
-f1618:	mov	$88, r0
+fail1618:	mov	$88, r0
 	trap	$0
-f1619:	mov	$89, r0
+fail1619:	mov	$89, r0
 	trap	$0
-f1620:	mov	$90, r0
+fail1620:	mov	$90, r0
 	trap	$0
-f1621:	mov	$91, r0
+fail1621:	mov	$91, r0
 	trap	$0
-f1622:	mov	$92, r0
+fail1622:	mov	$92, r0
 	trap	$0
-f1623:	mov	$93, r0
+fail1623:	mov	$93, r0
 	trap	$0
-f1624:	mov	$94, r0
+fail1624:	mov	$94, r0
 	trap	$0
-f1625:	mov	$95, r0
+fail1625:	mov	$95, r0
 	trap	$0
-f1626:	mov	$96, r0
+fail1626:	mov	$96, r0
 	trap	$0
-f1627:	mov	$97, r0
+fail1627:	mov	$97, r0
 	trap	$0
-f1628:	mov	$98, r0
+fail1628:	mov	$98, r0
 	trap	$0
-f1629:	mov	$99, r0
+fail1629:	mov	$99, r0
 	trap	$0
-f1630:	mov	$100, r0
+fail1630:	mov	$100, r0
 	trap	$0
-f1631:	mov	$101, r0
+fail1631:	mov	$101, r0
 	trap	$0
-f1632:	mov	$102, r0
+fail1632:	mov	$102, r0
 	trap	$0
-f1633:	mov	$103, r0
+fail1633:	mov	$103, r0
 	trap	$0
-f1634:	mov	$104, r0
+fail1634:	mov	$104, r0
 	trap	$0
-f1635:	mov	$105, r0
+fail1635:	mov	$105, r0
 	trap	$0
-f1636:	mov	$106, r0
+fail1636:	mov	$106, r0
 	trap	$0
-f1637:	mov	$107, r0
+fail1637:	mov	$107, r0
 	trap	$0
-f1638:	mov	$108, r0
+fail1638:	mov	$108, r0
 	trap	$0
-f1639:	mov	$109, r0
+fail1639:	mov	$109, r0
 	trap	$0
-f1640:	mov	$110, r0
+fail1640:	mov	$110, r0
 	trap	$0
-f1641:	mov	$111, r0
+fail1641:	mov	$111, r0
 	trap	$0
-f1642:	mov	$112, r0
+fail1642:	mov	$112, r0
 	trap	$0
-f1643:	mov	$113, r0
+fail1643:	mov	$113, r0
 	trap	$0
-f1644:	mov	$114, r0
+fail1644:	mov	$114, r0
 	trap	$0
-f1645:	mov	$115, r0
+fail1645:	mov	$115, r0
 	trap	$0
-f1646:	mov	$116, r0
+fail1646:	mov	$116, r0
 	trap	$0
-f1647:	mov	$117, r0
+fail1647:	mov	$117, r0
 	trap	$0
-f1648:	mov	$118, r0
+fail1648:	mov	$118, r0
 	trap	$0
-f1649:	mov	$119, r0
+fail1649:	mov	$119, r0
 	trap	$0
-f1650:	mov	$120, r0
+fail1650:	mov	$120, r0
 	trap	$0
-f1651:	mov	$121, r0
+fail1651:	mov	$121, r0
 	trap	$0
-f1652:	mov	$122, r0
+fail1652:	mov	$122, r0
 	trap	$0
-f1653:	mov	$123, r0
+fail1653:	mov	$123, r0
 	trap	$0
-f1654:	mov	$124, r0
+fail1654:	mov	$124, r0
 	trap	$0
-f1655:	mov	$125, r0
+fail1655:	mov	$125, r0
 	trap	$0
-f1656:	mov	$126, r0
+fail1656:	mov	$126, r0
 	trap	$0
-f1657:	mov	$127, r0
+fail1657:	mov	$127, r0
 	trap	$0
-f1658:	mov	$128, r0
+fail1658:	mov	$128, r0
 	trap	$0
-f1659:	mov	$129, r0
+fail1659:	mov	$129, r0
 	trap	$0
-f1660:	mov	$130, r0
+fail1660:	mov	$130, r0
 	trap	$0
-f1661:	mov	$131, r0
+fail1661:	mov	$131, r0
 	trap	$0
-f1662:	mov	$132, r0
+fail1662:	mov	$132, r0
 	trap	$0
-f1663:	mov	$133, r0
+fail1663:	mov	$133, r0
 	trap	$0
-f1664:	mov	$134, r0
+fail1664:	mov	$134, r0
 	trap	$0
-f1665:	mov	$135, r0
+fail1665:	mov	$135, r0
 	trap	$0
-f1666:	mov	$136, r0
+fail1666:	mov	$136, r0
 	trap	$0
-f1667:	mov	$137, r0
+fail1667:	mov	$137, r0
 	trap	$0
-f1668:	mov	$138, r0
+fail1668:	mov	$138, r0
 	trap	$0
-f1669:	mov	$139, r0
+fail1669:	mov	$139, r0
 	trap	$0
-f1670:	mov	$140, r0
+fail1670:	mov	$140, r0
 	trap	$0
-f1671:	mov	$141, r0
+fail1671:	mov	$141, r0
 	trap	$0
-f1672:	mov	$142, r0
+fail1672:	mov	$142, r0
 	trap	$0
-f1673:	mov	$143, r0
+fail1673:	mov	$143, r0
 	trap	$0
-f1674:	mov	$144, r0
+fail1674:	mov	$144, r0
 	trap	$0
-f1675:	mov	$145, r0
+fail1675:	mov	$145, r0
 	trap	$0
-f1676:	mov	$146, r0
+fail1676:	mov	$146, r0
 	trap	$0
-f1677:	mov	$147, r0
+fail1677:	mov	$147, r0
 	trap	$0
-f1678:	mov	$148, r0
+fail1678:	mov	$148, r0
 	trap	$0
-f1679:	mov	$149, r0
+fail1679:	mov	$149, r0
 	trap	$0
-f1680:	mov	$150, r0
+fail1680:	mov	$150, r0
 	trap	$0
-f1681:	mov	$151, r0
+fail1681:	mov	$151, r0
 	trap	$0
-f1682:	mov	$152, r0
+fail1682:	mov	$152, r0
 	trap	$0
-f1683:	mov	$153, r0
+fail1683:	mov	$153, r0
 	trap	$0
-f1684:	mov	$154, r0
+fail1684:	mov	$154, r0
 	trap	$0
-f1685:	mov	$155, r0
+fail1685:	mov	$155, r0
 	trap	$0
-f1686:	mov	$156, r0
+fail1686:	mov	$156, r0
 	trap	$0
-f1687:	mov	$157, r0
+fail1687:	mov	$157, r0
 	trap	$0
-f1688:	mov	$158, r0
+fail1688:	mov	$158, r0
 	trap	$0
-f1689:	mov	$159, r0
+fail1689:	mov	$159, r0
 	trap	$0
-f1690:	mov	$160, r0
+fail1690:	mov	$160, r0
 	trap	$0
-f1691:	mov	$161, r0
+fail1691:	mov	$161, r0
 	trap	$0
-f1692:	mov	$162, r0
+fail1692:	mov	$162, r0
 	trap	$0
-f1693:	mov	$163, r0
+fail1693:	mov	$163, r0
 	trap	$0
-f1694:	mov	$164, r0
+fail1694:	mov	$164, r0
 	trap	$0
-f1695:	mov	$165, r0
+fail1695:	mov	$165, r0
 	trap	$0
-f1696:	mov	$166, r0
+fail1696:	mov	$166, r0
 	trap	$0
-f1697:	mov	$167, r0
+fail1697:	mov	$167, r0
 	trap	$0
-f1698:	mov	$168, r0
+fail1698:	mov	$168, r0
 	trap	$0
-f1699:	mov	$169, r0
+fail1699:	mov	$169, r0
 	trap	$0
-f1700:	mov	$170, r0
+fail1700:	mov	$170, r0
 	trap	$0
-f1701:	mov	$171, r0
+fail1701:	mov	$171, r0
 	trap	$0
-f1702:	mov	$172, r0
+fail1702:	mov	$172, r0
 	trap	$0
-f1703:	mov	$173, r0
+fail1703:	mov	$173, r0
 	trap	$0
-f1704:	mov	$174, r0
+fail1704:	mov	$174, r0
 	trap	$0
-f1705:	mov	$175, r0
+fail1705:	mov	$175, r0
 	trap	$0
-f1706:	mov	$176, r0
+fail1706:	mov	$176, r0
 	trap	$0
-f1707:	mov	$177, r0
+fail1707:	mov	$177, r0
 	trap	$0
-f1708:	mov	$178, r0
+fail1708:	mov	$178, r0
 	trap	$0
-f1709:	mov	$179, r0
+fail1709:	mov	$179, r0
 	trap	$0
-f1710:	mov	$180, r0
+fail1710:	mov	$180, r0
 	trap	$0
-f1711:	mov	$181, r0
+fail1711:	mov	$181, r0
 	trap	$0
-f1712:	mov	$182, r0
+fail1712:	mov	$182, r0
 	trap	$0
-f1713:	mov	$183, r0
+fail1713:	mov	$183, r0
 	trap	$0
-f1714:	mov	$184, r0
+fail1714:	mov	$184, r0
 	trap	$0
-f1715:	mov	$185, r0
+fail1715:	mov	$185, r0
 	trap	$0
-f1716:	mov	$186, r0
+fail1716:	mov	$186, r0
 	trap	$0
-f1717:	mov	$187, r0
+fail1717:	mov	$187, r0
 	trap	$0
-f1718:	mov	$188, r0
+fail1718:	mov	$188, r0
 	trap	$0
-f1719:	mov	$189, r0
+fail1719:	mov	$189, r0
 	trap	$0
-f1720:	mov	$190, r0
+fail1720:	mov	$190, r0
 	trap	$0
-f1721:	mov	$191, r0
+fail1721:	mov	$191, r0
 	trap	$0
-f1722:	mov	$192, r0
+fail1722:	mov	$192, r0
 	trap	$0
-f1723:	mov	$193, r0
+fail1723:	mov	$193, r0
 	trap	$0
-f1724:	mov	$194, r0
+fail1724:	mov	$194, r0
 	trap	$0
-f1725:	mov	$195, r0
+fail1725:	mov	$195, r0
 	trap	$0
-f1726:	mov	$196, r0
+fail1726:	mov	$196, r0
 	trap	$0
-f1727:	mov	$197, r0
+fail1727:	mov	$197, r0
 	trap	$0
-f1728:	mov	$198, r0
+fail1728:	mov	$198, r0
 	trap	$0
-f1729:	mov	$199, r0
+fail1729:	mov	$199, r0
 	trap	$0
-f1730:	mov	$200, r0
+fail1730:	mov	$200, r0
 	trap	$0
-f1731:	mov	$201, r0
+fail1731:	mov	$201, r0
 	trap	$0
-f1732:	mov	$202, r0
+fail1732:	mov	$202, r0
 	trap	$0
-f1733:	mov	$203, r0
+fail1733:	mov	$203, r0
 	trap	$0
-f1734:	mov	$204, r0
+fail1734:	mov	$204, r0
 	trap	$0
-f1735:	mov	$205, r0
+fail1735:	mov	$205, r0
 	trap	$0
-f1736:	mov	$206, r0
+fail1736:	mov	$206, r0
 	trap	$0
-f1737:	mov	$207, r0
+fail1737:	mov	$207, r0
 	trap	$0
-f1738:	mov	$208, r0
+fail1738:	mov	$208, r0
 	trap	$0
-f1739:	mov	$209, r0
+fail1739:	mov	$209, r0
 	trap	$0
-f1740:	mov	$210, r0
+fail1740:	mov	$210, r0
 	trap	$0
-f1741:	mov	$211, r0
+fail1741:	mov	$211, r0
 	trap	$0
-f1742:	mov	$212, r0
+fail1742:	mov	$212, r0
 	trap	$0
-f1743:	mov	$213, r0
+fail1743:	mov	$213, r0
 	trap	$0
-f1744:	mov	$214, r0
+fail1744:	mov	$214, r0
 	trap	$0
-f1745:	mov	$215, r0
+fail1745:	mov	$215, r0
 	trap	$0
-f1746:	mov	$216, r0
+fail1746:	mov	$216, r0
 	trap	$0
-f1747:	mov	$217, r0
+fail1747:	mov	$217, r0
 	trap	$0
-f1748:	mov	$218, r0
+fail1748:	mov	$218, r0
 	trap	$0
-f1749:	mov	$219, r0
+fail1749:	mov	$219, r0
 	trap	$0
-f1750:	mov	$220, r0
+fail1750:	mov	$220, r0
 	trap	$0
-f1751:	mov	$221, r0
+fail1751:	mov	$221, r0
 	trap	$0
-f1752:	mov	$222, r0
+fail1752:	mov	$222, r0
 	trap	$0
-f1753:	mov	$223, r0
+fail1753:	mov	$223, r0
 	trap	$0
-f1754:	mov	$224, r0
+fail1754:	mov	$224, r0
 	trap	$0
-f1755:	mov	$225, r0
+fail1755:	mov	$225, r0
 	trap	$0
-f1756:	mov	$226, r0
+fail1756:	mov	$226, r0
 	trap	$0
-f1757:	mov	$227, r0
+fail1757:	mov	$227, r0
 	trap	$0
-f1758:	mov	$228, r0
+fail1758:	mov	$228, r0
 	trap	$0
-f1759:	mov	$229, r0
+fail1759:	mov	$229, r0
 	trap	$0
-f1760:	mov	$230, r0
+fail1760:	mov	$230, r0
 	trap	$0
-f1761:	mov	$231, r0
+fail1761:	mov	$231, r0
 	trap	$0
-f1762:	mov	$232, r0
+fail1762:	mov	$232, r0
 	trap	$0
-f1763:	mov	$233, r0
+fail1763:	mov	$233, r0
 	trap	$0
-f1764:	mov	$234, r0
+fail1764:	mov	$234, r0
 	trap	$0
-f1765:	mov	$235, r0
+fail1765:	mov	$235, r0
 	trap	$0
-f1766:	mov	$236, r0
+fail1766:	mov	$236, r0
 	trap	$0
-f1767:	mov	$237, r0
+fail1767:	mov	$237, r0
 	trap	$0
-f1768:	mov	$238, r0
+fail1768:	mov	$238, r0
 	trap	$0
-f1769:	mov	$239, r0
+fail1769:	mov	$239, r0
 	trap	$0
-f1770:	mov	$240, r0
+fail1770:	mov	$240, r0
 	trap	$0
-f1771:	mov	$241, r0
+fail1771:	mov	$241, r0
 	trap	$0
-f1772:	mov	$242, r0
+fail1772:	mov	$242, r0
 	trap	$0
-f1773:	mov	$243, r0
+fail1773:	mov	$243, r0
 	trap	$0
-f1774:	mov	$244, r0
+fail1774:	mov	$244, r0
 	trap	$0
-f1775:	mov	$245, r0
+fail1775:	mov	$245, r0
 	trap	$0
-f1776:	mov	$246, r0
+fail1776:	mov	$246, r0
 	trap	$0
-f1777:	mov	$247, r0
+fail1777:	mov	$247, r0
 	trap	$0
-f1778:	mov	$248, r0
+fail1778:	mov	$248, r0
 	trap	$0
-f1779:	mov	$249, r0
+fail1779:	mov	$249, r0
 	trap	$0
-f1780:	mov	$250, r0
+fail1780:	mov	$250, r0
 	trap	$0
-f1781:	mov	$251, r0
+fail1781:	mov	$251, r0
 	trap	$0
-f1782:	mov	$252, r0
+fail1782:	mov	$252, r0
 	trap	$0
-f1783:	mov	$253, r0
+fail1783:	mov	$253, r0
 	trap	$0
-f1784:	mov	$254, r0
+fail1784:	mov	$254, r0
 	trap	$0
-f1785:	mov	$255, r0
+fail1785:	mov	$255, r0
 	trap	$0
-f1786:	mov	$1, r0
+fail1786:	mov	$1, r0
 	trap	$0
-f1787:	mov	$2, r0
+fail1787:	mov	$2, r0
 	trap	$0
-f1788:	mov	$3, r0
+fail1788:	mov	$3, r0
 	trap	$0
-f1789:	mov	$4, r0
+fail1789:	mov	$4, r0
 	trap	$0
-f1790:	mov	$5, r0
+fail1790:	mov	$5, r0
 	trap	$0
-f1791:	mov	$6, r0
+fail1791:	mov	$6, r0
 	trap	$0
-f1792:	mov	$7, r0
+fail1792:	mov	$7, r0
 	trap	$0
-f1793:	mov	$8, r0
+fail1793:	mov	$8, r0
 	trap	$0
-f1794:	mov	$9, r0
+fail1794:	mov	$9, r0
 	trap	$0
-f1795:	mov	$10, r0
+fail1795:	mov	$10, r0
 	trap	$0
-f1796:	mov	$11, r0
+fail1796:	mov	$11, r0
 	trap	$0
-f1797:	mov	$12, r0
+fail1797:	mov	$12, r0
 	trap	$0
-f1798:	mov	$13, r0
+fail1798:	mov	$13, r0
 	trap	$0
-f1799:	mov	$14, r0
+fail1799:	mov	$14, r0
 	trap	$0
-f1800:	mov	$15, r0
+fail1800:	mov	$15, r0
 	trap	$0
-f1801:	mov	$16, r0
+fail1801:	mov	$16, r0
 	trap	$0
-f1802:	mov	$17, r0
+fail1802:	mov	$17, r0
 	trap	$0
-f1803:	mov	$18, r0
+fail1803:	mov	$18, r0
 	trap	$0
-f1804:	mov	$19, r0
+fail1804:	mov	$19, r0
 	trap	$0
-f1805:	mov	$20, r0
+fail1805:	mov	$20, r0
 	trap	$0
-f1806:	mov	$21, r0
+fail1806:	mov	$21, r0
 	trap	$0
-f1807:	mov	$22, r0
+fail1807:	mov	$22, r0
 	trap	$0
-f1808:	mov	$23, r0
+fail1808:	mov	$23, r0
 	trap	$0
-f1809:	mov	$24, r0
+fail1809:	mov	$24, r0
 	trap	$0
-f1810:	mov	$25, r0
+fail1810:	mov	$25, r0
 	trap	$0
-f1811:	mov	$26, r0
+fail1811:	mov	$26, r0
 	trap	$0
-f1812:	mov	$27, r0
+fail1812:	mov	$27, r0
 	trap	$0
-f1813:	mov	$28, r0
+fail1813:	mov	$28, r0
 	trap	$0
-f1814:	mov	$29, r0
+fail1814:	mov	$29, r0
 	trap	$0
-f1815:	mov	$30, r0
+fail1815:	mov	$30, r0
 	trap	$0
-f1816:	mov	$31, r0
+fail1816:	mov	$31, r0
 	trap	$0
-f1817:	mov	$32, r0
+fail1817:	mov	$32, r0
 	trap	$0
-f1818:	mov	$33, r0
+fail1818:	mov	$33, r0
 	trap	$0
-f1819:	mov	$34, r0
+fail1819:	mov	$34, r0
 	trap	$0
-f1820:	mov	$35, r0
+fail1820:	mov	$35, r0
 	trap	$0
-f1821:	mov	$36, r0
+fail1821:	mov	$36, r0
 	trap	$0
-f1822:	mov	$37, r0
+fail1822:	mov	$37, r0
 	trap	$0
-f1823:	mov	$38, r0
+fail1823:	mov	$38, r0
 	trap	$0
-f1824:	mov	$39, r0
+fail1824:	mov	$39, r0
 	trap	$0
-f1825:	mov	$40, r0
+fail1825:	mov	$40, r0
 	trap	$0
-f1826:	mov	$41, r0
+fail1826:	mov	$41, r0
 	trap	$0
-f1827:	mov	$42, r0
+fail1827:	mov	$42, r0
 	trap	$0
-f1828:	mov	$43, r0
+fail1828:	mov	$43, r0
 	trap	$0
-f1829:	mov	$44, r0
+fail1829:	mov	$44, r0
 	trap	$0
-f1830:	mov	$45, r0
+fail1830:	mov	$45, r0
 	trap	$0
-f1831:	mov	$46, r0
+fail1831:	mov	$46, r0
 	trap	$0
-f1832:	mov	$47, r0
+fail1832:	mov	$47, r0
 	trap	$0
-f1833:	mov	$48, r0
+fail1833:	mov	$48, r0
 	trap	$0
-f1834:	mov	$49, r0
+fail1834:	mov	$49, r0
 	trap	$0
-f1835:	mov	$50, r0
+fail1835:	mov	$50, r0
 	trap	$0
-f1836:	mov	$51, r0
+fail1836:	mov	$51, r0
 	trap	$0
-f1837:	mov	$52, r0
+fail1837:	mov	$52, r0
 	trap	$0
-f1838:	mov	$53, r0
+fail1838:	mov	$53, r0
 	trap	$0
-f1839:	mov	$54, r0
+fail1839:	mov	$54, r0
 	trap	$0
-f1840:	mov	$55, r0
+fail1840:	mov	$55, r0
 	trap	$0
-f1841:	mov	$56, r0
+fail1841:	mov	$56, r0
 	trap	$0
-f1842:	mov	$57, r0
+fail1842:	mov	$57, r0
 	trap	$0
-f1843:	mov	$58, r0
+fail1843:	mov	$58, r0
 	trap	$0
-f1844:	mov	$59, r0
+fail1844:	mov	$59, r0
 	trap	$0
-f1845:	mov	$60, r0
+fail1845:	mov	$60, r0
 	trap	$0
-f1846:	mov	$61, r0
+fail1846:	mov	$61, r0
 	trap	$0
-f1847:	mov	$62, r0
+fail1847:	mov	$62, r0
 	trap	$0
-f1848:	mov	$63, r0
+fail1848:	mov	$63, r0
 	trap	$0
-f1849:	mov	$64, r0
+fail1849:	mov	$64, r0
 	trap	$0
-f1850:	mov	$65, r0
+fail1850:	mov	$65, r0
 	trap	$0
-f1851:	mov	$66, r0
+fail1851:	mov	$66, r0
 	trap	$0
-f1852:	mov	$67, r0
+fail1852:	mov	$67, r0
 	trap	$0
-f1853:	mov	$68, r0
+fail1853:	mov	$68, r0
 	trap	$0
-f1854:	mov	$69, r0
+fail1854:	mov	$69, r0
 	trap	$0
-f1855:	mov	$70, r0
+fail1855:	mov	$70, r0
 	trap	$0
-f1856:	mov	$71, r0
+fail1856:	mov	$71, r0
 	trap	$0
-f1857:	mov	$72, r0
+fail1857:	mov	$72, r0
 	trap	$0
-f1858:	mov	$73, r0
+fail1858:	mov	$73, r0
 	trap	$0
-f1859:	mov	$74, r0
+fail1859:	mov	$74, r0
 	trap	$0
-f1860:	mov	$75, r0
+fail1860:	mov	$75, r0
 	trap	$0
-f1861:	mov	$76, r0
+fail1861:	mov	$76, r0
 	trap	$0
-f1862:	mov	$77, r0
+fail1862:	mov	$77, r0
 	trap	$0
-f1863:	mov	$78, r0
+fail1863:	mov	$78, r0
 	trap	$0
-f1864:	mov	$79, r0
+fail1864:	mov	$79, r0
 	trap	$0
-f1865:	mov	$80, r0
+fail1865:	mov	$80, r0
 	trap	$0
-f1866:	mov	$81, r0
+fail1866:	mov	$81, r0
 	trap	$0
-f1867:	mov	$82, r0
+fail1867:	mov	$82, r0
 	trap	$0
-f1868:	mov	$83, r0
+fail1868:	mov	$83, r0
 	trap	$0
-f1869:	mov	$84, r0
+fail1869:	mov	$84, r0
 	trap	$0
-f1870:	mov	$85, r0
+fail1870:	mov	$85, r0
 	trap	$0
-f1871:	mov	$86, r0
+fail1871:	mov	$86, r0
 	trap	$0
-f1872:	mov	$87, r0
+fail1872:	mov	$87, r0
 	trap	$0
-f1873:	mov	$88, r0
+fail1873:	mov	$88, r0
 	trap	$0
-f1874:	mov	$89, r0
+fail1874:	mov	$89, r0
 	trap	$0
-f1875:	mov	$90, r0
+fail1875:	mov	$90, r0
 	trap	$0
-f1876:	mov	$91, r0
+fail1876:	mov	$91, r0
 	trap	$0
-f1877:	mov	$92, r0
+fail1877:	mov	$92, r0
 	trap	$0
-f1878:	mov	$93, r0
+fail1878:	mov	$93, r0
 	trap	$0
-f1879:	mov	$94, r0
+fail1879:	mov	$94, r0
 	trap	$0
-f1880:	mov	$95, r0
+fail1880:	mov	$95, r0
 	trap	$0
-f1881:	mov	$96, r0
+fail1881:	mov	$96, r0
 	trap	$0
-f1882:	mov	$97, r0
+fail1882:	mov	$97, r0
 	trap	$0
-f1883:	mov	$98, r0
+fail1883:	mov	$98, r0
 	trap	$0
-f1884:	mov	$99, r0
+fail1884:	mov	$99, r0
 	trap	$0
-f1885:	mov	$100, r0
+fail1885:	mov	$100, r0
 	trap	$0
-f1886:	mov	$101, r0
+fail1886:	mov	$101, r0
 	trap	$0
-f1887:	mov	$102, r0
+fail1887:	mov	$102, r0
 	trap	$0
-f1888:	mov	$103, r0
+fail1888:	mov	$103, r0
 	trap	$0
-f1889:	mov	$104, r0
+fail1889:	mov	$104, r0
 	trap	$0
-f1890:	mov	$105, r0
+fail1890:	mov	$105, r0
 	trap	$0
-f1891:	mov	$106, r0
+fail1891:	mov	$106, r0
 	trap	$0
-f1892:	mov	$107, r0
+fail1892:	mov	$107, r0
 	trap	$0
-f1893:	mov	$108, r0
+fail1893:	mov	$108, r0
 	trap	$0
-f1894:	mov	$109, r0
+fail1894:	mov	$109, r0
 	trap	$0
-f1895:	mov	$110, r0
+fail1895:	mov	$110, r0
 	trap	$0
-f1896:	mov	$111, r0
+fail1896:	mov	$111, r0
 	trap	$0
-f1897:	mov	$112, r0
+fail1897:	mov	$112, r0
 	trap	$0
-f1898:	mov	$113, r0
+fail1898:	mov	$113, r0
 	trap	$0
-f1899:	mov	$114, r0
+fail1899:	mov	$114, r0
 	trap	$0
-f1900:	mov	$115, r0
+fail1900:	mov	$115, r0
 	trap	$0
-f1901:	mov	$116, r0
+fail1901:	mov	$116, r0
 	trap	$0
-f1902:	mov	$117, r0
+fail1902:	mov	$117, r0
 	trap	$0
-f1903:	mov	$118, r0
+fail1903:	mov	$118, r0
 	trap	$0
-f1904:	mov	$119, r0
+fail1904:	mov	$119, r0
 	trap	$0
-f1905:	mov	$120, r0
+fail1905:	mov	$120, r0
 	trap	$0
-f1906:	mov	$121, r0
+fail1906:	mov	$121, r0
 	trap	$0
-f1907:	mov	$122, r0
+fail1907:	mov	$122, r0
 	trap	$0
-f1908:	mov	$123, r0
+fail1908:	mov	$123, r0
 	trap	$0
-f1909:	mov	$124, r0
+fail1909:	mov	$124, r0
 	trap	$0
-f1910:	mov	$125, r0
+fail1910:	mov	$125, r0
 	trap	$0
-f1911:	mov	$126, r0
+fail1911:	mov	$126, r0
 	trap	$0
-f1912:	mov	$127, r0
+fail1912:	mov	$127, r0
 	trap	$0
-f1913:	mov	$128, r0
+fail1913:	mov	$128, r0
 	trap	$0
-f1914:	mov	$129, r0
+fail1914:	mov	$129, r0
 	trap	$0
-f1915:	mov	$130, r0
+fail1915:	mov	$130, r0
 	trap	$0
-f1916:	mov	$131, r0
+fail1916:	mov	$131, r0
 	trap	$0
-f1917:	mov	$132, r0
+fail1917:	mov	$132, r0
 	trap	$0
-f1918:	mov	$133, r0
+fail1918:	mov	$133, r0
 	trap	$0
-f1919:	mov	$134, r0
+fail1919:	mov	$134, r0
 	trap	$0
-f1920:	mov	$135, r0
+fail1920:	mov	$135, r0
 	trap	$0
-f1921:	mov	$136, r0
+fail1921:	mov	$136, r0
 	trap	$0
-f1922:	mov	$137, r0
+fail1922:	mov	$137, r0
 	trap	$0
-f1923:	mov	$138, r0
+fail1923:	mov	$138, r0
 	trap	$0
-f1924:	mov	$139, r0
+fail1924:	mov	$139, r0
 	trap	$0
-f1925:	mov	$140, r0
+fail1925:	mov	$140, r0
 	trap	$0
-f1926:	mov	$141, r0
+fail1926:	mov	$141, r0
 	trap	$0
-f1927:	mov	$142, r0
+fail1927:	mov	$142, r0
 	trap	$0
-f1928:	mov	$143, r0
+fail1928:	mov	$143, r0
 	trap	$0
-f1929:	mov	$144, r0
+fail1929:	mov	$144, r0
 	trap	$0
-f1930:	mov	$145, r0
+fail1930:	mov	$145, r0
 	trap	$0
-f1931:	mov	$146, r0
+fail1931:	mov	$146, r0
 	trap	$0
-f1932:	mov	$147, r0
+fail1932:	mov	$147, r0
 	trap	$0
-f1933:	mov	$148, r0
+fail1933:	mov	$148, r0
 	trap	$0
-f1934:	mov	$149, r0
+fail1934:	mov	$149, r0
 	trap	$0
-f1935:	mov	$150, r0
+fail1935:	mov	$150, r0
 	trap	$0
-f1936:	mov	$151, r0
+fail1936:	mov	$151, r0
 	trap	$0
-f1937:	mov	$152, r0
+fail1937:	mov	$152, r0
 	trap	$0
-f1938:	mov	$153, r0
+fail1938:	mov	$153, r0
 	trap	$0
-f1939:	mov	$154, r0
+fail1939:	mov	$154, r0
 	trap	$0
-f1940:	mov	$155, r0
+fail1940:	mov	$155, r0
 	trap	$0
-f1941:	mov	$156, r0
+fail1941:	mov	$156, r0
 	trap	$0
-f1942:	mov	$157, r0
+fail1942:	mov	$157, r0
 	trap	$0
-f1943:	mov	$158, r0
+fail1943:	mov	$158, r0
 	trap	$0
-f1944:	mov	$159, r0
+fail1944:	mov	$159, r0
 	trap	$0
-f1945:	mov	$160, r0
+fail1945:	mov	$160, r0
 	trap	$0
-f1946:	mov	$161, r0
+fail1946:	mov	$161, r0
 	trap	$0
-f1947:	mov	$162, r0
+fail1947:	mov	$162, r0
 	trap	$0
-f1948:	mov	$163, r0
+fail1948:	mov	$163, r0
 	trap	$0
-f1949:	mov	$164, r0
+fail1949:	mov	$164, r0
 	trap	$0
-f1950:	mov	$165, r0
+fail1950:	mov	$165, r0
 	trap	$0
-f1951:	mov	$166, r0
+fail1951:	mov	$166, r0
 	trap	$0
-f1952:	mov	$167, r0
+fail1952:	mov	$167, r0
 	trap	$0
-f1953:	mov	$168, r0
+fail1953:	mov	$168, r0
 	trap	$0
-f1954:	mov	$169, r0
+fail1954:	mov	$169, r0
 	trap	$0
-f1955:	mov	$170, r0
+fail1955:	mov	$170, r0
 	trap	$0
-f1956:	mov	$171, r0
+fail1956:	mov	$171, r0
 	trap	$0
-f1957:	mov	$172, r0
+fail1957:	mov	$172, r0
 	trap	$0
-f1958:	mov	$173, r0
+fail1958:	mov	$173, r0
 	trap	$0
-f1959:	mov	$174, r0
+fail1959:	mov	$174, r0
 	trap	$0
-f1960:	mov	$175, r0
+fail1960:	mov	$175, r0
 	trap	$0
-f1961:	mov	$176, r0
+fail1961:	mov	$176, r0
 	trap	$0
-f1962:	mov	$177, r0
+fail1962:	mov	$177, r0
 	trap	$0
-f1963:	mov	$178, r0
+fail1963:	mov	$178, r0
 	trap	$0
-f1964:	mov	$179, r0
+fail1964:	mov	$179, r0
 	trap	$0
-f1965:	mov	$180, r0
+fail1965:	mov	$180, r0
 	trap	$0
-f1966:	mov	$181, r0
+fail1966:	mov	$181, r0
 	trap	$0
-f1967:	mov	$182, r0
+fail1967:	mov	$182, r0
 	trap	$0
-f1968:	mov	$183, r0
+fail1968:	mov	$183, r0
 	trap	$0
-f1969:	mov	$184, r0
+fail1969:	mov	$184, r0
 	trap	$0
-f1970:	mov	$185, r0
+fail1970:	mov	$185, r0
 	trap	$0
-f1971:	mov	$186, r0
+fail1971:	mov	$186, r0
 	trap	$0
-f1972:	mov	$187, r0
+fail1972:	mov	$187, r0
 	trap	$0
-f1973:	mov	$188, r0
+fail1973:	mov	$188, r0
 	trap	$0
-f1974:	mov	$189, r0
+fail1974:	mov	$189, r0
 	trap	$0
-f1975:	mov	$190, r0
+fail1975:	mov	$190, r0
 	trap	$0
-f1976:	mov	$191, r0
+fail1976:	mov	$191, r0
 	trap	$0
-f1977:	mov	$192, r0
+fail1977:	mov	$192, r0
 	trap	$0
-f1978:	mov	$193, r0
+fail1978:	mov	$193, r0
 	trap	$0
-f1979:	mov	$194, r0
+fail1979:	mov	$194, r0
 	trap	$0
-f1980:	mov	$195, r0
+fail1980:	mov	$195, r0
 	trap	$0
-f1981:	mov	$196, r0
+fail1981:	mov	$196, r0
 	trap	$0
-f1982:	mov	$197, r0
+fail1982:	mov	$197, r0
 	trap	$0
-f1983:	mov	$198, r0
+fail1983:	mov	$198, r0
 	trap	$0
-f1984:	mov	$199, r0
+fail1984:	mov	$199, r0
 	trap	$0
-f1985:	mov	$200, r0
+fail1985:	mov	$200, r0
 	trap	$0
-f1986:	mov	$201, r0
+fail1986:	mov	$201, r0
 	trap	$0
-f1987:	mov	$202, r0
+fail1987:	mov	$202, r0
 	trap	$0
-f1988:	mov	$203, r0
+fail1988:	mov	$203, r0
 	trap	$0
-f1989:	mov	$204, r0
+fail1989:	mov	$204, r0
 	trap	$0
-f1990:	mov	$205, r0
+fail1990:	mov	$205, r0
 	trap	$0
-f1991:	mov	$206, r0
+fail1991:	mov	$206, r0
 	trap	$0
-f1992:	mov	$207, r0
+fail1992:	mov	$207, r0
 	trap	$0
-f1993:	mov	$208, r0
+fail1993:	mov	$208, r0
 	trap	$0
-f1994:	mov	$209, r0
+fail1994:	mov	$209, r0
 	trap	$0
-f1995:	mov	$210, r0
+fail1995:	mov	$210, r0
 	trap	$0
-f1996:	mov	$211, r0
+fail1996:	mov	$211, r0
 	trap	$0
-f1997:	mov	$212, r0
+fail1997:	mov	$212, r0
 	trap	$0
-f1998:	mov	$213, r0
+fail1998:	mov	$213, r0
 	trap	$0
-f1999:	mov	$214, r0
+fail1999:	mov	$214, r0
 	trap	$0
-f2000:	mov	$215, r0
+fail2000:	mov	$215, r0
 	trap	$0
-f2001:	mov	$216, r0
+fail2001:	mov	$216, r0
 	trap	$0
-f2002:	mov	$217, r0
+fail2002:	mov	$217, r0
 	trap	$0
-f2003:	mov	$218, r0
+fail2003:	mov	$218, r0
 	trap	$0
-f2004:	mov	$219, r0
+fail2004:	mov	$219, r0
 	trap	$0
-f2005:	mov	$220, r0
+fail2005:	mov	$220, r0
 	trap	$0
-f2006:	mov	$221, r0
+fail2006:	mov	$221, r0
 	trap	$0
-f2007:	mov	$222, r0
+fail2007:	mov	$222, r0
 	trap	$0
-f2008:	mov	$223, r0
+fail2008:	mov	$223, r0
 	trap	$0
-f2009:	mov	$224, r0
+fail2009:	mov	$224, r0
 	trap	$0
-f2010:	mov	$225, r0
+fail2010:	mov	$225, r0
 	trap	$0
-f2011:	mov	$226, r0
+fail2011:	mov	$226, r0
 	trap	$0
-f2012:	mov	$227, r0
+fail2012:	mov	$227, r0
 	trap	$0
-f2013:	mov	$228, r0
+fail2013:	mov	$228, r0
 	trap	$0
-f2014:	mov	$229, r0
+fail2014:	mov	$229, r0
 	trap	$0
-f2015:	mov	$230, r0
+fail2015:	mov	$230, r0
 	trap	$0
-f2016:	mov	$231, r0
+fail2016:	mov	$231, r0
 	trap	$0
-f2017:	mov	$232, r0
+fail2017:	mov	$232, r0
 	trap	$0
-f2018:	mov	$233, r0
+fail2018:	mov	$233, r0
 	trap	$0
-f2019:	mov	$234, r0
+fail2019:	mov	$234, r0
 	trap	$0
-f2020:	mov	$235, r0
+fail2020:	mov	$235, r0
 	trap	$0
-f2021:	mov	$236, r0
+fail2021:	mov	$236, r0
 	trap	$0
-f2022:	mov	$237, r0
+fail2022:	mov	$237, r0
 	trap	$0
-f2023:	mov	$238, r0
+fail2023:	mov	$238, r0
 	trap	$0
-f2024:	mov	$239, r0
+fail2024:	mov	$239, r0
 	trap	$0
-f2025:	mov	$240, r0
+fail2025:	mov	$240, r0
 	trap	$0
-f2026:	mov	$241, r0
+fail2026:	mov	$241, r0
 	trap	$0
-f2027:	mov	$242, r0
+fail2027:	mov	$242, r0
 	trap	$0
-f2028:	mov	$243, r0
+fail2028:	mov	$243, r0
 	trap	$0
-f2029:	mov	$244, r0
+fail2029:	mov	$244, r0
 	trap	$0
-f2030:	mov	$245, r0
+fail2030:	mov	$245, r0
 	trap	$0
-f2031:	mov	$246, r0
+fail2031:	mov	$246, r0
 	trap	$0
-f2032:	mov	$247, r0
+fail2032:	mov	$247, r0
 	trap	$0
-f2033:	mov	$248, r0
+fail2033:	mov	$248, r0
 	trap	$0
-f2034:	mov	$249, r0
+fail2034:	mov	$249, r0
 	trap	$0
-f2035:	mov	$250, r0
+fail2035:	mov	$250, r0
 	trap	$0
-f2036:	mov	$251, r0
+fail2036:	mov	$251, r0
 	trap	$0
-f2037:	mov	$252, r0
+fail2037:	mov	$252, r0
 	trap	$0
-f2038:	mov	$253, r0
+fail2038:	mov	$253, r0
 	trap	$0
-f2039:	mov	$254, r0
+fail2039:	mov	$254, r0
 	trap	$0
-f2040:	mov	$255, r0
+fail2040:	mov	$255, r0
 	trap	$0
-f2041:	mov	$1, r0
+fail2041:	mov	$1, r0
 	trap	$0
-f2042:	mov	$2, r0
+fail2042:	mov	$2, r0
 	trap	$0
-f2043:	mov	$3, r0
+fail2043:	mov	$3, r0
 	trap	$0
-f2044:	mov	$4, r0
+fail2044:	mov	$4, r0
 	trap	$0
-f2045:	mov	$5, r0
+fail2045:	mov	$5, r0
 	trap	$0
-f2046:	mov	$6, r0
+fail2046:	mov	$6, r0
 	trap	$0
-f2047:	mov	$7, r0
+fail2047:	mov	$7, r0
 	trap	$0
-f2048:	mov	$8, r0
+fail2048:	mov	$8, r0
 	trap	$0
-f2049:	mov	$9, r0
+fail2049:	mov	$9, r0
 	trap	$0
-f2050:	mov	$10, r0
+fail2050:	mov	$10, r0
 	trap	$0
-f2051:	mov	$11, r0
+fail2051:	mov	$11, r0
 	trap	$0
-f2052:	mov	$12, r0
+fail2052:	mov	$12, r0
 	trap	$0
-f2053:	mov	$13, r0
+fail2053:	mov	$13, r0
 	trap	$0
-f2054:	mov	$14, r0
+fail2054:	mov	$14, r0
 	trap	$0
-f2055:	mov	$15, r0
+fail2055:	mov	$15, r0
 	trap	$0
-f2056:	mov	$16, r0
+fail2056:	mov	$16, r0
 	trap	$0
-f2057:	mov	$17, r0
+fail2057:	mov	$17, r0
 	trap	$0
-f2058:	mov	$18, r0
+fail2058:	mov	$18, r0
 	trap	$0
-f2059:	mov	$19, r0
+fail2059:	mov	$19, r0
 	trap	$0
-f2060:	mov	$20, r0
+fail2060:	mov	$20, r0
 	trap	$0
-f2061:	mov	$21, r0
+fail2061:	mov	$21, r0
 	trap	$0
-f2062:	mov	$22, r0
+fail2062:	mov	$22, r0
 	trap	$0
-f2063:	mov	$23, r0
+fail2063:	mov	$23, r0
 	trap	$0
-f2064:	mov	$24, r0
+fail2064:	mov	$24, r0
 	trap	$0
-f2065:	mov	$25, r0
+fail2065:	mov	$25, r0
 	trap	$0
-f2066:	mov	$26, r0
+fail2066:	mov	$26, r0
 	trap	$0
-f2067:	mov	$27, r0
+fail2067:	mov	$27, r0
 	trap	$0
-f2068:	mov	$28, r0
+fail2068:	mov	$28, r0
 	trap	$0
-f2069:	mov	$29, r0
+fail2069:	mov	$29, r0
 	trap	$0
-f2070:	mov	$30, r0
+fail2070:	mov	$30, r0
 	trap	$0
-f2071:	mov	$31, r0
+fail2071:	mov	$31, r0
 	trap	$0
-f2072:	mov	$32, r0
+fail2072:	mov	$32, r0
 	trap	$0
-f2073:	mov	$33, r0
+fail2073:	mov	$33, r0
 	trap	$0
-f2074:	mov	$34, r0
+fail2074:	mov	$34, r0
 	trap	$0
-f2075:	mov	$35, r0
+fail2075:	mov	$35, r0
 	trap	$0
-f2076:	mov	$36, r0
+fail2076:	mov	$36, r0
 	trap	$0
-f2077:	mov	$37, r0
+fail2077:	mov	$37, r0
 	trap	$0
-f2078:	mov	$38, r0
+fail2078:	mov	$38, r0
 	trap	$0
-f2079:	mov	$39, r0
+fail2079:	mov	$39, r0
 	trap	$0
-f2080:	mov	$40, r0
+fail2080:	mov	$40, r0
 	trap	$0
-f2081:	mov	$41, r0
+fail2081:	mov	$41, r0
 	trap	$0
-f2082:	mov	$42, r0
+fail2082:	mov	$42, r0
 	trap	$0
-f2083:	mov	$43, r0
+fail2083:	mov	$43, r0
 	trap	$0
-f2084:	mov	$44, r0
+fail2084:	mov	$44, r0
 	trap	$0
-f2085:	mov	$45, r0
+fail2085:	mov	$45, r0
 	trap	$0
-f2086:	mov	$46, r0
+fail2086:	mov	$46, r0
 	trap	$0
-f2087:	mov	$47, r0
+fail2087:	mov	$47, r0
 	trap	$0
-f2088:	mov	$48, r0
+fail2088:	mov	$48, r0
 	trap	$0
-f2089:	mov	$49, r0
+fail2089:	mov	$49, r0
 	trap	$0
-f2090:	mov	$50, r0
+fail2090:	mov	$50, r0
 	trap	$0
-f2091:	mov	$51, r0
+fail2091:	mov	$51, r0
 	trap	$0
-f2092:	mov	$52, r0
+fail2092:	mov	$52, r0
 	trap	$0
-f2093:	mov	$53, r0
+fail2093:	mov	$53, r0
 	trap	$0
-f2094:	mov	$54, r0
+fail2094:	mov	$54, r0
 	trap	$0
-f2095:	mov	$55, r0
+fail2095:	mov	$55, r0
 	trap	$0
-f2096:	mov	$56, r0
+fail2096:	mov	$56, r0
 	trap	$0
-f2097:	mov	$57, r0
+fail2097:	mov	$57, r0
 	trap	$0
-f2098:	mov	$58, r0
+fail2098:	mov	$58, r0
 	trap	$0
-f2099:	mov	$59, r0
+fail2099:	mov	$59, r0
 	trap	$0
-f2100:	mov	$60, r0
+fail2100:	mov	$60, r0
 	trap	$0
-f2101:	mov	$61, r0
+fail2101:	mov	$61, r0
 	trap	$0
-f2102:	mov	$62, r0
+fail2102:	mov	$62, r0
 	trap	$0
-f2103:	mov	$63, r0
+fail2103:	mov	$63, r0
 	trap	$0
-f2104:	mov	$64, r0
+fail2104:	mov	$64, r0
 	trap	$0
-f2105:	mov	$65, r0
+fail2105:	mov	$65, r0
 	trap	$0
-f2106:	mov	$66, r0
+fail2106:	mov	$66, r0
 	trap	$0
-f2107:	mov	$67, r0
+fail2107:	mov	$67, r0
 	trap	$0
-f2108:	mov	$68, r0
+fail2108:	mov	$68, r0
 	trap	$0
-f2109:	mov	$69, r0
+fail2109:	mov	$69, r0
 	trap	$0
-f2110:	mov	$70, r0
+fail2110:	mov	$70, r0
 	trap	$0
-f2111:	mov	$71, r0
+fail2111:	mov	$71, r0
 	trap	$0
-f2112:	mov	$72, r0
+fail2112:	mov	$72, r0
 	trap	$0
-f2113:	mov	$73, r0
+fail2113:	mov	$73, r0
 	trap	$0
-f2114:	mov	$74, r0
+fail2114:	mov	$74, r0
 	trap	$0
-f2115:	mov	$75, r0
+fail2115:	mov	$75, r0
 	trap	$0
-f2116:	mov	$76, r0
+fail2116:	mov	$76, r0
 	trap	$0
-f2117:	mov	$77, r0
+fail2117:	mov	$77, r0
 	trap	$0
-f2118:	mov	$78, r0
+fail2118:	mov	$78, r0
 	trap	$0
-f2119:	mov	$79, r0
+fail2119:	mov	$79, r0
 	trap	$0
-f2120:	mov	$80, r0
+fail2120:	mov	$80, r0
 	trap	$0
-f2121:	mov	$81, r0
+fail2121:	mov	$81, r0
 	trap	$0
-f2122:	mov	$82, r0
+fail2122:	mov	$82, r0
 	trap	$0
-f2123:	mov	$83, r0
+fail2123:	mov	$83, r0
 	trap	$0
-f2124:	mov	$84, r0
+fail2124:	mov	$84, r0
 	trap	$0
-f2125:	mov	$85, r0
+fail2125:	mov	$85, r0
 	trap	$0
-f2126:	mov	$86, r0
+fail2126:	mov	$86, r0
 	trap	$0
-f2127:	mov	$87, r0
+fail2127:	mov	$87, r0
 	trap	$0
-f2128:	mov	$88, r0
+fail2128:	mov	$88, r0
 	trap	$0
-f2129:	mov	$89, r0
+fail2129:	mov	$89, r0
 	trap	$0
-f2130:	mov	$90, r0
+fail2130:	mov	$90, r0
 	trap	$0
-f2131:	mov	$91, r0
+fail2131:	mov	$91, r0
 	trap	$0
-f2132:	mov	$92, r0
+fail2132:	mov	$92, r0
 	trap	$0
-f2133:	mov	$93, r0
+fail2133:	mov	$93, r0
 	trap	$0
-f2134:	mov	$94, r0
+fail2134:	mov	$94, r0
 	trap	$0
-f2135:	mov	$95, r0
+fail2135:	mov	$95, r0
 	trap	$0
-f2136:	mov	$96, r0
+fail2136:	mov	$96, r0
 	trap	$0
-f2137:	mov	$97, r0
+fail2137:	mov	$97, r0
 	trap	$0
-f2138:	mov	$98, r0
+fail2138:	mov	$98, r0
 	trap	$0
-f2139:	mov	$99, r0
+fail2139:	mov	$99, r0
 	trap	$0
-f2140:	mov	$100, r0
+fail2140:	mov	$100, r0
 	trap	$0
-f2141:	mov	$101, r0
+fail2141:	mov	$101, r0
 	trap	$0
-f2142:	mov	$102, r0
+fail2142:	mov	$102, r0
 	trap	$0
-f2143:	mov	$103, r0
+fail2143:	mov	$103, r0
 	trap	$0
-f2144:	mov	$104, r0
+fail2144:	mov	$104, r0
 	trap	$0
-f2145:	mov	$105, r0
+fail2145:	mov	$105, r0
 	trap	$0
-f2146:	mov	$106, r0
+fail2146:	mov	$106, r0
 	trap	$0
-f2147:	mov	$107, r0
+fail2147:	mov	$107, r0
 	trap	$0
-f2148:	mov	$108, r0
+fail2148:	mov	$108, r0
 	trap	$0
-f2149:	mov	$109, r0
+fail2149:	mov	$109, r0
 	trap	$0
-f2150:	mov	$110, r0
+fail2150:	mov	$110, r0
 	trap	$0
-f2151:	mov	$111, r0
+fail2151:	mov	$111, r0
 	trap	$0
-f2152:	mov	$112, r0
+fail2152:	mov	$112, r0
 	trap	$0
-f2153:	mov	$113, r0
+fail2153:	mov	$113, r0
 	trap	$0
-f2154:	mov	$114, r0
+fail2154:	mov	$114, r0
 	trap	$0
-f2155:	mov	$115, r0
+fail2155:	mov	$115, r0
 	trap	$0
-f2156:	mov	$116, r0
+fail2156:	mov	$116, r0
 	trap	$0
-f2157:	mov	$117, r0
+fail2157:	mov	$117, r0
 	trap	$0
-f2158:	mov	$118, r0
+fail2158:	mov	$118, r0
 	trap	$0
-f2159:	mov	$119, r0
+fail2159:	mov	$119, r0
 	trap	$0
-f2160:	mov	$120, r0
+fail2160:	mov	$120, r0
 	trap	$0
-f2161:	mov	$121, r0
+fail2161:	mov	$121, r0
 	trap	$0
-f2162:	mov	$122, r0
+fail2162:	mov	$122, r0
 	trap	$0
-f2163:	mov	$123, r0
+fail2163:	mov	$123, r0
 	trap	$0
-f2164:	mov	$124, r0
+fail2164:	mov	$124, r0
 	trap	$0
-f2165:	mov	$125, r0
+fail2165:	mov	$125, r0
 	trap	$0
-f2166:	mov	$126, r0
+fail2166:	mov	$126, r0
 	trap	$0
-f2167:	mov	$127, r0
+fail2167:	mov	$127, r0
 	trap	$0
-f2168:	mov	$128, r0
+fail2168:	mov	$128, r0
 	trap	$0
-f2169:	mov	$129, r0
+fail2169:	mov	$129, r0
 	trap	$0
-f2170:	mov	$130, r0
+fail2170:	mov	$130, r0
 	trap	$0
-f2171:	mov	$131, r0
+fail2171:	mov	$131, r0
 	trap	$0
-f2172:	mov	$132, r0
+fail2172:	mov	$132, r0
 	trap	$0
-f2173:	mov	$133, r0
+fail2173:	mov	$133, r0
 	trap	$0
-f2174:	mov	$134, r0
+fail2174:	mov	$134, r0
 	trap	$0
-f2175:	mov	$135, r0
+fail2175:	mov	$135, r0
 	trap	$0
-f2176:	mov	$136, r0
+fail2176:	mov	$136, r0
 	trap	$0
-f2177:	mov	$137, r0
+fail2177:	mov	$137, r0
 	trap	$0
-f2178:	mov	$138, r0
+fail2178:	mov	$138, r0
 	trap	$0
-f2179:	mov	$139, r0
+fail2179:	mov	$139, r0
 	trap	$0
-f2180:	mov	$140, r0
+fail2180:	mov	$140, r0
 	trap	$0
-f2181:	mov	$141, r0
+fail2181:	mov	$141, r0
 	trap	$0
-f2182:	mov	$142, r0
+fail2182:	mov	$142, r0
 	trap	$0
-f2183:	mov	$143, r0
+fail2183:	mov	$143, r0
 	trap	$0
-f2184:	mov	$144, r0
+fail2184:	mov	$144, r0
 	trap	$0
-f2185:	mov	$145, r0
+fail2185:	mov	$145, r0
 	trap	$0
-f2186:	mov	$146, r0
+fail2186:	mov	$146, r0
 	trap	$0
-f2187:	mov	$147, r0
+fail2187:	mov	$147, r0
 	trap	$0
-f2188:	mov	$148, r0
+fail2188:	mov	$148, r0
 	trap	$0
-f2189:	mov	$149, r0
+fail2189:	mov	$149, r0
 	trap	$0
-f2190:	mov	$150, r0
+fail2190:	mov	$150, r0
 	trap	$0
-f2191:	mov	$151, r0
+fail2191:	mov	$151, r0
 	trap	$0
-f2192:	mov	$152, r0
+fail2192:	mov	$152, r0
 	trap	$0
-f2193:	mov	$153, r0
+fail2193:	mov	$153, r0
 	trap	$0
-f2194:	mov	$154, r0
+fail2194:	mov	$154, r0
 	trap	$0
-f2195:	mov	$155, r0
+fail2195:	mov	$155, r0
 	trap	$0
-f2196:	mov	$156, r0
+fail2196:	mov	$156, r0
 	trap	$0
-f2197:	mov	$157, r0
+fail2197:	mov	$157, r0
 	trap	$0
-f2198:	mov	$158, r0
+fail2198:	mov	$158, r0
 	trap	$0
-f2199:	mov	$159, r0
+fail2199:	mov	$159, r0
 	trap	$0
-f2200:	mov	$160, r0
+fail2200:	mov	$160, r0
 	trap	$0
-f2201:	mov	$161, r0
+fail2201:	mov	$161, r0
 	trap	$0
-f2202:	mov	$162, r0
+fail2202:	mov	$162, r0
 	trap	$0
-f2203:	mov	$163, r0
+fail2203:	mov	$163, r0
 	trap	$0
-f2204:	mov	$164, r0
+fail2204:	mov	$164, r0
 	trap	$0
-f2205:	mov	$165, r0
+fail2205:	mov	$165, r0
 	trap	$0
-f2206:	mov	$166, r0
+fail2206:	mov	$166, r0
 	trap	$0
-f2207:	mov	$167, r0
+fail2207:	mov	$167, r0
 	trap	$0
-f2208:	mov	$168, r0
+fail2208:	mov	$168, r0
 	trap	$0
-f2209:	mov	$169, r0
+fail2209:	mov	$169, r0
 	trap	$0
-f2210:	mov	$170, r0
+fail2210:	mov	$170, r0
 	trap	$0
-f2211:	mov	$171, r0
+fail2211:	mov	$171, r0
 	trap	$0
-f2212:	mov	$172, r0
+fail2212:	mov	$172, r0
 	trap	$0
-f2213:	mov	$173, r0
+fail2213:	mov	$173, r0
 	trap	$0
-f2214:	mov	$174, r0
+fail2214:	mov	$174, r0
 	trap	$0
-f2215:	mov	$175, r0
+fail2215:	mov	$175, r0
 	trap	$0
-f2216:	mov	$176, r0
+fail2216:	mov	$176, r0
 	trap	$0
-f2217:	mov	$177, r0
+fail2217:	mov	$177, r0
 	trap	$0
-f2218:	mov	$178, r0
+fail2218:	mov	$178, r0
 	trap	$0
-f2219:	mov	$179, r0
+fail2219:	mov	$179, r0
 	trap	$0
-f2220:	mov	$180, r0
+fail2220:	mov	$180, r0
 	trap	$0
-f2221:	mov	$181, r0
+fail2221:	mov	$181, r0
 	trap	$0
-f2222:	mov	$182, r0
+fail2222:	mov	$182, r0
 	trap	$0
-f2223:	mov	$183, r0
+fail2223:	mov	$183, r0
 	trap	$0
-f2224:	mov	$184, r0
+fail2224:	mov	$184, r0
 	trap	$0
-f2225:	mov	$185, r0
+fail2225:	mov	$185, r0
 	trap	$0
-f2226:	mov	$186, r0
+fail2226:	mov	$186, r0
 	trap	$0
-f2227:	mov	$187, r0
+fail2227:	mov	$187, r0
 	trap	$0
-f2228:	mov	$188, r0
+fail2228:	mov	$188, r0
 	trap	$0
-f2229:	mov	$189, r0
+fail2229:	mov	$189, r0
 	trap	$0
-f2230:	mov	$190, r0
+fail2230:	mov	$190, r0
 	trap	$0
-f2231:	mov	$191, r0
+fail2231:	mov	$191, r0
 	trap	$0
-f2232:	mov	$192, r0
+fail2232:	mov	$192, r0
 	trap	$0
-f2233:	mov	$193, r0
+fail2233:	mov	$193, r0
 	trap	$0
-f2234:	mov	$194, r0
+fail2234:	mov	$194, r0
 	trap	$0
-f2235:	mov	$195, r0
+fail2235:	mov	$195, r0
 	trap	$0
-f2236:	mov	$196, r0
+fail2236:	mov	$196, r0
 	trap	$0
-f2237:	mov	$197, r0
+fail2237:	mov	$197, r0
 	trap	$0
-f2238:	mov	$198, r0
+fail2238:	mov	$198, r0
 	trap	$0
-f2239:	mov	$199, r0
+fail2239:	mov	$199, r0
 	trap	$0
-f2240:	mov	$200, r0
+fail2240:	mov	$200, r0
 	trap	$0
-f2241:	mov	$201, r0
+fail2241:	mov	$201, r0
 	trap	$0
-f2242:	mov	$202, r0
+fail2242:	mov	$202, r0
 	trap	$0
-f2243:	mov	$203, r0
+fail2243:	mov	$203, r0
 	trap	$0
-f2244:	mov	$204, r0
+fail2244:	mov	$204, r0
 	trap	$0
-f2245:	mov	$205, r0
+fail2245:	mov	$205, r0
 	trap	$0
-f2246:	mov	$206, r0
+fail2246:	mov	$206, r0
 	trap	$0
-f2247:	mov	$207, r0
+fail2247:	mov	$207, r0
 	trap	$0
-f2248:	mov	$208, r0
+fail2248:	mov	$208, r0
 	trap	$0
-f2249:	mov	$209, r0
+fail2249:	mov	$209, r0
 	trap	$0
-f2250:	mov	$210, r0
+fail2250:	mov	$210, r0
 	trap	$0
-f2251:	mov	$211, r0
+fail2251:	mov	$211, r0
 	trap	$0
-f2252:	mov	$212, r0
+fail2252:	mov	$212, r0
 	trap	$0
-f2253:	mov	$213, r0
+fail2253:	mov	$213, r0
 	trap	$0
-f2254:	mov	$214, r0
+fail2254:	mov	$214, r0
 	trap	$0
-f2255:	mov	$215, r0
+fail2255:	mov	$215, r0
 	trap	$0
-f2256:	mov	$216, r0
+fail2256:	mov	$216, r0
 	trap	$0
-f2257:	mov	$217, r0
+fail2257:	mov	$217, r0
 	trap	$0
-f2258:	mov	$218, r0
+fail2258:	mov	$218, r0
 	trap	$0
-f2259:	mov	$219, r0
+fail2259:	mov	$219, r0
 	trap	$0
-f2260:	mov	$220, r0
+fail2260:	mov	$220, r0
 	trap	$0
-f2261:	mov	$221, r0
+fail2261:	mov	$221, r0
 	trap	$0
-f2262:	mov	$222, r0
+fail2262:	mov	$222, r0
 	trap	$0
-f2263:	mov	$223, r0
+fail2263:	mov	$223, r0
 	trap	$0
-f2264:	mov	$224, r0
+fail2264:	mov	$224, r0
 	trap	$0
-f2265:	mov	$225, r0
+fail2265:	mov	$225, r0
 	trap	$0
-f2266:	mov	$226, r0
+fail2266:	mov	$226, r0
 	trap	$0
-f2267:	mov	$227, r0
+fail2267:	mov	$227, r0
 	trap	$0
-f2268:	mov	$228, r0
+fail2268:	mov	$228, r0
 	trap	$0
-f2269:	mov	$229, r0
+fail2269:	mov	$229, r0
 	trap	$0
-f2270:	mov	$230, r0
+fail2270:	mov	$230, r0
 	trap	$0
-f2271:	mov	$231, r0
+fail2271:	mov	$231, r0
 	trap	$0
-f2272:	mov	$232, r0
+fail2272:	mov	$232, r0
 	trap	$0
-f2273:	mov	$233, r0
+fail2273:	mov	$233, r0
 	trap	$0
-f2274:	mov	$234, r0
+fail2274:	mov	$234, r0
 	trap	$0
-f2275:	mov	$235, r0
+fail2275:	mov	$235, r0
 	trap	$0
-f2276:	mov	$236, r0
+fail2276:	mov	$236, r0
 	trap	$0
-f2277:	mov	$237, r0
+fail2277:	mov	$237, r0
 	trap	$0
-f2278:	mov	$238, r0
+fail2278:	mov	$238, r0
 	trap	$0
-f2279:	mov	$239, r0
+fail2279:	mov	$239, r0
 	trap	$0
-f2280:	mov	$240, r0
+fail2280:	mov	$240, r0
 	trap	$0
-f2281:	mov	$241, r0
+fail2281:	mov	$241, r0
 	trap	$0
-f2282:	mov	$242, r0
+fail2282:	mov	$242, r0
 	trap	$0
-f2283:	mov	$243, r0
+fail2283:	mov	$243, r0
 	trap	$0
-f2284:	mov	$244, r0
+fail2284:	mov	$244, r0
 	trap	$0
-f2285:	mov	$245, r0
+fail2285:	mov	$245, r0
 	trap	$0
-f2286:	mov	$246, r0
+fail2286:	mov	$246, r0
 	trap	$0
-f2287:	mov	$247, r0
+fail2287:	mov	$247, r0
 	trap	$0
-f2288:	mov	$248, r0
+fail2288:	mov	$248, r0
 	trap	$0
-f2289:	mov	$249, r0
+fail2289:	mov	$249, r0
 	trap	$0
-f2290:	mov	$250, r0
+fail2290:	mov	$250, r0
 	trap	$0
-f2291:	mov	$251, r0
+fail2291:	mov	$251, r0
 	trap	$0
-f2292:	mov	$252, r0
+fail2292:	mov	$252, r0
 	trap	$0
-f2293:	mov	$253, r0
+fail2293:	mov	$253, r0
 	trap	$0
-f2294:	mov	$254, r0
+fail2294:	mov	$254, r0
 	trap	$0
-f2295:	mov	$255, r0
+fail2295:	mov	$255, r0
 	trap	$0
-f2296:	mov	$1, r0
+fail2296:	mov	$1, r0
 	trap	$0
-f2297:	mov	$2, r0
+fail2297:	mov	$2, r0
 	trap	$0
-f2298:	mov	$3, r0
+fail2298:	mov	$3, r0
 	trap	$0
-f2299:	mov	$4, r0
+fail2299:	mov	$4, r0
 	trap	$0
-f2300:	mov	$5, r0
+fail2300:	mov	$5, r0
 	trap	$0
-f2301:	mov	$6, r0
+fail2301:	mov	$6, r0
 	trap	$0
-f2302:	mov	$7, r0
+fail2302:	mov	$7, r0
 	trap	$0
-f2303:	mov	$8, r0
+fail2303:	mov	$8, r0
 	trap	$0
-f2304:	mov	$9, r0
+fail2304:	mov	$9, r0
 	trap	$0
-f2305:	mov	$10, r0
+fail2305:	mov	$10, r0
 	trap	$0
-f2306:	mov	$11, r0
+fail2306:	mov	$11, r0
 	trap	$0
-f2307:	mov	$12, r0
+fail2307:	mov	$12, r0
 	trap	$0
-f2308:	mov	$13, r0
+fail2308:	mov	$13, r0
 	trap	$0
-f2309:	mov	$14, r0
+fail2309:	mov	$14, r0
 	trap	$0
-f2310:	mov	$15, r0
+fail2310:	mov	$15, r0
 	trap	$0
-f2311:	mov	$16, r0
+fail2311:	mov	$16, r0
 	trap	$0
-f2312:	mov	$17, r0
+fail2312:	mov	$17, r0
 	trap	$0
-f2313:	mov	$18, r0
+fail2313:	mov	$18, r0
 	trap	$0
-f2314:	mov	$19, r0
+fail2314:	mov	$19, r0
 	trap	$0
-f2315:	mov	$20, r0
+fail2315:	mov	$20, r0
 	trap	$0
-f2316:	mov	$21, r0
+fail2316:	mov	$21, r0
 	trap	$0
-f2317:	mov	$22, r0
+fail2317:	mov	$22, r0
 	trap	$0
-f2318:	mov	$23, r0
+fail2318:	mov	$23, r0
 	trap	$0
-f2319:	mov	$24, r0
+fail2319:	mov	$24, r0
 	trap	$0
-f2320:	mov	$25, r0
+fail2320:	mov	$25, r0
 	trap	$0
-f2321:	mov	$26, r0
+fail2321:	mov	$26, r0
 	trap	$0
-f2322:	mov	$27, r0
+fail2322:	mov	$27, r0
 	trap	$0
-f2323:	mov	$28, r0
+fail2323:	mov	$28, r0
 	trap	$0
-f2324:	mov	$29, r0
+fail2324:	mov	$29, r0
 	trap	$0
-f2325:	mov	$30, r0
+fail2325:	mov	$30, r0
 	trap	$0
-f2326:	mov	$31, r0
+fail2326:	mov	$31, r0
 	trap	$0
-f2327:	mov	$32, r0
+fail2327:	mov	$32, r0
 	trap	$0
-f2328:	mov	$33, r0
+fail2328:	mov	$33, r0
 	trap	$0
-f2329:	mov	$34, r0
+fail2329:	mov	$34, r0
 	trap	$0
-f2330:	mov	$35, r0
+fail2330:	mov	$35, r0
 	trap	$0
-f2331:	mov	$36, r0
+fail2331:	mov	$36, r0
 	trap	$0
-f2332:	mov	$37, r0
+fail2332:	mov	$37, r0
 	trap	$0
-f2333:	mov	$38, r0
+fail2333:	mov	$38, r0
 	trap	$0
-f2334:	mov	$39, r0
+fail2334:	mov	$39, r0
 	trap	$0
-f2335:	mov	$40, r0
+fail2335:	mov	$40, r0
 	trap	$0
-f2336:	mov	$41, r0
+fail2336:	mov	$41, r0
 	trap	$0
-f2337:	mov	$42, r0
+fail2337:	mov	$42, r0
 	trap	$0
-f2338:	mov	$43, r0
+fail2338:	mov	$43, r0
 	trap	$0
-f2339:	mov	$44, r0
+fail2339:	mov	$44, r0
 	trap	$0
-f2340:	mov	$45, r0
+fail2340:	mov	$45, r0
 	trap	$0
-f2341:	mov	$46, r0
+fail2341:	mov	$46, r0
 	trap	$0
-f2342:	mov	$47, r0
+fail2342:	mov	$47, r0
 	trap	$0
-f2343:	mov	$48, r0
+fail2343:	mov	$48, r0
 	trap	$0
-f2344:	mov	$49, r0
+fail2344:	mov	$49, r0
 	trap	$0
-f2345:	mov	$50, r0
+fail2345:	mov	$50, r0
 	trap	$0
-f2346:	mov	$51, r0
+fail2346:	mov	$51, r0
 	trap	$0
-f2347:	mov	$52, r0
+fail2347:	mov	$52, r0
 	trap	$0
-f2348:	mov	$53, r0
+fail2348:	mov	$53, r0
 	trap	$0
-f2349:	mov	$54, r0
+fail2349:	mov	$54, r0
 	trap	$0
-f2350:	mov	$55, r0
+fail2350:	mov	$55, r0
 	trap	$0
-f2351:	mov	$56, r0
+fail2351:	mov	$56, r0
 	trap	$0
-f2352:	mov	$57, r0
+fail2352:	mov	$57, r0
 	trap	$0
-f2353:	mov	$58, r0
+fail2353:	mov	$58, r0
 	trap	$0
-f2354:	mov	$59, r0
+fail2354:	mov	$59, r0
 	trap	$0
-f2355:	mov	$60, r0
+fail2355:	mov	$60, r0
 	trap	$0
-f2356:	mov	$61, r0
+fail2356:	mov	$61, r0
 	trap	$0
-f2357:	mov	$62, r0
+fail2357:	mov	$62, r0
 	trap	$0
-f2358:	mov	$63, r0
+fail2358:	mov	$63, r0
 	trap	$0
-f2359:	mov	$64, r0
+fail2359:	mov	$64, r0
 	trap	$0
-f2360:	mov	$65, r0
+fail2360:	mov	$65, r0
 	trap	$0
-f2361:	mov	$66, r0
+fail2361:	mov	$66, r0
 	trap	$0
-f2362:	mov	$67, r0
+fail2362:	mov	$67, r0
 	trap	$0
-f2363:	mov	$68, r0
+fail2363:	mov	$68, r0
 	trap	$0
-f2364:	mov	$69, r0
+fail2364:	mov	$69, r0
 	trap	$0
-f2365:	mov	$70, r0
+fail2365:	mov	$70, r0
 	trap	$0
-f2366:	mov	$71, r0
+fail2366:	mov	$71, r0
 	trap	$0
-f2367:	mov	$72, r0
+fail2367:	mov	$72, r0
 	trap	$0
-f2368:	mov	$73, r0
+fail2368:	mov	$73, r0
 	trap	$0
-f2369:	mov	$74, r0
+fail2369:	mov	$74, r0
 	trap	$0
-f2370:	mov	$75, r0
+fail2370:	mov	$75, r0
 	trap	$0
-f2371:	mov	$76, r0
+fail2371:	mov	$76, r0
 	trap	$0
-f2372:	mov	$77, r0
+fail2372:	mov	$77, r0
 	trap	$0
-f2373:	mov	$78, r0
+fail2373:	mov	$78, r0
 	trap	$0
-f2374:	mov	$79, r0
+fail2374:	mov	$79, r0
 	trap	$0
-f2375:	mov	$80, r0
+fail2375:	mov	$80, r0
 	trap	$0
-f2376:	mov	$81, r0
+fail2376:	mov	$81, r0
 	trap	$0
-f2377:	mov	$82, r0
+fail2377:	mov	$82, r0
 	trap	$0
-f2378:	mov	$83, r0
+fail2378:	mov	$83, r0
 	trap	$0
-f2379:	mov	$84, r0
+fail2379:	mov	$84, r0
 	trap	$0
-f2380:	mov	$85, r0
+fail2380:	mov	$85, r0
 	trap	$0
-f2381:	mov	$86, r0
+fail2381:	mov	$86, r0
 	trap	$0
-f2382:	mov	$87, r0
+fail2382:	mov	$87, r0
 	trap	$0
-f2383:	mov	$88, r0
+fail2383:	mov	$88, r0
 	trap	$0
-f2384:	mov	$89, r0
+fail2384:	mov	$89, r0
 	trap	$0
-f2385:	mov	$90, r0
+fail2385:	mov	$90, r0
 	trap	$0
-f2386:	mov	$91, r0
+fail2386:	mov	$91, r0
 	trap	$0
-f2387:	mov	$92, r0
+fail2387:	mov	$92, r0
 	trap	$0
-f2388:	mov	$93, r0
+fail2388:	mov	$93, r0
 	trap	$0
-f2389:	mov	$94, r0
+fail2389:	mov	$94, r0
 	trap	$0
-f2390:	mov	$95, r0
+fail2390:	mov	$95, r0
 	trap	$0
-f2391:	mov	$96, r0
+fail2391:	mov	$96, r0
 	trap	$0
-f2392:	mov	$97, r0
+fail2392:	mov	$97, r0
 	trap	$0
-f2393:	mov	$98, r0
+fail2393:	mov	$98, r0
 	trap	$0
-f2394:	mov	$99, r0
+fail2394:	mov	$99, r0
 	trap	$0
-f2395:	mov	$100, r0
+fail2395:	mov	$100, r0
 	trap	$0
-f2396:	mov	$101, r0
+fail2396:	mov	$101, r0
 	trap	$0
-f2397:	mov	$102, r0
+fail2397:	mov	$102, r0
 	trap	$0
-f2398:	mov	$103, r0
+fail2398:	mov	$103, r0
 	trap	$0
-f2399:	mov	$104, r0
+fail2399:	mov	$104, r0
 	trap	$0
-f2400:	mov	$105, r0
+fail2400:	mov	$105, r0
 	trap	$0
-f2401:	mov	$106, r0
+fail2401:	mov	$106, r0
 	trap	$0
-f2402:	mov	$107, r0
+fail2402:	mov	$107, r0
 	trap	$0
-f2403:	mov	$108, r0
+fail2403:	mov	$108, r0
 	trap	$0
-f2404:	mov	$109, r0
+fail2404:	mov	$109, r0
 	trap	$0
-f2405:	mov	$110, r0
+fail2405:	mov	$110, r0
 	trap	$0
-f2406:	mov	$111, r0
+fail2406:	mov	$111, r0
 	trap	$0
-f2407:	mov	$112, r0
+fail2407:	mov	$112, r0
 	trap	$0
-f2408:	mov	$113, r0
+fail2408:	mov	$113, r0
 	trap	$0
-f2409:	mov	$114, r0
+fail2409:	mov	$114, r0
 	trap	$0
-f2410:	mov	$115, r0
+fail2410:	mov	$115, r0
 	trap	$0
-f2411:	mov	$116, r0
+fail2411:	mov	$116, r0
 	trap	$0
-f2412:	mov	$117, r0
+fail2412:	mov	$117, r0
 	trap	$0
-f2413:	mov	$118, r0
+fail2413:	mov	$118, r0
 	trap	$0
-f2414:	mov	$119, r0
+fail2414:	mov	$119, r0
 	trap	$0
-f2415:	mov	$120, r0
+fail2415:	mov	$120, r0
 	trap	$0
-f2416:	mov	$121, r0
+fail2416:	mov	$121, r0
 	trap	$0
-f2417:	mov	$122, r0
+fail2417:	mov	$122, r0
 	trap	$0
-f2418:	mov	$123, r0
+fail2418:	mov	$123, r0
 	trap	$0
-f2419:	mov	$124, r0
+fail2419:	mov	$124, r0
 	trap	$0
-f2420:	mov	$125, r0
+fail2420:	mov	$125, r0
 	trap	$0
-f2421:	mov	$126, r0
+fail2421:	mov	$126, r0
 	trap	$0
-f2422:	mov	$127, r0
+fail2422:	mov	$127, r0
 	trap	$0
-f2423:	mov	$128, r0
+fail2423:	mov	$128, r0
 	trap	$0
-f2424:	mov	$129, r0
+fail2424:	mov	$129, r0
 	trap	$0
-f2425:	mov	$130, r0
+fail2425:	mov	$130, r0
 	trap	$0
-f2426:	mov	$131, r0
+fail2426:	mov	$131, r0
 	trap	$0
-f2427:	mov	$132, r0
+fail2427:	mov	$132, r0
 	trap	$0
-f2428:	mov	$133, r0
+fail2428:	mov	$133, r0
 	trap	$0
-f2429:	mov	$134, r0
+fail2429:	mov	$134, r0
 	trap	$0
-f2430:	mov	$135, r0
+fail2430:	mov	$135, r0
 	trap	$0
-f2431:	mov	$136, r0
+fail2431:	mov	$136, r0
 	trap	$0
-f2432:	mov	$137, r0
+fail2432:	mov	$137, r0
 	trap	$0
-f2433:	mov	$138, r0
+fail2433:	mov	$138, r0
 	trap	$0
-f2434:	mov	$139, r0
+fail2434:	mov	$139, r0
 	trap	$0
-f2435:	mov	$140, r0
+fail2435:	mov	$140, r0
 	trap	$0
-f2436:	mov	$141, r0
+fail2436:	mov	$141, r0
 	trap	$0
-f2437:	mov	$142, r0
+fail2437:	mov	$142, r0
 	trap	$0
-f2438:	mov	$143, r0
+fail2438:	mov	$143, r0
 	trap	$0
-f2439:	mov	$144, r0
+fail2439:	mov	$144, r0
 	trap	$0
-f2440:	mov	$145, r0
+fail2440:	mov	$145, r0
 	trap	$0
-f2441:	mov	$146, r0
+fail2441:	mov	$146, r0
 	trap	$0
-f2442:	mov	$147, r0
+fail2442:	mov	$147, r0
 	trap	$0
-f2443:	mov	$148, r0
+fail2443:	mov	$148, r0
 	trap	$0
-f2444:	mov	$149, r0
+fail2444:	mov	$149, r0
 	trap	$0
-f2445:	mov	$150, r0
+fail2445:	mov	$150, r0
 	trap	$0
-f2446:	mov	$151, r0
+fail2446:	mov	$151, r0
 	trap	$0
-f2447:	mov	$152, r0
+fail2447:	mov	$152, r0
 	trap	$0
-f2448:	mov	$153, r0
+fail2448:	mov	$153, r0
 	trap	$0
-f2449:	mov	$154, r0
+fail2449:	mov	$154, r0
 	trap	$0
-f2450:	mov	$155, r0
+fail2450:	mov	$155, r0
 	trap	$0
-f2451:	mov	$156, r0
+fail2451:	mov	$156, r0
 	trap	$0
-f2452:	mov	$157, r0
+fail2452:	mov	$157, r0
 	trap	$0
-f2453:	mov	$158, r0
+fail2453:	mov	$158, r0
 	trap	$0
-f2454:	mov	$159, r0
+fail2454:	mov	$159, r0
 	trap	$0
-f2455:	mov	$160, r0
+fail2455:	mov	$160, r0
 	trap	$0
-f2456:	mov	$161, r0
+fail2456:	mov	$161, r0
 	trap	$0
-f2457:	mov	$162, r0
+fail2457:	mov	$162, r0
 	trap	$0
-f2458:	mov	$163, r0
+fail2458:	mov	$163, r0
 	trap	$0
-f2459:	mov	$164, r0
+fail2459:	mov	$164, r0
 	trap	$0
-f2460:	mov	$165, r0
+fail2460:	mov	$165, r0
 	trap	$0
-f2461:	mov	$166, r0
+fail2461:	mov	$166, r0
 	trap	$0
-f2462:	mov	$167, r0
+fail2462:	mov	$167, r0
 	trap	$0
-f2463:	mov	$168, r0
+fail2463:	mov	$168, r0
 	trap	$0
-f2464:	mov	$169, r0
+fail2464:	mov	$169, r0
 	trap	$0
-f2465:	mov	$170, r0
+fail2465:	mov	$170, r0
 	trap	$0
-f2466:	mov	$171, r0
+fail2466:	mov	$171, r0
 	trap	$0
-f2467:	mov	$172, r0
+fail2467:	mov	$172, r0
 	trap	$0
-f2468:	mov	$173, r0
+fail2468:	mov	$173, r0
 	trap	$0
-f2469:	mov	$174, r0
+fail2469:	mov	$174, r0
 	trap	$0
-f2470:	mov	$175, r0
+fail2470:	mov	$175, r0
 	trap	$0
-f2471:	mov	$176, r0
+fail2471:	mov	$176, r0
 	trap	$0
-f2472:	mov	$177, r0
+fail2472:	mov	$177, r0
 	trap	$0
-f2473:	mov	$178, r0
+fail2473:	mov	$178, r0
 	trap	$0
-f2474:	mov	$179, r0
+fail2474:	mov	$179, r0
 	trap	$0
-f2475:	mov	$180, r0
+fail2475:	mov	$180, r0
 	trap	$0
-f2476:	mov	$181, r0
+fail2476:	mov	$181, r0
 	trap	$0
-f2477:	mov	$182, r0
+fail2477:	mov	$182, r0
 	trap	$0
-f2478:	mov	$183, r0
+fail2478:	mov	$183, r0
 	trap	$0
-f2479:	mov	$184, r0
+fail2479:	mov	$184, r0
 	trap	$0
-f2480:	mov	$185, r0
+fail2480:	mov	$185, r0
 	trap	$0
-f2481:	mov	$186, r0
+fail2481:	mov	$186, r0
 	trap	$0
-f2482:	mov	$187, r0
+fail2482:	mov	$187, r0
 	trap	$0
-f2483:	mov	$188, r0
+fail2483:	mov	$188, r0
 	trap	$0
-f2484:	mov	$189, r0
+fail2484:	mov	$189, r0
 	trap	$0
-f2485:	mov	$190, r0
+fail2485:	mov	$190, r0
 	trap	$0
-f2486:	mov	$191, r0
+fail2486:	mov	$191, r0
 	trap	$0
-f2487:	mov	$192, r0
+fail2487:	mov	$192, r0
 	trap	$0
-f2488:	mov	$193, r0
+fail2488:	mov	$193, r0
 	trap	$0
-f2489:	mov	$194, r0
+fail2489:	mov	$194, r0
 	trap	$0
-f2490:	mov	$195, r0
+fail2490:	mov	$195, r0
 	trap	$0
-f2491:	mov	$196, r0
+fail2491:	mov	$196, r0
 	trap	$0
-f2492:	mov	$197, r0
+fail2492:	mov	$197, r0
 	trap	$0
-f2493:	mov	$198, r0
+fail2493:	mov	$198, r0
 	trap	$0
-f2494:	mov	$199, r0
+fail2494:	mov	$199, r0
 	trap	$0
-f2495:	mov	$200, r0
+fail2495:	mov	$200, r0
 	trap	$0
-f2496:	mov	$201, r0
+fail2496:	mov	$201, r0
 	trap	$0
-f2497:	mov	$202, r0
+fail2497:	mov	$202, r0
 	trap	$0
-f2498:	mov	$203, r0
+fail2498:	mov	$203, r0
 	trap	$0
-f2499:	mov	$204, r0
+fail2499:	mov	$204, r0
 	trap	$0
-f2500:	mov	$205, r0
+fail2500:	mov	$205, r0
 	trap	$0
-f2501:	mov	$206, r0
+fail2501:	mov	$206, r0
 	trap	$0
-f2502:	mov	$207, r0
+fail2502:	mov	$207, r0
 	trap	$0
-f2503:	mov	$208, r0
+fail2503:	mov	$208, r0
 	trap	$0
-f2504:	mov	$209, r0
+fail2504:	mov	$209, r0
 	trap	$0
-f2505:	mov	$210, r0
+fail2505:	mov	$210, r0
 	trap	$0
-f2506:	mov	$211, r0
+fail2506:	mov	$211, r0
 	trap	$0
-f2507:	mov	$212, r0
+fail2507:	mov	$212, r0
 	trap	$0
-f2508:	mov	$213, r0
+fail2508:	mov	$213, r0
 	trap	$0
-f2509:	mov	$214, r0
+fail2509:	mov	$214, r0
 	trap	$0
-f2510:	mov	$215, r0
+fail2510:	mov	$215, r0
 	trap	$0
-f2511:	mov	$216, r0
+fail2511:	mov	$216, r0
 	trap	$0
-f2512:	mov	$217, r0
+fail2512:	mov	$217, r0
 	trap	$0
-f2513:	mov	$218, r0
+fail2513:	mov	$218, r0
 	trap	$0
-f2514:	mov	$219, r0
+fail2514:	mov	$219, r0
 	trap	$0
-f2515:	mov	$220, r0
+fail2515:	mov	$220, r0
 	trap	$0
-f2516:	mov	$221, r0
+fail2516:	mov	$221, r0
 	trap	$0
-f2517:	mov	$222, r0
+fail2517:	mov	$222, r0
 	trap	$0
-f2518:	mov	$223, r0
+fail2518:	mov	$223, r0
 	trap	$0
-f2519:	mov	$224, r0
+fail2519:	mov	$224, r0
 	trap	$0
-f2520:	mov	$225, r0
+fail2520:	mov	$225, r0
 	trap	$0
-f2521:	mov	$226, r0
+fail2521:	mov	$226, r0
 	trap	$0
-f2522:	mov	$227, r0
+fail2522:	mov	$227, r0
 	trap	$0
-f2523:	mov	$228, r0
+fail2523:	mov	$228, r0
 	trap	$0
-f2524:	mov	$229, r0
+fail2524:	mov	$229, r0
 	trap	$0
-f2525:	mov	$230, r0
+fail2525:	mov	$230, r0
 	trap	$0
-f2526:	mov	$231, r0
+fail2526:	mov	$231, r0
 	trap	$0
-f2527:	mov	$232, r0
+fail2527:	mov	$232, r0
 	trap	$0
-f2528:	mov	$233, r0
+fail2528:	mov	$233, r0
 	trap	$0
-f2529:	mov	$234, r0
+fail2529:	mov	$234, r0
 	trap	$0
-f2530:	mov	$235, r0
+fail2530:	mov	$235, r0
 	trap	$0
-f2531:	mov	$236, r0
+fail2531:	mov	$236, r0
 	trap	$0
-f2532:	mov	$237, r0
+fail2532:	mov	$237, r0
 	trap	$0
-f2533:	mov	$238, r0
+fail2533:	mov	$238, r0
 	trap	$0
-f2534:	mov	$239, r0
+fail2534:	mov	$239, r0
 	trap	$0
-f2535:	mov	$240, r0
+fail2535:	mov	$240, r0
 	trap	$0
-f2536:	mov	$241, r0
+fail2536:	mov	$241, r0
 	trap	$0
-f2537:	mov	$242, r0
+fail2537:	mov	$242, r0
 	trap	$0
-f2538:	mov	$243, r0
+fail2538:	mov	$243, r0
 	trap	$0
-f2539:	mov	$244, r0
+fail2539:	mov	$244, r0
 	trap	$0
-f2540:	mov	$245, r0
+fail2540:	mov	$245, r0
 	trap	$0
-f2541:	mov	$246, r0
+fail2541:	mov	$246, r0
 	trap	$0
-f2542:	mov	$247, r0
+fail2542:	mov	$247, r0
 	trap	$0
-f2543:	mov	$248, r0
+fail2543:	mov	$248, r0
 	trap	$0
-f2544:	mov	$249, r0
+fail2544:	mov	$249, r0
 	trap	$0
-f2545:	mov	$250, r0
+fail2545:	mov	$250, r0
 	trap	$0
-f2546:	mov	$251, r0
+fail2546:	mov	$251, r0
 	trap	$0
-f2547:	mov	$252, r0
+fail2547:	mov	$252, r0
 	trap	$0
-f2548:	mov	$253, r0
+fail2548:	mov	$253, r0
 	trap	$0
-f2549:	mov	$254, r0
+fail2549:	mov	$254, r0
 	trap	$0
-f2550:	mov	$255, r0
+fail2550:	mov	$255, r0
 	trap	$0
-f2551:	mov	$1, r0
+fail2551:	mov	$1, r0
 	trap	$0
-f2552:	mov	$2, r0
+fail2552:	mov	$2, r0
 	trap	$0
-f2553:	mov	$3, r0
+fail2553:	mov	$3, r0
 	trap	$0
-f2554:	mov	$4, r0
+fail2554:	mov	$4, r0
 	trap	$0
-f2555:	mov	$5, r0
+fail2555:	mov	$5, r0
 	trap	$0
-f2556:	mov	$6, r0
+fail2556:	mov	$6, r0
 	trap	$0
-f2557:	mov	$7, r0
+fail2557:	mov	$7, r0
 	trap	$0
-f2558:	mov	$8, r0
+fail2558:	mov	$8, r0
 	trap	$0
-f2559:	mov	$9, r0
+fail2559:	mov	$9, r0
 	trap	$0
-f2560:	mov	$10, r0
+fail2560:	mov	$10, r0
 	trap	$0
-f2561:	mov	$11, r0
+fail2561:	mov	$11, r0
 	trap	$0
-f2562:	mov	$12, r0
+fail2562:	mov	$12, r0
 	trap	$0
-f2563:	mov	$13, r0
+fail2563:	mov	$13, r0
 	trap	$0
-f2564:	mov	$14, r0
+fail2564:	mov	$14, r0
 	trap	$0
-f2565:	mov	$15, r0
+fail2565:	mov	$15, r0
 	trap	$0
-f2566:	mov	$16, r0
+fail2566:	mov	$16, r0
 	trap	$0
-f2567:	mov	$17, r0
+fail2567:	mov	$17, r0
 	trap	$0
-f2568:	mov	$18, r0
+fail2568:	mov	$18, r0
 	trap	$0
-f2569:	mov	$19, r0
+fail2569:	mov	$19, r0
 	trap	$0
-f2570:	mov	$20, r0
+fail2570:	mov	$20, r0
 	trap	$0
-f2571:	mov	$21, r0
+fail2571:	mov	$21, r0
 	trap	$0
-f2572:	mov	$22, r0
+fail2572:	mov	$22, r0
 	trap	$0
-f2573:	mov	$23, r0
+fail2573:	mov	$23, r0
 	trap	$0
-f2574:	mov	$24, r0
+fail2574:	mov	$24, r0
 	trap	$0
-f2575:	mov	$25, r0
+fail2575:	mov	$25, r0
 	trap	$0
-f2576:	mov	$26, r0
+fail2576:	mov	$26, r0
 	trap	$0
-f2577:	mov	$27, r0
+fail2577:	mov	$27, r0
 	trap	$0
-f2578:	mov	$28, r0
+fail2578:	mov	$28, r0
 	trap	$0
-f2579:	mov	$29, r0
+fail2579:	mov	$29, r0
 	trap	$0
-f2580:	mov	$30, r0
+fail2580:	mov	$30, r0
 	trap	$0
-f2581:	mov	$31, r0
+fail2581:	mov	$31, r0
 	trap	$0
-f2582:	mov	$32, r0
+fail2582:	mov	$32, r0
 	trap	$0
-f2583:	mov	$33, r0
+fail2583:	mov	$33, r0
 	trap	$0
-f2584:	mov	$34, r0
+fail2584:	mov	$34, r0
 	trap	$0
-f2585:	mov	$35, r0
+fail2585:	mov	$35, r0
 	trap	$0
-f2586:	mov	$36, r0
+fail2586:	mov	$36, r0
 	trap	$0
-f2587:	mov	$37, r0
+fail2587:	mov	$37, r0
 	trap	$0
-f2588:	mov	$38, r0
+fail2588:	mov	$38, r0
 	trap	$0
-f2589:	mov	$39, r0
+fail2589:	mov	$39, r0
 	trap	$0
-f2590:	mov	$40, r0
+fail2590:	mov	$40, r0
 	trap	$0
-f2591:	mov	$41, r0
+fail2591:	mov	$41, r0
 	trap	$0
-f2592:	mov	$42, r0
+fail2592:	mov	$42, r0
 	trap	$0
-f2593:	mov	$43, r0
+fail2593:	mov	$43, r0
 	trap	$0
-f2594:	mov	$44, r0
+fail2594:	mov	$44, r0
 	trap	$0
-f2595:	mov	$45, r0
+fail2595:	mov	$45, r0
 	trap	$0
-f2596:	mov	$46, r0
+fail2596:	mov	$46, r0
 	trap	$0
-f2597:	mov	$47, r0
+fail2597:	mov	$47, r0
 	trap	$0
-f2598:	mov	$48, r0
+fail2598:	mov	$48, r0
 	trap	$0
-f2599:	mov	$49, r0
+fail2599:	mov	$49, r0
 	trap	$0
-f2600:	mov	$50, r0
+fail2600:	mov	$50, r0
 	trap	$0
-f2601:	mov	$51, r0
+fail2601:	mov	$51, r0
 	trap	$0
-f2602:	mov	$52, r0
+fail2602:	mov	$52, r0
 	trap	$0
-f2603:	mov	$53, r0
+fail2603:	mov	$53, r0
 	trap	$0
-f2604:	mov	$54, r0
+fail2604:	mov	$54, r0
 	trap	$0
-f2605:	mov	$55, r0
+fail2605:	mov	$55, r0
 	trap	$0
-f2606:	mov	$56, r0
+fail2606:	mov	$56, r0
 	trap	$0
-f2607:	mov	$57, r0
+fail2607:	mov	$57, r0
 	trap	$0
-f2608:	mov	$58, r0
+fail2608:	mov	$58, r0
 	trap	$0
-f2609:	mov	$59, r0
+fail2609:	mov	$59, r0
 	trap	$0
-f2610:	mov	$60, r0
+fail2610:	mov	$60, r0
 	trap	$0
-f2611:	mov	$61, r0
+fail2611:	mov	$61, r0
 	trap	$0
-f2612:	mov	$62, r0
+fail2612:	mov	$62, r0
 	trap	$0
-f2613:	mov	$63, r0
+fail2613:	mov	$63, r0
 	trap	$0
-f2614:	mov	$64, r0
+fail2614:	mov	$64, r0
 	trap	$0
-f2615:	mov	$65, r0
+fail2615:	mov	$65, r0
 	trap	$0
-f2616:	mov	$66, r0
+fail2616:	mov	$66, r0
 	trap	$0
-f2617:	mov	$67, r0
+fail2617:	mov	$67, r0
 	trap	$0
-f2618:	mov	$68, r0
+fail2618:	mov	$68, r0
 	trap	$0
-f2619:	mov	$69, r0
+fail2619:	mov	$69, r0
 	trap	$0
-f2620:	mov	$70, r0
+fail2620:	mov	$70, r0
 	trap	$0
-f2621:	mov	$71, r0
+fail2621:	mov	$71, r0
 	trap	$0
-f2622:	mov	$72, r0
+fail2622:	mov	$72, r0
 	trap	$0
-f2623:	mov	$73, r0
+fail2623:	mov	$73, r0
 	trap	$0
-f2624:	mov	$74, r0
+fail2624:	mov	$74, r0
 	trap	$0
-f2625:	mov	$75, r0
+fail2625:	mov	$75, r0
 	trap	$0
-f2626:	mov	$76, r0
+fail2626:	mov	$76, r0
 	trap	$0
-f2627:	mov	$77, r0
+fail2627:	mov	$77, r0
 	trap	$0
-f2628:	mov	$78, r0
+fail2628:	mov	$78, r0
 	trap	$0
-f2629:	mov	$79, r0
+fail2629:	mov	$79, r0
 	trap	$0
-f2630:	mov	$80, r0
+fail2630:	mov	$80, r0
 	trap	$0
-f2631:	mov	$81, r0
+fail2631:	mov	$81, r0
 	trap	$0
-f2632:	mov	$82, r0
+fail2632:	mov	$82, r0
 	trap	$0
-f2633:	mov	$83, r0
+fail2633:	mov	$83, r0
 	trap	$0
-f2634:	mov	$84, r0
+fail2634:	mov	$84, r0
 	trap	$0
-f2635:	mov	$85, r0
+fail2635:	mov	$85, r0
 	trap	$0
-f2636:	mov	$86, r0
+fail2636:	mov	$86, r0
 	trap	$0
-f2637:	mov	$87, r0
+fail2637:	mov	$87, r0
 	trap	$0
-f2638:	mov	$88, r0
+fail2638:	mov	$88, r0
 	trap	$0
-f2639:	mov	$89, r0
+fail2639:	mov	$89, r0
 	trap	$0
-f2640:	mov	$90, r0
+fail2640:	mov	$90, r0
 	trap	$0
-f2641:	mov	$91, r0
+fail2641:	mov	$91, r0
 	trap	$0
-f2642:	mov	$92, r0
+fail2642:	mov	$92, r0
 	trap	$0
-f2643:	mov	$93, r0
+fail2643:	mov	$93, r0
 	trap	$0
-f2644:	mov	$94, r0
+fail2644:	mov	$94, r0
 	trap	$0
-f2645:	mov	$95, r0
+fail2645:	mov	$95, r0
 	trap	$0
-f2646:	mov	$96, r0
+fail2646:	mov	$96, r0
 	trap	$0
-f2647:	mov	$97, r0
+fail2647:	mov	$97, r0
 	trap	$0
-f2648:	mov	$98, r0
+fail2648:	mov	$98, r0
 	trap	$0
-f2649:	mov	$99, r0
+fail2649:	mov	$99, r0
 	trap	$0
-f2650:	mov	$100, r0
+fail2650:	mov	$100, r0
 	trap	$0
-f2651:	mov	$101, r0
+fail2651:	mov	$101, r0
 	trap	$0
-f2652:	mov	$102, r0
+fail2652:	mov	$102, r0
 	trap	$0
-f2653:	mov	$103, r0
+fail2653:	mov	$103, r0
 	trap	$0
-f2654:	mov	$104, r0
+fail2654:	mov	$104, r0
 	trap	$0
-f2655:	mov	$105, r0
+fail2655:	mov	$105, r0
 	trap	$0
-f2656:	mov	$106, r0
+fail2656:	mov	$106, r0
 	trap	$0
-f2657:	mov	$107, r0
+fail2657:	mov	$107, r0
 	trap	$0
-f2658:	mov	$108, r0
+fail2658:	mov	$108, r0
 	trap	$0
-f2659:	mov	$109, r0
+fail2659:	mov	$109, r0
 	trap	$0
-f2660:	mov	$110, r0
+fail2660:	mov	$110, r0
 	trap	$0
-f2661:	mov	$111, r0
+fail2661:	mov	$111, r0
 	trap	$0
-f2662:	mov	$112, r0
+fail2662:	mov	$112, r0
 	trap	$0
-f2663:	mov	$113, r0
+fail2663:	mov	$113, r0
 	trap	$0
-f2664:	mov	$114, r0
+fail2664:	mov	$114, r0
 	trap	$0
-f2665:	mov	$115, r0
+fail2665:	mov	$115, r0
 	trap	$0
-f2666:	mov	$116, r0
+fail2666:	mov	$116, r0
 	trap	$0
-f2667:	mov	$117, r0
+fail2667:	mov	$117, r0
 	trap	$0
-f2668:	mov	$118, r0
+fail2668:	mov	$118, r0
 	trap	$0
-f2669:	mov	$119, r0
+fail2669:	mov	$119, r0
 	trap	$0
-f2670:	mov	$120, r0
+fail2670:	mov	$120, r0
 	trap	$0
-f2671:	mov	$121, r0
+fail2671:	mov	$121, r0
 	trap	$0
-f2672:	mov	$122, r0
+fail2672:	mov	$122, r0
 	trap	$0
-f2673:	mov	$123, r0
+fail2673:	mov	$123, r0
 	trap	$0
-f2674:	mov	$124, r0
+fail2674:	mov	$124, r0
 	trap	$0
-f2675:	mov	$125, r0
+fail2675:	mov	$125, r0
 	trap	$0
-f2676:	mov	$126, r0
+fail2676:	mov	$126, r0
 	trap	$0
-f2677:	mov	$127, r0
+fail2677:	mov	$127, r0
 	trap	$0
-f2678:	mov	$128, r0
+fail2678:	mov	$128, r0
 	trap	$0
-f2679:	mov	$129, r0
+fail2679:	mov	$129, r0
 	trap	$0
-f2680:	mov	$130, r0
+fail2680:	mov	$130, r0
 	trap	$0
-f2681:	mov	$131, r0
+fail2681:	mov	$131, r0
 	trap	$0
-f2682:	mov	$132, r0
+fail2682:	mov	$132, r0
 	trap	$0
-f2683:	mov	$133, r0
+fail2683:	mov	$133, r0
 	trap	$0
-f2684:	mov	$134, r0
+fail2684:	mov	$134, r0
 	trap	$0
-f2685:	mov	$135, r0
+fail2685:	mov	$135, r0
 	trap	$0
-f2686:	mov	$136, r0
+fail2686:	mov	$136, r0
 	trap	$0
-f2687:	mov	$137, r0
+fail2687:	mov	$137, r0
 	trap	$0
-f2688:	mov	$138, r0
+fail2688:	mov	$138, r0
 	trap	$0
-f2689:	mov	$139, r0
+fail2689:	mov	$139, r0
 	trap	$0
-f2690:	mov	$140, r0
+fail2690:	mov	$140, r0
 	trap	$0
-f2691:	mov	$141, r0
+fail2691:	mov	$141, r0
 	trap	$0
-f2692:	mov	$142, r0
+fail2692:	mov	$142, r0
 	trap	$0
-f2693:	mov	$143, r0
+fail2693:	mov	$143, r0
 	trap	$0
-f2694:	mov	$144, r0
+fail2694:	mov	$144, r0
 	trap	$0
-f2695:	mov	$145, r0
+fail2695:	mov	$145, r0
 	trap	$0
-f2696:	mov	$146, r0
+fail2696:	mov	$146, r0
 	trap	$0
-f2697:	mov	$147, r0
+fail2697:	mov	$147, r0
 	trap	$0
-f2698:	mov	$148, r0
+fail2698:	mov	$148, r0
 	trap	$0
-f2699:	mov	$149, r0
+fail2699:	mov	$149, r0
 	trap	$0
-f2700:	mov	$150, r0
+fail2700:	mov	$150, r0
 	trap	$0
-f2701:	mov	$151, r0
+fail2701:	mov	$151, r0
 	trap	$0
-f2702:	mov	$152, r0
+fail2702:	mov	$152, r0
 	trap	$0
-f2703:	mov	$153, r0
+fail2703:	mov	$153, r0
 	trap	$0
-f2704:	mov	$154, r0
+fail2704:	mov	$154, r0
 	trap	$0
-f2705:	mov	$155, r0
+fail2705:	mov	$155, r0
 	trap	$0
-f2706:	mov	$156, r0
+fail2706:	mov	$156, r0
 	trap	$0
-f2707:	mov	$157, r0
+fail2707:	mov	$157, r0
 	trap	$0
-f2708:	mov	$158, r0
+fail2708:	mov	$158, r0
 	trap	$0
-f2709:	mov	$159, r0
+fail2709:	mov	$159, r0
 	trap	$0
-f2710:	mov	$160, r0
+fail2710:	mov	$160, r0
 	trap	$0
-f2711:	mov	$161, r0
+fail2711:	mov	$161, r0
 	trap	$0
-f2712:	mov	$162, r0
+fail2712:	mov	$162, r0
 	trap	$0
-f2713:	mov	$163, r0
+fail2713:	mov	$163, r0
 	trap	$0
-f2714:	mov	$164, r0
+fail2714:	mov	$164, r0
 	trap	$0
-f2715:	mov	$165, r0
+fail2715:	mov	$165, r0
 	trap	$0
-f2716:	mov	$166, r0
+fail2716:	mov	$166, r0
 	trap	$0
-f2717:	mov	$167, r0
+fail2717:	mov	$167, r0
 	trap	$0
-f2718:	mov	$168, r0
+fail2718:	mov	$168, r0
 	trap	$0
-f2719:	mov	$169, r0
+fail2719:	mov	$169, r0
 	trap	$0
-f2720:	mov	$170, r0
+fail2720:	mov	$170, r0
 	trap	$0
-f2721:	mov	$171, r0
+fail2721:	mov	$171, r0
 	trap	$0
-f2722:	mov	$172, r0
+fail2722:	mov	$172, r0
 	trap	$0
-f2723:	mov	$173, r0
+fail2723:	mov	$173, r0
 	trap	$0
-f2724:	mov	$174, r0
+fail2724:	mov	$174, r0
 	trap	$0
-f2725:	mov	$175, r0
+fail2725:	mov	$175, r0
 	trap	$0
-f2726:	mov	$176, r0
+fail2726:	mov	$176, r0
 	trap	$0
-f2727:	mov	$177, r0
+fail2727:	mov	$177, r0
 	trap	$0
-f2728:	mov	$178, r0
+fail2728:	mov	$178, r0
 	trap	$0
-f2729:	mov	$179, r0
+fail2729:	mov	$179, r0
 	trap	$0
-f2730:	mov	$180, r0
+fail2730:	mov	$180, r0
 	trap	$0
-f2731:	mov	$181, r0
+fail2731:	mov	$181, r0
 	trap	$0
-f2732:	mov	$182, r0
+fail2732:	mov	$182, r0
 	trap	$0
-f2733:	mov	$183, r0
+fail2733:	mov	$183, r0
 	trap	$0
-f2734:	mov	$184, r0
+fail2734:	mov	$184, r0
 	trap	$0
-f2735:	mov	$185, r0
+fail2735:	mov	$185, r0
 	trap	$0
-f2736:	mov	$186, r0
+fail2736:	mov	$186, r0
 	trap	$0
-f2737:	mov	$187, r0
+fail2737:	mov	$187, r0
 	trap	$0
-f2738:	mov	$188, r0
+fail2738:	mov	$188, r0
 	trap	$0
-f2739:	mov	$189, r0
+fail2739:	mov	$189, r0
 	trap	$0
-f2740:	mov	$190, r0
+fail2740:	mov	$190, r0
 	trap	$0
-f2741:	mov	$191, r0
+fail2741:	mov	$191, r0
 	trap	$0
-f2742:	mov	$192, r0
+fail2742:	mov	$192, r0
 	trap	$0
-f2743:	mov	$193, r0
+fail2743:	mov	$193, r0
 	trap	$0
-f2744:	mov	$194, r0
+fail2744:	mov	$194, r0
 	trap	$0
-f2745:	mov	$195, r0
+fail2745:	mov	$195, r0
 	trap	$0
-f2746:	mov	$196, r0
+fail2746:	mov	$196, r0
 	trap	$0
-f2747:	mov	$197, r0
+fail2747:	mov	$197, r0
 	trap	$0
-f2748:	mov	$198, r0
+fail2748:	mov	$198, r0
 	trap	$0
-f2749:	mov	$199, r0
+fail2749:	mov	$199, r0
 	trap	$0
-f2750:	mov	$200, r0
+fail2750:	mov	$200, r0
 	trap	$0
-f2751:	mov	$201, r0
+fail2751:	mov	$201, r0
 	trap	$0
-f2752:	mov	$202, r0
+fail2752:	mov	$202, r0
 	trap	$0
-f2753:	mov	$203, r0
+fail2753:	mov	$203, r0
 	trap	$0
-f2754:	mov	$204, r0
+fail2754:	mov	$204, r0
 	trap	$0
-f2755:	mov	$205, r0
+fail2755:	mov	$205, r0
 	trap	$0
-f2756:	mov	$206, r0
+fail2756:	mov	$206, r0
 	trap	$0
-f2757:	mov	$207, r0
+fail2757:	mov	$207, r0
 	trap	$0
-f2758:	mov	$208, r0
+fail2758:	mov	$208, r0
 	trap	$0
-f2759:	mov	$209, r0
+fail2759:	mov	$209, r0
 	trap	$0
-f2760:	mov	$210, r0
+fail2760:	mov	$210, r0
 	trap	$0
-f2761:	mov	$211, r0
+fail2761:	mov	$211, r0
 	trap	$0
-f2762:	mov	$212, r0
+fail2762:	mov	$212, r0
 	trap	$0
-f2763:	mov	$213, r0
+fail2763:	mov	$213, r0
 	trap	$0
-f2764:	mov	$214, r0
+fail2764:	mov	$214, r0
 	trap	$0
-f2765:	mov	$215, r0
+fail2765:	mov	$215, r0
 	trap	$0
-f2766:	mov	$216, r0
+fail2766:	mov	$216, r0
 	trap	$0
-f2767:	mov	$217, r0
+fail2767:	mov	$217, r0
 	trap	$0
-f2768:	mov	$218, r0
+fail2768:	mov	$218, r0
 	trap	$0
-f2769:	mov	$219, r0
+fail2769:	mov	$219, r0
 	trap	$0
-f2770:	mov	$220, r0
+fail2770:	mov	$220, r0
 	trap	$0
-f2771:	mov	$221, r0
+fail2771:	mov	$221, r0
 	trap	$0
-f2772:	mov	$222, r0
+fail2772:	mov	$222, r0
 	trap	$0
-f2773:	mov	$223, r0
+fail2773:	mov	$223, r0
 	trap	$0
-f2774:	mov	$224, r0
+fail2774:	mov	$224, r0
 	trap	$0
-f2775:	mov	$225, r0
+fail2775:	mov	$225, r0
 	trap	$0
-f2776:	mov	$226, r0
+fail2776:	mov	$226, r0
 	trap	$0
-f2777:	mov	$227, r0
+fail2777:	mov	$227, r0
 	trap	$0
-f2778:	mov	$228, r0
+fail2778:	mov	$228, r0
 	trap	$0
-f2779:	mov	$229, r0
+fail2779:	mov	$229, r0
 	trap	$0
-f2780:	mov	$230, r0
+fail2780:	mov	$230, r0
 	trap	$0
-f2781:	mov	$231, r0
+fail2781:	mov	$231, r0
 	trap	$0
-f2782:	mov	$232, r0
+fail2782:	mov	$232, r0
 	trap	$0
-f2783:	mov	$233, r0
+fail2783:	mov	$233, r0
 	trap	$0
-f2784:	mov	$234, r0
+fail2784:	mov	$234, r0
 	trap	$0
-f2785:	mov	$235, r0
+fail2785:	mov	$235, r0
 	trap	$0
-f2786:	mov	$236, r0
+fail2786:	mov	$236, r0
 	trap	$0
-f2787:	mov	$237, r0
+fail2787:	mov	$237, r0
 	trap	$0
-f2788:	mov	$238, r0
+fail2788:	mov	$238, r0
 	trap	$0
-f2789:	mov	$239, r0
+fail2789:	mov	$239, r0
 	trap	$0
-f2790:	mov	$240, r0
+fail2790:	mov	$240, r0
 	trap	$0
-f2791:	mov	$241, r0
+fail2791:	mov	$241, r0
 	trap	$0
-f2792:	mov	$242, r0
+fail2792:	mov	$242, r0
 	trap	$0
-f2793:	mov	$243, r0
+fail2793:	mov	$243, r0
 	trap	$0
-f2794:	mov	$244, r0
+fail2794:	mov	$244, r0
 	trap	$0
-f2795:	mov	$245, r0
+fail2795:	mov	$245, r0
 	trap	$0
-f2796:	mov	$246, r0
+fail2796:	mov	$246, r0
 	trap	$0
-f2797:	mov	$247, r0
+fail2797:	mov	$247, r0
 	trap	$0
-f2798:	mov	$248, r0
+fail2798:	mov	$248, r0
 	trap	$0
-f2799:	mov	$249, r0
+fail2799:	mov	$249, r0
 	trap	$0
-f2800:	mov	$250, r0
+fail2800:	mov	$250, r0
 	trap	$0
-f2801:	mov	$251, r0
+fail2801:	mov	$251, r0
 	trap	$0
-f2802:	mov	$252, r0
+fail2802:	mov	$252, r0
 	trap	$0
-f2803:	mov	$253, r0
+fail2803:	mov	$253, r0
 	trap	$0
-f2804:	mov	$254, r0
+fail2804:	mov	$254, r0
 	trap	$0
-f2805:	mov	$255, r0
+fail2805:	mov	$255, r0
 	trap	$0
-f2806:	mov	$1, r0
+fail2806:	mov	$1, r0
 	trap	$0
-f2807:	mov	$2, r0
+fail2807:	mov	$2, r0
 	trap	$0
-f2808:	mov	$3, r0
+fail2808:	mov	$3, r0
 	trap	$0
-f2809:	mov	$4, r0
+fail2809:	mov	$4, r0
 	trap	$0
-f2810:	mov	$5, r0
+fail2810:	mov	$5, r0
 	trap	$0
-f2811:	mov	$6, r0
+fail2811:	mov	$6, r0
 	trap	$0
-f2812:	mov	$7, r0
+fail2812:	mov	$7, r0
 	trap	$0
-f2813:	mov	$8, r0
+fail2813:	mov	$8, r0
 	trap	$0
-f2814:	mov	$9, r0
+fail2814:	mov	$9, r0
 	trap	$0
-f2815:	mov	$10, r0
+fail2815:	mov	$10, r0
 	trap	$0
-f2816:	mov	$11, r0
+fail2816:	mov	$11, r0
 	trap	$0
-f2817:	mov	$12, r0
+fail2817:	mov	$12, r0
 	trap	$0
-f2818:	mov	$13, r0
+fail2818:	mov	$13, r0
 	trap	$0
-f2819:	mov	$14, r0
+fail2819:	mov	$14, r0
 	trap	$0
-f2820:	mov	$15, r0
+fail2820:	mov	$15, r0
 	trap	$0
-f2821:	mov	$16, r0
+fail2821:	mov	$16, r0
 	trap	$0
-f2822:	mov	$17, r0
+fail2822:	mov	$17, r0
 	trap	$0
-f2823:	mov	$18, r0
+fail2823:	mov	$18, r0
 	trap	$0
-f2824:	mov	$19, r0
+fail2824:	mov	$19, r0
 	trap	$0
-f2825:	mov	$20, r0
+fail2825:	mov	$20, r0
 	trap	$0
-f2826:	mov	$21, r0
+fail2826:	mov	$21, r0
 	trap	$0
-f2827:	mov	$22, r0
+fail2827:	mov	$22, r0
 	trap	$0
-f2828:	mov	$23, r0
+fail2828:	mov	$23, r0
 	trap	$0
-f2829:	mov	$24, r0
+fail2829:	mov	$24, r0
 	trap	$0
-f2830:	mov	$25, r0
+fail2830:	mov	$25, r0
 	trap	$0
-f2831:	mov	$26, r0
+fail2831:	mov	$26, r0
 	trap	$0
-f2832:	mov	$27, r0
+fail2832:	mov	$27, r0
 	trap	$0
-f2833:	mov	$28, r0
+fail2833:	mov	$28, r0
 	trap	$0
-f2834:	mov	$29, r0
+fail2834:	mov	$29, r0
 	trap	$0
-f2835:	mov	$30, r0
+fail2835:	mov	$30, r0
 	trap	$0
-f2836:	mov	$31, r0
+fail2836:	mov	$31, r0
 	trap	$0
-f2837:	mov	$32, r0
+fail2837:	mov	$32, r0
 	trap	$0
-f2838:	mov	$33, r0
+fail2838:	mov	$33, r0
 	trap	$0
-f2839:	mov	$34, r0
+fail2839:	mov	$34, r0
 	trap	$0
-f2840:	mov	$35, r0
+fail2840:	mov	$35, r0
 	trap	$0
-f2841:	mov	$36, r0
+fail2841:	mov	$36, r0
 	trap	$0
-f2842:	mov	$37, r0
+fail2842:	mov	$37, r0
 	trap	$0
-f2843:	mov	$38, r0
+fail2843:	mov	$38, r0
 	trap	$0
-f2844:	mov	$39, r0
+fail2844:	mov	$39, r0
 	trap	$0
-f2845:	mov	$40, r0
+fail2845:	mov	$40, r0
 	trap	$0
-f2846:	mov	$41, r0
+fail2846:	mov	$41, r0
 	trap	$0
-f2847:	mov	$42, r0
+fail2847:	mov	$42, r0
 	trap	$0
-f2848:	mov	$43, r0
+fail2848:	mov	$43, r0
 	trap	$0
-f2849:	mov	$44, r0
+fail2849:	mov	$44, r0
 	trap	$0
-f2850:	mov	$45, r0
+fail2850:	mov	$45, r0
 	trap	$0
-f2851:	mov	$46, r0
+fail2851:	mov	$46, r0
 	trap	$0
-f2852:	mov	$47, r0
+fail2852:	mov	$47, r0
 	trap	$0
-f2853:	mov	$48, r0
+fail2853:	mov	$48, r0
 	trap	$0
-f2854:	mov	$49, r0
+fail2854:	mov	$49, r0
 	trap	$0
-f2855:	mov	$50, r0
+fail2855:	mov	$50, r0
 	trap	$0
-f2856:	mov	$51, r0
+fail2856:	mov	$51, r0
 	trap	$0
-f2857:	mov	$52, r0
+fail2857:	mov	$52, r0
 	trap	$0
-f2858:	mov	$53, r0
+fail2858:	mov	$53, r0
 	trap	$0
-f2859:	mov	$54, r0
+fail2859:	mov	$54, r0
 	trap	$0
-f2860:	mov	$55, r0
+fail2860:	mov	$55, r0
 	trap	$0
-f2861:	mov	$56, r0
+fail2861:	mov	$56, r0
 	trap	$0
-f2862:	mov	$57, r0
+fail2862:	mov	$57, r0
 	trap	$0
-f2863:	mov	$58, r0
+fail2863:	mov	$58, r0
 	trap	$0
-f2864:	mov	$59, r0
+fail2864:	mov	$59, r0
 	trap	$0
-f2865:	mov	$60, r0
+fail2865:	mov	$60, r0
 	trap	$0
-f2866:	mov	$61, r0
+fail2866:	mov	$61, r0
 	trap	$0
-f2867:	mov	$62, r0
+fail2867:	mov	$62, r0
 	trap	$0
-f2868:	mov	$63, r0
+fail2868:	mov	$63, r0
 	trap	$0
-f2869:	mov	$64, r0
+fail2869:	mov	$64, r0
 	trap	$0
-f2870:	mov	$65, r0
+fail2870:	mov	$65, r0
 	trap	$0
-f2871:	mov	$66, r0
+fail2871:	mov	$66, r0
 	trap	$0
-f2872:	mov	$67, r0
+fail2872:	mov	$67, r0
 	trap	$0
-f2873:	mov	$68, r0
+fail2873:	mov	$68, r0
 	trap	$0
-f2874:	mov	$69, r0
+fail2874:	mov	$69, r0
 	trap	$0
-f2875:	mov	$70, r0
+fail2875:	mov	$70, r0
 	trap	$0
-f2876:	mov	$71, r0
+fail2876:	mov	$71, r0
 	trap	$0
-f2877:	mov	$72, r0
+fail2877:	mov	$72, r0
 	trap	$0
-f2878:	mov	$73, r0
+fail2878:	mov	$73, r0
 	trap	$0
-f2879:	mov	$74, r0
+fail2879:	mov	$74, r0
 	trap	$0
-f2880:	mov	$75, r0
+fail2880:	mov	$75, r0
 	trap	$0
-f2881:	mov	$76, r0
+fail2881:	mov	$76, r0
 	trap	$0
-f2882:	mov	$77, r0
+fail2882:	mov	$77, r0
 	trap	$0
-f2883:	mov	$78, r0
+fail2883:	mov	$78, r0
 	trap	$0
-f2884:	mov	$79, r0
+fail2884:	mov	$79, r0
 	trap	$0
-f2885:	mov	$80, r0
+fail2885:	mov	$80, r0
 	trap	$0
-f2886:	mov	$81, r0
+fail2886:	mov	$81, r0
 	trap	$0
-f2887:	mov	$82, r0
+fail2887:	mov	$82, r0
 	trap	$0
-f2888:	mov	$83, r0
+fail2888:	mov	$83, r0
 	trap	$0
-f2889:	mov	$84, r0
+fail2889:	mov	$84, r0
 	trap	$0
-f2890:	mov	$85, r0
+fail2890:	mov	$85, r0
 	trap	$0
-f2891:	mov	$86, r0
+fail2891:	mov	$86, r0
 	trap	$0
-f2892:	mov	$87, r0
+fail2892:	mov	$87, r0
 	trap	$0
-f2893:	mov	$88, r0
+fail2893:	mov	$88, r0
 	trap	$0
-f2894:	mov	$89, r0
+fail2894:	mov	$89, r0
 	trap	$0
-f2895:	mov	$90, r0
+fail2895:	mov	$90, r0
 	trap	$0
-f2896:	mov	$91, r0
+fail2896:	mov	$91, r0
 	trap	$0
-f2897:	mov	$92, r0
+fail2897:	mov	$92, r0
 	trap	$0
-f2898:	mov	$93, r0
+fail2898:	mov	$93, r0
 	trap	$0
-f2899:	mov	$94, r0
+fail2899:	mov	$94, r0
 	trap	$0
-f2900:	mov	$95, r0
+fail2900:	mov	$95, r0
 	trap	$0
-f2901:	mov	$96, r0
+fail2901:	mov	$96, r0
 	trap	$0
-f2902:	mov	$97, r0
+fail2902:	mov	$97, r0
 	trap	$0
-f2903:	mov	$98, r0
+fail2903:	mov	$98, r0
 	trap	$0
-f2904:	mov	$99, r0
+fail2904:	mov	$99, r0
 	trap	$0
-f2905:	mov	$100, r0
+fail2905:	mov	$100, r0
 	trap	$0
-f2906:	mov	$101, r0
+fail2906:	mov	$101, r0
 	trap	$0
-f2907:	mov	$102, r0
+fail2907:	mov	$102, r0
 	trap	$0
-f2908:	mov	$103, r0
+fail2908:	mov	$103, r0
 	trap	$0
-f2909:	mov	$104, r0
+fail2909:	mov	$104, r0
 	trap	$0
-f2910:	mov	$105, r0
+fail2910:	mov	$105, r0
 	trap	$0
-f2911:	mov	$106, r0
+fail2911:	mov	$106, r0
 	trap	$0
-f2912:	mov	$107, r0
+fail2912:	mov	$107, r0
 	trap	$0
-f2913:	mov	$108, r0
+fail2913:	mov	$108, r0
 	trap	$0
-f2914:	mov	$109, r0
+fail2914:	mov	$109, r0
 	trap	$0
-f2915:	mov	$110, r0
+fail2915:	mov	$110, r0
 	trap	$0
-f2916:	mov	$111, r0
+fail2916:	mov	$111, r0
 	trap	$0
-f2917:	mov	$112, r0
+fail2917:	mov	$112, r0
 	trap	$0
-f2918:	mov	$113, r0
+fail2918:	mov	$113, r0
 	trap	$0
-f2919:	mov	$114, r0
+fail2919:	mov	$114, r0
 	trap	$0
-f2920:	mov	$115, r0
+fail2920:	mov	$115, r0
 	trap	$0
-f2921:	mov	$116, r0
+fail2921:	mov	$116, r0
 	trap	$0
-f2922:	mov	$117, r0
+fail2922:	mov	$117, r0
 	trap	$0
-f2923:	mov	$118, r0
+fail2923:	mov	$118, r0
 	trap	$0
-f2924:	mov	$119, r0
+fail2924:	mov	$119, r0
 	trap	$0
-f2925:	mov	$120, r0
+fail2925:	mov	$120, r0
 	trap	$0
-f2926:	mov	$121, r0
+fail2926:	mov	$121, r0
 	trap	$0
-f2927:	mov	$122, r0
+fail2927:	mov	$122, r0
 	trap	$0
-f2928:	mov	$123, r0
+fail2928:	mov	$123, r0
 	trap	$0
-f2929:	mov	$124, r0
+fail2929:	mov	$124, r0
 	trap	$0
-f2930:	mov	$125, r0
+fail2930:	mov	$125, r0
 	trap	$0
-f2931:	mov	$126, r0
+fail2931:	mov	$126, r0
 	trap	$0
-f2932:	mov	$127, r0
+fail2932:	mov	$127, r0
 	trap	$0
-f2933:	mov	$128, r0
+fail2933:	mov	$128, r0
 	trap	$0
-f2934:	mov	$129, r0
+fail2934:	mov	$129, r0
 	trap	$0
-f2935:	mov	$130, r0
+fail2935:	mov	$130, r0
 	trap	$0
-f2936:	mov	$131, r0
+fail2936:	mov	$131, r0
 	trap	$0
-f2937:	mov	$132, r0
+fail2937:	mov	$132, r0
 	trap	$0
-f2938:	mov	$133, r0
+fail2938:	mov	$133, r0
 	trap	$0
-f2939:	mov	$134, r0
+fail2939:	mov	$134, r0
 	trap	$0
-f2940:	mov	$135, r0
+fail2940:	mov	$135, r0
 	trap	$0
-f2941:	mov	$136, r0
+fail2941:	mov	$136, r0
 	trap	$0
-f2942:	mov	$137, r0
+fail2942:	mov	$137, r0
 	trap	$0
-f2943:	mov	$138, r0
+fail2943:	mov	$138, r0
 	trap	$0
-f2944:	mov	$139, r0
+fail2944:	mov	$139, r0
 	trap	$0
-f2945:	mov	$140, r0
+fail2945:	mov	$140, r0
 	trap	$0
-f2946:	mov	$141, r0
+fail2946:	mov	$141, r0
 	trap	$0
-f2947:	mov	$142, r0
+fail2947:	mov	$142, r0
 	trap	$0
-f2948:	mov	$143, r0
+fail2948:	mov	$143, r0
 	trap	$0
-f2949:	mov	$144, r0
+fail2949:	mov	$144, r0
 	trap	$0
-f2950:	mov	$145, r0
+fail2950:	mov	$145, r0
 	trap	$0
-f2951:	mov	$146, r0
+fail2951:	mov	$146, r0
 	trap	$0
-f2952:	mov	$147, r0
+fail2952:	mov	$147, r0
 	trap	$0
-f2953:	mov	$148, r0
+fail2953:	mov	$148, r0
 	trap	$0
-f2954:	mov	$149, r0
+fail2954:	mov	$149, r0
 	trap	$0
-f2955:	mov	$150, r0
+fail2955:	mov	$150, r0
 	trap	$0
-f2956:	mov	$151, r0
+fail2956:	mov	$151, r0
 	trap	$0
-f2957:	mov	$152, r0
+fail2957:	mov	$152, r0
 	trap	$0
-f2958:	mov	$153, r0
+fail2958:	mov	$153, r0
 	trap	$0
-f2959:	mov	$154, r0
+fail2959:	mov	$154, r0
 	trap	$0
-f2960:	mov	$155, r0
+fail2960:	mov	$155, r0
 	trap	$0
-f2961:	mov	$156, r0
+fail2961:	mov	$156, r0
 	trap	$0
-f2962:	mov	$157, r0
+fail2962:	mov	$157, r0
 	trap	$0
-f2963:	mov	$158, r0
+fail2963:	mov	$158, r0
 	trap	$0
-f2964:	mov	$159, r0
+fail2964:	mov	$159, r0
 	trap	$0
-f2965:	mov	$160, r0
+fail2965:	mov	$160, r0
 	trap	$0
-f2966:	mov	$161, r0
+fail2966:	mov	$161, r0
 	trap	$0
-f2967:	mov	$162, r0
+fail2967:	mov	$162, r0
 	trap	$0
-f2968:	mov	$163, r0
+fail2968:	mov	$163, r0
 	trap	$0
-f2969:	mov	$164, r0
+fail2969:	mov	$164, r0
 	trap	$0
-f2970:	mov	$165, r0
+fail2970:	mov	$165, r0
 	trap	$0
-f2971:	mov	$166, r0
+fail2971:	mov	$166, r0
 	trap	$0
-f2972:	mov	$167, r0
+fail2972:	mov	$167, r0
 	trap	$0
-f2973:	mov	$168, r0
+fail2973:	mov	$168, r0
 	trap	$0
-f2974:	mov	$169, r0
+fail2974:	mov	$169, r0
 	trap	$0
-f2975:	mov	$170, r0
+fail2975:	mov	$170, r0
 	trap	$0
-f2976:	mov	$171, r0
+fail2976:	mov	$171, r0
 	trap	$0
-f2977:	mov	$172, r0
+fail2977:	mov	$172, r0
 	trap	$0
-f2978:	mov	$173, r0
+fail2978:	mov	$173, r0
 	trap	$0
-f2979:	mov	$174, r0
+fail2979:	mov	$174, r0
 	trap	$0
-f2980:	mov	$175, r0
+fail2980:	mov	$175, r0
 	trap	$0
-f2981:	mov	$176, r0
+fail2981:	mov	$176, r0
 	trap	$0
-f2982:	mov	$177, r0
+fail2982:	mov	$177, r0
 	trap	$0
-f2983:	mov	$178, r0
+fail2983:	mov	$178, r0
 	trap	$0
-f2984:	mov	$179, r0
+fail2984:	mov	$179, r0
 	trap	$0
-f2985:	mov	$180, r0
+fail2985:	mov	$180, r0
 	trap	$0
-f2986:	mov	$181, r0
+fail2986:	mov	$181, r0
 	trap	$0
-f2987:	mov	$182, r0
+fail2987:	mov	$182, r0
 	trap	$0
-f2988:	mov	$183, r0
+fail2988:	mov	$183, r0
 	trap	$0
-f2989:	mov	$184, r0
+fail2989:	mov	$184, r0
 	trap	$0
-f2990:	mov	$185, r0
+fail2990:	mov	$185, r0
 	trap	$0
-f2991:	mov	$186, r0
+fail2991:	mov	$186, r0
 	trap	$0
-f2992:	mov	$187, r0
+fail2992:	mov	$187, r0
 	trap	$0
-f2993:	mov	$188, r0
+fail2993:	mov	$188, r0
 	trap	$0
-f2994:	mov	$189, r0
+fail2994:	mov	$189, r0
 	trap	$0
-f2995:	mov	$190, r0
+fail2995:	mov	$190, r0
 	trap	$0
-f2996:	mov	$191, r0
+fail2996:	mov	$191, r0
 	trap	$0
-f2997:	mov	$192, r0
+fail2997:	mov	$192, r0
 	trap	$0
-f2998:	mov	$193, r0
+fail2998:	mov	$193, r0
 	trap	$0
-f2999:	mov	$194, r0
+fail2999:	mov	$194, r0
 	trap	$0
-f3000:	mov	$195, r0
+fail3000:	mov	$195, r0
 	trap	$0
-f3001:	mov	$196, r0
+fail3001:	mov	$196, r0
 	trap	$0
-f3002:	mov	$197, r0
+fail3002:	mov	$197, r0
 	trap	$0
-f3003:	mov	$198, r0
+fail3003:	mov	$198, r0
 	trap	$0
-f3004:	mov	$199, r0
+fail3004:	mov	$199, r0
 	trap	$0
-f3005:	mov	$200, r0
+fail3005:	mov	$200, r0
 	trap	$0
-f3006:	mov	$201, r0
+fail3006:	mov	$201, r0
 	trap	$0
-f3007:	mov	$202, r0
+fail3007:	mov	$202, r0
 	trap	$0
-f3008:	mov	$203, r0
+fail3008:	mov	$203, r0
 	trap	$0
-f3009:	mov	$204, r0
+fail3009:	mov	$204, r0
 	trap	$0
-f3010:	mov	$205, r0
+fail3010:	mov	$205, r0
 	trap	$0
-f3011:	mov	$206, r0
+fail3011:	mov	$206, r0
 	trap	$0
-f3012:	mov	$207, r0
+fail3012:	mov	$207, r0
 	trap	$0
-f3013:	mov	$208, r0
+fail3013:	mov	$208, r0
 	trap	$0
-f3014:	mov	$209, r0
+fail3014:	mov	$209, r0
 	trap	$0
-f3015:	mov	$210, r0
+fail3015:	mov	$210, r0
 	trap	$0
-f3016:	mov	$211, r0
+fail3016:	mov	$211, r0
 	trap	$0
-f3017:	mov	$212, r0
+fail3017:	mov	$212, r0
 	trap	$0
-f3018:	mov	$213, r0
+fail3018:	mov	$213, r0
 	trap	$0
-f3019:	mov	$214, r0
+fail3019:	mov	$214, r0
 	trap	$0
-f3020:	mov	$215, r0
+fail3020:	mov	$215, r0
 	trap	$0
-f3021:	mov	$216, r0
+fail3021:	mov	$216, r0
 	trap	$0
-f3022:	mov	$217, r0
+fail3022:	mov	$217, r0
 	trap	$0
-f3023:	mov	$218, r0
+fail3023:	mov	$218, r0
 	trap	$0
-f3024:	mov	$219, r0
+fail3024:	mov	$219, r0
 	trap	$0
-f3025:	mov	$220, r0
+fail3025:	mov	$220, r0
 	trap	$0
-f3026:	mov	$221, r0
+fail3026:	mov	$221, r0
 	trap	$0
-f3027:	mov	$222, r0
+fail3027:	mov	$222, r0
 	trap	$0
-f3028:	mov	$223, r0
+fail3028:	mov	$223, r0
 	trap	$0
-f3029:	mov	$224, r0
+fail3029:	mov	$224, r0
 	trap	$0
-f3030:	mov	$225, r0
+fail3030:	mov	$225, r0
 	trap	$0
-f3031:	mov	$226, r0
+fail3031:	mov	$226, r0
 	trap	$0
-f3032:	mov	$227, r0
+fail3032:	mov	$227, r0
 	trap	$0
-f3033:	mov	$228, r0
+fail3033:	mov	$228, r0
 	trap	$0
-f3034:	mov	$229, r0
+fail3034:	mov	$229, r0
 	trap	$0
-f3035:	mov	$230, r0
+fail3035:	mov	$230, r0
 	trap	$0
-f3036:	mov	$231, r0
+fail3036:	mov	$231, r0
 	trap	$0
-f3037:	mov	$232, r0
+fail3037:	mov	$232, r0
 	trap	$0
-f3038:	mov	$233, r0
+fail3038:	mov	$233, r0
 	trap	$0
-f3039:	mov	$234, r0
+fail3039:	mov	$234, r0
 	trap	$0
-f3040:	mov	$235, r0
+fail3040:	mov	$235, r0
 	trap	$0
-f3041:	mov	$236, r0
+fail3041:	mov	$236, r0
 	trap	$0
-f3042:	mov	$237, r0
+fail3042:	mov	$237, r0
 	trap	$0
-f3043:	mov	$238, r0
+fail3043:	mov	$238, r0
 	trap	$0
-f3044:	mov	$239, r0
+fail3044:	mov	$239, r0
 	trap	$0
-f3045:	mov	$240, r0
+fail3045:	mov	$240, r0
 	trap	$0
-f3046:	mov	$241, r0
+fail3046:	mov	$241, r0
 	trap	$0
-f3047:	mov	$242, r0
+fail3047:	mov	$242, r0
 	trap	$0
-f3048:	mov	$243, r0
+fail3048:	mov	$243, r0
 	trap	$0
-f3049:	mov	$244, r0
+fail3049:	mov	$244, r0
 	trap	$0
-f3050:	mov	$245, r0
+fail3050:	mov	$245, r0
 	trap	$0
-f3051:	mov	$246, r0
+fail3051:	mov	$246, r0
 	trap	$0
-f3052:	mov	$247, r0
+fail3052:	mov	$247, r0
 	trap	$0
-f3053:	mov	$248, r0
+fail3053:	mov	$248, r0
 	trap	$0
-f3054:	mov	$249, r0
+fail3054:	mov	$249, r0
 	trap	$0
-f3055:	mov	$250, r0
+fail3055:	mov	$250, r0
 	trap	$0
-f3056:	mov	$251, r0
+fail3056:	mov	$251, r0
 	trap	$0
-f3057:	mov	$252, r0
+fail3057:	mov	$252, r0
 	trap	$0
-f3058:	mov	$253, r0
+fail3058:	mov	$253, r0
 	trap	$0
-f3059:	mov	$254, r0
+fail3059:	mov	$254, r0
 	trap	$0
-f3060:	mov	$255, r0
+fail3060:	mov	$255, r0
 	trap	$0
-f3061:	mov	$1, r0
+fail3061:	mov	$1, r0
 	trap	$0
-f3062:	mov	$2, r0
+fail3062:	mov	$2, r0
 	trap	$0
-f3063:	mov	$3, r0
+fail3063:	mov	$3, r0
 	trap	$0
-f3064:	mov	$4, r0
+fail3064:	mov	$4, r0
 	trap	$0
-f3065:	mov	$5, r0
+fail3065:	mov	$5, r0
 	trap	$0
-f3066:	mov	$6, r0
+fail3066:	mov	$6, r0
 	trap	$0
-f3067:	mov	$7, r0
+fail3067:	mov	$7, r0
 	trap	$0
-f3068:	mov	$8, r0
+fail3068:	mov	$8, r0
 	trap	$0
-f3069:	mov	$9, r0
+fail3069:	mov	$9, r0
 	trap	$0
-f3070:	mov	$10, r0
+fail3070:	mov	$10, r0
 	trap	$0
-f3071:	mov	$11, r0
+fail3071:	mov	$11, r0
 	trap	$0
-f3072:	mov	$12, r0
+fail3072:	mov	$12, r0
 	trap	$0
-f3073:	mov	$13, r0
+fail3073:	mov	$13, r0
 	trap	$0
-f3074:	mov	$14, r0
+fail3074:	mov	$14, r0
 	trap	$0
-f3075:	mov	$15, r0
+fail3075:	mov	$15, r0
 	trap	$0
-f3076:	mov	$16, r0
+fail3076:	mov	$16, r0
 	trap	$0
-f3077:	mov	$17, r0
+fail3077:	mov	$17, r0
 	trap	$0
-f3078:	mov	$18, r0
+fail3078:	mov	$18, r0
 	trap	$0
-f3079:	mov	$19, r0
+fail3079:	mov	$19, r0
 	trap	$0
-f3080:	mov	$20, r0
+fail3080:	mov	$20, r0
 	trap	$0
-f3081:	mov	$21, r0
+fail3081:	mov	$21, r0
 	trap	$0
-f3082:	mov	$22, r0
+fail3082:	mov	$22, r0
 	trap	$0
-f3083:	mov	$23, r0
+fail3083:	mov	$23, r0
 	trap	$0
-f3084:	mov	$24, r0
+fail3084:	mov	$24, r0
 	trap	$0
-f3085:	mov	$25, r0
+fail3085:	mov	$25, r0
 	trap	$0
-f3086:	mov	$26, r0
+fail3086:	mov	$26, r0
 	trap	$0
-f3087:	mov	$27, r0
+fail3087:	mov	$27, r0
 	trap	$0
-f3088:	mov	$28, r0
+fail3088:	mov	$28, r0
 	trap	$0
-f3089:	mov	$29, r0
+fail3089:	mov	$29, r0
 	trap	$0
-f3090:	mov	$30, r0
+fail3090:	mov	$30, r0
 	trap	$0
-f3091:	mov	$31, r0
+fail3091:	mov	$31, r0
 	trap	$0
-f3092:	mov	$32, r0
+fail3092:	mov	$32, r0
 	trap	$0
-f3093:	mov	$33, r0
+fail3093:	mov	$33, r0
 	trap	$0
-f3094:	mov	$34, r0
+fail3094:	mov	$34, r0
 	trap	$0
-f3095:	mov	$35, r0
+fail3095:	mov	$35, r0
 	trap	$0
-f3096:	mov	$36, r0
+fail3096:	mov	$36, r0
 	trap	$0
-f3097:	mov	$37, r0
+fail3097:	mov	$37, r0
 	trap	$0
-f3098:	mov	$38, r0
+fail3098:	mov	$38, r0
 	trap	$0
-f3099:	mov	$39, r0
+fail3099:	mov	$39, r0
 	trap	$0
-f3100:	mov	$40, r0
+fail3100:	mov	$40, r0
 	trap	$0
-f3101:	mov	$41, r0
+fail3101:	mov	$41, r0
 	trap	$0
-f3102:	mov	$42, r0
+fail3102:	mov	$42, r0
 	trap	$0
-f3103:	mov	$43, r0
+fail3103:	mov	$43, r0
 	trap	$0
-f3104:	mov	$44, r0
+fail3104:	mov	$44, r0
 	trap	$0
-f3105:	mov	$45, r0
+fail3105:	mov	$45, r0
 	trap	$0
-f3106:	mov	$46, r0
+fail3106:	mov	$46, r0
 	trap	$0
-f3107:	mov	$47, r0
+fail3107:	mov	$47, r0
 	trap	$0
-f3108:	mov	$48, r0
+fail3108:	mov	$48, r0
 	trap	$0
-f3109:	mov	$49, r0
+fail3109:	mov	$49, r0
 	trap	$0
-f3110:	mov	$50, r0
+fail3110:	mov	$50, r0
 	trap	$0
-f3111:	mov	$51, r0
+fail3111:	mov	$51, r0
 	trap	$0
-f3112:	mov	$52, r0
+fail3112:	mov	$52, r0
 	trap	$0
-f3113:	mov	$53, r0
+fail3113:	mov	$53, r0
 	trap	$0
-f3114:	mov	$54, r0
+fail3114:	mov	$54, r0
 	trap	$0
-f3115:	mov	$55, r0
+fail3115:	mov	$55, r0
 	trap	$0
-f3116:	mov	$56, r0
+fail3116:	mov	$56, r0
 	trap	$0
-f3117:	mov	$57, r0
+fail3117:	mov	$57, r0
 	trap	$0
-f3118:	mov	$58, r0
+fail3118:	mov	$58, r0
 	trap	$0
-f3119:	mov	$59, r0
+fail3119:	mov	$59, r0
 	trap	$0
-f3120:	mov	$60, r0
+fail3120:	mov	$60, r0
 	trap	$0
-f3121:	mov	$61, r0
+fail3121:	mov	$61, r0
 	trap	$0
-f3122:	mov	$62, r0
+fail3122:	mov	$62, r0
 	trap	$0
-f3123:	mov	$63, r0
+fail3123:	mov	$63, r0
 	trap	$0
-f3124:	mov	$64, r0
+fail3124:	mov	$64, r0
 	trap	$0
-f3125:	mov	$65, r0
+fail3125:	mov	$65, r0
 	trap	$0
-f3126:	mov	$66, r0
+fail3126:	mov	$66, r0
 	trap	$0
-f3127:	mov	$67, r0
+fail3127:	mov	$67, r0
 	trap	$0
-f3128:	mov	$68, r0
+fail3128:	mov	$68, r0
 	trap	$0
-f3129:	mov	$69, r0
+fail3129:	mov	$69, r0
 	trap	$0
-f3130:	mov	$70, r0
+fail3130:	mov	$70, r0
 	trap	$0
-f3131:	mov	$71, r0
+fail3131:	mov	$71, r0
 	trap	$0
-f3132:	mov	$72, r0
+fail3132:	mov	$72, r0
 	trap	$0
-f3133:	mov	$73, r0
+fail3133:	mov	$73, r0
 	trap	$0
-f3134:	mov	$74, r0
+fail3134:	mov	$74, r0
 	trap	$0
-f3135:	mov	$75, r0
+fail3135:	mov	$75, r0
 	trap	$0
-f3136:	mov	$76, r0
+fail3136:	mov	$76, r0
 	trap	$0
-f3137:	mov	$77, r0
+fail3137:	mov	$77, r0
 	trap	$0
-f3138:	mov	$78, r0
+fail3138:	mov	$78, r0
 	trap	$0
-f3139:	mov	$79, r0
+fail3139:	mov	$79, r0
 	trap	$0
-f3140:	mov	$80, r0
+fail3140:	mov	$80, r0
 	trap	$0
-f3141:	mov	$81, r0
+fail3141:	mov	$81, r0
 	trap	$0
-f3142:	mov	$82, r0
+fail3142:	mov	$82, r0
 	trap	$0
-f3143:	mov	$83, r0
+fail3143:	mov	$83, r0
 	trap	$0
-f3144:	mov	$84, r0
+fail3144:	mov	$84, r0
 	trap	$0
-f3145:	mov	$85, r0
+fail3145:	mov	$85, r0
 	trap	$0
-f3146:	mov	$86, r0
+fail3146:	mov	$86, r0
 	trap	$0
-f3147:	mov	$87, r0
+fail3147:	mov	$87, r0
 	trap	$0
-f3148:	mov	$88, r0
+fail3148:	mov	$88, r0
 	trap	$0
-f3149:	mov	$89, r0
+fail3149:	mov	$89, r0
 	trap	$0
-f3150:	mov	$90, r0
+fail3150:	mov	$90, r0
 	trap	$0
-f3151:	mov	$91, r0
+fail3151:	mov	$91, r0
 	trap	$0
-f3152:	mov	$92, r0
+fail3152:	mov	$92, r0
 	trap	$0
-f3153:	mov	$93, r0
+fail3153:	mov	$93, r0
 	trap	$0
-f3154:	mov	$94, r0
+fail3154:	mov	$94, r0
 	trap	$0
-f3155:	mov	$95, r0
+fail3155:	mov	$95, r0
 	trap	$0
-f3156:	mov	$96, r0
+fail3156:	mov	$96, r0
 	trap	$0
-f3157:	mov	$97, r0
+fail3157:	mov	$97, r0
 	trap	$0
-f3158:	mov	$98, r0
+fail3158:	mov	$98, r0
 	trap	$0
-f3159:	mov	$99, r0
+fail3159:	mov	$99, r0
 	trap	$0
-f3160:	mov	$100, r0
+fail3160:	mov	$100, r0
 	trap	$0
-f3161:	mov	$101, r0
+fail3161:	mov	$101, r0
 	trap	$0
-f3162:	mov	$102, r0
+fail3162:	mov	$102, r0
 	trap	$0
-f3163:	mov	$103, r0
+fail3163:	mov	$103, r0
 	trap	$0
-f3164:	mov	$104, r0
+fail3164:	mov	$104, r0
 	trap	$0
-f3165:	mov	$105, r0
+fail3165:	mov	$105, r0
 	trap	$0
-f3166:	mov	$106, r0
+fail3166:	mov	$106, r0
 	trap	$0
-f3167:	mov	$107, r0
+fail3167:	mov	$107, r0
 	trap	$0
-f3168:	mov	$108, r0
+fail3168:	mov	$108, r0
 	trap	$0
-f3169:	mov	$109, r0
+fail3169:	mov	$109, r0
 	trap	$0
-f3170:	mov	$110, r0
+fail3170:	mov	$110, r0
 	trap	$0
-f3171:	mov	$111, r0
+fail3171:	mov	$111, r0
 	trap	$0
-f3172:	mov	$112, r0
+fail3172:	mov	$112, r0
 	trap	$0
-f3173:	mov	$113, r0
+fail3173:	mov	$113, r0
 	trap	$0
-f3174:	mov	$114, r0
+fail3174:	mov	$114, r0
 	trap	$0
-f3175:	mov	$115, r0
+fail3175:	mov	$115, r0
 	trap	$0
-f3176:	mov	$116, r0
+fail3176:	mov	$116, r0
 	trap	$0
-f3177:	mov	$117, r0
+fail3177:	mov	$117, r0
 	trap	$0
-f3178:	mov	$118, r0
+fail3178:	mov	$118, r0
 	trap	$0
-f3179:	mov	$119, r0
+fail3179:	mov	$119, r0
 	trap	$0
-f3180:	mov	$120, r0
+fail3180:	mov	$120, r0
 	trap	$0
-f3181:	mov	$121, r0
+fail3181:	mov	$121, r0
 	trap	$0
-f3182:	mov	$122, r0
+fail3182:	mov	$122, r0
 	trap	$0
-f3183:	mov	$123, r0
+fail3183:	mov	$123, r0
 	trap	$0
-f3184:	mov	$124, r0
+fail3184:	mov	$124, r0
 	trap	$0
-f3185:	mov	$125, r0
+fail3185:	mov	$125, r0
 	trap	$0
-f3186:	mov	$126, r0
+fail3186:	mov	$126, r0
 	trap	$0
-f3187:	mov	$127, r0
+fail3187:	mov	$127, r0
 	trap	$0
-f3188:	mov	$128, r0
+fail3188:	mov	$128, r0
 	trap	$0
-f3189:	mov	$129, r0
+fail3189:	mov	$129, r0
 	trap	$0
-f3190:	mov	$130, r0
+fail3190:	mov	$130, r0
 	trap	$0
-f3191:	mov	$131, r0
+fail3191:	mov	$131, r0
 	trap	$0
-f3192:	mov	$132, r0
+fail3192:	mov	$132, r0
 	trap	$0
-f3193:	mov	$133, r0
+fail3193:	mov	$133, r0
 	trap	$0
-f3194:	mov	$134, r0
+fail3194:	mov	$134, r0
 	trap	$0
-f3195:	mov	$135, r0
+fail3195:	mov	$135, r0
 	trap	$0
-f3196:	mov	$136, r0
+fail3196:	mov	$136, r0
 	trap	$0
-f3197:	mov	$137, r0
+fail3197:	mov	$137, r0
 	trap	$0
-f3198:	mov	$138, r0
+fail3198:	mov	$138, r0
 	trap	$0
-f3199:	mov	$139, r0
+fail3199:	mov	$139, r0
 	trap	$0
-f3200:	mov	$140, r0
+fail3200:	mov	$140, r0
 	trap	$0
-f3201:	mov	$141, r0
+fail3201:	mov	$141, r0
 	trap	$0
-f3202:	mov	$142, r0
+fail3202:	mov	$142, r0
 	trap	$0
-f3203:	mov	$143, r0
+fail3203:	mov	$143, r0
 	trap	$0
-f3204:	mov	$144, r0
+fail3204:	mov	$144, r0
 	trap	$0
-f3205:	mov	$145, r0
+fail3205:	mov	$145, r0
 	trap	$0
-f3206:	mov	$146, r0
+fail3206:	mov	$146, r0
 	trap	$0
-f3207:	mov	$147, r0
+fail3207:	mov	$147, r0
 	trap	$0
-f3208:	mov	$148, r0
+fail3208:	mov	$148, r0
 	trap	$0
-f3209:	mov	$149, r0
+fail3209:	mov	$149, r0
 	trap	$0
-f3210:	mov	$150, r0
+fail3210:	mov	$150, r0
 	trap	$0
-f3211:	mov	$151, r0
+fail3211:	mov	$151, r0
 	trap	$0
-f3212:	mov	$152, r0
+fail3212:	mov	$152, r0
 	trap	$0
-f3213:	mov	$153, r0
+fail3213:	mov	$153, r0
 	trap	$0
-f3214:	mov	$154, r0
+fail3214:	mov	$154, r0
 	trap	$0
-f3215:	mov	$155, r0
+fail3215:	mov	$155, r0
 	trap	$0
-f3216:	mov	$156, r0
+fail3216:	mov	$156, r0
 	trap	$0
-f3217:	mov	$157, r0
+fail3217:	mov	$157, r0
 	trap	$0
-f3218:	mov	$158, r0
+fail3218:	mov	$158, r0
 	trap	$0
-f3219:	mov	$159, r0
+fail3219:	mov	$159, r0
 	trap	$0
-f3220:	mov	$160, r0
+fail3220:	mov	$160, r0
 	trap	$0
-f3221:	mov	$161, r0
+fail3221:	mov	$161, r0
 	trap	$0
-f3222:	mov	$162, r0
+fail3222:	mov	$162, r0
 	trap	$0
-f3223:	mov	$163, r0
+fail3223:	mov	$163, r0
 	trap	$0
-f3224:	mov	$164, r0
+fail3224:	mov	$164, r0
 	trap	$0
-f3225:	mov	$165, r0
+fail3225:	mov	$165, r0
 	trap	$0
-f3226:	mov	$166, r0
+fail3226:	mov	$166, r0
 	trap	$0
-f3227:	mov	$167, r0
+fail3227:	mov	$167, r0
 	trap	$0
-f3228:	mov	$168, r0
+fail3228:	mov	$168, r0
 	trap	$0
-f3229:	mov	$169, r0
+fail3229:	mov	$169, r0
 	trap	$0
-f3230:	mov	$170, r0
+fail3230:	mov	$170, r0
 	trap	$0
-f3231:	mov	$171, r0
+fail3231:	mov	$171, r0
 	trap	$0
-f3232:	mov	$172, r0
+fail3232:	mov	$172, r0
 	trap	$0
-f3233:	mov	$173, r0
+fail3233:	mov	$173, r0
 	trap	$0
-f3234:	mov	$174, r0
+fail3234:	mov	$174, r0
 	trap	$0
-f3235:	mov	$175, r0
+fail3235:	mov	$175, r0
 	trap	$0
-f3236:	mov	$176, r0
+fail3236:	mov	$176, r0
 	trap	$0
-f3237:	mov	$177, r0
+fail3237:	mov	$177, r0
 	trap	$0
-f3238:	mov	$178, r0
+fail3238:	mov	$178, r0
 	trap	$0
-f3239:	mov	$179, r0
+fail3239:	mov	$179, r0
 	trap	$0
-f3240:	mov	$180, r0
+fail3240:	mov	$180, r0
 	trap	$0
-f3241:	mov	$181, r0
+fail3241:	mov	$181, r0
 	trap	$0
-f3242:	mov	$182, r0
+fail3242:	mov	$182, r0
 	trap	$0
-f3243:	mov	$183, r0
+fail3243:	mov	$183, r0
 	trap	$0
-f3244:	mov	$184, r0
+fail3244:	mov	$184, r0
 	trap	$0
-f3245:	mov	$185, r0
+fail3245:	mov	$185, r0
 	trap	$0
-f3246:	mov	$186, r0
+fail3246:	mov	$186, r0
 	trap	$0
-f3247:	mov	$187, r0
+fail3247:	mov	$187, r0
 	trap	$0
-f3248:	mov	$188, r0
+fail3248:	mov	$188, r0
 	trap	$0
-f3249:	mov	$189, r0
+fail3249:	mov	$189, r0
 	trap	$0
-f3250:	mov	$190, r0
+fail3250:	mov	$190, r0
 	trap	$0
-f3251:	mov	$191, r0
+fail3251:	mov	$191, r0
 	trap	$0
-f3252:	mov	$192, r0
+fail3252:	mov	$192, r0
 	trap	$0
-f3253:	mov	$193, r0
+fail3253:	mov	$193, r0
 	trap	$0
-f3254:	mov	$194, r0
+fail3254:	mov	$194, r0
 	trap	$0
-f3255:	mov	$195, r0
+fail3255:	mov	$195, r0
 	trap	$0
-f3256:	mov	$196, r0
+fail3256:	mov	$196, r0
 	trap	$0
-f3257:	mov	$197, r0
+fail3257:	mov	$197, r0
 	trap	$0
-f3258:	mov	$198, r0
+fail3258:	mov	$198, r0
 	trap	$0
-f3259:	mov	$199, r0
+fail3259:	mov	$199, r0
 	trap	$0
-f3260:	mov	$200, r0
+fail3260:	mov	$200, r0
 	trap	$0
-f3261:	mov	$201, r0
+fail3261:	mov	$201, r0
 	trap	$0
-f3262:	mov	$202, r0
+fail3262:	mov	$202, r0
 	trap	$0
-f3263:	mov	$203, r0
+fail3263:	mov	$203, r0
 	trap	$0
-f3264:	mov	$204, r0
+fail3264:	mov	$204, r0
 	trap	$0
-f3265:	mov	$205, r0
+fail3265:	mov	$205, r0
 	trap	$0
-f3266:	mov	$206, r0
+fail3266:	mov	$206, r0
 	trap	$0
-f3267:	mov	$207, r0
+fail3267:	mov	$207, r0
 	trap	$0
-f3268:	mov	$208, r0
+fail3268:	mov	$208, r0
 	trap	$0
-f3269:	mov	$209, r0
+fail3269:	mov	$209, r0
 	trap	$0
-f3270:	mov	$210, r0
+fail3270:	mov	$210, r0
 	trap	$0
-f3271:	mov	$211, r0
+fail3271:	mov	$211, r0
 	trap	$0
-f3272:	mov	$212, r0
+fail3272:	mov	$212, r0
 	trap	$0
-f3273:	mov	$213, r0
+fail3273:	mov	$213, r0
 	trap	$0
-f3274:	mov	$214, r0
+fail3274:	mov	$214, r0
 	trap	$0
-f3275:	mov	$215, r0
+fail3275:	mov	$215, r0
 	trap	$0
-f3276:	mov	$216, r0
+fail3276:	mov	$216, r0
 	trap	$0
-f3277:	mov	$217, r0
+fail3277:	mov	$217, r0
 	trap	$0
-f3278:	mov	$218, r0
+fail3278:	mov	$218, r0
 	trap	$0
-f3279:	mov	$219, r0
+fail3279:	mov	$219, r0
 	trap	$0
-f3280:	mov	$220, r0
+fail3280:	mov	$220, r0
 	trap	$0
-f3281:	mov	$221, r0
+fail3281:	mov	$221, r0
 	trap	$0
-f3282:	mov	$222, r0
+fail3282:	mov	$222, r0
 	trap	$0
-f3283:	mov	$223, r0
+fail3283:	mov	$223, r0
 	trap	$0
-f3284:	mov	$224, r0
+fail3284:	mov	$224, r0
 	trap	$0
-f3285:	mov	$225, r0
+fail3285:	mov	$225, r0
 	trap	$0
-f3286:	mov	$226, r0
+fail3286:	mov	$226, r0
 	trap	$0
-f3287:	mov	$227, r0
+fail3287:	mov	$227, r0
 	trap	$0
-f3288:	mov	$228, r0
+fail3288:	mov	$228, r0
 	trap	$0
-f3289:	mov	$229, r0
+fail3289:	mov	$229, r0
 	trap	$0
-f3290:	mov	$230, r0
+fail3290:	mov	$230, r0
 	trap	$0
-f3291:	mov	$231, r0
+fail3291:	mov	$231, r0
 	trap	$0
-f3292:	mov	$232, r0
+fail3292:	mov	$232, r0
 	trap	$0
-f3293:	mov	$233, r0
+fail3293:	mov	$233, r0
 	trap	$0
-f3294:	mov	$234, r0
+fail3294:	mov	$234, r0
 	trap	$0
-f3295:	mov	$235, r0
+fail3295:	mov	$235, r0
 	trap	$0
-f3296:	mov	$236, r0
+fail3296:	mov	$236, r0
 	trap	$0
-f3297:	mov	$237, r0
+fail3297:	mov	$237, r0
 	trap	$0
-f3298:	mov	$238, r0
+fail3298:	mov	$238, r0
 	trap	$0
-f3299:	mov	$239, r0
+fail3299:	mov	$239, r0
 	trap	$0
-f3300:	mov	$240, r0
+fail3300:	mov	$240, r0
 	trap	$0
-f3301:	mov	$241, r0
+fail3301:	mov	$241, r0
 	trap	$0
-f3302:	mov	$242, r0
+fail3302:	mov	$242, r0
 	trap	$0
-f3303:	mov	$243, r0
+fail3303:	mov	$243, r0
 	trap	$0
-f3304:	mov	$244, r0
+fail3304:	mov	$244, r0
 	trap	$0
-f3305:	mov	$245, r0
+fail3305:	mov	$245, r0
 	trap	$0
-f3306:	mov	$246, r0
+fail3306:	mov	$246, r0
 	trap	$0
-f3307:	mov	$247, r0
+fail3307:	mov	$247, r0
 	trap	$0
-f3308:	mov	$248, r0
+fail3308:	mov	$248, r0
 	trap	$0
-f3309:	mov	$249, r0
+fail3309:	mov	$249, r0
 	trap	$0
-f3310:	mov	$250, r0
+fail3310:	mov	$250, r0
 	trap	$0
-f3311:	mov	$251, r0
+fail3311:	mov	$251, r0
 	trap	$0
-f3312:	mov	$252, r0
+fail3312:	mov	$252, r0
 	trap	$0
-f3313:	mov	$253, r0
+fail3313:	mov	$253, r0
 	trap	$0
-f3314:	mov	$254, r0
+fail3314:	mov	$254, r0
 	trap	$0
-f3315:	mov	$255, r0
+fail3315:	mov	$255, r0
 	trap	$0
-f3316:	mov	$1, r0
+fail3316:	mov	$1, r0
 	trap	$0
-f3317:	mov	$2, r0
+fail3317:	mov	$2, r0
 	trap	$0
-f3318:	mov	$3, r0
+fail3318:	mov	$3, r0
 	trap	$0
-f3319:	mov	$4, r0
+fail3319:	mov	$4, r0
 	trap	$0
-f3320:	mov	$5, r0
+fail3320:	mov	$5, r0
 	trap	$0
-f3321:	mov	$6, r0
+fail3321:	mov	$6, r0
 	trap	$0
-f3322:	mov	$7, r0
+fail3322:	mov	$7, r0
 	trap	$0
-f3323:	mov	$8, r0
+fail3323:	mov	$8, r0
 	trap	$0
-f3324:	mov	$9, r0
+fail3324:	mov	$9, r0
 	trap	$0
-f3325:	mov	$10, r0
+fail3325:	mov	$10, r0
 	trap	$0
-f3326:	mov	$11, r0
+fail3326:	mov	$11, r0
 	trap	$0
-f3327:	mov	$12, r0
+fail3327:	mov	$12, r0
 	trap	$0
-f3328:	mov	$13, r0
+fail3328:	mov	$13, r0
 	trap	$0
-f3329:	mov	$14, r0
+fail3329:	mov	$14, r0
 	trap	$0
-f3330:	mov	$15, r0
+fail3330:	mov	$15, r0
 	trap	$0
-f3331:	mov	$16, r0
+fail3331:	mov	$16, r0
 	trap	$0
-f3332:	mov	$17, r0
+fail3332:	mov	$17, r0
 	trap	$0
-f3333:	mov	$18, r0
+fail3333:	mov	$18, r0
 	trap	$0
-f3334:	mov	$19, r0
+fail3334:	mov	$19, r0
 	trap	$0
-f3335:	mov	$20, r0
+fail3335:	mov	$20, r0
 	trap	$0
-f3336:	mov	$21, r0
+fail3336:	mov	$21, r0
 	trap	$0
-f3337:	mov	$22, r0
+fail3337:	mov	$22, r0
 	trap	$0
-f3338:	mov	$23, r0
+fail3338:	mov	$23, r0
 	trap	$0
-f3339:	mov	$24, r0
+fail3339:	mov	$24, r0
 	trap	$0
-f3340:	mov	$25, r0
+fail3340:	mov	$25, r0
 	trap	$0
-f3341:	mov	$26, r0
+fail3341:	mov	$26, r0
 	trap	$0
-f3342:	mov	$27, r0
+fail3342:	mov	$27, r0
 	trap	$0
-f3343:	mov	$28, r0
+fail3343:	mov	$28, r0
 	trap	$0
-f3344:	mov	$29, r0
+fail3344:	mov	$29, r0
 	trap	$0
-f3345:	mov	$30, r0
+fail3345:	mov	$30, r0
 	trap	$0
-f3346:	mov	$31, r0
+fail3346:	mov	$31, r0
 	trap	$0
-f3347:	mov	$32, r0
+fail3347:	mov	$32, r0
 	trap	$0
-f3348:	mov	$33, r0
+fail3348:	mov	$33, r0
 	trap	$0
-f3349:	mov	$34, r0
+fail3349:	mov	$34, r0
 	trap	$0
-f3350:	mov	$35, r0
+fail3350:	mov	$35, r0
 	trap	$0
-f3351:	mov	$36, r0
+fail3351:	mov	$36, r0
 	trap	$0
-f3352:	mov	$37, r0
+fail3352:	mov	$37, r0
 	trap	$0
-f3353:	mov	$38, r0
+fail3353:	mov	$38, r0
 	trap	$0
-f3354:	mov	$39, r0
+fail3354:	mov	$39, r0
 	trap	$0
-f3355:	mov	$40, r0
+fail3355:	mov	$40, r0
 	trap	$0
-f3356:	mov	$41, r0
+fail3356:	mov	$41, r0
 	trap	$0
-f3357:	mov	$42, r0
+fail3357:	mov	$42, r0
 	trap	$0
-f3358:	mov	$43, r0
+fail3358:	mov	$43, r0
 	trap	$0
-f3359:	mov	$44, r0
+fail3359:	mov	$44, r0
 	trap	$0
-f3360:	mov	$45, r0
+fail3360:	mov	$45, r0
 	trap	$0
-f3361:	mov	$46, r0
+fail3361:	mov	$46, r0
 	trap	$0
-f3362:	mov	$47, r0
+fail3362:	mov	$47, r0
 	trap	$0
-f3363:	mov	$48, r0
+fail3363:	mov	$48, r0
 	trap	$0
-f3364:	mov	$49, r0
+fail3364:	mov	$49, r0
 	trap	$0
-f3365:	mov	$50, r0
+fail3365:	mov	$50, r0
 	trap	$0
-f3366:	mov	$51, r0
+fail3366:	mov	$51, r0
 	trap	$0
-f3367:	mov	$52, r0
+fail3367:	mov	$52, r0
 	trap	$0
-f3368:	mov	$53, r0
+fail3368:	mov	$53, r0
 	trap	$0
-f3369:	mov	$54, r0
+fail3369:	mov	$54, r0
 	trap	$0
-f3370:	mov	$55, r0
+fail3370:	mov	$55, r0
 	trap	$0
-f3371:	mov	$56, r0
+fail3371:	mov	$56, r0
 	trap	$0
-f3372:	mov	$57, r0
+fail3372:	mov	$57, r0
 	trap	$0
-f3373:	mov	$58, r0
+fail3373:	mov	$58, r0
 	trap	$0
-f3374:	mov	$59, r0
+fail3374:	mov	$59, r0
 	trap	$0
-f3375:	mov	$60, r0
+fail3375:	mov	$60, r0
 	trap	$0
-f3376:	mov	$61, r0
+fail3376:	mov	$61, r0
 	trap	$0
-f3377:	mov	$62, r0
+fail3377:	mov	$62, r0
 	trap	$0
-f3378:	mov	$63, r0
+fail3378:	mov	$63, r0
 	trap	$0
-f3379:	mov	$64, r0
+fail3379:	mov	$64, r0
 	trap	$0
-f3380:	mov	$65, r0
+fail3380:	mov	$65, r0
 	trap	$0
-f3381:	mov	$66, r0
+fail3381:	mov	$66, r0
 	trap	$0
-f3382:	mov	$67, r0
+fail3382:	mov	$67, r0
 	trap	$0
-f3383:	mov	$68, r0
+fail3383:	mov	$68, r0
 	trap	$0
-f3384:	mov	$69, r0
+fail3384:	mov	$69, r0
 	trap	$0
-f3385:	mov	$70, r0
+fail3385:	mov	$70, r0
 	trap	$0
-f3386:	mov	$71, r0
+fail3386:	mov	$71, r0
 	trap	$0
-f3387:	mov	$72, r0
+fail3387:	mov	$72, r0
 	trap	$0
-f3388:	mov	$73, r0
+fail3388:	mov	$73, r0
 	trap	$0
-f3389:	mov	$74, r0
+fail3389:	mov	$74, r0
 	trap	$0
-f3390:	mov	$75, r0
+fail3390:	mov	$75, r0
 	trap	$0
-f3391:	mov	$76, r0
+fail3391:	mov	$76, r0
 	trap	$0
-f3392:	mov	$77, r0
+fail3392:	mov	$77, r0
 	trap	$0
-f3393:	mov	$78, r0
+fail3393:	mov	$78, r0
 	trap	$0
-f3394:	mov	$79, r0
+fail3394:	mov	$79, r0
 	trap	$0
-f3395:	mov	$80, r0
+fail3395:	mov	$80, r0
 	trap	$0
-f3396:	mov	$81, r0
+fail3396:	mov	$81, r0
 	trap	$0
-f3397:	mov	$82, r0
+fail3397:	mov	$82, r0
 	trap	$0
-f3398:	mov	$83, r0
+fail3398:	mov	$83, r0
 	trap	$0
-f3399:	mov	$84, r0
+fail3399:	mov	$84, r0
 	trap	$0
-f3400:	mov	$85, r0
+fail3400:	mov	$85, r0
 	trap	$0
-f3401:	mov	$86, r0
+fail3401:	mov	$86, r0
 	trap	$0
-f3402:	mov	$87, r0
+fail3402:	mov	$87, r0
 	trap	$0
-f3403:	mov	$88, r0
+fail3403:	mov	$88, r0
 	trap	$0
-f3404:	mov	$89, r0
+fail3404:	mov	$89, r0
 	trap	$0
-f3405:	mov	$90, r0
+fail3405:	mov	$90, r0
 	trap	$0
-f3406:	mov	$91, r0
+fail3406:	mov	$91, r0
 	trap	$0
-f3407:	mov	$92, r0
+fail3407:	mov	$92, r0
 	trap	$0
-f3408:	mov	$93, r0
+fail3408:	mov	$93, r0
 	trap	$0
-f3409:	mov	$94, r0
+fail3409:	mov	$94, r0
 	trap	$0
-f3410:	mov	$95, r0
+fail3410:	mov	$95, r0
 	trap	$0
-f3411:	mov	$96, r0
+fail3411:	mov	$96, r0
 	trap	$0
-f3412:	mov	$97, r0
+fail3412:	mov	$97, r0
 	trap	$0
-f3413:	mov	$98, r0
+fail3413:	mov	$98, r0
 	trap	$0
-f3414:	mov	$99, r0
+fail3414:	mov	$99, r0
 	trap	$0
-f3415:	mov	$100, r0
+fail3415:	mov	$100, r0
 	trap	$0
-f3416:	mov	$101, r0
+fail3416:	mov	$101, r0
 	trap	$0
-f3417:	mov	$102, r0
+fail3417:	mov	$102, r0
 	trap	$0
-f3418:	mov	$103, r0
+fail3418:	mov	$103, r0
 	trap	$0
-f3419:	mov	$104, r0
+fail3419:	mov	$104, r0
 	trap	$0
-f3420:	mov	$105, r0
+fail3420:	mov	$105, r0
 	trap	$0
-f3421:	mov	$106, r0
+fail3421:	mov	$106, r0
 	trap	$0
-f3422:	mov	$107, r0
+fail3422:	mov	$107, r0
 	trap	$0
-f3423:	mov	$108, r0
+fail3423:	mov	$108, r0
 	trap	$0
-f3424:	mov	$109, r0
+fail3424:	mov	$109, r0
 	trap	$0
-f3425:	mov	$110, r0
+fail3425:	mov	$110, r0
 	trap	$0
-f3426:	mov	$111, r0
+fail3426:	mov	$111, r0
 	trap	$0
-f3427:	mov	$112, r0
+fail3427:	mov	$112, r0
 	trap	$0
-f3428:	mov	$113, r0
+fail3428:	mov	$113, r0
 	trap	$0
-f3429:	mov	$114, r0
+fail3429:	mov	$114, r0
 	trap	$0
-f3430:	mov	$115, r0
+fail3430:	mov	$115, r0
 	trap	$0
-f3431:	mov	$116, r0
+fail3431:	mov	$116, r0
 	trap	$0
-f3432:	mov	$117, r0
+fail3432:	mov	$117, r0
 	trap	$0
-f3433:	mov	$118, r0
+fail3433:	mov	$118, r0
 	trap	$0
-f3434:	mov	$119, r0
+fail3434:	mov	$119, r0
 	trap	$0
-f3435:	mov	$120, r0
+fail3435:	mov	$120, r0
 	trap	$0
-f3436:	mov	$121, r0
+fail3436:	mov	$121, r0
 	trap	$0
-f3437:	mov	$122, r0
+fail3437:	mov	$122, r0
 	trap	$0
-f3438:	mov	$123, r0
+fail3438:	mov	$123, r0
 	trap	$0
-f3439:	mov	$124, r0
+fail3439:	mov	$124, r0
 	trap	$0
-f3440:	mov	$125, r0
+fail3440:	mov	$125, r0
 	trap	$0
-f3441:	mov	$126, r0
+fail3441:	mov	$126, r0
 	trap	$0
-f3442:	mov	$127, r0
+fail3442:	mov	$127, r0
 	trap	$0
-f3443:	mov	$128, r0
+fail3443:	mov	$128, r0
 	trap	$0
-f3444:	mov	$129, r0
+fail3444:	mov	$129, r0
 	trap	$0
-f3445:	mov	$130, r0
+fail3445:	mov	$130, r0
 	trap	$0
-f3446:	mov	$131, r0
+fail3446:	mov	$131, r0
 	trap	$0
-f3447:	mov	$132, r0
+fail3447:	mov	$132, r0
 	trap	$0
-f3448:	mov	$133, r0
+fail3448:	mov	$133, r0
 	trap	$0
-f3449:	mov	$134, r0
+fail3449:	mov	$134, r0
 	trap	$0
-f3450:	mov	$135, r0
+fail3450:	mov	$135, r0
 	trap	$0
-f3451:	mov	$136, r0
+fail3451:	mov	$136, r0
 	trap	$0
-f3452:	mov	$137, r0
+fail3452:	mov	$137, r0
 	trap	$0
-f3453:	mov	$138, r0
+fail3453:	mov	$138, r0
 	trap	$0
-f3454:	mov	$139, r0
+fail3454:	mov	$139, r0
 	trap	$0
-f3455:	mov	$140, r0
+fail3455:	mov	$140, r0
 	trap	$0
-f3456:	mov	$141, r0
+fail3456:	mov	$141, r0
 	trap	$0
-f3457:	mov	$142, r0
+fail3457:	mov	$142, r0
 	trap	$0
-f3458:	mov	$143, r0
+fail3458:	mov	$143, r0
 	trap	$0
-f3459:	mov	$144, r0
+fail3459:	mov	$144, r0
 	trap	$0
-f3460:	mov	$145, r0
+fail3460:	mov	$145, r0
 	trap	$0
-f3461:	mov	$146, r0
+fail3461:	mov	$146, r0
 	trap	$0
-f3462:	mov	$147, r0
+fail3462:	mov	$147, r0
 	trap	$0
-f3463:	mov	$148, r0
+fail3463:	mov	$148, r0
 	trap	$0
-f3464:	mov	$149, r0
+fail3464:	mov	$149, r0
 	trap	$0
-f3465:	mov	$150, r0
+fail3465:	mov	$150, r0
 	trap	$0
-f3466:	mov	$151, r0
+fail3466:	mov	$151, r0
 	trap	$0
-f3467:	mov	$152, r0
+fail3467:	mov	$152, r0
 	trap	$0
-f3468:	mov	$153, r0
+fail3468:	mov	$153, r0
 	trap	$0
-f3469:	mov	$154, r0
+fail3469:	mov	$154, r0
 	trap	$0
-f3470:	mov	$155, r0
+fail3470:	mov	$155, r0
 	trap	$0
-f3471:	mov	$156, r0
+fail3471:	mov	$156, r0
 	trap	$0
-f3472:	mov	$157, r0
+fail3472:	mov	$157, r0
 	trap	$0
-f3473:	mov	$158, r0
+fail3473:	mov	$158, r0
 	trap	$0
-f3474:	mov	$159, r0
+fail3474:	mov	$159, r0
 	trap	$0
-f3475:	mov	$160, r0
+fail3475:	mov	$160, r0
 	trap	$0
-f3476:	mov	$161, r0
+fail3476:	mov	$161, r0
 	trap	$0
-f3477:	mov	$162, r0
+fail3477:	mov	$162, r0
 	trap	$0
-f3478:	mov	$163, r0
+fail3478:	mov	$163, r0
 	trap	$0
-f3479:	mov	$164, r0
+fail3479:	mov	$164, r0
 	trap	$0
-f3480:	mov	$165, r0
+fail3480:	mov	$165, r0
 	trap	$0
-f3481:	mov	$166, r0
+fail3481:	mov	$166, r0
 	trap	$0
-f3482:	mov	$167, r0
+fail3482:	mov	$167, r0
 	trap	$0
-f3483:	mov	$168, r0
+fail3483:	mov	$168, r0
 	trap	$0
-f3484:	mov	$169, r0
+fail3484:	mov	$169, r0
 	trap	$0
-f3485:	mov	$170, r0
+fail3485:	mov	$170, r0
 	trap	$0
-f3486:	mov	$171, r0
+fail3486:	mov	$171, r0
 	trap	$0
-f3487:	mov	$172, r0
+fail3487:	mov	$172, r0
 	trap	$0
-f3488:	mov	$173, r0
+fail3488:	mov	$173, r0
 	trap	$0
-f3489:	mov	$174, r0
+fail3489:	mov	$174, r0
 	trap	$0
-f3490:	mov	$175, r0
+fail3490:	mov	$175, r0
 	trap	$0
-f3491:	mov	$176, r0
+fail3491:	mov	$176, r0
 	trap	$0
-f3492:	mov	$177, r0
+fail3492:	mov	$177, r0
 	trap	$0
-f3493:	mov	$178, r0
+fail3493:	mov	$178, r0
 	trap	$0
-f3494:	mov	$179, r0
+fail3494:	mov	$179, r0
 	trap	$0
-f3495:	mov	$180, r0
+fail3495:	mov	$180, r0
 	trap	$0
-f3496:	mov	$181, r0
+fail3496:	mov	$181, r0
 	trap	$0
-f3497:	mov	$182, r0
+fail3497:	mov	$182, r0
 	trap	$0
-f3498:	mov	$183, r0
+fail3498:	mov	$183, r0
 	trap	$0
-f3499:	mov	$184, r0
+fail3499:	mov	$184, r0
 	trap	$0
-f3500:	mov	$185, r0
+fail3500:	mov	$185, r0
 	trap	$0
-f3501:	mov	$186, r0
+fail3501:	mov	$186, r0
 	trap	$0
-f3502:	mov	$187, r0
+fail3502:	mov	$187, r0
 	trap	$0
-f3503:	mov	$188, r0
+fail3503:	mov	$188, r0
 	trap	$0
-f3504:	mov	$189, r0
+fail3504:	mov	$189, r0
 	trap	$0
-f3505:	mov	$190, r0
+fail3505:	mov	$190, r0
 	trap	$0
-f3506:	mov	$191, r0
+fail3506:	mov	$191, r0
 	trap	$0
-f3507:	mov	$192, r0
+fail3507:	mov	$192, r0
 	trap	$0
-f3508:	mov	$193, r0
+fail3508:	mov	$193, r0
 	trap	$0
-f3509:	mov	$194, r0
+fail3509:	mov	$194, r0
 	trap	$0
-f3510:	mov	$195, r0
+fail3510:	mov	$195, r0
 	trap	$0
-f3511:	mov	$196, r0
+fail3511:	mov	$196, r0
 	trap	$0
-f3512:	mov	$197, r0
+fail3512:	mov	$197, r0
 	trap	$0
-f3513:	mov	$198, r0
+fail3513:	mov	$198, r0
 	trap	$0
-f3514:	mov	$199, r0
+fail3514:	mov	$199, r0
 	trap	$0
-f3515:	mov	$200, r0
+fail3515:	mov	$200, r0
 	trap	$0
-f3516:	mov	$201, r0
+fail3516:	mov	$201, r0
 	trap	$0
-f3517:	mov	$202, r0
+fail3517:	mov	$202, r0
 	trap	$0
-f3518:	mov	$203, r0
+fail3518:	mov	$203, r0
 	trap	$0
-f3519:	mov	$204, r0
+fail3519:	mov	$204, r0
 	trap	$0
-f3520:	mov	$205, r0
+fail3520:	mov	$205, r0
 	trap	$0
-f3521:	mov	$206, r0
+fail3521:	mov	$206, r0
 	trap	$0
-f3522:	mov	$207, r0
+fail3522:	mov	$207, r0
 	trap	$0
-f3523:	mov	$208, r0
+fail3523:	mov	$208, r0
 	trap	$0
-f3524:	mov	$209, r0
+fail3524:	mov	$209, r0
 	trap	$0
-f3525:	mov	$210, r0
+fail3525:	mov	$210, r0
 	trap	$0
-f3526:	mov	$211, r0
+fail3526:	mov	$211, r0
 	trap	$0
-f3527:	mov	$212, r0
+fail3527:	mov	$212, r0
 	trap	$0
-f3528:	mov	$213, r0
+fail3528:	mov	$213, r0
 	trap	$0
-f3529:	mov	$214, r0
+fail3529:	mov	$214, r0
 	trap	$0
-f3530:	mov	$215, r0
+fail3530:	mov	$215, r0
 	trap	$0
-f3531:	mov	$216, r0
+fail3531:	mov	$216, r0
 	trap	$0
-f3532:	mov	$217, r0
+fail3532:	mov	$217, r0
 	trap	$0
-f3533:	mov	$218, r0
+fail3533:	mov	$218, r0
 	trap	$0
-f3534:	mov	$219, r0
+fail3534:	mov	$219, r0
 	trap	$0
-f3535:	mov	$220, r0
+fail3535:	mov	$220, r0
 	trap	$0
-f3536:	mov	$221, r0
+fail3536:	mov	$221, r0
 	trap	$0
-f3537:	mov	$222, r0
+fail3537:	mov	$222, r0
 	trap	$0
-f3538:	mov	$223, r0
+fail3538:	mov	$223, r0
 	trap	$0
-f3539:	mov	$224, r0
+fail3539:	mov	$224, r0
 	trap	$0
-f3540:	mov	$225, r0
+fail3540:	mov	$225, r0
 	trap	$0
-f3541:	mov	$226, r0
+fail3541:	mov	$226, r0
 	trap	$0
-f3542:	mov	$227, r0
+fail3542:	mov	$227, r0
 	trap	$0
-f3543:	mov	$228, r0
+fail3543:	mov	$228, r0
 	trap	$0
-f3544:	mov	$229, r0
+fail3544:	mov	$229, r0
 	trap	$0
-f3545:	mov	$230, r0
+fail3545:	mov	$230, r0
 	trap	$0
-f3546:	mov	$231, r0
+fail3546:	mov	$231, r0
 	trap	$0
-f3547:	mov	$232, r0
+fail3547:	mov	$232, r0
 	trap	$0
-f3548:	mov	$233, r0
+fail3548:	mov	$233, r0
 	trap	$0
-f3549:	mov	$234, r0
+fail3549:	mov	$234, r0
 	trap	$0
-f3550:	mov	$235, r0
+fail3550:	mov	$235, r0
 	trap	$0
-f3551:	mov	$236, r0
+fail3551:	mov	$236, r0
 	trap	$0
-f3552:	mov	$237, r0
+fail3552:	mov	$237, r0
 	trap	$0
-f3553:	mov	$238, r0
+fail3553:	mov	$238, r0
 	trap	$0
-f3554:	mov	$239, r0
+fail3554:	mov	$239, r0
 	trap	$0
-f3555:	mov	$240, r0
+fail3555:	mov	$240, r0
 	trap	$0
-f3556:	mov	$241, r0
+fail3556:	mov	$241, r0
 	trap	$0
-f3557:	mov	$242, r0
+fail3557:	mov	$242, r0
 	trap	$0
-f3558:	mov	$243, r0
+fail3558:	mov	$243, r0
 	trap	$0
-f3559:	mov	$244, r0
+fail3559:	mov	$244, r0
 	trap	$0
-f3560:	mov	$245, r0
+fail3560:	mov	$245, r0
 	trap	$0
-f3561:	mov	$246, r0
+fail3561:	mov	$246, r0
 	trap	$0
-f3562:	mov	$247, r0
+fail3562:	mov	$247, r0
 	trap	$0
-f3563:	mov	$248, r0
+fail3563:	mov	$248, r0
 	trap	$0
-f3564:	mov	$249, r0
+fail3564:	mov	$249, r0
 	trap	$0
-f3565:	mov	$250, r0
+fail3565:	mov	$250, r0
 	trap	$0
-f3566:	mov	$251, r0
+fail3566:	mov	$251, r0
 	trap	$0
-f3567:	mov	$252, r0
+fail3567:	mov	$252, r0
 	trap	$0
-f3568:	mov	$253, r0
+fail3568:	mov	$253, r0
 	trap	$0
-f3569:	mov	$254, r0
+fail3569:	mov	$254, r0
 	trap	$0
-f3570:	mov	$255, r0
+fail3570:	mov	$255, r0
 	trap	$0
-f3571:	mov	$1, r0
+fail3571:	mov	$1, r0
 	trap	$0
-f3572:	mov	$2, r0
+fail3572:	mov	$2, r0
 	trap	$0
-f3573:	mov	$3, r0
+fail3573:	mov	$3, r0
 	trap	$0
-f3574:	mov	$4, r0
+fail3574:	mov	$4, r0
 	trap	$0
-f3575:	mov	$5, r0
+fail3575:	mov	$5, r0
 	trap	$0
-f3576:	mov	$6, r0
+fail3576:	mov	$6, r0
 	trap	$0
-f3577:	mov	$7, r0
+fail3577:	mov	$7, r0
 	trap	$0
-f3578:	mov	$8, r0
+fail3578:	mov	$8, r0
 	trap	$0
-f3579:	mov	$9, r0
+fail3579:	mov	$9, r0
 	trap	$0
-f3580:	mov	$10, r0
+fail3580:	mov	$10, r0
 	trap	$0
-f3581:	mov	$11, r0
+fail3581:	mov	$11, r0
 	trap	$0
-f3582:	mov	$12, r0
+fail3582:	mov	$12, r0
 	trap	$0
-f3583:	mov	$13, r0
+fail3583:	mov	$13, r0
 	trap	$0
-f3584:	mov	$14, r0
+fail3584:	mov	$14, r0
 	trap	$0
-f3585:	mov	$15, r0
+fail3585:	mov	$15, r0
 	trap	$0
-f3586:	mov	$16, r0
+fail3586:	mov	$16, r0
 	trap	$0
-f3587:	mov	$17, r0
+fail3587:	mov	$17, r0
 	trap	$0
-f3588:	mov	$18, r0
+fail3588:	mov	$18, r0
 	trap	$0
-f3589:	mov	$19, r0
+fail3589:	mov	$19, r0
 	trap	$0
-f3590:	mov	$20, r0
+fail3590:	mov	$20, r0
 	trap	$0
-f3591:	mov	$21, r0
+fail3591:	mov	$21, r0
 	trap	$0
-f3592:	mov	$22, r0
+fail3592:	mov	$22, r0
 	trap	$0
-f3593:	mov	$23, r0
+fail3593:	mov	$23, r0
 	trap	$0
-f3594:	mov	$24, r0
+fail3594:	mov	$24, r0
 	trap	$0
-f3595:	mov	$25, r0
+fail3595:	mov	$25, r0
 	trap	$0
-f3596:	mov	$26, r0
+fail3596:	mov	$26, r0
 	trap	$0
-f3597:	mov	$27, r0
+fail3597:	mov	$27, r0
 	trap	$0
-f3598:	mov	$28, r0
+fail3598:	mov	$28, r0
 	trap	$0
-f3599:	mov	$29, r0
+fail3599:	mov	$29, r0
 	trap	$0
-f3600:	mov	$30, r0
+fail3600:	mov	$30, r0
 	trap	$0
-f3601:	mov	$31, r0
+fail3601:	mov	$31, r0
 	trap	$0
-f3602:	mov	$32, r0
+fail3602:	mov	$32, r0
 	trap	$0
-f3603:	mov	$33, r0
+fail3603:	mov	$33, r0
 	trap	$0
-f3604:	mov	$34, r0
+fail3604:	mov	$34, r0
 	trap	$0
-f3605:	mov	$35, r0
+fail3605:	mov	$35, r0
 	trap	$0
-f3606:	mov	$36, r0
+fail3606:	mov	$36, r0
 	trap	$0
-f3607:	mov	$37, r0
+fail3607:	mov	$37, r0
 	trap	$0
-f3608:	mov	$38, r0
+fail3608:	mov	$38, r0
 	trap	$0
-f3609:	mov	$39, r0
+fail3609:	mov	$39, r0
 	trap	$0
-f3610:	mov	$40, r0
+fail3610:	mov	$40, r0
 	trap	$0
-f3611:	mov	$41, r0
+fail3611:	mov	$41, r0
 	trap	$0
-f3612:	mov	$42, r0
+fail3612:	mov	$42, r0
 	trap	$0
-f3613:	mov	$43, r0
+fail3613:	mov	$43, r0
 	trap	$0
-f3614:	mov	$44, r0
+fail3614:	mov	$44, r0
 	trap	$0
-f3615:	mov	$45, r0
+fail3615:	mov	$45, r0
 	trap	$0
-f3616:	mov	$46, r0
+fail3616:	mov	$46, r0
 	trap	$0
-f3617:	mov	$47, r0
+fail3617:	mov	$47, r0
 	trap	$0
-f3618:	mov	$48, r0
+fail3618:	mov	$48, r0
 	trap	$0
-f3619:	mov	$49, r0
+fail3619:	mov	$49, r0
 	trap	$0
-f3620:	mov	$50, r0
+fail3620:	mov	$50, r0
 	trap	$0
-f3621:	mov	$51, r0
+fail3621:	mov	$51, r0
 	trap	$0
-f3622:	mov	$52, r0
+fail3622:	mov	$52, r0
 	trap	$0
-f3623:	mov	$53, r0
+fail3623:	mov	$53, r0
 	trap	$0
-f3624:	mov	$54, r0
+fail3624:	mov	$54, r0
 	trap	$0
-f3625:	mov	$55, r0
+fail3625:	mov	$55, r0
 	trap	$0
-f3626:	mov	$56, r0
+fail3626:	mov	$56, r0
 	trap	$0
-f3627:	mov	$57, r0
+fail3627:	mov	$57, r0
 	trap	$0
-f3628:	mov	$58, r0
+fail3628:	mov	$58, r0
 	trap	$0
-f3629:	mov	$59, r0
+fail3629:	mov	$59, r0
 	trap	$0
-f3630:	mov	$60, r0
+fail3630:	mov	$60, r0
 	trap	$0
-f3631:	mov	$61, r0
+fail3631:	mov	$61, r0
 	trap	$0
-f3632:	mov	$62, r0
+fail3632:	mov	$62, r0
 	trap	$0
-f3633:	mov	$63, r0
+fail3633:	mov	$63, r0
 	trap	$0
-f3634:	mov	$64, r0
+fail3634:	mov	$64, r0
 	trap	$0
-f3635:	mov	$65, r0
+fail3635:	mov	$65, r0
 	trap	$0
-f3636:	mov	$66, r0
+fail3636:	mov	$66, r0
 	trap	$0
-f3637:	mov	$67, r0
+fail3637:	mov	$67, r0
 	trap	$0
-f3638:	mov	$68, r0
+fail3638:	mov	$68, r0
 	trap	$0
-f3639:	mov	$69, r0
+fail3639:	mov	$69, r0
 	trap	$0
-f3640:	mov	$70, r0
+fail3640:	mov	$70, r0
 	trap	$0
-f3641:	mov	$71, r0
+fail3641:	mov	$71, r0
 	trap	$0
-f3642:	mov	$72, r0
+fail3642:	mov	$72, r0
 	trap	$0
-f3643:	mov	$73, r0
+fail3643:	mov	$73, r0
 	trap	$0
-f3644:	mov	$74, r0
+fail3644:	mov	$74, r0
 	trap	$0
-f3645:	mov	$75, r0
+fail3645:	mov	$75, r0
 	trap	$0
-f3646:	mov	$76, r0
+fail3646:	mov	$76, r0
 	trap	$0
-f3647:	mov	$77, r0
+fail3647:	mov	$77, r0
 	trap	$0
-f3648:	mov	$78, r0
+fail3648:	mov	$78, r0
 	trap	$0
-f3649:	mov	$79, r0
+fail3649:	mov	$79, r0
 	trap	$0
-f3650:	mov	$80, r0
+fail3650:	mov	$80, r0
 	trap	$0
-f3651:	mov	$81, r0
+fail3651:	mov	$81, r0
 	trap	$0
-f3652:	mov	$82, r0
+fail3652:	mov	$82, r0
 	trap	$0
-f3653:	mov	$83, r0
+fail3653:	mov	$83, r0
 	trap	$0
-f3654:	mov	$84, r0
+fail3654:	mov	$84, r0
 	trap	$0
-f3655:	mov	$85, r0
+fail3655:	mov	$85, r0
 	trap	$0
-f3656:	mov	$86, r0
+fail3656:	mov	$86, r0
 	trap	$0
-f3657:	mov	$87, r0
+fail3657:	mov	$87, r0
 	trap	$0
-f3658:	mov	$88, r0
+fail3658:	mov	$88, r0
 	trap	$0
-f3659:	mov	$89, r0
+fail3659:	mov	$89, r0
 	trap	$0
-f3660:	mov	$90, r0
+fail3660:	mov	$90, r0
 	trap	$0
-f3661:	mov	$91, r0
+fail3661:	mov	$91, r0
 	trap	$0
-f3662:	mov	$92, r0
+fail3662:	mov	$92, r0
 	trap	$0
-f3663:	mov	$93, r0
+fail3663:	mov	$93, r0
 	trap	$0
-f3664:	mov	$94, r0
+fail3664:	mov	$94, r0
 	trap	$0
-f3665:	mov	$95, r0
+fail3665:	mov	$95, r0
 	trap	$0
-f3666:	mov	$96, r0
+fail3666:	mov	$96, r0
 	trap	$0
-f3667:	mov	$97, r0
+fail3667:	mov	$97, r0
 	trap	$0
-f3668:	mov	$98, r0
+fail3668:	mov	$98, r0
 	trap	$0
-f3669:	mov	$99, r0
+fail3669:	mov	$99, r0
 	trap	$0
-f3670:	mov	$100, r0
+fail3670:	mov	$100, r0
 	trap	$0
-f3671:	mov	$101, r0
+fail3671:	mov	$101, r0
 	trap	$0
-f3672:	mov	$102, r0
+fail3672:	mov	$102, r0
 	trap	$0
-f3673:	mov	$103, r0
+fail3673:	mov	$103, r0
 	trap	$0
-f3674:	mov	$104, r0
+fail3674:	mov	$104, r0
 	trap	$0
-f3675:	mov	$105, r0
+fail3675:	mov	$105, r0
 	trap	$0
-f3676:	mov	$106, r0
+fail3676:	mov	$106, r0
 	trap	$0
-f3677:	mov	$107, r0
+fail3677:	mov	$107, r0
 	trap	$0
-f3678:	mov	$108, r0
+fail3678:	mov	$108, r0
 	trap	$0
-f3679:	mov	$109, r0
+fail3679:	mov	$109, r0
 	trap	$0
-f3680:	mov	$110, r0
+fail3680:	mov	$110, r0
 	trap	$0
-f3681:	mov	$111, r0
+fail3681:	mov	$111, r0
 	trap	$0
-f3682:	mov	$112, r0
+fail3682:	mov	$112, r0
 	trap	$0
-f3683:	mov	$113, r0
+fail3683:	mov	$113, r0
 	trap	$0
-f3684:	mov	$114, r0
+fail3684:	mov	$114, r0
 	trap	$0
-f3685:	mov	$115, r0
+fail3685:	mov	$115, r0
 	trap	$0
-f3686:	mov	$116, r0
+fail3686:	mov	$116, r0
 	trap	$0
-f3687:	mov	$117, r0
+fail3687:	mov	$117, r0
 	trap	$0
-f3688:	mov	$118, r0
+fail3688:	mov	$118, r0
 	trap	$0
-f3689:	mov	$119, r0
+fail3689:	mov	$119, r0
 	trap	$0
-f3690:	mov	$120, r0
+fail3690:	mov	$120, r0
 	trap	$0
-f3691:	mov	$121, r0
+fail3691:	mov	$121, r0
 	trap	$0
-f3692:	mov	$122, r0
+fail3692:	mov	$122, r0
 	trap	$0
-f3693:	mov	$123, r0
+fail3693:	mov	$123, r0
 	trap	$0
-f3694:	mov	$124, r0
+fail3694:	mov	$124, r0
 	trap	$0
-f3695:	mov	$125, r0
+fail3695:	mov	$125, r0
 	trap	$0
-f3696:	mov	$126, r0
+fail3696:	mov	$126, r0
 	trap	$0
-f3697:	mov	$127, r0
+fail3697:	mov	$127, r0
 	trap	$0
-f3698:	mov	$128, r0
+fail3698:	mov	$128, r0
 	trap	$0
-f3699:	mov	$129, r0
+fail3699:	mov	$129, r0
 	trap	$0
-f3700:	mov	$130, r0
+fail3700:	mov	$130, r0
 	trap	$0
-f3701:	mov	$131, r0
+fail3701:	mov	$131, r0
 	trap	$0
-f3702:	mov	$132, r0
+fail3702:	mov	$132, r0
 	trap	$0
-f3703:	mov	$133, r0
+fail3703:	mov	$133, r0
 	trap	$0
-f3704:	mov	$134, r0
+fail3704:	mov	$134, r0
 	trap	$0
-f3705:	mov	$135, r0
+fail3705:	mov	$135, r0
 	trap	$0
-f3706:	mov	$136, r0
+fail3706:	mov	$136, r0
 	trap	$0
-f3707:	mov	$137, r0
+fail3707:	mov	$137, r0
 	trap	$0
-f3708:	mov	$138, r0
+fail3708:	mov	$138, r0
 	trap	$0
-f3709:	mov	$139, r0
+fail3709:	mov	$139, r0
 	trap	$0
-f3710:	mov	$140, r0
+fail3710:	mov	$140, r0
 	trap	$0
-f3711:	mov	$141, r0
+fail3711:	mov	$141, r0
 	trap	$0
-f3712:	mov	$142, r0
+fail3712:	mov	$142, r0
 	trap	$0
-f3713:	mov	$143, r0
+fail3713:	mov	$143, r0
 	trap	$0
-f3714:	mov	$144, r0
+fail3714:	mov	$144, r0
 	trap	$0
-f3715:	mov	$145, r0
+fail3715:	mov	$145, r0
 	trap	$0
-f3716:	mov	$146, r0
+fail3716:	mov	$146, r0
 	trap	$0
-f3717:	mov	$147, r0
+fail3717:	mov	$147, r0
 	trap	$0
-f3718:	mov	$148, r0
+fail3718:	mov	$148, r0
 	trap	$0
-f3719:	mov	$149, r0
+fail3719:	mov	$149, r0
 	trap	$0
-f3720:	mov	$150, r0
+fail3720:	mov	$150, r0
 	trap	$0
-f3721:	mov	$151, r0
+fail3721:	mov	$151, r0
 	trap	$0
-f3722:	mov	$152, r0
+fail3722:	mov	$152, r0
 	trap	$0
-f3723:	mov	$153, r0
+fail3723:	mov	$153, r0
 	trap	$0
-f3724:	mov	$154, r0
+fail3724:	mov	$154, r0
 	trap	$0
-f3725:	mov	$155, r0
+fail3725:	mov	$155, r0
 	trap	$0
-f3726:	mov	$156, r0
+fail3726:	mov	$156, r0
 	trap	$0
-f3727:	mov	$157, r0
+fail3727:	mov	$157, r0
 	trap	$0
-f3728:	mov	$158, r0
+fail3728:	mov	$158, r0
 	trap	$0
-f3729:	mov	$159, r0
+fail3729:	mov	$159, r0
 	trap	$0
-f3730:	mov	$160, r0
+fail3730:	mov	$160, r0
 	trap	$0
-f3731:	mov	$161, r0
+fail3731:	mov	$161, r0
 	trap	$0
-f3732:	mov	$162, r0
+fail3732:	mov	$162, r0
 	trap	$0
-f3733:	mov	$163, r0
+fail3733:	mov	$163, r0
 	trap	$0
-f3734:	mov	$164, r0
+fail3734:	mov	$164, r0
 	trap	$0
-f3735:	mov	$165, r0
+fail3735:	mov	$165, r0
 	trap	$0
-f3736:	mov	$166, r0
+fail3736:	mov	$166, r0
 	trap	$0
-f3737:	mov	$167, r0
+fail3737:	mov	$167, r0
 	trap	$0
-f3738:	mov	$168, r0
+fail3738:	mov	$168, r0
 	trap	$0
-f3739:	mov	$169, r0
+fail3739:	mov	$169, r0
 	trap	$0
-f3740:	mov	$170, r0
+fail3740:	mov	$170, r0
 	trap	$0
-f3741:	mov	$171, r0
+fail3741:	mov	$171, r0
 	trap	$0
-f3742:	mov	$172, r0
+fail3742:	mov	$172, r0
 	trap	$0
-f3743:	mov	$173, r0
+fail3743:	mov	$173, r0
 	trap	$0
-f3744:	mov	$174, r0
+fail3744:	mov	$174, r0
 	trap	$0
-f3745:	mov	$175, r0
+fail3745:	mov	$175, r0
 	trap	$0
-f3746:	mov	$176, r0
+fail3746:	mov	$176, r0
 	trap	$0
-f3747:	mov	$177, r0
+fail3747:	mov	$177, r0
 	trap	$0
-f3748:	mov	$178, r0
+fail3748:	mov	$178, r0
 	trap	$0
-f3749:	mov	$179, r0
+fail3749:	mov	$179, r0
 	trap	$0
-f3750:	mov	$180, r0
+fail3750:	mov	$180, r0
 	trap	$0
-f3751:	mov	$181, r0
+fail3751:	mov	$181, r0
 	trap	$0
-f3752:	mov	$182, r0
+fail3752:	mov	$182, r0
 	trap	$0
-f3753:	mov	$183, r0
+fail3753:	mov	$183, r0
 	trap	$0
-f3754:	mov	$184, r0
+fail3754:	mov	$184, r0
 	trap	$0
-f3755:	mov	$185, r0
+fail3755:	mov	$185, r0
 	trap	$0
-f3756:	mov	$186, r0
+fail3756:	mov	$186, r0
 	trap	$0
-f3757:	mov	$187, r0
+fail3757:	mov	$187, r0
 	trap	$0
-f3758:	mov	$188, r0
+fail3758:	mov	$188, r0
 	trap	$0
-f3759:	mov	$189, r0
+fail3759:	mov	$189, r0
 	trap	$0
-f3760:	mov	$190, r0
+fail3760:	mov	$190, r0
 	trap	$0
-f3761:	mov	$191, r0
+fail3761:	mov	$191, r0
 	trap	$0
-f3762:	mov	$192, r0
+fail3762:	mov	$192, r0
 	trap	$0
-f3763:	mov	$193, r0
+fail3763:	mov	$193, r0
 	trap	$0
-f3764:	mov	$194, r0
+fail3764:	mov	$194, r0
 	trap	$0
-f3765:	mov	$195, r0
+fail3765:	mov	$195, r0
 	trap	$0
-f3766:	mov	$196, r0
+fail3766:	mov	$196, r0
 	trap	$0
-f3767:	mov	$197, r0
+fail3767:	mov	$197, r0
 	trap	$0
-f3768:	mov	$198, r0
+fail3768:	mov	$198, r0
 	trap	$0
-f3769:	mov	$199, r0
+fail3769:	mov	$199, r0
 	trap	$0
-f3770:	mov	$200, r0
+fail3770:	mov	$200, r0
 	trap	$0
-f3771:	mov	$201, r0
+fail3771:	mov	$201, r0
 	trap	$0
-f3772:	mov	$202, r0
+fail3772:	mov	$202, r0
 	trap	$0
-f3773:	mov	$203, r0
+fail3773:	mov	$203, r0
 	trap	$0
-f3774:	mov	$204, r0
+fail3774:	mov	$204, r0
 	trap	$0
-f3775:	mov	$205, r0
+fail3775:	mov	$205, r0
 	trap	$0
-f3776:	mov	$206, r0
+fail3776:	mov	$206, r0
 	trap	$0
-f3777:	mov	$207, r0
+fail3777:	mov	$207, r0
 	trap	$0
-f3778:	mov	$208, r0
+fail3778:	mov	$208, r0
 	trap	$0
-f3779:	mov	$209, r0
+fail3779:	mov	$209, r0
 	trap	$0
-f3780:	mov	$210, r0
+fail3780:	mov	$210, r0
 	trap	$0
-f3781:	mov	$211, r0
+fail3781:	mov	$211, r0
 	trap	$0
-f3782:	mov	$212, r0
+fail3782:	mov	$212, r0
 	trap	$0
-f3783:	mov	$213, r0
+fail3783:	mov	$213, r0
 	trap	$0
-f3784:	mov	$214, r0
+fail3784:	mov	$214, r0
 	trap	$0
-f3785:	mov	$215, r0
+fail3785:	mov	$215, r0
 	trap	$0
-f3786:	mov	$216, r0
+fail3786:	mov	$216, r0
 	trap	$0
-f3787:	mov	$217, r0
+fail3787:	mov	$217, r0
 	trap	$0
-f3788:	mov	$218, r0
+fail3788:	mov	$218, r0
 	trap	$0
-f3789:	mov	$219, r0
+fail3789:	mov	$219, r0
 	trap	$0
-f3790:	mov	$220, r0
+fail3790:	mov	$220, r0
 	trap	$0
-f3791:	mov	$221, r0
+fail3791:	mov	$221, r0
 	trap	$0
-f3792:	mov	$222, r0
+fail3792:	mov	$222, r0
 	trap	$0
-f3793:	mov	$223, r0
+fail3793:	mov	$223, r0
 	trap	$0
-f3794:	mov	$224, r0
+fail3794:	mov	$224, r0
 	trap	$0
-f3795:	mov	$225, r0
+fail3795:	mov	$225, r0
 	trap	$0
-f3796:	mov	$226, r0
+fail3796:	mov	$226, r0
 	trap	$0
-f3797:	mov	$227, r0
+fail3797:	mov	$227, r0
 	trap	$0
-f3798:	mov	$228, r0
+fail3798:	mov	$228, r0
 	trap	$0
-f3799:	mov	$229, r0
+fail3799:	mov	$229, r0
 	trap	$0
-f3800:	mov	$230, r0
+fail3800:	mov	$230, r0
 	trap	$0
-f3801:	mov	$231, r0
+fail3801:	mov	$231, r0
 	trap	$0
-f3802:	mov	$232, r0
+fail3802:	mov	$232, r0
 	trap	$0
-f3803:	mov	$233, r0
+fail3803:	mov	$233, r0
 	trap	$0
-f3804:	mov	$234, r0
+fail3804:	mov	$234, r0
 	trap	$0
-f3805:	mov	$235, r0
+fail3805:	mov	$235, r0
 	trap	$0
-f3806:	mov	$236, r0
+fail3806:	mov	$236, r0
 	trap	$0
-f3807:	mov	$237, r0
+fail3807:	mov	$237, r0
 	trap	$0
-f3808:	mov	$238, r0
+fail3808:	mov	$238, r0
 	trap	$0
-f3809:	mov	$239, r0
+fail3809:	mov	$239, r0
 	trap	$0
-f3810:	mov	$240, r0
+fail3810:	mov	$240, r0
 	trap	$0
-f3811:	mov	$241, r0
+fail3811:	mov	$241, r0
 	trap	$0
-f3812:	mov	$242, r0
+fail3812:	mov	$242, r0
 	trap	$0
-f3813:	mov	$243, r0
+fail3813:	mov	$243, r0
 	trap	$0
-f3814:	mov	$244, r0
+fail3814:	mov	$244, r0
 	trap	$0
-f3815:	mov	$245, r0
+fail3815:	mov	$245, r0
 	trap	$0
-f3816:	mov	$246, r0
+fail3816:	mov	$246, r0
 	trap	$0
-f3817:	mov	$247, r0
+fail3817:	mov	$247, r0
 	trap	$0
-f3818:	mov	$248, r0
+fail3818:	mov	$248, r0
 	trap	$0
-f3819:	mov	$249, r0
+fail3819:	mov	$249, r0
 	trap	$0
-f3820:	mov	$250, r0
+fail3820:	mov	$250, r0
 	trap	$0
-f3821:	mov	$251, r0
+fail3821:	mov	$251, r0
 	trap	$0
-f3822:	mov	$252, r0
+fail3822:	mov	$252, r0
 	trap	$0
-f3823:	mov	$253, r0
+fail3823:	mov	$253, r0
 	trap	$0
-f3824:	mov	$254, r0
+fail3824:	mov	$254, r0
 	trap	$0
-f3825:	mov	$255, r0
+fail3825:	mov	$255, r0
 	trap	$0
-f3826:	mov	$1, r0
+fail3826:	mov	$1, r0
 	trap	$0
-f3827:	mov	$2, r0
+fail3827:	mov	$2, r0
 	trap	$0
-f3828:	mov	$3, r0
+fail3828:	mov	$3, r0
 	trap	$0
-f3829:	mov	$4, r0
+fail3829:	mov	$4, r0
 	trap	$0
-f3830:	mov	$5, r0
+fail3830:	mov	$5, r0
 	trap	$0
-f3831:	mov	$6, r0
+fail3831:	mov	$6, r0
 	trap	$0
-f3832:	mov	$7, r0
+fail3832:	mov	$7, r0
 	trap	$0
-f3833:	mov	$8, r0
+fail3833:	mov	$8, r0
 	trap	$0
-f3834:	mov	$9, r0
+fail3834:	mov	$9, r0
 	trap	$0
-f3835:	mov	$10, r0
+fail3835:	mov	$10, r0
 	trap	$0
-f3836:	mov	$11, r0
+fail3836:	mov	$11, r0
 	trap	$0
-f3837:	mov	$12, r0
+fail3837:	mov	$12, r0
 	trap	$0
-f3838:	mov	$13, r0
+fail3838:	mov	$13, r0
 	trap	$0
-f3839:	mov	$14, r0
+fail3839:	mov	$14, r0
 	trap	$0
-f3840:	mov	$15, r0
+fail3840:	mov	$15, r0
 	trap	$0
-f3841:	mov	$16, r0
+fail3841:	mov	$16, r0
 	trap	$0
-f3842:	mov	$17, r0
+fail3842:	mov	$17, r0
 	trap	$0
-f3843:	mov	$18, r0
+fail3843:	mov	$18, r0
 	trap	$0
-f3844:	mov	$19, r0
+fail3844:	mov	$19, r0
 	trap	$0
-f3845:	mov	$20, r0
+fail3845:	mov	$20, r0
 	trap	$0
-f3846:	mov	$21, r0
+fail3846:	mov	$21, r0
 	trap	$0
-f3847:	mov	$22, r0
+fail3847:	mov	$22, r0
 	trap	$0
-f3848:	mov	$23, r0
+fail3848:	mov	$23, r0
 	trap	$0
-f3849:	mov	$24, r0
+fail3849:	mov	$24, r0
 	trap	$0
-f3850:	mov	$25, r0
+fail3850:	mov	$25, r0
 	trap	$0
-f3851:	mov	$26, r0
+fail3851:	mov	$26, r0
 	trap	$0
-f3852:	mov	$27, r0
+fail3852:	mov	$27, r0
 	trap	$0
-f3853:	mov	$28, r0
+fail3853:	mov	$28, r0
 	trap	$0
-f3854:	mov	$29, r0
+fail3854:	mov	$29, r0
 	trap	$0
-f3855:	mov	$30, r0
+fail3855:	mov	$30, r0
 	trap	$0
-f3856:	mov	$31, r0
+fail3856:	mov	$31, r0
 	trap	$0
-f3857:	mov	$32, r0
+fail3857:	mov	$32, r0
 	trap	$0
-f3858:	mov	$33, r0
+fail3858:	mov	$33, r0
 	trap	$0
-f3859:	mov	$34, r0
+fail3859:	mov	$34, r0
 	trap	$0
-f3860:	mov	$35, r0
+fail3860:	mov	$35, r0
 	trap	$0
-f3861:	mov	$36, r0
+fail3861:	mov	$36, r0
 	trap	$0
-f3862:	mov	$37, r0
+fail3862:	mov	$37, r0
 	trap	$0
-f3863:	mov	$38, r0
+fail3863:	mov	$38, r0
 	trap	$0
-f3864:	mov	$39, r0
+fail3864:	mov	$39, r0
 	trap	$0
-f3865:	mov	$40, r0
+fail3865:	mov	$40, r0
 	trap	$0
-f3866:	mov	$41, r0
+fail3866:	mov	$41, r0
 	trap	$0
-f3867:	mov	$42, r0
+fail3867:	mov	$42, r0
 	trap	$0
-f3868:	mov	$43, r0
+fail3868:	mov	$43, r0
 	trap	$0
-f3869:	mov	$44, r0
+fail3869:	mov	$44, r0
 	trap	$0
-f3870:	mov	$45, r0
+fail3870:	mov	$45, r0
 	trap	$0
-f3871:	mov	$46, r0
+fail3871:	mov	$46, r0
 	trap	$0
-f3872:	mov	$47, r0
+fail3872:	mov	$47, r0
 	trap	$0
-f3873:	mov	$48, r0
+fail3873:	mov	$48, r0
 	trap	$0
-f3874:	mov	$49, r0
+fail3874:	mov	$49, r0
 	trap	$0
-f3875:	mov	$50, r0
+fail3875:	mov	$50, r0
 	trap	$0
-f3876:	mov	$51, r0
+fail3876:	mov	$51, r0
 	trap	$0
-f3877:	mov	$52, r0
+fail3877:	mov	$52, r0
 	trap	$0
-f3878:	mov	$53, r0
+fail3878:	mov	$53, r0
 	trap	$0
-f3879:	mov	$54, r0
+fail3879:	mov	$54, r0
 	trap	$0
-f3880:	mov	$55, r0
+fail3880:	mov	$55, r0
 	trap	$0
-f3881:	mov	$56, r0
+fail3881:	mov	$56, r0
 	trap	$0
-f3882:	mov	$57, r0
+fail3882:	mov	$57, r0
 	trap	$0
-f3883:	mov	$58, r0
+fail3883:	mov	$58, r0
 	trap	$0
-f3884:	mov	$59, r0
+fail3884:	mov	$59, r0
 	trap	$0
-f3885:	mov	$60, r0
+fail3885:	mov	$60, r0
 	trap	$0
-f3886:	mov	$61, r0
+fail3886:	mov	$61, r0
 	trap	$0
-f3887:	mov	$62, r0
+fail3887:	mov	$62, r0
 	trap	$0
-f3888:	mov	$63, r0
+fail3888:	mov	$63, r0
 	trap	$0
-f3889:	mov	$64, r0
+fail3889:	mov	$64, r0
 	trap	$0
-f3890:	mov	$65, r0
+fail3890:	mov	$65, r0
 	trap	$0
-f3891:	mov	$66, r0
+fail3891:	mov	$66, r0
 	trap	$0
-f3892:	mov	$67, r0
+fail3892:	mov	$67, r0
 	trap	$0
-f3893:	mov	$68, r0
+fail3893:	mov	$68, r0
 	trap	$0
-f3894:	mov	$69, r0
+fail3894:	mov	$69, r0
 	trap	$0
-f3895:	mov	$70, r0
+fail3895:	mov	$70, r0
 	trap	$0
-f3896:	mov	$71, r0
+fail3896:	mov	$71, r0
 	trap	$0
-f3897:	mov	$72, r0
+fail3897:	mov	$72, r0
 	trap	$0
-f3898:	mov	$73, r0
+fail3898:	mov	$73, r0
 	trap	$0
-f3899:	mov	$74, r0
+fail3899:	mov	$74, r0
 	trap	$0
-f3900:	mov	$75, r0
+fail3900:	mov	$75, r0
 	trap	$0
-f3901:	mov	$76, r0
+fail3901:	mov	$76, r0
 	trap	$0
-f3902:	mov	$77, r0
+fail3902:	mov	$77, r0
 	trap	$0
-f3903:	mov	$78, r0
+fail3903:	mov	$78, r0
 	trap	$0
-f3904:	mov	$79, r0
+fail3904:	mov	$79, r0
 	trap	$0
-f3905:	mov	$80, r0
+fail3905:	mov	$80, r0
 	trap	$0
-f3906:	mov	$81, r0
+fail3906:	mov	$81, r0
 	trap	$0
-f3907:	mov	$82, r0
+fail3907:	mov	$82, r0
 	trap	$0
-f3908:	mov	$83, r0
+fail3908:	mov	$83, r0
 	trap	$0
-f3909:	mov	$84, r0
+fail3909:	mov	$84, r0
 	trap	$0
-f3910:	mov	$85, r0
+fail3910:	mov	$85, r0
 	trap	$0
-f3911:	mov	$86, r0
+fail3911:	mov	$86, r0
 	trap	$0
-f3912:	mov	$87, r0
+fail3912:	mov	$87, r0
 	trap	$0
-f3913:	mov	$88, r0
+fail3913:	mov	$88, r0
 	trap	$0
-f3914:	mov	$89, r0
+fail3914:	mov	$89, r0
 	trap	$0
-f3915:	mov	$90, r0
+fail3915:	mov	$90, r0
 	trap	$0
-f3916:	mov	$91, r0
+fail3916:	mov	$91, r0
 	trap	$0
-f3917:	mov	$92, r0
+fail3917:	mov	$92, r0
 	trap	$0
-f3918:	mov	$93, r0
+fail3918:	mov	$93, r0
 	trap	$0
-f3919:	mov	$94, r0
+fail3919:	mov	$94, r0
 	trap	$0
-f3920:	mov	$95, r0
+fail3920:	mov	$95, r0
 	trap	$0
-f3921:	mov	$96, r0
+fail3921:	mov	$96, r0
 	trap	$0
-f3922:	mov	$97, r0
+fail3922:	mov	$97, r0
 	trap	$0
-f3923:	mov	$98, r0
+fail3923:	mov	$98, r0
 	trap	$0
-f3924:	mov	$99, r0
+fail3924:	mov	$99, r0
 	trap	$0
-f3925:	mov	$100, r0
+fail3925:	mov	$100, r0
 	trap	$0
-f3926:	mov	$101, r0
+fail3926:	mov	$101, r0
 	trap	$0
-f3927:	mov	$102, r0
+fail3927:	mov	$102, r0
 	trap	$0
-f3928:	mov	$103, r0
+fail3928:	mov	$103, r0
 	trap	$0
-f3929:	mov	$104, r0
+fail3929:	mov	$104, r0
 	trap	$0
-f3930:	mov	$105, r0
+fail3930:	mov	$105, r0
 	trap	$0
-f3931:	mov	$106, r0
+fail3931:	mov	$106, r0
 	trap	$0
-f3932:	mov	$107, r0
+fail3932:	mov	$107, r0
 	trap	$0
-f3933:	mov	$108, r0
+fail3933:	mov	$108, r0
 	trap	$0
-f3934:	mov	$109, r0
+fail3934:	mov	$109, r0
 	trap	$0
-f3935:	mov	$110, r0
+fail3935:	mov	$110, r0
 	trap	$0
-f3936:	mov	$111, r0
+fail3936:	mov	$111, r0
 	trap	$0
-f3937:	mov	$112, r0
+fail3937:	mov	$112, r0
 	trap	$0
-f3938:	mov	$113, r0
+fail3938:	mov	$113, r0
 	trap	$0
-f3939:	mov	$114, r0
+fail3939:	mov	$114, r0
 	trap	$0
-f3940:	mov	$115, r0
+fail3940:	mov	$115, r0
 	trap	$0
-f3941:	mov	$116, r0
+fail3941:	mov	$116, r0
 	trap	$0
-f3942:	mov	$117, r0
+fail3942:	mov	$117, r0
 	trap	$0
-f3943:	mov	$118, r0
+fail3943:	mov	$118, r0
 	trap	$0
-f3944:	mov	$119, r0
+fail3944:	mov	$119, r0
 	trap	$0
-f3945:	mov	$120, r0
+fail3945:	mov	$120, r0
 	trap	$0
-f3946:	mov	$121, r0
+fail3946:	mov	$121, r0
 	trap	$0
-f3947:	mov	$122, r0
+fail3947:	mov	$122, r0
 	trap	$0
-f3948:	mov	$123, r0
+fail3948:	mov	$123, r0
 	trap	$0
-f3949:	mov	$124, r0
+fail3949:	mov	$124, r0
 	trap	$0
-f3950:	mov	$125, r0
+fail3950:	mov	$125, r0
 	trap	$0
-f3951:	mov	$126, r0
+fail3951:	mov	$126, r0
 	trap	$0
-f3952:	mov	$127, r0
+fail3952:	mov	$127, r0
 	trap	$0
-f3953:	mov	$128, r0
+fail3953:	mov	$128, r0
 	trap	$0
-f3954:	mov	$129, r0
+fail3954:	mov	$129, r0
 	trap	$0
-f3955:	mov	$130, r0
+fail3955:	mov	$130, r0
 	trap	$0
-f3956:	mov	$131, r0
+fail3956:	mov	$131, r0
 	trap	$0
-f3957:	mov	$132, r0
+fail3957:	mov	$132, r0
 	trap	$0
-f3958:	mov	$133, r0
+fail3958:	mov	$133, r0
 	trap	$0
-f3959:	mov	$134, r0
+fail3959:	mov	$134, r0
 	trap	$0
-f3960:	mov	$135, r0
+fail3960:	mov	$135, r0
 	trap	$0
-f3961:	mov	$136, r0
+fail3961:	mov	$136, r0
 	trap	$0
-f3962:	mov	$137, r0
+fail3962:	mov	$137, r0
 	trap	$0
-f3963:	mov	$138, r0
+fail3963:	mov	$138, r0
 	trap	$0
-f3964:	mov	$139, r0
+fail3964:	mov	$139, r0
 	trap	$0
-f3965:	mov	$140, r0
+fail3965:	mov	$140, r0
 	trap	$0
-f3966:	mov	$141, r0
+fail3966:	mov	$141, r0
 	trap	$0
-f3967:	mov	$142, r0
+fail3967:	mov	$142, r0
 	trap	$0
-f3968:	mov	$143, r0
+fail3968:	mov	$143, r0
 	trap	$0
-f3969:	mov	$144, r0
+fail3969:	mov	$144, r0
 	trap	$0
-f3970:	mov	$145, r0
+fail3970:	mov	$145, r0
 	trap	$0
-f3971:	mov	$146, r0
+fail3971:	mov	$146, r0
 	trap	$0
-f3972:	mov	$147, r0
+fail3972:	mov	$147, r0
 	trap	$0
-f3973:	mov	$148, r0
+fail3973:	mov	$148, r0
 	trap	$0
-f3974:	mov	$149, r0
+fail3974:	mov	$149, r0
 	trap	$0
-f3975:	mov	$150, r0
+fail3975:	mov	$150, r0
 	trap	$0
-f3976:	mov	$151, r0
+fail3976:	mov	$151, r0
 	trap	$0
-f3977:	mov	$152, r0
+fail3977:	mov	$152, r0
 	trap	$0
-f3978:	mov	$153, r0
+fail3978:	mov	$153, r0
 	trap	$0
-f3979:	mov	$154, r0
+fail3979:	mov	$154, r0
 	trap	$0
-f3980:	mov	$155, r0
+fail3980:	mov	$155, r0
 	trap	$0
-f3981:	mov	$156, r0
+fail3981:	mov	$156, r0
 	trap	$0
-f3982:	mov	$157, r0
+fail3982:	mov	$157, r0
 	trap	$0
-f3983:	mov	$158, r0
+fail3983:	mov	$158, r0
 	trap	$0
-f3984:	mov	$159, r0
+fail3984:	mov	$159, r0
 	trap	$0
-f3985:	mov	$160, r0
+fail3985:	mov	$160, r0
 	trap	$0
-f3986:	mov	$161, r0
+fail3986:	mov	$161, r0
 	trap	$0
-f3987:	mov	$162, r0
+fail3987:	mov	$162, r0
 	trap	$0
-f3988:	mov	$163, r0
+fail3988:	mov	$163, r0
 	trap	$0
-f3989:	mov	$164, r0
+fail3989:	mov	$164, r0
 	trap	$0
-f3990:	mov	$165, r0
+fail3990:	mov	$165, r0
 	trap	$0
-f3991:	mov	$166, r0
+fail3991:	mov	$166, r0
 	trap	$0
-f3992:	mov	$167, r0
+fail3992:	mov	$167, r0
 	trap	$0
-f3993:	mov	$168, r0
+fail3993:	mov	$168, r0
 	trap	$0
-f3994:	mov	$169, r0
+fail3994:	mov	$169, r0
 	trap	$0
-f3995:	mov	$170, r0
+fail3995:	mov	$170, r0
 	trap	$0
-f3996:	mov	$171, r0
+fail3996:	mov	$171, r0
 	trap	$0
-f3997:	mov	$172, r0
+fail3997:	mov	$172, r0
 	trap	$0
-f3998:	mov	$173, r0
+fail3998:	mov	$173, r0
 	trap	$0
-f3999:	mov	$174, r0
+fail3999:	mov	$174, r0
 	trap	$0
-f4000:	mov	$175, r0
+fail4000:	mov	$175, r0
 	trap	$0
-f4001:	mov	$176, r0
+fail4001:	mov	$176, r0
 	trap	$0
-f4002:	mov	$177, r0
+fail4002:	mov	$177, r0
 	trap	$0
-f4003:	mov	$178, r0
+fail4003:	mov	$178, r0
 	trap	$0
-f4004:	mov	$179, r0
+fail4004:	mov	$179, r0
 	trap	$0
-f4005:	mov	$180, r0
+fail4005:	mov	$180, r0
 	trap	$0
-f4006:	mov	$181, r0
+fail4006:	mov	$181, r0
 	trap	$0
-f4007:	mov	$182, r0
+fail4007:	mov	$182, r0
 	trap	$0
-f4008:	mov	$183, r0
+fail4008:	mov	$183, r0
 	trap	$0
-f4009:	mov	$184, r0
+fail4009:	mov	$184, r0
 	trap	$0
-f4010:	mov	$185, r0
+fail4010:	mov	$185, r0
 	trap	$0
-f4011:	mov	$186, r0
+fail4011:	mov	$186, r0
 	trap	$0
-f4012:	mov	$187, r0
+fail4012:	mov	$187, r0
 	trap	$0
-f4013:	mov	$188, r0
+fail4013:	mov	$188, r0
 	trap	$0
-f4014:	mov	$189, r0
+fail4014:	mov	$189, r0
 	trap	$0
-f4015:	mov	$190, r0
+fail4015:	mov	$190, r0
 	trap	$0
-f4016:	mov	$191, r0
+fail4016:	mov	$191, r0
 	trap	$0
-f4017:	mov	$192, r0
+fail4017:	mov	$192, r0
 	trap	$0
-f4018:	mov	$193, r0
+fail4018:	mov	$193, r0
 	trap	$0
-f4019:	mov	$194, r0
+fail4019:	mov	$194, r0
 	trap	$0
-f4020:	mov	$195, r0
+fail4020:	mov	$195, r0
 	trap	$0
-f4021:	mov	$196, r0
+fail4021:	mov	$196, r0
 	trap	$0
-f4022:	mov	$197, r0
+fail4022:	mov	$197, r0
 	trap	$0
-f4023:	mov	$198, r0
+fail4023:	mov	$198, r0
 	trap	$0
-f4024:	mov	$199, r0
+fail4024:	mov	$199, r0
 	trap	$0
-f4025:	mov	$200, r0
+fail4025:	mov	$200, r0
 	trap	$0
-f4026:	mov	$201, r0
+fail4026:	mov	$201, r0
 	trap	$0
-f4027:	mov	$202, r0
+fail4027:	mov	$202, r0
 	trap	$0
-f4028:	mov	$203, r0
+fail4028:	mov	$203, r0
 	trap	$0
-f4029:	mov	$204, r0
+fail4029:	mov	$204, r0
 	trap	$0
-f4030:	mov	$205, r0
+fail4030:	mov	$205, r0
 	trap	$0
-f4031:	mov	$206, r0
+fail4031:	mov	$206, r0
 	trap	$0
-f4032:	mov	$207, r0
+fail4032:	mov	$207, r0
 	trap	$0
-f4033:	mov	$208, r0
+fail4033:	mov	$208, r0
 	trap	$0
-f4034:	mov	$209, r0
+fail4034:	mov	$209, r0
 	trap	$0
-f4035:	mov	$210, r0
+fail4035:	mov	$210, r0
 	trap	$0
-f4036:	mov	$211, r0
+fail4036:	mov	$211, r0
 	trap	$0
-f4037:	mov	$212, r0
+fail4037:	mov	$212, r0
 	trap	$0
-f4038:	mov	$213, r0
+fail4038:	mov	$213, r0
 	trap	$0
-f4039:	mov	$214, r0
+fail4039:	mov	$214, r0
 	trap	$0
-f4040:	mov	$215, r0
+fail4040:	mov	$215, r0
 	trap	$0
-f4041:	mov	$216, r0
+fail4041:	mov	$216, r0
 	trap	$0
-f4042:	mov	$217, r0
+fail4042:	mov	$217, r0
 	trap	$0
-f4043:	mov	$218, r0
+fail4043:	mov	$218, r0
 	trap	$0
-f4044:	mov	$219, r0
+fail4044:	mov	$219, r0
 	trap	$0
-f4045:	mov	$220, r0
+fail4045:	mov	$220, r0
 	trap	$0
-f4046:	mov	$221, r0
+fail4046:	mov	$221, r0
 	trap	$0
-f4047:	mov	$222, r0
+fail4047:	mov	$222, r0
 	trap	$0
-f4048:	mov	$223, r0
+fail4048:	mov	$223, r0
 	trap	$0
-f4049:	mov	$224, r0
+fail4049:	mov	$224, r0
 	trap	$0
-f4050:	mov	$225, r0
+fail4050:	mov	$225, r0
 	trap	$0
-f4051:	mov	$226, r0
+fail4051:	mov	$226, r0
 	trap	$0
-f4052:	mov	$227, r0
+fail4052:	mov	$227, r0
 	trap	$0
-f4053:	mov	$228, r0
+fail4053:	mov	$228, r0
 	trap	$0
-f4054:	mov	$229, r0
+fail4054:	mov	$229, r0
 	trap	$0
-f4055:	mov	$230, r0
+fail4055:	mov	$230, r0
 	trap	$0
-f4056:	mov	$231, r0
+fail4056:	mov	$231, r0
 	trap	$0
-f4057:	mov	$232, r0
+fail4057:	mov	$232, r0
 	trap	$0
-f4058:	mov	$233, r0
+fail4058:	mov	$233, r0
 	trap	$0
-f4059:	mov	$234, r0
+fail4059:	mov	$234, r0
 	trap	$0
-f4060:	mov	$235, r0
+fail4060:	mov	$235, r0
 	trap	$0
-f4061:	mov	$236, r0
+fail4061:	mov	$236, r0
 	trap	$0
-f4062:	mov	$237, r0
+fail4062:	mov	$237, r0
 	trap	$0
-f4063:	mov	$238, r0
+fail4063:	mov	$238, r0
 	trap	$0
-f4064:	mov	$239, r0
+fail4064:	mov	$239, r0
 	trap	$0
-f4065:	mov	$240, r0
+fail4065:	mov	$240, r0
 	trap	$0
-f4066:	mov	$241, r0
+fail4066:	mov	$241, r0
 	trap	$0
-f4067:	mov	$242, r0
+fail4067:	mov	$242, r0
 	trap	$0
-f4068:	mov	$243, r0
+fail4068:	mov	$243, r0
 	trap	$0
-f4069:	mov	$244, r0
+fail4069:	mov	$244, r0
 	trap	$0
-f4070:	mov	$245, r0
+fail4070:	mov	$245, r0
 	trap	$0
-f4071:	mov	$246, r0
+fail4071:	mov	$246, r0
 	trap	$0
-f4072:	mov	$247, r0
+fail4072:	mov	$247, r0
 	trap	$0
-f4073:	mov	$248, r0
+fail4073:	mov	$248, r0
 	trap	$0
-f4074:	mov	$249, r0
+fail4074:	mov	$249, r0
 	trap	$0
-f4075:	mov	$250, r0
+fail4075:	mov	$250, r0
 	trap	$0
-f4076:	mov	$251, r0
+fail4076:	mov	$251, r0
 	trap	$0
-f4077:	mov	$252, r0
+fail4077:	mov	$252, r0
 	trap	$0
-f4078:	mov	$253, r0
+fail4078:	mov	$253, r0
 	trap	$0
-f4079:	mov	$254, r0
+fail4079:	mov	$254, r0
 	trap	$0
-f4080:	mov	$255, r0
+fail4080:	mov	$255, r0
 	trap	$0
-f4081:	mov	$1, r0
+fail4081:	mov	$1, r0
 	trap	$0
-f4082:	mov	$2, r0
+fail4082:	mov	$2, r0
 	trap	$0
-f4083:	mov	$3, r0
+fail4083:	mov	$3, r0
 	trap	$0
-f4084:	mov	$4, r0
+fail4084:	mov	$4, r0
 	trap	$0
-f4085:	mov	$5, r0
+fail4085:	mov	$5, r0
 	trap	$0
-f4086:	mov	$6, r0
+fail4086:	mov	$6, r0
 	trap	$0
-f4087:	mov	$7, r0
+fail4087:	mov	$7, r0
 	trap	$0
-f4088:	mov	$8, r0
+fail4088:	mov	$8, r0
 	trap	$0
-f4089:	mov	$9, r0
+fail4089:	mov	$9, r0
 	trap	$0
-f4090:	mov	$10, r0
+fail4090:	mov	$10, r0
 	trap	$0
-f4091:	mov	$11, r0
+fail4091:	mov	$11, r0
 	trap	$0
-f4092:	mov	$12, r0
+fail4092:	mov	$12, r0
 	trap	$0
-f4093:	mov	$13, r0
+fail4093:	mov	$13, r0
 	trap	$0
-f4094:	mov	$14, r0
+fail4094:	mov	$14, r0
 	trap	$0
-f4095:	mov	$15, r0
+fail4095:	mov	$15, r0
 	trap	$0
-f4096:	mov	$16, r0
+fail4096:	mov	$16, r0
 	trap	$0
-f4097:	mov	$17, r0
+fail4097:	mov	$17, r0
 	trap	$0
-f4098:	mov	$18, r0
+fail4098:	mov	$18, r0
 	trap	$0
-f4099:	mov	$19, r0
+fail4099:	mov	$19, r0
 	trap	$0
-f4100:	mov	$20, r0
+fail4100:	mov	$20, r0
 	trap	$0
-f4101:	mov	$21, r0
+fail4101:	mov	$21, r0
 	trap	$0
-f4102:	mov	$22, r0
+fail4102:	mov	$22, r0
 	trap	$0
-f4103:	mov	$23, r0
+fail4103:	mov	$23, r0
 	trap	$0
-f4104:	mov	$24, r0
+fail4104:	mov	$24, r0
 	trap	$0
-f4105:	mov	$25, r0
+fail4105:	mov	$25, r0
 	trap	$0
-f4106:	mov	$26, r0
+fail4106:	mov	$26, r0
 	trap	$0
-f4107:	mov	$27, r0
+fail4107:	mov	$27, r0
 	trap	$0
-f4108:	mov	$28, r0
+fail4108:	mov	$28, r0
 	trap	$0
-f4109:	mov	$29, r0
+fail4109:	mov	$29, r0
 	trap	$0
-f4110:	mov	$30, r0
+fail4110:	mov	$30, r0
 	trap	$0
-f4111:	mov	$31, r0
+fail4111:	mov	$31, r0
 	trap	$0
-f4112:	mov	$32, r0
+fail4112:	mov	$32, r0
 	trap	$0
-f4113:	mov	$33, r0
+fail4113:	mov	$33, r0
 	trap	$0
-f4114:	mov	$34, r0
+fail4114:	mov	$34, r0
 	trap	$0
-f4115:	mov	$35, r0
+fail4115:	mov	$35, r0
 	trap	$0
-f4116:	mov	$36, r0
+fail4116:	mov	$36, r0
 	trap	$0
-f4117:	mov	$37, r0
+fail4117:	mov	$37, r0
 	trap	$0
-f4118:	mov	$38, r0
+fail4118:	mov	$38, r0
 	trap	$0
-f4119:	mov	$39, r0
+fail4119:	mov	$39, r0
 	trap	$0
-f4120:	mov	$40, r0
+fail4120:	mov	$40, r0
 	trap	$0
-f4121:	mov	$41, r0
+fail4121:	mov	$41, r0
 	trap	$0
-f4122:	mov	$42, r0
+fail4122:	mov	$42, r0
 	trap	$0
-f4123:	mov	$43, r0
+fail4123:	mov	$43, r0
 	trap	$0
-f4124:	mov	$44, r0
+fail4124:	mov	$44, r0
 	trap	$0
-f4125:	mov	$45, r0
+fail4125:	mov	$45, r0
 	trap	$0
-f4126:	mov	$46, r0
+fail4126:	mov	$46, r0
 	trap	$0
-f4127:	mov	$47, r0
+fail4127:	mov	$47, r0
 	trap	$0
-f4128:	mov	$48, r0
+fail4128:	mov	$48, r0
 	trap	$0
-f4129:	mov	$49, r0
+fail4129:	mov	$49, r0
 	trap	$0
-f4130:	mov	$50, r0
+fail4130:	mov	$50, r0
 	trap	$0
-f4131:	mov	$51, r0
+fail4131:	mov	$51, r0
 	trap	$0
-f4132:	mov	$52, r0
+fail4132:	mov	$52, r0
 	trap	$0
-f4133:	mov	$53, r0
+fail4133:	mov	$53, r0
 	trap	$0
-f4134:	mov	$54, r0
+fail4134:	mov	$54, r0
 	trap	$0
-f4135:	mov	$55, r0
+fail4135:	mov	$55, r0
 	trap	$0
-f4136:	mov	$56, r0
+fail4136:	mov	$56, r0
 	trap	$0
-f4137:	mov	$57, r0
+fail4137:	mov	$57, r0
 	trap	$0
-f4138:	mov	$58, r0
+fail4138:	mov	$58, r0
 	trap	$0
-f4139:	mov	$59, r0
+fail4139:	mov	$59, r0
 	trap	$0
-f4140:	mov	$60, r0
+fail4140:	mov	$60, r0
 	trap	$0
-f4141:	mov	$61, r0
+fail4141:	mov	$61, r0
 	trap	$0
-f4142:	mov	$62, r0
+fail4142:	mov	$62, r0
 	trap	$0
-f4143:	mov	$63, r0
+fail4143:	mov	$63, r0
 	trap	$0
-f4144:	mov	$64, r0
+fail4144:	mov	$64, r0
 	trap	$0
-f4145:	mov	$65, r0
+fail4145:	mov	$65, r0
 	trap	$0
-f4146:	mov	$66, r0
+fail4146:	mov	$66, r0
 	trap	$0
-f4147:	mov	$67, r0
+fail4147:	mov	$67, r0
 	trap	$0
-f4148:	mov	$68, r0
+fail4148:	mov	$68, r0
 	trap	$0
-f4149:	mov	$69, r0
+fail4149:	mov	$69, r0
 	trap	$0
-f4150:	mov	$70, r0
+fail4150:	mov	$70, r0
 	trap	$0
-f4151:	mov	$71, r0
+fail4151:	mov	$71, r0
 	trap	$0
-f4152:	mov	$72, r0
+fail4152:	mov	$72, r0
 	trap	$0
-f4153:	mov	$73, r0
+fail4153:	mov	$73, r0
 	trap	$0
-f4154:	mov	$74, r0
+fail4154:	mov	$74, r0
 	trap	$0
-f4155:	mov	$75, r0
+fail4155:	mov	$75, r0
 	trap	$0
-f4156:	mov	$76, r0
+fail4156:	mov	$76, r0
 	trap	$0
-f4157:	mov	$77, r0
+fail4157:	mov	$77, r0
 	trap	$0
-f4158:	mov	$78, r0
+fail4158:	mov	$78, r0
 	trap	$0
-f4159:	mov	$79, r0
+fail4159:	mov	$79, r0
 	trap	$0
-f4160:	mov	$80, r0
+fail4160:	mov	$80, r0
 	trap	$0
-f4161:	mov	$81, r0
+fail4161:	mov	$81, r0
 	trap	$0
-f4162:	mov	$82, r0
+fail4162:	mov	$82, r0
 	trap	$0
-f4163:	mov	$83, r0
+fail4163:	mov	$83, r0
 	trap	$0
-f4164:	mov	$84, r0
+fail4164:	mov	$84, r0
 	trap	$0
-f4165:	mov	$85, r0
+fail4165:	mov	$85, r0
 	trap	$0
-f4166:	mov	$86, r0
+fail4166:	mov	$86, r0
 	trap	$0
-f4167:	mov	$87, r0
+fail4167:	mov	$87, r0
 	trap	$0
-f4168:	mov	$88, r0
+fail4168:	mov	$88, r0
 	trap	$0
-f4169:	mov	$89, r0
+fail4169:	mov	$89, r0
 	trap	$0
-f4170:	mov	$90, r0
+fail4170:	mov	$90, r0
 	trap	$0
-f4171:	mov	$91, r0
+fail4171:	mov	$91, r0
 	trap	$0
-f4172:	mov	$92, r0
+fail4172:	mov	$92, r0
 	trap	$0
-f4173:	mov	$93, r0
+fail4173:	mov	$93, r0
 	trap	$0
-f4174:	mov	$94, r0
+fail4174:	mov	$94, r0
 	trap	$0
-f4175:	mov	$95, r0
+fail4175:	mov	$95, r0
 	trap	$0
-f4176:	mov	$96, r0
+fail4176:	mov	$96, r0
 	trap	$0
-f4177:	mov	$97, r0
+fail4177:	mov	$97, r0
 	trap	$0
-f4178:	mov	$98, r0
+fail4178:	mov	$98, r0
 	trap	$0
-f4179:	mov	$99, r0
+fail4179:	mov	$99, r0
 	trap	$0
-f4180:	mov	$100, r0
+fail4180:	mov	$100, r0
 	trap	$0
-f4181:	mov	$101, r0
+fail4181:	mov	$101, r0
 	trap	$0
-f4182:	mov	$102, r0
+fail4182:	mov	$102, r0
 	trap	$0
-f4183:	mov	$103, r0
+fail4183:	mov	$103, r0
 	trap	$0
-f4184:	mov	$104, r0
+fail4184:	mov	$104, r0
 	trap	$0
-f4185:	mov	$105, r0
+fail4185:	mov	$105, r0
 	trap	$0
-f4186:	mov	$106, r0
+fail4186:	mov	$106, r0
 	trap	$0
-f4187:	mov	$107, r0
+fail4187:	mov	$107, r0
 	trap	$0
-f4188:	mov	$108, r0
+fail4188:	mov	$108, r0
 	trap	$0
-f4189:	mov	$109, r0
+fail4189:	mov	$109, r0
 	trap	$0
-f4190:	mov	$110, r0
+fail4190:	mov	$110, r0
 	trap	$0
-f4191:	mov	$111, r0
+fail4191:	mov	$111, r0
 	trap	$0
-f4192:	mov	$112, r0
+fail4192:	mov	$112, r0
 	trap	$0
-f4193:	mov	$113, r0
+fail4193:	mov	$113, r0
 	trap	$0
-f4194:	mov	$114, r0
+fail4194:	mov	$114, r0
 	trap	$0
-f4195:	mov	$115, r0
+fail4195:	mov	$115, r0
 	trap	$0
-f4196:	mov	$116, r0
+fail4196:	mov	$116, r0
 	trap	$0
-f4197:	mov	$117, r0
+fail4197:	mov	$117, r0
 	trap	$0
-f4198:	mov	$118, r0
+fail4198:	mov	$118, r0
 	trap	$0
-f4199:	mov	$119, r0
+fail4199:	mov	$119, r0
 	trap	$0
-f4200:	mov	$120, r0
+fail4200:	mov	$120, r0
 	trap	$0
-f4201:	mov	$121, r0
+fail4201:	mov	$121, r0
 	trap	$0
-f4202:	mov	$122, r0
+fail4202:	mov	$122, r0
 	trap	$0
-f4203:	mov	$123, r0
+fail4203:	mov	$123, r0
 	trap	$0
-f4204:	mov	$124, r0
+fail4204:	mov	$124, r0
 	trap	$0
-f4205:	mov	$125, r0
+fail4205:	mov	$125, r0
 	trap	$0
-f4206:	mov	$126, r0
+fail4206:	mov	$126, r0
 	trap	$0
-f4207:	mov	$127, r0
+fail4207:	mov	$127, r0
 	trap	$0
-f4208:	mov	$128, r0
+fail4208:	mov	$128, r0
 	trap	$0
-f4209:	mov	$129, r0
+fail4209:	mov	$129, r0
 	trap	$0
-f4210:	mov	$130, r0
+fail4210:	mov	$130, r0
 	trap	$0
-f4211:	mov	$131, r0
+fail4211:	mov	$131, r0
 	trap	$0
-f4212:	mov	$132, r0
+fail4212:	mov	$132, r0
 	trap	$0
-f4213:	mov	$133, r0
+fail4213:	mov	$133, r0
 	trap	$0
-f4214:	mov	$134, r0
+fail4214:	mov	$134, r0
 	trap	$0
-f4215:	mov	$135, r0
+fail4215:	mov	$135, r0
 	trap	$0
-f4216:	mov	$136, r0
+fail4216:	mov	$136, r0
 	trap	$0
-f4217:	mov	$137, r0
+fail4217:	mov	$137, r0
 	trap	$0
-f4218:	mov	$138, r0
+fail4218:	mov	$138, r0
 	trap	$0
-f4219:	mov	$139, r0
+fail4219:	mov	$139, r0
 	trap	$0
-f4220:	mov	$140, r0
+fail4220:	mov	$140, r0
 	trap	$0
-f4221:	mov	$141, r0
+fail4221:	mov	$141, r0
 	trap	$0
-f4222:	mov	$142, r0
+fail4222:	mov	$142, r0
 	trap	$0
-f4223:	mov	$143, r0
+fail4223:	mov	$143, r0
 	trap	$0
-f4224:	mov	$144, r0
+fail4224:	mov	$144, r0
 	trap	$0
-f4225:	mov	$145, r0
+fail4225:	mov	$145, r0
 	trap	$0
-f4226:	mov	$146, r0
+fail4226:	mov	$146, r0
 	trap	$0
-f4227:	mov	$147, r0
+fail4227:	mov	$147, r0
 	trap	$0
-f4228:	mov	$148, r0
+fail4228:	mov	$148, r0
 	trap	$0
-f4229:	mov	$149, r0
+fail4229:	mov	$149, r0
 	trap	$0
-f4230:	mov	$150, r0
+fail4230:	mov	$150, r0
 	trap	$0
-f4231:	mov	$151, r0
+fail4231:	mov	$151, r0
 	trap	$0
-f4232:	mov	$152, r0
+fail4232:	mov	$152, r0
 	trap	$0
-f4233:	mov	$153, r0
+fail4233:	mov	$153, r0
 	trap	$0
-f4234:	mov	$154, r0
+fail4234:	mov	$154, r0
 	trap	$0
-f4235:	mov	$155, r0
+fail4235:	mov	$155, r0
 	trap	$0
-f4236:	mov	$156, r0
+fail4236:	mov	$156, r0
 	trap	$0
-f4237:	mov	$157, r0
+fail4237:	mov	$157, r0
 	trap	$0
-f4238:	mov	$158, r0
+fail4238:	mov	$158, r0
 	trap	$0
-f4239:	mov	$159, r0
+fail4239:	mov	$159, r0
 	trap	$0
-f4240:	mov	$160, r0
+fail4240:	mov	$160, r0
 	trap	$0
-f4241:	mov	$161, r0
+fail4241:	mov	$161, r0
 	trap	$0
-f4242:	mov	$162, r0
+fail4242:	mov	$162, r0
 	trap	$0
-f4243:	mov	$163, r0
+fail4243:	mov	$163, r0
 	trap	$0
-f4244:	mov	$164, r0
+fail4244:	mov	$164, r0
 	trap	$0
-f4245:	mov	$165, r0
+fail4245:	mov	$165, r0
 	trap	$0
-f4246:	mov	$166, r0
+fail4246:	mov	$166, r0
 	trap	$0
-f4247:	mov	$167, r0
+fail4247:	mov	$167, r0
 	trap	$0
-f4248:	mov	$168, r0
+fail4248:	mov	$168, r0
 	trap	$0
-f4249:	mov	$169, r0
+fail4249:	mov	$169, r0
 	trap	$0
-f4250:	mov	$170, r0
+fail4250:	mov	$170, r0
 	trap	$0
-f4251:	mov	$171, r0
+fail4251:	mov	$171, r0
 	trap	$0
-f4252:	mov	$172, r0
+fail4252:	mov	$172, r0
 	trap	$0
-f4253:	mov	$173, r0
+fail4253:	mov	$173, r0
 	trap	$0
-f4254:	mov	$174, r0
+fail4254:	mov	$174, r0
 	trap	$0
-f4255:	mov	$175, r0
+fail4255:	mov	$175, r0
 	trap	$0
-f4256:	mov	$176, r0
+fail4256:	mov	$176, r0
 	trap	$0
-f4257:	mov	$177, r0
+fail4257:	mov	$177, r0
 	trap	$0
-f4258:	mov	$178, r0
+fail4258:	mov	$178, r0
 	trap	$0
-f4259:	mov	$179, r0
+fail4259:	mov	$179, r0
 	trap	$0
-f4260:	mov	$180, r0
+fail4260:	mov	$180, r0
 	trap	$0
-f4261:	mov	$181, r0
+fail4261:	mov	$181, r0
 	trap	$0
-f4262:	mov	$182, r0
+fail4262:	mov	$182, r0
 	trap	$0
-f4263:	mov	$183, r0
+fail4263:	mov	$183, r0
 	trap	$0
-f4264:	mov	$184, r0
+fail4264:	mov	$184, r0
 	trap	$0
-f4265:	mov	$185, r0
+fail4265:	mov	$185, r0
 	trap	$0
-f4266:	mov	$186, r0
+fail4266:	mov	$186, r0
 	trap	$0
-f4267:	mov	$187, r0
+fail4267:	mov	$187, r0
 	trap	$0
-f4268:	mov	$188, r0
+fail4268:	mov	$188, r0
 	trap	$0
-f4269:	mov	$189, r0
+fail4269:	mov	$189, r0
 	trap	$0
-f4270:	mov	$190, r0
+fail4270:	mov	$190, r0
 	trap	$0
-f4271:	mov	$191, r0
+fail4271:	mov	$191, r0
 	trap	$0
-f4272:	mov	$192, r0
+fail4272:	mov	$192, r0
 	trap	$0
-f4273:	mov	$193, r0
+fail4273:	mov	$193, r0
 	trap	$0
-f4274:	mov	$194, r0
+fail4274:	mov	$194, r0
 	trap	$0
-f4275:	mov	$195, r0
+fail4275:	mov	$195, r0
 	trap	$0
-f4276:	mov	$196, r0
+fail4276:	mov	$196, r0
 	trap	$0
-f4277:	mov	$197, r0
+fail4277:	mov	$197, r0
 	trap	$0
-f4278:	mov	$198, r0
+fail4278:	mov	$198, r0
 	trap	$0
-f4279:	mov	$199, r0
+fail4279:	mov	$199, r0
 	trap	$0
-f4280:	mov	$200, r0
+fail4280:	mov	$200, r0
 	trap	$0
-f4281:	mov	$201, r0
+fail4281:	mov	$201, r0
 	trap	$0
-f4282:	mov	$202, r0
+fail4282:	mov	$202, r0
 	trap	$0
-f4283:	mov	$203, r0
+fail4283:	mov	$203, r0
 	trap	$0
-f4284:	mov	$204, r0
+fail4284:	mov	$204, r0
 	trap	$0
-f4285:	mov	$205, r0
+fail4285:	mov	$205, r0
 	trap	$0
-f4286:	mov	$206, r0
+fail4286:	mov	$206, r0
 	trap	$0
-f4287:	mov	$207, r0
+fail4287:	mov	$207, r0
 	trap	$0
-f4288:	mov	$208, r0
+fail4288:	mov	$208, r0
 	trap	$0
-f4289:	mov	$209, r0
+fail4289:	mov	$209, r0
 	trap	$0
-f4290:	mov	$210, r0
+fail4290:	mov	$210, r0
 	trap	$0
-f4291:	mov	$211, r0
+fail4291:	mov	$211, r0
 	trap	$0
-f4292:	mov	$212, r0
+fail4292:	mov	$212, r0
 	trap	$0
-f4293:	mov	$213, r0
+fail4293:	mov	$213, r0
 	trap	$0
-f4294:	mov	$214, r0
+fail4294:	mov	$214, r0
 	trap	$0
-f4295:	mov	$215, r0
+fail4295:	mov	$215, r0
 	trap	$0
-f4296:	mov	$216, r0
+fail4296:	mov	$216, r0
 	trap	$0
-f4297:	mov	$217, r0
+fail4297:	mov	$217, r0
 	trap	$0
-f4298:	mov	$218, r0
+fail4298:	mov	$218, r0
 	trap	$0
-f4299:	mov	$219, r0
+fail4299:	mov	$219, r0
 	trap	$0
-f4300:	mov	$220, r0
+fail4300:	mov	$220, r0
 	trap	$0
-f4301:	mov	$221, r0
+fail4301:	mov	$221, r0
 	trap	$0
-f4302:	mov	$222, r0
+fail4302:	mov	$222, r0
 	trap	$0
-f4303:	mov	$223, r0
+fail4303:	mov	$223, r0
 	trap	$0
-f4304:	mov	$224, r0
+fail4304:	mov	$224, r0
 	trap	$0
-f4305:	mov	$225, r0
+fail4305:	mov	$225, r0
 	trap	$0
-f4306:	mov	$226, r0
+fail4306:	mov	$226, r0
 	trap	$0
-f4307:	mov	$227, r0
+fail4307:	mov	$227, r0
 	trap	$0
-f4308:	mov	$228, r0
+fail4308:	mov	$228, r0
 	trap	$0
-f4309:	mov	$229, r0
+fail4309:	mov	$229, r0
 	trap	$0
-f4310:	mov	$230, r0
+fail4310:	mov	$230, r0
 	trap	$0
-f4311:	mov	$231, r0
+fail4311:	mov	$231, r0
 	trap	$0
-f4312:	mov	$232, r0
+fail4312:	mov	$232, r0
 	trap	$0
-f4313:	mov	$233, r0
+fail4313:	mov	$233, r0
 	trap	$0
-f4314:	mov	$234, r0
+fail4314:	mov	$234, r0
 	trap	$0
-f4315:	mov	$235, r0
+fail4315:	mov	$235, r0
 	trap	$0
-f4316:	mov	$236, r0
+fail4316:	mov	$236, r0
 	trap	$0
-f4317:	mov	$237, r0
+fail4317:	mov	$237, r0
 	trap	$0
-f4318:	mov	$238, r0
+fail4318:	mov	$238, r0
 	trap	$0
-f4319:	mov	$239, r0
+fail4319:	mov	$239, r0
 	trap	$0
-f4320:	mov	$240, r0
+fail4320:	mov	$240, r0
 	trap	$0
-f4321:	mov	$241, r0
+fail4321:	mov	$241, r0
 	trap	$0
-f4322:	mov	$242, r0
+fail4322:	mov	$242, r0
 	trap	$0
-f4323:	mov	$243, r0
+fail4323:	mov	$243, r0
 	trap	$0
-f4324:	mov	$244, r0
+fail4324:	mov	$244, r0
 	trap	$0
-f4325:	mov	$245, r0
+fail4325:	mov	$245, r0
 	trap	$0
-f4326:	mov	$246, r0
+fail4326:	mov	$246, r0
 	trap	$0
-f4327:	mov	$247, r0
+fail4327:	mov	$247, r0
 	trap	$0
-f4328:	mov	$248, r0
+fail4328:	mov	$248, r0
 	trap	$0
-f4329:	mov	$249, r0
+fail4329:	mov	$249, r0
 	trap	$0
-f4330:	mov	$250, r0
+fail4330:	mov	$250, r0
 	trap	$0
-f4331:	mov	$251, r0
+fail4331:	mov	$251, r0
 	trap	$0
-f4332:	mov	$252, r0
+fail4332:	mov	$252, r0
 	trap	$0
-f4333:	mov	$253, r0
+fail4333:	mov	$253, r0
 	trap	$0
-f4334:	mov	$254, r0
+fail4334:	mov	$254, r0
 	trap	$0
-f4335:	mov	$255, r0
+fail4335:	mov	$255, r0
 	trap	$0
-f4336:	mov	$1, r0
+fail4336:	mov	$1, r0
 	trap	$0
-f4337:	mov	$2, r0
+fail4337:	mov	$2, r0
 	trap	$0
-f4338:	mov	$3, r0
+fail4338:	mov	$3, r0
 	trap	$0
-f4339:	mov	$4, r0
+fail4339:	mov	$4, r0
 	trap	$0
-f4340:	mov	$5, r0
+fail4340:	mov	$5, r0
 	trap	$0
-f4341:	mov	$6, r0
+fail4341:	mov	$6, r0
 	trap	$0
-f4342:	mov	$7, r0
+fail4342:	mov	$7, r0
 	trap	$0
-f4343:	mov	$8, r0
+fail4343:	mov	$8, r0
 	trap	$0
-f4344:	mov	$9, r0
+fail4344:	mov	$9, r0
 	trap	$0
-f4345:	mov	$10, r0
+fail4345:	mov	$10, r0
 	trap	$0
-f4346:	mov	$11, r0
+fail4346:	mov	$11, r0
 	trap	$0
-f4347:	mov	$12, r0
+fail4347:	mov	$12, r0
 	trap	$0
-f4348:	mov	$13, r0
+fail4348:	mov	$13, r0
 	trap	$0
-f4349:	mov	$14, r0
+fail4349:	mov	$14, r0
 	trap	$0
-f4350:	mov	$15, r0
+fail4350:	mov	$15, r0
 	trap	$0
-f4351:	mov	$16, r0
+fail4351:	mov	$16, r0
 	trap	$0
-f4352:	mov	$17, r0
+fail4352:	mov	$17, r0
 	trap	$0
-f4353:	mov	$18, r0
+fail4353:	mov	$18, r0
 	trap	$0
-f4354:	mov	$19, r0
+fail4354:	mov	$19, r0
 	trap	$0
-f4355:	mov	$20, r0
+fail4355:	mov	$20, r0
 	trap	$0
-f4356:	mov	$21, r0
+fail4356:	mov	$21, r0
 	trap	$0
-f4357:	mov	$22, r0
+fail4357:	mov	$22, r0
 	trap	$0
-f4358:	mov	$23, r0
+fail4358:	mov	$23, r0
 	trap	$0
-f4359:	mov	$24, r0
+fail4359:	mov	$24, r0
 	trap	$0
-f4360:	mov	$25, r0
+fail4360:	mov	$25, r0
 	trap	$0
-f4361:	mov	$26, r0
+fail4361:	mov	$26, r0
 	trap	$0
-f4362:	mov	$27, r0
+fail4362:	mov	$27, r0
 	trap	$0
-f4363:	mov	$28, r0
+fail4363:	mov	$28, r0
 	trap	$0
-f4364:	mov	$29, r0
+fail4364:	mov	$29, r0
 	trap	$0
-f4365:	mov	$30, r0
+fail4365:	mov	$30, r0
 	trap	$0
-f4366:	mov	$31, r0
+fail4366:	mov	$31, r0
 	trap	$0
-f4367:	mov	$32, r0
+fail4367:	mov	$32, r0
 	trap	$0
-f4368:	mov	$33, r0
+fail4368:	mov	$33, r0
 	trap	$0
-f4369:	mov	$34, r0
+fail4369:	mov	$34, r0
 	trap	$0
-f4370:	mov	$35, r0
+fail4370:	mov	$35, r0
 	trap	$0
-f4371:	mov	$36, r0
+fail4371:	mov	$36, r0
 	trap	$0
-f4372:	mov	$37, r0
+fail4372:	mov	$37, r0
 	trap	$0
-f4373:	mov	$38, r0
+fail4373:	mov	$38, r0
 	trap	$0
-f4374:	mov	$39, r0
+fail4374:	mov	$39, r0
 	trap	$0
-f4375:	mov	$40, r0
+fail4375:	mov	$40, r0
 	trap	$0
-f4376:	mov	$41, r0
+fail4376:	mov	$41, r0
 	trap	$0
-f4377:	mov	$42, r0
+fail4377:	mov	$42, r0
 	trap	$0
-f4378:	mov	$43, r0
+fail4378:	mov	$43, r0
 	trap	$0
-f4379:	mov	$44, r0
+fail4379:	mov	$44, r0
 	trap	$0
-f4380:	mov	$45, r0
+fail4380:	mov	$45, r0
 	trap	$0
-f4381:	mov	$46, r0
+fail4381:	mov	$46, r0
 	trap	$0
-f4382:	mov	$47, r0
+fail4382:	mov	$47, r0
 	trap	$0
-f4383:	mov	$48, r0
+fail4383:	mov	$48, r0
 	trap	$0
-f4384:	mov	$49, r0
+fail4384:	mov	$49, r0
 	trap	$0
-f4385:	mov	$50, r0
+fail4385:	mov	$50, r0
 	trap	$0
-f4386:	mov	$51, r0
+fail4386:	mov	$51, r0
 	trap	$0
-f4387:	mov	$52, r0
+fail4387:	mov	$52, r0
 	trap	$0
-f4388:	mov	$53, r0
+fail4388:	mov	$53, r0
 	trap	$0
-f4389:	mov	$54, r0
+fail4389:	mov	$54, r0
 	trap	$0
-f4390:	mov	$55, r0
+fail4390:	mov	$55, r0
 	trap	$0
-f4391:	mov	$56, r0
+fail4391:	mov	$56, r0
 	trap	$0
-f4392:	mov	$57, r0
+fail4392:	mov	$57, r0
 	trap	$0
-f4393:	mov	$58, r0
+fail4393:	mov	$58, r0
 	trap	$0
-f4394:	mov	$59, r0
+fail4394:	mov	$59, r0
 	trap	$0
-f4395:	mov	$60, r0
+fail4395:	mov	$60, r0
 	trap	$0
-f4396:	mov	$61, r0
+fail4396:	mov	$61, r0
 	trap	$0
-f4397:	mov	$62, r0
+fail4397:	mov	$62, r0
 	trap	$0
-f4398:	mov	$63, r0
+fail4398:	mov	$63, r0
 	trap	$0
-f4399:	mov	$64, r0
+fail4399:	mov	$64, r0
 	trap	$0
-f4400:	mov	$65, r0
+fail4400:	mov	$65, r0
 	trap	$0
-f4401:	mov	$66, r0
+fail4401:	mov	$66, r0
 	trap	$0
-f4402:	mov	$67, r0
+fail4402:	mov	$67, r0
 	trap	$0
-f4403:	mov	$68, r0
+fail4403:	mov	$68, r0
 	trap	$0
-f4404:	mov	$69, r0
+fail4404:	mov	$69, r0
 	trap	$0
-f4405:	mov	$70, r0
+fail4405:	mov	$70, r0
 	trap	$0
-f4406:	mov	$71, r0
+fail4406:	mov	$71, r0
 	trap	$0
-f4407:	mov	$72, r0
+fail4407:	mov	$72, r0
 	trap	$0
-f4408:	mov	$73, r0
+fail4408:	mov	$73, r0
 	trap	$0
-f4409:	mov	$74, r0
+fail4409:	mov	$74, r0
 	trap	$0
-f4410:	mov	$75, r0
+fail4410:	mov	$75, r0
 	trap	$0
-f4411:	mov	$76, r0
+fail4411:	mov	$76, r0
 	trap	$0
-f4412:	mov	$77, r0
+fail4412:	mov	$77, r0
 	trap	$0
-f4413:	mov	$78, r0
+fail4413:	mov	$78, r0
 	trap	$0
-f4414:	mov	$79, r0
+fail4414:	mov	$79, r0
 	trap	$0
-f4415:	mov	$80, r0
+fail4415:	mov	$80, r0
 	trap	$0
-f4416:	mov	$81, r0
+fail4416:	mov	$81, r0
 	trap	$0
-f4417:	mov	$82, r0
+fail4417:	mov	$82, r0
 	trap	$0
-f4418:	mov	$83, r0
+fail4418:	mov	$83, r0
 	trap	$0
-f4419:	mov	$84, r0
+fail4419:	mov	$84, r0
 	trap	$0
-f4420:	mov	$85, r0
+fail4420:	mov	$85, r0
 	trap	$0
-f4421:	mov	$86, r0
+fail4421:	mov	$86, r0
 	trap	$0
-f4422:	mov	$87, r0
+fail4422:	mov	$87, r0
 	trap	$0
-f4423:	mov	$88, r0
+fail4423:	mov	$88, r0
 	trap	$0
-f4424:	mov	$89, r0
+fail4424:	mov	$89, r0
 	trap	$0
-f4425:	mov	$90, r0
+fail4425:	mov	$90, r0
 	trap	$0
-f4426:	mov	$91, r0
+fail4426:	mov	$91, r0
 	trap	$0
-f4427:	mov	$92, r0
+fail4427:	mov	$92, r0
 	trap	$0
-f4428:	mov	$93, r0
+fail4428:	mov	$93, r0
 	trap	$0
-f4429:	mov	$94, r0
+fail4429:	mov	$94, r0
 	trap	$0
-f4430:	mov	$95, r0
+fail4430:	mov	$95, r0
 	trap	$0
-f4431:	mov	$96, r0
+fail4431:	mov	$96, r0
 	trap	$0
-f4432:	mov	$97, r0
+fail4432:	mov	$97, r0
 	trap	$0
