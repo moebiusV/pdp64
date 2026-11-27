@@ -1346,7 +1346,7 @@ sub-VFIN-1 = "vfin"
 
 ; form VOP.VVV (index 148): 2 parcels
 form-VOP-VVV = o1:vreg4 o2:vreg4 o3:vreg4
-leaf-VOP-VVV-1 = 0b1101001001011 xsub:7 o1-v:4 o2-v:4 o3-v:4 ?(xsub < 112)
+leaf-VOP-VVV-1 = 0b1101001001011 xsub:7 o1-v:4 o2-v:4 o3-v:4 ?(xsub < 108)
 sub-VOP-VVV-1 = "vceq.b" | "vceq.w" | "vceq.l" | "vceq.f" | "vcgt.b" | "vcgt.w" | "vcgt.l" | "vcgt.f" | "vcgtu.b" | "vcgtu.w" | "vcgtu.l" | "vadd.b"
      | "vadd.w" | "vadd.l" | "vadd.q" | "vadd.f" | "vadd.d" | "vsub.b" | "vsub.w" | "vsub.l" | "vsub.q" | "vsub.f" | "vsub.d" | "vsubr.b" | "vsubr.w"
      | "vsubr.l" | "vsubr.q" | "vsubr.f" | "vsubr.d" | "vmul.b" | "vmul.w" | "vmul.l" | "vmul.f" | "vmul.d" | "vmin.b" | "vmin.w" | "vmin.l"
@@ -1355,8 +1355,7 @@ sub-VOP-VVV-1 = "vceq.b" | "vceq.w" | "vceq.l" | "vceq.f" | "vcgt.b" | "vcgt.w" 
      | "vshr.q" | "vsar.b" | "vsar.w" | "vsar.l" | "vsar.q" | "vminu.b" | "vminu.w" | "vminu.l" | "vmaxu.b" | "vmaxu.w" | "vmaxu.l" | "vabd.b"
      | "vabd.w" | "vabd.l" | "vabdu.b" | "vabdu.w" | "vsarr.w" | "vsarr.l" | "vshrr.w" | "vshrr.l" | "vmulh.w" | "vmulhu.w" | "vmulhr.w" | "vadds.b"
      | "vadds.w" | "vadds.l" | "vsubs.b" | "vsubs.w" | "vsubs.l" | "vaddsu.b" | "vaddsu.w" | "vaddsu.l" | "vsubsu.b" | "vsubsu.w" | "vsubsu.l"
-     | "vavg.b" | "vavg.w" | "vavgu.b" | "vavgu.w" | "vfma.f" | "vfma.d" | "vfnma.f" | "vfnma.d" | "vmla.w" | "vmla.l" | "vdot.b" | "vdotu.b"
-     | "vdotsu.b" | "vdot.w"
+     | "vavg.b" | "vavg.w" | "vavgu.b" | "vavgu.w" | "vfma.f" | "vfma.d" | "vfnma.f" | "vfnma.d" | "vmla.w" | "vmla.l"
 
 ; ======================================================================================================================================================
 ; family VOP.VVR: 1 form, 1 leaves, 2 parcels; mnemonics vceq.b vceq.w vceq.l vceq.f vcgt.b vcgt.w ...

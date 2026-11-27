@@ -162,18 +162,6 @@ for lane in ('w', 'l'):
     kern('vmla.%s vD, vA, vB' % lane, LB[lane], ['vld.%s v2, (r7)+' % lane, 'vld.%s v0, (r1)+' % lane, 'vld.%s v1, (r2)+' % lane, 'vmla.%s v2, v0, v1' % lane, 'vst.%s v2, (r3)+' % lane],
          (LB[lane], a), eo=LB[lane], B=(LB[lane], b), C=(LB[lane], c),
          model=mapk(lambda i, N, a=a, b=b, c=c, bits=bits: ux(c[i] + sx(a[i], bits) * sx(b[i], bits), bits)))
-# vdot.w summed by vacc.l.q (the lane of vacc.l makes the strip 8 words)
-a = rnd(16, NMAX); b = rnd(16, NMAX)
-a[0] = b[0] = a[1] = b[1] = 0x8000
-
-
-def vdot_step(acc, lo, hi, N):
-    ps = [sx(a[i], 16) * sx(b[i], 16) for i in range(lo, hi)]
-    lanes = [sx(ps[j] + (ps[j + 1] if j + 1 < len(ps) else 0), 32) for j in range(0, len(ps), 2)]
-    return acc + sum(lanes)
-
-
-kern('vdot.w + vacc.l.q', 4, ['vld.w v0, (r1)+', 'vld.w v1, (r2)+', 'vdot.w v2, v0, v1', 'vacc.l.q r10, v2'], (2, a), B=(2, b), init=1000, model=redk(1000, vdot_step, 8))
 # vsad.bu
 a = corners(rnd(8, NMAX * 2), 8, [255, 0, 255, 0, 128]); b = corners(rnd(8, NMAX * 2), 8, [0, 255, 255, 0, 127])
 kern('vsad.bu', 1, ['vld.bu v0, (r1)+', 'vld.bu v1, (r2)+', 'vsad.bu r10, v0, v1'], (1, a), B=(1, b), init=1000,
@@ -295,10 +283,6 @@ kern('vsad.bu then vst', 1, ['vld.bu v0, (r1)+', 'vld.bu v1, (r2)+', 'vsad.bu r1
 a = rnd(8, NMAX * 2); b = rnd(8, NMAX * 2); c = rnd(8, NMAX * 2)
 kern('vdacc.b, then a load of C, then vst', 1, ['vld.b v0, (r1)+', 'vld.b v1, (r2)+', 'vdacc.b r10, v0, v1', 'vld.b v2, (r7)+', 'vst.b v2, (r3)+'], (1, a), eo=1, B=(1, b), C=(1, c), init=-5,
      model=both(lambda i, N, c=c: c[i], redk(-5, lambda acc, lo, hi, N, a=a, b=b: acc + sum(sx(a[i], 8) * sx(b[i], 8) for i in range(lo, hi)), 32)))
-a = rnd(16, NMAX); b = rnd(16, NMAX)
-kern('vdot.w + vacc.l.q then vst', 4, ['vld.w v0, (r1)+', 'vld.w v1, (r2)+', 'vdot.w v2, v0, v1', 'vacc.l.q r10, v2', 'vst.w v0, (r3)+'], (2, a), eo=2, B=(2, b), init=1000,
-     model=both(lambda i, N, a=a: a[i], redk(1000, lambda acc, lo, hi, N, a=a, b=b: acc + sum(
-         sx((lambda ps: ps[j] + (ps[j + 1] if j + 1 < len(ps) else 0))([sx(a[i], 16) * sx(b[i], 16) for i in range(lo, hi)]), 32) for j in range(0, hi - lo, 2)), 8)))
 
 # ---------------------------------------------------------------- hidden accumulation (vclr in the block): the block restarts from its entry
 a = rnd(32, NMAX); b = rnd(32, NMAX)
@@ -314,20 +298,6 @@ def h1(N):
 
 
 kern('hidden: vclr.l + vadd.l (running sums by lane)', 4, ['vclr.l v4, $1', 'vld.l v0, (r1)+', 'vadd.l v4, v4, v0', 'vst.l v4, (r3)+'], (4, a), eo=4, hidden=True, model=h1)
-a = rnd(16, NMAX); b = rnd(16, NMAX)
-
-
-def h2(N):
-    acc = [0] * 8; r = 0
-    for lo, hi in strips(N, 4):
-        ps = [sx(a[i], 16) * sx(b[i], 16) for i in range(lo, hi)]
-        for j in range(0, len(ps), 2):
-            acc[j // 2] = sx(acc[j // 2] + ps[j] + (ps[j + 1] if j + 1 < len(ps) else 0), 32)
-        r += sum(acc[:hi - lo])
-    return [], [0] * N + [r]
-
-
-kern('hidden: vclr.l + vdot.w + vacc.l.q', 4, ['vclr.l v4, $1', 'vld.w v0, (r1)+', 'vld.w v1, (r2)+', 'vdot.w v4, v0, v1', 'vacc.l.q r10, v4'], (2, a), B=(2, b), hidden=True, init=0, model=h2)
 
 
 

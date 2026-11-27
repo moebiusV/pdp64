@@ -7,8 +7,7 @@ static const struct { const char *base; int op; } vbases[] = {
 	{ "vabd", VO_ABD }, { "vabdu", VO_ABDU }, { "vmin", VO_MIN }, { "vmax", VO_MAX }, { "vminu", VO_MINU }, { "vmaxu", VO_MAXU }, { "vmov", VO_MOV },
 	{ "vneg", VO_NEG }, { "vadds", VO_ADDS }, { "vsubs", VO_SUBS }, { "vaddsu", VO_ADDSU }, { "vsubsu", VO_SUBSU }, { "vavg", VO_AVG },
 	{ "vavgu", VO_AVGU }, { "vmulh", VO_MULH }, { "vmulhu", VO_MULHU }, { "vmulhr", VO_MULHR }, { "vsarr", VO_SARR }, { "vshrr", VO_SHRR },
-	{ "vmla", VO_MLA }, { "vfma", VO_FMA }, { "vfnma", VO_FNMA }, { "vfmab", VO_FMAB }, { "vdot", VO_DOT }, { "vdotu", VO_DOTU },
-	{ "vdotsu", VO_DOTSU }, { "vdacc", VO_DACC }, { "vsad", VO_SAD }, { "vtbl", VO_TBL }, { "vceq", VO_CEQ }, { "vcgt", VO_CGT }, { "vcgtu", VO_CGTU },
-	{ "vbsl", VO_BSL }, { "vcvt", VO_CVT }, { "vacc", VO_ACC }, { "vmaxacc", VO_MAXACC }, { "vminacc", VO_MINACC }, { "vfir", VO_FIR },
-	{ "vclr", VO_CLR },
+	{ "vmla", VO_MLA }, { "vfma", VO_FMA }, { "vfnma", VO_FNMA }, { "vfmab", VO_FMAB }, { "vdacc", VO_DACC }, { "vsad", VO_SAD }, { "vtbl", VO_TBL },
+	{ "vceq", VO_CEQ }, { "vcgt", VO_CGT }, { "vcgtu", VO_CGTU }, { "vbsl", VO_BSL }, { "vcvt", VO_CVT }, { "vacc", VO_ACC }, { "vmaxacc", VO_MAXACC },
+	{ "vminacc", VO_MINACC }, { "vfir", VO_FIR }, { "vclr", VO_CLR },
 };

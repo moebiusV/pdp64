@@ -1,0 +1,90 @@
+== sort: 861 allocations, 2071131810 bytes requested (mean 2405496)
+   bands (count share / bytes share): <=16 13.1%/0.0%, 17-64 70.0%/0.0%, 65-256 13.6%/0.0%, 257-4096 3.1%/0.0%, >4096 0.1%/100.0%
+   slots over requests, all allocations: base16 1.00, pow2 1.04, pow2p1 1.04, q4 1.04, pow2pg 1.00   (pow2 over base16: 1.04, pow2pg over base16 1.00)
+   at the peak of live memory (2071087532 bytes requested): base16 1.00, pow2 1.04, pow2p1 1.04, q4 1.04, pow2pg 1.00   (pow2 over base16: 1.04, pow2pg over base16 1.00)
+   slack of pow2 (allocations / bytes): 0-15 43.9%/0.0%, 16-63 53.8%/0.0%, 64-255 1.7%/0.0%, 256-4095 0.5%/0.0%, >=4096 0.1%/100.0%
+== sed: 75749 allocations, 3948894 bytes requested (mean 52)
+   bands (count share / bytes share): <=16 25.8%/4.0%, 17-64 37.5%/29.9%, 65-256 36.6%/64.0%, 257-4096 0.1%/2.1%, >4096 0.0%/0.0%
+   slots over requests, all allocations: base16 1.10, pow2 1.56, pow2p1 1.86, q4 1.13, pow2pg 1.56   (pow2 over base16: 1.42, pow2pg over base16 1.42)
+   at the peak of live memory (78544 bytes requested): base16 1.03, pow2 1.19, pow2p1 1.75, q4 1.04, pow2pg 1.19   (pow2 over base16: 1.16, pow2pg over base16 1.16)
+   slack of pow2 (allocations / bytes): 0-15 63.0%/35.7%, 16-63 26.7%/37.0%, 64-255 10.3%/26.9%, 256-4095 0.0%/0.4%, >=4096 0.0%/0.0%
+== diff: 26172 allocations, 156188882 bytes requested (mean 5968)
+   bands (count share / bytes share): <=16 0.4%/0.0%, 17-64 99.0%/0.8%, 65-256 0.5%/0.0%, 257-4096 0.1%/0.0%, >4096 0.1%/99.2%
+   slots over requests, all allocations: base16 1.00, pow2 1.30, pow2p1 1.33, q4 1.05, pow2pg 1.00   (pow2 over base16: 1.30, pow2pg over base16 1.00)
+   at the peak of live memory (101981807 bytes requested): base16 1.00, pow2 1.34, pow2p1 1.34, q4 1.04, pow2pg 1.00   (pow2 over base16: 1.34, pow2pg over base16 1.00)
+   slack of pow2 (allocations / bytes): 0-15 1.5%/2.7%, 16-63 98.4%/0.8%, 64-255 0.0%/0.0%, 256-4095 0.0%/0.0%, >=4096 0.1%/96.5%
+== grep: 1201 allocations, 254495 bytes requested (mean 212)
+   bands (count share / bytes share): <=16 20.3%/0.7%, 17-64 55.5%/10.0%, 65-256 18.7%/10.1%, 257-4096 5.4%/38.9%, >4096 0.1%/40.2%
+   slots over requests, all allocations: base16 1.03, pow2 1.26, pow2p1 1.52, q4 1.08, pow2pg 1.16   (pow2 over base16: 1.22, pow2pg over base16 1.13)
+   at the peak of live memory (188402 bytes requested): base16 1.01, pow2 1.23, pow2p1 1.51, q4 1.08, pow2pg 1.10   (pow2 over base16: 1.22, pow2pg over base16 1.09)
+   slack of pow2 (allocations / bytes): 0-15 48.1%/30.4%, 16-63 44.7%/16.0%, 64-255 6.2%/6.8%, 256-4095 0.8%/6.6%, >=4096 0.1%/40.2%
+== awk: 567431 allocations, 84760920 bytes requested (mean 149)
+   bands (count share / bytes share): <=16 84.4%/3.0%, 17-64 14.1%/2.2%, 65-256 0.0%/0.0%, 257-4096 0.0%/0.0%, >4096 1.5%/94.7%
+   slots over requests, all allocations: base16 1.07, pow2 1.56, pow2p1 1.56, q4 1.15, pow2pg 1.25   (pow2 over base16: 1.46, pow2pg over base16 1.17)
+   at the peak of live memory (83149462 bytes requested): base16 1.02, pow2 1.52, pow2p1 1.53, q4 1.11, pow2pg 1.21   (pow2 over base16: 1.49, pow2pg over base16 1.18)
+   slack of pow2 (allocations / bytes): 0-15 97.1%/5.0%, 16-63 1.4%/0.5%, 64-255 0.0%/0.3%, 256-4095 0.5%/16.5%, >=4096 1.0%/77.7%
+== gawk2: 2018574 allocations, 171731650 bytes requested (mean 85)
+   bands (count share / bytes share): <=16 99.1%/6.1%, 17-64 0.0%/0.0%, 65-256 0.0%/0.0%, 257-4096 0.1%/1.9%, >4096 0.8%/92.0%
+   slots over requests, all allocations: base16 1.13, pow2 1.59, pow2p1 1.60, q4 1.21, pow2pg 1.28   (pow2 over base16: 1.41, pow2pg over base16 1.14)
+   at the peak of live memory (168051449 bytes requested): base16 1.06, pow2 1.53, pow2p1 1.54, q4 1.15, pow2pg 1.22   (pow2 over base16: 1.44, pow2pg over base16 1.15)
+   slack of pow2 (allocations / bytes): 0-15 99.2%/8.0%, 16-63 0.0%/0.1%, 64-255 0.0%/0.2%, 256-4095 0.2%/11.5%, >=4096 0.6%/80.2%
+== perl: 1623377 allocations, 144555184 bytes requested (mean 89)
+   bands (count share / bytes share): <=16 73.9%/13.3%, 17-64 24.7%/12.9%, 65-256 0.0%/0.0%, 257-4096 1.3%/58.6%, >4096 0.0%/15.2%
+   slots over requests, all allocations: base16 1.02, pow2 1.08, pow2p1 1.37, q4 1.02, pow2pg 1.07   (pow2 over base16: 1.06, pow2pg over base16 1.05)
+   at the peak of live memory (133729877 bytes requested): base16 1.02, pow2 1.08, pow2p1 1.33, q4 1.02, pow2pg 1.08   (pow2 over base16: 1.07, pow2pg over base16 1.06)
+   slack of pow2 (allocations / bytes): 0-15 80.1%/29.4%, 16-63 19.6%/55.9%, 64-255 0.0%/0.0%, 256-4095 0.3%/11.1%, >=4096 0.0%/3.6%
+== python: 3186 allocations, 61405948 bytes requested (mean 19274)
+   bands (count share / bytes share): <=16 4.2%/0.0%, 17-64 56.6%/0.1%, 65-256 4.2%/0.0%, 257-4096 28.7%/1.8%, >4096 6.3%/98.1%
+   slots over requests, all allocations: base16 1.00, pow2 1.49, pow2p1 1.50, q4 1.12, pow2pg 1.01   (pow2 over base16: 1.49, pow2pg over base16 1.01)
+   at the peak of live memory (19467313 bytes requested): base16 1.00, pow2 1.58, pow2p1 1.61, q4 1.17, pow2pg 1.01   (pow2 over base16: 1.58, pow2pg over base16 1.01)
+   slack of pow2 (allocations / bytes): 0-15 52.0%/1.1%, 16-63 19.0%/0.2%, 64-255 3.3%/0.2%, 256-4095 22.0%/2.1%, >=4096 3.8%/96.4%
+== sqlite: 4479 allocations, 17236837 bytes requested (mean 3848)
+   bands (count share / bytes share): <=16 1.9%/0.0%, 17-64 10.5%/0.1%, 65-256 3.1%/0.1%, 257-4096 1.5%/0.5%, >4096 83.0%/99.3%
+   slots over requests, all allocations: base16 1.00, pow2 1.86, pow2p1 1.86, q4 1.17, pow2pg 1.82   (pow2 over base16: 1.86, pow2pg over base16 1.82)
+   at the peak of live memory (15940484 bytes requested): base16 1.00, pow2 1.87, pow2p1 1.87, q4 1.17, pow2pg 1.86   (pow2 over base16: 1.86, pow2pg over base16 1.86)
+   slack of pow2 (allocations / bytes): 0-15 6.3%/0.2%, 16-63 9.2%/0.1%, 64-255 0.8%/0.5%, 256-4095 82.6%/93.5%, >=4096 1.1%/5.6%
+== tar: 4657 allocations, 913367 bytes requested (mean 196)
+   bands (count share / bytes share): <=16 38.5%/1.2%, 17-64 44.5%/10.8%, 65-256 15.2%/6.5%, 257-4096 1.4%/9.5%, >4096 0.5%/72.0%
+   slots over requests, all allocations: base16 1.04, pow2 1.79, pow2p1 1.84, q4 1.21, pow2pg 1.20   (pow2 over base16: 1.72, pow2pg over base16 1.15)
+   at the peak of live memory (149493 bytes requested): base16 1.02, pow2 1.64, pow2p1 1.68, q4 1.13, pow2pg 1.25   (pow2 over base16: 1.61, pow2pg over base16 1.23)
+   slack of pow2 (allocations / bytes): 0-15 71.3%/14.3%, 16-63 27.2%/9.5%, 64-255 0.6%/1.0%, 256-4095 0.6%/7.0%, >=4096 0.4%/68.3%
+== git: 8176 allocations, 34083903 bytes requested (mean 4169)
+   bands (count share / bytes share): <=16 11.2%/0.0%, 17-64 51.4%/0.5%, 65-256 24.1%/0.5%, 257-4096 1.6%/0.4%, >4096 11.7%/98.6%
+   slots over requests, all allocations: base16 1.00, pow2 1.92, pow2p1 1.97, q4 1.23, pow2pg 1.12   (pow2 over base16: 1.92, pow2pg over base16 1.12)
+   at the peak of live memory (3046378 bytes requested): base16 1.00, pow2 1.24, pow2p1 1.68, q4 1.07, pow2pg 1.02   (pow2 over base16: 1.24, pow2pg over base16 1.02)
+   slack of pow2 (allocations / bytes): 0-15 52.3%/4.5%, 16-63 29.5%/2.0%, 64-255 6.2%/0.2%, 256-4095 0.4%/0.2%, >=4096 11.6%/93.1%
+== gitlog: 2115840 allocations, 4936608010 bytes requested (mean 2333)
+   bands (count share / bytes share): <=16 1.4%/0.0%, 17-64 65.7%/1.3%, 65-256 12.4%/0.9%, 257-4096 13.6%/5.7%, >4096 6.8%/92.2%
+   slots over requests, all allocations: base16 1.00, pow2 1.33, pow2p1 1.59, q4 1.07, pow2pg 1.06   (pow2 over base16: 1.33, pow2pg over base16 1.06)
+   at the peak of live memory (177422421 bytes requested): base16 1.00, pow2 1.59, pow2p1 1.64, q4 1.11, pow2pg 1.03   (pow2 over base16: 1.59, pow2pg over base16 1.03)
+   slack of pow2 (allocations / bytes): 0-15 16.6%/26.4%, 16-63 64.1%/1.9%, 64-255 9.9%/1.5%, 256-4095 8.8%/18.0%, >=4096 0.7%/52.2%
+== make: 1685 allocations, 232515 bytes requested (mean 138)
+   bands (count share / bytes share): <=16 19.4%/1.1%, 17-64 68.2%/18.0%, 65-256 10.6%/8.1%, 257-4096 1.5%/20.0%, >4096 0.3%/52.9%
+   slots over requests, all allocations: base16 1.05, pow2 1.28, pow2p1 1.79, q4 1.07, pow2pg 1.16   (pow2 over base16: 1.23, pow2pg over base16 1.11)
+   at the peak of live memory (179169 bytes requested): base16 1.03, pow2 1.29, pow2p1 1.82, q4 1.07, pow2pg 1.13   (pow2 over base16: 1.25, pow2pg over base16 1.09)
+   slack of pow2 (allocations / bytes): 0-15 55.1%/59.2%, 16-63 41.6%/19.4%, 64-255 3.0%/4.8%, 256-4095 0.2%/2.5%, >=4096 0.1%/14.1%
+== clang: 1327226 allocations, 625133477 bytes requested (mean 471)
+   bands (count share / bytes share): <=16 19.7%/0.6%, 17-64 24.9%/2.1%, 65-256 31.5%/7.7%, 257-4096 22.7%/63.5%, >4096 1.3%/26.1%
+   slots over requests, all allocations: base16 1.01, pow2 1.28, pow2p1 1.73, q4 1.03, pow2pg 1.24   (pow2 over base16: 1.27, pow2pg over base16 1.23)
+   at the peak of live memory (8957703 bytes requested): base16 1.01, pow2 1.29, pow2p1 1.68, q4 1.04, pow2pg 1.18   (pow2 over base16: 1.27, pow2pg over base16 1.16)
+   slack of pow2 (allocations / bytes): 0-15 49.5%/46.6%, 16-63 29.9%/5.0%, 64-255 14.2%/7.3%, 256-4095 6.2%/32.0%, >=4096 0.1%/9.0%
+== gcc: 2118115 allocations, 1484353463 bytes requested (mean 701)
+   bands (count share / bytes share): <=16 18.4%/0.3%, 17-64 31.9%/1.9%, 65-256 31.4%/5.9%, 257-4096 15.9%/35.2%, >4096 2.3%/56.7%
+   slots over requests, all allocations: base16 1.01, pow2 1.29, pow2p1 1.41, q4 1.04, pow2pg 1.14   (pow2 over base16: 1.28, pow2pg over base16 1.13)
+   at the peak of live memory (5239509 bytes requested): base16 1.01, pow2 1.14, pow2p1 1.77, q4 1.02, pow2pg 1.06   (pow2 over base16: 1.14, pow2pg over base16 1.05)
+   slack of pow2 (allocations / bytes): 0-15 40.0%/14.1%, 16-63 41.2%/23.6%, 64-255 12.6%/16.5%, 256-4095 5.6%/18.5%, >=4096 0.6%/27.2%
+== ls: 7107 allocations, 10208775 bytes requested (mean 1436)
+   bands (count share / bytes share): <=16 52.9%/0.4%, 17-64 40.0%/1.1%, 65-256 2.3%/0.1%, 257-4096 0.5%/0.6%, >4096 4.3%/97.8%
+   slots over requests, all allocations: base16 1.00, pow2 1.97, pow2p1 1.98, q4 1.24, pow2pg 1.13   (pow2 over base16: 1.97, pow2pg over base16 1.12)
+   at the peak of live memory (153578 bytes requested): base16 1.03, pow2 1.73, pow2p1 1.80, q4 1.16, pow2pg 1.17   (pow2 over base16: 1.68, pow2pg over base16 1.14)
+   slack of pow2 (allocations / bytes): 0-15 81.0%/1.5%, 16-63 14.4%/0.6%, 64-255 0.1%/0.0%, 256-4095 0.2%/0.5%, >=4096 4.2%/97.5%
+== find: 212182 allocations, 269340226 bytes requested (mean 1269)
+   bands (count share / bytes share): <=16 35.2%/0.3%, 17-64 16.6%/0.3%, 65-256 0.1%/0.0%, 257-4096 44.6%/9.6%, >4096 3.5%/89.8%
+   slots over requests, all allocations: base16 1.00, pow2 1.98, pow2p1 1.98, q4 1.24, pow2pg 1.20   (pow2 over base16: 1.97, pow2pg over base16 1.19)
+   at the peak of live memory (3188582 bytes requested): base16 1.01, pow2 1.87, pow2p1 1.87, q4 1.18, pow2pg 1.84   (pow2 over base16: 1.86, pow2pg over base16 1.83)
+   slack of pow2 (allocations / bytes): 0-15 51.2%/0.6%, 16-63 0.7%/0.0%, 64-255 44.6%/9.6%, 256-4095 0.0%/0.0%, >=4096 3.5%/89.8%
+== ssh: 6608 allocations, 413029 bytes requested (mean 63)
+   bands (count share / bytes share): <=16 9.5%/1.7%, 17-64 71.6%/32.2%, 65-256 16.0%/29.7%, 257-4096 2.8%/25.5%, >4096 0.0%/11.0%
+   slots over requests, all allocations: base16 1.09, pow2 1.24, pow2p1 1.68, q4 1.04, pow2pg 1.24   (pow2 over base16: 1.14, pow2pg over base16 1.14)
+   at the peak of live memory (309555 bytes requested): base16 1.09, pow2 1.26, pow2p1 1.66, q4 1.04, pow2pg 1.26   (pow2 over base16: 1.15, pow2pg over base16 1.15)
+   slack of pow2 (allocations / bytes): 0-15 81.6%/63.5%, 16-63 15.8%/19.8%, 64-255 2.4%/12.3%, 256-4095 0.2%/4.4%, >=4096 0.0%/0.0%

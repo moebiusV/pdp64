@@ -401,7 +401,7 @@ int main(int argc, char **argv)
 	if (!vml_set) cpu.vmemlat = 4;
 	vlat_setup();
 	if (!strip_set && getenv("PDP64_VSTRIP")) { int v = atoi(getenv("PDP64_VSTRIP")); if (v != 8 && v != 16 && v != 32 && v != 64) { fprintf(stderr, "sim64: PDP64_VSTRIP 8, 16, 32 or 64\n"); return 2; } cpu.vstrip = v; }
-	if (cpu.vstrip == 8) fprintf(stderr, "sim64: warning: a strip of 8 bytes is outside the architecture (the least strip is 16 bytes, docs/encoding-work/vec-isa.md section 8): kept for the cycle study; a floating-point sum, a vtbl or a vdot may give other results\n");
+	if (cpu.vstrip == 8) fprintf(stderr, "sim64: warning: a strip of 8 bytes is outside the architecture (the least strip is 16 bytes, docs/encoding-work/vec-isa.md section 8): kept for the cycle study; a floating-point sum or a vtbl may give other results\n");
 	pdp64_set_psw(&cpu, mode << PSW_MODE | mode << PSW_PREV | (sys ? 7 << PSW_PRI : 0));
 	cpu.deliver = sys; cpu.standin = !sys;
 	if (hve) pdp64_set_hve(&cpu, 1);

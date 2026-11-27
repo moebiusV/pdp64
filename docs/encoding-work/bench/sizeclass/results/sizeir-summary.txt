@@ -1,0 +1,16 @@
+{'files': 225, 'alloca': 2640, 'esc_dyn': 4, 'alloc_calls': 434, 'alloc_const': 187, 'instrs': 211745, 'ptrtoint': 322, 'inttoptr': 11, 'instrs0': 307826, 'funcs': 2151, 'funcs_esc': 806, 'funcs_big': 391, 'ptr_rel': 178, 'ptr_eq': 4233}
+escaping static-size stack objects 2576  dynamic 4  allocas 2640
+  size <=8: 55.8%
+  size <=16: 62.2%
+  size <=32: 69.8%
+  size <=64: 75.7%
+  size <=256: 88.2%
+  size <=1024: 94.4%
+  size <=4096: 98.4%
+objects >16 bytes: 974 (37.8% of escaping), bytes 962113, pow2 slots 1121440, ratio 1.17; all escaping: bytes 974248 pow2 1133639 ratio 1.16
+median 8 p90 512 max 65536
+IR instructions (-O2) 211745: escaping objects per 1000 instructions 12.2 ; with size>16: 4.6
+functions 2151, with an escaping object 806, with one >16 bytes 391
+allocator calls 434, constant size 187 (43.1%)
+-O0: ptrtoint 322, inttoptr 11, in 307826 IR instructions: 1.08 per 1000
+-O0 pointer compares: relational 178, equality 4233 (per 1000 IR instructions: 0.58, 13.75)

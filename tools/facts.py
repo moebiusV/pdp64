@@ -85,7 +85,7 @@ def tested_bases(group):
 # words the gate tools name that are not a base of the family: ordinary words that start with v, and words removed from the family (the gather, errata 170), whose rows
 # of the gate tables are kept as the record of what was measured
 NOT_BASES = {'vector', 'vmemlat'}
-REMOVED = {'vldx'}
+REMOVED = {'vldx', 'vdot', 'vdotu', 'vdotsu'}
 
 
 def gate_words():

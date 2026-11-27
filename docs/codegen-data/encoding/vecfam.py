@@ -54,7 +54,6 @@ CVT = ['vcvt.l.f', 'vcvt.lu.f', 'vcvt.f.l', 'vcvt.f.lu']
 BSL = ['vbsl']
 LANEOPS = (CMP + sfx(BIN_ANY, LANES) + sfx(BIN_ANY5, ['b', 'w', 'l', 'f', 'd']) + sfx(BIN_INT, IL) + sfx(BIN_INT3, ['b', 'w', 'l']) + sfx(['vabd'], ['b', 'w', 'l']) +
            sfx(['vabdu'], ['b', 'w']) + sfx(BIN_WL, ['w', 'l']) + sfx(BIN_W, ['w']) + sfx(SAT, ['b', 'w', 'l']))
-DOTS = ['vdot.b', 'vdotu.b', 'vdotsu.b', 'vdot.w']
 DACC = ['vdacc.b', 'vdacc.bu', 'vdacc.bsu', 'vdacc.w', 'vsad.bu']			# a dot product or a sum of absolute differences reduced into a scalar register
 ALL3 = LANEOPS + AVG
 
@@ -140,7 +139,7 @@ def vec_forms(R):
     vf('VEND', ['vend'], [])
     vf('VFIN', ['vfin'], [])						# errata 173: the end-of-block part of a block with accumulators (vec-isa.md section 8); vlen is gone (the strip is invisible)
     # lane operations
-    vf('VOP.VVV', ALL3 + sfx(['vfma', 'vfnma'], FL) + sfx(['vmla'], ['w', 'l']) + DOTS, [V, V, V])	# (no register form of vtbl.b: errata 173)
+    vf('VOP.VVV', ALL3 + sfx(['vfma', 'vfnma'], FL) + sfx(['vmla'], ['w', 'l']), [V, V, V])	# (no register form of vtbl.b: errata 173)
     vf('VOP.VVR', LANEOPS + sfx(['vmla'], ['w', 'l']) + FMA, [V, V, R])
     vf('VOP.VVI', LANEOPS, [V, V, I16])
     vf('VDACC', DACC, [R, V, V])

@@ -16,7 +16,7 @@ import facts
 
 OUT = os.path.join(ROOT, 'common', 'pdp64exec_vecbases.inc')
 OUT2 = os.path.join(ROOT, 'as64', 'asmvecclass.inc')
-ASMCLASSES = ['block', 'block2', 'skip', 'fin', 'ld', 'st', 'dot', 'dacc', 'cmp', 'cvt', 'bsl', 'tbl', 'acc', 'clr', 'same', 'bin']
+ASMCLASSES = ['block', 'block2', 'skip', 'fin', 'ld', 'st', 'dacc', 'cmp', 'cvt', 'bsl', 'tbl', 'acc', 'clr', 'same', 'bin']
 EXEC = os.path.join(ROOT, 'common', 'pdp64exec_vec.inc')
 
 

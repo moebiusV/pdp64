@@ -9,7 +9,7 @@
 #define PSW_VALID	((1u << PSW_T) | PSW_FIELD(PRI, ~0u) | PSW_FIELD(MODE, ~0u) | PSW_FIELD(PREV, ~0u))
 
 /* the instruction classes of the second cycle model of the vec blocks: each has a latency and an interval (cycles) that the host sets (sim64 --latency) */
-enum { VC_ALU, VC_CMP, VC_BSL, VC_SHIFT, VC_NARROW, VC_MUL8, VC_MUL16, VC_MULH16, VC_MUL32, VC_MUL64, VC_DOT, VC_DACC, VC_SAD, VC_ACC, VC_MMACC, VC_FIR, VC_TBL, VC_LSEG, VC_SSEG, VC_CVT,
+enum { VC_ALU, VC_CMP, VC_BSL, VC_SHIFT, VC_NARROW, VC_MUL8, VC_MUL16, VC_MULH16, VC_MUL32, VC_MUL64, VC_DACC, VC_SAD, VC_ACC, VC_MMACC, VC_FIR, VC_TBL, VC_LSEG, VC_SSEG, VC_CVT,
        VC_FMA, VC_FMA64, VC_LD, VC_ST, VC_MISC, VC_N };
 const char *pdp64_vclass_name(int c);		/* "alu", "cmp", ... (docs/encoding-work/vec-latency.md) */
 

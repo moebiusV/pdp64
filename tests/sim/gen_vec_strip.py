@@ -177,11 +177,6 @@ k = newtest()
 buf('A%d' % k, pack(wa, 2)); buf('B%d' % k, pack(wb, 2))
 addt(begin(k) + ['\tlea\tA%d, r1' % k, '\tlea\tB%d, r2' % k, '\tlea\tA%d+%d, r5' % (k, 2 * N), '\tmovq\t$-5, r10', '\tvec\tr1, r5', '\tvld.w v0, (r1)+', '\tvld.w v1, (r2)+', '\tvdacc.w r10, v0, v1', '\tvend'] +
      cmpreg('r10', -5 + sum(sx(x, 16) * sx(y, 16) for x, y in zip(wa, wb))))
-k = newtest()
-pr = [sx(x, 16) * sx(y, 16) for x, y in zip(wa, wb)]
-lanes = [sx(pr[j] + (pr[j + 1] if j + 1 < N else 0), 32) for j in range(0, N, 2)]
-addt(begin(k) + ['\tlea\tA%d, r1' % (k - 1), '\tlea\tB%d, r2' % (k - 1), '\tlea\tA%d+%d, r5' % (k - 1, 2 * N), '\tmovq\t$1000, r10', '\tvec\tr1, r5', '\tvld.w v0, (r1)+', '\tvld.w v1, (r2)+', '\tvdot.w v2, v0, v1',
-                 '\tvacc.l.q r10, v2', '\tvend'] + cmpreg('r10', 1000 + sum(lanes)))
 ba = [rng.getrandbits(8) for _ in range(N)]; bb = [rng.getrandbits(8) for _ in range(N)]
 k = newtest()
 buf('A%d' % k, pack(ba, 1)); buf('B%d' % k, pack(bb, 1))

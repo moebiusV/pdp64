@@ -29,7 +29,7 @@
 enum {
 	VO_NONE = 0, VO_VEC, VO_VEND, VO_FIN, VO_VEC2, VO_SKIP,
 	VO_ADD, VO_SUB, VO_SUBR, VO_MUL, VO_MIN, VO_MAX, VO_MINU, VO_MAXU, VO_ABD, VO_ABDU, VO_AND, VO_OR, VO_XOR, VO_SHL, VO_SHR, VO_SAR,
-	VO_ADDS, VO_SUBS, VO_ADDSU, VO_SUBSU, VO_MOV, VO_NEG, VO_MLA, VO_FMA, VO_FNMA, VO_FMAB, VO_DOT, VO_DOTU, VO_DOTSU,
+	VO_ADDS, VO_SUBS, VO_ADDSU, VO_SUBSU, VO_MOV, VO_NEG, VO_MLA, VO_FMA, VO_FNMA, VO_FMAB,
 	VO_AVG, VO_AVGU, VO_MULH, VO_MULHU, VO_MULHR, VO_SARR, VO_SHRR, VO_TBL, VO_DACC, VO_SAD,
 	VO_CEQ, VO_CGT, VO_CGTU, VO_BSL, VO_CVT,
 	VO_ACC, VO_MAXACC, VO_MINACC, VO_FIR, VO_CLR,
@@ -380,28 +380,7 @@ static void vop_fmab(struct vctx *x, const struct vinfo *vi, const struct einsn 
 	}
 }
 
-static void vop_dot(struct vctx *x, const struct vinfo *vi, const struct einsn *in)
-{
-	const struct eop *op = in->op;
-	uint8_t *D = VR(op[0].r); const uint8_t *A = VR(op[1].r), *B = VR(op[2].r);
-	int k = vi->lsz == 2 ? 2 : 4;							/* vdot.w: two 16-bit products a 32-bit lane; vdot.b: four byte products */
-	int nl = (x->nact + k - 1) / k;
-	for (int i = 0; i < nl; i++) {
-		int64_t s = lget_s(D + 4 * i, 4);
-		for (int m = 0; m < k; m++) {
-			int j = k * i + m;
-			if (j >= x->nact) break;
-			if (k == 2) s += lget_s(A + 2 * j, 2) * lget_s(B + 2 * j, 2);
-			else {
-				int64_t p = vi->op == VO_DOTU ? (int64_t)A[j] : (int64_t)(int8_t)A[j], q = vi->op == VO_DOT ? (int64_t)(int8_t)B[j] : (int64_t)B[j];
-				s += p * q;
-			}
-		}
-		lput(D + 4 * i, 4, (uint64_t)s);
-	}
-}
-
-/* vdacc.<b|bu|bsu|w> Rd, vA, vB: Rd += the exact sum of all the products of the strip (not wrapped to 32 bits: a vdot.w lane of two products can reach 2^31).
+/* vdacc.<b|bu|bsu|w> Rd, vA, vB: Rd += the exact sum of all the products of the strip (not wrapped to 32 bits).
    vsad.bu Rd, vA, vB: Rd += the sum of |a - b| over the byte lanes, unsigned.  The register is committed with the strip, as vacc. */
 static void vop_dacc(struct vctx *x, const struct vinfo *vi, const struct einsn *in)
 {
@@ -571,7 +550,6 @@ static void vop(struct vctx *x, const struct vinfo *vi, const struct einsn *in)
 	case VO_CVT: vop_cvt(x, vi, in); x->src[op[0].r & 15].valid = 0; C->velems += x->nact; return;
 	case VO_BSL: vop_bsl(x, vi, in); x->src[op[0].r & 15].valid = 0; C->velems += x->nact; return;
 	case VO_FMAB: vop_fmab(x, vi, in); C->velems += x->nact; return;
-	case VO_DOT: case VO_DOTU: case VO_DOTSU: vop_dot(x, vi, in); C->velems += x->nact; return;
 	case VO_ACC: case VO_MAXACC: case VO_MINACC: vop_reduce(x, vi, in); C->velems += x->nact; return;
 	case VO_DACC: case VO_SAD: vop_dacc(x, vi, in); C->velems += x->nact; return;
 	case VO_TBL: vop_tbl(x, vi, in); x->src[op[0].r & 15].valid = 0; C->velems += x->nact; return;
@@ -605,7 +583,7 @@ static void vec_commit(struct vctx *x)
  * of its reductions writes, waits for the previous strip to end whatever vpipe says; the registers that vclr named accumulators keep their ready times from strip to strip (a loop-carried
  * dependency through them), the others are taken as renamed for each strip (for vpipe > 1 that is a register file for each strip in flight, which the area figures do not contain).
  * A counter only: nothing here changes what the program computes. */
-static const char *const vclass_names[VC_N] = { "alu", "cmp", "bsl", "shift", "narrow", "mul8", "mul16", "mulh16", "mul32", "mul64", "dot", "dacc", "sad", "acc", "mmacc", "fir", "tbl", "lseg", "sseg", "cvt",
+static const char *const vclass_names[VC_N] = { "alu", "cmp", "bsl", "shift", "narrow", "mul8", "mul16", "mulh16", "mul32", "mul64", "dacc", "sad", "acc", "mmacc", "fir", "tbl", "lseg", "sseg", "cvt",
 	"fma", "fma64", "ld", "st", "misc" };
 const char *pdp64_vclass_name(int c) { return c >= 0 && c < VC_N ? vclass_names[c] : NULL; }
 
@@ -642,7 +620,6 @@ static void vm2_decode(const struct vinfo *vi, const struct einsn *in, struct vm
 		else d->cls = lsz == 1 ? VC_MUL8 : lsz == 2 ? (o == VO_MUL ? VC_MUL16 : VC_MULH16) : lsz == 4 ? VC_MUL32 : VC_MUL64;
 		break;
 	case VO_FMA: case VO_FNMA: case VO_FMAB: d->cls = lsz == 8 ? VC_FMA64 : VC_FMA; break;
-	case VO_DOT: case VO_DOTU: case VO_DOTSU: d->cls = VC_DOT; break;
 	case VO_CEQ: case VO_CGT: case VO_CGTU: d->cls = VC_CMP; break;
 	case VO_BSL: d->cls = VC_BSL; break;
 	case VO_CVT: d->cls = VC_CVT; break;
@@ -670,7 +647,7 @@ static void vm2_decode(const struct vinfo *vi, const struct einsn *in, struct vm
 	case VO_CLR: for (int i = 0; i < (int)op[1].v && ((op[0].r + i) & 15) == op[0].r + i; i++) d->dst |= (uint16_t)(1u << (op[0].r + i)); break;
 	default:
 		VDST(0); VSRC(1); VSRC(2); VSRC(3);
-		if (o == VO_MLA || o == VO_FMA || o == VO_FNMA || o == VO_FMAB || o == VO_DOT || o == VO_DOTU || o == VO_DOTSU) d->src |= d->dst;	/* the destination is also an accumulator input */
+		if (o == VO_MLA || o == VO_FMA || o == VO_FNMA || o == VO_FMAB) d->src |= d->dst;	/* the destination is also an accumulator input */
 		if (o == VO_TBL && op[1].k != EK_V) d->mtab = 1;
 		break;
 	}

@@ -834,9 +834,6 @@ static void vec_typecheck(const struct stmt *st)
 		rlane = vlane_code(tok[0]);
 		if (!strncmp(b, "vsseg", 5)) nseg = b[5] - '0';
 		if (firstv) for (int k = 0; k < nseg && nrd < 3; k++) rd[nrd++] = (o[0].reg + k) & 15;
-	} else if (cls == VC_DOT) {	/* bytes (vdot.w: 16-bit lanes) in, 32-bit lanes out */
-		rlane = vlane_code(tok[0]); RD(1); RD(2);
-		wlane = 4; dst = firstv ? o[0].reg : -1;
 	} else if (cls == VC_DACC) {			/* vdacc.<b|bu|bsu|w> Rd, vA, vB; vsad.bu Rd, vA, vB: both registers are read as the source lanes, the result is a scalar */
 		rlane = vlane_code(tok[0]); RD(1); RD(2);
 	} else if (cls == VC_CMP) {		/* wave 2: the operands are read as lanes of the suffix; the mask is an integer lane of the same size (also for .f) */

@@ -62,12 +62,11 @@ levels of the xc7 flow for `w_vcmp_mw` are an artefact of the study's own form o
 | bsl | vbsl | w_vbsl (local) | 3 | 1 | 0 | 1 | 1 | **1** | 1 | 1 | **1** | 1 | 1 / 1 | 1 / 1 |
 | shift | vshl vshr vsar and the rounding vsarr vshrr | w_shiftround_mw (local) | 166 | 18.5 | 0 | 28 | 2 | **2** | 3 | 10 | **20** | 42 | 2 / 20 | 2 / 20 |
 | narrow | the narrowing of vsts (rounding shift, saturation) | w_narrow_both (local) | 48 | 13.2 | 0 | 10.3 | 1 | **2** | 2 | 3 | **6** | 12 | 2 / 6 | 2 / 6 |
-| mul8 | vmul.b and the 8 x 8 products of vdot.b | w_ms8x8_notree (local) | 122 | 13.9 | 1 | 9.3 | 2 | **4** | 5 | 7 | **15** | 31 | 4 / 15 | 4 / 15 |
+| mul8 | vmul.b | w_ms8x8_notree (local) | 122 | 13.9 | 1 | 9.3 | 2 | **4** | 5 | 7 | **15** | 31 | 4 / 15 | 4 / 15 |
 | mul16 | vmul.w (low half) | ms16_lo (fixed) | 55 | 1 | 1 | 1 | 2 | **3** | 4 | 4 | **7** | 14 | 3 / 7 | 3 / 7 |
 | mulh16 | vmulh vmulhu vmulhr vmla on halfwords | ms16_hi_mla (fixed) | 92 | 6.3 | 1 | 5.4 | 2 | **3** | 4 | 6 | **11** | 23 | 3 / 11 | 3 / 11 |
 | mul32 | vmul.l and 32-bit multiplies | mul32s (fixed) | 146 | 5 | 1 | 2.8 | 2 | **3** | 4 | 9 | **17** | 37 | 3 / 17 | 3 / 17 |
 | mul64 | vmul.q: the scalar 64 x 64 multiplier as the lane multiplier | mul64 (fixed) | 221 | 10.5 | 1 | 7.2 | 2 | **4** | 5 | 13 | **26** | 56 | 4 / 26 | 4 / 26 |
-| dot | vdot vdotu vdotsu (the larger of the byte and the halfword form) | w_ms8x8_notree (local), ms16_all (fixed) | 122 | 13.9 | 1 | 9.3 | 2 | **4** | 5 | 7 | **15** | 31 | 4 / 15 | 4 / 15 |
 | dacc | vdacc: products, then the reduction tree into a scalar | w_ms8x8 (wide) | 266 / 271 / 251 | 23.7 / 21.3 / 19 | 1 | 18.5 | 3 | **5** | 7 | 15 | **31** | 67 | 5 / 32 | 4 / 29 |
 | sad | vsad.bu | w_vsad_bu (wide) | 192 / 182 / 170 | 17.8 / 16.2 / 13.4 | 0 | 14.3 | 2 | **2** | 3 | 11 | **23** | 48 | 2 / 21 | 2 / 20 |
 | acc | vacc | w_vacc_naive (wide), w_sum_bu (wide) | 173 / 168 / 150 | 17.4 / 15.1 / 11.8 | 0 | 14.7 | 2 | **2** | 3 | 10 | **20** | 44 | 2 / 20 | 2 / 18 |

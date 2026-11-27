@@ -638,41 +638,6 @@ asm = "same"
 asm_no2d = true
 entry = "VFMA"
 
-[vdot]
-wave = "original"
-meaning = "each 32-bit lane += the products of 4 bytes (`.b`) or 2 halfwords (`.w`, wave 1)"
-llvm = true
-exec = "VO_DOT"
-group = "dot"
-usage_why = "subsumed: a dot product (k_q8dot) is a reduction, and `vdacc.b` / `vdacc.w` sum a whole strip into the scalar register in ONE instruction, which `vdot` followed by `vacc` cannot beat; `vdot` writes 32-bit lanes of a vector and so keeps the strip at 8 lanes; LLVM would reach it only as a partial reduction (`llvm.vector.partial.reduce.add`, a vector accumulator that lives across strips: the block model has none)"
-asm = "dot"
-entry = "VDOT"
-entry_seq = 19
-title = "Dot product"
-syntax = ["VDOT.b vD, vA, vB", "VDOT.w vD, vA, vB"]
-op = "each 32-bit lane of vD <- vD + the four byte products (`.b`) or the two 16-bit products (`.w`) of the same lane of vA and vB"
-notes = "Signed (`VDOT`), unsigned (`VDOTU`) and signed by unsigned (`VDOTSU`) bytes: the shapes of dp4a, SDOT and VNNI; `VDOT.w` is `pmaddwd` (signed halfwords only). Accumulates in 32-bit integers with wraparound."
-
-[vdotu]
-wave = "original"
-meaning = "the same, unsigned bytes"
-llvm = true
-exec = "VO_DOTU"
-group = "dot"
-usage_why = "same"
-asm = "dot"
-entry = "VDOT"
-
-[vdotsu]
-wave = "original"
-meaning = "the same, signed by unsigned bytes"
-llvm = true
-exec = "VO_DOTSU"
-group = "dot"
-usage_why = "same"
-asm = "dot"
-entry = "VDOT"
-
 [vdacc]
 wave = "wave 1"
 meaning = "`Rd +=` the exact sum of the products of all lanes (a dot product reduced to a register)"

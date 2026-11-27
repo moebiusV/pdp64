@@ -12,7 +12,6 @@ mul16 1 1
 mulh16 1 1
 mul32 1 1
 mul64 1 1
-dot 1 1
 dacc 1 1
 sad 1 1
 acc 1 1

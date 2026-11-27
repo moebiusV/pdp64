@@ -7482,7 +7482,7 @@ The two-bound check, for an index whose lower bound is not zero (the Pascal and 
 
 ## 9.19 Side by side: the PDP-11, the VAX and the pdp64
 
-**9.19.1** The word is 64 bits against the PDP-11's 16 and the VAX's 32, the registers are 32, the virtual address is 39, 48 or 57 bits with 40 physical in the present implementation, and the instruction count is 618 instruction words in 226 leaves (365 of them in the vector family), against the VAX's 304.
+**9.19.1** The word is 64 bits against the PDP-11's 16 and the VAX's 32, the registers are 32, the virtual address is 39, 48 or 57 bits with 40 physical in the present implementation, and the instruction count is 614 instruction words in 226 leaves (361 of them in the vector family), against the VAX's 304.
 
 **9.19.2** The program counter is not a register, there is no argument pointer, and the frame pointer and the linker scratch are ordinary software conventions.
 
